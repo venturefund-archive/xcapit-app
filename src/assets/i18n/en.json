@@ -336,7 +336,8 @@
       "header": "My investment",
       "button": "Add amount",
       "button_link": "Finalize investment",
-      "invested_amount": "Invested balance"
+      "invested_amount": "Balance*",
+      "weekly_earnings_disclaimer": "*Your balance is updated on Monday of each week."
     },
     "shared": {
       "coming_soon_card": {
@@ -348,6 +349,9 @@
         "liquidity": "Liquidity",
         "not_min_ammount": "No minimum amount",
         "immediate_rescue": "Immediate Rescue",
+        "weekly_earnings": "Weekly earnings",
+        "weekly_earnings_disclaimer_active": "*Your balance is updated on Monday of each week.",
+        "weekly_earnings_disclaimer_available": "*Earnings are updated on Monday of each week.",
         "coming_badge": "Coming soon",
         "invest_button": "Invest",
         "annual": "Annual"
@@ -1732,7 +1736,8 @@
         "header": "Send",
         "title": "Transfer data",
         "network_select": {
-          "title": "Network",
+          "title": "Transfer data",
+          "network": "Network",
           "disclaimer": "Make sure the destination wallet uses the same network as {{network}} at this shipping address.\nSending other coins or tokens to an address other than {{network}} may result in the loss of your deposit.\n Currently only tokens can be sent through its native network, we are working to add more and new networks."
         },
         "continue_button": "Continue",
@@ -1758,6 +1763,7 @@
         "amounts_title": "Amount to send",
         "send_button": "Send",
         "wrong_password": "Wrong password",
+        "send_notification": "Sending",
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
@@ -1804,15 +1810,7 @@
         "title": "Invest your cryptos now and get daily profit",
         "text": "Start investing"
       },
-      "defi_investment_product": {
-        "performance": "Estimated yield",
-        "liquidity": "Liquidity",
-        "not_min_ammount": "No minimum amount",
-        "immediate_rescue": "Immediate Rescue",
-        "coming_badge": "Coming",
-        "invest_button": "Invest",
-        "annual": "Annual"
-      },
+
       "address_input_card": {
         "scan_error": "Error scanning QR code",
         "scan_unauthorized": "You have no permission to scan"

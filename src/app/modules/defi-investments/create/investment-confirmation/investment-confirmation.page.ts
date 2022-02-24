@@ -50,9 +50,7 @@ import { ActivatedRoute } from '@angular/router';
         <div class="summary">
           <div class="summary__amount">
             <div class="summary__amount__label">
-              <ion-text class="ux-font-titulo-xs">{{
-                this.labelText | translate
-              }}</ion-text>
+              <ion-text class="ux-font-titulo-xs">{{ this.labelText | translate }}</ion-text>
             </div>
 
             <div class="summary__amount__qty">
@@ -159,7 +157,7 @@ export class InvestmentConfirmationPage {
     private formBuilder: FormBuilder,
     private browserService: BrowserService,
     private storage: IonicStorageService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   async ionViewDidEnter() {
@@ -252,6 +250,7 @@ export class InvestmentConfirmationPage {
         disclaimer: '',
       },
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
+      backdropDismiss: false,
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
@@ -259,7 +258,7 @@ export class InvestmentConfirmationPage {
   }
 
   investment(wallet: Wallet): Investment {
-    return TwoPiInvestment.create(this.product, wallet);
+    return TwoPiInvestment.create(this.product, wallet, this.apiWalletService);
   }
 
   async decryptedWallet(password: string): Promise<Wallet> {
@@ -276,6 +275,7 @@ export class InvestmentConfirmationPage {
   async wallet(): Promise<Wallet | void> {
     const password = await this.requestPassword();
     if (password) {
+      this.loadingEnabled(true);
       return await this.decryptedWallet(password);
     }
   }
@@ -328,7 +328,6 @@ export class InvestmentConfirmationPage {
 
   async invest() {
     await this.getTokenBalanceAvailable();
-    this.loadingEnabled(true);
     const wallet = await this.wallet();
     if (wallet) {
       if (this.checkTokenBalance()) {

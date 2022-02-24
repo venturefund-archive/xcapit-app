@@ -19,6 +19,7 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
 import { TwoPiInvestment } from '../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -47,6 +48,7 @@ describe('InvestmentDetailPage', () => {
   let investmentSpy: jasmine.SpyObj<TwoPiInvestment>;
   let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
   let createInvestmentProductSpy: jasmine.Spy<any>;
+  let availableDefiProductsSpy: jasmine.SpyObj<AvailableDefiProducts>;
   let coinSpy: jasmine.SpyObj<Coin>;
   beforeEach(
     waitForAsync(() => {
@@ -96,6 +98,10 @@ describe('InvestmentDetailPage', () => {
         token: coinSpy,
         contractAddress: '0x00001',
         name: 'polygon_usdc',
+      });
+
+      availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
+        value: [{ id: 'polygon_usdc', isComing: false, weeklyEarning: true }],
       });
 
       TestBed.configureTestingModule({
@@ -197,5 +203,15 @@ describe('InvestmentDetailPage', () => {
 
   it('should create investment', async () => {
     expect(await component.createInvestment(investmentProductSpy, '0x')).toBeInstanceOf(TwoPiInvestment);
+  });
+
+  it('should render disclaimer if product have weekly earnings', async () => {
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    const disclaimerEl = fixture.debugElement.query(By.css('div.id__weekly-profit-disclaimer > ion-label'));
+    expect(disclaimerEl.nativeElement.innerHTML).toContain('defi_investments.invest_detail.weekly_earnings_disclaimer');
   });
 });

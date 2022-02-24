@@ -1,10 +1,12 @@
+import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TwoPiInvestment } from './two-pi-investment.model';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
 import { BigNumber, Contract, Wallet, VoidSigner, Signer } from 'ethers';
 import { ERC20Token } from '../erc20-token/erc20-token.model';
 import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
-import { TransactionResponse } from '@ethersproject/abstract-provider';
+import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
 import { TwoPiContract } from '../two-pi-contract/two-pi-contract.model';
+import { of } from 'rxjs';
 
 const contractAddress = '0xCB50fF1863cBBAd718d3A1eEEf403a95C58d3B16';
 const referralAddress = 'referralAddress';
@@ -18,6 +20,7 @@ describe('TwoPiInvestment', () => {
   let twoPiContractSpy: jasmine.SpyObj<TwoPiContract>;
   let contractSpy: jasmine.SpyObj<Contract>;
   let twoPiInvestment: TwoPiInvestment;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   beforeEach(() => {
     contractSpy = jasmine.createSpyObj('Contract', {
       deposit: Promise.resolve({} as TransactionResponse),
@@ -35,16 +38,20 @@ describe('TwoPiInvestment', () => {
       'clever brain critic belt soldier daring own luxury begin plate orange banana',
       "m/44'/80001'/0'/0/0"
     );
-    erc20TokenSpy = jasmine.createSpyObj('ERC20Token', { approve: Promise.resolve({} as TransactionResponse) });
+    erc20TokenSpy = jasmine.createSpyObj('ERC20Token', {
+      approve: Promise.resolve({ wait: () => Promise.resolve({} as TransactionReceipt) } as TransactionResponse),
+    });
     erc20ProviderSpy = jasmine.createSpyObj('ERC20Provider', { value: {} });
     twoPiContractSpy = jasmine.createSpyObj('TwoPiContract', { value: contractSpy });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getGasPrice: of({ gas_price: '100000000000' }) });
     twoPiInvestment = new TwoPiInvestment(
       productSpy,
       wallet,
       erc20TokenSpy,
       erc20ProviderSpy,
       twoPiContractSpy,
-      referralAddress
+      referralAddress,
+      apiWalletServiceSpy
     );
   });
 
@@ -53,14 +60,15 @@ describe('TwoPiInvestment', () => {
   });
 
   it('should create without token and provider', () => {
-    expect(TwoPiInvestment.create(productSpy, wallet)).toBeTruthy();
+    expect(TwoPiInvestment.create(productSpy, wallet, apiWalletServiceSpy)).toBeTruthy();
   });
 
   it('should deposit specified amount on investment product contract', async () => {
     const wei = BigNumber.from('50000000');
+    const gasPrice = BigNumber.from('100000000000');
     await twoPiInvestment.deposit(50);
-    expect(erc20TokenSpy.approve).toHaveBeenCalledOnceWith(contractAddress, wei);
-    expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress);
+    expect(erc20TokenSpy.approve).toHaveBeenCalledOnceWith(contractAddress, wei, gasPrice);
+    expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress, { gasPrice: gasPrice });
   });
 
   it('should return the balance of a wallet in the investment product', async () => {
@@ -70,7 +78,8 @@ describe('TwoPiInvestment', () => {
       erc20TokenSpy,
       erc20ProviderSpy,
       twoPiContractSpy,
-      referralAddress
+      referralAddress,
+      apiWalletServiceSpy
     );
     const balance = await twoPiInvestment.balance();
     expect(contractSpy.balanceOf).toHaveBeenCalledOnceWith(1, '0x0001');
@@ -85,7 +94,8 @@ describe('TwoPiInvestment', () => {
       erc20TokenSpy,
       erc20ProviderSpy,
       twoPiContractSpy,
-      referralAddress
+      referralAddress,
+      apiWalletServiceSpy
     );
     await twoPiInvestment.withdraw();
     expect(contractSpy.withdrawAll).toHaveBeenCalledTimes(1);

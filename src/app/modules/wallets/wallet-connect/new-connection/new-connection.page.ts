@@ -34,13 +34,13 @@ export interface PeerMeta {
     </ion-header>
 
     <ion-content class="ion-padding">
-      <div class="ux_content">
+      <div class="ux_content" id="connectionForm">
         <app-informative-card
           [title]="'wallets.wallet_connect.card_title'"
           [description]="'wallets.wallet_connect.card_description'"
         ></app-informative-card>
         <div *ngIf="walletsList?.length > 0" class="ux-card">
-          <form [formGroup]="this.form" (ngSubmit)="this.initWallet()" id="connectionForm">
+          <form [formGroup]="this.form" (ngSubmit)="this.initWallet()">
             <div class="wcnc">
               <app-ux-title class="ion-padding-top ion-margin-top">
                 <div class="wcnc__title ion-margin-top">

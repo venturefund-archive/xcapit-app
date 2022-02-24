@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { BigNumber, ethers } from 'ethers';
-import { formatEther, formatUnits, parseEther, parseUnits } from 'ethers/lib/utils';
+import { formatUnits, parseEther, parseUnits } from 'ethers/lib/utils';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 import { TransactionDataService } from '../../services/transaction-data/transaction-data.service';
@@ -14,7 +13,7 @@ import { WalletTransactionsService } from '../../services/wallet-transactions/wa
   template: `
     <div class="saic ion-padding">
       <div class="saic__header__title">
-        <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-14">{{ this.title }}</ion-text>
+        <ion-text class="ux-font-titulo-xs">{{ this.title }}</ion-text>
       </div>
       <div class="saic__content">
         <app-ux-input-underlined

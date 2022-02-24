@@ -326,7 +326,8 @@
       "header": "Mi inversión",
       "button": "Añadir monto",
       "button_link": "Finalizar inversión",
-      "invested_amount": "Balance invertido"
+      "invested_amount": "Balance*",
+      "weekly_earnings_disclaimer": "*Tu balance se actualiza el día lunes de cada semana."
     },
     "shared": {
       "coming_soon_card": {
@@ -338,6 +339,9 @@
         "liquidity": "Liquidez",
         "not_min_ammount": "Sin monto mínimo",
         "immediate_rescue": "Rescate inmediato",
+        "weekly_earnings": "Ganancias semanales*",
+        "weekly_earnings_disclaimer_active": "*Tu balance se actualiza el día lunes de cada semana.",
+        "weekly_earnings_disclaimer_available": "*Las ganancias se actualizan el día lunes de cada semana.",
         "coming_badge": "Próximamente",
         "invest_button": "Invertir",
         "annual": "Anual"
@@ -1725,7 +1729,8 @@
         "header": "Enviar",
         "title": "Datos de la transferencia",
         "network_select": {
-          "title": "Red",
+          "title": "Datos de la transferencia",
+          "network": "Red",
           "disclaimer": "Asegúrese que la wallet de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito.\n Actualmente solo se pueden enviar tokens por la red nativa del mismo, estamos trabajando para sumar mas y nuevas redes."
         },
         "continue_button": "Continuar",
@@ -1751,6 +1756,7 @@
         "amounts_title": "Monto a enviar",
         "send_button": "Enviar",
         "wrong_password": "Password incorrecto",
+        "loader": "Enviando",
         "sent_notification": {
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"
@@ -2613,7 +2619,7 @@
       "question19": "¿Podré generar rendimientos con mis Tokens que se encuentren en la Wallet de Xcapit?",
       "answer19": "Pronto podrás generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit, estos productos de inversión se encontrarán en las Blockchains de ETH, RSK y Polygon y variarán en rendimientos, riesgos y protocolos de inversión. La conexión con estos productos no tardará más de 2 minutos y podrás reclamar tus ganancias en cualquier momento.",
       "question20": "¿Dónde puedo visualizar los términos y condiciones de Wallet?",
-      "answer20": "Puedes visualizarlos en este link: <a class='ux-link-xl' href='support/wallet-info'>Términos y Condiciones</a><ul></li> <li>Cualquier consulta referida a Términos y Condiciones puedes escribir a soporte a través de la App o en su defecto a Legales@xcapit.com</li></ul>"
+      "answer20": "Puedes visualizarlos en este link: <a class='ux-link-xl' href='https://xcapit.com/tyc/'>Términos y Condiciones</a><ul></li> <li>Cualquier consulta referida a Términos y Condiciones puedes escribir a soporte a través de la App o en su defecto a Legales@xcapit.com</li></ul>"
     },
     "support_security": {
       "header": "Ayuda",
