@@ -238,36 +238,36 @@ describe('DefiInvestmentProductsPage', () => {
     expect(apiUsuariosServiceSpy.getUser).toHaveBeenCalledTimes(1);
   });
 
-  // it('should render investor test card when user did the investor test', async () => {
-  //   apiUsuariosServiceSpy.getUser.and.returnValue(of(testUserWithTest));
-  //   walletServiceSpy.walletExist.and.resolveTo(false);
-  //   spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
-  //   spyOn(component, 'createAvailableDefiProducts').and.returnValue(
-  //     availableDefiProductsSpy
-  //   );
-  //   component.ionViewWillEnter();
-  //   await component.ionViewDidEnter();
-  //   fixture.detectChanges();
-  //   await fixture.whenStable();
-  //   await fixture.whenRenderingDone();
-  //   const cardEl = fixture.debugElement.query(By.css('app-choose-investor-profile-card'));
-  //   expect(cardEl.nativeElement.hasDoneInvestorTest).toBeTrue();   
-  //   expect(cardEl).toBeTruthy();
-  // });
+  it('should render investor test card when user did the investor test', async () => {
+    apiUsuariosServiceSpy.getUser.and.returnValue(of(testUserWithTest));
+    walletServiceSpy.walletExist.and.resolveTo(false);
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(
+      availableDefiProductsSpy
+    );
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    const cardEl = fixture.debugElement.query(By.css('app-choose-investor-profile-card'));
+    expect(cardEl.nativeElement.hasDoneInvestorTest).toBeTrue();   
+    expect(cardEl).toBeTruthy();
+  });
 
-  // it('should render investor test card when user did not take the investor test', async () => {
-  //   walletServiceSpy.walletExist.and.resolveTo(false);
-  //   spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
-  //   spyOn(component, 'createAvailableDefiProducts').and.returnValue(
-  //     availableDefiProductsSpy
-  //   );
-  //   component.ionViewWillEnter();
-  //   await component.ionViewDidEnter();
-  //   fixture.detectChanges();
-  //   await fixture.whenStable();
-  //   await fixture.whenRenderingDone();
-  //   const cardEl = fixture.debugElement.query(By.css('app-choose-investor-profile-card'));
-  //   expect(cardEl.nativeElement.hasDoneInvestorTest).toBeFalse();   
-  //   expect(cardEl).toBeTruthy();
-  // });
+  it('should render investor test card when user did not take the investor test', async () => {
+    walletServiceSpy.walletExist.and.resolveTo(false);
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(
+      availableDefiProductsSpy
+    );
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    const cardEl = fixture.debugElement.query(By.css('app-choose-investor-profile-card'));
+    expect(cardEl.nativeElement.hasDoneInvestorTest).toBeFalse();   
+    expect(cardEl).toBeTruthy();
+  });
 });
