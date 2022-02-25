@@ -1,15 +1,15 @@
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
-import { SelectCurrencyPage } from './select-currency.page';
-import { Coin } from '../../shared-wallets/interfaces/coin.interface';
+import { ReceiveSelectCurrencyPage } from './receive-select-currency.page';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
-import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { TokenSelectionListComponent } from '../../shared-wallets/components/token-selection-list/token-selection-list.component';
-import { SuitePipe } from '../../shared-wallets/pipes/suite/suite.pipe';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { TokenSelectionListComponent } from '../shared-wallets/components/token-selection-list/token-selection-list.component';
+import { SuitePipe } from '../shared-wallets/pipes/suite/suite.pipe';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { NavigationExtras } from '@angular/router';
 
 const coins: Coin[] = [
@@ -46,9 +46,9 @@ const coinClicked = {
   rpc: '',
 };
 
-describe('SelectCurrencyPage', () => {
-  let component: SelectCurrencyPage;
-  let fixture: ComponentFixture<SelectCurrencyPage>;
+describe('ReceiveSelectCurrencyPage', () => {
+  let component: ReceiveSelectCurrencyPage;
+  let fixture: ComponentFixture<ReceiveSelectCurrencyPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
@@ -61,7 +61,7 @@ describe('SelectCurrencyPage', () => {
       getAssestsSelected: Promise.resolve(coins),
     });
     TestBed.configureTestingModule({
-      declarations: [SelectCurrencyPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
+      declarations: [ReceiveSelectCurrencyPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
       imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
@@ -69,7 +69,7 @@ describe('SelectCurrencyPage', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SelectCurrencyPage);
+    fixture = TestBed.createComponent(ReceiveSelectCurrencyPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -104,6 +104,6 @@ describe('SelectCurrencyPage', () => {
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', coinClicked);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/detail'], navigationExtras);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/receive/detail'], navigationExtras);
   });
 });

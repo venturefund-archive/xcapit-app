@@ -53,7 +53,16 @@ const routes: Routes = [
       },
       {
         path: 'receive',
-        loadChildren: () => import('./receive/receive.module').then((m) => m.ReceivePageModule),
+        children: [
+          {
+            path: 'select-currency',
+            loadChildren: () => import('./receive-select-currency/receive-select-currency.module').then((m) => m.ReceiveSelectCurrencyPageModule),
+          },
+          {
+            path: 'detail',
+            loadChildren: () => import('./receive/receive.module').then((m) => m.ReceivePageModule),
+          },
+        ]
       },
       {
         path: 'recovery',

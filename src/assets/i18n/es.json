@@ -1540,6 +1540,10 @@
     }
   },
   "wallets": {
+    "receive_select_currency": {
+      "header": "Recibir",
+      "title": "Selecciona la moneda que quieres recibir"
+    },
     "remove_success": {
       "title": "Tu wallet fue eliminada",
       "subtitle": "Puedes crear nuevamente una wallet o importar una existente cuando lo desees.",
@@ -1683,15 +1687,13 @@
     },
     "receive": {
       "header": "Recibir",
-      "title": "Datos de tu wallet",
+      "title": "Datos de tu billetera",
       "currency_select": "Moneda",
-      "currency_select_modal_title": "Seleccionar moneda",
-      "currency_select_placeholder": "Moneda",
       "average_time": "Tiempo promedio de llegada: 3 min.",
-      "share": "Compartir",
+      "receive_address_title": "Dirección",
+      "receive_address_copy": "Copiar",
       "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección de depósito.",
-      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito.",
-      "share_title": "Direccion de wallet"
+      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito."
     },
     "nft_detail": {
       "title": "Detalle de NFT",

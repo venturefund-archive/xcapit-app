@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { Coin } from '../../shared-wallets/interfaces/coin.interface';
-import { NavController } from '@ionic/angular';
-import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { NavigationExtras } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 
 @Component({
-  selector: 'app-select-currency',
+  selector: 'app-receive-select-currency',
   template: `
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'wallets.send.select_currency.header' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{ 'wallets.receive_select_currency.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="sc ion-padding">
       <div class="sc__title">
         <ion-label class="ux-font-text-lg">
-          {{ 'wallets.send.select_currency.title' | translate }}
+          {{ 'wallets.receive_select_currency.title' | translate }}
         </ion-label>
       </div>
       <div class="sc__list" *ngIf="this.coins">
@@ -26,9 +26,9 @@ import { NavigationExtras } from '@angular/router';
       </div>
     </ion-content>
   `,
-  styleUrls: ['./select-currency.page.scss'],
+  styleUrls: ['./receive-select-currency.page.scss'],
 })
-export class SelectCurrencyPage implements OnInit {
+export class ReceiveSelectCurrencyPage implements OnInit {
   coins: Coin[];
   constructor(private navController: NavController, private storageService: StorageService) {}
 
@@ -48,6 +48,6 @@ export class SelectCurrencyPage implements OnInit {
       },
     };
     
-    this.navController.navigateForward(['/wallets/send/detail'], navigationExtras);
+    this.navController.navigateForward(['/wallets/receive/detail'], navigationExtras);
   }
 }
