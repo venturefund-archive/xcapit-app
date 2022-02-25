@@ -1696,13 +1696,11 @@
       "header": "Receive",
       "title": "Your wallet information",
       "currency_select": "Currency",
-      "currency_select_modal_title": "Select currency",
-      "currency_select_placeholder": "Currency",
       "average_time": "Average receive time: 3 min.",
-      "share": "Share",
+      "receive_address_title": "Address",
+      "receive_address_copy": "Copy",
       "disclaimer_header": "Send only {{currency}} using the network {{network}} to this deposit address.",
-      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit.",
-      "share_title": "Wallet address"
+      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit."
     },
     "nft_detail": {
       "title": "NFT Detail",

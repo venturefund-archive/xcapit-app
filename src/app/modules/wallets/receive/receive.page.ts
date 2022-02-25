@@ -21,71 +21,82 @@ import { NavController } from '@ionic/angular';
         <ion-title class="ion-text-center">{{ 'wallets.receive.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding-start ion-padding-end wr">
-      <div class="wr__title">
-        <ion-text class="ux-font-text-lg">{{ 'wallets.receive.title' | translate }}</ion-text>
-      </div>
-      <div class="wr__currency-select" *ngIf="this.currency">
-        <app-coin-selector
-            [selectedCoin]="this.currency"
-            (changeCurrency)="this.changeCurrency()"
-          ></app-coin-selector>
-      </div>
-      <div class="wr__network-select-card" *ngIf="this.networks">
-        <app-network-select-card
-          (networkChanged)="this.selectedNetworkChanged($event)"
-          [title]="'wallets.send.send_detail.network_select.network' | translate"
-          [networks]="this.networks"
-          selectorStyle="receive"
-          [selectedNetwork]="this.selectedNetwork"
-        ></app-network-select-card>
-      </div>
-      <div class="wr__remaining-time-text">
-        <ion-text color="uxsemidark" class="ux-font-lato ux-fweight-regular ux-fsize-12">{{
-          'wallets.receive.average_time' | translate
-        }}</ion-text>
-      </div>
-      <div class="wr__qr-content" *ngIf="addressQr">
-        <img id="qr-img" [src]="this.addressQr" />
-      </div>
-      <div class="wr__receive-address">
-        <ion-item lines="none">
-          <ion-label class="ux-font-lato ux-fsize-16 ux-fweight-regular">{{ this.address }}</ion-label>
-          <ion-button
-            name="Copy Wallet Address"
-            appTrackClick
-            id="copy-address-button"
-            fill="clear"
-            (click)="this.copyAddress()"
-          >
-            <ion-icon name="copy-outline" style="margin-left: 8px;"></ion-icon
-          ></ion-button>
-        </ion-item>
-      </div>
-      <div class="wr__share-content" *ngIf="this.isNativePlatform">
-        <ion-button
-          name="Share Wallet Address"
-          id="share-address-button"
-          appTrackClick
-          fill="clear"
-          class="ux-font-lato ux-fsize-16 ux-fweight-regular"
-          (click)="this.shareAddress()"
-          >{{ 'wallets.receive.share' | translate }} <ion-icon name="ux-share" style="margin-left: 8px;"></ion-icon
-        ></ion-button>
-      </div>
-      <div class="wr__disclaimer" *ngIf="this.currency">
-        <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12">
-          {{
-            'wallets.receive.disclaimer_header'
-              | translate: { currency: this.currency.value, network: this.selectedNetwork }
-          }}
-        </ion-text>
-        <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-12">
-          {{
-            'wallets.receive.disclaimer_body'
-              | translate: { currency: this.currency.value, network: this.selectedNetwork }
-          }}
-        </ion-text>
+    <ion-content class="ion-padding">
+      <div class="wr">
+        <div class="wr__title">
+          <ion-item class="ion-no-margin ion-no-padding">
+            <ion-text class="ux-font-text-lg">{{ 'wallets.receive.title' | translate }}</ion-text>
+            <ion-button
+              name="Share Wallet Address"
+              id="share-address-button"
+              appTrackClick
+              fill="clear"
+              class="ion-no-margin"
+              (click)="this.shareAddress()"
+              *ngIf="this.isNativePlatform"
+            >
+              <ion-icon name="ux-share" class="ux-fsize-18"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </div>
+        <div class="wr__card-content">
+          <div class="wr__card-content__currency-select" *ngIf="this.currency">
+            <app-coin-selector
+              [selectedCoin]="this.currency"
+              (changeCurrency)="this.changeCurrency()"
+            ></app-coin-selector>
+          </div>
+          <div class="wr__card-content__network-select-card" *ngIf="this.networks">
+            <app-network-select-card
+              (networkChanged)="this.selectedNetworkChanged($event)"
+              [title]="'wallets.send.send_detail.network_select.network' | translate"
+              [networks]="this.networks"
+              selectorStyle="receive"
+              [selectedNetwork]="this.selectedNetwork"
+            ></app-network-select-card>
+          </div>
+          <div class="wr__card-content__remaining-time-text">
+            <ion-text color="uxsemidark" class="ux-font-text-xxs">{{
+              'wallets.receive.average_time' | translate
+            }}</ion-text>
+          </div>
+          <div class="wr__card-content__qr-content" *ngIf="addressQr">
+            <img id="qr-img" [src]="this.addressQr" />
+          </div>
+          <div class="wr__card-content__receive-address">
+            <ion-label class="ux-font-titulo-xs">
+              {{ 'wallets.receive.receive_address_title' | translate }}
+            </ion-label>
+            <ion-item class="ion-no-padding ion-no-margin" lines="none">
+              <ion-label class="ux-font-text-base">{{ this.address }}</ion-label>
+              <ion-button
+                name="Copy Wallet Address"
+                class="ux-font-button ion-no-margin"
+                color="uxprimary"
+                appTrackClick
+                id="copy-address-button"
+                fill="clear"
+                (click)="this.copyAddress()"
+              >
+                {{ 'wallets.receive.receive_address_copy' | translate }}
+              </ion-button>
+            </ion-item>
+          </div>
+          <div class="wr__card-content__disclaimer" *ngIf="this.currency">
+            <ion-text class="ux-font-titulo-xs">
+              {{
+                'wallets.receive.disclaimer_header'
+                  | translate: { currency: this.currency.value, network: this.selectedNetwork }
+              }}
+            </ion-text>
+            <ion-text class="ux-font-text-xs">
+              {{
+                'wallets.receive.disclaimer_body'
+                  | translate: { currency: this.currency.value, network: this.selectedNetwork }
+              }}
+            </ion-text>
+          </div>
+        </div>
       </div>
     </ion-content>
   `,
@@ -121,7 +132,7 @@ export class ReceivePage {
   private getSelectedCoinAndNetworks() {
     const coin = this.route.snapshot.queryParamMap.get('asset');
     const network = this.route.snapshot.queryParamMap.get('network');
-    
+
     this.currency = this.apiWalletService.getCoin(coin, network);
     this.networks = this.apiWalletService.getNetworks(coin);
     this.selectedNetwork = network;
