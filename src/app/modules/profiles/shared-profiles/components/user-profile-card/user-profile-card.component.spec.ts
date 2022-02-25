@@ -51,19 +51,19 @@ describe('UserProfileCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should call trackEvent on trackService when Investor Profile button is clicked', () => {
-  //   const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Investor Profile');
-  //   const directive = trackClickDirectiveHelper.getDirective(el);
-  //   const spyClickEvent = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spyClickEvent).toHaveBeenCalledTimes(1);
-  // });
+  it('should call trackEvent on trackService when Investor Profile button is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Investor Profile');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spyClickEvent = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spyClickEvent).toHaveBeenCalledTimes(1);
+  });
 
-  // it("should navigate to Investor Test's starting page when Investor Profile button is clicked", () => {
-  //   fixture.debugElement.query(By.css('ion-button[name="Investor Profile"]')).nativeElement.click();
-  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wealth-management/investor-test-options']);
-  // });
+  it("should navigate to Investor Test's starting page when Investor Profile button is clicked", () => {
+    fixture.debugElement.query(By.css('ion-button[name="Investor Profile"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wealth-management/investor-test-options']);
+  });
 
   it('should hide Investor Profile button when user has not taken Investor Test', () => {
     component.profile = testProfiles.noTest;
