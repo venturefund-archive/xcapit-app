@@ -1850,12 +1850,11 @@
       "card_title": "Configura tu conexión",
       "card_description": "Elige la red de la que quieres tomar los fondos. Luego, escanea el código QR de la Dapp.",
       "scan_qr": {
-        "header": "Escanea el código QR",
-        "register_manually": "Ingresar manualmente",
+        "header": "Escanea el código QR de tu Dapp",
         "errors": {
-          "invalidQR": "El código QR no es válido.",
-          "noContent": "El código QR no tenía ningún contenido.",
-          "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado."
+          "invalidQR": "Compruebe que el código QR que estás escaneando corresponda al protocolo de conexión de WalletConnect.",
+          "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado.",
+          "close_button": "Aceptar"
         }
       },
       "qr_scanner": {
