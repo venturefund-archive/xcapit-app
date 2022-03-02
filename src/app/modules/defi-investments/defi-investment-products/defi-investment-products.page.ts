@@ -40,7 +40,7 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
             </ion-label>
           </div>
         </div>
-        <div class="dp__available-card">
+        <div  class="dp__available-card-skeleton" *ngIf="!this.activeInvestments.length && !this.availableInvestments.length">
           <ion-skeleton-text
             class="skeleton"
             style="width:55%"
@@ -48,6 +48,11 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
             slot="header"
             animated
           ></ion-skeleton-text>
+          <div>
+            <app-defi-investment-product-skeleton *ngFor="let i of [1, 2, 3]"></app-defi-investment-product-skeleton>
+          </div>
+        </div>
+        <div class="dp__available-card" *ngIf="this.availableInvestments.length">
           <ion-item
             *ngIf="this.activeInvestments.length || this.availableInvestments.length"
             lines="none"
@@ -62,14 +67,12 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
               }}
             </ion-label>
           </ion-item>
-          <div *ngIf="this.activeInvestments.length || this.availableInvestments.length">
             <app-defi-investment-product
               *ngFor="let investment of this.availableInvestments"
               [investmentProduct]="investment.product"
               [isComing]="investment.isComing"
               [weeklyEarning]="investment.weeklyEarning"
             ></app-defi-investment-product>
-          </div>
           <div
             class="dp__weekly-profit-disclaimer"
             *ngIf="!this.activeInvestments.length && this.availableInvestments.length"
@@ -77,9 +80,6 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
             <ion-label class=" ux-font-text-xxs" color="uxsemidark">
               {{ 'defi_investments.shared.defi_investment_product.weekly_earnings_disclaimer_available' | translate }}
             </ion-label>
-          </div>
-          <div *ngIf="!this.activeInvestments.length && !this.availableInvestments.length">
-            <app-defi-investment-product-skeleton *ngFor="let i of [1, 2, 3]"></app-defi-investment-product-skeleton>
           </div>
         </div>
       </div>
