@@ -4,6 +4,7 @@ import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { NONPROD_COINS } from '../../constants/coins.nonprod';
 import { PROD_COINS } from '../../constants/coins.prod';
+import { TEST_COINS } from '../../constants/coins.test';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from './api-wallet.service';
 const wallets = [
@@ -41,6 +42,19 @@ const testCoins: Coin[] = [
     chainId: 31,
     rpc: 'testRpc',
     native: true,
+  },
+  {
+    id: 5,
+    name: 'UNI - Uniswap',
+    logoRoute: 'assets/img/coins/UNI.svg',
+    last: true,
+    value: 'UNI',
+    network: 'RSK',
+    chainId: 42,
+    rpc: 'testRpc',
+    contract: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+    abi: 'testAbi',
+    decimals: 18,
   },
 ];
 
@@ -150,5 +164,23 @@ describe('ApiWalletService', () => {
     spyOn(service, 'getCoins').and.returnValue(testCoins);
     const coin = service.getNativeTokenFromNetwork('RSK');
     expect(coin.value).toEqual(testCoins[1].value);
-  })
+  });
+
+  it('should get gas price', () => {
+    service.getGasPrice().subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should get multiple networks from coin on getNetworks', () => {
+    spyOn(service, 'getCoins').and.returnValue(testCoins);
+    const networks = service.getNetworks('UNI');
+    expect(networks).toEqual(['ERC20', 'RSK']);
+  });
+
+  it('should get one networks from coin on getNetworks', () => {
+    spyOn(service, 'getCoins').and.returnValue(testCoins);
+    const networks = service.getNetworks('RBTC');
+    expect(networks).toEqual(['RSK']);
+  });
 });

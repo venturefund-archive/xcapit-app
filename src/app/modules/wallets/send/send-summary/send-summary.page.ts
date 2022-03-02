@@ -37,7 +37,9 @@ import { isAddress } from 'ethers/lib/utils';
       </div>
 
       <div class="ss__send_button">
-        <ion-button
+        <ion-button  
+          [appLoading]="this.loading"
+          [loadingText]="'wallets.send.send_summary.loader' | translate"
           class="ux_button"
           color="uxsecondary"
           appTrackClick
@@ -54,6 +56,7 @@ export class SendSummaryPage implements OnInit {
   summaryData: SummaryData;
   action: string;
   isSending: boolean;
+  loading: boolean;
   constructor(
     private transactionDataService: TransactionDataService,
     private walletTransactionsService: WalletTransactionsService,
@@ -84,15 +87,12 @@ export class SendSummaryPage implements OnInit {
 
   async askForPassword() {
     await this.loadingService.dismiss();
-
     const modal = await this.modalController.create({
       component: WalletPasswordComponent,
       cssClass: 'ux-routeroutlet-modal full-screen-modal',
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-
-    await this.loadingService.show();
 
     return data;
   }
@@ -137,6 +137,7 @@ export class SendSummaryPage implements OnInit {
 
     try {
       const password = await this.askForPassword();
+      this.loading = true
       if (!password) {
         return;
       }

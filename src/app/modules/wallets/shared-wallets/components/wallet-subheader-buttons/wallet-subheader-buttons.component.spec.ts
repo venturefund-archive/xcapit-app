@@ -99,6 +99,7 @@ describe('WalletSubheaderButtonsComponent', () => {
 
   it('should navigate to Send page of an specific asset when Go to Send is clicked from AssetDetailPage', () => {
     component.asset = 'USDT';
+    component.network = 'ERC20';
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Send');
     el.nativeElement.click();
@@ -111,16 +112,17 @@ describe('WalletSubheaderButtonsComponent', () => {
     component.asset = '';
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/receive']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/receive/select-currency']);
   });
 
   it('should navigate to receive page with an asset selected when Go to Receive is clicked from AssetDetailPage', () => {
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Receive');
     component.asset = 'LINK';
+    component.network = 'ERC20';
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['wallets/receive'],
-      Object({ queryParams: Object({ asset: 'LINK' }) })
+      ['wallets/receive/detail'],
+      Object({ queryParams: Object({ asset: 'LINK', network: 'ERC20' }) })
     );
   });
 

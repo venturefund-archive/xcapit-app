@@ -48,59 +48,29 @@ import * as moment from 'moment';
           </div>
 
           <div class="wcod__transaction_detail">
-            <div class="wcod__transaction_detail__container">
-              <div class="wcod__transaction_detail__container__title">
-                <ion-label>
-                  {{ 'wallets.wallet_connect.operation_detail.date' | translate }}
-                </ion-label>
-              </div>
-
-              <div class="wcod__transaction_detail__container__content wcod__transaction_detail__container__date">
-                <span>{{ this.date }}</span>
-                <span>{{ this.time }} H</span>
-              </div>
-            </div>
-
             <div *ngIf="!this.isSignRequest">
-              <div class="wcod__transaction_detail__container">
-                <div class="wcod__transaction_detail__container__title">
-                  <ion-label>
-                    {{ 'wallets.wallet_connect.operation_detail.from' | translate }}
-                  </ion-label>
-                </div>
+              <app-default-request 
+                [request]="this.transactionDetail" 
+                [providerSymbol]="this.providerSymbol"
+                [dateInfo]="this.dateInfo" 
+                *ngIf="!this.decodedData"
+              ></app-default-request>
 
-                <div class="wcod__transaction_detail__container__content">
-                  <ion-label>
-                    {{ this.transactionDetail?.params[0].from }}
-                  </ion-label>
-                </div>
-              </div>
+              <app-swap-request 
+                [request]="this.transactionDetail" 
+                [providerSymbol]="this.providerSymbol" 
+                [decodedData]="this.decodedData"
+                [dateInfo]="this.dateInfo" 
+                *ngIf="this.decodedData && this.decodedData.type === 'swap'"
+              ></app-swap-request>
 
-              <div class="wcod__transaction_detail__container">
-                <div class="wcod__transaction_detail__container__title">
-                  <ion-label>
-                    {{ 'wallets.wallet_connect.operation_detail.to' | translate }}
-                  </ion-label>
-                </div>
-
-                <div class="wcod__transaction_detail__container__content">
-                  <ion-label>
-                    {{ this.transactionDetail?.params[0].to }}
-                  </ion-label>
-                </div>
-              </div>
-
-              <div class="wcod__transaction_detail__container" *ngIf="this.totalAmount">
-                <div class="wcod__transaction_detail__container__title">
-                  <ion-label>
-                    {{ 'wallets.wallet_connect.operation_detail.amount' | translate }}
-                  </ion-label>
-                </div>
-
-                <div class="wcod__transaction_detail__container__content">
-                  <ion-label> {{ this.totalAmount }} {{ this.providerSymbol }} </ion-label>
-                </div>
-              </div>
+              <app-liquidity-request
+                [request]="this.transactionDetail" 
+                [providerSymbol]="this.providerSymbol" 
+                [decodedData]="this.decodedData"
+                [dateInfo]="this.dateInfo" 
+                *ngIf="this.decodedData && this.decodedData.type === 'liquidity'"
+              ></app-liquidity-request>
 
               <div class="wcod__transaction_detail__container">
                 <div class="wcod__transaction_detail__container__title">
@@ -120,15 +90,11 @@ import * as moment from 'moment';
               </div>
             </div>
 
-            <div *ngIf="this.isSignRequest" class="wcod__transaction_detail__sign_request">
-              <ion-label>
-                {{ 'wallets.wallet_connect.operation_detail.sign_message' | translate }}
-              </ion-label>
-
-              <div class="wcod__transaction_detail__sign_request__message_container" id="message">
-                {{ this.message }}
-              </div>
-            </div>
+            <app-sign-request 
+              [message]="this.message"
+              [dateInfo]="this.dateInfo" 
+              *ngIf="this.isSignRequest"
+            ></app-sign-request>
           </div>
 
           <div class="wcod__button_section">
@@ -172,13 +138,15 @@ export class OperationDetailPage implements OnInit {
   public peerMeta;
   public isSignRequest = true;
   public isApproval = false;
+  public decodedData:any  = null;
   public transactionConfirmed = false;
   public transactionDetail;
   public message: any;
-  public date;
-  public time;
+  public dateInfo = {
+    date: null,
+    time: null
+  };
   public totalFeeAmount;
-  public totalAmount = null;
   public providerSymbol = '';
 
   constructor(
@@ -209,28 +177,26 @@ export class OperationDetailPage implements OnInit {
   }
 
   getActualDateTime() {
-    this.date = moment().utc().format('DD/MM/YYYY');
-    this.time = moment().utc().format('HH:mm');
+    this.dateInfo.date = moment().utc().format('DD/MM/YYYY');
+    this.dateInfo.time = moment().utc().format('HH:mm');
   }
 
-  async getTotalAmount(estimatedGas, amount) {
+  async getTotalFeeAmount(estimatedGas) {
     const gasPrice = await this.walletConnectService.getGasPrice();
     const gas = ethers.BigNumber.from(estimatedGas);
     this.totalFeeAmount = ethers.utils.formatEther(gasPrice.mul(gas).toString());
-
-    if (amount) {
-      this.totalAmount = ethers.utils.formatEther(ethers.BigNumber.from(amount));
-    }
   }
 
   public async checkRequestInfo(request) {
     switch (request.method) {
+      case 'eth_signTransaction':
       case 'eth_sendTransaction': {
         this.isSignRequest = false;
-        this.isApproval = await this.walletConnectService.checkIsApproval(request);
+        this.decodedData = await this.walletConnectService.getTransactionType(request);
+        this.isApproval = this.decodedData && this.decodedData.name === 'approve';
         const gasLimit = !request.params[0].gas ? '70000' : request.params[0].gas;
 
-        this.getTotalAmount(gasLimit, request.params[0].value);
+        this.getTotalFeeAmount(gasLimit);
 
         break;
       }

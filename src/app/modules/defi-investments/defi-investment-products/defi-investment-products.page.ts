@@ -34,10 +34,7 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
             [investmentProduct]="investment.product"
             [balance]="investment.balance"
           ></app-investment-balance-item>
-          <div
-            class="dp__weekly-profit-disclaimer"
-            *ngIf="this.activeInvestments.length"
-          >
+          <div class="dp__weekly-profit-disclaimer" *ngIf="this.activeInvestments.length">
             <ion-label class=" ux-font-text-xxs" color="uxsemidark">
               {{ 'defi_investments.shared.defi_investment_product.weekly_earnings_disclaimer_active' | translate }}
             </ion-label>
@@ -89,7 +86,7 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
       <div *ngIf="!this.activeInvestments.length && !this.availableInvestments.length">
         <app-choose-investor-profile-skeleton></app-choose-investor-profile-skeleton>
       </div>
-      <!-- <app-choose-investor-profile-card [hasDoneInvestorTest]="this.hasDoneInvestorTest" *ngIf="this.activeInvestments.length || this.availableInvestments.length"></app-choose-investor-profile-card> -->
+      <app-choose-investor-profile-card [hasDoneInvestorTest]="this.hasDoneInvestorTest" *ngIf="this.activeInvestments.length || this.availableInvestments.length"></app-choose-investor-profile-card>
     </ion-content>
   `,
   styleUrls: ['./defi-investment-products.page.scss'],
@@ -126,7 +123,7 @@ export class DefiInvestmentProductsPage {
   }
 
   getUser() {
-    this.apiUsuariosService.getUser().subscribe((user) => {
+    this.apiUsuariosService.getUser(false).subscribe((user) => {
       this.investorCategory = user.profile.investor_category;
     });
   }
@@ -168,7 +165,7 @@ export class DefiInvestmentProductsPage {
   }
 
   createInvestment(investmentProduct: InvestmentProduct, address: string): TwoPiInvestment {
-    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address));
+    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address), this.apiWalletService);
   }
 
   filterUserInvestments(investments: DefiInvestment[]): void {

@@ -8,7 +8,7 @@ import { TrackClickDirectiveTestHelper } from '../../../../../testing/track-clic
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { navControllerMock } from '../../../../../testing/spies/nav-controller-mock.spec';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
@@ -79,17 +79,18 @@ describe('SendDetailPage', () => {
     walletServiceSpy = jasmine.createSpyObj('WalletService', {
       balanceOf: Promise.resolve('10'),
     });
-    activatedRouteMock = {
-      snapshot: {
-        paramMap: {
-          get: () => 'BTC',
-        },
-      },
+    activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['get']);
+    activatedRouteMock.snapshot = {
+      queryParamMap: convertToParamMap({
+        asset: 'ETH',
+        network: 'ERC20'
+      }),
     };
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: coins,
       getCoin: JSON.parse(JSON.stringify(coins[2])),
       getNativeTokenFromNetwork: JSON.parse(JSON.stringify(coins[1])),
+      getNetworks: ['ERC20']
     });
     navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
     TestBed.configureTestingModule({
@@ -166,7 +167,12 @@ describe('SendDetailPage', () => {
   });
 
   it('should show card if native token balance is zero when sending native token', async () => {
-    activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
+    activatedRouteMock.snapshot = {
+      queryParamMap: convertToParamMap({
+        asset: 'ETH',
+        network: 'ERC20'
+      }),
+    };
     walletServiceSpy.balanceOf.and.resolveTo('0');
     component.ionViewWillEnter();
     await fixture.whenStable();
@@ -176,7 +182,12 @@ describe('SendDetailPage', () => {
   });
 
   it('should show card if native token balance is zero when sending not native token', async () => {
-    activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
+    activatedRouteMock.snapshot = {
+      queryParamMap: convertToParamMap({
+        asset: 'USDT',
+        network: 'ERC20'
+      }),
+    };
     walletServiceSpy.balanceOf.and.resolveTo('0');
     component.ionViewWillEnter();
     await fixture.whenStable();
@@ -186,7 +197,12 @@ describe('SendDetailPage', () => {
   });
 
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
-    activatedRouteMock.snapshot.paramMap.get = () => 'ETH';
+    activatedRouteMock.snapshot = {
+      queryParamMap: convertToParamMap({
+        asset: 'ETH',
+        network: 'ERC20'
+      }),
+    };
     walletServiceSpy.balanceOf.and.resolveTo('1');
     component.ionViewWillEnter();
     await fixture.whenStable();
@@ -196,12 +212,32 @@ describe('SendDetailPage', () => {
   });
 
   it('should not show card if native token balance is greater than zero when sending not native token', async () => {
-    activatedRouteMock.snapshot.paramMap.get = () => 'USDT';
+    activatedRouteMock.snapshot = {
+      queryParamMap: convertToParamMap({
+        asset: 'USDT',
+        network: 'ERC20'
+      }),
+    };
     walletServiceSpy.balanceOf.and.resolveTo('1');
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
     expect(alertCard).toBeDefined();
+  });
+
+  it('should let user change currency on selected currency click', async () => {
+    activatedRouteMock.snapshot = {
+      queryParamMap: convertToParamMap({
+        asset: 'ETH',
+        network: 'ERC20'
+      }),
+    };
+    walletServiceSpy.balanceOf.and.resolveTo('0');
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('.sd__network-select-card__selected-coin > app-coin-selector')).triggerEventHandler('changeCurrency', {});
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/wallets/send/select-currency']);
   });
 });
