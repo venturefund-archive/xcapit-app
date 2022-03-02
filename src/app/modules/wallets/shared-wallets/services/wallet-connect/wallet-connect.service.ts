@@ -246,7 +246,7 @@ export class WalletConnectService {
 
   public async checkIsApproval(request) {
     const decodedData = this.contractsAbi.decodeMethod(request.params[0].data);
-    this.isApproveRequest = request && decodedData && decodedData.name === 'approve';
+    this.isApproveRequest = request && decodedData?.name === 'approve';
 
     return this.isApproveRequest;
   }
