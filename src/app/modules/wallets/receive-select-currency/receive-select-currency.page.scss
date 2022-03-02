@@ -1,0 +1,13 @@
+:host {
+  .sc {
+    --background: var(--ion-background-colorwhite);
+
+    &__title {
+      margin-top: 8px;
+    }
+
+    &__list {
+      margin-top: 16px;
+    }
+  }
+}

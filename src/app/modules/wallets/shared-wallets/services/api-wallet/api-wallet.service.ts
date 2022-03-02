@@ -42,7 +42,10 @@ export class ApiWalletService {
     return this.getCoins().filter((coin) => coin.network === network);
   }
 
-  getNetworks(): string[] {
+  getNetworks(coin?: string): string[] {
+    if (coin) {
+      return this.getCoins().filter(c => c.value === coin).map(c => c.network);
+    }
     return Object.keys(environment.derivedPaths);
   }
 
