@@ -104,7 +104,7 @@ describe('WalletConnectSignRequestComponent', () => {
     expect(alertControllerSpy.create).toHaveBeenCalled();
   });
 
-  it('should dismiss the modale when is pressed accept button on showAlertTxError', async () => {
+  it('should dismiss the modal when is pressed accept button on showAlertTxError', async () => {
     walletConnectServiceSpy.checkRequest.and.returnValues({error: true});
     fixture.detectChanges();
     component.form.patchValue({ password: 'testPassword' });

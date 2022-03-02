@@ -1921,6 +1921,23 @@
           "cancel_button": "Volver",
           "accept_button": "Aceptar"
         },
+        "types": {
+          "swap": {
+            "swap": "Intercambiar Tokens",
+            "amount_to_send": "Monto a enviar",
+            "amount_to_send_max": "Monto máximo a enviar",
+            "amount_to_receive": "Monto a recibir",
+            "amount_to_receive_min": "Monto mínimo a recibir"
+          },
+          "liquidity": {
+            "add_liquidity": "Agregar Liquidez",
+            "remove_liquidity": "Remover Liquidez",
+            "liquidity": "Liquidez",
+            "amount_token_0": "Monto token 0",
+            "amount_token_1": "Monto token 1",
+            "amount_to_receive_min": "Monto mínimo a recibir"
+          }
+        },
         "card_title_sign": "Firma en la Dapp",
         "card_description_sign": "Este paso es para comprobar que eres tú quien está operando en la Dapp.",
         "card_title_operation": "Confirma tu operación",
