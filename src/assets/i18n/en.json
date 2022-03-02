@@ -1904,7 +1904,7 @@
         "card_title_connected": "Operates in Dapp",
         "card_description_connected": "When operations are available in the Dapp, you will receive notifications to approve them.",
         "disconnect": {
-          "header": "¿Terminate connection?",
+          "header": "Terminate connection?",
           "message": "If you terminate the connection, you will not be able to receive operations from the Dapp.",
           "cancel_button": "Cancel",
           "accept_button": "Terminate"

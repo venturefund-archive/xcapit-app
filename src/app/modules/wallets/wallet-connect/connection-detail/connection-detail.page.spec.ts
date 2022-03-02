@@ -147,7 +147,7 @@ describe('ConnectionDetailPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to create a support token when supportHelp is called', () => {
+  it('should navigate to create a support ticket when supportHelp is called', () => {
     component.supportHelp();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tickets/create-support-ticket');
   })
