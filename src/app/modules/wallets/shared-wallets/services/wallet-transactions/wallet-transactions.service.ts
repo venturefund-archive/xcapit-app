@@ -17,28 +17,36 @@ import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-inve
 import { parseEther, parseUnits } from 'ethers/lib/utils';
 import { ERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/erc20-token.model';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
+import { NetworkConfig } from '../../models/network-config/network-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WalletTransactionsService {
-  tokenSendClass = TokenSend;
+  tokenSendClass: any = TokenSend;
   erc20ProviderClass = ERC20Provider;
   erc20TokenClass = ERC20Token;
-  
   authHeaders = { Authorization: `Basic ${btoa(environment.covalentApiKey + ':')}` };
 
   constructor(
     private walletEncryptionService: WalletEncryptionService,
     private storageService: StorageService,
     private http: CustomHttpService,
-    private apiWalletService: ApiWalletService,
+    private apiWalletService: ApiWalletService
   ) {}
 
   async send(password: string, amount: string, to: string, coin: Coin): Promise<TransactionResponse> {
     const from = await this.storageService.getWalletsAddresses(coin.network);
     const wallet = await this.walletEncryptionService.getDecryptedWalletForCurrency(password, coin);
-    const tx = this.tokenSendClass.create(from, to, amount, coin, this.apiWalletService, wallet);
+    const tx = new this.tokenSendClass(
+      from,
+      to,
+      amount,
+      coin,
+      this.apiWalletService,
+      wallet,
+      new NetworkConfig(coin.network, this.apiWalletService)
+    ).value();
     return tx.send();
   }
 
@@ -245,11 +253,7 @@ export class WalletTransactionsService {
         const balanceNativeCoin = values[1];
         const balanceNotNativeCoin = values[2];
 
-        if (balanceNativeCoin.gte(totalNativeCoin) && balanceNotNativeCoin.gte(totalNotNativeCoin)) {
-          return true;
-        } else {
-          return false;
-        }
+        return !!(balanceNativeCoin.gte(totalNativeCoin) && balanceNotNativeCoin.gte(totalNotNativeCoin));
       })
       .catch(() => false);
   }
@@ -264,18 +268,14 @@ export class WalletTransactionsService {
         const fee = parseEther(values[0]);
         const balanceNativeCoin = values[1];
 
-        if (balanceNativeCoin.gte(fee)) {
-          return true;
-        } else {
-          return false;
-        }
+        return !!balanceNativeCoin.gte(fee);
       })
       .catch(() => false);
   }
 
   async sendEstimatedFee(from: string = undefined, to: string, amount: string, coin: Coin): Promise<string> {
     from = from ? from : await this.storageService.getWalletsAddresses(coin.network);
-    const txWithVoidSigner = this.tokenSendClass.create(from, to, amount, coin, this.apiWalletService);
+    const txWithVoidSigner = this.tokenSendClass.create(from, to, amount, coin, this.apiWalletService).value();
     await txWithVoidSigner.sendEstimateFee();
     return txWithVoidSigner.formatFee();
   }
