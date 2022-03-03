@@ -96,7 +96,7 @@ export class AddressInputCardComponent implements OnInit {
     const modal = await this.modalController.create({
       component: ScanQrModalComponent,
       componentProps: {
-        title: 'wallets.send.scan_qr.title',
+        title: this.translate.instant('wallets.send.scan_qr.title'),
       },
     });
     await modal.present();
