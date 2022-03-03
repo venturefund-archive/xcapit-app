@@ -1722,6 +1722,9 @@
       "swap": "Swap"
     },
     "send": {
+      "scan_qr":{
+        "title":"Escanea el código QR de la dirección a la que deseas enviar"
+      },
       "select_currency": {
         "header": "Enviar",
         "title": "Selecciona la moneda que deseas enviar",

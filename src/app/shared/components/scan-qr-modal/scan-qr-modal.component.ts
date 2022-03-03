@@ -10,7 +10,7 @@ import { BarcodeScanner, SupportedFormat } from '@capacitor-community/barcode-sc
       <div class="barcode-scanner--area--container">
         <ion-row class="relative ion-aling-items-center">
           <ion-col size="12" class="ion-text-center">
-            <ion-text color="light" class="ux-fsize-18 ux-fweight-regular ux-font-lato">{{ this.title }}</ion-text>
+            <ion-text color="light" class="ux-fsize-18 ux-fweight-regular ux-font-lato">{{ this.title | translate }}</ion-text>
           </ion-col>
         </ion-row>
         <ion-row class="square surround-cover">
@@ -36,7 +36,7 @@ import { BarcodeScanner, SupportedFormat } from '@capacitor-community/barcode-sc
         </ion-row>
         <ion-row class="ion-align-items-center">
           <ion-col size="5" class="ion-text-center center">
-            <ion-text color="light" class="ux-fsize-16 ux-fweight-regular ux-font-lato">{{ this.cancelText }}</ion-text>
+            <ion-text color="light" class="ux-fsize-16 ux-fweight-regular ux-font-lato">{{ this.cancelText | translate }}</ion-text>
           </ion-col>
         </ion-row>
       </div>

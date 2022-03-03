@@ -5,6 +5,7 @@ import { Renderer2, Type } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
 import { Subject } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ScanQrModalComponent', () => {
   let component: ScanQrModalComponent;
@@ -31,7 +32,7 @@ describe('ScanQrModalComponent', () => {
     });
     TestBed.configureTestingModule({
       declarations: [ScanQrModalComponent],
-      imports: [IonicModule],
+      imports: [IonicModule,TranslateModule.forRoot()],
       providers: [
         Renderer2,
         { provide: ModalController, useValue: modalControllerSpy },

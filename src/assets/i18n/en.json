@@ -1729,6 +1729,9 @@
       "swap": "Swap"
     },
     "send": {
+      "scan_qr":{
+        "title":"Scan the QR code of the address you want to send to"
+      },
       "select_currency": {
         "header": "Send",
         "title": "Select the currency you want to send",
