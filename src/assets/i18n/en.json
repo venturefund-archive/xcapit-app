@@ -367,7 +367,8 @@
       },
       "amount_input_card": {
         "available": "Available",
-        "disclaimer": "Please note that transaction fees will be charged in"
+        "disclaimer": "The exchange rate is defined by the blockchain and amounts may vary, depending on when you make the transaction. \nPlease note that transaction fees will be charged in",
+        "max_button": "Max"
       },
       "withdraw_card": {
         "title": "Withdraw",
@@ -1732,7 +1733,7 @@
       "select_currency": {
         "header": "Send",
         "title": "Select the currency you want to send",
-        "suite":"{{suiteName}} network"
+        "suite": "{{suiteName}} network"
       },
       "send_detail": {
         "header": "Send",

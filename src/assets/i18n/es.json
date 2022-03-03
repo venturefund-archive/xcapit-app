@@ -357,7 +357,8 @@
       },
       "amount_input_card": {
         "available": "Disponible",
-        "disclaimer": "Ten en cuenta que se cobrarán tarifas de transacción en"
+        "disclaimer": "La tasa de cambio la define la blockchain. Los montos pueden variar, según el momento en que realices la transacción. \nTen en cuenta que se cobrarán tarifas de transacción en",
+        "max_button": "Máx"
       },
       "withdraw_card": {
         "title": "Retiro",
@@ -1725,7 +1726,7 @@
       "select_currency": {
         "header": "Enviar",
         "title": "Selecciona la moneda que deseas enviar",
-        "suite":"Red {{suiteName}}"
+        "suite": "Red {{suiteName}}"
       },
       "send_detail": {
         "header": "Enviar",
