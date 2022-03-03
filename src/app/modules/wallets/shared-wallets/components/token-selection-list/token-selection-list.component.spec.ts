@@ -13,26 +13,24 @@ describe('TokenSelectionListComponent', () => {
   let fixture: ComponentFixture<TokenSelectionListComponent>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
-  beforeEach(waitForAsync(() => {
-    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', 
-      {
-        getCoins: [...TEST_ERC20_COINS, ...TEST_RSK_COINS]
-      }
-    );
-    TestBed.configureTestingModule({
-      declarations: [ TokenSelectionListComponent, SuitePipe ],
-      imports: [IonicModule.forRoot(), TranslateModule.forRoot() ],
-      providers: [
-        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+        getCoins: [...TEST_ERC20_COINS, ...TEST_RSK_COINS],
+      });
+      TestBed.configureTestingModule({
+        declarations: [TokenSelectionListComponent, SuitePipe],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+        providers: [{ provide: ApiWalletService, useValue: apiWalletServiceSpy }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(TokenSelectionListComponent);
-    component = fixture.componentInstance;
-    component.userCoins = TEST_ERC20_COINS;
-    fixture.detectChanges();
-  }));
+      fixture = TestBed.createComponent(TokenSelectionListComponent);
+      component = fixture.componentInstance;
+      component.userCoins = TEST_ERC20_COINS;
+      fixture.detectChanges();
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -46,10 +44,10 @@ describe('TokenSelectionListComponent', () => {
 
   it('should render a list of coins', () => {
     const listEl = fixture.debugElement.query(By.css('.tsl'));
-    expect(listEl.nativeElement.innerText).toContain('ETH - Ethereum');
-    expect(listEl.nativeElement.innerText).toContain('LINK - Chainlink');
-    expect(listEl.nativeElement.innerText).toContain('USDT - Tether');
-    expect(listEl.nativeElement.innerText).toContain('UNI - Uniswap');
+    expect(listEl.nativeElement.innerHTML).toContain('ETH - Ethereum');
+    expect(listEl.nativeElement.innerHTML).toContain('LINK - Chainlink');
+    expect(listEl.nativeElement.innerHTML).toContain('USDT - Tether');
+    expect(listEl.nativeElement.innerHTML).toContain('UNI - Uniswap');
   });
 
   it('should emit event when coin clicked', () => {
