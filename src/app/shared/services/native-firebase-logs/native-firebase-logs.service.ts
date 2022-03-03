@@ -37,14 +37,15 @@ export class NativeFirebaseLogsService implements TrackService {
   trackView(data: DataToTrackView): void {}
 
   trackEvent(data: DataToTrackEvent): void {
-    this.firebaseAnalytics.logEvent({
-      name: 'button_click',
-      params: {
+    if (data.eventLabel.startsWith('ux_'))
+      this.firebaseAnalytics.logEvent({
         name: data.eventLabel,
-        action: data.eventAction,
-        value: data.eventValue,
-        category: data.eventCategory,
-      },
-    });
+        params: {
+          name: data.eventLabel,
+          action: data.eventAction,
+          value: data.eventValue,
+          category: data.eventCategory,
+        },
+      });
   }
 }
