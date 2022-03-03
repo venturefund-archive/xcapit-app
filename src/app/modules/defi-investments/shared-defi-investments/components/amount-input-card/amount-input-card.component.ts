@@ -23,8 +23,18 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
             this.quoteCurrency
           }}</ion-text>
         </div>
-        <div class="aic__content__input">
-          <ion-input formControlName="amount" type="number" inputmode="numeric" placeholder="0.000144"></ion-input>
+        <div class="aic__content__inputs">
+          <ion-input class="aic__content__inputs__amount" formControlName="amount" type="number" inputmode="numeric" placeholder="0.000144">
+            <ion-button
+              [disabled]="!this.available"
+              (click)="this.setMax()"
+              slot="end"
+              fill="clear"
+              size="small"
+              class="ux-font-button"
+              >{{ 'defi_investments.shared.amount_input_card.max_button' | translate }}</ion-button
+            >
+          </ion-input>
           <ion-text class="aic__content__equal ux-fweight-medium ">=</ion-text>
           <ion-input
             class="read-only"
@@ -78,6 +88,10 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
     this.setFeeCoin();
     this.dynamicPrice();
     this.subscribeToFormChanges();
+  }
+
+  setMax() {
+    this.form.get('amount').patchValue(this.available);
   }
 
   private dynamicPrice() {

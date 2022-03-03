@@ -357,7 +357,8 @@
       },
       "amount_input_card": {
         "available": "Disponible",
-        "disclaimer": "Ten en cuenta que se cobrarán tarifas de transacción en"
+        "disclaimer": "Ten en cuenta que se cobrarán tarifas de transacción en",
+        "max_button": "Máx"
       },
       "withdraw_card": {
         "title": "Retiro",

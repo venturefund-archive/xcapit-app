@@ -14,7 +14,7 @@
       display: flex;
       flex-direction: column;
 
-      &__input {
+      &__inputs {
         display: flex;
         align-items: center;
         margin-bottom: 4px;
@@ -35,6 +35,19 @@
           color: var(--ion-color-uxdark);
 
           --padding-start: 16px;
+        }
+
+        &__amount {
+          --padding-end: 48px;
+
+          ion-button {
+            position: absolute;
+            right: 0;
+            z-index: 2;
+
+            --padding-start: 8px;
+            --padding-end: 8px;
+          }
         }
 
         ion-input.has-focus {
