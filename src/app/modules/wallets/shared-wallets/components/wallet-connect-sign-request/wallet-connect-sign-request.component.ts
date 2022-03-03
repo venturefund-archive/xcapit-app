@@ -6,8 +6,6 @@ import { WalletConnectService } from '../../services/wallet-connect/wallet-conne
 import { EthersService } from '../../services/ethers/ethers.service';
 import { LoadingService } from '../../../../../shared/services/loading/loading.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ethers } from 'ethers';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-wallet-connect-sign-request',
