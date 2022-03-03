@@ -11,7 +11,7 @@ import { NavigationExtras } from '@angular/router';
           <app-icon-button-card
             (click)="this.goToSend()"
             appTrackClick
-            name="Go to Send"
+            name="ux_send_go_to_send"
             [text]="'wallets.home.subheader_buttons_component.send_card' | translate"
             icon="ux-wallet"
           ></app-icon-button-card>

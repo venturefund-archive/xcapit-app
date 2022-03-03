@@ -91,7 +91,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
         <ion-button
           class="ux_button sd__submit-button__button"
           appTrackClick
-          name="Continue"
+          name="ux_send_continue"
           (click)="this.submitForm()"
           [disabled]="!this.form.valid || !this.selectedNetwork"
           color="uxsecondary"

@@ -15,6 +15,9 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
           </ion-item>
           <div *ngFor="let coin of this.getCoinsFromNetwork(network); let last = last">
             <ion-item
+              appTrackClick
+              name="Item Coin"
+              [dataToTrack]="{ eventLabel: this.getTrackClickEventName(coin.value.toLowerCase()) }"
               class="tsl__suite-container__suite__coin-container ion-no-padding ion-no-margin"
               (click)="this.selectCurrency(coin)"
               [lines]="last ? 'none' : 'full'"
@@ -30,7 +33,7 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
                     >{{ 'wallets.select_coin.native' | translate }}</ion-badge
                   >
                 </div>
-                  <ion-icon class="tsl__suite-container__suite__coin-container__coin__chevron" name="chevron-forward-outline" color="info" item-right></ion-icon>
+                <ion-icon class="tsl__suite-container__suite__coin-container__coin__chevron" name="chevron-forward-outline" color="info" item-right></ion-icon>
               </div>
             </ion-item>
           </div>
@@ -42,11 +45,13 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 })
 export class TokenSelectionListComponent implements OnInit {
   @Input() userCoins: Coin[];
+  @Input() state: string;
   @Output() clickedCoin: EventEmitter<Coin> = new EventEmitter<Coin>();
 
   get networks(): string[] {
     return [...new Set(this.userCoins.map(coin => coin.network))];
   }
+
   constructor(private apiWalletService: ApiWalletService) {}
 
   ngOnInit() {
@@ -63,4 +68,10 @@ export class TokenSelectionListComponent implements OnInit {
     this.clickedCoin.emit(coin);
   }
 
+  getTrackClickEventName(coin: string) {
+    if (this.state === 'send')
+      return `ux_${this.state}_${coin}`;
+
+    return 'Item Coin';
+  }
 }

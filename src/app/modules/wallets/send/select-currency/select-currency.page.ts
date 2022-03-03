@@ -22,7 +22,7 @@ import { NavigationExtras } from '@angular/router';
         </ion-label>
       </div>
       <div class="sc__list" *ngIf="this.coins">
-        <app-token-selection-list [userCoins]="this.coins" (clickedCoin)="this.selectCurrency($event)"></app-token-selection-list>
+        <app-token-selection-list state="send" [userCoins]="this.coins" (clickedCoin)="this.selectCurrency($event)"></app-token-selection-list>
       </div>
     </ion-content>
   `,

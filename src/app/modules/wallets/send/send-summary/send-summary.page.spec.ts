@@ -160,9 +160,9 @@ describe('SendSummaryPage', () => {
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   }));
 
-  it('should call trackEvent on trackService when Send Button clicked', () => {
+  it('should call trackEvent on trackService when ux_send_send Button clicked', () => {
     spyOn(component, 'handleSubmit');
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Send');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_send');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -170,10 +170,10 @@ describe('SendSummaryPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should send and navigate to success when user can afford fees and password is correct on Send Button clicked', async () => {
+  it('should send and navigate to success when user can afford fees and password is correct on ux_send_send Button clicked', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
       'testPassword',
@@ -193,7 +193,7 @@ describe('SendSummaryPage', () => {
     component.summaryData = summaryData;
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
     walletTransactionsServiceSpy.send.and.rejectWith({ message: 'invalid password' });
-    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
       'invalid',
@@ -212,7 +212,7 @@ describe('SendSummaryPage', () => {
   it('should cancel transaction if user closed modal', async () => {
     component.summaryData = summaryData;
     fakeModalController.modifyReturns(null, Promise.resolve({}));
-    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(walletTransactionsServiceSpy.send).not.toHaveBeenCalled();
     expect(component.isSending).toBeFalse();
@@ -234,7 +234,7 @@ describe('SendSummaryPage', () => {
     walletTransactionsServiceSpy.canAffordSendTx.and.resolveTo(false);
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(component.isSending).toBeFalse();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-amount']);
@@ -245,7 +245,7 @@ describe('SendSummaryPage', () => {
     walletTransactionsServiceSpy.send.and.rejectWith(new Error('insufficient funds'));
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(component.isSending).toBeFalse();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-amount']);
@@ -256,7 +256,7 @@ describe('SendSummaryPage', () => {
     walletTransactionsServiceSpy.send.and.rejectWith(new Error('insufficient funds'));
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(component.isSending).toBeFalse();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-amount']);
@@ -267,7 +267,7 @@ describe('SendSummaryPage', () => {
     transactionDataServiceMock.transactionData = summaryDataInvalidAddress;
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(component.isSending).toBeFalse();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-address']);
@@ -278,7 +278,7 @@ describe('SendSummaryPage', () => {
     walletTransactionsServiceSpy.canAffordSendFee.and.resolveTo(false);
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Send"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledTimes(0);
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledTimes(0);

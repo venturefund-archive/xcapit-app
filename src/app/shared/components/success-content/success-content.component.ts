@@ -26,6 +26,7 @@ import { NavController } from '@ionic/angular';
             color="uxsecondary"
             appTrackClick
             name="Success Action Primary"
+            [dataToTrack]="{ eventLabel: this.trackClickEventsNames[0] }"
             (click)="this.primaryAction()"
           >
             {{ this.data?.namePrimaryAction | translate }}
@@ -68,6 +69,7 @@ export class SuccessContentComponent implements OnInit {
   @Input() data: any;
   @Input() unauth: any = false;
   @Input() imageAlt = 'Success Image';
+  @Input() trackClickEventsNames: string[] = ['Success Action Primary'];
   @Output() primaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() secondaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() thirdActionEvent: EventEmitter<void> = new EventEmitter<void>();

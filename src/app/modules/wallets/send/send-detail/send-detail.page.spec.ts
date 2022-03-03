@@ -146,10 +146,10 @@ describe('SendDetailPage', () => {
     expect(component.selectedNetwork).toBe('BTC');
   });
 
-  it('should call trackEvent on trackService when Continue Button clicked', async () => {
+  it('should call trackEvent on trackService when ux_send_continue Button clicked', async () => {
     await fixture.whenRenderingDone();
     await fixture.whenStable();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Continue');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -157,10 +157,10 @@ describe('SendDetailPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should save transaction data and navigate when Continue Button clicked and form valid', () => {
+  it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', () => {
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Continue');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
     el.nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
