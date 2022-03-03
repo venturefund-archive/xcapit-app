@@ -24,7 +24,7 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
           }}</ion-text>
         </div>
         <div class="aic__content__inputs">
-          <ion-input class="aic__content__inputs__amount" formControlName="amount" type="number" inputmode="numeric" placeholder="0.000144">
+          <ion-input class="aic__content__inputs__amount" formControlName="amount" type="number" inputmode="numeric">
             <ion-button
               [disabled]="!this.available"
               (click)="this.setMax()"
@@ -36,13 +36,7 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
             >
           </ion-input>
           <ion-text class="aic__content__equal ux-fweight-medium ">=</ion-text>
-          <ion-input
-            class="read-only"
-            formControlName="quoteAmount"
-            type="number"
-            inputmode="numeric"
-            readonly
-          ></ion-input>
+          <ion-input formControlName="quoteAmount" type="number" inputmode="numeric"></ion-input>
         </div>
         <div class="aic__content__available">
           <ion-text class="ux-font-text-xxs">
@@ -108,15 +102,18 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   subscribeToFormChanges() {
     this.form = this.formGroupDirective.form;
     this.form.get('amount').valueChanges.subscribe((value) => this.amountChange(value));
+    this.form.get('quoteAmount').valueChanges.subscribe((value) => this.quoteAmountChange(value));
   }
 
   private amountChange(value: number) {
-    this.form.patchValue({
-      quoteAmount: this.parseQuoteAmount(value * this.price),
-    });
+    this.form.patchValue({ quoteAmount: this.parseAmount(value * this.price) }, { emitEvent: false, onlySelf: true });
   }
 
-  private parseQuoteAmount(value: number): string {
+  private quoteAmountChange(value: number) {
+    this.form.patchValue({ amount: this.parseAmount(value / this.price) }, { emitEvent: false, onlySelf: true });
+  }
+
+  private parseAmount(value: number): string {
     let stringValue = value.toString();
 
     if (stringValue.includes('e')) {

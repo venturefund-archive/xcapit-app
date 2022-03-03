@@ -107,9 +107,14 @@ describe('AmountInputCardComponent', () => {
   });
 
   it('should set available on max clicked', () => {
-    console.log(component.available);
     fixture.debugElement.query(By.css('.aic__content__inputs__amount ion-button')).nativeElement.click();
     fixture.detectChanges();
     expect(component.form.value.amount).toEqual('20');
+  });
+
+  it('should calculate amount when quote amount changes', () => {
+    component.form.patchValue({ quoteAmount: 20 });
+    expect(component.form.value.amount).toEqual('0.005');
+    component.ngOnDestroy();
   });
 });

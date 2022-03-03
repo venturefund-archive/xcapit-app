@@ -56,11 +56,6 @@
           --placeholder-color: var(--ion-color-uxdark);
           --placeholder-opacity: 0;
         }
-
-        ion-input.read-only {
-          background-color: var(--ion-background-colorwhite);
-          color: var(--ion-color-uxsemidark);
-        }
       }
 
       &__disclaimer {
