@@ -45,8 +45,8 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
           >
         </div>
         <div class="aic__content__disclaimer">
-          <ion-text class="ux-font-text-xs">
-            {{ 'defi_investments.shared.amount_input_card.disclaimer' | translate }} {{ this.feeCoin }}.</ion-text
+          <ion-text class="ux-font-text-xs" style="white-space: pre-wrap;"
+            >{{ 'defi_investments.shared.amount_input_card.disclaimer' | translate }} {{ this.feeCoin }}.</ion-text
           >
         </div>
       </div>
