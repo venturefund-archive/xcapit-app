@@ -66,7 +66,7 @@ describe('ChooseInvestorProfileCardComponent', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Secondary Button"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wealth-management/investor-test']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wealth-management/investor-test', 'defi']);
   });
 
   it('should change text if user did not take investor test', () => {
@@ -87,7 +87,7 @@ describe('ChooseInvestorProfileCardComponent', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Primary Button"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wealth-management/investor-test']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wealth-management/investor-test', 'defi']);
   });
 
   it('should navigate to choose investor profile page if user did not take investor test on Secondary Button click', async () => {
