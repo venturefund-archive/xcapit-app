@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CRUD } from 'src/app/shared/services/crud/crud';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
@@ -42,7 +42,10 @@ export class ApiWalletService {
     return this.getCoins().filter((coin) => coin.network === network);
   }
 
-  getNetworks(): string[] {
+  getNetworks(coin?: string): string[] {
+    if (coin) {
+      return this.getCoins().filter(c => c.value === coin).map(c => c.network);
+    }
     return Object.keys(environment.derivedPaths);
   }
 
@@ -68,5 +71,9 @@ export class ApiWalletService {
 
   saveWalletAddresses(wallets: { network: string; address: string }[]): Observable<any> {
     return this.http.post(`${environment.apiUrl}/${this.entity}/`, wallets);
+  }
+
+  getGasPrice() {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/gas_price`, undefined, undefined, false);
   }
 }

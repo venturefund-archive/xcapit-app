@@ -26,6 +26,7 @@ import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provid
 import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { GasFeeOf } from '../../shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
 import { TwoPiContract } from '../../shared-defi-investments/models/two-pi-contract/two-pi-contract.model';
+import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 
 @Component({
   selector: 'app-defi-investment-withdraw',
@@ -68,6 +69,9 @@ export class DefiInvestmentWithdrawPage implements OnInit {
   loading = false;
   leave$ = new Subject<void>();
   private readonly priceRefreshInterval = 15000;
+  nativeToken: Coin;
+  nativeTokenBalance: number;
+  disable: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -77,7 +81,8 @@ export class DefiInvestmentWithdrawPage implements OnInit {
     private modalController: ModalController,
     private translate: TranslateService,
     private toastService: ToastService,
-    private navController: NavController
+    private navController: NavController,
+    private walletBalance: WalletBalanceService
   ) {}
 
   ngOnInit() {}
@@ -153,7 +158,7 @@ export class DefiInvestmentWithdrawPage implements OnInit {
   }
 
   investment(wallet: Wallet): Investment {
-    return TwoPiInvestment.create(this.investmentProduct, wallet);
+    return TwoPiInvestment.create(this.investmentProduct, wallet, this.apiWalletService);
   }
 
   async getProductBalance(investmentProduct: InvestmentProduct): Promise<void> {
@@ -165,7 +170,7 @@ export class DefiInvestmentWithdrawPage implements OnInit {
   }
 
   createInvestment(investmentProduct: InvestmentProduct, address: string): TwoPiInvestment {
-    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address));
+    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address), this.apiWalletService);
   }
 
   async requestPassword(): Promise<any> {
@@ -209,17 +214,45 @@ export class DefiInvestmentWithdrawPage implements OnInit {
   }
 
   async withdraw() {
+    await this.getNativeTokenBalance();
     const wallet = await this.wallet();
     if (wallet) {
-      try {
-        await (await this.investment(wallet).withdraw()).wait();
-        await this.navController.navigateForward('/defi/withdraw/success');
-      } catch {
-        await this.navController.navigateForward('/defi/withdraw/error');
-      } finally {
-        this.loadingEnabled(false);
+      if (this.checkNativeTokenBalance()) {
+        try {
+          await (await this.investment(wallet).withdraw()).wait();
+          await this.navController.navigateForward('/defi/withdraw/success');
+        } catch {
+          await this.navController.navigateForward('/defi/withdraw/error');
+        } finally {
+          this.loadingEnabled(false);
+        }
+      } else {
+        this.openModalNativeTokenBalance();
       }
+      this.loadingEnabled(false);
     }
+  }
+  
+  async getNativeTokenBalance() {
+    this.nativeToken = this.apiWalletService
+      .getCoins()
+      .find((coin) => coin.native && coin.network === this.token.network);
+    this.nativeTokenBalance = await this.walletBalance.balanceOf(this.nativeToken);
+    return this.nativeTokenBalance;
+  }
+
+  checkNativeTokenBalance() {
+    return this.nativeTokenBalance >= this.fee.value ? true : false;
+  }
+
+  openModalNativeTokenBalance() {
+    this.toastService.showWarningToast({
+      message: this.translate.instant(
+        this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
+          nativeToken: this.nativeToken?.value,
+        })
+      ),
+    });
   }
 
   ionViewWillLeave() {

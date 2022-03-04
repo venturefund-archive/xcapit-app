@@ -4,16 +4,16 @@ import { TransactionResponse } from '@ethersproject/abstract-provider';
 export class ERC20Token {
   constructor(private readonly _aContract: ERC20Contract) {}
 
-  approve(spender: string, wei: BigNumber): Promise<TransactionResponse | string> {
-    return this._aContract.value().approve(spender, wei);
+  approve(spender: string, wei: BigNumber, gasPrice: BigNumber): Promise<TransactionResponse> {
+    return this._aContract.value().approve(spender, wei, { gasPrice });
   }
 
   approveFee(spender: string, wei: BigNumber): Promise<BigNumber> {
     return this._aContract.value().estimateGas.approve(spender, wei);
   }
 
-  transfer(to: string, value: BigNumber): Promise<TransactionResponse> {
-    return this._aContract.value().transfer(to, value);
+  transfer(to: string, value: BigNumber, args: any): Promise<TransactionResponse> {
+    return this._aContract.value().transfer(to, value, args);
   }
 
   transferFee(to: string, value: BigNumber): Promise<BigNumber> {

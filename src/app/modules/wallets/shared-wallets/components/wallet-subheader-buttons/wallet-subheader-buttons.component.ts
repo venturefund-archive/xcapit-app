@@ -50,6 +50,7 @@ import { NavigationExtras } from '@angular/router';
 })
 export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
+  @Input() network: string;
 
   constructor(private navController: NavController) {}
 
@@ -65,15 +66,16 @@ export class WalletSubheaderButtonsComponent implements OnInit {
 
   goToReceive() {
     if (!this.asset) {
-      return this.navController.navigateForward(['wallets/receive']);
+      return this.navController.navigateForward(['wallets/receive/select-currency']);
     }
     const navigationExtras: NavigationExtras = {
       queryParams: {
         asset: this.asset,
+        network: this.network,
       },
     };
 
-    return this.navController.navigateForward(['wallets/receive'], navigationExtras);
+    return this.navController.navigateForward(['wallets/receive/detail'], navigationExtras);
   }
 
   goToBuy() {

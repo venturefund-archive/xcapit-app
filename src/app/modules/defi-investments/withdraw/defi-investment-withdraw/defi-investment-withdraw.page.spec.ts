@@ -21,6 +21,7 @@ import { of } from 'rxjs';
 import { DynamicPrice } from '../../../../shared/models/dynamic-price/dynamic-price.model';
 import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 
 describe('DefiInvestmentWithdrawPage', () => {
   let component: DefiInvestmentWithdrawPage;
@@ -51,6 +52,7 @@ describe('DefiInvestmentWithdrawPage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let fakeNavController: FakeNavController;
   let fakeModalController: FakeModalController;
+  let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -118,7 +120,12 @@ describe('DefiInvestmentWithdrawPage', () => {
         getDecryptedWalletForCurrency: Promise.resolve(walletSpy),
       });
 
-      toastServiceSpy = jasmine.createSpyObj('ToastService', { showErrorToast: Promise.resolve() });
+      toastServiceSpy = jasmine.createSpyObj('ToastService', {
+        showErrorToast: Promise.resolve(),
+        showWarningToast: Promise.resolve(),
+      });
+
+      walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', { balanceOf: Promise.resolve('51') });
 
       TestBed.configureTestingModule({
         declarations: [DefiInvestmentWithdrawPage],
@@ -131,6 +138,7 @@ describe('DefiInvestmentWithdrawPage', () => {
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: ToastService, useValue: toastServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -219,5 +227,26 @@ describe('DefiInvestmentWithdrawPage', () => {
     component.ionViewWillLeave();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not show informative modal of fees on withdraw when the native token balance is bigger than the cost of fees', async () => {
+    providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('100000')));
+    await component.ionViewDidEnter();
+    await component.withdraw();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(0);
+
+  });
+
+  it('should show informative modal of fees on withdraw when the native token balance is lower than the cost of fees', async () => {
+    walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.00001));
+    providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('1000000000000')));
+    fixture.detectChanges();
+    await component.ionViewDidEnter();
+    await component.withdraw();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
   });
 });

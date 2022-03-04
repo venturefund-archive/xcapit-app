@@ -32,6 +32,7 @@ export class UxSegmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedNetwork = this.data[0];
+    if (!this.selectedNetwork)
+      this.selectedNetwork = this.data[0];
   }
 }

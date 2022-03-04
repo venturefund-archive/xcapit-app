@@ -55,7 +55,7 @@ describe('OperationDetailPage', () => {
         peerMeta: {url: 'testUrl', description: 'testDescription', name: 'testName', icons: ['testIcon']},
         providerSymbol: 'ETH',
         requestInfo: requestSendTransaction,
-        checkIsApproval: Promise.resolve(false),
+        getTransactionType: Promise.resolve(null),
         getGasPrice: Promise.resolve(ethers.BigNumber.from('10')),
         killSession: Promise.resolve({}),
         rejectRequest: Promise.resolve({}),
@@ -141,18 +141,17 @@ describe('OperationDetailPage', () => {
     expect(spyGetActualDateTime).toHaveBeenCalledTimes(1);
   });
 
-  it('should asign totalFeeAmount and totalAmount when getTotalAmount is called', async () => {
-    component.getTotalAmount('21000', '5');
+  it('should asign totalFeeAmount when getTotalFeeAmount is called', async () => {
+    component.getTotalFeeAmount('21000');
     await fixture.whenStable();
     expect(component.totalFeeAmount).toEqual('0.00000000000021');
-    expect(component.totalAmount).toEqual('0.000000000000000005');
   });
 
-  it('should call getTotalAmount when checkRequestInfo is called with a sendTransaction method', async () => {
-    const spy = spyOn(component, 'getTotalAmount');
+  it('should call getTotalFeeAmount when checkRequestInfo is called with a sendTransaction method', async () => {
+    const spy = spyOn(component, 'getTotalFeeAmount');
     component.checkRequestInfo(requestSendTransaction);
     await fixture.whenStable();
-    expect(walletConnectServiceSpy.checkIsApproval).toHaveBeenCalledTimes(1);
+    expect(walletConnectServiceSpy.getTransactionType).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
