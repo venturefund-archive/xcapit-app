@@ -24,9 +24,4 @@ export const NONPROD_DEFI_PRODUCTS: DefiProduct[] = [
     isComing: false,
     weeklyEarning: true,
   },
-  {
-    id: 'mumbai_eth',
-    isComing: true,
-    weeklyEarning: false,
-  },
 ];

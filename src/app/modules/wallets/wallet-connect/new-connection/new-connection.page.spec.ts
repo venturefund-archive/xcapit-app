@@ -225,7 +225,7 @@ describe('NewConnectionPage', () => {
     expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should load the wallestList when setWalletsInfo is excecuted', async () => {
+  xit('should load the wallestList when setWalletsInfo is excecuted', async () => {
     component.providers = [provider];
     fixture.detectChanges();
     component.setWalletsInfo();

@@ -14,7 +14,7 @@
       display: flex;
       flex-direction: column;
 
-      &__input {
+      &__inputs {
         display: flex;
         align-items: center;
         margin-bottom: 4px;
@@ -37,16 +37,24 @@
           --padding-start: 16px;
         }
 
+        &__amount {
+          --padding-end: 48px;
+
+          ion-button {
+            position: absolute;
+            right: 0;
+            z-index: 2;
+
+            --padding-start: 8px;
+            --padding-end: 8px;
+          }
+        }
+
         ion-input.has-focus {
           border: 1.5px solid var(--ion-color-uxprimary);
 
           --placeholder-color: var(--ion-color-uxdark);
           --placeholder-opacity: 0;
-        }
-
-        ion-input.read-only {
-          background-color: var(--ion-background-colorwhite);
-          color: var(--ion-color-uxsemidark);
         }
       }
 

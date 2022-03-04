@@ -19,7 +19,7 @@ import { AmountInputCardComponent } from '../../shared-defi-investments/componen
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{  this.headerText | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{ this.headerText | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content *ngIf="this.investmentProduct">
@@ -54,7 +54,7 @@ import { AmountInputCardComponent } from '../../shared-defi-investments/componen
 export class NewInvestmentPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
-    quoteAmount: ['', [Validators.required]],
+    quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
   investmentProduct: InvestmentProduct;
   token: Coin;

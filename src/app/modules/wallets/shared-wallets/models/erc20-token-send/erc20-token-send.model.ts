@@ -1,16 +1,17 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { BigNumber, VoidSigner, Wallet } from 'ethers';
+import { BigNumber, Signer, VoidSigner, Wallet } from 'ethers';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { ERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/erc20-token.model';
 import { Coin } from '../../interfaces/coin.interface';
 import { Send } from '../../interfaces/send.interface';
+import { NetworkConfig } from '../network-config/network-config';
 
 export class ERC20TokenSend implements Send {
   private _aFee: BigNumber;
 
-  public get fee(): BigNumber { 
+  public get fee(): BigNumber {
     return this._aFee;
   }
 
@@ -34,24 +35,34 @@ export class ERC20TokenSend implements Send {
     private readonly _aCoin: Coin,
     private readonly _aNativeCoin: Coin,
     public readonly canSignTx: boolean,
+    private readonly networkConfig: NetworkConfig
   ) {}
 
-  static create(from: string, to: string, amount: string, coin: Coin, nativeCoin: Coin, wallet?: Wallet): ERC20TokenSend {
+  static create(
+    from: string,
+    to: string,
+    amount: string,
+    coin: Coin,
+    nativeCoin: Coin,
+    signer: Signer,
+    networkConfig: NetworkConfig
+  ): ERC20TokenSend {
     const provider = new ERC20Provider(coin);
-    const signer = wallet ? wallet : new VoidSigner(from);
-    const canSignTx = wallet ? true : false;
+    const canSignTx = !(signer instanceof VoidSigner);
     const contract = new ERC20Contract(provider, signer);
     const token = new ERC20Token(contract);
 
-    return new this(from, to, amount, token, coin, nativeCoin, canSignTx);
+    return new this(from, to, amount, token, coin, nativeCoin, canSignTx, networkConfig);
   }
 
-  send(): Promise<TransactionResponse> {
-    return this._aToken.transfer(this._anAddressTo, this.amount);
+  async send(): Promise<TransactionResponse> {
+    return this._aToken.transfer(this._anAddressTo, this.amount, await this.networkConfig.value());
   }
 
   async sendEstimateGas(): Promise<BigNumber> {
-    return (await this.hasEnoughBalanceToCoverAmount()) ? this.sendEstimateGasWithSelectedAmount() : this.sendEstimateGasWithAmountZero();
+    return (await this.hasEnoughBalanceToCoverAmount())
+      ? this.sendEstimateGasWithSelectedAmount()
+      : this.sendEstimateGasWithAmountZero();
   }
 
   private sendEstimateGasWithSelectedAmount(): Promise<BigNumber> {
@@ -65,7 +76,7 @@ export class ERC20TokenSend implements Send {
   getGasPrice(): Promise<BigNumber> {
     return this._aToken.getGasPrice();
   }
-  
+
   sendEstimateFee(): Promise<BigNumber> {
     const gasPrice = this.getGasPrice();
     const gasFee = this.sendEstimateGas();

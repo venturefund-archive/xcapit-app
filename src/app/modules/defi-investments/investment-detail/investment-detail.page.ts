@@ -120,7 +120,7 @@ export class InvestmentDetailPage implements OnInit {
   }
 
   createInvestment(investmentProduct: InvestmentProduct, address: string): TwoPiInvestment {
-    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address));
+    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address), this.apiWalletService);
   }
 
   private getPrice() {
