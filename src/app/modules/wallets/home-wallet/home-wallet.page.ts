@@ -54,8 +54,14 @@ import { takeUntil } from 'rxjs/operators';
           </ion-text>
         </div>
         <div class="wt__amount ux-font-num-titulo">
-          <ion-spinner color="uxlight" name="crescent" *ngIf="this.totalBalance === undefined"></ion-spinner>
-          <ion-text *ngIf="this.totalBalance !== undefined"> {{ this.totalBalance | number: '1.2-2' }} USD </ion-text>
+          <ion-spinner
+            color="uxlight"
+            name="crescent"
+            *ngIf="this.totalBalance === undefined && this.walletExist"
+          ></ion-spinner>
+          <ion-text *ngIf="this.totalBalance !== undefined || !this.walletExist">
+            {{ (this.totalBalance ? this.totalBalance : 0.0) | number: '1.2-2' }} USD
+          </ion-text>
         </div>
       </div>
       <div class="wt__subheader" *ngIf="!this.walletExist">
@@ -150,7 +156,7 @@ export class HomeWalletPage implements OnInit {
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
   @ViewChild(IonContent, { static: true }) content: IonContent;
   pageSize = 6;
-  unsubscribe$ = new Subject<void>();
+  leave$ = new Subject<void>();
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
@@ -172,7 +178,7 @@ export class HomeWalletPage implements OnInit {
   ngOnInit() {}
 
   async ionViewDidEnter() {
-    this.resetRequestOnUnsubscribe();
+    this.requestQuantity = 0;
     await this.initialize();
   }
 
@@ -189,25 +195,19 @@ export class HomeWalletPage implements OnInit {
   }
 
   private async cachedTotalBalance() {
-    this.totalBalance = (await this.balanceCacheService.total()) ?? 0.0;
-  }
-
-  private resetRequestOnUnsubscribe() {
-    if (this.unsubscribe$.isStopped) this.unsubscribe$ = new Subject<void>();
-    this.unsubscribe$.subscribe(() => (this.requestQuantity = 0));
+    this.totalBalance = await this.balanceCacheService.total();
   }
 
   private createQueues(): void {
     for (const network of this.apiWalletService.getNetworks()) {
       this.queueService.create(network, 2);
-      this.queueService.results(network).pipe(takeUntil(this.unsubscribe$)).subscribe();
+      this.queueService.results(network).pipe(takeUntil(this.leave$)).subscribe();
     }
     this.queueService.create('prices', 2);
-    this.queueService.results('prices').pipe(takeUntil(this.unsubscribe$)).subscribe();
+    this.queueService.results('prices').pipe(takeUntil(this.leave$)).subscribe();
   }
 
   private clearBalances(): void {
-    this.unsubscribe$.next();
     this.balances = [];
     this.totalBalanceAccum = 0;
   }
@@ -255,7 +255,7 @@ export class HomeWalletPage implements OnInit {
           this.orderBalances();
         }
       });
-      this.sumTotalBalance(assetBalance);
+      this.accumulateBalance(assetBalance);
       return assetBalance;
     });
   }
@@ -264,24 +264,28 @@ export class HomeWalletPage implements OnInit {
     this.balances.sort((a, b) => b.amount * b.price - a.amount * a.price);
   }
 
-  private sumTotalBalance(assetBalance: AssetBalanceModel): void {
-    assetBalance.quoteBalance.pipe(takeUntil(this.unsubscribe$)).subscribe((quote: number) => {
-      this.totalBalanceAccum += quote;
-      this.addRequestQuantity();
-      this.orderBalances();
+  private accumulateBalance(assetBalance: AssetBalanceModel): void {
+    assetBalance.quoteBalance.pipe(takeUntil(this.leave$)).subscribe(async (quote: number) => {
+      if (!this.queueStopped()) {
+        this.totalBalanceAccum += quote;
+        this.requestQuantity++;
+        if (this.accumulationEnded()) await this.updateBalance();
+        this.orderBalances();
+      }
     });
   }
 
-  private addRequestQuantity() {
-    this.requestQuantity++;
-    if (this.requestQuantity === this.selectedAssets.length) {
-      this.cacheTotalBalance();
-      this.totalBalance = this.totalBalanceAccum;
-    }
+  queueStopped() {
+    return this.leave$.isStopped;
   }
 
-  private cacheTotalBalance() {
-    this.balanceCacheService.updateTotal(this.totalBalanceAccum);
+  private accumulationEnded() {
+    return this.requestQuantity === this.selectedAssets.length;
+  }
+
+  private async updateBalance() {
+    this.totalBalance = this.totalBalanceAccum;
+    await this.balanceCacheService.updateTotal(this.totalBalanceAccum);
   }
 
   private enqueue(assetBalance: AssetBalanceModel): void {
@@ -290,6 +294,6 @@ export class HomeWalletPage implements OnInit {
   }
 
   ionViewDidLeave(): void {
-    this.unsubscribe$.complete();
+    this.leave$.complete();
   }
 }

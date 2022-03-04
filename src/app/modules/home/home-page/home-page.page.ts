@@ -153,7 +153,7 @@ export class HomePage implements OnInit {
   }
 
   private async enqueueCoins(): Promise<void> {
-    for (let aCoin of this.coins) {
+    for (const aCoin of this.coins) {
       const assetBalance = new AssetBalanceModel(aCoin, this.walletBalance, this.balanceCacheService);
       this.enqueue(assetBalance);
       await this.accumulateBalance(assetBalance);

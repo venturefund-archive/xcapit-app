@@ -17,8 +17,8 @@ import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
 import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { TEST_ERC20_COINS } from '../shared-wallets/constants/coins.test';
 import { QueueService } from '../../../shared/services/queue/queue.service';
+import { Coin } from '../shared-wallets/interfaces/coin.interface';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -35,10 +35,13 @@ describe('HomeWalletPage', () => {
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
   let queueServiceSpy: jasmine.SpyObj<QueueService>;
   let contentSpy: jasmine.SpyObj<IonContent>;
+  let coinSpy: jasmine.SpyObj<Coin>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+
+      coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
 
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getNFTStatus: of({ status: 'claimed' }),
@@ -61,7 +64,7 @@ describe('HomeWalletPage', () => {
       });
 
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        getAssestsSelected: Promise.resolve(TEST_ERC20_COINS),
+        getAssestsSelected: Promise.resolve([coinSpy, coinSpy]),
       });
 
       balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
@@ -105,6 +108,17 @@ describe('HomeWalletPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should not calculate total balance if already leave', async () => {
+    balanceCacheServiceSpy.total.and.returnValue(undefined);
+    await component.ionViewDidLeave();
+    fixture.detectChanges();
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.totalBalance).toBeUndefined();
+    expect(component.balances.length).toEqual(2);
   });
 
   it('should initialize on view did enter', async () => {
@@ -188,23 +202,18 @@ describe('HomeWalletPage', () => {
   });
 
   it('should unsubscribe on did leave', () => {
-    const spyComplete = spyOn(component.unsubscribe$, 'complete');
+    const spyComplete = spyOn(component.leave$, 'complete');
     component.ionViewDidLeave();
     expect(spyComplete).toHaveBeenCalledTimes(1);
-  });
-
-  it('should re-initialize subscription if the same its stopped on init', () => {
-    component.ionViewDidLeave();
-    component.ionViewDidEnter();
-    expect(component.unsubscribe$.isStopped).toBeFalse();
   });
 
   it('should show 0.0 balance when no wallet or cache is present', async () => {
     balanceCacheServiceSpy.total.and.resolveTo(undefined);
     await component.ionViewDidEnter();
+    component.walletExist = false;
     fixture.detectChanges();
     await fixture.whenStable();
-    component.walletExist = false;
+    await fixture.whenRenderingDone();
     const balanceEl = fixture.debugElement.query(By.css('div.wt__amount > ion-text'));
     expect(balanceEl.nativeElement.innerHTML).toContain('0.00 USD');
   });
