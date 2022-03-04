@@ -225,8 +225,8 @@ export class NewConnectionPage implements OnInit {
     return content.includes('wc:') && content.includes('bridge=');
   }
 
-  private showErrorToast(errorCode: string) {
-    this.toastService
+  async showErrorToast(errorCode: string) {
+    await this.toastService
       .showErrorToast({
         message: this.translate.instant(errorCode),
       });
