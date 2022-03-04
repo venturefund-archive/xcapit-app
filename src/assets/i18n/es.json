@@ -1918,7 +1918,10 @@
         "sign_button": "Firmar",
         "approve_button": "Aprobar",
         "confirm_button": "Confirmar",
-        "cancel_button": "Cancelar",
+        "cancel_button": "Cancelar operación",
+        "approve_loading": "Aprobando",
+        "sign_loading": "Firmando",
+        "confirmation_loading": "Confirmando",
         "abort_alert": {
           "header": "¿Abandonar la operación?",
           "message": "Si sales ahora, la operación será cancelada.",
@@ -1951,7 +1954,14 @@
         "card_title_sign": "Firma en la Dapp",
         "card_description_sign": "Este paso es para comprobar que eres tú quien está operando en la Dapp.",
         "card_title_operation": "Confirma tu operación",
-        "card_description_operation": "Confirma la transacción que quieres realizar en la Dapp."
+        "card_description_operation": "Confirma la transacción que quieres realizar en la Dapp.",
+        "password_modal": {
+          "title": "Por seguridad",
+          "description": "Para confirmar tu operación, ingresa la contraseña de tu wallet Xcapit.",
+          "input_label": "Contraseña",
+          "confirm_button": "Aceptar"
+        },
+        "password_error": "La contraseña ingresada no es correcta."
       },
       "transactions": {
         "alert": {
