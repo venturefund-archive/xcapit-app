@@ -125,7 +125,7 @@ import { EthersService } from '../../shared-wallets/services/ethers/ethers.servi
           </div>
         </div>
 
-        <div class="disconnect_link">
+        <div class="disconnect_link" *ngIf="!this.loading">
           <a (click)="this.cancelOperation()">{{ 'wallets.wallet_connect.operation_detail.cancel_button' | translate }}</a>
         </div>
       </div>
@@ -182,8 +182,8 @@ export class OperationDetailPage implements OnInit {
   }
 
   getActualDateTime() {
-    this.dateInfo.date = moment().utc().format('DD/MM/YYYY');
-    this.dateInfo.time = moment().utc().format('HH:mm');
+    this.dateInfo.date = moment().format('DD/MM/YYYY');
+    this.dateInfo.time = moment().format('HH:mm');
   }
 
   async getTotalFeeAmount(estimatedGas) {
@@ -301,12 +301,9 @@ export class OperationDetailPage implements OnInit {
   }
 
   setLoadingText() {
-    console.log(this.isSignRequest)
     if (this.isSignRequest) this.loadingText = 'wallets.wallet_connect.operation_detail.sign_loading';
     else if (this.isApproval) this.loadingText = 'wallets.wallet_connect.operation_detail.approve_loading';
     else this.loadingText = 'wallets.wallet_connect.operation_detail.confirmation_loading';
-
-    console.log(this.loadingText)
   }
 
   public async confirmOperation() {
