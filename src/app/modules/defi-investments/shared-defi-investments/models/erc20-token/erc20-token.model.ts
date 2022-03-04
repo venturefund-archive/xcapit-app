@@ -12,8 +12,8 @@ export class ERC20Token {
     return this._aContract.value().estimateGas.approve(spender, wei);
   }
 
-  transfer(to: string, value: BigNumber): Promise<TransactionResponse> {
-    return this._aContract.value().transfer(to, value);
+  transfer(to: string, value: BigNumber, args: any): Promise<TransactionResponse> {
+    return this._aContract.value().transfer(to, value, args);
   }
 
   transferFee(to: string, value: BigNumber): Promise<BigNumber> {

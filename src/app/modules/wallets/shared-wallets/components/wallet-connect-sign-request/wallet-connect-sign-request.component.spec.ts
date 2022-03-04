@@ -7,7 +7,7 @@ import { WalletEncryptionService } from '../../../shared-wallets/services/wallet
 import { WalletService } from '../../../../wallets/shared-wallets/services/wallet/wallet.service';
 import { BlockchainProviderService } from '../../services/blockchain-provider/blockchain-provider.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { By } from '@angular/platform-browser';
 import { FakeModalController } from '../../../../../../testing/fakes/modal-controller.fake.spec';
@@ -34,13 +34,12 @@ describe('WalletConnectSignRequestComponent', () => {
   let walletConnectServiceSpy: any;
   let ethersServiceSpy: any;
   let fakeEthersService: FakeEthersService;
-  
 
   beforeEach(
     waitForAsync(() => {
       fakeEthersService = new FakeEthersService();
       ethersServiceSpy = fakeEthersService.createSpy();
-      
+
       fakeConnectedWallet = new FakeConnectedWallet();
       connectedWalletSpy = fakeConnectedWallet.createSpy();
 
@@ -50,15 +49,17 @@ describe('WalletConnectSignRequestComponent', () => {
       alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
 
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-        getDecryptedWalletForNetwork: Promise.resolve(jasmine.createSpyObj('Wallet', { connect: () => connectedWalletSpy })),
+        getDecryptedWalletForNetwork: Promise.resolve(
+          jasmine.createSpyObj('Wallet', { connect: () => connectedWalletSpy })
+        ),
       });
 
       walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
         network: 'ETH',
         rpcUrl: 'https://rpc_test.com/',
         requestInfo: {},
-        checkRequest: Promise.resolve({error: false})
-      })
+        checkRequest: Promise.resolve({ error: false }),
+      });
 
       TestBed.configureTestingModule({
         declarations: [WalletConnectSignRequestComponent, FakeTrackClickDirective],
@@ -89,37 +90,36 @@ describe('WalletConnectSignRequestComponent', () => {
 
   it('should close the modal when checkRequest returns success', async () => {
     component.form.patchValue({ password: 'testPassword' });
-    fixture.debugElement.query(By.css("ion-button[name='Confirm Password']")).nativeElement.click();
+    await component.handleSubmit();
     await fixture.whenStable();
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
   it('should call showAlertTxError when checkRequest returns an error', async () => {
-    walletConnectServiceSpy.checkRequest.and.returnValues({error: true});
+    walletConnectServiceSpy.checkRequest.and.returnValues({ error: true });
     fixture.detectChanges();
     component.form.patchValue({ password: 'testPassword' });
-    fixture.debugElement.query(By.css("ion-button[name='Confirm Password']")).nativeElement.click();
+    await component.handleSubmit();
     await fixture.whenStable();
     expect(modalControllerSpy.dismiss).not.toHaveBeenCalled();
     expect(alertControllerSpy.create).toHaveBeenCalled();
   });
 
-  it('should dismiss the modale when is pressed accept button on showAlertTxError', async () => {
-    walletConnectServiceSpy.checkRequest.and.returnValues({error: true});
+  it('should dismiss the modal when is pressed accept button on showAlertTxError', async () => {
+    walletConnectServiceSpy.checkRequest.and.returnValues({ error: true });
     fixture.detectChanges();
     component.form.patchValue({ password: 'testPassword' });
-    fixture.debugElement.query(By.css("ion-button[name='Confirm Password']")).nativeElement.click();
+    await component.handleSubmit();
     await fixture.whenStable();
     const button: any = alertControllerSpy.create.calls.first().args[0].buttons[0];
     await button.handler();
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
-  })
+  });
 
   it('should call showAlert when user password is incorrect', async () => {
     walletEncryptionServiceSpy.getDecryptedWalletForNetwork.and.rejectWith(new Error('invalid password'));
     component.form.patchValue({ password: 'testPassword' });
-    const buttonEl = fixture.debugElement.query(By.css("ion-button[name='Confirm Password']"));
-    buttonEl.nativeElement.click();
+    await component.handleSubmit();
     await fixture.whenStable();
     expect(modalControllerSpy.dismiss).not.toHaveBeenCalled();
     expect(alertControllerSpy.create).toHaveBeenCalled();

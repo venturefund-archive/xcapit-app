@@ -15,10 +15,7 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
     <ion-header>
       <ion-toolbar color="uxprimary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button
-            defaultHref="/wealth-management/investor-test-options"
-            (click)="this.goToPreviousQuestion()"
-          ></ion-back-button>
+          <ion-back-button defaultHref="" (click)="this.goToPreviousQuestion()" name="back"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wealth_managements.investor_test.header' | translate }}</ion-title>
         <ion-label class="step_counter" slot="end" *ngIf="this.investorTestService.hasLoadedQuestions"
@@ -62,6 +59,7 @@ export class InvestorTestQuestionPage implements OnInit {
   private baseRoute = '/wealth-management/investor-test';
   question: Question;
   currentQuestionNumber: number;
+  mode: string;
   form: FormGroup = this.formBuilder.group({
     answer: ['', [Validators.required]],
   });
@@ -116,7 +114,8 @@ export class InvestorTestQuestionPage implements OnInit {
 
   ionViewWillEnter() {
     this.currentQuestionNumber = parseInt(this.route.snapshot.paramMap.get('question'));
-
+    this.mode = this.route.snapshot.paramMap.get('mode');
+    this.baseRoute = `${this.baseRoute}/${this.mode}`;
     this.investorTestService.loadQuestions().then(() => {
       if (this.isValidQuestionNumber && !this.isUserSkippingQuestions) {
         this.loadQuestionAndAnswers();
@@ -135,6 +134,9 @@ export class InvestorTestQuestionPage implements OnInit {
   goToPreviousQuestion() {
     if (this.isFirstQuestion) {
       this.investorTestService.cancel();
+      this.navController.navigateBack([
+        this.mode === 'defi' ? 'tabs/investments/defi' : 'wealth-management/investor-test-options',
+      ]);
     }
   }
 

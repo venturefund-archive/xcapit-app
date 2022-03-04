@@ -367,7 +367,8 @@
       },
       "amount_input_card": {
         "available": "Available",
-        "disclaimer": "Please note that transaction fees will be charged in"
+        "disclaimer": "The exchange rate is defined by the blockchain and amounts may vary, depending on when you make the transaction. \nPlease note that transaction fees will be charged in",
+        "max_button": "Max"
       },
       "withdraw_card": {
         "title": "Withdraw",
@@ -1729,10 +1730,13 @@
       "swap": "Swap"
     },
     "send": {
+      "scan_qr":{
+        "title":"Scan the QR code of the address you want to send to"
+      },
       "select_currency": {
         "header": "Send",
         "title": "Select the currency you want to send",
-        "suite":"{{suiteName}} network"
+        "suite": "{{suiteName}} network"
       },
       "send_detail": {
         "header": "Send",
@@ -1936,6 +1940,23 @@
           "message": "Do you wish to cancel the operation?",
           "cancel_button": "Back",
           "accept_button": "Accept"
+        },
+        "types": {
+          "swap": {
+            "swap": "Swap Tokens",
+            "amount_to_send": "Amount to send",
+            "amount_to_send_max": "Max amount to send",
+            "amount_to_receive": "Amount to receive",
+            "amount_to_receive_min": "Min amount to receive"
+          },
+          "liquidity": {
+            "add_liquidity": "Add Liquidity",
+            "remove_liquidity": "Remove Liquidity",
+            "liquidity": "Liquidity",
+            "amount_token_0": "Token 0 amount",
+            "amount_token_1": "Token 1 amount",
+            "amount_to_receive_min": "Min amount to receive"
+          }
         },
         "card_title_sign": "Signature in the Dapp",
         "card_description_sign": "This step is to verify that you are the one operating in the Dapp.",
