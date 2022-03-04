@@ -10,6 +10,9 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { alertControllerMock } from '../../../../../testing/spies/alert-controller-mock.spec';
 import { ethers } from 'ethers';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { FakeConnectedWallet } from '../../../../../testing/fakes/wallet.fake.spec';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 const requestSendTransaction = {
   method: 'eth_sendTransaction',
@@ -40,6 +43,10 @@ describe('OperationDetailPage', () => {
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let alertControllerSpy: any;
+  let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService> = null;
+  let connectedWalletSpy;
+  let fakeConnectedWallet: FakeConnectedWallet;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -51,7 +58,10 @@ describe('OperationDetailPage', () => {
         getTransactionType: Promise.resolve(null),
         getGasPrice: Promise.resolve(ethers.BigNumber.from('10')),
         killSession: Promise.resolve({}),
-        rejectRequest: Promise.resolve({})
+        rejectRequest: Promise.resolve({}),
+        network: 'ETH',
+        rpcUrl: 'https://rpc_test.com/',
+        checkRequest: Promise.resolve({error: false})
       });
       
       fakeNavController = new FakeNavController();
@@ -59,10 +69,21 @@ describe('OperationDetailPage', () => {
         pop: Promise.resolve(null)
       });
 
-      fakeModalController = new FakeModalController();
+      fakeModalController = new FakeModalController({ data: 'fake_password' });
       modalControllerSpy = fakeModalController.createSpy();
 
       alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
+
+      fakeConnectedWallet = new FakeConnectedWallet();
+      connectedWalletSpy = fakeConnectedWallet.createSpy();
+
+      walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
+        getDecryptedWalletForNetwork: Promise.resolve(jasmine.createSpyObj('Wallet', { connect: () => connectedWalletSpy })),
+      });
+
+      toastServiceSpy = jasmine.createSpyObj('ToastService', {
+        showErrorToast: Promise.resolve(),
+      });
 
       TestBed.configureTestingModule({
         declarations: [OperationDetailPage],
@@ -73,6 +94,8 @@ describe('OperationDetailPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: AlertController, useValue: alertControllerSpy },
+          { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+          { provide: ToastService, useValue: toastServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -82,6 +105,7 @@ describe('OperationDetailPage', () => {
       component.peerMeta = null;
       component.providerSymbol = '';
       component.transactionDetail = null;
+      component.loadingText = '';
       fixture.detectChanges();
     })
   );
@@ -155,22 +179,6 @@ describe('OperationDetailPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should call walletConnect rejectOperation and navigate back when confirmOperation id called and modal returns data equal true', async () => {
-    fakeModalController.modifyReturns({},{data: true});
-    component.transactionDetail = {id: 1};
-    fixture.detectChanges();
-    await component.confirmOperation();
-    expect(walletConnectServiceSpy.rejectRequest).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.pop).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not call walletConnect rejectOperation neither navigate back when confirmOperation id called and modal returns data equal true', async () => {
-    fakeModalController.modifyReturns({},{data: undefined});
-    await component.confirmOperation();
-    expect(walletConnectServiceSpy.rejectRequest).toHaveBeenCalledTimes(0);
-    expect(navControllerSpy.pop).toHaveBeenCalledTimes(0);
-  });
-
   it('should create an alert when cancelOperation is called', async () => {
     component.cancelOperation();
     await fixture.whenStable();
@@ -188,4 +196,62 @@ describe('OperationDetailPage', () => {
     expect(navControllerSpy.pop).toHaveBeenCalledTimes(1);
   });
 
+  it('should call setLoadingText when confirmOperation is called', async () => {
+    const spy = spyOn(component, 'setLoadingText');
+    component.confirmOperation();
+    await fixture.whenStable();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set the loadingText to sign_loading when setLoadingText and isSignRequest is true', async () => {
+    await component.setLoadingText();
+    expect(component.loadingText).toEqual('wallets.wallet_connect.operation_detail.sign_loading');
+  });
+
+  it('should set the loadingText to approve_loading when setLoadingText and isApproval is true', async () => {
+    component.isSignRequest = false;
+    component.isApproval = true;
+    fixture.detectChanges();
+    await component.setLoadingText();
+    expect(component.loadingText).toEqual('wallets.wallet_connect.operation_detail.approve_loading');
+  });
+
+  it('should set the loadingText to confirmation_loading when setLoadingText and isSignRequest and isApproval are false', async () => {
+    component.isSignRequest = false;
+    component.isApproval = false;
+    fixture.detectChanges();
+    await component.setLoadingText();
+    expect(component.loadingText).toEqual('wallets.wallet_connect.operation_detail.confirmation_loading');
+  });
+
+  it('should call decryptedWallet function when confirmOperation is called', async () => {
+    const spy = spyOn(component, 'decryptedWallet');
+    await component.confirmOperation();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call showAlertTxError when checkRequest returns an error', async () => {
+    walletConnectServiceSpy.checkRequest.and.returnValues(Promise.resolve({error: true}));
+    fixture.detectChanges();
+    await component.confirmOperation();
+    expect(alertControllerSpy.create).toHaveBeenCalled();
+  });
+
+  it('should show error toast when decryptedWallet is called and getDecryptedWalletForNetwork fails', async () => {
+    walletEncryptionServiceSpy.getDecryptedWalletForNetwork.and.returnValue(Promise.reject());
+    fixture.detectChanges();
+    await component.decryptedWallet('1234');
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
+      message: 'wallets.wallet_connect.operation_detail.password_error',
+    });
+  });
+
+  it('should dismiss the modal when is pressed accept button on showAlertTxError', async () => {
+    walletConnectServiceSpy.checkRequest.and.returnValues(Promise.resolve({error: true}));
+    fixture.detectChanges();
+    await component.confirmOperation();
+    const button: any = alertControllerSpy.create.calls.first().args[0].buttons[0];
+    await button.handler();
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
+  });
 });
