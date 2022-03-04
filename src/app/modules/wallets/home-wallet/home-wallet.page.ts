@@ -177,6 +177,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   async initialize(): Promise<void> {
+    this.queueService.dequeueAll();
     await this.content.scrollToTop(0);
     await this.cachedTotalBalance();
     this.clearBalances();

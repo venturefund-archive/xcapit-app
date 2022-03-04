@@ -2,13 +2,17 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, takeUntil } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { QuotesCardComponent } from '../shared-home/components/quotes-card/quotes-card.component';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
-import { AssetBalance } from '../../wallets/shared-wallets/interfaces/asset-balance.interface';
 import { BalanceCacheService } from '../../wallets/shared-wallets/services/balance-cache/balance-cache.service';
+import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { QueueService } from '../../../shared/services/queue/queue.service';
+import { AssetBalanceModel } from '../../wallets/shared-wallets/models/asset-balance/asset-balance.class';
 
 @Component({
   selector: 'app-home',
@@ -31,8 +35,15 @@ import { BalanceCacheService } from '../../wallets/shared-wallets/services/balan
     </ion-header>
 
     <ion-content>
-      <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed" pull-factor="0.6" pull-min="50" pull-max="60">
-        <ion-refresher-content class="refresher" close-duration="120ms" refreshingSpinner="false" pullingIcon="false">
+      <ion-refresher
+        (ionRefresh)="this.refresh($event)"
+        close-duration="1000ms"
+        slot="fixed"
+        pull-factor="0.6"
+        pull-min="50"
+        pull-max="60"
+      >
+        <ion-refresher-content class="refresher" refreshingSpinner="true" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
           <ion-text class="ux-font-text-xxs" color="uxsemidark" *ngIf="(this.isRefreshAvailable$ | async) === false">
             {{
@@ -49,8 +60,8 @@ import { BalanceCacheService } from '../../wallets/shared-wallets/services/balan
       <div class="ion-padding">
         <div class="wallet-total-balance-card">
           <app-wallet-total-balance-card
-            [walletExist]="this.walletExist"
-            [totalBalanceWallet]="this.totalBalanceWallet"
+            [walletExist]="this.hasWallet"
+            [totalBalanceWallet]="this.balance"
           ></app-wallet-total-balance-card>
         </div>
         <div class="buy-crypto-card">
@@ -78,13 +89,15 @@ export class HomePage implements OnInit {
   hasNotifications = false;
   lockActivated = false;
   hideFundText: boolean;
-  totalBalanceWallet: number;
-  balances: Array<AssetBalance> = [];
-  walletExist: boolean;
-  alreadyInitialized = false;
+  balance: number;
+  accumulatedBalance = 0;
+  hasWallet: boolean;
+  coins: Coin[];
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
-
+  leave$ = new Subject<void>();
+  requestQuantity = 0;
+  notificationInterval = 30000;
   private notificationQtySubscription: Subscription;
   private notificationQtySubject = new Subject();
   private timerSubscription: Subscription;
@@ -96,7 +109,10 @@ export class HomePage implements OnInit {
     private refreshTimeoutService: RefreshTimeoutService,
     private walletService: WalletService,
     private walletBalance: WalletBalanceService,
-    private balanceCacheService: BalanceCacheService
+    private apiWalletService: ApiWalletService,
+    private balanceCacheService: BalanceCacheService,
+    private storageService: StorageService,
+    private queueService: QueueService
   ) {}
 
   ngOnInit() {}
@@ -104,11 +120,66 @@ export class HomePage implements OnInit {
   ionViewWillEnter() {
     this.initQtyNotifications();
     this.createNotificationTimer();
-    this.existWallet();
   }
 
-  private getCachedTotalBalance() {
-    this.balanceCacheService.total().then((total) => (this.totalBalanceWallet = total));
+  async ionViewDidEnter() {
+    await this.initialize();
+  }
+
+  async initialize() {
+    this.queueService.dequeueAll();
+    this.requestQuantity = 0;
+    this.accumulatedBalance = 0;
+    this.hasWallet = await this.walletService.walletExist();
+    await this.totalBalance();
+  }
+
+  private async totalBalance() {
+    if (this.hasWallet) {
+      this.balance = await this.balanceCacheService.total();
+      this.coins = await this.storageService.getAssestsSelected();
+      this.createQueues();
+      await this.enqueueCoins();
+    }
+  }
+
+  private createQueues(): void {
+    for (const network of this.apiWalletService.getNetworks()) {
+      this.queueService.create(network, 2);
+      this.queueService.results(network).pipe(takeUntil(this.leave$)).subscribe();
+    }
+    this.queueService.create('prices', 2);
+    this.queueService.results('prices').pipe(takeUntil(this.leave$)).subscribe();
+  }
+
+  private async enqueueCoins(): Promise<void> {
+    for (let aCoin of this.coins) {
+      const assetBalance = new AssetBalanceModel(aCoin, this.walletBalance, this.balanceCacheService);
+      this.enqueue(assetBalance);
+      await this.accumulateBalance(assetBalance);
+    }
+  }
+
+  private enqueue(assetBalance: AssetBalanceModel): void {
+    this.queueService.enqueue(assetBalance.coin.network, () => assetBalance.balance());
+    this.queueService.enqueue('prices', () => assetBalance.getPrice());
+  }
+
+  private accumulateBalance(assetBalance: AssetBalanceModel): void {
+    assetBalance.quoteBalance.pipe(takeUntil(this.leave$)).subscribe(async (quote: number) => {
+      this.accumulatedBalance += quote;
+      this.requestQuantity++;
+      if (this.accumulationEnded()) await this.updateBalance();
+    });
+  }
+
+  private accumulationEnded() {
+    return this.requestQuantity === this.coins.length;
+  }
+
+  private async updateBalance() {
+    this.balance = this.accumulatedBalance;
+    await this.balanceCacheService.updateTotal(this.balance);
   }
 
   ionViewDidLeave() {
@@ -121,10 +192,11 @@ export class HomePage implements OnInit {
     }
 
     this.refreshTimeoutService.unsubscribe();
+    this.leave$.complete();
   }
 
   createNotificationTimer() {
-    this.timerSubscription = timer(0, 0.5 * 60000).subscribe(() => {
+    this.timerSubscription = timer(0, this.notificationInterval).subscribe(() => {
       this.notificationQtySubject.next();
     });
   }
@@ -149,49 +221,16 @@ export class HomePage implements OnInit {
     this.unreadNotifications = 0;
   }
 
-  async doRefresh(event) {
+  async refresh(event: any): Promise<void> {
     if (this.refreshTimeoutService.isAvailable()) {
-      this.uninitializedWallet();
-      await this.getCoinsBalance();
+      await this.initialize();
       this.refreshTimeoutService.lock();
-      this.quotesCardComponent?.ngOnInit();
-      event.target.complete();
-    } else {
-      setTimeout(() => event.target.complete(), 1000);
+      this.quotesCardComponent.ngOnInit();
     }
+    setTimeout(() => event.target.complete(), 1000);
   }
 
   goToBuyCrypto() {
     this.navController.navigateForward(['/fiat-ramps/moonpay']);
-  }
-
-  existWallet() {
-    this.walletService.walletExist().then((res) => {
-      this.walletExist = res;
-      if (this.walletExist && !this.alreadyInitialized) {
-        this.alreadyInitialized = true;
-        this.getCachedTotalBalance();
-        this.getCoinsBalance();
-      }
-    });
-  }
-
-  getCoinsBalance() {
-    this.walletBalance.getWalletsBalances().then((res) => {
-      this.balances = res;
-      this.getTotalBalance();
-      this.uninitializedWallet();
-    });
-  }
-
-  getTotalBalance() {
-    this.walletBalance.getUsdTotalBalance().then((res) => {
-      this.totalBalanceWallet = res;
-      this.balanceCacheService.updateTotal(res);
-    });
-  }
-
-  private uninitializedWallet() {
-    this.alreadyInitialized = false;
   }
 }

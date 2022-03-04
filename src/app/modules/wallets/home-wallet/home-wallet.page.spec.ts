@@ -75,6 +75,7 @@ describe('HomeWalletPage', () => {
         create: null,
         enqueue: null,
         results: of({}),
+        dequeueAll: null,
       });
       queueServiceSpy.enqueue.and.callFake((queue, task) => (isObservable(task) ? task : task()));
       contentSpy = jasmine.createSpyObj('IonContent', { scrollToTop: Promise.resolve() });
