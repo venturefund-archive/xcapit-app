@@ -237,7 +237,7 @@ describe('OperationDetailPage', () => {
     expect(alertControllerSpy.create).toHaveBeenCalled();
   });
 
-  it('should show error toast when decryptedWallet is called and getDecryptedWalletFroNetwork fails', async () => {
+  it('should show error toast when decryptedWallet is called and getDecryptedWalletForNetwork fails', async () => {
     walletEncryptionServiceSpy.getDecryptedWalletForNetwork.and.returnValue(Promise.reject());
     fixture.detectChanges();
     await component.decryptedWallet('1234');

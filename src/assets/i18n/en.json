@@ -1977,7 +1977,7 @@
           "input_label": "Password",
           "confirm_button": "Accept"
         },
-        "password_error": "La contraseña ingresada no es correcta."
+        "password_error": "The password entered is not valid."
       },
       "transactions": {
         "alert": {
