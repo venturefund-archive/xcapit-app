@@ -1895,7 +1895,13 @@
         "card_title_disconnected": "Conéctate a la Dapp",
         "card_description_disconnected": "La Dapp tendrá acceso a tu wallet. Para realizar transacciones, te pedirá tu aprobación.",
         "card_title_connected": "Opera en la Dapp",
-        "card_description_connected": "Cuando haya operaciones disponibles en la Dapp, recibirás notificaciones para aprobarlas."
+        "card_description_connected": "Cuando haya operaciones disponibles en la Dapp, recibirás notificaciones para aprobarlas.",
+        "disconnect": {
+          "header": "¿Finalizar conexión?",
+          "message": "Si finalizas la conexión, no podrás recibir operaciones desde la Dapp.",
+          "cancel_button": "Cancelar",
+          "accept_button": "Finalizar"
+        }
       },
       "operation_detail": {
         "header": "Detalle de operación",
@@ -1956,7 +1962,10 @@
       },
       "disclaimer_1": "WalletConnect está en una etapa Beta por lo que puede presentar inconvenientes en el proceso de conexión.",
       "disclaimer_2": "Si tuviste un problema al conectar tu wallet puedes comunicarte con ",
-      "disclaimer_support": "soporte."
+      "disclaimer_support": "soporte.",
+      "dapp_disconnection": {
+        "message": "Se perdió la conexión con {{dapp}}. Esto puede suceder si te desconectas manualmente o si la conexión es inestable."
+      }
     }
   },
   "apikeys": {

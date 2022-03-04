@@ -29,6 +29,7 @@ describe('ConnectionDetailPage', () => {
       navControllerSpy = jasmine.createSpyObj('NavController', {
         pop: Promise.resolve(null),
         navigateBack: Promise.resolve(null),
+        navigateForward: Promise.resolve(null),
         navigateRoot: Promise.resolve(null),
       });
 
@@ -130,4 +131,24 @@ describe('ConnectionDetailPage', () => {
     await fixture.whenStable();
     expect(console.log).toHaveBeenCalledWith('Wallet Connect - killSession error: ', 'testError');
   });
+
+  it('should show an alert when disconnectSession is called', async () => {
+    component.disconnectSession();
+    await fixture.whenStable();
+    expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call killSession when is pressed Terminate button on disconnection alert', async () => {
+    const spy = spyOn(component, 'killSession');
+    component.disconnectSession();
+    await fixture.whenStable();
+    const { buttons } = alertControllerSpy.create.calls.first().args[0];
+    await buttons[1].handler();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to create a support ticket when supportHelp is called', () => {
+    component.supportHelp();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tickets/create-support-ticket');
+  })
 });
