@@ -1878,7 +1878,8 @@
         "header": "Scan your Dapp QR code",
         "errors": {
           "invalidQR": "Check that the QR code you are scanning corresponds to the WalletConnect connection protocol.",
-          "permissionDenied": "The camera could not be accessed. Access denied."
+          "permissionDenied": "The camera could not be accessed. Access denied.",
+          "close_button": "Accept"
         }
       },
       "qr_scanner": {
