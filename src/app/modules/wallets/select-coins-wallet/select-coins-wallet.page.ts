@@ -65,7 +65,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
               color="uxsecondary"
               class="ux_button"
               appTrackClick
-              name="Next"
+              name="ux_create_next"
               type="submit"
               size="large"
               [appLoading]="this.loading"

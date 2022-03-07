@@ -4,7 +4,6 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
-
 import { SuccessCreationPage } from './success-creation.page';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 
@@ -33,8 +32,8 @@ describe('SuccessCreationPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when Go to Home Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Home');
+  it('should call trackEvent on trackService when ux_create_go_to_home Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_create_go_to_home');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -42,8 +41,8 @@ describe('SuccessCreationPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call goToHome when Go To Home Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Home');
+  it('should call goToHome when ux_create_go_to_home Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_create_go_to_home');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(component, 'goToHome');
     el.nativeElement.click();
