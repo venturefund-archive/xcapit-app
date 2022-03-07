@@ -1,9 +1,10 @@
-import { BigNumber, constants, Wallet } from 'ethers';
+import { BigNumber, constants, VoidSigner, Wallet } from 'ethers';
 import { parseUnits } from 'ethers/lib/utils';
 import { ERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/erc20-token.model';
 import { TEST_ERC20_COINS } from '../../constants/coins.test';
 import { Coin } from '../../interfaces/coin.interface';
 import { ERC20TokenSend } from './erc20-token-send.model';
+import { NetworkConfig } from '../network-config/network-config';
 
 describe('ERC20TokenSend', () => {
   let transfer: ERC20TokenSend;
@@ -11,6 +12,7 @@ describe('ERC20TokenSend', () => {
   let zeroAddress: string;
   let usdtCoin: Coin;
   let ethCoin: Coin;
+  let networkConfigSpy: jasmine.SpyObj<NetworkConfig>;
 
   beforeEach(() => {
     usdtCoin = JSON.parse(JSON.stringify(TEST_ERC20_COINS[2]));
@@ -21,10 +23,22 @@ describe('ERC20TokenSend', () => {
       transfer: Promise.resolve({}),
       transferFee: Promise.resolve(BigNumber.from(3)),
       getGasPrice: Promise.resolve(BigNumber.from(2)),
-      balanceOf: Promise.resolve(BigNumber.from('500000'))
+      balanceOf: Promise.resolve(BigNumber.from('500000')),
     });
 
-    transfer = new ERC20TokenSend(zeroAddress, zeroAddress, '1.0', erc20TokenSpy, usdtCoin, ethCoin, false);
+    networkConfigSpy = jasmine.createSpyObj('NetworkConfig', {
+      value: Promise.resolve({ gasPrice: '100000000' }),
+    });
+    transfer = new ERC20TokenSend(
+      zeroAddress,
+      zeroAddress,
+      '1.0',
+      erc20TokenSpy,
+      usdtCoin,
+      ethCoin,
+      false,
+      networkConfigSpy
+    );
   });
 
   it('should create', () => {
@@ -33,7 +47,9 @@ describe('ERC20TokenSend', () => {
 
   it('should call token transfer on send', async () => {
     await transfer.send();
-    expect(erc20TokenSpy.transfer).toHaveBeenCalledOnceWith(zeroAddress, parseUnits('1', usdtCoin.decimals));
+    expect(erc20TokenSpy.transfer).toHaveBeenCalledOnceWith(zeroAddress, parseUnits('1', usdtCoin.decimals), {
+      gasPrice: '100000000',
+    });
   });
 
   it('should call token transferFee when user has balance on sendEstimateGas', async () => {
@@ -49,19 +65,27 @@ describe('ERC20TokenSend', () => {
   });
 
   it('should create an instance of ERC20TokenSend with no wallet on create', () => {
-    const send =  ERC20TokenSend.create(zeroAddress, zeroAddress, '1.0', usdtCoin, ethCoin);
+    const send = ERC20TokenSend.create(
+      zeroAddress,
+      zeroAddress,
+      '1.0',
+      usdtCoin,
+      ethCoin,
+      new VoidSigner(zeroAddress),
+      networkConfigSpy
+    );
     expect(send).toBeInstanceOf(ERC20TokenSend);
     expect(send.canSignTx).toBeFalse();
   });
 
   it('should create an instance of ERC20TokenSend with wallet on create', () => {
     const wallet = Wallet.createRandom();
-    const send =  ERC20TokenSend.create(zeroAddress, zeroAddress, '1.0', usdtCoin, ethCoin, wallet);
+    const send = ERC20TokenSend.create(zeroAddress, zeroAddress, '1.0', usdtCoin, ethCoin, wallet, networkConfigSpy);
     expect(send).toBeInstanceOf(ERC20TokenSend);
     expect(send.canSignTx).toBeTrue();
   });
-  
-  it('should call getGasPrice on getGasPrice',  async () => {
+
+  it('should call getGasPrice on getGasPrice', async () => {
     await transfer.getGasPrice();
     expect(erc20TokenSpy.getGasPrice).toHaveBeenCalledTimes(1);
   });
