@@ -1875,12 +1875,11 @@
       "card_title": "Configure your connection",
       "card_description": "Choose the network from which you want to take the funds. Then scan the QR code on the Dapp.",
       "scan_qr": {
-        "header": "Scan QR code",
-        "register_manually": "Enter manually",
+        "header": "Scan your Dapp QR code",
         "errors": {
-          "invalidQR": "QR code is invalid.",
-          "noContent": "The QR code had no content.",
-          "permissionDenied": "The camera could not be accessed. Access denied."
+          "invalidQR": "Check that the QR code you are scanning corresponds to the WalletConnect connection protocol.",
+          "permissionDenied": "The camera could not be accessed. Access denied.",
+          "close_button": "Accept"
         }
       },
       "qr_scanner": {
