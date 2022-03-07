@@ -10,8 +10,6 @@ import adaAbi from './assets-abi/ada-abi.json';
 import wethAbi from './assets-abi/weth-abi.json';
 import daiAbi from './assets-abi/dai-abi.json';
 
-
-
 export const NONPROD_COINS: Coin[] = [
   {
     id: 1,
@@ -364,9 +362,11 @@ export const NONPROD_COINS: Coin[] = [
     last: true,
     value: 'BTC',
     network: 'MATIC',
+    contract: '0x0d787a4a1548f673ed375445535a6c7A1EE56180',
     chainId: 80001,
     rpc: environment.maticApiUrl,
     decimals: 8,
+    abi: linkAbi,
     symbol: 'BTCUSDT',
   },
 ];
