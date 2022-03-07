@@ -50,7 +50,7 @@ export class TwoPiInvestment implements Investment {
   }
 
   private _weiOf(amount: number): BigNumber {
-    return parseUnits(amount.toString(), this._aProduct.token().decimals);
+    return parseUnits(amount.toFixed(this._aProduct.token().decimals), this._aProduct.token().decimals);
   }
 
   private async _approve(wei: BigNumber, gasPrice: BigNumber): Promise<TransactionReceipt> {
