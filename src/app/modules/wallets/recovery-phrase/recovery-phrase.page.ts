@@ -45,7 +45,7 @@ import { Mnemonic } from '@ethersproject/hdnode';
               class="ux_button"
               color="uxsecondary"
               appTrackClick
-              name="Next"
+              name="ux_create_next_words"
               size="large"
               (click)="goToVerifyPhrase()"
             >

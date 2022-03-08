@@ -63,7 +63,7 @@ import { TranslateService } from '@ngx-translate/core';
             <ion-button
               class="ux_button"
               appTrackClick
-              name="Submit"
+              name="ux_create_submit_wallet_password"
               type="submit"
               color="uxsecondary"
               size="large"

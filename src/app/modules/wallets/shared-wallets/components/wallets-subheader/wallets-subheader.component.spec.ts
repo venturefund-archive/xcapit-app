@@ -35,15 +35,15 @@ describe('WalletsSubheaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to disclaimer page when when create wallet is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Create Wallet');
+  it('should navigate to disclaimer page when when ux_create_create_wallet is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_create_create_wallet');
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/create-first/disclaimer']);
   });
 
-  it('should call trackEvent on trackService when Create Wallet Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Create Wallet');
+  it('should call trackEvent on trackService when ux_create_create_wallet Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_create_create_wallet');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
