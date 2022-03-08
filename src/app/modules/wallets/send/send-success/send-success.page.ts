@@ -5,7 +5,7 @@ import { SUCCESS_TYPES } from '../../../../shared/components/success-content/suc
   selector: 'app-send-success',
   template: `
     <ion-content class="ion-padding">
-      <app-success-content [trackClickEventsNames]="['ux_send_go_to_home']" [data]="this.data"></app-success-content>
+      <app-success-content [data]="this.data"></app-success-content>
     </ion-content>
   `,
   styleUrls: ['./send-success.page.scss'],

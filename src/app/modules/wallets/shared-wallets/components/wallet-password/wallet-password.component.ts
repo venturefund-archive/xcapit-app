@@ -53,7 +53,6 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./wallet-password.component.scss'],
 })
 export class WalletPasswordComponent implements OnInit {
-  // TODO: Test this
   @Input() state: string;
 
   title = this.translate.instant('wallets.shared_wallets.wallet_password.title');

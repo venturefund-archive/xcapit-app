@@ -106,6 +106,8 @@ export const SUCCESS_TYPES = {
     textSecondary: 'wallets.send.send_success.textSecondary',
     urlPrimaryAction: '/tabs/wallets',
     namePrimaryAction: 'wallets.send.send_success.namePrimaryAction',
+    trackClickEventNamePrimaryAction: 'ux_send_go_to_home',
+
   },
   error_wallet_recovery: {
     urlClose: '/tabs/wallets',
