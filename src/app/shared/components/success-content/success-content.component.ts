@@ -26,6 +26,7 @@ import { NavController } from '@ionic/angular';
             color="uxsecondary"
             appTrackClick
             name="Success Action Primary"
+            [dataToTrack]=" { eventLabel: this.data.trackClickEventNamePrimaryAction }"
             (click)="this.primaryAction()"
           >
             {{ this.data?.namePrimaryAction | translate }}
