@@ -60,8 +60,13 @@ export class WalletSubheaderButtonsComponent implements OnInit {
     if (!this.asset) {
       return this.navController.navigateForward(['wallets/send/select-currency']);
     }
-
-    return this.navController.navigateForward(['wallets/send/detail/' + this.asset]);
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        asset: this.asset,
+        network: this.network,
+      },
+    };
+    return this.navController.navigateForward(['wallets/send/detail'], navigationExtras);
   }
 
   goToReceive() {
