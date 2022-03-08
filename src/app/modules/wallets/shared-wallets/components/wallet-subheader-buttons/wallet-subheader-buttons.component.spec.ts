@@ -104,7 +104,10 @@ describe('WalletSubheaderButtonsComponent', () => {
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Send');
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/send/detail/USDT']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
+      ['wallets/send/detail'],
+      Object({ queryParams: Object({ asset: 'USDT', network: 'ERC20' }) })
+    );
   });
 
   it('should navigate to receive page with the default asset selected when Go to Receive is clicked from HomeWalletPage', () => {
