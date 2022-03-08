@@ -1769,7 +1769,7 @@
         "amounts_title": "Amount to send",
         "send_button": "Send",
         "wrong_password": "Wrong password",
-        "send_notification": "Sending",
+        "loader": "Sending",
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
