@@ -935,6 +935,14 @@
       "category_walletconnect": "WalletConnect",
       "profile_footer": {
         "investor_profile_button": "Investor profile"
+      },
+      "log_out_modal": {
+        "title": "Log out",
+        "text": "Remember that your Wallet is linked to your device. You will not be able to open another Wallet, unless you delete the current one or reinstall the application.",
+        "more_info": "For more information, visit",
+        "more_info_link": "Wallet frecuent questions",
+        "checkbox_label": "Don't show this message again.",
+        "log_out_button": "Log out"
       }
     },
     "success_profile": {

@@ -929,6 +929,14 @@
       "category_walletconnect": "WalletConnect",
       "profile_footer": {
         "investor_profile_button": "Perfil de inversor"
+      },
+      "log_out_modal": {
+        "title": "Cerrar sesión",
+        "text": "Recuerda que tu Wallet está ligada a tu dispositivo. No podrás abrir otra Wallet, a menos que elimines la actual o vuelvas a instalar la aplicación.",
+        "more_info": "Para más información visita las",
+        "more_info_link": "Preguntas frecuentes sobre la Wallet",
+        "checkbox_label": "No volver a mostrar este mensaje.",
+        "log_out_button": "Cerrar sesión"
       }
     },
     "success_profile": {
