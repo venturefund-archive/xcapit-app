@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -40,6 +40,7 @@ import { TranslateService } from '@ngx-translate/core';
           <ion-button
             color="uxsecondary"
             appTrackClick
+            [dataToTrack]="{ eventLabel: this.trackClickEventName }"
             name="Confirm Password"
             type="submit"
             [disabled]="!this.form.valid"
@@ -52,6 +53,8 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./wallet-password.component.scss'],
 })
 export class WalletPasswordComponent implements OnInit {
+  @Input() state: string;
+
   title = this.translate.instant('wallets.shared_wallets.wallet_password.title');
   disclaimer = this.translate.instant('wallets.shared_wallets.wallet_password.disclaimer');
   submitButtonText = this.translate.instant('wallets.shared_wallets.wallet_password.submit_button_text');
@@ -61,6 +64,13 @@ export class WalletPasswordComponent implements OnInit {
   form: FormGroup = this.formBuilder.group({
     password: ['', [Validators.required]],
   });
+
+  get trackClickEventName(): string {
+    if (this.state) 
+      return `ux_${this.state}_confirm_password`;
+
+    return 'Confirm Password';
+  }
   constructor(
     private formBuilder: FormBuilder,
     private modalController: ModalController,

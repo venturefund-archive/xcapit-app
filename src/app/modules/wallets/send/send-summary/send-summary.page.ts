@@ -43,7 +43,7 @@ import { isAddress } from 'ethers/lib/utils';
           class="ux_button"
           color="uxsecondary"
           appTrackClick
-          name="Send"
+          name="ux_send_send"
           [disabled]="(this.submitButtonService.isDisabled | async) || this.isSending"
           (click)="this.handleSubmit()"
           >{{ 'wallets.send.send_summary.send_button' | translate }}</ion-button
@@ -90,6 +90,9 @@ export class SendSummaryPage implements OnInit {
     const modal = await this.modalController.create({
       component: WalletPasswordComponent,
       cssClass: 'ux-routeroutlet-modal full-screen-modal',
+      componentProps: {
+        state: 'send'
+      }
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
