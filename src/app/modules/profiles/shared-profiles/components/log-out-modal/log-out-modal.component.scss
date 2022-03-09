@@ -51,6 +51,8 @@
           --padding-top: 0;
           --padding-start: 0;
           --padding-end: 0;
+          --background-hover: transparent;
+          --background: transparent;
 
           ion-label {
             color: var(--ion-color-uxdark);
@@ -58,6 +60,15 @@
           }
 
           ion-checkbox {
+            --border-radius: 15%;
+            --border-width: 2px;
+            --border-style: solid;
+            --border-color: var(--ion-color-infoligt);
+            --background: #fff;
+            --size: 18px;
+            --checkmark-width: 2px;
+
+            color: var(--ion-color-info);
             margin: 0 8px 0 0;
           }
         }
