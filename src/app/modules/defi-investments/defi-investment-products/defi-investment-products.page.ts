@@ -162,7 +162,7 @@ export class DefiInvestmentProductsPage {
   setFilter(investorProfile : string){
     this.profileForm.patchValue({profile : investorProfile.replace('wealth_managements.profiles.', '')}) 
     this.filterByInvestorCategory(this.profileForm.value.profile);
-  };
+  }
 
   emptyArrays() {
     this.availableInvestments = [];
