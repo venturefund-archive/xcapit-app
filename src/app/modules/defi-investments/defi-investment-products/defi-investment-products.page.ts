@@ -11,6 +11,8 @@ import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/t
 import { VoidSigner } from 'ethers';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -67,8 +69,11 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
               }}
             </ion-label>
           </ion-item>
+          <form [formGroup]="this.profileForm">
+            <app-filter-tab [items]="this.items" controlName="profile"></app-filter-tab>
+          </form>
             <app-defi-investment-product
-              *ngFor="let investment of this.availableInvestments"
+              *ngFor="let investment of this.filteredAvailableInvestments"
               [investmentProduct]="investment.product"
               [isComing]="investment.isComing"
               [weeklyEarning]="investment.weeklyEarning"
@@ -94,16 +99,35 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
 export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
   investorCategory: string;
+  profileForm: FormGroup = this.formBuilder.group({
+    profile: ['conservative', []],
+  });
+  items = [
+    {
+      title: 'wealth_managements.about_investor_profile.conservative_profile.title',
+      value: 'conservative',
+    },
+    {
+      title: 'wealth_managements.about_investor_profile.moderated_profile.title',
+      value: 'medium',
+    },
+    {
+      title: 'wealth_managements.about_investor_profile.aggressive_profile.title',
+      value: 'risky',
+    },
+  ];
+  activeInvestments: DefiInvestment[] = [];
+  availableInvestments: DefiInvestment[] = [];
+  filteredAvailableInvestments :  DefiInvestment[] = [];
+  haveInvestments = true;
   constructor(
+    private formBuilder : FormBuilder,
     private apiWalletService: ApiWalletService,
     private apiUsuariosService: ApiUsuariosService,
     private twoPiApi: TwoPiApi,
     private walletEncryptionService: WalletEncryptionService,
-    private walletService: WalletService
+    private walletService: WalletService,
   ) {}
-  activeInvestments: DefiInvestment[] = [];
-  availableInvestments: DefiInvestment[] = [];
-  haveInvestments = true;
 
   get hasDoneInvestorTest(): boolean {
     return this.investorCategory !== 'wealth_managements.profiles.no_category';
@@ -115,6 +139,9 @@ export class DefiInvestmentProductsPage {
 
   ionViewWillEnter() {
     this.getUser();
+    this.profileForm.get('profile').valueChanges.subscribe(value => 
+      this.filterByInvestorCategory(value)
+    )
   }
 
   async ionViewDidEnter() {
@@ -127,6 +154,15 @@ export class DefiInvestmentProductsPage {
       this.investorCategory = user.profile.investor_category;
     });
   }
+
+  filterByInvestorCategory(category : string){
+    this.filteredAvailableInvestments =  this.availableInvestments.filter((investment) => investment.category === category)
+  }
+
+  setFilter(investorProfile : string){
+    this.profileForm.patchValue({profile : investorProfile.replace('wealth_managements.profiles.', '')}) 
+    this.filterByInvestorCategory(this.profileForm.value.profile);
+  };
 
   emptyArrays() {
     this.availableInvestments = [];
@@ -152,6 +188,7 @@ export class DefiInvestmentProductsPage {
         balance: balance,
         isComing: product.isComing,
         weeklyEarning: product.weeklyEarning,
+        category: product.category
       });
     }
     this.filterUserInvestments(investments);
@@ -171,6 +208,7 @@ export class DefiInvestmentProductsPage {
   filterUserInvestments(investments: DefiInvestment[]): void {
     this.activeInvestments = investments.filter((investment) => investment.balance > 0);
     this.availableInvestments = investments.filter((investment) => investment.balance === 0);
+    this.setFilter(this.investorCategory);
   }
 
   async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {

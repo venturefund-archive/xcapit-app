@@ -330,6 +330,11 @@
       "weekly_earnings_disclaimer": "*Tu balance se actualiza el día lunes de cada semana."
     },
     "shared": {
+      "filter_tab":{
+        "conservative":"Perfil conservador",
+        "medium":"Perfil moderado",
+        "risky":"Perfil agresivo"
+      },
       "coming_soon_card": {
         "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
         "text": "Te avisaremos cuando esta función esté disponible. Ve consiguiendo tus Tokens."
