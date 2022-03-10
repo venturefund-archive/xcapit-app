@@ -37,7 +37,9 @@ export class ToastService {
   async dismiss() {
     try {
       await this.toastController.dismiss();
-    } catch {}
+    } catch {
+      //No implementation is required for this exception
+    }
   }
 
   private optionsFor(type: ToastType): ToastOptions {
