@@ -143,20 +143,6 @@ import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-su
             {{ 'funds.fund_card.finalized' | translate }}
           </ion-text>
         </div>
-        <div class="fc__footer__right">
-          <ion-button
-            appTrackClick
-            (click)="this.actionFund()"
-            name="Renovate Fund"
-            fill="clear"
-            size="small"
-            class="fc__footer__renovate_fund ux-font-text-xs"
-            [disabled]="!this.fund.end_balance"
-          >
-            {{ 'funds.fund_card.renovate' | translate }}
-            <ion-icon slot="end" color="info" name="ux-forward"></ion-icon>
-          </ion-button>
-        </div>
       </div>
     </div>
   `,
