@@ -769,7 +769,6 @@
       "minutes": "{{value}} minute{{s}}",
       "seconds": "{{value}} second{{s}}",
       "finalized": "Finalized",
-      "renovate": "Renovate",
       "unsubscribe_toast": "Successful unsubscription",
       "unsubscribe_alert_ok": "Unsubscribe",
       "unsubscribe_alert_cancel": "Cancel",
@@ -807,7 +806,6 @@
         "risk": "Profile",
         "take_profit": "Take profit",
         "stop_loss": "Stop loss",
-        "renovate": "Renovate",
         "fund_deleted": "The fund has been deleted"
       }
     },
