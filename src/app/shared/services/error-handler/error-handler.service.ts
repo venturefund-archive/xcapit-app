@@ -12,7 +12,7 @@ export class ErrorHandlerService {
     if (response.error.error_code) {
       const message = this.translate.instant(`errorCodes.${response.error.error_code}`);
 
-      this.toastService.showToast({
+      this.toastService.showErrorToast({
         message,
         duration: 8000,
       });

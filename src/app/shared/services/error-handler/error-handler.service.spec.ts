@@ -10,7 +10,7 @@ describe('ErrorHandlerService', () => {
   let service: ErrorHandlerService;
   let toastService: ToastService;
   beforeEach(() => {
-    toastServiceSpy = jasmine.createSpyObj('ToastService', ['showToast']);
+    toastServiceSpy = jasmine.createSpyObj('ToastService', ['showErrorToast']);
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       providers: [{ provide: ToastService, useValue: toastServiceSpy }],
@@ -23,18 +23,18 @@ describe('ErrorHandlerService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call showToast ToastService from error, status null', () => {
+  it('should call showErrorToast ToastService from error, status null', () => {
     const response = new HttpErrorResponse({ status: 401, error: {} });
     service.handle(response);
-    expect(toastService.showToast).toHaveBeenCalledTimes(0);
+    expect(toastService.showErrorToast).toHaveBeenCalledTimes(0);
   });
 
-  it('should call showToast ToastService from error, status 401', () => {
+  it('should call showErrorToast ToastService from error, status 401', () => {
     const response = new HttpErrorResponse({
       status: 401,
       error: { error_code: 'funds.exmapleError' },
     });
     service.handle(response);
-    expect(toastService.showToast).toHaveBeenCalledTimes(1);
+    expect(toastService.showErrorToast).toHaveBeenCalledTimes(1);
   });
 });

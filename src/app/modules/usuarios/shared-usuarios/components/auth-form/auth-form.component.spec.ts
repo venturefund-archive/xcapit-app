@@ -6,32 +6,38 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 describe('AuthFormComponent', () => {
   let component: AuthFormComponent;
   let fixture: ComponentFixture<AuthFormComponent>;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
   const formData = {
     valid: {
       email: 'email@email.com',
       pass: 'asdfF1',
       rCode: 'asd123',
-      rTOS: true
+      rTOS: true,
     },
     invalid: {
       email: 'fdaas',
       pass: 'dsfaaa',
       rCode: '',
-      rTOS: false
-    }
+      rTOS: false,
+    },
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [AuthFormComponent],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      toastServiceSpy = jasmine.createSpyObj('ToastService', ['dismiss']);
+      TestBed.configureTestingModule({
+        declarations: [AuthFormComponent],
+        imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
+        providers: [{ provide: ToastService, useValue: toastServiceSpy }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AuthFormComponent);
@@ -48,9 +54,7 @@ describe('AuthFormComponent', () => {
     component.form.get('password').setValue(formData.valid.pass);
     const spy = spyOn(component, 'handleSubmit');
     fixture.detectChanges();
-    fixture.debugElement
-      .query(By.css('form'))
-      .triggerEventHandler('ngSubmit', null);
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
@@ -98,7 +102,6 @@ describe('AuthFormComponent', () => {
       expect(component.form.valid).toBeFalsy();
     });
 
-
     it('form should be valid when referral_code is valid', async () => {
       component.form.get('email').setValue(formData.valid.email);
       component.form.get('password').setValue(formData.valid.pass);
@@ -113,6 +116,13 @@ describe('AuthFormComponent', () => {
       component.form.get('tos').setValue(formData.valid.rTOS);
       component.form.get('referral_code').setValue(formData.invalid.rCode);
       expect(component.form.valid).toBeTruthy();
+    });
+
+    it('should dismiss toast when any input is clicked', async () => {
+      fixture.debugElement.query(By.css('app-ux-input[controlName="email"]')).nativeElement.click();
+      fixture.debugElement.query(By.css('app-ux-input[controlName="password"]')).nativeElement.click();
+      fixture.debugElement.query(By.css('app-ux-input[controlName="referral_code"]')).nativeElement.click();
+      expect(toastServiceSpy.dismiss).toHaveBeenCalledTimes(3);
     });
   });
 });
