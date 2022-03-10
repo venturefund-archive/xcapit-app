@@ -66,23 +66,6 @@ describe('FundFinishedCardComponent', () => {
     expect(fundDataStorageServiceSpy.setData).toHaveBeenCalledTimes(3);
   });
 
-  it('should call trackEvent on trackService when Renovate Fund button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Renovate Fund');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should set data and navigate when Renovate Fund button clicked', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="Renovate Fund"]')).nativeElement.click();
-    await fixture.whenStable();
-    expect(apiApikeysServiceSpy.getByFundName).toHaveBeenCalledOnceWith('testFundName');
-    expect(fundDataStorageServiceSpy.setData).toHaveBeenCalledTimes(3);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['funds/fund-investment']);
-  });
-
   it('should call trackEvent on trackService when Delete Fund button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Delete Fund');
     const directive = trackClickDirectiveHelper.getDirective(el);

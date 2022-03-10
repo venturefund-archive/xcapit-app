@@ -56,21 +56,6 @@ import { ApiApikeysService } from '../../../../apikeys/shared-apikeys/services/a
             <ion-icon class="ffc__footer__left__trash__icon" name="trash-outline"></ion-icon>
           </ion-button>
         </div>
-        <div class="ffc__footer__right">
-          <div class="share-button">
-            <ion-button
-              appTrackClick
-              name="Renovate Fund"
-              type="submit"
-              fill="clear"
-              size="small"
-              (click)="this.renewFund()"
-              class="renovate-fund ux-font-text-xxs"
-            >
-              {{ 'funds.funds_finished.fund_finished_card.renovate' | translate }}
-            </ion-button>
-          </div>
-        </div>
       </div>
     </div>
   `,

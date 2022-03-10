@@ -763,7 +763,6 @@
       "minutes": "{{value}} minuto{{s}}",
       "seconds": "{{value}} segundo{{s}}",
       "finalized": "Finalizado",
-      "renovate": "Renovar",
       "unsubscribe_toast": "Desuscripción exitosa",
       "unsubscribe_alert_ok": "Desuscribir",
       "unsubscribe_alert_cancel": "Cancelar",
@@ -801,7 +800,6 @@
         "risk": "Perfil",
         "take_profit": "Take profit",
         "stop_loss": "Stop loss",
-        "renovate": "Renovar",
         "fund_deleted": "El fondo se ha eliminado"
       }
     },

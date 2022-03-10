@@ -151,14 +151,6 @@ describe('FundCardComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should navigate to finished funds when View Fund button is clicked', async () => {
-      component.ngOnInit();
-      fixture.detectChanges();
-      await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-      const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Renovate Fund"'));
-      buttonEl.nativeElement.click();
-      expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['funds/funds-finished']);
-    });
 
     it('should call showSuccessToast when unsubscribe process has finished  ', async () => {
       component.owner = false;
@@ -170,15 +162,6 @@ describe('FundCardComponent', () => {
       component.unsubscribe();
       expect(apiSubscriptionsServiceSpy.unsubscribeToFund).toHaveBeenCalledOnceWith('Test');
       expect(toastServiceSpy.showSuccessToast).toHaveBeenCalledTimes(1);
-    });
-
-    it('should call trackEvent on trackService when Renovate Fund is clicked', () => {
-      const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Renovate Fund');
-      const directive = trackClickDirectiveHelper.getDirective(el);
-      const spyClickEvent = spyOn(directive, 'clickEvent');
-      el.nativeElement.click();
-      fixture.detectChanges();
-      expect(spyClickEvent).toHaveBeenCalledTimes(1);
     });
 
     it('should emit event on deleteFund when success unsubscribe', () => {
