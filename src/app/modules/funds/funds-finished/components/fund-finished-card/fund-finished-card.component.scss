@@ -1,57 +1,65 @@
 :host {
   width: 100%;
+
   .ffc {
     margin-top: 8px;
     background-color: var(--ion-color-uxlight);
     border-radius: 8px;
+
     &__content {
       display: flex;
       justify-content: space-between;
-      padding: 16px 16px 16px 16px;
+      padding: 16px;
+
       &__right {
         flex: 1;
+
         // Con esto logro que cada item (menos el primero) se separe por 4px
         & > *:not(:first-child) {
           margin-top: 4px;
         }
       }
     }
+
     &__footer {
       height: 46px;
       display: flex;
       justify-content: space-between;
       border-top: 1px solid #0000000a;
+
       &__left {
         &__trash {
           color: black;
           margin-top: 6px;
           font-weight: var(--ux-fweight-semibold);
+
           &__icon {
             height: 16px;
           }
         }
       }
-      &__right {
-        ion-button.renovate-fund {
-          font-weight: var(--ux-fweight-semibold);
-        }
-      }
     }
+
     .item {
       display: flex;
       flex-direction: column;
+
       ion-text.regular {
         font-weight: var(--ux-fweight-regular);
       }
+
       &__value {
         margin-top: 4px;
       }
+
       &.second {
         margin-top: 18px;
       }
+
       .risk {
         color: #f7bb5d;
       }
+
       .high-risk {
         color: #ff8006;
       }
