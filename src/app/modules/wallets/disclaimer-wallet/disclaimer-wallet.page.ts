@@ -88,7 +88,7 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
             <ion-button
               class="ux_button"
               appTrackClick
-              name="Submit"
+              name="ux_create_submit"
               type="submit"
               color="uxsecondary"
               size="large"

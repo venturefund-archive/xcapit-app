@@ -27,19 +27,29 @@ describe('NativeFirebaseLogsService', () => {
   it('should log event when track event is called', () => {
     service.trackEvent({
       eventCategory: 'testCategory',
-      eventLabel: 'testLabel',
+      eventLabel: 'ux_test_label',
       eventAction: 'testAction',
       eventValue: 'testValue',
     });
     expect(firebaseAnalyticsSpy.logEvent).toHaveBeenCalledOnceWith({
-      name: 'button_click',
+      name: 'ux_test_label',
       params: {
-        name: 'testLabel',
+        name: 'ux_test_label',
         action: 'testAction',
         value: 'testValue',
         category: 'testCategory',
       },
     });
+  });
+
+  it('should not log event when label does not start with ux_ is called', () => {
+    service.trackEvent({
+      eventCategory: 'testCategory',
+      eventLabel: 'testLabel',
+      eventAction: 'testAction',
+      eventValue: 'testValue',
+    });
+    expect(firebaseAnalyticsSpy.logEvent).not.toHaveBeenCalled();
   });
 
   it('should send track event login on track login', () => {

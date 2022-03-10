@@ -52,8 +52,8 @@ describe('RecoveryPhrasePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call appTrackEvent on trackService when Next clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
+  it('should call appTrackEvent on trackService when ux_create_next_words clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_create_next_words');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

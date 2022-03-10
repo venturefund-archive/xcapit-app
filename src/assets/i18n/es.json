@@ -362,7 +362,8 @@
       },
       "amount_input_card": {
         "available": "Disponible",
-        "disclaimer": "Ten en cuenta que se cobrarán tarifas de transacción en"
+        "disclaimer": "La tasa de cambio la define la blockchain. Los montos pueden variar, según el momento en que realices la transacción. \nTen en cuenta que se cobrarán tarifas de transacción en",
+        "max_button": "Máx"
       },
       "withdraw_card": {
         "title": "Retiro",
@@ -1727,10 +1728,13 @@
       "swap": "Swap"
     },
     "send": {
+      "scan_qr":{
+        "title":"Escanea el código QR de la dirección a la que deseas enviar"
+      },
       "select_currency": {
         "header": "Enviar",
         "title": "Selecciona la moneda que deseas enviar",
-        "suite":"Red {{suiteName}}"
+        "suite": "Red {{suiteName}}"
       },
       "send_detail": {
         "header": "Enviar",
@@ -1860,12 +1864,11 @@
       "card_title": "Configura tu conexión",
       "card_description": "Elige la red de la que quieres tomar los fondos. Luego, escanea el código QR de la Dapp.",
       "scan_qr": {
-        "header": "Escanea el código QR",
-        "register_manually": "Ingresar manualmente",
+        "header": "Escanea el código QR de tu Dapp",
         "errors": {
-          "invalidQR": "El código QR no es válido.",
-          "noContent": "El código QR no tenía ningún contenido.",
-          "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado."
+          "invalidQR": "Compruebe que el código QR que estás escaneando corresponda al protocolo de conexión de WalletConnect.",
+          "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado.",
+          "close_button": "Aceptar"
         }
       },
       "qr_scanner": {
@@ -1896,7 +1899,13 @@
         "card_title_disconnected": "Conéctate a la Dapp",
         "card_description_disconnected": "La Dapp tendrá acceso a tu wallet. Para realizar transacciones, te pedirá tu aprobación.",
         "card_title_connected": "Opera en la Dapp",
-        "card_description_connected": "Cuando haya operaciones disponibles en la Dapp, recibirás notificaciones para aprobarlas."
+        "card_description_connected": "Cuando haya operaciones disponibles en la Dapp, recibirás notificaciones para aprobarlas.",
+        "disconnect": {
+          "header": "¿Finalizar conexión?",
+          "message": "Si finalizas la conexión, no podrás recibir operaciones desde la Dapp.",
+          "cancel_button": "Cancelar",
+          "accept_button": "Finalizar"
+        }
       },
       "operation_detail": {
         "header": "Detalle de operación",
@@ -1913,7 +1922,10 @@
         "sign_button": "Firmar",
         "approve_button": "Aprobar",
         "confirm_button": "Confirmar",
-        "cancel_button": "Cancelar",
+        "cancel_button": "Cancelar operación",
+        "approve_loading": "Aprobando",
+        "sign_loading": "Firmando",
+        "confirmation_loading": "Confirmando",
         "abort_alert": {
           "header": "¿Abandonar la operación?",
           "message": "Si sales ahora, la operación será cancelada.",
@@ -1946,7 +1958,14 @@
         "card_title_sign": "Firma en la Dapp",
         "card_description_sign": "Este paso es para comprobar que eres tú quien está operando en la Dapp.",
         "card_title_operation": "Confirma tu operación",
-        "card_description_operation": "Confirma la transacción que quieres realizar en la Dapp."
+        "card_description_operation": "Confirma la transacción que quieres realizar en la Dapp.",
+        "password_modal": {
+          "title": "Por seguridad",
+          "description": "Para confirmar tu operación, ingresa la contraseña de tu wallet Xcapit.",
+          "input_label": "Contraseña",
+          "confirm_button": "Aceptar"
+        },
+        "password_error": "La contraseña ingresada no es correcta."
       },
       "transactions": {
         "alert": {
@@ -1957,7 +1976,10 @@
       },
       "disclaimer_1": "WalletConnect está en una etapa Beta por lo que puede presentar inconvenientes en el proceso de conexión.",
       "disclaimer_2": "Si tuviste un problema al conectar tu wallet puedes comunicarte con ",
-      "disclaimer_support": "soporte."
+      "disclaimer_support": "soporte.",
+      "dapp_disconnection": {
+        "message": "Se perdió la conexión con {{dapp}}. Esto puede suceder si te desconectas manualmente o si la conexión es inestable."
+      }
     }
   },
   "apikeys": {

@@ -236,11 +236,11 @@ describe('SelectCoinsWalletPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when Next Button clicked', () => {
+  it('should call trackEvent on trackService when ux_create_next Button clicked', () => {
     component.userCoinsLoaded = true;
     component.createForm();
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_create_next');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -248,7 +248,7 @@ describe('SelectCoinsWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should not activate the Next button when no token is selected', async () => {
+  it('should not activate the ux_create_next button when no token is selected', async () => {
     component.userCoinsLoaded = true;
     component.txInProgress = true;
     component.createForm();
@@ -256,11 +256,11 @@ describe('SelectCoinsWalletPage', () => {
     component.form.patchValue(formData.invalid);
     await fixture.whenStable();
     fixture.detectChanges();
-    const nextButton = fixture.debugElement.query(By.css('ion-button[name="Next"]'));
+    const nextButton = fixture.debugElement.query(By.css('ion-button[name="ux_create_next"]'));
     expect(nextButton.attributes['ng-reflect-disabled']).toEqual('true');
   });
 
-  it('should activate the Next button when at least one token is selected', async () => {
+  it('should activate the ux_create_next button when at least one token is selected', async () => {
     component.userCoinsLoaded = true;
     component.txInProgress = false;
     component.createForm();
@@ -268,7 +268,7 @@ describe('SelectCoinsWalletPage', () => {
     component.form.patchValue(formData.valid);
     await fixture.whenStable();
     fixture.detectChanges();
-    const nextButton = fixture.debugElement.query(By.css('ion-button[name="Next"]'));
+    const nextButton = fixture.debugElement.query(By.css('ion-button[name="ux_create_next"]'));
     expect(nextButton.attributes['ng-reflect-disabled']).toEqual('false');
   });
 
@@ -299,7 +299,7 @@ describe('SelectCoinsWalletPage', () => {
         component.ionViewWillEnter();
         await fixture.whenStable();
         fixture.detectChanges();
-        const buttonText = fixture.debugElement.query(By.css('ion-button[name="Next"]')).properties.innerHTML;
+        const buttonText = fixture.debugElement.query(By.css('ion-button[name="ux_create_next"]')).properties.innerHTML;
         const headerText = fixture.debugElement.query(By.css('ion-title')).properties.innerHTML;
         expect(buttonText).toEqual(testCase.changeTexts.submitButton);
         expect(headerText).toEqual(testCase.changeTexts.header);
