@@ -285,7 +285,7 @@ export class HomeWalletPage implements OnInit {
 
   private async updateBalance() {
     this.totalBalance = this.totalBalanceAccum;
-    await this.balanceCacheService.updateTotal(this.totalBalanceAccum);
+    this.balanceCacheService.updateTotal(this.totalBalanceAccum);
   }
 
   private enqueue(assetBalance: AssetBalanceModel): void {
