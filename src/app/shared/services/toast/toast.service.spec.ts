@@ -44,6 +44,7 @@ describe('ToastService', () => {
   beforeEach(() => {
     toastControllerSpy = jasmine.createSpyObj('ToastController', {
       create: Promise.resolve({ present: () => Promise.resolve() }),
+      dismiss: Promise.resolve(),
     });
     TestBed.configureTestingModule({
       providers: [{ provide: ToastController, useValue: toastControllerSpy }],
@@ -80,5 +81,10 @@ describe('ToastService', () => {
     service.showSuccessToast({});
     expect(toastControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(toastControllerSpy.create).toHaveBeenCalledWith(successOptions);
+  });
+
+  it('should call toast controller dismiss when dismiss is called', () => {
+    service.dismiss();
+    expect(toastControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 });
