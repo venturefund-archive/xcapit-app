@@ -298,4 +298,12 @@ describe('InvestorTestService', () => {
   it('should return 0 if answers is undefined numberOfQuestionsAnswered', () => {
     expect(service.numberOfQuestionsAnswered).toEqual(0);
   });
+
+  it('should clear answers on clearAnswers', () => {
+    service.answers = new Map();
+    service.answers.set(testQuestions[0], testQuestions[0].options[1]);
+    service.answers.set(testQuestions[1], testQuestions[1].options[2]);
+    service.clearAnswers();
+    expect(service.answers).toEqual(new Map());
+  });
 });
