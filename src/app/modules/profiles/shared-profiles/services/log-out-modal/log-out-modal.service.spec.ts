@@ -30,8 +30,8 @@ describe('LogOutModalService', () => {
 
   it('should add user to not show modal if there is no variable on local storage on addUserToNotShowModal', async () => {
     appStorageServiceSpy.get.and.returnValue(Promise.resolve(null));
-    await service.addUserToNotShowModal('test2@email.com');
-    expect(appStorageServiceSpy.set).toHaveBeenCalledOnceWith('not_show_modal_users', ['test@email.com', 'test2@email.com']);
+    await service.addUserToNotShowModal('test@email.com');
+    expect(appStorageServiceSpy.set).toHaveBeenCalledOnceWith('not_show_modal_users', ['test@email.com']);
   });
 
   it('should return false if there is no variable on local storage on isShowModalTo', async () => {

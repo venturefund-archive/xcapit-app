@@ -3,14 +3,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from 'src/app/modules/usuarios/shared-usuarios/services/auth/auth.service';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { LogOutModalService } from '../../services/log-out-modal/log-out-modal.service';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 import { LogOutModalComponent } from './log-out-modal.component';
 
@@ -22,9 +22,14 @@ describe('LogOutModalComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let logOutModalSpy: jasmine.SpyObj<LogOutModalService>;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
 
   beforeEach(
     waitForAsync(() => {
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
+
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
 
@@ -42,6 +47,7 @@ describe('LogOutModalComponent', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: AuthService, useValue: authServiceSpy },
           { provide: LogOutModalService, useValue: logOutModalSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
