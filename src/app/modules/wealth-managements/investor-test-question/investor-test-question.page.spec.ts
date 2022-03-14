@@ -88,7 +88,7 @@ describe('InvestorTestQuestionPage', () => {
           setAnswer: undefined,
           loadQuestions: Promise.resolve(),
           hasAnsweredQuestion: false,
-          cancel: undefined,
+          clearAnswers: undefined,
           saveAnswers: of({}),
         },
         {
@@ -249,11 +249,11 @@ describe('InvestorTestQuestionPage', () => {
     expect(text).toEqual('wealth_managements.investor_test.submit_button');
   });
 
-  it('should cancel test when user leaves', () => {
+  it('should clear test answers when user leaves', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
-    expect(investorTestServiceSpy.cancel).toHaveBeenCalledTimes(1);
+    expect(investorTestServiceSpy.clearAnswers).toHaveBeenCalledTimes(1);
   });
 
   it('should load answer if question has already been answered', async () => {
@@ -316,7 +316,7 @@ describe('InvestorTestQuestionPage', () => {
     expect(button.attributes['ng-reflect-disabled']).toBeTruthy();
   });
 
-  it('should send user score on last question and navigate to Success Page when Submit Button clicked', async () => {
+  it('should send user score and clear answers on last question and navigate to Success Page when Submit Button clicked', async () => {
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
     investorTestServiceSpy.getQuestionByNumber.and.returnValue(testQuestions[4]);
     fakeActivatedRoute.modifySnapshotParams({ question: '5' });
@@ -327,6 +327,7 @@ describe('InvestorTestQuestionPage', () => {
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    expect(investorTestServiceSpy.clearAnswers).toHaveBeenCalledTimes(1);
     expect(investorTestServiceSpy.saveAnswers).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wealth-management/success-investor-test']);
   });
