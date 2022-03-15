@@ -23,9 +23,11 @@ import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleto
 import { InformativeCardComponent } from './components/informative-card/informative-card.component';
 import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-network.pipe';
 import { TokenSelectionListComponent } from './components/token-selection-list/token-selection-list.component';
+import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.component';
 
 @NgModule({
   declarations: [
+    WalletAdviceComponent,
     NftCardSkeletonComponent,
     CoinSelectorComponent,
     RecoveryPhraseCardComponent,
@@ -53,6 +55,7 @@ import { TokenSelectionListComponent } from './components/token-selection-list/t
   imports: [SharedModule],
   exports: [
     SharedModule,
+    WalletAdviceComponent,
     CoinSelectorComponent,
     NftCardSkeletonComponent,
     RecoveryPhraseCardComponent,

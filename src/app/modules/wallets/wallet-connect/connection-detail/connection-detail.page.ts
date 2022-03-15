@@ -91,7 +91,6 @@ import { TranslateService } from '@ngx-translate/core';
           <span>{{ 'wallets.wallet_connect.disclaimer_1' | translate }}</span>
           <span>
             {{ 'wallets.wallet_connect.disclaimer_2' | translate }}
-
             <ion-button
               name="Support Help"
               class="ux-link-xs disclaimer__button"
