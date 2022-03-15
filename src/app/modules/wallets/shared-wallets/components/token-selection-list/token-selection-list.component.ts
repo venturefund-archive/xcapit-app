@@ -23,7 +23,7 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
               [lines]="last ? 'none' : 'full'"
             >
               <div class="tsl__suite-container__suite__coin-container__coin">
-                <ion-img class="tsl__suite-container__suite__coin-container__coin__img" [src]="this.coin.logoRoute"></ion-img>
+                <img class="tsl__suite-container__suite__coin-container__coin__img" [src]="this.coin.logoRoute">
                 <div class="tsl__suite-container__suite__coin-container__coin__text-container">
                   <ion-text class="tsl__suite-container__suite__coin-container__coin__text-container__label ux-font-text-xs">{{ this.coin.name }}</ion-text>
                   <ion-badge
