@@ -23,7 +23,7 @@ import { NavController } from '@ionic/angular';
         <div class="main__buttons">
           <ion-button
             appTrackClick
-            color="secondary primary"
+            color="secondary"
             class="ux_button"
             expand="block"
             name="Go To Investments"
