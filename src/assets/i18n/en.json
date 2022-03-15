@@ -1648,7 +1648,7 @@
       "subheader_buttons_component": {
         "send_card": "Send",
         "receive_card": "Receive",
-        "buy_card": "Buy or Sell",
+        "buy_card": "Buy",
         "performance_card": "Invest"
       }
     },
