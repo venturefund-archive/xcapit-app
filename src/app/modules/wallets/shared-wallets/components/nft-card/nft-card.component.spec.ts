@@ -71,7 +71,6 @@ describe('NftCardComponent', () => {
   });
 
   it('should navigate when goToDetail is called', async () => {
-    component.nftStatus = 'delivered';
     component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -83,7 +82,6 @@ describe('NftCardComponent', () => {
   });
 
   it('should render properly the base page when the nft status is delivered but the wallet dont have nft', async () => {
-    component.nftStatus = 'delivered';
     nftServiceSpy.getNFTMetadata.and.resolveTo([]);
     component.ngOnInit();
     fixture.detectChanges();
@@ -94,7 +92,6 @@ describe('NftCardComponent', () => {
   });
 
   it('should render properly the skeleton when NFTData are not chargued yet', async () => {
-    component.nftStatus = 'delivered';
     nftServiceSpy.getNFTMetadata.and.resolveTo([]);
     component.ngOnInit();
     fixture.detectChanges();

@@ -30,8 +30,6 @@ import { NftService } from '../../services/nft-service/nft.service';
 export class NftCardComponent implements OnInit {
   card : string;
   NFTdata: any = [];
-  @Input() nftStatus = 'unclaimed';
-  @Output() nftRequest = new EventEmitter<any>();
   constructor(private navController: NavController, private nftService: NftService) {}
 
   ngOnInit() {
@@ -39,13 +37,9 @@ export class NftCardComponent implements OnInit {
   }
 
   setCard() {
-    if (this.nftStatus === 'delivered') {
-      this.getNFTInfo().then(() => {
+    this.getNFTInfo().then(() => {
       this.card = this.NFTdata.length > 0 ? 'showNFT' : 'base';
-      });
-    }else{
-      this.card = 'base'
-     }
+    });
   }
 
   getNFTInfo() {
