@@ -10,11 +10,9 @@ import axsAbi from './assets-abi-prod/axs-abi-prod.json';
 import manaAbi from './assets-abi-prod/mana-abi-prod.json';
 import sushiAbi from './assets-abi-prod/sushi-abi-prod.json';
 import compoundAbi from './assets-abi-prod/compound-abi-prod.json';
-import zilliqaAbi from './assets-abi-prod/zilliqa-abi-prod.json';
 import enjAbi from './assets-abi-prod/enj-abi-prod.json';
 import batAbi from './assets-abi-prod/bat-abi-prod.json';
 import sandAbi from './assets-abi-prod/sand-abi-prod.json';
-import usdcAbi from './assets-abi-prod/usdc-abi-prod.json';
 import crvAbi from './assets-abi-prod/crv-abi-prod.json';
 
 export const PROD_COINS: Coin[] = [
@@ -171,8 +169,8 @@ export const PROD_COINS: Coin[] = [
     chainId: 42,
     rpc: environment.ethAlchemyApiUrl,
     contract: '0x05f4a42e251f2d52b8ed15e9fedaacfcef1fad27',
-    abi: zilliqaAbi,
-    decimals: 18,
+    abi: linkAbi,
+    decimals: 12,
     symbol: 'ZILUSDT',
   },
   {
@@ -270,6 +268,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
     decimals: 18,
     symbol: 'CAKEUSDT',
+    abi: linkAbi,
   },
   {
     id: 20,
@@ -283,6 +282,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x3ee2200efb3400fabb9aacf31297cbdd1d435d47',
     decimals: 18,
     symbol: 'ADAUSDT',
+    abi: linkAbi,
   },
   {
     id: 21,
@@ -296,6 +296,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
     decimals: 18,
     symbol: 'BUSDUSDT',
+    abi: linkAbi,
   },
   {
     id: 22,
@@ -309,6 +310,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
     decimals: 18,
     symbol: 'AVAXUSDT',
+    abi: linkAbi,
   },
   {
     id: 23,
