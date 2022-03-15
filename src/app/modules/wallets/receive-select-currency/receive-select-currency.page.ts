@@ -8,7 +8,7 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
   selector: 'app-receive-select-currency',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>

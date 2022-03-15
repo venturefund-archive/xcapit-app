@@ -18,7 +18,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   selector: 'app-defi-investment-products',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-title class="ion-text-center">{{
           'defi_investments.defi_investment_products.header' | translate
         }}</ion-title>
@@ -37,7 +37,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
             [balance]="investment.balance"
           ></app-investment-balance-item>
           <div class="dp__weekly-profit-disclaimer" *ngIf="this.activeInvestments.length">
-            <ion-label class=" ux-font-text-xxs" color="uxsemidark">
+            <ion-label class=" ux-font-text-xxs" color="neutral80">
               {{ 'defi_investments.shared.defi_investment_product.weekly_earnings_disclaimer_active' | translate }}
             </ion-label>
           </div>
@@ -82,7 +82,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
             class="dp__weekly-profit-disclaimer"
             *ngIf="!this.activeInvestments.length && this.availableInvestments.length"
           >
-            <ion-label class=" ux-font-text-xxs" color="uxsemidark">
+            <ion-label class=" ux-font-text-xxs" color="neutral80">
               {{ 'defi_investments.shared.defi_investment_product.weekly_earnings_disclaimer_available' | translate }}
             </ion-label>
           </div>

@@ -10,7 +10,7 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
         <div class="fmc__content__right ion-padding-top ion-padding-start ion-padding-bottom">
           <!-- Período -->
           <div class="item">
-            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="neutral80">
               {{ 'funds.fund_detail.fund_metrics_card.period' | translate }}
             </ion-text>
             <ion-text class="item__value ux-font-text-xxs regular">
@@ -27,7 +27,7 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
 
           <!-- Take profit -->
           <div class="item second fmc__take_profit">
-            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="neutral80">
               {{ 'funds.fund_detail.fund_metrics_card.take_profit' | translate }}
             </ion-text>
             <ion-text
@@ -46,7 +46,7 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
 
           <!-- Estrategia -->
           <div class="item second">
-            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="neutral80">
               {{ 'funds.fund_detail.fund_metrics_card.strategy' | translate }}
             </ion-text>
             <ion-text class="item__value ux-font-text-xxs regular">
@@ -57,7 +57,7 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
         <div class="fmc__content__right ion-padding-top ion-padding-end ion-padding-bottom">
           <!-- Rendimiento -->
           <div class="item">
-            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="neutral80">
               {{ 'funds.fund_detail.fund_metrics_card.performance' | translate }}
             </ion-text>
             <div>
@@ -79,7 +79,7 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
 
           <!-- Stop loss -->
           <div class="item second fmc__stop_loss">
-            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="neutral80">
               {{ 'funds.fund_detail.fund_metrics_card.stop_loss' | translate }}
             </ion-text>
             <ion-text
@@ -98,7 +98,7 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
 
           <!-- Moneda -->
           <div class="item second">
-            <ion-text class="item__title ux-font-text-xxs regular" color="uxsemidark">
+            <ion-text class="item__title ux-font-text-xxs regular" color="neutral80">
               {{ 'funds.fund_detail.fund_metrics_card.currency' | translate }}
             </ion-text>
             <ion-text class="item__value ux-font-text-xxs regular">

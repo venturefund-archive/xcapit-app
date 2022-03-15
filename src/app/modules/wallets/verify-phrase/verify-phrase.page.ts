@@ -8,7 +8,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
   selector: 'app-verify-phrase',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/create-first/recovery-phrase"></ion-back-button>
         </ion-buttons>
@@ -58,7 +58,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
         <div class="ux_footer">
           <div class="create_button">
             <ion-button
-              color="uxsecondary"
+              color="secondary"
               class="ux_button"
               appTrackClick
               name="ux_create_verify_wallet"

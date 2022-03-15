@@ -3,10 +3,10 @@
     &__selector {
       &__item {
         margin-top: 8px;
-        border: 1px solid var(--ion-color-uxsemidark);
+        border: 1px solid var(--ion-color-neutral80);
         border-radius: 8px;
 
-        --background: var(--ion-background-colorwhite);
+        --background: var(--ion-color-white);
         --inner-padding-top: 6px;
         --inner-padding-bottom: 6px;
         --inner-padding-start: 10px;
@@ -23,7 +23,7 @@
           font-size: 15px;
           font-weight: var(--ux-fweight-regular);
           line-height: 18px;
-          color: var(--ion-color-uxprimary);
+          color: var(--ion-color-primary);
         }
 
         &__chevron {

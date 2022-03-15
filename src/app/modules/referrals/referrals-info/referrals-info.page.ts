@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-referrals-info',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="referrals/list"></ion-back-button>
         </ion-buttons>

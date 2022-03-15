@@ -1,11 +1,10 @@
 :host {
   .nam {
-    padding-top: 16px;
-    padding-right: 16px;
-    padding-left: 16px;
-    padding-bottom: 12px;
+    padding: 16px 16px 12px;
+
     &__content {
       height: auto;
+
       &__img {
         width: 230px;
         height: 145px;
@@ -20,17 +19,17 @@
         height: 8px;
         align-items: center;
         justify-content: space-between;
+
         &__text {
           margin-left: 22px;
         }
 
         &__close_button {
           justify-content: flex-end;
-          margin-right: 0;
           padding-left: 8px;
-          color: var(--ion-color-uxsemidark);
+          color: var(--ion-color-neutral80);
           font-size: 16px;
-          padding-right: 0px;
+          padding-right: 0;
           margin-right: -10px;
         }
       }

@@ -4,7 +4,7 @@ import { Component, Input, OnInit } from '@angular/core';
   selector: 'app-icon-button-card',
   template: `
     <div class="rc" style="position:relative;">
-      <div class="rc__icon"><ion-icon color="uxprimary" [name]="this.icon" ariaLabel=""></ion-icon></div>
+      <div class="rc__icon"><ion-icon color="primary" [name]="this.icon" ariaLabel=""></ion-icon></div>
       <div class="rc__text">
         <ion-text class="ux-font-text-xxs regular">{{ this.text }}</ion-text>
       </div>

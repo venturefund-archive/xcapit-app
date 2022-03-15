@@ -1,17 +1,19 @@
 :host {
   .uxselect {
     padding-top: 16px;
+
     &__label {
       font-family: var(--ux-font-lato);
       font-size: var(--ux-fsize-14);
       font-weight: var(--ux-fweight-extrabold);
-      color: var(--ion-color-uxsemidark);
+      color: var(--ion-color-neutral80);
     }
 
     &__item {
       height: 100%;
       border: 1.5px solid #0000000a;
       border-radius: 7px;
+
       --background: #0000000a;
       --inner-border-width: 0;
       --highlight-background: none;
@@ -22,8 +24,9 @@
       font-family: var(--ux-font-lato);
 
       &.item-has-focus {
-        border: 1.5px solid var(--ion-color-uxsecondary);
-        --background: #ffffff;
+        border: 1.5px solid var(--ion-color-secondary);
+
+        --background: #fff;
       }
 
       &__arrow_icon {

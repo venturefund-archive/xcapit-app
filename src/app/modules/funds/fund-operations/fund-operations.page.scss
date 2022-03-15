@@ -8,54 +8,65 @@
         margin-left: 28px;
       }
     }
+
     &__left {
       ion-label {
         margin-left: 28px;
       }
     }
 
-    background: var(--ion-color-uxlight);
+    background: var(--ion-color-white);
     border-radius: 8px;
     padding-top: 8px;
     padding-bottom: 8px;
+
     ion-item {
-      --background: var(--ion-color-uxlight);
+      --background: var(--ion-color-white);
     }
   }
+
   .foh {
     &__header-title {
       margin-top: -10px;
     }
+
     &__header-fund {
       margin-top: 10px;
       font-weight: 500;
     }
+
     &__header-button {
       text-align: right;
       display: block;
     }
   }
+
   .fol {
     margin-top: 25px;
+
     &__headers {
       font-size: var(--ux-fsize-11);
       display: flex;
       flex-direction: row;
-      margin-bottom: 0px;
+      margin-bottom: 0;
+
       &__label-left {
         text-align: left;
       }
+
       &__label-center {
         text-align: center;
       }
+
       &__label-right {
         text-align: right;
       }
     }
+
     &__list {
       &__pair {
         .operation-type {
-          padding: 2px 2px;
+          padding: 2px;
           font-size: var(--ux-fsize-8);
           font-weight: var(--ux-fweight-extrabold);
           font-family: var(--ux-font-gilroy);
@@ -69,32 +80,39 @@
             background: var(--ion-color-dangerlight);
             color: var(--ion-color-dangerdark);
           }
+
           &__buy {
             background: var(--ion-color-successlight);
             color: var(--ion-color-successdark);
           }
         }
+
         &h3 {
           text-align: left;
-          margin-top: 0px;
+          margin-top: 0;
         }
       }
+
       &__price {
         text-align: center;
+
         &h3 {
           text-align: center;
           color: #bababa;
-          margin-top: 0px;
+          margin-top: 0;
         }
       }
+
       &__qty {
         text-align: right;
       }
     }
   }
+
   .regular {
     font-weight: var(--ux-fweight-regular);
   }
+
   .small {
     font-size: var(--ux-fsize-11);
   }

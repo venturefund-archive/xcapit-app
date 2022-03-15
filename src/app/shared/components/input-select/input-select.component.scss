@@ -10,33 +10,39 @@
 
     .uxselect {
       padding-top: 16px;
+
       &__label {
         margin-left: 12px;
       }
 
       &__item {
         --min-height: 48px;
+
         padding-left: 0;
         height: 100%;
-        border: 1px solid var(--ion-color-uxsemidark);
+        border: 1px solid var(--ion-color-neutral80);
         border-radius: 12px;
-        --background: var(--ion-color-uxlight);
+
+        --background: var(--ion-color-white);
         --inner-border-width: 0;
         --highlight-background: none;
+
         font-weight: 400;
         color: var(--ion-color-primary);
         font-size: 14px;
         font-family: var(--ux-font-lato);
 
         &.item-has-focus {
-          border: 1.5px solid var(--ion-color-uxsecondary);
-          --background: #ffffff;
+          border: 1.5px solid var(--ion-color-secondary);
+
+          --background: #fff;
         }
 
         &__arrow_icon {
           width: 10px;
           margin-right: 10px;
         }
+
         &__logo {
           margin-left: 10px;
           height: 20px;
@@ -49,11 +55,12 @@
   .classic {
     .uxselect {
       padding-top: 16px;
+
       &__label {
         font-family: var(--ux-font-lato);
         font-size: var(--ux-fsize-14);
         font-weight: var(--ux-fweight-extrabold);
-        color: var(--ion-color-uxsemidark);
+        color: var(--ion-color-neutral80);
       }
 
       &__placeholder {
@@ -64,6 +71,7 @@
         height: 100%;
         border: 1.5px solid #0000000a;
         border-radius: 7px;
+
         --background: #0000000a;
         --inner-border-width: 0;
         --highlight-background: none;
@@ -74,8 +82,9 @@
         font-family: var(--ux-font-lato);
 
         &.item-has-focus {
-          border: 1.5px solid var(--ion-color-uxsecondary);
-          --background: #ffffff;
+          border: 1.5px solid var(--ion-color-secondary);
+
+          --background: #fff;
         }
 
         &__arrow_icon {

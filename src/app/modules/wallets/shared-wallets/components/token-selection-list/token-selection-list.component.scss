@@ -1,9 +1,9 @@
 :host {
   .tsl {
     &__suite-container {
-      background: var(--ion-background-colorwhite);
+      background: var(--ion-color-white);
       border-radius: 8px;
-      border: 0.5px solid var(--ion-color-uxline);
+      border: 0.5px solid var(--ion-color-neutral50);
       box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
       margin-bottom: 16px;
       padding-bottom: 6px;
@@ -18,7 +18,7 @@
             padding-top: 21px;
             padding-bottom: 18px;
             padding-left: 16px;
-            color: var(--ion-color-uxdark);
+            color: var(--ion-color-neutral90);
           }
         }
 
@@ -45,7 +45,7 @@
               flex-direction: column;
 
               &__label {
-                color: var(--ion-color-uxdark);
+                color: var(--ion-color-neutral90);
               }
 
               &__badge {

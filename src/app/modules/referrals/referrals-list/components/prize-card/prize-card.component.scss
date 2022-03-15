@@ -1,7 +1,8 @@
 :host {
   width: 100%;
+
   .pcc {
-    background-color: var(--ion-color-uxlight);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
 
     &__content {
@@ -12,19 +13,18 @@
       height: 43px;
 
       &__right {
-        padding-left: 16px;
-        padding-right: 9px;
-        padding-top: 16px;
-        padding-bottom: 16px;
+        padding: 16px 9px 16px 16px;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         align-items: flex-end;
+
         &__icon {
           font-size: 12px;
           padding-left: 8px;
         }
       }
+
       &__left {
         padding: 16px;
         display: flex;

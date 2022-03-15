@@ -28,7 +28,7 @@ import { ToastService } from '../../services/toast/toast.service';
           item-end
           [hidden]="!(this.control && this.control.invalid && this.control.touched)"
           name="ux-error"
-          color="uxsecondary"
+          color="secondary"
           aria-hidden="“true”"
         ></ion-icon>
         <button

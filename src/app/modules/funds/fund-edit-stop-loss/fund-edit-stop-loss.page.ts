@@ -7,7 +7,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-fund-edit-stop-loss',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="this.goToFundSettings()"></ion-back-button>
         </ion-buttons>

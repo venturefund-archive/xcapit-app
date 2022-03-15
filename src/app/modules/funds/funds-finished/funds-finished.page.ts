@@ -6,7 +6,7 @@ import { FundDataStorageService } from '../shared-funds/services/fund-data-stora
   selector: 'app-funds-finished',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/investments/binance" (click)="this.clearStorage()"></ion-back-button>
         </ion-buttons>

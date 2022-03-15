@@ -1,7 +1,7 @@
 :host {
   .diw {
-    background: var(--ion-color-uxlight);
-    border: 0.5px solid var(--ion-color-uxmedium);
+    background: var(--ion-color-white);
+    border: 0.5px solid var(--ion-color-neutral50);
     background-size: cover !important;
     border-radius: 8px;
     padding-bottom: 16px;
@@ -48,7 +48,7 @@
           }
 
           .converted_balance {
-            color: var(--ion-color-uxsemidark);
+            color: var(--ion-color-neutral80);
           }
         }
       }
@@ -56,7 +56,7 @@
 
     &__separator {
       height: 1px;
-      background-color: var(--ion-color-neutro10);
+      background-color: var(--ion-color-neutral10);
       width: 100%;
       margin-top: 16px;
     }
@@ -65,14 +65,14 @@
       padding: 16px;
 
       ion-text {
-        color: var(--ion-color-uxprimary);
+        color: var(--ion-color-primary);
       }
 
       &__fee {
         margin-top: 16px;
 
         ion-text {
-          color: var(--ion-color-uxprimary);
+          color: var(--ion-color-primary);
         }
 
         &__amount {
@@ -81,7 +81,7 @@
           justify-content: space-between;
 
           ion-text {
-            color: var(--ion-color-uxdark);
+            color: var(--ion-color-neutral90);
           }
         }
       }

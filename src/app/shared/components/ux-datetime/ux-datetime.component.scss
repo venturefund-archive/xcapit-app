@@ -6,13 +6,15 @@
       height: 100%;
       border: 1.5px solid #0000000a;
       border-radius: 7px;
+
       --background: #0000000a;
       --inner-border-width: 0;
       --highlight-background: none;
 
       &.item-has-focus {
-        border: 1.5px solid var(--ion-color-uxsecondary);
-        --background: #ffffff;
+        border: 1.5px solid var(--ion-color-secondary);
+
+        --background: #fff;
       }
 
       ion-datetime {

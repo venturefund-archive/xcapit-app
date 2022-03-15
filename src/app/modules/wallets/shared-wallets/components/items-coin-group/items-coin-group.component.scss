@@ -5,7 +5,7 @@
 
   .container {
     border-radius: 8px;
-    border: 0.5px solid var(--ion-color-uxline);
+    border: 0.5px solid var(--ion-color-neutral50);
     box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
   }
 
@@ -34,7 +34,7 @@
 
     &__toggle {
       --background-checked: var(--ion-color-info);
-      --background: var(--ion-color-uxline);
+      --background: var(--ion-color-neutral50);
 
       padding-top: 13px;
       padding-bottom: 13px;
@@ -48,7 +48,7 @@
 
     &__label {
       font-weight: var(--ux-fweight-bold);
-      color: var(--ion-color-uxdark);
+      color: var(--ion-color-neutral90);
       margin: 0;
       margin-left: 16px;
       padding-top: 13px;

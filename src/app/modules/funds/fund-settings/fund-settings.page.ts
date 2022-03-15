@@ -9,7 +9,7 @@ import { ManualSLTP } from '../shared-funds/constants/manual-stop-loss-take-prof
   selector: 'app-fund-settings',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar fst">
+      <ion-toolbar color="primary" class="ux_toolbar fst">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/investments/binance"></ion-back-button>
         </ion-buttons>
@@ -21,7 +21,7 @@ import { ManualSLTP } from '../shared-funds/constants/manual-stop-loss-take-prof
     </ion-header>
     <ion-content class="fs ion-padding">
       <div class="fs__title">
-        <ion-text class="ux-font-text-xl" color="uxdark">
+        <ion-text class="ux-font-text-xl" color="neutral90">
           {{ this.fund?.nombre_bot }}
         </ion-text>
       </div>

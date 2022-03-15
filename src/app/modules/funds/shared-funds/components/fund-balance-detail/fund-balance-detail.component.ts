@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
         (click)="this.close()"
         fill="clear"
         size="small"
-        color="uxsemidark"
+        color="neutral80"
         class="fbd__header__close"
       >
         <ion-icon name="close"></ion-icon>
@@ -34,11 +34,11 @@ import { Router } from '@angular/router';
           ></app-fund-balance-detail-item>
         </div>
         <div class="fbd__content__dates ion-padding">
-          <ion-text class="ux-font-text-xxs" color="uxmedium">
+          <ion-text class="ux-font-text-xxs" color="neutral50">
             {{ 'funds.fund_detail.fund_portfolio_card.fund_balance_detail_period_begin' | translate }}:
             {{ this.startDate | date: 'dd/MM/yyyy' }}</ion-text
           >
-          <ion-text class="ux-font-text-xxs" color="uxmedium"
+          <ion-text class="ux-font-text-xxs" color="neutral50"
             >{{ 'funds.fund_detail.fund_portfolio_card.fund_balance_detail_last_update' | translate }}:
             {{ this.endDate | date: 'dd/MM/yyyy' }}
           </ion-text>

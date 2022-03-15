@@ -5,7 +5,7 @@ import { Component, OnInit, Input } from '@angular/core';
   template: `
     <div class="sp__personal ion-padding-start ion-padding-end">
       <div class="sp__personal__label">
-        <ion-label class="ux-font-subheading" color="uxdark">
+        <ion-label class="ux-font-subheading" color="neutral90">
           {{ 'profiles.user_profile.show_personal_data' | translate }}
         </ion-label>
       </div>
@@ -38,7 +38,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
     <div class="sp__bill ion-padding-start ion-padding-end" *ngIf="this.data?.viewBillData">
       <div class="sp__bill__label">
-        <ion-label class="ux-font-subheading" color="uxdark">
+        <ion-label class="ux-font-subheading" color="neutral90">
           {{ 'profiles.user_profile.show_bill_data' | translate }}
         </ion-label>
       </div>

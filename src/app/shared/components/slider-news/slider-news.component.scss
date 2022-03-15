@@ -1,26 +1,30 @@
 :host {
   width: 100%;
+
   .article-name {
     font-weight: var(--ux-fweight-bold);
   }
+
   .article-summary {
     font-weight: var(--ux-fweight-regular);
   }
+
   .fsn {
     margin-top: 8px;
-    background-color: var(--ion-color-uxlight);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
-    background: #fff;
     cursor: pointer;
+
     &__main {
-      padding: 10px 10px 0px;
+      padding: 10px 10px 0;
       border-radius: 8px;
 
       &__info {
-        padding: 7px 0px;
+        padding: 7px 0;
       }
     }
   }
+
   .swiper-slide,
   .swiper-zoom-container {
     display: block;

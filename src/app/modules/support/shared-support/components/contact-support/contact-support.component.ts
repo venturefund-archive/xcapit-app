@@ -17,7 +17,7 @@ import { NavController } from '@ionic/angular';
       </div>
       <div class="csc__button">
         <div class="button">
-          <ion-button appTrackClick name="Go To Create Ticket" fill="clear" color="uxsemidark" size="small" slot="end">
+          <ion-button appTrackClick name="Go To Create Ticket" fill="clear" color="neutral80" size="small" slot="end">
             <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
           </ion-button>
         </div>

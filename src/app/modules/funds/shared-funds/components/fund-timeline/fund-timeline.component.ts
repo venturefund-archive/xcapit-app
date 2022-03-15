@@ -22,12 +22,12 @@ import { NavController } from '@ionic/angular';
           </div>
           <div class="ftl__content__item__content" *ngIf="this.run.estado === 'active'">
             <div class="ftl__content__item__content__info">
-              <ion-text color="uxdark" class="ux-font-text-xs semibold">
+              <ion-text color="neutral90" class="ux-font-text-xs semibold">
                 {{ this.run.fecha_inicio | date: 'dd/MM/yyyy' }}
               </ion-text>
             </div>
             <div class="ftl__content__item__content__label">
-              <ion-text color="uxsemidark" class="ux-font-text-xxs regular">
+              <ion-text color="neutral80" class="ux-font-text-xxs regular">
                 {{ 'funds.fund_timeline.active_fund' | translate }}
               </ion-text>
             </div>
@@ -35,7 +35,7 @@ import { NavController } from '@ionic/angular';
           <div class="ftl__content__item__content" *ngIf="this.run.estado === 'finalizado'">
             <div class="ftl__content__item__content__info">
               <div>
-                <ion-label color="uxprimary" class="ux-font-text-xs semibold">
+                <ion-label color="primary" class="ux-font-text-xs semibold">
                   {{ this.run.fecha_inicio | date: 'dd/MM/yyyy' }}
                 </ion-label>
               </div>
@@ -51,7 +51,7 @@ import { NavController } from '@ionic/angular';
               </div>
             </div>
             <div class="ftl__content__item__content__label">
-              <ion-text color="uxsemidark" class="ux-font-text-xxs extrasmall regular">
+              <ion-text color="neutral80" class="ux-font-text-xxs extrasmall regular">
                 {{ 'funds.fund_timeline.finished_fund' | translate }}
               </ion-text>
             </div>
@@ -64,7 +64,7 @@ import { NavController } from '@ionic/angular';
             </div>
           </div>
           <div class="ftl__content__item__content">
-            <ion-label color="uxmedium" class="ux-font-text-xxs semibold">
+            <ion-label color="neutral50" class="ux-font-text-xxs semibold">
               {{ 'funds.fund_timeline.start_of' | translate }}
               {{ this.fundName }}</ion-label
             >

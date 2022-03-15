@@ -14,7 +14,7 @@ import { Coin } from '../../interfaces/coin.interface';
           <div class="cs__selector__item__logo">
             <img [src]="this.selectedCoin.logoRoute" alt="logo" />
           </div>
-          <ion-label class="cs__selector__item__label ion-no-margin" color="uxdark">{{ this.selectedCoin.value }}</ion-label>
+          <ion-label class="cs__selector__item__label ion-no-margin" color="neutral90">{{ this.selectedCoin.value }}</ion-label>
           <ion-icon class="cs__selector__item__chevron" color="info" name="chevron-forward-outline"></ion-icon>
         </ion-item>
       </div>

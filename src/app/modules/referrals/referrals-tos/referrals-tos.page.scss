@@ -3,20 +3,22 @@
     ion-text {
       display: block;
     }
+
     &__title {
       margin-top: 8px;
-      color: var(--ion-color-uxprimary);
+      color: var(--ion-color-primary);
     }
 
     &__subtitle {
       margin-top: 24px;
-      color: var(--ion-color-uxprimary);
+      color: var(--ion-color-primary);
     }
 
     &__paragraph {
       &.first {
         margin-top: 24px;
       }
+
       white-space: pre-wrap;
       color: var(--ion-color-light-contrast);
     }

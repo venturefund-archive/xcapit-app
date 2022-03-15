@@ -14,7 +14,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
   selector: 'app-send-detail',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/select-currency"></ion-back-button>
         </ion-buttons>
@@ -94,7 +94,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
           name="ux_send_continue"
           (click)="this.submitForm()"
           [disabled]="!this.form.valid || !this.selectedNetwork"
-          color="uxsecondary"
+          color="secondary"
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
         >
       </div>

@@ -9,7 +9,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
   selector: 'app-fund-summary',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/fund-stop-loss"></ion-back-button>
         </ion-buttons>
@@ -59,7 +59,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
               appTrackClick
               name="Create Fund"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               (click)="this.handleSubmit()"
               [disabled]="this.submitButtonService.isDisabled | async"

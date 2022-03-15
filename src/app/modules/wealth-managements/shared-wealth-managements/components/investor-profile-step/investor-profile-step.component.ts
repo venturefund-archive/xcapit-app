@@ -30,7 +30,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
             appTrackClick
             name="Select Profile"
             type="submit"
-            color="uxsecondary"
+            color="secondary"
             size="large"
             (click)="this.selectProfile(this.baseScore)"
           >

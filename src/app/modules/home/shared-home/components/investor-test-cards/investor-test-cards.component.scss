@@ -14,13 +14,13 @@
 
     .vertical-card {
       flex-basis: 50%;
-      background: var(--ion-color-uxlight);
+      background: var(--ion-color-white);
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       padding: 10px 5px;
       border-radius: 8px;
-      border: 0.5px solid var(--ion-color-uxline);
+      border: 0.5px solid var(--ion-color-neutral50);
 
       .link {
         text-align: left;

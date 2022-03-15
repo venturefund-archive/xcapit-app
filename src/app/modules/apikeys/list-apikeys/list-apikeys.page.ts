@@ -12,7 +12,7 @@ import { FundDataStorageService } from '../../funds/shared-funds/services/fund-d
   selector: 'app-list-apikeys',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/investments/binance"></ion-back-button>
         </ion-buttons>
@@ -47,7 +47,7 @@ import { FundDataStorageService } from '../../funds/shared-funds/services/fund-d
               <img class="nr__image-container__image" src="assets/img/apikeys/no-apikey.svg" alt="no-apikey" />
             </div>
             <div class="nr__subtitle ion-padding-start ion-padding-end">
-              <ion-text class="ux-font-text-base" color="uxsemidark">
+              <ion-text class="ux-font-text-base" color="neutral80">
                 {{ 'apikeys.list_apikeys.subtitle' | translate }}
               </ion-text>
             </div>
@@ -69,7 +69,7 @@ import { FundDataStorageService } from '../../funds/shared-funds/services/fund-d
             class="ux_button"
             expand="block"
             type="button"
-            color="uxsecondary"
+            color="secondary"
             appTrackClick
             name="Register New Key"
             (click)="this.addApiKey()"

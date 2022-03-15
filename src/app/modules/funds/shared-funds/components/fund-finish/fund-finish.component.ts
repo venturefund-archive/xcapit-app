@@ -14,7 +14,7 @@ import { AlertController, NavController } from '@ionic/angular';
           name="Finish Fund"
           (click)="this.showFinishFundAlert()"
           class="ux_button ffp__content__finish-button"
-          color="uxsecondary"
+          color="secondary"
           [disabled]="disabledButton"
         >
           {{ 'funds.fund_finish_pause_fund_card.finish_fund' | translate }}

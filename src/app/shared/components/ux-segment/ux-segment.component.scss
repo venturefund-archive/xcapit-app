@@ -1,12 +1,15 @@
 :host {
   width: 100%;
+
   .us {
     &__button {
       --border-radius: 20px;
+
       height: 25px;
+
       &.not-selected {
         --ion-color-base: none !important;
-        --ion-color-contrast: var(--ion-color-uxsemidark) !important;
+        --ion-color-contrast: var(--ion-color-neutral80) !important;
       }
     }
   }

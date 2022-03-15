@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
   template: `
     <div class="wp">
       <div class="wp__header">
-        <ion-text class="ux-font-text-lg wp__header__text" color="uxdark">
+        <ion-text class="ux-font-text-lg wp__header__text" color="neutral90">
           {{ this.title }}
         </ion-text>
         <ion-button
@@ -38,7 +38,7 @@ import { TranslateService } from '@ngx-translate/core';
         </div>
         <div class="wp__form__buttons ux-font-button">
           <ion-button
-            color="uxsecondary"
+            color="secondary"
             appTrackClick
             [dataToTrack]="{ eventLabel: this.trackClickEventName }"
             name="Confirm Password"

@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-scan-qr',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-title>{{ 'apikeys.scan_qr.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>

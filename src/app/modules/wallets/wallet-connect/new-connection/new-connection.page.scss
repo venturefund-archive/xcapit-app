@@ -4,17 +4,17 @@
   }
 
   .wcnc {
-    background: var(--ion-color-uxlight);
+    background: var(--ion-color-white);
     border-radius: 8px;
     padding: 24px 16px;
 
     &__radio_group {
-      --background: var(--ion-color-uxlight);
+      --background: var(--ion-color-white);
 
       ion-item,
       ion-label,
       ion-radio {
-        --background: var(--ion-color-uxlight);
+        --background: var(--ion-color-white);
 
         &.ux-error__item {
           --background: transparent;
@@ -43,7 +43,7 @@
       }
 
       ion-radio {
-        --color-checked: var(--ion-color-uxsecondary);
+        --color-checked: var(--ion-color-secondary);
         --color: #00000029;
       }
     }
@@ -59,7 +59,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        border: 1px solid var(--ion-color-uxsemidark);
+        border: 1px solid var(--ion-color-neutral80);
         border-radius: 4px;
 
         &.ux-error__item {
@@ -85,7 +85,7 @@
       gap: 22px;
       font-size: 14px;
       font-weight: 400;
-      color: var(--ion-color-uxsemidark);
+      color: var(--ion-color-neutral80);
 
       &__button {
         height: auto;

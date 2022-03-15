@@ -9,7 +9,7 @@ import { ApiTicketsService } from '../shared-tickets/services/api-tickets.servic
       <div class="header">
         <div class="close_button">
           <ion-button fill="clear" appTrackClick name="Close" (click)="this.close()">
-            <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
+            <ion-icon class="main__close_button__icon" name="ux-close" color="neutral80"></ion-icon>
           </ion-button>
         </div>
         <div class="header__title">

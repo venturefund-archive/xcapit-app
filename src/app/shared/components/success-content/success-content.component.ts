@@ -7,7 +7,7 @@ import { NavController } from '@ionic/angular';
     <div class="main">
       <div class="main__close-button">
         <ion-button fill="clear" appTrackClick name="Close Success" (click)="this.close()">
-          <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
+          <ion-icon class="main__close_button__icon" name="ux-close" color="neutral80"></ion-icon>
         </ion-button>
       </div>
       <div class="main__ux-success-image">
@@ -17,13 +17,13 @@ import { NavController } from '@ionic/angular';
         <app-ux-title>{{ this.data?.textPrimary | translate }}</app-ux-title>
       </div>
       <div class="main__secondary-text">
-        <ion-text class="ux-font-text-xs" color="uxsemidark">{{ this.data?.textSecondary | translate }}</ion-text>
+        <ion-text class="ux-font-text-xs" color="neutral80">{{ this.data?.textSecondary | translate }}</ion-text>
       </div>
       <div class="main__actions">
         <div class="main__actions__primary">
           <ion-button
             class="ux_button"
-            color="uxsecondary"
+            color="secondary"
             appTrackClick
             name="Success Action Primary"
             [dataToTrack]=" { eventLabel: this.data.trackClickEventNamePrimaryAction }"
@@ -33,7 +33,7 @@ import { NavController } from '@ionic/angular';
           </ion-button>
         </div>
         <div class="main__third_text ux-font-text-xxs">
-          <ion-text color="uxsemidark">{{ this.data?.textThird | translate }}</ion-text>
+          <ion-text color="neutral80">{{ this.data?.textThird | translate }}</ion-text>
         </div>
         <div class="main__actions__third" *ngIf="this.data.nameThirdAction">
           <ion-button

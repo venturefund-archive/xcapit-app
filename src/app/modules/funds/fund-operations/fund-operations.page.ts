@@ -13,7 +13,7 @@ import { endOfDay, format, parse, parseISO, subDays, toDate } from 'date-fns';
   selector: 'app-fund-operations-history',
   template: `
     <ion-header class="foh">
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="funds/detail/{{ this.fundName }}"></ion-back-button>
         </ion-buttons>
@@ -31,7 +31,7 @@ import { endOfDay, format, parse, parseISO, subDays, toDate } from 'date-fns';
           }}</ion-label>
           <ion-item lines="none">
             <ion-button fill="clear" id="since-datetime">
-              <ion-icon color="uxprimary" icon="calendar"></ion-icon>
+              <ion-icon color="primary" icon="calendar"></ion-icon>
             </ion-button>
             <ion-input class="ux-font-text-xxs regular" [value]="this.displayDates.since"></ion-input>
             <ion-popover mode="md" side="bottom" trigger="since-datetime" show-backdrop="false">
@@ -39,7 +39,7 @@ import { endOfDay, format, parse, parseISO, subDays, toDate } from 'date-fns';
                 <ion-datetime
                   id="datetime-since"
                   #sinceDatetime
-                  color="uxprimary"
+                  color="primary"
                   presentation="date"
                   (ionChange)="this.formatAndChangeDate($event, 'since')"
                   [max]="this.queryOptions.until"
@@ -56,7 +56,7 @@ import { endOfDay, format, parse, parseISO, subDays, toDate } from 'date-fns';
           }}</ion-label>
           <ion-item lines="none">
             <ion-button fill="clear" id="until-datetime">
-              <ion-icon color="uxprimary" icon="calendar"></ion-icon>
+              <ion-icon color="primary" icon="calendar"></ion-icon>
             </ion-button>
             <ion-input class="ux-font-text-xxs regular" [value]="this.displayDates.until"></ion-input>
             <ion-popover mode="md" side="bottom" trigger="until-datetime" show-backdrop="false">
@@ -65,7 +65,7 @@ import { endOfDay, format, parse, parseISO, subDays, toDate } from 'date-fns';
                   id="datetime-until"
                   #untilDatetime
                   presentation="date"
-                  color="uxprimary"
+                  color="primary"
                   showDefaultButtons="true"
                   (ionChange)="this.formatAndChangeDate($event, 'until')"
                   [min]="this.queryOptions.since"
@@ -82,13 +82,13 @@ import { endOfDay, format, parse, parseISO, subDays, toDate } from 'date-fns';
         <app-ux-list-inverted>
           <ion-list>
             <ion-item class="fol__headers ux-font-text-xxs regular small">
-              <ion-label class="fol__headers__label-left" color="uxsemidark">
+              <ion-label class="fol__headers__label-left" color="neutral80">
                 {{ 'funds.fund_operations.header_pair' | translate }}
               </ion-label>
-              <ion-label class="fol__headers__label-center" color="uxsemidark">
+              <ion-label class="fol__headers__label-center" color="neutral80">
                 {{ 'funds.fund_operations.header_price' | translate }}
               </ion-label>
-              <ion-label class="fol__headers__label-right" color="uxsemidark">
+              <ion-label class="fol__headers__label-right" color="neutral80">
                 {{ 'funds.fund_operations.header_qty' | translate }}
               </ion-label>
             </ion-item>
@@ -102,13 +102,13 @@ import { endOfDay, format, parse, parseISO, subDays, toDate } from 'date-fns';
                   <ion-text *ngIf="order.side === 'sell'" class="fol__list__pair__type__sell operation-type">{{
                     'funds.fund_operations.order_side_sell' | translate
                   }}</ion-text>
-                  <h3 color="uxmedium">
+                  <h3 color="neutral50">
                     {{ order.creation_datetime | date: 'dd-MM-yy HH:mm:ss' }}
                   </h3>
                 </ion-label>
                 <ion-label class="fol__list__price">
                   {{ order.price | number: '1.2-6' }}
-                  <h3 *ngIf="order.order_type === 'market'" color="uxmedium">
+                  <h3 *ngIf="order.order_type === 'market'" color="neutral50">
                     {{ 'funds.fund_operations.order_type_market' | translate }}
                   </h3>
                 </ion-label>

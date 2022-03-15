@@ -44,7 +44,7 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
                     class="ux_button"
                     name="Edit Custom Take Profit"
                     fill="clear"
-                    color="uxsecondary"
+                    color="secondary"
                     (click)="this.openCustomTP()"
                     >{{ 'funds.fund_take_profit.edit_custom' | translate }}</ion-button
                   >
@@ -95,7 +95,7 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
               appTrackClick
               name="Save Fund Take Profit"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               [disabled]="this.submitButtonService.isDisabled | async"
             >
@@ -109,7 +109,7 @@ import { ManualSLTP } from '../../constants/manual-stop-loss-take-profit';
             appTrackClick
             name="Edit Fund"
             type="submit"
-            color="uxsecondary"
+            color="secondary"
             size="large"
             [disabled]="this.submitButtonService.isDisabled | async"
           >

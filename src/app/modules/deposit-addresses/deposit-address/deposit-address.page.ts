@@ -11,7 +11,7 @@ import { take } from 'rxjs/operators';
   selector: 'app-deposit-address',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
@@ -130,7 +130,7 @@ import { take } from 'rxjs/operators';
             size="large"
             expand="block"
             type="button"
-            color="uxsecondary"
+            color="secondary"
             [routerLink]="['/tabs/home']"
             class="ux_button"
           >

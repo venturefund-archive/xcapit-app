@@ -70,7 +70,7 @@ describe('RecoveryPhraseReadPage', () => {
     await fixture.whenStable();
     expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
-    expect(component.buttonColor).toEqual('uxsecondary');
+    expect(component.buttonColor).toEqual('secondary');
     expect(component.buttonFill).toEqual('solid');
   });
 
@@ -81,7 +81,7 @@ describe('RecoveryPhraseReadPage', () => {
     await fixture.whenStable();
     expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
-    expect(component.buttonColor).toEqual('uxprimary');
+    expect(component.buttonColor).toEqual('primary');
     expect(component.buttonFill).toEqual('outline');
   });
 

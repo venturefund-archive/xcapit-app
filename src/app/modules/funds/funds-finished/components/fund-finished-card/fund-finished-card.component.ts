@@ -13,32 +13,32 @@ import { ApiApikeysService } from '../../../../apikeys/shared-apikeys/services/a
       <div class="ffc__content">
         <div class="ffc__content__right">
           <div class="item">
-            <ion-text class="ux-font-text-xxs regular" color="uxdark">{{ this.fund.nombre_bot }}</ion-text>
-            <ion-text class="ux-font-text-xl" color="uxdark">
+            <ion-text class="ux-font-text-xxs regular" color="neutral90">{{ this.fund.nombre_bot }}</ion-text>
+            <ion-text class="ux-font-text-xl" color="neutral90">
               {{ this.fund.currency }}
             </ion-text>
           </div>
           <div class="item second">
-            <ion-text class="ux-font-text-xxs regular" color="uxmedium">{{
+            <ion-text class="ux-font-text-xxs regular" color="neutral50">{{
               'funds.funds_finished.fund_finished_card.take_profit' | translate
             }}</ion-text>
-            <ion-text class="ux-font-text-xxs regular" color="uxdark">{{ this.fund.ganancia }}%</ion-text>
+            <ion-text class="ux-font-text-xxs regular" color="neutral90">{{ this.fund.ganancia }}%</ion-text>
           </div>
         </div>
         <div class="ffc__content__right">
           <div class="item">
-            <ion-text class="ux-font-text-xxs regular" color="uxmedium">{{
+            <ion-text class="ux-font-text-xxs regular" color="neutral50">{{
               'funds.funds_finished.fund_finished_card.risk' | translate
             }}</ion-text>
-            <ion-text [ngClass]="{ 'high-risk': this.risk === 'Alto' }" class="risk ux-font-text-xl" color="uxdark">{{
+            <ion-text [ngClass]="{ 'high-risk': this.risk === 'Alto' }" class="risk ux-font-text-xl" color="neutral90">{{
               this.risk
             }}</ion-text>
           </div>
           <div class="item second">
-            <ion-text class="ux-font-text-xxs regular" color="uxmedium">{{
+            <ion-text class="ux-font-text-xxs regular" color="neutral50">{{
               'funds.funds_finished.fund_finished_card.stop_loss' | translate
             }}</ion-text>
-            <ion-text class="ux-font-text-xxs regular" color="uxdark">-{{ this.fund.perdida }}%</ion-text>
+            <ion-text class="ux-font-text-xxs regular" color="neutral90">-{{ this.fund.perdida }}%</ion-text>
           </div>
         </div>
       </div>

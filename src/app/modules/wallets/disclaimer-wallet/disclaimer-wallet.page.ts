@@ -12,7 +12,7 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
   selector: 'app-disclaimer-wallet',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
@@ -90,7 +90,7 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
               appTrackClick
               name="ux_create_submit"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               [disabled]="this.submitButtonService.isDisabled | async"
             >

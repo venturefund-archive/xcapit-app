@@ -34,7 +34,7 @@
   --max-width: 85%;
 
   &::part(content) {
-    background-color: var(--ion-background-colorwhite);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
   }
 }
@@ -46,7 +46,7 @@
 
   &::part(content) {
     margin-top: 76px;
-    background-color: var(--ion-background-colorwhite);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
   }
 }
@@ -57,7 +57,7 @@
   --max-width: 89%;
 
   &::part(content) {
-    background-color: var(--ion-background-colorwhite);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
   }
 }

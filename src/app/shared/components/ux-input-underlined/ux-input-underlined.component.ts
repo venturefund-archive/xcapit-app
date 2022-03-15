@@ -20,8 +20,8 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
         </div>
       </ion-item>
       <div class="iu__labels">
-        <ion-label class="ux-font-text-xxs" color="uxsemidark">{{ this.labelLeft }}</ion-label>
-        <ion-label class="ux-font-text-xxs" color="uxsemidark">{{ this.labelRight }}</ion-label>
+        <ion-label class="ux-font-text-xxs" color="neutral80">{{ this.labelLeft }}</ion-label>
+        <ion-label class="ux-font-text-xxs" color="neutral80">{{ this.labelRight }}</ion-label>
       </div>
     </div>
   `,

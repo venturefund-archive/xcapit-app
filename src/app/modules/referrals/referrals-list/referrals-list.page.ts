@@ -9,7 +9,7 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
   selector: 'app-referrals-list-page',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>
@@ -60,7 +60,7 @@ import { ApiReferralsService } from '../shared-referrals/services/api-referrals/
                     <div class="src__referrals-list__accepted">
                       <ion-icon
                         [name]="referral.accepted ? 'ux-checked-circle' : 'hourglass-outline'"
-                        color="uxsemidark"
+                        color="neutral80"
                       ></ion-icon>
                     </div>
                   </ion-item>

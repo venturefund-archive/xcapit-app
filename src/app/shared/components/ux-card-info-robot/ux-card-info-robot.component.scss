@@ -1,5 +1,6 @@
 :host {
   width: 100%;
+
   .cir {
     background-color: #363e48;
     border-radius: 8px;
@@ -7,7 +8,8 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    color: var(--ion-background-color);
+    color: var(--ion-color-neutral10);
+
     &__content {
       margin-top: 16px;
       font-weight: var(--ux-fweight-semibold);

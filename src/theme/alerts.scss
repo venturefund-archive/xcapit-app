@@ -1,35 +1,40 @@
-//Alert confirm with two buttons 'text button'
+// Alert confirm with two buttons 'text button'
 .ux-alert-confirm {
   .alert-wrapper {
     .alert-head {
       h2 {
         font-family: var(--ux-font-worksans);
-        color: var(--ion-color-uxprimary);
+        color: var(--ion-color-primary);
         font-weight: var(--ux-fweight-semibold);
         font-size: var(--ux-fsize-22);
       }
     }
+
     .alert-message {
       font-family: var(--ux-font-lato);
       font-size: var(--ux-fsize-16);
       font-weight: var(--ux-fweight-regular);
-      color: var(--ion-color-uxdark);
+      color: var(--ion-color-neutral90);
     }
+
     .alert-button-group {
       .alert-button {
         border: none;
       }
+
       .primary-button,
       .secondary-button {
         font-family: var(--ux-font-worksans);
         font-size: var(--ux-fsize-16);
         font-weight: var(--ux-fweight-semibold);
       }
+
       .primary-button {
         color: var(--ion-color-info);
       }
+
       .secondary-button {
-        color: var(--ion-color-uxdark);
+        color: var(--ion-color-neutral90);
       }
     }
   }
@@ -37,7 +42,7 @@
 
 .ux-alert-small-text {
   --ion-font-family: var(--ux-font-lato);
-  --ion-text-color: var(--ion-color-uxdark);
+  --ion-text-color: var(--ion-color-neutral90);
 
   .alert-head {
     padding-bottom: 16px;
@@ -59,12 +64,12 @@
   }
 }
 
-//Alerta error wallet
+// Alerta error wallet
 .ux-wallet-error-alert {
   --max-height: 145px;
   --max-width: 302px;
   --ion-font-family: var(--ux-font-lato);
-  --ion-text-color: var(--ion-color-uxdark);
+  --ion-text-color: var(--ion-color-neutral90);
 
   .alert-head {
     padding-bottom: 12px;

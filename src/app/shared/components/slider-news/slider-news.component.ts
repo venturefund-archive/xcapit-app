@@ -10,7 +10,7 @@ import { BrowserService } from '../../services/browser/browser.service';
           <img src="{{ article.image.url }}" alt="" />
           <div class="fsn__main__info">
             <div>
-              <ion-label color="uxdark" class="article-name ux-font-text-base">{{ article.name }}</ion-label>
+              <ion-label color="neutral90" class="article-name ux-font-text-base">{{ article.name }}</ion-label>
             </div>
             <div>
               <ion-label color="uxregular" class="article-summary ux-font-text-xxs">{{ article.summary }}</ion-label>

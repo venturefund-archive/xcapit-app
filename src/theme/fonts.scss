@@ -10,7 +10,7 @@
   font-family: var(--ux-font-lato);
   font-size: var(--ux-fsize-14);
   font-weight: var(--ux-fweight-regular);
-  color: var(--ion-color-uxprimary);
+  color: var(--ion-color-primary);
   line-height: 18px;
 }
 
@@ -37,12 +37,11 @@
 }
 
 // Texto normal
-
 .ux-font-text-base {
   font-family: var(--ux-font-lato);
   font-size: var(--ux-fsize-16);
   font-weight: var(--ux-fweight-regular);
-  color: var(--ion-color-uxsemidark);
+  color: var(--ion-color-neutral80);
   line-height: 24px;
 }
 
@@ -50,7 +49,7 @@
   font-family: var(--ux-font-lato);
   font-size: var(--ux-fsize-16);
   font-weight: var(--ux-fweight-regular);
-  color: var(--ion-color-uxdark);
+  color: var(--ion-color-neutral90);
   line-height: 24px;
 }
 
@@ -58,7 +57,7 @@
   font-family: var(--ux-font-lato);
   font-size: var(--ux-fsize-16);
   font-weight: var(--ux-fweight-regular);
-  color: var(--ion-color-uxprimary);
+  color: var(--ion-color-primary);
   line-height: 24px;
 }
 
@@ -67,7 +66,7 @@
   font-family: var(--ux-font-lato);
   font-size: var(--ux-fsize-14);
   font-weight: var(--ux-fweight-bold);
-  color: var(--ion-color-uxsemidark);
+  color: var(--ion-color-neutral80);
 }
 
 // Título
@@ -75,7 +74,7 @@
   font-family: var(--ux-font-worksans);
   font-size: var(--ux-fsize-18);
   font-weight: var(--ux-fweight-semibold);
-  color: var(--ion-color-uxprimary);
+  color: var(--ion-color-primary);
   line-height: 24px;
 }
 
@@ -84,7 +83,7 @@
   font-family: var(--ux-font-lato);
   font-size: var(--ux-fsize-14);
   font-weight: var(--ux-fweight-semibold);
-  color: var(--ion-color-uxsemidark);
+  color: var(--ion-color-neutral80);
   text-transform: uppercase;
 }
 
@@ -92,7 +91,7 @@
   font-family: var(--ux-font-worksans);
   font-size: var(--ux-fsize-22);
   font-weight: var(--ux-fweight-semibold);
-  color: var(--ion-color-uxprimary);
+  color: var(--ion-color-primary);
   line-height: 25.81px;
 }
 
@@ -124,7 +123,7 @@
   font-family: var(--ux-font-lato);
   font-size: var(--ux-fsize-14);
   font-weight: var(--ux-fweight-bold);
-  color: var(--ion-color-uxprimary);
+  color: var(--ion-color-primary);
   line-height: 16.8px;
 }
 
@@ -132,6 +131,6 @@
   font-family: var(--ux-font-worksans);
   font-size: var(--ux-fsize-16);
   font-weight: var(--ux-fweight-semibold);
-  color: var(--ion-color-uxdark);
+  color: var(--ion-color-neutral90);
   line-height: 18.77px;
 }

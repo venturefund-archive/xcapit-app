@@ -1,18 +1,18 @@
 :host {
   .sc {
-    --background: var(--ion-background-colorwhite);
+    --background: var(--ion-color-white);
 
     &__content {
       margin-bottom: 16px;
     }
 
     &__title {
-      color: var(--ion-color-uxprimary);
+      color: var(--ion-color-primary);
     }
 
     &__subtitle {
       padding-top: 16px;
-      color: var(--ion-color-uxdark);
+      color: var(--ion-color-neutral90);
     }
 
     &__toggle_all {
@@ -31,7 +31,7 @@
         padding-bottom: 18px;
         font-weight: var(--ux-fweight-bold);
 
-        --color: var(--ion-color-uxdark);
+        --color: var(--ion-color-neutral90);
       }
 
       &__toggle {
@@ -40,7 +40,7 @@
         padding-right: 16px;
 
         --background-checked: var(--ion-color-info);
-        --background: var(--ion-color-uxline);
+        --background: var(--ion-color-neutral50);
         --handle-width: 17.66px;
         --handle-height: 17.66px;
       }

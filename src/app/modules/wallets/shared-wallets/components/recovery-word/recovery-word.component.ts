@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       name="Recovery Word"
       size="small"
       class="word ux-font-text-xxs"
-      color="uxprimary"
+      color="primary"
       [disabled]="!this.isActivated"
       (click)="useValue(this.word)"
     >

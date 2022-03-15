@@ -1,10 +1,10 @@
 :host {
   .bcc {
-    box-shadow: 0 2px 8px rgba(28, 45, 94, 0.05);
+    box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
     cursor: pointer;
     background: var(--ion-color-info);
     border-radius: 8px;
-    border: 1px solid var(--ion-color-uxline);
+    border: 1px solid var(--ion-color-neutral50);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -21,7 +21,7 @@
       padding-left: 8px;
 
       ion-text {
-        color: var(--ion-background-colorwhite);
+        color: var(--ion-color-white);
       }
     }
 

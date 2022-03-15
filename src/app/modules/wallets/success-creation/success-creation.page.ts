@@ -16,7 +16,7 @@ import { NavController } from '@ionic/angular';
       </div>
       <div class="main__actions">
         <div class="main__actions__primary">
-          <ion-button appTrackClick color="uxsecondary" class="ux_button" name="ux_create_go_to_home" (click)="this.goToHome()">
+          <ion-button appTrackClick color="secondary" class="ux_button" name="ux_create_go_to_home" (click)="this.goToHome()">
             {{ 'wallets.success_creation.success_button' | translate }}
           </ion-button>
         </div>

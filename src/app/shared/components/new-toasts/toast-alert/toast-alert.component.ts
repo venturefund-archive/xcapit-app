@@ -28,7 +28,7 @@ import { ModalController } from '@ionic/angular';
         class="pcc_content__message"
       >
         <div class="ux-font-text-xs">
-          <ion-text class="text" color="uxdark"> {{ this.typeAlert.message }}</ion-text>
+          <ion-text class="text" color="neutral90"> {{ this.typeAlert.message }}</ion-text>
         </div>
       </div>
       <div *ngIf="this.typeAlert === this.types.information_update" class="pcc_content__information">

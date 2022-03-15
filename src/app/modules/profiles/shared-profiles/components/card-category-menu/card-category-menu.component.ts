@@ -27,7 +27,7 @@ import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/ser
           class="ux-font-text-xs"
           fill="clear"
           [id]="item.name"
-          color="uxdark"
+          color="neutral90"
           appTrackClick
           (click)="this.goToRoute(item)"
           >{{ item.text | translate }}</ion-button

@@ -18,7 +18,7 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
   selector: 'app-user-profile-menu',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"> </ion-back-button>
         </ion-buttons>
@@ -48,7 +48,7 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
             }}</ion-text>
           </div>
           <form class="toggle" *ngIf="this.profile" [formGroup]="this.form">
-            <ion-text color="uxdark" class="ux-font-text-xs">{{
+            <ion-text color="neutral90" class="ux-font-text-xs">{{
               'profiles.user_profile_menu.push_notifications' | translate
             }}</ion-text>
             <ion-toggle
@@ -66,7 +66,7 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
               appTrackClick
               (click)="this.changeLanguage()"
             >
-              <ion-text color="uxdark">{{ 'profiles.user_profile_menu.language' | translate }}</ion-text></ion-button
+              <ion-text color="neutral90">{{ 'profiles.user_profile_menu.language' | translate }}</ion-text></ion-button
             >
           </div>
         </div>
@@ -74,12 +74,12 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
       <ion-button
         class="menu-item ux-font-text-xs"
         name="Log Out"
-        color="uxprimary"
+        color="primary"
         fill="clear"
         appTrackClick
         (click)="this.logout()"
         >{{ 'app.main_menu.logout' | translate }}
-        <ion-icon color="uxprimary" slot="start" name="ux-logout-icon"></ion-icon>
+        <ion-icon color="primary" slot="start" name="ux-logout-icon"></ion-icon>
       </ion-button>
     </ion-content>
   `,

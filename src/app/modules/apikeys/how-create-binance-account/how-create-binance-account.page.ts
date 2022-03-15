@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-how-create-binance-account',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/apikeys/apikey-information"></ion-back-button>
         </ion-buttons>
@@ -39,7 +39,7 @@ import { NavController } from '@ionic/angular';
         </div>
         <div class="ux_footer">
           <ion-button
-            color="uxsecondary"
+            color="secondary"
             appTrackClick
             name="Have A Binance Account"
             class="ux_button hcba__button"

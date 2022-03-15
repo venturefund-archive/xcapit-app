@@ -3,10 +3,12 @@
     &__subheader-bg {
       height: 50px;
       width: 100%;
-      background-color: var(--ion-color-uxprimary);
+      background-color: var(--ion-color-primary);
+
       &.editing {
         visibility: hidden;
-        // background-color: var(--ion-background-color);
+
+        // background-color: var(--ion-color-neutral10);
       }
     }
 
@@ -16,14 +18,15 @@
       display: flex;
       justify-content: center;
       margin-top: -50px;
+
       &.editing {
         transition: margin 120ms;
         margin-top: -26px;
 
         .change-image {
           position: absolute;
-          left: 0px;
-          top: 0px;
+          left: 0;
+          top: 0;
           width: 100%;
           height: 100%;
           display: flex;
@@ -32,11 +35,12 @@
           background-color: #00000061;
         }
       }
+
       ion-avatar {
         position: relative;
         height: 100px;
         width: 100px;
-        border: 4px solid var(--ion-background-color);
+        border: 4px solid var(--ion-color-neutral10);
         overflow: hidden;
       }
     }
@@ -46,19 +50,23 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
         &__name {
           margin-top: 8px;
         }
+
         &__address {
           margin-top: 4px;
         }
       }
+
       &__editing {
         display: flex;
         flex-direction: column;
         align-items: center;
+
         ion-button {
-          margin-top: 0px;
+          margin-top: 0;
         }
       }
     }

@@ -20,7 +20,7 @@ import { NavController } from '@ionic/angular';
             name="ux_create_create_wallet"
             class="ux_button"
             type="button"
-            color="uxsecondary"
+            color="secondary"
             expand="block"
             size="medium"
             (click)="this.createWallet()"

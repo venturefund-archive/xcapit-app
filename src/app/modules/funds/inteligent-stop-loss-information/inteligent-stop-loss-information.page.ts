@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-inteligent-stop-loss-information',
   template: `<ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/fund-stop-loss"></ion-back-button>
         </ion-buttons>
@@ -43,7 +43,7 @@ import { NavController } from '@ionic/angular';
               name="Back"
               size="large"
               (click)="this.goBack()"
-              color="uxsecondary"
+              color="secondary"
             >
               {{ 'funds.fund_stop_loss.inteligent_stop_loss_button' | translate }}
             </ion-button>

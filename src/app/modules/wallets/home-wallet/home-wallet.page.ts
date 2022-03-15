@@ -17,7 +17,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-home-wallet',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <div class="header">
           <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
         </div>
@@ -36,7 +36,7 @@ import { takeUntil } from 'rxjs/operators';
       >
         <ion-refresher-content class="refresher" refreshingSpinner="true" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
-          <ion-text class="ux-font-text-xxs" color="uxsemidark" *ngIf="(this.isRefreshAvailable$ | async) === false">
+          <ion-text class="ux-font-text-xxs" color="neutral80" *ngIf="(this.isRefreshAvailable$ | async) === false">
             {{
               'funds.funds_list.refresh_time'
                 | translate
@@ -55,7 +55,7 @@ import { takeUntil } from 'rxjs/operators';
         </div>
         <div class="wt__amount ux-font-num-titulo">
           <ion-spinner
-            color="uxlight"
+            color="white"
             name="crescent"
             *ngIf="this.totalBalance === undefined && this.walletExist"
           ></ion-spinner>

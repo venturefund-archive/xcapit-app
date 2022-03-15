@@ -8,7 +8,7 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
   template: `
     <div [appSelectStyle]="this.selectorStyle">
       <div class="uxselect">
-        <ion-label class="ux-font-text-xs" color="uxdark">{{ this.label }}</ion-label>
+        <ion-label class="ux-font-text-xs" color="neutral90">{{ this.label }}</ion-label>
         <ion-item (click)="this.openModal()" class="uxselect__item">
           <img
             *ngIf="this.imageKey"
@@ -24,10 +24,10 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
           <ion-label
             *ngIf="!this.control.value && this.placeholder"
             class="ux-font-text-xs uxselect__placeholder"
-            color="uxdark"
+            color="neutral90"
             >{{ this.placeholder }}</ion-label
           >
-          <ion-label *ngIf="this.control.value" class="uxselect__label" color="uxdark">{{
+          <ion-label *ngIf="this.control.value" class="uxselect__label" color="neutral90">{{
             this.translated ? (this.control.value[this.valueKey] | translate) : this.control.value[this.valueKey]
           }}</ion-label>
           <ion-input
@@ -39,7 +39,7 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
             [readonly]="true"
           >
           </ion-input>
-          <ion-icon class="uxselect__item__arrow_icon" item-end name="ux-down" color="uxdark"></ion-icon>
+          <ion-icon class="uxselect__item__arrow_icon" item-end name="ux-down" color="neutral90"></ion-icon>
         </ion-item>
         <app-errors-form-item [controlName]="this.controlName"></app-errors-form-item>
       </div>

@@ -23,7 +23,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
           shape="round"
           size="small"
           slots="icon-only"
-          color="uxsecondary"
+          color="secondary"
           (click)="this.slideBack()"
         >
           <ion-icon name="ux-long-arrow"></ion-icon>
@@ -36,7 +36,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
           shape="round"
           size="small"
           slots="icon-only"
-          color="uxsecondary"
+          color="secondary"
           (click)="this.slideNext()"
         >
           <ion-icon name="ux-long-arrow"></ion-icon>
@@ -63,7 +63,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
           name="Finish Onboarding"
           class="ux_button finish"
           type="button"
-          color="uxsecondary"
+          color="secondary"
           expand="block"
           size="medium"
           (click)="this.finishOnboarding()"

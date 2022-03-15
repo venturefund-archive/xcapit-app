@@ -16,7 +16,7 @@ import { ethers } from 'ethers';
           {{ this.symbols[1] }}
         </ion-label>
 
-        <ion-spinner color="uxprimary" name="crescent" *ngIf="this.loading"></ion-spinner>
+        <ion-spinner color="primary" name="crescent" *ngIf="this.loading"></ion-spinner>
       </div>
 
       <div class="src__container">
@@ -47,7 +47,7 @@ import { ethers } from 'ethers';
             ({{ 'wallets.wallet_connect.operation_detail.types.swap.amount_to_send_max' | translate }})
           </ion-label>
 
-          <ion-spinner style="margin-left: 10px" color="uxprimary" name="crescent" *ngIf="this.loading"></ion-spinner>
+          <ion-spinner style="margin-left: 10px" color="primary" name="crescent" *ngIf="this.loading"></ion-spinner>
         </div>
       </div>
 
@@ -66,7 +66,7 @@ import { ethers } from 'ethers';
             ({{ 'wallets.wallet_connect.operation_detail.types.swap.amount_to_receive_min' | translate }})
           </ion-label>
 
-          <ion-spinner style="margin-left: 10px" color="uxprimary" name="crescent" *ngIf="this.loading"></ion-spinner>
+          <ion-spinner style="margin-left: 10px" color="primary" name="crescent" *ngIf="this.loading"></ion-spinner>
         </div>
       </div>
 

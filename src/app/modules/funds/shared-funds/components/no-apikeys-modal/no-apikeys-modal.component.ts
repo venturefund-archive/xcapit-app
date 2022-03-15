@@ -45,7 +45,7 @@ import { ModalController, NavController } from '@ionic/angular';
           <ion-button
             expand="block"
             type="button"
-            color="uxsecondary"
+            color="secondary"
             appTrackClick
             name="Register New Key"
             (click)="this.addApiKey()"

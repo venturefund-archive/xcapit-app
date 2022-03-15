@@ -1,7 +1,7 @@
 :host {
   .wr {
-    background: var(--ion-background-colorwhite);
-    border: 1px solid var(--ion-color-uxmedium);
+    background: var(--ion-color-white);
+    border: 1px solid var(--ion-color-neutral50);
     box-shadow: 0 2px 8px rgb(var(--ion-color-info-rgb) 5%);
     border-radius: 8px;
 
@@ -59,7 +59,7 @@
 
           ion-button {
             border-radius: 8px;
-            border: 1px solid var(--ion-color-uxsemidark);
+            border: 1px solid var(--ion-color-neutral80);
             height: 44px;
 
             --padding-start: 16px;
@@ -74,7 +74,7 @@
         margin-top: 48px;
 
         ion-text {
-          color: var(--ion-color-uxsemidark);
+          color: var(--ion-color-neutral80);
         }
       }
     }

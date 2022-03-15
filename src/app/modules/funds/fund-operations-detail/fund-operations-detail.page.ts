@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-fund-operations-history',
   template: `
     <ion-header class="foh">
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="funds/fund-operations/{{ this.fundName }}"></ion-back-button>
         </ion-buttons>
@@ -56,7 +56,7 @@ import { ActivatedRoute } from '@angular/router';
                     'funds.fund_operations_detail.quantity' | translate
                   }}</ion-label>
                   <ion-label class="fodc__align_right fodc__margin"
-                    ><ion-text color="uxsemidark">{{ order.origQty | number: '1.2-6' }} </ion-text
+                    ><ion-text color="neutral80">{{ order.origQty | number: '1.2-6' }} </ion-text
                     ><ion-text> / {{ order.executedQty | number: '1.2-6' }}</ion-text></ion-label
                   >
                 </ion-item>

@@ -22,7 +22,7 @@ import { PlatformService } from '../../../../../shared/services/platform/platfor
         (click)="this.close()"
         fill="clear"
         size="small"
-        color="uxsemidark"
+        color="neutral80"
         class="fbd__header__close"
       >
         <ion-icon name="close"></ion-icon>
@@ -45,7 +45,7 @@ import { PlatformService } from '../../../../../shared/services/platform/platfor
           </a>
           <ion-icon name="ux-download"></ion-icon>
           <ion-label class="ux-font-text-xs"
-            ><ion-text color="uxsemidark">{{
+            ><ion-text color="neutral80">{{
               'funds.fund_detail.share_funds_details.subtitle' | translate
             }}</ion-text></ion-label
           >
@@ -54,7 +54,7 @@ import { PlatformService } from '../../../../../shared/services/platform/platfor
         <!-- <div class="fbd__main_content__item" (click)="this.shareChart()">
           <ion-icon name="ux-share"></ion-icon>
           <ion-label class="ux-font-text-xs"
-            ><ion-text color="uxsemidark">Compartir</ion-text></ion-label
+            ><ion-text color="neutral80">Compartir</ion-text></ion-label
           >
         </div> -->
       </div>

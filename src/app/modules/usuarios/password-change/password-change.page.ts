@@ -11,7 +11,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-password-change',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
@@ -31,7 +31,7 @@ import { NavController } from '@ionic/angular';
               expand="block"
               size="large"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               class="ux_button"
               [disabled]="this.submitButtonService.isDisabled | async"
             >

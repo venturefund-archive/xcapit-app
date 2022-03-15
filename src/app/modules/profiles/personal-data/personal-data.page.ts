@@ -9,7 +9,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-personal-data',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
@@ -48,7 +48,7 @@ import { NavController } from '@ionic/angular';
               appTrackClick
               name="Save Personal Data"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               [disabled]="this.disabledButton"
             >
