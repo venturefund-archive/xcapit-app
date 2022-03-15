@@ -340,10 +340,10 @@
       "weekly_earnings_disclaimer": "*Your balance is updated on Monday of each week."
     },
     "shared": {
-      "filter_tab":{
-        "conservative":"Conservative profile",
-        "medium":"Moderate profile",
-        "risky":"Aggressive profile"
+      "filter_tab": {
+        "conservative": "Conservative profile",
+        "medium": "Moderate profile",
+        "risky": "Aggressive profile"
       },
       "coming_soon_card": {
         "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
@@ -1324,7 +1324,7 @@
         "invalid": "Error validating email."
       },
       "login": {
-        "invalidCredentials": "No active account found with the given credentials",
+        "invalidCredentials": "The username and/or password entered does not match. Please try again.",
         "noActiveUser": "Verify your email to login.",
         "notClientAccess": "You can't access from other apps. Use our app to login.",
         "notVerifiedGoogleAccount": "Your Google account is not verified.",
@@ -1656,7 +1656,7 @@
       "subheader_buttons_component": {
         "send_card": "Send",
         "receive_card": "Receive",
-        "buy_card": "Buy or Sell",
+        "buy_card": "Buy",
         "performance_card": "Invest"
       }
     },
@@ -1741,8 +1741,8 @@
       "swap": "Swap"
     },
     "send": {
-      "scan_qr":{
-        "title":"Scan the QR code of the address you want to send to"
+      "scan_qr": {
+        "title": "Scan the QR code of the address you want to send to"
       },
       "select_currency": {
         "header": "Send",
