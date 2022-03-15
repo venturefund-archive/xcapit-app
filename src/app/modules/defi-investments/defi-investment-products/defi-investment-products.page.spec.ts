@@ -42,6 +42,7 @@ describe('DefiInvestmentProductsPage', () => {
   let apiUsuariosServiceSpy: jasmine.SpyObj<ApiUsuariosService>;
   let testUserSpy: jasmine.SpyObj<any>;
   let testUserWithTestSpy: jasmine.SpyObj<any>;
+  let testUserWithoutTestSpy: jasmine.SpyObj<any>;
   beforeEach(
     waitForAsync(() => {
       testUserSpy = jasmine.createSpyObj('testUser', {},{
@@ -53,6 +54,12 @@ describe('DefiInvestmentProductsPage', () => {
       testUserWithTestSpy = jasmine.createSpyObj('testUser', {},{
         profile: {
           investor_category: 'wealth_managements.profiles.conservative',
+        },
+      })
+
+      testUserWithoutTestSpy = jasmine.createSpyObj('testUser', {},{
+        profile: {
+          investor_category: 'wealth_managements.profiles.no_category',
         },
       })
 
@@ -186,6 +193,19 @@ describe('DefiInvestmentProductsPage', () => {
     await fixture.whenRenderingDone();
     const productEl = fixture.debugElement.query(By.css('app-filter-tab'));
     expect(productEl).toBeTruthy();
+  });
+
+  it('should set conservative filter when user didnt do test yet ', async () => {
+    apiUsuariosServiceSpy.getUser.and.returnValue(of(testUserWithoutTestSpy));
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(
+      availableDefiProductsSpy
+    );
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    expect(component.profileForm.value.profile).toEqual('conservative');
   });
 
   it('should render header skeleton when active or available products are not yet loaded yet.', async () => {

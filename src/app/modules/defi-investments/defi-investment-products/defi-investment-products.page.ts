@@ -156,6 +156,10 @@ export class DefiInvestmentProductsPage {
   }
 
   filterByInvestorCategory(category : string){
+    if(category === 'no_category'){
+      this.filteredAvailableInvestments =  this.availableInvestments.filter((investment) => investment.category === 'conservative')
+      this.profileForm.patchValue({ profile: 'conservative' }); 
+    }
     this.filteredAvailableInvestments =  this.availableInvestments.filter((investment) => investment.category === category)
   }
 
