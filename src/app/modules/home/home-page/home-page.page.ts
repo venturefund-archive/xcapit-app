@@ -18,7 +18,7 @@ import { AssetBalanceModel } from '../../wallets/shared-wallets/models/asset-bal
   selector: 'app-home',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="end" *ngIf="true">
           <ion-button appTrackClick name="Show Notifications" (click)="this.showNotifications()">
             <ion-icon slot="icon-only" name="ux-bell"></ion-icon>
@@ -45,7 +45,7 @@ import { AssetBalanceModel } from '../../wallets/shared-wallets/models/asset-bal
       >
         <ion-refresher-content class="refresher" refreshingSpinner="true" pullingIcon="false">
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
-          <ion-text class="ux-font-text-xxs" color="uxsemidark" *ngIf="(this.isRefreshAvailable$ | async) === false">
+          <ion-text class="ux-font-text-xxs" color="neutral80" *ngIf="(this.isRefreshAvailable$ | async) === false">
             {{
               'funds.funds_list.refresh_time'
                 | translate

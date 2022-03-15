@@ -8,7 +8,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-deposit-currency',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
@@ -56,7 +56,7 @@ import { NavController } from '@ionic/angular';
               appTrackClick
               name="Next"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               [disabled]="this.submitButtonService.isDisabled | async"
             >

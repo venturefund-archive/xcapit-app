@@ -20,7 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
           class="wps__header__close_button"
           size="small"
           fill="clear"
-          color="uxsemidark"
+          color="neutral80"
           (click)="this.close()"
         >
           <ion-icon name="close-outline"></ion-icon>
@@ -46,7 +46,7 @@ import { TranslateService } from '@ngx-translate/core';
         </div>
         <div class="wps__form__buttons">
           <ion-button
-            color="uxsecondary"
+            color="secondary"
             appTrackClick
             name="Confirm Password"
             type="submit"
@@ -112,7 +112,7 @@ export class WalletPasswordSmallComponent implements OnInit {
       buttons: [
         {
           text: this.translate.instant('wallets.shared_wallets.wallet_password_small.alert.button_text'),
-          cssClass: 'uxprimary',
+          cssClass: 'primary',
         },
       ],
     });

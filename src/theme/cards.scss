@@ -1,20 +1,22 @@
-//Card para referidos
+// Card para referidos
 .ux-card {
-  --ion-background-color: var(--ion-color-uxlight);
-  background: var(--ion-color-uxlight);
+  --ion-color-neutral10: var(--ion-color-white);
+
+  background: var(--ion-color-white);
   border-radius: 8px;
-  border: 0.5px solid var(--ion-color-uxmedium);
+  border: 0.5px solid var(--ion-color-neutral50);
 }
 
 // Card del nuevo brandbook
 .ux-card-new {
-  --background: var(--ion-background-colorwhite);
+  --background: var(--ion-color-white);
+
   border-radius: 8px;
   box-shadow: none;
-  border: 1px solid var(--ion-color-uxmedium);
+  border: 1px solid var(--ion-color-neutral50);
 }
 
-//Stepper
+// Stepper
 .stepper-card {
   margin-top: -4rem;
   box-shadow: none;

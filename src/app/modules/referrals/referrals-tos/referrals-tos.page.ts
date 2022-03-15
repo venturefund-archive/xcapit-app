@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-referrals-tos',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/referrals/summary"></ion-back-button>
         </ion-buttons>

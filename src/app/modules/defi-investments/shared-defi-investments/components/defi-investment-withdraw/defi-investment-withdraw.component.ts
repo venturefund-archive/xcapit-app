@@ -55,7 +55,7 @@ import { Amount } from '../../types/amount.type';
           size="large"
           type="submit"
           class="ion-padding-start ion-padding-end ux_button"
-          color="uxsecondary"
+          color="secondary"
           (click)="this.withdraw()"
         >
           {{ 'defi_investments.shared.withdraw_card.confirm' | translate }}

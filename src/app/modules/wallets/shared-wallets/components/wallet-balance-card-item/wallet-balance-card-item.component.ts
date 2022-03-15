@@ -21,10 +21,10 @@ import { NETWORK_COLORS } from '../../constants/network-colors.constant';
           >
         </div>
         <div class="wbci__content__bottom">
-          <ion-label color="uxmedium" class="ux-font-lato ux-fsize-12 ux-fweight-regular"
+          <ion-label color="neutral50" class="ux-font-lato ux-fsize-12 ux-fweight-regular"
             >{{ this.balance.name }}
           </ion-label>
-          <ion-label color="uxmedium" class="ux-font-lato ux-fsize-12 ux-fweight-regular">
+          <ion-label color="neutral50" class="ux-font-lato ux-fsize-12 ux-fweight-regular">
             {{ this.balance.price * this.balance.amount | number: '1.2-2' }}
             {{ this.balance.quoteSymbol }}
           </ion-label>

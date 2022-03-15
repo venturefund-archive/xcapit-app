@@ -5,7 +5,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-whats-an-api-key',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/apikeys/apikey-information"></ion-back-button>
         </ion-buttons>
@@ -30,7 +30,7 @@ import { NavController } from '@ionic/angular';
           <ion-button
             appTrackClick
             name="Done"
-            color="uxsecondary"
+            color="secondary"
             class="ux_button waak__button"
             (click)="this.goToRegisterAPIKey()"
           >

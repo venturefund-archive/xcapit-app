@@ -8,7 +8,7 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
   selector: 'app-user-profile',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button *ngIf="!this.editing" defaultHref="/tabs/home"> </ion-back-button>
         </ion-buttons>

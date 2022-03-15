@@ -18,7 +18,7 @@ import { NftService } from '../../services/nft-service/nft.service';
         <div class="cnc__showNFT ion-padding" (click)="this.goToDetail(nft)" *ngFor="let nft of this.NFTdata" >
           <img class="cnc__showNFT__img" [src]="this.nft?.image" />
           <div class="cnc__showNFT__content">
-            <ion-text class="ux-font-titulo-xs title" color="uxprimary">{{ this.nft?.name }}</ion-text>
+            <ion-text class="ux-font-titulo-xs title" color="primary">{{ this.nft?.name }}</ion-text>
             <ion-text class="ux-font-text-xs subtitle">{{ 'XcapitMexico' }}</ion-text>
           </div>
         </div>

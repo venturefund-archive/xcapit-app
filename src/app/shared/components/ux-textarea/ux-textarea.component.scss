@@ -4,8 +4,9 @@
 
     &__item {
       height: 100%;
-      border: 1.5px solid var(--ion-color-uxsemidark);
+      border: 1.5px solid var(--ion-color-neutral80);
       border-radius: 7px;
+
       --background: #0000000a;
       --inner-border-width: 0;
       --highlight-background: none;
@@ -16,8 +17,9 @@
       font-family: var(--ux-font-lato);
 
       &.item-has-focus {
-        border: 1.5px solid var(--ion-color-uxprimary);
-        --background: #ffffff;
+        border: 1.5px solid var(--ion-color-primary);
+
+        --background: #fff;
       }
 
       &__error_icon {

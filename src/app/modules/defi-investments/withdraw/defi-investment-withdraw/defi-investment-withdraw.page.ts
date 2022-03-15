@@ -32,7 +32,7 @@ import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/ser
   selector: 'app-defi-investment-withdraw',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>

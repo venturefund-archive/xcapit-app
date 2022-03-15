@@ -1,13 +1,15 @@
 :host {
   .toi {
-    border: 0.5px solid var(--ion-color-uxline);
+    border: 0.5px solid var(--ion-color-neutral50);
+
     ion-icon {
       color: var(--ion-color-info);
       font-size: var(--ux-fsize-22);
     }
-    background-color: var(--ion-color-uxlight);
+
+    background-color: var(--ion-color-white);
     border-radius: 8px;
-    margin: 8px 16px 0 16px;
+    margin: 8px 16px 0;
     width: auto;
     height: auto;
 
@@ -20,13 +22,16 @@
     &__content {
       height: auto;
       display: flex;
+
       &__body {
         margin-left: 16px;
+
         &__title {
           margin-top: 12px;
           display: flex;
           align-items: center;
         }
+
         &__description {
           margin-top: 4px;
           margin-bottom: 12px;
@@ -34,6 +39,7 @@
           align-items: center;
         }
       }
+
       &__icon {
         margin-right: 18px;
         margin-left: 18px;

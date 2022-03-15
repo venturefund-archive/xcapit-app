@@ -4,14 +4,15 @@
 
   .ftl {
     margin-top: 8px;
-    background-color: var(--ion-color-uxlight);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
-
     position: relative;
+
     &__content {
       &__item {
         min-height: 70px;
         display: flex;
+
         &__side {
           display: flex;
           flex-direction: column;
@@ -26,6 +27,7 @@
               border-radius: 100px;
             }
           }
+
           &__line-container {
             flex-basis: 80%;
             display: flex;
@@ -33,7 +35,7 @@
             align-items: center;
 
             &__line {
-              -webkit-transform: none;
+              transform: none;
               transform: none;
               width: 0.5px;
               display: flex;
@@ -49,11 +51,13 @@
 
           &__info {
             padding-right: 5px;
+
             &__percentage {
               ion-label {
                 ion-text.positive {
                   color: #21dd62;
                 }
+
                 ion-text.negative {
                   color: var(--ion-color-danger);
                 }
@@ -78,6 +82,7 @@
               background: var(--ion-color-info);
             }
           }
+
           &__line-container {
             &__line {
               background: var(--ion-color-info);
@@ -85,6 +90,7 @@
           }
         }
       }
+
       &__item.finalizado {
         & .ftl__content__item__side {
           &__dot-container {
@@ -94,18 +100,21 @@
               background: #c4c4c4;
             }
           }
+
           &__line-container {
             &__line {
               background-color: #c4c4c4;
             }
           }
         }
+
         & .ftl__content__item__content {
           display: flex;
 
           &__info {
             display: flex;
             flex-direction: column;
+
             &__percentage {
               text-align: right;
             }
@@ -115,8 +124,10 @@
 
       &__item.initial {
         min-height: unset;
+
         & .ftl__content__item__side {
           justify-content: center;
+
           &__dot-container {
             &__dot {
               width: 7.5px;
@@ -124,6 +135,7 @@
               background: #c4c4c4;
             }
           }
+
           &__line-container {
             &__line {
               background-color: #c4c4c4;
@@ -133,6 +145,7 @@
       }
     }
   }
+
   .semibold {
     font-weight: var(--ux-fweight-semibold);
   }

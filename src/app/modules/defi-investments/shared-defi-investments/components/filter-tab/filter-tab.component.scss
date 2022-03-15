@@ -17,15 +17,15 @@
       height: 32px;
 
       --background-activated: transparent;
-      --background-checked: var(--ion-color-uxsecondary);
-      --indicator-color-checked: var(--ion-color-uxsecondary);
+      --background-checked: var(--ion-color-secondary);
+      --indicator-color-checked: var(--ion-color-secondary);
       --indicator-box-shadow: transparent;
       --border-color: transparent !important;
-      --indicator-color: var(--ion-color-uxsecondary);
+      --indicator-color: var(--ion-color-secondary);
       --border-radius: 100px;
 
       ion-label {
-        color: var(--ion-color-uxprimary);
+        color: var(--ion-color-primary);
       }
     }
   }

@@ -13,7 +13,7 @@ import { Currency } from '../shared-funds/enums/currency.enum';
   selector: 'app-fund-detail',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/investments/binance"></ion-back-button>
         </ion-buttons>

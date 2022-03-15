@@ -17,7 +17,7 @@ import { ethers } from 'ethers';
           {{ this.symbols[0] }}/{{ this.symbols[1] }}
         </ion-label>
 
-        <ion-spinner color="uxprimary" name="crescent" *ngIf="this.loading"></ion-spinner>
+        <ion-spinner color="primary" name="crescent" *ngIf="this.loading"></ion-spinner>
       </div>
 
       <div class="lrc__container">
@@ -46,7 +46,7 @@ import { ethers } from 'ethers';
           {{ this.liquidity }} {{this.symbols[0]}}/{{this.symbols[1]}}
         </ion-label>
 
-        <ion-spinner style="margin-left: 10px" color="uxprimary" name="crescent" *ngIf="this.loading"></ion-spinner>
+        <ion-spinner style="margin-left: 10px" color="primary" name="crescent" *ngIf="this.loading"></ion-spinner>
       </div>
     </div>
 
@@ -65,7 +65,7 @@ import { ethers } from 'ethers';
           ({{ 'wallets.wallet_connect.operation_detail.types.liquidity.amount_to_receive_min' | translate }})
         </ion-label>
 
-        <ion-spinner style="margin-left: 10px" color="uxprimary" name="crescent" *ngIf="this.loading"></ion-spinner>
+        <ion-spinner style="margin-left: 10px" color="primary" name="crescent" *ngIf="this.loading"></ion-spinner>
       </div>
     </div>
 
@@ -84,7 +84,7 @@ import { ethers } from 'ethers';
           ({{ 'wallets.wallet_connect.operation_detail.types.liquidity.amount_to_receive_min' | translate }})
         </ion-label>
 
-        <ion-spinner style="margin-left: 10px" color="uxprimary" name="crescent" *ngIf="this.loading"></ion-spinner>
+        <ion-spinner style="margin-left: 10px" color="primary" name="crescent" *ngIf="this.loading"></ion-spinner>
       </div>
     </div>
   `,

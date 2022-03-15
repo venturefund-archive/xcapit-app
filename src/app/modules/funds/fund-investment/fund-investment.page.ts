@@ -12,7 +12,7 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
   selector: 'app-fund-investment',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/fund-name"></ion-back-button>
         </ion-buttons>
@@ -24,12 +24,12 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
     <ion-content class="ion-padding fi">
       <div class="fi__info">
         <div>
-          <ion-text class="ux-font-text-lg" color="uxdark">{{
+          <ion-text class="ux-font-text-lg" color="neutral90">{{
             'funds.fund_investment.header_info.title' | translate
           }}</ion-text>
         </div>
         <div class="fi__info__description">
-          <ion-text class="ux-font-text-xs" color="uxdark">{{
+          <ion-text class="ux-font-text-xs" color="neutral90">{{
             'funds.fund_investment.header_info.description' | translate
           }}</ion-text>
         </div>

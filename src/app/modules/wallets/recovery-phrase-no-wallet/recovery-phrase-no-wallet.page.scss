@@ -1,11 +1,14 @@
 :host {
   .rpnw {
-    --ion-background-color: var(--ion-color-uxprimary-contrast);
-    background: var(--ion-color-uxprimary-contrast);
+    --ion-color-neutral10: var(--ion-color-primary-contrast);
+
+    background: var(--ion-color-primary-contrast);
+
     &__img_container {
       margin-top: 36px;
       display: flex;
       justify-content: center;
+
       &__img {
         width: 58%;
         max-width: 300px;
@@ -14,10 +17,12 @@
 
     &__content {
       text-align: center;
+
       .text1 {
         margin-top: 24px;
         margin-bottom: 34px;
       }
+
       .text2 {
         margin-bottom: 16px;
       }

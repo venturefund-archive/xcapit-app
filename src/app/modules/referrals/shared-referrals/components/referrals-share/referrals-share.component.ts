@@ -30,7 +30,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
         <ion-button
           *ngIf="this.isNative"
           class="ux_button ux-font-button"
-          color="uxsecondary"
+          color="secondary"
           (click)="this.share()"
           appTrackClick
           name="Share"
@@ -38,7 +38,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
         </ion-button>
         <ion-button
           class="ux_button ux-font-button"
-          color="uxsecondary"
+          color="secondary"
           (click)="this.copy()"
           appTrackClick
           name="Copy"

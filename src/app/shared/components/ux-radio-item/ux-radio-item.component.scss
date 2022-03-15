@@ -3,7 +3,7 @@
     margin-top: 4px;
 
     &__text {
-      color: var(--ion-color-uxdark);
+      color: var(--ion-color-neutral90);
     }
 
     ion-label,
@@ -17,18 +17,19 @@
       --padding-top: 10px;
       --padding-bottom: 10px;
       --background-hover-opacity: 0;
-      --inner-border-width: 0px;
+      --inner-border-width: 0;
       --border-radius: 8px;
       --border-width: 0.5px;
       --border-style: solid;
-      --border-color: var(--ion-color-uxmedium);
+      --border-color: var(--ion-color-neutral50);
       --inner-padding-top: 0;
       --inner-padding-bottom: 0;
-      --background: var(--ion-color-uxlight);
+      --background: var(--ion-color-white);
     }
 
     ion-radio {
       margin-right: 16px;
+
       --color-checked: var(--ion-color-info);
       --color: var(--ion-color-info);
     }

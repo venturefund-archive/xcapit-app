@@ -10,7 +10,7 @@ import { ApiWealthManagementsService } from '../shared-wealth-managements/servic
     <div class="main">
       <div class="main__close_button">
         <ion-button appTrackClick fill="clear" name="Close" (click)="this.close()">
-          <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
+          <ion-icon class="main__close_button__icon" name="ux-close" color="neutral80"></ion-icon>
         </ion-button>
       </div>
       <div class="main__ux_success_image">
@@ -21,7 +21,7 @@ import { ApiWealthManagementsService } from '../shared-wealth-managements/servic
       </div>
       <div class="main__actions">
         <div class="main__actions__primary">
-          <ion-button appTrackClick color="uxsecondary" class="ux_button" name="Continue" (click)="this.continue()">
+          <ion-button appTrackClick color="secondary" class="ux_button" name="Continue" (click)="this.continue()">
             {{ 'wealth_managements.success.namePrimaryAction' | translate }}
           </ion-button>
         </div>

@@ -8,7 +8,7 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
 @Component({
   selector: 'app-recovery-wallet',
   template: ` <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
@@ -41,7 +41,7 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
                 appTrackClick
                 name="Paste Phrase"
                 fill="clear"
-                color="uxdark"
+                color="neutral90"
                 size="small"
                 class="cib__buttons__editButton"
                 (click)="this.pastePhrase()"
@@ -64,7 +64,7 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
               appTrackClick
               name="Import Wallet"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
             >
               {{ 'wallets.recovery_wallet.button' | translate }}

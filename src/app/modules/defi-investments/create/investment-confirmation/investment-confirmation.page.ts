@@ -37,7 +37,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-investment-confirmation',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
@@ -84,7 +84,7 @@ import { ActivatedRoute } from '@angular/router';
         <ion-item class="term-item ion-no-padding ion-no-margin">
           <ion-checkbox formControlName="thirdPartyDisclaimer" mode="md" slot="start"></ion-checkbox>
           <ion-label class="ion-no-padding ion-no-margin">
-            <ion-text class="ux-font-text-xxs" color="uxsemidark">
+            <ion-text class="ux-font-text-xxs" color="neutral80">
               {{ 'defi_investments.confirmation.terms.third_party_disclaimer' | translate }}
             </ion-text>
           </ion-label>
@@ -93,7 +93,7 @@ import { ActivatedRoute } from '@angular/router';
         <ion-item class="term-item ion-no-padding ion-no-margin">
           <ion-checkbox formControlName="termsAndConditions" mode="md" slot="start"></ion-checkbox>
           <ion-label class="ion-no-padding ion-no-margin checkbox-link">
-            <ion-text class="ux-font-text-xxs" color="uxsemidark">{{
+            <ion-text class="ux-font-text-xxs" color="neutral80">{{
               'defi_investments.confirmation.terms.i_have_read' | translate
             }}</ion-text>
             <ion-text class="ux-link-xs" (click)="this.openTOS()">{{
@@ -111,7 +111,7 @@ import { ActivatedRoute } from '@angular/router';
         size="large"
         type="submit"
         class="ion-padding-start ion-padding-end ux_button"
-        color="uxsecondary"
+        color="secondary"
         (click)="this.invest()"
         [disabled]="!this.form.valid || this.disable"
       >

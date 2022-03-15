@@ -14,7 +14,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
   selector: 'app-moonpay',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
@@ -59,7 +59,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
           <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.moonpay.disclaimer' | translate }}</ion-text>
         </div> 
          <div class="mnp__information">
-          <ion-text class="ux-font-text-xxs" color="uxmedium">{{ 'fiat_ramps.moonpay.information' | translate }}</ion-text>
+          <ion-text class="ux-font-text-xxs" color="neutral50">{{ 'fiat_ramps.moonpay.information' | translate }}</ion-text>
         </div>
       </ion-card>
       <ion-button
@@ -69,7 +69,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
         size="large"
         type="submit"
         class="ux_button"
-        color="uxsecondary"
+        color="secondary"
         (click)="this.openMoonpay()"
       >
         {{ 'fiat_ramps.moonpay.button_text' | translate }}

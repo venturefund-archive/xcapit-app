@@ -36,7 +36,7 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
             size="large"
             type="submit"
             class="main__login_button ux_button"
-            color="uxsecondary"
+            color="secondary"
             [disabled]="this.submitButtonService.isDisabled | async"
             [appLoading]="this.loading"
             [loadingText]="'usuarios.login.loading' | translate"

@@ -5,7 +5,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-investments-tab',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-title class="ion-text-center">{{ 'funds.investments_tab.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>

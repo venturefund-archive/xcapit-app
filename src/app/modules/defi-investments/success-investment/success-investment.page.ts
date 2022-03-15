@@ -8,7 +8,7 @@ import { NavController } from '@ionic/angular';
       <div class="main">
         <div class="main__button_content">
           <ion-button class="main__close_button" appTrackClick fill="clear" name="Close" (click)="this.close()">
-            <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
+            <ion-icon class="main__close_button__icon" name="ux-close" color="neutral80"></ion-icon>
           </ion-button>
         </div>
         <div class="main__image">
@@ -23,7 +23,7 @@ import { NavController } from '@ionic/angular';
         <div class="main__buttons">
           <ion-button
             appTrackClick
-            color="uxsecondary primary"
+            color="secondary primary"
             class="ux_button"
             expand="block"
             name="Go To Investments"

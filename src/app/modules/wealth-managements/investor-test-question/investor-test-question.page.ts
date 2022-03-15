@@ -13,7 +13,7 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
   selector: 'app-investor-test-question',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="" (click)="this.goToPreviousQuestion()" name="back"></ion-back-button>
         </ion-buttons>
@@ -44,7 +44,7 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
               name="Submit"
               class="ux_button"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               [disabled]="this.submitButtonService.isDisabled && !this.form.valid"
               >{{ this.buttonText | translate }}</ion-button
             >

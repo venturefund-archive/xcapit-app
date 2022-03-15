@@ -13,7 +13,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
@@ -62,7 +62,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
           <div class="sc__next_button">
             <ion-button
               [disabled]="!this.almostOneChecked || this.txInProgress"
-              color="uxsecondary"
+              color="secondary"
               class="ux_button"
               appTrackClick
               name="ux_create_next"

@@ -4,7 +4,7 @@ import { SUPPORT_OPTIONS } from '../shared-support/constants/support-options';
 @Component({
   selector: 'app-support-options',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>

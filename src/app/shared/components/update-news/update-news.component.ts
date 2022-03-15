@@ -14,7 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
           (click)="this.close()"
           fill="clear"
           size="small"
-          color="uxsemidark"
+          color="neutral80"
           class="un__header__close"
         >
           <ion-icon name="close"></ion-icon>

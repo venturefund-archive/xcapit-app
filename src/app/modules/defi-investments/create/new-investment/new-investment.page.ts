@@ -15,7 +15,7 @@ import { AmountInputCardComponent } from '../../shared-defi-investments/componen
   selector: 'app-new-investment',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
@@ -41,7 +41,7 @@ import { AmountInputCardComponent } from '../../shared-defi-investments/componen
         size="large"
         type="submit"
         class="ion-padding-start ion-padding-end ux_button"
-        color="uxsecondary"
+        color="secondary"
         (click)="this.saveAmount()"
         [disabled]="!this.form.valid"
       >

@@ -7,22 +7,25 @@ ion-item {
   display: flex;
   padding-left: -3%;
   align-items: flex-start;
+
   --margin-bottom: 8px;
   --padding-start: 0;
   --padding-right: 0;
 }
+
 .item {
   position: relative;
   margin: left 0%;
 }
+
 .checkbox {
-  padding-right: 0px;
+  padding-right: 0;
   margin-right: 2px;
   vertical-align: top;
 }
 
 .info_text {
-  color: var(--ion-color-uxsemidark);
+  color: var(--ion-color-neutral80);
   margin-top: 24px;
   margin-bottom: 24px;
 }

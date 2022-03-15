@@ -14,7 +14,7 @@ import { EthersService } from '../../shared-wallets/services/ethers/ethers.servi
   selector: 'app-operation-detail',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-title class="ion-text-center">
           {{ 'wallets.wallet_connect.operation_detail.header' | translate }}
         </ion-title>
@@ -107,7 +107,7 @@ import { EthersService } from '../../shared-wallets/services/ethers/ethers.servi
               class="ux_button"
               appTrackClick
               name="Next"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               (click)="confirmOperation()"
               [disabled]="this.disable"

@@ -22,7 +22,7 @@
     border-bottom: 1px solid grey;
 
     ion-icon {
-      color: var(--ion-color-uxlight);
+      color: var(--ion-color-white);
     }
 
     .hidden-input {
@@ -36,8 +36,8 @@
 
   .active {
     --color: white;
-    --background: var(--ion-color-uxprimary);
-    --background-activated: var(--ion-color-uxprimary);
+    --background: var(--ion-color-primary);
+    --background-activated: var(--ion-color-primary);
     --border-radius: 150px;
   }
 }

@@ -4,7 +4,7 @@ import { Component, Input, OnInit } from '@angular/core';
   selector: 'app-symbol-format',
   template: `
     <ion-text class="base ux-font-text-xxs">{{ this.base }}</ion-text
-    ><ion-text color="uxsemidark" class="quote ux-font-text-xxs">/{{ this.quote }}</ion-text>
+    ><ion-text color="neutral80" class="quote ux-font-text-xxs">/{{ this.quote }}</ion-text>
   `,
   styleUrls: ['./symbol-format.component.scss'],
 })

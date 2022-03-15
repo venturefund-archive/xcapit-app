@@ -6,7 +6,7 @@ import { NavController } from '@ionic/angular';
   template: ` <ion-content class="srw ion-padding-start ion-padding-end">
     <div class="srw__button_content">
       <ion-button class="srw__close_button" appTrackClick fill="clear" name="close" (click)="this.goToHome()">
-        <ion-icon class="srw__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
+        <ion-icon class="srw__close_button__icon" name="ux-close" color="neutral80"></ion-icon>
       </ion-button>
     </div>
     <div class="ux_main">
@@ -28,7 +28,7 @@ import { NavController } from '@ionic/angular';
               class="ux_button"
               name="go_to_create_wallet"
               type="button"
-              color="uxsecondary"
+              color="secondary"
               expand="block"
               (click)="this.goToCreateWallet()"
               appTrackClick

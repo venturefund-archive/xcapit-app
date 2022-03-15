@@ -1,6 +1,6 @@
 :host {
   .aic {
-    background: var(--ion-color-uxlight);
+    background: var(--ion-color-white);
     border-radius: 8px;
 
     &__header {
@@ -24,15 +24,15 @@
           text-align: center;
           font-family: var(--ux-font-worksans);
           font-size: var(--ux-fsize-14);
-          color: var(--ion-color-uxprimary);
+          color: var(--ion-color-primary);
         }
 
         ion-input {
           flex-basis: 45%;
           border-radius: 4px;
-          border: 1px solid var(--ion-color-uxsemidark);
-          background-color: var(--ion-color-neutro10);
-          color: var(--ion-color-uxdark);
+          border: 1px solid var(--ion-color-neutral80);
+          background-color: var(--ion-color-neutral10);
+          color: var(--ion-color-neutral90);
 
           --padding-start: 16px;
         }
@@ -51,16 +51,16 @@
         }
 
         ion-input.has-focus {
-          border: 1.5px solid var(--ion-color-uxprimary);
+          border: 1.5px solid var(--ion-color-primary);
 
-          --placeholder-color: var(--ion-color-uxdark);
+          --placeholder-color: var(--ion-color-neutral90);
           --placeholder-opacity: 0;
         }
       }
 
       &__disclaimer {
         ion-text {
-          color: var(--ion-color-uxsemidark);
+          color: var(--ion-color-neutral80);
         }
       }
 
@@ -78,7 +78,7 @@
       }
 
       &__available {
-        color: var(--ion-color-uxsemidark);
+        color: var(--ion-color-neutral80);
         margin-bottom: 24px;
       }
     }

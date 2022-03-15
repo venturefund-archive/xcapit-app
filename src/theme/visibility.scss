@@ -1,5 +1,6 @@
 .hidden {
-  --ion-background-color: transparent;
+  --ion-color-neutral10: transparent;
+
   background-color: transparent;
 }
 
@@ -8,5 +9,5 @@
 }
 
 .transparent-background {
-  --ion-background-color: transparent !important;
+  --ion-color-neutral10: transparent !important;
 }

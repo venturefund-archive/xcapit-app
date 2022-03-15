@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-timeline-detail',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/detail/{{ this.fundName }}"></ion-back-button>
         </ion-buttons>
@@ -33,7 +33,7 @@ import { TranslateService } from '@ngx-translate/core';
           <ion-list class="atd__performance-card__content">
             <ion-item class="atd__performance-card__content__item">
               <ion-label>
-                <ion-text class="ux-font-text-xxs regular" color="uxsemidark">
+                <ion-text class="ux-font-text-xxs regular" color="neutral80">
                   {{ 'funds.fund_timeline_detail.performance_card.performance_label' | translate }}
                 </ion-text>
               </ion-label>
@@ -50,7 +50,7 @@ import { TranslateService } from '@ngx-translate/core';
         </div>
         <div class="atd__config">
           <div class="atd__config__title">
-            <ion-text class="ux-font-subheading" color="uxsemidark">
+            <ion-text class="ux-font-subheading" color="neutral80">
               {{ 'funds.fund_timeline_detail.config_card.title' | translate }}
             </ion-text>
           </div>

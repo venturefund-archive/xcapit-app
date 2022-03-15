@@ -8,15 +8,15 @@
       margin-left: 8px;
       align-items: center;
       justify-content: center;
-      color: var(--ion-color-uxlight);
+      color: var(--ion-color-white);
       font-family: var(--ux-font-worksans);
       font-size: var(--ux-fsize-10);
     }
 
     &__content {
-      background: var(--ion-color-uxlight);
+      background: var(--ion-color-white);
       border-radius: 15px 15px 0 0;
-      border: 0.5px solid var(--ion-color-uxmedium);
+      border: 0.5px solid var(--ion-color-neutral50);
       padding: 8px 16px 12px;
       background-size: cover !important;
 
@@ -48,7 +48,7 @@
           border-radius: 8px;
 
           .title {
-            color: var(--ion-color-uxsemidark);
+            color: var(--ion-color-neutral80);
           }
         }
       }
@@ -79,7 +79,7 @@
 
         &__label_1 {
           align-self: flex-end;
-          color: var(--ion-color-uxprimary);
+          color: var(--ion-color-primary);
           line-height: 18px;
 
           ion-skeleton-text {
@@ -101,10 +101,10 @@
 
     &__footer {
       border-top: none !important;
-      background: var(--ion-color-uxlight);
+      background: var(--ion-color-white);
       display: flex;
       align-items: center;
-      border: 0.5px solid var(--ion-color-uxmedium);
+      border: 0.5px solid var(--ion-color-neutral50);
       border-radius: 0 0 8px 8px;
       padding: 12px;
       justify-content: space-between;

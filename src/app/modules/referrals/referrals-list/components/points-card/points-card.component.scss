@@ -1,17 +1,20 @@
 :host {
   width: 100%;
+
   .badge {
-    --background: rgba(239, 246, 255, 1);
-    color: rgba(30, 64, 175, 1);
+    --background: rgb(239 246 255 / 100%);
+
+    color: rgb(30 64 175 / 100%);
   }
+
   .ric {
-    background-color: var(--ion-color-uxlight);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
 
     &__content {
       display: flex;
       justify-content: space-between;
-      padding: 16px 16px 24px 16px;
+      padding: 16px 16px 24px;
       width: auto;
       height: 43px;
 
@@ -23,6 +26,7 @@
         justify-content: flex-end;
         align-items: flex-end;
       }
+
       &__left {
         margin-top: 15px;
         margin-bottom: 15px;

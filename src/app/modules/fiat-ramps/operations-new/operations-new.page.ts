@@ -16,7 +16,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
   selector: 'app-operations-new',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/moonpay"></ion-back-button>
         </ion-buttons>
@@ -169,7 +169,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
             <!-- wallet -->
             <div class="ion-margin-top">
-              <ion-text class="ux-font-input-label ux-font-text-xs" color="uxsemidark">
+              <ion-text class="ux-font-input-label ux-font-text-xs" color="neutral80">
                 {{ 'fiat_ramps.ramp_initial.wallet' | translate }}
               </ion-text>
               <app-ux-loading-block *ngIf="!(this.walletAddress.length > 0)" minSize="30px"></app-ux-loading-block>
@@ -188,7 +188,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
         <div class="ux_footer">
           <div class="button-next">
-            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="uxsecondary" size="large">
+            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="secondary" size="large">
               {{ 'fiat_ramps.ramp_initial.next_button' | translate }}
             </ion-button>
           </div>

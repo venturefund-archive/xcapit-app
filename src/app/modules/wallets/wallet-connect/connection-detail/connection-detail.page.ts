@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-connection-detail',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home" (click)="this.backNavigation()"></ion-back-button>
         </ion-buttons>
@@ -75,7 +75,7 @@ import { TranslateService } from '@ngx-translate/core';
           class="ux_button connect_button"
           appTrackClick
           name="Next"
-          color="uxsecondary"
+          color="secondary"
           size="large"
           (click)="approveSession()"
           *ngIf="!this.connectionStatus"

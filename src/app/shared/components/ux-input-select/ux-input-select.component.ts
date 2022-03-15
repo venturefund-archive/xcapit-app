@@ -16,7 +16,7 @@ import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.compo
           (click)="this.openModal($event)"
         >
         </ion-input>
-        <ion-icon class="uxselect__item__arrow_icon" item-end name="ux-down" color="uxdark"></ion-icon>
+        <ion-icon class="uxselect__item__arrow_icon" item-end name="ux-down" color="neutral90"></ion-icon>
       </ion-item>
       <app-errors-form-item [controlName]="this.controlName"></app-errors-form-item>
     </div>

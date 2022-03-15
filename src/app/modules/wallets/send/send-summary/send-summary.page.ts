@@ -16,7 +16,7 @@ import { isAddress } from 'ethers/lib/utils';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
@@ -41,7 +41,7 @@ import { isAddress } from 'ethers/lib/utils';
           [appLoading]="this.loading"
           [loadingText]="'wallets.send.send_summary.loader' | translate"
           class="ux_button"
-          color="uxsecondary"
+          color="secondary"
           appTrackClick
           name="ux_send_send"
           [disabled]="(this.submitButtonService.isDisabled | async) || this.isSending"

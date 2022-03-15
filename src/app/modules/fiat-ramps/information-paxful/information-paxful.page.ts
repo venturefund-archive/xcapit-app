@@ -9,7 +9,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
   selector: 'app-information-paxful',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
@@ -27,7 +27,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
             </ion-text>
           </div>
           <div class="info_text">
-            <ion-text color="uxdark" class="ux-font-text-xs">
+            <ion-text color="neutral90" class="ux-font-text-xs">
               {{ 'fiat_ramps.information_paxful.subtitle' | translate }}
             </ion-text>
           </div>
@@ -94,7 +94,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
         </div>
         <div class="ux_footer ion-padding">
           <div class="button-next">
-            <ion-button class="ux_button" appTrackClick name="Acept" type="submit" color="uxsecondary" size="large">
+            <ion-button class="ux_button" appTrackClick name="Acept" type="submit" color="secondary" size="large">
               {{ 'fiat_ramps.information_paxful.button' | translate }}
             </ion-button>
           </div>

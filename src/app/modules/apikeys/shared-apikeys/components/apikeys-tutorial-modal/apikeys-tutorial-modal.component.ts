@@ -5,7 +5,7 @@ import { ModalController } from '@ionic/angular';
   selector: 'app-apikeys-tutorial-modal',
   template: `
     <div class="ion-padding atm">
-      <ion-button name="Close" class="atm__close" appTrackClick color="uxprimary" fill="clear" (click)="this.close()">
+      <ion-button name="Close" class="atm__close" appTrackClick color="primary" fill="clear" (click)="this.close()">
         <ion-icon name="ux-close" alt="Close"></ion-icon>
       </ion-button>
       <div class="atm__title">
@@ -27,7 +27,7 @@ import { ModalController } from '@ionic/angular';
           name="I Have an Account"
           appTrackClick
           class="ux_button atm__footer__button"
-          color="uxsecondary"
+          color="secondary"
           size="large"
           (click)="this.closeAndNavigateForward()"
         >

@@ -20,7 +20,7 @@ import { NavController } from '@ionic/angular';
           name="Primary Button"
           class="ux_button ion-no-padding"
           size="small"
-          color="uxsecondary"
+          color="secondary"
           (click)="this.primaryAction()"
         >
           {{ this.buttonPrimaryText | translate }}

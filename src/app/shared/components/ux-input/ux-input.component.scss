@@ -24,10 +24,10 @@
       --inner-border-width: 0;
       --highlight-background: none;
 
-      color: var(--ion-color-uxdark);
+      color: var(--ion-color-neutral90);
 
       &.item-has-focus {
-        border: 1.5px solid var(--ion-color-uxprimary);
+        border: 1.5px solid var(--ion-color-primary);
       }
 
       &__error_icon {

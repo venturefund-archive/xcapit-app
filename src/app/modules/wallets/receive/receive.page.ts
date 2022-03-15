@@ -14,7 +14,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-receive',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
@@ -56,7 +56,7 @@ import { NavController } from '@ionic/angular';
             ></app-network-select-card>
           </div>
           <div class="wr__card-content__remaining-time-text">
-            <ion-text color="uxsemidark" class="ux-font-text-xxs">{{
+            <ion-text color="neutral80" class="ux-font-text-xxs">{{
               'wallets.receive.average_time' | translate
             }}</ion-text>
           </div>
@@ -72,7 +72,7 @@ import { NavController } from '@ionic/angular';
               <ion-button
                 name="Copy Wallet Address"
                 class="ux-font-button ion-no-margin"
-                color="uxprimary"
+                color="primary"
                 appTrackClick
                 id="copy-address-button"
                 fill="clear"

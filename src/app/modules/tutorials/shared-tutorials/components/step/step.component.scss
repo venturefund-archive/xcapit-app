@@ -36,7 +36,7 @@
 
       &__primary_text {
         ion-text {
-          color: var(--ion-color-uxprimary);
+          color: var(--ion-color-primary);
         }
 
         margin-top: 23px;
@@ -44,7 +44,7 @@
 
       &__secondary_text {
         ion-text {
-          color: var(--ion-color-gray1);
+          color: var(--ion-color-neutral90);
         }
 
         margin-top: 45px;
@@ -101,7 +101,7 @@
       top: 15px;
 
       ion-text {
-        color: var(--ion-color-uxprimary);
+        color: var(--ion-color-primary);
       }
     }
   }

@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
         <ion-text class="ux-font-text-lg ic__title">{{ this.title | translate}}</ion-text>
       </div>
       <div>
-        <ion-text class="ux-font-text-xs ic__description" color="uxsemidark">{{ this.description | translate }}</ion-text>
+        <ion-text class="ux-font-text-xs ic__description" color="neutral80">{{ this.description | translate }}</ion-text>
       </div>
     </div>
   `,

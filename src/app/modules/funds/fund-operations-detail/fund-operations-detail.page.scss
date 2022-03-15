@@ -3,31 +3,38 @@
     &__header-title {
       margin-top: -10px;
     }
+
     &__header-fund {
       margin-top: 10px;
       font-weight: 500;
     }
+
     &__header-button {
       text-align: right;
       display: block;
     }
   }
+
   .fodc {
     margin-top: 25px;
+
     &__header {
       display: flex;
       flex-direction: row;
       justify-content: center;
       align-items: center;
       text-align: center;
+
       div {
         flex-basis: 100%;
       }
+
       &__symbol {
         margin-right: 2px;
       }
+
       .operation-type {
-        padding: 2px 2px;
+        padding: 2px;
         font-size: var(--ux-fsize-8);
         font-weight: var(--ux-fweight-extrabold);
         font-family: var(--ux-font-gilroy);
@@ -40,40 +47,49 @@
         background: var(--ion-color-dangerlight);
         color: var(--ion-color-dangerdark);
       }
+
       &__buy {
         background: var(--ion-color-successlight);
         color: var(--ion-color-successdark);
       }
     }
+
     &__content {
       &__block {
         display: flex;
         flex-direction: column;
+
         &__item {
           display: flex;
           width: 100%;
           font-size: 12px;
-          color: var(--ion-color-uxsemidark);
+          color: var(--ion-color-neutral80);
+
           --min-height: 19px;
         }
+
         &__item > ion-text {
-          color: var(--ion-color-uxdark);
+          color: var(--ion-color-neutral90);
         }
       }
     }
+
     &__content > ion-item-group {
       font-size: var(--ux-fsize-22);
-      margin: 10px 0px;
+      margin: 10px 0;
     }
+
     &__align_left {
       text-align: left;
     }
+
     &__align_right {
       text-align: right;
     }
+
     &__margin {
-      margin-top: 0px;
-      margin-bottom: 0px;
+      margin-top: 0;
+      margin-bottom: 0;
     }
   }
 

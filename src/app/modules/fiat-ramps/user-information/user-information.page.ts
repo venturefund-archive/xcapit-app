@@ -14,7 +14,7 @@ import * as moment from 'moment';
   selector: 'app-user-information',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/moonpay"></ion-back-button>
         </ion-buttons>
@@ -30,7 +30,7 @@ import * as moment from 'moment';
       </div>
 
       <app-ux-text class="ion-padding-top ion-margin-top">
-        <div class="ion-margin-top ion-margin-bottom ux-font-text-xs" color="uxprimary">
+        <div class="ion-margin-top ion-margin-bottom ux-font-text-xs" color="primary">
           {{ 'fiat_ramps.register.description' | translate }}
         </div>
       </app-ux-text>
@@ -161,7 +161,7 @@ import * as moment from 'moment';
             <app-ux-checkbox
               class="small"
               controlName="expuesto_politicamente"
-              color="uxsecondary"
+              color="secondary"
               slot="start"
             ></app-ux-checkbox>
           </ion-item>
@@ -169,7 +169,7 @@ import * as moment from 'moment';
 
         <div class="ux_footer">
           <div class="button-next">
-            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="uxsecondary" size="large">
+            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="secondary" size="large">
               {{ 'fiat_ramps.register.next' | translate }}
             </ion-button>
           </div>

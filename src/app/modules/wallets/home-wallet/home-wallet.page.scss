@@ -13,12 +13,12 @@
     &__segments {
       ion-label:not(.active-tab) {
         font-size: var(--ux-fsize-20);
-        color: var(--ion-color-uxsemidark);
+        color: var(--ion-color-neutral80);
       }
 
       ion-label.active-tab {
         font-size: var(--ux-fsize-20);
-        color: var(--ion-color-uxprimary);
+        color: var(--ion-color-primary);
       }
     }
 
@@ -48,7 +48,7 @@
         border-bottom-right-radius: 10px;
         height: 121px;
         width: 100%;
-        background-color: var(--ion-color-uxprimary);
+        background-color: var(--ion-color-primary);
 
         &__title {
           color: red;
@@ -102,11 +102,11 @@
 
   .segment-content {
     border: 0.5px solid;
-    border-color: var(--ion-color-uxmedium);
+    border-color: var(--ion-color-neutral50);
     box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
     border-radius: 8px;
     overflow: hidden;
-    background: var(--ion-color-uxlight);
+    background: var(--ion-color-white);
 
     &.first-selected {
       border-top-left-radius: 0;

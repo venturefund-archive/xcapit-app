@@ -2,12 +2,14 @@
   ion-header {
     position: absolute !important;
     top: 0;
+
     --background: none;
   }
 
   ion-content {
     --offset-top: -145px !important;
-    background: var(--ion-background-color) !important;
+
+    background: var(--ion-color-neutral10) !important;
   }
 
   .tos-text {
@@ -25,9 +27,11 @@
     &__button {
       float: right;
       height: auto;
-      min-width: 0px;
+      min-width: 0;
       margin: 0;
+
       --padding-start: 0.35em;
+
       text-decoration: underline var(--ion-color-info);
 
       .button-native {
@@ -69,6 +73,7 @@
   .main {
     &__back_login__button {
       text-decoration: underline var(--ion-color-info);
+
       .button-native {
         padding-right: 0 !important;
       }

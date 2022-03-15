@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-recovery-phrase-read',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/recovery/info"></ion-back-button>
         </ion-buttons>
@@ -20,12 +20,12 @@ import { TranslateService } from '@ngx-translate/core';
       <div class="ux_main">
         <div class="ux_content">
           <div class="rpr__title">
-            <ion-text class="ux-font-text-lg" color="uxprimary">
+            <ion-text class="ux-font-text-lg" color="primary">
               {{ 'wallets.recovery_phrase_read.title' | translate }}
             </ion-text>
           </div>
           <div class="rpr__text">
-            <ion-text class="ux-font-text-base" color="uxdark">
+            <ion-text class="ux-font-text-base" color="neutral90">
               {{ 'wallets.recovery_phrase_read.text' | translate }}
             </ion-text>
           </div>
@@ -71,7 +71,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.buttonColor = 'uxprimary';
+    this.buttonColor = 'primary';
     this.buttonFill = 'outline';
     this.buttonText = 'wallets.recovery_phrase_read.button_text';
     this.mnemonic = this.walletMnemonicService.mnemonic;
@@ -80,7 +80,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   copyToClipboard() {
     this.clipboardService.write({ string: this.mnemonic.phrase }).then(
       () => {
-        this.buttonColor = 'uxsecondary';
+        this.buttonColor = 'secondary';
         this.buttonFill = 'solid';
         this.buttonText = 'wallets.recovery_phrase_read.button_text_coppied';
         this.showInfoToast('wallets.recovery_phrase_read.coppied_text');

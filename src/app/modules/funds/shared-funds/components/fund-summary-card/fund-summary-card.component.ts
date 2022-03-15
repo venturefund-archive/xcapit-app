@@ -14,12 +14,12 @@ import { Currency } from '../../enums/currency.enum';
       <div class="fsc__content">
         <div class="fsc__content__left">
           <div class="fund-name">
-            <ion-text class="ux-font-text-xxs fsc__content__left__fund_name" color="uxdark">{{
+            <ion-text class="ux-font-text-xxs fsc__content__left__fund_name" color="neutral90">{{
               this.summary?.fund.nombre_bot
             }}</ion-text>
           </div>
           <div class="actual-amount">
-            <ion-text class="ux-font-text-xl" color="uxdark">
+            <ion-text class="ux-font-text-xl" color="neutral90">
               {{
                 this.totalBase
                   | currencyFormat
@@ -31,8 +31,8 @@ import { Currency } from '../../enums/currency.enum';
                   | hideText: this.hideFundText
               }}
             </ion-text>
-            <ion-text class="ux-font-text-base" color="uxsemidark"> ≈ </ion-text>
-            <ion-text class="ux-font-text-base" color="uxsemidark">
+            <ion-text class="ux-font-text-base" color="neutral80"> ≈ </ion-text>
+            <ion-text class="ux-font-text-base" color="neutral80">
               {{
                 this.totalSecond
                   | currencyFormat
@@ -46,7 +46,7 @@ import { Currency } from '../../enums/currency.enum';
             </ion-text>
           </div>
           <div class="actual-text">
-            <ion-text class="ux-font-text-xxs fsc__content__left__actual_ammount" color="uxsemidark">{{
+            <ion-text class="ux-font-text-xxs fsc__content__left__actual_ammount" color="neutral80">{{
               'funds.fund_detail.fund_summary_card.actual_amount' | translate
             }}</ion-text>
           </div>

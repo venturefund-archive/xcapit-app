@@ -14,7 +14,7 @@ import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-tra
   selector: 'app-asset-detail',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
@@ -51,7 +51,7 @@ import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-tra
 
         <div class="wad__transaction" *ngIf="!!this.transfers.length">
           <div class="wad__transaction__title">
-            <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxsemidark">
+            <ion-label class="ux-font-lato ux-fweight-bold ux-fsize-12" color="neutral80">
               {{ 'wallets.asset_detail.wallet_transaction_title' | translate }}
             </ion-label>
           </div>

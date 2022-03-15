@@ -22,7 +22,7 @@
             flex-direction: column;
 
             ion-text {
-              color: var(--ion-color-uxprimary);
+              color: var(--ion-color-primary);
             }
 
             ion-text:first-child {
@@ -80,7 +80,7 @@
           }
 
           &__text {
-            color: var(--ion-color-uxdark);
+            color: var(--ion-color-neutral90);
           }
 
           .inline-image {

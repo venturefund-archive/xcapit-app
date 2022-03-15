@@ -1,25 +1,32 @@
 :host {
   .tsc {
-    background: var(--ion-color-uxlight);
-    --ion-background-color: var(--ion-color-uxlight);
+    background: var(--ion-color-white);
+
+    --ion-color-neutral10: var(--ion-color-white);
+
     border-radius: 8px;
+
     &__name-and-icon {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       &__icon {
         display: flex;
         justify-content: center;
         align-items: center;
         max-width: 33px;
       }
+
       &__name {
         display: flex;
         flex-direction: column;
       }
     }
+
     &__amount {
       margin-top: 16px;
+
       &__content {
         margin-top: 4px;
         display: flex;
@@ -27,6 +34,7 @@
         align-items: center;
       }
     }
+
     &__address {
       margin-top: 24px;
     }
