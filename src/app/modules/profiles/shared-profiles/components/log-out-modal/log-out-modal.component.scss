@@ -1,0 +1,87 @@
+:host {
+  .lom {
+    width: 328px;
+
+    &__content {
+      padding-bottom: 18px;
+
+      &__title {
+        margin-top: 8px;
+        width: 100%;
+        text-align: center;
+
+        ion-text {
+          font-size: var(--ux-fsize-20);
+          line-height: 23.46px;
+        }
+      }
+
+      &__text {
+        margin-top: 8px;
+        width: 100%;
+        text-align: center;
+
+        ion-text {
+          color: var(--ion-color-uxdark);
+        }
+      }
+
+      &__more-info {
+        margin-top: 24px;
+        width: 100%;
+        text-align: center;
+
+        ion-button {
+          height: 16.42px;
+
+          --border-radius: 0;
+        }
+      }
+
+      &__checkbox {
+        margin-top: 24px;
+
+        ion-item {
+          --min-height: 24px;
+          --inner-padding-bottom: 0;
+          --inner-padding-top: 0;
+          --inner-padding-start: 0;
+          --inner-padding-end: 0;
+          --padding-bottom: 0;
+          --padding-top: 0;
+          --padding-start: 0;
+          --padding-end: 0;
+          --background-hover: transparent;
+          --background: transparent;
+
+          ion-label {
+            color: var(--ion-color-uxdark);
+            margin: 0;
+          }
+
+          ion-checkbox {
+            --border-radius: 15%;
+            --border-width: 2px;
+            --border-style: solid;
+            --border-color: var(--ion-color-infoligt);
+            --background: #fff;
+            --size: 18px;
+            --checkmark-width: 2px;
+
+            color: var(--ion-color-info);
+            margin: 0 8px 0 0;
+          }
+        }
+      }
+    }
+
+    &__close-button {
+      border-top: 1px solid #eee;
+      width: 100%;
+
+      ion-button {
+        width: 100%;
+      }
+    }
+  }
+}
