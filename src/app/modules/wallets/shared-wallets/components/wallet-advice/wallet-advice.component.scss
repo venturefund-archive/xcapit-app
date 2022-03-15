@@ -19,10 +19,11 @@
 
       &__button {
         height: auto;
+        margin-bottom: 5px;
+        margin-left: -8px;
 
-        --padding-start: 0 !important;
-
-        margin-top: -5px;
+        --padding-start: 8px !important;
+        --padding-bottom: 8px;
       }
     }
 

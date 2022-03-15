@@ -19,7 +19,7 @@ import { NavController } from '@ionic/angular';
               appTrackClick
               fill="clear"
             >
-              {{ this.link | translate }}
+              {{  this.link | translate }}
             </ion-button>
           </span>
       </div>

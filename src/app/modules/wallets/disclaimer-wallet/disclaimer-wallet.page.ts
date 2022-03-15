@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
@@ -90,7 +90,7 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
   `,
   styleUrls: ['./disclaimer-wallet.page.scss'],
 })
-export class DisclaimerWalletPage implements OnInit {
+export class DisclaimerWalletPage implements AfterViewInit {
   mode: string;
   hasAcceptedDisclaimer: boolean;
   anchors;
@@ -123,7 +123,7 @@ export class DisclaimerWalletPage implements OnInit {
   handleAnchorClick(event: Event) {
       event.preventDefault();
       const anchor = event.target as HTMLAnchorElement;
-      this.showTermsOfUse(anchor.getAttribute('href'));
+      this.navigateToLink(anchor.getAttribute('href'));
   }
 
   ngOnInit() {
@@ -156,7 +156,7 @@ export class DisclaimerWalletPage implements OnInit {
     await modal.present();
   }
 
-  async showTermsOfUse(link) {
+  async navigateToLink(link) {
     await this.browserService.open({
       url: link,
     });
