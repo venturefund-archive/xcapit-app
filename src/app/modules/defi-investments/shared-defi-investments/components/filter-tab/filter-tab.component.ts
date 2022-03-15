@@ -28,7 +28,7 @@ import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/
 export class FilterTabComponent implements AfterViewInit {
   control: AbstractControl;
   @Input() items: { title: string; value: string }[];
-  @Input() controlName: string;
+  @Input() controlName: string ;
   constructor(private formGroupDirective: FormGroupDirective, public elRef: ElementRef) {}
 
  
