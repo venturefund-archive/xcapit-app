@@ -1609,10 +1609,12 @@
     "disclaimer": {
       "header": "Create Wallet",
       "title": "Let's start with your wallet!",
+      "wallet_term_text":"Your Wallet will be linked to this device, not to your e-mail. For more information, visit the ",
+      "wallet_term_link":"Wallet FAQs",
       "description": "Before creating your wallet, verify the essential permissions to start",
       "local_stored_keys_checkbox": "I understand that my funds are kept safely within this device, and not by a company.",
       "recovery_phrase_checkbox": "I understand that if this application is moved to another device or removed, my funds can only be recovered with the recovery phrase.",
-      "terms_of_use_checkbox": "I have read, understand and accept the terms of use.",
+      "terms_of_use_checkbox": "I have read, understand and accept the <a class='ux-link-xs' href='https://xcapit.com/tyc/'>terms of use</a>.",
       "terms_of_use_button": "See terms of use",
       "submit_button": "Confirm and accept",
       "error_did_not_accept": "You need to check all the options to continue."

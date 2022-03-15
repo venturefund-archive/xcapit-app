@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
@@ -61,29 +61,16 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
             <ion-item class="ion-no-padding ion-no-margin checkbox last">
               <div class="ux_checkbox_container">
                 <ion-item class="ux_checkbox_container__item ux-font-text-xs">
-                  <ion-label class="ux_checkbox_container__item__label checkbox__label">
-                    {{ 'wallets.disclaimer.terms_of_use_checkbox' | translate }}
+                  <ion-label class="ux_checkbox_container__item__label checkbox__label lbl" [innerHTML]="this.textLink | translate">
                   </ion-label>
                   <ion-checkbox formControlName="termsOfUseCheckbox" slot="start"></ion-checkbox>
                 </ion-item>
               </div>
             </ion-item>
           </div>
+          <app-wallet-advice [logo]="'ux-device'" [text]="'wallets.disclaimer.wallet_term_text'" [link]="'wallets.disclaimer.wallet_term_link'"></app-wallet-advice>
         </div>
         <div name="Disclaimer Form Buttons" class="ux_footer">
-          <div class="button">
-            <ion-button
-              appTrackClick
-              class="ux-link-xs underline"
-              name="Terms of Use"
-              type="button"
-              size="small"
-              fill="clear"
-              (click)="this.showTermsOfUse()"
-            >
-              {{ 'wallets.disclaimer.terms_of_use_button' | translate }}
-            </ion-button>
-          </div>
           <div class="button">
             <ion-button
               class="ux_button"
@@ -103,9 +90,11 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
   `,
   styleUrls: ['./disclaimer-wallet.page.scss'],
 })
-export class DisclaimerWalletPage implements OnInit {
+export class DisclaimerWalletPage implements AfterViewInit {
   mode: string;
   hasAcceptedDisclaimer: boolean;
+  anchors;
+  textLink = 'wallets.disclaimer.terms_of_use_checkbox';
   disclaimerForm: FormGroup = this.formBuilder.group({
     localStoredKeysCheckbox: [false, [Validators.requiredTrue]],
     recoveryPhraseCheckbox: [false, [Validators.requiredTrue]],
@@ -113,6 +102,7 @@ export class DisclaimerWalletPage implements OnInit {
   });
 
   constructor(
+    private elementRef: ElementRef,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     public submitButtonService: SubmitButtonService,
@@ -122,6 +112,19 @@ export class DisclaimerWalletPage implements OnInit {
     private storageWalletsService: StorageWalletsService,
     private browserService: BrowserService
   ) {}
+
+  ngAfterViewInit() {
+    this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
+    this.anchors.forEach((anchor) => {
+      anchor.addEventListener('click', this.handleAnchorClick.bind(this));
+    });
+  }
+
+  handleAnchorClick(event: Event) {
+      event.preventDefault();
+      const anchor = event.target as HTMLAnchorElement;
+      this.navigateToLink(anchor.getAttribute('href'));
+  }
 
   ngOnInit() {
     this.mode = this.route.snapshot.paramMap.get('mode');
@@ -153,9 +156,9 @@ export class DisclaimerWalletPage implements OnInit {
     await modal.present();
   }
 
-  async showTermsOfUse() {
+  async navigateToLink(link) {
     await this.browserService.open({
-      url: 'https://xcapit.com/tyc/',
+      url: link,
     });
   }
 
