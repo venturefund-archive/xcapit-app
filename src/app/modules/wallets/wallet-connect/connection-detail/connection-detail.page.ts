@@ -84,7 +84,7 @@ import { TranslateService } from '@ngx-translate/core';
         </ion-button>
 
         <div class="disconnect_link" *ngIf="this.connectionStatus">
-          <a (click)="this.killSession()">{{ 'wallets.wallet_connect.button_disconnect' | translate }}</a>
+          <a (click)="this.disconnectSession()">{{ 'wallets.wallet_connect.button_disconnect' | translate }}</a>
         </div>
 
         <div class="disclaimer ion-margin-top">
@@ -166,6 +166,25 @@ export class ConnectionDetailPage implements OnInit {
       });
       await alert.present();
     }
+  }
+
+  public async disconnectSession() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('wallets.wallet_connect.connection_detail.disconnect.header'),
+      message: this.translate.instant('wallets.wallet_connect.connection_detail.disconnect.message'),
+      buttons: [
+        {
+          text: this.translate.instant('wallets.wallet_connect.connection_detail.disconnect.cancel_button'),
+        },
+        {
+          text: this.translate.instant('wallets.wallet_connect.connection_detail.disconnect.accept_button'),
+          handler: async () => {
+            await this.killSession();
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
   public async killSession() {

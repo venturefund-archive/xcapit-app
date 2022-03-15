@@ -330,6 +330,11 @@
       "weekly_earnings_disclaimer": "*Tu balance se actualiza el día lunes de cada semana."
     },
     "shared": {
+      "filter_tab":{
+        "conservative":"Perfil conservador",
+        "medium":"Perfil moderado",
+        "risky":"Perfil agresivo"
+      },
       "coming_soon_card": {
         "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
         "text": "Te avisaremos cuando esta función esté disponible. Ve consiguiendo tus Tokens."
@@ -357,7 +362,8 @@
       },
       "amount_input_card": {
         "available": "Disponible",
-        "disclaimer": "Ten en cuenta que se cobrarán tarifas de transacción en"
+        "disclaimer": "La tasa de cambio la define la blockchain. Los montos pueden variar, según el momento en que realices la transacción. \nTen en cuenta que se cobrarán tarifas de transacción en",
+        "max_button": "Máx"
       },
       "withdraw_card": {
         "title": "Retiro",
@@ -757,7 +763,6 @@
       "minutes": "{{value}} minuto{{s}}",
       "seconds": "{{value}} segundo{{s}}",
       "finalized": "Finalizado",
-      "renovate": "Renovar",
       "unsubscribe_toast": "Desuscripción exitosa",
       "unsubscribe_alert_ok": "Desuscribir",
       "unsubscribe_alert_cancel": "Cancelar",
@@ -795,7 +800,6 @@
         "risk": "Perfil",
         "take_profit": "Take profit",
         "stop_loss": "Stop loss",
-        "renovate": "Renovar",
         "fund_deleted": "El fondo se ha eliminado"
       }
     },
@@ -928,6 +932,14 @@
       "category_walletconnect": "WalletConnect",
       "profile_footer": {
         "investor_profile_button": "Perfil de inversor"
+      },
+      "log_out_modal": {
+        "title": "Cerrar sesión",
+        "text": "Recuerda que tu Wallet está ligada a tu dispositivo. No podrás abrir otra Wallet, a menos que elimines la actual o vuelvas a instalar la aplicación.",
+        "more_info": "Para más información visita las",
+        "more_info_link": "Preguntas frecuentes sobre la Wallet",
+        "checkbox_label": "No volver a mostrar este mensaje.",
+        "log_out_button": "Cerrar sesión"
       }
     },
     "success_profile": {
@@ -1540,6 +1552,10 @@
     }
   },
   "wallets": {
+    "receive_select_currency": {
+      "header": "Recibir",
+      "title": "Selecciona la moneda que quieres recibir"
+    },
     "remove_success": {
       "title": "Tu wallet fue eliminada",
       "subtitle": "Puedes crear nuevamente una wallet o importar una existente cuando lo desees.",
@@ -1634,7 +1650,7 @@
         "send_card": "Enviar",
         "receive_card": "Recibir",
         "buy_card": "Comprar",
-        "performance_card": "Obtener rendimiento"
+        "performance_card": "Invertir"
       }
     },
     "select_coin": {
@@ -1683,15 +1699,13 @@
     },
     "receive": {
       "header": "Recibir",
-      "title": "Datos de tu wallet",
+      "title": "Datos de tu billetera",
       "currency_select": "Moneda",
-      "currency_select_modal_title": "Seleccionar moneda",
-      "currency_select_placeholder": "Moneda",
       "average_time": "Tiempo promedio de llegada: 3 min.",
-      "share": "Compartir",
+      "receive_address_title": "Dirección",
+      "receive_address_copy": "Copiar",
       "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección de depósito.",
-      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito.",
-      "share_title": "Direccion de wallet"
+      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito."
     },
     "nft_detail": {
       "title": "Detalle de NFT",
@@ -1720,15 +1734,20 @@
       "swap": "Swap"
     },
     "send": {
+      "scan_qr":{
+        "title":"Escanea el código QR de la dirección a la que deseas enviar"
+      },
       "select_currency": {
         "header": "Enviar",
-        "title": "Selecciona moneda"
+        "title": "Selecciona la moneda que deseas enviar",
+        "suite": "Red {{suiteName}}"
       },
       "send_detail": {
         "header": "Enviar",
         "title": "Datos de la transferencia",
         "network_select": {
-          "title": "Red",
+          "title": "Datos de la transferencia",
+          "network": "Red",
           "disclaimer": "Asegúrese que la wallet de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito.\n Actualmente solo se pueden enviar tokens por la red nativa del mismo, estamos trabajando para sumar mas y nuevas redes."
         },
         "continue_button": "Continuar",
@@ -1754,6 +1773,7 @@
         "amounts_title": "Monto a enviar",
         "send_button": "Enviar",
         "wrong_password": "Password incorrecto",
+        "loader": "Enviando",
         "sent_notification": {
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"
@@ -1850,12 +1870,11 @@
       "card_title": "Configura tu conexión",
       "card_description": "Elige la red de la que quieres tomar los fondos. Luego, escanea el código QR de la Dapp.",
       "scan_qr": {
-        "header": "Escanea el código QR",
-        "register_manually": "Ingresar manualmente",
+        "header": "Escanea el código QR de tu Dapp",
         "errors": {
-          "invalidQR": "El código QR no es válido.",
-          "noContent": "El código QR no tenía ningún contenido.",
-          "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado."
+          "invalidQR": "Compruebe que el código QR que estás escaneando corresponda al protocolo de conexión de WalletConnect.",
+          "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado.",
+          "close_button": "Aceptar"
         }
       },
       "qr_scanner": {
@@ -1886,7 +1905,13 @@
         "card_title_disconnected": "Conéctate a la Dapp",
         "card_description_disconnected": "La Dapp tendrá acceso a tu wallet. Para realizar transacciones, te pedirá tu aprobación.",
         "card_title_connected": "Opera en la Dapp",
-        "card_description_connected": "Cuando haya operaciones disponibles en la Dapp, recibirás notificaciones para aprobarlas."
+        "card_description_connected": "Cuando haya operaciones disponibles en la Dapp, recibirás notificaciones para aprobarlas.",
+        "disconnect": {
+          "header": "¿Finalizar conexión?",
+          "message": "Si finalizas la conexión, no podrás recibir operaciones desde la Dapp.",
+          "cancel_button": "Cancelar",
+          "accept_button": "Finalizar"
+        }
       },
       "operation_detail": {
         "header": "Detalle de operación",
@@ -1903,7 +1928,10 @@
         "sign_button": "Firmar",
         "approve_button": "Aprobar",
         "confirm_button": "Confirmar",
-        "cancel_button": "Cancelar",
+        "cancel_button": "Cancelar operación",
+        "approve_loading": "Aprobando",
+        "sign_loading": "Firmando",
+        "confirmation_loading": "Confirmando",
         "abort_alert": {
           "header": "¿Abandonar la operación?",
           "message": "Si sales ahora, la operación será cancelada.",
@@ -1916,10 +1944,34 @@
           "cancel_button": "Volver",
           "accept_button": "Aceptar"
         },
+        "types": {
+          "swap": {
+            "swap": "Intercambiar Tokens",
+            "amount_to_send": "Monto a enviar",
+            "amount_to_send_max": "Monto máximo a enviar",
+            "amount_to_receive": "Monto a recibir",
+            "amount_to_receive_min": "Monto mínimo a recibir"
+          },
+          "liquidity": {
+            "add_liquidity": "Agregar Liquidez",
+            "remove_liquidity": "Remover Liquidez",
+            "liquidity": "Liquidez",
+            "amount_token_0": "Monto token 0",
+            "amount_token_1": "Monto token 1",
+            "amount_to_receive_min": "Monto mínimo a recibir"
+          }
+        },
         "card_title_sign": "Firma en la Dapp",
         "card_description_sign": "Este paso es para comprobar que eres tú quien está operando en la Dapp.",
         "card_title_operation": "Confirma tu operación",
-        "card_description_operation": "Confirma la transacción que quieres realizar en la Dapp."
+        "card_description_operation": "Confirma la transacción que quieres realizar en la Dapp.",
+        "password_modal": {
+          "title": "Por seguridad",
+          "description": "Para confirmar tu operación, ingresa la contraseña de tu wallet Xcapit.",
+          "input_label": "Contraseña",
+          "confirm_button": "Aceptar"
+        },
+        "password_error": "La contraseña ingresada no es correcta."
       },
       "transactions": {
         "alert": {
@@ -1930,7 +1982,10 @@
       },
       "disclaimer_1": "WalletConnect está en una etapa Beta por lo que puede presentar inconvenientes en el proceso de conexión.",
       "disclaimer_2": "Si tuviste un problema al conectar tu wallet puedes comunicarte con ",
-      "disclaimer_support": "soporte."
+      "disclaimer_support": "soporte.",
+      "dapp_disconnection": {
+        "message": "Se perdió la conexión con {{dapp}}. Esto puede suceder si te desconectas manualmente o si la conexión es inestable."
+      }
     }
   },
   "apikeys": {
@@ -2616,7 +2671,7 @@
       "question19": "¿Podré generar rendimientos con mis Tokens que se encuentren en la Wallet de Xcapit?",
       "answer19": "Pronto podrás generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit, estos productos de inversión se encontrarán en las Blockchains de ETH, RSK y Polygon y variarán en rendimientos, riesgos y protocolos de inversión. La conexión con estos productos no tardará más de 2 minutos y podrás reclamar tus ganancias en cualquier momento.",
       "question20": "¿Dónde puedo visualizar los términos y condiciones de Wallet?",
-      "answer20": "Puedes visualizarlos en este link: <a class='ux-link-xl' href='support/wallet-info'>Términos y Condiciones</a><ul></li> <li>Cualquier consulta referida a Términos y Condiciones puedes escribir a soporte a través de la App o en su defecto a Legales@xcapit.com</li></ul>"
+      "answer20": "Puedes visualizarlos en este link: <a class='ux-link-xl' href='https://xcapit.com/tyc/'>Términos y Condiciones</a><ul></li> <li>Cualquier consulta referida a Términos y Condiciones puedes escribir a soporte a través de la App o en su defecto a Legales@xcapit.com</li></ul>"
     },
     "support_security": {
       "header": "Ayuda",

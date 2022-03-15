@@ -103,7 +103,7 @@ export class InvestorTestService {
     }
   }
 
-  cancel() {
+  clearAnswers() {
     this.answers = new Map();
   }
 }

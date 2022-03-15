@@ -90,13 +90,6 @@
         align-items: center;
       }
 
-      &__right {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: center;
-      }
-
       &__view_fund {
         font-weight: var(--ux-fweight-semibold);
 

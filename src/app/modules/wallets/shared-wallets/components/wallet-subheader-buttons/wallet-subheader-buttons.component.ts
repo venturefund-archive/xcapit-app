@@ -11,9 +11,9 @@ import { NavigationExtras } from '@angular/router';
           <app-icon-button-card
             (click)="this.goToSend()"
             appTrackClick
-            name="Go to Send"
+            name="ux_send_go_to_send"
             [text]="'wallets.home.subheader_buttons_component.send_card' | translate"
-            icon="ux-wallet"
+            icon="ux-arrow-up"
           ></app-icon-button-card>
         </div>
         <div class="wsb__card-buttons__receive-card card">
@@ -22,7 +22,7 @@ import { NavigationExtras } from '@angular/router';
             appTrackClick
             name="Go to Receive"
             [text]="'wallets.home.subheader_buttons_component.receive_card' | translate"
-            icon="ux-money-flow"
+            icon="ux-arrow-down"
           ></app-icon-button-card>
         </div>
         <div class="wsb__card-buttons__buy-card card">
@@ -31,7 +31,7 @@ import { NavigationExtras } from '@angular/router';
             appTrackClick
             name="Go to Buy"
             [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"
-            icon="ux-buy-sell"
+            icon="ux-currency"
           ></app-icon-button-card>
         </div>
         <div class="wsb__card-buttons__performance card">
@@ -40,7 +40,7 @@ import { NavigationExtras } from '@angular/router';
             appTrackClick
             name="Go to Performance"
             [text]="'wallets.home.subheader_buttons_component.performance_card' | translate"
-            icon="ux-buysell-icon"
+            icon="ux-home-trending"
           ></app-icon-button-card>
         </div>
       </div>
@@ -50,6 +50,7 @@ import { NavigationExtras } from '@angular/router';
 })
 export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
+  @Input() network: string;
 
   constructor(private navController: NavController) {}
 
@@ -59,21 +60,27 @@ export class WalletSubheaderButtonsComponent implements OnInit {
     if (!this.asset) {
       return this.navController.navigateForward(['wallets/send/select-currency']);
     }
-
-    return this.navController.navigateForward(['wallets/send/detail/' + this.asset]);
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        asset: this.asset,
+        network: this.network,
+      },
+    };
+    return this.navController.navigateForward(['wallets/send/detail'], navigationExtras);
   }
 
   goToReceive() {
     if (!this.asset) {
-      return this.navController.navigateForward(['wallets/receive']);
+      return this.navController.navigateForward(['wallets/receive/select-currency']);
     }
     const navigationExtras: NavigationExtras = {
       queryParams: {
         asset: this.asset,
+        network: this.network,
       },
     };
 
-    return this.navController.navigateForward(['wallets/receive'], navigationExtras);
+    return this.navController.navigateForward(['wallets/receive/detail'], navigationExtras);
   }
 
   goToBuy() {

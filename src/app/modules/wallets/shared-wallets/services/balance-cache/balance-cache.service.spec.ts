@@ -1,3 +1,4 @@
+import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { TestBed } from '@angular/core/testing';
 import { BalanceCacheService, BalanceOrPrice, CachedCoin } from './balance-cache.service';
 import { CacheService } from '../../../../../shared/services/cache/cache.service';
@@ -24,6 +25,7 @@ const balanceOnly: BalanceOrPrice = { balance: 2 };
 describe('BalanceCacheService', () => {
   let service: BalanceCacheService;
   let cacheServiceSpy: jasmine.SpyObj<CacheService>;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
 
   beforeEach(() => {
     cacheServiceSpy = jasmine.createSpyObj('CacheService', {
@@ -31,8 +33,14 @@ describe('BalanceCacheService', () => {
       get: Promise.resolve({ value: 50, expiration_date: 123456 }),
       remove: Promise.resolve(),
     });
+    walletServiceSpy = jasmine.createSpyObj('WalletServiceSpy', {
+      walletExist: Promise.resolve(true),
+    });
     TestBed.configureTestingModule({
-      providers: [{ provide: CacheService, useValue: cacheServiceSpy }],
+      providers: [
+        { provide: CacheService, useValue: cacheServiceSpy },
+        { provide: WalletService, useValue: walletServiceSpy },
+      ],
     });
     service = TestBed.inject(BalanceCacheService);
   });
@@ -41,9 +49,15 @@ describe('BalanceCacheService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should update total balance', async () => {
+  it('should update total balance if wallet exists', async () => {
     await service.updateTotal(50);
     expect(cacheServiceSpy.update).toHaveBeenCalledWith('balance_total', { value: 50 });
+  });
+
+  it('should update total balance if wallet not exist', async () => {
+    walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
+    await service.updateTotal(50);
+    expect(cacheServiceSpy.update).not.toHaveBeenCalled();
   });
 
   it('should get total balance', async () => {

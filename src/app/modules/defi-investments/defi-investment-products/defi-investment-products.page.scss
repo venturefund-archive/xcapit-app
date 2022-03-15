@@ -11,6 +11,7 @@
   .dp {
     margin-top: -76px;
 
+    &__available-card-skeleton,
     &__active-card,
     &__available-card {
       margin-right: 16px;
@@ -30,7 +31,6 @@
       ion-item[slot='header'] {
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
-        border-bottom: 1px solid var(--ion-color-uxline);
         background-color: var(--ion-color-uxlight);
         width: 100%;
 

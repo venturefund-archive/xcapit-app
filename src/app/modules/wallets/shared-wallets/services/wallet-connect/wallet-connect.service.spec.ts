@@ -9,6 +9,10 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { alertControllerMock } from '../../../../../../testing/spies/alert-controller-mock.spec';
 import { WalletConnectService } from './wallet-connect.service';
 import { ethers, Wallet } from 'ethers';
+import { ToastService } from '../../../../../shared/services/toast/toast.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 const testUri = 'wc:2a57d842-7977-4de0-ac22-0dd57bc326a6@1?bridge=https%3A%2F%2Fb.bridge.walletconnect.org&key=70f7fa5486706b77377a5672e6d45c0d19b9b12f6a44d80928a9f0eac5629392';
 
@@ -54,6 +58,13 @@ const unsupportedRequestTypedData = {
 
 const testUserWallet: Wallet = { address: 'testAddress' } as Wallet;
 
+const peerMeta = {
+  url: 'testUrl', 
+  description: 'testDescription', 
+  name: 'testName', 
+  icons: ['testIcon']
+};
+
 describe('WalletConnectService', () => {
   let service: WalletConnectService;
   let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService> = null;
@@ -64,6 +75,11 @@ describe('WalletConnectService', () => {
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let alertControllerSpy: any;
+  let toastServiceMock: any;
+  let toastService: ToastService;
+  const router = {
+    url: ''
+  }
 
   beforeEach(
     waitForAsync(() => {
@@ -89,7 +105,12 @@ describe('WalletConnectService', () => {
         personalSign: () => Promise.resolve()
       });
 
+      toastServiceMock = {
+        showErrorToast: () => Promise.resolve(),
+      };
+
       TestBed.configureTestingModule({
+        imports: [RouterTestingModule, TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
@@ -97,6 +118,8 @@ describe('WalletConnectService', () => {
           { provide: WalletConnect, useValue: walletConnectSpy },
           { provide: AlertController, useValue: alertControllerSpy },
           { provide: AppStorageService, useValue: storageServiceSpy },
+          { provide: ToastService, useValue: toastServiceMock },
+          { provide: Router, useValue: router}
         ],
       }).compileComponents();
     })
@@ -104,6 +127,7 @@ describe('WalletConnectService', () => {
 
   beforeEach(() => {
     service = TestBed.inject(WalletConnectService);
+    service.peerMeta = peerMeta;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
   });
 
@@ -305,4 +329,20 @@ describe('WalletConnectService', () => {
     await service.checkRequest(unsupportedRequestTypedData, testUserWallet);
     expect(console.log).toHaveBeenCalledWith('Not supported method: eth_signTypedData_v6');
   });
+
+  it('should navigate to new-connection when disconnect subscription is called and the active route is connection-detail', async () => {
+    const spy = spyOn(service, 'killSession');
+    router.url = 'wallets/wallet-connect/connection-detail';
+    await service.checkActiveScreen();
+
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledWith(['wallets/wallet-connect/new-connection']);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not navigate when disconnect subscription is called and the active route is no connection-detail', async () => {
+    router.url = 'home';
+    await service.checkActiveScreen();
+
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(0);
+  })
 });

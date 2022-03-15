@@ -64,7 +64,7 @@ export class AboutInvestorProfilesPage implements OnInit {
 
   setProfile(score) {
     this.apiProfilesService.crud.patch({ investor_score: score }).subscribe(() => {
-      this.navController.navigateForward(['/tabs/investments/defi']);
+      this.navController.navigateRoot(['/tabs/investments/defi']);
     });
   }
 }

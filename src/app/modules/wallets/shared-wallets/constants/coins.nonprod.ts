@@ -10,8 +10,6 @@ import adaAbi from './assets-abi/ada-abi.json';
 import wethAbi from './assets-abi/weth-abi.json';
 import daiAbi from './assets-abi/dai-abi.json';
 
-
-
 export const NONPROD_COINS: Coin[] = [
   {
     id: 1,
@@ -347,7 +345,7 @@ export const NONPROD_COINS: Coin[] = [
     id: 27,
     name: 'WETH - Wrapped Ether',
     logoRoute: 'assets/img/coins/WETH.svg',
-    last: true,
+    last: false,
     value: 'WETH',
     network: 'MATIC',
     contract: '0x3C68CE8504087f89c640D02d133646d98e64ddd9',
@@ -356,5 +354,19 @@ export const NONPROD_COINS: Coin[] = [
     decimals: 18,
     abi: wethAbi,
     symbol: 'ETHUSDT',
+  },
+  {
+    id: 28,
+    name: 'WBTC - Wrapped BTC',
+    logoRoute: 'assets/img/coins/WBTC.png',
+    last: true,
+    value: 'BTC',
+    network: 'MATIC',
+    contract: '0x0d787a4a1548f673ed375445535a6c7A1EE56180',
+    chainId: 80001,
+    rpc: environment.maticApiUrl,
+    decimals: 8,
+    abi: linkAbi,
+    symbol: 'BTCUSDT',
   },
 ];

@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
 
 const testStatus = {
   has_own_funds: true,
@@ -99,7 +100,7 @@ const itemMenu: MenuCategory[] = [
   },
 ];
 
-const profile = { notifications_enabled: true };
+const profile = { notifications_enabled: true, email: "test@mail.com" };
 
 describe('UserProfileMenuPage', () => {
   let component: UserProfileMenuPage;
@@ -117,10 +118,16 @@ describe('UserProfileMenuPage', () => {
   let fakeWalletService: FakeWalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let apiUsuariosServiceSpy: jasmine.SpyObj<ApiUsuariosService>;
+  let logOutModalServiceSpy: jasmine.SpyObj<LogOutModalService>;
+  
   beforeEach(
     waitForAsync(() => {
       apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', {
         status: of(testStatus),
+      });
+      logOutModalServiceSpy = jasmine.createSpyObj('LogOutModalService', {
+        isShowModalTo: Promise.resolve(true),
+        addUserToNotShowModal: Promise.resolve()
       });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
@@ -159,7 +166,8 @@ describe('UserProfileMenuPage', () => {
           { provide: LanguageService, useValue: languageServiceSpy },
           { provide: NotificationsService, useValue: notificationsServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
-          { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy }
+          { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
+          { provide: LogOutModalService, useValue: logOutModalServiceSpy }
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -191,7 +199,6 @@ describe('UserProfileMenuPage', () => {
       expect(component.hasFunds).toEqual(true);
   });
 
-
   it('should set hasFunds to false if user dont have own funds or subscribed funds', async () => {
     apiUsuariosServiceSpy.status.and.returnValue(of({
       has_own_funds: false,
@@ -206,6 +213,7 @@ describe('UserProfileMenuPage', () => {
 });
 
   it('should call trackEvent on trackService when Log Out button clicked', () => {
+    spyOn(component, 'logout');
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Log Out');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -229,7 +237,36 @@ describe('UserProfileMenuPage', () => {
     expect(languageServiceSpy.setLanguage).toHaveBeenCalledTimes(1);
   });
 
-  it('should log out when Log Out button is clicked and navigate to users/login', async () => {
+  it('should show modal if user has wallet and modal list is empty when Log Out button is clicked', async () => {
+    component.profile = profile;
+    const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show modal if user has wallet and is not in modal list when Log Out button is clicked', async () => {
+    component.profile = profile;
+    const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should log out if user does not have a wallet when Log Out button is clicked', async () => {
+    component.profile = profile;
+    fakeWalletService.modifyReturns(false, {});
+    const spy = spyOn(authServiceSpy, 'logout');
+    const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
+  });
+
+  it('should log out if user selected to not see modal in this device when Log Out button is clicked and navigate to users/login', async () => {
+    component.profile = profile;
+    logOutModalServiceSpy.isShowModalTo.and.returnValue(Promise.resolve(false));
     const spy = spyOn(authServiceSpy, 'logout');
     const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
     button.nativeElement.click();

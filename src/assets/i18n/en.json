@@ -340,6 +340,11 @@
       "weekly_earnings_disclaimer": "*Your balance is updated on Monday of each week."
     },
     "shared": {
+      "filter_tab":{
+        "conservative":"Conservative profile",
+        "medium":"Moderate profile",
+        "risky":"Aggressive profile"
+      },
       "coming_soon_card": {
         "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
         "text": "We will notify you when this feature is available. Meanwhile, go get your Tokens."
@@ -367,7 +372,8 @@
       },
       "amount_input_card": {
         "available": "Available",
-        "disclaimer": "Please note that transaction fees will be charged in"
+        "disclaimer": "The exchange rate is defined by the blockchain and amounts may vary, depending on when you make the transaction. \nPlease note that transaction fees will be charged in",
+        "max_button": "Max"
       },
       "withdraw_card": {
         "title": "Withdraw",
@@ -763,7 +769,6 @@
       "minutes": "{{value}} minute{{s}}",
       "seconds": "{{value}} second{{s}}",
       "finalized": "Finalized",
-      "renovate": "Renovate",
       "unsubscribe_toast": "Successful unsubscription",
       "unsubscribe_alert_ok": "Unsubscribe",
       "unsubscribe_alert_cancel": "Cancel",
@@ -801,7 +806,6 @@
         "risk": "Profile",
         "take_profit": "Take profit",
         "stop_loss": "Stop loss",
-        "renovate": "Renovate",
         "fund_deleted": "The fund has been deleted"
       }
     },
@@ -934,6 +938,14 @@
       "category_walletconnect": "WalletConnect",
       "profile_footer": {
         "investor_profile_button": "Investor profile"
+      },
+      "log_out_modal": {
+        "title": "Log out",
+        "text": "Remember that your Wallet is linked to your device. You will not be able to open another Wallet, unless you delete the current one or reinstall the application.",
+        "more_info": "For more information, visit",
+        "more_info_link": "Wallet frecuent questions",
+        "checkbox_label": "Don't show this message again.",
+        "log_out_button": "Log out"
       }
     },
     "success_profile": {
@@ -1547,6 +1559,10 @@
     }
   },
   "wallets": {
+    "receive_select_currency": {
+      "header": "Receive",
+      "title": "Select the currency you want to send"
+    },
     "remove_success": {
       "title": "Your wallet was removed",
       "subtitle": "You can create a new wallet or import an existing one whenever you wish.",
@@ -1641,7 +1657,7 @@
         "send_card": "Send",
         "receive_card": "Receive",
         "buy_card": "Buy or Sell",
-        "performance_card": "Obtain performance"
+        "performance_card": "Invest"
       }
     },
     "select_coin": {
@@ -1692,13 +1708,11 @@
       "header": "Receive",
       "title": "Your wallet information",
       "currency_select": "Currency",
-      "currency_select_modal_title": "Select currency",
-      "currency_select_placeholder": "Currency",
       "average_time": "Average receive time: 3 min.",
-      "share": "Share",
+      "receive_address_title": "Address",
+      "receive_address_copy": "Copy",
       "disclaimer_header": "Send only {{currency}} using the network {{network}} to this deposit address.",
-      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit.",
-      "share_title": "Wallet address"
+      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit."
     },
     "nft_detail": {
       "title": "NFT Detail",
@@ -1727,15 +1741,20 @@
       "swap": "Swap"
     },
     "send": {
+      "scan_qr":{
+        "title":"Scan the QR code of the address you want to send to"
+      },
       "select_currency": {
         "header": "Send",
-        "title": "Select currency"
+        "title": "Select the currency you want to send",
+        "suite": "{{suiteName}} network"
       },
       "send_detail": {
         "header": "Send",
         "title": "Transfer data",
         "network_select": {
-          "title": "Network",
+          "title": "Transfer data",
+          "network": "Network",
           "disclaimer": "Make sure the destination wallet uses the same network as {{network}} at this shipping address.\nSending other coins or tokens to an address other than {{network}} may result in the loss of your deposit.\n Currently only tokens can be sent through its native network, we are working to add more and new networks."
         },
         "continue_button": "Continue",
@@ -1761,6 +1780,7 @@
         "amounts_title": "Amount to send",
         "send_button": "Send",
         "wrong_password": "Wrong password",
+        "loader": "Sending",
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
@@ -1866,12 +1886,11 @@
       "card_title": "Configure your connection",
       "card_description": "Choose the network from which you want to take the funds. Then scan the QR code on the Dapp.",
       "scan_qr": {
-        "header": "Scan QR code",
-        "register_manually": "Enter manually",
+        "header": "Scan your Dapp QR code",
         "errors": {
-          "invalidQR": "QR code is invalid.",
-          "noContent": "The QR code had no content.",
-          "permissionDenied": "The camera could not be accessed. Access denied."
+          "invalidQR": "Check that the QR code you are scanning corresponds to the WalletConnect connection protocol.",
+          "permissionDenied": "The camera could not be accessed. Access denied.",
+          "close_button": "Accept"
         }
       },
       "qr_scanner": {
@@ -1902,7 +1921,13 @@
         "card_title_disconnected": "Connect to the Dapp",
         "card_description_disconnected": "The Dapp will have access to your wallet. To make transactions, it will ask for your approval.",
         "card_title_connected": "Operates in Dapp",
-        "card_description_connected": "When operations are available in the Dapp, you will receive notifications to approve them."
+        "card_description_connected": "When operations are available in the Dapp, you will receive notifications to approve them.",
+        "disconnect": {
+          "header": "Terminate connection?",
+          "message": "If you terminate the connection, you will not be able to receive operations from the Dapp.",
+          "cancel_button": "Cancel",
+          "accept_button": "Terminate"
+        }
       },
       "operation_detail": {
         "header": "Operation detail",
@@ -1919,7 +1944,10 @@
         "sign_button": "Sign",
         "approve_button": "Approve",
         "confirm_button": "Confirm",
-        "cancel_button": "Cancel",
+        "cancel_button": "Cancel operation",
+        "approve_loading": "Approving",
+        "sign_loading": "Signing",
+        "confirmation_loading": "Confirming",
         "abort_alert": {
           "header": "Quit the operation?",
           "message": "If you leave now, the operation will be cancelled.",
@@ -1932,10 +1960,34 @@
           "cancel_button": "Back",
           "accept_button": "Accept"
         },
+        "types": {
+          "swap": {
+            "swap": "Swap Tokens",
+            "amount_to_send": "Amount to send",
+            "amount_to_send_max": "Max amount to send",
+            "amount_to_receive": "Amount to receive",
+            "amount_to_receive_min": "Min amount to receive"
+          },
+          "liquidity": {
+            "add_liquidity": "Add Liquidity",
+            "remove_liquidity": "Remove Liquidity",
+            "liquidity": "Liquidity",
+            "amount_token_0": "Token 0 amount",
+            "amount_token_1": "Token 1 amount",
+            "amount_to_receive_min": "Min amount to receive"
+          }
+        },
         "card_title_sign": "Signature in the Dapp",
         "card_description_sign": "This step is to verify that you are the one operating in the Dapp.",
         "card_title_operation": "Confirm your operation",
-        "card_description_operation": "Confirm the transaction you want to perform in the Dapp."
+        "card_description_operation": "Confirm the transaction you want to perform in the Dapp.",
+        "password_modal": {
+          "title": "For security",
+          "description": "To confirm your operation, enter your Xcapit wallet password.",
+          "input_label": "Password",
+          "confirm_button": "Accept"
+        },
+        "password_error": "The password entered is not valid."
       },
       "transactions": {
         "alert": {
@@ -1946,7 +1998,10 @@
       },
       "disclaimer_1": "WalletConnect is in a Beta stage, so there may be problems in the connection process.",
       "disclaimer_2": " If you had a problem connecting your wallet, you can contact with ",
-      "disclaimer_support": "support."
+      "disclaimer_support": "support.",
+      "dapp_disconnection": {
+        "message": "The connection to {{dapp}} was lost. This can happen if you disconnect manually or if the connection is unstable."
+      }
     }
   },
   "apikeys": {

@@ -11,6 +11,8 @@ import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interf
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
+import { LogOutModalComponent } from '../shared-profiles/components/log-out-modal/log-out-modal.component';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -102,7 +104,8 @@ export class UserProfileMenuPage implements OnInit {
     private notificationsService: NotificationsService,
     private formBuilder: FormBuilder,
     private walletService: WalletService,
-    private apiUsers: ApiUsuariosService
+    private apiUsers: ApiUsuariosService,
+    private logOutModalService: LogOutModalService
   ) {}
 
   ngOnInit() {}
@@ -137,8 +140,24 @@ export class UserProfileMenuPage implements OnInit {
   }
 
   async logout() {
-    await this.authService.logout();
-    await this.navController.navigateRoot('users/login');
+    if (await this.walletService.walletExist() && await this.logOutModalService.isShowModalTo(this.profile.email)) {
+      await this.showLogOutModal();
+    } else {
+      await this.authService.logout();
+      await this.navController.navigateRoot('users/login');
+    }
+  }
+
+  async showLogOutModal() {
+    const modal = await this.modalController.create({
+      component: LogOutModalComponent,
+      componentProps: {
+        username: this.profile.email
+      },
+      cssClass: 'log-out-modal',
+    });
+
+    await modal.present();
   }
 
   async changeLanguage() {
