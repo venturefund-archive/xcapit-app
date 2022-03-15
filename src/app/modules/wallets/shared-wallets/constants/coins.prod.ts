@@ -270,6 +270,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
     decimals: 18,
     symbol: 'CAKEUSDT',
+    abi: linkAbi,
   },
   {
     id: 20,
@@ -283,6 +284,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x3ee2200efb3400fabb9aacf31297cbdd1d435d47',
     decimals: 18,
     symbol: 'ADAUSDT',
+    abi: linkAbi,
   },
   {
     id: 21,
@@ -296,6 +298,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
     decimals: 18,
     symbol: 'BUSDUSDT',
+    abi: linkAbi,
   },
   {
     id: 22,
@@ -309,6 +312,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x1ce0c2827e2ef14d5c4f29a091d735a204794041',
     decimals: 18,
     symbol: 'AVAXUSDT',
+    abi: linkAbi,
   },
   {
     id: 23,
