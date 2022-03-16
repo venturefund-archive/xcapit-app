@@ -3,7 +3,6 @@ import { IonContent, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -145,7 +144,6 @@ export class HomeWalletPage implements OnInit {
   totalBalanceAccum = 0;
   balances: AssetBalanceModel[] = [];
   selectedAssets: Coin[];
-  NFTMetadata: NFTMetadata;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
   @ViewChild(IonContent, { static: true }) content: IonContent;

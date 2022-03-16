@@ -1,9 +1,7 @@
-import { NFTAttribute } from './nft-attribute.interface';
-
+// TODO: replace with DefaultNFT object
 export interface NFTMetadata {
   description: string;
   name: string;
   image: string;
-  attributes: NFTAttribute[];
   tokenID: number;
 }
