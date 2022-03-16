@@ -2777,7 +2777,7 @@
       "question6": "¿Debo estar siempre en la pantalla de conexión para operar en la Dapp?",
       "answer6": "No, una vez conectada la Wallet de Xcapit con la Dapp, podrás moverte en cualquier pantalla de la app sin perder la conexión. Cuando solicites una transacción desde la Dapp, la app de Xcapit la reconocerá automáticamente.<br><ul><li>Sin embargo, si cierras la app de Xcapit, perderás la conexión con la Dapp.</li>",
       "question7": "¿Puedo transferir un NFT con WalletConnect?",
-      "answer7": "Si puedes!, gracias a la conexión de Opensea mediante Wallet Connect, podras visualizar tu NFT en la plataforma de OpenSea y transferirlo o venderlo en la misma. Para ello entra a Opensea.io y conecta tu wallet de Xcapit mediante WalletConnect, pega el código o escanea el QR y listo! (Asegura de conectarte mediante la red de Polygon para ver los NFT que Xcapit te brindo)."
+      "answer7": "Si puedes!, gracias a la conexión de Opensea mediante Wallet Connect, podras visualizar tu NFT en la plataforma de OpenSea y transferirlo o venderlo en la misma. Para ello entra a Opensea.io y conecta tu wallet de Xcapit mediante WalletConnect, pega el código o escanea el QR y listo! (Asegura de conectarte mediante la red de Polygon para ver los NFT que Xcapit te brindó)."
     }
   },
   "wealth_managements": {

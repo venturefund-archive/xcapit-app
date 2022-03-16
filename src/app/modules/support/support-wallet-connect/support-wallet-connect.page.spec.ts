@@ -56,6 +56,7 @@ describe('SupportWalletConnectPage', () => {
     fixture.detectChanges();
     const appFaq = fixture.debugElement.queryAll(By.css('app-faq'));
     fixture.detectChanges();
+    expect(appFaq).toBeTruthy();
     expect(appFaq.length).toBe(3);
   });
 });
