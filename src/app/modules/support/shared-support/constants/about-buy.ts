@@ -32,6 +32,11 @@ export const ABOUT_BUY = [
   {
     title: 'support.support_buy.question7',
     answer: 'support.support_buy.answer7',
+    last: false,
+  },
+  {
+    title: 'support.support_buy.question8',
+    answer: 'support.support_buy.answer8',
     last: true,
   },
 ];
