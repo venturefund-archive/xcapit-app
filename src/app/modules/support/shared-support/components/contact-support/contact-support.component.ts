@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-contact-support',
   template: ` <div class="csc" (click)="this.goToWriteTicket()">
-    <div class="csc__content">
+    <div class="csc__content ux-card">
       <div class="csc__content__icon">
         <img src="../../assets/ux-icons/ux-support.svg" />
       </div>
