@@ -9,6 +9,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { NFT_DATA_NONPROD } from '../shared-wallets/constants/nft-data-nonprod';
+import { DefaultNFT } from '../shared-wallets/models/nft/nft.class';
 import { NftService } from '../shared-wallets/services/nft-service/nft.service';
 import { NftDetailPage } from './nft-detail.page';
 
@@ -26,6 +27,8 @@ const NFTMetadata = {
   ],
 };
 
+const nft = new DefaultNFT(NFTMetadata);
+
 const getTestNavigationState = (state: boolean) => {
   return {
     id: 2,
@@ -33,7 +36,7 @@ const getTestNavigationState = (state: boolean) => {
     extractedUrl: new UrlTree(),
     trigger: 'imperative',
     previousNavigation: null,
-    extras: state ? { state: { nftMetadata: NFTMetadata } } : {},
+    extras: state ? { state: { nft } } : {},
   } as Navigation;
 };
 
@@ -45,64 +48,57 @@ describe('NftDetailPage', () => {
   let nftServiceSpy: jasmine.SpyObj<NftService>;
   let routeSpy: jasmine.SpyObj<Router>;
 
-  beforeEach(
-    waitForAsync(() => {
-      routeSpy = jasmine.createSpyObj('Router', ['getCurrentNavigation']);
-      nftServiceSpy = jasmine.createSpyObj('NftService', {
-        getNFTMetadata: Promise.resolve(NFTMetadata),
-        getNFTMexico: NFT_DATA_NONPROD,
-      });
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      TestBed.configureTestingModule({
-        declarations: [NftDetailPage],
-        imports: [
-          IonicModule.forRoot(),
-          TranslateModule.forRoot(),
-          HttpClientTestingModule,
-          ReactiveFormsModule,
-          RouterTestingModule,
-        ],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: NftService, useValue: nftServiceSpy },
-          { provide: Router, useValue: routeSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    routeSpy = jasmine.createSpyObj('Router', ['getCurrentNavigation']);
+    nftServiceSpy = jasmine.createSpyObj('NftService', {
+      xcapitNFTs: Promise.resolve(nft),
+      getNFTMexico: NFT_DATA_NONPROD,
+    });
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    TestBed.configureTestingModule({
+      declarations: [NftDetailPage],
+      imports: [
+        IonicModule.forRoot(),
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+      ],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: NftService, useValue: nftServiceSpy },
+        { provide: Router, useValue: routeSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(NftDetailPage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(NftDetailPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  [
-    { name: 'not passed by state', nav: getTestNavigationState(false), getNFTMetadataCalledTimes: 1 },
-    { name: 'passed by state', nav: getTestNavigationState(true), getNFTMetadataCalledTimes: 0 },
-  ].forEach((stateCase) => {
-    it(`should render properly of nft card when nft metadata is ${stateCase.name}`, async () => {
-      routeSpy.getCurrentNavigation.and.returnValue(stateCase.nav);
-      fixture = TestBed.createComponent(NftDetailPage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      component.ionViewWillEnter();
-      await fixture.whenStable();
-      await fixture.whenRenderingDone();
-      fixture.detectChanges();
-      const imageEl = fixture.debugElement.query(By.css('img.nd__image'));
-      const titleEl = fixture.debugElement.query(By.css('ion-text.nd__title'));
-      const descriptionEl = fixture.debugElement.query(By.css('ion-text.nd__subtitle'));
-      expect(imageEl.attributes.src).toEqual(NFTMetadata.image);
-      expect(titleEl.nativeElement.innerHTML).toContain(NFTMetadata.name);
-      expect(descriptionEl.nativeElement.innerHTML).toContain(NFTMetadata.description);
-      expect(component.form.value.tokenID).toEqual(NFTMetadata.tokenID);
-      expect(component.form.value.contractAddress).toEqual(NFT_DATA_NONPROD[0].contractAddress);
-      expect(nftServiceSpy.getNFTMetadata).toHaveBeenCalledTimes(stateCase.getNFTMetadataCalledTimes);
-    });
+  it('should render properly of nft card when nft metadata is passed by state', async () => {
+    routeSpy.getCurrentNavigation.and.returnValue(getTestNavigationState(true));
+    fixture = TestBed.createComponent(NftDetailPage);
+    component = fixture.componentInstance;
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    const imageEl = fixture.debugElement.query(By.css('img.nd__image'));
+    const titleEl = fixture.debugElement.query(By.css('ion-text.nd__title'));
+    const descriptionEl = fixture.debugElement.query(By.css('ion-text.nd__subtitle'));
+
+    expect(imageEl.attributes.src).toEqual(NFTMetadata.image);
+    expect(titleEl.nativeElement.innerHTML).toContain(NFTMetadata.name);
+    expect(descriptionEl.nativeElement.innerHTML).toContain(NFTMetadata.description);
+    expect(component.form.value.tokenID).toEqual(NFTMetadata.tokenID);
+    expect(component.form.value.contractAddress).toEqual(NFT_DATA_NONPROD[0].contractAddress);
+    expect(nftServiceSpy.xcapitNFTs).toHaveBeenCalledTimes(0);
   });
 });
