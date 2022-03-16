@@ -5,5 +5,4 @@
     <string name="package_name">com.xcapit.app</string>
     <string name="fileprovider_authority">com.xcapit.app.fileprovider</string>
     <string name="custom_url_scheme">com.xcapit.app</string>
-    <string name="server_client_id">840751586681-6mrinfnm1o42lge5pdbb64l5h57mjtqv.apps.googleusercontent.com</string>
 </resources>

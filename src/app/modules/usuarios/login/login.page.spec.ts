@@ -17,7 +17,6 @@ import { LocalNotificationsService } from '../../notifications/shared-notificati
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { Storage } from '@ionic/storage';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
-import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { By } from '@angular/platform-browser';
 
@@ -29,13 +28,11 @@ describe('LoginPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<LoginPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let googleAuthPluginSpy: any;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
   let localNotificationServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   let storageSpy: jasmine.SpyObj<Storage>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
-  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   const formData = {
     valid: {
       email: 'test@test.com',
@@ -61,11 +58,6 @@ describe('LoginPage', () => {
         checkStoredLink: Promise.resolve(false),
       });
 
-      googleAuthPluginSpy = jasmine.createSpyObj('GoogleAuth', {
-        signIn: Promise.resolve({ authentication: { idToken: '' } }),
-        init: null,
-      });
-
       storageSpy = jasmine.createSpyObj('Storage', {
         get: Promise.resolve(true),
       });
@@ -78,7 +70,6 @@ describe('LoginPage', () => {
 
       localNotificationServiceSpy = jasmine.createSpyObj('LocalNotificationsService', ['init']);
       updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
-      platformServiceSpy = jasmine.createSpyObj('PlatformService', { isWeb: true });
 
       TestBed.configureTestingModule({
         declarations: [LoginPage, AuthFormComponent, FakeTrackClickDirective, DummyComponent],
@@ -92,7 +83,6 @@ describe('LoginPage', () => {
           { provide: LocalNotificationsService, useValue: localNotificationServiceSpy },
           { provide: Storage, useValue: storageSpy },
           { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
-          { provide: PlatformService, useValue: platformServiceSpy },
         ],
       }).compileComponents();
     })
@@ -103,7 +93,6 @@ describe('LoginPage', () => {
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     fixture.detectChanges();
-    component.googleAuthPlugin = googleAuthPluginSpy;
   });
 
   it('should create', () => {
@@ -156,53 +145,6 @@ describe('LoginPage', () => {
     expect(url).toEqual(['tutorials/first-steps']);
   });
 
-  it('should call signIn on googleSingUp', async () => {
-    await component.googleSingUp();
-    expect(googleAuthPluginSpy.signIn).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call loginWithGoogle on googleSingUp', async () => {
-    await component.googleSingUp();
-    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
-  });
-
-  it('should set up login with Google', async () => {
-    const spy = spyOn(component.loginForm.form, 'reset');
-    await component.googleSingUp();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
-    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
-    expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
-    expect(apiUsuariosSpy.status).toHaveBeenCalledTimes(1);
-    expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
-    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not call login with google if user closed login with Google window', async () => {
-    googleAuthPluginSpy.signIn.and.throwError('User closed window');
-    await component.googleSingUp();
-    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
-  });
-
-  it('should not call loginWithGoogle if user closed login with Google window', async () => {
-    googleAuthPluginSpy.signIn.and.throwError('User closed window');
-    await component.googleSingUp();
-    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
-  });
-
-  it('should call trackEvent on trackService when Google Auth button clicked', () => {
-    fixture.detectChanges();
-    component.loginForm.form.patchValue(formData.valid);
-    fixture.detectChanges();
-    expect(component.loginForm.form.valid).toBeTruthy();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Google Auth');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
   it('should call trackEvent on trackService when Login button clicked', () => {
     fixture.detectChanges();
     component.loginForm.form.patchValue(formData.valid);
@@ -241,19 +183,6 @@ describe('LoginPage', () => {
     expect(apiUsuariosSpy.status).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/home');
   }));
-
-  it('should init google if web platform', async () => {
-    component.ionViewWillEnter();
-    await fixture.whenStable();
-    expect(googleAuthPluginSpy.init).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not init google if native platform', async () => {
-    platformServiceSpy.isWeb.and.returnValue(false);
-    component.ionViewWillEnter();
-    await fixture.whenStable();
-    expect(googleAuthPluginSpy.init).not.toHaveBeenCalled();
-  });
 
   it('should disable loading button when login fails', () => {
     apiUsuariosSpy.login.and.returnValue(throwError(''));

@@ -145,8 +145,6 @@
       "reset_password_link": "Olvidé mi contraseña",
       "login_button_text": "Ingresar",
       "title": "Ingresar",
-      "google_auth": "Continuar con Google",
-      "or_text": "o",
       "loading": "Ingresando"
     },
     "register": {

@@ -1510,11 +1510,6 @@
   resolved "https://registry.npmjs.org/@capacitor/storage/-/storage-1.2.3.tgz"
   integrity sha512-Rc5CKS53sfxokF5dxzNQDhig4lnZonky6VqskHZKTe3Ltl37FKmrG+I8ttZCinFZ5MPWfGSuP44m93hsQqitjQ==
 
-"@codetrix-studio/capacitor-google-auth@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.npmjs.org/@codetrix-studio/capacitor-google-auth/-/capacitor-google-auth-3.0.2.tgz"
-  integrity sha512-DsWwiBPkwWY/2F7JPq4mpNrKJYafpVZY+6Pq/ov5CeospRXJPauxEPHexo6uV6N5Yi6YIAwSBJqZhOZCdBURTg==
-
 "@cspotcode/source-map-consumer@0.8.0":
   version "0.8.0"
   resolved "https://registry.npmjs.org/@cspotcode/source-map-consumer/-/source-map-consumer-0.8.0.tgz"

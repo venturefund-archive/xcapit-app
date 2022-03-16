@@ -156,8 +156,6 @@
       "reset_password_link": "I forgot my password",
       "login_button_text": "Login",
       "title": "Login",
-      "google_auth": "Sign in with Google",
-      "or_text": "or",
       "loading": "Logging"
     },
     "register": {
