@@ -3,6 +3,7 @@ import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-ht
 import { environment } from 'src/environments/environment';
 import { NFT_DATA_NONPROD } from '../../constants/nft-data-nonprod';
 import { NFT_DATA_PROD } from '../../constants/nft-data-prod';
+import { DefaultNFT, NFT } from '../../models/nft/nft.class';
 import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 
@@ -43,7 +44,7 @@ export class NftService {
     return this.env === 'PRODUCCION' ? NFT_DATA_PROD : NFT_DATA_NONPROD;
   }
 
-  async getNFTMetadata() {
+  async xcapitNFTs() {
     const nfts = [];
     for (const item of this.data) {
       const contract = await this.createContract(item);
@@ -51,13 +52,13 @@ export class NftService {
       if (nftList.length) {
         const metadataURL = await contract.tokenURI(nftList[0]);
         const metadata = await this.getMetadata(metadataURL).toPromise();
-        nfts.push(await this.NFTMetadataResponse(metadata, nftList[0], item.contractAddress));
+        nfts.push(this.createNFT(metadata, nftList[0], item.contractAddress));
       }
     }
     return nfts;
   }
 
-  private NFTMetadataResponse(metadata: any, tokenID: number, contractAddress: string) {
-    return Promise.resolve(Object.assign(metadata, { tokenID }, { contractAddress }));
+  private createNFT(metadata: any, tokenID: number, contractAddress: string): NFT {
+    return new DefaultNFT({ ...metadata, tokenID, contractAddress });
   }
 }
