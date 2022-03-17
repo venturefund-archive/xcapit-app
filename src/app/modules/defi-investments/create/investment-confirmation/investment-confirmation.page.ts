@@ -254,7 +254,11 @@ export class InvestmentConfirmationPage {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
-    return data;
+    if(!data){
+      this.disable = false;
+    }else{
+      return data;
+    }
   }
 
   investment(wallet: Wallet): Investment {
@@ -269,6 +273,7 @@ export class InvestmentConfirmationPage {
       await this.toastService.showErrorToast({
         message: this.translate.instant('defi_investments.confirmation.password_error'),
       });
+      this.disable = false;
     }
   }
 
@@ -327,6 +332,7 @@ export class InvestmentConfirmationPage {
   }
 
   async invest() {
+    this.disable = true;
     await this.getTokenBalanceAvailable();
     const wallet = await this.wallet();
     if (wallet) {
