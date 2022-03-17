@@ -25,6 +25,7 @@ dependencies {
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
     implementation project(':capacitor-storage')
+    implementation project(':facebook-app-events')
     implementation "com.android.support:support-v4:27.+"
 }
 

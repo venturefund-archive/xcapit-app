@@ -1,36 +1,36 @@
-const fs = require('fs');
+var fs = require('fs');
 
-const capacitorConfigPath = './capacitor.config.json';
-const stores = {
+var stores = {
   ios: {
     appId: 'com.xcapit.iosapp',
-    appName: 'Xcapit'
+    appName: 'Xcapit',
   },
   android: {
     appId: 'com.xcapit.app',
-    appName: 'xcapit'
-  }
+    appName: 'xcapit',
+  },
 };
 
-const argStore = process.argv.slice(2);
+var argStore = process.argv.slice(2);
 
-const setCapacitorAppIdAndName = () => {
-  const newContent = JSON.parse(fs.readFileSync(capacitorConfigPath, 'utf-8').toString());
-  for (const [key, value] of Object.entries(stores[argStore])) {
-    newContent[key] = value;
-  }
-  fs.writeFileSync(capacitorConfigPath, JSON.stringify(newContent));
-};
+function setStoreConfig() {
+  var newAppID = 'appId: ' + "'" + stores[argStore].appId + "'";
+  var newAppName = 'appName: ' + "'" + stores[argStore].appName + "'";
 
+  var config = fs.readFileSync('./capacitor.config.ts', 'utf-8').toString();
+  config = config.replace(/appId:\s*'com.xcapit[^\,]*/, newAppID);
+  config = config.replace(/appName:\s*'[^\,]*/, newAppName);
+  fs.writeFileSync('./capacitor.config.ts', config);
+}
 
-const main = () => {
+function main() {
   if (!argStore || !stores[argStore]) {
     console.log('\x1b[1m\x1b[31m❌ Store is not set 😑\x1b[39m\x1b[22m');
     process.exit();
   }
-  setCapacitorAppIdAndName();
-  console.log(`\x1b[1m\x1b[32m🔥 ✨${argStore} store config✨ is set 🦄 🔥\x1b[39m\x1b[22m`);
+  setStoreConfig();
+  console.log('\x1b[1m\x1b[32m🔥 🦄 ✨' + argStore + ' store config✨ is set 🦄 🔥\x1b[39m\x1b[22m');
   process.exit();
-};
+}
 
 main();

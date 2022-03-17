@@ -49,3 +49,6 @@ project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacit
 
 include ':capacitor-storage'
 project(':capacitor-storage').projectDir = new File('../node_modules/@capacitor/storage/android')
+
+include ':facebook-app-events'
+project(':facebook-app-events').projectDir = new File('../node_modules/facebook-app-events/android')
