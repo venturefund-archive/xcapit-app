@@ -47,7 +47,21 @@
     }
 
     &__available-card {
-      margin-top: 8px;
+      margin-top: 24px;
+    }
+
+    &__active-card {
+      background: var(--ion-color-infolight);
+
+      ion-item::part(native) {
+        background-color: var(--ion-color-infolight) !important;
+      }
+
+      ion-item[slot='header'] {
+        ion-label {
+          background-color: var(--ion-color-infolight) !important;
+        }
+      }
     }
 
     &__weekly-profit-disclaimer {

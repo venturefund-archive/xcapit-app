@@ -292,7 +292,7 @@
       "header": "Inversión"
     },
     "defi_investment_products": {
-      "header": "Inversiones Defi",
+      "header": "Inversiones DeFi",
       "title": "Comienza a invertir",
       "title_investments": "Mis inversiones",
       "recommendations": "Podrían interesarte",
@@ -377,7 +377,7 @@
       "success_withdraw": {
         "title": "Dejaste de invertir *",
         "subtitle": "Puedes volver a invertir cuando quieras",
-        "button_primary": "Volver a inversiones Defi",
+        "button_primary": "Volver a inversiones DeFi",
         "button_secondary": "Ir a wallet",
         "disclaimer": "* Tus fondos pueden demorar en visualizarse en tu wallet hasta 5 minutos."
       },
@@ -392,8 +392,8 @@
       "text": "Gana a diario invirtiendo tus criptomonedas",
       "how_investments_work_button": "¿Cómo funcionan las inversiones?",
       "defi": {
-        "title": "Inversiones Defi",
-        "text": "Utiliza tu Wallet de Xcapit para depositar Tokens y suscribirte a productos de inversión Defi generando rendimientos diarios de forma sencilla."
+        "title": "Inversiones DeFi",
+        "text": "Utiliza tu Wallet de Xcapit para depositar Tokens y suscribirte a productos de inversión DeFi generando rendimientos diarios de forma sencilla."
       },
       "binance": {
         "title": "Inversiones con Binance",
