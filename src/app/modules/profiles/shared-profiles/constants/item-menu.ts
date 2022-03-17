@@ -66,29 +66,4 @@ export const ITEM_MENU: MenuCategory[] = [
       },
     ],
   },
-  {
-    category_title: 'profiles.user_profile_menu.category_binance_investment',
-    showCategory: true,
-    icon: 'assets/ux-icons/ux-trending-up.svg',
-    items: [
-      {
-        name: 'Funds',
-        text: 'profiles.user_profile_menu.funds',
-        route: '/tabs/investments',
-        type: 'link',
-      },
-      {
-        name: 'FinishedFunds',
-        text: 'profiles.user_profile_menu.finished_funds',
-        route: 'funds/funds-finished',
-        type: 'link',
-      },
-      {
-        name: 'ApiKeysList',
-        text: 'profiles.user_profile_menu.manage_apikey',
-        route: '/tabs/investments',
-        type: 'link',
-      },
-    ],
-  },
 ];
