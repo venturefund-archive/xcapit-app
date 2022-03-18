@@ -57,7 +57,7 @@ export class SuccessInvestmentPage implements OnInit {
   }
 
   goToInvestments() {
-    this.navController.navigateRoot(['tabs/investments/defi']);
+    this.navController.navigateRoot(['tabs/investments']);
   }
 
   goToWallet() {

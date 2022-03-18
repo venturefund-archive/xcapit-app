@@ -10,7 +10,7 @@ import { NoWalletComponent } from './no-wallet.component';
 const testData = {
   urlClose: '/tabs/home',
   urlPage: '/tabs/wallets',
-  urlLink: '/tabs/investments/defi',
+  urlLink: '/tabs/investments',
   img: 'assets/img/wealth_management/no-wallet.svg',
   title: 'test.test.title',
   subtitle: 'test.test.subtitle',
