@@ -11,8 +11,8 @@ describe('Url Image Of', () => {
 
   it('should return url when nft image is ipfs protocol', () => {
     const hash = 'asdf';
-    const nftMetada = { image: `ipfs://${hash}` };
-    const urlImage = new UrlImageOf(new DefaultNFT(nftMetada), urlGateway);
+    const nftMetadata = { image: `ipfs://${hash}` };
+    const urlImage = new UrlImageOf(new DefaultNFT(nftMetadata), urlGateway);
 
     expect(urlImage.value()).toEqual(`${urlGateway}/${hash}`);
   });
