@@ -5,7 +5,7 @@ import { ABOUT_WALLET_CONNECT } from '../shared-support/constants/about-wallet-c
   selector: 'app-support-wallet-connect',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/support/options"></ion-back-button>
         </ion-buttons>
