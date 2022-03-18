@@ -42,7 +42,7 @@ describe('DefiInvestmentProductsPage', () => {
   let apiUsuariosServiceSpy: jasmine.SpyObj<ApiUsuariosService>;
   let testUserSpy: jasmine.SpyObj<any>;
   let testUserWithTestSpy: jasmine.SpyObj<any>;
-  let testUserWithoutTestSpy: jasmine.SpyObj<any>;
+  let testAggressiveUserSpy: jasmine.SpyObj<any>;
   beforeEach(
     waitForAsync(() => {
       testUserSpy = jasmine.createSpyObj('testUser', {},{
@@ -57,9 +57,9 @@ describe('DefiInvestmentProductsPage', () => {
         },
       })
 
-      testUserWithoutTestSpy = jasmine.createSpyObj('testUser', {},{
+      testAggressiveUserSpy = jasmine.createSpyObj('testUser', {},{
         profile: {
-          investor_category: 'wealth_managements.profiles.no_category',
+          investor_category: 'wealth_managements.profiles.risky',
         },
       })
 
@@ -114,6 +114,24 @@ describe('DefiInvestmentProductsPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render empty div when no filtered products are available', async () => {
+    investmentSpy.balance.and.resolveTo(0);
+    apiUsuariosServiceSpy.getUser.and.returnValue(of(testAggressiveUserSpy));
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(
+      availableDefiProductsSpy
+    );
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    const emptyEl = fixture.debugElement.query(
+      By.css('div.dp__empty ')
+    );
+    expect(emptyEl).toBeTruthy();
   });
 
   it('should render active investment card', async () => {
@@ -196,7 +214,7 @@ describe('DefiInvestmentProductsPage', () => {
   });
 
   it('should set conservative filter when user didnt do test yet ', async () => {
-    apiUsuariosServiceSpy.getUser.and.returnValue(of(testUserWithoutTestSpy));
+    apiUsuariosServiceSpy.getUser.and.returnValue(of(testUserSpy));
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
