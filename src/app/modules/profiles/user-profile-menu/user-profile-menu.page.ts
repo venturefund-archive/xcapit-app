@@ -34,7 +34,6 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
       </div>
       <div class="card-item" *ngIf="this.itemMenu">
         <app-card-category-menu
-          [hasFunds]="this.hasFunds"
           *ngFor="let category of this.itemMenu"
           [category]="category"
         ></app-card-category-menu>
@@ -88,7 +87,6 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
 export class UserProfileMenuPage implements OnInit {
   profile: any;
   status: any;
-  hasFunds: boolean;
   itemMenu: MenuCategory[] = ITEM_MENU;
   form: FormGroup = this.formBuilder.group({
     notificationsEnabled: [false, []],
@@ -104,7 +102,6 @@ export class UserProfileMenuPage implements OnInit {
     private notificationsService: NotificationsService,
     private formBuilder: FormBuilder,
     private walletService: WalletService,
-    private apiUsers: ApiUsuariosService,
     private logOutModalService: LogOutModalService
   ) {}
 
@@ -113,18 +110,6 @@ export class UserProfileMenuPage implements OnInit {
   ionViewWillEnter() {
     this.getProfile();
     this.existWallet();
-    this.getUserStatus();
-  }
-
-  getUserStatus() {
-    this.apiUsers.status(false).subscribe((res) => {
-      const userStatus = res;
-      this.hasFunds = this.checkFunds(userStatus);
-    });
-  }
-
-  checkFunds(status) {
-    return status.has_own_funds === true || status.has_subscribed_funds === true ? true : false;
   }
 
   private subscribeToFormChanges() {
