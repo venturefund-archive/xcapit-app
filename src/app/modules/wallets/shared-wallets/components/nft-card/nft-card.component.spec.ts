@@ -35,27 +35,25 @@ describe('NftCardComponent', () => {
   let nftServiceSpy: jasmine.SpyObj<NftService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController({});
-      navControllerSpy = fakeNavController.createSpy();
-      nftServiceSpy = jasmine.createSpyObj('NftService', {
-          xcapitNFTs: Promise.resolve([nft]),
-      });
-      TestBed.configureTestingModule({
-        declarations: [NftCardComponent],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [
-          { provide: NftService, useValue: nftServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
-        ],
-        schemas:[CUSTOM_ELEMENTS_SCHEMA]
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController({});
+    navControllerSpy = fakeNavController.createSpy();
+    nftServiceSpy = jasmine.createSpyObj('NftService', {
+      xcapitNFTs: Promise.resolve([nft]),
+    });
+    TestBed.configureTestingModule({
+      declarations: [NftCardComponent],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: NftService, useValue: nftServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(NftCardComponent);
-      component = fixture.componentInstance;
-    })
-  );
+    fixture = TestBed.createComponent(NftCardComponent);
+    component = fixture.componentInstance;
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -102,16 +100,16 @@ describe('NftCardComponent', () => {
     expect(fixture.debugElement.query(By.css('app-nft-card-skeleton'))).toBeTruthy();
   });
 
-    it('should render properly the NFT', async () => {
-        component.ngOnInit();
-        await fixture.whenStable();
-        await fixture.whenRenderingDone();
-        fixture.detectChanges();
+  it('should render properly the NFT', async () => {
+    component.ngOnInit();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
 
-        const imageEl = fixture.debugElement.query(By.css('img.cnc__showNFT__img'));
-        const nameEl = fixture.debugElement.query(By.css('ion-text.ux-font-titulo-xs'));
+    const imageEl = fixture.debugElement.query(By.css('img.cnc__showNFT__img'));
+    const nameEl = fixture.debugElement.query(By.css('ion-text.ux-font-titulo-xs'));
 
-        expect(imageEl.attributes.src).toEqual(nftData.image);
-        expect(nameEl.nativeElement.innerHTML).toContain(nftData.name);
-    });
+    expect(imageEl.attributes.src).toEqual(nftData.image);
+    expect(nameEl.nativeElement.innerHTML).toContain(nftData.name);
+  });
 });

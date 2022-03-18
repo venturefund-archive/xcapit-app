@@ -4,7 +4,6 @@ import { Navigation, Router } from '@angular/router';
 import { NFT, NullNFT } from '../shared-wallets/models/nft/nft.class';
 import { UrlImageOf } from '../shared-wallets/models/nft/url-image-of.class';
 
-
 @Component({
   selector: 'app-nft-detail',
   template: ` <ion-header>
@@ -78,8 +77,8 @@ import { UrlImageOf } from '../shared-wallets/models/nft/url-image-of.class';
   styleUrls: ['./nft-detail.page.scss'],
 })
 export class NftDetailPage {
-    nft: NFT = new NullNFT();
-    nftTemplateData: any = {};
+  nft: NFT = new NullNFT();
+  nftTemplateData: any = {};
   nav: Navigation;
   form: FormGroup = this.formBuilder.group({
     contractAddress: [''],
@@ -92,25 +91,25 @@ export class NftDetailPage {
   }
 
   ionViewWillEnter() {
-      this.setNFT();
-      this.setNftTemplateData();
+    this.setNFT();
+    this.setNftTemplateData();
   }
 
-    private setNFT() {
-        this.nft = this.nav.extras?.state?.nft || new NullNFT();
-    }
+  private setNFT() {
+    this.nft = this.nav.extras?.state?.nft || new NullNFT();
+  }
 
-    private setNftTemplateData() {
-        this.nftTemplateData.name = this.nft.name();
-        this.nftTemplateData.description = this.nft.description();
-        this.nftTemplateData.image = (new UrlImageOf(this.nft)).value();
-        this.setFormValue();
-    }
+  private setNftTemplateData() {
+    this.nftTemplateData.name = this.nft.name();
+    this.nftTemplateData.description = this.nft.description();
+    this.nftTemplateData.image = new UrlImageOf(this.nft).value();
+    this.setFormValue();
+  }
 
   setFormValue() {
     this.form.patchValue({
-        contractAddress: this.nft.contractAddress(),
-        tokenID: this.nft.id(),
+      contractAddress: this.nft.contractAddress(),
+      tokenID: this.nft.id(),
       blockchain: 'Polygon',
     });
     this.form.markAllAsTouched();
