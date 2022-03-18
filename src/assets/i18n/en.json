@@ -271,7 +271,9 @@
     "new": {
       "header": "New investment",
       "amount_to_invest": "Amount to invest",
-      "button": "Continue"
+      "button": "Continue",
+      "dont_have":"Don't have ",
+      "buy_button":"Buy now"
     },
     "add": {
       "header": "Add amount",

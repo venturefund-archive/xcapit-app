@@ -261,7 +261,9 @@
     "new": {
       "header": "Nueva inversión",
       "amount_to_invest": "Monto a invertir",
-      "button": "Continuar"
+      "button": "Continuar",
+      "dont_have":"¿No tienes ",
+      "buy_button":"Compra ahora"
     },
     "add": {
       "header": "Añadir monto",
