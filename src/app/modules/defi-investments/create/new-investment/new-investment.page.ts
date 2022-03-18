@@ -48,7 +48,7 @@ import { AmountInputCardComponent } from '../../shared-defi-investments/componen
         >
           {{ 'defi_investments.new.button' | translate }}
         </ion-button>
-        <div class="ni__footer__text" *ngIf="this.mode === 'invest' && this.disable">
+        <div class="ni__footer__text" *ngIf="this.mode === 'invest' && this.buyAvailable">
           <span class="ux-font-text-xs text">
             {{ 'defi_investments.new.dont_have' | translate }}{{this.token.value +'?'}}
           </span>
@@ -78,7 +78,7 @@ export class NewInvestmentPage implements OnInit {
   headerText: string;
   labelText: string;
   coins: Coin[]
-  disable: boolean;
+  buyAvailable: boolean;
   @ViewChild(AmountInputCardComponent) amountInputCard: AmountInputCardComponent;
   constructor(
     private formBuilder: FormBuilder,
@@ -115,7 +115,7 @@ export class NewInvestmentPage implements OnInit {
 
   isMoonpayToken(coins: Coin[]) {
     const coin = coins.filter((coin) => coin.value === this.token.value);
-    this.disable = coin[0].hasOwnProperty('moonpayCode');
+    this.buyAvailable = coin[0].hasOwnProperty('moonpayCode');
   }
 
   goToMoonpay() {
