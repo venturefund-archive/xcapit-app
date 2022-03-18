@@ -137,7 +137,7 @@ export class InvestorTestQuestionPage implements OnInit {
     if (this.isFirstQuestion) {
       this.investorTestService.clearAnswers();
       this.navController.navigateBack([
-        this.mode === 'defi' ? 'tabs/investments/defi' : 'wealth-management/investor-test-options',
+        this.mode === 'defi' ? 'tabs/investments' : 'wealth-management/investor-test-options',
       ]);
     }
   }
