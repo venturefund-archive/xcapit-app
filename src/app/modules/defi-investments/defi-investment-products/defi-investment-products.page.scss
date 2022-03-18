@@ -64,6 +64,20 @@
       }
     }
 
+    &__empty {
+      text-align: center;
+      margin-top: 24px;
+
+      &__text {
+        margin-top: 24px;
+        margin-bottom: 16px;
+
+        ion-text {
+          color: var(--ion-color-neutral80);
+        }
+      }
+    }
+
     &__weekly-profit-disclaimer {
       padding: 0 10px;
       margin-top: 8px;
