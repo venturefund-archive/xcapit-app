@@ -10,7 +10,7 @@ import { NavigationExtras } from '@angular/router';
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/home"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'wallets.send.select_currency.header' | translate }}</ion-title>
       </ion-toolbar>
