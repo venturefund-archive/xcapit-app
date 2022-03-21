@@ -26,7 +26,7 @@ import { NavController } from '@ionic/angular';
             color="secondary"
             appTrackClick
             name="Success Action Primary"
-            [dataToTrack]=" { eventLabel: this.data.trackClickEventNamePrimaryAction }"
+            [dataToTrack]="{ eventLabel: this.data.trackClickEventNamePrimaryAction }"
             (click)="this.primaryAction()"
           >
             {{ this.data?.namePrimaryAction | translate }}
@@ -37,6 +37,7 @@ import { NavController } from '@ionic/angular';
         </div>
         <div class="main__actions__third" *ngIf="this.data.nameThirdAction">
           <ion-button
+            color="info"
             class="ux_button"
             appTrackClick
             name="Success Action Third"

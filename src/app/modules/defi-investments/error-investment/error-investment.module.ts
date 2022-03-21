@@ -5,6 +5,10 @@ import { SharedDefiInvestmentsModule } from '../shared-defi-investments/shared-d
 
 const routes: Routes = [
   {
+    path: ':vault',
+    component: ErrorInvestmentPage
+  },
+  {
     path: '',
     component: ErrorInvestmentPage
   }

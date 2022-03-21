@@ -1,9 +1,9 @@
 import { LINKS } from 'src/app/config/static-links';
-import { IonicStorageService } from './../../../../shared/services/ionic-storage/ionic-storage.service';
+import { IonicStorageService } from '../../../../shared/services/ionic-storage/ionic-storage.service';
 import {
   Investment,
   TwoPiInvestment,
-} from './../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
+} from '../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { InvestmentConfirmationPage } from './investment-confirmation.page';
@@ -67,6 +67,7 @@ describe('InvestmentConfirmationPage', () => {
       productSpy = jasmine.createSpyObj('InvestmentProduct', {
         token: { value: 'USDC' },
         contractAddress: '0xtest',
+        name: 'testInvestmentProductName',
       });
       investmentDataServiceSpy = jasmine.createSpyObj(
         'InvestmentDataService',
@@ -178,7 +179,7 @@ describe('InvestmentConfirmationPage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
     expect(storageSpy.set).toHaveBeenCalledOnceWith('_agreement_2PI_T&C', true);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/success-investment');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/success-investment', 'invest']);
   });
 
   it('should not make deposit when password is valid but deposit fails', async () => {
@@ -190,7 +191,10 @@ describe('InvestmentConfirmationPage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
     expect(storageSpy.set).not.toHaveBeenCalled();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/error-investment');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
+      '/defi/error-investment',
+      'testInvestmentProductName',
+    ]);
   });
 
   it('should not make deposit when modal closes', async () => {
@@ -312,7 +316,7 @@ describe('InvestmentConfirmationPage', () => {
   });
 
   it('should render the correct text according to mode "add"', async () => {
-    fakeActivatedRoute.modifySnapshotParams({mode : 'add'});
+    fakeActivatedRoute.modifySnapshotParams({ mode: 'add' });
     await component.ionViewDidEnter();
     fixture.detectChanges();
     const headerEl = fixture.debugElement.query(By.css('.ion-text-center'));
