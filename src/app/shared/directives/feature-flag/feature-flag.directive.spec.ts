@@ -3,7 +3,7 @@ import { fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { RemoteConfigService } from '../../services/remote-config/remote-config.service';
 import { FeatureFlagDirective } from './feature-flag.directive';
 
-fdescribe('FeatureFlagDirective', () => {
+describe('FeatureFlagDirective', () => {
   let directive: FeatureFlagDirective;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let viewContainerRefSpy: jasmine.SpyObj<ViewContainerRef>;
@@ -12,7 +12,7 @@ fdescribe('FeatureFlagDirective', () => {
   beforeEach(
     waitForAsync(() => {
       remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
-        getFeatureFlag: Promise.resolve(false),
+        getFeatureFlag: false,
       });
 
       viewContainerRefSpy = jasmine.createSpyObj('ViewContainerRef', {
@@ -36,7 +36,7 @@ fdescribe('FeatureFlagDirective', () => {
   }));
 
   it('should show element when remote config service returns true', fakeAsync(() => {
-    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(Promise.resolve(true));
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
     directive.ngOnInit();
     tick(10);
     expect(viewContainerRefSpy.clear).toHaveBeenCalledTimes(1);

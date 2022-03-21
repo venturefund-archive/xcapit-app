@@ -13,7 +13,7 @@ export class RemoteConfigService {
     return this.remoteConfig.initialize();
   }
 
-  getFeatureFlag(param: string): Promise<boolean> {
-    return Promise.resolve(this.remoteConfig.getFeatureFlag(param));
+  getFeatureFlag(param: string): boolean {
+    return this.remoteConfig.getFeatureFlag(param);
   }
 }
