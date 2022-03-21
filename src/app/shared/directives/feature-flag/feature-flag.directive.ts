@@ -15,7 +15,7 @@ export class FeatureFlagDirective {
 
   ngOnInit() {
     this.viewContainer.clear();
-    this.remoteConfigService.get(this.appFeatureFlag).then((featureIsActive) => {
+    this.remoteConfigService.getFeatureFlag(this.appFeatureFlag).then((featureIsActive) => {
       if (featureIsActive) {
         this.viewContainer.createEmbeddedView(this.templateRef);
       }
