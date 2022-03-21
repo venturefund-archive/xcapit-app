@@ -1179,15 +1179,15 @@
     "first_steps": {
       "step1": {
         "primary_text": "We welcome you!",
-        "secondary_text": "With Xcapit Wallet only you are in control at all times, you will know where your money is and how much profit it generates."
+        "secondary_text": "With Xcapit Wallet, you are in control. At all times you will know where your money is and how much you are earning."
       },
       "step2": {
-        "primary_text": "A long journey begins with a first step",
-        "secondary_text": "Plan and achieve your goals.\nWe help you set your objectives and find the best way to achieve them simply and safely."
+        "primary_text": "Investing has never been easier",
+        "secondary_text": "Invest in DeFi! Fast, free transactions without intermediaries."
       },
       "step3": {
-        "primary_text": "The competition is with you",
-        "secondary_text": "Learn finance by playing! Improve your financial education, learn by playing and receive incentives based on your growth and evolution."
+        "primary_text": "Learn by playing!",
+        "secondary_text": "The financial education you wanted. You will receive incentives for your learning and evolution."
       },
       "skip_button": "Skip",
       "finish_button": "Begin"
