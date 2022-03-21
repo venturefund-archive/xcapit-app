@@ -25,7 +25,7 @@ import { NavigationExtras } from '@angular/router';
             icon="ux-arrow-down"
           ></app-icon-button-card>
         </div>
-        <div class="wsb__card-buttons__buy-card card">
+        <div *appFeatureFlag="'ff_buyCryptoHomeWalletButton'" class="wsb__card-buttons__buy-card card">
           <app-icon-button-card
             (click)="this.goToBuy()"
             appTrackClick
