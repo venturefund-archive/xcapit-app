@@ -59,6 +59,7 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
           </form>
           <div>
             <ion-button
+              [disabled]="this.disable"
               class="ux-font-text-xs"
               name="Change Language"
               fill="clear"
@@ -87,6 +88,7 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
 export class UserProfileMenuPage implements OnInit {
   profile: any;
   status: any;
+  disable = false;
   itemMenu: MenuCategory[] = ITEM_MENU;
   form: FormGroup = this.formBuilder.group({
     notificationsEnabled: [false, []],
@@ -146,6 +148,7 @@ export class UserProfileMenuPage implements OnInit {
   }
 
   async changeLanguage() {
+    this.disable = true;
     const modal = await this.modalController.create({
       component: UxSelectModalComponent,
       componentProps: {
@@ -163,6 +166,7 @@ export class UserProfileMenuPage implements OnInit {
     if (data.role === 'selected') {
       this.language.setLanguage(data.data);
     }
+    this.disable = false;
   }
 
   private patchNotificationsValue() {

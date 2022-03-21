@@ -180,6 +180,15 @@ describe('UserProfileMenuPage', () => {
     expect(languageServiceSpy.setLanguage).toHaveBeenCalledTimes(1);
   });
 
+  it('should disable language button when clicked', async () => {
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('ion-button[name="Change Language"]'));
+    button.nativeElement.click();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(button.properties['disabled']).toEqual(true);
+  });
+
   it('should show modal if user has wallet and modal list is empty when Log Out button is clicked', async () => {
     component.profile = profile;
     const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
