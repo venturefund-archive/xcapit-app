@@ -66,6 +66,7 @@ import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
 import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinner.directive';
 import { UpdateNewsComponent } from './components/update-news/update-news.component';
 import { NewsItemComponent } from './components/news-item/news-item.component';
+import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.directive';
 
 @NgModule({
   declarations: [
@@ -133,6 +134,7 @@ import { NewsItemComponent } from './components/news-item/news-item.component';
     HideTextPipe,
     SplitStringPipe,
     ButtonSpinnerDirective,
+    FeatureFlagDirective,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
@@ -205,6 +207,7 @@ import { NewsItemComponent } from './components/news-item/news-item.component';
     HideTextPipe,
     ButtonSpinnerDirective,
     SplitStringPipe,
+    FeatureFlagDirective,
   ],
 })
 export class SharedModule {}
