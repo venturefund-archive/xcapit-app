@@ -3,7 +3,6 @@ import { IonContent, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -89,12 +88,7 @@ import { takeUntil } from 'rxjs/operators';
 
       <div class="wt__nfts ion-padding-start ion-padding-end" *ngIf="this.segmentsForm.value.tab === 'nft'">
         <div class="wt__nfts__content segment-content last-selected">
-          <app-nft-card
-            [nftStatus]="this.nftStatus"
-            (nftRequest)="this.createNFTRequest()"
-            *ngIf="this.walletExist && this.nftStatus"
-          >
-          </app-nft-card>
+          <app-nft-card *ngIf="this.walletExist"></app-nft-card>
         </div>
       </div>
       <div
@@ -143,9 +137,7 @@ export class HomeWalletPage implements OnInit {
   walletExist: boolean;
   totalBalanceAccum = 0;
   balances: AssetBalanceModel[] = [];
-  nftStatus = '';
   selectedAssets: Coin[];
-  NFTMetadata: NFTMetadata;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
   @ViewChild(IonContent, { static: true }) content: IonContent;
@@ -184,7 +176,6 @@ export class HomeWalletPage implements OnInit {
     await this.getAssetsSelected();
     this.createQueues();
     this.loadCoins();
-    this.getNFTStatus();
   }
 
   private async cachedTotalBalance() {
@@ -217,16 +208,6 @@ export class HomeWalletPage implements OnInit {
       this.refreshTimeoutService.lock();
     }
     setTimeout(() => event.target.complete(), 1000);
-  }
-
-  private getNFTStatus(): void {
-    this.apiWalletService.getNFTStatus().subscribe((res) => (this.nftStatus = res.status));
-  }
-
-  createNFTRequest(): void {
-    this.apiWalletService.createNFTRequest().subscribe(() => {
-      this.nftStatus = 'claimed';
-    });
   }
 
   private async checkWalletExist(): Promise<void> {

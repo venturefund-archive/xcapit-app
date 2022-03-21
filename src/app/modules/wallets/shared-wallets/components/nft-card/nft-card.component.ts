@@ -1,25 +1,30 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { NFT } from '../../models/nft/nft.class';
+import { UrlImageOf } from '../../models/nft/url-image-of.class';
 import { NftService } from '../../services/nft-service/nft.service';
 
 @Component({
   selector: 'app-nft-card',
   template: `
     <div class="cnc">
-      <div class="cnc__base" *ngIf="this.card === 'base'">
+      <div class="cnc__base" *ngIf="this.cardState === 'base'">
         <ion-text class="cnc__base__title ux-font-text-xxs">
           {{ 'wallets.shared_wallets.claim_nft_card.base' | translate }}
         </ion-text>
         <img class="cnc__base__image" src="assets/img/wallets/growing_rafiki.svg" alt="" />
       </div>
-      <app-nft-card-skeleton *ngIf="!this.card"></app-nft-card-skeleton>
-      <div *ngIf="this.card === 'showNFT'">
-        <div class="cnc__showNFT ion-padding" (click)="this.goToDetail(nft)" *ngFor="let nft of this.NFTdata" >
+      <app-nft-card-skeleton *ngIf="!this.cardState"></app-nft-card-skeleton>
+      <div *ngIf="this.cardState === 'showNFT'">
+        <div
+          class="cnc__showNFT ion-padding"
+          (click)="this.goToDetail(nft?.nftObject)"
+          *ngFor="let nft of this.nftsTemplateData"
+        >
           <img class="cnc__showNFT__img" [src]="this.nft?.image" />
           <div class="cnc__showNFT__content">
-            <ion-text class="ux-font-titulo-xs title" color="uxprimary">{{ this.nft?.name }}</ion-text>
-            <ion-text class="ux-font-text-xs subtitle">{{ 'XcapitMexico' }}</ion-text>
+            <ion-text class="ux-font-titulo-xs title" color="primary">{{ this.nft?.name }}</ion-text>
           </div>
         </div>
       </div>
@@ -28,38 +33,34 @@ import { NftService } from '../../services/nft-service/nft.service';
   styleUrls: ['./nft-card.component.scss'],
 })
 export class NftCardComponent implements OnInit {
-  card : string;
-  NFTdata: any = [];
-  @Input() nftStatus = 'unclaimed';
-  @Output() nftRequest = new EventEmitter<any>();
+  cardState: string;
+  userNFTs: NFT[] = [];
+  nftsTemplateData: any[] = [];
   constructor(private navController: NavController, private nftService: NftService) {}
 
-  ngOnInit() {
-    this.setCard();
+  async ngOnInit() {
+    await this.loadNFTs();
+    this.setNFTsTemplateData();
+    this.setCardState();
   }
 
-  setCard() {
-    if (this.nftStatus === 'delivered') {
-      this.getNFTInfo().then(() => {
-      this.card = this.NFTdata.length > 0 ? 'showNFT' : 'base';
-      });
-    }else{
-      this.card = 'base'
-     }
+  private setCardState() {
+    this.cardState = this.userNFTs.length > 0 ? 'showNFT' : 'base';
   }
 
-  getNFTInfo() {
-    return this.nftService.getNFTMetadata().then((metadata) => {
-      this.NFTdata = metadata;
-    });
+  private async loadNFTs() {
+    this.userNFTs = await this.nftService.xcapitNFTs();
   }
 
-  goToDetail(nft) {
-    const navigationExtras: NavigationExtras = {
-      state: {
-        nftMetadata: nft,
-      },
-    };
+  private setNFTsTemplateData() {
+    this.nftsTemplateData = [];
+    for (const nft of this.userNFTs) {
+      this.nftsTemplateData.push({ name: nft.name(), image: new UrlImageOf(nft).value(), nftObject: nft });
+    }
+  }
+
+  goToDetail(nft: NFT) {
+    const navigationExtras: NavigationExtras = { state: { nft } };
     this.navController.navigateForward(['/wallets/nft-detail'], navigationExtras);
   }
 }

@@ -41,7 +41,6 @@ describe('HomeWalletPage', () => {
       navControllerSpy = fakeNavController.createSpy();
 
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getNFTStatus: of({ status: 'claimed' }),
         createNFTRequest: of({}),
         getNetworks: ['ERC20'],
       });
@@ -112,7 +111,6 @@ describe('HomeWalletPage', () => {
     await fixture.whenStable();
     expect(component.walletExist).toBeTrue();
     expect(component.selectedAssets.length).toBeGreaterThan(0);
-    expect(component.nftStatus).toEqual('claimed');
     expect(component.balances.length).toBeGreaterThan(0);
   });
 
@@ -173,17 +171,6 @@ describe('HomeWalletPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Edit Tokens"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/select-coins', 'edit']);
-  });
-
-  it('should request the nft and update the nft status to claimed when claim event is received', () => {
-    component.segmentsForm.patchValue({ tab: 'nft' });
-    component.nftStatus = 'unclaimed';
-    component.walletExist = true;
-    fixture.detectChanges();
-    const claimNFTCardComponent = fixture.debugElement.query(By.css('app-nft-card'));
-    claimNFTCardComponent.triggerEventHandler('nftRequest', null);
-    fixture.detectChanges();
-    expect(component.nftStatus).toEqual('claimed');
   });
 
   it('should unsubscribe on did leave', () => {

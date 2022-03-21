@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Navigation, Router } from '@angular/router';
-import { NFTMetadata } from '../shared-wallets/interfaces/nft-metadata.interface';
-import { NftService } from '../shared-wallets/services/nft-service/nft.service';
+import { NFT, NullNFT } from '../shared-wallets/models/nft/nft.class';
+import { UrlImageOf } from '../shared-wallets/models/nft/url-image-of.class';
 
 @Component({
   selector: 'app-nft-detail',
@@ -18,14 +18,14 @@ import { NftService } from '../shared-wallets/services/nft-service/nft.service';
       <div class="nd ux_main">
         <div class="ux_content">
           <div>
-            <img class="nd__image" [src]="this.NFTMetadata?.image" alt="" />
+            <img class="nd__image" [src]="this.nftTemplateData.image" alt="" />
           </div>
           <div class="nd__title_and_subtitle">
             <ion-text class="nd__title ux-font-text-lg">
-              {{ this.NFTMetadata?.name }}
+              {{ this.nftTemplateData.name }}
             </ion-text>
             <ion-text class="nd__subtitle ux-font-text-base">
-              {{ this.NFTMetadata?.description }}
+              {{ this.nftTemplateData.description }}
             </ion-text>
           </div>
           <div class="nd__creator">
@@ -77,7 +77,8 @@ import { NftService } from '../shared-wallets/services/nft-service/nft.service';
   styleUrls: ['./nft-detail.page.scss'],
 })
 export class NftDetailPage {
-  NFTMetadata: any = [];
+  nft: NFT = new NullNFT();
+  nftTemplateData: any = {};
   nav: Navigation;
   form: FormGroup = this.formBuilder.group({
     contractAddress: [''],
@@ -85,30 +86,30 @@ export class NftDetailPage {
     blockchain: [''],
   });
 
-  constructor(private formBuilder: FormBuilder, private nftService: NftService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private router: Router) {
     this.nav = this.router.getCurrentNavigation();
   }
 
   ionViewWillEnter() {
-    this.getNFTInfo();
+    this.setNFT();
+    this.setNftTemplateData();
   }
 
-  getNFTInfo() {
-    if (this.nav.extras && this.nav.extras.state && this.nav.extras.state.nftMetadata) {
-      this.NFTMetadata = this.nav.extras.state.nftMetadata as NFTMetadata;
-      this.setFormValue();
-    } else {
-      this.nftService.getNFTMetadata().then((metadata) => {
-        this.NFTMetadata = metadata;
-        this.setFormValue();
-      });
-    }
+  private setNFT() {
+    this.nft = this.nav.extras?.state?.nft || new NullNFT();
+  }
+
+  private setNftTemplateData() {
+    this.nftTemplateData.name = this.nft.name();
+    this.nftTemplateData.description = this.nft.description();
+    this.nftTemplateData.image = new UrlImageOf(this.nft).value();
+    this.setFormValue();
   }
 
   setFormValue() {
     this.form.patchValue({
-      contractAddress: this.NFTMetadata.contractAddress,
-      tokenID: this.NFTMetadata.tokenID,
+      contractAddress: this.nft.contractAddress(),
+      tokenID: this.nft.id(),
       blockchain: 'Polygon',
     });
     this.form.markAllAsTouched();
