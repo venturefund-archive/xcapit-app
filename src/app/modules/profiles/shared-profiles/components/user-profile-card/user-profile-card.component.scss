@@ -9,11 +9,18 @@
       align-items: center;
 
       .user-img {
-        height: 48px;
-        width: 48px;
+        min-height: 48px;
+        max-width: 48px;
+        min-width: 48px;
+        max-height: 48px;
       }
 
       .user-mail {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        min-width: 110px;
+        max-width: auto;
         margin-left: 16px;
       }
     }
