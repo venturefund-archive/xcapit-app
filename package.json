@@ -104,7 +104,7 @@
     "@ionic/angular-toolkit": "^5.0.3",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/gitlab": "^7.0.4",
+    "@semantic-release/gitlab": "^7.2.1",
     "@semantic-release/release-notes-generator": "^10.0.3",
     "@types/chart.js": "^2.8.7",
     "@types/googlemaps": "^3.37.7",
