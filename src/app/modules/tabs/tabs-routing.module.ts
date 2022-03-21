@@ -15,24 +15,10 @@ const routes: Routes = [
       },
       {
         path: 'investments',
-        children: [
-          {
-            path: '',
-            loadChildren: () =>
-              import('../funds/investments-tab/investments-tab.module').then((m) => m.InvestmentsTabPageModule),
-          },
-          {
-            path: 'binance',
-            loadChildren: () => import('../funds/funds-list/funds-list.module').then((m) => m.FundsListPageModule),
-          },
-          {
-            path: 'defi',
-            loadChildren: () =>
-              import('../defi-investments/defi-investment-products/defi-investment-products.module').then(
-                (m) => m.DefiInvestmentProductsPageModule
-              ),
-          },
-        ],
+        loadChildren: () =>
+          import('../defi-investments/defi-investment-products/defi-investment-products.module').then(
+            (m) => m.DefiInvestmentProductsPageModule
+          ),
       },
       {
         path: 'wallets',
@@ -44,11 +30,6 @@ const routes: Routes = [
         pathMatch: 'full',
       },
     ],
-  },
-  {
-    path: '',
-    redirectTo: '/tabs/home',
-    pathMatch: 'full',
   },
 ];
 

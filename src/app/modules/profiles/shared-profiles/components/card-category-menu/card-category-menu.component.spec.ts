@@ -25,12 +25,6 @@ const itemMenu: MenuCategory = {
       type: 'link',
     },
     {
-      name: 'Funds',
-      text: 'profiles.user_profile_menu.funds',
-      route: 'tabs/investments',
-      type: 'link',
-    },
-    {
       name: 'Support',
       text: 'profiles.user_profile_menu.support_help',
       route: 'tickets/create-support-ticket',
@@ -103,30 +97,8 @@ describe('CardItemMenuComponent', () => {
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
     }
-    expect(elms.length).toBe(4);
+    expect(elms.length).toBe(3);
   });
-
-
-  it(`should navigate to /tabs/investments/binance when button Funds is clicked and have Funds`, async () => {
-    component.category.showCategory = true;
-    component.hasFunds = true;
-    fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css(`ion-button#${itemMenu.items[1].name}`));
-    button.nativeElement.click();
-    await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('tabs/investments/binance');
-  });
-
-  it(`should navigate to /tabs/investments when button Funds is clicked and dont have Funds`, async () => {
-    component.category.showCategory = true;
-    component.hasFunds = false;
-    fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css(`ion-button#${itemMenu.items[1].name}`));
-    button.nativeElement.click();
-    await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('tabs/investments');
-  });
-
 
   for (const item of itemMenu.items) {
     it(`should navigate to ${item.route} when button ${item.name} is clicked`, async () => {

@@ -1,1 +1,28 @@
-// Empty scss
+:host {
+  .ni {
+    &__footer {
+      text-align: center;
+
+      &__text {
+        margin-top: 24.5px;
+        margin-left: 10px;
+
+        span {
+          color: var(--ion-color-neutral80);
+        }
+
+        flex-direction: column;
+        gap: 22px;
+
+        &__button {
+          height: auto;
+          margin-left: -8px;
+          margin-bottom: 8px;
+
+          --padding-start: 8px !important;
+          --padding-bottom: 8px;
+        }
+      }
+    }
+  }
+}

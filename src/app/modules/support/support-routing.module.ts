@@ -22,12 +22,23 @@ const routes: Routes = [
       },
       {
         path: 'nft',
-        loadChildren: () => import('./support-nft/support-nft.module').then( m => m.SupportNftPageModule)
+        loadChildren: () => import('./support-nft/support-nft.module').then((m) => m.SupportNftPageModule),
       },
       {
         path: 'security',
         loadChildren: () =>
           import('./support-security/support-security.module').then((m) => m.SupportSecurityPageModule),
+      },
+      {
+        path: 'defi',
+        loadChildren: () => import('./support-defi/support-defi.module').then((m) => m.SupportDefiPageModule),
+      },
+      {
+        path: 'wallet-connect',
+        loadChildren: () =>
+          import('./support-wallet-connect/support-wallet-connect.module').then(
+            (m) => m.SupportWalletConnectPageModule
+          ),
       },
       {
         path: 'buy',
@@ -67,7 +78,6 @@ const routes: Routes = [
       },
     ],
   },
-
 ];
 
 @NgModule({

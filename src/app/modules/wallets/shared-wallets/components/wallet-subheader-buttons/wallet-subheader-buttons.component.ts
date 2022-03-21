@@ -88,6 +88,6 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   }
 
   goToPerformance() {
-    this.navController.navigateForward(['tabs/investments/defi']);
+    this.navController.navigateForward(['tabs/investments']);
   }
 }

@@ -36,9 +36,21 @@ export const SUPPORT_OPTIONS = [
     route: 'support/apikey-binance',
   },
   {
+    title: 'support.support_options.title_wallet_connect',
+    description: 'support.support_options.description_wallet_connect',
+    icon: '../../assets/ux-icons/wallet-connect.svg',
+    route: 'support/wallet-connect',
+  },
+  {
+    title: 'support.support_options.title_defi',
+    description: 'support.support_options.description_defi',
+    icon: '../../assets/ux-icons/defi.svg',
+    route: 'support/defi',
+  },
+  {
     title: 'support.support_options.title_security',
     description: 'support.support_options.description_security',
-    icon: '../../assets/ux-icons/ux-trending-up.svg',
+    icon: '../../assets/ux-icons/security.svg',
     route: '/support/security',
   },
 ];

@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-support-options-card',
   template: ` <div class="soc" (click)="this.goToOption()">
-    <div class="soc__content">
+    <div class="soc__content ux-card">
       <div class="soc__content__icon">
         <img [src]="this.option.icon" />
       </div>

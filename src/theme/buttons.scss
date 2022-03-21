@@ -7,6 +7,9 @@
   font-weight: var(--ux-fweight-semibold);
   font-size: var(--ux-fsize-16);
   line-height: 18.77px;
+
+  --background-activated: transparent !important;
+  --ion-color-shade: transparent !important;
 }
 
 .ux-font-button-small {

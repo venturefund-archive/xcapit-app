@@ -271,7 +271,9 @@
     "new": {
       "header": "New investment",
       "amount_to_invest": "Amount to invest",
-      "button": "Continue"
+      "button": "Continue",
+      "dont_have":"Don't have ",
+      "buy_button":"Buy now"
     },
     "add": {
       "header": "Add amount",
@@ -302,10 +304,11 @@
       "header": "Investment"
     },
     "defi_investment_products": {
-      "header": "Defi investments",
+      "header": "DeFi investments",
       "title": "Start investing",
       "title_investments": "My investments",
       "recommendations": "You may be interested in",
+      "empty_products":"Soon you will be able to find the best investments for your profile.",
       "choose_investor_profile": {
         "complete_test": {
           "title": "I want to choose my profile again",
@@ -387,7 +390,7 @@
       "success_withdraw": {
         "title": "You stopped investing *",
         "subtitle": "You can reinvest whenever you want",
-        "button_primary": "Return to Defi investments",
+        "button_primary": "Return to DeFi investments",
         "button_secondary": "Go to wallet",
         "disclaimer": "* Your funds can take up to 5 minutes to be displayed in your wallet."
       },
@@ -402,7 +405,7 @@
       "text": "Earn money daily by investing your criptocurrencies",
       "how_investments_work_button": "How do investments work?",
       "defi": {
-        "title": "Defi Investments",
+        "title": "DeFi Investments",
         "text": "Use your Xcapit Wallet to deposit Tokens and subscribe to Defi investment products generating daily yields easily."
       },
       "binance": {
@@ -927,10 +930,6 @@
       "category_security_wallet": "Security Xcapit wallet",
       "remove_wallet": "Remove Wallet",
       "security_phrase": "Security phrase",
-      "category_binance_investment": "Binance investments",
-      "funds": "Funds",
-      "finished_funds": "Finished funds",
-      "manage_apikey": "Manage API Keys",
       "category_preferences": "Preferences",
       "push_notifications": "Push notifications",
       "language": "Language",
@@ -1821,7 +1820,7 @@
         "header": "Investment"
       },
       "defi_investment_products": {
-        "header": "Defi investments"
+        "header": "DeFi investments"
       }
     },
     "shared_wallets": {
@@ -2582,20 +2581,24 @@
     "header": "Help",
     "title": "How can we help you?",
     "support_options": {
-      "title_nft": "NFTs",
+      "title_nft": "NFT",
       "description_nft": "View, Transfer and Receive",
       "title_account": "XCAPIT Account",
       "description_account": "Create account, configure and deposit money.",
       "title_wallet": "Wallet",
       "description_wallet": "Create, import, receive, send and more.",
-      "title_buy": "Buy",
+      "title_buy": "Crypto buying",
       "description_buy": "Steps, providers and costs.",
       "title_investment": "Binance investments",
       "description_investment": "Types of strategies, terms and profitability.",
       "title_apikeys": "Binance and API Keys",
       "description_apikeys": "Create account, connect to binance and manage APY Keys.",
       "title_security": "Security ",
-      "description_security": "About my data and my capital."
+      "description_security": "About my data and my capital.",
+      "title_wallet_connect":"Wallet Connect",
+      "description_wallet_connect":"Connect wallet and interact with dapp.",
+      "title_defi":"Decentralized Investments",
+      "description_defi":"How to invest, performances, costs and fees." 
     },
     "contact_support": {
       "title": "Write to support"
