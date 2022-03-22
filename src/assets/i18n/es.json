@@ -336,7 +336,7 @@
       "button": "Añadir monto",
       "button_link": "Finalizar inversión",
       "invested_amount": "Balance*",
-      "weekly_earnings_disclaimer": "*Tu balance se actualiza el día lunes de cada semana."
+      "daily_earnings_disclaimer": "*Tu balance se actualiza a diario."
     },
     "shared": {
       "filter_tab": {
@@ -353,9 +353,9 @@
         "liquidity": "Liquidez",
         "not_min_ammount": "Sin monto mínimo",
         "immediate_rescue": "Rescate inmediato",
-        "weekly_earnings": "Ganancias semanales*",
-        "weekly_earnings_disclaimer_active": "*Tu balance se actualiza el día lunes de cada semana.",
-        "weekly_earnings_disclaimer_available": "*Las ganancias se actualizan el día lunes de cada semana.",
+        "daily_earnings": "Ganancias diarias*",
+        "daily_earnings_disclaimer_active": "*Tu balance se actualiza a diario.",
+        "daily_earnings_disclaimer_available": "*Ahora tu balance se actualiza a diario.",
         "coming_badge": "Próximamente",
         "invest_button": "Invertir",
         "annual": "Anual"

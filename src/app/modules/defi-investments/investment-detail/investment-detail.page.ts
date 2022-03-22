@@ -43,7 +43,7 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
       </ion-card>
       <div class="id__weekly-profit-disclaimer ion-padding-horizontal" *ngIf="this.disclaimer">
         <ion-label class=" ux-font-text-xs" color="neutral80">
-          {{ 'defi_investments.invest_detail.weekly_earnings_disclaimer' | translate }}
+          {{ 'defi_investments.invest_detail.daily_earnings_disclaimer' | translate }}
         </ion-label>
       </div>
       <ion-button

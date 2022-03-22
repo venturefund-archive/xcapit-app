@@ -38,7 +38,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
           ></app-investment-balance-item>
           <div class="dp__weekly-profit-disclaimer" *ngIf="this.activeInvestments.length">
             <ion-label class=" ux-font-text-xxs" color="neutral80">
-              {{ 'defi_investments.shared.defi_investment_product.weekly_earnings_disclaimer_active' | translate }}
+              {{ 'defi_investments.shared.defi_investment_product.daily_earnings_disclaimer_active' | translate }}
             </ion-label>
           </div>
         </div>
@@ -89,14 +89,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
             *ngFor="let investment of this.filteredAvailableInvestments"
             [investmentProduct]="investment.product"
             [isComing]="investment.isComing"
-            [weeklyEarning]="investment.weeklyEarning"
+            [dailyEarning]="investment.dailyEarning"
           ></app-defi-investment-product>
           <div
             class="dp__weekly-profit-disclaimer"
             *ngIf="!this.activeInvestments.length && this.filteredAvailableInvestments.length"
           >
             <ion-label class=" ux-font-text-xxs" color="neutral80">
-              {{ 'defi_investments.shared.defi_investment_product.weekly_earnings_disclaimer_available' | translate }}
+              {{ 'defi_investments.shared.defi_investment_product.daily_earnings_disclaimer_available' | translate }}
             </ion-label>
           </div>
         </div>
@@ -209,7 +209,7 @@ export class DefiInvestmentProductsPage {
         product: investmentProduct,
         balance: balance,
         isComing: product.isComing,
-        weeklyEarning: product.weeklyEarning,
+        dailyEarning: product.dailyEarning,
         category: product.category,
       });
     }
