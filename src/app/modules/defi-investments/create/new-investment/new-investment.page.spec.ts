@@ -16,6 +16,7 @@ import { NewInvestmentPage } from './new-investment.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -116,7 +117,7 @@ describe('NewInvestmentPage', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [NewInvestmentPage, FakeTrackClickDirective],
+        declarations: [NewInvestmentPage, FakeTrackClickDirective, FakeFeatureFlagDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },

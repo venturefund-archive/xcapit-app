@@ -8,7 +8,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
-
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
+      
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
   let fixture: ComponentFixture<WalletSubheaderButtonsComponent>;
@@ -21,7 +22,7 @@ describe('WalletSubheaderButtonsComponent', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective],
+        declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective, FakeFeatureFlagDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],

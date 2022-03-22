@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Directive({
@@ -10,8 +10,12 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
     },
   ],
 })
-export class FakeFeatureFlagDirective {
+export class FakeFeatureFlagDirective implements OnInit {
   @Input() appFeatureFlag: string;
 
   constructor(private viewContainer: ViewContainerRef, private templateRef: TemplateRef<any>) {}
+
+  ngOnInit() {
+    this.viewContainer.createEmbeddedView(this.templateRef);
+  }
 }
