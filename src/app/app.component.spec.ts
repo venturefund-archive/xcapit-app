@@ -13,6 +13,7 @@ import { FakeNavController } from '../testing/fakes/nav-controller.fake.spec';
 import { PlatformService } from './shared/services/platform/platform.service';
 import { of } from 'rxjs';
 import { UpdateNewsService } from './shared/services/update-news/update-news.service';
+import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -30,6 +31,7 @@ describe('AppComponent', () => {
   let statusBarSpy: jasmine.SpyObj<any>;
   let translateSpy: jasmine.SpyObj<TranslateService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -45,6 +47,7 @@ describe('AppComponent', () => {
       statusBarSpy = jasmine.createSpyObj('StatusBar', { setBackgroundColor: Promise.resolve() });
       translateSpy = jasmine.createSpyObj('TranslateService', {}, { onLangChange: of({}) });
       updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
+      remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', { initialize: Promise.resolve() }, { remoteConfig: undefined });
 
       TestBed.configureTestingModule({
         declarations: [AppComponent],
@@ -61,6 +64,7 @@ describe('AppComponent', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: TranslateService, useValue: translateSpy },
           { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
+          { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         ],
         imports: [TranslateModule.forRoot()],
       }).compileComponents();
@@ -84,6 +88,8 @@ describe('AppComponent', () => {
     expect(trackServiceSpy.startTracker).toHaveBeenCalledTimes(1);
     expect(platformSpy.ready).toHaveBeenCalledTimes(1);
     expect(languageServiceSpy.setInitialAppLanguage).toHaveBeenCalledTimes(1);
+    expect((Object.getOwnPropertyDescriptor(remoteConfigServiceSpy, 'remoteConfig').set as jasmine.Spy)).toHaveBeenCalledTimes(1);
+    expect(remoteConfigServiceSpy.initialize).toHaveBeenCalledTimes(1);
     expect(statusBarSpy.setBackgroundColor).not.toHaveBeenCalled();
     expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
   });
