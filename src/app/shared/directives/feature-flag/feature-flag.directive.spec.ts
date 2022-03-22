@@ -13,7 +13,7 @@ import { FeatureFlagDirective } from './feature-flag.directive';
 })
 class TestComponent {}
 
-fdescribe('FeatureFlagDirective', () => {
+describe('FeatureFlagDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
@@ -48,6 +48,6 @@ fdescribe('FeatureFlagDirective', () => {
   it('should show element when remote config service returns true', async () => {
     fixture.detectChanges();
     const textEl = fixture.debugElement.query(By.css('#HiddenFeature'));
-    expect(textEl).toBeTruthy();
+    expect(textEl.nativeElement.textContent.trim()).toEqual('Test component');
   });
 });
