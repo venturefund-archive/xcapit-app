@@ -254,9 +254,9 @@ export class InvestmentConfirmationPage {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
-    if(!data){
+    if (!data) {
       this.disable = false;
-    }else{
+    } else {
       return data;
     }
   }
@@ -340,9 +340,9 @@ export class InvestmentConfirmationPage {
         try {
           await (await this.investment(wallet).deposit(this.amount.value)).wait();
           await this.saveTwoPiAgreement();
-          await this.navController.navigateForward('/defi/success-investment');
+          await this.navController.navigateForward(['/defi/success-investment', this.mode]);
         } catch {
-          await this.navController.navigateForward('/defi/error-investment');
+          await this.navController.navigateForward(['/defi/error-investment', this.investmentDataService.product.name()]);
         } finally {
           this.loadingEnabled(false);
         }

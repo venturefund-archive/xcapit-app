@@ -315,14 +315,20 @@
       }
     },
     "success_investment": {
-      "title": "Añadiste dinero a tu inversión",
-      "subtitle": "Obtendrás beneficios todos los días.",
-      "primaryButton": "Volver a inversiones",
-      "secondaryButton": "Ir a Wallet"
+      "title": "¡Ya estás invirtiendo!",
+      "subtitle": "Encontrarás las ganancias en tu Wallet.",
+      "primaryButton": "Volver a inversiones DeFi",
+      "secondaryButton": "Ir a mi Wallet"
+    },
+    "success_add_amount": {
+      "title": "¡Aumentaste tu inversión!",
+      "subtitle": "También aumentarán tus ganancias.",
+      "primaryButton": "Volver a inversiones DeFi",
+      "secondaryButton": "Ir a mi Wallet"
     },
     "error_investment": {
-      "title": "Parece que algo salió mal",
-      "subtitle": "Recuerda que debes poseer tokens para pagar las comisiones de inversión.",
+      "title": "No se pudo realizar la transacción.",
+      "subtitle": "Se produjo un error en la blockchain",
       "primaryButton": "Intentar nuevamente"
     },
     "invest_detail": {

@@ -27,7 +27,7 @@ import { AmountInputCardComponent } from '../../shared-defi-investments/componen
         <app-expandable-investment-info [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
       </ion-card>
       <ion-card class="ux-card">
-        <form [formGroup]="this.form">
+        <form [formGroup]="this.form" *ngIf="this.investmentProduct && this.token">
           <app-amount-input-card
             title="{{ this.labelText | translate }}"
             [baseCurrency]="this.token"

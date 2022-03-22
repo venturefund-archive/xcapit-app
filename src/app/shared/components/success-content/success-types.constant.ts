@@ -107,7 +107,6 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/tabs/wallets',
     namePrimaryAction: 'wallets.send.send_success.namePrimaryAction',
     trackClickEventNamePrimaryAction: 'ux_send_go_to_home',
-
   },
   error_wallet_recovery: {
     urlClose: '/tabs/wallets',
@@ -163,5 +162,33 @@ export const SUCCESS_TYPES = {
     nameThirdAction: 'defi_investments.withdraw.success_withdraw.button_secondary',
     urlThirdAction: '/tabs/wallets',
     disclaimer: 'defi_investments.withdraw.success_withdraw.disclaimer',
+  },
+  success_investment: {
+    image: 'assets/img/defi-investments/success-investment.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'defi_investments.success_investment.title',
+    textSecondary: 'defi_investments.success_investment.subtitle',
+    namePrimaryAction: 'defi_investments.success_investment.primaryButton',
+    urlPrimaryAction: '/tabs/investments',
+    nameThirdAction: 'defi_investments.success_investment.secondaryButton',
+    urlThirdAction: '/tabs/wallets',
+  },
+  success_add_amount: {
+    image: 'assets/img/defi-investments/success-add.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'defi_investments.success_add_amount.title',
+    textSecondary: 'defi_investments.success_add_amount.subtitle',
+    namePrimaryAction: 'defi_investments.success_add_amount.primaryButton',
+    urlPrimaryAction: '/tabs/investments',
+    nameThirdAction: 'defi_investments.success_add_amount.secondaryButton',
+    urlThirdAction: '/tabs/wallets',
+  },
+  error_investment: {
+    image: 'assets/img/defi-investments/error-investment.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'defi_investments.error_investment.title',
+    textSecondary: 'defi_investments.error_investment.subtitle',
+    namePrimaryAction: 'defi_investments.error_investment.primaryButton',
+    urlPrimaryAction: '/tabs/investments',
   },
 };

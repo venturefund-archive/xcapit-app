@@ -325,15 +325,21 @@
       }
     },
     "success_investment": {
-      "title": "You added money to your investment",
-      "subtitle": "You will get benefits every day.",
-      "primaryButton": "Back to investments",
-      "secondaryButton": "Go to Wallet"
+      "title": "You are already investing!",
+      "subtitle": "You will find the profits in your Wallet.",
+      "primaryButton": "Back to DeFi investments.",
+      "secondaryButton": "Go to my Wallet."
+    },
+    "success_add_amount": {
+      "title": "You increased your investment!",
+      "subtitle": "Your earnings will also increase.",
+      "primaryButton": "Back to DeFi investments.",
+      "secondaryButton": "Go to my Wallet."
     },
     "error_investment": {
-      "title": "It seems that something went wrong",
-      "subtitle": "Remember that you must own tokens to pay investment fees.",
-      "primaryButton": "Try again"
+      "title": "Transaction could not be completed.",
+      "subtitle": "An error occurred in the blockchain",
+      "primaryButton": "Try again."
     },
     "invest_detail": {
       "header": "My investment",
@@ -1608,8 +1614,8 @@
     "disclaimer": {
       "header": "Create Wallet",
       "title": "Let's start with your wallet!",
-      "wallet_term_text":"Your Wallet will be linked to this device, not to your e-mail. For more information, visit the ",
-      "wallet_term_link":"Wallet FAQs",
+      "wallet_term_text": "Your Wallet will be linked to this device, not to your e-mail. For more information, visit the ",
+      "wallet_term_link": "Wallet FAQs",
       "description": "Before creating your wallet, verify the essential permissions to start",
       "local_stored_keys_checkbox": "I understand that my funds are kept safely within this device, and not by a company.",
       "recovery_phrase_checkbox": "I understand that if this application is moved to another device or removed, my funds can only be recovered with the recovery phrase.",
@@ -2595,10 +2601,10 @@
       "description_apikeys": "Create account, connect to binance and manage APY Keys.",
       "title_security": "Security ",
       "description_security": "About my data and my capital.",
-      "title_wallet_connect":"Wallet Connect",
-      "description_wallet_connect":"Connect wallet and interact with dapp.",
-      "title_defi":"Decentralized Investments",
-      "description_defi":"How to invest, performances, costs and fees." 
+      "title_wallet_connect": "Wallet Connect",
+      "description_wallet_connect": "Connect wallet and interact with dapp.",
+      "title_defi": "Decentralized Investments",
+      "description_defi": "How to invest, performances, costs and fees."
     },
     "contact_support": {
       "title": "Write to support"
