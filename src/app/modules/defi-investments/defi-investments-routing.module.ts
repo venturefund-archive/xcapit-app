@@ -52,10 +52,6 @@ const routes: Routes = [
       },
     ],
   },
-  {
-    path: 'defi-investment-success-withdraw',
-    loadChildren: () => import('./withdraw/defi-investment-success-withdraw/defi-investment-success-withdraw.module').then( m => m.DefiInvestmentSuccessWithdrawPageModule)
-  },
 ];
 
 @NgModule({

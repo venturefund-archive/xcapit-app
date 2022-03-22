@@ -384,11 +384,11 @@
     },
     "withdraw": {
       "success_withdraw": {
-        "title": "Dejaste de invertir *",
-        "subtitle": "Puedes volver a invertir cuando quieras",
+        "title": "¡Retiro finalizado!",
+        "subtitle": "Encontrarás tus fondos en la Wallet. *",
         "button_primary": "Volver a inversiones DeFi",
-        "button_secondary": "Ir a wallet",
-        "disclaimer": "* Tus fondos pueden demorar en visualizarse en tu wallet hasta 5 minutos."
+        "button_secondary": "Ir a mi wallet",
+        "disclaimer": "* Tus fondos pueden demorar hasta 5 minutos en estar disponibles en la Wallet."
       },
       "withdraw": {
         "header": "Finalizar inversión"

@@ -188,7 +188,7 @@ describe('DefiInvestmentWithdrawPage', () => {
     await component.withdraw();
     await fixture.whenStable();
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/withdraw/error');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/withdraw/error', 'usdc_mumbai']);
   });
 
   it('should create invesment', () => {
