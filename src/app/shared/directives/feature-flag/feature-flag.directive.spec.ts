@@ -1,45 +1,53 @@
-import { ViewContainerRef } from '@angular/core';
-import { fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, TemplateRef, ViewContainerRef } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RemoteConfigService } from '../../services/remote-config/remote-config.service';
 import { FeatureFlagDirective } from './feature-flag.directive';
 
-describe('FeatureFlagDirective', () => {
-  let directive: FeatureFlagDirective;
+@Component({
+  template: `
+    <div *appFeatureFlag="'test'">
+      <p id="HiddenFeature">Test component</p>
+    </div>
+  `,
+})
+class TestComponent {}
+
+fdescribe('FeatureFlagDirective', () => {
+  let fixture: ComponentFixture<TestComponent>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
-  let viewContainerRefSpy: jasmine.SpyObj<ViewContainerRef>;
-  const templateRefMock: any = {};
 
   beforeEach(
     waitForAsync(() => {
       remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
-        getFeatureFlag: false,
+        getFeatureFlag: true,
       });
 
-      viewContainerRefSpy = jasmine.createSpyObj('ViewContainerRef', {
-        createEmbeddedView: {},
-        clear: null,
-      });
+      TestBed.configureTestingModule({
+        declarations: [TestComponent, FeatureFlagDirective],
+        providers: [{ provide: RemoteConfigService, useValue: remoteConfigServiceSpy }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
 
-      directive = new FeatureFlagDirective(viewContainerRefSpy, templateRefMock, remoteConfigServiceSpy);
+      fixture = TestBed.createComponent(TestComponent);
     })
   );
 
-  it('should create an instance', () => {
-    expect(directive).toBeTruthy();
+  it('should create an instance of the component', () => {
+    fixture.detectChanges();
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('should hide element when remote config service returns false', fakeAsync(() => {
-    directive.ngOnInit();
-    tick(10);
-    expect(viewContainerRefSpy.clear).toHaveBeenCalledTimes(1);
-    expect(viewContainerRefSpy.createEmbeddedView).not.toHaveBeenCalled();
-  }));
+  it('should hide element when remote config service returns false', async () => {
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
+    fixture.detectChanges();
+    const textEl = fixture.debugElement.query(By.css('#HiddenFeature'));
+    expect(textEl).toBeFalsy();
+  });
 
-  it('should show element when remote config service returns true', fakeAsync(() => {
-    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
-    directive.ngOnInit();
-    tick(10);
-    expect(viewContainerRefSpy.clear).toHaveBeenCalledTimes(1);
-    expect(viewContainerRefSpy.createEmbeddedView).toHaveBeenCalledTimes(1);
-  }));
+  it('should show element when remote config service returns true', async () => {
+    fixture.detectChanges();
+    const textEl = fixture.debugElement.query(By.css('#HiddenFeature'));
+    expect(textEl).toBeTruthy();
+  });
 });
