@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SUCCESS_TYPES } from '../../../shared/components/success-content/success-types.constant';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-success-investment',
   template: `
-    <ion-content class="ion-padding failed-mnemonic-content">
+    <ion-content class="ion-padding">
       <app-success-content
         *ngIf="this.data"
         [data]="this.data"
-        imageName="wallet-password-change/password-change-success.svg"
         imageAlt="Success Image"
       ></app-success-content>
     </ion-content>

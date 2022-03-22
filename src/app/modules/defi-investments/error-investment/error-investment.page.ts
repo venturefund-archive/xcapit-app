@@ -5,11 +5,10 @@ import { SUCCESS_TYPES } from '../../../shared/components/success-content/succes
 @Component({
   selector: 'app-error-investment',
   template: `
-    <ion-content class="ion-padding failed-mnemonic-content">
+    <ion-content class="ion-padding">
       <app-success-content
         *ngIf="this.data"
         [data]="this.data"
-        imageName="wallet-password-change/password-change-success.svg"
         imageAlt="Success Image"
       ></app-success-content>
     </ion-content>
