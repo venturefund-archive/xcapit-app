@@ -1,3 +1,4 @@
+import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { NavController } from '@ionic/angular';
@@ -11,6 +12,7 @@ import { RegistrationStatus } from '../enums/registration-status.enum';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 
 @Component({
   selector: 'app-operations-new',
@@ -169,19 +171,12 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 
             <!-- wallet -->
             <div class="ion-margin-top">
-              <ion-text class="ux-font-input-label ux-font-text-xs" color="neutral80">
-                {{ 'fiat_ramps.ramp_initial.wallet' | translate }}
-              </ion-text>
-              <app-ux-loading-block *ngIf="!(this.walletAddress.length > 0)" minSize="30px"></app-ux-loading-block>
-              <app-ux-input-select
-                [modalTitle]="'Wallet'"
-                [placeholder]="'Wallet'"
+              <app-ux-input
+                [label]="'Wallet Address' | translate"
                 controlName="wallet"
-                [data]="this.walletAddress"
-                [keyName]="'name'"
-                [valueName]="'id'"
-                *ngIf="this.walletAddress.length > 0"
-              ></app-ux-input-select>
+                [readonly]="true"
+                inputmode="text"
+              ></app-ux-input>
             </div>
           </div>
         </div>
@@ -238,7 +233,9 @@ export class OperationsNewPage implements OnInit {
     private formBuilder: FormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
-    private storageOperationService: StorageOperationService
+    private storageOperationService: StorageOperationService,
+    private walletEncryptionService: WalletEncryptionService,
+    private apiWalletService: ApiWalletService
   ) {}
 
   ngOnInit() {}
@@ -259,7 +256,6 @@ export class OperationsNewPage implements OnInit {
 
   handleSubmit() {
     if (this.form.valid) {
-      this.setWalletInfo();
       this.setOperationStorage();
       this.checkUser();
     } else {
@@ -289,12 +285,13 @@ export class OperationsNewPage implements OnInit {
     });
   }
 
-  getPrice() {
+  async getPrice() {
     this.pairSplit = this.form.value.pair.split('_');
     this.form.controls.currency_in.setValue(this.pairSplit[0]);
     this.form.controls.currency_out.setValue(this.pairSplit[1]);
     this.pairSplit = this.form.value.type === 'cash-out' ? this.pairSplit.reverse() : this.pairSplit;
     const price = this.quotations.filter((pair) => pair.currency === this.pairSplit[1].toLowerCase());
+    const coin = this.apiWalletService.getCoins().find((coin) => coin.value === this.pairSplit[1]);
 
     if (price[0]) {
       if (this.form.value.type === 'cash-in') {
@@ -307,8 +304,8 @@ export class OperationsNewPage implements OnInit {
         this.form.controls.price_out.setValue(this.changePrice);
       }
     }
-
-    this.getUserWallets();
+    this.form.patchValue({ wallet: await this.userWalletFor(coin.network) });
+    this.form.patchValue({ network: coin.network });
   }
 
   async createUser() {
@@ -329,18 +326,8 @@ export class OperationsNewPage implements OnInit {
     this.form.controls.amount_out.setValue(this.amountOut);
   }
 
-  async getUserWallets() {
-    let wallets = [];
-    this.fiatRampsService.getUserWallets(this.pairSplit[1]).subscribe((res) => {
-      Object.keys(res).forEach((key, value) => {
-        const l = Object.keys(res[key].wallets).map((wallet) => {
-          return { name: key + ' (' + wallet + ')', id: res[key].wallets[wallet] + ' (' + wallet + ')' };
-        });
-        wallets = [...wallets, ...l];
-      });
-
-      this.walletAddress = Object.values(wallets);
-    });
+  async userWalletFor(network: string): Promise<string> {
+    return (await this.walletEncryptionService.getEncryptedWallet()).addresses[network];
   }
 
   getUrlByStatus(statusName) {
@@ -369,13 +356,5 @@ export class OperationsNewPage implements OnInit {
   redirectByStatus(userStatus) {
     const url = this.getUrlByStatus(userStatus.registration_status);
     this.navController.navigateForward(url);
-  }
-
-  setWalletInfo() {
-    const walletInfo = this.form.value.wallet.split(' ');
-    walletInfo[1] = walletInfo[1].replace(/\(|\)/g, '');
-
-    this.form.controls.wallet.setValue(walletInfo[0]);
-    this.form.controls.network.setValue(walletInfo[1]);
   }
 }
