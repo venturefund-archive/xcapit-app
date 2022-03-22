@@ -340,7 +340,7 @@
       "button": "Add amount",
       "button_link": "Finalize investment",
       "invested_amount": "Balance*",
-      "weekly_earnings_disclaimer": "*Your balance is updated on Monday of each week."
+      "daily_earnings_disclaimer": "*Your balance is updated daily."
     },
     "shared": {
       "filter_tab": {
@@ -357,9 +357,9 @@
         "liquidity": "Liquidity",
         "not_min_ammount": "No minimum amount",
         "immediate_rescue": "Immediate Rescue",
-        "weekly_earnings": "Weekly earnings",
-        "weekly_earnings_disclaimer_active": "*Your balance is updated on Monday of each week.",
-        "weekly_earnings_disclaimer_available": "*Earnings are updated on Monday of each week.",
+        "daily_earnings": "Daily earnings",
+        "daily_earnings_disclaimer_active": "*Your balance is updated daily.",
+        "daily_earnings_disclaimer_available": "*Your balance is now updated daily.",
         "coming_badge": "Coming soon",
         "invest_button": "Invest",
         "annual": "Annual"
