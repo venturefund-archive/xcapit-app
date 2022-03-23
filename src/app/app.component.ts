@@ -65,6 +65,7 @@ export class AppComponent implements OnInit {
   }
 
   private initializeApp() {
+    this.initializeFirebase();
     this.initializeRemoteConfig();
     this.platform.ready().then(() => {
       this.showUpdateModal();
@@ -73,9 +74,12 @@ export class AppComponent implements OnInit {
     });
   }
 
+  private initializeFirebase() {
+    this.firebaseService.init();
+  }
+
   private initializeRemoteConfig() {
-    this.remoteConfigService.remoteConfig = new FirebaseRemoteConfig(this.firebaseService);
-    this.remoteConfigService.initialize();
+    this.remoteConfigService.initialize(new FirebaseRemoteConfig(this.firebaseService.getApp()));
   }
 
   private statusBarConfig() {

@@ -5,11 +5,12 @@ import { RemoteConfiguration } from '../../interfaces/remote-configuration.inter
   providedIn: 'root'
 })
 export class RemoteConfigService {
-  remoteConfig: RemoteConfiguration;
+  private remoteConfig: RemoteConfiguration;
 
   constructor() { }
 
-  initialize(): Promise<void> {
+  initialize(remoteConfig: RemoteConfiguration): Promise<void> {
+    this.remoteConfig = remoteConfig;
     return this.remoteConfig.initialize();
   }
 

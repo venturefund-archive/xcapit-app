@@ -3,20 +3,17 @@ import * as firebase from 'firebase/remote-config';
 import { RemoteConfig } from 'firebase/remote-config';
 import { REMOTE_CONFIG_DEFAULTS } from '../../constants/remote-config-defaults.constant';
 import { RemoteConfiguration } from '../../interfaces/remote-configuration.interface';
-import { FirebaseService } from '../../services/firebase/firebase.service';
 
 export class FirebaseRemoteConfig implements RemoteConfiguration {
   firebaseRemoteConfig = firebase;
   defaultConfig = REMOTE_CONFIG_DEFAULTS;
   private remoteConfig: RemoteConfig;
-  private app: FirebaseApp;
   private fetchTimeMillis = 2000;
 
-  constructor(private readonly firebaseService: FirebaseService) {}
+  constructor(private readonly firebaseApp: FirebaseApp) {}
 
   initialize(): Promise<void> {
-    this.app = this.firebaseService.init();
-    this.remoteConfig = this.firebaseRemoteConfig.getRemoteConfig(this.app);
+    this.remoteConfig = this.firebaseRemoteConfig.getRemoteConfig(this.firebaseApp);
     this.setDefaultConfig();
     return this.fetchAndActivate();
   }

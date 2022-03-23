@@ -15,7 +15,6 @@ describe('RemoteConfigService', () => {
     };
     TestBed.configureTestingModule({});
     service = TestBed.inject(RemoteConfigService);
-    service.remoteConfig = remoteConfigMock;
   });
 
   it('should be created', () => {
@@ -24,12 +23,14 @@ describe('RemoteConfigService', () => {
 
   it('should call initialize on initialize', async () => {
     const spy = spyOn(remoteConfigMock, 'initialize');
-    await service.initialize();
+    await service.initialize(remoteConfigMock);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call getFeatureFlag on getFeatureFlag', () => {
-    const featureFlag = service.getFeatureFlag('test');
-    expect(featureFlag).toBeTrue();
+  it('should call getFeatureFlag on getFeatureFlag', async () => {
+    const spy = spyOn(remoteConfigMock, 'getFeatureFlag');
+    await service.initialize(remoteConfigMock);
+    service.getFeatureFlag('test');
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,22 +1,20 @@
-import { FirebaseService } from '../../services/firebase/firebase.service';
+import { FirebaseApp } from 'firebase/app';
 import { FirebaseRemoteConfig } from './firebase-remote-config';
 
 describe('FirebaseRemoteConfig', () => {
   let model: FirebaseRemoteConfig;
-  let firebaseServiceSpy: jasmine.SpyObj<FirebaseService>;
+  let firebaseAppSpy: jasmine.SpyObj<FirebaseApp>;
   let firebaseRemoteConfigSpy: jasmine.SpyObj<any>;
 
   beforeEach(() => {
     const value = { asBoolean: () => false };
-    firebaseRemoteConfigSpy = jasmine.createSpyObj('FirebaseService', {
+    firebaseRemoteConfigSpy = jasmine.createSpyObj('FirebaseRemoteConfig', {
       getRemoteConfig: { settings: {}},
       fetchAndActivate: Promise.resolve(true),
       getValue: value,
     });
-    firebaseServiceSpy = jasmine.createSpyObj('FirebaseService', {
-      init: {},
-    });
-    model = new FirebaseRemoteConfig(firebaseServiceSpy);
+    firebaseAppSpy = jasmine.createSpyObj('FirebaseApp', {}, {name: 'test'});
+    model = new FirebaseRemoteConfig(firebaseAppSpy);
     model.firebaseRemoteConfig = firebaseRemoteConfigSpy;
   });
 
@@ -28,7 +26,6 @@ describe('FirebaseRemoteConfig', () => {
     await model.initialize();
     expect(firebaseRemoteConfigSpy.getRemoteConfig).toHaveBeenCalledTimes(1);
     expect(firebaseRemoteConfigSpy.fetchAndActivate).toHaveBeenCalledTimes(1);
-    expect(firebaseServiceSpy.init).toHaveBeenCalledTimes(1);
   });
 
   it('should get param for feature flag on getFeatureFlag', () => {
