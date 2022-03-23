@@ -1,6 +1,10 @@
 import { InvestmentProduct } from './../../interfaces/investment-product.interface';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NETWORK_COLORS } from 'src/app/modules/wallets/shared-wallets/constants/network-colors.constant';
+import { DefiProduct } from '../../interfaces/defi-product.interface';
+import { AvailableDefiProducts } from '../../models/available-defi-products/available-defi-products.model';
 
 @Component({
   selector: 'app-expandable-investment-info',
@@ -40,6 +44,11 @@ import { Component, Input, OnInit } from '@angular/core';
           ></ion-icon>
         </ion-item>
         <ion-list lines="none" slot="content" class="eif__accordion__content">
+          <div class="eif__accordion__content__product_description">
+            <ion-text class="eif__accordion__content__information-item__text ux-font-text-base">
+                  {{this.infoText | translate}}
+            </ion-text>
+          </div>
           <!-- <ion-item>
             <ion-label class="eif__accordion__content__information-item">
               <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs ">
@@ -89,9 +98,9 @@ import { Component, Input, OnInit } from '@angular/core';
               <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs">
                 {{ 'defi_investments.shared.expandable_investment_info.blockchain' | translate }}
               </ion-text>
-              <ion-text class="eif__accordion__content__information-item__text ux-font-text-base">{{
-                this.token.network !== 'MATIC' ? this.token.network : 'Polygon'
-              }}</ion-text>
+              <ion-badge [color]="this.networkColors[this.token.network]" class="ux-badge ux-font-num-subtitulo">{{
+                this.token.network !== 'MATIC' ? this.token.network : 'Polygon' | uppercase
+            }}</ion-badge>
             </ion-label>
           </ion-item>
           <ion-item>
@@ -101,6 +110,16 @@ import { Component, Input, OnInit } from '@angular/core';
               </ion-text>
               <ion-text class="eif__accordion__content__information-item__text ux-font-text-base">
                 {{ this.provider }}
+              </ion-text>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label class="eif__accordion__content__information-item">
+              <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs">
+                {{ 'defi_investments.shared.expandable_investment_info.profile' | translate }}
+              </ion-text>
+              <ion-text class="eif__accordion__content__information-item__text ux-font-text-base">
+                {{this.profile | translate}}
               </ion-text>
             </ion-label>
           </ion-item>
@@ -117,14 +136,67 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
   apy: number;
   provider: string;
   type: string;
-
-  constructor() {}
+  mode: string;
+  infoText: string;
+  networkColors = NETWORK_COLORS;
+  defiProducts: DefiProduct[];
+  profile
+  constructor(
+    private route: ActivatedRoute
+  ) {}
+  
 
   ngOnInit() {
+    this.mode = this.route.snapshot.paramMap.get('vault');
+    this.getAvailableDefiProducts();
+    this.updateInfo()
     this.token = this.investmentProduct.token();
     this.tvl = this.investmentProduct.tvl();
     this.apy = this.investmentProduct.apy();
     this.provider = this.investmentProduct.provider();
-    this.type = this.investmentProduct.type();
+    this.type = this.investmentProduct.type();        
+  }
+
+  private getAvailableDefiProducts(): void {
+    this.defiProducts = this.createAvailableDefiProducts().value();
+    this.setProductProfile();
+  }
+
+
+  createAvailableDefiProducts(): AvailableDefiProducts {
+    return new AvailableDefiProducts();
+  }
+
+  setProductProfile(){
+    const category = this.defiProducts.find((product) => product.id === this.mode).category;
+    switch (category) {
+      case 'conservative':
+        this.profile = 'defi_investments.shared.expandable_investment_info.profiles.conservative';
+        return;
+      case 'medium':
+        this.profile = 'defi_investments.shared.expandable_investment_info.profiles.medium';
+        return;
+      case 'risky':
+        this.profile = 'defi_investments.shared.expandable_investment_info.profiles.risky'
+        return;
+    }
+  }
+
+
+  private updateInfo() {
+    switch (this.mode) {
+      case 'mumbai_btc':
+      case 'polygon_btc':
+        this.infoText = 'defi_investments.shared.expandable_investment_info.product_info.wbtc';
+        return;
+      case 'mumbai_usdc':
+      case 'polygon_usdc':
+        this.infoText = 'defi_investments.shared.expandable_investment_info.product_info.usdc';
+        return;
+      case 'mumbai_dai':
+      case 'polygon_dai':
+        this.infoText= 'defi_investments.shared.expandable_investment_info.product_info.dai'
+        return;
+    }
   }
 }

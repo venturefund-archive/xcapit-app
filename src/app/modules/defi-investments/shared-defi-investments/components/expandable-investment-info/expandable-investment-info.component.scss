@@ -71,9 +71,17 @@
           }
         }
 
+        &__product_description {
+          padding: 16px;
+        }
+
         &__information-item {
           display: flex;
           flex-direction: column;
+
+          ion-badge {
+            width: 64px;
+          }
 
           &__label {
             margin-bottom: 4px;
