@@ -19,9 +19,7 @@ export class FirebaseRemoteConfig implements RemoteConfiguration {
   }
 
   fetchAndActivate(): Promise<void> {
-    return new Promise((resolve) => {
-      this.firebaseRemoteConfig.fetchAndActivate(this.remoteConfig).then(() => resolve());
-    })
+    return this.firebaseRemoteConfig.fetchAndActivate(this.remoteConfig) as Promise<any>;
   }
 
   setDefaultConfig() {

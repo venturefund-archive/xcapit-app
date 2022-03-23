@@ -48,6 +48,8 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.initializeFirebase();
+    this.initializeRemoteConfig();
     this.initializeApp();
     this.statusBarConfig();
     this.submitButtonService.enabled();
@@ -65,8 +67,6 @@ export class AppComponent implements OnInit {
   }
 
   private initializeApp() {
-    this.initializeFirebase();
-    this.initializeRemoteConfig();
     this.platform.ready().then(() => {
       this.showUpdateModal();
       this.languageService.setInitialAppLanguage();
