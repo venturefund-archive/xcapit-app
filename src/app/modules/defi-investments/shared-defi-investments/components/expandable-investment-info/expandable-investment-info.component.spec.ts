@@ -119,7 +119,6 @@ describe('ExpandableInvestmentInfoComponent', () => {
     );
     const apyEl = fixture.debugElement.query(By.css('ion-badge.ux-font-num-subtitulo'));
     const blockchainBadgeEl = fixture.debugElement.query(By.css('ion-badge.ux-badge'));
-    console.log(blockchainBadgeEl)
     const [typeEl, depositAssetEl, withdrawAssetEl, providerEl, profileEl] = fixture.debugElement.queryAll(
       By.css(
         'ion-label.eif__accordion__content__information-item ion-text.eif__accordion__content__information-item__text'
@@ -128,6 +127,7 @@ describe('ExpandableInvestmentInfoComponent', () => {
     const [depositAssetImgEl, withdrawAssetImgEl] = fixture.debugElement.queryAll(
       By.css('ion-item.split-information-item div.inline-image>img')
     );
+    expect(blockchainBadgeEl).toBeTruthy();
     expect(tokenSymbolEl.nativeElement.innerHTML).toEqual('USDC');
     expect(tokenNameEl.nativeElement.innerHTML).toEqual('USD Coin');
     expect(apyEl.nativeElement.innerHTML).toContain('12.66');
