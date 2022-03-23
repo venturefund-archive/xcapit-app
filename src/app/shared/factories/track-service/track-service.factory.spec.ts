@@ -6,12 +6,12 @@ describe('TrackServiceFactory', () => {
   beforeEach(() => {});
 
   it('should create UpdateAppService instance when native platform', () => {
-    const result = trackServiceFactory({ isNative: () => true }, {});
+    const result = trackServiceFactory({ isNative: () => true });
     expect(result).toBeInstanceOf(NativeFirebaseLogsService);
   });
 
   it('should create UpdateAppService instance when not native platform', () => {
-    const result = trackServiceFactory({ isNative: () => false }, {});
+    const result = trackServiceFactory({ isNative: () => false });
     expect(result).toBeInstanceOf(PwaFirebaseLogsService);
   });
 });

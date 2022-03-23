@@ -64,7 +64,7 @@ import { AssetBalanceModel } from '../../wallets/shared-wallets/models/asset-bal
             [totalBalanceWallet]="this.balance"
           ></app-wallet-total-balance-card>
         </div>
-        <div class="buy-crypto-card">
+        <div *appFeatureFlag="'ff_buyCriptoHomeCard'" class="buy-crypto-card">
           <app-buy-crypto-card name="Buy Cripto Card" (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
         </div>
         <div class="wallet-connect-card">

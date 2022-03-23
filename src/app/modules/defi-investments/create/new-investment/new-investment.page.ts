@@ -48,20 +48,22 @@ import { AmountInputCardComponent } from '../../shared-defi-investments/componen
         >
           {{ 'defi_investments.new.button' | translate }}
         </ion-button>
-        <div class="ni__footer__text" *ngIf="this.mode === 'invest' && this.buyAvailable">
-          <span class="ux-font-text-xs text">
-            {{ 'defi_investments.new.dont_have' | translate }}{{this.token.value +'?'}}
-          </span>
-          <ion-button
-            name="go_to_moonpay"
-            class="ux-link-xl ni__footer__text__button"
-            (click)="this.goToMoonpay()"
-            appTrackClick
-            fill="clear"
-          >
-            {{ 'defi_investments.new.buy_button'| translate }}
-          </ion-button>
-      </div>
+        <div *appFeatureFlag="'ff_buyCryptoNewInvestmentFooter'">
+          <div class="ni__footer__text" *ngIf="this.mode === 'invest' && this.buyAvailable">
+            <span class="ux-font-text-xs text">
+              {{ 'defi_investments.new.dont_have' | translate }}{{ this.token.value + '?' }}
+            </span>
+            <ion-button
+              name="go_to_moonpay"
+              class="ux-link-xl ni__footer__text__button"
+              (click)="this.goToMoonpay()"
+              appTrackClick
+              fill="clear"
+            >
+              {{ 'defi_investments.new.buy_button' | translate }}
+            </ion-button>
+          </div>
+        </div>
       </div>
     </ion-content>
   `,
@@ -77,7 +79,7 @@ export class NewInvestmentPage implements OnInit {
   mode: string;
   headerText: string;
   labelText: string;
-  coins: Coin[]
+  coins: Coin[];
   buyAvailable: boolean;
   @ViewChild(AmountInputCardComponent) amountInputCard: AmountInputCardComponent;
   constructor(
@@ -88,9 +90,9 @@ export class NewInvestmentPage implements OnInit {
     private twoPiApi: TwoPiApi,
     private investmentDataService: InvestmentDataService,
     private navController: NavController
-  ) { }
+  ) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   async ionViewDidEnter() {
     await this.getInvestmentProduct();

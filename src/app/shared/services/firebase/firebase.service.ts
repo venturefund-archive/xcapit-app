@@ -12,13 +12,15 @@ export class FirebaseService {
   importedFirebase = firebase;
   constructor(private platformService: PlatformService) {}
 
-  init(): firebase.FirebaseApp {
-    if (this.platformService.isWeb() && !this.importedFirebase.getApps().length) {
+  init(): void {
+    if (this.platformService.isWeb()) {
       this.firebaseAnalytics.initializeFirebase(environment.firebase);
     }
 
-    return !this.importedFirebase.getApps().length
-      ? this.importedFirebase.initializeApp(environment.firebase)
-      : this.importedFirebase.getApp();
+    this.importedFirebase.initializeApp(environment.firebase);
+  }
+
+  getApp(): firebase.FirebaseApp { 
+    return this.importedFirebase.getApp();
   }
 }

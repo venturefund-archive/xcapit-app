@@ -28,6 +28,7 @@ import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { QueueService } from '../../../shared/services/queue/queue.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -91,7 +92,7 @@ describe('HomePage', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [HomePage, FakeTrackClickDirective],
+        declarations: [HomePage, FakeTrackClickDirective, FakeFeatureFlagDirective],
         imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
