@@ -178,9 +178,9 @@ export class DefiInvestmentWithdrawPage implements OnInit {
       component: WalletPasswordComponent,
       componentProps: {
         title: this.translate.instant('defi_investments.confirmation.password_modal.title'),
-        description: this.translate.instant('defi_investments.confirmation.password_modal.description'),
+        description: this.translate.instant('defi_investments.withdraw.password_modal.description'),
         inputLabel: this.translate.instant('defi_investments.confirmation.password_modal.input_label'),
-        submitButtonText: this.translate.instant('defi_investments.confirmation.password_modal.confirm_button'),
+        submitButtonText: this.translate.instant('defi_investments.withdraw.password_modal.confirm_button'),
         disclaimer: '',
       },
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
