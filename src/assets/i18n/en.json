@@ -1715,6 +1715,7 @@
       "header": "Receive",
       "title": "Your wallet information",
       "currency_select": "Currency",
+      "select_coins":"Seleccionar coin",
       "average_time": "Average receive time: 3 min.",
       "receive_address_title": "Address",
       "receive_address_copy": "Copy",

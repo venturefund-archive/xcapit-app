@@ -27,8 +27,8 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
           <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.moonpay.currency_label' | translate }}</ion-text>
           <form [formGroup]="this.form">
             <app-input-select
-              [modalTitle]="'wallets.receive.currency_select_modal_title' | translate"
-              [placeholder]="'wallets.receive.currency_select_modal_title' | translate"
+              [modalTitle]="'wallets.receive.select_coins' | translate"
+              [placeholder]="'wallets.receive.select_coins' | translate"
               controlName="currency"
               [data]="this.coins"
               key="name"

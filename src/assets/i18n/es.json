@@ -1708,6 +1708,7 @@
       "header": "Recibir",
       "title": "Datos de tu billetera",
       "currency_select": "Moneda",
+      "select_coins":"Seleccionar moneda",
       "average_time": "Tiempo promedio de llegada: 3 min.",
       "receive_address_title": "Dirección",
       "receive_address_copy": "Copiar",
