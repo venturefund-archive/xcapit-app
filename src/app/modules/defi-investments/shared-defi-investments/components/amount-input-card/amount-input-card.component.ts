@@ -10,10 +10,23 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
 @Component({
   selector: 'app-amount-input-card',
   template: `
+
     <div class="aic ion-padding">
+    <div class="aic__available text-center">
+          <ion-text class="ux-font-titulo-xs">
+            {{ 'Saldo disponible' }}
+          </ion-text>
+          <ion-text class="ux-font-text-xl">
+          {{ this.available | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
+          >
+          <ion-text *ngIf="this.usdPrice" class="ux-font-text-xxs">
+          ≈ {{ this.usdPrice | number: '1.2-2' }} {{this.quoteCurrency}}
+          </ion-text>
+        </div>
       <div class="aic__header">
         <ion-text class="ux-font-titulo-xs">{{ this.title }}</ion-text>
       </div>
+      
       <div class="aic__content">
         <div class="aic__content__label">
           <ion-text class="ux-font-text-xs aic__content__label__first" position="stacked">{{
@@ -23,10 +36,11 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
             this.quoteCurrency
           }}</ion-text>
         </div>
+        
         <div class="aic__content__inputs">
-          <ion-input class="aic__content__inputs__amount" formControlName="amount" type="number" inputmode="numeric">
+          <ion-input class="aic__content__inputs__amount max" formControlName="amount" type="number" inputmode="numeric">
             <ion-button
-              [disabled]="!this.available"
+              [disabled]="!this.usdPrice"
               (click)="this.setMax()"
               slot="end"
               fill="clear"
@@ -37,12 +51,6 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
           </ion-input>
           <ion-text class="aic__content__equal ux-fweight-medium ">=</ion-text>
           <ion-input formControlName="quoteAmount" type="number" inputmode="numeric"></ion-input>
-        </div>
-        <div class="aic__content__available">
-          <ion-text class="ux-font-text-xxs">
-            {{ 'defi_investments.shared.amount_input_card.available' | translate }}
-            {{ this.available | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
-          >
         </div>
         <div class="aic__content__disclaimer">
           <ion-text class="ux-font-text-xs" style="white-space: pre-wrap;"
@@ -69,6 +77,8 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   price: number;
   form: FormGroup;
+  usdPrice : number;
+  
   @Input() priceRefreshInterval = 15000;
 
   constructor(
@@ -85,6 +95,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   }
 
   setMax() {
+    console.log('ejec')
     this.form.get('amount').patchValue(this.available);
   }
 
@@ -129,6 +140,11 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
 
   private async balanceAvailable() {
     this.available = await this.walletBalance.balanceOf(this.baseCurrency);
+    this.setPrice(this.available);
+  }
+
+  setPrice(available : number){
+    this.usdPrice = (available * this.price);
   }
 
   private setFeeCoin() {

@@ -3,7 +3,19 @@
     background: var(--ion-color-white);
     border-radius: 8px;
 
+    &__available {
+      display: grid;
+      justify-content: center;
+      text-align: center;
+
+      ion-text {
+        color: var(--ion-color-neutral80);
+        margin-bottom: 4px;
+      }
+    }
+
     &__header {
+      margin-top: 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -59,6 +71,8 @@
       }
 
       &__disclaimer {
+        margin-top: 24px;
+
         ion-text {
           color: var(--ion-color-neutral80);
         }

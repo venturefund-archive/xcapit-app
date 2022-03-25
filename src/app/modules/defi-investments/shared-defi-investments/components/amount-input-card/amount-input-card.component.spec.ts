@@ -117,4 +117,12 @@ describe('AmountInputCardComponent', () => {
     expect(component.form.value.amount).toEqual('0.005');
     component.ngOnDestroy();
   });
+
+
+  it('should render properly available div', async ()  => {
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    const availableEl = fixture.debugElement.query(By.css('.aic__available'));
+    expect(availableEl.nativeElement.innerHTML).toBeTruthy();
+  });
 });
