@@ -137,24 +137,24 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
   provider: string;
   type: string;
   mode: string;
+  name: string;
   infoText: string;
   networkColors = NETWORK_COLORS;
   defiProducts: DefiProduct[];
-  profile
+  profile : string;
   constructor(
-    private route: ActivatedRoute
   ) {}
   
 
   ngOnInit() {
-    this.mode = this.route.snapshot.paramMap.get('vault');
-    this.getAvailableDefiProducts();
-    this.updateInfo()
     this.token = this.investmentProduct.token();
     this.tvl = this.investmentProduct.tvl();
     this.apy = this.investmentProduct.apy();
     this.provider = this.investmentProduct.provider();
-    this.type = this.investmentProduct.type();        
+    this.type = this.investmentProduct.type();   
+    this.name = this.investmentProduct.name();   
+    this.getAvailableDefiProducts();
+    this.setInvestmentInfo();    
   }
 
   private getAvailableDefiProducts(): void {
@@ -168,35 +168,11 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
   }
 
   setProductProfile(){
-    const category = this.defiProducts.find((product) => product.id === this.mode).category;
-    switch (category) {
-      case 'conservative':
-        this.profile = 'defi_investments.shared.expandable_investment_info.profiles.conservative';
-        return;
-      case 'medium':
-        this.profile = 'defi_investments.shared.expandable_investment_info.profiles.medium';
-        return;
-      case 'risky':
-        this.profile = 'defi_investments.shared.expandable_investment_info.profiles.risky'
-        return;
-    }
+    const category = this.defiProducts.find((product) => product.id === this.name).category;
+    this.profile = `defi_investments.shared.expandable_investment_info.profiles.${category}`
   }
 
-
-  private updateInfo() {
-    switch (this.mode) {
-      case 'mumbai_btc':
-      case 'polygon_btc':
-        this.infoText = 'defi_investments.shared.expandable_investment_info.product_info.wbtc';
-        return;
-      case 'mumbai_usdc':
-      case 'polygon_usdc':
-        this.infoText = 'defi_investments.shared.expandable_investment_info.product_info.usdc';
-        return;
-      case 'mumbai_dai':
-      case 'polygon_dai':
-        this.infoText= 'defi_investments.shared.expandable_investment_info.product_info.dai'
-        return;
-    }
+  private setInvestmentInfo() {
+    this.infoText = `defi_investments.shared.expandable_investment_info.investment_info.${this.token.value}`
   }
 }

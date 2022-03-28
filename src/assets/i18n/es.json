@@ -370,9 +370,9 @@
         "blockchain": "Blockchain",
         "profile": "Perfil",
         "product_info":{
-          "usdc":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en USDC. \n USDC es una criptomoneda estable. Su valor está atado al dólar, y está respaldada al 100% en dólares estadounidenses.",
-          "dai":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en DAI. \n DAI es una criptomoneda estable, su valor está atado al dólar.  Se respalda al 100% en protocolos cripto.",
-          "wbtc":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en BTC. \n BTC (Bitcoin) es la primera criptomoneda con emisión fija, y la de mayor capitalización en el mercado."
+          "USDC":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en USDC. \n USDC es una criptomoneda estable. Su valor está atado al dólar, y está respaldada al 100% en dólares estadounidenses.",
+          "DAI":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en DAI. \n DAI es una criptomoneda estable, su valor está atado al dólar.  Se respalda al 100% en protocolos cripto.",
+          "BTC":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en BTC. \n BTC (Bitcoin) es la primera criptomoneda con emisión fija, y la de mayor capitalización en el mercado."
         },
         "profiles":{
           "conservative":"Conservador",

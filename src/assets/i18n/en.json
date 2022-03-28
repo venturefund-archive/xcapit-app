@@ -379,10 +379,10 @@
         "annual": "% Annual",
         "blockchain": "Blockchain",
         "profile": "Profile",
-        "product_info":{
-          "usdc":"Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
-          "dai":"Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
-          "wbtc":"Your tokens will be distributed in several decentralized protocols.You will earn interest in BTC. \n BTC (Bitcoin) is the first cryptocurrency with fixed issuance, and the largest market capitalization."
+        "investment_info":{
+          "USDC":"Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
+          "DAI":"Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
+          "BTC":"Your tokens will be distributed in several decentralized protocols.You will earn interest in BTC. \n BTC (Bitcoin) is the first cryptocurrency with fixed issuance, and the largest market capitalization."
         },
         "profiles":{
           "conservative":"Conservative",
