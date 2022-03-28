@@ -278,9 +278,9 @@
       "password_error": "La contraseña ingresada no es correcta.",
       "password_modal": {
         "title": "Por seguridad",
-        "description": "Para habilitar tu inversión, ingresa la contraseña de tu wallet Xcapit.",
+        "description": "Para confirmar tu inversión, ingresa la contraseña de tu wallet Xcapit.",
         "input_label": "Contraseña",
-        "confirm_button": "Aceptar"
+        "confirm_button": "Confirmar inversión"
       },
       "informative_modal": "No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos.",
       "informative_modal_fee": "No tienes suficientes {{nativeToken}} en tu cuenta para pagar las comisiones de transacción. Compra algunos {{nativeToken}} o deposítalos desde otra cuenta.",
@@ -392,6 +392,10 @@
       },
       "withdraw": {
         "header": "Finalizar inversión"
+      },
+      "password_modal":{
+        "description":"Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",
+        "confirm_button":"Realizar retiro"
       }
     }
   },

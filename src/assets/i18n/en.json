@@ -288,9 +288,9 @@
       "password_error": "The password entered is not valid.",
       "password_modal": {
         "title": "For security",
-        "description": "To enable your investment, enter your Xcapit wallet password.",
+        "description": "To confirm your investment, enter your Xcapit wallet password.",
         "input_label": "Password",
-        "confirm_button": "Accept"
+        "confirm_button": "Confirm investment"
       },
       "informative_modal": "You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
       "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay transaction fees. Buy some {{nativeToken}} or deposit them from another account.",
@@ -402,6 +402,10 @@
       },
       "withdraw": {
         "header": "Finish investment"
+      },
+      "password_modal":{
+        "description":"To confirm your withdrawal, enter your Xcapit wallet password.",
+        "confirm_button":"Make a withdrawal"
       }
     }
   },
