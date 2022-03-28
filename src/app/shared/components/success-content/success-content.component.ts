@@ -10,7 +10,7 @@ import { NavController } from '@ionic/angular';
           <ion-icon class="main__close_button__icon" name="ux-close" color="neutral80"></ion-icon>
         </ion-button>
       </div>
-      <div class="main__ux-success-image">
+      <div class="main__ux-success-image" *ngIf="!this.data.bottomImage" >
         <app-ux-center-img [imagePath]="this.data.image" [imageAlt]="this.imageAlt"></app-ux-center-img>
       </div>
       <div class="main__primary-text">
@@ -18,6 +18,9 @@ import { NavController } from '@ionic/angular';
       </div>
       <div class="main__secondary-text">
         <ion-text class="ux-font-text-xs" color="neutral80">{{ this.data?.textSecondary | translate }}</ion-text>
+      </div>
+      <div class="main__ux-success-image" *ngIf="this.data.bottomImage">
+        <app-ux-center-img [imagePath]="this.data.image" [imageAlt]="this.imageAlt"></app-ux-center-img>
       </div>
       <div class="main__actions">
         <div class="main__actions__primary">
@@ -76,7 +79,9 @@ export class SuccessContentComponent implements OnInit {
 
   constructor(private navController: NavController) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.data.isBottom = false;
+  }
 
   close() {
     this.navController.navigateForward([this.data.urlClose]);
