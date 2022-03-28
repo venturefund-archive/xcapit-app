@@ -370,7 +370,7 @@
         "blockchain": "Blockchain"
       },
       "amount_input_card": {
-        "available": "Disponible",
+        "available": "Saldo disponible",
         "disclaimer": "La tasa de cambio la define la blockchain. Los montos pueden variar, según el momento en que realices la transacción. \nTen en cuenta que se cobrarán tarifas de transacción en",
         "max_button": "Máx"
       },

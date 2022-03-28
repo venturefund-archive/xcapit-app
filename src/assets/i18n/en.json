@@ -380,7 +380,7 @@
         "blockchain": "Blockchain"
       },
       "amount_input_card": {
-        "available": "Available",
+        "available": "Balance available",
         "disclaimer": "The exchange rate is defined by the blockchain and amounts may vary, depending on when you make the transaction. \nPlease note that transaction fees will be charged in",
         "max_button": "Max"
       },
