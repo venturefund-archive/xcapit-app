@@ -146,7 +146,7 @@ describe('SuccessContentComponent', () => {
   });
 
   it('should render bottom image when bottomImage attribute is true', () => {
-    const imageEl = fixture.debugElement.query(By.css('.main__ux-success-image bottom'));
+    const imageEl = fixture.debugElement.query(By.css('.main__ux-success-image'));
     expect(imageEl).toBeTruthy();
   });
 });
