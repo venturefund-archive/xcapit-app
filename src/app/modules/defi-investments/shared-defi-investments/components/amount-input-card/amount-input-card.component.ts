@@ -95,7 +95,6 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   }
 
   setMax() {
-    console.log('ejec')
     this.form.get('amount').patchValue(this.available);
   }
 
