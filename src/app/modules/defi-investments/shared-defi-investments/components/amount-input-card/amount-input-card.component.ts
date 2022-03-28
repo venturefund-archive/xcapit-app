@@ -14,7 +14,7 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
     <div class="aic ion-padding">
     <div class="aic__available text-center">
           <ion-text class="ux-font-titulo-xs">
-            {{ 'Saldo disponible' }}
+            {{ 'defi_investments.shared.amount_input_card.available' | translate }}
           </ion-text>
           <ion-text class="ux-font-text-xl">
           {{ this.available | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
@@ -22,10 +22,7 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
           <ion-text *ngIf="this.usdPrice" class="ux-font-text-xxs">
           ≈ {{ this.usdPrice | number: '1.2-2' }} {{this.quoteCurrency}}
           </ion-text>
-        </div>
-      <div class="aic__header">
-        <ion-text class="ux-font-titulo-xs">{{ this.title }}</ion-text>
-      </div>
+        </div>max_button
       
       <div class="aic__content">
         <div class="aic__content__label">
