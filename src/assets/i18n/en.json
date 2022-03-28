@@ -344,7 +344,7 @@
     "invest_detail": {
       "header": "My investment",
       "button": "Add amount",
-      "button_link": "Finalize investment",
+      "button_link": "Make a withdrawal",
       "invested_amount": "Balance*",
       "daily_earnings_disclaimer": "*Your balance is updated daily."
     },
