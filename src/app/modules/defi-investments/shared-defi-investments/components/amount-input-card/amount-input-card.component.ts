@@ -22,7 +22,7 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
           <ion-text *ngIf="this.usdPrice" class="ux-font-text-xxs">
           ≈ {{ this.usdPrice | number: '1.2-2' }} {{this.quoteCurrency}}
           </ion-text>
-        </div>max_button
+        </div>
       
       <div class="aic__content">
         <div class="aic__content__label">
