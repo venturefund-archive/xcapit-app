@@ -13,6 +13,7 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -101,6 +102,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
           </div>
         </div>
       </div>
+      <div *ngIf="this.activeInvestments.length || this.availableInvestments.length" class="dp__link">
+        <ion-button
+          name="go_to_defi_faqs"
+          (click)="this.goToDefiFaqs()"
+          class="link ux-link-xs"
+          appTrackClick
+          fill="clear"
+          size="small"
+        >
+          {{ 'defi_investments.defi_investment_products.link_button' | translate }}
+        </ion-button>
+      </div>
       <div *ngIf="!this.activeInvestments.length && !this.availableInvestments.length">
         <app-choose-investor-profile-skeleton></app-choose-investor-profile-skeleton>
       </div>
@@ -142,7 +155,8 @@ export class DefiInvestmentProductsPage {
     private apiUsuariosService: ApiUsuariosService,
     private twoPiApi: TwoPiApi,
     private walletEncryptionService: WalletEncryptionService,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private navController: NavController
   ) {}
 
   get hasDoneInvestorTest(): boolean {
@@ -167,6 +181,10 @@ export class DefiInvestmentProductsPage {
     this.apiUsuariosService.getUser(false).subscribe((user) => {
       this.investorCategory = user.profile.investor_category;
     });
+  }
+
+  goToDefiFaqs(){
+      this.navController.navigateForward(['/support/defi']);
   }
 
   filterByInvestorCategory(category: string) {
