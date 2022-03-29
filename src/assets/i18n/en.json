@@ -344,7 +344,7 @@
     "invest_detail": {
       "header": "My investment",
       "button": "Add amount",
-      "button_link": "Make a withdrawal",
+      "button_link": "Make withdrawal",
       "invested_amount": "Balance*",
       "daily_earnings_disclaimer": "*Your balance is updated daily."
     },
@@ -412,7 +412,7 @@
         "disclaimer": "* Your funds may take up to 5 minutes to be available in the Wallet."
       },
       "withdraw": {
-        "header": "Finish investment"
+        "header": "Make withdrawal"
       },
       "password_modal":{
         "description":"To confirm your withdrawal, enter your Xcapit wallet password.",
