@@ -1723,7 +1723,10 @@
       "finish_button": "Finish and create wallet",
       "loading": {
         "title": "Time!",
-        "subtitle": "We are building your wallet"
+        "subtitle":{
+          "create":"We are building your Wallet",
+          "import":"We are importing your Wallet"
+        } 
       }
     },
     "receive": {
