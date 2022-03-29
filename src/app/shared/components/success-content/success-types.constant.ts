@@ -109,6 +109,8 @@ export const SUCCESS_TYPES = {
     trackClickEventNamePrimaryAction: 'ux_send_go_to_home',
   },
   error_wallet_recovery: {
+    image: 'assets/img/wallets/error.svg',
+    bottomImage: true,
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.error_wallet_recovery.title',
     textSecondary: 'wallets.error_wallet_recovery.description',

@@ -1888,8 +1888,8 @@
       "wallet_transaction_title": "TRANSACTIONS"
     },
     "error_wallet_recovery": {
-      "title": "Your recovery phrase is wrong",
-      "description": "Check your words and try again",
+      "title": "Your recovery phrase is incorrect",
+      "description": "Verify that your words are written in lowercase and separated by a space.",
       "button": "Try again"
     },
     "success_wallet_recovery": {

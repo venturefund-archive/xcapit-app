@@ -33,6 +33,7 @@ describe('SuccessContentComponent', () => {
     nameThirdAction: 'test.test.nameThirdAction',
     disclaimer: 'test.test.disclaimer',
     image: 'assets/img/defi-investments/success-withdraw.svg',
+    bottomImage: true
   };
   let testDataSpy: jasmine.SpyObj<any>;
   beforeEach(
@@ -142,5 +143,10 @@ describe('SuccessContentComponent', () => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
+  });
+
+  it('should render bottom image when bottomImage attribute is true', () => {
+    const imageEl = fixture.debugElement.query(By.css('.main__ux-success-image'));
+    expect(imageEl).toBeTruthy();
   });
 });

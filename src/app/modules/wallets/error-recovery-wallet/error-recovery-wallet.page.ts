@@ -5,7 +5,7 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
   selector: 'app-error-recovery-wallet',
   template: `
     <ion-content class="ion-padding failed-mnemonic-content">
-      <app-success-content [data]="this.data" imageName="ux-error.svg" imageAlt="Error Image"></app-success-content>
+      <app-success-content [data]="this.data" imageAlt="Error Image"></app-success-content>
     </ion-content>
   `,
   styleUrls: ['./error-recovery-wallet.page.scss'],
