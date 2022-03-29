@@ -10,7 +10,7 @@ import { NavController } from '@ionic/angular';
           <ion-icon class="main__close_button__icon" name="ux-close" color="neutral80"></ion-icon>
         </ion-button>
       </div>
-      <div class="main__ux-success-image" *ngIf="!this.data.bottomImage" >
+      <div class="main__ux-success-image" *ngIf="!this.data.bottomImage">
         <app-ux-center-img [imagePath]="this.data.image" [imageAlt]="this.imageAlt"></app-ux-center-img>
       </div>
       <div class="main__primary-text">
@@ -79,9 +79,7 @@ export class SuccessContentComponent implements OnInit {
 
   constructor(private navController: NavController) {}
 
-  ngOnInit() {
-    // this.data.isBottom = false;
-  }
+  ngOnInit() {}
 
   close() {
     this.navController.navigateForward([this.data.urlClose]);
