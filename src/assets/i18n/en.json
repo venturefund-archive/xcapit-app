@@ -377,7 +377,18 @@
         "receive_asset": "Obtain",
         "platform": "Platform",
         "annual": "% Annual",
-        "blockchain": "Blockchain"
+        "blockchain": "Blockchain",
+        "profile": "Profile",
+        "investment_info":{
+          "USDC":"Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
+          "DAI":"Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
+          "BTC":"Your tokens will be distributed in several decentralized protocols.You will earn interest in BTC. \n BTC (Bitcoin) is the first cryptocurrency with fixed issuance, and the largest market capitalization."
+        },
+        "profiles":{
+          "conservative":"Conservative",
+          "medium":"Moderate",
+          "risky":"Aggressive"
+        }
       },
       "amount_input_card": {
         "available": "Balance available",
