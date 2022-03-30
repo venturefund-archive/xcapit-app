@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { DefiInvestmentProductsPage } from './defi-investment-products.page';
@@ -16,6 +16,9 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 
 const testCoins = [
   jasmine.createSpyObj(
@@ -43,6 +46,9 @@ describe('DefiInvestmentProductsPage', () => {
   let testUserSpy: jasmine.SpyObj<any>;
   let testUserWithTestSpy: jasmine.SpyObj<any>;
   let testAggressiveUserSpy: jasmine.SpyObj<any>;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DefiInvestmentProductsPage>;
   beforeEach(
     waitForAsync(() => {
       testUserSpy = jasmine.createSpyObj('testUser', {},{
@@ -62,6 +68,10 @@ describe('DefiInvestmentProductsPage', () => {
           investor_category: 'wealth_managements.profiles.risky',
         },
       })
+
+      
+      fakeNavController = new FakeNavController({});
+      navControllerSpy = fakeNavController.createSpy();
 
       apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', { getUser: of(testUserWithTestSpy) });
 
@@ -95,13 +105,14 @@ describe('DefiInvestmentProductsPage', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [DefiInvestmentProductsPage],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule, ReactiveFormsModule],
+        declarations: [DefiInvestmentProductsPage, FakeTrackClickDirective],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule, ReactiveFormsModule,],
         providers: [
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -109,6 +120,7 @@ describe('DefiInvestmentProductsPage', () => {
       fixture = TestBed.createComponent(DefiInvestmentProductsPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
 
@@ -224,6 +236,37 @@ describe('DefiInvestmentProductsPage', () => {
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     expect(component.profileForm.value.profile).toEqual('conservative');
+  });
+
+  it('should call trackEvent on trackService when go_to_defi_faqs Button clicked', async () => {
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(
+      availableDefiProductsSpy
+    );
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'go_to_defi_faqs');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to deFi Faqs when go_to_defi_faqs button is clicked', async () => {
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(
+      availableDefiProductsSpy
+    );
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
+
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_defi_faqs"'));
+    buttonEl.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/defi']);
   });
 
   it('should render header skeleton when active or available products are not yet loaded yet.', async () => {
