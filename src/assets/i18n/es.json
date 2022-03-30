@@ -1718,7 +1718,10 @@
       "finish_button": "Finalizar y crear wallet",
       "loading": {
         "title": "¡Tiempo!",
-        "subtitle": "Estamos creando tu wallet"
+        "subtitle":{
+          "create":"Estamos creando tu Wallet",
+          "import":"Estamos importando tu Wallet"
+        } 
       }
     },
     "receive": {
