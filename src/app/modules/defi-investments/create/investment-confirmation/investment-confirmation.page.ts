@@ -32,6 +32,7 @@ import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/native-fee-of.model';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { ActivatedRoute } from '@angular/router';
+import { ToastWithButtonsComponent } from '../../shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -321,14 +322,27 @@ export class InvestmentConfirmationPage {
     }
   }
 
-  openModalNativeTokenBalance() {
-    this.toastService.showWarningToast({
-      message: this.translate.instant(
-        this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
+  async openModalNativeTokenBalance() {
+    const modal = await this.modalController.create({
+      component: ToastWithButtonsComponent,
+      cssClass: 'ux-toast-warning',
+      showBackdrop: false,
+      componentProps: {
+        text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
           nativeToken: this.nativeToken?.value,
-        })
-      ),
+        }),
+        firstButtonName: this.translate.instant('defi_investments.confirmation.buy_button', {
+          nativeToken: this.nativeToken?.value,
+        }),
+        secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
+          nativeToken: this.nativeToken?.value,
+        }),
+        firstLink: '/fiat-ramps/moonpay',
+        secondLink: '/wallets/receive/detail',
+        data: this.nativeToken,
+      },
     });
+    modal.present();
   }
 
   async invest() {
@@ -342,7 +356,10 @@ export class InvestmentConfirmationPage {
           await this.saveTwoPiAgreement();
           await this.navController.navigateForward(['/defi/success-investment', this.mode]);
         } catch {
-          await this.navController.navigateForward(['/defi/error-investment', this.investmentDataService.product.name()]);
+          await this.navController.navigateForward([
+            '/defi/error-investment',
+            this.investmentDataService.product.name(),
+          ]);
         } finally {
           this.loadingEnabled(false);
         }

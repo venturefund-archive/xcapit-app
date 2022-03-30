@@ -67,6 +67,7 @@ import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinn
 import { UpdateNewsComponent } from './components/update-news/update-news.component';
 import { NewsItemComponent } from './components/news-item/news-item.component';
 import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.directive';
+import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 
 @NgModule({
   declarations: [
@@ -126,6 +127,7 @@ import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.dir
     NoWalletComponent,
     UpdateNewsComponent,
     NewsItemComponent,
+    ToastWithButtonsComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -199,6 +201,7 @@ import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.dir
     NoWalletComponent,
     UpdateNewsComponent,
     NewsItemComponent,
+    ToastWithButtonsComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
