@@ -293,7 +293,9 @@
         "confirm_button": "Confirm investment"
       },
       "informative_modal": "You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
-      "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay transaction fees. Buy some {{nativeToken}} or deposit them from another account.",
+      "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay the transaction fee.",
+      "buy_button":"Buy {{nativeToken}}",
+      "deposit_button":"Deposit {{nativeToken}}",
       "terms": {
         "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
         "i_have_read": "I have read and agree to ",
