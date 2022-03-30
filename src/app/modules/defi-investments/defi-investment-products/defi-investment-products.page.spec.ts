@@ -243,17 +243,14 @@ describe('DefiInvestmentProductsPage', () => {
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
     );
-    component.ionViewDidLeave();
     component.ionViewWillEnter();
     await component.ionViewDidEnter();
-    fixture.detectChanges();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'go_to_defi_faqs');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
-    fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
@@ -262,10 +259,9 @@ describe('DefiInvestmentProductsPage', () => {
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(
       availableDefiProductsSpy
     );
-    component.ionViewDidLeave();
     component.ionViewWillEnter();
     await component.ionViewDidEnter();
-    fixture.detectChanges();
+
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_defi_faqs"'));
