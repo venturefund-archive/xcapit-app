@@ -49,7 +49,7 @@ import { AmountInputCardComponent } from '../../shared-defi-investments/componen
           {{ 'defi_investments.new.button' | translate }}
         </ion-button>
         <div *appFeatureFlag="'ff_buyCryptoNewInvestmentFooter'">
-          <div class="ni__footer__text" *ngIf="this.mode === 'invest' && this.buyAvailable">
+          <div class="ni__footer__text" *ngIf="this.buyAvailable">
             <span class="ux-font-text-xs text">
               {{ 'defi_investments.new.dont_have' | translate }}{{ this.token.value + '?' }}
             </span>
