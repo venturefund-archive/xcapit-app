@@ -1,11 +1,11 @@
 :host {
   .ss {
-    &__title {
-      margin-top: 24px;
-    }
+    --background: var(--ion-color-neutral10);
+
     &__transaction-summary-card {
       margin-top: 24px;
     }
+
     &__send_button {
       margin-top: 24px;
       display: flex;

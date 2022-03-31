@@ -18,10 +18,11 @@ describe('SendAmountInputCardComponent', () => {
   let fixture: ComponentFixture<SendAmountInputCardComponent>;
   let controlContainerMock: FormGroup;
   let formGroupDirectiveMock: FormGroupDirective;
-  let apiWalletServiceSpy: any;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;;
   let transactionDataServiceSpy: jasmine.SpyObj<TransactionDataService>;
   let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
   let toastService: jasmine.SpyObj<ToastService>;
+
   beforeEach(() => {
     toastService = jasmine.createSpyObj('ToastService', { showErrorToast: Promise.resolve() });
     transactionDataServiceSpy = jasmine.createSpyObj('TransactionDataService', 

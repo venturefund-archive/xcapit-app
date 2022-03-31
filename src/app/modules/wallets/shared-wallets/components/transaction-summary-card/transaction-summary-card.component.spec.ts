@@ -3,6 +3,9 @@ import { IonicModule } from '@ionic/angular';
 import { TransactionSummaryCardComponent } from './transaction-summary-card.component';
 import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
 import { By } from '@angular/platform-browser';
+import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormattedNetworkPipe } from '../../pipes/formatted-network-name/formatted-network.pipe';
 
 const summaryData: SummaryData = {
   network: 'ERC20',
@@ -20,14 +23,33 @@ const summaryData: SummaryData = {
   amount: '1',
   referenceAmount: '50000',
 };
-describe('TransactionSummaryCardComponent', () => {
+
+const nativeToken = {
+  chainId: 42,
+  id: 1,
+  last: false,
+  logoRoute: "assets/img/coins/ETH.svg",
+  moonpayCode: "keth",
+  name: "ETH - Ethereum",
+  native: true,
+  network: "ERC20",
+  rpc: "https://eth-kovan.alchemyapi.io/v2/tfmomSigQreoKgOjz0W9W-j5SdtKkiZN",
+  symbol: "ETHUSDT",
+  value: "ETH"
+};
+fdescribe('TransactionSummaryCardComponent', () => {
   let component: TransactionSummaryCardComponent;
   let fixture: ComponentFixture<TransactionSummaryCardComponent>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   beforeEach(() => {
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
+      getNativeTokenFromNetwork: nativeToken,
+    });
     TestBed.configureTestingModule({
-      declarations: [TransactionSummaryCardComponent],
-      imports: [IonicModule.forRoot()],
+      declarations: [TransactionSummaryCardComponent, FormattedNetworkPipe],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [{ provide: ApiWalletService, useValue: apiWalletServiceSpy }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransactionSummaryCardComponent);
