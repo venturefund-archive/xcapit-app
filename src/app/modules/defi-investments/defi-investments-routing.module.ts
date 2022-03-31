@@ -48,7 +48,16 @@ const routes: Routes = [
       },
       {
         path: 'withdraw',
-        loadChildren: () => import('./withdraw/withdraw.module').then((m) => m.WithdrawModule),
+        children: [
+          {
+            path: 'select-amount/:vault',
+            loadChildren: () => import('./withdraw/select-amount-withdraw/select-amount-withdraw.module').then( m => m.SelectAmountWithdrawPageModule)
+          },
+          {
+            path: 'confirmation',
+            loadChildren: () => import('./withdraw/withdraw.module').then((m) => m.WithdrawModule),
+          },
+        ],
       },
     ],
   },

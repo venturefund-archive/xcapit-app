@@ -6,6 +6,7 @@ import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic-price.model';
+import { Amount } from '../../types/amount.type';
 
 @Component({
   selector: 'app-amount-input-card',
@@ -14,16 +15,18 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
     <div class="aic ion-padding">
     <div class="aic__available text-center">
           <ion-text class="ux-font-titulo-xs">
-            {{ 'defi_investments.shared.amount_input_card.available' | translate }}
+            {{ this.title | translate }}
           </ion-text>
-          <ion-text class="ux-font-text-xl">
+          <ion-text *ngIf="this.withdraw" class="ux-font-text-xl">
+          {{ this.investedAmount | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
+          >
+          <ion-text  *ngIf="!this.withdraw"  class="ux-font-text-xl">
           {{ this.available | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
           >
-          <ion-text *ngIf="this.usdPrice" class="ux-font-text-xxs">
-          ≈ {{ this.usdPrice | number: '1.2-2' }} {{this.quoteCurrency}}
+          <ion-text *ngIf="this.investedAmount" class="ux-font-text-xxs">
+          ≈ {{ this.usdPrice | number: '1.2-2' }} {{this.quoteCurrency}}                 
           </ion-text>
         </div>
-      
       <div class="aic__content">
         <div class="aic__content__label">
           <ion-text class="ux-font-text-xs aic__content__label__first" position="stacked">{{
@@ -33,7 +36,7 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
             this.quoteCurrency
           }}</ion-text>
         </div>
-        
+       
         <div class="aic__content__inputs">
           <ion-input class="aic__content__inputs__amount max" formControlName="amount" type="number" inputmode="numeric">
             <ion-button
@@ -49,7 +52,7 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
           <ion-text class="aic__content__equal ux-fweight-medium ">=</ion-text>
           <ion-input formControlName="quoteAmount" type="number" inputmode="numeric"></ion-input>
         </div>
-        <div class="aic__content__disclaimer">
+        <div *ngIf="!this.withdraw" class="aic__content__disclaimer">
           <ion-text class="ux-font-text-xs" style="white-space: pre-wrap;"
             >{{ 'defi_investments.shared.amount_input_card.disclaimer' | translate }} {{ this.feeCoin }}.</ion-text
           >
@@ -66,7 +69,8 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
   styleUrls: ['./amount-input-card.component.scss'],
 })
 export class AmountInputCardComponent implements OnInit, OnDestroy {
-  @Input() title: string;
+  // @Input() title: string;
+  @Input() investedAmount: number;
   @Input() baseCurrency: Coin;
   @Input() quoteCurrency = 'USD';
   available: number;
@@ -75,7 +79,8 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   price: number;
   form: FormGroup;
   usdPrice : number;
-  
+  withdraw = true;
+  title : string;
   @Input() priceRefreshInterval = 15000;
 
   constructor(
@@ -87,8 +92,15 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.balanceAvailable();
     this.setFeeCoin();
+    this.setTitle();
     this.dynamicPrice();
     this.subscribeToFormChanges();
+
+  }
+
+
+  setTitle(){
+    this.title = this.withdraw ? 'defi_investments.shared.amount_input_card.amount_invested' : 'defi_investments.shared.amount_input_card.available';
   }
 
   setMax() {
@@ -136,11 +148,18 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
 
   private async balanceAvailable() {
     this.available = await this.walletBalance.balanceOf(this.baseCurrency);
-    this.setPrice(this.available);
+    if (!this.withdraw){
+      this.setPrice(this.available);
+    }else{
+      this.setPrice(this.investedAmount)
+    }
+
   }
 
   setPrice(available : number){
-    this.usdPrice = (available * this.price);
+    console.log(available)
+    this.usdPrice = available * this.price;
+    console.log(this.usdPrice)
   }
 
   private setFeeCoin() {

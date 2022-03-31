@@ -372,7 +372,7 @@
         "annual": "% Anual",
         "blockchain": "Blockchain",
         "profile": "Perfil",
-        "product_info":{
+        "investment_info":{
           "USDC":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en USDC. \n USDC es una criptomoneda estable. Su valor está atado al dólar, y está respaldada al 100% en dólares estadounidenses.",
           "DAI":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en DAI. \n DAI es una criptomoneda estable, su valor está atado al dólar.  Se respalda al 100% en protocolos cripto.",
           "BTC":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en BTC. \n BTC (Bitcoin) es la primera criptomoneda con emisión fija, y la de mayor capitalización en el mercado."
@@ -385,6 +385,7 @@
       },
       "amount_input_card": {
         "available": "Saldo disponible",
+        "amount_invested":"Monto total invertido",
         "disclaimer": "La tasa de cambio la define la blockchain. Los montos pueden variar, según el momento en que realices la transacción. \nTen en cuenta que se cobrarán tarifas de transacción en",
         "max_button": "Máx"
       },
@@ -403,6 +404,10 @@
         "button_primary": "Volver a inversiones DeFi",
         "button_secondary": "Ir a mi wallet",
         "disclaimer": "* Tus fondos pueden demorar hasta 5 minutos en estar disponibles en la Wallet."
+      },
+      "select_amount":{
+        "header": "Realizar retiro",
+        "button":"Continuar"
       },
       "withdraw": {
         "header": "Realizar retiro"
