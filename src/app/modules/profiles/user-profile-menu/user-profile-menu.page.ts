@@ -13,6 +13,7 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
 import { LogOutModalComponent } from '../shared-profiles/components/log-out-modal/log-out-modal.component';
+import { UpdateAppModalComponent } from 'src/app/shared/components/update-app-modal/update-app-modal.component';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -109,7 +110,7 @@ export class UserProfileMenuPage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.getProfile();
     this.existWallet();
   }

@@ -67,6 +67,7 @@ import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinn
 import { UpdateNewsComponent } from './components/update-news/update-news.component';
 import { NewsItemComponent } from './components/news-item/news-item.component';
 import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.directive';
+import { UpdateAppModalComponent } from './components/update-app-modal/update-app-modal.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.dir
     TestOptionItemComponent,
     WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
+    UpdateAppModalComponent,
     NetworkSelectCardComponent,
     NoWalletComponent,
     UpdateNewsComponent,
@@ -154,6 +156,7 @@ import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.dir
     ToastAlertComponent,
     ScanQrModalComponent,
     LoadingModalComponent,
+    UpdateAppModalComponent,
     NeedHelpCardComponent,
     InvestorTestCardsComponent,
     WalletConnectCardComponent,
