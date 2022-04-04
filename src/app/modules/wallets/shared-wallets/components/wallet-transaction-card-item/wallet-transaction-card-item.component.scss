@@ -19,6 +19,28 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        &__type_date_hash {
+          display: block;
+          width: 130px;
+
+          &__type_date {
+            display: flex;
+
+            .date {
+              margin-left: 4px;
+              color: var(--ion-color-neutral80);
+            }
+          }
+
+          &__hash {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            min-width: 110px;
+            max-width: auto;
+          }
+        }
       }
 
       &__bottom {
