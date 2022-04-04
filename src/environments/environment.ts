@@ -38,3 +38,4 @@ export const environment = {
     BSC_BEP20: "m/44'/60'/0'/0/0",
   },
 };
+
