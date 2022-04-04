@@ -17,7 +17,7 @@ import { format, parseISO } from 'date-fns';
                   'wallets.transactions.' + this.transaction.type | translate
                 }}</ion-label>
                 <ion-label class="ux-font-text-xxs date">
-                  {{ this.formattedDate}}
+                  {{ this.formattedDate }}
                 </ion-label>
               </div>
               <div class="wtci__content__top__type_date_hash__hash">
@@ -40,14 +40,15 @@ import { format, parseISO } from 'date-fns';
 export class WalletTransactionCardItemComponent implements OnInit {
   @Input() transaction;
   @Input() last: boolean;
-  formattedDate
+  formattedDate: string;
 
   constructor() {}
 
   ngOnInit() {
-    this.formattedDate = this.formatDate(this.transaction.date)
+  this.formattedDate = this.formatDate(this.transaction.date);
   }
+
   formatDate(value) {
-  return format(parseISO(value), 'dd-MM-yyyy');
+    return format(parseISO(value), 'dd-MM-yyyy');
   }
 }
