@@ -18,7 +18,7 @@ describe('SendAmountInputCardComponent', () => {
   let fixture: ComponentFixture<SendAmountInputCardComponent>;
   let controlContainerMock: FormGroup;
   let formGroupDirectiveMock: FormGroupDirective;
-  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let transactionDataServiceSpy: jasmine.SpyObj<TransactionDataService>;
   let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
   let toastService: jasmine.SpyObj<ToastService>;
