@@ -22,6 +22,8 @@ const summaryData: SummaryData = {
   address: 'asdlkfjasd56lfjasdpodlfkj',
   amount: '1',
   referenceAmount: '50000',
+  fee: '0.00001',
+  referenceFee: '0.18'
 };
 
 const nativeToken = {
@@ -37,7 +39,7 @@ const nativeToken = {
   symbol: "ETHUSDT",
   value: "ETH"
 };
-fdescribe('TransactionSummaryCardComponent', () => {
+describe('TransactionSummaryCardComponent', () => {
   let component: TransactionSummaryCardComponent;
   let fixture: ComponentFixture<TransactionSummaryCardComponent>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
@@ -77,5 +79,10 @@ fdescribe('TransactionSummaryCardComponent', () => {
 
     const addressEl = fixture.debugElement.query(By.css('.tsc__address'));
     expect(addressEl.nativeElement.innerHTML).toContain('asdlkfjasd56lfjasdpodlfkj');
+
+    const feeEl = fixture.debugElement.query(By.css('.tsc__fee'));
+    expect(feeEl.nativeElement.innerHTML).toContain('wallets.send.send_summary.fee');
+    expect(feeEl.nativeElement.innerHTML).toContain('0.00001 ETH');
+    expect(feeEl.nativeElement.innerHTML).toContain('0.18 USD');
   });
 });

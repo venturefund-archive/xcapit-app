@@ -161,8 +161,8 @@ export class SendDetailPage {
 
   async submitForm() {
     if (this.form.valid) {
-      this.fee = this.transactionDataService.transactionData.fee;
-      this.referenceFee = this.transactionDataService.transactionData.referenceFee;
+      this.fee = this.transactionDataService.transactionData?.fee;
+      this.referenceFee = this.transactionDataService.transactionData?.referenceFee;
       await this.goToSummary();
     }
   }

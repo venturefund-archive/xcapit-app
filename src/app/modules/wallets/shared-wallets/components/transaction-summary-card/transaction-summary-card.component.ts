@@ -81,6 +81,5 @@ export class TransactionSummaryCardComponent implements OnInit {
 
   private getNativeToken() {
     this.nativeToken = this.apiWalletService.getNativeTokenFromNetwork(this.summaryData.network);
-    console.log(this.nativeToken)
   }
 }
