@@ -124,16 +124,19 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'wallets.success_wallet_recovery.button',
   },
   error_wallet_incorrect_password: {
+    image: 'assets/img/defi-investments/error-investment.svg',
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.send.error_incorrect_password.textPrimary',
     namePrimaryAction: 'wallets.send.error_incorrect_password.namePrimaryAction',
   },
   error_wallet_wrong_amount: {
+    image: 'assets/img/defi-investments/error-investment.svg',
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.send.error_wrong_amount.textPrimary',
     namePrimaryAction: 'wallets.send.error_wrong_amount.namePrimaryAction',
   },
   error_wallet_wrong_address: {
+    image: 'assets/img/defi-investments/error-investment.svg',
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.send.error_wrong_address.textPrimary',
     namePrimaryAction: 'wallets.send.error_wrong_address.namePrimaryAction',
