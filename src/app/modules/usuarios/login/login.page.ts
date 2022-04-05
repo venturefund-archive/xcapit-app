@@ -3,7 +3,6 @@ import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
-import { UserStatus } from '../shared-usuarios/enums/user-status.enum';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { NavController } from '@ionic/angular';
@@ -154,23 +153,18 @@ export class LoginPage implements OnInit {
     this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
-      try {
-        const userStatus = await this.apiUsuarios.status(false).toPromise();
-        await this.redirectByStatus(userStatus);
-      } catch {
-        await this.navController.navigateForward('/tabs/home');
-      }
+      await this.navigateTo(this.startUrl());
     }
     this.loading = false;
     await this.updateNewsService.showModal();
   }
 
-  getUrlByStatus(statusName) {
-    return statusName === UserStatus.BEGINNER && !this.alreadyOnboarded ? ['tutorials/first-steps'] : ['tabs/home'];
+  async navigateTo(urlPath: string[]) {
+    return this.navController.navigateForward(urlPath);
   }
 
-  async redirectByStatus(userStatus) {
-    await this.navController.navigateForward(this.getUrlByStatus(userStatus.status_name));
+  startUrl() {
+    return this.alreadyOnboarded ? ['tabs/home'] : ['tutorials/first-steps'];
   }
 
   async goToResetPassword() {

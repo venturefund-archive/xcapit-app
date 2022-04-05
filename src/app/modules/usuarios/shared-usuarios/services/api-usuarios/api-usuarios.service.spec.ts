@@ -101,9 +101,10 @@ describe('ApiUsuariosService', () => {
     });
   });
 
-  it('should call get on http when status', () => {
-    service.status().subscribe(() => {
-      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
-    });
+  it('should call get on http when status', async () => {
+    const response: any = await service.status().toPromise();
+
+    expect(response.status_name).toEqual('UNDEFINED');
   });
+
 });
