@@ -1803,6 +1803,8 @@
         "send_button": "Enviar",
         "wrong_password": "Password incorrecto",
         "loader": "Enviando",
+        "destination_address":"Dirección de destino",
+        "fee":"Tarifa de transacción",
         "sent_notification": {
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"

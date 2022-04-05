@@ -8,4 +8,6 @@ export interface SummaryData {
   network: string;
   balanceNativeToken?: number;
   balance?: number;
+  fee?: string;
+  referenceFee?: string;
 }

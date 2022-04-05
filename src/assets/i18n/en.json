@@ -1810,6 +1810,8 @@
         "send_button": "Send",
         "wrong_password": "Wrong password",
         "loader": "Sending",
+        "destination_address":"Destination address",
+        "fee":"Transaction fee",
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
