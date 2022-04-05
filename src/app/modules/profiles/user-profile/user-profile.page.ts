@@ -80,7 +80,7 @@ export class UserProfilePage implements OnInit {
 
   ionViewWillEnter() {
     this.loadingService.enabled();
-    this.apiUsuarios.status(false).subscribe((res: any) => {
+    this.apiUsuarios.status().subscribe((res: any) => {
       this.userStatus = res;
       this.loadingService.disabled();
       this.data.viewBillData = true;
