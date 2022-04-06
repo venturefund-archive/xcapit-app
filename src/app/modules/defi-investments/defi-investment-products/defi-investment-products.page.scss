@@ -64,6 +64,12 @@
       }
     }
 
+    &__link {
+      margin: 24px 16px;
+      display: flex;
+      justify-content: center;
+    }
+
     &__empty {
       text-align: center;
       margin-top: 24px;

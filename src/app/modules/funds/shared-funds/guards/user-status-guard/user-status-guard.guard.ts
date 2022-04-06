@@ -12,7 +12,7 @@ export class UserStatusGuard implements CanActivate {
   constructor(private apiUsers: ApiUsuariosService, private navController: NavController) {}
 
   canActivate(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | boolean {
-    return this.apiUsers.status(false).pipe(
+    return this.apiUsers.status().pipe(
       map((res) => {
         if (res.status_name === 'BEGINNER' || res.status_name === 'CREATOR') {
           this.navController.navigateForward(['/apikeys/list'], {

@@ -140,7 +140,7 @@ export class CreatePasswordPage implements OnInit {
   private modalOptions() {
     return {
       title: this.translate.instant('wallets.create_password.loading.title'),
-      subtitle: this.translate.instant('wallets.create_password.loading.subtitle'),
+      subtitle: this.translate.instant(`wallets.create_password.loading.subtitle.${this.mode}`),
       image: 'assets/img/create-password/building.svg',
     };
   }

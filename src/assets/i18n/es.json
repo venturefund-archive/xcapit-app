@@ -280,7 +280,9 @@
         "confirm_button": "Confirmar inversión"
       },
       "informative_modal": "No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos.",
-      "informative_modal_fee": "No tienes suficientes {{nativeToken}} en tu cuenta para pagar las comisiones de transacción. Compra algunos {{nativeToken}} o deposítalos desde otra cuenta.",
+      "informative_modal_fee": "No tienes suficientes {{nativeToken}} en tu cuenta para pagar la tarifa de transacción.",
+      "buy_button":"Comprar {{nativeToken}}",
+      "deposit_button":"Depositar {{nativeToken}}",
       "terms": {
         "third_party_disclaimer": "Entiendo que al invertir mis criptomonedas lo haré a través de un proveedor externo (2pi) sujeto a  términos y condiciones  distintos, de los cuales Xcapit no es responsable.",
         "i_have_read": "He leído y acepto los ",
@@ -296,6 +298,7 @@
       "title_investments": "Mis inversiones",
       "recommendations": "Podrían interesarte",
       "empty_products":"Proximamente podrás encontrar las mejores inversiones para tu perfil",
+      "link_button":"¿Cómo funcionan las inversiones DeFi?",
       "choose_investor_profile": {
         "complete_test": {
           "title": "Quiero elegir mi perfil nuevamente",
@@ -331,7 +334,7 @@
     "invest_detail": {
       "header": "Mi inversión",
       "button": "Añadir monto",
-      "button_link": "Hacer un retiro",
+      "button_link": "Realizar retiro",
       "invested_amount": "Balance*",
       "daily_earnings_disclaimer": "*Tu balance se actualiza a diario."
     },
@@ -366,7 +369,7 @@
         "annual": "% Anual",
         "blockchain": "Blockchain",
         "profile": "Perfil",
-        "product_info":{
+        "investment_info":{
           "USDC":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en USDC. \n USDC es una criptomoneda estable. Su valor está atado al dólar, y está respaldada al 100% en dólares estadounidenses.",
           "DAI":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en DAI. \n DAI es una criptomoneda estable, su valor está atado al dólar.  Se respalda al 100% en protocolos cripto.",
           "BTC":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en BTC. \n BTC (Bitcoin) es la primera criptomoneda con emisión fija, y la de mayor capitalización en el mercado."
@@ -399,7 +402,7 @@
         "disclaimer": "* Tus fondos pueden demorar hasta 5 minutos en estar disponibles en la Wallet."
       },
       "withdraw": {
-        "header": "Finalizar inversión"
+        "header": "Realizar retiro"
       },
       "password_modal":{
         "description":"Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",
@@ -1713,7 +1716,10 @@
       "finish_button": "Finalizar y crear wallet",
       "loading": {
         "title": "¡Tiempo!",
-        "subtitle": "Estamos creando tu wallet"
+        "subtitle":{
+          "create":"Estamos creando tu Wallet",
+          "import":"Estamos importando tu Wallet"
+        } 
       }
     },
     "receive": {
@@ -1794,6 +1800,8 @@
         "send_button": "Enviar",
         "wrong_password": "Password incorrecto",
         "loader": "Enviando",
+        "destination_address":"Dirección de destino",
+        "fee":"Tarifa de transacción",
         "sent_notification": {
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"
@@ -1866,7 +1874,7 @@
     },
     "asset_detail": {
       "header": "Detalle de activo",
-      "wallet_transaction_title": "TRANSACCIONES"
+      "wallet_transaction_title": "Transacciones"
     },
     "error_wallet_recovery": {
       "title": "Tu frase de recuperación es incorrecta",

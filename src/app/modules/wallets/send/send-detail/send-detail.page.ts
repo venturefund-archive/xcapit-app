@@ -22,12 +22,6 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd ion-padding-start ion-padding-end">
-      <div class="sd__title">
-        <ion-text class="ux-font-text-lg">
-          {{ 'wallets.send.send_detail.title' | translate }}
-        </ion-text>
-      </div>
-
       <div class="sd__network-select-card ion-padding" *ngIf="this.networks">
         <div class="sd__network-select-card__title">
           <ion-text class="ux-font-text-lg">{{ 'wallets.send.send_detail.network_select.title' | translate }}</ion-text>
@@ -111,6 +105,8 @@ export class SendDetailPage {
   balanceNativeToken: number;
   balance: number;
   amount: number;
+  fee: string;
+  referenceFee: string;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
@@ -152,7 +148,7 @@ export class SendDetailPage {
   private getCurrencyAndNetworks() {
     const coin = this.route.snapshot.queryParamMap.get('asset');
     const network = this.route.snapshot.queryParamMap.get('network');
-    
+
     this.currency = this.apiWalletService.getCoin(coin, network);
     this.networks = this.apiWalletService.getNetworks(coin);
     this.selectedNetwork = network;
@@ -165,6 +161,8 @@ export class SendDetailPage {
 
   async submitForm() {
     if (this.form.valid) {
+      this.fee = this.transactionDataService.transactionData?.fee;
+      this.referenceFee = this.transactionDataService.transactionData?.referenceFee;
       await this.goToSummary();
     }
   }
@@ -181,6 +179,8 @@ export class SendDetailPage {
       ...this.form.value,
       balanceNativeToken: this.balanceNativeToken,
       balance: this.balance,
+      fee: this.fee,
+      referenceFee: this.referenceFee,
     };
   }
 

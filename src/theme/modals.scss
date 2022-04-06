@@ -244,3 +244,16 @@
 
   box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
 }
+
+// Modal as toast-warning
+.ux-toast-warning {
+  --max-height: 110px;
+  --max-width: 95%;
+  --background: var(--ion-color-warninglight);
+
+  &::part(content) {
+    border-radius: 14px;
+    position: absolute;
+    bottom: 1.5%;
+  }
+}

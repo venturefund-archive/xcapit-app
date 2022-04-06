@@ -36,8 +36,9 @@ import { TranslateService } from '@ngx-translate/core';
             {{ this.disclaimer }}
           </ion-text>
         </div>
-        <div class="wp__form__buttons ux-font-button">
+        <div class="wp__form__buttons">
           <ion-button
+            class="ux_button"
             color="secondary"
             appTrackClick
             [dataToTrack]="{ eventLabel: this.trackClickEventName }"

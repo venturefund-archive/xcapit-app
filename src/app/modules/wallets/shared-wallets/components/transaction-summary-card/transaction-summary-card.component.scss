@@ -6,6 +6,10 @@
 
     border-radius: 8px;
 
+    &__title {
+      margin-bottom: 20px;
+    }
+
     &__name-and-icon {
       display: flex;
       justify-content: space-between;
@@ -36,7 +40,23 @@
     }
 
     &__address {
-      margin-top: 24px;
+      border-top: 1px var(--ion-color-neutral10) solid;
+      border-bottom: 1px var(--ion-color-neutral10) solid;
+      padding: 12px 0;
+      margin: 12px 0;
+
+      &__content {
+        margin-top: 4px;
+      }
+    }
+
+    &__fee {
+      &__fee {
+        margin-top: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
     }
   }
 }

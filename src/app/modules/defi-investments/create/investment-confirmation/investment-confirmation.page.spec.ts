@@ -277,7 +277,7 @@ describe('InvestmentConfirmationPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(component.disable).toBeTruthy();
   });
 
