@@ -1,0 +1,9 @@
+ion-checkbox {
+  --border-radius: 15%;
+  --border-width: 2px;
+  --border-style: solid;
+  --border-color: var(--ion-color-info);
+  --background: var(--ion-color-white);
+  --border-color-checked: var(--ion-color-info);
+  --background-checked: var(--ion-color-info);
+}
