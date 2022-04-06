@@ -68,6 +68,7 @@ import { UpdateNewsComponent } from './components/update-news/update-news.compon
 import { NewsItemComponent } from './components/news-item/news-item.component';
 import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.directive';
 import { UpdateAppModalComponent } from './components/update-app-modal/update-app-modal.component';
+import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +129,7 @@ import { UpdateAppModalComponent } from './components/update-app-modal/update-ap
     NoWalletComponent,
     UpdateNewsComponent,
     NewsItemComponent,
+    ToastWithButtonsComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -202,6 +204,7 @@ import { UpdateAppModalComponent } from './components/update-app-modal/update-ap
     NoWalletComponent,
     UpdateNewsComponent,
     NewsItemComponent,
+    ToastWithButtonsComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

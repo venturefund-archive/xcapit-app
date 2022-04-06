@@ -148,7 +148,7 @@ describe('VerifyPhrasePage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css("ion-button[name='ux_create_verify_wallet']")).nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-password']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-password/create']);
     expect(walletServiceSpy.create).toHaveBeenCalledTimes(1);
   });
 

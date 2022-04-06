@@ -1,0 +1,53 @@
+:host {
+  justify-content: center;
+
+  .twb {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+
+    &__close_button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 25px;
+    }
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+    margin-right: 38px;
+
+    &__icon-warning {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      align-items: start;
+      justify-content: center;
+      font-size: 24px;
+      padding: 0 15px;
+    }
+
+    &__text {
+      font-family: var(--ux-font-lato);
+      font-weight: var(--ux-fweight-bold);
+    }
+
+    &__buttons {
+      display: flex;
+    }
+  }
+
+  ion-button {
+    --padding-end: 12px;
+    --padding-start: 10px;
+  }
+
+  .ux-link-xl {
+    text-decoration: none;
+  }
+}

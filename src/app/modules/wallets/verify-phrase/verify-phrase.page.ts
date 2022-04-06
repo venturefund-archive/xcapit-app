@@ -154,7 +154,7 @@ export class VerifyPhrasePage {
       this.loading = true;
       this.walletService
         .create()
-        .then(() => this.navController.navigateForward(['/wallets/create-password']))
+        .then(() => this.navController.navigateForward(['/wallets/create-password/create']))
         .finally(() => (this.loading = false));
     } else {
       this.navController.navigateForward(['/wallets/failed-mnemonic']);

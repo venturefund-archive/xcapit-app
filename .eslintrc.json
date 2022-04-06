@@ -89,6 +89,18 @@
       "rules": {
         "prettier/prettier": ["error", { "parser": "angular" }]
       }
+    },
+    {
+      "files": ["*.json"],
+      "extends": ["plugin:i18n-json/recommended"],
+      "rules": {
+        "i18n-json/valid-json": 2,
+        "i18n-json/identical-keys": [0, {
+          "filePath": "../../../../src/assets/i18n/es.json"
+        }],
+        "i18n-json/valid-message-syntax": 0,
+        "i18n-json/sorted-keys": 0
+      }
     }
   ]
 }

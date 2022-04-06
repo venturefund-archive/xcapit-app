@@ -299,7 +299,9 @@
         "confirm_button": "Confirm investment"
       },
       "informative_modal": "You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
-      "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay transaction fees. Buy some {{nativeToken}} or deposit them from another account.",
+      "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay the transaction fee.",
+      "buy_button":"Buy {{nativeToken}}",
+      "deposit_button":"Deposit {{nativeToken}}",
       "terms": {
         "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
         "i_have_read": "I have read and agree to ",
@@ -315,6 +317,7 @@
       "title_investments": "My investments",
       "recommendations": "You may be interested in",
       "empty_products":"Soon you will be able to find the best investments for your profile.",
+      "link_button":"How do DeFi investments work?",
       "choose_investor_profile": {
         "complete_test": {
           "title": "I want to choose my profile again",
@@ -350,7 +353,7 @@
     "invest_detail": {
       "header": "My investment",
       "button": "Add amount",
-      "button_link": "Make a withdrawal",
+      "button_link": "Make withdrawal",
       "invested_amount": "Balance*",
       "daily_earnings_disclaimer": "*Your balance is updated daily."
     },
@@ -418,7 +421,7 @@
         "disclaimer": "* Your funds may take up to 5 minutes to be available in the Wallet."
       },
       "withdraw": {
-        "header": "Finish investment"
+        "header": "Make withdrawal"
       },
       "password_modal":{
         "description":"To confirm your withdrawal, enter your Xcapit wallet password.",
@@ -1729,7 +1732,10 @@
       "finish_button": "Finish and create wallet",
       "loading": {
         "title": "Time!",
-        "subtitle": "We are building your wallet"
+        "subtitle":{
+          "create":"We are building your Wallet",
+          "import":"We are importing your Wallet"
+        } 
       }
     },
     "receive": {
@@ -1810,6 +1816,8 @@
         "send_button": "Send",
         "wrong_password": "Wrong password",
         "loader": "Sending",
+        "destination_address":"Destination address",
+        "fee":"Transaction fee",
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
