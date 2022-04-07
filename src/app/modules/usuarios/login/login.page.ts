@@ -156,7 +156,7 @@ export class LoginPage implements OnInit {
       await this.navigateTo(this.startUrl());
     }
     this.loading = false;
-    await this.updateNewsService.showModal();
+    // await this.updateNewsService.showModal();
   }
 
   async navigateTo(urlPath: string[]) {
