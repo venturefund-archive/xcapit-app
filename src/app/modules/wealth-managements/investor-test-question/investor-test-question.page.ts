@@ -13,12 +13,9 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
   selector: 'app-investor-test-question',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button
-            defaultHref="/wealth-management/investor-test-options"
-            (click)="this.goToPreviousQuestion()"
-          ></ion-back-button>
+          <ion-back-button defaultHref="" (click)="this.goToPreviousQuestion()" name="back"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wealth_managements.investor_test.header' | translate }}</ion-title>
         <ion-label class="step_counter" slot="end" *ngIf="this.investorTestService.hasLoadedQuestions"
@@ -47,7 +44,7 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
               name="Submit"
               class="ux_button"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               [disabled]="this.submitButtonService.isDisabled && !this.form.valid"
               >{{ this.buttonText | translate }}</ion-button
             >
@@ -59,12 +56,16 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
   styleUrls: ['./investor-test-question.page.scss'],
 })
 export class InvestorTestQuestionPage implements OnInit {
-  private baseRoute = '/wealth-management/investor-test';
   question: Question;
   currentQuestionNumber: number;
+  mode: string;
   form: FormGroup = this.formBuilder.group({
     answer: ['', [Validators.required]],
   });
+
+  private get baseRoute(): string {
+    return '/wealth-management/investor-test';
+  }
 
   get totalNumberOfQuestions(): number {
     return this.investorTestService.totalNumberOfQuestions;
@@ -116,12 +117,12 @@ export class InvestorTestQuestionPage implements OnInit {
 
   ionViewWillEnter() {
     this.currentQuestionNumber = parseInt(this.route.snapshot.paramMap.get('question'));
-
+    this.mode = this.route.snapshot.paramMap.get('mode');
     this.investorTestService.loadQuestions().then(() => {
       if (this.isValidQuestionNumber && !this.isUserSkippingQuestions) {
         this.loadQuestionAndAnswers();
       } else {
-        this.navController.navigateRoot([`${this.baseRoute}/1`]);
+        this.navController.navigateRoot([`${this.baseRoute}/${this.mode}/1`]);
       }
     });
   }
@@ -129,20 +130,23 @@ export class InvestorTestQuestionPage implements OnInit {
   ngOnInit() {}
 
   goToNextQuestion() {
-    this.navController.navigateForward([`${this.baseRoute}/${this.currentQuestionNumber + 1}`]);
+    this.navController.navigateForward([`${this.baseRoute}/${this.mode}/${this.currentQuestionNumber + 1}`]);
   }
 
   goToPreviousQuestion() {
     if (this.isFirstQuestion) {
-      this.investorTestService.cancel();
+      this.investorTestService.clearAnswers();
+      this.navController.navigateBack([
+        this.mode === 'defi' ? 'tabs/investments' : 'wealth-management/investor-test-options',
+      ]);
     }
   }
 
   handleSubmit() {
     this.investorTestService.setAnswer(this.question, this.form.value.answer);
-
     if (this.isLastQuestion) {
       this.investorTestService.saveAnswers().subscribe(() => {
+      this.investorTestService.clearAnswers();
         this.goToSuccessPage();
       });
     } else {

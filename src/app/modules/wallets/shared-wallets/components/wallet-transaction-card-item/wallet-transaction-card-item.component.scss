@@ -1,12 +1,14 @@
 :host {
   .wtci {
-    background-color: var(--ion-color-uxlight);
+    background-color: var(--ion-color-white);
     display: flex;
     align-items: center;
     border-radius: 8px;
+
     &__img {
       height: 33px;
     }
+
     &__content {
       display: flex;
       flex-direction: column;
@@ -17,7 +19,30 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        &__type_date_hash {
+          display: block;
+          width: 130px;
+
+          &__type_date {
+            display: flex;
+
+            .date {
+              margin-left: 4px;
+              color: var(--ion-color-neutral80);
+            }
+          }
+
+          &__hash {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            min-width: 110px;
+            max-width: auto;
+          }
+        }
       }
+
       &__bottom {
         display: flex;
         justify-content: space-between;

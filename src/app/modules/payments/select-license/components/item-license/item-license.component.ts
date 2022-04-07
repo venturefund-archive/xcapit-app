@@ -26,10 +26,10 @@ import { PlanType } from '../../enums/plan_type.enum';
       </div>
       <div *ngIf="this.plan?.type === planType.free || this.plan?.type === planType.paid" class="ilc__content__price">
         <div>
-          <ion-text *ngIf="this.plan?.type === planType.free" class="license_text" color="uxdark">{{
+          <ion-text *ngIf="this.plan?.type === planType.free" class="license_text" color="neutral90">{{
             this.plan?.price | translate
           }}</ion-text>
-          <ion-text *ngIf="this.plan?.type === planType.paid" class="license_text" color="uxdark">{{
+          <ion-text *ngIf="this.plan?.type === planType.paid" class="license_text" color="neutral90">{{
             '$' + this.plan?.price
           }}</ion-text>
           <ion-text

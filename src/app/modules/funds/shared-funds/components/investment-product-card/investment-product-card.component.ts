@@ -11,7 +11,7 @@ import { NavController } from '@ionic/angular';
       <div class="ipc__content">
         <div class="ipc__content__title_and_image">
           <div class="title_container">
-            <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12" color="uxdark">{{
+            <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-12" color="neutral90">{{
               this.productData?.strategy_type | translate
             }}</ion-text>
             <div class="ipc__content__title_and_badge">
@@ -26,7 +26,7 @@ import { NavController } from '@ionic/angular';
           </div>
         </div>
         <div class="ipc__content__description">
-          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="uxdark">{{
+          <ion-text class="ux-font-lato ux-fweight-regular ux-fsize-14" color="neutral90">{{
             this.productData?.description | translate
           }}</ion-text>
         </div>
@@ -35,7 +35,7 @@ import { NavController } from '@ionic/angular';
             <ion-text
               (click)="this.moreInfo()"
               class="ux-font-lato ux-fweight-semibold ux-fsize-14"
-              color="uxprimary"
+              color="primary"
               >{{ this.productData?.more_info | translate }}</ion-text
             >
           </div>
@@ -44,16 +44,16 @@ import { NavController } from '@ionic/angular';
       <div class="ipc__footer">
         <div class="ipc__footer__capital">
           <div class="ipc__footer__capital__label">
-            <ion-text class="ux-font-lato ux-fweight-semibold" color="uxlight">{{
+            <ion-text class="ux-font-lato ux-fweight-semibold" color="white">{{
               'funds.fund_investment.card.min_capital_label' | translate
             }}</ion-text>
           </div>
           <div class="ipc__footer__capital__number">
             <ion-label>
-              <ion-text class="ipc__mincapital ux-font-text-lg" color="uxlight"
+              <ion-text class="ipc__mincapital ux-font-text-lg" color="white"
                 >{{ this.productData?.min_capital }}
               </ion-text>
-              <ion-text class="ux-font-num-subtitulo" color="uxlight">{{
+              <ion-text class="ux-font-num-subtitulo" color="white">{{
                 'funds.fund_investment.card.currency' | translate
               }}</ion-text>
             </ion-label>

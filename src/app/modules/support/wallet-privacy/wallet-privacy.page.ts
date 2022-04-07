@@ -4,7 +4,7 @@ import { WALLET_PRIVACY } from '../shared-support/constants/wallet-privacy';
 @Component({
   selector: 'app-wallet-privacy',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/support/wallet-info"></ion-back-button>
         </ion-buttons>

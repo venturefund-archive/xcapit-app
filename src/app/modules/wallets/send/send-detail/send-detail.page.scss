@@ -10,7 +10,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 16px;
-      background-color: var(--ion-color-uxlight);
+      background-color: var(--ion-color-white);
       border-radius: 8px;
 
       &__icon {
@@ -20,18 +20,40 @@
         width: 33px;
       }
     }
+
     &__network-select-card {
       margin-top: 16px;
+      background: var(--ion-color-white);
+      border: 1px solid var(--ion-color-neutral50);
+      box-shadow: 0 2px 8px rgb(var(--ion-color-info-rgb) 5%);
+      border-radius: 8px;
+
+      &__title {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      &__selected-coin {
+        margin-top: 16px;
+      }
+
+      &__networks {
+        margin-top: 16px;
+      }
     }
+
     &__address-input-card {
       margin-top: 16px;
     }
+
     &__amount-input-card {
       margin-top: 16px;
     }
+
     &__submit-button {
       display: flex;
       margin-top: 16px;
+
       &__button {
         flex-grow: 1;
       }
@@ -39,6 +61,7 @@
 
     &__alert {
       margin-top: 16px;
+
       &__title {
         font-weight: var(--ux-fweight-semibold);
         padding-bottom: 8px;

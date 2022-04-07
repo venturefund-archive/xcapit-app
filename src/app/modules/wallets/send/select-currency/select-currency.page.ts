@@ -1,33 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { NavController } from '@ionic/angular';
-import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-select-currency',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/home"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'wallets.send.select_currency.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="sc ion-padding">
       <div class="sc__title">
-        <ion-text class="ux-font-text-lg">
+        <ion-label class="ux-font-text-lg">
           {{ 'wallets.send.select_currency.title' | translate }}
-        </ion-text>
+        </ion-label>
       </div>
-      <div class="sc__list">
-        <app-ux-list-card
-          (itemClicked)="this.selectCurrency($event)"
-          [data]="this.coins"
-          iconName="logoRoute"
-          labelName="name"
-        ></app-ux-list-card>
+      <div class="sc__list" *ngIf="this.coins">
+        <app-token-selection-list state="send" [userCoins]="this.coins" (clickedCoin)="this.selectCurrency($event)"></app-token-selection-list>
       </div>
     </ion-content>
   `,
@@ -45,7 +40,14 @@ export class SelectCurrencyPage implements OnInit {
     });
   }
 
-  selectCurrency(currency) {
-    this.navController.navigateForward(['/wallets/send/detail', currency.value]);
+  selectCurrency(currency: Coin) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        asset: currency.value,
+        network: currency.network
+      },
+    };
+    
+    this.navController.navigateForward(['/wallets/send/detail'], navigationExtras);
   }
 }

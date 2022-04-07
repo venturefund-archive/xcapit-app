@@ -57,7 +57,7 @@ import { BrowserService } from '../../../shared/services/browser/browser.service
               appTrackClick
               name="Register"
               class="ux_button"
-              color="uxsecondary"
+              color="secondary"
               [disabled]="!this.registerForm.form.valid || (this.submitButtonService.isDisabled | async)"
             >
               {{ 'usuarios.register.submit_button' | translate }}

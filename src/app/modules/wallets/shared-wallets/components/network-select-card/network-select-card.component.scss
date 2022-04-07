@@ -1,26 +1,18 @@
 :host {
-  .classic {
-    .nsc {
-      background: var(--ion-color-uxlight);
-      border-radius: 8px;
-      &__networks {
-        margin-top: 8px;
-      }
-      &__disclaimer {
-        margin-top: 16px;
-      }
-    }
-  }
+  .nsc {
+    background: transparent;
+    padding: 0;
 
-  .receive {
-    .nsc {
-      padding: 0;
-      border-radius: 8px;
-      &__networks {
-        margin-top: 8px;
-      }
-      &__disclaimer {
-        margin-top: 16px;
+    &__networks {
+      margin-top: 8px;
+    }
+
+    &__disclaimer {
+      margin-top: 8px;
+
+      ion-text {
+        color: var(--ion-color-neutral80);
+        line-height: 18px;
       }
     }
   }

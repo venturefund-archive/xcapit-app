@@ -6,7 +6,7 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
   selector: 'app-recovery-phrase-information',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/profiles/menu"></ion-back-button>
         </ion-buttons>
@@ -26,10 +26,10 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
                   size="medium"
                   class="rpi__list__list__item__icon"
                   name="ux-hand"
-                  color="uxprimary"
+                  color="primary"
                   slot="start"
                 ></ion-icon>
-                <ion-label class="rpi__list__list__item__text ux-font-text-base" color="uxdark">
+                <ion-label class="rpi__list__list__item__text ux-font-text-base" color="neutral90">
                   {{ 'wallets.recovery_phrase_information.text1' | translate }}
                 </ion-label>
               </ion-item>
@@ -38,10 +38,10 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
                   size="medium"
                   class="rpi__list__list__item__icon"
                   name="ux-key-outline"
-                  color="uxprimary"
+                  color="primary"
                   slot="start"
                 ></ion-icon>
-                <ion-label class="rpi__list__list__item__text ux-font-text-base" color="uxdark">
+                <ion-label class="rpi__list__list__item__text ux-font-text-base" color="neutral90">
                   {{ 'wallets.recovery_phrase_information.text2' | translate }}
                 </ion-label>
               </ion-item>
@@ -50,10 +50,10 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
                   size="medium"
                   class="rpi__list__list__item__icon"
                   name="ux-info-circle-alt"
-                  color="uxprimary"
+                  color="primary"
                   slot="start"
                 ></ion-icon>
-                <ion-label class="rpi__list__list__item__text ux-font-text-base" color="uxdark">
+                <ion-label class="rpi__list__list__item__text ux-font-text-base" color="neutral90">
                   {{ 'wallets.recovery_phrase_information.text3' | translate }}
                 </ion-label>
               </ion-item>
@@ -65,7 +65,7 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
             class="ux_button"
             name="Continue"
             type="button"
-            color="uxsecondary"
+            color="secondary"
             expand="block"
             size="large"
             (click)="this.continue()"

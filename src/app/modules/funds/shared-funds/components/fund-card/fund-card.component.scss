@@ -2,7 +2,7 @@
   width: 100%;
 
   .fc {
-    background-color: var(--ion-color-uxlight);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
     cursor: pointer;
 
@@ -86,13 +86,6 @@
 
       &__left {
         display: flex;
-        justify-content: flex-end;
-        align-items: center;
-      }
-
-      &__right {
-        display: flex;
-        flex-direction: column;
         justify-content: flex-end;
         align-items: center;
       }

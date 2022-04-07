@@ -13,7 +13,7 @@ import { BillType } from '../user-profile/enums/bill_types.enum';
   selector: 'app-fiscal-data',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/profiles/personal-data"></ion-back-button>
         </ion-buttons>
@@ -90,7 +90,7 @@ import { BillType } from '../user-profile/enums/bill_types.enum';
               appTrackClick
               name="Save Fiscal Data"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               [disabled]="this.disabledButton"
             >

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CRUD } from 'src/app/shared/services/crud/crud';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -64,11 +64,11 @@ export class ApiUsuariosService {
     return this.http.post(`${environment.apiUrl}/${this.entity}/change_password`, data);
   }
 
-  getUser(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/get_user`);
+  getUser(loading = true): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/get_user`, undefined, undefined, loading);
   }
 
-  status(loading = false): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/status`, undefined, undefined, loading);
+  status(): Observable<any> {
+    return of({status_name: 'UNDEFINED'});
   }
 }

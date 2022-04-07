@@ -16,7 +16,7 @@ import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.compo
           (click)="this.openModal($event)"
         >
         </ion-input>
-        <ion-icon class="uxselect__item__arrow_icon" item-end name="ux-down" color="uxdark"></ion-icon>
+        <ion-icon class="uxselect__item__arrow_icon" item-end name="ux-down" color="neutral90"></ion-icon>
       </ion-item>
       <app-errors-form-item [controlName]="this.controlName"></app-errors-form-item>
     </div>
@@ -43,7 +43,7 @@ export class UxInputSelectComponent implements OnInit {
 
   ngOnInit() {
     this.control = this.form.control.get(this.controlName);
-    this.control.valueChanges.subscribe((value) => this.setSelectedValue(value, false));
+    this.control.valueChanges.subscribe((value) => this.setSelectedValue(value));
   }
 
   async openModal(event: UIEvent | undefined) {
@@ -71,8 +71,7 @@ export class UxInputSelectComponent implements OnInit {
     }
   }
 
-  setSelectedValue(value: any, patch = true) {
-    if (patch) this.control.patchValue(value);
-    this.control.patchValue(value);
+  setSelectedValue(value: any) {
+    this.control.patchValue(value, { emitEvent: false });
   }
 }

@@ -10,7 +10,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
         size="small"
         appTrackClick
         [dataToTrack]="{ description: item }"
-        color="uxsecondary"
+        color="secondary"
         *ngFor="let item of this.data"
         (click)="this.selectItem(item)"
         [ngClass]="{ selected: item === this.selectedNetwork, 'not-selected': item !== this.selectedNetwork }"
@@ -32,6 +32,7 @@ export class UxSegmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedNetwork = this.data[0];
+    if (!this.selectedNetwork)
+      this.selectedNetwork = this.data[0];
   }
 }

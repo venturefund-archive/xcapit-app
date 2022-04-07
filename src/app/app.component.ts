@@ -12,6 +12,9 @@ import { StatusBar } from '@capacitor/status-bar';
 import { PlatformService } from './shared/services/platform/platform.service';
 import { CONFIG } from './config/app-constants.config';
 import { UpdateNewsService } from './shared/services/update-news/update-news.service';
+import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
+import { FirebaseRemoteConfig } from './shared/models/firebase-remote-config/firebase-remote-config';
+import { FirebaseService } from './shared/services/firebase/firebase.service';
 
 @Component({
   selector: 'app-root',
@@ -39,10 +42,14 @@ export class AppComponent implements OnInit {
     private translate: TranslateService,
     private el: ElementRef,
     private platformService: PlatformService,
-    private updateNewsService: UpdateNewsService
+    private updateNewsService: UpdateNewsService,
+    private remoteConfigService: RemoteConfigService,
+    private firebaseService: FirebaseService
   ) {}
 
   ngOnInit() {
+    this.initializeFirebase();
+    this.initializeRemoteConfig();
     this.initializeApp();
     this.statusBarConfig();
     this.submitButtonService.enabled();
@@ -65,6 +72,14 @@ export class AppComponent implements OnInit {
       this.languageService.setInitialAppLanguage();
       this.setLanguageSubscribe();
     });
+  }
+
+  private initializeFirebase() {
+    this.firebaseService.init();
+  }
+
+  private initializeRemoteConfig() {
+    this.remoteConfigService.initialize(new FirebaseRemoteConfig(this.firebaseService.getApp()));
   }
 
   private statusBarConfig() {

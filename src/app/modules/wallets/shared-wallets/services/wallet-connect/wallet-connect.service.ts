@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
 import WalletConnect from '@walletconnect/client';
-import { convertHexToNumber } from '@walletconnect/utils';
-import { ModalController } from '@ionic/angular';
 import { WalletTransactionsService } from '../../services/wallet-transactions/wallet-transactions.service';
 import { ethers } from 'ethers';
-import erc20 from '../../constants/assets-abi/erc20-abi.json';
+import * as AbiDecoder from 'abi-decoder';
+import erc20Abi from '../../constants/assets-abi/erc20-abi.json';
+import routerAbi from '../../constants/assets-abi/exchange-abi.json';
+import factoryAbi from '../../constants/assets-abi/factory-abi.json';
+import pairAbi from '../../constants/assets-abi/pair-abi.json';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { NavController } from '@ionic/angular';
+import { ToastService } from '../../../../../shared/services/toast/toast.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { transactionType } from '../../constants/transaction-type';
 
 @Injectable({
   providedIn: 'root',
@@ -40,15 +46,23 @@ export class WalletConnectService {
     'eth_signTypedData_v4',
     'personal_sign',
   ];
-  public erc20Abi;
+  public contractsAbi;
   public isApproveRequest = false;
+  public transactionTypes;
 
   constructor(
-    private modalController: ModalController,
     private walletTransactionsService: WalletTransactionsService,
     private appStorageService: AppStorageService,
-    private navController: NavController
-  ) {}
+    private navController: NavController,
+    private toastService: ToastService,
+    private translate: TranslateService,
+    private router: Router
+  ) {
+    this.contractsAbi = AbiDecoder;
+    this.contractsAbi.addABI(erc20Abi);
+    this.contractsAbi.addABI(routerAbi);
+    this.transactionTypes = transactionType;
+  }
 
   async onInit() {}
 
@@ -177,7 +191,25 @@ export class WalletConnectService {
         throw error;
       }
 
-      await this.killSession();
+      await this.checkActiveScreen();
+    });
+  }
+
+  public async checkActiveScreen() {
+    const url = this.router.url.split('/').pop();
+    
+    if (url === 'connection-detail') {
+      this.navController.navigateBack(['wallets/wallet-connect/new-connection']);
+    }
+    
+    const dapp = this.peerMeta.name
+    await this.killSession();
+    this.showDisconnectionToast(this.translate.instant('wallets.wallet_connect.dapp_disconnection.message', {dapp}))
+  }
+
+  private showDisconnectionToast(text: string) {
+    this.toastService.showErrorToast({
+      message: this.translate.instant(text),
     });
   }
 
@@ -191,7 +223,7 @@ export class WalletConnectService {
 
       this.peerMeta = null;
       this.connected = false;
-
+      
       if (this.walletConnector.session.connected) {
         await this.walletConnector.killSession();
       }
@@ -218,15 +250,24 @@ export class WalletConnectService {
     }
   }
 
-  public async checkIsApproval(request) {
-    const iface = new ethers.utils.Interface(erc20);
+  public async getTransactionType(request) {
+    const decodedData = this.contractsAbi.decodeMethod(request.params[0].data);
 
-    try {
-      const res = iface.decodeFunctionData('approve', request.params[0].data);
-      this.isApproveRequest = true;
-    } catch (e) {
-      this.isApproveRequest = false;
+    if (decodedData && decodedData.name) {
+      const type = this.transactionTypes.filter((type) => type.name === decodedData.name)[0];
+      if (type) {
+        type.data = decodedData.params
+
+        return type;
+      }
     }
+
+    return null;
+  }
+
+  public async checkIsApproval(request) {
+    const decodedData = this.contractsAbi.decodeMethod(request.params[0].data);
+    this.isApproveRequest = request && decodedData?.name === 'approve';
 
     return this.isApproveRequest;
   }
@@ -235,6 +276,40 @@ export class WalletConnectService {
     const provider = new ethers.providers.JsonRpcProvider(this.rpcUrl);
 
     return await provider.getGasPrice();
+  }
+
+  public async getTokenSymbol(token) {
+    const provider = new ethers.providers.JsonRpcProvider(this.rpcUrl);
+    const contract = new ethers.Contract(token, erc20Abi, provider);
+
+    return await contract.symbol();
+  }
+
+  public async getPairTokens(routerAddress, token0, token1 = null) {
+    const symbols = [];
+
+    const provider = new ethers.providers.JsonRpcProvider(this.rpcUrl);
+    const routerContract = new ethers.Contract(routerAddress, routerAbi, provider);
+    const wethAddress = await routerContract.WETH();
+    
+    if (token1 === null) {
+      token1 = wethAddress;
+    }
+
+    const factoryAddress = await routerContract.factory();
+
+    const factoryContract = new ethers.Contract(factoryAddress, factoryAbi, provider);
+    const pairAddress = await factoryContract.getPair(token0, token1);
+
+    const pairContract = new ethers.Contract(pairAddress, pairAbi, provider);
+
+    const pairToken0 = await pairContract.token0();
+    const pairToken1 = await pairContract.token1();
+
+    symbols[0] = pairToken0 === wethAddress ? this.providerSymbol : await this.getTokenSymbol(pairToken0);
+    symbols[1] = pairToken1 === wethAddress ? this.providerSymbol : await this.getTokenSymbol(pairToken1);
+
+    return symbols;
   }
 
   public async checkRequest(request, userWallet) {
@@ -246,6 +321,7 @@ export class WalletConnectService {
       const gasPrice = await this.getGasPrice();
 
       switch (request.method) {
+        case 'eth_signTransaction':
         case 'eth_sendTransaction':
           addressRequested = request.params[0].from;
 

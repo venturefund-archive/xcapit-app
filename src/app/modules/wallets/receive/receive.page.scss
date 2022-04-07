@@ -1,46 +1,82 @@
 :host {
   .wr {
+    background: var(--ion-color-white);
+    border: 1px solid var(--ion-color-neutral50);
+    box-shadow: 0 2px 8px rgb(var(--ion-color-info-rgb) 5%);
+    border-radius: 8px;
+
     &__title {
-      margin-top: 24px;
-    }
-    &__currency-select {
-      margin-top: 8px;
-    }
-
-    &__network-select-card {
-      margin-top: 16px;
-    }
-
-    &__qr-content {
-      margin-top: 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      img {
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-      }
-    }
-    &__receive-address {
-      margin-top: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       ion-item {
-        text-align: center;
+        --background: transparent;
+        --inner-padding-end: 16px;
+        --inner-padding-start: 16px;
+        --inner-padding-top: 22px;
+        --inner-padding-bottom: 12px;
+
+        ion-text {
+          margin-right: auto;
+        }
+
+        ion-button {
+          height: 24px;
+        }
       }
     }
-    &__share-content {
-      margin-top: 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    &__disclaimer {
-      margin-top: 24px;
-      display: flex;
-      justify-content: flex-start;
-      flex-direction: column;
+
+    &__card-content {
+      padding: 19px 16px;
+
+      &__network-select-card {
+        margin-top: 16px;
+      }
+
+      &__qr-content {
+        margin-top: 11px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 210px;
+          height: 210px;
+          border-radius: 8px;
+        }
+      }
+
+      &__receive-address {
+        ion-item {
+          margin-top: 7px;
+
+          --background: transparent;
+          --inner-padding-end: 0;
+
+          ion-label {
+            font-size: var(--ux-fsize-16);
+            margin-right: 6px;
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+
+          ion-button {
+            border-radius: 8px;
+            border: 1px solid var(--ion-color-neutral80);
+            height: 44px;
+
+            --padding-start: 16px;
+            --padding-end: 16px;
+            --padding-top: 12px;
+            --padding-bottom: 12px;
+          }
+        }
+      }
+
+      &__disclaimer {
+        margin-top: 48px;
+
+        ion-text {
+          color: var(--ion-color-neutral80);
+        }
+      }
     }
   }
 }

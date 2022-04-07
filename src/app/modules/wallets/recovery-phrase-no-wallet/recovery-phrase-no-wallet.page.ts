@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-recovery-phrase-no-wallet',
   template: `<ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/menus/main-menu"></ion-back-button>
         </ion-buttons>
@@ -34,7 +34,7 @@ import { NavController } from '@ionic/angular';
                 class="ux_button"
                 name="Go To Create Wallet"
                 type="button"
-                color="uxsecondary"
+                color="secondary"
                 expand="block"
                 (click)="this.goToCreateWallet()"
                 appTrackClick

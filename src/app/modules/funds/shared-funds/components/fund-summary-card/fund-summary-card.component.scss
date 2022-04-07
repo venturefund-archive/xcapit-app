@@ -1,46 +1,56 @@
 :host {
   width: 100%;
+
   .fsc {
-    background-color: var(--ion-color-uxlight);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
     cursor: pointer;
+
     &__content {
       display: flex;
       justify-content: space-between;
-      padding: 16px 16px 16px 16px;
+      padding: 16px;
+
       &__right {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         align-items: flex-end;
+
         // Con esto logro que cada item (menos el primero) se separe por 4px
         & > *:not(:first-child) {
           margin-top: 4px;
         }
       }
+
       &__left {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         align-items: flex-start;
+
         &__fund_name {
           font-weight: var(--ux-fweight-semibold);
         }
+
         &__actual_ammount {
           font-weight: var(--ux-fweight-regular);
         }
+
         // Con esto logro que cada item (menos el primero) se separe por 4px
         & > *:not(:first-child) {
           margin-top: 4px;
         }
       }
     }
+
     &__footer {
       &__right__button {
         ion-icon {
           height: 10px;
         }
       }
+
       height: 36px;
       display: flex;
       justify-content: space-between;

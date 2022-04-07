@@ -3,7 +3,6 @@ import { AuthFormComponent } from '../shared-usuarios/components/auth-form/auth-
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { ApiUsuariosService } from '../shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
-import { UserStatus } from '../shared-usuarios/enums/user-status.enum';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { NavController } from '@ionic/angular';
@@ -36,7 +35,7 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
             size="large"
             type="submit"
             class="main__login_button ux_button"
-            color="uxsecondary"
+            color="secondary"
             [disabled]="this.submitButtonService.isDisabled | async"
             [appLoading]="this.loading"
             [loadingText]="'usuarios.login.loading' | translate"
@@ -59,7 +58,7 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
           </ion-button>
         </div>
       </app-auth-form>
-      <!-- <div class="ion-text-center">
+      <!-- div class="ion-text-center">
         <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
       </div>
 
@@ -76,7 +75,7 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
       >
         <img slot="start" [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google-Logo" />
         <span class="google-auth__button__text ux-font-worksans">{{ 'usuarios.login.google_auth' | translate }}</span>
-      </ion-button> -->
+      </ion-button -->
       <div class="auth-link-reset-password main__reset_password">
         <ion-button
           class="main__reset_password__button ux-link-xs"
@@ -154,23 +153,18 @@ export class LoginPage implements OnInit {
     this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
-      try {
-        const userStatus = await this.apiUsuarios.status(false).toPromise();
-        await this.redirectByStatus(userStatus);
-      } catch {
-        await this.navController.navigateForward('/tabs/home');
-      }
+      await this.navigateTo(this.startUrl());
     }
     this.loading = false;
     await this.updateNewsService.showModal();
   }
 
-  getUrlByStatus(statusName) {
-    return statusName === UserStatus.BEGINNER && !this.alreadyOnboarded ? ['tutorials/first-steps'] : ['tabs/home'];
+  async navigateTo(urlPath: string[]) {
+    return this.navController.navigateForward(urlPath);
   }
 
-  async redirectByStatus(userStatus) {
-    await this.navController.navigateForward(this.getUrlByStatus(userStatus.status_name));
+  startUrl() {
+    return this.alreadyOnboarded ? ['tabs/home'] : ['tutorials/first-steps'];
   }
 
   async goToResetPassword() {

@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
@@ -66,7 +67,8 @@ describe('InvestorTestQuestionPage', () => {
   let fixture: ComponentFixture<InvestorTestQuestionPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let activatedRouteMock: any;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let investorTestServiceSpy: jasmine.SpyObj<InvestorTestService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InvestorTestQuestionPage>;
 
@@ -75,13 +77,8 @@ describe('InvestorTestQuestionPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
 
-      activatedRouteMock = {
-        snapshot: {
-          paramMap: {
-            get: (param: string) => '1',
-          },
-        },
-      };
+      fakeActivatedRoute = new FakeActivatedRoute({ question: '1', mode: 'defi' });
+      activatedRouteSpy = fakeActivatedRoute.createSpy();
 
       investorTestServiceSpy = jasmine.createSpyObj(
         'InvestorTestService',
@@ -91,7 +88,7 @@ describe('InvestorTestQuestionPage', () => {
           setAnswer: undefined,
           loadQuestions: Promise.resolve(),
           hasAnsweredQuestion: false,
-          cancel: undefined,
+          clearAnswers: undefined,
           saveAnswers: of({}),
         },
         {
@@ -106,7 +103,7 @@ describe('InvestorTestQuestionPage', () => {
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteMock },
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: InvestorTestService, useValue: investorTestServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -175,7 +172,7 @@ describe('InvestorTestQuestionPage', () => {
   it('should get question number and show question with answers when previous question has been answered on ionViewWillEnter', async () => {
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
     investorTestServiceSpy.getQuestionByNumber.and.returnValue(testQuestions[1]);
-    activatedRouteMock.snapshot.paramMap.get = (question) => '2';
+    fakeActivatedRoute.modifySnapshotParams({ question: '2' });
     component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -189,47 +186,47 @@ describe('InvestorTestQuestionPage', () => {
   });
 
   it('should redirect to first question if question is invalid on ionViewWillEnter', async () => {
-    activatedRouteMock.snapshot.paramMap.get = (question) => 'test';
+    fakeActivatedRoute.modifySnapshotParams({ question: 'test', mode: 'defi' });
     component.ionViewWillEnter();
     await fixture.whenStable();
     expect(component.currentQuestionNumber).toEqual(NaN);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/defi/1']);
   });
 
   it('should redirect to first question if question is undefined on ionViewWillEnter', async () => {
-    activatedRouteMock.snapshot.paramMap.get = (question) => undefined;
+    fakeActivatedRoute.modifySnapshotParams({ question: undefined, mode: 'defi' });
     component.ionViewWillEnter();
     await fixture.whenStable();
     expect(component.currentQuestionNumber).toEqual(NaN);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/defi/1']);
   });
 
   it('should redirect to first question if question is greater than total questions on ionViewWillEnter', async () => {
-    activatedRouteMock.snapshot.paramMap.get = (question) => 6;
+    fakeActivatedRoute.modifySnapshotParams({ question: 6, mode: 'defi' });
     component.ionViewWillEnter();
     await fixture.whenStable();
     expect(component.currentQuestionNumber).toEqual(6);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/defi/1']);
   });
 
   it('should redirect to first question if question is less than total questions on ionViewWillEnter', async () => {
-    activatedRouteMock.snapshot.paramMap.get = (question) => '0';
+    fakeActivatedRoute.modifySnapshotParams({ question: 0, mode: 'defi' });
     component.ionViewWillEnter();
     await fixture.whenStable();
     expect(component.currentQuestionNumber).toEqual(0);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/defi/1']);
   });
 
   it('should redirect to first question if user is trying to skip questions on ionViewWillEnter', async () => {
-    activatedRouteMock.snapshot.paramMap.get = (question) => '2';
+    fakeActivatedRoute.modifySnapshotParams({ question: 2, mode: 'defi' });
     component.ionViewWillEnter();
     await fixture.whenStable();
     expect(component.currentQuestionNumber).toEqual(2);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/1']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wealth-management/investor-test/defi/1']);
   });
 
   it('should show next button text when is not last question', async () => {
-    activatedRouteMock.snapshot.paramMap.get = (question) => '2';
+    fakeActivatedRoute.modifySnapshotParams({ question: '2' });
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -241,7 +238,7 @@ describe('InvestorTestQuestionPage', () => {
   });
 
   it('should show submit button text when is not last question', async () => {
-    activatedRouteMock.snapshot.paramMap.get = (question) => testQuestions.length.toString();
+    fakeActivatedRoute.modifySnapshotParams({ question: testQuestions.length.toString() });
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -252,16 +249,16 @@ describe('InvestorTestQuestionPage', () => {
     expect(text).toEqual('wealth_managements.investor_test.submit_button');
   });
 
-  it('should cancel test when user leaves', () => {
+  it('should clear test answers when user leaves', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
-    expect(investorTestServiceSpy.cancel).toHaveBeenCalledTimes(1);
+    expect(investorTestServiceSpy.clearAnswers).toHaveBeenCalledTimes(1);
   });
 
   it('should load answer if question has already been answered', async () => {
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
-    activatedRouteMock.snapshot.paramMap.get = (question) => '1';
+    fakeActivatedRoute.modifySnapshotParams({ question: '1' });
     component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -270,7 +267,7 @@ describe('InvestorTestQuestionPage', () => {
 
   it('should not load answer if question has not already been answered', async () => {
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(false);
-    activatedRouteMock.snapshot.paramMap.get = (question) => '1';
+    fakeActivatedRoute.modifySnapshotParams({ question: '1' });
     component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -319,10 +316,10 @@ describe('InvestorTestQuestionPage', () => {
     expect(button.attributes['ng-reflect-disabled']).toBeTruthy();
   });
 
-  it('should send user score on last question and navigate to Success Page when Submit Button clicked', async () => {
+  it('should send user score and clear answers on last question and navigate to Success Page when Submit Button clicked', async () => {
     investorTestServiceSpy.hasAnsweredQuestion.and.returnValue(true);
     investorTestServiceSpy.getQuestionByNumber.and.returnValue(testQuestions[4]);
-    activatedRouteMock.snapshot.paramMap.get = (question) => '5';
+    fakeActivatedRoute.modifySnapshotParams({ question: '5' });
     component.ionViewWillEnter();
     component.form.patchValue({ answer: 'opcion1' });
     fixture.detectChanges();
@@ -330,7 +327,24 @@ describe('InvestorTestQuestionPage', () => {
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    expect(investorTestServiceSpy.clearAnswers).toHaveBeenCalledTimes(1);
     expect(investorTestServiceSpy.saveAnswers).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wealth-management/success-investor-test']);
+  });
+
+  it('should redirect to defi products page if the mode is equal to defi and the back button is clicked', async () => {
+    fakeActivatedRoute.modifySnapshotParams({ question: 1, mode: 'defi' });
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.debugElement.query(By.css("ion-back-button[name='back']")).nativeElement.click();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['tabs/investments']);
+  });
+
+  it('should redirect to option to select page if the mode is equal to options and the back button is clicked', async () => {
+    fakeActivatedRoute.modifySnapshotParams({ question: 1, mode: 'options' });
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.debugElement.query(By.css("ion-back-button[name='back']")).nativeElement.click();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['wealth-management/investor-test-options']);
   });
 });

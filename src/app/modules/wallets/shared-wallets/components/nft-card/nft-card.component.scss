@@ -7,7 +7,7 @@
     align-items: center;
 
     &__title {
-      color: var(--ion-color-uxprimary);
+      color: var(--ion-color-primary);
       margin-bottom: 16px;
     }
   }
@@ -32,7 +32,7 @@
       }
 
       .subtitle {
-        color: var(--ion-color-uxsemidark);
+        color: var(--ion-color-neutral80);
       }
     }
   }

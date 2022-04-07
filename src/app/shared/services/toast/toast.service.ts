@@ -34,6 +34,14 @@ export class ToastService {
     return toast.present();
   }
 
+  async dismiss() {
+    try {
+      await this.toastController.dismiss();
+    } catch {
+      //No implementation is required for this exception
+    }
+  }
+
   private optionsFor(type: ToastType): ToastOptions {
     const options: ToastOptions = Object.assign({}, this.defaultOptions);
     if (options.buttons.length === 2) {

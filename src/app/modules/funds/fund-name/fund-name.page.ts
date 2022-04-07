@@ -8,7 +8,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-fund-name',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/profiles/success"></ion-back-button>
         </ion-buttons>
@@ -43,7 +43,7 @@ import { NavController } from '@ionic/angular';
               appTrackClick
               name="Save Fund Name"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               [disabled]="this.submitButtonService.isDisabled | async"
             >

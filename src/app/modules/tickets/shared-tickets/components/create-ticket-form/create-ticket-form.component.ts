@@ -49,11 +49,11 @@ import { TranslateService } from '@ngx-translate/core';
         ></app-ux-textarea>
         <ion-button
           appTrackClick
-          class="button"
+          class="button ux_button"
           name="Submit"
           size="medium"
           type="submit"
-          color="uxsecondary"
+          color="secondary"
           [disabled]="this.submitButtonService.isDisabled | async"
         >
           {{ 'tickets.create_ticket_form.submit_button' | translate }}
@@ -62,11 +62,11 @@ import { TranslateService } from '@ngx-translate/core';
       <ion-button
         *ngIf="this.isValidationEmail"
         appTrackClick
-        class="button"
+        class="button ux_button"
         name="Cancel"
         size="medium"
         type="button"
-        color="uxsecondary"
+        color="secondary"
         fill="clear"
       >
         {{ 'tickets.create_ticket_form.cancel_button' | translate }}

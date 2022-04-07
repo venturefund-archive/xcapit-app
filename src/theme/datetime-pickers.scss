@@ -1,8 +1,9 @@
-//Datetime Picker
+// Datetime Picker
 .picker-wrapper {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
+
 .picker-toolbar-cancel > button,
 .picker-toolbar-button > button {
   font-family: var(--ux-font-worksans);
@@ -19,5 +20,5 @@ ion-picker {
   font-family: var(--ux-font-lato);
   font-size: var(--ux-fsize-16);
   font-weight: var(--ux-fweight-regular);
-  color: var(--ion-color-uxsemidark);
+  color: var(--ion-color-neutral80);
 }

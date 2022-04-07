@@ -49,7 +49,7 @@ describe('ButtonSpinnerDirective', () => {
     button.click();
     fixture.detectChanges();
     expect(button.innerHTML).toContain(
-      '<ion-spinner style="margin-right: 10px" color="uxprimary" name="crescent"></ion-spinner> Button 1'
+      '<ion-spinner style="margin-right: 10px" color="primary" name="crescent"></ion-spinner> Button 1'
     );
     component.toggleB1();
     fixture.detectChanges();
@@ -62,7 +62,7 @@ describe('ButtonSpinnerDirective', () => {
     button.click();
     fixture.detectChanges();
     expect(button.innerHTML).toContain(
-      '<ion-spinner style="margin-right: 10px" color="uxprimary" name="crescent"></ion-spinner> Loading...'
+      '<ion-spinner style="margin-right: 10px" color="primary" name="crescent"></ion-spinner> Loading...'
     );
     component.toggleB2();
     fixture.detectChanges();

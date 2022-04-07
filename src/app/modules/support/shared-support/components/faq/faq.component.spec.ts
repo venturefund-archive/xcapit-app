@@ -32,6 +32,10 @@ const faqs = {
     title: 'support.support_binance.question3',
     answer: "Test: <a href='http://test'>Haz click aquí</a>",
   },
+  local_link: {
+    title: 'support.support_binance.question4',
+    answer: "Test: <a href='/tabs/home'>Haz click aquí</a>",
+  },
 };
 
 describe('FaqComponent', () => {
@@ -71,7 +75,7 @@ describe('FaqComponent', () => {
     expect(component.showFirst).toBeTruthy();
   });
 
-  it('should open the link in the app when link is clicked', () => {
+  it('should open external link when http link is clicked', () => {
     component.faq.title = faqs.link.title;
     component.faq.answer = faqs.link.answer;
     fixture.detectChanges();
@@ -81,6 +85,18 @@ describe('FaqComponent', () => {
     anchor.nativeElement.click();
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'http://test' });
     expect(link).toEqual('http://test');
+  });
+
+  it('should open local link when local link is clicked', () => {
+    component.faq.title = faqs.local_link.title;
+    component.faq.answer = faqs.local_link.answer;
+    fixture.detectChanges();
+    component.ngAfterViewInit();
+    const anchor = fixture.debugElement.query(By.css('a'));
+    const link = anchor.nativeElement.getAttribute('href');
+    anchor.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tabs/home');
+    expect(link).toEqual('/tabs/home');
   });
 
   it('should render properly the question and answer of the faq on support acount page', () => {

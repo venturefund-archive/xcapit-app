@@ -16,7 +16,7 @@ import { isAddress } from 'ethers/lib/utils';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
@@ -24,13 +24,9 @@ import { isAddress } from 'ethers/lib/utils';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ss ion-padding">
-      <div class="ss__title">
-        <ion-text class="ux-font-text-lg">
-          {{ 'wallets.send.send_summary.title' | translate }}
-        </ion-text>
-      </div>
       <div class="ss__transaction-summary-card" *ngIf="this.summaryData">
         <app-transaction-summary-card
+          [addressTitle]="'wallets.send.send_summary.destination_address' | translate"
           [amountsTitle]="'wallets.send.send_summary.amounts_title' | translate"
           [summaryData]="this.summaryData"
         ></app-transaction-summary-card>
@@ -38,10 +34,12 @@ import { isAddress } from 'ethers/lib/utils';
 
       <div class="ss__send_button">
         <ion-button
+          [appLoading]="this.loading"
+          [loadingText]="'wallets.send.send_summary.loader' | translate"
           class="ux_button"
-          color="uxsecondary"
+          color="secondary"
           appTrackClick
-          name="Send"
+          name="ux_send_send"
           [disabled]="(this.submitButtonService.isDisabled | async) || this.isSending"
           (click)="this.handleSubmit()"
           >{{ 'wallets.send.send_summary.send_button' | translate }}</ion-button
@@ -54,6 +52,7 @@ export class SendSummaryPage implements OnInit {
   summaryData: SummaryData;
   action: string;
   isSending: boolean;
+  loading: boolean;
   constructor(
     private transactionDataService: TransactionDataService,
     private walletTransactionsService: WalletTransactionsService,
@@ -84,15 +83,15 @@ export class SendSummaryPage implements OnInit {
 
   async askForPassword() {
     await this.loadingService.dismiss();
-
     const modal = await this.modalController.create({
       component: WalletPasswordComponent,
       cssClass: 'ux-routeroutlet-modal full-screen-modal',
+      componentProps: {
+        state: 'send',
+      },
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-
-    await this.loadingService.show();
 
     return data;
   }
@@ -102,7 +101,12 @@ export class SendSummaryPage implements OnInit {
   }
 
   private async send(password: string) {
-    const response = await this.walletTransactionsService.send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency);
+    const response = await this.walletTransactionsService.send(
+      password,
+      this.summaryData.amount,
+      this.summaryData.address,
+      this.summaryData.currency,
+    );
     await this.goToSuccess(response);
   }
 
@@ -127,7 +131,7 @@ export class SendSummaryPage implements OnInit {
 
   async handleSubmit(skipChecksBeforeSend: boolean = false) {
     await this.startTx();
-    
+
     if (!skipChecksBeforeSend) {
       if (!(await this.checksBeforeSend())) {
         await this.endTx();
@@ -137,11 +141,12 @@ export class SendSummaryPage implements OnInit {
 
     try {
       const password = await this.askForPassword();
+      this.loading = true;
       if (!password) {
         return;
       }
       await this.send(password);
-    } catch(error) {
+    } catch (error) {
       await this.handleSendError(error);
     } finally {
       await this.endTx();

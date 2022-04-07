@@ -13,10 +13,10 @@ import { Component, OnInit, Input } from '@angular/core';
         </div>
         <div class="hp__info">
           <div class="hp__info__not_editing" *ngIf="!this.editing">
-            <ion-text class="hp__info__not_editing__name ux-font-num-subtitulo" color="uxdark">
+            <ion-text class="hp__info__not_editing__name ux-font-num-subtitulo" color="neutral90">
               {{ this.data?.first_name }} {{ this.data?.last_name }}
             </ion-text>
-            <ion-text class="hp__info__not_editing__address ux-font-num-subtitulo" color="uxsemidark">
+            <ion-text class="hp__info__not_editing__address ux-font-num-subtitulo" color="neutral80">
               {{ this.data?.direccion }}
             </ion-text>
           </div>

@@ -1,11 +1,13 @@
 :host {
   width: 100%;
+
   .custom-color {
-    color: var(--ion-color-uxsemidark);
+    color: var(--ion-color-neutral80);
     font-size: var(--ux-fsize-14);
   }
+
   .ux-card {
-    background-color: var(--ion-color-uxlight);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
 
     &__amount {
@@ -19,9 +21,11 @@
         display: flex;
         align-items: flex-start;
       }
+
       &__validator {
         --ion-item-background: transparent;
       }
+
       &__info {
         font-size: 12px;
         display: flex;
@@ -31,23 +35,27 @@
         color: #bababa;
         margin-left: 36px;
         line-height: 18px;
+
         &__description {
           color: #7a7878;
         }
       }
     }
+
     &__price {
       display: flex;
       justify-content: center;
       align-items: center;
       color: #bababa;
       font-size: 14px;
-      padding: 0 14px 24px 14px;
+      padding: 0 14px 24px;
+
       &__dark {
         color: #7a7878;
         margin-left: 15px;
       }
     }
+
     &__user-amount {
       display: flex;
       align-items: center;
@@ -56,6 +64,7 @@
       padding-bottom: 24px;
     }
   }
+
   .button-next {
     display: flex;
     flex-direction: column;

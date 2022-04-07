@@ -79,11 +79,11 @@ describe('VerifyPhrasePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when Create Wallet clicked', () => {
+  it('should call trackEvent on trackService when ux_create_verify_wallet clicked', () => {
     component.countWords = 12;
     component.activated = true;
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Create Wallet');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_create_verify_wallet');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -129,7 +129,7 @@ describe('VerifyPhrasePage', () => {
     expect(spySlideNext).toHaveBeenCalledTimes(1);
   });
 
-  it('should render Create Wallet button when all words are entered', fakeAsync(() => {
+  it('should render ux_create_verify_wallet button when all words are entered', fakeAsync(() => {
     component.countWords = 1;
     component.verificationPhrase = [];
     spyOn(component, 'swipeNext');
@@ -141,14 +141,14 @@ describe('VerifyPhrasePage', () => {
     });
   }));
 
-  it('should create wallet and navigate to create password when Create Wallet button is clicked and the phrases match', async () => {
+  it('should create wallet and navigate to create password when ux_create_verify_wallet button is clicked and the phrases match', async () => {
     component.verificationPhrase = phrase;
     component.phrase = phrase;
     component.activated = true;
     fixture.detectChanges();
-    fixture.debugElement.query(By.css("ion-button[name='Create Wallet']")).nativeElement.click();
+    fixture.debugElement.query(By.css("ion-button[name='ux_create_verify_wallet']")).nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-password']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/create-password/create']);
     expect(walletServiceSpy.create).toHaveBeenCalledTimes(1);
   });
 
@@ -157,7 +157,7 @@ describe('VerifyPhrasePage', () => {
     component.phrase = phrase2;
     component.activated = true;
     fixture.detectChanges();
-    fixture.debugElement.query(By.css("ion-button[name='Create Wallet']")).nativeElement.click();
+    fixture.debugElement.query(By.css("ion-button[name='ux_create_verify_wallet']")).nativeElement.click();
     expect(walletServiceSpy.create).toHaveBeenCalledTimes(0);
   });
 
@@ -167,7 +167,7 @@ describe('VerifyPhrasePage', () => {
     component.phrase = phrase2;
     fixture.detectChanges();
     await fixture.whenStable();
-    const createWalletButton = fixture.debugElement.query(By.css("ion-button[name='Create Wallet']"));
+    const createWalletButton = fixture.debugElement.query(By.css("ion-button[name='ux_create_verify_wallet']"));
     createWalletButton.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/failed-mnemonic']);
   });

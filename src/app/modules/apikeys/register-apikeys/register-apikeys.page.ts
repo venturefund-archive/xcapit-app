@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   selector: 'app-register-apikeys',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/apikeys/list"></ion-back-button>
         </ion-buttons>
@@ -49,7 +49,7 @@ import { Router } from '@angular/router';
               </div>
               <div class="ik__use-qr__button" *ngIf="!this.inPWA">
                 <ion-button
-                  color="uxsemidark"
+                  color="neutral80"
                   appTrackClick
                   name="Use QR"
                   type="button"
@@ -76,7 +76,7 @@ import { Router } from '@angular/router';
               appTrackClick
               name="Submit"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               [disabled]="this.submitButtonService.isDisabled | async"
             >
@@ -128,7 +128,7 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   async getUserStatus() {
-    this.apiUsuariosService.status(false).subscribe((res) => (this.userStatus = res));
+    this.apiUsuariosService.status().subscribe((res) => (this.userStatus = res));
   }
 
   checkIsTutorialStep() {

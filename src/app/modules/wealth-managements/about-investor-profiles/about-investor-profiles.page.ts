@@ -7,7 +7,7 @@ Swiper.use([Navigation]);
   selector: 'app-about-investor-profiles',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wealth-management/investor-test-options"></ion-back-button>
         </ion-buttons>
@@ -64,7 +64,7 @@ export class AboutInvestorProfilesPage implements OnInit {
 
   setProfile(score) {
     this.apiProfilesService.crud.patch({ investor_score: score }).subscribe(() => {
-      this.navController.navigateForward(['/tabs/investments/defi']);
+      this.navController.navigateRoot(['/tabs/investments']);
     });
   }
 }

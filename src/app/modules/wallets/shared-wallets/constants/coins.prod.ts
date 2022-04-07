@@ -373,7 +373,7 @@ export const PROD_COINS: Coin[] = [
     id: 27,
     name: 'WETH - Wrapped Ether',
     logoRoute: 'assets/img/coins/WETH.svg',
-    last: true,
+    last: false,
     value: 'WETH',
     network: 'MATIC',
     chainId: 137,
@@ -383,4 +383,19 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
     symbol: 'ETHUSDT',
   },
+  {
+    id: 28,
+    name: 'WBTC - Wrapped BTC',
+    logoRoute: 'assets/img/coins/WBTC.png',
+    last: true,
+    value: 'BTC',
+    network: 'MATIC',
+    chainId: 137,
+    rpc: environment.maticApiUrl,
+    abi: linkAbi,
+    contract: '0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6',
+    decimals: 8,
+    symbol: 'BTCUSDT',
+  },
+  
 ];

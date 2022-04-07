@@ -8,7 +8,7 @@ import { NavController } from '@ionic/angular';
       <div class="pcc__content">
         <div class="pcc__content__id ">
           <div class="ux-font-text-xxs">
-            <ion-text color="uxmedium">0{{ this.provider?.id }}</ion-text>
+            <ion-text color="neutral50">0{{ this.provider?.id }}</ion-text>
           </div>
         </div>
         <div class="pcc__content__image">
@@ -16,7 +16,7 @@ import { NavController } from '@ionic/angular';
         </div>
         <div class="pcc__content__name">
           <div class="ux-font-text-base">
-            <ion-text class="name_text" color="uxdark"> {{ this.provider?.name }}</ion-text>
+            <ion-text class="name_text" color="neutral90"> {{ this.provider?.name }}</ion-text>
           </div>
         </div>
         <div class="pcc__button">
@@ -25,7 +25,7 @@ import { NavController } from '@ionic/angular';
               appTrackClick
               name="Select"
               fill="clear"
-              color="uxsemidark"
+              color="neutral80"
               size="small"
               slot="end"
               (click)="this.useProvider()"

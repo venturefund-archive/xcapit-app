@@ -8,7 +8,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
   selector: 'app-confirm-page',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/moonpay"></ion-back-button>
         </ion-buttons>
@@ -118,7 +118,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
           appTrackClick
           name="Next"
           type="button"
-          color="uxsecondary"
+          color="secondary"
           size="large"
           [disabled]="disabledButton"
           (click)="this.createOperation()"

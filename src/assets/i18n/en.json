@@ -271,7 +271,9 @@
     "new": {
       "header": "New investment",
       "amount_to_invest": "Amount to invest",
-      "button": "Continue"
+      "button": "Continue",
+      "dont_have":"Don't have ",
+      "buy_button":"Buy now"
     },
     "add": {
       "header": "Add amount",
@@ -286,12 +288,14 @@
       "password_error": "The password entered is not valid.",
       "password_modal": {
         "title": "For security",
-        "description": "To enable your investment, enter your Xcapit wallet password.",
+        "description": "To confirm your investment, enter your Xcapit wallet password.",
         "input_label": "Password",
-        "confirm_button": "Accept"
+        "confirm_button": "Confirm investment"
       },
       "informative_modal": "You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
-      "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay transaction fees. Buy some {{nativeToken}} or deposit them from another account.",
+      "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay the transaction fee.",
+      "buy_button":"Buy {{nativeToken}}",
+      "deposit_button":"Deposit {{nativeToken}}",
       "terms": {
         "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
         "i_have_read": "I have read and agree to ",
@@ -302,10 +306,12 @@
       "header": "Investment"
     },
     "defi_investment_products": {
-      "header": "Defi investments",
+      "header": "DeFi investments",
       "title": "Start investing",
       "title_investments": "My investments",
       "recommendations": "You may be interested in",
+      "empty_products":"Soon you will be able to find the best investments for your profile.",
+      "link_button":"How do DeFi investments work?",
       "choose_investor_profile": {
         "complete_test": {
           "title": "I want to choose my profile again",
@@ -322,24 +328,35 @@
       }
     },
     "success_investment": {
-      "title": "You added money to your investment",
-      "subtitle": "You will get benefits every day.",
-      "primaryButton": "Back to investments",
-      "secondaryButton": "Go to Wallet"
+      "title": "You are already investing!",
+      "subtitle": "You will find the profits in your Wallet.",
+      "primaryButton": "Back to DeFi investments.",
+      "secondaryButton": "Go to my Wallet."
+    },
+    "success_add_amount": {
+      "title": "You increased your investment!",
+      "subtitle": "Your earnings will also increase.",
+      "primaryButton": "Back to DeFi investments.",
+      "secondaryButton": "Go to my Wallet."
     },
     "error_investment": {
-      "title": "It seems that something went wrong",
-      "subtitle": "Remember that you must own tokens to pay investment fees.",
-      "primaryButton": "Try again"
+      "title": "Transaction could not be completed.",
+      "subtitle": "An error occurred in the blockchain",
+      "primaryButton": "Try again."
     },
     "invest_detail": {
       "header": "My investment",
       "button": "Add amount",
-      "button_link": "Finalize investment",
+      "button_link": "Make withdrawal",
       "invested_amount": "Balance*",
-      "weekly_earnings_disclaimer": "*Your balance is updated on Monday of each week."
+      "daily_earnings_disclaimer": "*Your balance is updated daily."
     },
     "shared": {
+      "filter_tab": {
+        "conservative": "Conservative profile",
+        "medium": "Moderate profile",
+        "risky": "Aggressive profile"
+      },
       "coming_soon_card": {
         "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
         "text": "We will notify you when this feature is available. Meanwhile, go get your Tokens."
@@ -349,9 +366,9 @@
         "liquidity": "Liquidity",
         "not_min_ammount": "No minimum amount",
         "immediate_rescue": "Immediate Rescue",
-        "weekly_earnings": "Weekly earnings",
-        "weekly_earnings_disclaimer_active": "*Your balance is updated on Monday of each week.",
-        "weekly_earnings_disclaimer_available": "*Earnings are updated on Monday of each week.",
+        "daily_earnings": "Daily earnings",
+        "daily_earnings_disclaimer_active": "*Your balance is updated daily.",
+        "daily_earnings_disclaimer_available": "*Your balance is now updated daily.",
         "coming_badge": "Coming soon",
         "invest_button": "Invest",
         "annual": "Annual"
@@ -363,11 +380,23 @@
         "receive_asset": "Obtain",
         "platform": "Platform",
         "annual": "% Annual",
-        "blockchain": "Blockchain"
+        "blockchain": "Blockchain",
+        "profile": "Profile",
+        "investment_info":{
+          "USDC":"Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
+          "DAI":"Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
+          "BTC":"Your tokens will be distributed in several decentralized protocols.You will earn interest in BTC. \n BTC (Bitcoin) is the first cryptocurrency with fixed issuance, and the largest market capitalization."
+        },
+        "profiles":{
+          "conservative":"Conservative",
+          "medium":"Moderate",
+          "risky":"Aggressive"
+        }
       },
       "amount_input_card": {
-        "available": "Available",
-        "disclaimer": "Please note that transaction fees will be charged in"
+        "available": "Balance available",
+        "disclaimer": "The exchange rate is defined by the blockchain and amounts may vary, depending on when you make the transaction. \nPlease note that transaction fees will be charged in",
+        "max_button": "Max"
       },
       "withdraw_card": {
         "title": "Withdraw",
@@ -379,14 +408,18 @@
     },
     "withdraw": {
       "success_withdraw": {
-        "title": "You stopped investing *",
-        "subtitle": "You can reinvest whenever you want",
-        "button_primary": "Return to Defi investments",
-        "button_secondary": "Go to wallet",
-        "disclaimer": "* Your funds can take up to 5 minutes to be displayed in your wallet."
+        "title": "Withdrawal completed!",
+        "subtitle": "You will find your funds in the Wallet. *",
+        "button_primary": "Back to DeFi investments",
+        "button_secondary": "Go to my wallet",
+        "disclaimer": "* Your funds may take up to 5 minutes to be available in the Wallet."
       },
       "withdraw": {
-        "header": "Finish investment"
+        "header": "Make withdrawal"
+      },
+      "password_modal":{
+        "description":"To confirm your withdrawal, enter your Xcapit wallet password.",
+        "confirm_button":"Make a withdrawal"
       }
     }
   },
@@ -396,7 +429,7 @@
       "text": "Earn money daily by investing your criptocurrencies",
       "how_investments_work_button": "How do investments work?",
       "defi": {
-        "title": "Defi Investments",
+        "title": "DeFi Investments",
         "text": "Use your Xcapit Wallet to deposit Tokens and subscribe to Defi investment products generating daily yields easily."
       },
       "binance": {
@@ -763,7 +796,6 @@
       "minutes": "{{value}} minute{{s}}",
       "seconds": "{{value}} second{{s}}",
       "finalized": "Finalized",
-      "renovate": "Renovate",
       "unsubscribe_toast": "Successful unsubscription",
       "unsubscribe_alert_ok": "Unsubscribe",
       "unsubscribe_alert_cancel": "Cancel",
@@ -801,7 +833,6 @@
         "risk": "Profile",
         "take_profit": "Take profit",
         "stop_loss": "Stop loss",
-        "renovate": "Renovate",
         "fund_deleted": "The fund has been deleted"
       }
     },
@@ -923,10 +954,6 @@
       "category_security_wallet": "Security Xcapit wallet",
       "remove_wallet": "Remove Wallet",
       "security_phrase": "Security phrase",
-      "category_binance_investment": "Binance investments",
-      "funds": "Funds",
-      "finished_funds": "Finished funds",
-      "manage_apikey": "Manage API Keys",
       "category_preferences": "Preferences",
       "push_notifications": "Push notifications",
       "language": "Language",
@@ -934,6 +961,14 @@
       "category_walletconnect": "WalletConnect",
       "profile_footer": {
         "investor_profile_button": "Investor profile"
+      },
+      "log_out_modal": {
+        "title": "Log out",
+        "text": "Remember that your Wallet is linked to your device. You will not be able to open another Wallet, unless you delete the current one or reinstall the application.",
+        "more_info": "For more information, visit",
+        "more_info_link": "Wallet frecuent questions",
+        "checkbox_label": "Don't show this message again.",
+        "log_out_button": "Log out"
       }
     },
     "success_profile": {
@@ -1168,15 +1203,15 @@
     "first_steps": {
       "step1": {
         "primary_text": "We welcome you!",
-        "secondary_text": "With Xcapit Wallet only you are in control at all times, you will know where your money is and how much profit it generates."
+        "secondary_text": "With Xcapit Wallet, you are in control. At all times you will know where your money is and how much you are earning."
       },
       "step2": {
-        "primary_text": "A long journey begins with a first step",
-        "secondary_text": "Plan and achieve your goals.\nWe help you set your objectives and find the best way to achieve them simply and safely."
+        "primary_text": "Investing has never been easier",
+        "secondary_text": "Invest in DeFi! Fast, free transactions without intermediaries."
       },
       "step3": {
-        "primary_text": "The competition is with you",
-        "secondary_text": "Learn finance by playing! Improve your financial education, learn by playing and receive incentives based on your growth and evolution."
+        "primary_text": "Learn by playing!",
+        "secondary_text": "The financial education you wanted. You will receive incentives for your learning and evolution."
       },
       "skip_button": "Skip",
       "finish_button": "Begin"
@@ -1312,7 +1347,7 @@
         "invalid": "Error validating email."
       },
       "login": {
-        "invalidCredentials": "No active account found with the given credentials",
+        "invalidCredentials": "The username and/or password entered does not match. Please try again.",
         "noActiveUser": "Verify your email to login.",
         "notClientAccess": "You can't access from other apps. Use our app to login.",
         "notVerifiedGoogleAccount": "Your Google account is not verified.",
@@ -1547,6 +1582,10 @@
     }
   },
   "wallets": {
+    "receive_select_currency": {
+      "header": "Receive",
+      "title": "Select the currency you want to send"
+    },
     "remove_success": {
       "title": "Your wallet was removed",
       "subtitle": "You can create a new wallet or import an existing one whenever you wish.",
@@ -1593,10 +1632,12 @@
     "disclaimer": {
       "header": "Create Wallet",
       "title": "Let's start with your wallet!",
+      "wallet_term_text": "Your Wallet will be linked to this device, not to your e-mail. For more information, visit the ",
+      "wallet_term_link": "Wallet FAQs",
       "description": "Before creating your wallet, verify the essential permissions to start",
       "local_stored_keys_checkbox": "I understand that my funds are kept safely within this device, and not by a company.",
       "recovery_phrase_checkbox": "I understand that if this application is moved to another device or removed, my funds can only be recovered with the recovery phrase.",
-      "terms_of_use_checkbox": "I have read, understand and accept the terms of use.",
+      "terms_of_use_checkbox": "I have read, understand and accept the <a class='ux-link-xs' href='https://xcapit.com/tyc/'>terms of use</a>.",
       "terms_of_use_button": "See terms of use",
       "submit_button": "Confirm and accept",
       "error_did_not_accept": "You need to check all the options to continue."
@@ -1640,8 +1681,8 @@
       "subheader_buttons_component": {
         "send_card": "Send",
         "receive_card": "Receive",
-        "buy_card": "Buy or Sell",
-        "performance_card": "Obtain performance"
+        "buy_card": "Buy",
+        "performance_card": "Invest"
       }
     },
     "select_coin": {
@@ -1685,20 +1726,22 @@
       "finish_button": "Finish and create wallet",
       "loading": {
         "title": "Time!",
-        "subtitle": "We are building your wallet"
+        "subtitle":{
+          "create":"We are building your Wallet",
+          "import":"We are importing your Wallet"
+        } 
       }
     },
     "receive": {
       "header": "Receive",
       "title": "Your wallet information",
       "currency_select": "Currency",
-      "currency_select_modal_title": "Select currency",
-      "currency_select_placeholder": "Currency",
+      "select_coins":"Select coin",
       "average_time": "Average receive time: 3 min.",
-      "share": "Share",
+      "receive_address_title": "Address",
+      "receive_address_copy": "Copy",
       "disclaimer_header": "Send only {{currency}} using the network {{network}} to this deposit address.",
-      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit.",
-      "share_title": "Wallet address"
+      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit."
     },
     "nft_detail": {
       "title": "NFT Detail",
@@ -1727,15 +1770,20 @@
       "swap": "Swap"
     },
     "send": {
+      "scan_qr": {
+        "title": "Scan the QR code of the address you want to send to"
+      },
       "select_currency": {
         "header": "Send",
-        "title": "Select currency"
+        "title": "Select the currency you want to send",
+        "suite": "{{suiteName}} network"
       },
       "send_detail": {
         "header": "Send",
         "title": "Transfer data",
         "network_select": {
-          "title": "Network",
+          "title": "Transfer data",
+          "network": "Network",
           "disclaimer": "Make sure the destination wallet uses the same network as {{network}} at this shipping address.\nSending other coins or tokens to an address other than {{network}} may result in the loss of your deposit.\n Currently only tokens can be sent through its native network, we are working to add more and new networks."
         },
         "continue_button": "Continue",
@@ -1761,6 +1809,9 @@
         "amounts_title": "Amount to send",
         "send_button": "Send",
         "wrong_password": "Wrong password",
+        "loader": "Sending",
+        "destination_address":"Destination address",
+        "fee":"Transaction fee",
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
@@ -1799,7 +1850,7 @@
         "header": "Investment"
       },
       "defi_investment_products": {
-        "header": "Defi investments"
+        "header": "DeFi investments"
       }
     },
     "shared_wallets": {
@@ -1845,8 +1896,8 @@
       "wallet_transaction_title": "TRANSACTIONS"
     },
     "error_wallet_recovery": {
-      "title": "Your recovery phrase is wrong",
-      "description": "Check your words and try again",
+      "title": "Your recovery phrase is incorrect",
+      "description": "Verify that your words are written in lowercase and separated by a space.",
       "button": "Try again"
     },
     "success_wallet_recovery": {
@@ -1866,12 +1917,11 @@
       "card_title": "Configure your connection",
       "card_description": "Choose the network from which you want to take the funds. Then scan the QR code on the Dapp.",
       "scan_qr": {
-        "header": "Scan QR code",
-        "register_manually": "Enter manually",
+        "header": "Scan your Dapp QR code",
         "errors": {
-          "invalidQR": "QR code is invalid.",
-          "noContent": "The QR code had no content.",
-          "permissionDenied": "The camera could not be accessed. Access denied."
+          "invalidQR": "Check that the QR code you are scanning corresponds to the WalletConnect connection protocol.",
+          "permissionDenied": "The camera could not be accessed. Access denied.",
+          "close_button": "Accept"
         }
       },
       "qr_scanner": {
@@ -1902,7 +1952,13 @@
         "card_title_disconnected": "Connect to the Dapp",
         "card_description_disconnected": "The Dapp will have access to your wallet. To make transactions, it will ask for your approval.",
         "card_title_connected": "Operates in Dapp",
-        "card_description_connected": "When operations are available in the Dapp, you will receive notifications to approve them."
+        "card_description_connected": "When operations are available in the Dapp, you will receive notifications to approve them.",
+        "disconnect": {
+          "header": "Terminate connection?",
+          "message": "If you terminate the connection, you will not be able to receive operations from the Dapp.",
+          "cancel_button": "Cancel",
+          "accept_button": "Terminate"
+        }
       },
       "operation_detail": {
         "header": "Operation detail",
@@ -1919,7 +1975,10 @@
         "sign_button": "Sign",
         "approve_button": "Approve",
         "confirm_button": "Confirm",
-        "cancel_button": "Cancel",
+        "cancel_button": "Cancel operation",
+        "approve_loading": "Approving",
+        "sign_loading": "Signing",
+        "confirmation_loading": "Confirming",
         "abort_alert": {
           "header": "Quit the operation?",
           "message": "If you leave now, the operation will be cancelled.",
@@ -1932,10 +1991,34 @@
           "cancel_button": "Back",
           "accept_button": "Accept"
         },
+        "types": {
+          "swap": {
+            "swap": "Swap Tokens",
+            "amount_to_send": "Amount to send",
+            "amount_to_send_max": "Max amount to send",
+            "amount_to_receive": "Amount to receive",
+            "amount_to_receive_min": "Min amount to receive"
+          },
+          "liquidity": {
+            "add_liquidity": "Add Liquidity",
+            "remove_liquidity": "Remove Liquidity",
+            "liquidity": "Liquidity",
+            "amount_token_0": "Token 0 amount",
+            "amount_token_1": "Token 1 amount",
+            "amount_to_receive_min": "Min amount to receive"
+          }
+        },
         "card_title_sign": "Signature in the Dapp",
         "card_description_sign": "This step is to verify that you are the one operating in the Dapp.",
         "card_title_operation": "Confirm your operation",
-        "card_description_operation": "Confirm the transaction you want to perform in the Dapp."
+        "card_description_operation": "Confirm the transaction you want to perform in the Dapp.",
+        "password_modal": {
+          "title": "For security",
+          "description": "To confirm your operation, enter your Xcapit wallet password.",
+          "input_label": "Password",
+          "confirm_button": "Accept"
+        },
+        "password_error": "The password entered is not valid."
       },
       "transactions": {
         "alert": {
@@ -1946,7 +2029,10 @@
       },
       "disclaimer_1": "WalletConnect is in a Beta stage, so there may be problems in the connection process.",
       "disclaimer_2": " If you had a problem connecting your wallet, you can contact with ",
-      "disclaimer_support": "support."
+      "disclaimer_support": "support.",
+      "dapp_disconnection": {
+        "message": "The connection to {{dapp}} was lost. This can happen if you disconnect manually or if the connection is unstable."
+      }
     }
   },
   "apikeys": {
@@ -2525,20 +2611,24 @@
     "header": "Help",
     "title": "How can we help you?",
     "support_options": {
-      "title_nft": "NFTs",
+      "title_nft": "NFT",
       "description_nft": "View, Transfer and Receive",
       "title_account": "XCAPIT Account",
       "description_account": "Create account, configure and deposit money.",
       "title_wallet": "Wallet",
       "description_wallet": "Create, import, receive, send and more.",
-      "title_buy": "Buy",
+      "title_buy": "Crypto buying",
       "description_buy": "Steps, providers and costs.",
       "title_investment": "Binance investments",
       "description_investment": "Types of strategies, terms and profitability.",
       "title_apikeys": "Binance and API Keys",
       "description_apikeys": "Create account, connect to binance and manage APY Keys.",
       "title_security": "Security ",
-      "description_security": "About my data and my capital."
+      "description_security": "About my data and my capital.",
+      "title_wallet_connect": "Wallet Connect",
+      "description_wallet_connect": "Connect wallet and interact with dapp.",
+      "title_defi": "Decentralized Investments",
+      "description_defi": "How to invest, performances, costs and fees."
     },
     "contact_support": {
       "title": "Write to support"

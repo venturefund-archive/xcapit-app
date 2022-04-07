@@ -8,7 +8,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-user-bank',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-title class="ion-text-center">
           {{ 'fiat_ramps.register.header_bank' | translate }}
         </ion-title>
@@ -56,7 +56,7 @@ import { NavController } from '@ionic/angular';
 
         <div class="ux_footer">
           <div class="button-next">
-            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="uxsecondary" size="large">
+            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="secondary" size="large">
               {{ 'fiat_ramps.register.next' | translate }}
             </ion-button>
           </div>

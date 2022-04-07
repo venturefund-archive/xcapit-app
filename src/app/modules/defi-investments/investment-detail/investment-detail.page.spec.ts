@@ -101,7 +101,7 @@ describe('InvestmentDetailPage', () => {
       });
 
       availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
-        value: [{ id: 'polygon_usdc', isComing: false, weeklyEarning: true }],
+        value: [{ id: 'polygon_usdc', isComing: false, dailyEarning: true }],
       });
 
       TestBed.configureTestingModule({
@@ -212,6 +212,6 @@ describe('InvestmentDetailPage', () => {
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const disclaimerEl = fixture.debugElement.query(By.css('div.id__weekly-profit-disclaimer > ion-label'));
-    expect(disclaimerEl.nativeElement.innerHTML).toContain('defi_investments.invest_detail.weekly_earnings_disclaimer');
+    expect(disclaimerEl.nativeElement.innerHTML).toContain('defi_investments.invest_detail.daily_earnings_disclaimer');
   });
 });

@@ -7,9 +7,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PlatformService } from '../../../../shared/services/platform/platform.service';
 import { NavController } from '@ionic/angular';
 import { AlertController, ModalController } from '@ionic/angular';
-import { WalletConnectQrScanComponent } from '../../shared-wallets/components/wallet-connect-qr-scan/wallet-connect-qr-scan.component';
+import { ScanQrModalComponent } from '../../../../shared/components/scan-qr-modal/scan-qr-modal.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingService } from '../../../../shared/services/loading/loading.service';
+import { ToastService } from '../../../../shared/services/toast/toast.service';
 
 export interface PeerMeta {
   description: string;
@@ -23,7 +24,7 @@ export interface PeerMeta {
   selector: 'app-new-connection',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
@@ -97,7 +98,7 @@ export interface PeerMeta {
               appTrackClick
               name="Next"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               expand="block"
             >
@@ -152,7 +153,8 @@ export class NewConnectionPage implements OnInit {
     private modalController: ModalController,
     private alertController: AlertController,
     private translate: TranslateService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private toastService: ToastService
   ) {}
 
   ionViewWillEnter() {
@@ -191,34 +193,43 @@ export class NewConnectionPage implements OnInit {
   }
 
   public async openQRScanner() {
-    this.hideBackground();
-
     const modal = await this.modalController.create({
-      component: WalletConnectQrScanComponent,
-      cssClass: '',
-      swipeToClose: false,
+      component: ScanQrModalComponent,
+      componentProps: {
+        title: this.translate.instant('wallets.wallet_connect.scan_qr.header'),
+        cancelText: '',
+      },
     });
-
     await modal.present();
-    const { data } = await modal.onDidDismiss();
+    const { data, role } = await modal.onDidDismiss();
+    await this.handleScanResult(data, role);
+  }
 
-    if (!!data && data.error === false) {
-      this.form.controls.uri.setValue(data.scannedQR);
-    } else {
-      this.form.controls.uri.setValue('');
+  async handleScanResult(data, role) {
+    if (role !== 'unauthorized' && !this.isValidQR(data)) role = 'error';
+
+    switch (role) {
+      case 'success':
+        this.form.patchValue({ uri: data });
+        break;
+      case 'error':
+        await this.showErrorToast(this.translate.instant('wallets.wallet_connect.scan_qr.errors.invalidQR'));
+        break;
+      case 'unauthorized':
+        await this.showErrorToast(this.translate.instant('wallets.wallet_connect.scan_qr.errors.permissionDenied'));
+        break;
     }
-
-    this.showBackground();
   }
 
-  hideBackground() {
-    document.getElementsByTagName('html').item(0).classList.add('hidden');
-    document.getElementById('connectionForm').classList.add('hidden');
+  isValidQR(content: string): boolean {
+    return content.includes('wc:') && content.includes('bridge=');
   }
 
-  showBackground() {
-    document.getElementsByTagName('html').item(0).classList.remove('hidden');
-    document.getElementById('connectionForm').classList.remove('hidden');
+  async showErrorToast(errorCode: string) {
+    await this.toastService
+      .showErrorToast({
+        message: this.translate.instant(errorCode),
+      });
   }
 
   setWalletInfo(wallet) {

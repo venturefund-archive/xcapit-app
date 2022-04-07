@@ -5,7 +5,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-fund-investment-info',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="funds/fund-investment"></ion-back-button>
         </ion-buttons>
@@ -18,10 +18,10 @@ import { NavController } from '@ionic/angular';
       <div class="ux_main">
         <div class="ux_content">
           <div class="info">
-            <ion-text class="name ux-font-gilroy ux-fweight-bold ux-fsize-15" color="uxdark">
+            <ion-text class="name ux-font-gilroy ux-fweight-bold ux-fsize-15" color="neutral90">
               {{ this.strategyData?.name }}
             </ion-text>
-            <ion-text class="description ux-font-lato ux-fweight-regular ux-fsize-15" color="uxdark">
+            <ion-text class="description ux-font-lato ux-fweight-regular ux-fsize-15" color="neutral90">
               {{ this.strategyData?.description | translate }}
             </ion-text>
           </div>
@@ -33,7 +33,7 @@ import { NavController } from '@ionic/angular';
               appTrackClick
               name="Invest Info Page"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               (click)="this.navigateToCreateFund()"
             >

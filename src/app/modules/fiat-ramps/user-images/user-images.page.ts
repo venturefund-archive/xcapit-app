@@ -9,7 +9,7 @@ import { Camera, CameraSource, CameraResultType } from '@capacitor/camera';
   selector: 'app-user-images',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-title class="ion-text-center">
           {{ 'fiat_ramps.register.header_images' | translate }}
         </ion-title>
@@ -31,7 +31,7 @@ import { Camera, CameraSource, CameraResultType } from '@capacitor/camera';
           appTrackClick
           name="Next"
           type="button"
-          color="uxsecondary"
+          color="secondary"
           size="large"
           (click)="this.addPhoto('front_document')"
         >
@@ -54,7 +54,7 @@ import { Camera, CameraSource, CameraResultType } from '@capacitor/camera';
           appTrackClick
           name="Next"
           type="button"
-          color="uxsecondary"
+          color="secondary"
           size="large"
           (click)="this.addPhoto('back_document')"
         >
@@ -77,7 +77,7 @@ import { Camera, CameraSource, CameraResultType } from '@capacitor/camera';
           appTrackClick
           name="Next"
           type="button"
-          color="uxsecondary"
+          color="secondary"
           size="large"
           (click)="this.addPhoto('billing')"
         >
@@ -95,7 +95,7 @@ import { Camera, CameraSource, CameraResultType } from '@capacitor/camera';
 
         <div class="ux_footer">
           <div class="button-next">
-            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="uxsecondary" size="large">
+            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="secondary" size="large">
               {{ 'fiat_ramps.register.register' | translate }}
             </ion-button>
           </div>

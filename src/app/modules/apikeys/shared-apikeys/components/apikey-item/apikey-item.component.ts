@@ -18,7 +18,7 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
               appTrackClick
               name="EditButton"
               fill="clear"
-              color="uxdark"
+              color="neutral90"
               size="small"
               class="cib__buttons__editButton"
               (click)="openModal()"
@@ -27,11 +27,11 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
             </ion-button>
           </div>
           <div class="cib__main__content__text ux-font-text-xxs">
-            <ion-text *ngIf="this.fundName" color="uxsemidark">
+            <ion-text *ngIf="this.fundName" color="neutral80">
               {{ 'apikeys.card_apikeys.content' | translate }}
               {{ this.fundName }}
             </ion-text>
-            <ion-text *ngIf="!this.fundName" color="uxsemidark">
+            <ion-text *ngIf="!this.fundName" color="neutral80">
               {{ 'apikeys.card_apikeys.no_fund_text' | translate }}
             </ion-text>
           </div>
@@ -48,7 +48,7 @@ import { ApikeysEditModalComponent } from '../apikeys-edit-modal/apikeys-edit-mo
           class="cib__footer__buttons__removeButton"
           (click)="showAlert(this.id)"
         >
-          <ion-icon name="trash-sharp" class="ux-font-text-xs" color="uxsemidark"></ion-icon>
+          <ion-icon name="trash-sharp" class="ux-font-text-xs" color="neutral80"></ion-icon>
         </ion-button>
         <ion-button
           *ngIf="!this.fundName"

@@ -22,7 +22,7 @@
             flex-direction: column;
 
             ion-text {
-              color: var(--ion-color-uxprimary);
+              color: var(--ion-color-primary);
             }
 
             ion-text:first-child {
@@ -71,16 +71,24 @@
           }
         }
 
+        &__product_description {
+          padding: 16px;
+        }
+
         &__information-item {
           display: flex;
           flex-direction: column;
+
+          ion-badge {
+            width: 64px;
+          }
 
           &__label {
             margin-bottom: 4px;
           }
 
           &__text {
-            color: var(--ion-color-uxdark);
+            color: var(--ion-color-neutral90);
           }
 
           .inline-image {

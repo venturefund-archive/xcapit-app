@@ -66,6 +66,8 @@ import { NoWalletComponent } from './components/no-wallet/no-wallet.component';
 import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinner.directive';
 import { UpdateNewsComponent } from './components/update-news/update-news.component';
 import { NewsItemComponent } from './components/news-item/news-item.component';
+import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.directive';
+import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 
 @NgModule({
   declarations: [
@@ -125,6 +127,7 @@ import { NewsItemComponent } from './components/news-item/news-item.component';
     NoWalletComponent,
     UpdateNewsComponent,
     NewsItemComponent,
+    ToastWithButtonsComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -133,6 +136,7 @@ import { NewsItemComponent } from './components/news-item/news-item.component';
     HideTextPipe,
     SplitStringPipe,
     ButtonSpinnerDirective,
+    FeatureFlagDirective,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
@@ -197,6 +201,7 @@ import { NewsItemComponent } from './components/news-item/news-item.component';
     NoWalletComponent,
     UpdateNewsComponent,
     NewsItemComponent,
+    ToastWithButtonsComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -205,6 +210,7 @@ import { NewsItemComponent } from './components/news-item/news-item.component';
     HideTextPipe,
     ButtonSpinnerDirective,
     SplitStringPipe,
+    FeatureFlagDirective,
   ],
 })
 export class SharedModule {}

@@ -14,7 +14,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
   selector: 'app-send-detail',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/select-currency"></ion-back-button>
         </ion-buttons>
@@ -22,36 +22,31 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd ion-padding-start ion-padding-end">
-      <div class="sd__title">
-        <ion-text class="ux-font-text-lg">
-          {{ 'wallets.send.send_detail.title' | translate }}
-        </ion-text>
-      </div>
-
-      <div class="sd__selected-currency" *ngIf="this.currency">
-        <div class="sd__selected-currency__text">
-          <ion-text>{{ this.currency.name }}</ion-text>
+      <div class="sd__network-select-card ion-padding" *ngIf="this.networks">
+        <div class="sd__network-select-card__title">
+          <ion-text class="ux-font-text-lg">{{ 'wallets.send.send_detail.network_select.title' | translate }}</ion-text>
         </div>
-        <div class="sd__selected-currency__icon">
-          <img [src]="this.currency.logoRoute" alt="icon" />
+        <div class="sd__network-select-card__selected-coin">
+          <app-coin-selector
+            [selectedCoin]="this.currency"
+            (changeCurrency)="this.changeCurrency()"
+          ></app-coin-selector>
         </div>
-      </div>
-
-      <div class="sd__network-select-card" *ngIf="this.networks">
-        <app-network-select-card
-          (networkChanged)="this.selectedNetworkChanged($event)"
-          [title]="'wallets.send.send_detail.network_select.title' | translate"
-          [networks]="this.networks"
-          [disclaimer]="
-            'wallets.send.send_detail.network_select.disclaimer'
-              | translate
-                : {
-                    network: this.selectedNetwork
-                  }
-          "
-          selectorStyle="classic"
-          [selectedNetwork]="this.selectedNetwork"
-        ></app-network-select-card>
+        <div class="sd__network-select-card__networks" *ngIf="this.selectedNetwork">
+          <app-network-select-card
+            (networkChanged)="this.selectedNetworkChanged($event)"
+            [title]="'wallets.send.send_detail.network_select.network' | translate"
+            [networks]="this.networks"
+            [disclaimer]="
+              'wallets.send.send_detail.network_select.disclaimer'
+                | translate
+                  : {
+                      network: this.selectedNetwork
+                    }
+            "
+            [selectedNetwork]="this.selectedNetwork"
+          ></app-network-select-card>
+        </div>
       </div>
 
       <form [formGroup]="this.form">
@@ -90,10 +85,10 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
         <ion-button
           class="ux_button sd__submit-button__button"
           appTrackClick
-          name="Continue"
+          name="ux_send_continue"
           (click)="this.submitForm()"
           [disabled]="!this.form.valid || !this.selectedNetwork"
-          color="uxsecondary"
+          color="secondary"
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
         >
       </div>
@@ -110,6 +105,8 @@ export class SendDetailPage {
   balanceNativeToken: number;
   balance: number;
   amount: number;
+  fee: string;
+  referenceFee: string;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
@@ -123,12 +120,11 @@ export class SendDetailPage {
     private transactionDataService: TransactionDataService,
     private walletService: WalletService,
     private storageService: StorageService,
-    private apiWalletService: ApiWalletService,
+    private apiWalletService: ApiWalletService
   ) {}
 
   ionViewWillEnter() {
-    this.getCurrency();
-    this.setCurrencyNetworks();
+    this.getCurrencyAndNetworks();
     this.checkTokensAmounts();
     this.updateTransactionData();
   }
@@ -149,15 +145,14 @@ export class SendDetailPage {
     });
   }
 
-  private getCurrency() {
-    this.currency = this.apiWalletService.getCoin(this.route.snapshot.paramMap.get('currency'), this.selectedNetwork);
+  private getCurrencyAndNetworks() {
+    const coin = this.route.snapshot.queryParamMap.get('asset');
+    const network = this.route.snapshot.queryParamMap.get('network');
+
+    this.currency = this.apiWalletService.getCoin(coin, network);
+    this.networks = this.apiWalletService.getNetworks(coin);
+    this.selectedNetwork = network;
     this.updateTransactionData();
-  }
-
-  private setCurrencyNetworks() {
-    this.networks = [this.currency.network];
-
-    this.selectedNetworkChanged(this.networks[0]);
   }
 
   selectedNetworkChanged(network) {
@@ -166,6 +161,8 @@ export class SendDetailPage {
 
   async submitForm() {
     if (this.form.valid) {
+      this.fee = this.transactionDataService.transactionData?.fee;
+      this.referenceFee = this.transactionDataService.transactionData?.referenceFee;
       await this.goToSummary();
     }
   }
@@ -182,6 +179,12 @@ export class SendDetailPage {
       ...this.form.value,
       balanceNativeToken: this.balanceNativeToken,
       balance: this.balance,
+      fee: this.fee,
+      referenceFee: this.referenceFee,
     };
+  }
+
+  changeCurrency() {
+    this.navController.navigateBack(['/wallets/send/select-currency']);
   }
 }

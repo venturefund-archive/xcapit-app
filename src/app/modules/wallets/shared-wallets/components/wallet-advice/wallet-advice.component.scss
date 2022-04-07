@@ -1,0 +1,36 @@
+:host {
+  .wa {
+    width: auto;
+    padding-top: 16px;
+    display: flex;
+    align-items: center;
+    background: transparent;
+
+    &__text {
+      margin-left: 10px;
+
+      span {
+        color: var(--ion-color-uxsemidark);
+      }
+
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+
+      &__button {
+        height: auto;
+        margin-bottom: 5px;
+        margin-left: -8px;
+
+        --padding-start: 8px !important;
+        --padding-bottom: 8px;
+      }
+    }
+
+    &__image {
+      ion-icon {
+        font-size: 26px;
+      }
+    }
+  }
+}

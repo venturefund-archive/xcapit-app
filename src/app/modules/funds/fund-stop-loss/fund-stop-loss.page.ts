@@ -7,7 +7,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-fund-stop-loss',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/funds/fund-take-profit"></ion-back-button>
         </ion-buttons>

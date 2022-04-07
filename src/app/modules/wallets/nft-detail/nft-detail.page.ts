@@ -7,7 +7,7 @@ import { UrlImageOf } from '../shared-wallets/models/nft/url-image-of.class';
 @Component({
   selector: 'app-nft-detail',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="nd__toolbar ux_toolbar">
+      <ion-toolbar color="primary" class="nd__toolbar ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>

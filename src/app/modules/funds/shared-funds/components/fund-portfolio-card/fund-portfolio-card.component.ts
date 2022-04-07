@@ -22,17 +22,17 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             <div class="by-currency__item" *ngFor="let p of this.orderedPortfolio | slice: 0:3">
               <div class="by-currency__item__left">
                 <div class="color" [style.background-color]="p.color"></div>
-                <ion-text class="semibold text ux-font-text-xs" color="uxdark">{{ p.ca }} </ion-text>
+                <ion-text class="semibold text ux-font-text-xs" color="neutral90">{{ p.ca }} </ion-text>
               </div>
               <div>
-                <ion-text class="semibold text ux-font-text-xs" color="uxdark"
+                <ion-text class="semibold text ux-font-text-xs" color="neutral90"
                   >{{ p.percentage | number: '1.0-2' }} %</ion-text
                 >
               </div>
             </div>
           </div>
           <div class="base">
-            <ion-text class="ux-font-text-xl" color="uxdark">
+            <ion-text class="ux-font-text-xl" color="neutral90">
               {{
                 this.totalBase
                   | currencyFormat
@@ -46,7 +46,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
             </ion-text>
           </div>
           <div class="base" style="margin-top:0px">
-            <ion-text class="ux-font-text-lg" color="uxdark">
+            <ion-text class="ux-font-text-lg" color="neutral90">
               {{
                 this.totalSecond
                   | currencyFormat

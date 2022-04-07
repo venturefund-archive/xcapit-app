@@ -34,7 +34,7 @@
   --max-width: 85%;
 
   &::part(content) {
-    background-color: var(--ion-background-colorwhite);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
   }
 }
@@ -46,7 +46,7 @@
 
   &::part(content) {
     margin-top: 76px;
-    background-color: var(--ion-background-colorwhite);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
   }
 }
@@ -57,7 +57,7 @@
   --max-width: 89%;
 
   &::part(content) {
-    background-color: var(--ion-background-colorwhite);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
   }
 }
@@ -219,4 +219,27 @@
   box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
 
   --border-radius: 8px;
+}
+
+.log-out-modal {
+  --height: 344px;
+  --width: 328px;
+  --background: var(--ion-color-neutral10);
+  --border-radius: 8px;
+  --border-width: 0.5px;
+
+  box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
+}
+
+// Modal as toast-warning
+.ux-toast-warning {
+  --max-height: 110px;
+  --max-width: 95%;
+  --background: var(--ion-color-warninglight);
+
+  &::part(content) {
+    border-radius: 14px;
+    position: absolute;
+    bottom: 1.5%;
+  }
 }

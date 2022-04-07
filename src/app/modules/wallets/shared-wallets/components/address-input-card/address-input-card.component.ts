@@ -21,7 +21,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
             appTrackClick
             fill="clear"
             size="small"
-            color="uxsemidark"
+            color="neutral80"
             (click)="this.pasteClipboardData()"
           >
             <ion-icon name="ux-paste"></ion-icon>
@@ -32,7 +32,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
             appTrackClick
             fill="clear"
             size="small"
-            color="uxsemidark"
+            color="neutral80"
             (click)="this.scanQR()"
           >
             <ion-icon name="ux-qr-scan"></ion-icon>
@@ -96,8 +96,7 @@ export class AddressInputCardComponent implements OnInit {
     const modal = await this.modalController.create({
       component: ScanQrModalComponent,
       componentProps: {
-        title: 'Some scan title',
-        cancelText: 'Some scan cancel text',
+        title: this.translate.instant('wallets.send.scan_qr.title'),
       },
     });
     await modal.present();

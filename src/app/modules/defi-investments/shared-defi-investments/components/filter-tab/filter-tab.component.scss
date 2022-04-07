@@ -1,0 +1,32 @@
+:host {
+  .dt {
+    background-color: transparent;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    margin: 0 10px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .button {
+      background-color: transparent;
+      flex: 0 0 auto;
+      width: auto;
+      height: 32px;
+
+      --background-activated: transparent;
+      --background-checked: var(--ion-color-secondary);
+      --indicator-color-checked: var(--ion-color-secondary);
+      --indicator-box-shadow: transparent;
+      --border-color: transparent !important;
+      --indicator-color: var(--ion-color-secondary);
+      --border-radius: 100px;
+
+      ion-label {
+        color: var(--ion-color-primary);
+      }
+    }
+  }
+}

@@ -1,9 +1,10 @@
-//Segmento
+// Segmento
 ion-segment.ux-segment {
   ion-segment-button {
     text-transform: none;
     max-width: none;
+
     --indicator-height: 4px;
-    --indicator-color: var(--ion-color-uxsecondary);
+    --indicator-color: var(--ion-color-secondary);
   }
 }

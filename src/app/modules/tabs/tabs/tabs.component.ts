@@ -5,7 +5,7 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
   selector: 'app-tabs',
   template: `
     <ion-tabs #tabs (ionTabsDidChange)="this.tabChange()">
-      <ion-tab-bar slot="bottom">
+      <ion-tab-bar >
         <ion-tab-button
           tab="home"
           appTrackClick

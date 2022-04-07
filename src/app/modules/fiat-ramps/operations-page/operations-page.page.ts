@@ -9,7 +9,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
   selector: 'app-operations-page',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
@@ -34,19 +34,19 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
       <app-ux-list-inverted>
         <ion-list>
           <ion-item class="table-header ux-font-text-xs">
-            <ion-label color="uxdark">
+            <ion-label color="neutral90">
               {{ 'fiat_ramps.operations_list.operation' | translate }}
             </ion-label>
-            <ion-label color="uxdark">
+            <ion-label color="neutral90">
               {{ 'fiat_ramps.operations_list.amount' | translate }}
             </ion-label>
-            <ion-label color="uxdark">
+            <ion-label color="neutral90">
               {{ 'fiat_ramps.operations_list.status' | translate }}
             </ion-label>
-            <ion-label color="uxdark">
+            <ion-label color="neutral90">
               {{ 'fiat_ramps.operations_list.date' | translate }}
             </ion-label>
-            <ion-label color="uxdark">
+            <ion-label color="neutral90">
               {{ 'fiat_ramps.operations_list.provider' | translate }}
             </ion-label>
           </ion-item>

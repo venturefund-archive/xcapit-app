@@ -12,7 +12,7 @@ import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/w
         <ion-text class="ux-font-text-lg">{{ 'home.shared.buy_crypto_card.title' | translate }}</ion-text>
       </div>
       <div class="bcc__arrow">
-        <ion-icon name="ux-forward" color="uxlight"></ion-icon>
+        <ion-icon name="ux-forward" color="white"></ion-icon>
       </div>
     </div>
   `,

@@ -32,14 +32,7 @@ describe('FirebaseService', () => {
     expect(firebaseSpy.initializeApp).toHaveBeenCalledTimes(1);
   });
 
-  it('should only get app and not initialize firebase if there is firebase app', () => {
-    firebaseSpy.getApps.and.returnValue(['app1', 'app2'])
-    service.importedFirebase = firebaseSpy;
-    service.init();
-    expect(service.importedFirebase.initializeApp).toHaveBeenCalledTimes(0);
-  });
-
-  it('should initialize analytics if the platform is web and there is no firebase app', () => {
+  it('should initialize analytics if the platform is web', () => {
     platformSpy.isWeb.and.returnValue(true);
     service.init();
     expect(service.firebaseAnalytics.initializeFirebase).toHaveBeenCalledTimes(1);
@@ -49,5 +42,10 @@ describe('FirebaseService', () => {
     platformSpy.isWeb.and.returnValue(false);
     service.init();
     expect(service.firebaseAnalytics.initializeFirebase).toHaveBeenCalledTimes(0);
+  });
+
+  it('should get initialized app on getApp', () => {
+    service.getApp();
+    expect(firebaseSpy.getApp).toHaveBeenCalledTimes(1);
   });
 });

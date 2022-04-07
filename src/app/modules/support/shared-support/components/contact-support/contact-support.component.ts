@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-contact-support',
   template: ` <div class="csc" (click)="this.goToWriteTicket()">
-    <div class="csc__content">
+    <div class="csc__content ux-card">
       <div class="csc__content__icon">
         <img src="../../assets/ux-icons/ux-support.svg" />
       </div>
@@ -17,7 +17,7 @@ import { NavController } from '@ionic/angular';
       </div>
       <div class="csc__button">
         <div class="button">
-          <ion-button appTrackClick name="Go To Create Ticket" fill="clear" color="uxsemidark" size="small" slot="end">
+          <ion-button appTrackClick name="Go To Create Ticket" fill="clear" color="neutral80" size="small" slot="end">
             <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
           </ion-button>
         </div>

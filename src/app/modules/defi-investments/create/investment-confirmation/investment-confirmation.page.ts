@@ -32,12 +32,13 @@ import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/native-fee-of.model';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { ActivatedRoute } from '@angular/router';
+import { ToastWithButtonsComponent } from '../../shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 
 @Component({
   selector: 'app-investment-confirmation',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
@@ -84,7 +85,7 @@ import { ActivatedRoute } from '@angular/router';
         <ion-item class="term-item ion-no-padding ion-no-margin">
           <ion-checkbox formControlName="thirdPartyDisclaimer" mode="md" slot="start"></ion-checkbox>
           <ion-label class="ion-no-padding ion-no-margin">
-            <ion-text class="ux-font-text-xxs" color="uxsemidark">
+            <ion-text class="ux-font-text-xxs" color="neutral80">
               {{ 'defi_investments.confirmation.terms.third_party_disclaimer' | translate }}
             </ion-text>
           </ion-label>
@@ -93,7 +94,7 @@ import { ActivatedRoute } from '@angular/router';
         <ion-item class="term-item ion-no-padding ion-no-margin">
           <ion-checkbox formControlName="termsAndConditions" mode="md" slot="start"></ion-checkbox>
           <ion-label class="ion-no-padding ion-no-margin checkbox-link">
-            <ion-text class="ux-font-text-xxs" color="uxsemidark">{{
+            <ion-text class="ux-font-text-xxs" color="neutral80">{{
               'defi_investments.confirmation.terms.i_have_read' | translate
             }}</ion-text>
             <ion-text class="ux-link-xs" (click)="this.openTOS()">{{
@@ -111,7 +112,7 @@ import { ActivatedRoute } from '@angular/router';
         size="large"
         type="submit"
         class="ion-padding-start ion-padding-end ux_button"
-        color="uxsecondary"
+        color="secondary"
         (click)="this.invest()"
         [disabled]="!this.form.valid || this.disable"
       >
@@ -254,7 +255,11 @@ export class InvestmentConfirmationPage {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
-    return data;
+    if (!data) {
+      this.disable = false;
+    } else {
+      return data;
+    }
   }
 
   investment(wallet: Wallet): Investment {
@@ -269,6 +274,7 @@ export class InvestmentConfirmationPage {
       await this.toastService.showErrorToast({
         message: this.translate.instant('defi_investments.confirmation.password_error'),
       });
+      this.disable = false;
     }
   }
 
@@ -316,17 +322,31 @@ export class InvestmentConfirmationPage {
     }
   }
 
-  openModalNativeTokenBalance() {
-    this.toastService.showWarningToast({
-      message: this.translate.instant(
-        this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
+  async openModalNativeTokenBalance() {
+    const modal = await this.modalController.create({
+      component: ToastWithButtonsComponent,
+      cssClass: 'ux-toast-warning',
+      showBackdrop: false,
+      componentProps: {
+        text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
           nativeToken: this.nativeToken?.value,
-        })
-      ),
+        }),
+        firstButtonName: this.translate.instant('defi_investments.confirmation.buy_button', {
+          nativeToken: this.nativeToken?.value,
+        }),
+        secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
+          nativeToken: this.nativeToken?.value,
+        }),
+        firstLink: '/fiat-ramps/moonpay',
+        secondLink: '/wallets/receive/detail',
+        data: this.nativeToken,
+      },
     });
+    modal.present();
   }
 
   async invest() {
+    this.disable = true;
     await this.getTokenBalanceAvailable();
     const wallet = await this.wallet();
     if (wallet) {
@@ -334,9 +354,12 @@ export class InvestmentConfirmationPage {
         try {
           await (await this.investment(wallet).deposit(this.amount.value)).wait();
           await this.saveTwoPiAgreement();
-          await this.navController.navigateForward('/defi/success-investment');
+          await this.navController.navigateForward(['/defi/success-investment', this.mode]);
         } catch {
-          await this.navController.navigateForward('/defi/error-investment');
+          await this.navController.navigateForward([
+            '/defi/error-investment',
+            this.investmentDataService.product.name(),
+          ]);
         } finally {
           this.loadingEnabled(false);
         }

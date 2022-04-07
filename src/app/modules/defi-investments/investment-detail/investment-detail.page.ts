@@ -15,7 +15,7 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
 @Component({
   selector: 'app-investment-detail',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
@@ -42,8 +42,8 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
         </ion-item>
       </ion-card>
       <div class="id__weekly-profit-disclaimer ion-padding-horizontal" *ngIf="this.disclaimer">
-        <ion-label class=" ux-font-text-xs" color="uxsemidark">
-          {{ 'defi_investments.invest_detail.weekly_earnings_disclaimer' | translate }}
+        <ion-label class=" ux-font-text-xs" color="neutral80">
+          {{ 'defi_investments.invest_detail.daily_earnings_disclaimer' | translate }}
         </ion-label>
       </div>
       <ion-button
@@ -52,7 +52,7 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
         expand="block"
         size="large"
         class="ion-padding-start ion-padding-end ux_button id__add-amount"
-        color="uxsecondary"
+        color="secondary"
         (click)="this.addAmount()"
       >
         {{ 'defi_investments.invest_detail.button' | translate }}

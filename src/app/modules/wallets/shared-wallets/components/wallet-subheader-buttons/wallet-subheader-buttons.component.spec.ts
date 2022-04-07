@@ -8,7 +8,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
-
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
+      
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
   let fixture: ComponentFixture<WalletSubheaderButtonsComponent>;
@@ -21,7 +22,7 @@ describe('WalletSubheaderButtonsComponent', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective],
+        declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective, FakeFeatureFlagDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -50,9 +51,9 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(div).not.toBeNull();
   });
 
-  it('should call trackEvent on trackService when Go to Send Button clicked', () => {
+  it('should call trackEvent on trackService when ux_send_go_to_send Button clicked', () => {
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Send');
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_send_go_to_send');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -88,22 +89,26 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to Send page when Go to Send is clicked from HomeWalletPage', () => {
+  it('should navigate to Send page when ux_send_go_to_send is clicked from HomeWalletPage', () => {
     component.asset = '';
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Send');
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_send_go_to_send');
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/send/select-currency']);
   });
 
-  it('should navigate to Send page of an specific asset when Go to Send is clicked from AssetDetailPage', () => {
+  it('should navigate to Send page of an specific asset when ux_send_go_to_send is clicked from AssetDetailPage', () => {
     component.asset = 'USDT';
+    component.network = 'ERC20';
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Send');
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_send_go_to_send');
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/send/detail/USDT']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
+      ['wallets/send/detail'],
+      Object({ queryParams: Object({ asset: 'USDT', network: 'ERC20' }) })
+    );
   });
 
   it('should navigate to receive page with the default asset selected when Go to Receive is clicked from HomeWalletPage', () => {
@@ -111,22 +116,23 @@ describe('WalletSubheaderButtonsComponent', () => {
     component.asset = '';
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/receive']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/receive/select-currency']);
   });
 
   it('should navigate to receive page with an asset selected when Go to Receive is clicked from AssetDetailPage', () => {
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Receive');
     component.asset = 'LINK';
+    component.network = 'ERC20';
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['wallets/receive'],
-      Object({ queryParams: Object({ asset: 'LINK' }) })
+      ['wallets/receive/detail'],
+      Object({ queryParams: Object({ asset: 'LINK', network: 'ERC20' }) })
     );
   });
 
-  it('should navigate to tabs/investments/defi when Go to Performance button is clicked', async () => {
+  it('should navigate to tabs/investments when Go to Performance button is clicked', async () => {
     fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Performance']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/investments/defi']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/investments']);
   });
 
   it('should navigate to fiat-ramps moonpay page when Go to Buy button is clicked', async () => {

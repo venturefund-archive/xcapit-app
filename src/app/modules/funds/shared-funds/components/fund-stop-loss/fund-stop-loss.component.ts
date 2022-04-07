@@ -34,7 +34,7 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
                       class="ux_button custom"
                       name="Edit Classic Stop Loss"
                       fill="clear"
-                      color="uxsecondary"
+                      color="secondary"
                       >{{ 'funds.fund_stop_loss.edit_custom' | translate }}</ion-button
                     >
                   </ion-item>
@@ -56,7 +56,7 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
                       class="ux_button custom"
                       name="Edit Inteligent Stop Loss"
                       fill="clear"
-                      color="uxsecondary"
+                      color="secondary"
                       >{{ 'funds.fund_stop_loss.edit_custom' | translate }}</ion-button
                     >
                   </ion-item>
@@ -94,7 +94,7 @@ import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-al
             appTrackClick
             name="Create Fund"
             type="submit"
-            color="uxsecondary"
+            color="secondary"
             size="large"
             [disabled]="this.submitButtonService.isDisabled | async"
           >

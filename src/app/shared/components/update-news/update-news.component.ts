@@ -14,7 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
           (click)="this.close()"
           fill="clear"
           size="small"
-          color="uxsemidark"
+          color="neutral80"
           class="un__header__close"
         >
           <ion-icon name="close"></ion-icon>
@@ -47,7 +47,7 @@ export class UpdateNewsComponent implements OnInit {
       badge: this.translate.instant('shared.update_news.second.badge'),
       title: this.translate.instant('shared.update_news.second.title'),
       description: this.translate.instant('shared.update_news.second.description'),
-      url: '/tabs/investments/defi',
+      url: '/tabs/investments',
     },
     {
       badge: this.translate.instant('shared.update_news.third.badge'),

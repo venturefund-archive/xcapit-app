@@ -8,12 +8,12 @@ import { NavController } from '@ionic/angular';
       <div class="toi__content__body">
         <div class="toi__content__body__title">
           <div class="ux-font-text-lg">
-            <ion-text class="title" color="uxprimary"> {{ this.option.title | translate }}</ion-text>
+            <ion-text class="title" color="primary"> {{ this.option.title | translate }}</ion-text>
           </div>
         </div>
         <div class="toi__content__body__description">
           <div class="ux-font-text-xxs">
-            <ion-text class="description" color="uxsemidark"> {{ this.option.description | translate }}</ion-text>
+            <ion-text class="description" color="neutral80"> {{ this.option.description | translate }}</ion-text>
           </div>
         </div>
       </div>

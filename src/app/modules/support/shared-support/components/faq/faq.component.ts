@@ -1,3 +1,4 @@
+import { NavController } from '@ionic/angular';
 import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
 import { BrowserService } from '../../../../../shared/services/browser/browser.service';
 
@@ -24,7 +25,11 @@ export class FaqComponent implements AfterViewInit {
   @Input() faq;
   showFirst = false;
   anchors;
-  constructor(private elementRef: ElementRef, private browserService: BrowserService) {}
+  constructor(
+    private elementRef: ElementRef,
+    private browserService: BrowserService,
+    private navController: NavController
+  ) {}
 
   changeState() {
     this.showFirst = !this.showFirst;
@@ -38,21 +43,24 @@ export class FaqComponent implements AfterViewInit {
   }
 
   handleAnchorClick(event: Event) {
-    if (
-      this.faq.title === 'support.support_binance.question3' ||
-      this.faq.title === 'support.support_binance.question8' ||
-      this.faq.title === 'support.support_binance.question12' ||
-      this.faq.title === 'support.support_apikey_binance.question1'
-    ) {
-      event.preventDefault();
-      const anchor = event.target as HTMLAnchorElement;
-      this.openInfo(anchor.getAttribute('href'));
-    }
+    event.preventDefault();
+    const anchor = event.target as HTMLAnchorElement;
+    this.openLink(anchor.getAttribute('href'));
   }
 
-  async openInfo(link) {
-    await this.browserService.open({
-      url: link,
-    });
+  async openLink(link) {
+    this.isHTTPLink(link) ? await this.browseTo(link) : this.navigateTo(link);
+  }
+
+  isHTTPLink(link) {
+    return /^http.*/i.test(link);
+  }
+
+  async browseTo(link) {
+    await this.browserService.open({ url: link });
+  }
+
+  async navigateTo(link) {
+    await this.navController.navigateForward(link);
   }
 }

@@ -70,6 +70,6 @@ describe('AboutInvestorProfilesPage', () => {
   it('should set Profile and redirect when setProfile event is received ', async () => {
     fixture.debugElement.query(By.css('app-investor-profile-step')).triggerEventHandler('setProfileEvent', 3);
     expect(apiProfilesServiceMock.crud.patch).toHaveBeenCalledOnceWith({ investor_score: 3 });
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/investments/defi']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/investments']);
   });
 });

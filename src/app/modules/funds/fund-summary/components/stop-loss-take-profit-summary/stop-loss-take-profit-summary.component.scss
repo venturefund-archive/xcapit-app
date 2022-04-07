@@ -1,22 +1,26 @@
 :host {
   .sl-tp-summary {
-    background-color: var(--ion-color-uxlight);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
     padding: 8px;
+
     &__divider {
       height: 1px;
-      background: #eeeeee;
+      background: #eee;
       margin-left: 8px;
       margin-right: 8px;
     }
+
     &__item {
       padding: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       &__text {
         display: flex;
         flex-direction: column;
+
         &__percentage {
           margin-top: 8px;
         }

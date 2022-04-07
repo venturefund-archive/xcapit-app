@@ -10,7 +10,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
   selector: 'app-operations-detail',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/moonpay"></ion-back-button>
         </ion-buttons>
@@ -124,7 +124,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
               appTrackClick
               name="Upload Voucher"
               type="button"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               (click)="this.addPhoto()"
             >
@@ -152,7 +152,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
                 appTrackClick
                 name="Submit Voucher"
                 type="button"
-                color="uxsecondary"
+                color="secondary"
                 size="large"
                 (click)="this.sendPicture()"
               >
@@ -169,7 +169,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
               appTrackClick
               name="My Operations"
               type="button"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               (click)="this.navigateBackToOperations()"
             >

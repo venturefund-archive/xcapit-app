@@ -7,6 +7,9 @@
   font-weight: var(--ux-fweight-semibold);
   font-size: var(--ux-fsize-16);
   line-height: 18.77px;
+
+  --background-activated: transparent !important;
+  --ion-color-shade: transparent !important;
 }
 
 .ux-font-button-small {
@@ -47,15 +50,15 @@ ion-back-button {
   border: 1.5px solid var(--ion-color-info);
   border-radius: 7px;
 
-  --background: var(--ion-color-uxlight);
-  --background-activated: var(--ion-color-uxlight);
+  --background: var(--ion-color-white);
+  --background-activated: var(--ion-color-white);
 }
 
 .ux-button-outlined:hover {
   color: var(--ion-color-infodark);
   border: 1.5px solid var(--ion-color-infodark);
 
-  --background-hover: var(--ion-color-uxlight);
+  --background-hover: var(--ion-color-white);
 }
 
 // Class 'text button' for modals
@@ -71,7 +74,7 @@ ion-back-button {
 }
 
 .text-button-secondary {
-  color: var(--ion-color-uxsemidark);
+  color: var(--ion-color-neutral80);
 }
 
 .align-text-start {

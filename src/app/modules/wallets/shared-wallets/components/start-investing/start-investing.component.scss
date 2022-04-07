@@ -2,12 +2,14 @@
   .si {
     margin-top: 8px;
     margin-bottom: 35px;
-    background-color: var(--ion-background-colorwhite);
+    background-color: var(--ion-color-white);
+
     --background: url('../../../../../../assets/img/wallets/start-investing-background.svg') no-repeat;
+
     box-shadow: none;
     background-position-x: calc(100% + 8px);
     height: 116px;
-    border: 1px solid var(--ion-color-uxmedium);
+    border: 1px solid var(--ion-color-neutral50);
 
     &__title {
       width: 80%;

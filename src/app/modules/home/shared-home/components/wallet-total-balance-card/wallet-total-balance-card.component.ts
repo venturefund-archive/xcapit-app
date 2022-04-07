@@ -37,7 +37,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
           </a>
         </div>
       </div>
-      <div [ngClass]="{ walletArrow: this.walletExist }" class="wbc__arrow" name="Go To Home Wallet" (click)="this.goToHomeWallet()" appTrackClick>
+      <div [ngClass]="{ walletArrow: this.walletExist }" class="wbc__arrow" name="ux_create_go_to_home_wallet" (click)="this.goToHomeWallet()" appTrackClick>
         <ion-icon name="chevron-forward-outline"></ion-icon>
       </div>
     </div>

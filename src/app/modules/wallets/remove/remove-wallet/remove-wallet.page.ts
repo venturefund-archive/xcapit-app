@@ -7,7 +7,7 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
 @Component({
   selector: 'app-remove-wallet',
   template: `<ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/profile/menu"></ion-back-button>
         </ion-buttons>
@@ -30,10 +30,10 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
                   size="medium"
                   class="rw__list__item__icon"
                   name="ux-hand"
-                  color="uxprimary"
+                  color="primary"
                   slot="start"
                 ></ion-icon>
-                <ion-label class="rw__list__item__text ux-font-text-base-primary" color="uxdark">
+                <ion-label class="rw__list__item__text ux-font-text-base-primary" color="neutral90">
                   {{ 'wallets.remove.item1' | translate }}
                 </ion-label>
               </ion-item>
@@ -42,10 +42,10 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
                   size="medium"
                   class="rw__list__item__icon"
                   name="ux-key-outline"
-                  color="uxprimary"
+                  color="primary"
                   slot="start"
                 ></ion-icon>
-                <ion-label class="rw__list__item__text ux-font-text-base-primary" color="uxdark">
+                <ion-label class="rw__list__item__text ux-font-text-base-primary" color="neutral90">
                   {{ 'wallets.remove.item2' | translate }}
                 </ion-label>
               </ion-item>
@@ -54,10 +54,10 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
                   size="medium"
                   class="rw__list__item__icon"
                   name="ux-wallet"
-                  color="uxprimary"
+                  color="primary"
                   slot="start"
                 ></ion-icon>
-                <ion-label class="rw__list__item__text ux-font-text-base-primary" color="uxdark">
+                <ion-label class="rw__list__item__text ux-font-text-base-primary" color="neutral90">
                   {{ 'wallets.remove.item3' | translate }}
                 </ion-label>
               </ion-item>
@@ -81,7 +81,7 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
             class="ux_button"
             name="remove_wallet"
             type="button"
-            color="uxsecondary"
+            color="secondary"
             expand="block"
             size="large"
             (click)="this.remove()"

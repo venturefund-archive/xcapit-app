@@ -15,12 +15,27 @@ import { NavController } from '@ionic/angular';
         </ion-text>
       </div>
       <div class="cipc__button_primary button-container">
-        <ion-button appTrackClick name="Primary Button" class="ux_button ion-no-padding" size="small" color="uxsecondary" (click)="this.primaryAction()">
+        <ion-button
+          appTrackClick
+          name="Primary Button"
+          class="ux_button ion-no-padding"
+          size="small"
+          color="secondary"
+          (click)="this.primaryAction()"
+        >
           {{ this.buttonPrimaryText | translate }}
         </ion-button>
       </div>
       <div class="cipc__button_secondary button-container">
-        <ion-button appTrackClick name="Secondary Button" class="ux_button ion-no-padding" size="small" fill="clear" color="info" (click)="this.secondaryAction()">
+        <ion-button
+          appTrackClick
+          name="Secondary Button"
+          class="ux_button ion-no-padding"
+          size="small"
+          fill="clear"
+          color="info"
+          (click)="this.secondaryAction()"
+        >
           {{ this.buttonSecondaryText | translate }}
         </ion-button>
       </div>
@@ -32,7 +47,7 @@ export class ChooseInvestorProfileCardComponent implements OnInit {
   @Input() hasDoneInvestorTest: boolean;
   private get translationBaseRoute(): string {
     const base = 'defi_investments.defi_investment_products.choose_investor_profile';
-    
+
     if (this.hasDoneInvestorTest) {
       return `${base}.complete_test`;
     }
@@ -42,7 +57,7 @@ export class ChooseInvestorProfileCardComponent implements OnInit {
 
   get titleText(): string {
     return `${this.translationBaseRoute}.title`;
-  } 
+  }
 
   get descriptionText(): string {
     return `${this.translationBaseRoute}.description`;
@@ -56,9 +71,7 @@ export class ChooseInvestorProfileCardComponent implements OnInit {
     return `${this.translationBaseRoute}.button_secondary`;
   }
 
-  constructor(
-    private navController: NavController
-  ) {}
+  constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
@@ -79,7 +92,7 @@ export class ChooseInvestorProfileCardComponent implements OnInit {
   }
 
   private goToInvestorTest() {
-    this.navController.navigateForward(['/wealth-management/investor-test']);
+    this.navController.navigateForward(['/wealth-management/investor-test', 'defi']);
   }
 
   private goToSelectInvestorProfile() {

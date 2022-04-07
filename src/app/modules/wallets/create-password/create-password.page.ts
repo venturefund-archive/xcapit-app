@@ -17,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
@@ -63,9 +63,9 @@ import { TranslateService } from '@ngx-translate/core';
             <ion-button
               class="ux_button"
               appTrackClick
-              name="Submit"
+              name="ux_create_submit_wallet_password"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               [disabled]="this.submitButtonService.isDisabled | async"
             >
@@ -140,7 +140,7 @@ export class CreatePasswordPage implements OnInit {
   private modalOptions() {
     return {
       title: this.translate.instant('wallets.create_password.loading.title'),
-      subtitle: this.translate.instant('wallets.create_password.loading.subtitle'),
+      subtitle: this.translate.instant(`wallets.create_password.loading.subtitle.${this.mode}`),
       image: 'assets/img/create-password/building.svg',
     };
   }

@@ -11,6 +11,7 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { alertControllerMock } from '../../../../../testing/spies/alert-controller-mock.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 const provider = {
   name: 'ETH',
@@ -46,7 +47,7 @@ const testWallet = {
 const formData = {
   valid: {
     wallet: 1,
-    uri: 'wc:test'
+    uri: 'wc:test&bridge='
   },
   invalid: {
     wallet: null,
@@ -64,6 +65,7 @@ describe('NewConnectionPage', () => {
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let alertControllerSpy: any;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -87,6 +89,10 @@ describe('NewConnectionPage', () => {
 
       alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
 
+      toastServiceSpy = jasmine.createSpyObj('ToastService', {
+        showErrorToast: Promise.resolve(),
+      });
+
       TestBed.configureTestingModule({
         declarations: [NewConnectionPage],
         imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule],
@@ -97,6 +103,7 @@ describe('NewConnectionPage', () => {
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: AlertController, useValue: alertControllerSpy },
+          { provide: ToastService, useValue: toastServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -134,6 +141,7 @@ describe('NewConnectionPage', () => {
   });
 
   it('should open QR modal when openQRScanner is called', async () => {
+    fakeModalController.modifyReturns({}, { data: 'wc:fakeUri@bridge=fakeBridge', role: 'success' });
     component.walletsList = [walletInfo];
     fixture.detectChanges()
     component.openQRScanner();
@@ -217,11 +225,42 @@ describe('NewConnectionPage', () => {
     expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should load the wallestList when setWalletsInfo is excecuted', async () => {
+  xit('should load the wallestList when setWalletsInfo is excecuted', async () => {
     component.providers = [provider];
     fixture.detectChanges();
     component.setWalletsInfo();
     await fixture.whenStable();
     expect(component.walletsList).toEqual([walletInfo]);
+  });
+
+  it('should patchValue to form uri when handleScanRsult is called and the role is success', () => {
+    component.handleScanResult('wc:fakeUri@bridge=fakeBridge', 'success');
+
+    expect(component.form.value.uri).toEqual('wc:fakeUri@bridge=fakeBridge');
+  });
+
+  it('should call showErrorToast when handleScanRsult is called and the role is unauthorized', () => {
+    const spy = spyOn(component, 'showErrorToast');
+    component.handleScanResult('wc:fakeUri@bridge=fakeBridge', 'unauthorized');
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call showErrorToast when handleScanRsult is called and the data is not valid', () => {
+    const spy = spyOn(component, 'showErrorToast');
+    component.handleScanResult('wc:fakeUri', 'success');
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show error toast when showErrorToas is called', () => {
+    component.showErrorToast('fakeMessage');
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to create-ticket-support when supportHelp is called', () => {
+    component.supportHelp();
+
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tickets/create-support-ticket');
   });
 });

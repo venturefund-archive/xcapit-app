@@ -8,7 +8,7 @@
       margin-left: 8px;
       align-items: center;
       justify-content: center;
-      color: var(--ion-color-uxlight);
+      color: var(--ion-color-white);
       font-family: var(--ux-font-worksans);
       font-size: var(--ux-fsize-10);
     }
@@ -20,9 +20,9 @@
     }
 
     &__content {
-      background: var(--ion-color-uxlight);
+      background: var(--ion-color-white);
       border-radius: 15px 15px 0 0;
-      border: 0.5px solid var(--ion-color-uxmedium);
+      border: 0.5px solid var(--ion-color-neutral50);
       padding: 8px 16px 12px;
       background-size: cover !important;
 
@@ -30,7 +30,7 @@
         display: inline-flex;
 
         .title {
-          color: var(--ion-color-uxsemidark);
+          color: var(--ion-color-neutral80);
         }
       }
 
@@ -58,7 +58,7 @@
         justify-content: space-between;
 
         &__perf {
-          color: var(--ion-color-uxprimary);
+          color: var(--ion-color-primary);
           line-height: 18px;
         }
       }
@@ -71,14 +71,14 @@
 
         &__label {
           align-self: flex-end;
-          color: var(--ion-color-uxprimary);
+          color: var(--ion-color-primary);
           line-height: 18px;
         }
       }
     }
 
     &__footer {
-      background: var(--ion-color-uxprimary);
+      background: var(--ion-color-primary);
       display: flex;
       align-items: center;
       border-radius: 0 0 15px 15px;
@@ -96,8 +96,8 @@
           width: 120px;
           height: 45px;
 
-          --background: var(--ion-color-uxsecondary);
-          --color: var(--ion-color-uxprimary);
+          --background: var(--ion-color-secondary);
+          --color: var(--ion-color-primary);
           --background-hover: var(--background);
         }
       }
@@ -108,7 +108,7 @@
         flex-direction: column;
 
         &__label {
-          color: var(--ion-color-uxlight);
+          color: var(--ion-color-white);
           text-align: start;
         }
       }

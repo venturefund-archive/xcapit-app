@@ -10,7 +10,7 @@ import { BrowserService } from '../../../shared/services/browser/browser.service
   selector: 'app-operations-new-paxful',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
@@ -68,7 +68,7 @@ import { BrowserService } from '../../../shared/services/browser/browser.service
               name="Next"
               class="ux_button"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               [disabled]="this.submitButtonService.isDisabled | async"
             >

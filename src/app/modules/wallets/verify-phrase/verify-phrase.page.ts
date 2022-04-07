@@ -8,7 +8,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
   selector: 'app-verify-phrase',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/create-first/recovery-phrase"></ion-back-button>
         </ion-buttons>
@@ -58,10 +58,10 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
         <div class="ux_footer">
           <div class="create_button">
             <ion-button
-              color="uxsecondary"
+              color="secondary"
               class="ux_button"
               appTrackClick
-              name="Create Wallet"
+              name="ux_create_verify_wallet"
               (click)="this.createWallet()"
               [appLoading]="this.loading"
               [loadingText]="'wallets.verify_phrase.verifying' | translate"
@@ -154,7 +154,7 @@ export class VerifyPhrasePage {
       this.loading = true;
       this.walletService
         .create()
-        .then(() => this.navController.navigateForward(['/wallets/create-password']))
+        .then(() => this.navController.navigateForward(['/wallets/create-password/create']))
         .finally(() => (this.loading = false));
     } else {
       this.navController.navigateForward(['/wallets/failed-mnemonic']);

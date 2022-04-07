@@ -61,12 +61,14 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "@walletconnect/client": "^1.6.5",
+    "abi-decoder": "^2.4.0",
     "assert": "1.5.0",
     "chart.js": "^2.8.0",
     "cordova": "^10.0.0",
     "cordova-plugin-file-opener2": "^3.0.5",
     "core-js": "^3.6.5",
     "date-fns": "^2.27.0",
+    "eslint-plugin-i18n-json": "3.1.0",
     "eth-sig-util": "^3.0.1",
     "ethers": "^5.4.3",
     "firebase": "9.6.2",
@@ -145,6 +147,9 @@
     ],
     "*.scss": [
       "stylelint --fix"
+    ],
+    "src/assets/i18n/*.json": [
+      "eslint --ext .json --format node_modules/eslint-plugin-i18n-json/formatter.js src/assets/i18n/"
     ]
   }
 }

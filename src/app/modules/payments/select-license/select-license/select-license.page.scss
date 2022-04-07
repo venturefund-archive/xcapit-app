@@ -1,10 +1,12 @@
 .title {
   margin-left: 16px;
 }
+
 .subtitle {
   margin-top: 15px;
   margin-left: 16px;
 }
+
 .second-subtitle {
   margin-top: 11px;
   margin-left: 16px;
@@ -15,14 +17,17 @@
   display: flex;
   justify-content: flex-start;
   margin-bottom: 12px;
+
   &__anual_button {
     margin-left: 6px;
-    color: rgba(155, 151, 151, 1);
+    color: rgb(155 151 151 / 100%);
   }
+
   &__mensual_button {
-    color: rgba(155, 151, 151, 1);
+    color: rgb(155 151 151 / 100%);
   }
 }
+
 .active {
-  color: var(--ion-color-uxprimary);
+  color: var(--ion-color-primary);
 }

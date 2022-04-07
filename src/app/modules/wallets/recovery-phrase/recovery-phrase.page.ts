@@ -7,7 +7,7 @@ import { Mnemonic } from '@ethersproject/hdnode';
   selector: 'app-recovery-phrase',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
@@ -43,9 +43,9 @@ import { Mnemonic } from '@ethersproject/hdnode';
           <div class="next_button">
             <ion-button
               class="ux_button"
-              color="uxsecondary"
+              color="secondary"
               appTrackClick
-              name="Next"
+              name="ux_create_next_words"
               size="large"
               (click)="goToVerifyPhrase()"
             >

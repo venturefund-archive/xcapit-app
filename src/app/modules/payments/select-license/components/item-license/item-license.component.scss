@@ -3,29 +3,35 @@
   font-size: var(--ux-fsize-14);
   font-weight: var(--ux-fweight-bold);
 }
+
 .image {
   display: block;
   margin-left: 43px;
 }
+
 .input_radio {
   margin-top: 2px;
 }
+
 .name_text {
   margin-left: 4px;
   color: #6b7280;
 }
+
 .ilc {
-  background-color: var(--ion-color-uxlight);
+  background-color: var(--ion-color-white);
   border-radius: 8px;
   margin-left: 16px;
   margin-right: 16px;
   width: auto;
   height: 98px;
   margin-bottom: 15px;
+
   &__content {
     padding-top: 12px;
     justify-content: flex-start;
     align-items: center;
+
     &__name {
       display: flex;
       width: 100%;
@@ -33,20 +39,25 @@
       font-family: var(--ux-font-gilroy);
       font-size: var(--ux-fsize-14);
       font-weight: var(--ux-fweight-bold);
+
       &__license {
         margin-left: 8px;
       }
+
       &__premium {
         margin-left: 20px;
       }
     }
+
     &__description {
       margin-left: 46px;
     }
+
     &__price {
       margin-top: 16px;
       margin-left: 46px;
     }
+
     &__button {
       margin-top: 0;
       color: #006eff;

@@ -261,7 +261,9 @@
     "new": {
       "header": "Nueva inversión",
       "amount_to_invest": "Monto a invertir",
-      "button": "Continuar"
+      "button": "Continuar",
+      "dont_have":"¿No tienes ",
+      "buy_button":"Compra ahora"
     },
     "add": {
       "header": "Añadir monto",
@@ -276,12 +278,14 @@
       "password_error": "La contraseña ingresada no es correcta.",
       "password_modal": {
         "title": "Por seguridad",
-        "description": "Para habilitar tu inversión, ingresa la contraseña de tu wallet Xcapit.",
+        "description": "Para confirmar tu inversión, ingresa la contraseña de tu wallet Xcapit.",
         "input_label": "Contraseña",
-        "confirm_button": "Aceptar"
+        "confirm_button": "Confirmar inversión"
       },
       "informative_modal": "No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos.",
-      "informative_modal_fee": "No tienes suficientes {{nativeToken}} en tu cuenta para pagar las comisiones de transacción. Compra algunos {{nativeToken}} o deposítalos desde otra cuenta.",
+      "informative_modal_fee": "No tienes suficientes {{nativeToken}} en tu cuenta para pagar la tarifa de transacción.",
+      "buy_button":"Comprar {{nativeToken}}",
+      "deposit_button":"Depositar {{nativeToken}}",
       "terms": {
         "third_party_disclaimer": "Entiendo que al invertir mis criptomonedas lo haré a través de un proveedor externo (2pi) sujeto a  términos y condiciones  distintos, de los cuales Xcapit no es responsable.",
         "i_have_read": "He leído y acepto los ",
@@ -292,10 +296,12 @@
       "header": "Inversión"
     },
     "defi_investment_products": {
-      "header": "Inversiones Defi",
+      "header": "Inversiones DeFi",
       "title": "Comienza a invertir",
       "title_investments": "Mis inversiones",
       "recommendations": "Podrían interesarte",
+      "empty_products":"Proximamente podrás encontrar las mejores inversiones para tu perfil",
+      "link_button":"¿Cómo funcionan las inversiones DeFi?",
       "choose_investor_profile": {
         "complete_test": {
           "title": "Quiero elegir mi perfil nuevamente",
@@ -312,24 +318,35 @@
       }
     },
     "success_investment": {
-      "title": "Añadiste dinero a tu inversión",
-      "subtitle": "Obtendrás beneficios todos los días.",
-      "primaryButton": "Volver a inversiones",
-      "secondaryButton": "Ir a Wallet"
+      "title": "¡Ya estás invirtiendo!",
+      "subtitle": "Encontrarás las ganancias en tu Wallet.",
+      "primaryButton": "Volver a inversiones DeFi",
+      "secondaryButton": "Ir a mi Wallet"
+    },
+    "success_add_amount": {
+      "title": "¡Aumentaste tu inversión!",
+      "subtitle": "También aumentarán tus ganancias.",
+      "primaryButton": "Volver a inversiones DeFi",
+      "secondaryButton": "Ir a mi Wallet"
     },
     "error_investment": {
-      "title": "Parece que algo salió mal",
-      "subtitle": "Recuerda que debes poseer tokens para pagar las comisiones de inversión.",
+      "title": "No se pudo realizar la transacción.",
+      "subtitle": "Se produjo un error en la blockchain",
       "primaryButton": "Intentar nuevamente"
     },
     "invest_detail": {
       "header": "Mi inversión",
       "button": "Añadir monto",
-      "button_link": "Finalizar inversión",
+      "button_link": "Realizar retiro",
       "invested_amount": "Balance*",
-      "weekly_earnings_disclaimer": "*Tu balance se actualiza el día lunes de cada semana."
+      "daily_earnings_disclaimer": "*Tu balance se actualiza a diario."
     },
     "shared": {
+      "filter_tab": {
+        "conservative": "Perfil conservador",
+        "medium": "Perfil moderado",
+        "risky": "Perfil agresivo"
+      },
       "coming_soon_card": {
         "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
         "text": "Te avisaremos cuando esta función esté disponible. Ve consiguiendo tus Tokens."
@@ -339,9 +356,9 @@
         "liquidity": "Liquidez",
         "not_min_ammount": "Sin monto mínimo",
         "immediate_rescue": "Rescate inmediato",
-        "weekly_earnings": "Ganancias semanales*",
-        "weekly_earnings_disclaimer_active": "*Tu balance se actualiza el día lunes de cada semana.",
-        "weekly_earnings_disclaimer_available": "*Las ganancias se actualizan el día lunes de cada semana.",
+        "daily_earnings": "Ganancias diarias*",
+        "daily_earnings_disclaimer_active": "*Tu balance se actualiza a diario.",
+        "daily_earnings_disclaimer_available": "*Ahora tu balance se actualiza a diario.",
         "coming_badge": "Próximamente",
         "invest_button": "Invertir",
         "annual": "Anual"
@@ -353,11 +370,23 @@
         "receive_asset": "Obtienes",
         "platform": "Plataforma",
         "annual": "% Anual",
-        "blockchain": "Blockchain"
+        "blockchain": "Blockchain",
+        "profile": "Perfil",
+        "investment_info":{
+          "USDC":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en USDC. \n USDC es una criptomoneda estable. Su valor está atado al dólar, y está respaldada al 100% en dólares estadounidenses.",
+          "DAI":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en DAI. \n DAI es una criptomoneda estable, su valor está atado al dólar.  Se respalda al 100% en protocolos cripto.",
+          "BTC":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en BTC. \n BTC (Bitcoin) es la primera criptomoneda con emisión fija, y la de mayor capitalización en el mercado."
+        },
+        "profiles":{
+          "conservative":"Conservador",
+          "medium":"Moderado",
+          "risky":"Agresivo"
+        }
       },
       "amount_input_card": {
-        "available": "Disponible",
-        "disclaimer": "Ten en cuenta que se cobrarán tarifas de transacción en"
+        "available": "Saldo disponible",
+        "disclaimer": "La tasa de cambio la define la blockchain. Los montos pueden variar, según el momento en que realices la transacción. \nTen en cuenta que se cobrarán tarifas de transacción en",
+        "max_button": "Máx"
       },
       "withdraw_card": {
         "title": "Retiro",
@@ -369,14 +398,18 @@
     },
     "withdraw": {
       "success_withdraw": {
-        "title": "Dejaste de invertir *",
-        "subtitle": "Puedes volver a invertir cuando quieras",
-        "button_primary": "Volver a inversiones Defi",
-        "button_secondary": "Ir a wallet",
-        "disclaimer": "* Tus fondos pueden demorar en visualizarse en tu wallet hasta 5 minutos."
+        "title": "¡Retiro finalizado!",
+        "subtitle": "Encontrarás tus fondos en la Wallet. *",
+        "button_primary": "Volver a inversiones DeFi",
+        "button_secondary": "Ir a mi wallet",
+        "disclaimer": "* Tus fondos pueden demorar hasta 5 minutos en estar disponibles en la Wallet."
       },
       "withdraw": {
-        "header": "Finalizar inversión"
+        "header": "Realizar retiro"
+      },
+      "password_modal":{
+        "description":"Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",
+        "confirm_button":"Realizar retiro"
       }
     }
   },
@@ -386,8 +419,8 @@
       "text": "Gana a diario invirtiendo tus criptomonedas",
       "how_investments_work_button": "¿Cómo funcionan las inversiones?",
       "defi": {
-        "title": "Inversiones Defi",
-        "text": "Utiliza tu Wallet de Xcapit para depositar Tokens y suscribirte a productos de inversión Defi generando rendimientos diarios de forma sencilla."
+        "title": "Inversiones DeFi",
+        "text": "Utiliza tu Wallet de Xcapit para depositar Tokens y suscribirte a productos de inversión DeFi generando rendimientos diarios de forma sencilla."
       },
       "binance": {
         "title": "Inversiones con Binance",
@@ -757,7 +790,6 @@
       "minutes": "{{value}} minuto{{s}}",
       "seconds": "{{value}} segundo{{s}}",
       "finalized": "Finalizado",
-      "renovate": "Renovar",
       "unsubscribe_toast": "Desuscripción exitosa",
       "unsubscribe_alert_ok": "Desuscribir",
       "unsubscribe_alert_cancel": "Cancelar",
@@ -795,7 +827,6 @@
         "risk": "Perfil",
         "take_profit": "Take profit",
         "stop_loss": "Stop loss",
-        "renovate": "Renovar",
         "fund_deleted": "El fondo se ha eliminado"
       }
     },
@@ -917,10 +948,6 @@
       "category_security_wallet": "Seguridad wallet Xcapit",
       "remove_wallet": "Eliminar Wallet",
       "security_phrase": "Frase de seguridad",
-      "category_binance_investment": "Inversiones Binance",
-      "funds": "Fondos",
-      "finished_funds": "Fondos Finalizados",
-      "manage_apikey": "Gestión de API Keys",
       "category_preferences": "Preferencias",
       "push_notifications": "Notificationes push",
       "language": "Idioma",
@@ -928,6 +955,14 @@
       "category_walletconnect": "WalletConnect",
       "profile_footer": {
         "investor_profile_button": "Perfil de inversor"
+      },
+      "log_out_modal": {
+        "title": "Cerrar sesión",
+        "text": "Recuerda que tu Wallet está ligada a tu dispositivo. No podrás abrir otra Wallet, a menos que elimines la actual o vuelvas a instalar la aplicación.",
+        "more_info": "Para más información visita las",
+        "more_info_link": "Preguntas frecuentes sobre la Wallet",
+        "checkbox_label": "No volver a mostrar este mensaje.",
+        "log_out_button": "Cerrar sesión"
       }
     },
     "success_profile": {
@@ -1161,15 +1196,15 @@
     "first_steps": {
       "step1": {
         "primary_text": "¡Te damos la bienvenida!",
-        "secondary_text": "Con la Wallet de Xcapit solo tu tienes el control en todo momento sabrás donde esta tu dinero y cuanta ganancia te genera"
+        "secondary_text": "Con la Wallet de Xcapit, tú tienes el control. En todo momento sabrás donde está tu dinero y cuántas ganancias obtienes."
       },
       "step2": {
-        "primary_text": "Un viaje largo empieza con un  primer paso",
-        "secondary_text": "Planifica y cumple tus metas.\nTe ayudamos a establecer tus objetivos y conseguir la mejor manera de lograrlos de formar simple y segura"
+        "primary_text": "Invertir nunca fue tan fácil",
+        "secondary_text": "¡Invierte en DeFi! Transacciones rápidas, libres y sin intermediarios."
       },
       "step3": {
-        "primary_text": "La competencia es contigo mismo",
-        "secondary_text": "¡Aprende finanzas jugando! Mejora tu educación financiera, aprende jugando y recibe incentivos en base a tu crecimiento y evolución"
+        "primary_text": "¡Aprende jugando!",
+        "secondary_text": "La educación financiera que querías. Recibirás incentivos por tu aprendizaje y evolución."
       },
       "skip_button": "Saltar",
       "finish_button": "Comenzar"
@@ -1540,6 +1575,10 @@
     }
   },
   "wallets": {
+    "receive_select_currency": {
+      "header": "Recibir",
+      "title": "Selecciona la moneda que quieres recibir"
+    },
     "remove_success": {
       "title": "Tu wallet fue eliminada",
       "subtitle": "Puedes crear nuevamente una wallet o importar una existente cuando lo desees.",
@@ -1589,9 +1628,11 @@
       "description": "Antes de crear tu wallet, verifica los permisos esenciales para comenzar",
       "local_stored_keys_checkbox": "Entiendo que mis fondos se mantienen de forma segura en este dispositivo, no por una empresa.",
       "recovery_phrase_checkbox": "Entiendo que si esta aplicación se mueve a otro dispositivo o se elimina, mis fondos solo se pueden recuperar con la frase de recuperación.",
-      "terms_of_use_checkbox": "He leído, comprendido y acepto los términos de uso.",
+      "terms_of_use_checkbox": "Leí, comprendo y acepto los <a class='ux-link-xs' href='https://xcapit.com/tyc/'>términos de uso</a>.",
       "terms_of_use_button": "Ver términos de uso",
       "submit_button": "Confirmar y aceptar",
+      "wallet_term_text":"Tu Wallet estará vinculada a este dispositivo, no a tu e-mail. Para más información, visita las ",
+      "wallet_term_link": "Preguntas frecuentes sobre la Wallet",
       "error_did_not_accept": "Debes marcar todas las opciones para continuar."
     },
     "recovery_phrase_information": {
@@ -1634,7 +1675,7 @@
         "send_card": "Enviar",
         "receive_card": "Recibir",
         "buy_card": "Comprar",
-        "performance_card": "Obtener rendimiento"
+        "performance_card": "Invertir"
       }
     },
     "select_coin": {
@@ -1678,20 +1719,22 @@
       "finish_button": "Finalizar y crear wallet",
       "loading": {
         "title": "¡Tiempo!",
-        "subtitle": "Estamos creando tu wallet"
+        "subtitle":{
+          "create":"Estamos creando tu Wallet",
+          "import":"Estamos importando tu Wallet"
+        } 
       }
     },
     "receive": {
       "header": "Recibir",
-      "title": "Datos de tu wallet",
+      "title": "Datos de tu billetera",
       "currency_select": "Moneda",
-      "currency_select_modal_title": "Seleccionar moneda",
-      "currency_select_placeholder": "Moneda",
+      "select_coins":"Seleccionar moneda",
       "average_time": "Tiempo promedio de llegada: 3 min.",
-      "share": "Compartir",
+      "receive_address_title": "Dirección",
+      "receive_address_copy": "Copiar",
       "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección de depósito.",
-      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito.",
-      "share_title": "Direccion de wallet"
+      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito."
     },
     "nft_detail": {
       "title": "Detalle de NFT",
@@ -1720,15 +1763,20 @@
       "swap": "Swap"
     },
     "send": {
+      "scan_qr": {
+        "title": "Escanea el código QR de la dirección a la que deseas enviar"
+      },
       "select_currency": {
         "header": "Enviar",
-        "title": "Selecciona moneda"
+        "title": "Selecciona la moneda que deseas enviar",
+        "suite": "Red {{suiteName}}"
       },
       "send_detail": {
         "header": "Enviar",
         "title": "Datos de la transferencia",
         "network_select": {
-          "title": "Red",
+          "title": "Datos de la transferencia",
+          "network": "Red",
           "disclaimer": "Asegúrese que la wallet de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito.\n Actualmente solo se pueden enviar tokens por la red nativa del mismo, estamos trabajando para sumar mas y nuevas redes."
         },
         "continue_button": "Continuar",
@@ -1754,6 +1802,9 @@
         "amounts_title": "Monto a enviar",
         "send_button": "Enviar",
         "wrong_password": "Password incorrecto",
+        "loader": "Enviando",
+        "destination_address":"Dirección de destino",
+        "fee":"Tarifa de transacción",
         "sent_notification": {
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"
@@ -1826,11 +1877,11 @@
     },
     "asset_detail": {
       "header": "Detalle de activo",
-      "wallet_transaction_title": "TRANSACCIONES"
+      "wallet_transaction_title": "Transacciones"
     },
     "error_wallet_recovery": {
-      "title": "Tu frase de recupeación es incorrecta",
-      "description": "Verifica tus palabras y vuelve a intentarlo",
+      "title": "Tu frase de recuperación es incorrecta",
+      "description": "Verifica que tus palabras estén escritas en minúscula y separadas por un espacio.",
       "button": "Volver a intentarlo"
     },
     "success_wallet_recovery": {
@@ -1850,12 +1901,11 @@
       "card_title": "Configura tu conexión",
       "card_description": "Elige la red de la que quieres tomar los fondos. Luego, escanea el código QR de la Dapp.",
       "scan_qr": {
-        "header": "Escanea el código QR",
-        "register_manually": "Ingresar manualmente",
+        "header": "Escanea el código QR de tu Dapp",
         "errors": {
-          "invalidQR": "El código QR no es válido.",
-          "noContent": "El código QR no tenía ningún contenido.",
-          "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado."
+          "invalidQR": "Compruebe que el código QR que estás escaneando corresponda al protocolo de conexión de WalletConnect.",
+          "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado.",
+          "close_button": "Aceptar"
         }
       },
       "qr_scanner": {
@@ -1886,7 +1936,13 @@
         "card_title_disconnected": "Conéctate a la Dapp",
         "card_description_disconnected": "La Dapp tendrá acceso a tu wallet. Para realizar transacciones, te pedirá tu aprobación.",
         "card_title_connected": "Opera en la Dapp",
-        "card_description_connected": "Cuando haya operaciones disponibles en la Dapp, recibirás notificaciones para aprobarlas."
+        "card_description_connected": "Cuando haya operaciones disponibles en la Dapp, recibirás notificaciones para aprobarlas.",
+        "disconnect": {
+          "header": "¿Finalizar conexión?",
+          "message": "Si finalizas la conexión, no podrás recibir operaciones desde la Dapp.",
+          "cancel_button": "Cancelar",
+          "accept_button": "Finalizar"
+        }
       },
       "operation_detail": {
         "header": "Detalle de operación",
@@ -1903,7 +1959,10 @@
         "sign_button": "Firmar",
         "approve_button": "Aprobar",
         "confirm_button": "Confirmar",
-        "cancel_button": "Cancelar",
+        "cancel_button": "Cancelar operación",
+        "approve_loading": "Aprobando",
+        "sign_loading": "Firmando",
+        "confirmation_loading": "Confirmando",
         "abort_alert": {
           "header": "¿Abandonar la operación?",
           "message": "Si sales ahora, la operación será cancelada.",
@@ -1916,10 +1975,34 @@
           "cancel_button": "Volver",
           "accept_button": "Aceptar"
         },
+        "types": {
+          "swap": {
+            "swap": "Intercambiar Tokens",
+            "amount_to_send": "Monto a enviar",
+            "amount_to_send_max": "Monto máximo a enviar",
+            "amount_to_receive": "Monto a recibir",
+            "amount_to_receive_min": "Monto mínimo a recibir"
+          },
+          "liquidity": {
+            "add_liquidity": "Agregar Liquidez",
+            "remove_liquidity": "Remover Liquidez",
+            "liquidity": "Liquidez",
+            "amount_token_0": "Monto token 0",
+            "amount_token_1": "Monto token 1",
+            "amount_to_receive_min": "Monto mínimo a recibir"
+          }
+        },
         "card_title_sign": "Firma en la Dapp",
         "card_description_sign": "Este paso es para comprobar que eres tú quien está operando en la Dapp.",
         "card_title_operation": "Confirma tu operación",
-        "card_description_operation": "Confirma la transacción que quieres realizar en la Dapp."
+        "card_description_operation": "Confirma la transacción que quieres realizar en la Dapp.",
+        "password_modal": {
+          "title": "Por seguridad",
+          "description": "Para confirmar tu operación, ingresa la contraseña de tu wallet Xcapit.",
+          "input_label": "Contraseña",
+          "confirm_button": "Aceptar"
+        },
+        "password_error": "La contraseña ingresada no es correcta."
       },
       "transactions": {
         "alert": {
@@ -1930,7 +2013,10 @@
       },
       "disclaimer_1": "WalletConnect está en una etapa Beta por lo que puede presentar inconvenientes en el proceso de conexión.",
       "disclaimer_2": "Si tuviste un problema al conectar tu wallet puedes comunicarte con ",
-      "disclaimer_support": "soporte."
+      "disclaimer_support": "soporte.",
+      "dapp_disconnection": {
+        "message": "Se perdió la conexión con {{dapp}}. Esto puede suceder si te desconectas manualmente o si la conexión es inestable."
+      }
     }
   },
   "apikeys": {
@@ -2524,20 +2610,24 @@
       "answer8": "Si tiene alguna pregunta con respecto a esta Política de privacidad, si desea ejercer alguno de sus derechos establecidos anteriormente o si cree que no se ha seguido la Política de privacidad, comuníquese con nosotros enviando un correo electrónico a <a class='ux-link-xl' href='mailto:legal@xcapit.com'>legal@xcapit.com</a>. "
     },
     "support_options": {
-      "title_nft": "NFTs",
+      "title_nft": "NFT",
       "description_nft": "Visualizar, Transferir y Recibir",
       "title_account": "Cuenta XCAPIT",
       "description_account": "Crear cuenta, configurar e ingresar dinero.",
       "title_wallet": "Wallet",
       "description_wallet": "Crear, importar, recibir, enviar y más.",
-      "title_buy": "Compra",
+      "title_buy": "Compra de cripto",
       "description_buy": "Pasos, proveedores y costos.",
       "title_investment": "Inversiones en Binance",
       "description_investment": "Tipos de estrategias, plazos y rentabilidad.",
       "title_apikeys": "Binance y API Keys",
       "description_apikeys": "Crear cuenta, conectarse a binance y gestión de APY Keys.",
       "title_security": "Seguridad ",
-      "description_security": "Sobre mis datos y mi capital."
+      "description_security": "Sobre mis datos y mi capital.",
+      "title_wallet_connect": "Wallet Connect",
+      "description_wallet_connect": "Conectar wallet e interactuar con dapp.",
+      "title_defi": "Inversiones Decentralizadas",
+      "description_defi": "Cómo invertir, rendimientos, costos y tarifas."
     },
     "contact_support": {
       "title": "Escribir a soporte"
@@ -2616,7 +2706,7 @@
       "question19": "¿Podré generar rendimientos con mis Tokens que se encuentren en la Wallet de Xcapit?",
       "answer19": "Pronto podrás generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit, estos productos de inversión se encontrarán en las Blockchains de ETH, RSK y Polygon y variarán en rendimientos, riesgos y protocolos de inversión. La conexión con estos productos no tardará más de 2 minutos y podrás reclamar tus ganancias en cualquier momento.",
       "question20": "¿Dónde puedo visualizar los términos y condiciones de Wallet?",
-      "answer20": "Puedes visualizarlos en este link: <a class='ux-link-xl' href='support/wallet-info'>Términos y Condiciones</a><ul></li> <li>Cualquier consulta referida a Términos y Condiciones puedes escribir a soporte a través de la App o en su defecto a Legales@xcapit.com</li></ul>"
+      "answer20": "Puedes visualizarlos en este link: <a class='ux-link-xl' href='https://xcapit.com/tyc/'>Términos y Condiciones</a><ul></li> <li>Cualquier consulta referida a Términos y Condiciones puedes escribir a soporte a través de la App o en su defecto a Legales@xcapit.com</li></ul>"
     },
     "support_security": {
       "header": "Ayuda",
@@ -2642,7 +2732,9 @@
       "question6": "¿Puedo comprar cripto con tarjeta de crédito?",
       "answer6": "Sí.",
       "question7": "¿Cuánto es el mínimo y máximo para comprar en Moonpay?",
-      "answer7": "El monto mínimo de transacción para cada cripto admitida es el siguiente:<ul><li>0,001 BTC, ETH: 0,01, BCH: 0,05, USDC: 30, USDT: 30</li><li>*La cantidad mínima puede cambiar debido a la fluctuación del precio de las criptomonedas y se reflejará en nuestro widget.</li></ul>"
+      "answer7": "El monto mínimo de transacción para cada cripto admitida es el siguiente:<ul><li>0,001 BTC, ETH: 0,01, BCH: 0,05, USDC: 30, USDT: 30</li><li>*La cantidad mínima puede cambiar debido a la fluctuación del precio de las criptomonedas y se reflejará en nuestro widget.</li></ul>",
+      "question8":"¿Que tokens puedo comprar en Moonpay?",
+      "answer8":"Actualmente solo se pueden comprar los tokens soportados por la wallet de Xcapit, si compras un token que no se encuentre aun en la wallet la operacion no se podra finalizar."
     },
     "support_binance": {
       "header": "Ayuda",
@@ -2667,6 +2759,54 @@
       "answer1": "Se recomienda tener otra cuenta aparte para hacer trading manual.",
       "question2": "¿Qué hago si mis API Keys se vencieron o están deshabilitada?",
       "answer2": " Deberás volver a vincular tus API Keys en Binance, para ello te pedimos que: <br><b>1.</b> Hacer clic en el menú “Más” y luego en “Gestión de API Keys”.<br><b>2.</b> Eliminar las API Keys que figuran en la App de Xcapit - Para asegurarte no vincular nuevamente estas API Keys vencidas.<br><b>3.</b> Te dirijas a \"Agregar Apikey\". <br><b>4.</b> Ingresar a tu cuenta de Binance y luego a “Gestión de APIs”. <br><b>5.</b> Generar una nueva API Keys y las copies en Xcapit con el QR o copiando y pegando los códigos. <br><b>6.</b> Es importante que verifiques que la opción “Spot Trading” se encuentre activa. <br><b>7.</b> Vuelvas a crear un fondo de inversión normalmente."
+    },
+    "support_defi": {
+      "header": "Ayuda",
+      "title": "Ayuda sobre Inversiones Descentralizadas",
+      "question1": "¿Qué opciones tengo para invertir dentro de la App de Xcapit?",
+      "answer1": "Actualmente puedes invertir en Productos de inversión descentralizados a través de los tokens USDC y  DAI, todos sobre la Blockchain de Polygon.",
+      "question2": "¿Cómo invierto?",
+      "answer2": "Necesitarás tener USDC, DAI, WETH o MATIC en tu Wallet de Xcapit. Asegúrate de tener algunos MATIC para poder pagar las tarifas de transacción. Ingresa a “Inversiones DeFi” desde la pantalla de inicio de la app, o desde el menú “Inversiones” (ubicado en la parte inferior de la app).",
+      "question3": "¿Dónde veo mis rendimientos?",
+      "answer3": "En el listado de Inversiones DeFi, podrás ver el rendimiento anual de cada producto de inversión (denominado “Annual Percentage Yield” o APY). Este dato se actualiza constantemente. Aún no podrás ver los rendimientos exclusivos de tus inversiones DeFi, pero tendrás esa opción muy pronto. Estamos trabajando en ello.",
+      "question4": "¿Qué sucede con las ganancias de mis inversiones?",
+      "answer4": "Las ganancias de tus inversiones DeFi se depositan semanalmente en tu Wallet de Xcapit. Puedes mantenerlas, retirarlas o aumentar los montos de inversión. Encontrarás estas opciones en el menú de Inversiones DeFi de la app.",
+      "question5": "¿Cuándo puedo retirar mis inversiones o ganancias?",
+      "answer5": "Puedes retirar tus inversiones en cualquier momento. Las ganancias que no se depositaron hasta el momento del retiro, se depositarán semanalmente hasta completar los pagos pendientes.",
+      "question6": "¿Qué costo tiene mi inversión?",
+      "answer6": "Deberás pagar al protocolo las tarifas de transacción y las comisiones de inversión. Xcapit no cobra por ofrecer Inversiones DeFi.",
+      "question7": "¿En qué protocolo estoy invirtiendo?",
+      "answer7": "Estás invirtiendo en Vaults de protocolos descentralizados. Tus tokens van a un pool de liquidez, donde una estrategia inteligente determina a qué protocolos de inversión destinarlos, según los rendimientos que están dando. Esto puede dar lugar a que tus tokens estén en diversos protocolos descentralizados, tales como Lending o Farming. ",
+      "question8": "¿Qué es un contrato inteligente (Smart Contract)?",
+      "answer8": "Un Smart Contract o contrato inteligente es un programa que ejecuta automáticamente acuerdos registrados entre dos o más partes. Es código alojado en la Blockchain, por lo que actúa sin la necesidad de intermediarios. Se rige por variables y condiciones programadas en el mismo contrato. En el mundo analógico, podría compararse con una máquina expendedora: está configurada para recibir ciertos montos de dinero y dar ciertos productos a cambio, sin necesidad de intervenciones humanas.",
+      "question9": "¿Qué significa Valor Total Bloqueado (TVL)?",
+      "answer9": "El Valor Total Bloqueado es la cantidad de dinero asegurada por el contrato inteligente. Es una medida de la seguridad y robustez del protocolo de inversión. Mientras mayor sea el TVL de un protocolo, será menos probable sufrir problemas de liquidez a la hora de retirar inversiones.",
+      "question10": "¿Cada cuánto se actualizan mis ganancias en DAI y USDC?",
+      "answer10": "Las ganancias se actualizan semanalmente. Se depositan en tu Wallet los días lunes o martes. Verás que tu balance se mantiene igual hasta esos días. En las fechas de depósito, tu balance se actualiza con las ganancias generadas por el protocolo, y las mismas se reinvierten automáticamente.",
+      "question11": "¿Qué sucede si retiro mi inversión antes de la fecha de actualización de ganancias?",
+      "answer11": "Las ganancias que no se depositaron hasta el momento del retiro, se depositarán semanalmente hasta completar los pagos pendientes.",
+      "question12": "¿Tengo que pagar fee o tarifa de transacción para invertir en productos DeFi?",
+      "answer12": "Sí, tendrás que pagar las tarifas de transacción, como en cualquier operación que realices en la Blockchain. Deberás contar con MATIC para pagarlas, ya que los productos DeFi de Xcapit se encuentran en Polygon. ¡Buena noticia! Los fees de MATIC son mínimos y podrás ver la tarifa estimada antes de invertir.",
+      "question13": "¿Por qué no veo el dinero en mi Wallet cuando lo tengo invertido en un producto DeFi?",
+      "answer13": "Cuando estás invirtiendo en un protocolo descentralizado, tus tokens no están en tu Wallet. Se encuentran en el protocolo, resguardados por un contrato inteligente. Este contrato inteligente sabe qué tokens te pertenecen y qué ganancia mereces por ellos. Si retiras tu inversión, los tokens volverán a tu Wallet y podrás verlos en el balance."
+    },
+    "support_wallet_connect": {
+      "header": "Ayuda",
+      "title": "Ayuda sobre Wallet Connect",
+      "question1": "¿Qué es WalletConnect?",
+      "answer1": "WalletConnect es un protocolo de código abierto. Permite conectar Wallets cripto con aplicaciones descentralizadas, a través del escaneo de códigos QR o con enlaces profundos.",
+      "question2": "¿Cómo utilizo WalletConnect?",
+      "answer2": "<ol><li>Ingresa a WalletConnect desde la pantalla de inicio de la app, o desde el menú principal.</li><li>Selecciona la Blockchain que utilizarás desde la Dapp a la que quieres conectarte.</li><li>Ve a la Dapp, busca la opción “Conectar tu Wallet” y selecciona WalletConnect.</li><li>Desde la app de Xcapit, escanea el código QR de la Dapp. O copia el código de la Dapp y pégalo en la app de Xcapit.</li><li>Continúa y conéctate con el protocolo.</li></ol><br>Una vez establecida la conexión, podrás operar desde la Dapp y la app de Xcapit reconocerá tus transacciones y pedirá tu firma para completarlas.<br><b>Importante:</b> asegúrate de tener tokens para operar, ya que tendrás que pagar las tarifas de transacción.",
+      "question3": "¿A qué Dapps me puedo conectar con WalletConnect?",
+      "answer3": "¡Las posibilidades son muchas! Conoce todas las Dapps a las que te puedes conectar en: <a class='ux-link-xl' href='https://walletconnect.com/registry/apps'>https://walletconnect.com/registry/apps</a>",
+      "question4": "¿Por qué no puedo establecer conexión con una Dapp?",
+      "answer4": "La conexión de WalletConnect con ciertos protocolos puede fallar. Recuerda que WalletConnect está en un estadio experimental, pero mejora constantemente.",
+      "question5": "¿Qué pasa si cierro la app de Xcapit mientras tengo una conexión activa a una Dapp?",
+      "answer5": "Tu conexión con la Dapp finalizará automáticamente. Si quieres volver a operar dentro de la Dapp, deberás conectarte de nuevo.",
+      "question6": "¿Debo estar siempre en la pantalla de conexión para operar en la Dapp?",
+      "answer6": "No, una vez conectada la Wallet de Xcapit con la Dapp, podrás moverte en cualquier pantalla de la app sin perder la conexión. Cuando solicites una transacción desde la Dapp, la app de Xcapit la reconocerá automáticamente.<br><ul><li>Sin embargo, si cierras la app de Xcapit, perderás la conexión con la Dapp.</li>",
+      "question7": "¿Puedo transferir un NFT con WalletConnect?",
+      "answer7": "Si puedes!, gracias a la conexión de Opensea mediante Wallet Connect, podras visualizar tu NFT en la plataforma de OpenSea y transferirlo o venderlo en la misma. Para ello entra a Opensea.io y conecta tu wallet de Xcapit mediante WalletConnect, pega el código o escanea el QR y listo! (Asegura de conectarte mediante la red de Polygon para ver los NFT que Xcapit te brindó)."
     }
   },
   "wealth_managements": {

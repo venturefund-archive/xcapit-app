@@ -82,7 +82,7 @@ import { BrowserService } from '../../../shared/services/browser/browser.service
         </ion-item>
 
         <div class="main__small_text">
-          <ion-text class="ux-font-text-xxs" color="uxprimary">{{
+          <ion-text class="ux-font-text-xxs" color="primary">{{
             'fiat_ramps.fiat_success.info_email' | translate
           }}</ion-text>
         </div>
@@ -90,7 +90,7 @@ import { BrowserService } from '../../../shared/services/browser/browser.service
         <div class="main__actions">
           <div class="main__actions__primary">
             <ion-button
-              color="uxsecondary"
+              color="secondary"
               class="ux_button"
               appTrackClick
               name="Add Voucher"

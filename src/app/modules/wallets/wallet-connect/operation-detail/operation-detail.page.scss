@@ -1,6 +1,15 @@
 :host {
+  .disconnect_link {
+    display: flex;
+    justify-content: center;
+    margin-top: 28px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #4a75f7;
+  }
+
   .wcod {
-    background: var(--ion-color-uxlight);
+    background: var(--ion-color-white);
     border-radius: 8px;
     padding: 24px 16px;
     display: flex;

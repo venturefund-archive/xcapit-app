@@ -20,7 +20,7 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
   template: `
     <div class="change_alias">
       <div class="change_alias__header">
-        <ion-text class="ux-font-text-lg change_alias__header__text" color="uxdark">
+        <ion-text class="ux-font-text-lg change_alias__header__text" color="neutral90">
           {{ 'apikeys.edit_modal.title' | translate }}
         </ion-text>
         <ion-button
@@ -39,7 +39,7 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
 
         <div>
           <div class="change_alias__description">
-            <ion-text class="ux-font-text-xxs" color="uxmedium">
+            <ion-text class="ux-font-text-xxs" color="neutral50">
               {{ 'apikeys.edit_modal.description' | translate }}
             </ion-text>
           </div>
@@ -50,7 +50,7 @@ import { ApiApikeysService } from '../../services/api-apikeys/api-apikeys.servic
               appTrackClick
               name="Submit"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               [disabled]="this.submitButtonService.isDisabled | async"
             >

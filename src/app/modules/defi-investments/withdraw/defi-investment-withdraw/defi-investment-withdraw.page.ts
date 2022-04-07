@@ -26,12 +26,13 @@ import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provid
 import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { GasFeeOf } from '../../shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
 import { TwoPiContract } from '../../shared-defi-investments/models/two-pi-contract/two-pi-contract.model';
+import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 
 @Component({
   selector: 'app-defi-investment-withdraw',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
@@ -68,6 +69,9 @@ export class DefiInvestmentWithdrawPage implements OnInit {
   loading = false;
   leave$ = new Subject<void>();
   private readonly priceRefreshInterval = 15000;
+  nativeToken: Coin;
+  nativeTokenBalance: number;
+  disable: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -77,7 +81,8 @@ export class DefiInvestmentWithdrawPage implements OnInit {
     private modalController: ModalController,
     private translate: TranslateService,
     private toastService: ToastService,
-    private navController: NavController
+    private navController: NavController,
+    private walletBalance: WalletBalanceService
   ) {}
 
   ngOnInit() {}
@@ -173,9 +178,9 @@ export class DefiInvestmentWithdrawPage implements OnInit {
       component: WalletPasswordComponent,
       componentProps: {
         title: this.translate.instant('defi_investments.confirmation.password_modal.title'),
-        description: this.translate.instant('defi_investments.confirmation.password_modal.description'),
+        description: this.translate.instant('defi_investments.withdraw.password_modal.description'),
         inputLabel: this.translate.instant('defi_investments.confirmation.password_modal.input_label'),
-        submitButtonText: this.translate.instant('defi_investments.confirmation.password_modal.confirm_button'),
+        submitButtonText: this.translate.instant('defi_investments.withdraw.password_modal.confirm_button'),
         disclaimer: '',
       },
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
@@ -209,17 +214,45 @@ export class DefiInvestmentWithdrawPage implements OnInit {
   }
 
   async withdraw() {
+    await this.getNativeTokenBalance();
     const wallet = await this.wallet();
     if (wallet) {
-      try {
-        await (await this.investment(wallet).withdraw()).wait();
-        await this.navController.navigateForward('/defi/withdraw/success');
-      } catch {
-        await this.navController.navigateForward('/defi/withdraw/error');
-      } finally {
-        this.loadingEnabled(false);
+      if (this.checkNativeTokenBalance()) {
+        try {
+          await (await this.investment(wallet).withdraw()).wait();
+          await this.navController.navigateForward('/defi/withdraw/success');
+        } catch {
+          await this.navController.navigateForward(['/defi/withdraw/error', this.vaultID()]);
+        } finally {
+          this.loadingEnabled(false);
+        }
+      } else {
+        this.openModalNativeTokenBalance();
       }
+      this.loadingEnabled(false);
     }
+  }
+  
+  async getNativeTokenBalance() {
+    this.nativeToken = this.apiWalletService
+      .getCoins()
+      .find((coin) => coin.native && coin.network === this.token.network);
+    this.nativeTokenBalance = await this.walletBalance.balanceOf(this.nativeToken);
+    return this.nativeTokenBalance;
+  }
+
+  checkNativeTokenBalance() {
+    return this.nativeTokenBalance >= this.fee.value ? true : false;
+  }
+
+  openModalNativeTokenBalance() {
+    this.toastService.showWarningToast({
+      message: this.translate.instant(
+        this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
+          nativeToken: this.nativeToken?.value,
+        })
+      ),
+    });
   }
 
   ionViewWillLeave() {

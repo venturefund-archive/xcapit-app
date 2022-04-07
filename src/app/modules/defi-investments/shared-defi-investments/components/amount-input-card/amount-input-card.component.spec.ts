@@ -7,6 +7,7 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
 import { AmountInputCardComponent } from './amount-input-card.component';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic-price.model';
+import { By } from '@angular/platform-browser';
 
 const testCoins = [
   {
@@ -103,5 +104,25 @@ describe('AmountInputCardComponent', () => {
   it('should create dynamic price', () => {
     createDynamicPriceSpy.and.callThrough();
     expect(component.createDynamicPrice()).toBeTruthy();
+  });
+
+  it('should set available on max clicked', () => {
+    fixture.debugElement.query(By.css('.aic__content__inputs__amount ion-button')).nativeElement.click();
+    fixture.detectChanges();
+    expect(component.form.value.amount).toEqual('20');
+  });
+
+  it('should calculate amount when quote amount changes', () => {
+    component.form.patchValue({ quoteAmount: 20 });
+    expect(component.form.value.amount).toEqual('0.005');
+    component.ngOnDestroy();
+  });
+
+
+  it('should render properly available div', async ()  => {
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    const availableEl = fixture.debugElement.query(By.css('.aic__available'));
+    expect(availableEl.nativeElement.innerHTML).toBeTruthy();
   });
 });

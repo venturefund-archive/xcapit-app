@@ -12,7 +12,7 @@ import { WalletEncryptionService } from '../../shared-wallets/services/wallet-en
   selector: 'app-wallet-password-change',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
@@ -77,7 +77,7 @@ import { WalletEncryptionService } from '../../shared-wallets/services/wallet-en
               appTrackClick
               name="Submit"
               type="submit"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               [appLoading]="this.loading"
               [loadingText]="'wallets.password_change.loading' | translate"

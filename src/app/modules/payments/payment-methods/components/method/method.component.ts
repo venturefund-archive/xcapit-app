@@ -24,7 +24,7 @@ import { BrowserService } from '../../../../../shared/services/browser/browser.s
               </div>
             </div>
             <div class="mc__content__description">
-              <ion-text class="ux-font-text-xs" color="uxdark">{{
+              <ion-text class="ux-font-text-xs" color="neutral90">{{
                 this.paymentMethod?.description | translate
               }}</ion-text>
             </div>
@@ -36,7 +36,7 @@ import { BrowserService } from '../../../../../shared/services/browser/browser.s
               *ngIf="this.paymentMethod?.status === 'active'"
               name="Payment Method Select"
               fill="clear"
-              color="uxsemidark"
+              color="neutral80"
               size="small"
               slot="end"
               class="ux-font-text-xs"

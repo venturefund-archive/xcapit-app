@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
-import { WalletConnectSignRequestComponent } from '../../shared-wallets/components/wallet-connect-sign-request/wallet-connect-sign-request.component';
+import { WalletEncryptionService } from '../../shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { WalletPasswordComponent } from '../../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
 import { NavController } from '@ionic/angular';
 import { AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { ethers } from 'ethers';
+import { ethers, Wallet } from 'ethers';
 import * as moment from 'moment';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { EthersService } from '../../shared-wallets/services/ethers/ethers.service';
 
 @Component({
   selector: 'app-operation-detail',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-title class="ion-text-center">
           {{ 'wallets.wallet_connect.operation_detail.header' | translate }}
         </ion-title>
@@ -48,59 +51,29 @@ import * as moment from 'moment';
           </div>
 
           <div class="wcod__transaction_detail">
-            <div class="wcod__transaction_detail__container">
-              <div class="wcod__transaction_detail__container__title">
-                <ion-label>
-                  {{ 'wallets.wallet_connect.operation_detail.date' | translate }}
-                </ion-label>
-              </div>
-
-              <div class="wcod__transaction_detail__container__content wcod__transaction_detail__container__date">
-                <span>{{ this.date }}</span>
-                <span>{{ this.time }} H</span>
-              </div>
-            </div>
-
             <div *ngIf="!this.isSignRequest">
-              <div class="wcod__transaction_detail__container">
-                <div class="wcod__transaction_detail__container__title">
-                  <ion-label>
-                    {{ 'wallets.wallet_connect.operation_detail.from' | translate }}
-                  </ion-label>
-                </div>
+              <app-default-request 
+                [request]="this.transactionDetail" 
+                [providerSymbol]="this.providerSymbol"
+                [dateInfo]="this.dateInfo" 
+                *ngIf="!this.decodedData"
+              ></app-default-request>
 
-                <div class="wcod__transaction_detail__container__content">
-                  <ion-label>
-                    {{ this.transactionDetail?.params[0].from }}
-                  </ion-label>
-                </div>
-              </div>
+              <app-swap-request 
+                [request]="this.transactionDetail" 
+                [providerSymbol]="this.providerSymbol" 
+                [decodedData]="this.decodedData"
+                [dateInfo]="this.dateInfo" 
+                *ngIf="this.decodedData && this.decodedData.type === 'swap'"
+              ></app-swap-request>
 
-              <div class="wcod__transaction_detail__container">
-                <div class="wcod__transaction_detail__container__title">
-                  <ion-label>
-                    {{ 'wallets.wallet_connect.operation_detail.to' | translate }}
-                  </ion-label>
-                </div>
-
-                <div class="wcod__transaction_detail__container__content">
-                  <ion-label>
-                    {{ this.transactionDetail?.params[0].to }}
-                  </ion-label>
-                </div>
-              </div>
-
-              <div class="wcod__transaction_detail__container" *ngIf="this.totalAmount">
-                <div class="wcod__transaction_detail__container__title">
-                  <ion-label>
-                    {{ 'wallets.wallet_connect.operation_detail.amount' | translate }}
-                  </ion-label>
-                </div>
-
-                <div class="wcod__transaction_detail__container__content">
-                  <ion-label> {{ this.totalAmount }} {{ this.providerSymbol }} </ion-label>
-                </div>
-              </div>
+              <app-liquidity-request
+                [request]="this.transactionDetail" 
+                [providerSymbol]="this.providerSymbol" 
+                [decodedData]="this.decodedData"
+                [dateInfo]="this.dateInfo" 
+                *ngIf="this.decodedData && this.decodedData.type === 'liquidity'"
+              ></app-liquidity-request>
 
               <div class="wcod__transaction_detail__container">
                 <div class="wcod__transaction_detail__container__title">
@@ -120,25 +93,24 @@ import * as moment from 'moment';
               </div>
             </div>
 
-            <div *ngIf="this.isSignRequest" class="wcod__transaction_detail__sign_request">
-              <ion-label>
-                {{ 'wallets.wallet_connect.operation_detail.sign_message' | translate }}
-              </ion-label>
-
-              <div class="wcod__transaction_detail__sign_request__message_container" id="message">
-                {{ this.message }}
-              </div>
-            </div>
+            <app-sign-request 
+              [message]="this.message"
+              [dateInfo]="this.dateInfo" 
+              *ngIf="this.isSignRequest"
+            ></app-sign-request>
           </div>
 
           <div class="wcod__button_section">
             <ion-button
+              [appLoading]="this.loading"
+              [loadingText]=" this.loadingText | translate"
               class="ux_button"
               appTrackClick
               name="Next"
-              color="uxsecondary"
+              color="secondary"
               size="large"
               (click)="confirmOperation()"
+              [disabled]="this.disable"
             >
               <div *ngIf="this.isSignRequest">
                 {{ 'wallets.wallet_connect.operation_detail.sign_button' | translate }}
@@ -150,18 +122,11 @@ import * as moment from 'moment';
                 {{ 'wallets.wallet_connect.operation_detail.confirm_button' | translate }}
               </div>
             </ion-button>
-
-            <ion-button
-              class="ux_button"
-              appTrackClick
-              name="Next"
-              color="light"
-              size="large"
-              (click)="cancelOperation()"
-            >
-              {{ 'wallets.wallet_connect.operation_detail.cancel_button' | translate }}
-            </ion-button>
           </div>
+        </div>
+
+        <div class="disconnect_link" *ngIf="!this.loading">
+          <a (click)="this.cancelOperation()">{{ 'wallets.wallet_connect.operation_detail.cancel_button' | translate }}</a>
         </div>
       </div>
     </ion-content>
@@ -172,21 +137,29 @@ export class OperationDetailPage implements OnInit {
   public peerMeta;
   public isSignRequest = true;
   public isApproval = false;
+  public decodedData:any  = null;
   public transactionConfirmed = false;
   public transactionDetail;
   public message: any;
-  public date;
-  public time;
+  public dateInfo = {
+    date: null,
+    time: null
+  };
   public totalFeeAmount;
-  public totalAmount = null;
   public providerSymbol = '';
+  loading = false;
+  disable = false;
+  loadingText = '';
 
   constructor(
     private walletConnectService: WalletConnectService,
     private navController: NavController,
     private alertController: AlertController,
     private translate: TranslateService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private walletEncryptionService: WalletEncryptionService,
+    private toastService: ToastService,
+    private ethersService: EthersService
   ) {}
 
   ionViewWillEnter() {
@@ -209,28 +182,26 @@ export class OperationDetailPage implements OnInit {
   }
 
   getActualDateTime() {
-    this.date = moment().utc().format('DD/MM/YYYY');
-    this.time = moment().utc().format('HH:mm');
+    this.dateInfo.date = moment().format('DD/MM/YYYY');
+    this.dateInfo.time = moment().format('HH:mm');
   }
 
-  async getTotalAmount(estimatedGas, amount) {
+  async getTotalFeeAmount(estimatedGas) {
     const gasPrice = await this.walletConnectService.getGasPrice();
     const gas = ethers.BigNumber.from(estimatedGas);
     this.totalFeeAmount = ethers.utils.formatEther(gasPrice.mul(gas).toString());
-
-    if (amount) {
-      this.totalAmount = ethers.utils.formatEther(ethers.BigNumber.from(amount));
-    }
   }
 
   public async checkRequestInfo(request) {
     switch (request.method) {
+      case 'eth_signTransaction':
       case 'eth_sendTransaction': {
         this.isSignRequest = false;
-        this.isApproval = await this.walletConnectService.checkIsApproval(request);
+        this.decodedData = await this.walletConnectService.getTransactionType(request);
+        this.isApproval = this.decodedData && this.decodedData.name === 'approve';
         const gasLimit = !request.params[0].gas ? '70000' : request.params[0].gas;
 
-        this.getTotalAmount(gasLimit, request.params[0].value);
+        this.getTotalFeeAmount(gasLimit);
 
         break;
       }
@@ -329,22 +300,84 @@ export class OperationDetailPage implements OnInit {
     await alert.present();
   }
 
+  setLoadingText() {
+    if (this.isSignRequest) this.loadingText = 'wallets.wallet_connect.operation_detail.sign_loading';
+    else if (this.isApproval) this.loadingText = 'wallets.wallet_connect.operation_detail.approve_loading';
+    else this.loadingText = 'wallets.wallet_connect.operation_detail.confirmation_loading';
+  }
+
   public async confirmOperation() {
+    this.setLoadingText();
+
+    const password = await this.requestPassword();
+
+    if (password) {
+      this.loadingEnabled(true);
+      let wallet = await this.decryptedWallet(password);
+
+      if (wallet) {
+        const provider = this.ethersService.newProvider(this.walletConnectService.rpcUrl);
+        wallet = wallet.connect(provider);
+        const res = await this.walletConnectService.checkRequest(this.walletConnectService.requestInfo, wallet);
+
+        this.loadingEnabled(false);
+        if (!!res.error && res.error === true) {
+          this.showAlertTxError();
+        } else {
+          this.navController.pop();
+        }
+      }
+    }
+  }
+
+  async decryptedWallet(password: string): Promise<Wallet> {
+    try {
+      return await this.walletEncryptionService.getDecryptedWalletForNetwork(password, this.walletConnectService.network)
+    } catch (error) {
+      this.loadingEnabled(false);
+      await this.toastService.showErrorToast({
+        message: this.translate.instant('wallets.wallet_connect.operation_detail.password_error'),
+      });
+    }
+  }
+
+  async requestPassword(): Promise<any> {
     const modal = await this.modalController.create({
-      component: WalletConnectSignRequestComponent,
-      cssClass: 'small-wallet-password-modal ux-routeroutlet-modal',
-      swipeToClose: false,
+      component: WalletPasswordComponent,
+      componentProps: {
+        title: this.translate.instant('wallets.wallet_connect.operation_detail.password_modal.title'),
+        description: this.translate.instant('wallets.wallet_connect.operation_detail.password_modal.description'),
+        inputLabel: this.translate.instant('wallets.wallet_connect.operation_detail.password_modal.input_label'),
+        submitButtonText: this.translate.instant('wallets.wallet_connect.operation_detail.password_modal.confirm_button'),
+        disclaimer: '',
+      },
+      cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
+      backdropDismiss: false
     });
-
     await modal.present();
-    const { data } = await modal.onDidDismiss();
+    const { data } = await modal.onWillDismiss();
 
-    if (data === true) {
-      await this.walletConnectService.rejectRequest(this.transactionDetail.id);
-    }
+    return data;
+  }
 
-    if (data !== undefined) {
-      this.navController.pop();
-    }
+  private async showAlertTxError() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('wallets.wallet_connect.transactions.alert.header'),
+      message: this.translate.instant('wallets.wallet_connect.transactions.alert.message'),
+      cssClass: 'ux-wallet-error-alert ux-alert',
+      buttons: [
+        {
+          text: this.translate.instant('wallets.wallet_connect.transactions.alert.accept_button'),
+          handler: async () => {
+            this.modalController.dismiss(true);
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  private loadingEnabled(enabled: boolean) {
+    this.loading = enabled;
   }
 }

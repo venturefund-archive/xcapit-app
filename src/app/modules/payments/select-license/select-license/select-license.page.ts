@@ -5,7 +5,7 @@ import { ApiPaymentsService } from '../../shared-payments/services/api-payments.
   selector: 'app-select-license',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>

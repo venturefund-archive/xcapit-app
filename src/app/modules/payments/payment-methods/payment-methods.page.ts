@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-payment-methods',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/payment/select-license"></ion-back-button>
         </ion-buttons>

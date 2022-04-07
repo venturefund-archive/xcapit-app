@@ -21,7 +21,7 @@ import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-su
           <ion-text>
             {{ this.fund?.fund_name }}
           </ion-text>
-          <ion-text class="fc__main__title__strategy" color="uxsemidark">
+          <ion-text class="fc__main__title__strategy" color="neutral80">
             {{ this.fund?.profile | strategyName }}
           </ion-text>
         </div>
@@ -48,7 +48,7 @@ import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-su
               </ion-text>
             </div>
             <div class="ux-font-text-xxs">
-              <ion-text color="uxmedium">
+              <ion-text color="neutral50">
                 {{ 'funds.fund_card.current_capital' | translate }}
               </ion-text>
             </div>
@@ -80,7 +80,7 @@ import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-su
               </ion-text>
             </div>
             <div class="fc__main__content__right__flex">
-              <ion-text class="ux-font-text-xxs" color="uxmedium">
+              <ion-text class="ux-font-text-xxs" color="neutral50">
                 {{
                   'funds.fund_card.' + this.createdTime[0]
                     | translate
@@ -142,20 +142,6 @@ import { ApiSubscriptionsService } from 'src/app/modules/subscriptions/shared-su
           <ion-text class="fc__footer__finalized-label ux-font-text-xs">
             {{ 'funds.fund_card.finalized' | translate }}
           </ion-text>
-        </div>
-        <div class="fc__footer__right">
-          <ion-button
-            appTrackClick
-            (click)="this.actionFund()"
-            name="Renovate Fund"
-            fill="clear"
-            size="small"
-            class="fc__footer__renovate_fund ux-font-text-xs"
-            [disabled]="!this.fund.end_balance"
-          >
-            {{ 'funds.fund_card.renovate' | translate }}
-            <ion-icon slot="end" color="info" name="ux-forward"></ion-icon>
-          </ion-button>
         </div>
       </div>
     </div>

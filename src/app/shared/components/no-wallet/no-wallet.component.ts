@@ -8,7 +8,7 @@ import { NoWalletData } from './no-wallet-data.interface';
     <div class="main">
       <div class="main__button_content">
         <ion-button class="main__close_button" appTrackClick fill="clear" name="Close" (click)="this.close()">
-          <ion-icon class="main__close_button__icon" name="ux-close" color="uxsemidark"></ion-icon>
+          <ion-icon class="main__close_button__icon" name="ux-close" color="neutral80"></ion-icon>
         </ion-button>
       </div>
       <div class="main__image">
@@ -22,7 +22,7 @@ import { NoWalletData } from './no-wallet-data.interface';
       </div>
       <div class="main__button">
         <div class="main__button__wallet">
-          <ion-button appTrackClick color="uxsecondary" class="ux_button" name="Go To Page" (click)="this.goToPage()">
+          <ion-button appTrackClick color="secondary" class="ux_button" name="Go To Page" (click)="this.goToPage()">
             {{ this.data?.nameButton | translate }}
           </ion-button>
           <div>

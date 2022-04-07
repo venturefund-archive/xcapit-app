@@ -4,7 +4,7 @@
   .cib {
     width: auto;
     height: auto;
-    background-color: var(--ion-color-uxlight);
+    background-color: var(--ion-color-white);
     border-radius: 8px;
     cursor: pointer;
     margin-left: 16px;
@@ -16,6 +16,7 @@
         height: 12px;
         margin-bottom: 8px;
       }
+
       &__icon {
         font-size: 12px;
       }
@@ -27,13 +28,15 @@
       border-bottom: 1px solid #0000000a;
 
       &__fund_text {
-        color: var(--ion-color-uxmedium);
+        color: var(--ion-color-neutral50);
         font-weight: 400;
       }
+
       &__content {
         &__title {
-          color: var(--ion-color-uxdark);
+          color: var(--ion-color-neutral90);
         }
+
         &__text {
           font-weight: var(--ux-fweight-regular);
         }
@@ -44,13 +47,16 @@
       height: 44px;
       display: flex;
       justify-content: flex-end;
+
       &__more_info {
         font-weight: var(--ux-fweight-regular);
         margin-top: 9.4px;
+
         ion-icon {
           height: 10px;
         }
       }
+
       &__used_key {
         padding-top: 16px;
         padding-right: 16px;
@@ -60,7 +66,7 @@
         &__removeButton {
           margin-top: 9.4px;
           margin-right: auto;
-          color: var(--ion-color-uxmedium);
+          color: var(--ion-color-neutral50);
           font-size: 16px;
         }
       }

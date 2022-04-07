@@ -4,6 +4,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -19,6 +20,7 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           [errors]="this.emailErrors"
           aria-label="email"
           tabindex="0"
+          (click)="this.dismissToast()"
         ></app-ux-input>
 
         <app-ux-input
@@ -29,6 +31,7 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           [errors]="this.passwordErrors"
           aria-label="password"
           tabindex="1"
+          (click)="this.dismissToast()"
         ></app-ux-input>
 
         <app-ux-input
@@ -38,6 +41,7 @@ import { ItemFormError } from 'src/app/shared/models/item-form-error';
           type="text"
           inputmode="text"
           [label]="'usuarios.register.referral_code_label' | translate"
+          (click)="this.dismissToast()"
         ></app-ux-input>
 
         <ion-item class="tos_item" *ngIf="!this.isLogin">
@@ -86,12 +90,11 @@ export class AuthFormComponent implements OnInit {
     tos: [false, [Validators.required, CustomValidators.mustBeTrue]],
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private toastService: ToastService) {}
 
   ngOnInit() {
     this.initForm();
   }
-
 
   private initForm() {
     if (this.isLogin) {
@@ -106,5 +109,9 @@ export class AuthFormComponent implements OnInit {
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  dismissToast() {
+    this.toastService.dismiss();
   }
 }

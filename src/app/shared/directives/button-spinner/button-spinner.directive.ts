@@ -5,7 +5,7 @@ import { Directive, Input, ElementRef, HostBinding, OnChanges, AfterViewInit } f
 })
 export class ButtonSpinnerDirective implements OnChanges, AfterViewInit {
   @Input() loadingText: string;
-  @Input() spinnerColor = 'uxprimary';
+  @Input() spinnerColor = 'primary';
   @Input() appLoading: boolean;
   @Input() @HostBinding('disabled') disabled;
 

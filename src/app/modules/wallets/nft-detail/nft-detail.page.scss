@@ -1,45 +1,54 @@
 :host {
   ion-content {
-    --background: var(--ion-background-colorwhite);
+    --background: var(--ion-color-white);
   }
+
   .nd {
     height: auto;
-    background-color: var(--ion-background-colorwhite);
-    border: 0.5px solid var(--ion-color-uxline);
+    background-color: var(--ion-color-white);
+    border: 0.5px solid var(--ion-color-neutral50);
     box-sizing: border-box;
     border-radius: 8px;
 
     &__divider {
       margin-top: 16px;
     }
+
     &__image {
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
     }
+
     &__title_and_subtitle {
       display: grid;
     }
+
     &__title {
-      color: var(--ion-color-uxprimary);
+      color: var(--ion-color-primary);
       padding-left: 16px;
       margin-top: 15.5px;
     }
+
     &__subtitle {
       padding-left: 16px;
       padding-right: 16px;
       margin-top: 9.5px;
-      color: var(--ion-color-uxdark);
+      color: var(--ion-color-neutral90);
       line-height: 24px;
     }
+
     &__toolbar {
-      border-radius: 0px 0px 8px 8px;
+      border-radius: 0 0 8px 8px;
     }
+
     &__creator {
       padding-left: 16px;
       margin-top: 26px;
+
       &__label {
-        color: var(--ion-color-uxprimary);
+        color: var(--ion-color-primary);
       }
+
       &__logo_and_name {
         margin-top: 16px;
         display: flex;
@@ -47,15 +56,16 @@
       }
 
       &__name {
-        color: var(--ion-color-uxprimary);
+        color: var(--ion-color-primary);
         padding-left: 8px;
       }
     }
 
     &__chain_info {
       padding-left: 16px;
+
       &__label {
-        color: var(--ion-color-uxprimary);
+        color: var(--ion-color-primary);
       }
     }
   }

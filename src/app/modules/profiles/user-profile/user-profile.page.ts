@@ -8,7 +8,7 @@ import { LoadingService } from '../../../shared/services/loading/loading.service
   selector: 'app-user-profile',
   template: `
     <ion-header>
-      <ion-toolbar mode="ios" color="uxprimary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button *ngIf="!this.editing" defaultHref="/tabs/home"> </ion-back-button>
         </ion-buttons>
@@ -80,7 +80,7 @@ export class UserProfilePage implements OnInit {
 
   ionViewWillEnter() {
     this.loadingService.enabled();
-    this.apiUsuarios.status(false).subscribe((res: any) => {
+    this.apiUsuarios.status().subscribe((res: any) => {
       this.userStatus = res;
       this.loadingService.disabled();
       this.data.viewBillData = true;

@@ -13,13 +13,13 @@ import { Component, OnInit } from '@angular/core';
       </div>
       <div class="pcc_content__important__title ">
         <div class="ux-font-text-xs">
-          <ion-text class="text" color="uxdark">{{ 'fiat_ramps.paxful.recordatory_info' | translate }}</ion-text>
+          <ion-text class="text" color="neutral90">{{ 'fiat_ramps.paxful.recordatory_info' | translate }}</ion-text>
         </div>
       </div>
     </div>
     <!--    <div class="pcc_content__message">-->
     <!--      <div class="ux-font-text-base">-->
-    <!--        <ion-text class="text" color="uxdark">{{ 'fiat_ramps.paxful.recordatory_info' | translate }}</ion-text>-->
+    <!--        <ion-text class="text" color="neutral90">{{ 'fiat_ramps.paxful.recordatory_info' | translate }}</ion-text>-->
     <!--      </div>-->
     <!--    </div>-->
   </div>`,

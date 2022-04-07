@@ -4,7 +4,7 @@ import { INVESTOR_TEST_OPTIONS } from '../shared-wealth-managements/constants/te
 @Component({
   selector: 'app-investor-test-options',
   template: ` <ion-header>
-      <ion-toolbar color="uxprimary" class="ito__toolbar ux_toolbar">
+      <ion-toolbar color="primary" class="ito__toolbar ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>

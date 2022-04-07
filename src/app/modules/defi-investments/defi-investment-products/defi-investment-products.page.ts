@@ -11,12 +11,15 @@ import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/t
 import { VoidSigner } from 'ethers';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-defi-investment-products',
   template: `
     <ion-header>
-      <ion-toolbar color="uxprimary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-title class="ion-text-center">{{
           'defi_investments.defi_investment_products.header' | translate
         }}</ion-title>
@@ -35,12 +38,15 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
             [balance]="investment.balance"
           ></app-investment-balance-item>
           <div class="dp__weekly-profit-disclaimer" *ngIf="this.activeInvestments.length">
-            <ion-label class=" ux-font-text-xxs" color="uxsemidark">
-              {{ 'defi_investments.shared.defi_investment_product.weekly_earnings_disclaimer_active' | translate }}
+            <ion-label class=" ux-font-text-xxs" color="neutral80">
+              {{ 'defi_investments.shared.defi_investment_product.daily_earnings_disclaimer_active' | translate }}
             </ion-label>
           </div>
         </div>
-        <div class="dp__available-card">
+        <div
+          class="dp__available-card-skeleton"
+          *ngIf="!this.activeInvestments.length && !this.availableInvestments.length"
+        >
           <ion-skeleton-text
             class="skeleton"
             style="width:55%"
@@ -48,6 +54,11 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
             slot="header"
             animated
           ></ion-skeleton-text>
+          <div>
+            <app-defi-investment-product-skeleton *ngFor="let i of [1, 2, 3]"></app-defi-investment-product-skeleton>
+          </div>
+        </div>
+        <div class="dp__available-card" *ngIf="this.availableInvestments.length">
           <ion-item
             *ngIf="this.activeInvestments.length || this.availableInvestments.length"
             lines="none"
@@ -62,31 +73,54 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
               }}
             </ion-label>
           </ion-item>
-          <div *ngIf="this.activeInvestments.length || this.availableInvestments.length">
-            <app-defi-investment-product
-              *ngFor="let investment of this.availableInvestments"
-              [investmentProduct]="investment.product"
-              [isComing]="investment.isComing"
-              [weeklyEarning]="investment.weeklyEarning"
-            ></app-defi-investment-product>
+          <form [formGroup]="this.profileForm">
+            <app-filter-tab [items]="this.items" controlName="profile"></app-filter-tab>
+          </form>
+          <div *ngIf="!this.filteredAvailableInvestments.length" class="dp__empty">
+            <div class="dp__empty__image text-center">
+                <img src='assets/img/defi-investments/empty-products.svg'/>
+            </div>
+            <div class="dp__empty__text">
+              <ion-text class="ux-font-text-xs">
+                {{ 'defi_investments.defi_investment_products.empty_products' | translate }}
+              </ion-text>
+            </div>
           </div>
+          <app-defi-investment-product
+            *ngFor="let investment of this.filteredAvailableInvestments"
+            [investmentProduct]="investment.product"
+            [isComing]="investment.isComing"
+            [dailyEarning]="investment.dailyEarning"
+          ></app-defi-investment-product>
           <div
             class="dp__weekly-profit-disclaimer"
-            *ngIf="!this.activeInvestments.length && this.availableInvestments.length"
+            *ngIf="!this.activeInvestments.length && this.filteredAvailableInvestments.length"
           >
-            <ion-label class=" ux-font-text-xxs" color="uxsemidark">
-              {{ 'defi_investments.shared.defi_investment_product.weekly_earnings_disclaimer_available' | translate }}
+            <ion-label class=" ux-font-text-xxs" color="neutral80">
+              {{ 'defi_investments.shared.defi_investment_product.daily_earnings_disclaimer_available' | translate }}
             </ion-label>
           </div>
-          <div *ngIf="!this.activeInvestments.length && !this.availableInvestments.length">
-            <app-defi-investment-product-skeleton *ngFor="let i of [1, 2, 3]"></app-defi-investment-product-skeleton>
-          </div>
         </div>
+      </div>
+      <div *ngIf="this.activeInvestments.length || this.availableInvestments.length" class="dp__link">
+        <ion-button
+          name="go_to_defi_faqs"
+          (click)="this.goToDefiFaqs()"
+          class="link ux-link-xs"
+          appTrackClick
+          fill="clear"
+          size="small"
+        >
+          {{ 'defi_investments.defi_investment_products.link_button' | translate }}
+        </ion-button>
       </div>
       <div *ngIf="!this.activeInvestments.length && !this.availableInvestments.length">
         <app-choose-investor-profile-skeleton></app-choose-investor-profile-skeleton>
       </div>
-      <!-- <app-choose-investor-profile-card [hasDoneInvestorTest]="this.hasDoneInvestorTest" *ngIf="this.activeInvestments.length || this.availableInvestments.length"></app-choose-investor-profile-card> -->
+      <app-choose-investor-profile-card
+        [hasDoneInvestorTest]="this.hasDoneInvestorTest"
+        *ngIf="this.activeInvestments.length || this.availableInvestments.length"
+      ></app-choose-investor-profile-card>
     </ion-content>
   `,
   styleUrls: ['./defi-investment-products.page.scss'],
@@ -94,16 +128,36 @@ import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-
 export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
   investorCategory: string;
+  profileForm: FormGroup = this.formBuilder.group({
+    profile: ['conservative', []],
+  });
+  items = [
+    {
+      title: 'wealth_managements.about_investor_profile.conservative_profile.title',
+      value: 'conservative',
+    },
+    {
+      title: 'wealth_managements.about_investor_profile.moderated_profile.title',
+      value: 'medium',
+    },
+    {
+      title: 'wealth_managements.about_investor_profile.aggressive_profile.title',
+      value: 'risky',
+    },
+  ];
+  activeInvestments: DefiInvestment[] = [];
+  availableInvestments: DefiInvestment[] = [];
+  filteredAvailableInvestments: DefiInvestment[] = [];
+  haveInvestments = true;
   constructor(
+    private formBuilder: FormBuilder,
     private apiWalletService: ApiWalletService,
     private apiUsuariosService: ApiUsuariosService,
     private twoPiApi: TwoPiApi,
     private walletEncryptionService: WalletEncryptionService,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private navController: NavController
   ) {}
-  activeInvestments: DefiInvestment[] = [];
-  availableInvestments: DefiInvestment[] = [];
-  haveInvestments = true;
 
   get hasDoneInvestorTest(): boolean {
     return this.investorCategory !== 'wealth_managements.profiles.no_category';
@@ -115,6 +169,7 @@ export class DefiInvestmentProductsPage {
 
   ionViewWillEnter() {
     this.getUser();
+    this.profileForm.get('profile').valueChanges.subscribe((value) => this.filterByInvestorCategory(value));
   }
 
   async ionViewDidEnter() {
@@ -123,9 +178,30 @@ export class DefiInvestmentProductsPage {
   }
 
   getUser() {
-    this.apiUsuariosService.getUser().subscribe((user) => {
+    this.apiUsuariosService.getUser(false).subscribe((user) => {
       this.investorCategory = user.profile.investor_category;
     });
+  }
+
+  goToDefiFaqs(){
+      this.navController.navigateForward(['/support/defi']);
+  }
+
+  filterByInvestorCategory(category: string) {
+    if (category === 'no_category') {
+      this.filteredAvailableInvestments = this.availableInvestments.filter(
+        (investment) => investment.category === 'conservative'
+      );
+      this.profileForm.patchValue({ profile: 'conservative' });
+    }
+    this.filteredAvailableInvestments = this.availableInvestments.filter(
+      (investment) => investment.category === category
+    );
+  }
+
+  setFilter(investorProfile: string) {
+    this.profileForm.patchValue({ profile: investorProfile.replace('wealth_managements.profiles.', '') });
+    this.filterByInvestorCategory(this.profileForm.value.profile);
   }
 
   emptyArrays() {
@@ -151,7 +227,8 @@ export class DefiInvestmentProductsPage {
         product: investmentProduct,
         balance: balance,
         isComing: product.isComing,
-        weeklyEarning: product.weeklyEarning,
+        dailyEarning: product.dailyEarning,
+        category: product.category,
       });
     }
     this.filterUserInvestments(investments);
@@ -171,6 +248,7 @@ export class DefiInvestmentProductsPage {
   filterUserInvestments(investments: DefiInvestment[]): void {
     this.activeInvestments = investments.filter((investment) => investment.balance > 0);
     this.availableInvestments = investments.filter((investment) => investment.balance === 0);
+    this.setFilter(this.investorCategory);
   }
 
   async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {

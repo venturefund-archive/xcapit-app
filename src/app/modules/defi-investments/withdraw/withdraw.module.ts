@@ -12,6 +12,13 @@ const routes = [
       ),
   },
   {
+    path: 'error',
+    loadChildren: () =>
+      import('./defi-investment-error-withdraw/defi-investment-error-withdraw.module').then(
+        (m) => m.DefiInvestmentErrorWithdrawPageModule
+      ),
+  },
+  {
     path: '',
     canActivate: [AuthGuard],
     loadChildren: () =>

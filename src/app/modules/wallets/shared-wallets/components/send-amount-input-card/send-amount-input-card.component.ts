@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { BigNumber, ethers } from 'ethers';
-import { formatEther, formatUnits, parseEther, parseUnits } from 'ethers/lib/utils';
+import { formatUnits, parseEther, parseUnits } from 'ethers/lib/utils';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 import { TransactionDataService } from '../../services/transaction-data/transaction-data.service';
@@ -14,7 +13,7 @@ import { WalletTransactionsService } from '../../services/wallet-transactions/wa
   template: `
     <div class="saic ion-padding">
       <div class="saic__header__title">
-        <ion-text class="ux-font-lato ux-fweight-semibold ux-fsize-14">{{ this.title }}</ion-text>
+        <ion-text class="ux-font-titulo-xs">{{ this.title }}</ion-text>
       </div>
       <div class="saic__content">
         <app-ux-input-underlined
@@ -45,7 +44,9 @@ import { WalletTransactionsService } from '../../services/wallet-transactions/wa
           </ion-text>
         </div>
         <div class="saic__fee__fee">
-          <ion-text class="saic__fee__fee__amount ux-font-text-base">{{ this.fee + ' ' + this.nativeTokenName }}</ion-text>
+          <ion-text class="saic__fee__fee__amount ux-font-text-base">{{
+            this.fee + ' ' + this.nativeTokenName
+          }}</ion-text>
           <ion-text class="saic__fee__fee__reference_amount ux-font-text-base">{{
             this.referenceFee + ' ' + this.referenceCurrencyName
           }}</ion-text>
@@ -71,24 +72,26 @@ export class SendAmountInputCardComponent implements OnInit {
   form: FormGroup;
   loading = false;
 
-  constructor(private formGroupDirective: FormGroupDirective,
+  constructor(
+    private formGroupDirective: FormGroupDirective,
     private apiWalletService: ApiWalletService,
     private transactionDataService: TransactionDataService,
     private walletTransactionsService: WalletTransactionsService,
     private toastService: ToastService,
-    private translate: TranslateService) {}
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.form = this.formGroupDirective.form;
     this.form.get('amount').valueChanges.subscribe((value) => this.amountChange(value));
     this.form.get('address').valueChanges.subscribe(() => {
       const value = this.form.get('amount').value;
-      this.amountChange(value)
+      this.amountChange(value);
     });
   }
 
   private amountChange(value: number) {
-    if(this.form.get('amount').value === '') {
+    if (this.form.get('amount').value === '') {
       return;
     }
 
@@ -108,15 +111,24 @@ export class SendAmountInputCardComponent implements OnInit {
     const txData = this.getTxData();
     if (ethers.utils.isAddress(txData.to)) {
       try {
-        this.fee = await this.walletTransactionsService.sendEstimatedFee(undefined, txData.to, txData.amount, txData.coin);
+        this.fee = await this.walletTransactionsService.sendEstimatedFee(
+          undefined,
+          txData.to,
+          txData.amount,
+          txData.coin
+        );
       } catch {
         await this.showErrorCantEstimateFee();
         return;
       }
-      this.referenceFee = formatUnits((BigNumber.from(this.convertToUSDTUnit(nativePrice)).mul(parseEther(this.fee))).div(parseEther('1')), 6);
+      this.referenceFee = formatUnits(
+        BigNumber.from(this.convertToUSDTUnit(nativePrice)).mul(parseEther(this.fee)).div(parseEther('1')),
+        6
+      );
     } else {
       await this.showErrorInvalidAddress();
     }
+    this.saveFeeData();
   }
 
   private async showErrorCantEstimateFee() {
@@ -136,7 +148,12 @@ export class SendAmountInputCardComponent implements OnInit {
       to: this.form.get('address').value,
       amount: this.form.get('amount').value,
       coin: this.transactionDataService.transactionData.currency,
-    }
+    };
+  }
+
+  private saveFeeData() {
+    this.transactionDataService.transactionData.fee = this.fee;
+    this.transactionDataService.transactionData.referenceFee = this.referenceFee;
   }
 
   private convertToUSDTUnit(amount: number): BigNumber {

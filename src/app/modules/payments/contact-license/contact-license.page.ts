@@ -47,7 +47,7 @@ import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tic
             name="Submit"
             size="medium"
             type="submit"
-            color="uxsecondary"
+            color="secondary"
             [disabled]="this.submitButtonService.isDisabled | async"
           >
             {{ 'payment.contact.submit_button' | translate }}
