@@ -1,14 +1,11 @@
 import { UpdateService } from '../../services/update/update.service';
 import { PlatformService } from '../../services/platform/platform.service';
-import { AlertController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
-import { SwUpdate } from '@angular/service-worker';
-import { LoadingService } from '../../services/loading/loading.service';
+import { ModalController } from '@ionic/angular';
 import { updateServiceFactory } from '../../factories/update/update.factory';
+import { RemoteConfigService } from '../../services/remote-config/remote-config.service';
 
 export const updateServiceProvider = {
   provide: UpdateService,
   useFactory: updateServiceFactory,
-  deps: [PlatformService, AlertController, TranslateService, HttpClient, SwUpdate, LoadingService],
+  deps: [PlatformService, ModalController, RemoteConfigService],
 };

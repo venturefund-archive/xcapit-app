@@ -67,6 +67,7 @@ import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinn
 import { UpdateNewsComponent } from './components/update-news/update-news.component';
 import { NewsItemComponent } from './components/news-item/news-item.component';
 import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.directive';
+import { UpdateAppModalComponent } from './components/update-app-modal/update-app-modal.component';
 import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 
 @NgModule({
@@ -123,6 +124,7 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
     TestOptionItemComponent,
     WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
+    UpdateAppModalComponent,
     NetworkSelectCardComponent,
     NoWalletComponent,
     UpdateNewsComponent,
@@ -156,6 +158,7 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
     ToastAlertComponent,
     ScanQrModalComponent,
     LoadingModalComponent,
+    UpdateAppModalComponent,
     NeedHelpCardComponent,
     InvestorTestCardsComponent,
     WalletConnectCardComponent,

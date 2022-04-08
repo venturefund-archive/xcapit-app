@@ -71,15 +71,6 @@
   },
   "shared": {
     "services": {
-      "update_service": {
-        "alert_header": "Actualización Disponible",
-        "alert_message": "¡Una nueva versión de la app esta disponible!",
-        "alert_cancel_button": "Cancelar",
-        "alert_update_button": "Actualizar",
-        "alert_required_header": "Actualización Requerida",
-        "alert_required_text": "Es necesario actualizar la app para continuar usandola.",
-        "alert_required_button": "Actualizar"
-      },
       "share": {
         "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles",
         "share_error": "El texto se copió en el portapapeles"
@@ -88,6 +79,12 @@
         "toast_success": "Se copió al portapapeles",
         "toast_error": "No se pudo copiar la dirección al portapapeles"
       }
+    },
+    "update_modal": {
+      "title": "¡Actualiza la app!",
+      "text": "Descubre nuevas opciones para operar con tus criptomonedas.",
+      "button_primary": "Actualizar",
+      "button_secondary": "Recordarme más tarde"
     },
     "card_info_robot": {
       "title": "¿Cómo funciona nuestro robot?",

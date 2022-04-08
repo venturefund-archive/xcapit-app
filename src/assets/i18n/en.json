@@ -89,6 +89,12 @@
         "toast_error": "Could not be copied to the clipboard"
       }
     },
+    "update_modal": {
+      "title": "Update the app!",
+      "text": "Discover new options to operate with your cryptocurrencies.",
+      "button_primary": "Update",
+      "button_secondary": "Remind me later"
+    },
     "card_info_robot": {
       "title": "How does our robot work?",
       "content": "Know all the details of the way we operate.",
