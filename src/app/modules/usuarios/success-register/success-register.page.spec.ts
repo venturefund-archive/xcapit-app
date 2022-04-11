@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeRouter } from 'src/testing/fakes/router.fake.spec';
+import { TranslateModule } from '@ngx-translate/core';
 
 const extras = {
   state: {
@@ -36,7 +37,7 @@ describe('SuccessRegisterPage', () => {
 
       TestBed.configureTestingModule({
         declarations: [SuccessRegisterPage],
-        imports: [IonicModule],
+        imports: [IonicModule, TranslateModule.forRoot()],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteMock },

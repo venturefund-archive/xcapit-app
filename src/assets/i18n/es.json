@@ -150,7 +150,7 @@
       "card_header": "Crea tu cuenta",
       "submit_button": "Crear Cuenta",
       "success_title": "¡Solo falta que valides tu dirección de correo electrónico!",
-      "success_text": "Te enviamos un email de verificación, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
+      "success_text": "Te enviamos un email de verificación a {{email}}, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
       "accept_button": "Aceptar",
       "resend_email_button": "No recibí el mail",
       "referral_code_text": "Código de Referido",
