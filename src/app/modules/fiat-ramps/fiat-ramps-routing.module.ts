@@ -32,7 +32,7 @@ const routes: Routes = [
       },
       {
         path: 'operations',
-        canActivate: [UserHasOperationsGuard],
+        // canActivate: [UserHasOperationsGuard],
         loadChildren: () => import('./operations-page/operations-page.module').then((m) => m.OperationsPagePageModule),
       },
       {

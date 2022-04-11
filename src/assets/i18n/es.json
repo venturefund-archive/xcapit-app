@@ -2254,15 +2254,11 @@
   },
   "fiat_ramps": {
     "operations_list": {
-      "header": "Comprar criptomonedas",
       "title": "Mis operaciones",
-      "id": "ID",
-      "operation": "Operación",
+      "operation": "Compra",
       "amount": "Monto",
-      "provider": "Proveedor",
-      "status": "Estado",
       "date": "Fecha",
-      "new": "Nueva"
+      "status": "Estado"
     },
     "select_provider": {
       "header": "Comprar Cripto",
@@ -2307,23 +2303,11 @@
       "my_operations": "Ver mis operaciones",
       "has_voucher": "El comprobante ha sido cargado"
     },
-
-    "operationStatus": {
-      "kripton": {
-        "pending_by_validate": "Pendiente",
-        "request": "Pedida",
-        "received": "Recibida",
-        "wait": "En espera",
-        "complete": "Completada",
-        "cancel": "Cancelada"
-      },
-      "paxful": {
-        "SUCCESS": "Completada",
-        "EXPIRED": "Expirada",
-        "CANCELLED": "Cancelada"
-      }
+    "operation_status": {
+      "deposited": "Depositado",
+      "in_progress": "En progreso",
+      "canceled": "Cancelada"
     },
-
     "ramp_initial": {
       "header": "Comprar criptomonedas",
       "title": "Nueva operación",

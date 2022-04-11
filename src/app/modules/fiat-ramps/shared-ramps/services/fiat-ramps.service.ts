@@ -71,7 +71,27 @@ export class FiatRampsService {
   }
 
   getUserOperations(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
+    // return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
+    return of([
+      {
+        amount_in: 12,
+        currency_in: 'USDT',
+        currency_out: 'ARS',
+        operation_type: 'cash-in',
+        status: 'pending_by_validate',
+        provider: '1',
+        created_at: new Date().toISOString()
+      },
+      {
+        amount_out: 200,
+        currency_in: 'ARS',
+        currency_out: 'USDT',
+        operation_type: 'cash-out',
+        status: 'complete',
+        provider: '1',
+        created_at: new Date().toISOString()
+      }
+    ])
   }
 
   getUserSingleOperation(operationId): Observable<any> {

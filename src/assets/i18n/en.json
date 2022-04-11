@@ -2277,15 +2277,11 @@
   },
   "fiat_ramps": {
     "operations_list": {
-      "header": "Buy cryptocurrencies",
       "title": "My operations",
-      "id": "ID",
-      "operation": "Operation",
+      "operation": "Buy",
       "amount": "Amount",
-      "provider": "Provider",
-      "status": "Status",
       "date": "Date",
-      "new": "New"
+      "status": "Status"
     },
     "fiat_success": {
       "textPrimary": "Operation created!",
@@ -2342,23 +2338,11 @@
       "my_operations": "See my operations",
       "has_voucher": "Voucher has been uploaded"
     },
-
-    "operationStatus": {
-      "kripton": {
-        "pending_by_validate": "Pending",
-        "request": "Request",
-        "received": "Received",
-        "wait": "Waiting",
-        "complete": "Complete",
-        "cancel": "Cancelled"
-      },
-      "paxful": {
-        "SUCCESS": "Complete",
-        "EXPIRED": "Expired",
-        "CANCELLED": "Cancelled"
-      }
+    "operation_status": {
+      "deposited": "Deposited",
+      "in_progress": "In progress",
+      "canceled": "Canceled"
     },
-
     "ramp_initial": {
       "header": "Buy cryptocurrencies",
       "title": "New operation",

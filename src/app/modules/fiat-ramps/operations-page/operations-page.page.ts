@@ -4,6 +4,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { InformativeModalComponent } from 'src/app/modules/home/shared-home/components/informative-modal/informative-modal.component';
 import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-apikeys/api-apikeys.service';
+import { OPERATION_STATUS } from '../shared-ramps/constants/operation-status';
 
 @Component({
   selector: 'app-operations-page',
@@ -31,51 +32,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
         </div>
       </ion-text>
 
-      <app-ux-list-inverted>
-        <ion-list>
-          <ion-item class="table-header ux-font-text-xs">
-            <ion-label color="neutral90">
-              {{ 'fiat_ramps.operations_list.operation' | translate }}
-            </ion-label>
-            <ion-label color="neutral90">
-              {{ 'fiat_ramps.operations_list.amount' | translate }}
-            </ion-label>
-            <ion-label color="neutral90">
-              {{ 'fiat_ramps.operations_list.status' | translate }}
-            </ion-label>
-            <ion-label color="neutral90">
-              {{ 'fiat_ramps.operations_list.date' | translate }}
-            </ion-label>
-            <ion-label color="neutral90">
-              {{ 'fiat_ramps.operations_list.provider' | translate }}
-            </ion-label>
-          </ion-item>
-          <div class="container" *ngFor="let op of this.operationsList; let last = last">
-            <ion-item class="table-header ux-font-text-xxs" (click)="viewOperationDetail(op)">
-              <ion-text class="ux-font-lato ux-fsize-10"> {{ op.currency_in }} → {{ op.currency_out }} </ion-text>
-              <ion-text class="ux-fweight-semibold" *ngIf="op.operation_type === 'cash-in'">
-                {{ op.amount_in | currency }}
-              </ion-text>
-              <ion-text class="ux-fweight-semibold" *ngIf="op.operation_type === 'cash-out'">
-                {{ op.amount_out | currency }}
-              </ion-text>
-              <ion-text class="ux-fweight-semibold">
-                <img
-                  [src]="op.status.logoRoute"
-                  alt="{{ 'fiat_ramps.operationStatus.' + op.provider.alias + '.' + op.status.name | translate }}"
-                />
-              </ion-text>
-              <ion-text class="ux-fweight-semibold">
-                {{ op.created_at | date: 'dd/MM/yy' }}
-              </ion-text>
-              <ion-text class="ux-fweight-semibold">
-                <img [src]="op.provider.logoRoute" alt="{{ op.provider.name }}" />
-              </ion-text>
-            </ion-item>
-            <div class="list-divider" *ngIf="!last"></div>
-          </div>
-        </ion-list>
-      </app-ux-list-inverted>
+      <app-operations-list [operationsList]="this.operationsList"></app-operations-list>
     </ion-content>
   `,
   styleUrls: ['./operations-page.page.scss'],
@@ -83,6 +40,7 @@ import { ApiApikeysService } from '../../apikeys/shared-apikeys/services/api-api
 export class OperationsPagePage implements OnInit {
   operationsList: any[];
   providers = PROVIDERS;
+  status = OPERATION_STATUS;
   modalOpen = false;
 
   constructor(
@@ -130,50 +88,7 @@ export class OperationsPagePage implements OnInit {
   }
 
   getStatus(statusName: string, providerId: number) {
-    const status = {
-      name: statusName,
-      logoRoute: '../../../assets/img/fiat-ramps/operation-status/',
-    };
-
-    switch (providerId) {
-      case 1:
-        // KriptonMarket
-        switch (statusName) {
-          case 'complete':
-            status.logoRoute += 'ok.svg';
-            break;
-
-          case 'cancel':
-            status.logoRoute += 'error.svg';
-            break;
-
-          case 'pending_by_validate':
-          case 'request':
-          case 'received':
-          case 'wait':
-          default:
-            status.logoRoute += 'processing.svg';
-        }
-        break;
-      case 2:
-        // Paxful
-        switch (statusName) {
-          case 'SUCCESS':
-            status.logoRoute += 'ok.svg';
-            break;
-
-          case 'EXPIRED':
-          case 'CANCELLED':
-            status.logoRoute += 'error.svg';
-            break;
-
-          default:
-            status.logoRoute += 'processing.svg';
-        }
-        break;
-    }
-
-    return status;
+    return this.status.find((s) => s.providerId === providerId && s.name === statusName);
   }
 
   viewOperationDetail(operation) {
