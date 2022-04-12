@@ -20,7 +20,8 @@ import { NavController } from '@ionic/angular';
           class="option-button ux_button ion-no-padding ion-no-margin"
           fill="clear"
           name="Investor Profile"
-          (click)="this.goToInvestorTestStart()">
+          (click)="this.goToInvestments()"
+        >
           <ion-text>{{ 'profiles.user_profile_menu.profile_footer.investor_profile_button' | translate }}</ion-text>
           <ion-icon name="chevron-forward"></ion-icon>
         </ion-button>
@@ -39,7 +40,7 @@ export class UserProfileCardComponent implements OnInit {
 
   ngOnInit() {}
 
-  goToInvestorTestStart() {
-    this.navController.navigateForward(['/wealth-management/investor-test-options']);
+  goToInvestments() {
+    this.navController.navigateForward(['/tabs/investments']);
   }
 }

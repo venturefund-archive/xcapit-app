@@ -60,9 +60,9 @@ describe('UserProfileCardComponent', () => {
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 
-  it("should navigate to Investor Test's starting page when Investor Profile button is clicked", () => {
+  it('should navigate to investments page when Investor Profile button is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="Investor Profile"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wealth-management/investor-test-options']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/investments']);
   });
 
   it('should hide Investor Profile button when user has not taken Investor Test', () => {
