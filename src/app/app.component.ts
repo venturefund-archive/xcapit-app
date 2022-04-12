@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
 
   private initializeApp() {
     this.platform.ready().then(() => {
-      // this.showUpdateModal();
+      this.showUpdateModal();
       this.languageService.setInitialAppLanguage();
       this.setLanguageSubscribe();
     });
