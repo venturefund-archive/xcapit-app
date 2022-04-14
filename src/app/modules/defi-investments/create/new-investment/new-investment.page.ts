@@ -29,8 +29,10 @@ import { AmountInputCardComponent } from '../../shared-defi-investments/componen
       <ion-card class="ux-card">
         <form [formGroup]="this.form" *ngIf="this.investmentProduct && this.token">
           <app-amount-input-card
-            title="{{ this.labelText | translate }}"
+            label="{{ this.labelText | translate }}"
             [baseCurrency]="this.token"
+            [showRange]="false"
+            [header]="'defi_investments.shared.amount_input_card.available' | translate"
           ></app-amount-input-card>
         </form>
       </ion-card>
@@ -133,7 +135,6 @@ export class NewInvestmentPage implements OnInit {
       this.investmentDataService.amount = this.form.value.amount;
       this.investmentDataService.quoteAmount = this.form.value.quoteAmount;
       this.investmentDataService.product = this.investmentProduct;
-
       this.navController.navigateForward(['/defi/new/confirmation', this.mode]);
     }
   }

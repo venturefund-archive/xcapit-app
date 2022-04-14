@@ -406,11 +406,17 @@
         "disclaimer": "* Tus fondos pueden demorar hasta 5 minutos en estar disponibles en la Wallet."
       },
       "select_amount":{
-        "header": "Realizar retiro",
-        "button":"Continuar"
+        "header": "Retirar Inversión",
+        "button":"Continuar",
+        "label":"Retiro"
       },
       "withdraw": {
-        "header": "Realizar retiro"
+        "header": "Retirar Inversión",
+        "button":"Confirmar",
+        "submit_loading":"Confirmando",
+        "withdraw_amount":"Monto a retirar",
+        "withdraw_fee":"Tarifa de retiro",
+        "disclaimer":"Solo tomará unos segundos"
       },
       "password_modal":{
         "description":"Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",

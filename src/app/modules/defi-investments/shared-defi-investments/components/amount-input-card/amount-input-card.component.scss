@@ -26,6 +26,21 @@
       display: flex;
       flex-direction: column;
 
+      ion-range {
+        padding-left: 5px;
+
+        --bar-background-active: var(--ion-color-info);
+        --bar-height: 6px;
+        --bar-border-radius: 2px;
+        --bar-background: var(--ion-color-infolight);
+        --knob-size: 20px;
+      }
+
+      &__title {
+        margin-top: 32px;
+        margin-bottom: 16px;
+      }
+
       &__inputs {
         display: flex;
         align-items: center;
@@ -94,6 +109,32 @@
       &__available {
         color: var(--ion-color-neutral80);
         margin-bottom: 24px;
+      }
+
+      &__percentage {
+        width: 68px;
+
+        ion-input {
+          ion-text {
+            position: absolute;
+            right: 13px;
+          }
+
+          flex-basis: 45%;
+          border-radius: 4px;
+          border: 1px solid var(--ion-color-neutral80);
+          background-color: var(--ion-color-neutral10);
+          color: var(--ion-color-neutral90);
+
+          --padding-start: 16px;
+        }
+
+        ion-input.has-focus {
+          border: 1.5px solid var(--ion-color-primary);
+
+          --placeholder-color: var(--ion-color-neutral90);
+          --placeholder-opacity: 0;
+        }
       }
     }
   }

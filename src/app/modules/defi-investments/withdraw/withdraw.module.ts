@@ -19,12 +19,16 @@ const routes = [
       ),
   },
   {
-    path: '',
-    canActivate: [AuthGuard],
+    path: 'select-amount/:vault',
     loadChildren: () =>
-      import('./defi-investment-withdraw/defi-investment-withdraw.module').then(
-        (m) => m.DefiInvestmentWithdrawPageModule
+      import('../withdraw/select-amount-withdraw/select-amount-withdraw.module').then(
+        (m) => m.SelectAmountWithdrawPageModule
       ),
+  },
+  {
+    path: 'confirmation',
+    loadChildren: () =>
+      import('./withdraw-confirmation/withdraw-confirmation.module').then((m) => m.WithdrawConfirmationPageModule),
   },
 ];
 @NgModule({

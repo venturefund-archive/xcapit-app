@@ -49,6 +49,8 @@ describe('AmountInputCardComponent', () => {
       controlContainerMock = new FormBuilder().group({
         amount: ['', []],
         quoteAmount: ['', []],
+        percentage: ['', []],
+        range: ['', []],
       });
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getPrices: of({ prices: { ETH: 4000 } }),
@@ -76,6 +78,7 @@ describe('AmountInputCardComponent', () => {
       component = fixture.componentInstance;
       component.baseCurrency = testCoins[0];
       createDynamicPriceSpy = spyOn(component, 'createDynamicPrice').and.returnValue(dynamicPriceSpy);
+      component.investedAmount = 100;
       fixture.detectChanges();
     })
   );
@@ -114,10 +117,97 @@ describe('AmountInputCardComponent', () => {
 
   it('should calculate amount when quote amount changes', () => {
     component.form.patchValue({ quoteAmount: 20 });
-    expect(component.form.value.amount).toEqual('0.005');
+    expect(component.form.value.amount).toEqual(0.005);
     component.ngOnDestroy();
   });
 
+  it('should patch full user investment when the user enters a value higher than 100% on quoteAmount', async () => {
+    component.showRange = true;
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.form.patchValue({ quoteAmount: 400000 });
+    expect(component.form.value.percentage).toEqual(100);
+    expect(component.form.value.range).toEqual(100);
+    expect(component.form.value.amount).toEqual(100);
+  });
+
+  it('should patch full user investment when the user enters a value higher than 100% on percentage', async () => {
+    component.showRange = true;
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.form.patchValue({ percentage: 140 });
+    expect(component.form.value.range).toEqual(100);
+    expect(component.form.value.amount).toEqual(100);
+    expect(component.form.value.quoteAmount).toEqual('400000');
+  });
+
+  it('should patch full user investment when the user enters a value higher than 100% on amount', async () => {
+    component.showRange = true;
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.form.patchValue({ amount: 101 });
+    expect(component.form.value.percentage).toEqual(100);
+    expect(component.form.value.range).toEqual(100);
+    expect(component.form.value.amount).toEqual(100);
+    expect(component.form.value.quoteAmount).toEqual('400000');
+  });
+
+  it('should calculate all inputs when range changes', async () => {
+    component.showRange = true;
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.form.patchValue({ range: 10 });
+    expect(component.form.value.percentage).toEqual(10);
+    expect(component.form.value.amount).toEqual(10);
+    expect(component.form.value.quoteAmount).toEqual('40000');
+  });
+
+  it('should calculate all inputs when percentage changes', async () => {
+    component.showRange = true;
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.form.patchValue({ percentage: 10 });
+    expect(component.form.value.range).toEqual(10);
+    expect(component.form.value.amount).toEqual(10);
+    expect(component.form.value.quoteAmount).toEqual('40000');
+  });
+
+  it('should calculate all inputs when range changes', async () => {
+    component.showRange = true;
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.form.patchValue({ range: 10 });
+    expect(component.form.value.percentage).toEqual(10);
+    expect(component.form.value.amount).toEqual(10);
+    expect(component.form.value.quoteAmount).toEqual('40000');
+  });
+
+  
+  it('should render percentage when showRange', async ()  => {
+    component.showRange = true;
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    const percentageEl = fixture.debugElement.query(By.css('div.aic__content__percentage'));
+    expect(percentageEl).toBeTruthy();
+  });
+
+  it('should render range when showRange', async ()  => {
+    component.showRange = true;
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    const rangeEl = fixture.debugElement.query(By.css('.aic__content ion-range'));
+    expect(rangeEl).toBeTruthy();
+  });
+
+  it('should not render percentage when showRange false', async ()  => {
+    component.showRange = false;
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    const percentageEl = fixture.debugElement.query(By.css('div.aic__content__percentage'));
+    expect(percentageEl).toBe(null);
+  });
+
+  it('should not render range when showRange is false', async ()  => {
+    component.showRange = false;
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    const rangeEl = fixture.debugElement.query(By.css('.aic__content ion-range'));
+    expect(rangeEl).toBe(null);
+  });
 
   it('should render properly available div', async ()  => {
     fixture.detectChanges();

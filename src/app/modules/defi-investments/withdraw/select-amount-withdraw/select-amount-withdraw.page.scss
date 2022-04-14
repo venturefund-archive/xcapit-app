@@ -1,7 +1,35 @@
 :host {
+  ion-toolbar {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
   .saw {
+    &__title {
+      padding-left: 0;
+      padding-right: 130px;
+    }
+
+    &__back {
+      font-size: 12px;
+    }
+
     &__step_counter {
       margin-right: 13px;
+      color: var(--ion-color-white);
+    }
+
+    &__expandable_info {
+      margin-bottom: 0 !important;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &__amount_card {
+      margin-top: 0 !important;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-top: none;
     }
   }
 }
