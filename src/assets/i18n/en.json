@@ -2612,6 +2612,10 @@
     "shared": {
       "buy_crypto_card": {
         "title": "Buy crypto at best price"
+      },
+      "financial_planner_card": {
+        "title": "Organize your finances",
+        "description": "Plan your goals, and discover the best way to achieve them"
       }
     }
   },
