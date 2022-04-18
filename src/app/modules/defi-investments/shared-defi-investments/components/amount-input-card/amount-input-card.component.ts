@@ -6,6 +6,7 @@ import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic-price.model';
+import { Amount } from '../../types/amount.type';
 
 @Component({
   selector: 'app-amount-input-card',
@@ -13,17 +14,28 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
     <div class="aic ion-padding">
       <div class="aic__available text-center">
         <ion-text class="ux-font-titulo-xs">
-          {{ 'defi_investments.shared.amount_input_card.available' | translate }}
+          {{ this.header }}
         </ion-text>
-        <ion-text class="ux-font-text-xl">
+        <ion-text *ngIf="this.showRange" class="ux-font-text-xl">
+          {{ this.investedAmount | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
+        >
+        <ion-text *ngIf="!this.showRange" class="ux-font-text-xl">
           {{ this.available | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
         >
-        <ion-text *ngIf="this.usdPrice" class="ux-font-text-xxs">
+        <ion-text *ngIf="this.investedAmount || this.available" class="ux-font-text-xxs">
           ≈ {{ this.usdPrice | number: '1.2-2' }} {{ this.quoteCurrency }}
         </ion-text>
       </div>
-
       <div class="aic__content">
+        <div class="aic__content__title">
+          <ion-text class="ux-font-text-lg"> {{ this.label }}</ion-text>
+        </div>
+        <div *ngIf="this.showRange" class="aic__content__percentage">
+          <ion-input formControlName="percentage" type="number" inputmode="numeric">
+            <ion-text>%</ion-text>
+          </ion-input>
+        </div>
+        <ion-range formControlName="range" *ngIf="this.showRange" mode="md" max="100" step="10"></ion-range>
         <div class="aic__content__label">
           <ion-text class="ux-font-text-xs aic__content__label__first" position="stacked">{{
             this.baseCurrency.value
@@ -60,7 +72,7 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
             inputmode="numeric"
           ></ion-input>
         </div>
-        <div class="aic__content__disclaimer">
+        <div *ngIf="!this.showRange" class="aic__content__disclaimer">
           <ion-text class="ux-font-text-xs" style="white-space: pre-wrap;"
             >{{ 'defi_investments.shared.amount_input_card.disclaimer' | translate }} {{ this.feeCoin }}.</ion-text
           >
@@ -77,17 +89,19 @@ import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic
   styleUrls: ['./amount-input-card.component.scss'],
 })
 export class AmountInputCardComponent implements OnInit, OnDestroy {
-  @Input() title: string;
+  @Input() label: string;
+  @Input() header: string;
+  @Input() investedAmount: number;
   @Input() baseCurrency: Coin;
   @Input() quoteCurrency = 'USD';
+  @Input() showRange: boolean;
+  @Input() priceRefreshInterval = 15000;
   available: number;
   feeCoin: string;
   private destroy$ = new Subject<void>();
   price: number;
   form: FormGroup;
   usdPrice: number;
-
-  @Input() priceRefreshInterval = 15000;
 
   constructor(
     private formGroupDirective: FormGroupDirective,
@@ -101,6 +115,8 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
     this.dynamicPrice();
     this.subscribeToFormChanges();
   }
+
+  defaultPatchValueOptions() { return { emitEvent: false, onlySelf: true }; }
 
   setMax() {
     this.form.get('amount').patchValue(this.available);
@@ -119,16 +135,44 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
 
   subscribeToFormChanges() {
     this.form = this.formGroupDirective.form;
+    const percentage = this.form.get('percentage');
+    const range = this.form.get('range');
     this.form.get('amount').valueChanges.subscribe((value) => this.amountChange(value));
     this.form.get('quoteAmount').valueChanges.subscribe((value) => this.quoteAmountChange(value));
+    if (percentage) percentage.valueChanges.subscribe((value) => this.percentageChange(value));
+    if (range) range.valueChanges.subscribe((value) => this.rangeChange(value));
+  }
+
+  percentageChange(value) {
+    if (!isNaN(value)) {
+      if (value > 100) {
+        this.form.patchValue({percentage: 100, range: 100, quoteAmount: this.parseAmount(this.investedAmount * this.price), amount: this.investedAmount}, this.defaultPatchValueOptions())
+      } else {
+        this.form.patchValue({ range: value, amount: this.amount(value), quoteAmount: this.quoteAmount(value)} , this.defaultPatchValueOptions());
+      }
+    }
+  }
+
+  rangeChange(value) {
+    if (!isNaN(value)) {
+      this.form.patchValue({percentage: value, amount: this.amount(value), quoteAmount:this.quoteAmount(value)}, this.defaultPatchValueOptions());
+    }
   }
 
   private amountChange(value: number) {
-    this.form.patchValue({ quoteAmount: this.parseAmount(value * this.price) }, { emitEvent: false, onlySelf: true });
+    if (value > this.investedAmount) {
+      this.form.patchValue({quoteAmount: this.parseAmount(this.investedAmount * this.price), percentage: 100, range: 100, amount:this.investedAmount}, this.defaultPatchValueOptions())
+    } else {
+      this.form.patchValue({quoteAmount: this.parseAmount(value * this.price), percentage: Math.round((value * 100) / this.investedAmount), range: (value * 100) / this.investedAmount }, this.defaultPatchValueOptions())
+    }
   }
 
   private quoteAmountChange(value: number) {
-    this.form.patchValue({ amount: this.parseAmount(value / this.price) }, { emitEvent: false, onlySelf: true });
+    if (value > this.investedAmount) {
+      this.form.patchValue({amount: this.investedAmount, percentage: 100, range: 100}, this.defaultPatchValueOptions())
+    } else {
+      this.form.patchValue({amount: (value / this.price),  percentage: Math.round(((value / this.price) * 100) / this.investedAmount),  range: ((value / this.price) * 100) / this.investedAmount }, this.defaultPatchValueOptions());
+    }
   }
 
   private parseAmount(value: number): string {
@@ -147,8 +191,21 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
 
   private async balanceAvailable() {
     this.available = await this.walletBalance.balanceOf(this.baseCurrency);
-    this.setPrice(this.available);
+    if (!this.showRange) {
+      this.setPrice(this.available);
+    } else {
+      this.setPrice(this.investedAmount);
+    }
   }
+
+  amount(value : number){
+    return ((this.investedAmount * value) / 100);
+  }
+
+  quoteAmount(value:number){
+   return this.parseAmount(this.amount(value) * this.price);
+  }
+
 
   setPrice(available: number) {
     this.usdPrice = available * this.price;

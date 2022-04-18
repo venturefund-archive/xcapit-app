@@ -15,7 +15,9 @@ import { Retry } from '../../../../../shared/models/retry/retry';
 export interface Investment {
   balance(): Promise<number>;
   deposit(amount: number): Promise<TransactionResponse>;
-  withdraw(): any;
+  withdraw(amount: number): any;
+  withdrawAll(): any;
+  amountToShare(amount: number): Promise<BigNumber>;
 }
 
 export class TwoPiInvestment implements Investment {
@@ -65,6 +67,12 @@ export class TwoPiInvestment implements Investment {
     return this._aTwoPiContract.value().getPricePerFullShare(this._aProduct.id());
   }
 
+  public async amountToShare(amount: number): Promise<BigNumber> {
+    return this._weiOf(amount)
+      .mul(BigNumber.from('10').pow(this._aProduct.token().decimals))
+      .div(await this._sharePrice());
+  }
+
   private _tokenValueOf(aWei: BigNumber) {
     return parseFloat(formatUnits(aWei.toString(), this._aProduct.decimals() + this._aProduct.token().decimals));
   }
@@ -96,7 +104,12 @@ export class TwoPiInvestment implements Investment {
       .toPromise();
   }
 
-  async withdraw(): Promise<TransactionResponse> {
+  async withdraw(amount: number): Promise<TransactionResponse> {
+    const gasPrice = await this._gasPrice();
+    return this._aTwoPiContract.value().withdraw(this._aProduct.id(), this.amountToShare(amount), { gasPrice });
+  }
+
+  async withdrawAll(): Promise<TransactionResponse> {
     const gasPrice = await this._gasPrice();
     return this._aTwoPiContract.value().withdrawAll(this._aProduct.id(), { gasPrice });
   }

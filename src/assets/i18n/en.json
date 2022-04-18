@@ -403,6 +403,7 @@
       },
       "amount_input_card": {
         "available": "Balance available",
+        "amount_invested":"Total amount invested",
         "disclaimer": "The exchange rate is defined by the blockchain and amounts may vary, depending on when you make the transaction. \nPlease note that transaction fees will be charged in",
         "max_button": "Max"
       },
@@ -422,8 +423,18 @@
         "button_secondary": "Go to my wallet",
         "disclaimer": "* Your funds may take up to 5 minutes to be available in the Wallet."
       },
+      "select_amount":{
+        "header": "Withdraw investment",
+        "button":"Continue",
+        "label":"Withdrawal"
+      },
       "withdraw": {
-        "header": "Make withdrawal"
+        "header": "Withdraw investment",
+        "button":"Confirm",
+        "submit_loading":"Confirming",
+        "withdraw_amount":"Amount to withdraw",
+        "withdraw_fee":"Withdrawal fee",
+        "disclaimer":"It will only take a few seconds"
       },
       "password_modal": {
         "description": "To confirm your withdrawal, enter your Xcapit wallet password.",
