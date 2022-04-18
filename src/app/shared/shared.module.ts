@@ -68,6 +68,9 @@ import { UpdateNewsComponent } from './components/update-news/update-news.compon
 import { NewsItemComponent } from './components/news-item/news-item.component';
 import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.directive';
 import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
+import { TokenSelectionListComponent } from './components/token-selection-list/token-selection-list.component';
+import { SuitePipe } from './pipes/suite/suite.pipe';
+import { CoinSelectorComponent } from './components/coin-selector/coin-selector.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +90,7 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
     WalletConnectCardComponent,
     QuotesCardComponent,
     ItemQuoteComponent,
+    TokenSelectionListComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -127,7 +131,8 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
     NoWalletComponent,
     UpdateNewsComponent,
     NewsItemComponent,
-    ToastWithButtonsComponent,
+    ToastWithButtonsComponent, 
+    CoinSelectorComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -137,6 +142,7 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
     SplitStringPipe,
     ButtonSpinnerDirective,
     FeatureFlagDirective,
+    SuitePipe,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
@@ -162,6 +168,8 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
     QuotesCardComponent,
     ItemQuoteComponent,
     NetworkSelectCardComponent,
+    TokenSelectionListComponent,
+    CoinSelectorComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -211,6 +219,7 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
     ButtonSpinnerDirective,
     SplitStringPipe,
     FeatureFlagDirective,
+    SuitePipe,
   ],
 })
 export class SharedModule {}

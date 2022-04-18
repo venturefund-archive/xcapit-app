@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PROD_COINS } from '../../constants/coins.prod';
-import { Coin } from '../../interfaces/coin.interface';
+import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
 
 @Component({
   selector: 'app-coin-selector',
