@@ -89,9 +89,8 @@ export class SelectAmountWithdrawPage implements OnInit {
   ngOnInit() {}
 
   async ionViewWillEnter() {
-    await this.getInvestmentProduct();
-    this.getToken();
-    this.getCoins();
+    await this.setInvestmentProduct();
+    this.setToken();
     await this.getProductBalance(this.investmentProduct);
   }
 
@@ -99,21 +98,11 @@ export class SelectAmountWithdrawPage implements OnInit {
     return this.route.snapshot.paramMap.get('vault');
   }
 
-  async getInvestmentProduct() {
+  async setInvestmentProduct() {
     this.investmentProduct = new TwoPiProduct(await this.twoPiApi.vault(this.vaultID()), this.apiWalletService);
   }
 
-  getCoins() {
-    this.coins = this.apiWalletService.getCoins();
-    this.isMoonpayToken(this.coins);
-  }
-
-  isMoonpayToken(coins: Coin[]) {
-    const coin = coins.filter((coin) => coin.value === this.token.value);
-    this.buyAvailable = coin[0].hasOwnProperty('moonpayCode');
-  }
-
-  getToken() {
+  setToken() {
     this.token = this.investmentProduct.token();
   }
 
