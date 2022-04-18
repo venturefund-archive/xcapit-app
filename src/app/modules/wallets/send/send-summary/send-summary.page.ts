@@ -24,20 +24,16 @@ import { isAddress } from 'ethers/lib/utils';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ss ion-padding">
-      <div class="ss__title">
-        <ion-text class="ux-font-text-lg">
-          {{ 'wallets.send.send_summary.title' | translate }}
-        </ion-text>
-      </div>
       <div class="ss__transaction-summary-card" *ngIf="this.summaryData">
         <app-transaction-summary-card
+          [addressTitle]="'wallets.send.send_summary.destination_address' | translate"
           [amountsTitle]="'wallets.send.send_summary.amounts_title' | translate"
           [summaryData]="this.summaryData"
         ></app-transaction-summary-card>
       </div>
 
       <div class="ss__send_button">
-        <ion-button  
+        <ion-button
           [appLoading]="this.loading"
           [loadingText]="'wallets.send.send_summary.loader' | translate"
           class="ux_button"
@@ -91,8 +87,8 @@ export class SendSummaryPage implements OnInit {
       component: WalletPasswordComponent,
       cssClass: 'ux-routeroutlet-modal full-screen-modal',
       componentProps: {
-        state: 'send'
-      }
+        state: 'send',
+      },
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
@@ -105,7 +101,12 @@ export class SendSummaryPage implements OnInit {
   }
 
   private async send(password: string) {
-    const response = await this.walletTransactionsService.send(password, this.summaryData.amount, this.summaryData.address, this.summaryData.currency);
+    const response = await this.walletTransactionsService.send(
+      password,
+      this.summaryData.amount,
+      this.summaryData.address,
+      this.summaryData.currency,
+    );
     await this.goToSuccess(response);
   }
 
@@ -130,7 +131,7 @@ export class SendSummaryPage implements OnInit {
 
   async handleSubmit(skipChecksBeforeSend: boolean = false) {
     await this.startTx();
-    
+
     if (!skipChecksBeforeSend) {
       if (!(await this.checksBeforeSend())) {
         await this.endTx();
@@ -140,12 +141,12 @@ export class SendSummaryPage implements OnInit {
 
     try {
       const password = await this.askForPassword();
-      this.loading = true
+      this.loading = true;
       if (!password) {
         return;
       }
       await this.send(password);
-    } catch(error) {
+    } catch (error) {
       await this.handleSendError(error);
     } finally {
       await this.endTx();

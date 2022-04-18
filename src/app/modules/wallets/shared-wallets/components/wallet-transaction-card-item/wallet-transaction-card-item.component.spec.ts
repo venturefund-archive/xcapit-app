@@ -12,6 +12,7 @@ const transaction = {
   to: '0x00000000000000000000000001',
   value: '0.2',
   hash: '0x000000000000000000000000000000000000000000001',
+  date: '2020-01-03T03:00:00Z',
   blockNumber: '0x00000001',
   erc721: false,
   rawContract: false,
@@ -43,5 +44,10 @@ describe('WalletTransactionCardItemComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('should format date on init', async () => {
+    component.ngOnInit();
+    await fixture.whenRenderingDone();
+    expect(component.formattedDate).toBe('03-01-2020');
   });
 });

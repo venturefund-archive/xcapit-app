@@ -19,6 +19,7 @@ export const environment = {
     vapidKey: 'dummy',
     measurementId: 'dummy',
     authDomain: 'dummy',
+
   },
   appUrl: 'https://dummy.xcapit.com/',
   covalentApiUrl: 'https://covalent.url',
@@ -38,3 +39,5 @@ export const environment = {
     BSC_BEP20: "m/44'/60'/0'/0/0",
   },
 };
+
+

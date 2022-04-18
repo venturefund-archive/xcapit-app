@@ -44,25 +44,33 @@ import { Amount } from '../../types/amount.type';
             this.quoteCurrency
           }}</ion-text>
         </div>
+
         <div class="aic__content__inputs">
-          <ion-input
-            class="aic__content__inputs__amount max"
-            formControlName="amount"
-            type="number"
-            inputmode="numeric"
-          >
+          <div class="aic__content__inputs__amount_with_max">
+            <ion-input
+              class="aic__content__inputs__amount_with_max__amount"
+              formControlName="amount"
+              type="number"
+              inputmode="numeric"
+            >
+            </ion-input>
             <ion-button
               [disabled]="!this.usdPrice"
               (click)="this.setMax()"
               slot="end"
               fill="clear"
               size="small"
-              class="ux-font-button"
+              class="aic__content__inputs__amount_with_max__max ux-font-button"
               >{{ 'defi_investments.shared.amount_input_card.max_button' | translate }}</ion-button
             >
-          </ion-input>
+          </div>
           <ion-text class="aic__content__equal ux-fweight-medium ">=</ion-text>
-          <ion-input formControlName="quoteAmount" type="number" inputmode="numeric"></ion-input>
+          <ion-input
+            class="aic__content__inputs__quoteAmount"
+            formControlName="quoteAmount"
+            type="number"
+            inputmode="numeric"
+          ></ion-input>
         </div>
         <div *ngIf="!this.showRange" class="aic__content__disclaimer">
           <ion-text class="ux-font-text-xs" style="white-space: pre-wrap;"
@@ -87,13 +95,13 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   @Input() baseCurrency: Coin;
   @Input() quoteCurrency = 'USD';
   @Input() showRange: boolean;
+  @Input() priceRefreshInterval = 15000;
   available: number;
   feeCoin: string;
   private destroy$ = new Subject<void>();
   price: number;
   form: FormGroup;
   usdPrice: number;
-  @Input() priceRefreshInterval = 15000;
 
   constructor(
     private formGroupDirective: FormGroupDirective,

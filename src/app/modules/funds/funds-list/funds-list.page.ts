@@ -173,7 +173,7 @@ export class FundsListPage implements OnInit {
   }
 
   getStatus() {
-    this.apiUsers.status(false).subscribe((res) => {
+    this.apiUsers.status().subscribe((res) => {
       this.status = res;
     });
   }

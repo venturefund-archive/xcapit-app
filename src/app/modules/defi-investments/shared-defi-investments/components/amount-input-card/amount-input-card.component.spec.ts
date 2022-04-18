@@ -110,7 +110,7 @@ describe('AmountInputCardComponent', () => {
   });
 
   it('should set available on max clicked', () => {
-    fixture.debugElement.query(By.css('.aic__content__inputs__amount ion-button')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button.aic__content__inputs__amount_with_max__max')).nativeElement.click();
     fixture.detectChanges();
     expect(component.form.value.amount).toEqual('20');
   });

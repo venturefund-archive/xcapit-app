@@ -122,7 +122,7 @@ export class SelectAmountWithdrawPage implements OnInit {
       this.investmentDataService.amount = this.form.value.amount;
       this.investmentDataService.quoteAmount = this.form.value.quoteAmount;
       this.investmentDataService.product = this.investmentProduct;
-      let url = ['/defi/withdraw/confirmation', this.vaultID()];
+      const url = ['/defi/withdraw/confirmation', this.vaultID()];
       if (this.form.value.range === 100) url.push('all');
       this.navController.navigateForward(url);
     }

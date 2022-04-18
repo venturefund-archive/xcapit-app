@@ -128,7 +128,7 @@ export class RegisterApikeysPage implements OnInit {
   }
 
   async getUserStatus() {
-    this.apiUsuariosService.status(false).subscribe((res) => (this.userStatus = res));
+    this.apiUsuariosService.status().subscribe((res) => (this.userStatus = res));
   }
 
   checkIsTutorialStep() {
