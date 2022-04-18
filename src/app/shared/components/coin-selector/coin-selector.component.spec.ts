@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { TEST_COINS } from '../../constants/coins.test';
+import { TEST_COINS } from '../../../modules/wallets/shared-wallets/constants/coins.test';
 import { CoinSelectorComponent } from './coin-selector.component';
 
 describe('CoinSelectorComponent', () => {

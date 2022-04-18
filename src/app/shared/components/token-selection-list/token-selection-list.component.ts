@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Coin } from '../../interfaces/coin.interface';
-import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
+import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
+import { ApiWalletService } from '../../../modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 
 @Component({
   selector: 'app-token-selection-list',

@@ -70,6 +70,10 @@ const routes: Routes = [
         canActivate: [HasWallet],
         loadChildren: () => import('./moonpay/moonpay.module').then((m) => m.MoonpayPageModule),
       },
+      {
+        path: 'token-selection',
+        loadChildren: () => import('./provider-token-selection/provider-token-selection.module').then( m => m.ProviderTokenSelectionPageModule),
+      },
     ],
   },
 ];

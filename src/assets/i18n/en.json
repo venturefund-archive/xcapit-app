@@ -2497,6 +2497,10 @@
       "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
       "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
       "button_text": "Continue"
+    },
+    "token_selection": {
+      "header": "Buy crypto",
+      "subtitle": "Select the currency you wish to purchase"
     }
   },
   "paxful": {
