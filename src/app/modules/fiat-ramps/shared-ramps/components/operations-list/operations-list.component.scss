@@ -1,7 +1,10 @@
 :host {
   ion-card-header {
-    border-bottom: 0.5px solid var(--ion-color-neutral50);
     padding: 16px 16px 12px;
+  }
+
+  ion-card-header.with-line {
+    border-bottom: 0.5px solid var(--ion-color-neutral10);
   }
 
   ion-card-content {
@@ -21,26 +24,13 @@
         margin: 0;
       }
     }
-  }
 
-  .table-header {
-    margin-bottom: 0;
-    font-size: 12px;
-    color: var(--ion-color-neutral80);
-    flex-direction: row;
-    display: flex;
-    text-align: left;
-    font-weight: var(--ux-fweight-regular);
-
-    --border-color: var(--ion-color-neutral10);
-
-    ion-label {
-      margin: 0;
-      flex: 1;
-    }
-
-    ion-text {
-      flex: 1;
+    .no-operations-text {
+      display: block;
+      width: 100%;
+      text-align: center;
+      color: var(--ion-color-primary);
+      padding-bottom: 8px;
     }
   }
 }

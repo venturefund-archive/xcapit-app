@@ -2281,7 +2281,8 @@
       "operation": "Buy",
       "amount": "Amount",
       "date": "Date",
-      "status": "Status"
+      "status": "Status",
+      "no_operations_message": "You still do not have any purchases made, here you will be able to see the list of your purchases "
     },
     "fiat_success": {
       "textPrimary": "Operation created!",

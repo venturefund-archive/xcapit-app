@@ -2258,7 +2258,8 @@
       "operation": "Compra",
       "amount": "Monto",
       "date": "Fecha",
-      "status": "Estado"
+      "status": "Estado",
+      "no_operations_message": "Aún no tienes compras realizadas, aquí vas a poder ver el listado de tus compras"
     },
     "select_provider": {
       "header": "Comprar Cripto",
