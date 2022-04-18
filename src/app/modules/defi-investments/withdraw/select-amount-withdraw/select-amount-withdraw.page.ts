@@ -91,7 +91,7 @@ export class SelectAmountWithdrawPage implements OnInit {
   async ionViewWillEnter() {
     await this.setInvestmentProduct();
     this.setToken();
-    await this.getProductBalance(this.investmentProduct);
+    await this.setBalanceFor(this.investmentProduct);
   }
 
   private vaultID() {
@@ -121,10 +121,10 @@ export class SelectAmountWithdrawPage implements OnInit {
     this.amountInputCard.ngOnDestroy();
   }
 
-  async getProductBalance(investmentProduct: InvestmentProduct): Promise<void> {
+  async setBalanceFor(anInvestmentProduct: InvestmentProduct): Promise<void> {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
-    const address = wallet.addresses[investmentProduct.token().network];
-    const investment = this.createInvestment(investmentProduct, address);
+    const address = wallet.addresses[anInvestmentProduct.token().network];
+    const investment = this.createInvestment(anInvestmentProduct, address);
     const balance = await investment.balance();
     this.investedAmount = balance;
   }
