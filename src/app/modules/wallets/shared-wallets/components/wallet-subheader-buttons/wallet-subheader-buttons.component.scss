@@ -1,22 +1,29 @@
 :host {
   .wsb {
+    margin-bottom: 26px;
+
     &__card-buttons {
-      color: #000000;
+      color: #000;
       display: flex;
       justify-content: center;
       align-items: center;
+
       &__send-card {
-        margin: 0px 5px 0px 14px;
+        margin: 0 5px 0 35px;
       }
+
       &__buy-card {
-        margin: 0px 5px;
+        margin: 0 5px;
       }
+
       &__receive-card {
-        margin: 0px 5px;
+        margin: 0 5px;
       }
+
       &__performance {
-        margin: 0px 14px 0px 5px;
+        margin: 0 14px 0 5px;
       }
+
       .card {
         width: 78px;
         height: 78px;
@@ -27,7 +34,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 15px 0 15px 0;
+      padding: 15px 0;
       color: #54576b;
       font-weight: bold;
     }

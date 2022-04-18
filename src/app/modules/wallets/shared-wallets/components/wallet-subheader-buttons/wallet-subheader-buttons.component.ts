@@ -36,6 +36,7 @@ import { NavigationExtras } from '@angular/router';
             [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"
             icon="ux-currency"
           ></app-icon-button-card>
+          
         </div>
         <div class="wsb__card-buttons__performance card">
           <app-icon-button-card
