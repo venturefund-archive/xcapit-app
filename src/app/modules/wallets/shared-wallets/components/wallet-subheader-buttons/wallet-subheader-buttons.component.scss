@@ -3,13 +3,12 @@
     margin-bottom: 26px;
 
     &__card-buttons {
-      color: #000;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: start;
 
       &__send-card {
-        margin: 0 5px 0 35px;
+        margin: 0 5px;
       }
 
       &__buy-card {
@@ -20,7 +19,7 @@
         margin: 0 5px;
       }
 
-      &__performance {
+      &__swap-card {
         margin: 0 14px 0 5px;
       }
 

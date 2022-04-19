@@ -1,23 +1,18 @@
 :host {
   .rc {
-    display: inline-block;
-
     &__content {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       position: relative;
+      right: 0;
       box-shadow: 0 1px 11px rgb(0 0 0 / 8%);
       border-radius: 50px;
       background: var(--ion-color-secondary);
       width: 50px;
       height: 50px;
-
-      &__text {
-        text-align: center;
-        line-height: 0.8;
-      }
+      margin-left: 13px;
 
       &__icon {
         font-size: 22px;
@@ -36,6 +31,14 @@
         justify-content: center;
         align-items: center;
       }
+    }
+
+    &__text {
+      display: flex;
+      justify-content: center;
+      margin-top: 8px;
+      text-align: center;
+      line-height: 0.8;
     }
   }
 }

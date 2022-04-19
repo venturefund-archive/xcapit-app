@@ -1674,7 +1674,8 @@
         "send_card": "Enviar",
         "receive_card": "Recibir",
         "buy_card": "Comprar",
-        "performance_card": "Invertir"
+        "performance_card": "Invertir",
+        "swap_card":"Intercambiar"
       }
     },
     "select_coin": {
