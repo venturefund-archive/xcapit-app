@@ -23,6 +23,7 @@ export const NONPROD_COINS: Coin[] = [
     moonpayCode: 'keth',
     native: true,
     symbol: 'ETHUSDT',
+    contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   },
   {
     id: 2,

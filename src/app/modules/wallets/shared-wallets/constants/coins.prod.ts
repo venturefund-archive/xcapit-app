@@ -28,6 +28,8 @@ export const PROD_COINS: Coin[] = [
     moonpayCode: 'eth',
     native: true,
     symbol: 'ETHUSDT',
+    contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    decimals: 18,
   },
   {
     id: 2,
@@ -213,6 +215,8 @@ export const PROD_COINS: Coin[] = [
     rpc: environment.rskApiUrl,
     native: true,
     symbol: 'BTCUSDT',
+    decimals: 18,
+    contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   },
   {
     id: 15,
@@ -241,6 +245,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
     native: true,
     symbol: 'MATICUSDT',
+    contract: '0x0000000000000000000000000000000000001010',
   },
   {
     id: 18,
@@ -255,6 +260,7 @@ export const PROD_COINS: Coin[] = [
     decimals: 18,
     native: true,
     symbol: 'BNBUSDT',
+    contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   },
   {
     id: 19,
@@ -388,7 +394,7 @@ export const PROD_COINS: Coin[] = [
     name: 'WBTC - Wrapped BTC',
     logoRoute: 'assets/img/coins/WBTC.png',
     last: true,
-    value: 'BTC',
+    value: 'WBTC',
     network: 'MATIC',
     chainId: 137,
     rpc: environment.maticApiUrl,
@@ -397,5 +403,4 @@ export const PROD_COINS: Coin[] = [
     decimals: 8,
     symbol: 'BTCUSDT',
   },
-  
 ];

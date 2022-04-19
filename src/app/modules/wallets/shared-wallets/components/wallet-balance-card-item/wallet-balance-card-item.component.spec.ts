@@ -35,7 +35,7 @@ describe('WalletBalanceCardItemComponent', () => {
 
       fixture = TestBed.createComponent(WalletBalanceCardItemComponent);
       component = fixture.componentInstance;
-      component.balance = jasmine.createSpyObj('AssetBalanceModel', {}, testBalances);
+      component.tokenDetail = jasmine.createSpyObj('AssetBalanceModel', {}, testBalances);
       fixture.detectChanges();
     })
   );

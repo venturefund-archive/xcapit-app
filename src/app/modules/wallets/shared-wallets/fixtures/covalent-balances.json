@@ -1,0 +1,49 @@
+{
+    "data": {
+        "address": "0x1cda7506637b31922da4924bf79077f3ce38f3d3",
+        "updated_at": "2022-04-11T14:17:39.981004633Z",
+        "next_update_at": "2022-04-11T14:22:39.981004853Z",
+        "quote_currency": "USD",
+        "chain_id": 137,
+        "items": [
+            {
+                "contract_decimals": 18,
+                "contract_name": "Matic Token",
+                "contract_ticker_symbol": "MATIC",
+                "contract_address": "0x0000000000000000000000000000000000001010",
+                "supports_erc": ["erc20"],
+                "logo_url": "https://logos.covalenthq.com/tokens/1/0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0.png",
+                "last_transferred_at": null,
+                "type": "cryptocurrency",
+                "balance": "1675680796545105500",
+                "balance_24h": "1675680796545105500",
+                "quote_rate": 1.3570983,
+                "quote_rate_24h": 1.4483159,
+                "quote": 2.2740636,
+                "quote_24h": 2.4269152,
+                "nft_data": null
+            },
+            {
+                "contract_decimals": 6,
+                "contract_name": "USD Coin (PoS)",
+                "contract_ticker_symbol": "USDC",
+                "contract_address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+                "supports_erc": ["erc20"],
+                "logo_url": "https://logos.covalenthq.com/tokens/1/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png",
+                "last_transferred_at": "2022-04-01T17:14:12Z",
+                "type": "dust",
+                "balance": "200000",
+                "balance_24h": null,
+                "quote_rate": 0.9946307,
+                "quote_rate_24h": 1.0101264,
+                "quote": 0.0,
+                "quote_24h": null,
+                "nft_data": null
+            }
+        ],
+        "pagination": null
+    },
+    "error": false,
+    "error_message": null,
+    "error_code": null
+}
