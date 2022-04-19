@@ -5,7 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
   template: `
     <div class="rc">
       <div class="rc__content">
-        <div class="rc__content__icon"><ion-icon color="primary" [name]="this.icon" ariaLabel=""></ion-icon></div>
+        <div class="rc__content__icon"><ion-icon color="primary" [name]="this.icon"></ion-icon></div>
         <div *ngIf="this.comingSoon" class="rc__content__coming_soon">
           <ion-text class="ux-font-lato ux-fweight-bold ux-fsize-8">{{
             'shared.app_icon_button_card.coming_soon' | translate
