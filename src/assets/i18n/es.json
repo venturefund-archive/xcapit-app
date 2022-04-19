@@ -1961,7 +1961,7 @@
         "operation": "Operación en",
         "sign_message": "Se ha solicitado su firma para lo siguiente:",
         "date": "Fecha",
-        "from": "De",
+        "from": "De tu wallet",
         "to": "Para",
         "amount": "A pagar",
         "transaction_fee": "Tarifa de transacción",

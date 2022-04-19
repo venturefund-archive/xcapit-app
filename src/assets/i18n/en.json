@@ -1986,7 +1986,7 @@
         "operation": "Operation in",
         "sign_message": "Your signature has been requested for the following:",
         "date": "Date",
-        "from": "From",
+        "from": "From your wallet",
         "to": "To",
         "amount": "To pay",
         "transaction_fee": "Transation fee",
