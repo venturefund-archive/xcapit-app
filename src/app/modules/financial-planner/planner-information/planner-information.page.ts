@@ -52,7 +52,7 @@ import { NavController } from '@ionic/angular';
               size="large"
               (click)="this.navigateToFinancialPlanner()"
             >
-              {{ 'deposit_addresses.deposit_currency.next_button' | translate }}
+              {{ 'financial_planner.planner_information.button' | translate }}
             </ion-button>
           </div>
         </div>
