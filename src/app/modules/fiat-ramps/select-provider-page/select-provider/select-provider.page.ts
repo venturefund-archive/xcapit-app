@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
-import { PROVIDERS } from '../../shared-ramps/constants/providers';
 @Component({
   selector: 'app-select-provider',
   template: `
@@ -48,11 +47,8 @@ export class SelectProviderPage {
     country: ['', [Validators.required]],
     provider: ['', [Validators.required]],
   });
-  providers = PROVIDERS;
   route: string;
-  disabled: boolean = true;
-  disableButton: boolean = true;
-  button;
+  disabled: boolean;
 
   constructor(private navController: NavController, private formBuilder: FormBuilder) {}
 

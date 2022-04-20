@@ -85,7 +85,7 @@ export class SelectProviderCardComponent implements OnInit {
 
   showProvider(country) {
     for (let provider of this.providers) {
-      let show = provider.countries.includes(country.value);
+      const show = provider.countries.includes(country.value);
       provider = Object.assign(provider, { showProvider: show });
     }
   }

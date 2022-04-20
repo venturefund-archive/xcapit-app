@@ -85,7 +85,7 @@ describe('SelectProviderCardComponent', () => {
     const providerCard = fixture.debugElement.query(By.css('app-provider-card'));
     fixture.detectChanges();
     for (let provider of providersTest) {
-      let show = provider.countries.includes('Argentina');
+      const show = provider.countries.includes('Argentina');
       provider = Object.assign(provider, { showProvider: show });
     }
     expect(providerCard).toBeTruthy();
@@ -98,7 +98,7 @@ describe('SelectProviderCardComponent', () => {
     const providerCard = fixture.debugElement.query(By.css('app-provider-card'));
     fixture.detectChanges();
     for (let provider of providersTest) {
-      let show = provider.countries.includes('Colombia');
+      const show = provider.countries.includes('Colombia');
       provider = Object.assign(provider, { showProvider: show });
     }
     expect(providerCard).toBeTruthy();
@@ -111,7 +111,7 @@ describe('SelectProviderCardComponent', () => {
     const providerCard = fixture.debugElement.query(By.css('app-provider-card'));
     fixture.detectChanges();
     for (let provider of providersTest) {
-      let show = provider.countries.includes('Venezuela');
+      const show = provider.countries.includes('Venezuela');
       provider = Object.assign(provider, { showProvider: show });
     }
     expect(providerCard).toBeTruthy();
