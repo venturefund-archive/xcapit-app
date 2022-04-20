@@ -1701,7 +1701,7 @@
         "send_card": "Send",
         "receive_card": "Receive",
         "buy_card": "Buy",
-        "performance_card": "Invest"
+        "swap_card":"Swap"
       }
     },
     "select_coin": {
