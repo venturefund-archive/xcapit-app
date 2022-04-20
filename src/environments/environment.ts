@@ -38,6 +38,5 @@ export const environment = {
     MATIC: "m/44'/80001'/0'/0/0",
     BSC_BEP20: "m/44'/60'/0'/0/0",
   },
+  IPFS_GATEWAY: 'https://gateway.pinata.cloud/ipfs'
 };
-
-
