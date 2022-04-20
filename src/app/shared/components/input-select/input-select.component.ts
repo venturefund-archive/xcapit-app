@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.component';
@@ -9,7 +9,7 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
     <div [appSelectStyle]="this.selectorStyle">
       <div class="uxselect">
         <ion-label class="ux-font-text-xs" color="neutral90">{{ this.label }}</ion-label>
-        <ion-item (click)="this.openModal()" class="uxselect__item">
+        <ion-item (click)="this.openModal()" class="ux-font-text-base uxselect__item">
           <img
             *ngIf="this.imageKey"
             class="uxselect__item__logo"
@@ -21,12 +21,9 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
             class="uxselect__item__logo"
             [name]="this.control.value[this.iconKey]"
           ></ion-icon>
-          <ion-label
-            *ngIf="!this.control.value && this.placeholder"
-            class="ux-font-text-xs uxselect__placeholder"
-            color="neutral90"
-            >{{ this.placeholder }}</ion-label
-          >
+          <ion-label *ngIf="!this.control.value && this.placeholder" class="uxselect__item__placeholder">{{
+            this.placeholder
+          }}</ion-label>
           <ion-label *ngIf="this.control.value" class="uxselect__label" color="neutral90">{{
             this.translated ? (this.control.value[this.valueKey] | translate) : this.control.value[this.valueKey]
           }}</ion-label>
@@ -39,7 +36,7 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
             [readonly]="true"
           >
           </ion-input>
-          <ion-icon class="uxselect__item__arrow_icon" item-end name="ux-down" color="neutral90"></ion-icon>
+          <ion-icon class="uxselect__item__arrow_icon" item-end name="ux-down"></ion-icon>
         </ion-item>
         <app-errors-form-item [controlName]="this.controlName"></app-errors-form-item>
       </div>
@@ -66,6 +63,7 @@ export class InputSelectComponent implements OnInit {
   @Input() imageKey: string;
   @Input() selectorStyle = 'classic';
   @Input() translated = false;
+  @Output() selectedItem: EventEmitter<string> = new EventEmitter<string>();
   constructor(private modalController: ModalController, private formGroupDirective: FormGroupDirective) {}
 
   ngOnInit() {
@@ -96,5 +94,6 @@ export class InputSelectComponent implements OnInit {
 
   setSelectedValue(value: any) {
     this.control.patchValue(value);
+    this.selectedItem.emit(value);
   }
 }

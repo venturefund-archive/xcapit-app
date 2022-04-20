@@ -1,0 +1,18 @@
+export const COUNTRIES = [
+  { value: 'Mexico' },
+  { value: 'Guatemala' },
+  { value: 'Honduras' },
+  { value: 'Costa Rica' },
+  { value: 'Colombia' },
+  { value: 'Argentina' },
+  { value: 'Australia' },
+  { value: 'El Salvador' },
+  { value: 'Guyana' },
+  { value: 'Paraguay' },
+  { value: 'Peru' },
+  { value: 'Portugal' },
+  { value: 'España' },
+  { value: 'Uruguay' },
+  { value: 'Estados Unidos' },
+  { value: 'Venezuela' },
+];

@@ -72,6 +72,8 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
 import { TokenSelectionListComponent } from './components/token-selection-list/token-selection-list.component';
 import { SuitePipe } from './pipes/suite/suite.pipe';
 import { CoinSelectorComponent } from './components/coin-selector/coin-selector.component';
+import { SelectProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/select-provider-card/select-provider-card.component';
+import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/provider-card/provider-card/provider-card.component';
 
 @NgModule({
   declarations: [
@@ -135,6 +137,8 @@ import { CoinSelectorComponent } from './components/coin-selector/coin-selector.
     NewsItemComponent,
     ToastWithButtonsComponent, 
     CoinSelectorComponent,
+    SelectProviderCardComponent,
+    ProviderCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -213,6 +217,8 @@ import { CoinSelectorComponent } from './components/coin-selector/coin-selector.
     UpdateNewsComponent,
     NewsItemComponent,
     ToastWithButtonsComponent,
+    SelectProviderCardComponent,
+    ProviderCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
