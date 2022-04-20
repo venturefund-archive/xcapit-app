@@ -41,6 +41,6 @@ describe('FinancialPlannerCardComponent', () => {
 
   it('should navigate to financial planner when card is clicked', () => {
     fixture.debugElement.query(By.css('div.fpc')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/home');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/financial-planner/information');
   });
 });

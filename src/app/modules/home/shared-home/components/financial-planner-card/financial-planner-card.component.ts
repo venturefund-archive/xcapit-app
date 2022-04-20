@@ -33,6 +33,6 @@ export class FinancialPlannerCardComponent implements OnInit {
   ngOnInit() {}
 
   goToFinancialPlanner() {
-    this.navController.navigateForward('/tabs/home');
+    this.navController.navigateForward('/financial-planner/information');
   }
 }
