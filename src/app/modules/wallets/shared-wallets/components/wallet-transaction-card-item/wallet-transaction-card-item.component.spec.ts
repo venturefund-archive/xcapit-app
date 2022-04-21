@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
 import { WalletTransactionCardItemComponent } from './wallet-transaction-card-item.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { promise } from 'protractor';
 
 const transaction = {
   icon: 'assets/img/wallet-transactions/received.svg',
