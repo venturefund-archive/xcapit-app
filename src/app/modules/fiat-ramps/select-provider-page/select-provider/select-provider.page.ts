@@ -18,8 +18,9 @@ import { NavController } from '@ionic/angular';
           <form [formGroup]="this.form">
             <app-select-provider-card
               (route)="this.receiveRoute($event)"
-              (onChange)="this.resetForm()"
-              controlName="provider"
+              (changedItem)="this.resetForm()"
+              controlNameProvider="provider"
+              controlNameSelect="country"
             ></app-select-provider-card>
           </form>
         </div>

@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -31,13 +32,22 @@ const providersTest = [
 describe('SelectProviderCardComponent', () => {
   let component: SelectProviderCardComponent;
   let fixture: ComponentFixture<SelectProviderCardComponent>;
+  let formGroupDirectiveMock: FormGroupDirective;
+  let controlContainerMock: FormGroup;
 
   beforeEach(
     waitForAsync(() => {
+      controlContainerMock = new FormBuilder().group({
+        country: ['', []],
+        provider: ['', []],
+      });
+      formGroupDirectiveMock = new FormGroupDirective([], []);
+      formGroupDirectiveMock.form = controlContainerMock;
       TestBed.configureTestingModule({
         declarations: [SelectProviderCardComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [{ provide: FormGroupDirective, useValue: formGroupDirectiveMock }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SelectProviderCardComponent);
@@ -59,21 +69,14 @@ describe('SelectProviderCardComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit event when country is changed', () => {
-    const spy = spyOn(component.onChange, 'emit');
-    fixture.debugElement.query(By.css('app-input-select')).triggerEventHandler('selectedItem', { value: 'Argentina' });
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
   it('should set disable in false when no country is selected', () => {
-    fixture.debugElement.query(By.css('app-input-select')).triggerEventHandler('selectedItem', '');
+    component.form.patchValue({ country: '' });
     fixture.detectChanges();
     expect(component.disabled).toBeFalsy();
   });
 
   it('should set disable in true when country is selected and show providers', () => {
-    fixture.debugElement.query(By.css('app-input-select')).triggerEventHandler('selectedItem', { value: 'Argentina' });
+    component.form.patchValue({ country: 'Argentina' });
     const providerCard = fixture.debugElement.query(By.css('app-provider-card'));
     fixture.detectChanges();
     expect(providerCard).toBeTruthy();
@@ -81,7 +84,7 @@ describe('SelectProviderCardComponent', () => {
   });
 
   it('should show correct providers for Argentina', () => {
-    fixture.debugElement.query(By.css('app-input-select')).triggerEventHandler('selectedItem', { value: 'Argentina' });
+    component.form.patchValue({ country: 'Argentina' });
     const providerCard = fixture.debugElement.query(By.css('app-provider-card'));
     fixture.detectChanges();
     for (let provider of providersTest) {
@@ -94,7 +97,7 @@ describe('SelectProviderCardComponent', () => {
   });
 
   it('should show correct providers for Colombia', () => {
-    fixture.debugElement.query(By.css('app-input-select')).triggerEventHandler('selectedItem', { value: 'Colombia' });
+    component.form.patchValue({ country: 'Colombia' });
     const providerCard = fixture.debugElement.query(By.css('app-provider-card'));
     fixture.detectChanges();
     for (let provider of providersTest) {
@@ -107,7 +110,7 @@ describe('SelectProviderCardComponent', () => {
   });
 
   it('should show correct providers for Venezuela', () => {
-    fixture.debugElement.query(By.css('app-input-select')).triggerEventHandler('selectedItem', { value: 'Venezuela' });
+    component.form.patchValue({ country: 'Venezuela' });
     const providerCard = fixture.debugElement.query(By.css('app-provider-card'));
     fixture.detectChanges();
     for (let provider of providersTest) {

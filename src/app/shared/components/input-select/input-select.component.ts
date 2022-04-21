@@ -63,7 +63,6 @@ export class InputSelectComponent implements OnInit {
   @Input() imageKey: string;
   @Input() selectorStyle = 'classic';
   @Input() translated = false;
-  @Output() selectedItem: EventEmitter<string> = new EventEmitter<string>();
   constructor(private modalController: ModalController, private formGroupDirective: FormGroupDirective) {}
 
   ngOnInit() {
@@ -94,6 +93,5 @@ export class InputSelectComponent implements OnInit {
 
   setSelectedValue(value: any) {
     this.control.patchValue(value);
-    this.selectedItem.emit(value);
   }
 }

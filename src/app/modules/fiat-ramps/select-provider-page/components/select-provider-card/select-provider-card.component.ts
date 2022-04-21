@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ControlContainer, FormGroupDirective } from '@angular/forms';
+import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { COUNTRIES } from '../../../shared-ramps/constants/countries';
 import { PROVIDERS } from '../../../shared-ramps/constants/providers';
 
@@ -16,12 +16,11 @@ import { PROVIDERS } from '../../../shared-ramps/constants/providers';
             <app-input-select
               [modalTitle]="'fiat_ramps.select_provider.select_placeholder' | translate"
               [placeholder]="'fiat_ramps.select_provider.select_placeholder' | translate"
-              controlName="country"
+              [controlName]="this.controlNameSelect"
               [data]="this.countries"
               key="value"
               valueKey="value"
               [translated]="true"
-              (selectedItem)="this.selectedCountry($event)"
               selectorStyle="modern"
             ></app-input-select>
           </div>
@@ -30,7 +29,7 @@ import { PROVIDERS } from '../../../shared-ramps/constants/providers';
           <div class="spc__select__label-provider">
             <ion-text class="ux-font-title-xs">{{ 'fiat_ramps.select_provider.provider_label' | translate }}</ion-text>
           </div>
-          <ion-radio-group [formControlName]="this.controlName">
+          <ion-radio-group [formControlName]="this.controlNameProvider">
             <div *ngFor="let provider of providers">
               <app-provider-card
                 *ngIf="this.provider.showProvider || this.disabled === undefined"
@@ -58,17 +57,23 @@ import { PROVIDERS } from '../../../shared-ramps/constants/providers';
   ],
 })
 export class SelectProviderCardComponent implements OnInit {
-  @Input() controlName = '';
+  @Input() controlNameProvider = '';
+  @Input() controlNameSelect = '';
   @Output() route: EventEmitter<any> = new EventEmitter<any>();
-  @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() changedItem: EventEmitter<any> = new EventEmitter<any>();
+  form: FormGroup;
   providers = PROVIDERS;
   countries = COUNTRIES;
   disabled: boolean;
 
-  constructor() {}
+  constructor(private formGroupDirective: FormGroupDirective) {}
 
   ngOnInit() {
+    this.form = this.formGroupDirective.form;
     this.countries.sort(this.sortCountries);
+    this.form.get('country').valueChanges.subscribe((value) => {
+      this.selectedCountry(value);
+    });
   }
 
   selectedProvider(provider) {
@@ -76,7 +81,7 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   selectedCountry(country) {
-    this.onChange.emit();
+    this.changedItem.emit();
     if (country) {
       this.disabled = true;
     }

@@ -56,7 +56,7 @@ describe('SelectProviderPage', () => {
 
   it('should reset form when country is changed', () => {
     const spy = spyOn(component.form.get('provider'), 'reset');
-    fixture.debugElement.query(By.css('app-select-provider-card')).triggerEventHandler('onChange', 'Argentina');
+    fixture.debugElement.query(By.css('app-select-provider-card')).triggerEventHandler('changedItem', 'Argentina');
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.form.get('provider').value).toEqual('');
