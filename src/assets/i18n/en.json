@@ -2282,7 +2282,9 @@
       "amount": "Amount",
       "date": "Date",
       "status": "Status",
-      "no_operations_message": "You still do not have any purchases made, here you will be able to see the list of your purchases "
+      "no_operations_message": "You still do not have any purchases made, here you will be able to see the list of your purchases",
+      "button_show_less": "Show less",
+      "button_show_more": "Show more"
     },
     "fiat_success": {
       "textPrimary": "Operation created!",

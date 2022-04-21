@@ -10,21 +10,6 @@
   ion-card-content {
     padding: 0 16px;
 
-    .header-row {
-      --padding-start: 0;
-      --inner-padding-end: 0;
-    }
-
-    .row {
-      --padding-start: 0;
-      --inner-padding-end: 0;
-      --border-color: var(--ion-color-neutral10);
-
-      ion-label {
-        margin: 0;
-      }
-    }
-
     .no-operations-text {
       display: block;
       width: 100%;
