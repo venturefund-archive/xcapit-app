@@ -56,7 +56,7 @@ import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-tra
             </ion-label>
           </div>
           <div class="wad__transaction__wallet-transaction-card">
-            <app-wallet-transaction-card [transactions]="this.transfers"></app-wallet-transaction-card>
+            <app-wallet-transaction-card [transactions]="this.transfers" [network]="this.currency.network" ></app-wallet-transaction-card>
           </div>
         </div>
       </div>
