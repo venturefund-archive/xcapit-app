@@ -32,4 +32,5 @@ export const environment = {
     RSK: "m/44'/37310'/0'/0/0",
     MATIC: "m/44'/80001'/0'/0/0",
   },
+  IPFS_GATEWAY: 'https://xcapit.mypinata.cloud/ipfs'
 };
