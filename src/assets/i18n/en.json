@@ -2330,9 +2330,14 @@
     },
     "select_provider": {
       "header": "Buy Crypto",
-      "title": "Select the provider:"
+      "select_label": "Country in which you are going to operate",
+      "select_placeholder": "Select your country",
+      "provider_label": "Select provider",
+      "moonpay_description": "Buy with a credit card",
+      "krypton_description": "Buy with bank transfer",
+      "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
+      "button": "Continue"
     },
-
     "information_paxful": {
       "header": "Buy",
       "title": "Buy BTC with Paxful:",

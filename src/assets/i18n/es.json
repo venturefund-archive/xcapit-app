@@ -2286,7 +2286,13 @@
     },
     "select_provider": {
       "header": "Comprar Cripto",
-      "title": "Selecciona el proveedor:"
+      "select_label": "Pais en el que vas a operar",
+      "select_placeholder": "Selecciona tu país",
+      "provider_label": "Selecciona el proveedor",
+      "moonpay_description": "Compra con tarjeta de crédito",
+      "krypton_description": "Compra con transferencia bancaria",
+      "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
+      "button": "Continuar"
     },
 
     "information_paxful": {
