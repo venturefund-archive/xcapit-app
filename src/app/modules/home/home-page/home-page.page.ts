@@ -76,6 +76,9 @@ import { AssetBalanceModel } from '../../wallets/shared-wallets/models/asset-bal
         <div class="investor-test-card">
           <app-investor-test-cards></app-investor-test-cards>
         </div>
+        <div class="financial-planner-card">
+            <app-financial-planner-card></app-financial-planner-card>
+        </div>
         <div class="need-help-card">
           <app-need-help-card></app-need-help-card>
         </div>
@@ -231,6 +234,6 @@ export class HomePage implements OnInit {
   }
 
   goToBuyCrypto() {
-    this.navController.navigateForward(['/fiat-ramps/moonpay']);
+    this.navController.navigateForward(['/fiat-ramps/select-provider']);
   }
 }

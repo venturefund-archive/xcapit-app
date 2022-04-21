@@ -5,9 +5,9 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { TEST_ERC20_COINS, TEST_RSK_COINS } from '../../constants/coins.test';
+import { TEST_ERC20_COINS, TEST_RSK_COINS } from '../../../modules/wallets/shared-wallets/constants/coins.test';
 import { SuitePipe } from '../../pipes/suite/suite.pipe';
-import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
+import { ApiWalletService } from '../../../modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TokenSelectionListComponent } from './token-selection-list.component';
 
 describe('TokenSelectionListComponent', () => {

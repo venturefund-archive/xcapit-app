@@ -1,17 +1,21 @@
 import { NgModule } from '@angular/core';
-import { DefiInvestmentWithdrawPage } from './defi-investment-withdraw.page';
+import { WithdrawConfirmationPage } from './withdraw-confirmation.page';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedDefiInvestmentsModule } from '../../shared-defi-investments/shared-defi-investments.module';
 
 const routes: Routes = [
   {
+    path: ':vault/:type',
+    component: WithdrawConfirmationPage,
+  },
+  {
     path: ':vault',
-    component: DefiInvestmentWithdrawPage,
+    component: WithdrawConfirmationPage,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes), SharedDefiInvestmentsModule],
-  declarations: [DefiInvestmentWithdrawPage],
+  declarations: [WithdrawConfirmationPage],
 })
-export class DefiInvestmentWithdrawPageModule {}
+export class WithdrawConfirmationPageModule {}

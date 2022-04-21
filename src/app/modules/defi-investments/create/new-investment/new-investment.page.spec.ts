@@ -11,7 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
-
 import { NewInvestmentPage } from './new-investment.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -101,7 +100,7 @@ describe('NewInvestmentPage', () => {
         token: no_moonpay_token,
         contractAddress: '0x00001',
         name: 'no_moonpay_token',
-        value:'NM'
+        value: 'NM',
       });
 
       fakeNavController = new FakeNavController({});

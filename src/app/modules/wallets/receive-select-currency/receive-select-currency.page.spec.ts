@@ -7,8 +7,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { TokenSelectionListComponent } from '../shared-wallets/components/token-selection-list/token-selection-list.component';
-import { SuitePipe } from '../shared-wallets/pipes/suite/suite.pipe';
+import { TokenSelectionListComponent } from '../../../shared/components/token-selection-list/token-selection-list.component';
+import { SuitePipe } from '../../../shared/pipes/suite/suite.pipe';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { NavigationExtras } from '@angular/router';
 

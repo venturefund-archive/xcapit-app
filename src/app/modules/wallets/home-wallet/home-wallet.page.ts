@@ -47,7 +47,7 @@ import { takeUntil } from 'rxjs/operators';
         </ion-refresher-content>
       </ion-refresher>
       <div class="wt__subheader__value">
-        <div class="wt__title ux-font-text-base">
+        <div class="wt__title ux-font-num-subtitulo">
           <ion-text>
             {{ 'wallets.home.available_money' | translate }}
           </ion-text>
