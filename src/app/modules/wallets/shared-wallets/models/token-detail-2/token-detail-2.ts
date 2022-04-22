@@ -1,5 +1,5 @@
 import { Coin } from '../../interfaces/coin.interface';
-import { CovalentBalances } from '../covalent-balances/covalent-balances';
+import { CovalentBalances } from '../balances/covalent-balances/covalent-balances';
 import { TokenPrices } from '../token-prices/token-prices';
 
 export class TokenDetail2 {

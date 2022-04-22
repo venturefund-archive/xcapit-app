@@ -13,12 +13,17 @@ import { QueueService } from '../../../shared/services/queue/queue.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { CovalentBalances } from '../shared-wallets/models/covalent-balances/covalent-balances';
+import { CovalentBalances } from '../shared-wallets/models/balances/covalent-balances/covalent-balances';
 import { TokenPrices } from '../shared-wallets/models/token-prices/token-prices';
 import { TokenPrice } from '../shared-wallets/models/token-price/token-price';
 import { TokenDetailList } from '../shared-wallets/models/token-detail-list/token-detail-list';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { TokenDetail2 } from '../shared-wallets/models/token-detail-2/token-detail-2';
+import { TotalBalance } from '../shared-wallets/models/balance/total-balance/total-balance';
+import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fake-balances';
+import { FakePrices } from '../shared-wallets/models/token-prices/fake-prices';
+import { ZeroBalance } from '../shared-wallets/models/balance/zero-balance/zero-balance';
+import { Fake } from '../../../../testing/fakes/fake.spec';
 
 @Component({
   selector: 'app-home-wallet',
@@ -182,6 +187,7 @@ export class HomeWalletPage implements OnInit {
     await this.checkWalletExist();
     await this.setUserTokens();
     this.tokenDetails = [];
+    let totalBalance = new TotalBalance(new FakePrices(), new FakeBalances([]), new ZeroBalance());
     for (const network of this.apiWalletService.getNetworks()) {
       const tokens = this.userTokens.filter((token) => token.network === network);
       const address = await this.storageService.getWalletsAddresses(network);
@@ -189,9 +195,9 @@ export class HomeWalletPage implements OnInit {
       const balances = new CovalentBalances(address, tokens, this.http);
       const prices = new TokenPrices(tokens, this.http);
 
-      await balances.value();
-      
+      const values = await balances.value();
 
+      await prices.value();
       const news = this.userTokens
         .filter((token) => token.network === network)
         .map((token) => {
@@ -200,8 +206,10 @@ export class HomeWalletPage implements OnInit {
           return tokenDetail;
         });
       this.tokenDetails = [...this.tokenDetails, ...news];
+      totalBalance = new TotalBalance(prices, balances, totalBalance);
     }
 
+    this.totalBalance = await totalBalance.value();
 
     // const addressPOLYGON = await this.storageService.getWalletsAddresses('MATIC'); // const addressBSC = await this.storageService.getWalletsAddresses('BSC_BEP20'); // const addressRSK = await this.storageService.getWalletsAddresses('RSK');
     // const balancesPOLYGON = new CovalentBalances(addressPOLYGON, coinsPOLYGON, this.http);

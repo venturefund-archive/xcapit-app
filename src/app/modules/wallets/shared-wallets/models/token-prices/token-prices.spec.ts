@@ -2,7 +2,7 @@ import { Coin } from '../../interfaces/coin.interface';
 import { FakeHttpClient } from '../../../../../../testing/fakes/fake-http.spec';
 import { TokenPrices } from './token-prices';
 
-fdescribe('TokenPrices', () => {
+describe('TokenPrices', () => {
   let usdcSpy: jasmine.SpyObj<Coin>;
   let maticSpy: jasmine.SpyObj<Coin>;
   let tokenPrices: TokenPrices;

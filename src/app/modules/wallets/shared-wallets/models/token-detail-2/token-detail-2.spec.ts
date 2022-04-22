@@ -1,9 +1,9 @@
 import { Coin } from '../../interfaces/coin.interface';
 import { TokenDetail2 } from './token-detail-2';
-import { CovalentBalances } from '../covalent-balances/covalent-balances';
+import { CovalentBalances } from '../balances/covalent-balances/covalent-balances';
 import { TokenPrices } from '../token-prices/token-prices';
 
-fdescribe('TokenDetail2', () => {
+describe('TokenDetail2', () => {
   let maticSpy: jasmine.SpyObj<Coin>;
   let covalentBalancesSpy: jasmine.SpyObj<CovalentBalances>;
   let tokenPricesSpy: jasmine.SpyObj<TokenPrices>;

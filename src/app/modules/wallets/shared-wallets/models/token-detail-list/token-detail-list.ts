@@ -1,4 +1,4 @@
-import { CovalentBalances } from '../covalent-balances/covalent-balances';
+import { CovalentBalances } from '../balances/covalent-balances/covalent-balances';
 import { TokenPrices } from '../token-prices/token-prices';
 import { TokenDetail } from '../token-detail/token-detail';
 

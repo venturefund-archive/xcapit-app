@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { FakeHttpClient } from '../../../../../../testing/fakes/fake-http.spec';
-import { environment } from '../../../../../../environments/environment';
-import { Coin } from '../../interfaces/coin.interface';
+import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
+import { environment } from '../../../../../../../environments/environment';
+import { Coin } from '../../../interfaces/coin.interface';
 import { formatUnits } from 'ethers/lib/utils';
+import { Balances } from '../balances.interface';
 
-export class CovalentBalances {
+export class CovalentBalances implements Balances {
   private _valueCache: any = null;
 
   constructor(

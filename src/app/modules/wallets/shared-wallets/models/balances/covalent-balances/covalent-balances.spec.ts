@@ -1,9 +1,9 @@
-import covalentBalancesData from '../../fixtures/covalent-balances.json';
+import covalentBalancesData from '../../../fixtures/covalent-balances.json';
 import { CovalentBalances } from './covalent-balances';
-import { FakeHttpClient } from '../../../../../../testing/fakes/fake-http.spec';
-import { Coin } from '../../interfaces/coin.interface';
+import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
+import { Coin } from '../../../interfaces/coin.interface';
 
-fdescribe('CovalentBalances', () => {
+describe('CovalentBalances', () => {
   let covalentBalances: CovalentBalances;
   let maticSpy: jasmine.SpyObj<Coin>;
   let usdcSpy: jasmine.SpyObj<Coin>;
