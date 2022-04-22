@@ -1477,6 +1477,18 @@
       "item_2":"Plan your objectives",
       "item_3":"Discover strategies to achieve them",
       "button":"Start"
+    },
+    "new_objetive":{
+      "title":"Income and expenses*",
+      "subtitle_income":"Monthly income",
+      "description_income":"Add up all the money you receive during the month: payments, salary, gifts, returns.",
+      "subtitle_expenses":"Monthly expenses",
+      "description_expenses":"Add up all the money you spend in the month: purchases, utility payments, fees, rent.",
+      "disclaimer":"*This data is private, and will not be used outside of this simulation.",
+      "label":"USD",
+      "button":"Continue",
+      "of": "of",
+      "placeholder":"Eg: 1000"
     }
   },
   "referrals": {

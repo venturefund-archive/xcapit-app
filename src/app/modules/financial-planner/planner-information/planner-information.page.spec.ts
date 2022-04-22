@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { ObjetiveDataService } from '../shared-financial-planner/services/objetive-data.service';
 
 import { PlannerInformationPage } from './planner-information.page';
 
@@ -14,15 +15,27 @@ describe('PlannerInformationPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<PlannerInformationPage>;
+  let objetiveDataServiceSpy: jasmine.SpyObj<ObjetiveDataService>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+
+      objetiveDataServiceSpy = jasmine.createSpyObj(
+        'ObjetiveDataService',
+        {
+          income: 500,
+          expenses: 200,
+        }
+      );
       TestBed.configureTestingModule({
         declarations: [PlannerInformationPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ObjetiveDataService, useValue: objetiveDataServiceSpy },
+        ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(PlannerInformationPage);
@@ -67,8 +80,11 @@ describe('PlannerInformationPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to planner when button is clicked', () => {
+  it('should navigate to planner and clear objetive data when button is clicked', () => {
     fixture.debugElement.query(By.css('.fpi__button ion-button')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('');
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/financial-planner/new-objetive']);
+    expect(objetiveDataServiceSpy.expenses).toBeNull();
+    expect(objetiveDataServiceSpy.income).toBeNull();
   });
 });
