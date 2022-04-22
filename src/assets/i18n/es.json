@@ -1461,6 +1461,18 @@
       "item_2":"Planifica tus objetivos",
       "item_3":"Descubre estrategias para alcanzarlos",
       "button":"Comenzar"
+    },
+    "new_objetive":{
+      "title":"Ingresos y gastos*",
+      "subtitle_income":"Ingresos mensuales",
+      "description_income":"Suma todo el dinero que recibes en el mes: pagos, salario, regalos, rendimientos.",
+      "subtitle_expenses":"Gastos mensuales",
+      "description_expenses":"Suma todo el dinero que gastas en el mes: compras, pago de servicios, cuotas, alquiler.",
+      "disclaimer":"*Estos datos son privados, y no serán utilizados fuera de esta simulación.",
+      "label":"USD",
+      "button":"Continuar",
+      "of": "de",
+      "placeholder":"Ej: 1000"
     }
   },
   "referrals": {
