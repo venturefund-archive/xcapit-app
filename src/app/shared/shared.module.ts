@@ -73,6 +73,8 @@ import { TokenSelectionListComponent } from './components/token-selection-list/t
 import { SuitePipe } from './pipes/suite/suite.pipe';
 import { CoinSelectorComponent } from './components/coin-selector/coin-selector.component';
 import { FilterTabComponent } from '../modules/defi-investments/shared-defi-investments/components/filter-tab/filter-tab.component';
+import { SelectProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/select-provider-card/select-provider-card.component';
+import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/provider-card/provider-card/provider-card.component';
 
 @NgModule({
   declarations: [
@@ -137,6 +139,8 @@ import { FilterTabComponent } from '../modules/defi-investments/shared-defi-inve
     NewsItemComponent,
     ToastWithButtonsComponent, 
     CoinSelectorComponent,
+    SelectProviderCardComponent,
+    ProviderCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -216,6 +220,8 @@ import { FilterTabComponent } from '../modules/defi-investments/shared-defi-inve
     UpdateNewsComponent,
     NewsItemComponent,
     ToastWithButtonsComponent,
+    SelectProviderCardComponent,
+    ProviderCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

@@ -234,6 +234,6 @@ export class HomePage implements OnInit {
   }
 
   goToBuyCrypto() {
-    this.navController.navigateForward(['/fiat-ramps/moonpay']);
+    this.navController.navigateForward(['/fiat-ramps/select-provider']);
   }
 }

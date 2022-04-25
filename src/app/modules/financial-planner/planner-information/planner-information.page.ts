@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { ObjetiveDataService } from '../shared-financial-planner/services/objetive-data.service';
 
 @Component({
   selector: 'app-planner-information',
@@ -62,11 +63,17 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./planner-information.page.scss'],
 })
 export class PlannerInformationPage implements OnInit {
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private objetiveData: ObjetiveDataService) {}
 
   ngOnInit() {}
 
   navigateToFinancialPlanner() {
-    this.navController.navigateForward('');
+    this.clearObjetiveData();
+    this.navController.navigateForward(['/financial-planner/new-objetive']);
+  }
+
+  clearObjetiveData() {
+    this.objetiveData.income = null;
+    this.objetiveData.expenses = null;
   }
 }

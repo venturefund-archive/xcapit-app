@@ -14,6 +14,10 @@ const routes: Routes = [
       {
         path: 'objetive-info',
         loadChildren: () => import('./objetive-info/objetive-info.module').then( m => m.ObjetiveInfoPageModule)
+      },
+      {
+        path: 'new-objetive',
+        loadChildren: () => import('./new-objetive/new-objetive.module').then( m => m.NewObjetivePageModule)
       }
     ]
   },

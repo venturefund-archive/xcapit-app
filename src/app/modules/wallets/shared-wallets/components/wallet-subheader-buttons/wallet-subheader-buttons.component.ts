@@ -89,7 +89,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   }
 
   goToBuy() {
-    this.navController.navigateForward(['fiat-ramps/moonpay']);
+    this.navController.navigateForward(['fiat-ramps/select-provider']);
   }
 
   goToSwap(){

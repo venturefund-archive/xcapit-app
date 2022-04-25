@@ -137,6 +137,6 @@ describe('WalletSubheaderButtonsComponent', () => {
 
   it('should navigate to fiat-ramps moonpay page when Go to Buy button is clicked', async () => {
     fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Buy']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/moonpay']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
   });
 });

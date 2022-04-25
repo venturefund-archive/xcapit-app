@@ -1499,6 +1499,18 @@
       "paragraph_2":"Calculate how much money you need in total to reach your goal.",
       "label_3":"USD",
       "button":"See strategies"
+    },
+    "new_objetive":{
+      "title":"Income and expenses*",
+      "subtitle_income":"Monthly income",
+      "description_income":"Add up all the money you receive during the month: payments, salary, gifts, returns.",
+      "subtitle_expenses":"Monthly expenses",
+      "description_expenses":"Add up all the money you spend in the month: purchases, utility payments, fees, rent.",
+      "disclaimer":"*This data is private, and will not be used outside of this simulation.",
+      "label":"USD",
+      "button":"Continue",
+      "of": "of",
+      "placeholder":"Eg: 1000"
     }
   },
   "referrals": {
@@ -2352,9 +2364,14 @@
     },
     "select_provider": {
       "header": "Buy Crypto",
-      "title": "Select the provider:"
+      "select_label": "Country in which you are going to operate",
+      "select_placeholder": "Select your country",
+      "provider_label": "Select provider",
+      "moonpay_description": "Buy with a credit card",
+      "krypton_description": "Buy with bank transfer",
+      "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
+      "button": "Continue"
     },
-
     "information_paxful": {
       "header": "Buy",
       "title": "Buy BTC with Paxful:",

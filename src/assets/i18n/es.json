@@ -1483,6 +1483,18 @@
       "paragraph_2":"Calcula cuánto dinero necesitas en total para alcanzar tu objetivo.",
       "label_3":"USD",
       "button":"Ver estrategias"
+    },
+    "new_objetive":{
+      "title":"Ingresos y gastos*",
+      "subtitle_income":"Ingresos mensuales",
+      "description_income":"Suma todo el dinero que recibes en el mes: pagos, salario, regalos, rendimientos.",
+      "subtitle_expenses":"Gastos mensuales",
+      "description_expenses":"Suma todo el dinero que gastas en el mes: compras, pago de servicios, cuotas, alquiler.",
+      "disclaimer":"*Estos datos son privados, y no serán utilizados fuera de esta simulación.",
+      "label":"USD",
+      "button":"Continuar",
+      "of": "de",
+      "placeholder":"Ej: 1000"
     }
   },
   "referrals": {
@@ -2308,7 +2320,13 @@
     },
     "select_provider": {
       "header": "Comprar Cripto",
-      "title": "Selecciona el proveedor:"
+      "select_label": "Pais en el que vas a operar",
+      "select_placeholder": "Selecciona tu país",
+      "provider_label": "Selecciona el proveedor",
+      "moonpay_description": "Compra con tarjeta de crédito",
+      "krypton_description": "Compra con transferencia bancaria",
+      "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
+      "button": "Continuar"
     },
 
     "information_paxful": {
