@@ -10,9 +10,13 @@ const routes: Routes = [
       {
         path: 'information',
         loadChildren: () => import('../financial-planner/planner-information/planner-information.module').then(m => m.PlannerInformationPageModule)
+      },
+      {
+        path: 'objetive-info',
+        loadChildren: () => import('./objetive-info/objetive-info.module').then( m => m.ObjetiveInfoPageModule)
       }
     ]
-  }
+  },
 ];
 
 

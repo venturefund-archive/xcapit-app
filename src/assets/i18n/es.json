@@ -1461,6 +1461,28 @@
       "item_2":"Planifica tus objetivos",
       "item_3":"Descubre estrategias para alcanzarlos",
       "button":"Comenzar"
+    },
+    "objetive_info":{
+      "header":"Planificador",
+      "title":"Objetivo",
+      "subtitle_1":"Objetivo financiero",
+      "paragraph_1":"Define qué quieres lograr con tu dinero. Puede ser un viaje, comprar un auto, invertir, otros.",
+      "label_1":"Nombre del objetivo",
+      "label_2":"Categoría",
+      "placeholder_1":"Ej: Viaje a Miami",
+      "placeholder_2":"Ej: 1000",
+      "categories":{
+        "category_1":"Otros",
+        "category_2":"Viaje",
+        "category_3":"Compras",
+        "category_4":"Inversión",
+        "category_5":"Regalo"
+      },
+
+      "subtitle_2":"Dinero necesario",
+      "paragraph_2":"Calcula cuánto dinero necesitas en total para alcanzar tu objetivo.",
+      "label_3":"USD",
+      "button":"Ver estrategias"
     }
   },
   "referrals": {

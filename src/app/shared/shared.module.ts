@@ -72,9 +72,11 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
 import { TokenSelectionListComponent } from './components/token-selection-list/token-selection-list.component';
 import { SuitePipe } from './pipes/suite/suite.pipe';
 import { CoinSelectorComponent } from './components/coin-selector/coin-selector.component';
+import { FilterTabComponent } from '../modules/defi-investments/shared-defi-investments/components/filter-tab/filter-tab.component';
 
 @NgModule({
   declarations: [
+    FilterTabComponent,
     ErrorsFormItemComponent,
     LanguagePopoverComponent,
     LanguageButtonComponent,
@@ -149,6 +151,7 @@ import { CoinSelectorComponent } from './components/coin-selector/coin-selector.
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
+    FilterTabComponent,
     EmbedVideoComponent,
     ErrorsFormItemComponent,
     CommonModule,

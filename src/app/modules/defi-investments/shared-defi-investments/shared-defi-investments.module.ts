@@ -12,7 +12,6 @@ import { ChooseInvestorProfileCardComponent } from './components/choose-investor
 import { FilterTabComponent } from './components/filter-tab/filter-tab.component';
 @NgModule({
   declarations: [
-    FilterTabComponent,
     AmountInputCardComponent,
     ExpandableInvestmentInfoComponent,
     DefiInvestmentProductComponent,
@@ -26,7 +25,6 @@ import { FilterTabComponent } from './components/filter-tab/filter-tab.component
   imports: [SharedModule],
   exports: [
     SharedModule,
-    FilterTabComponent,
     AmountInputCardComponent,
     ExpandableInvestmentInfoComponent,
     ChooseInvestorProfileSkeletonComponent,
