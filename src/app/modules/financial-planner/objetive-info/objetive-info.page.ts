@@ -104,7 +104,7 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
 export class ObjetiveInfoPage implements OnInit {
   income: number;
   expenses: number;
-  key: string = 'planner_data';
+  key = 'planner_data';
   form: FormGroup = this.formBuilder.group({
     name: ['', Validators.required],
     category: ['other', Validators.required],
