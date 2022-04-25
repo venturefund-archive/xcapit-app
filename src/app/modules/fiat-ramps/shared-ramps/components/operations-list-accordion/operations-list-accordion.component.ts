@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { IonAccordionGroup } from '@ionic/angular';
-import { Operation } from '../../interfaces/operation.interface';
+import { FiatRampOperation } from '../../models/fiat-ramp-operation';
 
 @Component({
   selector: 'app-operations-list-accordion',
@@ -46,7 +46,7 @@ import { Operation } from '../../interfaces/operation.interface';
         </ion-accordion>
       </ion-accordion-group>
     </ion-list>
-    <div>
+    <div *ngIf="this.remainingOperations.length > 0">
       <ion-button
         name="Toggle Accordion"
         class="ux_button ion-no-margin"
@@ -63,8 +63,8 @@ import { Operation } from '../../interfaces/operation.interface';
   styleUrls: ['./operations-list-accordion.component.scss'],
 })
 export class OperationsListAccordionComponent implements OnInit {
-  @Input() firstOperations: Operation[];
-  @Input() remainingOperations: Operation[];
+  @Input() firstOperations: FiatRampOperation[];
+  @Input() remainingOperations: FiatRampOperation[];
   @ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
   isAccordionOpen: boolean;
 

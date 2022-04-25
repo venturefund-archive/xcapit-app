@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
+import { OPERATION_STATUS } from '../constants/operation-status';
+import { PROVIDERS } from '../constants/providers';
+import { IFiatRampOperation } from '../interfaces/fiat-ramp-operation.interface';
+import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
+import { OperationStatus } from '../interfaces/operation-status.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +14,9 @@ import { environment } from 'src/environments/environment';
 export class FiatRampsService {
   entity = 'on_off_ramps/provider';
   private provider = '1';
+
+  providers: FiatRampProvider[] = PROVIDERS;
+  operationStatus: OperationStatus[] = OPERATION_STATUS;
 
   constructor(private http: CustomHttpService) {}
 
@@ -70,28 +78,8 @@ export class FiatRampsService {
     );
   }
 
-  getUserOperations(): Observable<any> {
-    // return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
-    return of([
-      {
-        amount_in: 12,
-        currency_in: 'USDT',
-        currency_out: 'ARS',
-        operation_type: 'cash-in',
-        status: 'pending_by_validate',
-        provider: '1',
-        created_at: new Date().toISOString()
-      },
-      {
-        amount_out: 200,
-        currency_in: 'ARS',
-        currency_out: 'USDT',
-        operation_type: 'cash-out',
-        status: 'complete',
-        provider: '1',
-        created_at: new Date().toISOString()
-      }
-    ])
+  getUserOperations(): Observable<IFiatRampOperation[]> {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
   }
 
   getUserSingleOperation(operationId): Observable<any> {
@@ -139,5 +127,14 @@ export class FiatRampsService {
 
   userHasOperations(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, true);
+  }
+
+  getProvider(providerId: number): FiatRampProvider {
+    return this.providers.find((p) => p.id === providerId);
+  }
+
+  getOperationStatus(name: string, providerId?: number): OperationStatus {
+    if (providerId) return this.operationStatus.find((o) => o.name === name && o.provider.id === providerId);
+    return this.operationStatus.find((o) => o.name === name);
   }
 }

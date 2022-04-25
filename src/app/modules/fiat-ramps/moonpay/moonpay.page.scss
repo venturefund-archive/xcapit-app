@@ -51,4 +51,20 @@
       margin-bottom: 15px;
     }
   }
+
+  .operations-list {
+    margin-bottom: 24px;
+  }
+
+  .moonpay-operations {
+    margin-bottom: 24px;
+
+    ion-text {
+      color: var(--ion-color-neutral80);
+    }
+
+    &__link {
+      color: var(--ion-color-neutral80);
+    }
+  }
 }

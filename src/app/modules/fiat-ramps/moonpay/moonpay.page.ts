@@ -9,6 +9,7 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { ActivatedRoute } from '@angular/router';
 import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { FiatRampOperation } from '../shared-ramps/models/fiat-ramp-operation';
 
 @Component({
   selector: 'app-moonpay',
@@ -57,11 +58,31 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
         </div>
         <div class="mnp__disclaimer">
           <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.moonpay.disclaimer' | translate }}</ion-text>
-        </div> 
-         <div class="mnp__information">
-          <ion-text class="ux-font-text-xxs" color="neutral50">{{ 'fiat_ramps.moonpay.information' | translate }}</ion-text>
+        </div>
+        <div class="mnp__information">
+          <ion-text class="ux-font-text-xxs" color="neutral50">{{
+            'fiat_ramps.moonpay.information' | translate
+          }}</ion-text>
         </div>
       </ion-card>
+      <div class="operations-list">
+        <app-operations-list [operationsList]="this.operationsList"></app-operations-list>
+      </div>
+      <div class="moonpay-operations">
+        <ion-text class="ux-font-text-xxs">
+          {{ 'fiat_ramps.moonpay.moonpay_operations' | translate }}
+        </ion-text>
+        <ion-button
+          fill="clear"
+          type="button"
+          appTrackClick
+          name="Go To Moonpay History"
+          (click)="this.goToMoonpay()"
+          class="ux-link-xs moonpay-operations__link"
+        >
+          https://buy.moonpay.com/trade_history
+        </ion-button>
+      </div>
       <ion-button
         appTrackClick
         name="Continue to Moonpay"
@@ -84,6 +105,8 @@ export class MoonpayPage implements OnInit {
   });
   coins: Coin[];
   address: string;
+  operationsList: FiatRampOperation[];
+
   constructor(
     private formBuilder: FormBuilder,
     private browserService: BrowserService,
@@ -91,7 +114,8 @@ export class MoonpayPage implements OnInit {
     private route: ActivatedRoute,
     private walletEncryptionService: WalletEncryptionService,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController
+    private navController: NavController,
+    private apiWalletService: ApiWalletService,
   ) {}
 
   ngOnInit() {}
@@ -99,6 +123,15 @@ export class MoonpayPage implements OnInit {
   ionViewWillEnter() {
     this.subscribeToFormChanges();
     this.initAssetsForm();
+    this.getOperations();
+  }
+
+  getOperations() {
+    this.fiatRampsService.getUserOperations().subscribe((data) => {
+      this.operationsList = data.map((operation) =>
+        FiatRampOperation.create(operation, this.apiWalletService, this.fiatRampsService)
+      );
+    });
   }
 
   initAssetsForm() {
@@ -139,5 +172,9 @@ export class MoonpayPage implements OnInit {
 
   success(): Promise<boolean> {
     return this.navController.navigateForward(['/tabs/wallets']);
+  }
+
+  async goToMoonpay() {
+    await this.browserService.open({ url: 'https://buy.moonpay.com/trade_history' });
   }
 }

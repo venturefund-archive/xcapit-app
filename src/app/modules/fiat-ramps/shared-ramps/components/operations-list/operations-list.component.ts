@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Operation } from '../../interfaces/operation.interface';
+import { FiatRampOperation } from '../../models/fiat-ramp-operation';
 
 @Component({
   selector: 'app-operations-list',
@@ -17,7 +17,7 @@ import { Operation } from '../../interfaces/operation.interface';
           ></app-operations-list-accordion>
         </ng-template>
         <ng-template #noOperationsMessage>
-          <ion-text class="no-operations-text ux-font-text-base">
+          <ion-text name="No Operations" class="no-operations-text ux-font-text-base">
             {{ 'fiat_ramps.operations_list.no_operations_message' | translate }}
           </ion-text>
         </ng-template>
@@ -27,14 +27,14 @@ import { Operation } from '../../interfaces/operation.interface';
   styleUrls: ['./operations-list.component.scss'],
 })
 export class OperationsListComponent implements OnInit {
-  @Input() operationsList: Operation[];
+  @Input() operationsList: FiatRampOperation[];
   private readonly numberOfOperationsToShow = 2;
 
-  get firstOperations(): Operation[] {
+  get firstOperations(): FiatRampOperation[] {
     return this.operationsList.slice(0, this.numberOfOperationsToShow);
   }
 
-  get remainingOperations(): Operation[] {
+  get remainingOperations(): FiatRampOperation[] {
     return this.operationsList.slice(this.numberOfOperationsToShow, this.operationsList.length);
   }
 

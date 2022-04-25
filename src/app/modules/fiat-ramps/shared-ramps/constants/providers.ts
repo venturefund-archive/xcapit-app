@@ -1,4 +1,6 @@
-export const PROVIDERS = [
+import { FiatRampProvider } from "../interfaces/fiat-ramp-provider.interface";
+
+export const PROVIDERS: FiatRampProvider[] = [
   {
     id: 1,
     alias: 'kripton',
