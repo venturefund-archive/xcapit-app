@@ -17,8 +17,9 @@ import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/
 import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
+import { By } from '@angular/platform-browser';
 
-fdescribe('HomeWalletPage', () => {
+describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeWalletPage>;
@@ -107,73 +108,67 @@ fdescribe('HomeWalletPage', () => {
   //   expect(component.userTokens.length).toBeGreaterThan(0);
   //   expect(component.tokenDetails).toBeGreaterThan(0);
   // });
-  //
-  // it('should re-initialize when refresher is triggered', fakeAsync(() => {
-  //   const eventMock = { target: { complete: jasmine.createSpy('complete') } };
-  //   const spy = spyOn(component, 'initialize');
-  //   component.ionViewDidEnter();
-  //   tick();
-  //   fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
-  //   fixture.detectChanges();
-  //   tick(1000);
-  //   expect(spy).toHaveBeenCalled();
-  //   expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
-  //   expect(refreshTimeoutServiceSpy.lock).toHaveBeenCalledTimes(1);
-  // }));
-  //
-  // it('should not re-initialize when refresher is not available', fakeAsync(() => {
-  //   refreshTimeoutServiceSpy.isAvailable.and.returnValue(false);
-  //   const eventMock = { target: { complete: jasmine.createSpy('complete') } };
-  //   const spy = spyOn(component, 'initialize');
-  //   tick();
-  //   fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
-  //   tick(1000);
-  //   expect(spy).not.toHaveBeenCalled();
-  //   expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
-  //   expect(refreshTimeoutServiceSpy.lock).not.toHaveBeenCalled();
-  // }));
-  //
-  // it('should call appTrackEvent on trackService when Import Wallet clicked', () => {
-  //   const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Import Wallet');
-  //   const directive = trackClickDirectiveHelper.getDirective(el);
-  //   const spy = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('should navigate when Import Wallet button is clicked', async () => {
-  //   fixture.debugElement.query(By.css('ion-button[name="Import Wallet"]')).nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-first/disclaimer', 'import']);
-  // });
-  //
-  // it('should call appTrackEvent on trackService when Edit Tokens clicked', () => {
-  //   component.walletExist = true;
-  //   fixture.detectChanges();
-  //   const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Tokens');
-  //   const directive = trackClickDirectiveHelper.getDirective(el);
-  //   const spy = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('should navigate when Edit Tokens button is clicked', async () => {
-  //   component.walletExist = true;
-  //   fixture.detectChanges();
-  //   fixture.debugElement.query(By.css('ion-button[name="Edit Tokens"]')).nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/select-coins', 'edit']);
-  // });
-  //
-  // it('should unsubscribe on did leave', () => {
-  //   const spyComplete = spyOn(component.leave$, 'complete');
-  //   component.ionViewDidLeave();
-  //   expect(spyComplete).toHaveBeenCalledTimes(1);
-  // });
-  //
-  // it('should show 0.0 balance when no wallet or cache is present', async () => {
+
+  it('should re-initialize when refresher is triggered', fakeAsync(() => {
+    const eventMock = { target: { complete: jasmine.createSpy('complete') } };
+    const spy = spyOn(component, 'initialize');
+    component.ionViewDidEnter();
+    tick();
+    fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
+    fixture.detectChanges();
+    tick(1000);
+    expect(spy).toHaveBeenCalled();
+    expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
+    expect(refreshTimeoutServiceSpy.lock).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should not re-initialize when refresher is not available', fakeAsync(() => {
+    refreshTimeoutServiceSpy.isAvailable.and.returnValue(false);
+    const eventMock = { target: { complete: jasmine.createSpy('complete') } };
+    const spy = spyOn(component, 'initialize');
+    tick();
+    fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
+    tick(1000);
+    expect(spy).not.toHaveBeenCalled();
+    expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
+    expect(refreshTimeoutServiceSpy.lock).not.toHaveBeenCalled();
+  }));
+
+  it('should call appTrackEvent on trackService when Import Wallet clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Import Wallet');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate when Import Wallet button is clicked', async () => {
+    fixture.debugElement.query(By.css('ion-button[name="Import Wallet"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-first/disclaimer', 'import']);
+  });
+
+  it('should call appTrackEvent on trackService when Edit Tokens clicked', () => {
+    component.walletExist = true;
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Edit Tokens');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate when Edit Tokens button is clicked', async () => {
+    component.walletExist = true;
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="Edit Tokens"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/select-coins', 'edit']);
+  });
+
+  // it('should show 0.0 balance when no wallet nor cache is present', async () => {
   //   balanceCacheServiceSpy.total.and.resolveTo(undefined);
   //   await component.ionViewDidEnter();
   //   component.walletExist = false;

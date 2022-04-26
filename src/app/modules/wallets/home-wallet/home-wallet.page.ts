@@ -8,16 +8,16 @@ import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
-import { QueueService } from '../../../shared/services/queue/queue.service';
-import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { CovalentBalances } from '../shared-wallets/models/balances/covalent-balances/covalent-balances';
-import { TokenPrices } from '../shared-wallets/models/prices/token-prices/token-prices';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { TotalBalance } from '../shared-wallets/models/balance/total-balance/total-balance';
-import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fake-balances';
-import { FakePrices } from '../shared-wallets/models/prices/fake-prices/fake-prices';
 import { ZeroBalance } from '../shared-wallets/models/balance/zero-balance/zero-balance';
+import { NullPrices } from '../shared-wallets/models/prices/null-prices/null-prices';
+import { NullBalances } from '../shared-wallets/models/balances/null-balances/null-balances';
+import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
+import { TotalBalanceController } from '../shared-wallets/models/balance/total-balance/total-balance.controller';
 
 @Component({
   selector: 'app-home-wallet',
@@ -62,10 +62,10 @@ import { ZeroBalance } from '../shared-wallets/models/balance/zero-balance/zero-
           <ion-spinner
             color="white"
             name="crescent"
-            *ngIf="this.totalBalance === undefined && this.walletExist"
+            *ngIf="this.balance === undefined && this.walletExist"
           ></ion-spinner>
-          <ion-text *ngIf="this.totalBalance !== undefined || !this.walletExist">
-            {{ (this.totalBalance ? this.totalBalance : 0.0) | number: '1.2-2' }} USD
+          <ion-text *ngIf="this.balance !== undefined || !this.walletExist">
+            {{ this.balance ?? 0.0 | number: '1.2-2' }} USD
           </ion-text>
         </div>
       </div>
@@ -162,7 +162,7 @@ export class HomeWalletPage implements OnInit {
     tab: ['assets', [Validators.required]],
   });
   totalBalanceModel: TotalBalance;
-  totalBalance: number;
+  balance: number;
 
   constructor(
     private walletService: WalletService,
@@ -173,7 +173,11 @@ export class HomeWalletPage implements OnInit {
     private walletBalance: WalletBalanceService,
     private storageService: StorageService,
     private balanceCacheService: BalanceCacheService,
-    private http: HttpClient
+    private http: HttpClient,
+    private covalentBalances: CovalentBalancesController,
+    private tokenPrices: TokenPricesController,
+    private tokenDetail: TokenDetailController,
+    private totalBalance: TotalBalanceController
   ) {}
 
   ngOnInit() {}
@@ -195,7 +199,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   initializeTotalBalance() {
-    this.totalBalanceModel = new TotalBalance(new FakePrices(), new FakeBalances([]), new ZeroBalance());
+    this.totalBalanceModel = this.totalBalance.new(new NullPrices(), new NullBalances(), new ZeroBalance());
   }
 
   async setTokenDetails() {
@@ -205,14 +209,14 @@ export class HomeWalletPage implements OnInit {
       const address = await this.storageService.getWalletsAddresses(network);
 
       if (tokens.length) {
-        const balances = new CovalentBalances(address, tokens, this.http);
-        const prices = new TokenPrices(tokens, this.http);
+        const balances = this.covalentBalances.new(address, tokens, this.http);
+        const prices = this.tokenPrices.new(tokens, this.http);
         for (const token of tokens) {
-          const tokenDetail = new TokenDetail(balances, prices, token, this.balanceCacheService);
+          const tokenDetail = this.tokenDetail.new(balances, prices, token, this.balanceCacheService);
           result.push(tokenDetail);
           await tokenDetail.cached();
         }
-        this.totalBalanceModel = new TotalBalance(prices, balances, this.totalBalanceModel);
+        this.totalBalanceModel = this.totalBalance.new(prices, balances, this.totalBalanceModel);
       }
     }
     this.sortTokens(result);
@@ -228,7 +232,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   async fetchTotalBalance() {
-    this.totalBalance = await this.totalBalanceModel.value();
+    this.balance = await this.totalBalanceModel.value();
   }
 
   sortTokens(tokenDetails: TokenDetail[]) {
@@ -236,11 +240,11 @@ export class HomeWalletPage implements OnInit {
   }
 
   async loadCachedTotalBalance() {
-    this.totalBalance = await this.balanceCacheService.total();
+    this.balance = await this.balanceCacheService.total();
   }
 
   async updateCachedTotalBalance() {
-    await this.balanceCacheService.updateTotal(this.totalBalance);
+    await this.balanceCacheService.updateTotal(this.balance);
   }
 
   async refresh(event: any): Promise<void> {
