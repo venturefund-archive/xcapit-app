@@ -1,4 +1,4 @@
-import { Coin } from '../../interfaces/coin.interface';
+import { Coin } from '../../../interfaces/coin.interface';
 import { TokenPrice } from './token-price';
 import { TokenPrices } from '../token-prices/token-prices';
 

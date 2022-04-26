@@ -1,4 +1,4 @@
-import { Prices } from '../../token-prices/prices.interface';
+import { Prices } from '../../prices/prices.interface';
 import { Balances } from '../../balances/balances.interface';
 import { Balance } from '../balance.interface';
 
@@ -14,10 +14,7 @@ export class TotalBalance implements Balance {
   }
 
   private newBalance(): Promise<number> {
-    return this.balances.value().then((res) => {
-      console.log('res', res);
-      return res.reduce(this.accumulated.bind(this), Promise.resolve(0));
-    });
+    return this.balances.value().then((res) => res.reduce(this.accumulated.bind(this), Promise.resolve(0)));
   }
 
   public async value(): Promise<number> {

@@ -1,10 +1,10 @@
 import { FakeBalances } from '../../balances/fake-balances/fake-balances';
-import { FakePrices } from '../../token-prices/fake-prices';
+import { FakePrices } from '../../prices/fake-prices/fake-prices';
 import { Coin } from '../../../interfaces/coin.interface';
 import { TotalBalance } from './total-balance';
 import { FakeBalance } from '../fake-balance/fake-balance';
 
-fdescribe('TotalBalance', () => {
+describe('TotalBalance', () => {
   let maticSpy: jasmine.SpyObj<Coin>;
   let usdcSpy: jasmine.SpyObj<Coin>;
 

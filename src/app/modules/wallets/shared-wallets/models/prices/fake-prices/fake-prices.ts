@@ -1,5 +1,5 @@
-import { Prices } from './prices.interface';
-import { Coin } from '../../interfaces/coin.interface';
+import { Prices } from '../prices.interface';
+import { Coin } from '../../../interfaces/coin.interface';
 
 export class FakePrices implements Prices {
   constructor(private readonly valueReturn: any = {}) {}

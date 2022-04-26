@@ -55,11 +55,7 @@ export class CovalentBalances implements Balances {
   }
 
   private amountOf(aWei: string, aCoin: Coin): number {
-    try {
-      return parseFloat(formatUnits(aWei, aCoin.decimals));
-    } catch (e) {
-      console.log(aWei, aCoin);
-    }
+    return parseFloat(formatUnits(aWei, aCoin.decimals));
   }
 
   public async valueOf(aCoin: Coin): Promise<any> {

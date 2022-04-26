@@ -1,5 +1,5 @@
 import { FakePrices } from './fake-prices';
-import { Coin } from '../../interfaces/coin.interface';
+import { Coin } from '../../../interfaces/coin.interface';
 
 describe('FakePrices', () => {
   let coinSpy: jasmine.SpyObj<Coin>;

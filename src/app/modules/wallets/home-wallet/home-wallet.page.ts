@@ -8,22 +8,16 @@ import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
-import { AssetBalanceModel } from '../shared-wallets/models/asset-balance/asset-balance.class';
 import { QueueService } from '../../../shared/services/queue/queue.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { CovalentBalances } from '../shared-wallets/models/balances/covalent-balances/covalent-balances';
-import { TokenPrices } from '../shared-wallets/models/token-prices/token-prices';
-import { TokenPrice } from '../shared-wallets/models/token-price/token-price';
-import { TokenDetailList } from '../shared-wallets/models/token-detail-list/token-detail-list';
+import { TokenPrices } from '../shared-wallets/models/prices/token-prices/token-prices';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
-import { TokenDetail2 } from '../shared-wallets/models/token-detail-2/token-detail-2';
 import { TotalBalance } from '../shared-wallets/models/balance/total-balance/total-balance';
 import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fake-balances';
-import { FakePrices } from '../shared-wallets/models/token-prices/fake-prices';
+import { FakePrices } from '../shared-wallets/models/prices/fake-prices/fake-prices';
 import { ZeroBalance } from '../shared-wallets/models/balance/zero-balance/zero-balance';
-import { Fake } from '../../../../testing/fakes/fake.spec';
 
 @Component({
   selector: 'app-home-wallet',
@@ -37,27 +31,27 @@ import { Fake } from '../../../../testing/fakes/fake.spec';
     </ion-header>
 
     <ion-content>
-      <!--      <ion-refresher-->
-      <!--        (ionRefresh)="this.refresh($event)"-->
-      <!--        close-duration="1000ms"-->
-      <!--        slot="fixed"-->
-      <!--        pull-factor="0.6"-->
-      <!--        pull-min="50"-->
-      <!--        pull-max="60"-->
-      <!--      >-->
-      <!--        <ion-refresher-content class="refresher" refreshingSpinner="true" pullingIcon="false">-->
-      <!--          <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>-->
-      <!--          <ion-text class="ux-font-text-xxs" color="neutral80" *ngIf="(this.isRefreshAvailable$ | async) === false">-->
-      <!--            {{-->
-      <!--              'funds.funds_list.refresh_time'-->
-      <!--                | translate-->
-      <!--                  : {-->
-      <!--                      seconds: (this.refreshRemainingTime$ | async)-->
-      <!--                    }-->
-      <!--            }}-->
-      <!--          </ion-text>-->
-      <!--        </ion-refresher-content>-->
-      <!--      </ion-refresher>-->
+      <ion-refresher
+        (ionRefresh)="this.refresh($event)"
+        close-duration="1000ms"
+        slot="fixed"
+        pull-factor="0.6"
+        pull-min="50"
+        pull-max="60"
+      >
+        <ion-refresher-content class="refresher" refreshingSpinner="true" pullingIcon="false">
+          <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
+          <ion-text class="ux-font-text-xxs" color="neutral80" *ngIf="(this.isRefreshAvailable$ | async) === false">
+            {{
+              'funds.funds_list.refresh_time'
+                | translate
+                  : {
+                      seconds: (this.refreshRemainingTime$ | async)
+                    }
+            }}
+          </ion-text>
+        </ion-refresher-content>
+      </ion-refresher>
       <div class="wt__subheader__value">
         <div class="wt__title ux-font-text-base">
           <ion-text>
@@ -126,6 +120,12 @@ import { Fake } from '../../../../testing/fakes/fake.spec';
               <ion-icon icon="ux-adjustments"></ion-icon>
             </ion-button>
           </div>
+          <ion-spinner
+            class="wt__balance__loading"
+            color="primary"
+            name="crescent"
+            *ngIf="this.tokenDetails.length === 0"
+          ></ion-spinner>
           <app-wallet-balance-card-item
             *ngFor="let tokenDetail of this.tokenDetails; let last = last"
             [tokenDetail]="tokenDetail"
@@ -153,19 +153,15 @@ import { Fake } from '../../../../testing/fakes/fake.spec';
 })
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
-  totalBalanceAccum = 0;
-  // balances: AssetBalanceModel[] = [];
-  tokenDetails: TokenDetail2[] = [];
+  tokenDetails: TokenDetail[] = [];
   userTokens: Coin[];
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
   @ViewChild(IonContent, { static: true }) content: IonContent;
-  pageSize = 6;
-  leave$ = new Subject<void>();
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
-  requestQuantity = 0;
+  totalBalanceModel: TotalBalance;
   totalBalance: number;
 
   constructor(
@@ -177,7 +173,6 @@ export class HomeWalletPage implements OnInit {
     private walletBalance: WalletBalanceService,
     private storageService: StorageService,
     private balanceCacheService: BalanceCacheService,
-    private queueService: QueueService,
     private http: HttpClient
   ) {}
 
@@ -186,98 +181,75 @@ export class HomeWalletPage implements OnInit {
   async ionViewDidEnter() {
     await this.checkWalletExist();
     await this.setUserTokens();
-    this.tokenDetails = [];
-    let totalBalance = new TotalBalance(new FakePrices(), new FakeBalances([]), new ZeroBalance());
+    await this.loadCachedTotalBalance();
+    await this.initialize();
+  }
+
+  async initialize(): Promise<void> {
+    await this.content.scrollToTop(0);
+    this.initializeTotalBalance();
+    await this.setTokenDetails();
+    await this.fetchDetails();
+    await this.fetchTotalBalance();
+    await this.updateCachedTotalBalance();
+  }
+
+  initializeTotalBalance() {
+    this.totalBalanceModel = new TotalBalance(new FakePrices(), new FakeBalances([]), new ZeroBalance());
+  }
+
+  async setTokenDetails() {
+    const result = [];
     for (const network of this.apiWalletService.getNetworks()) {
       const tokens = this.userTokens.filter((token) => token.network === network);
       const address = await this.storageService.getWalletsAddresses(network);
 
-      const balances = new CovalentBalances(address, tokens, this.http);
-      const prices = new TokenPrices(tokens, this.http);
-
-      const values = await balances.value();
-
-      await prices.value();
-      const news = this.userTokens
-        .filter((token) => token.network === network)
-        .map((token) => {
-          const tokenDetail = new TokenDetail2(balances, prices, token);
-          tokenDetail.fetch();
-          return tokenDetail;
-        });
-      this.tokenDetails = [...this.tokenDetails, ...news];
-      totalBalance = new TotalBalance(prices, balances, totalBalance);
+      if (tokens.length) {
+        const balances = new CovalentBalances(address, tokens, this.http);
+        const prices = new TokenPrices(tokens, this.http);
+        for (const token of tokens) {
+          const tokenDetail = new TokenDetail(balances, prices, token, this.balanceCacheService);
+          result.push(tokenDetail);
+          await tokenDetail.cached();
+        }
+        this.totalBalanceModel = new TotalBalance(prices, balances, this.totalBalanceModel);
+      }
     }
-
-    this.totalBalance = await totalBalance.value();
-
-    // const addressPOLYGON = await this.storageService.getWalletsAddresses('MATIC'); // const addressBSC = await this.storageService.getWalletsAddresses('BSC_BEP20'); // const addressRSK = await this.storageService.getWalletsAddresses('RSK');
-    // const balancesPOLYGON = new CovalentBalances(addressPOLYGON, coinsPOLYGON, this.http);
-    // const pricesPOLYGON = new TokenPrices(coinsPOLYGON, this.http);
-    // const balancesBSC = new CovalentBalances(addressBSC, coinsBSC, this.http);
-    // const pricesBSC = new TokenPrices(coinsBSC, this.http);
-    // const balancesRSK = new CovalentBalances(addressRSK, coinsRSK, this.http);
-    // const pricesRSK = new TokenPrices(coinsRSK, this.http);
-    // new TokenDetailList(balancesERC20, pricesERC20)
-    //   .all()
-    //   .then((res) => (this.tokenDetails = this.tokenDetails.concat(res)));
-    // new TokenDetailList(balancesPOLYGON, pricesPOLYGON)
-    //   .all()
-    //   .then((res) => (this.tokenDetails = this.tokenDetails.concat(res)));
-    // new TokenDetailList(balancesBSC, pricesBSC)
-    //   .all()
-    //   .then((res) => (this.tokenDetails = this.tokenDetails.concat(res)));
-    // new TokenDetailList(balancesRSK, pricesRSK)
-    //   .all()
-    //   .then((res) => (this.tokenDetails = this.tokenDetails.concat(res)));
-
-    // const otro = new TokenPrice(prices, coins[0]);
-    // const usdc = new TokenPrice(prices, coins[2]);
-    // usdc.value().then((res) => console.log(res));
-    // otro.value().then((res) => console.log(res));
-    // const results = [];
-    // for (const coin of coins) {
-    //   results.push({coin, price:await new TokenPrice(prices, coin).value(), balance: balancesssss})
-    // }
-    // this.requestQuantity = 0;
-    // await this.initialize();
+    this.sortTokens(result);
+    this.tokenDetails = result;
   }
 
-  // async initialize(): Promise<void> {
-  //   this.queueService.dequeueAll();
-  //   await this.content.scrollToTop(0);
-  //   await this.cachedTotalBalance();
-  // this.clearBalances();
-  // await this.getAssetsSelected();
-  // this.createQueues();
-  // this.loadCoins();
-  // }
+  async fetchDetails() {
+    for (const tokenDetail of this.tokenDetails) {
+      await tokenDetail.fetch();
+      await tokenDetail.cache();
+    }
+    this.sortTokens(this.tokenDetails);
+  }
 
-  // private async cachedTotalBalance() {
-  //   this.totalBalance = await this.balanceCacheService.total();
-  // }
+  async fetchTotalBalance() {
+    this.totalBalance = await this.totalBalanceModel.value();
+  }
 
-  // private createQueues(): void {
-  //   for (const network of this.apiWalletService.getNetworks()) {
-  //     this.queueService.create(network, 2);
-  //     this.queueService.results(network).pipe(takeUntil(this.leave$)).subscribe();
-  //   }
-  //   this.queueService.create('prices', 2);
-  //   this.queueService.results('prices').pipe(takeUntil(this.leave$)).subscribe();
-  // }
+  sortTokens(tokenDetails: TokenDetail[]) {
+    tokenDetails.sort((a, b) => b.balance * b.price - a.balance * a.price);
+  }
 
-  // private clearBalances(): void {
-  //   this.balances = [];
-  //   this.totalBalanceAccum = 0;
-  // }
+  async loadCachedTotalBalance() {
+    this.totalBalance = await this.balanceCacheService.total();
+  }
 
-  // async refresh(event: any): Promise<void> {
-  //   if (this.refreshTimeoutService.isAvailable()) {
-  //     await this.initialize();
-  //     this.refreshTimeoutService.lock();
-  //   }
-  //   setTimeout(() => event.target.complete(), 1000);
-  // }
+  async updateCachedTotalBalance() {
+    await this.balanceCacheService.updateTotal(this.totalBalance);
+  }
+
+  async refresh(event: any): Promise<void> {
+    if (this.refreshTimeoutService.isAvailable()) {
+      await this.initialize();
+      this.refreshTimeoutService.lock();
+    }
+    setTimeout(() => event.target.complete(), 1000);
+  }
 
   private async checkWalletExist(): Promise<void> {
     this.walletExist = await this.walletService.walletExist();
@@ -294,55 +266,4 @@ export class HomeWalletPage implements OnInit {
   goToSelectCoins(): void {
     this.navController.navigateForward(['wallets/select-coins', 'edit']);
   }
-
-  // loadCoins(): void {
-  //   this.balances = this.selectedAssets.map((aCoin: Coin) => {
-  //     const assetBalance = new AssetBalanceModel(aCoin, this.walletBalance, this.balanceCacheService);
-  //     assetBalance.cachedBalance().then((cachedCoin) => {
-  //       this.enqueue(assetBalance);
-  //       if (cachedCoin) {
-  //         this.orderBalances();
-  //       }
-  //     });
-  //     this.accumulateBalance(assetBalance);
-  //     return assetBalance;
-  //   });
-  // }
-  //
-  // private orderBalances() {
-  //   this.balances.sort((a, b) => b.amount * b.price - a.amount * a.price);
-  // }
-  //
-  // private accumulateBalance(assetBalance: AssetBalanceModel): void {
-  //   assetBalance.quoteBalance.pipe(takeUntil(this.leave$)).subscribe(async (quote: number) => {
-  //     if (!this.queueStopped()) {
-  //       this.totalBalanceAccum += quote;
-  //       this.requestQuantity++;
-  //       if (this.accumulationEnded()) await this.updateBalance();
-  //       this.orderBalances();
-  //     }
-  //   });
-  // }
-  //
-  // queueStopped() {
-  //   return this.leave$.isStopped;
-  // }
-  //
-  // private accumulationEnded() {
-  //   return this.requestQuantity === this.selectedAssets.length;
-  // }
-  //
-  // private async updateBalance() {
-  //   this.totalBalance = this.totalBalanceAccum;
-  //   this.balanceCacheService.updateTotal(this.totalBalanceAccum);
-  // }
-  //
-  // private enqueue(assetBalance: AssetBalanceModel): void {
-  //   this.queueService.enqueue(assetBalance.coin.network, () => assetBalance.balance());
-  //   this.queueService.enqueue('prices', () => assetBalance.getPrice());
-  // }
-  //
-  // ionViewDidLeave(): void {
-  //   this.leave$.complete();
-  // }
 }

@@ -6,7 +6,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HomeWalletPage } from './home-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { By } from '@angular/platform-browser';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { isObservable, of } from 'rxjs';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
@@ -17,10 +16,9 @@ import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
 import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { QueueService } from '../../../shared/services/queue/queue.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 
-describe('HomeWalletPage', () => {
+fdescribe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeWalletPage>;
@@ -33,7 +31,6 @@ describe('HomeWalletPage', () => {
   let refreshTimeoutServiceSpy: jasmine.SpyObj<RefreshTimeoutService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
-  let queueServiceSpy: jasmine.SpyObj<QueueService>;
   let contentSpy: jasmine.SpyObj<IonContent>;
   let coinSpy: jasmine.SpyObj<Coin>;
   beforeEach(
@@ -64,6 +61,7 @@ describe('HomeWalletPage', () => {
 
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
         getAssestsSelected: Promise.resolve([coinSpy, coinSpy]),
+        getWalletsAddresses: Promise.resolve('0x00001'),
       });
 
       balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
@@ -73,13 +71,6 @@ describe('HomeWalletPage', () => {
         updateTotal: Promise.resolve(),
       });
 
-      queueServiceSpy = jasmine.createSpyObj('QueueService', {
-        create: null,
-        enqueue: null,
-        results: of({}),
-        dequeueAll: null,
-      });
-      queueServiceSpy.enqueue.and.callFake((queue, task) => (isObservable(task) ? task : task()));
       contentSpy = jasmine.createSpyObj('IonContent', { scrollToTop: Promise.resolve() });
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, FakeTrackClickDirective],
@@ -92,7 +83,6 @@ describe('HomeWalletPage', () => {
           { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
-          { provide: QueueService, useValue: queueServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -108,25 +98,14 @@ describe('HomeWalletPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  //
-  // it('should not calculate total balance if already leave', async () => {
-  //   balanceCacheServiceSpy.total.and.returnValue(undefined);
-  //   await component.ionViewDidLeave();
-  //   fixture.detectChanges();
-  //   await component.ionViewDidEnter();
-  //   fixture.detectChanges();
-  //   await fixture.whenStable();
-  //   expect(component.totalBalance).toBeUndefined();
-  //   expect(component.balances.length).toEqual(2);
-  // });
-  //
+
   // it('should initialize on view did enter', async () => {
   //   await component.ionViewDidEnter();
   //   fixture.detectChanges();
   //   await fixture.whenStable();
   //   expect(component.walletExist).toBeTrue();
-  //   expect(component.selectedAssets.length).toBeGreaterThan(0);
-  //   expect(component.balances.length).toBeGreaterThan(0);
+  //   expect(component.userTokens.length).toBeGreaterThan(0);
+  //   expect(component.tokenDetails).toBeGreaterThan(0);
   // });
   //
   // it('should re-initialize when refresher is triggered', fakeAsync(() => {

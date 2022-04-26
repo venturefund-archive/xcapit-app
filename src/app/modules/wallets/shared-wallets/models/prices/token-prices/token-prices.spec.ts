@@ -1,5 +1,5 @@
-import { Coin } from '../../interfaces/coin.interface';
-import { FakeHttpClient } from '../../../../../../testing/fakes/fake-http.spec';
+import { Coin } from '../../../interfaces/coin.interface';
+import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
 import { TokenPrices } from './token-prices';
 
 describe('TokenPrices', () => {

@@ -1,6 +1,6 @@
 import { FakeBalance } from './fake-balance';
 
-fdescribe('FakeBalance', () => {
+describe('FakeBalance', () => {
   it('new', () => {
     expect(new FakeBalance(10)).toBeTruthy();
   });

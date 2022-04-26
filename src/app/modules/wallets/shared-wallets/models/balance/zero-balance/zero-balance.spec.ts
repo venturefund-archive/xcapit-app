@@ -1,6 +1,6 @@
 import { ZeroBalance } from './zero-balance';
 
-fdescribe('ZeroBalance', () => {
+describe('ZeroBalance', () => {
   it('should create', () => {
     expect(new ZeroBalance()).toBeTruthy();
   });

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { NETWORK_COLORS } from '../../constants/network-colors.constant';
-import { TokenDetail2 } from '../../models/token-detail-2/token-detail-2';
+import { TokenDetail } from '../../models/token-detail/token-detail';
 
 @Component({
   selector: 'app-wallet-balance-card-item',
@@ -38,7 +38,7 @@ import { TokenDetail2 } from '../../models/token-detail-2/token-detail-2';
   styleUrls: ['./wallet-balance-card-item.component.scss'],
 })
 export class WalletBalanceCardItemComponent implements OnInit {
-  @Input() tokenDetail: TokenDetail2;
+  @Input() tokenDetail: TokenDetail;
   @Input() last: boolean;
   networkColors = NETWORK_COLORS;
 
