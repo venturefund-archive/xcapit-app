@@ -198,7 +198,7 @@ export class HomeWalletPage implements OnInit {
     await this.updateCachedTotalBalance();
   }
 
-  initializeTotalBalance() {
+  private initializeTotalBalance() {
     this.totalBalanceModel = this.totalBalance.new(new NullPrices(), new NullBalances(), new ZeroBalance());
   }
 

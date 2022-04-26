@@ -16,7 +16,7 @@ import { NavController } from '@ionic/angular';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { isObservable, of, Subscription, throwError } from 'rxjs';
+import { of, Subscription, throwError } from 'rxjs';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
@@ -26,9 +26,16 @@ import { BalanceCacheService } from '../../wallets/shared-wallets/services/balan
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { QueueService } from '../../../shared/services/queue/queue.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
+import { TotalBalanceController } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.controller';
+import { TokenPricesController } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices.controller';
+import { CovalentBalancesController } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { TokenDetailController } from '../../wallets/shared-wallets/models/token-detail/token-detail.controller';
+import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
+import { FakeBalance } from '../../wallets/shared-wallets/models/balance/fake-balance/fake-balance';
+import { FakePrices } from '../../wallets/shared-wallets/models/prices/fake-prices/fake-prices';
+import { FakeBalances } from '../../wallets/shared-wallets/models/balances/fake-balances/fake-balances';
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -46,12 +53,30 @@ describe('HomePage', () => {
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let queueServiceSpy: jasmine.SpyObj<QueueService>;
   let coinSpy: jasmine.SpyObj<Coin>;
 
+  let totalBalanceControllerSpy: jasmine.SpyObj<TotalBalanceController>;
+  let tokenPricesControllerSpy: jasmine.SpyObj<TokenPricesController>;
+  let covalentBalancesControllerSpy: jasmine.SpyObj<CovalentBalancesController>;
+  let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
+  let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   beforeEach(
     waitForAsync(() => {
       coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
+      totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
+      tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
+      covalentBalancesControllerSpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+      tokenDetailSpy = jasmine.createSpyObj(
+        'TokenDetail',
+        { cached: Promise.resolve({ balance: 10, price: 2 }), fetch: Promise.resolve(), cache: Promise.resolve() },
+        {
+          price: 20,
+          balance: 1,
+          quoteSymbol: 'USD',
+          coin: coinSpy,
+        }
+      );
+      tokenDetailControllerSpy = jasmine.createSpyObj('TokenDetailSpy', { new: tokenDetailSpy });
       windowSpy = spyOn(window, 'open');
       notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
         getCountNotifications: of({ count: 5 }),
@@ -68,15 +93,9 @@ describe('HomePage', () => {
       });
 
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getNetworks: ['MATIC'] });
-      queueServiceSpy = jasmine.createSpyObj('QueueService', {
-        dequeueAll: null,
-        create: null,
-        enqueue: null,
-        results: of({}),
-      });
-      queueServiceSpy.enqueue.and.callFake((queue, task) => (isObservable(task) ? task : task()));
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
         getAssestsSelected: Promise.resolve([coinSpy, coinSpy]),
+        getWalletsAddresses: Promise.resolve('0x00001'),
       });
       fakeWalletService = new FakeWalletService(true);
       walletServiceSpy = fakeWalletService.createSpy();
@@ -103,7 +122,10 @@ describe('HomePage', () => {
           { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
-          { provide: QueueService, useValue: queueServiceSpy },
+          { provide: CovalentBalancesController, useValue: covalentBalancesControllerSpy },
+          { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
+          { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
+          { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -157,14 +179,11 @@ describe('HomePage', () => {
 
   it('should not get balance if wallet does not exist', async () => {
     fakeWalletService.modifyReturns(false, null);
-    const spyComplete = spyOn(component.leave$, 'complete');
     await component.ionViewDidEnter();
     await fixture.whenStable();
     component.ionViewDidLeave();
     expect(walletServiceSpy.walletExist).toHaveBeenCalledTimes(1);
-    expect(queueServiceSpy.dequeueAll).toHaveBeenCalledTimes(1);
     expect(component.balance).not.toBeDefined();
-    expect(spyComplete).toHaveBeenCalledTimes(1);
   });
 
   it('should get balance if wallet exists', async () => {
@@ -174,7 +193,7 @@ describe('HomePage', () => {
     component.ionViewDidLeave();
     expect(walletServiceSpy.walletExist).toHaveBeenCalledTimes(1);
     expect(storageServiceSpy.getAssestsSelected).toHaveBeenCalledTimes(1);
-    expect(component.balance).toEqual(400);
+    expect(component.balance).toEqual(10);
     expect(balanceCacheServiceSpy.total).toHaveBeenCalledTimes(1);
     expect(balanceCacheServiceSpy.updateTotal).toHaveBeenCalledTimes(1);
   });
