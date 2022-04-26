@@ -23,7 +23,7 @@ export const NONPROD_COINS: Coin[] = [
     moonpayCode: 'keth',
     native: true,
     symbol: 'ETHUSDT',
-    contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+    contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   },
   {
     id: 2,
@@ -206,7 +206,6 @@ export const NONPROD_COINS: Coin[] = [
     decimals: 18,
     symbol: 'RIFUSDT',
   },
-
   {
     id: 16,
     name: 'MATIC - Polygon',
@@ -219,6 +218,7 @@ export const NONPROD_COINS: Coin[] = [
     moonpayCode: 'matic_polygon',
     decimals: 18,
     native: true,
+    contract: '0x0000000000000000000000000000000000001010',
     symbol: 'MATICUSDT',
   },
   {
@@ -361,7 +361,7 @@ export const NONPROD_COINS: Coin[] = [
     name: 'WBTC - Wrapped BTC',
     logoRoute: 'assets/img/coins/WBTC.png',
     last: true,
-    value: 'BTC',
+    value: 'WBTC',
     network: 'MATIC',
     contract: '0x0d787a4a1548f673ed375445535a6c7A1EE56180',
     chainId: 80001,
