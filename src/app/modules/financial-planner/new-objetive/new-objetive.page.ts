@@ -42,6 +42,7 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
                 </ion-text>
               </div>
               <ion-input
+                type="number"
                 formControlName="income"
                 class="input"
                 [placeholder]="'financial_planner.new_objetive.placeholder' | translate"
@@ -64,6 +65,7 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
                 <ion-text class="ux-font-text-xs"> {{ 'financial_planner.new_objetive.label' | translate }} </ion-text>
               </div>
               <ion-input
+                type="number"
                 formControlName="expenses"
                 class="input"
                 [placeholder]="'financial_planner.new_objetive.placeholder' | translate"
@@ -112,7 +114,7 @@ export class NewObjetivePage implements OnInit {
   goToObjetiveInfo() {
     if (this.form.valid) {
       this.saveObjetiveData();
-      this.navController.navigateForward(['']);
+      this.navController.navigateForward('/financial-planner/objetive-info');
     }
   }
 

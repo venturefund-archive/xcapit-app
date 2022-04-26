@@ -72,11 +72,13 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
 import { TokenSelectionListComponent } from './components/token-selection-list/token-selection-list.component';
 import { SuitePipe } from './pipes/suite/suite.pipe';
 import { CoinSelectorComponent } from './components/coin-selector/coin-selector.component';
+import { FilterTabComponent } from '../modules/defi-investments/shared-defi-investments/components/filter-tab/filter-tab.component';
 import { SelectProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/select-provider-card/select-provider-card.component';
 import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/provider-card/provider-card/provider-card.component';
 
 @NgModule({
   declarations: [
+    FilterTabComponent,
     ErrorsFormItemComponent,
     LanguagePopoverComponent,
     LanguageButtonComponent,
@@ -153,6 +155,7 @@ import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-pag
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
+    FilterTabComponent,
     EmbedVideoComponent,
     ErrorsFormItemComponent,
     CommonModule,

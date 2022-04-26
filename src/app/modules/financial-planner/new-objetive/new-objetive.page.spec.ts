@@ -75,10 +75,11 @@ describe('NewObjetivePage', () => {
   });
 
   it('should navigate to objetive info page and save objetive data when button is clicked and form is valid', () => {
+    
     component.form.patchValue(formData.valid);
     fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_continue"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/financial-planner/objetive-info');
     expect(component.form.value.income).toEqual(500);
     expect(component.form.value.expenses).toEqual(200);
   });

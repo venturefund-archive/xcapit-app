@@ -1478,6 +1478,28 @@
       "item_3":"Discover strategies to achieve them",
       "button":"Start"
     },
+    "objetive_info":{
+      "header":"Planner",
+      "title":"Objective",
+      "subtitle_1":"Financial objective",
+      "paragraph_1":"Define what you want to achieve with your money. It can be a trip, buy a car, invest, others.",
+      "label_1":"Objetive name",
+      "label_2":"Category",
+      "placeholder_1":"Eg: Trip to Miami",
+      "placeholder_2":"Eg: 1000",
+      "categories":{
+        "category_1":"Other",
+        "category_2":"Travel",
+        "category_3":"Purchases",
+        "category_4":"Investment",
+        "category_5":"Gift"
+      },
+
+      "subtitle_2":"Money needed",
+      "paragraph_2":"Calculate how much money you need in total to reach your goal.",
+      "label_3":"USD",
+      "button":"See strategies"
+    },
     "new_objetive":{
       "title":"Income and expenses*",
       "subtitle_income":"Monthly income",
