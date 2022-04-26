@@ -18,12 +18,6 @@ describe('TokenDetailController', () => {
   });
 
   it('should create', () => {
-    expect(
-      service.new(covalentBalancesStub, tokenPricesStub, coinStub, balanceCacheServiceStub, 'https://testurl.com')
-    ).toBeInstanceOf(TokenDetail);
-  });
-
-  it('should create with default', () => {
     expect(service.new(covalentBalancesStub, tokenPricesStub, coinStub, balanceCacheServiceStub)).toBeInstanceOf(
       TokenDetail
     );

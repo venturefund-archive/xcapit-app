@@ -202,7 +202,7 @@ export class HomeWalletPage implements OnInit {
     this.totalBalanceModel = this.totalBalance.new(new NullPrices(), new NullBalances(), new ZeroBalance());
   }
 
-  async setTokenDetails() {
+  private async setTokenDetails() {
     const result = [];
     for (const network of this.apiWalletService.getNetworks()) {
       const tokens = this.userTokens.filter((token) => token.network === network);
@@ -223,7 +223,7 @@ export class HomeWalletPage implements OnInit {
     this.tokenDetails = result;
   }
 
-  async fetchDetails() {
+  private async fetchDetails() {
     for (const tokenDetail of this.tokenDetails) {
       await tokenDetail.fetch();
       await tokenDetail.cache();
@@ -231,19 +231,19 @@ export class HomeWalletPage implements OnInit {
     this.sortTokens(this.tokenDetails);
   }
 
-  async fetchTotalBalance() {
+  private async fetchTotalBalance() {
     this.balance = await this.totalBalanceModel.value();
   }
 
-  sortTokens(tokenDetails: TokenDetail[]) {
+  private sortTokens(tokenDetails: TokenDetail[]) {
     tokenDetails.sort((a, b) => b.balance * b.price - a.balance * a.price);
   }
 
-  async loadCachedTotalBalance() {
+  private async loadCachedTotalBalance() {
     this.balance = await this.balanceCacheService.total();
   }
 
-  async updateCachedTotalBalance() {
+  private async updateCachedTotalBalance() {
     await this.balanceCacheService.updateTotal(this.balance);
   }
 

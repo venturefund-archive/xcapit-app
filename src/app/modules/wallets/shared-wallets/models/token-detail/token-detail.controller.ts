@@ -4,7 +4,6 @@ import { CovalentBalances } from '../balances/covalent-balances/covalent-balance
 import { BalanceCacheService } from '../../services/balance-cache/balance-cache.service';
 import { TokenPrices } from '../prices/token-prices/token-prices';
 import { Coin } from '../../interfaces/coin.interface';
-import { environment } from '../../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TokenDetailController {
@@ -12,8 +11,7 @@ export class TokenDetailController {
     _balances: CovalentBalances,
     _prices: TokenPrices,
     coin: Coin,
-    balanceCacheService: BalanceCacheService,
-    _baseUrl = environment.covalentApiUrl
+    balanceCacheService: BalanceCacheService
   ): TokenDetail {
     return new TokenDetail(_balances, _prices, coin, balanceCacheService);
   }

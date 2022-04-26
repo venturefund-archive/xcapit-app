@@ -7,7 +7,7 @@ import { TokenPrices } from './token-prices';
 
 @Injectable({ providedIn: 'root' })
 export class TokenPricesController {
-  public new(_coins: Coin[], _http: HttpClient | FakeHttpClient, _baseUrl = environment.covalentApiUrl): TokenPrices {
+  public new(_coins: Coin[], _http: HttpClient | FakeHttpClient, _baseUrl = environment.apiUrl): TokenPrices {
     return new TokenPrices(_coins, _http, _baseUrl);
   }
 }
