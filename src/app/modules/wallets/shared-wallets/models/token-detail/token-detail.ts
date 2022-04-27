@@ -4,8 +4,8 @@ import { TokenPrices } from '../prices/token-prices/token-prices';
 import { BalanceCacheService } from '../../services/balance-cache/balance-cache.service';
 
 export class TokenDetail {
-  price: number = 0;
-  balance: number = 0;
+  price = 0;
+  balance = 0;
   quoteSymbol = 'USD';
 
   constructor(
