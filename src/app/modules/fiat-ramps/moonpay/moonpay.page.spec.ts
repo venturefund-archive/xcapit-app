@@ -5,7 +5,6 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { of } from 'rxjs';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-
 import { MoonpayPage } from './moonpay.page';
 import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
@@ -15,11 +14,8 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { FiatRampOperation } from '../shared-ramps/models/fiat-ramp-operation';
-import { OperationStatus } from '../shared-ramps/interfaces/operation-status.interface';
-import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 
 const testCoins = [
   {
@@ -57,47 +53,39 @@ const testCoins = [
   },
 ];
 
-const provider: FiatRampProvider = {
-  id: 1,
-  alias: 'kripton',
-  name: 'KriptonMarket',
-  logoRoute: '../../assets/img/provider-logos/KriptonMarket.svg',
-  newOperationRoute: '/fiat-ramps/new-operation',
-};
-
-const operationStatus: OperationStatus = {
-  provider: provider,
-  name: 'complete',
-  textToShow: 'deposited',
-  colorCssClass: 'success',
-};
-
-const date = new Date();
-
-const rawOperations = [
+const rawOperations: FiatRampOperation[] = [
   {
     operation_id: 1,
-    provider: '1',
-    currency_in: 'ETH',
     amount_in: 12,
-    created_at: date.toISOString(),
-    status: 'complete'
+    currency_in: 'ETH',
+    amount_out: 21,
+    currency_out: 'ARS',
+    status: 'complete',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in'
   },
   {
     operation_id: 2,
-    provider: '1',
-    currency_in: 'ETH',
     amount_in: 23,
-    created_at: date.toISOString(),
-    status: 'complete'
+    currency_in: 'USDT',
+    amount_out: 21,
+    currency_out: 'ARS',
+    status: 'complete',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in'
   },
   {
     operation_id: 3,
-    provider: '1',
-    currency_in: 'ETH',
     amount_in: 32,
-    created_at: date.toISOString(),
-    status: 'complete'
+    currency_in: 'ETH',
+    amount_out: 21,
+    currency_out: 'ARS',
+    status: 'complete',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in'
   },
 ]
 
@@ -112,19 +100,16 @@ describe('MoonpayPage', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
-  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<MoonpayPage>;
 
   beforeEach(
     waitForAsync(() => {
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getCoin: testCoins[0] });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       fakeActivatedRoute = new FakeActivatedRoute({ asset: '' });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
         getUserOperations: of(rawOperations),
-        getOperationStatus: operationStatus,
         getMoonpayLink: of({ url: 'http://testURL.com' }),
       });
       browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
@@ -144,7 +129,6 @@ describe('MoonpayPage', () => {
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -195,11 +179,8 @@ describe('MoonpayPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(3);
-    expect(fiatRampsServiceSpy.getOperationStatus).toHaveBeenCalledTimes(3);
     expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(1);
     expect(component.operationsList.length).toEqual(3);
-    expect(component.operationsList[0]).toBeInstanceOf(FiatRampOperation);
   });
 
   it('should go to Moonpay web when Go To Moonpay History clicked', () => {

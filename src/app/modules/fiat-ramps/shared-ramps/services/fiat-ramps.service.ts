@@ -4,7 +4,7 @@ import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-ht
 import { environment } from 'src/environments/environment';
 import { OPERATION_STATUS } from '../constants/operation-status';
 import { PROVIDERS } from '../constants/providers';
-import { IFiatRampOperation } from '../interfaces/fiat-ramp-operation.interface';
+import { FiatRampOperation } from '../interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
 import { OperationStatus } from '../interfaces/operation-status.interface';
 
@@ -78,7 +78,7 @@ export class FiatRampsService {
     );
   }
 
-  getUserOperations(): Observable<IFiatRampOperation[]> {
+  getUserOperations(): Observable<FiatRampOperation[]> {
     return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
   }
 

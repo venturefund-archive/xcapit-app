@@ -1,60 +1,51 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { OperationsListItemComponent } from '../operations-list-item/operations-list-item.component';
-import { FiatRampOperation } from '../../models/fiat-ramp-operation';
 import { OperationsListAccordionComponent } from './operations-list-accordion.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface';
-import { OperationStatus } from '../../interfaces/operation-status.interface';
-import { TEST_ERC20_COINS } from 'src/app/modules/wallets/shared-wallets/constants/coins.test';
-import { OperationStatusChipComponent } from '../operation-status-chip/operation-status-chip.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-const provider: FiatRampProvider = {
-  id: 1,
-  alias: 'kripton',
-  name: 'KriptonMarket',
-  logoRoute: '../../assets/img/provider-logos/KriptonMarket.svg',
-  newOperationRoute: '/fiat-ramps/new-operation',
-};
-
-const operationStatus: OperationStatus = {
-  provider: provider,
-  name: 'complete',
-  textToShow: 'deposited',
-  colorCssClass: 'success',
-};
+import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 
 const firstOperations: FiatRampOperation[] = [
   {
-    _anId: 1,
-    _anAmount: 12,
-    _aCoin: TEST_ERC20_COINS[0],
-    _anOperationStatus: operationStatus,
-    _aProvider: provider,
-    _aCreationDate: new Date(),
+    operation_id: 1,
+    amount_in: 12,
+    currency_in: 'ETH',
+    amount_out: 21,
+    currency_out: 'ARS',
+    status: 'complete',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in'
   },
   {
-    _anId: 2,
-    _anAmount: 23,
-    _aCoin: TEST_ERC20_COINS[1],
-    _anOperationStatus: operationStatus,
-    _aProvider: provider,
-    _aCreationDate: new Date(),
+    operation_id: 2,
+    amount_in: 23,
+    currency_in: 'USDT',
+    amount_out: 21,
+    currency_out: 'ARS',
+    status: 'complete',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in'
   },
 ];
 
 const remainingOperations: FiatRampOperation[] = [
+  
   {
-    _anId: 3,
-    _anAmount: 32,
-    _aCoin: TEST_ERC20_COINS[0],
-    _anOperationStatus: operationStatus,
-    _aProvider: provider,
-    _aCreationDate: new Date(),
+    operation_id: 3,
+    amount_in: 32,
+    currency_in: 'ETH',
+    amount_out: 21,
+    currency_out: 'ARS',
+    status: 'complete',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in'
   },
 ];
 

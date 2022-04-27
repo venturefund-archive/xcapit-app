@@ -9,7 +9,7 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { ActivatedRoute } from '@angular/router';
 import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { FiatRampOperation } from '../shared-ramps/models/fiat-ramp-operation';
+import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 
 @Component({
   selector: 'app-moonpay',
@@ -115,7 +115,6 @@ export class MoonpayPage implements OnInit {
     private walletEncryptionService: WalletEncryptionService,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
-    private apiWalletService: ApiWalletService,
   ) {}
 
   ngOnInit() {}
@@ -128,9 +127,7 @@ export class MoonpayPage implements OnInit {
 
   getOperations() {
     this.fiatRampsService.getUserOperations().subscribe((data) => {
-      this.operationsList = data.map((operation) =>
-        FiatRampOperation.create(operation, this.apiWalletService, this.fiatRampsService)
-      );
+      this.operationsList = data;
     });
   }
 

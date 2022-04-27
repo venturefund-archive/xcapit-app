@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FiatRampOperation } from '../../models/fiat-ramp-operation';
+import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 
 @Component({
   selector: 'app-operations-list',

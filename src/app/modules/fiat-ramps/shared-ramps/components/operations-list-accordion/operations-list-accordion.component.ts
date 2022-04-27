@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { IonAccordionGroup } from '@ionic/angular';
-import { FiatRampOperation } from '../../models/fiat-ramp-operation';
+import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 
 @Component({
   selector: 'app-operations-list-accordion',
