@@ -1820,13 +1820,6 @@
           "title": "Target wallet",
           "help_text": "{{currency}} address or alias"
         },
-        "amount_input": {
-          "title": "Amount to send",
-          "fee_title": "Transaction fee*",
-          "fee_text": "*This amount is an estimate and can vary depending on the moment you complete the transaction.",
-          "wrong_address": "We could not estimate the transaction fee. Invalid address",
-          "cant_estimate_fee": "We could not estimate the transaction fee. You might not have enough funds"
-        },
         "alert": {
           "title": "Attention",
           "text": "You have 0 {{nativeToken}} in your account to pay the transaction fees. Buy some {{nativeToken}} or deposit them from another account."
