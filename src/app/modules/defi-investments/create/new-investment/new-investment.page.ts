@@ -10,7 +10,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
-import { AmountInputCardComponent } from '../../shared-defi-investments/components/amount-input-card/amount-input-card.component';
+import { AmountInputCardComponent } from '../../../../shared/components/amount-input-card/amount-input-card.component';
 @Component({
   selector: 'app-new-investment',
   template: `

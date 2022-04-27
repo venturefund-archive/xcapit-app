@@ -1,13 +1,14 @@
 import { TranslateModule } from '@ngx-translate/core';
-import { ComponentFixture, TestBed, waitForAsync, fakeAsync, flush, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { of } from 'rxjs';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { AmountInputCardComponent } from './amount-input-card.component';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
-import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic-price.model';
+import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
 import { By } from '@angular/platform-browser';
+import { SimpleChange } from '@angular/core';
 
 const testCoins = [
   {
@@ -58,7 +59,7 @@ describe('AmountInputCardComponent', () => {
       });
       walletBalanceServiceSpy = jasmine.createSpyObj(
         'WalletBalanceService',
-        { balanceOf: Promise.resolve('20') },
+        { balanceOf: Promise.resolve(20) },
         { addresses: { ERC20: 'testAddress' } }
       );
 
@@ -99,7 +100,7 @@ describe('AmountInputCardComponent', () => {
   });
 
   it('should not show scientific notation on USD amount', () => {
-    component.form.patchValue({ amount: 1e-7 });
+    component.form.patchValue({ amount: 1e-20 });
     expect(component.form.value.quoteAmount).not.toContain('e');
     component.ngOnDestroy();
   });
@@ -112,7 +113,7 @@ describe('AmountInputCardComponent', () => {
   it('should set available on max clicked', () => {
     fixture.debugElement.query(By.css('ion-button.aic__content__inputs__amount_with_max__max')).nativeElement.click();
     fixture.detectChanges();
-    expect(component.form.value.amount).toEqual('20');
+    expect(component.form.value.amount).toEqual(20);
   });
 
   it('should calculate amount when quote amount changes', () => {
@@ -176,43 +177,69 @@ describe('AmountInputCardComponent', () => {
     expect(component.form.value.quoteAmount).toEqual('40000');
   });
 
-  
-  it('should render percentage when showRange', async ()  => {
+  it('should render percentage and range when showRange', async () => {
     component.showRange = true;
+    component.ngOnInit();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const percentageEl = fixture.debugElement.query(By.css('div.aic__content__percentage'));
-    expect(percentageEl).toBeTruthy();
-  });
-
-  it('should render range when showRange', async ()  => {
-    component.showRange = true;
-    fixture.detectChanges();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const rangeEl = fixture.debugElement.query(By.css('.aic__content ion-range'));
+    expect(percentageEl).toBeTruthy();
     expect(rangeEl).toBeTruthy();
   });
 
-  it('should not render percentage when showRange false', async ()  => {
+  it('should not render range and percentage when showRange false', async () => {
     component.showRange = false;
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const percentageEl = fixture.debugElement.query(By.css('div.aic__content__percentage'));
-    expect(percentageEl).toBe(null);
-  });
-
-  it('should not render range when showRange is false', async ()  => {
-    component.showRange = false;
-    fixture.detectChanges();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const rangeEl = fixture.debugElement.query(By.css('.aic__content ion-range'));
+    expect(percentageEl).toBe(null);
     expect(rangeEl).toBe(null);
   });
 
-  it('should render properly available div', async ()  => {
+  it('should render properly available div', async () => {
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const availableEl = fixture.debugElement.query(By.css('.aic__available'));
     expect(availableEl.nativeElement.innerHTML).toBeTruthy();
   });
+
+  it('should subtract the fee from available balance when the currency is native', () => {
+    component.baseCurrency = testCoins[0];
+    component.nativeFee = 1;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.available).toEqual(20);
+  });
+
+  it('should recalculate available balance and re-set Max if applicable when nativeFee changes', async () => {
+    component.baseCurrency = testCoins[0];
+    component.nativeFee = 1;
+    component.ngOnInit();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.setMax();
+    expect(component.available).toEqual(19);
+    expect(component.form.value.amount).toEqual(19);
+
+    component.nativeFee = 2;
+    await component.ngOnChanges({ nativeFee: new SimpleChange(1, 2, true) });
+    fixture.detectChanges();
+    expect(component.available).toEqual(18);
+    expect(component.form.value.amount).toEqual(18);
+  });
+
+  it('should do nothing if there are no changes in nativeFee', async() => {
+    component.baseCurrency = testCoins[0];
+    component.nativeFee = 1;
+    component.ngOnInit();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(component.available).toEqual(19);
+
+    await component.ngOnChanges({ nativeFee: new SimpleChange(null, null, true) });
+    fixture.detectChanges();
+    expect(component.available).toEqual(19);
+  })
 });

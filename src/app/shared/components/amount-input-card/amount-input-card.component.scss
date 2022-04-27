@@ -4,13 +4,16 @@
     border-radius: 8px;
 
     &__available {
-      display: grid;
-      justify-content: center;
       text-align: center;
 
-      ion-text {
-        color: var(--ion-color-neutral80);
-        margin-bottom: 4px;
+      &__amounts {
+        display: grid;
+        justify-content: center;
+
+        ion-text {
+          color: var(--ion-color-neutral80);
+          margin-bottom: 4px;
+        }
       }
     }
 

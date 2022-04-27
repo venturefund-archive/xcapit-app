@@ -74,6 +74,7 @@ import { SuitePipe } from './pipes/suite/suite.pipe';
 import { CoinSelectorComponent } from './components/coin-selector/coin-selector.component';
 import { SelectProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/select-provider-card/select-provider-card.component';
 import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/provider-card/provider-card/provider-card.component';
+import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-pag
     QuotesCardComponent,
     ItemQuoteComponent,
     TokenSelectionListComponent,
+    AmountInputCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -177,6 +179,7 @@ import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-pag
     NetworkSelectCardComponent,
     TokenSelectionListComponent,
     CoinSelectorComponent,
+    AmountInputCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,

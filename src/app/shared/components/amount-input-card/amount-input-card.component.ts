@@ -1,12 +1,11 @@
-import { WalletBalanceService } from './../../../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
-import { interval, Subject, Subscription } from 'rxjs';
-import { Coin } from './../../../../wallets/shared-wallets/interfaces/coin.interface';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { WalletBalanceService } from '../../../modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { Subject } from 'rxjs';
+import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { take, takeUntil } from 'rxjs/operators';
-import { DynamicPrice } from '../../../../../shared/models/dynamic-price/dynamic-price.model';
-import { Amount } from '../../types/amount.type';
+import { takeUntil } from 'rxjs/operators';
+import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
 
 @Component({
   selector: 'app-amount-input-card',
@@ -16,15 +15,17 @@ import { Amount } from '../../types/amount.type';
         <ion-text class="ux-font-titulo-xs">
           {{ this.header }}
         </ion-text>
-        <ion-text *ngIf="this.showRange" class="ux-font-text-xl">
-          {{ this.investedAmount | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
-        >
-        <ion-text *ngIf="!this.showRange" class="ux-font-text-xl">
-          {{ this.available | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
-        >
-        <ion-text *ngIf="this.investedAmount || this.available" class="ux-font-text-xxs">
-          ≈ {{ this.usdPrice | number: '1.2-2' }} {{ this.quoteCurrency }}
-        </ion-text>
+        <div class="aic__available__amounts">
+          <ion-text *ngIf="this.showRange" class="ux-font-text-xl">
+            {{ this.investedAmount | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
+          >
+          <ion-text *ngIf="!this.showRange" class="ux-font-text-xl">
+            {{ this.available | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
+          >
+          <ion-text *ngIf="this.investedAmount || this.available" class="ux-font-text-xxs">
+            ≈ {{ this.usdPrice | number: '1.2-2' }} {{ this.quoteCurrency }}
+          </ion-text>
+        </div>
       </div>
       <div class="aic__content">
         <div class="aic__content__title">
@@ -55,7 +56,7 @@ import { Amount } from '../../types/amount.type';
             >
             </ion-input>
             <ion-button
-              [disabled]="!this.usdPrice"
+              [disabled]="!this.usdPrice || (this.baseCurrency.native && !this.nativeFee)"
               (click)="this.setMax()"
               slot="end"
               fill="clear"
@@ -88,7 +89,7 @@ import { Amount } from '../../types/amount.type';
   ],
   styleUrls: ['./amount-input-card.component.scss'],
 })
-export class AmountInputCardComponent implements OnInit, OnDestroy {
+export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
   @Input() label: string;
   @Input() header: string;
   @Input() investedAmount: number;
@@ -96,6 +97,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   @Input() quoteCurrency = 'USD';
   @Input() showRange: boolean;
   @Input() priceRefreshInterval = 15000;
+  @Input() nativeFee = 0;
   available: number;
   feeCoin: string;
   private destroy$ = new Subject<void>();
@@ -116,7 +118,17 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
     this.subscribeToFormChanges();
   }
 
-  defaultPatchValueOptions() { return { emitEvent: false, onlySelf: true }; }
+  defaultPatchValueOptions() {
+    return { emitEvent: false, onlySelf: true };
+  }
+
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    if (changes.nativeFee.currentValue) {
+      const previousBalance = this.available;
+      await this.balanceAvailable();
+      if (this.form.value.amount === previousBalance) this.setMax();
+    }
+  }
 
   setMax() {
     this.form.get('amount').patchValue(this.available);
@@ -146,32 +158,71 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   percentageChange(value) {
     if (!isNaN(value)) {
       if (value > 100) {
-        this.form.patchValue({percentage: 100, range: 100, quoteAmount: this.parseAmount(this.investedAmount * this.price), amount: this.investedAmount}, this.defaultPatchValueOptions())
+        this.form.patchValue(
+          {
+            percentage: 100,
+            range: 100,
+            quoteAmount: this.parseAmount(this.investedAmount * this.price),
+            amount: this.investedAmount,
+          },
+          this.defaultPatchValueOptions()
+        );
       } else {
-        this.form.patchValue({ range: value, amount: this.amount(value), quoteAmount: this.quoteAmount(value)} , this.defaultPatchValueOptions());
+        this.form.patchValue(
+          { range: value, amount: this.amount(value), quoteAmount: this.quoteAmount(value) },
+          this.defaultPatchValueOptions()
+        );
       }
     }
   }
 
   rangeChange(value) {
     if (!isNaN(value)) {
-      this.form.patchValue({percentage: value, amount: this.amount(value), quoteAmount:this.quoteAmount(value)}, this.defaultPatchValueOptions());
+      this.form.patchValue(
+        { percentage: value, amount: this.amount(value), quoteAmount: this.quoteAmount(value) },
+        this.defaultPatchValueOptions()
+      );
     }
   }
 
   private amountChange(value: number) {
     if (value > this.investedAmount) {
-      this.form.patchValue({quoteAmount: this.parseAmount(this.investedAmount * this.price), percentage: 100, range: 100, amount:this.investedAmount}, this.defaultPatchValueOptions())
+      this.form.patchValue(
+        {
+          quoteAmount: this.parseAmount(this.investedAmount * this.price),
+          percentage: 100,
+          range: 100,
+          amount: this.investedAmount,
+        },
+        this.defaultPatchValueOptions()
+      );
     } else {
-      this.form.patchValue({quoteAmount: this.parseAmount(value * this.price), percentage: Math.round((value * 100) / this.investedAmount), range: (value * 100) / this.investedAmount }, this.defaultPatchValueOptions())
+      this.form.patchValue(
+        {
+          quoteAmount: this.parseAmount(value * this.price),
+          percentage: Math.round((value * 100) / this.investedAmount),
+          range: (value * 100) / this.investedAmount,
+        },
+        this.defaultPatchValueOptions()
+      );
     }
   }
 
   private quoteAmountChange(value: number) {
     if (value > this.investedAmount) {
-      this.form.patchValue({amount: this.investedAmount, percentage: 100, range: 100}, this.defaultPatchValueOptions())
+      this.form.patchValue(
+        { amount: this.investedAmount, percentage: 100, range: 100 },
+        this.defaultPatchValueOptions()
+      );
     } else {
-      this.form.patchValue({amount: (value / this.price),  percentage: Math.round(((value / this.price) * 100) / this.investedAmount),  range: ((value / this.price) * 100) / this.investedAmount }, this.defaultPatchValueOptions());
+      this.form.patchValue(
+        {
+          amount: value / this.price,
+          percentage: Math.round(((value / this.price) * 100) / this.investedAmount),
+          range: ((value / this.price) * 100) / this.investedAmount,
+        },
+        this.defaultPatchValueOptions()
+      );
     }
   }
 
@@ -190,7 +241,14 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   }
 
   private async balanceAvailable() {
-    this.available = await this.walletBalance.balanceOf(this.baseCurrency);
+    const balance = await this.walletBalance.balanceOf(this.baseCurrency);
+    if (this.baseCurrency.native && this.nativeFee) {
+      const nativeBalanceWithoutFee = balance - this.nativeFee;
+      this.available = nativeBalanceWithoutFee > 0 ? nativeBalanceWithoutFee : 0;
+    } else {
+      this.available = balance;
+    }
+
     if (!this.showRange) {
       this.setPrice(this.available);
     } else {
@@ -198,14 +256,13 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  amount(value : number){
-    return ((this.investedAmount * value) / 100);
+  amount(value: number) {
+    return (this.investedAmount * value) / 100;
   }
 
-  quoteAmount(value:number){
-   return this.parseAmount(this.amount(value) * this.price);
+  quoteAmount(value: number) {
+    return this.parseAmount(this.amount(value) * this.price);
   }
-
 
   setPrice(available: number) {
     this.usdPrice = available * this.price;
