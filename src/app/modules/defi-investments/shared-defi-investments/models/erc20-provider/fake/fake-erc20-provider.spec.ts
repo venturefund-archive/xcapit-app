@@ -1,13 +1,11 @@
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
-import { FakeProvider } from '../../../../../../../testing/fakes/fake-provider.spec';
+import { FakeProvider } from '../../../../../../shared/models/provider/fake-provider.spec';
 import { FakeERC20Provider } from './fake-erc20-provider';
 
 describe('FakeERC20Provider', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
-  let fakeProviderSpy: jasmine.SpyObj<any>;
   beforeEach(() => {
     coinSpy = jasmine.createSpyObj('Coin', {}, { name: 'USDC', value: 'USDC', network: 'MATIC' });
-    fakeProviderSpy = new FakeProvider().createSpy();
   });
   it('should create', () => {
     expect(new FakeERC20Provider()).toBeTruthy();
@@ -18,6 +16,6 @@ describe('FakeERC20Provider', () => {
   });
 
   it('should return value', () => {
-    expect(new FakeERC20Provider(null, fakeProviderSpy).value()).toEqual(fakeProviderSpy);
+    expect(new FakeERC20Provider(null, new FakeProvider()).value()).toEqual(new FakeProvider());
   });
 });

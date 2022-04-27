@@ -1,12 +1,12 @@
 import { BigNumber } from 'ethers';
-import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { Provider } from '@angular/core';
 import { NativeGasOf } from './native-gas-of';
 
 describe('NativeGasOf', () => {
   let providerSpy: jasmine.SpyObj<Provider>;
-  let erc20ProviderSpy: jasmine.SpyObj<ERC20Provider>;
+  let erc20ProviderSpy: jasmine.SpyObj<DefaultERC20Provider>;
   let coinSpy: jasmine.SpyObj<Coin>;
   beforeEach(() => {
     providerSpy = jasmine.createSpyObj(

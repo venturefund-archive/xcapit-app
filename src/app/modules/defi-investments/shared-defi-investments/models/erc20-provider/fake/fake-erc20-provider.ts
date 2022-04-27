@@ -1,4 +1,3 @@
-import { providers } from 'ethers';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ERC20Provider } from '../erc20-provider.interface';
 
@@ -9,7 +8,7 @@ export class FakeERC20Provider implements ERC20Provider {
     return this._coinReturn;
   }
 
-  value(): providers.JsonRpcProvider {
+  value(): any {
     return this._valueReturn;
   }
 }
