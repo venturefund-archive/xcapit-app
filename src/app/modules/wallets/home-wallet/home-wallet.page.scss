@@ -76,6 +76,9 @@
     }
 
     &__balance {
+      display: flex;
+      flex-direction: column;
+
       &__button {
         padding-top: 10px;
         width: 100%;
@@ -96,6 +99,12 @@
             font-size: 24px;
           }
         }
+      }
+
+      &__loading {
+        align-self: center;
+        justify-self: center;
+        margin-bottom: 30px;
       }
     }
   }

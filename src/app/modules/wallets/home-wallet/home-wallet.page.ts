@@ -8,10 +8,16 @@ import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
-import { AssetBalanceModel } from '../shared-wallets/models/asset-balance/asset-balance.class';
-import { QueueService } from '../../../shared/services/queue/queue.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
+import { TotalBalance } from '../shared-wallets/models/balance/total-balance/total-balance';
+import { ZeroBalance } from '../shared-wallets/models/balance/zero-balance/zero-balance';
+import { NullPrices } from '../shared-wallets/models/prices/null-prices/null-prices';
+import { NullBalances } from '../shared-wallets/models/balances/null-balances/null-balances';
+import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
+import { TotalBalanceController } from '../shared-wallets/models/balance/total-balance/total-balance.controller';
 
 @Component({
   selector: 'app-home-wallet',
@@ -56,10 +62,10 @@ import { takeUntil } from 'rxjs/operators';
           <ion-spinner
             color="white"
             name="crescent"
-            *ngIf="this.totalBalance === undefined && this.walletExist"
+            *ngIf="this.balance === undefined && this.walletExist"
           ></ion-spinner>
-          <ion-text *ngIf="this.totalBalance !== undefined || !this.walletExist">
-            {{ (this.totalBalance ? this.totalBalance : 0.0) | number: '1.2-2' }} USD
+          <ion-text *ngIf="this.balance !== undefined || !this.walletExist">
+            {{ this.balance ?? 0.0 | number: '1.2-2' }} USD
           </ion-text>
         </div>
       </div>
@@ -114,9 +120,15 @@ import { takeUntil } from 'rxjs/operators';
               <ion-icon icon="ux-adjustments"></ion-icon>
             </ion-button>
           </div>
+          <ion-spinner
+            class="wt__balance__loading"
+            color="primary"
+            name="crescent"
+            *ngIf="this.tokenDetails.length === 0"
+          ></ion-spinner>
           <app-wallet-balance-card-item
-            *ngFor="let balance of this.balances; let last = last"
-            [balance]="balance"
+            *ngFor="let tokenDetail of this.tokenDetails; let last = last"
+            [tokenDetail]="tokenDetail"
             [last]="last"
           ></app-wallet-balance-card-item>
         </div>
@@ -141,19 +153,16 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
-  totalBalanceAccum = 0;
-  balances: AssetBalanceModel[] = [];
-  selectedAssets: Coin[];
+  tokenDetails: TokenDetail[] = [];
+  userTokens: Coin[];
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
   @ViewChild(IonContent, { static: true }) content: IonContent;
-  pageSize = 6;
-  leave$ = new Subject<void>();
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
-  requestQuantity = 0;
-  totalBalance: number;
+  totalBalanceModel: TotalBalance;
+  balance: number;
 
   constructor(
     private walletService: WalletService,
@@ -164,43 +173,78 @@ export class HomeWalletPage implements OnInit {
     private walletBalance: WalletBalanceService,
     private storageService: StorageService,
     private balanceCacheService: BalanceCacheService,
-    private queueService: QueueService
+    private http: HttpClient,
+    private covalentBalances: CovalentBalancesController,
+    private tokenPrices: TokenPricesController,
+    private tokenDetail: TokenDetailController,
+    private totalBalance: TotalBalanceController
   ) {}
 
   ngOnInit() {}
 
   async ionViewDidEnter() {
-    this.requestQuantity = 0;
+    await this.checkWalletExist();
+    await this.setUserTokens();
+    await this.loadCachedTotalBalance();
     await this.initialize();
   }
 
   async initialize(): Promise<void> {
-    this.queueService.dequeueAll();
     await this.content.scrollToTop(0);
-    await this.cachedTotalBalance();
-    this.clearBalances();
-    await this.checkWalletExist();
-    await this.getAssetsSelected();
-    this.createQueues();
-    this.loadCoins();
+    this.initializeTotalBalance();
+    await this.setTokenDetails();
+    await this.fetchDetails();
+    await this.fetchTotalBalance();
+    await this.updateCachedTotalBalance();
   }
 
-  private async cachedTotalBalance() {
-    this.totalBalance = await this.balanceCacheService.total();
+  private initializeTotalBalance() {
+    this.totalBalanceModel = this.totalBalance.new(new NullPrices(), new NullBalances(), new ZeroBalance());
   }
 
-  private createQueues(): void {
+  private async setTokenDetails() {
+    const result = [];
     for (const network of this.apiWalletService.getNetworks()) {
-      this.queueService.create(network, 2);
-      this.queueService.results(network).pipe(takeUntil(this.leave$)).subscribe();
+      const tokens = this.userTokens.filter((token) => token.network === network);
+      const address = await this.storageService.getWalletsAddresses(network);
+
+      if (tokens.length) {
+        const balances = this.covalentBalances.new(address, tokens, this.http);
+        const prices = this.tokenPrices.new(tokens, this.http);
+        for (const token of tokens) {
+          const tokenDetail = this.tokenDetail.new(balances, prices, token, this.balanceCacheService);
+          result.push(tokenDetail);
+          await tokenDetail.cached();
+        }
+        this.totalBalanceModel = this.totalBalance.new(prices, balances, this.totalBalanceModel);
+      }
     }
-    this.queueService.create('prices', 2);
-    this.queueService.results('prices').pipe(takeUntil(this.leave$)).subscribe();
+    this.sortTokens(result);
+    this.tokenDetails = result;
   }
 
-  private clearBalances(): void {
-    this.balances = [];
-    this.totalBalanceAccum = 0;
+  private async fetchDetails() {
+    for (const tokenDetail of this.tokenDetails) {
+      await tokenDetail.fetch();
+      await tokenDetail.cache();
+    }
+    this.sortTokens(this.tokenDetails);
+  }
+
+  private async fetchTotalBalance() {
+    this.balance = await this.totalBalanceModel.value();
+  }
+
+  private sortTokens(tokenDetails: TokenDetail[]) {
+    tokenDetails.sort((a, b) => b.balance * b.price - a.balance * a.price);
+  }
+
+  private async loadCachedTotalBalance() {
+    this.balance = await this.balanceCacheService.total();
+  }
+
+  private async updateCachedTotalBalance() {
+    await this.balanceCacheService.updateTotal(this.balance);
   }
 
   async refresh(event: any): Promise<void> {
@@ -215,8 +259,8 @@ export class HomeWalletPage implements OnInit {
     this.walletExist = await this.walletService.walletExist();
   }
 
-  private async getAssetsSelected(): Promise<void> {
-    this.selectedAssets = await this.storageService.getAssestsSelected();
+  private async setUserTokens(): Promise<void> {
+    this.userTokens = await this.storageService.getAssestsSelected();
   }
 
   goToRecoveryWallet(): void {
@@ -225,56 +269,5 @@ export class HomeWalletPage implements OnInit {
 
   goToSelectCoins(): void {
     this.navController.navigateForward(['wallets/select-coins', 'edit']);
-  }
-
-  loadCoins(): void {
-    this.balances = this.selectedAssets.map((aCoin: Coin) => {
-      const assetBalance = new AssetBalanceModel(aCoin, this.walletBalance, this.balanceCacheService);
-      assetBalance.cachedBalance().then((cachedCoin) => {
-        this.enqueue(assetBalance);
-        if (cachedCoin) {
-          this.orderBalances();
-        }
-      });
-      this.accumulateBalance(assetBalance);
-      return assetBalance;
-    });
-  }
-
-  private orderBalances() {
-    this.balances.sort((a, b) => b.amount * b.price - a.amount * a.price);
-  }
-
-  private accumulateBalance(assetBalance: AssetBalanceModel): void {
-    assetBalance.quoteBalance.pipe(takeUntil(this.leave$)).subscribe(async (quote: number) => {
-      if (!this.queueStopped()) {
-        this.totalBalanceAccum += quote;
-        this.requestQuantity++;
-        if (this.accumulationEnded()) await this.updateBalance();
-        this.orderBalances();
-      }
-    });
-  }
-
-  queueStopped() {
-    return this.leave$.isStopped;
-  }
-
-  private accumulationEnded() {
-    return this.requestQuantity === this.selectedAssets.length;
-  }
-
-  private async updateBalance() {
-    this.totalBalance = this.totalBalanceAccum;
-    this.balanceCacheService.updateTotal(this.totalBalanceAccum);
-  }
-
-  private enqueue(assetBalance: AssetBalanceModel): void {
-    this.queueService.enqueue(assetBalance.coin.network, () => assetBalance.balance());
-    this.queueService.enqueue('prices', () => assetBalance.getPrice());
-  }
-
-  ionViewDidLeave(): void {
-    this.leave$.complete();
   }
 }
