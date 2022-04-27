@@ -1,5 +1,13 @@
 :host {
   .dt {
+    &__content {
+      display: flex;
+
+      img {
+        margin-right: 8px;
+      }
+    }
+
     background-color: transparent;
     display: flex;
     flex-wrap: nowrap;

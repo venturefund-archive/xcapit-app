@@ -71,15 +71,6 @@
   },
   "shared": {
     "services": {
-      "update_service": {
-        "alert_header": "Actualización Disponible",
-        "alert_message": "¡Una nueva versión de la app esta disponible!",
-        "alert_cancel_button": "Cancelar",
-        "alert_update_button": "Actualizar",
-        "alert_required_header": "Actualización Requerida",
-        "alert_required_text": "Es necesario actualizar la app para continuar usandola.",
-        "alert_required_button": "Actualizar"
-      },
       "share": {
         "copy_text": "El enlace de suscripción al fondo se ha copiado al portapapeles",
         "share_error": "El texto se copió en el portapapeles"
@@ -88,6 +79,12 @@
         "toast_success": "Se copió al portapapeles",
         "toast_error": "No se pudo copiar la dirección al portapapeles"
       }
+    },
+    "update_modal": {
+      "title": "¡Actualiza la app!",
+      "text": "Descubre nuevas opciones para operar con tus criptomonedas.",
+      "button_primary": "Actualizar",
+      "button_secondary": "Recordarme más tarde"
     },
     "card_info_robot": {
       "title": "¿Cómo funciona nuestro robot?",
@@ -153,7 +150,7 @@
       "card_header": "Crea tu cuenta",
       "submit_button": "Crear Cuenta",
       "success_title": "¡Solo falta que valides tu dirección de correo electrónico!",
-      "success_text": "Te enviamos un email de verificación, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
+      "success_text": "Te enviamos un email de verificación a {{email}}, revisa tu casilla y sigue las instrucciones para activar la cuenta.",
       "accept_button": "Aceptar",
       "resend_email_button": "No recibí el mail",
       "referral_code_text": "Código de Referido",
@@ -254,7 +251,9 @@
       "capital_security": "Seguridad de mi capital",
       "wallet": "Wallet",
       "nft": "NFT",
-      "others": "Otros"
+      "others": "Otros",
+      "referrals": "Referidos",
+      "transactions": "Transacciones"
     }
   },
   "defi_investments": {
@@ -262,8 +261,8 @@
       "header": "Nueva inversión",
       "amount_to_invest": "Monto a invertir",
       "button": "Continuar",
-      "dont_have":"¿No tienes ",
-      "buy_button":"Compra ahora"
+      "dont_have": "¿No tienes ",
+      "buy_button": "Compra ahora"
     },
     "add": {
       "header": "Añadir monto",
@@ -284,8 +283,8 @@
       },
       "informative_modal": "No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos.",
       "informative_modal_fee": "No tienes suficientes {{nativeToken}} en tu cuenta para pagar la tarifa de transacción.",
-      "buy_button":"Comprar {{nativeToken}}",
-      "deposit_button":"Depositar {{nativeToken}}",
+      "buy_button": "Comprar {{nativeToken}}",
+      "deposit_button": "Depositar {{nativeToken}}",
       "terms": {
         "third_party_disclaimer": "Entiendo que al invertir mis criptomonedas lo haré a través de un proveedor externo (2pi) sujeto a  términos y condiciones  distintos, de los cuales Xcapit no es responsable.",
         "i_have_read": "He leído y acepto los ",
@@ -300,8 +299,8 @@
       "title": "Comienza a invertir",
       "title_investments": "Mis inversiones",
       "recommendations": "Podrían interesarte",
-      "empty_products":"Proximamente podrás encontrar las mejores inversiones para tu perfil",
-      "link_button":"¿Cómo funcionan las inversiones DeFi?",
+      "empty_products": "Proximamente podrás encontrar las mejores inversiones para tu perfil",
+      "link_button": "¿Cómo funcionan las inversiones DeFi?",
       "choose_investor_profile": {
         "complete_test": {
           "title": "Quiero elegir mi perfil nuevamente",
@@ -372,19 +371,20 @@
         "annual": "% Anual",
         "blockchain": "Blockchain",
         "profile": "Perfil",
-        "investment_info":{
-          "USDC":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en USDC. \n USDC es una criptomoneda estable. Su valor está atado al dólar, y está respaldada al 100% en dólares estadounidenses.",
-          "DAI":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en DAI. \n DAI es una criptomoneda estable, su valor está atado al dólar.  Se respalda al 100% en protocolos cripto.",
-          "BTC":"Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en BTC. \n BTC (Bitcoin) es la primera criptomoneda con emisión fija, y la de mayor capitalización en el mercado."
+        "investment_info": {
+          "USDC": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en USDC. \n USDC es una criptomoneda estable. Su valor está atado al dólar, y está respaldada al 100% en dólares estadounidenses.",
+          "DAI": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en DAI. \n DAI es una criptomoneda estable, su valor está atado al dólar.  Se respalda al 100% en protocolos cripto.",
+          "BTC": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en BTC. \n BTC (Bitcoin) es la primera criptomoneda con emisión fija, y la de mayor capitalización en el mercado."
         },
-        "profiles":{
-          "conservative":"Conservador",
-          "medium":"Moderado",
-          "risky":"Agresivo"
+        "profiles": {
+          "conservative": "Conservador",
+          "medium": "Moderado",
+          "risky": "Agresivo"
         }
       },
       "amount_input_card": {
         "available": "Saldo disponible",
+        "amount_invested":"Monto total invertido",
         "disclaimer": "La tasa de cambio la define la blockchain. Los montos pueden variar, según el momento en que realices la transacción. \nTen en cuenta que se cobrarán tarifas de transacción en",
         "max_button": "Máx"
       },
@@ -404,12 +404,22 @@
         "button_secondary": "Ir a mi wallet",
         "disclaimer": "* Tus fondos pueden demorar hasta 5 minutos en estar disponibles en la Wallet."
       },
-      "withdraw": {
-        "header": "Realizar retiro"
+      "select_amount":{
+        "header": "Retirar Inversión",
+        "button":"Continuar",
+        "label":"Retiro"
       },
-      "password_modal":{
-        "description":"Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",
-        "confirm_button":"Realizar retiro"
+      "withdraw": {
+        "header": "Retirar Inversión",
+        "button":"Confirmar",
+        "submit_loading":"Confirmando",
+        "withdraw_amount":"Monto a retirar",
+        "withdraw_fee":"Tarifa de retiro",
+        "disclaimer":"Solo tomará unos segundos"
+      },
+      "password_modal": {
+        "description": "Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",
+        "confirm_button": "Realizar retiro"
       }
     }
   },
@@ -1443,6 +1453,50 @@
       "i_agree_button": "Acepto"
     }
   },
+  "financial_planner":{
+    "planner_information":{
+      "header":"Planificador",
+      "title":"Ordena tus finanzas y cumple tus objetivos",
+      "item_1":"Define tus gastos e ingresos mensuales",
+      "item_2":"Planifica tus objetivos",
+      "item_3":"Descubre estrategias para alcanzarlos",
+      "button":"Comenzar"
+    },
+    "objetive_info":{
+      "header":"Planificador",
+      "title":"Objetivo",
+      "subtitle_1":"Objetivo financiero",
+      "paragraph_1":"Define qué quieres lograr con tu dinero. Puede ser un viaje, comprar un auto, invertir, otros.",
+      "label_1":"Nombre del objetivo",
+      "label_2":"Categoría",
+      "placeholder_1":"Ej: Viaje a Miami",
+      "placeholder_2":"Ej: 1000",
+      "categories":{
+        "category_1":"Otros",
+        "category_2":"Viaje",
+        "category_3":"Compras",
+        "category_4":"Inversión",
+        "category_5":"Regalo"
+      },
+
+      "subtitle_2":"Dinero necesario",
+      "paragraph_2":"Calcula cuánto dinero necesitas en total para alcanzar tu objetivo.",
+      "label_3":"USD",
+      "button":"Ver estrategias"
+    },
+    "new_objetive":{
+      "title":"Ingresos y gastos*",
+      "subtitle_income":"Ingresos mensuales",
+      "description_income":"Suma todo el dinero que recibes en el mes: pagos, salario, regalos, rendimientos.",
+      "subtitle_expenses":"Gastos mensuales",
+      "description_expenses":"Suma todo el dinero que gastas en el mes: compras, pago de servicios, cuotas, alquiler.",
+      "disclaimer":"*Estos datos son privados, y no serán utilizados fuera de esta simulación.",
+      "label":"USD",
+      "button":"Continuar",
+      "of": "de",
+      "placeholder":"Ej: 1000"
+    }
+  },
   "referrals": {
     "new_referral": {
       "header": "Referir",
@@ -1631,7 +1685,7 @@
       "terms_of_use_checkbox": "Leí, comprendo y acepto los <a class='ux-link-xs' href='https://xcapit.com/tyc/'>términos de uso</a>.",
       "terms_of_use_button": "Ver términos de uso",
       "submit_button": "Confirmar y aceptar",
-      "wallet_term_text":"Tu Wallet estará vinculada a este dispositivo, no a tu e-mail. Para más información, visita las ",
+      "wallet_term_text": "Tu Wallet estará vinculada a este dispositivo, no a tu e-mail. Para más información, visita las ",
       "wallet_term_link": "Preguntas frecuentes sobre la Wallet",
       "error_did_not_accept": "Debes marcar todas las opciones para continuar."
     },
@@ -1675,7 +1729,7 @@
         "send_card": "Enviar",
         "receive_card": "Recibir",
         "buy_card": "Comprar",
-        "performance_card": "Invertir"
+        "swap_card":"Intercambiar"
       }
     },
     "select_coin": {
@@ -1719,17 +1773,17 @@
       "finish_button": "Finalizar y crear wallet",
       "loading": {
         "title": "¡Tiempo!",
-        "subtitle":{
-          "create":"Estamos creando tu Wallet",
-          "import":"Estamos importando tu Wallet"
-        } 
+        "subtitle": {
+          "create": "Estamos creando tu Wallet",
+          "import": "Estamos importando tu Wallet"
+        }
       }
     },
     "receive": {
       "header": "Recibir",
       "title": "Datos de tu billetera",
       "currency_select": "Moneda",
-      "select_coins":"Seleccionar moneda",
+      "select_coins": "Seleccionar moneda",
       "average_time": "Tiempo promedio de llegada: 3 min.",
       "receive_address_title": "Dirección",
       "receive_address_copy": "Copiar",
@@ -1803,8 +1857,8 @@
         "send_button": "Enviar",
         "wrong_password": "Password incorrecto",
         "loader": "Enviando",
-        "destination_address":"Dirección de destino",
-        "fee":"Tarifa de transacción",
+        "destination_address": "Dirección de destino",
+        "fee": "Tarifa de transacción",
         "sent_notification": {
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"
@@ -1951,7 +2005,7 @@
         "operation": "Operación en",
         "sign_message": "Se ha solicitado su firma para lo siguiente:",
         "date": "Fecha",
-        "from": "De",
+        "from": "De tu wallet",
         "to": "Para",
         "amount": "A pagar",
         "transaction_fee": "Tarifa de transacción",
@@ -2265,7 +2319,13 @@
     },
     "select_provider": {
       "header": "Comprar Cripto",
-      "title": "Selecciona el proveedor:"
+      "select_label": "Pais en el que vas a operar",
+      "select_placeholder": "Selecciona tu país",
+      "provider_label": "Selecciona el proveedor",
+      "moonpay_description": "Compra con tarjeta de crédito",
+      "krypton_description": "Compra con transferencia bancaria",
+      "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
+      "button": "Continuar"
     },
 
     "information_paxful": {
@@ -2444,8 +2504,13 @@
       "information": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
       "button_text": "Continuar",
       "moonpay_operations": "Las compras de Moonpay visualizalas en la web"
+    },
+    "token_selection": {
+      "header": "Comprar cripto",
+      "subtitle": "Selecciona la moneda que quieres comprar"
     }
   },
+
   "payment": {
     "methods": {
       "header": "Método de pago",
@@ -2536,6 +2601,10 @@
     "shared": {
       "buy_crypto_card": {
         "title": "Compra cripto al mejor precio"
+      },
+      "financial_planner_card": {
+        "title": "Ordena tus finanzas",
+        "description": "Planifica tus objetivos, y descubre la mejor manera de alcanzarlos"
       }
     }
   },
@@ -2721,8 +2790,8 @@
       "answer6": "Sí.",
       "question7": "¿Cuánto es el mínimo y máximo para comprar en Moonpay?",
       "answer7": "El monto mínimo de transacción para cada cripto admitida es el siguiente:<ul><li>0,001 BTC, ETH: 0,01, BCH: 0,05, USDC: 30, USDT: 30</li><li>*La cantidad mínima puede cambiar debido a la fluctuación del precio de las criptomonedas y se reflejará en nuestro widget.</li></ul>",
-      "question8":"¿Que tokens puedo comprar en Moonpay?",
-      "answer8":"Actualmente solo se pueden comprar los tokens soportados por la wallet de Xcapit, si compras un token que no se encuentre aun en la wallet la operacion no se podra finalizar."
+      "question8": "¿Que tokens puedo comprar en Moonpay?",
+      "answer8": "Actualmente solo se pueden comprar los tokens soportados por la wallet de Xcapit, si compras un token que no se encuentre aun en la wallet la operacion no se podra finalizar."
     },
     "support_binance": {
       "header": "Ayuda",

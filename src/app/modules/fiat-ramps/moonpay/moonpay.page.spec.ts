@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -10,7 +10,6 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -98,7 +97,6 @@ describe('MoonpayPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<MoonpayPage>;
 
@@ -106,8 +104,13 @@ describe('MoonpayPage', () => {
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      fakeActivatedRoute = new FakeActivatedRoute({ asset: '' });
-      activatedRouteSpy = fakeActivatedRoute.createSpy();
+      activatedRouteSpy = jasmine.createSpyObj(
+        'ActivatedRoute',
+        {},
+        {
+          snapshot: { queryParamMap: convertToParamMap({}) },
+        }
+      );
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
         getUserOperations: of(rawOperations),
         getMoonpayLink: of({ url: 'http://testURL.com' }),
@@ -161,7 +164,9 @@ describe('MoonpayPage', () => {
   });
 
   it('should select the currency specified by parameter on init', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ asset: 'USDT' });
+    (Object.getOwnPropertyDescriptor(activatedRouteSpy, 'snapshot').get as jasmine.Spy).and.returnValue({
+      queryParamMap: convertToParamMap({ asset: 'USDT', network: 'ERC20' }),
+    });
     component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -195,5 +200,15 @@ describe('MoonpayPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+
+  it('should redirect to coin selection when coin is clicked', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-coin-selector')).triggerEventHandler('changeCurrency', undefined);
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection'])
   });
 });

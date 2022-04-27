@@ -183,7 +183,7 @@ describe('HomePage', () => {
     fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', 'true');
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/moonpay']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/select-provider']);
   });
 
   it('should re-initialize when refresher is triggered', fakeAsync(() => {

@@ -36,14 +36,16 @@ import { NavigationExtras } from '@angular/router';
             [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"
             icon="ux-currency"
           ></app-icon-button-card>
+          
         </div>
-        <div class="wsb__card-buttons__performance card">
+        <div class="wsb__card-buttons__swap-card card">
           <app-icon-button-card
-            (click)="this.goToPerformance()"
+            (click)="this.goToSwap()"
             appTrackClick
-            name="Go to Performance"
-            [text]="'wallets.home.subheader_buttons_component.performance_card' | translate"
-            icon="ux-home-trending"
+            class="ux-font-text-lg"
+            name="go_to_swap"
+            [text]="'wallets.home.subheader_buttons_component.swap_card' | translate"
+            icon="ux-vertical-switch"
           ></app-icon-button-card>
         </div>
       </div>
@@ -87,7 +89,11 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   }
 
   goToBuy() {
-    this.navController.navigateForward(['fiat-ramps/moonpay']);
+    this.navController.navigateForward(['fiat-ramps/select-provider']);
+  }
+
+  goToSwap(){
+    this.navController.navigateForward(['']);
   }
 
   goToPerformance() {

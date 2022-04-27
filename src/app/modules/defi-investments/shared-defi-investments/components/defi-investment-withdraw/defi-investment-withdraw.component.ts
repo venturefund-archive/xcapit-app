@@ -21,7 +21,7 @@ import { Amount } from '../../types/amount.type';
             <ion-text class="ux-font-text-lg balance">{{ this.amount.value | number: '1.2-8' }} </ion-text>
           </div>
           <div class="diw__content__info__group">
-            <ion-text class="ux-font-text-xs description">{{ (this.token.name | splitString: ' - ')[1] }}</ion-text>
+            <ion-text class="ux-font-text-xs description">{{ this.token.name | splitString: ' - ' }}</ion-text>
             <ion-text class="ux-font-text-xs converted-balance"
               >{{ this.quoteAmount.value | number: '1.2-6' }} {{ this.quoteAmount.token }}</ion-text
             >

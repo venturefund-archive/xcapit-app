@@ -1,7 +1,9 @@
 import { NFT } from './nft.class';
+import { environment } from 'src/environments/environment';
+
 
 export class UrlImageOf {
-  constructor(private _aNFT: NFT, private _aGatewayUrl: string = 'https://gateway.pinata.cloud/ipfs') {}
+  constructor(private _aNFT: NFT, private _aGatewayUrl: string = environment.IPFS_GATEWAY) {}
 
   value(): string {
     return this.useIPFSProtocol() ? this.imageTroughGateway() : this._aNFT.image();
