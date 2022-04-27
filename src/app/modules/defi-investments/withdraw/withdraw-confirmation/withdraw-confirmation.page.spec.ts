@@ -13,7 +13,7 @@ import { Coin } from '../../../wallets/shared-wallets/interfaces/coin.interface'
 import { BigNumber, Wallet } from 'ethers';
 import { TwoPiInvestment } from '../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { Provider } from '@ethersproject/abstract-provider';
-import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { TwoPiContract } from '../../shared-defi-investments/models/two-pi-contract/two-pi-contract.model';
 import { of } from 'rxjs';
 import { DynamicPrice } from '../../../../shared/models/dynamic-price/dynamic-price.model';
@@ -33,7 +33,7 @@ describe('WithdrawConfirmationPage', () => {
   let investmentSpy: jasmine.SpyObj<TwoPiInvestment>;
   let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
   let providerSpy: jasmine.SpyObj<Provider>;
-  let erc20ProviderSpy: jasmine.SpyObj<ERC20Provider>;
+  let erc20ProviderSpy: jasmine.SpyObj<DefaultERC20Provider>;
   let twoPiContractSpy: jasmine.SpyObj<TwoPiContract>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;

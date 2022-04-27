@@ -1,7 +1,7 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { BigNumber, Signer, VoidSigner, Wallet } from 'ethers';
 import { formatUnits, parseEther, parseUnits } from 'ethers/lib/utils';
-import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { Amount } from 'src/app/modules/defi-investments/shared-defi-investments/types/amount.type';
 import { Coin } from '../../interfaces/coin.interface';
 import { Send } from '../../interfaces/send.interface';
@@ -41,7 +41,7 @@ export class NativeTokenSend implements Send {
     signer: Signer,
     networkConfig: NetworkConfig
   ): NativeTokenSend {
-    const provider = new ERC20Provider(coin);
+    const provider = new DefaultERC20Provider(coin);
     const canSignTx = !(signer instanceof VoidSigner);
     const _aToken = new NativeToken(provider, signer);
 

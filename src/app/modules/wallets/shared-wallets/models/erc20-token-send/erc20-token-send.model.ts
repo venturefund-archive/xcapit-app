@@ -2,7 +2,7 @@ import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { BigNumber, Signer, VoidSigner, Wallet } from 'ethers';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
-import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { ERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/erc20-token.model';
 import { Coin } from '../../interfaces/coin.interface';
 import { Send } from '../../interfaces/send.interface';
@@ -47,7 +47,7 @@ export class ERC20TokenSend implements Send {
     signer: Signer,
     networkConfig: NetworkConfig
   ): ERC20TokenSend {
-    const provider = new ERC20Provider(coin);
+    const provider = new DefaultERC20Provider(coin);
     const canSignTx = !(signer instanceof VoidSigner);
     const contract = new ERC20Contract(provider, signer);
     const token = new ERC20Token(contract);
