@@ -2,8 +2,9 @@ import { Coin } from '../../../interfaces/coin.interface';
 import { HttpClient } from '@angular/common/http';
 import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
 import { environment } from '../../../../../../../environments/environment';
+import { Prices } from '../prices.interface';
 
-export class TokenPrices {
+export class TokenPrices implements Prices {
   private _valueCache: any = null;
 
   constructor(
