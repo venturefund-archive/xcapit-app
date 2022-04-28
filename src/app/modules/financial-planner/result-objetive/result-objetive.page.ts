@@ -140,7 +140,7 @@ export class ResultObjetivePage implements OnInit {
   }
 
   calculationsInvesting() {
-    for (let product of this.products) {
+    for (const product of this.products) {
       product.weeks = Math.round(this.weeks / (1 * (1 + product.apy / 55)));
     }
   }
@@ -155,7 +155,7 @@ export class ResultObjetivePage implements OnInit {
 
   async product() {
     const investments: DefiInvestment[] = [];
-    for (const product of this.products) {
+    for (let product of this.products) {
       const investmentProduct = await this.getInvestmentProduct(product);
       investments.push({
         product: investmentProduct,
