@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
+import { LINKS } from 'src/app/config/static-links';
 
 @Component({
   selector: 'app-moonpay',
@@ -65,7 +66,7 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
           }}</ion-text>
         </div>
       </ion-card>
-      <div class="operations-list">
+      <div class="operations-list" *ngIf="this.operationsList">
         <app-operations-list [operationsList]="this.operationsList"></app-operations-list>
       </div>
       <div class="moonpay-operations">
@@ -80,7 +81,7 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
           (click)="this.goToMoonpay()"
           class="ux-link-xs moonpay-operations__link"
         >
-          https://buy.moonpay.com/trade_history
+          {{ this.txHistoryLink }}
         </ion-button>
       </div>
       <ion-button
@@ -106,6 +107,7 @@ export class MoonpayPage implements OnInit {
   coins: Coin[];
   address: string;
   operationsList: FiatRampOperation[];
+  txHistoryLink: string = LINKS.moonpayTransactionHistory;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -172,6 +174,6 @@ export class MoonpayPage implements OnInit {
   }
 
   async goToMoonpay() {
-    await this.browserService.open({ url: 'https://buy.moonpay.com/trade_history' });
+    await this.browserService.open({ url: this.txHistoryLink });
   }
 }

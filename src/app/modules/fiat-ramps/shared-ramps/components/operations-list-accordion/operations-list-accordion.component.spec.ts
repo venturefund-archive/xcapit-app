@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { OperationsListItemComponent } from '../operations-list-item/operations-list-item.component';
 import { OperationsListAccordionComponent } from './operations-list-accordion.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
@@ -35,7 +34,6 @@ const firstOperations: FiatRampOperation[] = [
 ];
 
 const remainingOperations: FiatRampOperation[] = [
-  
   {
     operation_id: 3,
     amount_in: 32,

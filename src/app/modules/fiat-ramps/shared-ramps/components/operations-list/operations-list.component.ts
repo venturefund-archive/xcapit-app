@@ -29,16 +29,29 @@ import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interfac
 export class OperationsListComponent implements OnInit {
   @Input() operationsList: FiatRampOperation[];
   private readonly numberOfOperationsToShow = 2;
+  firstOperations: FiatRampOperation[];
+  remainingOperations: FiatRampOperation[];
+  cssWithLine: string;
+  hasOperations: boolean;
 
-  get firstOperations(): FiatRampOperation[] {
+  constructor() {}
+
+  ngOnInit() {
+    this.firstOperations = this.calculateFirstOperations();
+    this.remainingOperations = this.calculateRemainingOperations();
+    this.cssWithLine = this.calculateDynamicCssClasses();
+    this.hasOperations = this.checkIfUserHasOperations();
+  }
+
+  private calculateFirstOperations(): FiatRampOperation[] {
     return this.operationsList.slice(0, this.numberOfOperationsToShow);
   }
 
-  get remainingOperations(): FiatRampOperation[] {
+  private calculateRemainingOperations(): FiatRampOperation[] {
     return this.operationsList.slice(this.numberOfOperationsToShow, this.operationsList.length);
   }
 
-  get cssWithLine(): string {
+  private calculateDynamicCssClasses(): string {
     if (this.hasOperations) {
       return 'with-line';
     }
@@ -46,11 +59,7 @@ export class OperationsListComponent implements OnInit {
     return '';
   }
 
-  get hasOperations(): boolean {
+  private checkIfUserHasOperations(): boolean {
     return this.operationsList?.length > 0;
   }
-
-  constructor() {}
-
-  ngOnInit() {}
 }

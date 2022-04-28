@@ -68,13 +68,7 @@ export class OperationsListAccordionComponent implements OnInit {
   @ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
   isAccordionOpen: boolean;
 
-  get buttonText(): string {
-    if (this.isAccordionOpen) {
-      return 'fiat_ramps.operations_list.button_show_less';
-    }
-
-    return 'fiat_ramps.operations_list.button_show_more';
-  }
+  buttonText: string;
 
   constructor() {}
 
@@ -91,11 +85,13 @@ export class OperationsListAccordionComponent implements OnInit {
   }
 
   private openAccordion() {
+    this.buttonText = 'fiat_ramps.operations_list.button_show_less';
     this.accordionGroup.value = 'operations';
     this.isAccordionOpen = true;
   }
 
   private closeAccordion() {
+    this.buttonText = 'fiat_ramps.operations_list.button_show_more';
     this.accordionGroup.value = undefined;
     this.isAccordionOpen = false;
   }

@@ -64,6 +64,8 @@ describe('OperationsListComponent', () => {
   });
 
   it('should render operations list component if there is three operations', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
     const tableEl = fixture.debugElement.query(By.css('app-operations-list-accordion'));
     const textEl = fixture.debugElement.query(By.css('ion-text[name="No Operations"]'));
     expect(tableEl).toBeTruthy();
@@ -74,6 +76,7 @@ describe('OperationsListComponent', () => {
 
   it('should render operations list component if there is one operation', () => {
     component.operationsList = [operations[1]];
+    component.ngOnInit();
     fixture.detectChanges();
     const tableEl = fixture.debugElement.query(By.css('app-operations-list-accordion'));
     expect(tableEl).toBeTruthy();
@@ -83,6 +86,7 @@ describe('OperationsListComponent', () => {
 
   it('should render message if no operations', async () => {
     component.operationsList = [];
+    component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     const tableEl = fixture.debugElement.query(By.css('app-operations-list-accordion'));

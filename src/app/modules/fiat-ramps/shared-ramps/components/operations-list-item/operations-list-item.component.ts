@@ -42,26 +42,34 @@ export class OperationsListItemComponent implements OnInit {
   @Input() operation: FiatRampOperation;
   @Input() isLast: boolean;
   status: OperationStatus;
+  linesValue: string;
+  coin: string;
+  amount: number;
 
-  get isBuy(): boolean {
+  private get isBuy(): boolean {
     return this.operation.operation_type === 'cash-in';
   }
 
-  get coin(): string {
-    if (this.isBuy) {
-      return this.operation.currency_in;
-    }
-    return this.operation.currency_out;
+  constructor(private navController: NavController, private fiatRampsService: FiatRampsService) {}
+
+  ngOnInit() {
+    this.status = this.getOperationStatus();
+    this.linesValue = this.calculateLinesValue();
+    this.setCoinAndAmount();
   }
 
-  get amount(): number {
+
+  private setCoinAndAmount() {
     if (this.isBuy) {
-      return this.operation.amount_in;
+      this.coin = this.operation.currency_in;
+      this.amount = this.operation.amount_in;
+    } else {
+      this.coin = this.operation.currency_out;
+      this.amount = this.operation.amount_out;
     }
-    return this.operation.amount_out;
   }
 
-  get linesValue(): string {
+  private calculateLinesValue(): string {
     if (this.isLast) {
       return 'none';
     }
@@ -69,11 +77,8 @@ export class OperationsListItemComponent implements OnInit {
     return;
   }
 
-  constructor(private navController: NavController, private fiatRampsService: FiatRampsService) {}
-
-  ngOnInit() {
-    console.log('hi')
-    this.status = this.fiatRampsService.getOperationStatus(this.operation.status, parseInt(this.operation.provider));
+  private getOperationStatus(): OperationStatus {
+    return this.fiatRampsService.getOperationStatus(this.operation.status, parseInt(this.operation.provider));
   }
 
   viewOperationDetail() {

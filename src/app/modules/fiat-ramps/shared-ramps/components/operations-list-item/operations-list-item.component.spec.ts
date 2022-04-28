@@ -94,6 +94,7 @@ describe('OperationsListItemComponent', () => {
 
   it('should show item lines if is the last item', async () => {
     component.isLast = true;
+    component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     const el = fixture.debugElement.query(By.css('ion-item[name="Operation Item"]')).nativeElement;
@@ -102,6 +103,7 @@ describe('OperationsListItemComponent', () => {
 
   it('should not show item lines if is not the last item', async () => {
     component.isLast = false;
+    component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     const el = fixture.debugElement.query(By.css('ion-item[name="Operation Item"]')).nativeElement;
