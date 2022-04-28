@@ -10,10 +10,13 @@ import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/
         class="button"
         [value]="item.value"
         [id]="item.value"
-      >
+      > 
+      <div class="dt__content">
+        <img [src]="this.item.icon"/>
         <ion-label class="ux-font-text-xs">
           {{ this.item.title | translate }}
         </ion-label>
+      </div>  
       </ion-segment-button>
     </ion-segment>
   `,
@@ -27,7 +30,7 @@ import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/
 })
 export class FilterTabComponent implements AfterViewInit {
   control: AbstractControl;
-  @Input() items: { title: string; value: string }[];
+  @Input() items: { title: string; value: string; icon:string }[];
   @Input() controlName: string ;
   constructor(private formGroupDirective: FormGroupDirective, public elRef: ElementRef) {}
 

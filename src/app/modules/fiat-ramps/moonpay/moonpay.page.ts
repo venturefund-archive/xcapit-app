@@ -2,7 +2,6 @@ import { environment } from './../../../../../variables.env';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -11,6 +10,7 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { LINKS } from 'src/app/config/static-links';
+import { Currency } from '../../funds/shared-funds/enums/currency.enum';
 
 @Component({
   selector: 'app-moonpay',
@@ -26,18 +26,11 @@ import { LINKS } from 'src/app/config/static-links';
     <ion-content class="ion-padding-start ion-padding-end">
       <ion-card class="ux-card-new mnp">
         <div class="mnp__currency-select">
-          <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.moonpay.currency_label' | translate }}</ion-text>
-          <form [formGroup]="this.form">
-            <app-input-select
-              [modalTitle]="'wallets.receive.select_coins' | translate"
-              [placeholder]="'wallets.receive.select_coins' | translate"
-              controlName="currency"
-              [data]="this.coins"
-              key="name"
-              valueKey="value"
-              imageKey="logoRoute"
-              selectorStyle="white"
-            ></app-input-select>
+          <form [formGroup]="this.form">           
+            <app-coin-selector
+            *ngIf="this.form.value.currency" [selectedCoin]="this.form.value.currency"
+            (changeCurrency)="this.changeCurrency()"
+          ></app-coin-selector>
           </form>
         </div>
         <div class="mnp__provider">
@@ -134,11 +127,12 @@ export class MoonpayPage implements OnInit {
   }
 
   initAssetsForm() {
-    const initialAsset = this.route.snapshot.paramMap.get('asset');
+    const token = this.route.snapshot.queryParamMap.get('asset');
+    const network = this.route.snapshot.queryParamMap.get ('network');
     this.storageService.getAssestsSelected().then((coins) => {
       this.coins = coins.filter((coin) => Boolean(coin.moonpayCode));
-      if (initialAsset) {
-        this.form.patchValue({ currency: this.coins.find((coin) => coin.value === initialAsset) });
+      if (token&&network) {
+        this.form.patchValue({ currency: this.coins.find((coin) => coin.value === token && coin.network === network) });
       } else {
         this.form.patchValue({ currency: this.coins[0] });
       }
@@ -175,5 +169,9 @@ export class MoonpayPage implements OnInit {
 
   async goToMoonpay() {
     await this.browserService.open({ url: this.txHistoryLink });
+  }
+
+  changeCurrency(): void{
+    this.navController.navigateForward(['/fiat-ramps/token-selection']);
   }
 }

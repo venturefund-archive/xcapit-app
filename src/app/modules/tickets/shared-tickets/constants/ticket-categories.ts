@@ -7,4 +7,6 @@ export const TICKET_CATEGORIES = [
   { name: 'Wallet', value: 'tickets.categories.wallet' },
   { name: 'NFT', value: 'tickets.categories.nft' },
   { name: 'Otros', value: 'tickets.categories.others' },
+  { name: 'Referidos', value: 'tickets.categories.referrals'},
+  { name: 'Transacciones', value: 'tickets.categories.transactions'}
 ];

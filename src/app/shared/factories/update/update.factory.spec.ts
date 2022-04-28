@@ -6,12 +6,12 @@ describe('UpdateFactory', () => {
   beforeEach(() => {});
 
   it('should create UpdateAppService instance when native platform', () => {
-    const result = updateServiceFactory({ isNative: () => true }, {}, {}, {}, {}, {});
+    const result = updateServiceFactory({ isNative: () => true }, {}, {});
     expect(result).toBeInstanceOf(UpdateAppService);
   });
 
   it('should create UpdateAppService instance when not native platform', () => {
-    const result = updateServiceFactory({ isNative: () => false }, {}, {}, {}, {}, {});
+    const result = updateServiceFactory({ isNative: () => false }, {}, {});
     expect(result).toBeInstanceOf(UpdatePWAService);
   });
 });

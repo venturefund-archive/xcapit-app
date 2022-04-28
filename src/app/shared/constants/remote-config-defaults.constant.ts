@@ -3,4 +3,5 @@ export const REMOTE_CONFIG_DEFAULTS = {
     ff_buyCriptoHomeCard: false,
     ff_buyCryptoNewInvestmentFooter: false,
     ff_buyCryptoAddAmountInvestmentFooter: false,
+    ff_updateAppModal: false
 };

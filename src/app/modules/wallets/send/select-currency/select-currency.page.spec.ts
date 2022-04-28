@@ -8,8 +8,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { TokenSelectionListComponent } from '../../shared-wallets/components/token-selection-list/token-selection-list.component';
-import { SuitePipe } from '../../shared-wallets/pipes/suite/suite.pipe';
+import { TokenSelectionListComponent } from '../../../../shared/components/token-selection-list/token-selection-list.component';
+import { SuitePipe } from '../../../../shared/pipes/suite/suite.pipe';
 import { NavigationExtras } from '@angular/router';
 
 const coins: Coin[] = [

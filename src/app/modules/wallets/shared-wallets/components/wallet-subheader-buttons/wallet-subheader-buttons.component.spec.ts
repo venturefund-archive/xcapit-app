@@ -45,9 +45,9 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(div).not.toBeNull();
   });
 
-  it('should render performance card', () => {
+  it('should render swap card', () => {
     fixture.detectChanges();
-    const div = fixture.debugElement.query(By.css('.wsb__card-buttons__performance'));
+    const div = fixture.debugElement.query(By.css('.wsb__card-buttons__swap-card'));
     expect(div).not.toBeNull();
   });
 
@@ -79,9 +79,9 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Go to Performance Button clicked', () => {
+  it('should call trackEvent on trackService when go_to_swap Button clicked', () => {
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'Go to Performance');
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'go_to_swap');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -130,13 +130,13 @@ describe('WalletSubheaderButtonsComponent', () => {
     );
   });
 
-  it('should navigate to tabs/investments when Go to Performance button is clicked', async () => {
-    fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Performance']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/investments']);
+  it('should navigate to swap when go_to_swap button is clicked', async () => {
+    fixture.debugElement.query(By.css("app-icon-button-card[name='go_to_swap']")).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['']);
   });
 
   it('should navigate to fiat-ramps moonpay page when Go to Buy button is clicked', async () => {
     fixture.debugElement.query(By.css("app-icon-button-card[name='Go to Buy']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/moonpay']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
   });
 });
