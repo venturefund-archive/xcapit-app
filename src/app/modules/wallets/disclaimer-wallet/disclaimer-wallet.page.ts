@@ -61,14 +61,21 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
             <ion-item class="ion-no-padding ion-no-margin checkbox last">
               <div class="ux_checkbox_container">
                 <ion-item class="ux_checkbox_container__item ux-font-text-xs">
-                  <ion-label class="ux_checkbox_container__item__label checkbox__label lbl" [innerHTML]="this.textLink | translate">
+                  <ion-label
+                    class="ux_checkbox_container__item__label checkbox__label lbl"
+                    [innerHTML]="this.textLink | translate"
+                  >
                   </ion-label>
                   <ion-checkbox formControlName="termsOfUseCheckbox" slot="start"></ion-checkbox>
                 </ion-item>
               </div>
             </ion-item>
           </div>
-          <app-wallet-advice [logo]="'ux-device'" [text]="'wallets.disclaimer.wallet_term_text'" [link]="'wallets.disclaimer.wallet_term_link'"></app-wallet-advice>
+          <app-wallet-advice
+            [logo]="'ux-device'"
+            [text]="'wallets.disclaimer.wallet_term_text'"
+            [link]="'wallets.disclaimer.wallet_term_link'"
+          ></app-wallet-advice>
         </div>
         <div name="Disclaimer Form Buttons" class="ux_footer">
           <div class="button">
@@ -121,9 +128,9 @@ export class DisclaimerWalletPage implements AfterViewInit {
   }
 
   handleAnchorClick(event: Event) {
-      event.preventDefault();
-      const anchor = event.target as HTMLAnchorElement;
-      this.navigateToLink(anchor.getAttribute('href'));
+    event.preventDefault();
+    const anchor = event.target as HTMLAnchorElement;
+    this.navigateToLink(anchor.getAttribute('href'));
   }
 
   ngOnInit() {

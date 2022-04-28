@@ -1628,7 +1628,7 @@
       "description": "Antes de crear tu wallet, verifica los permisos esenciales para comenzar",
       "local_stored_keys_checkbox": "Entiendo que mis fondos se mantienen de forma segura en este dispositivo, no por una empresa.",
       "recovery_phrase_checkbox": "Entiendo que si esta aplicación se mueve a otro dispositivo o se elimina, mis fondos solo se pueden recuperar con la frase de recuperación.",
-      "terms_of_use_checkbox": "Leí, comprendo y acepto los <a class='ux-link-xs' href='https://xcapit.com/tyc/'>términos de uso</a>.",
+      "terms_of_use_checkbox": "Leí, comprendo y acepto los <a class='ux-link-xs' href='https://xcapit.com/terms-and-conditions/'>Términos de uso</a> y <a class='ux-link-xs' href='https://xcapit.com/privacy-policy/'>Política de privacidad.</a>",
       "terms_of_use_button": "Ver términos de uso",
       "submit_button": "Confirmar y aceptar",
       "wallet_term_text":"Tu Wallet estará vinculada a este dispositivo, no a tu e-mail. Para más información, visita las ",
@@ -1722,7 +1722,7 @@
         "subtitle":{
           "create":"Estamos creando tu Wallet",
           "import":"Estamos importando tu Wallet"
-        } 
+        }
       }
     },
     "receive": {
