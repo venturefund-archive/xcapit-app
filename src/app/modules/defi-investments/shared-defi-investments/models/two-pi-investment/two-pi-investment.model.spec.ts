@@ -22,12 +22,19 @@ describe('TwoPiInvestment', () => {
   let twoPiInvestment: TwoPiInvestment;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   beforeEach(() => {
-    contractSpy = jasmine.createSpyObj('Contract', {
-      deposit: Promise.resolve({} as TransactionResponse),
-      withdrawAll: Promise.resolve({} as TransactionResponse),
-      balanceOf: Promise.resolve(BigNumber.from('50000000')),
-      getPricePerFullShare: Promise.resolve(BigNumber.from('1000000')),
-    });
+    contractSpy = jasmine.createSpyObj(
+      'Contract',
+      {
+        deposit: Promise.resolve({} as TransactionResponse),
+        withdrawAll: Promise.resolve({} as TransactionResponse),
+        balanceOf: Promise.resolve(BigNumber.from('50000000')),
+        getPricePerFullShare: Promise.resolve(BigNumber.from('1000000')),
+        withdraw: Promise.resolve({} as TransactionResponse),
+      },
+      {
+        estimateGas: { deposit: () => Promise.resolve(BigNumber.from('100')) },
+      }
+    );
     productSpy = jasmine.createSpyObj('InvestmentProduct', {
       id: 1,
       token: { decimals: 6 },
@@ -68,7 +75,7 @@ describe('TwoPiInvestment', () => {
     const gasPrice = BigNumber.from('100000000000');
     await twoPiInvestment.deposit(50);
     expect(erc20TokenSpy.approve).toHaveBeenCalledOnceWith(contractAddress, wei, gasPrice);
-    expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress, { gasPrice: gasPrice });
+    expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress, { gasPrice, gasLimit: '150' });
   });
 
   it('should return the balance of a wallet in the investment product', async () => {
