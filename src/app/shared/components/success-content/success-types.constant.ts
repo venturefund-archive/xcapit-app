@@ -122,6 +122,7 @@ export const SUCCESS_TYPES = {
     textPrimary: 'wallets.success_wallet_recovery.title',
     urlPrimaryAction: '/tabs/wallets',
     namePrimaryAction: 'wallets.success_wallet_recovery.button',
+    trackClickEventNamePrimaryAction: 'ux_import_go_to_home',
   },
   error_wallet_incorrect_password: {
     image: 'assets/img/defi-investments/error-investment.svg',

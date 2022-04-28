@@ -129,7 +129,7 @@ import { takeUntil } from 'rxjs/operators';
           (click)="this.goToRecoveryWallet()"
           class="ux-link-xs"
           appTrackClick
-          name="Import Wallet"
+          name="ux_import_import_wallet"
           type="button"
           fill="clear"
         >

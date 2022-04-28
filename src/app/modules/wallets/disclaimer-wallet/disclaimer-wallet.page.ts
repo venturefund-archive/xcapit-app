@@ -75,6 +75,8 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
             <ion-button
               class="ux_button"
               appTrackClick
+              [dataToTrack]="{ eventLabel: this.trackClickEventName }"
+              [isReadyToSend]="this.disclaimerForm.valid"
               name="ux_create_submit"
               type="submit"
               color="secondary"
@@ -100,6 +102,11 @@ export class DisclaimerWalletPage implements AfterViewInit {
     recoveryPhraseCheckbox: [false, [Validators.requiredTrue]],
     termsOfUseCheckbox: [false, [Validators.requiredTrue]],
   });
+  trackClickEventName: string;
+  
+  private get isImporting(): boolean {
+    return this.mode === 'import';
+  }
 
   constructor(
     private elementRef: ElementRef,
@@ -128,6 +135,7 @@ export class DisclaimerWalletPage implements AfterViewInit {
 
   ngOnInit() {
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.trackClickEventName = this.isImporting ? 'ux_import_submit' : 'ux_create_submit';
   }
 
   handleSubmit() {
@@ -139,7 +147,7 @@ export class DisclaimerWalletPage implements AfterViewInit {
     }
   }
   navigateByMode() {
-    const url = this.mode === 'import' ? 'wallets/recovery' : 'wallets/select-coins';
+    const url = this.isImporting ? 'wallets/recovery' : 'wallets/select-coins';
     this.navController.navigateForward([url]);
   }
 
