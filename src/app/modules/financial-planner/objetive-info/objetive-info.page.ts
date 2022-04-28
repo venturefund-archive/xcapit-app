@@ -125,7 +125,7 @@ export class ObjetiveInfoPage implements OnInit {
       value: 'travel',
     },
     {
-      icon: 'assets/img/financial-planner/categories/purchase.svg',
+      icon: 'assets/img/financial-planner/categories/purchases.svg',
       title: 'financial_planner.objetive_info.categories.category_3',
       value: 'purchases',
     },

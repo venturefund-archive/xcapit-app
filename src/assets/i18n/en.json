@@ -1511,6 +1511,18 @@
       "button":"Continue",
       "of": "of",
       "placeholder":"Eg: 1000"
+    },
+    "result_objetive":{
+      "saving":"Save",
+      "saving_description":"Depending on your monthly income and expenses, you could save {{saving}} USD per month. You would reach your objetive in {{weeks}} weeks.",
+      "invest":"Invest",
+      "invest_description":"If you invest monthly in DeFi, you will earn returns. Thus, you would achieve your objetive in:",
+      "disclaimer":"*These results are a simulation only, and may vary from day to day. They do not include compound interest, and are not financial advice.",
+      "weeks":"weeks*",
+      "annual":"% Annual",
+      "objetive": "My objective",
+      "start_invest_button":"Start to invest",
+      "back_button":"Back to the start"
     }
   },
   "referrals": {

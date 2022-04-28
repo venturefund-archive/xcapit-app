@@ -1495,6 +1495,18 @@
       "button":"Continuar",
       "of": "de",
       "placeholder":"Ej: 1000"
+    },
+    "result_objetive":{
+      "saving":"Ahorra",
+      "saving_description":"Según tus ingresos y gastos mensuales, podrías ahorrar {{saving}} USD por mes. Lograrías tu objetivo en {{weeks}} semanas.",
+      "invest":"Invierte",
+      "invest_description":"Si inviertes mensualmente en DeFi, obtendrás rendimientos. Así, lograrías tu objetivo en:",
+      "disclaimer":"*Estos resultados son solo una simulación , y pueden variar diariamente. No incluyen el interés compuesto, y no son un consejo financiero.",
+      "weeks":"semanas*",
+      "annual":"% Anual",
+      "objetive": "Mi objetivo",
+      "start_invest_button":"Comenzar a invertir",
+      "back_button":"Volver al inicio"
     }
   },
   "referrals": {
