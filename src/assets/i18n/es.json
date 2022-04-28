@@ -2508,6 +2508,24 @@
     "token_selection": {
       "header": "Comprar cripto",
       "subtitle": "Selecciona la moneda que quieres comprar"
+    },
+    "countries_list": {
+      "mexico": "México",
+      "guatemala": "Guatemala",
+      "honduras": "Honduras",
+      "costa_rica": "Costa Rica",
+      "colombia": "Colombia",
+      "argentina": "Argentina",
+      "australia": "Australia",
+      "el_salvador": "El Salvador",
+      "guyana": "Guyana",
+      "paraguay": "Paraguay",
+      "peru": "Peru",
+      "portugal": "Portugal",
+      "spain": "España",
+      "uruguay": "Uruguay",
+      "united_states": "Estados Unidos (EEUU)",
+      "venezuela": "Venezuela"
     }
   },
 

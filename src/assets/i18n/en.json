@@ -2537,6 +2537,24 @@
     "token_selection": {
       "header": "Buy crypto",
       "subtitle": "Select the currency you wish to purchase"
+    },
+    "countries_list": {
+      "mexico": "México",
+      "guatemala": "Guatemala",
+      "honduras": "Honduras",
+      "costa_rica": "Costa Rica",
+      "colombia": "Colombia",
+      "argentina": "Argentina",
+      "australia": "Australia",
+      "el_salvador": "El Salvador",
+      "guyana": "Guyana",
+      "paraguay": "Paraguay",
+      "peru": "Peru",
+      "portugal": "Portugal",
+      "spain": "Spain",
+      "uruguay": "Uruguay",
+      "united_states": "USA (United States of America)",
+      "venezuela": "Venezuela"
     }
   },
   "paxful": {
