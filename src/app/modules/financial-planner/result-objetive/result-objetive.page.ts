@@ -155,7 +155,7 @@ export class ResultObjetivePage implements OnInit {
 
   async product() {
     const investments: DefiInvestment[] = [];
-    for (let product of this.products) {
+    for (const product of this.products) {
       const investmentProduct = await this.getInvestmentProduct(product);
       investments.push({
         product: investmentProduct,
