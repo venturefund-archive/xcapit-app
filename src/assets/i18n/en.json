@@ -2340,15 +2340,14 @@
   },
   "fiat_ramps": {
     "operations_list": {
-      "header": "Buy cryptocurrencies",
       "title": "My operations",
-      "id": "ID",
-      "operation": "Operation",
+      "operation": "Buy",
       "amount": "Amount",
-      "provider": "Provider",
-      "status": "Status",
       "date": "Date",
-      "new": "New"
+      "status": "Status",
+      "no_operations_message": "You still do not have any purchases made, here you will be able to see the list of your purchases",
+      "button_show_less": "Show less",
+      "button_show_more": "Show more"
     },
     "fiat_success": {
       "textPrimary": "Operation created!",
@@ -2410,23 +2409,11 @@
       "my_operations": "See my operations",
       "has_voucher": "Voucher has been uploaded"
     },
-
-    "operationStatus": {
-      "kripton": {
-        "pending_by_validate": "Pending",
-        "request": "Request",
-        "received": "Received",
-        "wait": "Waiting",
-        "complete": "Complete",
-        "cancel": "Cancelled"
-      },
-      "paxful": {
-        "SUCCESS": "Complete",
-        "EXPIRED": "Expired",
-        "CANCELLED": "Cancelled"
-      }
+    "operation_status": {
+      "deposited": "Deposited",
+      "in_progress": "In progress",
+      "canceled": "Canceled"
     },
-
     "ramp_initial": {
       "header": "Buy cryptocurrencies",
       "title": "New operation",
@@ -2584,7 +2571,8 @@
     },
     "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
     "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
-    "button_text": "Continue"
+    "button_text": "Continue",
+    "moonpay_operations": "View Moonpay purchases on the web"
   },
   "payment": {
     "methods": {

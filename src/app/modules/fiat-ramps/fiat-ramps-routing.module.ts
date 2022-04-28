@@ -31,11 +31,6 @@ const routes: Routes = [
         loadChildren: () => import('./user-images/user-images.module').then((m) => m.UserImagesPageModule),
       },
       {
-        path: 'operations',
-        canActivate: [UserHasOperationsGuard],
-        loadChildren: () => import('./operations-page/operations-page.module').then((m) => m.OperationsPagePageModule),
-      },
-      {
         path: 'operation-detail/provider/:provider_id/operation/:operation_id',
         loadChildren: () =>
           import('./operations-detail/operations-detail.module').then((m) => m.OperationsDetailPageModule),
