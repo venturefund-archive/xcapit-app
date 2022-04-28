@@ -21,7 +21,7 @@ import { InvestmentDataService } from '../../shared-defi-investments/services/in
         <ion-buttons slot="start">
           <ion-back-button class="saw__back" defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
-        <ion-title class="saw__title">{{ 'defi_investments.withdraw.select_amount.header' | translate }}</ion-title>
+        <ion-title class="ion-text-start">{{ 'defi_investments.withdraw.select_amount.header' | translate }}</ion-title>
         <ion-label class="ux-font-text-xs saw__step_counter" slot="end"
           >1 {{ 'shared.step_counter.of' | translate }} 2</ion-label
         >

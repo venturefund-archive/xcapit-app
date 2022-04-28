@@ -75,6 +75,7 @@ import { CoinSelectorComponent } from './components/coin-selector/coin-selector.
 import { FilterTabComponent } from '../modules/defi-investments/shared-defi-investments/components/filter-tab/filter-tab.component';
 import { SelectProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/select-provider-card/select-provider-card.component';
 import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/provider-card/provider-card/provider-card.component';
+import { NumberInputDirective } from './directives/number-input/number-input.directive';
 
 @NgModule({
   declarations: [
@@ -144,13 +145,15 @@ import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-pag
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
-    SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
     SplitStringPipe,
+    SuitePipe,
+    //Directives
+    SelectStyleDirective,
+    NumberInputDirective,
     ButtonSpinnerDirective,
     FeatureFlagDirective,
-    SuitePipe,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
@@ -225,13 +228,15 @@ import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-pag
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
-    SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
-    ButtonSpinnerDirective,
     SplitStringPipe,
-    FeatureFlagDirective,
     SuitePipe,
+    //Directives
+    ButtonSpinnerDirective,
+    NumberInputDirective,
+    FeatureFlagDirective,
+    SelectStyleDirective,
   ],
 })
 export class SharedModule {}

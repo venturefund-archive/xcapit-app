@@ -31,7 +31,13 @@ import { Amount } from '../../types/amount.type';
           <ion-text class="ux-font-text-lg"> {{ this.label }}</ion-text>
         </div>
         <div *ngIf="this.showRange" class="aic__content__percentage">
-          <ion-input formControlName="percentage" type="number" inputmode="numeric">
+          <ion-input
+            appNumberInput="positiveInteger"
+            formControlName="percentage"
+            step="1"
+            type="number"
+            inputmode="numeric"
+          >
             <ion-text>%</ion-text>
           </ion-input>
         </div>
@@ -44,10 +50,10 @@ import { Amount } from '../../types/amount.type';
             this.quoteCurrency
           }}</ion-text>
         </div>
-
         <div class="aic__content__inputs">
           <div class="aic__content__inputs__amount_with_max">
             <ion-input
+              appNumberInput
               class="aic__content__inputs__amount_with_max__amount"
               formControlName="amount"
               type="number"
@@ -66,6 +72,7 @@ import { Amount } from '../../types/amount.type';
           </div>
           <ion-text class="aic__content__equal ux-fweight-medium ">=</ion-text>
           <ion-input
+            appNumberInput
             class="aic__content__inputs__quoteAmount"
             formControlName="quoteAmount"
             type="number"
@@ -116,7 +123,9 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
     this.subscribeToFormChanges();
   }
 
-  defaultPatchValueOptions() { return { emitEvent: false, onlySelf: true }; }
+  defaultPatchValueOptions() {
+    return { emitEvent: false, onlySelf: true };
+  }
 
   setMax() {
     this.form.get('amount').patchValue(this.available);
@@ -146,32 +155,76 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
   percentageChange(value) {
     if (!isNaN(value)) {
       if (value > 100) {
-        this.form.patchValue({percentage: 100, range: 100, quoteAmount: this.parseAmount(this.investedAmount * this.price), amount: this.investedAmount}, this.defaultPatchValueOptions())
+        this.form.patchValue(
+          {
+            percentage: 100,
+            range: 100,
+            quoteAmount: this.parseAmount(this.investedAmount * this.price),
+            amount: this.investedAmount,
+          },
+          this.defaultPatchValueOptions()
+        );
       } else {
-        this.form.patchValue({ range: value, amount: this.amount(value), quoteAmount: this.quoteAmount(value)} , this.defaultPatchValueOptions());
+        this.form.patchValue(
+          { range: value, amount: this.amount(value), quoteAmount: this.quoteAmount(value) },
+          this.defaultPatchValueOptions()
+        );
       }
     }
   }
 
   rangeChange(value) {
     if (!isNaN(value)) {
-      this.form.patchValue({percentage: value, amount: this.amount(value), quoteAmount:this.quoteAmount(value)}, this.defaultPatchValueOptions());
+      this.form.patchValue(
+        { percentage: value, amount: this.amount(value), quoteAmount: this.quoteAmount(value) },
+        this.defaultPatchValueOptions()
+      );
     }
   }
 
   private amountChange(value: number) {
     if (value > this.investedAmount) {
-      this.form.patchValue({quoteAmount: this.parseAmount(this.investedAmount * this.price), percentage: 100, range: 100, amount:this.investedAmount}, this.defaultPatchValueOptions())
+      this.form.patchValue(
+        {
+          quoteAmount: this.parseAmount(this.investedAmount * this.price),
+          percentage: 100,
+          range: 100,
+          amount: this.investedAmount,
+        },
+        this.defaultPatchValueOptions()
+      );
     } else {
-      this.form.patchValue({quoteAmount: this.parseAmount(value * this.price), percentage: Math.round((value * 100) / this.investedAmount), range: (value * 100) / this.investedAmount }, this.defaultPatchValueOptions())
+      this.form.patchValue(
+        {
+          quoteAmount: this.parseAmount(value * this.price),
+          percentage: Math.round((value * 100) / this.investedAmount),
+          range: (value * 100) / this.investedAmount,
+        },
+        this.defaultPatchValueOptions()
+      );
     }
   }
 
   private quoteAmountChange(value: number) {
     if (value > this.investedAmount) {
-      this.form.patchValue({amount: this.investedAmount, percentage: 100, range: 100}, this.defaultPatchValueOptions())
+      this.form.patchValue(
+        {
+          amount: this.investedAmount,
+          percentage: 100,
+          range: 100,
+          quoteAmount: this.parseAmount(this.investedAmount * this.price),
+        },
+        this.defaultPatchValueOptions()
+      );
     } else {
-      this.form.patchValue({amount: (value / this.price),  percentage: Math.round(((value / this.price) * 100) / this.investedAmount),  range: ((value / this.price) * 100) / this.investedAmount }, this.defaultPatchValueOptions());
+      this.form.patchValue(
+        {
+          amount: value / this.price,
+          percentage: Math.round(((value / this.price) * 100) / this.investedAmount),
+          range: ((value / this.price) * 100) / this.investedAmount,
+        },
+        this.defaultPatchValueOptions()
+      );
     }
   }
 
@@ -198,14 +251,13 @@ export class AmountInputCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  amount(value : number){
-    return ((this.investedAmount * value) / 100);
+  amount(value: number) {
+    return (this.investedAmount * value) / 100;
   }
 
-  quoteAmount(value:number){
-   return this.parseAmount(this.amount(value) * this.price);
+  quoteAmount(value: number) {
+    return this.parseAmount(this.amount(value) * this.price);
   }
-
 
   setPrice(available: number) {
     this.usdPrice = available * this.price;
