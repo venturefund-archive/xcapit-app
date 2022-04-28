@@ -11,8 +11,7 @@ import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/t
 import { VoidSigner } from 'ethers';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
-import { TranslateService } from '@ngx-translate/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -78,7 +77,7 @@ import { NavController } from '@ionic/angular';
           </form>
           <div *ngIf="!this.filteredAvailableInvestments.length" class="dp__empty">
             <div class="dp__empty__image text-center">
-                <img src='assets/img/defi-investments/empty-products.svg'/>
+              <img src="assets/img/defi-investments/empty-products.svg" />
             </div>
             <div class="dp__empty__text">
               <ion-text class="ux-font-text-xs">
@@ -183,8 +182,8 @@ export class DefiInvestmentProductsPage {
     });
   }
 
-  goToDefiFaqs(){
-      this.navController.navigateForward(['/support/defi']);
+  goToDefiFaqs() {
+    this.navController.navigateForward(['/support/defi']);
   }
 
   filterByInvestorCategory(category: string) {
