@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
 import { OPERATION_STATUS } from '../constants/operation-status';
@@ -134,7 +134,16 @@ export class FiatRampsService {
   }
 
   getOperationStatus(name: string, providerId?: number): OperationStatus {
-    if (providerId) return this.operationStatus.find((o) => o.name === name && o.provider.id === providerId);
-    return this.operationStatus.find((o) => o.name === name);
+    let operationStatus: OperationStatus;
+
+    if (providerId) {
+      operationStatus = this.operationStatus.find((o) => o.name === name && o.providerId === providerId);
+    } else {
+      operationStatus = this.operationStatus.find((o) => o.name === name);
+    }
+    
+    operationStatus.provider = this.getProvider(operationStatus.providerId);
+
+    return operationStatus;
   }
 }

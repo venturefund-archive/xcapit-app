@@ -126,5 +126,6 @@ describe('FiatRampsService', () => {
     const status = fiatRampsService.getOperationStatus('pending_by_validate');
     expect(status.name).toEqual('pending_by_validate');
     expect(status.textToShow).toEqual('in_progress');
+    expect(status.provider.alias).toEqual('kripton');
   });
 });

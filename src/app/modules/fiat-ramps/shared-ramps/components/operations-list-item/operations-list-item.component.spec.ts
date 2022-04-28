@@ -16,12 +16,15 @@ import { OperationsListItemComponent } from './operations-list-item.component';
 const provider: FiatRampProvider = {
   id: 1,
   alias: 'kripton',
-  name: 'KriptonMarket',
-  logoRoute: '../../assets/img/provider-logos/KriptonMarket.svg',
+  name: 'Kripton Market',
+  logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
+  description: 'fiat_ramps.select_provider.krypton_description',
   newOperationRoute: '/fiat-ramps/new-operation',
+  countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
 };
 
 const operationStatus: OperationStatus = {
+  providerId: provider.id,
   provider: provider,
   name: 'complete',
   textToShow: 'deposited',

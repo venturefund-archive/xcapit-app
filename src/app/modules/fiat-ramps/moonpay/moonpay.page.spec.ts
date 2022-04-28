@@ -200,6 +200,7 @@ describe('MoonpayPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
 
   it('should redirect to coin selection when coin is clicked', async () => {
     component.ionViewWillEnter();
