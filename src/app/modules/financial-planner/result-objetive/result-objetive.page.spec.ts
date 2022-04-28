@@ -26,7 +26,7 @@ const productTest = {
   title: 'USDC',
   description: 'USD Coin',
   img: 'assets/img/coins/USDC.png',
-  apy: 55.58379120677994,
+  apy: 55.583791242926985,
   weeks: 0,
 };
 
@@ -42,7 +42,7 @@ const testCoins = [
   ),
 ];
 const testVault = {
-  apy: 0.227843965358873,
+  apy: 0.5558379124292698,
   balances: [],
   contract_address: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
   deposits: [],
@@ -103,7 +103,7 @@ describe('ResultObjetivePage', () => {
   });
 
   it('should get data planner of storage', () => {
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     fixture.detectChanges();
     expect(component.data).toEqual(dataTest);
   });
@@ -111,23 +111,31 @@ describe('ResultObjetivePage', () => {
   it('should calculate the savings and weeks of the savings section', () => {
     component.saving = dataTest.income - dataTest.expenses;
     component.weeks = Math.round(dataTest.necessaryAmount / (component.saving / 4));
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     fixture.detectChanges();
     console.log(component.saving);
     expect(component.saving).toEqual(300);
     expect(component.weeks).toEqual(33);
   });
 
+  it('should calculate apy of the product', () => {
+    component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(productTest.apy).toEqual(55.583791242926985);
+  });
+
   it('should calculate weeks of the invest section', () => {
     component.weeks = 33;
     productTest.weeks = Math.round(component.weeks / (1 * (1 + productTest.apy / 55)));
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     fixture.detectChanges();
     expect(productTest.weeks).toEqual(16);
   });
 
   it('should navigate to investment defi page when button ux_financial_planner_go_to_investments is clicked', () => {
-    fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_go_to_investments"]')).nativeElement.click();
+    fixture.debugElement
+      .query(By.css('ion-button[name="ux_financial_planner_go_to_investments"]'))
+      .nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/investments']);
   });

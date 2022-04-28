@@ -5,7 +5,6 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
 import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { TwoPiProduct } from '../../defi-investments/shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { DefiInvestment } from '../../defi-investments/shared-defi-investments/interfaces/defi-investment.interface';
 import { environment } from 'variables.env';
 import { NONPROD_DEFI_PRODUCTS, PROD_DEFI_PRODUCTS } from '../shared-financial-planner/constants/products';
 
@@ -119,15 +118,16 @@ export class ResultObjetivePage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewDidEnter() {
     this.products = this.env === 'PRODUCCION' ? PROD_DEFI_PRODUCTS : NONPROD_DEFI_PRODUCTS;
-    this.getPlannerData();
-    this.product();
+    await this.getPlannerData();
+    this.calculationsSaving();
+    await this.calcuteAPYs();
+    this.calculationsInvesting();
   }
 
   async getPlannerData() {
     this.data = await this.appStorage.get('planner_data');
-    this.calculationsSaving();
   }
 
   calculationsSaving() {
@@ -153,26 +153,11 @@ export class ResultObjetivePage implements OnInit {
     this.navController.navigateForward(['/tabs/home']);
   }
 
-  async product() {
-    const investments: DefiInvestment[] = [];
+  async calcuteAPYs() {
     for (const product of this.products) {
       const investmentProduct = await this.getInvestmentProduct(product);
-      investments.push({
-        product: investmentProduct,
-      });
+      product.apy = investmentProduct.apy();
     }
-    this.obtainAPYofProduct(investments);
-  }
-
-  obtainAPYofProduct(investments: DefiInvestment[]) {
-    investments.filter((investment) => {
-      for (const i in this.products) {
-        if (investment.product.name() === this.products[i].id) {
-          this.products[i].apy = investment.product.apy();
-        }
-      }
-    });
-    this.calculationsInvesting();
   }
 
   async getInvestmentProduct(product: any): Promise<TwoPiProduct> {
