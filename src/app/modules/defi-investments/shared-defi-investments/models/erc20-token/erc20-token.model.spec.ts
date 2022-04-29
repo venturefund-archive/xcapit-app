@@ -15,6 +15,7 @@ describe('ERC20Token', () => {
       'Contract',
       {
         approve: Promise.resolve({}),
+        allowance: Promise.resolve(BigNumber.from('200')),
         transfer: Promise.resolve({}),
         balanceOf: Promise.resolve(BigNumber.from('5000000000000000000')),
       },
@@ -36,6 +37,11 @@ describe('ERC20Token', () => {
     expect(contractSpy.approve).toHaveBeenCalledOnceWith('0x000000001', BigNumber.from('500000'), {
       gasPrice: BigNumber.from('100000000000'),
     });
+  });
+
+  it('should call contract allowance', async () => {
+    await token.allowance('0x000000001', '0x000000002');
+    expect(contractSpy.allowance).toHaveBeenCalledOnceWith('0x000000001', '0x000000002');
   });
 
   it('should call contract transfer', async () => {
