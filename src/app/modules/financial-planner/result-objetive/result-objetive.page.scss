@@ -1,0 +1,71 @@
+:host {
+  .content {
+    &__title {
+      margin-top: 24px;
+    }
+
+    &__description,
+    &__disclaimer {
+      margin-top: 8px;
+    }
+
+    &__button-secondary {
+      display: flex;
+      justify-content: center;
+    }
+
+    &__invest,
+    &__button {
+      margin-top: 24px;
+
+      &__cards {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      &__invest-card-week {
+        text-align: center;
+        padding: 10px;
+        width: 140px;
+        height: 98px;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+      }
+
+      &__invest-card {
+        padding: 10px;
+        display: flex;
+        width: 170px;
+        height: 98px;
+
+        .description {
+          margin-top: 2px;
+        }
+
+        .badge {
+          margin-top: 6px;
+
+          ion-badge {
+            --background: var(--ion-color-successlight);
+            --color: var(--ion-color-successdark);
+          }
+        }
+
+        .img {
+          display: flex;
+          align-items: center;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
+  img {
+    height: auto;
+    width: auto;
+    max-width: 33px;
+  }
+}

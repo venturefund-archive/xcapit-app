@@ -75,6 +75,7 @@ import { CoinSelectorComponent } from './components/coin-selector/coin-selector.
 import { FilterTabComponent } from '../modules/defi-investments/shared-defi-investments/components/filter-tab/filter-tab.component';
 import { SelectProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/select-provider-card/select-provider-card.component';
 import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/provider-card/provider-card/provider-card.component';
+import { ObjetiveCardComponent } from '../modules/financial-planner/shared-financial-planner/components/objetive-card/objetive-card.component';
 import { NumberInputDirective } from './directives/number-input/number-input.directive';
 
 @NgModule({
@@ -142,6 +143,7 @@ import { NumberInputDirective } from './directives/number-input/number-input.dir
     CoinSelectorComponent,
     SelectProviderCardComponent,
     ProviderCardComponent,
+    ObjetiveCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -225,6 +227,7 @@ import { NumberInputDirective } from './directives/number-input/number-input.dir
     ToastWithButtonsComponent,
     SelectProviderCardComponent,
     ProviderCardComponent,
+    ObjetiveCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
