@@ -47,6 +47,7 @@ describe('TwoPiInvestment', () => {
     );
     erc20TokenSpy = jasmine.createSpyObj('ERC20Token', {
       approve: Promise.resolve({ wait: () => Promise.resolve({} as TransactionReceipt) } as TransactionResponse),
+      allowance: Promise.resolve(BigNumber.from('50000000')),
     });
     erc20ProviderSpy = jasmine.createSpyObj('ERC20Provider', { value: {} });
     twoPiContractSpy = jasmine.createSpyObj('TwoPiContract', { value: contractSpy });
@@ -70,11 +71,19 @@ describe('TwoPiInvestment', () => {
     expect(TwoPiInvestment.create(productSpy, wallet, apiWalletServiceSpy)).toBeTruthy();
   });
 
+  it('should deposit specified amount on investment product contract without allowance', async () => {
+    const wei = BigNumber.from('60000000');
+    const gasPrice = BigNumber.from('100000000000');
+    await twoPiInvestment.deposit(60);
+    expect(erc20TokenSpy.approve).toHaveBeenCalledOnceWith(contractAddress, wei, gasPrice);
+    expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress, { gasPrice, gasLimit: '150' });
+  });
+
   it('should deposit specified amount on investment product contract', async () => {
     const wei = BigNumber.from('50000000');
     const gasPrice = BigNumber.from('100000000000');
     await twoPiInvestment.deposit(50);
-    expect(erc20TokenSpy.approve).toHaveBeenCalledOnceWith(contractAddress, wei, gasPrice);
+    expect(erc20TokenSpy.approve).not.toHaveBeenCalled();
     expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress, { gasPrice, gasLimit: '150' });
   });
 
