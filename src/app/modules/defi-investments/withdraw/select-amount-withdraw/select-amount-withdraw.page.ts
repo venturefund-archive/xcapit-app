@@ -67,7 +67,7 @@ export class SelectAmountWithdrawPage implements OnInit {
     percentage: [0],
     range: [''],
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
-    quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
+    quoteAmount: ['', [Validators.required]],
   });
   investmentProduct: InvestmentProduct;
   token: Coin;
