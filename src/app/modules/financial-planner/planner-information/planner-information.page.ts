@@ -7,6 +7,9 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
   template: `
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar no-border">
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="tabs/home"></ion-back-button>
+        </ion-buttons>
         <ion-title class="ion-text-center">{{ 'financial_planner.planner_information.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
