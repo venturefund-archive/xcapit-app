@@ -12,6 +12,7 @@ import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { Task } from '../../../../../shared/models/task/task';
 import { Retry } from '../../../../../shared/models/retry/retry';
 import { GasFeeOf } from '../gas-fee-of/gas-fee-of.model';
+import { Allowance } from '../allowance/allowance';
 
 export interface Investment {
   balance(): Promise<number>;
@@ -100,9 +101,15 @@ export class TwoPiInvestment implements Investment {
     return Promise.resolve((gas.toNumber() * 1.5).toFixed());
   }
 
+  async _allowance(): Promise<BigNumber> {
+    return this._anErc20Token.allowance(await this._aWallet.getAddress(), this._aProduct.contractAddress());
+  }
+
   async deposit(amount: number): Promise<TransactionResponse> {
     const gasPrice = await this._gasPrice();
-    await this._approve(this._weiOf(amount), gasPrice);
+    if (!new Allowance(await this._allowance()).enoughFor(this._weiOf(amount))) {
+      await this._approve(this._weiOf(amount), gasPrice);
+    }
     const gasLimit = await this.gasLimit(amount);
     return new Retry(
       new Task(() =>
