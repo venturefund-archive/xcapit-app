@@ -290,14 +290,14 @@ export class WalletTransactionsService {
   }
 
   async sendEstimatedFee(from: string, to: string, amount: number, coin: Coin): Promise<string> {
-    let gas: Fee, fee: Fee;
+    let gas: Fee;
 
     if (coin.native) {
       gas = NativeGasOf.create(coin, { to: to, value: this._weiOf(coin, amount) });
     } else {
       gas = new GasFeeOf(this.erc20Contract(coin, from).value(), 'transfer', [to, amount]);
     }
-    fee = new NativeFeeOf(gas, new FakeProvider(await this.gasPrice()));
+    const fee = new NativeFeeOf(gas, new FakeProvider(await this.gasPrice()));
     return (await this.formattedFee(fee).value()).toString();
   }
 
