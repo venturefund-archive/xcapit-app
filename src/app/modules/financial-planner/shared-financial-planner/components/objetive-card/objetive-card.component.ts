@@ -46,7 +46,7 @@ import { NavController } from '@ionic/angular';
 })
 export class ObjetiveCardComponent implements OnInit {
   @Input() data;
-  @Input() edit: boolean = true;
+  @Input() edit = true;
   icon: string;
   category: string;
   constructor(private navController: NavController) {}
