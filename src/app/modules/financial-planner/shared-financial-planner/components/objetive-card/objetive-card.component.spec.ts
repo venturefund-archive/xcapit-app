@@ -45,12 +45,6 @@ describe('ObjetiveCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should capitalize the first letter of category', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(component.formattedCategory).toEqual('Purchases');
-  });
-
   it('should set correct url icon on ngOnInit', () => {
     component.ngOnInit();
     fixture.detectChanges();
@@ -72,16 +66,25 @@ describe('ObjetiveCardComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['financial-planner/new-objetive']);
   });
 
-  it('should render properly', () => {
-    const iconEl = fixture.debugElement.query(By.css('div.body__icon'));
-    const titleEl = fixture.debugElement.query(By.css('div.body__header__title'));
-    const categoryEl = fixture.debugElement.query(By.css('div.body__header__category'));
-    const textEl = fixture.debugElement.query(By.css('div.result__objetive'));
-    const amountEl = fixture.debugElement.query(By.css('div.result__necessary-amount'));
+  it('should render properly', async () => {
+    component.edit = true;
+    component.ngOnInit();
+    fixture.detectChanges();
+    const iconEl = fixture.debugElement.query(By.css('div.oc__body__icon'));
+    const editEl = fixture.debugElement.query(By.css('div.oc__body__edit'));
+    const titleEl = fixture.debugElement.query(By.css('div.oc__body__header__title'));
+    const categoryEl = fixture.debugElement.query(By.css('div.oc__body__header__category'));
+    const textEl = fixture.debugElement.query(By.css('div.oc__result__objetive'));
+    const amountEl = fixture.debugElement.query(By.css('div.oc__result__necessary-amount'));
     expect(iconEl.nativeElement.innerHTML).toBeTruthy();
+    expect(editEl.nativeElement.innerHTML).toBeTruthy();
     expect(titleEl.nativeElement.innerHTML).toContain(dataTest.name);
-    expect(categoryEl.nativeElement.innerHTML).toContain(component.formattedCategory);
-    expect(textEl.nativeElement.innerHTML).toContain('financial_planner.result_objetive.objetive');
+    expect(categoryEl.nativeElement.innerHTML).toContain(
+      'financial_planner.shared_financial_planner.objetive_card.categories.purchases'
+    );
+    expect(textEl.nativeElement.innerHTML).toContain(
+      'financial_planner.shared_financial_planner.objetive_card.objetive'
+    );
     expect(amountEl.nativeElement.innerHTML).toContain(dataTest.necessaryAmount);
   });
 });

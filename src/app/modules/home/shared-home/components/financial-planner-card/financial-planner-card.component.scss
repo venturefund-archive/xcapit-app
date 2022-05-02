@@ -3,7 +3,6 @@
   background-color: var(--ion-color-tertiary);
   border-radius: 8px;
   border: 0.5px solid var(--ion-color-neutral50);
-  max-height: 88px;
 
   &__content {
     display: flex;
@@ -37,8 +36,7 @@
         margin-bottom: 4px;
       }
 
-      &__title,
-      &__description {
+      ion-text {
         color: var(--ion-color-white);
       }
     }

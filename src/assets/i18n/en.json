@@ -1488,11 +1488,11 @@
       "placeholder_1": "Eg: Trip to Miami",
       "placeholder_2": "Eg: 1000",
       "categories": {
-        "category_1": "Other",
-        "category_2": "Travel",
-        "category_3": "Purchases",
-        "category_4": "Investment",
-        "category_5": "Gift"
+        "other": "Other",
+        "travel": "Travel",
+        "purchases": "Purchases",
+        "invest": "Investment",
+        "gift": "Gift"
       },
 
       "subtitle_2": "Money needed",
@@ -1510,19 +1510,30 @@
       "label": "USD",
       "button": "Continue",
       "of": "of",
-      "placeholder":"Eg: 1000"
+      "placeholder": "Eg: 1000"
     },
-    "result_objetive":{
-      "saving":"Save",
-      "saving_description":"Depending on your monthly income and expenses, you could save {{saving}} USD per month. You would reach your objetive in {{weeks}} weeks.",
-      "invest":"Invest",
-      "invest_description":"If you invest monthly in DeFi, you will earn returns. Thus, you would achieve your objetive in:",
-      "disclaimer":"*These results are a simulation only, and may vary from day to day. They do not include compound interest, and are not financial advice.",
-      "weeks":"weeks*",
-      "annual":"% Annual",
-      "objetive": "My objective",
-      "start_invest_button":"Start to invest",
-      "back_button":"Back to the start"
+    "result_objetive": {
+      "saving": "Save",
+      "saving_description": "Depending on your monthly income and expenses, you could save {{saving}} USD per month. You would reach your objetive in {{weeks}} weeks.",
+      "invest": "Invest",
+      "invest_description": "If you invest monthly in DeFi, you will earn returns. Thus, you would achieve your objetive in:",
+      "disclaimer": "*These results are a simulation only, and may vary from day to day. They do not include compound interest, and are not financial advice.",
+      "weeks": "weeks*",
+      "annual": "% Annual",
+      "start_invest_button": "Start to invest",
+      "back_button": "Back to the start"
+    },
+    "shared_financial_planner": {
+      "objetive_card": {
+        "objetive": "My objective",
+        "categories": {
+          "other": "Other",
+          "travel": "Travel",
+          "purchases": "Purchases",
+          "invest": "Investment",
+          "gift": "Gift"
+        }
+      }
     }
   },
   "referrals": {
@@ -2697,7 +2708,8 @@
       },
       "financial_planner_card": {
         "title": "Organize your finances",
-        "description": "Plan your goals, and discover the best way to achieve them"
+        "description": "Plan your goals, and discover the best way to achieve them",
+        "my_plan": "My plan"
       }
     }
   },

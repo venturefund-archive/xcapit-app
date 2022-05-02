@@ -116,27 +116,27 @@ export class ObjetiveInfoPage implements OnInit {
   items = [
     {
       icon: 'assets/img/financial-planner/categories/other.svg',
-      title: 'financial_planner.objetive_info.categories.category_1',
+      title: 'financial_planner.objetive_info.categories.other',
       value: 'other',
     },
     {
       icon: 'assets/img/financial-planner/categories/travel.svg',
-      title: 'financial_planner.objetive_info.categories.category_2',
+      title: 'financial_planner.objetive_info.categories.travel',
       value: 'travel',
     },
     {
       icon: 'assets/img/financial-planner/categories/purchases.svg',
-      title: 'financial_planner.objetive_info.categories.category_3',
+      title: 'financial_planner.objetive_info.categories.purchases',
       value: 'purchases',
     },
     {
       icon: 'assets/img/financial-planner/categories/invest.svg',
-      title: 'financial_planner.objetive_info.categories.category_4',
+      title: 'financial_planner.objetive_info.categories.invest',
       value: 'invest',
     },
     {
       icon: 'assets/img/financial-planner/categories/gift.svg',
-      title: 'financial_planner.objetive_info.categories.category_5',
+      title: 'financial_planner.objetive_info.categories.gift',
       value: 'gift',
     },
   ];

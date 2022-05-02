@@ -10,10 +10,10 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/financial-planner/information"></ion-back-button>
+          <ion-back-button class="content__back" defaultHref="/financial-planner/information"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-start">{{ 'financial_planner.planner_information.header' | translate }}</ion-title>
-        <ion-label color="white" class="ux-font-text-xs step_counter" slot="end"
+        <ion-title class="ion-text-start">{{ 'financial_planner.objetive_info.header' | translate }}</ion-title>
+        <ion-label class="ux-font-text-xs oi__step_counter" slot="end"
           >1 {{ 'financial_planner.new_objetive.of' | translate }} 2</ion-label
         >
       </ion-toolbar>

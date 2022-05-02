@@ -1472,11 +1472,11 @@
       "placeholder_1": "Ej: Viaje a Miami",
       "placeholder_2": "Ej: 1000",
       "categories": {
-        "category_1": "Otros",
-        "category_2": "Viaje",
-        "category_3": "Compras",
-        "category_4": "Inversión",
-        "category_5": "Regalo"
+        "other": "Otros",
+        "travel": "Viaje",
+        "purchases": "Compras",
+        "invest": "Inversión",
+        "gift": "Regalo"
       },
 
       "subtitle_2": "Dinero necesario",
@@ -1504,9 +1504,20 @@
       "disclaimer": "*Estos resultados son solo una simulación , y pueden variar diariamente. No incluyen el interés compuesto, y no son un consejo financiero.",
       "weeks": "semanas*",
       "annual": "% Anual",
-      "objetive": "Mi objetivo",
       "start_invest_button": "Comenzar a invertir",
       "back_button": "Volver al inicio"
+    },
+    "shared_financial_planner": {
+      "objetive_card": {
+        "objetive": "Mi objetivo",
+        "categories": {
+          "other": "Otros",
+          "travel": "Viaje",
+          "purchases": "Compras",
+          "invest": "Inversión",
+          "gift": "Regalo"
+        }
+      }
     }
   },
   "referrals": {
@@ -2634,7 +2645,8 @@
       },
       "financial_planner_card": {
         "title": "Ordena tus finanzas",
-        "description": "Planifica tus objetivos, y descubre la mejor manera de alcanzarlos"
+        "description": "Planifica tus objetivos, y descubre la mejor manera de alcanzarlos",
+        "my_plan": "Mi plan"
       }
     }
   },
