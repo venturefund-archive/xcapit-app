@@ -191,9 +191,8 @@ export class SendDetailPage {
           this.form.value.address,
           this.form.value.amount,
         ]),
-        this.erc20ProviderController.new(this.token).value()
-      ),
-      this.token.decimals
+        new FakeProvider(await this.gasPrice())
+      )
     ).value();
   }
 

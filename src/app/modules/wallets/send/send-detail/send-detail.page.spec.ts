@@ -103,7 +103,7 @@ describe('SendDetailPage', () => {
       getCoin: JSON.parse(JSON.stringify(coins[2])),
       getNativeTokenFromNetwork: JSON.parse(JSON.stringify(coins[1])),
       getNetworks: ['ERC20'],
-      getGasPrice: of({ gas_price: 10 }),
+      getGasPrice: of({ gas_price: 100000000000 }),
       getPrices: of({ prices: { USDT: 1, ETH: 1, BTC: 1 } }),
     });
     fakeNavController = new FakeNavController();
@@ -170,7 +170,7 @@ describe('SendDetailPage', () => {
     tick();
     fixture.detectChanges();
     expect(component.token).toEqual(coins[1]);
-    expect(component.fee).toEqual(1e-9);
+    expect(component.fee).toEqual(10);
   }));
 
   it('should change selected network on event emited', () => {
@@ -204,7 +204,7 @@ describe('SendDetailPage', () => {
     el.nativeElement.click();
     tick();
     fixture.detectChanges();
-    expect(component.fee).toEqual(1000);
+    expect(component.fee).toEqual(0.000001);
   }));
 
   it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync(() => {

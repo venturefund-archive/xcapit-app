@@ -7,13 +7,21 @@ import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { of } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { FakeConnectedWallet } from '../../../../../../testing/fakes/wallet.fake.spec';
-import { FakeEthersService } from '../../../../../../testing/fakes/ethers.fake.spec';
 import { FakeTokenSend } from 'src/testing/fakes/token-send.fake.spec';
-import { FakeERC20Provider } from 'src/testing/fakes/erc20-provider.fake.spec';
-import { parseUnits } from 'ethers/lib/utils';
-import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
+import { parseUnits, parseEther } from 'ethers/lib/utils';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import linkAbi from '../../constants/assets-abi-prod/link-abi-prod.json';
+import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
+import { ERC20ContractController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
+import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
+import { FakeContract } from 'src/app/modules/defi-investments/shared-defi-investments/models/fake-contract/fake-contract.model';
+import { BigNumber } from 'ethers';
+import { FakeERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/fake/fake-erc20-provider';
+import { ERC20TokenController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/controller/erc20-token.controller';
+import { FakeERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/fake/fake-erc20-token';
+import { FormattedFeeController } from 'src/app/modules/defi-investments/shared-defi-investments/models/formatted-fee/controller/formatted-fee.controller';
+import { FormattedFee } from '../../../../defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
+import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
 
 const ETH: Coin = {
   id: 1,
@@ -139,54 +147,35 @@ const testStructure = [
     value: 0.24290374,
   },
 ];
-class ERC20TokenMock {
-  static balance = '0';
-  static decimals = 18;
-  constructor(private readonly _aContract: ERC20Contract) {}
-
-  approve() {}
-
-  approveFee() {}
-
-  transfer() {}
-
-  transferFee() {}
-
-  getGasPrice() {}
-
-  balanceOf(address: string) {
-    return parseUnits(ERC20TokenMock.balance, ERC20TokenMock.decimals);
-  }
-}
 
 describe('WalletTransactionsService', () => {
   let service: WalletTransactionsService;
   let storageServiceMock: any;
-  let storageService: StorageService;
   let storageSpy: any;
   let customHttpServiceSpy;
   let walletEncryptionServiceSpy: any;
   let connectedWalletSpy;
   let fakeConnectedWallet: FakeConnectedWallet;
-  let ethersServiceSpy: any;
-  let fakeEthersService: FakeEthersService;
-  let fakeErc20Provider: FakeERC20Provider;
-  let erc20ProviderMockClass: any;
   let fakeTokenSend: typeof FakeTokenSend;
-  let erc20TokenClass: any;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let erc20ProviderControllerSpy: jasmine.SpyObj<ERC20ProviderController>;
+  let erc20ContractControllerSpy: jasmine.SpyObj<ERC20ContractController>;
+  let erc20TokenControllerSpy: jasmine.SpyObj<ERC20TokenController>;
+  let formattedFeeControllerSpy: jasmine.SpyObj<FormattedFeeController>;
+  let feeSpy: jasmine.SpyObj<Fee>;
+  let modifyGetBalanceReturn: (balance: string) => void;
 
   beforeEach(() => {
+    modifyGetBalanceReturn = (balance: string): void => {
+      erc20ProviderControllerSpy.new.and.returnValue(new FakeERC20Provider(null, new FakeProvider(null, balance)));
+    };
+
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getNativeTokenFromNetwork: ETH,
+      getGasPrice: of(BigNumber.from('100000000000')),
     });
-    erc20TokenClass = ERC20TokenMock;
     fakeTokenSend = FakeTokenSend;
-    fakeErc20Provider = new FakeERC20Provider();
-    erc20ProviderMockClass = fakeErc20Provider.createSpy('1.0');
 
-    fakeEthersService = new FakeEthersService();
-    ethersServiceSpy = fakeEthersService.createSpy();
     fakeConnectedWallet = new FakeConnectedWallet();
     connectedWalletSpy = fakeConnectedWallet.createSpy();
 
@@ -204,6 +193,27 @@ describe('WalletTransactionsService', () => {
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       post: of(),
     });
+
+    erc20ProviderControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
+      new: new FakeERC20Provider(null, new FakeProvider('100000000')),
+    });
+
+    erc20ContractControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
+      new: jasmine.createSpyObj('ERC20Contract', {
+        value: new FakeContract({ transfer: () => Promise.resolve(BigNumber.from('10')) }),
+      }),
+    });
+
+    erc20TokenControllerSpy = jasmine.createSpyObj('ERC20TokenController', {
+      new: new FakeERC20Token(BigNumber.from('1')),
+    });
+
+    feeSpy = jasmine.createSpyObj('Fee', { value: Promise.resolve(parseEther('0.00012')) });
+
+    formattedFeeControllerSpy = jasmine.createSpyObj('FormattedFeeController', {
+      new: new FormattedFee(feeSpy),
+    });
+
     TestBed.configureTestingModule({
       providers: [
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
@@ -211,13 +221,14 @@ describe('WalletTransactionsService', () => {
         { provide: StorageService, useValue: storageServiceMock },
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: ERC20ProviderController, useValue: erc20ProviderControllerSpy },
+        { provide: ERC20ContractController, useValue: erc20ContractControllerSpy },
+        { provide: ERC20TokenController, useValue: erc20TokenControllerSpy },
+        { provide: FormattedFeeController, useValue: formattedFeeControllerSpy },
       ],
     });
     service = TestBed.inject(WalletTransactionsService);
-    storageService = TestBed.inject(StorageService);
     service.tokenSendClass = fakeTokenSend;
-    service.erc20ProviderClass = erc20ProviderMockClass;
-    service.erc20TokenClass = erc20TokenClass;
   });
 
   it('should be created', () => {
@@ -225,12 +236,12 @@ describe('WalletTransactionsService', () => {
   });
 
   it('should send native token transaction', async () => {
-    await service.send('testPassword', '20', 'testAddress', ETH);
+    await service.send('testPassword', 20, 'testAddress', ETH);
     expect(walletEncryptionServiceSpy.getDecryptedWalletForCurrency).toHaveBeenCalledOnceWith('testPassword', ETH);
   });
 
   it('should call send with no native token transaction', async () => {
-    await service.send('testPassword', '20', 'testAddress', LINK);
+    await service.send('testPassword', 20, 'testAddress', LINK);
     expect(walletEncryptionServiceSpy.getDecryptedWalletForCurrency).toHaveBeenCalledTimes(1);
   });
 
@@ -259,12 +270,12 @@ describe('WalletTransactionsService', () => {
 
   it('should not send if password was invalid', async () => {
     walletEncryptionServiceSpy.getDecryptedWalletForCurrency.and.throwError('invalid password');
-    await expectAsync(service.send('wrongPassword', '20', 'testAddress', ETH)).toBeRejected();
+    await expectAsync(service.send('wrongPassword', 20, 'testAddress', ETH)).toBeRejected();
     expect(connectedWalletSpy.sendTransaction).not.toHaveBeenCalled();
   });
 
   describe('when user sends not native token', () => {
-    const amount = '1';
+    const amount = 1;
 
     const nativeBalances = [
       {
@@ -317,9 +328,9 @@ describe('WalletTransactionsService', () => {
         it(`should return ${nb.canAffordFees && nnb.canAffordAmount} when ${nb.name} and ${
           nnb.name
         } on canAffordFee`, async () => {
-          ERC20TokenMock.balance = nnb.balance;
-          ERC20TokenMock.decimals = USDT.decimals;
-          fakeErc20Provider.modifyReturns(nb.balance);
+          erc20TokenControllerSpy.new.and.returnValue(new FakeERC20Token(parseUnits(nnb.balance, USDT.decimals)));
+          modifyGetBalanceReturn(nb.balance);
+
           const canAffordFee = await service.canAffordSendTx('testAddress2', amount, USDT);
           expect(canAffordFee).toBe(nb.canAffordFees && nnb.canAffordAmount);
         });
@@ -341,45 +352,45 @@ describe('WalletTransactionsService', () => {
 
   describe('when user sends native token', () => {
     const fee = '0.00008';
-    const amount = '0.003';
+    const amount = 0.003;
     it('should return false if user is trying to send more amount + fee than balance in wallet', async () => {
-      fakeErc20Provider.modifyReturns('0.00000001');
+      modifyGetBalanceReturn('0.00000001');
       const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeFalse();
     });
 
     it('should return true if user is trying to send less amount + fee than balance in wallet', async () => {
-      fakeErc20Provider.modifyReturns('0.1');
+      modifyGetBalanceReturn('0.1');
       const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeTrue();
     });
 
     it('should return false if user is trying to send with balance zero in wallet', async () => {
-      fakeErc20Provider.modifyReturns('0');
+      modifyGetBalanceReturn('0');
       const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeFalse();
     });
 
     it('should return false if user can afford amount to send but not amount + fee', async () => {
-      fakeErc20Provider.modifyReturns('0.0030001');
+      modifyGetBalanceReturn('0.0030001');
       const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeFalse();
     });
 
     it('should return false if user can afford fee to send but not amount + fee', async () => {
-      fakeErc20Provider.modifyReturns('0.00009');
+      modifyGetBalanceReturn('0.00009');
       const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeFalse();
     });
 
     it('should return false if wallet balance is equal to the amount to send', async () => {
-      fakeErc20Provider.modifyReturns(amount);
+      modifyGetBalanceReturn(amount.toString());
       const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeFalse();
     });
 
     it('should return false if wallet balance is equal to the fee to send', async () => {
-      fakeErc20Provider.modifyReturns(fee);
+      modifyGetBalanceReturn(fee);
       const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
       expect(canAffordFee).toBeFalse();
     });
