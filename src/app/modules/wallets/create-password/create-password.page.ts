@@ -69,7 +69,6 @@ import { TranslateService } from '@ngx-translate/core';
               type="submit"
               color="secondary"
               size="large"
-              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'wallets.create_password.finish_button' | translate }}
             </ion-button>
@@ -114,7 +113,6 @@ export class CreatePasswordPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public submitButtonService: SubmitButtonService,
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService,
     private loadingService: LoadingService,

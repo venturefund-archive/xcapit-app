@@ -81,7 +81,6 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
               type="submit"
               color="secondary"
               size="large"
-              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'wallets.disclaimer.submit_button' | translate }}
             </ion-button>
@@ -112,7 +111,6 @@ export class DisclaimerWalletPage implements AfterViewInit {
     private elementRef: ElementRef,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public submitButtonService: SubmitButtonService,
     private modalController: ModalController,
     private navController: NavController,
     private translate: TranslateService,

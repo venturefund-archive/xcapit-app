@@ -65,6 +65,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
               (click)="this.createWallet()"
               [appLoading]="this.loading"
               [loadingText]="'wallets.verify_phrase.verifying' | translate"
+              [disabled]="!this.activated"
             >
               {{ 'wallets.verify_phrase.btn_create' | translate }}
             </ion-button>
