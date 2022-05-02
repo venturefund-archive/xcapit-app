@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
-import { catchError, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { QuotesCardComponent } from '../shared-home/components/quotes-card/quotes-card.component';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
@@ -11,8 +11,16 @@ import { BalanceCacheService } from '../../wallets/shared-wallets/services/balan
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { QueueService } from '../../../shared/services/queue/queue.service';
-import { AssetBalanceModel } from '../../wallets/shared-wallets/models/asset-balance/asset-balance.class';
+import { NullPrices } from '../../wallets/shared-wallets/models/prices/null-prices/null-prices';
+import { NullBalances } from '../../wallets/shared-wallets/models/balances/null-balances/null-balances';
+import { ZeroBalance } from '../../wallets/shared-wallets/models/balance/zero-balance/zero-balance';
+import { TotalBalance } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance';
+import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
+import { CovalentBalancesController } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { TokenPricesController } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices.controller';
+import { TokenDetailController } from '../../wallets/shared-wallets/models/token-detail/token-detail.controller';
+import { TotalBalanceController } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.controller';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -93,14 +101,14 @@ export class HomePage implements OnInit {
   lockActivated = false;
   hideFundText: boolean;
   balance: number;
-  accumulatedBalance = 0;
   hasWallet: boolean;
   coins: Coin[];
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
-  leave$ = new Subject<void>();
-  requestQuantity = 0;
   notificationInterval = 30000;
+  totalBalanceModel: TotalBalance;
+  userTokens: Coin[];
+  tokenDetails: TokenDetail[] = [];
   private notificationQtySubscription: Subscription;
   private notificationQtySubject = new Subject();
   private timerSubscription: Subscription;
@@ -115,7 +123,11 @@ export class HomePage implements OnInit {
     private apiWalletService: ApiWalletService,
     private balanceCacheService: BalanceCacheService,
     private storageService: StorageService,
-    private queueService: QueueService
+    private http: HttpClient,
+    private covalentBalances: CovalentBalancesController,
+    private tokenPrices: TokenPricesController,
+    private tokenDetail: TokenDetailController,
+    private totalBalance: TotalBalanceController
   ) {}
 
   ngOnInit() {}
@@ -126,62 +138,70 @@ export class HomePage implements OnInit {
   }
 
   async ionViewDidEnter() {
+    await this.checkWalletExist();
+    await this.setUserTokens();
     await this.initialize();
   }
 
   async initialize() {
-    this.queueService.dequeueAll();
-    this.requestQuantity = 0;
-    this.accumulatedBalance = 0;
-    this.hasWallet = await this.walletService.walletExist();
-    await this.totalBalance();
-  }
-
-  private async totalBalance() {
+    this.initializeTotalBalance();
     if (this.hasWallet) {
-      this.balance = await this.balanceCacheService.total();
-      this.coins = await this.storageService.getAssestsSelected();
-      this.createQueues();
-      await this.enqueueCoins();
+      await this.loadCachedTotalBalance();
+      await this.setTokenDetails();
+      await this.fetchDetails();
+      await this.fetchTotalBalance();
+      await this.updateCachedTotalBalance();
     }
   }
 
-  private createQueues(): void {
+  private async checkWalletExist(): Promise<void> {
+    this.hasWallet = await this.walletService.walletExist();
+  }
+
+  private async setUserTokens(): Promise<void> {
+    this.userTokens = await this.storageService.getAssestsSelected();
+  }
+
+  private async loadCachedTotalBalance() {
+    this.balance = await this.balanceCacheService.total();
+  }
+
+  private initializeTotalBalance() {
+    this.totalBalanceModel = this.totalBalance.new(new NullPrices(), new NullBalances(), new ZeroBalance());
+  }
+
+  private async setTokenDetails() {
+    const result = [];
     for (const network of this.apiWalletService.getNetworks()) {
-      this.queueService.create(network, 2);
-      this.queueService.results(network).pipe(takeUntil(this.leave$)).subscribe();
+      const tokens = this.userTokens.filter((token) => token.network === network);
+      const address = await this.storageService.getWalletsAddresses(network);
+
+      if (tokens.length) {
+        const balances = this.covalentBalances.new(address, tokens, this.http);
+        const prices = this.tokenPrices.new(tokens, this.http);
+        for (const token of tokens) {
+          const tokenDetail = this.tokenDetail.new(balances, prices, token, this.balanceCacheService);
+          result.push(tokenDetail);
+          await tokenDetail.cached();
+        }
+        this.totalBalanceModel = this.totalBalance.new(prices, balances, this.totalBalanceModel);
+      }
     }
-    this.queueService.create('prices', 2);
-    this.queueService.results('prices').pipe(takeUntil(this.leave$)).subscribe();
+    this.tokenDetails = result;
   }
 
-  private async enqueueCoins(): Promise<void> {
-    for (const aCoin of this.coins) {
-      const assetBalance = new AssetBalanceModel(aCoin, this.walletBalance, this.balanceCacheService);
-      this.enqueue(assetBalance);
-      await this.accumulateBalance(assetBalance);
+  private async fetchDetails() {
+    for (const tokenDetail of this.tokenDetails) {
+      await tokenDetail.fetch();
+      await tokenDetail.cache();
     }
   }
 
-  private enqueue(assetBalance: AssetBalanceModel): void {
-    this.queueService.enqueue(assetBalance.coin.network, () => assetBalance.balance());
-    this.queueService.enqueue('prices', () => assetBalance.getPrice());
+  private async fetchTotalBalance() {
+    this.balance = await this.totalBalanceModel.value();
   }
 
-  private accumulateBalance(assetBalance: AssetBalanceModel): void {
-    assetBalance.quoteBalance.pipe(takeUntil(this.leave$)).subscribe(async (quote: number) => {
-      this.accumulatedBalance += quote;
-      this.requestQuantity++;
-      if (this.accumulationEnded()) await this.updateBalance();
-    });
-  }
-
-  private accumulationEnded() {
-    return this.requestQuantity === this.coins.length;
-  }
-
-  private async updateBalance() {
-    this.balance = this.accumulatedBalance;
+  private async updateCachedTotalBalance() {
     await this.balanceCacheService.updateTotal(this.balance);
   }
 
@@ -195,7 +215,6 @@ export class HomePage implements OnInit {
     }
 
     this.refreshTimeoutService.unsubscribe();
-    this.leave$.complete();
   }
 
   createNotificationTimer() {

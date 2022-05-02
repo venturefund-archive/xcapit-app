@@ -32,7 +32,13 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
           <ion-text class="ux-font-text-lg"> {{ this.label }}</ion-text>
         </div>
         <div *ngIf="this.showRange" class="aic__content__percentage">
-          <ion-input formControlName="percentage" type="number" inputmode="numeric">
+          <ion-input
+            appNumberInput="positiveInteger"
+            formControlName="percentage"
+            step="1"
+            type="number"
+            inputmode="numeric"
+          >
             <ion-text>%</ion-text>
           </ion-input>
         </div>
@@ -45,10 +51,10 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
             this.quoteCurrency
           }}</ion-text>
         </div>
-
         <div class="aic__content__inputs">
           <div class="aic__content__inputs__amount_with_max">
             <ion-input
+              appNumberInput
               class="aic__content__inputs__amount_with_max__amount"
               formControlName="amount"
               type="number"
@@ -67,6 +73,7 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
           </div>
           <ion-text class="aic__content__equal ux-fweight-medium ">=</ion-text>
           <ion-input
+            appNumberInput
             class="aic__content__inputs__quoteAmount"
             formControlName="quoteAmount"
             type="number"
@@ -211,7 +218,12 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
   private quoteAmountChange(value: number) {
     if (value > this.investedAmount) {
       this.form.patchValue(
-        { amount: this.investedAmount, percentage: 100, range: 100 },
+        {
+          amount: this.investedAmount,
+          percentage: 100,
+          range: 100,
+          quoteAmount: this.parseAmount(this.investedAmount * this.price),
+        },
         this.defaultPatchValueOptions()
       );
     } else {

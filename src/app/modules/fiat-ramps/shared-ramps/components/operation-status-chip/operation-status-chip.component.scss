@@ -1,0 +1,23 @@
+:host {
+  .success {
+    --background: var(--ion-color-successlight);
+    --color: var(--ion-color-successdark);
+  }
+
+  .danger {
+    --background: var(--ion-color-dangerlight);
+    --color: var(--ion-color-dangerdark);
+  }
+
+  .warning {
+    --background: var(--ion-color-warninglight);
+    --color: var(--ion-color-warningdark);
+  }
+
+  .chip {
+    padding: 2px 4px;
+    border-radius: 4px;
+    height: 18px;
+    white-space: nowrap;
+  }
+}

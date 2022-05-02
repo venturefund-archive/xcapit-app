@@ -403,7 +403,7 @@
       },
       "amount_input_card": {
         "available": "Balance available",
-        "amount_invested":"Total amount invested",
+        "amount_invested": "Total amount invested",
         "disclaimer": "The exchange rate is defined by the blockchain and amounts may vary, depending on when you make the transaction. \nPlease note that transaction fees will be charged in",
         "max_button": "Max"
       },
@@ -423,18 +423,18 @@
         "button_secondary": "Go to my wallet",
         "disclaimer": "* Your funds may take up to 5 minutes to be available in the Wallet."
       },
-      "select_amount":{
+      "select_amount": {
         "header": "Withdraw investment",
-        "button":"Continue",
-        "label":"Withdrawal"
+        "button": "Continue",
+        "label": "Withdrawal"
       },
       "withdraw": {
         "header": "Withdraw investment",
-        "button":"Confirm",
-        "submit_loading":"Confirming",
-        "withdraw_amount":"Amount to withdraw",
-        "withdraw_fee":"Withdrawal fee",
-        "disclaimer":"It will only take a few seconds"
+        "button": "Confirm",
+        "submit_loading": "Confirming",
+        "withdraw_amount": "Amount to withdraw",
+        "withdraw_fee": "Withdrawal fee",
+        "disclaimer": "It will only take a few seconds"
       },
       "password_modal": {
         "description": "To confirm your withdrawal, enter your Xcapit wallet password.",
@@ -1469,14 +1469,60 @@
       "i_agree_button": "I agree"
     }
   },
-  "financial_planner":{
-    "planner_information":{
-      "header":"Planner",
-      "title":"Organize your finances and meet your goals",
-      "item_1":"Define your monthly expenses and income",
-      "item_2":"Plan your objectives",
-      "item_3":"Discover strategies to achieve them",
-      "button":"Start"
+  "financial_planner": {
+    "planner_information": {
+      "header": "Planner",
+      "title": "Organize your finances and meet your goals",
+      "item_1": "Define your monthly expenses and income",
+      "item_2": "Plan your objectives",
+      "item_3": "Discover strategies to achieve them",
+      "button": "Start"
+    },
+    "objetive_info": {
+      "header": "Planner",
+      "title": "Objective",
+      "subtitle_1": "Financial objective",
+      "paragraph_1": "Define what you want to achieve with your money. It can be a trip, buy a car, invest, others.",
+      "label_1": "Objetive name",
+      "label_2": "Category",
+      "placeholder_1": "Eg: Trip to Miami",
+      "placeholder_2": "Eg: 1000",
+      "categories": {
+        "category_1": "Other",
+        "category_2": "Travel",
+        "category_3": "Purchases",
+        "category_4": "Investment",
+        "category_5": "Gift"
+      },
+
+      "subtitle_2": "Money needed",
+      "paragraph_2": "Calculate how much money you need in total to reach your goal.",
+      "label_3": "USD",
+      "button": "See strategies"
+    },
+    "new_objetive": {
+      "title": "Income and expenses*",
+      "subtitle_income": "Monthly income",
+      "description_income": "Add up all the money you receive during the month: payments, salary, gifts, returns.",
+      "subtitle_expenses": "Monthly expenses",
+      "description_expenses": "Add up all the money you spend in the month: purchases, utility payments, fees, rent.",
+      "disclaimer": "*This data is private, and will not be used outside of this simulation.",
+      "label": "USD",
+      "button": "Continue",
+      "of": "of",
+      "placeholder":"Eg: 1000"
+    },
+    "result_objetive":{
+      "saving":"Save",
+      "saving_description":"Depending on your monthly income and expenses, you could save {{saving}} USD per month. You would reach your objetive in {{weeks}} weeks.",
+      "invest":"Invest",
+      "invest_description":"If you invest monthly in DeFi, you will earn returns. Thus, you would achieve your objetive in:",
+      "disclaimer":"*These results are a simulation only, and may vary from day to day. They do not include compound interest, and are not financial advice.",
+      "weeks":"weeks*",
+      "annual":"% Annual",
+      "objetive": "My objective",
+      "start_invest_button":"Start to invest",
+      "back_button":"Back to the start"
     }
   },
   "referrals": {
@@ -1666,7 +1712,7 @@
       "description": "Before creating your wallet, verify the essential permissions to start",
       "local_stored_keys_checkbox": "I understand that my funds are kept safely within this device, and not by a company.",
       "recovery_phrase_checkbox": "I understand that if this application is moved to another device or removed, my funds can only be recovered with the recovery phrase.",
-      "terms_of_use_checkbox": "I have read, understand and accept the <a class='ux-link-xs' href='https://xcapit.com/tyc/'>terms of use</a>.",
+      "terms_of_use_checkbox": "I have read, understand and accept the <a class='ux-link-xs' href='https://xcapit.com/terms-and-conditions/'>Terms of Use</a> y <a class='ux-link-xs' href='https://xcapit.com/privacy-policy/'>Privacy Policy.</a>",
       "terms_of_use_button": "See terms of use",
       "submit_button": "Confirm and accept",
       "error_did_not_accept": "You need to check all the options to continue."
@@ -1711,7 +1757,7 @@
         "send_card": "Send",
         "receive_card": "Receive",
         "buy_card": "Buy",
-        "swap_card":"Swap"
+        "swap_card": "Swap"
       }
     },
     "select_coin": {
@@ -2299,15 +2345,14 @@
   },
   "fiat_ramps": {
     "operations_list": {
-      "header": "Buy cryptocurrencies",
       "title": "My operations",
-      "id": "ID",
-      "operation": "Operation",
+      "operation": "Buy",
       "amount": "Amount",
-      "provider": "Provider",
-      "status": "Status",
       "date": "Date",
-      "new": "New"
+      "status": "Status",
+      "no_operations_message": "You still do not have any purchases made, here you will be able to see the list of your purchases",
+      "button_show_less": "Show less",
+      "button_show_more": "Show more"
     },
     "fiat_success": {
       "textPrimary": "Operation created!",
@@ -2369,23 +2414,11 @@
       "my_operations": "See my operations",
       "has_voucher": "Voucher has been uploaded"
     },
-
-    "operationStatus": {
-      "kripton": {
-        "pending_by_validate": "Pending",
-        "request": "Request",
-        "received": "Received",
-        "wait": "Waiting",
-        "complete": "Complete",
-        "cancel": "Cancelled"
-      },
-      "paxful": {
-        "SUCCESS": "Complete",
-        "EXPIRED": "Expired",
-        "CANCELLED": "Cancelled"
-      }
+    "operation_status": {
+      "deposited": "Deposited",
+      "in_progress": "In progress",
+      "canceled": "Canceled"
     },
-
     "ramp_initial": {
       "header": "Buy cryptocurrencies",
       "title": "New operation",
@@ -2509,6 +2542,24 @@
     "token_selection": {
       "header": "Buy crypto",
       "subtitle": "Select the currency you wish to purchase"
+    },
+    "countries_list": {
+      "mexico": "México",
+      "guatemala": "Guatemala",
+      "honduras": "Honduras",
+      "costa_rica": "Costa Rica",
+      "colombia": "Colombia",
+      "argentina": "Argentina",
+      "australia": "Australia",
+      "el_salvador": "El Salvador",
+      "guyana": "Guyana",
+      "paraguay": "Paraguay",
+      "peru": "Peru",
+      "portugal": "Portugal",
+      "spain": "Spain",
+      "uruguay": "Uruguay",
+      "united_states": "USA (United States of America)",
+      "venezuela": "Venezuela"
     }
   },
   "paxful": {
@@ -2543,7 +2594,8 @@
     },
     "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
     "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
-    "button_text": "Continue"
+    "button_text": "Continue",
+    "moonpay_operations": "View Moonpay purchases on the web"
   },
   "payment": {
     "methods": {

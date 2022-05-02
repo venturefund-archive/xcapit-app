@@ -2,6 +2,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Vault } from '@2pi-network/sdk';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
+import { EquivalentTokenOf } from '../../../../wallets/shared-wallets/models/equivalent-token-of/equivalent-token-of';
 
 export class TwoPiProduct implements InvestmentProduct {
   private readonly vault: Vault;
@@ -20,7 +21,9 @@ export class TwoPiProduct implements InvestmentProduct {
   }
 
   token(): Coin {
-    return this.apiWalletService.getCoins().find((token) => token.value === this.vault.token);
+    return this.apiWalletService
+      .getCoins()
+      .find((token) => token.value === new EquivalentTokenOf(this.vault.token).value());
   }
 
   apy(): number {

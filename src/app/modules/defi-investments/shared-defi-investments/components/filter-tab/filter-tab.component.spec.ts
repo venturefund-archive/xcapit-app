@@ -47,7 +47,7 @@ describe('FilterTabComponent', () => {
       component = fixture.componentInstance;
       component.controlName = 'testControl';
       component.elRef = elementRefSpy;
-      component.items = [{ title: 'testTitle', value: 'testValue' }, { title: 'testTitle', value: 'value1' }];
+      component.items = [{ title: 'testTitle', value: 'testValue', icon:'' }, { title: 'testTitle', value: 'value1', icon:'' }];
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );

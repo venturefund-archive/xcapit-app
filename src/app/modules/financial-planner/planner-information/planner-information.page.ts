@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { ObjetiveDataService } from '../shared-financial-planner/services/objetive-data.service';
 
 @Component({
   selector: 'app-planner-information',
   template: `
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar no-border">
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="tabs/home"></ion-back-button>
+        </ion-buttons>
         <ion-title class="ion-text-center">{{ 'financial_planner.planner_information.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -62,11 +66,17 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./planner-information.page.scss'],
 })
 export class PlannerInformationPage implements OnInit {
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private objetiveData: ObjetiveDataService) {}
 
   ngOnInit() {}
 
   navigateToFinancialPlanner() {
-    this.navController.navigateForward('');
+    this.clearObjetiveData();
+    this.navController.navigateForward(['/financial-planner/new-objetive']);
+  }
+
+  clearObjetiveData() {
+    this.objetiveData.income = null;
+    this.objetiveData.expenses = null;
   }
 }

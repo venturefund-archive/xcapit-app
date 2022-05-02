@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
+import { OPERATION_STATUS } from '../constants/operation-status';
+import { PROVIDERS } from '../constants/providers';
+import { FiatRampOperation } from '../interfaces/fiat-ramp-operation.interface';
+import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
+import { OperationStatus } from '../interfaces/operation-status.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +14,9 @@ import { environment } from 'src/environments/environment';
 export class FiatRampsService {
   entity = 'on_off_ramps/provider';
   private provider = '1';
+
+  providers: FiatRampProvider[] = PROVIDERS;
+  operationStatus: OperationStatus[] = OPERATION_STATUS;
 
   constructor(private http: CustomHttpService) {}
 
@@ -70,7 +78,7 @@ export class FiatRampsService {
     );
   }
 
-  getUserOperations(): Observable<any> {
+  getUserOperations(): Observable<FiatRampOperation[]> {
     return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
   }
 
@@ -119,5 +127,23 @@ export class FiatRampsService {
 
   userHasOperations(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, true);
+  }
+
+  getProvider(providerId: number): FiatRampProvider {
+    return this.providers.find((p) => p.id === providerId);
+  }
+
+  getOperationStatus(name: string, providerId?: number): OperationStatus {
+    let operationStatus: OperationStatus;
+
+    if (providerId) {
+      operationStatus = this.operationStatus.find((o) => o.name === name && o.providerId === providerId);
+    } else {
+      operationStatus = this.operationStatus.find((o) => o.name === name);
+    }
+    
+    operationStatus.provider = this.getProvider(operationStatus.providerId);
+
+    return operationStatus;
   }
 }

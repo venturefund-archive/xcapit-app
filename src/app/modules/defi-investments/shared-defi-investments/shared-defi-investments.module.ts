@@ -8,10 +8,8 @@ import { DefiInvestmentWithdrawComponent } from './components/defi-investment-wi
 import { DefiInvestmentProductSkeletonComponent } from './components/defi-investment-product/defi-investment-product-skeleton/defi-investment-product-skeleton.component';
 import { ChooseInvestorProfileSkeletonComponent } from './components/choose-investor-profile-card/choose-investor-profile-card-skeleton/choose-investor-profile-skeleton.component';
 import { ChooseInvestorProfileCardComponent } from './components/choose-investor-profile-card/choose-investor-profile-card.component';
-import { FilterTabComponent } from './components/filter-tab/filter-tab.component';
 @NgModule({
   declarations: [
-    FilterTabComponent,
     ExpandableInvestmentInfoComponent,
     DefiInvestmentProductComponent,
     ChooseInvestorProfileSkeletonComponent,
@@ -24,7 +22,6 @@ import { FilterTabComponent } from './components/filter-tab/filter-tab.component
   imports: [SharedModule],
   exports: [
     SharedModule,
-    FilterTabComponent,
     ExpandableInvestmentInfoComponent,
     ChooseInvestorProfileSkeletonComponent,
     DefiInvestmentProductComponent,
