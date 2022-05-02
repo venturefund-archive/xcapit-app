@@ -155,7 +155,7 @@ describe('HomeWalletPage', () => {
   }));
 
   it('should call appTrackEvent on trackService when Import Wallet clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Import Wallet');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_import_import_wallet');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -164,7 +164,7 @@ describe('HomeWalletPage', () => {
   });
 
   it('should navigate when Import Wallet button is clicked', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="Import Wallet"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_import_import_wallet"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-first/disclaimer', 'import']);
   });

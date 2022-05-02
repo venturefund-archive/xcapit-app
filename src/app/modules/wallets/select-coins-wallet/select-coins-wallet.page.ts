@@ -66,7 +66,6 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
               class="ux_button"
               appTrackClick
               [dataToTrack]="{ eventLabel: this.trackClickEventName }"
-              [disabled]="this.shouldSendTrackClickEvent"
               name="ux_create_next"
               type="submit"
               size="large"
@@ -91,7 +90,6 @@ export class SelectCoinsWalletPage implements OnInit {
   allSelected = false;
   loading = false;
   trackClickEventName: string;
-  shouldSendTrackClickEvent: boolean;
 
   get networks(): string[] {
     return this.apiWalletService.getNetworks();
@@ -302,19 +300,17 @@ export class SelectCoinsWalletPage implements OnInit {
   private updateTexts() {
     switch (this.mode) {
       case 'edit':
-        this.shouldSendTrackClickEvent = false;
+        this.trackClickEventName = 'ux_edit_next';
         this.headerText = 'wallets.select_coin.header_edit';
         this.submitButtonText = 'wallets.select_coin.submit_edit';
         return;
       case 'import':
-        this.shouldSendTrackClickEvent = true;
         this.trackClickEventName = 'ux_import_next';
         this.userCoinsLoaded = true;
         this.headerText = 'wallets.recovery_wallet.header';
         this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
         return;
       default:
-        this.shouldSendTrackClickEvent = true;
         this.trackClickEventName = 'ux_create_next';
         this.userCoinsLoaded = true;
         this.headerText = 'wallets.select_coin.header';
