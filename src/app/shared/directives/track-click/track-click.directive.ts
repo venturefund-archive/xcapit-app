@@ -12,15 +12,10 @@ export class TrackClickDirective implements ITrackClickDirective {
   @Input()
   trackOnlyClick = false;
 
-  @Input()
-  isReadyToSend = true;
-
   constructor(private el: ElementRef, private trackService: TrackService) {}
 
   @HostListener('click', ['$event'])
   clickEvent(event: any) {
-    if (!this.isReadyToSend) return;
-
     this.dataToTrack.eventLabel = this.getEventLabel();
     this.trackService.trackEvent({
       eventAction: event.type,
@@ -31,8 +26,6 @@ export class TrackClickDirective implements ITrackClickDirective {
 
   @HostListener('ionChange', ['$event'])
   changeEvent(event: any) {
-    if (!this.isReadyToSend) return;
-
     if (!this.trackOnlyClick) {
       const value = event && event.detail && event.detail.value;
       this.dataToTrack.eventLabel = this.getEventLabel();
@@ -43,7 +36,7 @@ export class TrackClickDirective implements ITrackClickDirective {
       });
     }
   }
-
+  
   private getEventLabel(): string {
     return this.dataToTrack.eventLabel || (this.el.nativeElement as HTMLElement).getAttribute('name');
   }

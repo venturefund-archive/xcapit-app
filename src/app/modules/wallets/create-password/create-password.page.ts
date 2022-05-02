@@ -64,7 +64,7 @@ import { TranslateService } from '@ngx-translate/core';
               class="ux_button"
               appTrackClick
               [dataToTrack]="{ eventLabel: this.trackClickEventName }"
-              [isReadyToSend]="this.createPasswordForm.valid"
+              [disabled]="!this.createPasswordForm.valid"
               name="ux_create_submit_wallet_password"
               type="submit"
               color="secondary"

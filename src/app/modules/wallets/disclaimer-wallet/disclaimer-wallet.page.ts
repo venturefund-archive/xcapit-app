@@ -76,7 +76,7 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
               class="ux_button"
               appTrackClick
               [dataToTrack]="{ eventLabel: this.trackClickEventName }"
-              [isReadyToSend]="this.disclaimerForm.valid"
+              [disabled]="!this.disclaimerForm.valid"
               name="ux_create_submit"
               type="submit"
               color="secondary"
