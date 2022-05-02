@@ -63,11 +63,12 @@ import { TranslateService } from '@ngx-translate/core';
             <ion-button
               class="ux_button"
               appTrackClick
+              [dataToTrack]="{ eventLabel: this.trackClickEventName }"
+              [disabled]="!this.createPasswordForm.valid"
               name="ux_create_submit_wallet_password"
               type="submit"
               color="secondary"
               size="large"
-              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'wallets.create_password.finish_button' | translate }}
             </ion-button>
@@ -103,10 +104,15 @@ export class CreatePasswordPage implements OnInit {
   passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
 
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
+
+  trackClickEventName: string;
+
+  private get isImporting(): boolean {
+    return this.mode === 'import';
+  }
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public submitButtonService: SubmitButtonService,
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService,
     private loadingService: LoadingService,
@@ -117,6 +123,7 @@ export class CreatePasswordPage implements OnInit {
   ionViewWillEnter() {
     this.loadingService.enabled();
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.trackClickEventName = this.isImporting ? 'ux_import_submit_wallet_password' : 'ux_create_submit_wallet_password';
   }
 
   ngOnInit() {}

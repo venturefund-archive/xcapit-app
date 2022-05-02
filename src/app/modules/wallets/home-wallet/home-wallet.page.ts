@@ -141,7 +141,7 @@ import { TotalBalanceController } from '../shared-wallets/models/balance/total-b
           (click)="this.goToRecoveryWallet()"
           class="ux-link-xs"
           appTrackClick
-          name="Import Wallet"
+          name="ux_import_import_wallet"
           type="button"
           fill="clear"
         >
