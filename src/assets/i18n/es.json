@@ -1497,6 +1497,22 @@
       "placeholder": "Ej: 1000"
     }
   },
+  "donations": {
+    "information": {
+      "header": "Donaciones",
+      "title": "¡Criptos por una buena causa!",
+      "item_1": "Descubre nuevas causas en las que puedes colaborar con tu donación.",
+      "item_2": "Elige por categorías, y conviértete en un agente de cambio.",
+      "button": "Comencemos"
+    },
+    "causes":{
+      "header":"Donaciones",
+      "types":{
+        "humanitary":"Ayuda humanitaria",
+        "environment":"Medio ambiente"
+      }
+    }
+  },
   "referrals": {
     "new_referral": {
       "header": "Referir",

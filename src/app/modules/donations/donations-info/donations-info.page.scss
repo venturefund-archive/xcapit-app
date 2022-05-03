@@ -1,0 +1,59 @@
+:host {
+  .fpi {
+    &__button {
+      display: flex;
+      flex-direction: column;
+      margin: 16px;
+    }
+
+    &__content {
+      top: 0;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      &__img {
+        background-color: var(--ion-color-primary);
+        width: inherit;
+
+        img {
+          background-color: var(--ion-color-primary);
+          width: inherit;
+          height: 100%;
+          margin-bottom: -5px;
+        }
+      }
+
+      &__title {
+        padding: 0 16px;
+        margin-top: 24px;
+        margin-bottom: 8px;
+      }
+
+      &__items {
+        padding: 0 16px;
+        width: 100%;
+        display: grid;
+
+        &__item {
+          align-items: center;
+          margin-top: 16px;
+          display: inline-flex;
+
+          ion-text {
+            color: var(--ion-color-neutral90) !important;
+          }
+
+          img {
+            margin-right: 16px;
+          }
+        }
+      }
+    }
+  }
+
+  .no-border {
+    --border-width: 0 !important;
+  }
+}

@@ -44,6 +44,7 @@ import { WealthManagementsModule } from './modules/wealth-managements/wealth-man
 import { trackServiceProvider } from './shared/providers/track-service/track-service.provider';
 import { DefiInvestmentsModule } from './modules/defi-investments/defi-investments.module';
 import { FinancialPlannerModule } from './modules/financial-planner/financial-planner.module';
+import { DonationsModule } from './modules/donations/donations.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -69,6 +70,7 @@ registerLocaleData(localeEn, 'en');
     ProfilesModule,
     FundsModule,
     FinancialPlannerModule,
+    DonationsModule,
     RunsModule,
     SubscriptionsModule,
     PaymentsModule,

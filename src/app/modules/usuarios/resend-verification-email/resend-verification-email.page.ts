@@ -10,7 +10,7 @@ import { Storage } from '@ionic/storage';
     <ion-content class="ion-padding" *ngIf="this.email">
       <div class="main">
         <div class="main__close_button">
-          <ion-button fill="clear" appTrackClick name="Close Resend Email" (click)="this.close()">
+          <ion-button fill="clear" appTrackClick slot="end" name="Close Resend Email" (click)="this.close()">
             <ion-icon class="main__close_button__icon" name="ux-close" color="neutral80"></ion-icon>
           </ion-button>
         </div>
