@@ -1,4 +1,9 @@
 :host {
+  ion-toolbar {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
   ion-input {
     --padding-start: 13px;
     --padding-top: 13px;
@@ -10,6 +15,11 @@
   }
 
   .content {
+    &__back {
+      padding-right: 30px;
+      font-size: 12px;
+    }
+
     &__title {
       margin-bottom: 24px;
     }

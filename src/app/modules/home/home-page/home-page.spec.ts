@@ -36,6 +36,15 @@ import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/to
 import { FakeBalance } from '../../wallets/shared-wallets/models/balance/fake-balance/fake-balance';
 import { FakePrices } from '../../wallets/shared-wallets/models/prices/fake-prices/fake-prices';
 import { FakeBalances } from '../../wallets/shared-wallets/models/balances/fake-balances/fake-balances';
+import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+
+const dataTest = {
+  category: 'purchases',
+  expenses: 700,
+  income: 1000,
+  name: 'Auto',
+  necessaryAmount: 2500,
+};
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -54,12 +63,13 @@ describe('HomePage', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let coinSpy: jasmine.SpyObj<Coin>;
-
   let totalBalanceControllerSpy: jasmine.SpyObj<TotalBalanceController>;
   let tokenPricesControllerSpy: jasmine.SpyObj<TokenPricesController>;
   let covalentBalancesControllerSpy: jasmine.SpyObj<CovalentBalancesController>;
   let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
+  let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
+
   beforeEach(
     waitForAsync(() => {
       coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
@@ -110,6 +120,8 @@ describe('HomePage', () => {
         unsubscribe: of(),
       });
 
+      appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', { get: dataTest });
+
       TestBed.configureTestingModule({
         declarations: [HomePage, FakeTrackClickDirective, FakeFeatureFlagDirective],
         imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot()],
@@ -126,6 +138,7 @@ describe('HomePage', () => {
           { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
           { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
           { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
+          { provide: AppStorageService, useValue: appStorageServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -230,4 +243,36 @@ describe('HomePage', () => {
     expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
     expect(refreshTimeoutServiceSpy.lock).not.toHaveBeenCalled();
   }));
+
+  it('should render app-objetive-card and no render app-financial-planner-card component if there is data in the storage', async () => {
+    component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    const componentEl = fixture.debugElement.query(By.css('app-financial-planner-card'));
+    const componentObjetiveEl = fixture.debugElement.query(By.css('div.ux-card'));
+    expect(appStorageServiceSpy.get).toHaveBeenCalledTimes(1);
+    expect(componentEl).toBeFalsy();
+    expect(componentObjetiveEl).toBeTruthy();
+  });
+
+  it('should render app-financial-planner-card and no render app-objetive-card component if there isnt data in the storage', async () => {
+    appStorageServiceSpy.get.and.returnValue(null);
+    component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    const componentEl = fixture.debugElement.query(By.css('app-financial-planner-card'));
+    const componentObjetiveEl = fixture.debugElement.query(By.css('div.ux-card'));
+    expect(appStorageServiceSpy.get).toHaveBeenCalledTimes(1);
+    expect(componentEl).toBeTruthy();
+    expect(componentObjetiveEl).toBeFalsy();
+  });
+
+  it('should navigate to objetive page when objetive card is clicked', async () => {
+    component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('.ux-card .card-objetive')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/financial-planner/result-objetive']);
+  });
 });

@@ -12,9 +12,9 @@ import { NONPROD_DEFI_PRODUCTS, PROD_DEFI_PRODUCTS } from '../shared-financial-p
   selector: 'app-result-objetive',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/financial-planner/objetive-info"></ion-back-button>
+          <ion-back-button class="content__back" defaultHref="/financial-planner/objetive-info"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'financial_planner.objetive_info.header' | translate }}</ion-title>
       </ion-toolbar>
