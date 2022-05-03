@@ -13,7 +13,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-password',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">

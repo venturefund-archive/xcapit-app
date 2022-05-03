@@ -12,8 +12,10 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
 import { of } from 'rxjs';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeLoadingService } from '../../../../testing/fakes/loading.fake.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 
-fdescribe('CreatePasswordPage', () => {
+describe('CreatePasswordPage', () => {
   let component: CreatePasswordPage;
   let fixture: ComponentFixture<CreatePasswordPage>;
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
@@ -23,6 +25,7 @@ fdescribe('CreatePasswordPage', () => {
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let fakeLoadingService: FakeLoadingService;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CreatePasswordPage>;
 
   const formData = {
     valid: {
@@ -49,7 +52,7 @@ fdescribe('CreatePasswordPage', () => {
     });
     activatedRouteMock = { snapshot: { paramMap: { get: () => 'import' } } };
     TestBed.configureTestingModule({
-      declarations: [CreatePasswordPage],
+      declarations: [CreatePasswordPage, FakeTrackClickDirective],
       imports: [ReactiveFormsModule, IonicModule, TranslateModule.forRoot()],
       providers: [
         UrlSerializer,
@@ -65,6 +68,7 @@ fdescribe('CreatePasswordPage', () => {
     fixture = TestBed.createComponent(CreatePasswordPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -101,9 +105,36 @@ fdescribe('CreatePasswordPage', () => {
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(By.css('ion-title')).nativeElement;
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name = "ux_import_submit_wallet_password"]')).nativeElement;
-    console.log(titleEl);
-    console.log(buttonEl);
     expect(titleEl.innerText).toContain('wallets.recovery_wallet.header');
     expect(buttonEl.innerText).toContain('wallets.create_password.finish_button_import');
   })
+
+  it('should show create text when creating wallet', () => {
+    activatedRouteMock.snapshot.paramMap.get = () => '';
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const titleEl = fixture.debugElement.query(By.css('ion-title')).nativeElement;
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name = "ux_create_submit_wallet_password"]')).nativeElement;
+    expect(titleEl.innerText).toContain('wallets.create_password.header');
+    expect(buttonEl.innerText).toContain('wallets.create_password.finish_button_create');
+  })
+
+  it('should call trackEvent on trackService when ux_create_submit_wallet_password clicked', () => {
+    activatedRouteMock.snapshot.paramMap.get = () => '';
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_create_submit_wallet_password');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+  
+  it('should call trackEvent on trackService when ux_import_submit_wallet_password clicked', () => {
+    const el = fixture.debugElement.query(By.css('ion-button[name = "ux_create_submit_wallet_password"]'));
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });
