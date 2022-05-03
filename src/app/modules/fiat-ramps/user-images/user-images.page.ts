@@ -102,6 +102,7 @@ import { Camera, CameraSource, CameraResultType } from '@capacitor/camera';
         </div>
       </form>
     </ion-content>
+    <app-fixed-footer></app-fixed-footer>
   `,
   styleUrls: ['./user-images.page.scss'],
 })

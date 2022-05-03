@@ -26,7 +26,7 @@ import * as moment from 'moment';
 
     <ion-content class="ion-padding rp">
       <div class="rp__logo">
-        <img src="../../assets/img/logo_kripton.png" alt="Logo kripton" />
+        <img src="assets/img/logo_kripton.png" alt="Logo kripton" />
       </div>
 
       <app-ux-text class="ion-padding-top ion-margin-top">
@@ -176,6 +176,7 @@ import * as moment from 'moment';
         </div>
       </form>
     </ion-content>
+    <app-fixed-footer></app-fixed-footer>
   `,
   styleUrls: ['./user-information.page.scss'],
 })

@@ -2549,6 +2549,11 @@
       "uruguay": "Uruguay",
       "united_states": "Estados Unidos (EEUU)",
       "venezuela": "Venezuela"
+    },
+    "shared": {
+      "fixed_footer": {
+        "text": "Estas operando con Kriptonmarket"
+      }
     }
   },
 

@@ -2578,6 +2578,11 @@
       "uruguay": "Uruguay",
       "united_states": "USA (United States of America)",
       "venezuela": "Venezuela"
+    },
+    "shared": {
+      "fixed_footer": {
+        "text": "You are interacting with Kriptonmarket"
+      }
     }
   },
   "paxful": {
