@@ -65,7 +65,7 @@ describe('DefiInvestmentProductsPage', () => {
 
       testAggressiveUserSpy = jasmine.createSpyObj('testUser', {},{
         profile: {
-          investor_category: 'wealth_managements.profiles.risky',
+          investor_category: 'wealth_managements.profiles.aggressive',
         },
       })
 

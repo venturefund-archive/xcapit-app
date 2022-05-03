@@ -362,8 +362,8 @@
     "shared": {
       "filter_tab": {
         "conservative": "Conservative profile",
-        "medium": "Moderate profile",
-        "risky": "Aggressive profile"
+        "moderate": "Moderate profile",
+        "aggressive": "Aggressive profile"
       },
       "coming_soon_card": {
         "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
@@ -397,8 +397,8 @@
         },
         "profiles": {
           "conservative": "Conservative",
-          "medium": "Moderate",
-          "risky": "Aggressive"
+          "moderate": "Moderate",
+          "aggressive": "Aggressive"
         }
       },
       "amount_input_card": {
@@ -2761,8 +2761,8 @@
     },
     "profiles": {
       "conservative": "Conservative",
-      "medium": "Medium",
-      "risky": "Risky"
+      "moderate": "Moderate",
+      "aggressive": "Aggressive"
     },
     "about_investor_profile": {
       "of": "of",

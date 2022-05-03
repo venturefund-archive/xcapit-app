@@ -137,11 +137,11 @@ export class DefiInvestmentProductsPage {
     },
     {
       title: 'wealth_managements.about_investor_profile.moderated_profile.title',
-      value: 'medium',
+      value: 'moderate',
     },
     {
       title: 'wealth_managements.about_investor_profile.aggressive_profile.title',
-      value: 'risky',
+      value: 'aggressive'
     },
   ];
   activeInvestments: DefiInvestment[] = [];
