@@ -20,7 +20,6 @@ export class NativeToken {
   }
 
   transferFee(to: string, value: BigNumber): Promise<BigNumber> {
-    // return new NativeGasOf(this._aProvider, { to, value }).value();
     return this.signer().estimateGas({ to, value });
   }
 
