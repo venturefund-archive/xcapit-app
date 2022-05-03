@@ -304,7 +304,7 @@
       "choose_investor_profile": {
         "complete_test": {
           "title": "Quiero elegir mi perfil nuevamente",
-          "description": "¿Crees que has cambiado tu perfil? Puedes volver a seleccionarlo.",
+          "description": "¿Crees que haz cambiado tu perfil? Puedes volver a seleccionarlo.",
           "button_primary": "Seleccionar nuevamente",
           "button_secondary": "Tomar el test"
         },
