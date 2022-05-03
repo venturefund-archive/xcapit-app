@@ -1,0 +1,87 @@
+:host {
+  .aic {
+    background: var(--ion-color-white);
+    border-radius: 8px;
+
+    &__available {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      &__title {
+        width: 111px;
+        height: 12px;
+        border-radius: 8px;
+      }
+
+      &__amount {
+        width: 151px;
+        height: 32px;
+        border-radius: 8px;
+      }
+
+      &__quote-amount {
+        width: 81px;
+        height: 18px;
+        border-radius: 8px;
+      }
+    }
+
+    &__header {
+      margin-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        width: 50%;
+        height: 25px;
+        border-radius: 8px;
+        margin-top: 32px;
+      }
+
+      &__range {
+        width: 100%;
+        height: 14px;
+        border-radius: 8px;
+        margin-top: 16px;
+      }
+
+      &__inputs {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 16px;
+
+        &__wrapper {
+          width: 45%;
+
+          &__label {
+            width: 76px;
+            height: 14px;
+            border-radius: 8px;
+          }
+
+          &__input {
+            width: 100%;
+            height: 49px;
+            border-radius: 8px;
+          }
+        }
+      }
+
+      &__percentage {
+        width: 60px;
+        height: 39px;
+        border-radius: 8px;
+        margin-top: 16px;
+      }
+    }
+  }
+}

@@ -41,22 +41,28 @@ import { InvestmentDataService } from '../../shared-defi-investments/services/in
             [showRange]="true"
             [header]="'defi_investments.shared.amount_input_card.amount_invested' | translate"
           ></app-amount-input-card>
+          <app-amount-input-card-skeleton
+            *ngIf="!this.investedAmount"
+            [showRange]="true"
+          ></app-amount-input-card-skeleton>
         </form>
       </ion-card>
-      <div class="saw__footer">
+      <div class="saw__button">
         <ion-button
+          *ngIf="this.investedAmount"
           appTrackClick
           name="submit_withdraw_amount"
           expand="block"
           size="large"
           type="submit"
-          class="ion-padding-start ion-padding-end ux_button"
+          class="ux_button"
           color="secondary"
           (click)="this.saveWithdrawAmount()"
           [disabled]="!this.form.valid"
         >
           {{ 'defi_investments.withdraw.select_amount.button' | translate }}
         </ion-button>
+        <ion-skeleton-text *ngIf="!this.investedAmount" animated class="saw__button__skeleton"></ion-skeleton-text>
       </div>
     </ion-content>`,
   styleUrls: ['./select-amount-withdraw.page.scss'],
