@@ -13,7 +13,7 @@ import { of } from 'rxjs';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeLoadingService } from '../../../../testing/fakes/loading.fake.spec';
 
-describe('CreatePasswordPage', () => {
+fdescribe('CreatePasswordPage', () => {
   let component: CreatePasswordPage;
   let fixture: ComponentFixture<CreatePasswordPage>;
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
@@ -95,4 +95,15 @@ describe('CreatePasswordPage', () => {
     await fixture.whenStable();
     expect(walletEncryptionServiceSpy.encryptWallet).toHaveBeenCalledTimes(0);
   });
+
+  it('should show import text when importing wallet', () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const titleEl = fixture.debugElement.query(By.css('ion-title')).nativeElement;
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name = "ux_import_submit_wallet_password"]')).nativeElement;
+    console.log(titleEl);
+    console.log(buttonEl);
+    expect(titleEl.innerText).toContain('wallets.recovery_wallet.header');
+    expect(buttonEl.innerText).toContain('wallets.create_password.finish_button_import');
+  })
 });

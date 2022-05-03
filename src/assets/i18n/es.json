@@ -1793,7 +1793,8 @@
       "description": "La contraseña sirve para hacer tu wallet más segura, puedes elegir la misma que usas para la app de Xcapit. En el caso de que la olvides podrás recuperar tu wallet con las 12 palabras.",
       "password": "Contraseña",
       "repeat_password": "Confirmar contraseña",
-      "finish_button": "Finalizar y crear wallet",
+      "finish_button_create": "Finalizar y crear wallet",
+      "finish_button_import": "Finalizar e importar wallet",
       "loading": {
         "title": "¡Tiempo!",
         "subtitle": {

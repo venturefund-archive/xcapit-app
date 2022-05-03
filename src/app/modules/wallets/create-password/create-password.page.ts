@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
@@ -61,16 +60,28 @@ import { TranslateService } from '@ngx-translate/core';
         <div name="Create Password Form Buttons" class="ux_footer">
           <div class="button">
             <ion-button
+            *ngIf="this.mode !== 'import'"
               class="ux_button"
               appTrackClick
-              [dataToTrack]="{ eventLabel: this.trackClickEventName }"
               [disabled]="!this.createPasswordForm.valid"
               name="ux_create_submit_wallet_password"
               type="submit"
               color="secondary"
               size="large"
             >
-              {{ 'wallets.create_password.finish_button' | translate }}
+              {{ 'wallets.create_password.finish_button_create' | translate }}
+            </ion-button>
+            <ion-button
+            *ngIf="this.mode === 'import'"
+              class="ux_button"
+              appTrackClick
+              [disabled]="!this.createPasswordForm.valid"
+              name="ux_import_submit_wallet_password"
+              type="submit"
+              color="secondary"
+              size="large"
+            >
+              {{ 'wallets.create_password.finish_button_import' | translate }}
             </ion-button>
           </div>
         </div>
@@ -105,11 +116,6 @@ export class CreatePasswordPage implements OnInit {
 
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
 
-  trackClickEventName: string;
-
-  private get isImporting(): boolean {
-    return this.mode === 'import';
-  }
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -123,7 +129,6 @@ export class CreatePasswordPage implements OnInit {
   ionViewWillEnter() {
     this.loadingService.enabled();
     this.mode = this.route.snapshot.paramMap.get('mode');
-    this.trackClickEventName = this.isImporting ? 'ux_import_submit_wallet_password' : 'ux_create_submit_wallet_password';
   }
 
   ngOnInit() {}
