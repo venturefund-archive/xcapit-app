@@ -1,11 +1,13 @@
 import { BigNumber, constants, Signer, VoidSigner } from 'ethers';
-import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
+import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
+import { Coin } from '../../interfaces/coin.interface';
 
 export class NativeToken {
-  constructor(private readonly _aProvider: ERC20Provider, private readonly _aSigner: Signer) {}
+  constructor(private readonly _aProvider: DefaultERC20Provider, private readonly _aSigner: Signer) {}
 
-  static create(_aProvider: ERC20Provider): NativeToken {
+  static create(_aProvider: DefaultERC20Provider): NativeToken {
     return new this(_aProvider, new VoidSigner(constants.AddressZero));
   }
 
@@ -23,5 +25,9 @@ export class NativeToken {
 
   getGasPrice(): Promise<BigNumber> {
     return this.signer().getGasPrice();
+  }
+
+  coin(): Coin {
+    return this._aProvider.coin();
   }
 }

@@ -2,8 +2,8 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
 import { TwoPiInvestment } from './two-pi-investment.model';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
 import { BigNumber, Contract, Wallet, VoidSigner, Signer } from 'ethers';
-import { ERC20Token } from '../erc20-token/erc20-token.model';
-import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
+import { DefaultERC20Token } from '../erc20-token/default-erc20-token.model';
+import { DefaultERC20Provider } from '../erc20-provider/erc20-provider.model';
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
 import { TwoPiContract } from '../two-pi-contract/two-pi-contract.model';
 import { of } from 'rxjs';
@@ -15,8 +15,8 @@ const testAddress = '0x0001';
 describe('TwoPiInvestment', () => {
   let productSpy: jasmine.SpyObj<InvestmentProduct>;
   let wallet: Signer;
-  let erc20TokenSpy: jasmine.SpyObj<ERC20Token>;
-  let erc20ProviderSpy: jasmine.SpyObj<ERC20Provider>;
+  let erc20TokenSpy: jasmine.SpyObj<DefaultERC20Token>;
+  let erc20ProviderSpy: jasmine.SpyObj<DefaultERC20Provider>;
   let twoPiContractSpy: jasmine.SpyObj<TwoPiContract>;
   let contractSpy: jasmine.SpyObj<Contract>;
   let twoPiInvestment: TwoPiInvestment;

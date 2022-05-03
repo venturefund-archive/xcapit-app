@@ -1,7 +1,9 @@
 import { ERC20Contract } from '../erc20-contract/erc20-contract.model';
 import { BigNumber } from '@ethersproject/bignumber';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-export class ERC20Token {
+import { ERC20Token } from './erc20-token.interface';
+
+export class DefaultERC20Token implements ERC20Token {
   constructor(private readonly _aContract: ERC20Contract) {}
 
   allowance(owner: string, spender: string): Promise<BigNumber> {

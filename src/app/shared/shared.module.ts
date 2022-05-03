@@ -75,6 +75,7 @@ import { CoinSelectorComponent } from './components/coin-selector/coin-selector.
 import { FilterTabComponent } from '../modules/defi-investments/shared-defi-investments/components/filter-tab/filter-tab.component';
 import { SelectProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/select-provider-card/select-provider-card.component';
 import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/provider-card/provider-card/provider-card.component';
+import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
 import { ObjetiveCardComponent } from '../modules/financial-planner/shared-financial-planner/components/objetive-card/objetive-card.component';
 import { NumberInputDirective } from './directives/number-input/number-input.directive';
 
@@ -98,6 +99,7 @@ import { NumberInputDirective } from './directives/number-input/number-input.dir
     QuotesCardComponent,
     ItemQuoteComponent,
     TokenSelectionListComponent,
+    AmountInputCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -185,6 +187,7 @@ import { NumberInputDirective } from './directives/number-input/number-input.dir
     NetworkSelectCardComponent,
     TokenSelectionListComponent,
     CoinSelectorComponent,
+    AmountInputCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,

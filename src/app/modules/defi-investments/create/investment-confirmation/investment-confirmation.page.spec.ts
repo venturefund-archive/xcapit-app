@@ -21,7 +21,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { DynamicPrice } from '../../../../shared/models/dynamic-price/dynamic-price.model';
 import { of } from 'rxjs';
 import { ApiWalletService } from '../../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { Provider } from '@ethersproject/abstract-provider';
 import { ERC20Contract } from '../../shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
@@ -46,7 +46,7 @@ describe('InvestmentConfirmationPage', () => {
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let providerSpy: jasmine.SpyObj<Provider>;
-  let erc20ProviderSpy: jasmine.SpyObj<ERC20Provider>;
+  let erc20ProviderSpy: jasmine.SpyObj<DefaultERC20Provider>;
   let erc20ContractSpy: jasmine.SpyObj<ERC20Contract>;
   let createDynamicPriceSpy: jasmine.Spy<any>;
   let createErc20ProviderSpy: jasmine.Spy<any>;

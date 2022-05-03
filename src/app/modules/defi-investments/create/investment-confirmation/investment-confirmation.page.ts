@@ -22,7 +22,7 @@ import { Subject } from 'rxjs';
 import { DynamicPrice } from '../../../../shared/models/dynamic-price/dynamic-price.model';
 import { takeUntil } from 'rxjs/operators';
 import { ERC20Contract } from '../../shared-defi-investments/models/erc20-contract/erc20-contract.model';
-import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { FormattedFee } from '../../shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { FakeContract } from '../../shared-defi-investments/models/fake-contract/fake-contract.model';
 import { Coin } from '../../../wallets/shared-wallets/interfaces/coin.interface';
@@ -208,7 +208,7 @@ export class InvestmentConfirmationPage {
   }
 
   createErc20Provider() {
-    return new ERC20Provider(this.product.token());
+    return new DefaultERC20Provider(this.product.token());
   }
 
   async approveFeeContract(): Promise<ERC20Contract> {

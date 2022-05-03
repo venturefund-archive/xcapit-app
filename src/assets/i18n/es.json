@@ -1861,13 +1861,6 @@
           "title": "Wallet destino",
           "help_text": "{{currency}} direccion o alias"
         },
-        "amount_input": {
-          "title": "Monto a enviar",
-          "fee_title": "Tarifa de transacción*",
-          "fee_text": "*Este monto es estimativo y puede sufrir variaciones de acuerdo al momento en que realices la transacción.",
-          "wrong_address": "No se pudo estimar la tarifa de transacción. La dirección ingresada es inválida",
-          "cant_estimate_fee": "No se pudo estimar la tarifa de transacción. Puede que no tengas fondos suficientes"
-        },
         "alert": {
           "title": "Atención",
           "text": "Tiene 0 {{nativeToken}} en su cuenta para pagar las comisiones de transacción. Compre algunos {{nativeToken}} o deposítelos desde otra cuenta."

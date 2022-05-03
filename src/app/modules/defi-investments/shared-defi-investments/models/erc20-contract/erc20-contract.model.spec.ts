@@ -2,7 +2,7 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { BigNumber, Contract, Signer, VoidSigner, Wallet } from 'ethers';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ERC20Contract } from '../erc20-contract/erc20-contract.model';
-import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
+import { ERC20Provider } from '../erc20-provider/erc20-provider.interface';
 
 const abi = JSON.stringify([
   {

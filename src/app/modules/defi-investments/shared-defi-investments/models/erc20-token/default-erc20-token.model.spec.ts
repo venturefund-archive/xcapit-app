@@ -1,10 +1,10 @@
 import { Contract } from 'ethers';
 import { ERC20Contract } from '../erc20-contract/erc20-contract.model';
-import { ERC20Token } from './erc20-token.model';
+import { DefaultERC20Token } from './default-erc20-token.model';
 import { BigNumber } from '@ethersproject/bignumber';
 
-describe('ERC20Token', () => {
-  let token: ERC20Token;
+describe('DefaultERC20Token', () => {
+  let token: DefaultERC20Token;
   let erc20ContractSpy: jasmine.SpyObj<ERC20Contract>;
   let contractSpy: jasmine.SpyObj<Contract>;
   let estimateGasSpy: jasmine.SpyObj<any>;
@@ -25,7 +25,7 @@ describe('ERC20Token', () => {
       value: contractSpy,
       getGasPrice: Promise.resolve(BigNumber.from(1)),
     });
-    token = new ERC20Token(erc20ContractSpy);
+    token = new DefaultERC20Token(erc20ContractSpy);
   });
 
   it('should create', () => {

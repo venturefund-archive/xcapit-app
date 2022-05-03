@@ -4,7 +4,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
-import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { FormattedFee } from '../../shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { GasFeeOf } from '../../shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
 import { TwoPiContract } from '../../shared-defi-investments/models/two-pi-contract/two-pi-contract.model';
@@ -56,7 +56,7 @@ describe('WithdrawConfirmationController', () => {
   });
 
   it('should create ERC20 Provider', () => {
-    expect(service.createErc20Provider(coinSpy)).toBeInstanceOf(ERC20Provider);
+    expect(service.createErc20Provider(coinSpy)).toBeInstanceOf(DefaultERC20Provider);
   });
 
   it('should create Investment', () => {
