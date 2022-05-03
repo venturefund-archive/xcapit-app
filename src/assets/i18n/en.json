@@ -1809,7 +1809,8 @@
       "description": "The password is used to make your wallet more secure, you can choose the same one that you use for the Xcapit app. In the event that you forget to retrieve it, recover your wallet with the 12 words.",
       "password": "Password",
       "repeat_password": "Confirm Password",
-      "finish_button": "Finish and create wallet",
+      "finish_button_create": "Finish and create wallet",
+      "finish_button_import": "Finish and import wallet",
       "loading": {
         "title": "Time!",
         "subtitle": {
