@@ -172,7 +172,7 @@ describe('OperationDetailPage', () => {
 
   it('should call htmlFormatParse when checkRequestInfo is called with any eth_signTypedData method', () => {
     const spy = spyOn(component, 'htmlFormatParse').and.callThrough();
-    var messageDiv = document.createElement('div');
+    const messageDiv = document.createElement('div');
     messageDiv.id = 'message';
     const documentSpy = spyOn(document, 'getElementById');
     documentSpy.and.returnValue(messageDiv);
