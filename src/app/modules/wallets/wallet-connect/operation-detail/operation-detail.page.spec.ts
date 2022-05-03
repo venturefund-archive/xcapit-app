@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController, ModalController, AlertController } from '@ionic/angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { UrlSerializer } from '@angular/router';
 import { OperationDetailPage } from './operation-detail.page';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
@@ -19,27 +19,29 @@ const requestSendTransaction = {
   params: [
     {
       gas: '21000',
-      value: '5'
-    }
-  ]
+      value: '5',
+    },
+  ],
 };
 
 const requestSign = {
   method: 'personal_sign',
-  params: ['0x48656c6c6f20576f726c64', '0x48656c6c6f20576f726c64']
-}
+  params: ['0x48656c6c6f20576f726c64', '0x48656c6c6f20576f726c64'],
+};
 
 const requestTypedData = {
   method: 'eth_signTypedData_v4',
-  params:['', '{"types":{},"domain":{"name":"Test"},"primaryType":"TestRequest","message":{"target":"0x00000000001","gasData":{"gasLimit":"21000","gasPrice":"1700000000"}}}']
-}
+  params: [
+    '',
+    '{"types":{},"domain":{"name":"Test"},"primaryType":"TestRequest","message":{"target":"0x00000000001","gasData":{"gasLimit":"21000","gasPrice":"1700000000"}}}',
+  ],
+};
 
 describe('OperationDetailPage', () => {
   let component: OperationDetailPage;
   let fixture: ComponentFixture<OperationDetailPage>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let fakeNavController: FakeNavController;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let alertControllerSpy: any;
@@ -50,9 +52,9 @@ describe('OperationDetailPage', () => {
 
   beforeEach(
     waitForAsync(() => {
-      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
         connected: false,
-        peerMeta: {url: 'testUrl', description: 'testDescription', name: 'testName', icons: ['testIcon']},
+        peerMeta: { url: 'testUrl', description: 'testDescription', name: 'testName', icons: ['testIcon'] },
         providerSymbol: 'ETH',
         requestInfo: requestSendTransaction,
         getTransactionType: Promise.resolve(null),
@@ -61,12 +63,11 @@ describe('OperationDetailPage', () => {
         rejectRequest: Promise.resolve({}),
         network: 'ETH',
         rpcUrl: 'https://rpc_test.com/',
-        checkRequest: Promise.resolve({error: false})
+        checkRequest: Promise.resolve({ error: false }),
       });
-      
-      fakeNavController = new FakeNavController();
+
       navControllerSpy = jasmine.createSpyObj('NavController', {
-        pop: Promise.resolve(null)
+        pop: Promise.resolve(null),
       });
 
       fakeModalController = new FakeModalController({ data: 'fake_password' });
@@ -78,7 +79,9 @@ describe('OperationDetailPage', () => {
       connectedWalletSpy = fakeConnectedWallet.createSpy();
 
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-        getDecryptedWalletForNetwork: Promise.resolve(jasmine.createSpyObj('Wallet', { connect: () => connectedWalletSpy })),
+        getDecryptedWalletForNetwork: Promise.resolve(
+          jasmine.createSpyObj('Wallet', { connect: () => connectedWalletSpy })
+        ),
       });
 
       toastServiceSpy = jasmine.createSpyObj('ToastService', {
@@ -90,7 +93,7 @@ describe('OperationDetailPage', () => {
         imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
           UrlSerializer,
-          { provide: WalletConnectService, useValue: walletConnectServiceSpy},
+          { provide: WalletConnectService, useValue: walletConnectServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: AlertController, useValue: alertControllerSpy },
@@ -168,10 +171,17 @@ describe('OperationDetailPage', () => {
   });
 
   it('should call htmlFormatParse when checkRequestInfo is called with any eth_signTypedData method', () => {
-    const spy = spyOn(component, 'htmlFormatParse');
+    const spy = spyOn(component, 'htmlFormatParse').and.callThrough();
+    const messageDiv = document.createElement('div');
+    messageDiv.id = 'message';
+    const documentSpy = spyOn(document, 'getElementById');
+    documentSpy.and.returnValue(messageDiv);
+
+    fixture.detectChanges();
+
     component.checkRequestInfo(requestTypedData);
-    expect(spy).toHaveBeenCalledTimes(1);
-  })
+    expect(spy).toHaveBeenCalled();
+  });
 
   it('should open confirmation modal when confirmOperation is called', async () => {
     component.confirmOperation();
@@ -186,7 +196,7 @@ describe('OperationDetailPage', () => {
   });
 
   it('should call walletConnect rejectTransaction and navigate back when cancelOperation is called and the alert is confirmed', async () => {
-    component.transactionDetail = {id: 1};
+    component.transactionDetail = { id: 1 };
     fixture.detectChanges();
     component.cancelOperation();
     await fixture.whenStable();
@@ -231,7 +241,7 @@ describe('OperationDetailPage', () => {
   });
 
   it('should call showAlertTxError when checkRequest returns an error', async () => {
-    walletConnectServiceSpy.checkRequest.and.returnValues(Promise.resolve({error: true}));
+    walletConnectServiceSpy.checkRequest.and.returnValues(Promise.resolve({ error: true }));
     fixture.detectChanges();
     await component.confirmOperation();
     expect(alertControllerSpy.create).toHaveBeenCalled();
@@ -247,7 +257,7 @@ describe('OperationDetailPage', () => {
   });
 
   it('should dismiss the modal when is pressed accept button on showAlertTxError', async () => {
-    walletConnectServiceSpy.checkRequest.and.returnValues(Promise.resolve({error: true}));
+    walletConnectServiceSpy.checkRequest.and.returnValues(Promise.resolve({ error: true }));
     fixture.detectChanges();
     await component.confirmOperation();
     const button: any = alertControllerSpy.create.calls.first().args[0].buttons[0];
