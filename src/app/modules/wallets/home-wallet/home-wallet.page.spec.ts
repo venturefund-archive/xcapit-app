@@ -27,7 +27,7 @@ import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fa
 import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 
-describe('HomeWalletPage', () => {
+fdescribe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeWalletPage>;

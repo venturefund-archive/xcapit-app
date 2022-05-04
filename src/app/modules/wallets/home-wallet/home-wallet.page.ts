@@ -184,18 +184,20 @@ export class HomeWalletPage implements OnInit {
 
   async ionViewDidEnter() {
     await this.checkWalletExist();
-    await this.setUserTokens();
-    await this.loadCachedTotalBalance();
     await this.initialize();
   }
 
   async initialize(): Promise<void> {
     await this.content.scrollToTop(0);
-    this.initializeTotalBalance();
-    await this.setTokenDetails();
-    await this.fetchDetails();
-    await this.fetchTotalBalance();
-    await this.updateCachedTotalBalance();
+    if (this.walletExist) {
+      await this.loadCachedTotalBalance();
+      await this.setUserTokens();
+      this.initializeTotalBalance();
+      await this.setTokenDetails();
+      await this.fetchDetails();
+      await this.fetchTotalBalance();
+      await this.updateCachedTotalBalance();
+    }
   }
 
   private initializeTotalBalance() {
