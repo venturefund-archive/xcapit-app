@@ -35,7 +35,7 @@ const testCoins = [
     decimals: 18,
   },
 ];
-fdescribe('AmountInputCardComponent', () => {
+describe('AmountInputCardComponent', () => {
   let component: AmountInputCardComponent;
   let fixture: ComponentFixture<AmountInputCardComponent>;
   let controlContainerMock: FormGroup;
