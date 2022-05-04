@@ -3,6 +3,10 @@ ion-card {
   box-shadow: none;
 }
 
+.ion-text-start {
+  padding-left: 60px;
+}
+
 ion-toolbar {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
@@ -11,11 +15,6 @@ ion-toolbar {
 .wp {
   &__back {
     font-size: 12px;
-  }
-
-  &__title {
-    padding-left: 0;
-    padding-right: 130px;
   }
 
   padding: 8px 16px;
