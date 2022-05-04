@@ -1494,7 +1494,11 @@
       "label": "USD",
       "button": "Continuar",
       "of": "de",
-      "placeholder": "Ej: 1000"
+      "placeholder": "Ej: 1000",
+      "toast_text": "Para avanzar con tus objetivos, tus ingresos deberían superar tus gastos.",
+      "success_title": "¡Felicitaciones!",
+      "success_subtitle": "Posees el dinero suficiente para cumplir tu objetivo.",
+      "success_button": "Crear otro objetivo"
     },
     "result_objetive": {
       "saving": "Ahorra",

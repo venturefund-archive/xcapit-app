@@ -1,3 +1,4 @@
+import { createNgModuleType } from '@angular/compiler/src/render3/r3_module_compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
@@ -102,9 +103,6 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
   styleUrls: ['./objetive-info.page.scss'],
 })
 export class ObjetiveInfoPage implements OnInit {
-  income: number;
-  expenses: number;
-  key = 'planner_data';
   form: FormGroup = this.formBuilder.group({
     name: ['', Validators.required],
     category: ['other', Validators.required],
@@ -112,6 +110,11 @@ export class ObjetiveInfoPage implements OnInit {
     income: [''],
     expenses: [''],
   });
+  income: number;
+  expenses: number;
+  saving: number;
+  necessaryAmount: number;
+  key = 'planner_data';
 
   items = [
     {
@@ -150,6 +153,7 @@ export class ObjetiveInfoPage implements OnInit {
   ngOnInit() {
     this.setIncome();
     this.setExpenses();
+    this.calculateSaving();
   }
 
   setIncome() {
@@ -162,8 +166,18 @@ export class ObjetiveInfoPage implements OnInit {
     this.form.patchValue({ expenses: this.expenses });
   }
 
+  calculateSaving() {
+    this.saving = this.income - this.expenses;
+  }
+
   handleSubmit() {
     if (this.form.valid) {
+      console.log(this.saving);
+      console.log(this.form.value.necessaryAmount);
+      if (this.saving >= this.form.value.necessaryAmount) {
+        this.navController.navigateForward(['/financial-planner/success-objetive']);
+        return;
+      }
       this.appStorageService.set(this.key, this.form.value);
       this.navController.navigateForward('/financial-planner/result-objetive');
     }

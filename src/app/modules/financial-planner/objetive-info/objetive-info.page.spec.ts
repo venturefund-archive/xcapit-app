@@ -124,10 +124,19 @@ describe('ObjetiveInfoPage', () => {
     objetiveDataServiceSpy.income = 500;
     objetiveDataServiceSpy.expenses = 200;
     component.ngOnInit();
+    component.saving = 9;
     fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_see_strategies"]')).nativeElement.click();
     fixture.detectChanges();
-    console.log(component.form.value);
     expect(appStorageServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/financial-planner/result-objetive');
+  });
+
+  it('should navigate to success page if the form is valid and saving is greather than necessary amount when button is clicked and valid form', () => {
+    component.form.patchValue(formData.valid);
+    component.ngOnInit();
+    component.saving = 100;
+    fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_see_strategies"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/financial-planner/success-objetive']);
   });
 });

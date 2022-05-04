@@ -1510,7 +1510,11 @@
       "label": "USD",
       "button": "Continue",
       "of": "of",
-      "placeholder": "Eg: 1000"
+      "placeholder": "Eg: 1000",
+      "toast_text": "To move forward with your objetive, your income should exceed your expenses.",
+      "success_title": "Congratulations!",
+      "success_subtitle": "You have enough money to meet your goal.",
+      "success_button": "Create another objective"
     },
     "result_objetive": {
       "saving": "Save",
