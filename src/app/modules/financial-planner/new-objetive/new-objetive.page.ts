@@ -123,7 +123,6 @@ export class NewObjetivePage implements OnInit {
   }
 
   goToObjetiveInfo() {
-    console.log(this.checkValidData());
     if (this.form.valid && !this.checkValidData()) {
       this.saveObjetiveData();
       this.navController.navigateForward('/financial-planner/objetive-info');

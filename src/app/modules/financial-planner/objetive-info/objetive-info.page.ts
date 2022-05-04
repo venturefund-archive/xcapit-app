@@ -172,8 +172,6 @@ export class ObjetiveInfoPage implements OnInit {
 
   handleSubmit() {
     if (this.form.valid) {
-      console.log(this.saving);
-      console.log(this.form.value.necessaryAmount);
       if (this.saving >= this.form.value.necessaryAmount) {
         this.navController.navigateForward(['/financial-planner/success-objetive']);
         return;
