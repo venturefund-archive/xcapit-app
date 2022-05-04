@@ -11,6 +11,7 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
 import { RemoveWalletPage } from './remove-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BalanceCacheService } from '../../shared-wallets/services/balance-cache/balance-cache.service';
+import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 
 describe('RemoveWalletPage', () => {
   let component: RemoveWalletPage;
@@ -21,6 +22,7 @@ describe('RemoveWalletPage', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
   let queueServiceSpy: jasmine.SpyObj<QueueService>;
+  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -37,6 +39,11 @@ describe('RemoveWalletPage', () => {
       queueServiceSpy = jasmine.createSpyObj('QueueService', {
         dequeueAll: Promise.resolve(),
       });
+
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
+        killSession: Promise.resolve(),
+      });
+
       TestBed.configureTestingModule({
         declarations: [RemoveWalletPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
@@ -45,6 +52,7 @@ describe('RemoveWalletPage', () => {
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
           { provide: QueueService, useValue: queueServiceSpy },
+          { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -76,12 +84,14 @@ describe('RemoveWalletPage', () => {
     expect(buttonEl.attributes['ng-reflect-disabled']).toBe('true');
   });
 
-  it('should remove wallet and navigate to success page when checkbox is checked and button remove_wallet is clicked', () => {
+  it('should remove wallet and navigate to success page when checkbox is checked and button remove_wallet is clicked', async () => {
     fixture.debugElement.query(By.css("ion-checkbox[name='checkbox-condition']")).nativeElement.click();
     fixture.debugElement.query(By.css("ion-button[name='remove_wallet']")).nativeElement.click();
+    await fixture.whenStable();
     expect(storageServiceSpy.removeWalletFromStorage).toHaveBeenCalledTimes(1);
     expect(balanceCacheServiceSpy.removeTotal).toHaveBeenCalledTimes(1);
     expect(queueServiceSpy.dequeueAll).toHaveBeenCalledTimes(1);
+    expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/remove/success']);
   });
 });
