@@ -53,7 +53,6 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
         </div>
         <div class="aic__content__inputs">
           <div class="aic__content__inputs__amount_with_max">
-            <!-- <ion-text>Monto de usuario aca</ion-text> -->
             <ion-input
               appNumberInput
               class="aic__content__inputs__amount_with_max__amount"
