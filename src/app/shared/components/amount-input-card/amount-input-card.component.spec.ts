@@ -35,7 +35,7 @@ const testCoins = [
     decimals: 18,
   },
 ];
-describe('AmountInputCardComponent', () => {
+fdescribe('AmountInputCardComponent', () => {
   let component: AmountInputCardComponent;
   let fixture: ComponentFixture<AmountInputCardComponent>;
   let controlContainerMock: FormGroup;
@@ -141,6 +141,7 @@ describe('AmountInputCardComponent', () => {
   });
 
   it('should patch full user investment when the user enters a value higher than 100% on amount', async () => {
+    component.isSend = false;
     component.showRange = true;
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     component.form.patchValue({ amount: 101 });
@@ -148,6 +149,23 @@ describe('AmountInputCardComponent', () => {
     expect(component.form.value.range).toEqual(100);
     expect(component.form.value.amount).toEqual(100);
     expect(component.form.value.quoteAmount).toEqual('400000');
+  });
+
+  it('should patch full user available amount when the user enters a value higher than 100% on amount', async () => {
+    component.isSend = true;
+    component.showRange = false;
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.form.patchValue({ amount: 21 });
+    expect(component.form.value.amount).toEqual(20);
+    expect(component.form.value.quoteAmount).toEqual('80000');
+  });
+
+  it('should patch full available USD when the user enters a value higher than 100% on quoteAmount', async () => {
+    component.showRange = false;
+    component.isSend = true;
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.form.patchValue({ quoteAmount: 400000 });
+    expect(component.form.value.amount).toEqual(20);
   });
 
   it('should calculate all inputs when range changes', async () => {

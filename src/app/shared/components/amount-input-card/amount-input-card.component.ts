@@ -53,6 +53,7 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
         </div>
         <div class="aic__content__inputs">
           <div class="aic__content__inputs__amount_with_max">
+            <!-- <ion-text>Monto de usuario aca</ion-text> -->
             <ion-input
               appNumberInput
               class="aic__content__inputs__amount_with_max__amount"
@@ -105,6 +106,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
   @Input() showRange: boolean;
   @Input() priceRefreshInterval = 15000;
   @Input() nativeFee = 0;
+  @Input() isSend = false;
   available: number;
   feeCoin: string;
   private destroy$ = new Subject<void>();
@@ -211,7 +213,18 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
           range: (value * 100) / this.investedAmount,
         },
         this.defaultPatchValueOptions()
-      );
+        );
+    }
+    if (this.isSend) {
+      if (value > this.available) {
+        this.form.patchValue(
+          {
+            quoteAmount: this.parseAmount(this.available * this.price),
+            amount: this.available,
+          },
+          this.defaultPatchValueOptions()
+        );
+      }
     }
   }
 
@@ -235,6 +248,17 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
         },
         this.defaultPatchValueOptions()
       );
+    }
+    if (this.isSend) {
+      if (value > (this.available * this.price)) {
+        this.form.patchValue(
+          {
+            quoteAmount: this.parseAmount(this.available * this.price),
+            amount: this.available,
+          },
+          this.defaultPatchValueOptions()
+        );
+      }
     }
   }
 
