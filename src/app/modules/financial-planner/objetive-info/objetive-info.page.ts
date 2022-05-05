@@ -1,4 +1,3 @@
-import { createNgModuleType } from '@angular/compiler/src/render3/r3_module_compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
@@ -113,7 +112,6 @@ export class ObjetiveInfoPage implements OnInit {
   income: number;
   expenses: number;
   saving: number;
-  necessaryAmount: number;
   key = 'planner_data';
 
   items = [
