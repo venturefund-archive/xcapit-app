@@ -30,73 +30,15 @@ import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-c
           {{ 'fiat_ramps.confirm.title' | translate }}
         </div>
       </ion-text>
+      <app-transfer-confirm-card
+        [token]="this.token"
+        [operationData]="this.operationData"
+        [provider]="this.provider"
+        [networkColors]="this.networkColors"
+      >
+      </app-transfer-confirm-card>
       <!--       TODO: Mover esto a un componente-->
-      <div class="cp__content">
-        <app-ux-loading-block *ngIf="!this.operationData" minSize="30px"></app-ux-loading-block>
-        <div class="op__card ux-card-new" *ngIf="this.operationData">
-          <div class="op__card__token">
-            <img [src]="this.token.logoRoute" alt="Token" />
-            {{ this.token.name }}
-          </div>
-
-          <div class="op__card__item">
-            <ion-label>{{ 'fiat_ramps.confirm.type' | translate }}</ion-label>
-            <ion-text>
-              {{ 'fiat_ramps.confirm.operationType' | translate }}
-            </ion-text>
-            <ion-text>
-              {{ this.operationData.currency_out }}
-              {{ 'fiat_ramps.confirm.with' | translate }}
-              {{ this.operationData.currency_in }}
-            </ion-text>
-          </div>
-
-          <div class="op__card__item">
-            <ion-label>
-              {{ 'fiat_ramps.confirm.amount' | translate }}
-            </ion-label>
-            <ion-text> {{ this.operationData.amount_in }} {{ this.operationData.currency_in }} </ion-text>
-          </div>
-
-          <div class="op__card__item">
-            <ion-label>
-              {{ 'fiat_ramps.confirm.quotation' | translate }}
-            </ion-label>
-            <ion-text>
-              1 {{ this.operationData.currency_out }} =
-              {{ this.operationData.price_out }}
-              {{ this.operationData.currency_in }}
-            </ion-text>
-          </div>
-
-          <div class="op__card__item">
-            <ion-label>
-              {{ 'fiat_ramps.confirm.provider' | translate }}
-            </ion-label>
-
-            <ion-text>
-              {{ this.provider.name }}
-            </ion-text>
-          </div>
-
-          <div class="op__card__item">
-            <ion-label>
-              {{ 'fiat_ramps.confirm.wallet' | translate }}
-            </ion-label>
-            <ion-text>{{ this.operationData.wallet }}</ion-text>
-          </div>
-
-          <div class="op__card__item">
-            <ion-label>{{ 'fiat_ramps.confirm.network' | translate }}</ion-label>
-
-            <ion-badge
-              [color]="this.networkColors[this.operationData.network]"
-              class="ux-badge ux-font-num-subtitulo"
-              >{{ this.operationData.network | formattedNetwork | uppercase }}</ion-badge
-            >
-          </div>
-        </div>
-      </div>
+      
       <!--TODO: Borrar lo comentado (tambien los TODO)-->
       <!--        <div *ngIf="false">-->
       <!--          <ion-text class="ux-font-text-xs cp__content__text">-->
@@ -227,6 +169,13 @@ export class ConfirmPagePage implements OnInit {
       this.token = this.apiWalletService.getCoin(this.operationData.currency_out, this.operationData.network);
       this.provider = this.getProvider(this.operationData.provider);
     });
+  //   console.log(this.token)
+  //   console.log(this.operationData)
+  //   console.log(this.provider)
+  //   console.log(this.networkColors)
+  //   console.log(this.operationData.currency_out)
+  //   console.log(this.operationData.currency_in)
+  // 
   }
 
   getProvider(providerId: string) {
