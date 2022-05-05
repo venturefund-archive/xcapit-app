@@ -32,7 +32,7 @@ import { NavController } from '@ionic/angular';
       </div>
       <div class="oc__result">
         <div class="oc__result__objetive">
-          <ion-text class="ux-font-text-xxs-gray">{{
+          <ion-text class="ux-font-text-xxs">{{
             'financial_planner.shared_financial_planner.objetive_card.objetive' | translate
           }}</ion-text>
         </div>
