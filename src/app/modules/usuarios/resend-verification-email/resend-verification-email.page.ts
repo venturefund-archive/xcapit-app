@@ -15,7 +15,7 @@ import { Storage } from '@ionic/storage';
           </ion-button>
         </div>
         <div class="main__ux_success_image">
-          <app-ux-center-img></app-ux-center-img>
+          <app-ux-center-img imagePath="./assets/img/usuarios/resend-verification-email/success-resend.svg"></app-ux-center-img>
         </div>
         <div class="main__primary_text">
           <ion-text class="ux-font-text-xl">{{
