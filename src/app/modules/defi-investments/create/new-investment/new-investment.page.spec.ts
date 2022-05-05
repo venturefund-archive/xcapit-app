@@ -140,11 +140,11 @@ describe('NewInvestmentPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent when Submit Amount is clicked', async () => {
+  it('should call trackEvent when ux_invest_continue button is clicked', async () => {
     await component.ionViewDidEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Submit Amount');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_invest_continue');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -186,7 +186,7 @@ describe('NewInvestmentPage', () => {
     component.form.patchValue({ amount: 20, quoteAmount: 20 });
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Submit Amount"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_continue"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/new/confirmation', 'invest']);
   });
 
@@ -194,7 +194,7 @@ describe('NewInvestmentPage', () => {
     await component.ionViewDidEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Submit Amount"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_continue"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
   });
 

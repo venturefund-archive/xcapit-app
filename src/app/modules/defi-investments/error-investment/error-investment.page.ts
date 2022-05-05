@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SUCCESS_TYPES } from '../../../shared/components/success-content/success-types.constant';
+import { TrackService } from '../../../shared/services/track/track.service';
 
 @Component({
   selector: 'app-error-investment',
@@ -18,12 +19,17 @@ import { SUCCESS_TYPES } from '../../../shared/components/success-content/succes
 export class ErrorInvestmentPage {
   data: any;
   vault: string;
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private trackService: TrackService) {}
 
   ionViewWillEnter() {
     this.data = SUCCESS_TYPES.error_investment;
     this.vault = this.getVault();
     this.setBackUrl();
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_invest_screenview_error'
+    });
   }
 
   setBackUrl() {

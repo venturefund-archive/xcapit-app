@@ -57,6 +57,7 @@ import { NavController } from '@ionic/angular';
             appTrackClick
             (click)="this.invest()"
             name="Invest"
+            [dataToTrack]='{eventLabel: this.trackClickName}' 
             type="button"
             class="ux-font-button"
           >
@@ -82,6 +83,7 @@ export class DefiInvestmentProductComponent implements OnInit {
   tvl: number;
   token: Coin;
   secondFooterLabel: string;
+  trackClickName: string;
 
   constructor(private navController: NavController, private walletService: WalletService) {}
 
@@ -93,6 +95,7 @@ export class DefiInvestmentProductComponent implements OnInit {
       this.dailyEarning
         ? 'defi_investments.shared.defi_investment_product.daily_earnings'
         : 'defi_investments.shared.defi_investment_product.immediate_rescue';
+    this.trackClickName = `ux_invest_${this.token.value.toLowerCase()}`;
   }
 
   async invest() {

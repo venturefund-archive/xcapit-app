@@ -4,11 +4,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { SuccessInvestmentPage } from './success-investment.page';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { TrackService } from '../../../shared/services/track/track.service';
 
 describe('SuccessInvestmentPage', () => {
   let component: SuccessInvestmentPage;
   let fixture: ComponentFixture<SuccessInvestmentPage>;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let paramMapSpy: jasmine.SpyObj<ParamMap>;
   beforeEach(
     waitForAsync(() => {
@@ -21,10 +23,18 @@ describe('SuccessInvestmentPage', () => {
         }
       );
 
+
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
+        trackEvent: Promise.resolve(true),
+      })
+
       TestBed.configureTestingModule({
         declarations: [SuccessInvestmentPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [{ provide: ActivatedRoute, useValue: activatedRouteSpy }],
+        providers: [
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
+          { provide: TrackService, useValue: trackServiceSpy}
+        ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SuccessInvestmentPage);
@@ -46,5 +56,10 @@ describe('SuccessInvestmentPage', () => {
   it('should get data on will enter if invest', () => {
     component.ionViewWillEnter();
     expect(component.data).toBeTruthy();
+  });
+
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });
