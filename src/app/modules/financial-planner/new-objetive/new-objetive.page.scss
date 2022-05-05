@@ -20,6 +20,11 @@
       font-size: 12px;
     }
 
+    &__step_counter {
+      margin-right: 13px;
+      color: var(--ion-color-white);
+    }
+
     &__title {
       margin-bottom: 24px;
     }
@@ -47,9 +52,5 @@
 
   .ion-text-start {
     padding-left: 60px;
-  }
-
-  .step_counter {
-    margin-right: 13px;
   }
 }

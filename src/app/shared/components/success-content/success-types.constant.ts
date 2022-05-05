@@ -197,4 +197,12 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'defi_investments.error_investment.primaryButton',
     urlPrimaryAction: '/tabs/investments',
   },
+  success_objetive: {
+    image: 'assets/img/financial-planner/success.svg',
+    urlClose: '/financial-planner/new-objetive',
+    textPrimary: 'financial_planner.new_objetive.success_title',
+    textSecondary: 'financial_planner.new_objetive.success_subtitle',
+    namePrimaryAction: 'financial_planner.new_objetive.success_button',
+    urlPrimaryAction: '/financial-planner/new-objetive',
+  },
 };
