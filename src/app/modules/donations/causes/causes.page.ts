@@ -7,7 +7,7 @@ import { CAUSES } from '../shared-donations/constants/causes';
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="tabs/home"></ion-back-button>
+          <ion-back-button defaultHref="donations/information"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'donations.causes.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -15,10 +15,10 @@ import { CAUSES } from '../shared-donations/constants/causes';
     <ion-content>
       <div class="cp__title">
         <ion-text class="ux-font-text-lg">
-          {{ 'Elige una causa' | translate }}
+          {{ 'donations.causes.title' | translate }}
         </ion-text>
       </div>
-      <div>
+      <div class="cp__causes">
         <app-cause *ngFor="let cause of this.causes" [cause]="cause"></app-cause>
       </div>
     </ion-content>

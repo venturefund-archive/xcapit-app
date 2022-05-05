@@ -1507,9 +1507,11 @@
     },
     "causes":{
       "header":"Donaciones",
+      "title":"Elige tu causa",
       "types":{
         "humanitary":"Ayuda humanitaria",
-        "environment":"Medio ambiente"
+        "environment":"Medio ambiente",
+        "human_rights":"Derechos Humanos"
       }
     }
   },

@@ -3,16 +3,22 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-cause',
   template: `
-    <div class="cc">
-      <div class="cc__image">
-        <img [src]="this.cause.image" alt="Cause Image" />
-      </div>
-      <div class="cc__logo">
-        <img [src]="this.cause.logo" alt="Cause logo" />
-      </div>
-      <div class="cc__text-badge">
-        <ion-text class="ux-font-header-titulo">{{ this.cause.title | translate }}</ion-text>
-        <ion-badge class="ux-font-num-subtitulo ux-badge cc__text-badge__badge" slot="end">{{ this.badge | translate }}</ion-badge>
+    <div class="content">
+      <div class="cc ">
+        <div class="cc__image">
+          <img [src]="this.cause.image" alt="Cause Image" />
+        </div>
+        <div class="cc__logo">
+          <img [src]="this.cause.logo" alt="Cause logo" />
+        </div>
+        <div class="cc__text-badge">
+          <div class="cc__text-badge__text">
+            <ion-text class="ux-font-header-titulo text">{{ this.cause.title | translate }}</ion-text>
+          </div>
+          <ion-badge class="ux-font-num-subtitulo ux-badge cc__text-badge__badge" slot="end">{{
+            this.badge | translate
+          }}</ion-badge>
+        </div>
       </div>
     </div>
   `,

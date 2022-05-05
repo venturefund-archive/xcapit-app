@@ -3,10 +3,9 @@ import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-donations-info',
-  template:`
-   <ion-header>
+  template: ` <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar no-border">
-      <ion-buttons slot="start">
+        <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'donations.information.header' | translate }}</ion-title>
@@ -14,23 +13,23 @@ import { NavController } from '@ionic/angular';
     </ion-header>
     <ion-content>
       <div class="ux_main">
-        <div class="fpi__content ux_content">
-          <div class="fpi__content__img ">
+        <div class="di__content ux_content">
+          <div class="di__content__img ">
             <img src="assets/img/donations/information/information.svg" />
           </div>
-          <div class="fpi__content__title">
+          <div class="di__content__title">
             <ion-text class="ux-font-text-xl">
               {{ 'donations.information.title' | translate }}
             </ion-text>
           </div>
-          <div class="fpi__content__items ">
-            <div class="fpi__content__items__item">
+          <div class="di__content__items ">
+            <div class="di__content__items__item">
               <img src="assets/img/donations/information/item_1.svg" />
               <ion-text class="ux-font-text-base">
                 {{ 'donations.information.item_1' | translate }}
               </ion-text>
             </div>
-            <div class="fpi__content__items__item">
+            <div class="di__content__items__item">
               <img src="assets/img/donations/information/item_2.svg" />
               <ion-text class="ux-font-text-base">
                 {{ 'donations.information.item_2' | translate }}
@@ -39,11 +38,11 @@ import { NavController } from '@ionic/angular';
           </div>
         </div>
         <div class="ux_footer">
-          <div class="fpi__button">
+          <div class="di__button">
             <ion-button
               class="ux_button"
               appTrackClick
-              name="go_to_planner"
+              name="go_to_causes"
               type="submit"
               color="secondary"
               size="large"
@@ -58,14 +57,11 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./donations-info.page.scss'],
 })
 export class DonationsInfoPage implements OnInit {
+  constructor(private navController: NavController) {}
 
-  constructor(private navController: NavController,) { }
+  ngOnInit() {}
 
-  ngOnInit() {
-  }
-
-  navigateToCauses(){
+  navigateToCauses() {
     this.navController.navigateForward(['/donations/causes']);
   }
-
 }
