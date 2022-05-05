@@ -256,6 +256,7 @@ export class OperationsNewPage implements OnInit {
 
   handleSubmit() {
     if (this.form.valid) {
+      this.storageOperationService.data.subscribe(console.log);
       this.setOperationStorage();
       this.checkUser();
     } else {

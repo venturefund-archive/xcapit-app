@@ -1,29 +1,14 @@
 :host {
   .cp {
     &__content {
-      padding: 20px;
-      font-family: var(--ux-font-lato);
-      font-size: 14px;
-      font-weight: 500;
-      color: #828282;
-
-      &__text {
-        display: block;
-        padding-top: 5px;
-
-        &__title {
-          font-weight: 600;
-          color: #000000;
+      .op {
+        &__card {
+          &__token {
+            img {
+              max-width: 32px;
+            }
+          }
         }
-      }
-
-      &__advise {
-        font-family: var(--ux-font-lato);
-        font-weight: 400;
-        font-size: 12px;
-        padding: 20px;
-        text-align: center;
-        color: #828282;
       }
     }
   }
