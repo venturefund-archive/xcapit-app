@@ -6,6 +6,7 @@ import { ExpandableInvestmentInfoComponent } from './expandable-investment-info.
 import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.pipe';
 import { AvailableDefiProducts } from '../../models/available-defi-products/available-defi-products.model';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 const usdc_coin = {
@@ -98,7 +99,8 @@ describe('ExpandableInvestmentInfoComponent', () => {
       TestBed.configureTestingModule({
         declarations: [ExpandableInvestmentInfoComponent, SplitStringPipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers:[]
+        providers:[],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();
 
       fixture = TestBed.createComponent(ExpandableInvestmentInfoComponent);

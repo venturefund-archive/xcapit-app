@@ -20,7 +20,7 @@ const summaryData: SummaryData = {
     rpc: '',
   },
   address: 'asdlkfjasd56lfjasdpodlfkj',
-  amount: '1',
+  amount: 1,
   referenceAmount: '50000',
   fee: '0.00001',
   referenceFee: '0.18'

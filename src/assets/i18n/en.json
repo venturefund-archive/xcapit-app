@@ -1488,11 +1488,11 @@
       "placeholder_1": "Eg: Trip to Miami",
       "placeholder_2": "Eg: 1000",
       "categories": {
-        "category_1": "Other",
-        "category_2": "Travel",
-        "category_3": "Purchases",
-        "category_4": "Investment",
-        "category_5": "Gift"
+        "other": "Other",
+        "travel": "Travel",
+        "purchases": "Purchases",
+        "invest": "Investment",
+        "gift": "Gift"
       },
 
       "subtitle_2": "Money needed",
@@ -1510,7 +1510,34 @@
       "label": "USD",
       "button": "Continue",
       "of": "of",
-      "placeholder": "Eg: 1000"
+      "placeholder": "Eg: 1000",
+      "toast_text": "To move forward with your objetive, your income should exceed your expenses.",
+      "success_title": "Congratulations!",
+      "success_subtitle": "You have enough money to meet your goal.",
+      "success_button": "Create another objective"
+    },
+    "result_objetive": {
+      "saving": "Save",
+      "saving_description": "Depending on your monthly income and expenses, you could save {{saving}} USD per month. You would reach your objetive in {{weeks}} weeks.",
+      "invest": "Invest",
+      "invest_description": "If you invest monthly in DeFi, you will earn returns. Thus, you would achieve your objetive in:",
+      "disclaimer": "*These results are a simulation only, and may vary from day to day. They do not include compound interest, and are not financial advice.",
+      "weeks": "weeks*",
+      "annual": "% Annual",
+      "start_invest_button": "Start to invest",
+      "back_button": "Back to the start"
+    },
+    "shared_financial_planner": {
+      "objetive_card": {
+        "objetive": "My objective:",
+        "categories": {
+          "other": "Other",
+          "travel": "Travel",
+          "purchases": "Purchases",
+          "invest": "Investment",
+          "gift": "Gift"
+        }
+      }
     }
   },
   "donations": {
@@ -1804,7 +1831,8 @@
       "description": "The password is used to make your wallet more secure, you can choose the same one that you use for the Xcapit app. In the event that you forget to retrieve it, recover your wallet with the 12 words.",
       "password": "Password",
       "repeat_password": "Confirm Password",
-      "finish_button": "Finish and create wallet",
+      "finish_button_create": "Finish and create wallet",
+      "finish_button_import": "Finish and import wallet",
       "loading": {
         "title": "Time!",
         "subtitle": {
@@ -1871,13 +1899,6 @@
         "address_input": {
           "title": "Target wallet",
           "help_text": "{{currency}} address or alias"
-        },
-        "amount_input": {
-          "title": "Amount to send",
-          "fee_title": "Transaction fee*",
-          "fee_text": "*This amount is an estimate and can vary depending on the moment you complete the transaction.",
-          "wrong_address": "We could not estimate the transaction fee. Invalid address",
-          "cant_estimate_fee": "We could not estimate the transaction fee. You might not have enough funds"
         },
         "alert": {
           "title": "Attention",
@@ -2573,6 +2594,11 @@
       "uruguay": "Uruguay",
       "united_states": "USA (United States of America)",
       "venezuela": "Venezuela"
+    },
+    "shared": {
+      "fixed_footer": {
+        "text": "You are interacting with Kriptonmarket"
+      }
     }
   },
   "paxful": {
@@ -2703,7 +2729,8 @@
       },
       "financial_planner_card": {
         "title": "Organize your finances",
-        "description": "Plan your goals, and discover the best way to achieve them"
+        "description": "Plan your goals, and discover the best way to achieve them",
+        "my_plan": "My plan"
       }
     }
   },
@@ -2756,8 +2783,8 @@
     },
     "profiles": {
       "conservative": "Conservative",
-      "medium": "Medium",
-      "risky": "Risky"
+      "medium": "Moderate",
+      "risky": "Aggressive"
     },
     "about_investor_profile": {
       "of": "of",

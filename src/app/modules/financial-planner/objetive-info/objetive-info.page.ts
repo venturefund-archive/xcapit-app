@@ -102,9 +102,6 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
   styleUrls: ['./objetive-info.page.scss'],
 })
 export class ObjetiveInfoPage implements OnInit {
-  income: number;
-  expenses: number;
-  key = 'planner_data';
   form: FormGroup = this.formBuilder.group({
     name: ['', Validators.required],
     category: ['other', Validators.required],
@@ -112,31 +109,35 @@ export class ObjetiveInfoPage implements OnInit {
     income: [''],
     expenses: [''],
   });
+  income: number;
+  expenses: number;
+  saving: number;
+  key = 'planner_data';
 
   items = [
     {
       icon: 'assets/img/financial-planner/categories/other.svg',
-      title: 'financial_planner.objetive_info.categories.category_1',
+      title: 'financial_planner.objetive_info.categories.other',
       value: 'other',
     },
     {
       icon: 'assets/img/financial-planner/categories/travel.svg',
-      title: 'financial_planner.objetive_info.categories.category_2',
+      title: 'financial_planner.objetive_info.categories.travel',
       value: 'travel',
     },
     {
-      icon: 'assets/img/financial-planner/categories/purchase.svg',
-      title: 'financial_planner.objetive_info.categories.category_3',
+      icon: 'assets/img/financial-planner/categories/purchases.svg',
+      title: 'financial_planner.objetive_info.categories.purchases',
       value: 'purchases',
     },
     {
       icon: 'assets/img/financial-planner/categories/invest.svg',
-      title: 'financial_planner.objetive_info.categories.category_4',
+      title: 'financial_planner.objetive_info.categories.invest',
       value: 'invest',
     },
     {
       icon: 'assets/img/financial-planner/categories/gift.svg',
-      title: 'financial_planner.objetive_info.categories.category_5',
+      title: 'financial_planner.objetive_info.categories.gift',
       value: 'gift',
     },
   ];
@@ -150,6 +151,7 @@ export class ObjetiveInfoPage implements OnInit {
   ngOnInit() {
     this.setIncome();
     this.setExpenses();
+    this.calculateSaving();
   }
 
   setIncome() {
@@ -162,8 +164,16 @@ export class ObjetiveInfoPage implements OnInit {
     this.form.patchValue({ expenses: this.expenses });
   }
 
+  calculateSaving() {
+    this.saving = this.income - this.expenses;
+  }
+
   handleSubmit() {
     if (this.form.valid) {
+      if (this.saving >= this.form.value.necessaryAmount) {
+        this.navController.navigateForward(['/financial-planner/success-objetive']);
+        return;
+      }
       this.appStorageService.set(this.key, this.form.value);
       this.navController.navigateForward('/financial-planner/result-objetive');
     }

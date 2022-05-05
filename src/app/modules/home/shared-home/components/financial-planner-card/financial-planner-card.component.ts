@@ -12,12 +12,16 @@ import { NavController } from '@ionic/angular';
           </div>
         </div>
         <div class="fpc__content__body">
-          <ion-text class="ux-font-text-lg fpc__content__body__title">
-            {{ 'home.shared.financial_planner_card.title' | translate }}
-          </ion-text>
-          <ion-text class="ux-font-text-xxs fpc__content__body__description">
-            {{ 'home.shared.financial_planner_card.description' | translate }}
-          </ion-text>
+          <div class="fpc__content__body__title">
+            <ion-text class="ux-font-text-lg">
+              {{ 'home.shared.financial_planner_card.title' | translate }}
+            </ion-text>
+          </div>
+          <div class="fpc__content__body__description">
+            <ion-text class="ux-font-text-xxs">
+              {{ 'home.shared.financial_planner_card.description' | translate }}
+            </ion-text>
+          </div>
         </div>
         <div class="fpc__content__arrow">
           <ion-icon name="chevron-forward-outline"></ion-icon>

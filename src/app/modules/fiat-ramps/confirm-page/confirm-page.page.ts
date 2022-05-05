@@ -127,6 +127,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
         </ion-button>
       </div>
     </div>
+    <app-fixed-footer></app-fixed-footer>
   `,
   styleUrls: ['./confirm-page.page.scss'],
 })

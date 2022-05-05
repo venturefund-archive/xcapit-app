@@ -7,7 +7,9 @@ import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/
     <ion-segment class="dt" scrollable [formControlName]="this.controlName">
       <ion-segment-button
         *ngFor="let item of items; let i = index"
+        appTrackClick
         class="button"
+        [dataToTrack]='{eventLabel: item.dataToTrack}'
         [value]="item.value"
         [id]="item.value"
       > 
@@ -30,7 +32,7 @@ import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/
 })
 export class FilterTabComponent implements AfterViewInit {
   control: AbstractControl;
-  @Input() items: { title: string; value: string; icon:string }[];
+  @Input() items: { title: string; value: string; icon:string, dataToTrack:string }[];
   @Input() controlName: string ;
   constructor(private formGroupDirective: FormGroupDirective, public elRef: ElementRef) {}
 

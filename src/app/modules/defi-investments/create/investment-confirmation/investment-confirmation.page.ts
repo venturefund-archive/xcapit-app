@@ -22,7 +22,7 @@ import { Subject } from 'rxjs';
 import { DynamicPrice } from '../../../../shared/models/dynamic-price/dynamic-price.model';
 import { takeUntil } from 'rxjs/operators';
 import { ERC20Contract } from '../../shared-defi-investments/models/erc20-contract/erc20-contract.model';
-import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { FormattedFee } from '../../shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { FakeContract } from '../../shared-defi-investments/models/fake-contract/fake-contract.model';
 import { Coin } from '../../../wallets/shared-wallets/interfaces/coin.interface';
@@ -47,7 +47,7 @@ import { ToastWithButtonsComponent } from '../../shared-defi-investments/compone
     </ion-header>
     <ion-content *ngIf="this.product">
       <ion-card class="ux-card">
-        <app-expandable-investment-info [investmentProduct]="this.product"></app-expandable-investment-info>
+        <app-expandable-investment-info fbPrefix='ux_invest' [investmentProduct]="this.product"></app-expandable-investment-info>
         <div class="summary">
           <div class="summary__amount">
             <div class="summary__amount__label">
@@ -83,7 +83,13 @@ import { ToastWithButtonsComponent } from '../../shared-defi-investments/compone
       </ion-card>
       <form [formGroup]="this.form" class="ion-padding-horizontal ion-padding-bottom">
         <ion-item class="term-item ion-no-padding ion-no-margin">
-          <ion-checkbox formControlName="thirdPartyDisclaimer" mode="md" slot="start"></ion-checkbox>
+          <ion-checkbox
+            appTrackClick
+            formControlName="thirdPartyDisclaimer" 
+            mode="md" 
+            slot="start" 
+            name='ux_invest_disclaimer_check_button_0'
+          ></ion-checkbox>
           <ion-label class="ion-no-padding ion-no-margin">
             <ion-text class="ux-font-text-xxs" color="neutral80">
               {{ 'defi_investments.confirmation.terms.third_party_disclaimer' | translate }}
@@ -92,7 +98,13 @@ import { ToastWithButtonsComponent } from '../../shared-defi-investments/compone
         </ion-item>
 
         <ion-item class="term-item ion-no-padding ion-no-margin">
-          <ion-checkbox formControlName="termsAndConditions" mode="md" slot="start"></ion-checkbox>
+          <ion-checkbox
+            appTrackClick
+            formControlName="termsAndConditions" 
+            mode="md" 
+            slot="start"
+            name='ux_invest_disclaimer_check_button_1'
+            ></ion-checkbox>
           <ion-label class="ion-no-padding ion-no-margin checkbox-link">
             <ion-text class="ux-font-text-xxs" color="neutral80">{{
               'defi_investments.confirmation.terms.i_have_read' | translate
@@ -107,7 +119,7 @@ import { ToastWithButtonsComponent } from '../../shared-defi-investments/compone
         [appLoading]="this.loading"
         [loadingText]="'defi_investments.confirmation.submit_loading' | translate"
         appTrackClick
-        name="Confirm Investment"
+        name="ux_invest_confirm"
         expand="block"
         size="large"
         type="submit"
@@ -208,7 +220,7 @@ export class InvestmentConfirmationPage {
   }
 
   createErc20Provider() {
-    return new ERC20Provider(this.product.token());
+    return new DefaultERC20Provider(this.product.token());
   }
 
   async approveFeeContract(): Promise<ERC20Contract> {
@@ -249,6 +261,7 @@ export class InvestmentConfirmationPage {
         inputLabel: this.translate.instant('defi_investments.confirmation.password_modal.input_label'),
         submitButtonText: this.translate.instant('defi_investments.confirmation.password_modal.confirm_button'),
         disclaimer: '',
+        state: 'invest'
       },
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       backdropDismiss: false,

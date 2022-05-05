@@ -34,17 +34,9 @@ describe('ReferralsHistoryComponent', () => {
 
   it('should be rendered properly', async () => {
     await fixture.whenRenderingDone();
-
-    const referralsEl = fixture.debugElement.query(By.css('.rh__summary__referrals'));
+    
+    const referralsEl = fixture.debugElement.query(By.css('.rh__summary__referrals')); 
     expect(referralsEl.nativeElement.innerHTML).toContain('referrals.referrals_history.referrals_title');
     expect(referralsEl.nativeElement.innerHTML).toContain('referrals.referrals_history.referrals_subtitle');
-
-    const firstOrderEl = fixture.debugElement.query(By.css('.rh__summary__first-order'));
-    expect(firstOrderEl.nativeElement.innerHTML).toContain('referrals.referrals_history.first_order_title');
-    expect(firstOrderEl.nativeElement.innerHTML).toContain('referrals.referrals_history.first_order_subtitle');
-
-    const secondOrderEl = fixture.debugElement.query(By.css('.rh__summary__second-order'));
-    expect(secondOrderEl.nativeElement.innerHTML).toContain('referrals.referrals_history.second_order_title');
-    expect(secondOrderEl.nativeElement.innerHTML).toContain('referrals.referrals_history.second_order_subtitle');
   });
 });

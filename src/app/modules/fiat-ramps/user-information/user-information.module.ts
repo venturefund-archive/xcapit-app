@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { UserInformationPage } from './user-information.page';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedRampsModule } from '../shared-ramps/shared-ramps.module';
 
 const routes: Routes = [
   {
@@ -13,7 +13,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    SharedModule,
+    SharedRampsModule,
     RouterModule.forChild(routes)
   ],
   declarations: [UserInformationPage]

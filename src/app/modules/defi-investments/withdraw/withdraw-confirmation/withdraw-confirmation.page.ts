@@ -27,7 +27,7 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
         <ion-buttons slot="start">
           <ion-back-button class="wp__back" defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
-        <ion-title class="wp__title">{{ 'defi_investments.withdraw.withdraw.header' | translate }}</ion-title>
+        <ion-title class="ion-text-start">{{ 'defi_investments.withdraw.withdraw.header' | translate }}</ion-title>
         <ion-label class="ux-font-text-xs wp__step_counter" slot="end"
           >2 {{ 'shared.step_counter.of' | translate }} 2</ion-label
         >

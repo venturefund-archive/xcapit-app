@@ -63,6 +63,7 @@ import { NavController } from '@ionic/angular';
         </div>
       </form>
     </ion-content>
+    <app-fixed-footer></app-fixed-footer>
   `,
   styleUrls: ['./user-bank.page.scss'],
 })

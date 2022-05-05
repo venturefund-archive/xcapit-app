@@ -304,7 +304,7 @@
       "choose_investor_profile": {
         "complete_test": {
           "title": "Quiero elegir mi perfil nuevamente",
-          "description": "¿Crees que has cambiado tu perfil? Puedes volver a seleccionarlo.",
+          "description": "¿Crees que haz cambiado tu perfil? Puedes volver a seleccionarlo.",
           "button_primary": "Seleccionar nuevamente",
           "button_secondary": "Tomar el test"
         },
@@ -1472,11 +1472,11 @@
       "placeholder_1": "Ej: Viaje a Miami",
       "placeholder_2": "Ej: 1000",
       "categories": {
-        "category_1": "Otros",
-        "category_2": "Viaje",
-        "category_3": "Compras",
-        "category_4": "Inversión",
-        "category_5": "Regalo"
+        "other": "Otros",
+        "travel": "Viaje",
+        "purchases": "Compras",
+        "invest": "Inversión",
+        "gift": "Regalo"
       },
 
       "subtitle_2": "Dinero necesario",
@@ -1494,7 +1494,34 @@
       "label": "USD",
       "button": "Continuar",
       "of": "de",
-      "placeholder": "Ej: 1000"
+      "placeholder": "Ej: 1000",
+      "toast_text": "Para avanzar con tus objetivos, tus ingresos deberían superar tus gastos.",
+      "success_title": "¡Felicitaciones!",
+      "success_subtitle": "Posees el dinero suficiente para cumplir tu objetivo.",
+      "success_button": "Crear otro objetivo"
+    },
+    "result_objetive": {
+      "saving": "Ahorra",
+      "saving_description": "Según tus ingresos y gastos mensuales, podrías ahorrar {{saving}} USD por mes. Lograrías tu objetivo en {{weeks}} semanas.",
+      "invest": "Invierte",
+      "invest_description": "Si inviertes mensualmente en DeFi, obtendrás rendimientos. Así, lograrías tu objetivo en:",
+      "disclaimer": "*Estos resultados son solo una simulación , y pueden variar diariamente. No incluyen el interés compuesto, y no son un consejo financiero.",
+      "weeks": "semanas*",
+      "annual": "% Anual",
+      "start_invest_button": "Comenzar a invertir",
+      "back_button": "Volver al inicio"
+    },
+    "shared_financial_planner": {
+      "objetive_card": {
+        "objetive": "Mi objetivo:",
+        "categories": {
+          "other": "Otros",
+          "travel": "Viaje",
+          "purchases": "Compras",
+          "invest": "Inversión",
+          "gift": "Regalo"
+        }
+      }
     }
   },
   "donations": {
@@ -1788,7 +1815,8 @@
       "description": "La contraseña sirve para hacer tu wallet más segura, puedes elegir la misma que usas para la app de Xcapit. En el caso de que la olvides podrás recuperar tu wallet con las 12 palabras.",
       "password": "Contraseña",
       "repeat_password": "Confirmar contraseña",
-      "finish_button": "Finalizar y crear wallet",
+      "finish_button_create": "Finalizar y crear wallet",
+      "finish_button_import": "Finalizar e importar wallet",
       "loading": {
         "title": "¡Tiempo!",
         "subtitle": {
@@ -1855,13 +1883,6 @@
         "address_input": {
           "title": "Wallet destino",
           "help_text": "{{currency}} direccion o alias"
-        },
-        "amount_input": {
-          "title": "Monto a enviar",
-          "fee_title": "Tarifa de transacción*",
-          "fee_text": "*Este monto es estimativo y puede sufrir variaciones de acuerdo al momento en que realices la transacción.",
-          "wrong_address": "No se pudo estimar la tarifa de transacción. La dirección ingresada es inválida",
-          "cant_estimate_fee": "No se pudo estimar la tarifa de transacción. Puede que no tengas fondos suficientes"
         },
         "alert": {
           "title": "Atención",
@@ -2544,6 +2565,11 @@
       "uruguay": "Uruguay",
       "united_states": "Estados Unidos (EEUU)",
       "venezuela": "Venezuela"
+    },
+    "shared": {
+      "fixed_footer": {
+        "text": "Estas operando con Kriptonmarket"
+      }
     }
   },
 
@@ -2640,7 +2666,8 @@
       },
       "financial_planner_card": {
         "title": "Ordena tus finanzas",
-        "description": "Planifica tus objetivos, y descubre la mejor manera de alcanzarlos"
+        "description": "Planifica tus objetivos, y descubre la mejor manera de alcanzarlos",
+        "my_plan": "Mi plan"
       }
     }
   },
@@ -2924,8 +2951,8 @@
     },
     "profiles": {
       "conservative": "Conservador",
-      "medium": "Medio",
-      "risky": "Riesgoso"
+      "medium": "Moderado",
+      "risky": "Agresivo"
     },
     "about_investor_profile": {
       "of": "de",

@@ -42,18 +42,18 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
                   <ion-label class="ux_checkbox_container__item__label checkbox__label">
                     {{ 'wallets.disclaimer.local_stored_keys_checkbox' | translate }}
                   </ion-label>
-                  <ion-checkbox formControlName="localStoredKeysCheckbox" slot="start"></ion-checkbox>
+                  <ion-checkbox name="ux_create_disclaimer_check_button_0" formControlName="localStoredKeysCheckbox" slot="start"></ion-checkbox>
                 </ion-item>
               </div>
             </ion-item>
 
-            <ion-item class="ion-no-padding ion-no-margin checkbox">
+            <ion-item name="" class="ion-no-padding ion-no-margin checkbox">
               <div class="ux_checkbox_container">
                 <ion-item class="ux_checkbox_container__item ux-font-text-xs">
                   <ion-label class="ux_checkbox_container__item__label checkbox__label">
                     {{ 'wallets.disclaimer.recovery_phrase_checkbox' | translate }}
                   </ion-label>
-                  <ion-checkbox formControlName="recoveryPhraseCheckbox" slot="start"></ion-checkbox>
+                  <ion-checkbox name="ux_create_disclaimer_check_button_1" formControlName="recoveryPhraseCheckbox" slot="start"></ion-checkbox>
                 </ion-item>
               </div>
             </ion-item>
@@ -66,7 +66,7 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
                     [innerHTML]="this.textLink | translate"
                   >
                   </ion-label>
-                  <ion-checkbox formControlName="termsOfUseCheckbox" slot="start"></ion-checkbox>
+                  <ion-checkbox name="ux_create_disclaimer_check_button_2" formControlName="termsOfUseCheckbox" slot="start"></ion-checkbox>
                 </ion-item>
               </div>
             </ion-item>
@@ -82,11 +82,12 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
             <ion-button
               class="ux_button"
               appTrackClick
+              [dataToTrack]="{ eventLabel: this.trackClickEventName }"
+              [disabled]="!this.disclaimerForm.valid"
               name="ux_create_submit"
               type="submit"
               color="secondary"
               size="large"
-              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'wallets.disclaimer.submit_button' | translate }}
             </ion-button>
@@ -107,12 +108,16 @@ export class DisclaimerWalletPage implements AfterViewInit {
     recoveryPhraseCheckbox: [false, [Validators.requiredTrue]],
     termsOfUseCheckbox: [false, [Validators.requiredTrue]],
   });
+  trackClickEventName: string;
+  
+  private get isImporting(): boolean {
+    return this.mode === 'import';
+  }
 
   constructor(
     private elementRef: ElementRef,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public submitButtonService: SubmitButtonService,
     private modalController: ModalController,
     private navController: NavController,
     private translate: TranslateService,
@@ -135,6 +140,7 @@ export class DisclaimerWalletPage implements AfterViewInit {
 
   ngOnInit() {
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.trackClickEventName = this.isImporting ? 'ux_import_submit' : 'ux_create_submit';
   }
 
   handleSubmit() {
@@ -146,7 +152,7 @@ export class DisclaimerWalletPage implements AfterViewInit {
     }
   }
   navigateByMode() {
-    const url = this.mode === 'import' ? 'wallets/recovery' : 'wallets/select-coins';
+    const url = this.isImporting ? 'wallets/recovery' : 'wallets/select-coins';
     this.navController.navigateForward([url]);
   }
 

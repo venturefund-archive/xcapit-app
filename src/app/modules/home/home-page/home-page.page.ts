@@ -21,6 +21,7 @@ import { TokenPricesController } from '../../wallets/shared-wallets/models/price
 import { TokenDetailController } from '../../wallets/shared-wallets/models/token-detail/token-detail.controller';
 import { TotalBalanceController } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.controller';
 import { HttpClient } from '@angular/common/http';
+import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -85,7 +86,17 @@ import { HttpClient } from '@angular/common/http';
           <app-investor-test-cards></app-investor-test-cards>
         </div>
         <div class="financial-planner-card">
-            <app-financial-planner-card></app-financial-planner-card>
+          <app-financial-planner-card *ngIf="!this.data"></app-financial-planner-card>
+          <div class="ux-card" *ngIf="this.data">
+            <div class="ion-padding title">
+              <ion-text class="ux-font-text-lg">{{
+                'home.shared.financial_planner_card.my_plan' | translate
+              }}</ion-text>
+            </div>
+            <div class="card-objetive ion-padding" (click)="this.goToPlannerInfo()">
+              <app-objetive-card *ngIf="this.data" [data]="this.data" [edit]="false"></app-objetive-card>
+            </div>
+          </div>
         </div>
         <div class="need-help-card">
           <app-need-help-card></app-need-help-card>
@@ -109,6 +120,7 @@ export class HomePage implements OnInit {
   totalBalanceModel: TotalBalance;
   userTokens: Coin[];
   tokenDetails: TokenDetail[] = [];
+  data: any;
   private notificationQtySubscription: Subscription;
   private notificationQtySubject = new Subject();
   private timerSubscription: Subscription;
@@ -127,7 +139,8 @@ export class HomePage implements OnInit {
     private covalentBalances: CovalentBalancesController,
     private tokenPrices: TokenPricesController,
     private tokenDetail: TokenDetailController,
-    private totalBalance: TotalBalanceController
+    private totalBalance: TotalBalanceController,
+    private appStorage: AppStorageService
   ) {}
 
   ngOnInit() {}
@@ -135,6 +148,7 @@ export class HomePage implements OnInit {
   ionViewWillEnter() {
     this.initQtyNotifications();
     this.createNotificationTimer();
+    this.getPlannerData();
   }
 
   async ionViewDidEnter() {
@@ -152,6 +166,10 @@ export class HomePage implements OnInit {
       await this.fetchTotalBalance();
       await this.updateCachedTotalBalance();
     }
+  }
+
+  async getPlannerData() {
+    this.data = await this.appStorage.get('planner_data');
   }
 
   private async checkWalletExist(): Promise<void> {
@@ -254,5 +272,9 @@ export class HomePage implements OnInit {
 
   goToBuyCrypto() {
     this.navController.navigateForward(['/fiat-ramps/select-provider']);
+  }
+
+  goToPlannerInfo() {
+    this.navController.navigateForward(['/financial-planner/result-objetive']);
   }
 }

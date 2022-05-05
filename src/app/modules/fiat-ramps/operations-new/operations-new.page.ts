@@ -194,7 +194,7 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
   styleUrls: ['./operations-new.page.scss'],
 })
 export class OperationsNewPage implements OnInit {
-  provider = PROVIDERS[0];
+  provider = PROVIDERS.find((provider) => provider.id === 1);
   form: FormGroup = this.formBuilder.group({
     country: ['Argentina', [Validators.maxLength(150)]],
     type: ['cash-in', [Validators.required]],

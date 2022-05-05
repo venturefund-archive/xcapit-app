@@ -1,7 +1,7 @@
 import { TwoPiContract } from './two-pi-contract.model';
 import { Contract, Signer, VoidSigner, Wallet } from 'ethers';
 import { Provider } from '@ethersproject/abstract-provider';
-import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from '../erc20-provider/erc20-provider.model';
 import { Coin } from '../../../../wallets/shared-wallets/interfaces/coin.interface';
 
 const contractAddress = '0xCB50fF1863cBBAd718d3A1eEEf403a95C58d3B16';
@@ -9,7 +9,7 @@ const contractAddress = '0xCB50fF1863cBBAd718d3A1eEEf403a95C58d3B16';
 describe('TwoPiContract', () => {
   let wallet: Wallet;
   let providerSpy: jasmine.SpyObj<Provider>;
-  let erc20ProviderSpy: jasmine.SpyObj<ERC20Provider>;
+  let erc20ProviderSpy: jasmine.SpyObj<DefaultERC20Provider>;
   let coinSpy: jasmine.SpyObj<Coin>;
 
   beforeEach(() => {

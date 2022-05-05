@@ -21,10 +21,12 @@
     margin-top: 16px;
 
     &__image {
-      margin-top: 16px;
+      display: flex;
+      height: 166px;
+      justify-content: center;
+      margin: 35px 0 30px;
       text-align: center;
       width: auto;
-      height: 166px;
     }
 
     &__text {
@@ -33,9 +35,9 @@
       text-align: start;
 
       &__primary_text {
-        margin-top: 8px;
-        padding: 0 30px;
         color: var(--ion-color-neutral90);
+        margin-bottom: 16px;
+        padding: 0 30px;
       }
 
       &__secondary_text {

@@ -1,8 +1,8 @@
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
 import { ERC20Contract } from '../erc20-contract/erc20-contract.model';
-import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
-import { ERC20Token } from '../erc20-token/erc20-token.model';
+import { DefaultERC20Provider } from '../erc20-provider/erc20-provider.model';
+import { DefaultERC20Token } from '../erc20-token/default-erc20-token.model';
 import { TwoPiContract } from '../two-pi-contract/two-pi-contract.model';
 import { environment } from '../../../../../../environments/environment';
 import { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider';
@@ -12,6 +12,7 @@ import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { Task } from '../../../../../shared/models/task/task';
 import { Retry } from '../../../../../shared/models/retry/retry';
 import { GasFeeOf } from '../gas-fee-of/gas-fee-of.model';
+import { Allowance } from '../allowance/allowance';
 
 export interface Investment {
   balance(): Promise<number>;
@@ -25,8 +26,8 @@ export class TwoPiInvestment implements Investment {
   constructor(
     private readonly _aProduct: InvestmentProduct,
     private readonly _aWallet: Signer,
-    private readonly _anErc20Token: ERC20Token,
-    private readonly _anErc20Provider: ERC20Provider,
+    private readonly _anErc20Token: DefaultERC20Token,
+    private readonly _anErc20Provider: DefaultERC20Provider,
     private readonly _aTwoPiContract: TwoPiContract,
     private readonly _aReferralAddress: string,
     private readonly _anApiWalletService: ApiWalletService
@@ -37,8 +38,8 @@ export class TwoPiInvestment implements Investment {
     _aWallet: Signer,
     _anApiWalletService: ApiWalletService
   ): TwoPiInvestment {
-    const erc20Provider = new ERC20Provider(_aProduct.token());
-    const erc20Token = new ERC20Token(new ERC20Contract(erc20Provider, _aWallet));
+    const erc20Provider = new DefaultERC20Provider(_aProduct.token());
+    const erc20Token = new DefaultERC20Token(new ERC20Contract(erc20Provider, _aWallet));
     const twoPiContract = new TwoPiContract(_aProduct.contractAddress(), erc20Provider, _aWallet);
     const referralAddress = environment.twoPiReferralAddress;
     return new this(
@@ -100,9 +101,15 @@ export class TwoPiInvestment implements Investment {
     return Promise.resolve((gas.toNumber() * 1.5).toFixed());
   }
 
+  async _allowance(): Promise<BigNumber> {
+    return this._anErc20Token.allowance(await this._aWallet.getAddress(), this._aProduct.contractAddress());
+  }
+
   async deposit(amount: number): Promise<TransactionResponse> {
     const gasPrice = await this._gasPrice();
-    await this._approve(this._weiOf(amount), gasPrice);
+    if (!new Allowance(await this._allowance()).enoughFor(this._weiOf(amount))) {
+      await this._approve(this._weiOf(amount), gasPrice);
+    }
     const gasLimit = await this.gasLimit(amount);
     return new Retry(
       new Task(() =>
