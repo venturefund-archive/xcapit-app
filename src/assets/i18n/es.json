@@ -1509,7 +1509,7 @@
     },
     "shared_financial_planner": {
       "objetive_card": {
-        "objetive": "Mi objetivo",
+        "objetive": "Mi objetivo:",
         "categories": {
           "other": "Otros",
           "travel": "Viaje",
