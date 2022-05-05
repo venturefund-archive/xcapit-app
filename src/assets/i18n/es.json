@@ -343,8 +343,8 @@
     "shared": {
       "filter_tab": {
         "conservative": "Perfil conservador",
-        "moderate": "Perfil moderado",
-        "aggressive": "Perfil agresivo"
+        "medium": "Perfil moderado",
+        "risky": "Perfil agresivo"
       },
       "coming_soon_card": {
         "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
@@ -378,8 +378,8 @@
         },
         "profiles": {
           "conservative": "Conservador",
-          "moderate": "Moderado",
-          "aggressive": "Agresivo"
+          "medium": "Moderado",
+          "risky": "Agresivo"
         }
       },
       "amount_input_card": {
@@ -2933,8 +2933,8 @@
     },
     "profiles": {
       "conservative": "Conservador",
-      "moderated": "Moderado",
-      "aggressive": "Agresivo"
+      "medium": "Moderado",
+      "risky": "Agresivo"
     },
     "about_investor_profile": {
       "of": "de",

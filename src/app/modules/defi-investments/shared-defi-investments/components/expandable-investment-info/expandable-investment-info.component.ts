@@ -10,7 +10,12 @@ import { AvailableDefiProducts } from '../../models/available-defi-products/avai
   selector: 'app-expandable-investment-info',
   template: `
     <ion-accordion-group class="eif">
-      <ion-accordion class="eif__accordion" value="investment-info">
+      <ion-accordion 
+        class="eif__accordion" 
+        value="investment-info" 
+        appTrackClick
+        [dataToTrack]='{eventLabel: this.trackClickName}'
+      >
         <ion-item slot="header" class="eif__accordion__header">
           <div class="eif__accordion__header__content">
             <div class="eif__accordion__header__content__img">
@@ -131,6 +136,7 @@ import { AvailableDefiProducts } from '../../models/available-defi-products/avai
 })
 export class ExpandableInvestmentInfoComponent implements OnInit {
   @Input() investmentProduct: InvestmentProduct;
+  @Input() fbPrefix: string;
   token: Coin;
   tvl: number;
   apy: number;
@@ -142,6 +148,8 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
   networkColors = NETWORK_COLORS;
   defiProducts: DefiProduct[];
   profile : string;
+  trackClickName = 'display_product_info';
+
   constructor(
   ) {}
   
@@ -154,7 +162,8 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
     this.type = this.investmentProduct.type();   
     this.name = this.investmentProduct.name();   
     this.getAvailableDefiProducts();
-    this.setInvestmentInfo();    
+    this.setInvestmentInfo();
+    this.trackClickName = this.fbPrefix && `${this.fbPrefix}_${this.trackClickName}`;
   }
 
   private getAvailableDefiProducts(): void {
