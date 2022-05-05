@@ -115,6 +115,14 @@ describe('NewObjetivePage', () => {
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
   });
 
+  it('should show warning toast when button is clicked and the expenses are equals than income', () => {
+    component.form.patchValue({ income: 200, expenses: 200 });
+    fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_continue"]')).nativeElement.click();
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
+  });
+
   it('should not show warning toast when button is clicked and the expenses are less than income', () => {
     component.form.patchValue({ income: 400, expenses: 300 });
     fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_continue"]')).nativeElement.click();

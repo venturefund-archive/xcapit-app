@@ -142,7 +142,7 @@ export class NewObjetivePage implements OnInit {
   }
 
   checkValidData() {
-    if (this.form.value.income < this.form.value.expenses) return true;
+    if (this.form.value.income <= this.form.value.expenses) return true;
   }
 
   showToast() {
