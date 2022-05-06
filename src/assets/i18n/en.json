@@ -1540,6 +1540,24 @@
       }
     }
   },
+  "donations": {
+    "information": {
+      "header": "Donations",
+      "title": "Cryptos for a good cause!",
+      "item_1": "Discover new causes where you can collaborate with your donation.",
+      "item_2": "Choose by category, and become an agent of change.",
+      "button": "Let's start"
+    },
+    "causes":{
+      "header":"Donations",
+      "title":"Choose your cause",
+      "types":{
+        "humanitary":"Humanitarian aid",
+        "environment":"Environment",
+        "human_rights":"Human Rights"
+      }
+    }
+  },
   "referrals": {
     "new_referral": {
       "header": "Refer",
