@@ -131,7 +131,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
-    if (changes.nativeFee.currentValue) {
+    if (changes.nativeFee?.currentValue) {
       const previousBalance = this.available;
       await this.balanceAvailable();
       if (this.form.value.amount === previousBalance) this.setMax();
