@@ -45,6 +45,7 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
               <ion-input
                 type="text"
                 formControlName="name"
+                maxLength="20"
                 class="input"
                 [placeholder]="'financial_planner.objetive_info.placeholder_1' | translate"
               ></ion-input>
