@@ -25,7 +25,7 @@ import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-c
     </ion-header>
 
     <ion-content class="ion-padding cp">
-      <ion-text class="ux-font-text-xl ios hydrated ion-padding-top ion-margin-top">
+      <ion-text class="ux-font-text-lg ios hydrated ion-padding-top ion-margin-top">
         <div class="ion-margin-top">
           {{ 'fiat_ramps.confirm.title' | translate }}
         </div>
@@ -169,13 +169,6 @@ export class ConfirmPagePage implements OnInit {
       this.token = this.apiWalletService.getCoin(this.operationData.currency_out, this.operationData.network);
       this.provider = this.getProvider(this.operationData.provider);
     });
-  //   console.log(this.token)
-  //   console.log(this.operationData)
-  //   console.log(this.provider)
-  //   console.log(this.networkColors)
-  //   console.log(this.operationData.currency_out)
-  //   console.log(this.operationData.currency_in)
-  // 
   }
 
   getProvider(providerId: string) {
