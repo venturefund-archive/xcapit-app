@@ -32,11 +32,13 @@ describe('CausesPage', () => {
 
   it('should render cause component properly', () => {
     const causeItemEl = fixture.debugElement.query(By.css('app-cause'));
+
     expect(causeItemEl).toBeTruthy();
   });
 
   it('should render title', () => {
     const textEl = fixture.debugElement.query(By.css('.cp__title ion-text'));
+    
     expect(textEl).toBeTruthy();
   });
 

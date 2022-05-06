@@ -38,16 +38,15 @@ describe('CauseComponent', () => {
     component.ngOnInit();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
+    
     const imgEl = fixture.debugElement.query(By.css('.cc__image img'));
-    expect(imgEl.attributes.src).toContain('assets/img/donations/causes/cause_1/image.jpg');
-
     const logoEl = fixture.debugElement.query(By.css('.cc__logo img'));
-    expect(logoEl.attributes.src).toContain('assets/img/donations/causes/cause_1/logo.svg');
-
     const textEl = fixture.debugElement.query(By.css('.cc__text-badge__text ion-text'));
-    expect(textEl.nativeElement.innerHTML).toContain('UNHCR');
-
     const badgeEl = fixture.debugElement.query(By.css('.cc__text-badge__badge'));
+  
+    expect(logoEl.attributes.src).toContain('assets/img/donations/causes/cause_1/logo.svg');
+    expect(textEl.nativeElement.innerHTML).toContain('UNHCR');
+    expect(imgEl.attributes.src).toContain('assets/img/donations/causes/cause_1/image.jpg');
     expect(badgeEl.nativeNode.innerHTML).toContain('donations.causes.types.humanitary');
   });
 });

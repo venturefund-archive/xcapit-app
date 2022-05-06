@@ -36,18 +36,14 @@ describe('DonationsInfoPage', () => {
 
   it('should render properly', () => {
     const imgEl = fixture.debugElement.query(By.css('.di__content__img img'));
-    expect(imgEl.attributes.src).toContain('assets/img/donations/information/information.svg');
-
     const titleEl = fixture.debugElement.query(By.css('.di__content__title ion-text'));
-    expect(titleEl.nativeElement.innerHTML).toContain('donations.information.title');
-
     const [textItem1, textItem2] = fixture.debugElement.queryAll(By.css('div.di__content__items__item ion-text'));
-
-    expect(textItem1.nativeElement.innerHTML).toContain('donations.information.item_1');
-    expect(textItem2.nativeElement.innerHTML).toContain('donations.information.item_2');
-
     const [imgItem1, imgItem2] = fixture.debugElement.queryAll(By.css('div.di__content__items__item img'));
 
+    expect(imgEl.attributes.src).toContain('assets/img/donations/information/information.svg');
+    expect(titleEl.nativeElement.innerHTML).toContain('donations.information.title');
+    expect(textItem1.nativeElement.innerHTML).toContain('donations.information.item_1');
+    expect(textItem2.nativeElement.innerHTML).toContain('donations.information.item_2');
     expect(imgItem1.attributes.src).toContain('assets/img/donations/information/item_1.svg');
     expect(imgItem2.attributes.src).toContain('assets/img/donations/information/item_2.svg');
   });
@@ -56,14 +52,18 @@ describe('DonationsInfoPage', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'go_to_causes');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
+
     el.nativeElement.click();
     fixture.detectChanges();
+
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to causes when button is clicked', () => {
     fixture.debugElement.query(By.css('.di__button ion-button')).nativeElement.click();
+
     fixture.detectChanges();
+    
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/donations/causes']);
   });
 });
