@@ -947,6 +947,7 @@
       "change_pass": "Cambiar contraseña",
       "category_security_wallet": "Seguridad wallet Xcapit",
       "remove_wallet": "Eliminar Wallet",
+      "export_private_key": "Clave privada",
       "security_phrase": "Frase de seguridad",
       "category_preferences": "Preferencias",
       "push_notifications": "Notificationes push",
@@ -2017,6 +2018,18 @@
       "dapp_disconnection": {
         "message": "Se perdió la conexión con {{dapp}}. Esto puede suceder si te desconectas manualmente o si la conexión es inestable."
       }
+    },
+    "export_private_key": {
+      "header": "Clave privada",
+      "title": "Clave privada",
+      "content": "Esta clave te permite exportar tu wallet de cada red de una manera sencilla ",
+      "select_title": "Elige la red",
+      "select_placeholder": "Selecciona una red",
+      "address": "Address:",
+      "private_key": "Clave privada:",
+      "copy_button": "Copiar clave privada",
+      "success_toast": "Tu clave privada se copio correctamente al portapapeles",
+      "error_toast": "La contraseña que ingresaste es incorrecta"
     }
   },
   "apikeys": {
@@ -2268,7 +2281,6 @@
       "header": "Comprar Cripto",
       "title": "Selecciona el proveedor:"
     },
-
     "information_paxful": {
       "header": "Comprar",
       "title": "Compra BTC con Paxful:",
@@ -2280,7 +2292,6 @@
       "button": "Seleccionar mi dirección de recepción",
       "modal_content": "Por favor tilda los puntos a considerar antes de realizar una compra"
     },
-
     "operation_detail": {
       "header": "Operación:",
       "card": {
