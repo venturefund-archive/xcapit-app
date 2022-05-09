@@ -972,6 +972,7 @@
       "change_pass": "Password Change",
       "category_security_wallet": "Security Xcapit wallet",
       "remove_wallet": "Remove Wallet",
+      "export_private_key": "Private key",
       "security_phrase": "Security phrase",
       "category_preferences": "Preferences",
       "push_notifications": "Push notifications",
@@ -2135,6 +2136,18 @@
       "dapp_disconnection": {
         "message": "The connection to {{dapp}} was lost. This can happen if you disconnect manually or if the connection is unstable."
       }
+    },
+    "export_private_key": {
+      "header": "Private key",
+      "title": "Private key",
+      "content": "This key allows you to export your wallet from each network in a simple way.",
+      "select_title": "Choose a network",
+      "select_placeholder": "Select a network",
+      "address": "Address:",
+      "private_key": "Private key:",
+      "copy_button": "Copy private key",
+      "success_toast": "Your private key was successfully copied to the clipboard.",
+      "error_toast": "The password you entered is incorrect"
     }
   },
   "apikeys": {
