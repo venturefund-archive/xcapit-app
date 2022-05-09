@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ObjetiveDataService } from '../shared-financial-planner/services/objetive-data.service';
@@ -104,11 +105,13 @@ export class NewObjetivePage implements OnInit {
     expenses: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
   disabled: boolean;
+
   constructor(
     private formBuilder: FormBuilder,
     private objetiveData: ObjetiveDataService,
     private navController: NavController,
     private toastService: ToastService,
+    private appStorage: AppStorageService,
     private translate: TranslateService
   ) {}
 
@@ -137,8 +140,9 @@ export class NewObjetivePage implements OnInit {
     this.objetiveData.expenses = this.form.value.expenses;
   }
 
-  showData() {
-    this.form.patchValue({ income: this.objetiveData.income, expenses: this.objetiveData.expenses });
+  async showData() {
+    const data = await this.appStorage.get('planner_data');
+    this.form.patchValue({ income: data?.income, expenses: data?.expenses });
   }
 
   checkValidData() {

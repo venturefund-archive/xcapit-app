@@ -143,6 +143,7 @@ export class ObjetiveInfoPage implements OnInit {
     },
   ];
   constructor(
+    private appStorage: AppStorageService,
     private formBuilder: FormBuilder,
     private objetiveData: ObjetiveDataService,
     private appStorageService: AppStorageService,
@@ -150,23 +151,17 @@ export class ObjetiveInfoPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.setIncome();
-    this.setExpenses();
+    this.setData();
     this.calculateSaving();
   }
 
-  setIncome() {
-    this.income = this.objetiveData.income;
-    this.form.patchValue({ income: this.income });
-  }
-
-  setExpenses() {
-    this.expenses = this.objetiveData.expenses;
-    this.form.patchValue({ expenses: this.expenses });
+  async setData() {
+    const data = await this.appStorage.get('planner_data');
+    data ? this.form.patchValue(data) : this.form.patchValue(this.objetiveData);
   }
 
   calculateSaving() {
-    this.saving = this.income - this.expenses;
+    this.saving = this.form.value.income - this.form.value.expenses;
   }
 
   handleSubmit() {

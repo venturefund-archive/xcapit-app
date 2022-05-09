@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from 
 import { NewObjetivePage } from './new-objetive.page';
 import { By } from '@angular/platform-browser';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 
 const formData = {
   valid: {
@@ -31,6 +32,7 @@ describe('NewObjetivePage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let objetiveDataServiceSpy: jasmine.SpyObj<ObjetiveDataService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -40,6 +42,11 @@ describe('NewObjetivePage', () => {
         income: 500,
         expenses: 200,
       });
+
+      appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', {
+        get: {income: 500, expenses: 200},
+      });
+
       controlContainerMock = new FormBuilder().group({
         income: ['', []],
         expenses: ['', []],
@@ -57,6 +64,7 @@ describe('NewObjetivePage', () => {
           { provide: ObjetiveDataService, useValue: objetiveDataServiceSpy },
           { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
           { provide: ToastService, useValue: toastServiceSpy },
+          { provide: AppStorageService, useValue: appStorageServiceSpy },
         ],
       }).compileComponents();
 
@@ -99,12 +107,19 @@ describe('NewObjetivePage', () => {
   });
 
   it('should patch data on form on ngOnInit', () => {
-    objetiveDataServiceSpy.income = 500;
-    objetiveDataServiceSpy.expenses = 200;
     component.ngOnInit();
     fixture.detectChanges();
     expect(component.form.value.income).toEqual(500);
     expect(component.form.value.expenses).toEqual(200);
+  });
+
+  it('should not fill income and expenses fields when there is not planner_data in storage', async () => {
+    appStorageServiceSpy.get.and.returnValue(Promise.resolve());
+    component.ngOnInit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.form.value.income).toBeUndefined();
+    expect(component.form.value.expenses).toBeUndefined();
   });
 
   it('should show warning toast when button is clicked and the expenses are greather than income', () => {
