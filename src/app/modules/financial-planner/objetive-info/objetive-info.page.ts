@@ -45,6 +45,7 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
               <ion-input
                 type="text"
                 formControlName="name"
+                maxLength="20"
                 class="input"
                 [placeholder]="'financial_planner.objetive_info.placeholder_1' | translate"
               ></ion-input>
@@ -102,9 +103,6 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
   styleUrls: ['./objetive-info.page.scss'],
 })
 export class ObjetiveInfoPage implements OnInit {
-  income: number;
-  expenses: number;
-  key = 'planner_data';
   form: FormGroup = this.formBuilder.group({
     name: ['', Validators.required],
     category: ['other', Validators.required],
@@ -112,6 +110,10 @@ export class ObjetiveInfoPage implements OnInit {
     income: [''],
     expenses: [''],
   });
+  income: number;
+  expenses: number;
+  saving: number;
+  key = 'planner_data';
 
   items = [
     {
@@ -141,6 +143,7 @@ export class ObjetiveInfoPage implements OnInit {
     },
   ];
   constructor(
+    private appStorage: AppStorageService,
     private formBuilder: FormBuilder,
     private objetiveData: ObjetiveDataService,
     private appStorageService: AppStorageService,
@@ -148,22 +151,25 @@ export class ObjetiveInfoPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.setIncome();
-    this.setExpenses();
+    this.setData();
+    this.calculateSaving();
   }
 
-  setIncome() {
-    this.income = this.objetiveData.income;
-    this.form.patchValue({ income: this.income });
+  async setData() {
+    const data = await this.appStorage.get('planner_data');
+    data ? this.form.patchValue(data) : this.form.patchValue(this.objetiveData);
   }
 
-  setExpenses() {
-    this.expenses = this.objetiveData.expenses;
-    this.form.patchValue({ expenses: this.expenses });
+  calculateSaving() {
+    this.saving = this.form.value.income - this.form.value.expenses;
   }
 
   handleSubmit() {
     if (this.form.valid) {
+      if (this.saving >= this.form.value.necessaryAmount) {
+        this.navController.navigateForward(['/financial-planner/success-objetive']);
+        return;
+      }
       this.appStorageService.set(this.key, this.form.value);
       this.navController.navigateForward('/financial-planner/result-objetive');
     }

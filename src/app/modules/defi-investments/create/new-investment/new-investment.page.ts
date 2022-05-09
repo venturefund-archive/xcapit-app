@@ -24,7 +24,7 @@ import { AmountInputCardComponent } from '../../../../shared/components/amount-i
     </ion-header>
     <ion-content *ngIf="this.investmentProduct">
       <ion-card class="ux-card">
-        <app-expandable-investment-info [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
+        <app-expandable-investment-info fbPrefix='ux_invest' [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
       </ion-card>
       <ion-card class="ux-card">
         <form [formGroup]="this.form" *ngIf="this.investmentProduct && this.token">
@@ -39,7 +39,7 @@ import { AmountInputCardComponent } from '../../../../shared/components/amount-i
       <div class="ni__footer">
         <ion-button
           appTrackClick
-          name="Submit Amount"
+          name="ux_invest_continue"
           expand="block"
           size="large"
           type="submit"

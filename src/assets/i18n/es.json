@@ -343,8 +343,8 @@
     "shared": {
       "filter_tab": {
         "conservative": "Perfil conservador",
-        "moderate": "Perfil moderado",
-        "aggressive": "Perfil agresivo"
+        "medium": "Perfil moderado",
+        "risky": "Perfil agresivo"
       },
       "coming_soon_card": {
         "title": "Pronto podrás comenzar a invertir y generar rendimientos de hasta 15% anual en USD",
@@ -378,8 +378,8 @@
         },
         "profiles": {
           "conservative": "Conservador",
-          "moderate": "Moderado",
-          "aggressive": "Agresivo"
+          "medium": "Moderado",
+          "risky": "Agresivo"
         }
       },
       "amount_input_card": {
@@ -1350,7 +1350,7 @@
         "invalid": "Error al validar el email."
       },
       "login": {
-        "invalidCredentials": "El usuario y contraseña ingresado no coinciden. Por favor intente nuevamente.",
+        "invalidCredentials": "El usuario y/o contraseña ingresado no coinciden. Por favor intente nuevamente.",
         "noActiveUser": "Necesitas verificar tu email para poder iniciar sesión.",
         "notClientAccess": "No se permite acceder desde otra aplicación. Usa nuestra app para iniciar sesión.",
         "notVerifiedGoogleAccount": "Tu cuenta de Google no está verificada.",
@@ -1494,7 +1494,11 @@
       "label": "USD",
       "button": "Continuar",
       "of": "de",
-      "placeholder": "Ej: 1000"
+      "placeholder": "Ej: 1000",
+      "toast_text": "Para avanzar con tus objetivos, tus ingresos deberían superar tus gastos.",
+      "success_title": "¡Felicitaciones!",
+      "success_subtitle": "Posees el dinero suficiente para cumplir tu objetivo.",
+      "success_button": "Crear otro objetivo"
     },
     "result_objetive": {
       "saving": "Ahorra",
@@ -1509,7 +1513,7 @@
     },
     "shared_financial_planner": {
       "objetive_card": {
-        "objetive": "Mi objetivo",
+        "objetive": "Mi objetivo:",
         "categories": {
           "other": "Otros",
           "travel": "Viaje",
@@ -1517,6 +1521,24 @@
           "invest": "Inversión",
           "gift": "Regalo"
         }
+      }
+    }
+  },
+  "donations": {
+    "information": {
+      "header": "Donaciones",
+      "title": "¡Criptos por una buena causa!",
+      "item_1": "Descubre nuevas causas en las que puedes colaborar con tu donación.",
+      "item_2": "Elige por categorías, y conviértete en un agente de cambio.",
+      "button": "Comencemos"
+    },
+    "causes":{
+      "header":"Donaciones",
+      "title":"Elige tu causa",
+      "types":{
+        "humanitary":"Ayuda humanitaria",
+        "environment":"Medio ambiente",
+        "human_rights":"Derechos Humanos"
       }
     }
   },
@@ -2929,8 +2951,8 @@
     },
     "profiles": {
       "conservative": "Conservador",
-      "moderated": "Moderado",
-      "aggressive": "Agresivo"
+      "medium": "Moderado",
+      "risky": "Agresivo"
     },
     "about_investor_profile": {
       "of": "de",

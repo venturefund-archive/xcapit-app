@@ -18,7 +18,6 @@ import { StartInvestingComponent } from './components/start-investing/start-inve
 import { WalletConnectQrScanComponent } from './components/wallet-connect-qr-scan/wallet-connect-qr-scan.component';
 import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleton/nft-card-skeleton.component';
 import { InformativeCardComponent } from './components/informative-card/informative-card.component';
-import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-network.pipe';
 import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.component';
 
 @NgModule({
@@ -42,7 +41,6 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
     StartInvestingComponent,
     WalletConnectQrScanComponent,
     InformativeCardComponent,
-    FormattedNetworkPipe,
   ],
   imports: [SharedModule],
   exports: [
@@ -66,7 +64,6 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
     StartInvestingComponent,
     WalletConnectQrScanComponent,
     InformativeCardComponent,
-    FormattedNetworkPipe,
   ],
 })
 export class SharedWalletsModule {}

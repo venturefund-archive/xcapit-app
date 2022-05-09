@@ -26,6 +26,11 @@ const routes: Routes = [
         path: 'result-objetive',
         loadChildren: () => import('./result-objetive/result-objetive.module').then((m) => m.ResultObjetivePageModule),
       },
+      {
+        path: 'success-objetive',
+        loadChildren: () =>
+          import('./success-objetive/success-objetive.module').then((m) => m.SuccessObjetivePageModule),
+      },
     ],
   },
 ];

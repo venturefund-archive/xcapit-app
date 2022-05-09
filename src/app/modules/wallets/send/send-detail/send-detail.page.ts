@@ -66,6 +66,7 @@ import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-inve
         <div class="sd__amount-input-card" *ngIf="this.token">
           <ion-card class="ux-card">
             <app-amount-input-card
+              [isSend]="true"
               [header]="'defi_investments.shared.amount_input_card.available' | translate"
               [showRange]="false"
               [baseCurrency]="this.token"
@@ -88,7 +89,7 @@ import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-inve
         </app-ux-alert-message>
       </div>
 
-      <div class="sd__submit-button">
+      <div class="sd__submit-button ion-padding">
         <ion-button
           class="ux_button sd__submit-button__button"
           appTrackClick

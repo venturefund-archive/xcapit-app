@@ -78,6 +78,8 @@ import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-pag
 import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
 import { ObjetiveCardComponent } from '../modules/financial-planner/shared-financial-planner/components/objetive-card/objetive-card.component';
 import { NumberInputDirective } from './directives/number-input/number-input.directive';
+import { CauseComponent } from '../modules/donations/shared-donations/components/cause/cause.component';
+import { FormattedNetworkPipe } from '../modules/wallets/shared-wallets/pipes/formatted-network-name/formatted-network.pipe';
 
 @NgModule({
   declarations: [
@@ -145,6 +147,7 @@ import { NumberInputDirective } from './directives/number-input/number-input.dir
     CoinSelectorComponent,
     SelectProviderCardComponent,
     ProviderCardComponent,
+    CauseComponent,
     ObjetiveCardComponent,
     // Pipes
     LocalizedDatePipe,
@@ -153,6 +156,7 @@ import { NumberInputDirective } from './directives/number-input/number-input.dir
     HideTextPipe,
     SplitStringPipe,
     SuitePipe,
+    FormattedNetworkPipe,
     //Directives
     SelectStyleDirective,
     NumberInputDirective,
@@ -230,6 +234,7 @@ import { NumberInputDirective } from './directives/number-input/number-input.dir
     ToastWithButtonsComponent,
     SelectProviderCardComponent,
     ProviderCardComponent,
+    CauseComponent,
     ObjetiveCardComponent,
     // Pipes
     LocalizedDatePipe,
@@ -238,6 +243,7 @@ import { NumberInputDirective } from './directives/number-input/number-input.dir
     HideTextPipe,
     SplitStringPipe,
     SuitePipe,
+    FormattedNetworkPipe,
     //Directives
     ButtonSpinnerDirective,
     NumberInputDirective,

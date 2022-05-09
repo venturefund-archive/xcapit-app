@@ -43,7 +43,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
               {{ 'wallets.select_coin.toggle_all_text' | translate }}
             </ion-label>
             <ion-toggle
-              name="Toggle All Coins"
+              name="ux_create_all"
               class="sc__toggle_all__toggle ux-toggle ion-no-padding"
               [checked]="this.allSelected"
               (click)="this.toggleAll($event)"

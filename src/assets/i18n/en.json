@@ -362,8 +362,8 @@
     "shared": {
       "filter_tab": {
         "conservative": "Conservative profile",
-        "moderate": "Moderate profile",
-        "aggressive": "Aggressive profile"
+        "medium": "Moderate profile",
+        "risky": "Aggressive profile"
       },
       "coming_soon_card": {
         "title": "Soon you'll be able to invest and generate returns of up to 15% per year in USD",
@@ -397,8 +397,8 @@
         },
         "profiles": {
           "conservative": "Conservative",
-          "moderate": "Moderate",
-          "aggressive": "Aggressive"
+          "medium": "Moderate",
+          "risky": "Aggressive"
         }
       },
       "amount_input_card": {
@@ -1510,7 +1510,11 @@
       "label": "USD",
       "button": "Continue",
       "of": "of",
-      "placeholder": "Eg: 1000"
+      "placeholder": "Eg: 1000",
+      "toast_text": "To move forward with your objetive, your income should exceed your expenses.",
+      "success_title": "Congratulations!",
+      "success_subtitle": "You have enough money to meet your goal.",
+      "success_button": "Create another objective"
     },
     "result_objetive": {
       "saving": "Save",
@@ -1525,7 +1529,7 @@
     },
     "shared_financial_planner": {
       "objetive_card": {
-        "objetive": "My objective",
+        "objetive": "My objective:",
         "categories": {
           "other": "Other",
           "travel": "Travel",
@@ -1533,6 +1537,24 @@
           "invest": "Investment",
           "gift": "Gift"
         }
+      }
+    }
+  },
+  "donations": {
+    "information": {
+      "header": "Donations",
+      "title": "Cryptos for a good cause!",
+      "item_1": "Discover new causes where you can collaborate with your donation.",
+      "item_2": "Choose by category, and become an agent of change.",
+      "button": "Let's start"
+    },
+    "causes":{
+      "header":"Donations",
+      "title":"Choose your cause",
+      "types":{
+        "humanitary":"Humanitarian aid",
+        "environment":"Environment",
+        "human_rights":"Human Rights"
       }
     }
   },
@@ -2761,8 +2783,8 @@
     },
     "profiles": {
       "conservative": "Conservative",
-      "moderate": "Moderate",
-      "aggressive": "Aggressive"
+      "medium": "Moderate",
+      "risky": "Aggressive"
     },
     "about_investor_profile": {
       "of": "of",
