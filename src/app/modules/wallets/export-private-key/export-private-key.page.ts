@@ -141,4 +141,12 @@ export class ExportPrivateKeyPage implements OnInit {
       })
     );
   }
+
+  clearPassword() {
+    this.password = undefined;
+  }
+
+  ionViewWillLeave() {
+    this.clearPassword();
+  }
 }

@@ -110,4 +110,11 @@ describe('ExportPrivateKeyPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should clear password on leave', async () => {
+    const spy = spyOn(component, 'clearPassword').and.callThrough();
+    await component.ionViewDidEnter();
+    component.ionViewWillLeave();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });
