@@ -1901,7 +1901,7 @@
       "modal_content": "Por favor tilda los puntos a considerar antes de realizar una compra"
     },
     "operation_detail": {
-      "header": "Operación:",
+      "header": "Detalle de operación",
       "card": {
         "provider": "Proveedor:",
         "type": "Tipo de operación:",

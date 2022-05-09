@@ -1922,7 +1922,7 @@
       "modal_content": "Please check the points to consider before making a purchase"
     },
     "operation_detail": {
-      "header": "Operation:",
+      "header": "Operation detail",
       "card": {
         "provider": "Provider:",
         "type": "Operation type:",

@@ -5,180 +5,25 @@ import { NavController } from '@ionic/angular';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { Filesystem } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 
 @Component({
   selector: 'app-operations-detail',
   template: `
-    <ion-header>
+    <ion-header >
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/new-operation/moonpay"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.operation_detail.header' | translate }}
-          <span *ngIf="this.operation"> {{ this.operation.operation_id }} </span>
         </ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content class="ion-padding dp">
-      <app-ux-loading-block *ngIf="!this.operation" minSize="30px"></app-ux-loading-block>
-
-      <div *ngIf="this.operation">
-        <ion-text class="ux-font-text-xl ios hydrated ion-padding-top ion-margin-top">
-          <div class="ion-margin-top">
-            {{ 'fiat_ramps.operation_detail.header' | translate }}
-          </div>
-        </ion-text>
-        <div class="dp__content">
-          <ion-text class="ux-font-text-xs dp__content__text">
-            <span class="dp__content__text__title">
-              {{ 'fiat_ramps.operation_detail.card.provider' | translate }}
-            </span>
-            <span> {{ this.provider.name }} </span>
-          </ion-text>
-
-          <ion-text class="ux-font-text-xs dp__content__text">
-            <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.card.type' | translate }} </span>
-            <span *ngIf="this.operation.operation_type === 'cash-in'">
-              {{ 'fiat_ramps.operation_detail.card.buy.operationType' | translate }}
-            </span>
-            <span *ngIf="this.operation.operation_type === 'cash-out'">
-              {{ 'fiat_ramps.operation_detail.card.sell.operationType' | translate }}
-            </span>
-          </ion-text>
-
-          <ion-text class="ux-font-text-xs dp__content__text" *ngIf="this.operation.operation_type === 'cash-in'">
-            <span class="dp__content__text__title">
-              {{ 'fiat_ramps.operation_detail.card.buy.title' | translate }}
-            </span>
-            <span>
-              {{ this.operation.currency_out | uppercase }}
-              {{ 'fiat_ramps.operation_detail.card.buy.with' | translate }} {{ this.operation.currency_in | uppercase }}
-            </span>
-          </ion-text>
-
-          <ion-text class="ux-font-text-xs dp__content__text" *ngIf="this.operation.operation_type === 'cash-out'">
-            <span class="dp__content__text__title">
-              {{ 'fiat_ramps.operation_detail.card.sell.title' | translate }}
-            </span>
-            <span>
-              {{ this.operation.currency_in | uppercase }}
-              {{ 'fiat_ramps.operation_detail.card.sell.with' | translate }}
-              {{ this.operation.currency_out | uppercase }}
-            </span>
-          </ion-text>
-
-          <ion-text class="ux-font-text-xs dp__content__text">
-            <span class="dp__content__text__title">
-              {{ 'fiat_ramps.operation_detail.card.amount' | translate }}
-            </span>
-            <span *ngIf="this.operation.operation_type === 'cash-in'"
-              >{{ this.operation.amount_in | currency }}
-              <small>{{ this.operation.currency_in }}</small>
-            </span>
-            <span *ngIf="this.operation.operation_type === 'cash-out'"
-              >{{ this.operation.amount_out | currency }}
-              <small>{{ this.operation.currency_out }}</small>
-            </span>
-          </ion-text>
-
-          <ion-text class="ux-font-text-xs dp__content__text">
-            <span class="dp__content__text__title">
-              {{ 'fiat_ramps.operation_detail.card.quotation' | translate }}
-            </span>
-            <span *ngIf="this.operation.currency_in === 'ARS' || this.operation.currency_in === 'USD'">
-              1 {{ this.operation.currency_out | uppercase }} = {{ this.cotizacion | number: '1.2-2' }}
-              {{ this.operation.currency_in | uppercase }}
-            </span>
-            <span *ngIf="this.operation.currency_in !== 'ARS' && this.operation.currency_in !== 'USD'">
-              1 {{ this.operation.currency_in | uppercase }} = {{ this.cotizacion | number: '1.2-2' }}
-              {{ this.operation.currency_out | uppercase }}
-            </span>
-          </ion-text>
-
-          <ion-text class="ux-font-text-xs dp__content__text">
-            <span class="dp__content__text__title">
-              {{ 'fiat_ramps.operation_detail.card.status' | translate }}
-            </span>
-            <span>{{
-              'fiat_ramps.operationStatus.' + this.provider.alias + '.' + this.operation.status | translate
-            }}</span>
-          </ion-text>
-
-          <ion-text class="ux-font-text-xs dp__content__text">
-            <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.card.date' | translate }} </span>
-            <span>{{ this.operation.created_at | date: 'dd/MM/yy' }}</span>
-          </ion-text>
-
-          <ion-text class="ux-font-text-xs dp__content__text">
-            <span class="dp__content__text__title"> {{ 'fiat_ramps.operation_detail.card.id' | translate }} </span>
-            <span>{{ this.operation.operation_id }}</span>
-          </ion-text>
-        </div>
-
-        <div *ngIf="this.provider.alias !== 'paxful'">
-          <div *ngIf="!this.hasVoucher">
-            <ion-button
-              class="dp__pic-button ux_button"
-              appTrackClick
-              name="Upload Voucher"
-              type="button"
-              color="secondary"
-              size="large"
-              (click)="this.addPhoto()"
-            >
-              <div class="dp__pic-button__button-content" *ngIf="!this.comprobante">
-                <ion-icon class="receipt-outline" slot="end" name="receipt-outline"></ion-icon>
-                <span class="ux-font-text-base"> {{ 'fiat_ramps.operation_detail.voucher' | translate }} </span>
-              </div>
-              <div class="dp__pic-button__picture" *ngIf="this.comprobante">
-                <img [src]="this.comprobante.dataUrl" alt="" />
-              </div>
-            </ion-button>
-          </div>
-
-          <div *ngIf="this.hasVoucher" class="dp__voucher">
-            <app-ux-center-img></app-ux-center-img>
-            <span class="ux-font-text-base">{{ 'fiat_ramps.operation_detail.has_voucher' | translate }}</span>
-          </div>
-
-          <div class="updload_voucher" *ngIf="this.comprobante && !this.hasVoucher">
-            <app-ux-loading-block *ngIf="this.loading" minSize="60px"></app-ux-loading-block>
-
-            <div class="button-next" *ngIf="!this.loading">
-              <ion-button
-                class="ux_button"
-                appTrackClick
-                name="Submit Voucher"
-                type="button"
-                color="secondary"
-                size="large"
-                (click)="this.sendPicture()"
-              >
-                {{ 'fiat_ramps.operation_detail.send' | translate }}
-              </ion-button>
-            </div>
-          </div>
-        </div>
-
-        <div class="ux_footer">
-          <div class="button-next">
-            <ion-button
-              class="ux_button"
-              appTrackClick
-              name="My Operations"
-              type="button"
-              color="secondary"
-              size="large"
-              (click)="this.navigateBackToOperations()"
-            >
-              {{ 'fiat_ramps.operation_detail.my_operations' | translate }}
-            </ion-button>
-          </div>
-        </div>
-      </div>
+      <app-operation-detail-card [operation]="this.operation"></app-operation-detail-card>
     </ion-content>
   `,
   styleUrls: ['./operations-detail.page.scss'],
@@ -186,11 +31,11 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 export class OperationsDetailPage implements OnInit {
   providers: FiatRampProvider[] = PROVIDERS;
   comprobante = null;
-  operation: any = null;
+  operation: FiatRampOperation;
   cotizacion: any = 0;
-  provider: any;
-  hasVoucher: any = false;
-  loading = false;
+  provider: FiatRampProvider;
+  hasVoucher: boolean = false;
+  loading: boolean = false;
 
   ionViewWillEnter() {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
@@ -275,6 +120,6 @@ export class OperationsDetailPage implements OnInit {
   }
 
   navigateBackToOperations() {
-    this.navController.navigateBack(['/fiat-ramps/new-operation/moonpay']);
+    this.navController.navigateBack(['/fiat-ramps/select-provider']);
   }
 }
