@@ -11,6 +11,19 @@
         }
       }
     }
+
+    &__disclaimer {
+      position: static;
+      width: 296px;
+      height: 108px;
+      left: 0;
+      top: 550px;
+      flex: none;
+      order: 1;
+      flex-grow: 0;
+      margin: 24px 0;
+      color: var(--ion-color-neutral80);
+    }
   }
 
   .button-next {
