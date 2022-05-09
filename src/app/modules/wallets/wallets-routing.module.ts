@@ -56,13 +56,16 @@ const routes: Routes = [
         children: [
           {
             path: 'select-currency',
-            loadChildren: () => import('./receive-select-currency/receive-select-currency.module').then((m) => m.ReceiveSelectCurrencyPageModule),
+            loadChildren: () =>
+              import('./receive-select-currency/receive-select-currency.module').then(
+                (m) => m.ReceiveSelectCurrencyPageModule
+              ),
           },
           {
             path: 'detail',
             loadChildren: () => import('./receive/receive.module').then((m) => m.ReceivePageModule),
           },
-        ]
+        ],
       },
       {
         path: 'recovery',
@@ -212,6 +215,11 @@ const routes: Routes = [
       {
         path: 'remove',
         loadChildren: () => import('./remove/remove-wallet/remove-wallet.module').then((m) => m.RemoveWalletPageModule),
+      },
+      {
+        path: 'export-private-key',
+        loadChildren: () =>
+          import('./export-private-key/export-private-key.module').then((m) => m.ExportPrivateKeyPageModule),
       },
       {
         path: 'remove',

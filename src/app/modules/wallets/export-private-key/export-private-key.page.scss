@@ -1,0 +1,37 @@
+:host {
+  .epk {
+    &__title {
+      margin-top: 25px;
+    }
+
+    &__content {
+      margin-top: 8px;
+    }
+
+    &__form {
+      margin-top: 32px;
+    }
+
+    &__card {
+      margin-top: 27px;
+      padding: 16px 13px;
+
+      &__item {
+        &.pk {
+          margin-top: 16px;
+        }
+
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    &__button {
+      padding-top: 27px;
+
+      ion-button {
+        width: 100%;
+      }
+    }
+  }
+}
