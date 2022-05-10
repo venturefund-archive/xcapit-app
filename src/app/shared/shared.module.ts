@@ -75,6 +75,7 @@ import { CoinSelectorComponent } from './components/coin-selector/coin-selector.
 import { FilterTabComponent } from '../modules/defi-investments/shared-defi-investments/components/filter-tab/filter-tab.component';
 import { SelectProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/select-provider-card/select-provider-card.component';
 import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/provider-card/provider-card/provider-card.component';
+import { TransactionFeeComponent } from '../modules/defi-investments/shared-defi-investments/components/transaction-fee/transaction-fee.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-pag
     QuotesCardComponent,
     ItemQuoteComponent,
     TokenSelectionListComponent,
+    TransactionFeeComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -180,6 +182,7 @@ import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-pag
     NetworkSelectCardComponent,
     TokenSelectionListComponent,
     CoinSelectorComponent,
+    TransactionFeeComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
