@@ -80,6 +80,7 @@ import { ObjetiveCardComponent } from '../modules/financial-planner/shared-finan
 import { NumberInputDirective } from './directives/number-input/number-input.directive';
 import { CauseComponent } from '../modules/donations/shared-donations/components/cause/cause.component';
 import { FormattedNetworkPipe } from '../modules/wallets/shared-wallets/pipes/formatted-network-name/formatted-network.pipe';
+import { FormattedAmountPipe } from './pipes/formatted-amount/formatted-amount.pipe';
 import { CauseInfoComponent } from '../modules/donations/shared-donations/components/description-cause/cause-info.component';
 
 @NgModule({
@@ -144,7 +145,7 @@ import { CauseInfoComponent } from '../modules/donations/shared-donations/compon
     NoWalletComponent,
     UpdateNewsComponent,
     NewsItemComponent,
-    ToastWithButtonsComponent, 
+    ToastWithButtonsComponent,
     CoinSelectorComponent,
     SelectProviderCardComponent,
     ProviderCardComponent,
@@ -159,6 +160,7 @@ import { CauseInfoComponent } from '../modules/donations/shared-donations/compon
     SplitStringPipe,
     SuitePipe,
     FormattedNetworkPipe,
+    FormattedAmountPipe,
     //Directives
     SelectStyleDirective,
     NumberInputDirective,
@@ -247,6 +249,7 @@ import { CauseInfoComponent } from '../modules/donations/shared-donations/compon
     SplitStringPipe,
     SuitePipe,
     FormattedNetworkPipe,
+    FormattedAmountPipe,
     //Directives
     ButtonSpinnerDirective,
     NumberInputDirective,
