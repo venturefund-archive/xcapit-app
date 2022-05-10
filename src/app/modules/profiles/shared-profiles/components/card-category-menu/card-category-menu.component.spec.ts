@@ -109,6 +109,18 @@ describe('CardItemMenuComponent', () => {
       await fixture.whenStable();
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(`${item.route}`);
     });
+
+    it(`should call trackEvent on trackService when item with the directive ${item.name} are clicked`, async () => {
+      component.category.showCategory = true;
+      fixture.detectChanges();
+      const button = fixture.debugElement.query(By.css(`ion-button#${item.name}`));
+      const directive = trackClickDirectiveHelper.getDirective(button);
+      const spy = spyOn(directive, 'clickEvent');
+      button.nativeElement.click();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
   }
 
   it('should render category when attribute showCategory is true', () => {
@@ -148,5 +160,18 @@ describe('CardItemMenuComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/connection-detail');
+  })
+
+  it('should navigate to "/wallets/wallet-connect/new-connection" when WalletConnect is clicked and there is wallet and walletconnect is not connected', async () => {
+    component.category = menuCategoryClickable;
+    walletServiceSpy.walletExist.and.resolveTo(true);
+    walletConnectServiceSpy.connected = false
+    component.category.showCategory = true;
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css(`ion-button#WalletConnect`));
+    button.nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/new-connection');
   })
 });
