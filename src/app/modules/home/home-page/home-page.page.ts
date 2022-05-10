@@ -94,7 +94,14 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
               }}</ion-text>
             </div>
             <div class="card-objetive ion-padding" (click)="this.goToPlannerInfo()">
-              <app-objetive-card *ngIf="this.data" [icon]="this.icon" [category]="this.category" [necessaryAmount]="this.necessaryAmount" [name]="this.name" [edit]="false"></app-objetive-card>
+              <app-objetive-card
+                *ngIf="this.data"
+                [icon]="this.icon"
+                [category]="this.category"
+                [necessaryAmount]="this.necessaryAmount"
+                [name]="this.name"
+                [edit]="false"
+              ></app-objetive-card>
             </div>
           </div>
         </div>
@@ -174,16 +181,17 @@ export class HomePage implements OnInit {
 
   async getPlannerData() {
     this.data = await this.appStorage.get('planner_data');
-    this.setData()
+    this.setData();
   }
 
-  setData(){
-    this.name = this.data.name;
-    this.necessaryAmount = this.data.necessaryAmount;
-    this.icon = `assets/img/financial-planner/categories/${this.data.category}.svg`;
-    this.category = `financial_planner.shared_financial_planner.objetive_card.categories.${this.data.category}`;
+  setData() {
+    if (this.data) {
+      this.name = this.data.name;
+      this.necessaryAmount = this.data.necessaryAmount;
+      this.icon = `assets/img/financial-planner/categories/${this.data.category}.svg`;
+      this.category = `financial_planner.shared_financial_planner.objetive_card.categories.${this.data.category}`;
+    }
   }
-
 
   private async checkWalletExist(): Promise<void> {
     this.hasWallet = await this.walletService.walletExist();
