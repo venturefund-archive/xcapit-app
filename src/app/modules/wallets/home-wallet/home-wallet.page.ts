@@ -18,6 +18,7 @@ import { CovalentBalancesController } from '../shared-wallets/models/balances/co
 import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
 import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
 import { TotalBalanceController } from '../shared-wallets/models/balance/total-balance/total-balance.controller';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -80,14 +81,14 @@ import { TotalBalanceController } from '../shared-wallets/models/balance/total-b
       <div class="wt__segments ion-padding-start ion-padding-end" *ngIf="this.walletExist">
         <form [formGroup]="this.segmentsForm">
           <ion-segment mode="md" class="ux-segment" formControlName="tab">
-            <ion-segment-button value="assets">
+            <ion-segment-button value="assets" name='ux_tab_tokens' appTrackClick>
               <ion-label
                 [ngClass]="{ 'active-tab': this.segmentsForm.value.tab === 'assets' }"
                 class="ux-font-header-titulo"
                 >{{ 'wallets.home.tab_assets' | translate }}</ion-label
               >
             </ion-segment-button>
-            <ion-segment-button value="nft">
+            <ion-segment-button value="nft" name='ux_tab_nfts' appTrackClick>
               <ion-label
                 [ngClass]="{ 'active-tab': this.segmentsForm.value.tab === 'nft' }"
                 class="ux-font-header-titulo"
@@ -177,11 +178,20 @@ export class HomeWalletPage implements OnInit {
     private covalentBalances: CovalentBalancesController,
     private tokenPrices: TokenPricesController,
     private tokenDetail: TokenDetailController,
-    private totalBalance: TotalBalanceController
+    private totalBalance: TotalBalanceController,
+    private trackService: TrackService
   ) {}
 
   ngOnInit() {}
 
+  ionViewWillEnter(){
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_screenview_wallet'
+    });
+  }
+  
   async ionViewDidEnter() {
     await this.checkWalletExist();
     await this.initialize();
