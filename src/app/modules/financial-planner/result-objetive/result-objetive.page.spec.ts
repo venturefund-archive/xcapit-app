@@ -19,6 +19,7 @@ const dataTest = {
   income: 1000,
   name: 'Auto',
   necessaryAmount: 2500,
+  icon:'assets/img/financial-planner/categories/purchases.svg'
 };
 
 const productTest = {
@@ -93,7 +94,10 @@ describe('ResultObjetivePage', () => {
       fixture = TestBed.createComponent(ResultObjetivePage);
       component = fixture.componentInstance;
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      component.data = dataTest;
+      component.name = dataTest.name;
+      component.necessaryAmount = dataTest.necessaryAmount;
+      component.category = dataTest.category;
+      component.icon = dataTest.icon;
       fixture.detectChanges();
     })
   );
@@ -102,9 +106,10 @@ describe('ResultObjetivePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get data planner of storage', () => {
+  it('should get data planner of storage', async () => {
     component.ionViewDidEnter();
     fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(component.data).toEqual(dataTest);
   });
 

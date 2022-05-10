@@ -21,7 +21,7 @@ import { NONPROD_DEFI_PRODUCTS, PROD_DEFI_PRODUCTS } from '../shared-financial-p
     </ion-header>
     <ion-content class="ion-padding">
       <div *ngIf="this.data" class="objetive-card">
-        <app-objetive-card [data]="this.data"></app-objetive-card>
+        <app-objetive-card [icon]="this.icon" [category]="this.category" [necessaryAmount]="this.necessaryAmount" [name]="this.name"></app-objetive-card>
       </div>
       <div class="content">
         <div class="content__title">
@@ -106,6 +106,10 @@ export class ResultObjetivePage implements OnInit {
   weeks: number;
   saving: number;
   products;
+  icon: string;
+  category: string;
+  name: string;
+  necessaryAmount: number;
   env = environment.environment;
 
   constructor(
@@ -128,6 +132,14 @@ export class ResultObjetivePage implements OnInit {
 
   async getPlannerData() {
     this.data = await this.appStorage.get('planner_data');
+    this.setData()
+  }
+  
+  setData(){
+    this.name = this.data.name;
+    this.necessaryAmount = this.data.necessaryAmount;
+    this.icon = `assets/img/financial-planner/categories/${this.data.category}.svg`;
+    this.category = `financial_planner.shared_financial_planner.objetive_card.categories.${this.data.category}`;
   }
 
   calculationsSaving() {
