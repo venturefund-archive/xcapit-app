@@ -14,7 +14,7 @@ import { Component, Input, OnInit } from '@angular/core';
               </div>  
             </div>
 
-            <div class="tcc__card__operation-title">
+            <div class="tcc__card__operation__title">
               <!-- Ver si va el operationType o si creamos uno nuevo -->
               <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.confirm.type' | translate }}</ion-text>
             </div>

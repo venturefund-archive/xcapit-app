@@ -2576,22 +2576,22 @@
     },
     "confirm": {
       "header": "Confirm operation",
-      "title": "Check that the data is correct:",
-      "provider": "Provider:",
-      "type": "Operation type:",
-      "amount": "Amount:",
-      "quotation": "Quotation:",
+      "title": "Check that the data is correct",
+      "provider": "Provider",
+      "type": "Operation type",
+      "amount": "Amount",
+      "quotation": "Quotation",
       "wallet": "Reception address",
       "disclaimer": "From this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
       "confirm": "Confirm",
       "buy": {
         "operationType": "Buy",
-        "title": "Buy:",
+        "title": "Buy",
         "with": " with "
       },
       "sell": {
         "operationType": "Sell",
-        "title": "Sell:",
+        "title": "Sell",
         "with": " for "
       }
     },
