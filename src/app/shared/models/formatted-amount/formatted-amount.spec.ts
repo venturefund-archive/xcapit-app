@@ -25,6 +25,10 @@ describe('FormattedAmount', () => {
     expect(new FormattedAmount(12345678912345.12345678918).value()).toEqual(12345678912345);
   });
 
+  it('should get a max of 16 decimals if entire part is 16', () => {
+    expect(new FormattedAmount(1234567891234567.12345678918).value()).toEqual(1234567891234567);
+  });
+
   it('should transform with custom values', () => {
     expect(new FormattedAmount(15.12345678918, 5, 3).value()).toEqual(15.123);
   });

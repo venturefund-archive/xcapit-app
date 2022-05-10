@@ -10,7 +10,7 @@ export class FormattedAmount {
   }
 
   private decimals(): number {
-    return Math.min(this.totalDigits - this.entireQuantity(), this.maxDecimals);
+    return Math.min(Math.max(this.totalDigits - this.entireQuantity(), 0), this.maxDecimals);
   }
 
   public value(): number {
