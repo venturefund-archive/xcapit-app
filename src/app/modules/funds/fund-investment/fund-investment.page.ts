@@ -195,6 +195,6 @@ export class FundInvestmentPage implements OnInit {
   }
 
   goToBuyCripto() {
-    this.navController.navigateForward(['/fiat-ramps/moonpay']);
+    this.navController.navigateForward(['/fiat-ramps/new-operation/moonpay']);
   }
 }

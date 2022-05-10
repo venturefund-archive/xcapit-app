@@ -187,6 +187,6 @@ describe('FundInvestmentPage', () => {
     component.existWallet = true;
     fixture.detectChanges();
     component.goToBuyCripto();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/moonpay']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/new-operation/moonpay']);
   });
 });

@@ -16,7 +16,7 @@ import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-c
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/new-operation/moonpay"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.confirm.header' | translate }}
