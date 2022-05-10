@@ -1532,13 +1532,45 @@
       "item_2": "Elige por categorías, y conviértete en un agente de cambio.",
       "button": "Comencemos"
     },
-    "causes":{
-      "header":"Donaciones",
-      "title":"Elige tu causa",
-      "types":{
-        "humanitary":"Ayuda humanitaria",
-        "environment":"Medio ambiente",
-        "human_rights":"Derechos Humanos"
+    "causes": {
+      "header": "Donaciones",
+      "title": "Elige tu causa",
+      "types": {
+        "humanitary": "Ayuda humanitaria",
+        "environment": "Medio ambiente",
+        "human_rights": "Derechos Humanos"
+      }
+    },
+    "description_cause": {
+      "header": "Donaciones",
+      "button": "Donar",
+      "info": {
+        "global": "Global",
+        "receive": "Recibe",
+        "unhcr": {
+          "title_1": "Dona para brindar asistencia a las poblaciones afectadas en Ucrania y en los países de la región.",
+          "title_2": "Sobre Agencia de la ONU para los Refugiados (ACNUR)",
+          "title_3": "Conoce más sobre ACNUR",
+          "description": "Busca garantizar que los refugiados tengan acceso a: protección contra el daño, refugio, alimentos, agua, mantas, suministros médicos, la posibilidad de ir a la escuela y, lo más importante, la esperanza de un futuro."
+        },
+        "water": {
+          "title_1": "Dona para ayudar a capacitar a personas en situación vulnerable sobre el cuidado del agua, y brindar acceso a micro préstamos para soluciones de agua y saneamiento en su hogar.",
+          "title_2": "Sobre Water.org",
+          "title_3": "Conoce más sobre Water.org",
+          "description": "La crisis con el agua repercute negativamente en la salud y en los medios de vida de más de un tercio de la población mundial. Water.org busca objetivo es transformar esta realidad, trabajando para llevar agua y saneamiento al mundo."
+        },
+        "rainforest_rescue": {
+          "title_1": "Dona para proteger y restaurar la selva tropical más longeva del mundo, el Daintree.",
+          "title_2": "Sobre Rainforest Rescue",
+          "title_3": "Conoce más sobre Rainforest Rescue",
+          "description": "Sus proyectos buscan concientizar y conservar la biodiversidad y el patrimonio cultural de la selva tropical, a través de programas de plantación, mantenimiento y restauración."
+        },
+        "free_the_girls": {
+          "title_1": "Dona para que las supervivientes de la trata sexual de todo el mundo, reciban  capacitación y microcréditos que les permitan crear microempresas en sus comunidades locales.",
+          "title_2": "Sobre Free the Girls",
+          "title_3": "Conoce más sobre Free the Girls",
+          "description": "Ayuda a estas mujeres a convertirse en empresarias, brindando las herramientas para que puedan comercializar en los mercados locales de ropa de segunda mano en sus comunidades."
+        }
       }
     }
   },

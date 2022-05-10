@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavigationExtras } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-cause',
   template: `
-    <div class="content">
+    <div class="content" (click)="this.goToCause()">
       <div class="cc ">
         <div class="cc__image">
           <img [src]="this.cause.image" alt="Cause Image" />
@@ -27,7 +29,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class CauseComponent implements OnInit {
   @Input() cause;
   badge: string;
-  constructor() {}
+  constructor(private navController: NavController) {}
 
   ngOnInit() {
     this.setType();
@@ -36,4 +38,16 @@ export class CauseComponent implements OnInit {
   setType() {
     this.badge = `donations.causes.types.${this.cause.type}`;
   }
+
+  goToCause(){
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        cause: this.cause.id
+      },
+    };
+    this.navController.navigateForward(['donations/description-cause'], navigationExtras)
+
+
+  }
+
 }
