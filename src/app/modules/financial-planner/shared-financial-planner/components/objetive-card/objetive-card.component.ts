@@ -11,7 +11,7 @@ import { NavController } from '@ionic/angular';
         </div>
         <div class="oc__body__header">
           <div class="oc__body__header__title">
-            <ion-text class="ux-font-text-lg">{{ this.data.name }}</ion-text>
+            <ion-text class="ux-font-text-lg">{{ this.name }}</ion-text>
           </div>
           <div class="oc__body__header__category">
             <ion-text class="ux-font-text-xs">{{ this.category | translate }}</ion-text>
@@ -37,7 +37,7 @@ import { NavController } from '@ionic/angular';
           }}</ion-text>
         </div>
         <div class="oc__result__necessary-amount">
-          <ion-text class="ux-font-text-lg">{{ this.data.necessaryAmount }} USD</ion-text>
+          <ion-text class="ux-font-text-lg">{{ this.necessaryAmount }} USD</ion-text>
         </div>
       </div>
     </div>
@@ -45,15 +45,15 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./objetive-card.component.scss'],
 })
 export class ObjetiveCardComponent implements OnInit {
-  @Input() data;
+  @Input() icon: string;
+  @Input() name: string;
+  @Input() category: string;
+  @Input() necessaryAmount: string;
   @Input() edit = true;
-  icon: string;
-  category: string;
+
   constructor(private navController: NavController) {}
 
   ngOnInit() {
-    this.icon = `assets/img/financial-planner/categories/${this.data.category}.svg`;
-    this.category = `financial_planner.shared_financial_planner.objetive_card.categories.${this.data.category}`;
   }
 
   goToNewObjetive() {

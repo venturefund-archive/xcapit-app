@@ -8,11 +8,12 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { ObjetiveCardComponent } from './objetive-card.component';
 
 const dataTest = {
-  category: 'purchases',
+  category: 'Purchases',
   expenses: 700,
   income: 1000,
   name: 'Auto',
-  necessaryAmount: 2500,
+  necessaryAmount: '2500',
+  icon:'assets/img/financial-planner/categories/purchases.svg'
 };
 
 describe('ObjetiveCardComponent', () => {
@@ -36,7 +37,10 @@ describe('ObjetiveCardComponent', () => {
       fixture = TestBed.createComponent(ObjetiveCardComponent);
       component = fixture.componentInstance;
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      component.data = dataTest;
+      component.name = dataTest.name;
+      component.necessaryAmount = dataTest.necessaryAmount;
+      component.category = dataTest.category;
+      component.icon = dataTest.icon;
       fixture.detectChanges();
     })
   );
@@ -80,7 +84,7 @@ describe('ObjetiveCardComponent', () => {
     expect(editEl.nativeElement.innerHTML).toBeTruthy();
     expect(titleEl.nativeElement.innerHTML).toContain(dataTest.name);
     expect(categoryEl.nativeElement.innerHTML).toContain(
-      'financial_planner.shared_financial_planner.objetive_card.categories.purchases'
+      'Purchases'
     );
     expect(textEl.nativeElement.innerHTML).toContain(
       'financial_planner.shared_financial_planner.objetive_card.objetive'
