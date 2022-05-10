@@ -22,7 +22,7 @@ import { NavigationExtras } from '@angular/router';
             (click)="this.goToReceive()"
             appTrackClick
             class="ux-font-text-lg"
-            name="ux_go_to_recieve"
+            name="ux_go_to_receive"
             [text]="'wallets.home.subheader_buttons_component.receive_card' | translate"
             icon="ux-arrow-down"
           ></app-icon-button-card>

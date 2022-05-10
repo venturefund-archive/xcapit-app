@@ -61,8 +61,8 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when ux_go_to_recieve Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_go_to_recieve');
+  it('should call trackEvent on trackService when ux_go_to_receive Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_go_to_receive');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -111,16 +111,16 @@ describe('WalletSubheaderButtonsComponent', () => {
     );
   });
 
-  it('should navigate to receive page with the default asset selected when ux_go_to_recieve is clicked from HomeWalletPage', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_go_to_recieve');
+  it('should navigate to receive page with the default asset selected when ux_go_to_receive is clicked from HomeWalletPage', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_go_to_receive');
     component.asset = '';
     el.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/receive/select-currency']);
   });
 
-  it('should navigate to receive page with an asset selected when ux_go_to_recieve is clicked from AssetDetailPage', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_go_to_recieve');
+  it('should navigate to receive page with an asset selected when ux_go_to_receive is clicked from AssetDetailPage', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_go_to_receive');
     component.asset = 'LINK';
     component.network = 'ERC20';
     el.nativeElement.click();
