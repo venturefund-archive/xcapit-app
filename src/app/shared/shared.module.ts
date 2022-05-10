@@ -80,6 +80,7 @@ import { ObjetiveCardComponent } from '../modules/financial-planner/shared-finan
 import { NumberInputDirective } from './directives/number-input/number-input.directive';
 import { CauseComponent } from '../modules/donations/shared-donations/components/cause/cause.component';
 import { FormattedNetworkPipe } from '../modules/wallets/shared-wallets/pipes/formatted-network-name/formatted-network.pipe';
+import { CauseInfoComponent } from '../modules/donations/shared-donations/components/description-cause/cause-info.component';
 
 @NgModule({
   declarations: [
@@ -149,6 +150,7 @@ import { FormattedNetworkPipe } from '../modules/wallets/shared-wallets/pipes/fo
     ProviderCardComponent,
     CauseComponent,
     ObjetiveCardComponent,
+    CauseInfoComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -236,6 +238,7 @@ import { FormattedNetworkPipe } from '../modules/wallets/shared-wallets/pipes/fo
     ProviderCardComponent,
     CauseComponent,
     ObjetiveCardComponent,
+    CauseInfoComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
