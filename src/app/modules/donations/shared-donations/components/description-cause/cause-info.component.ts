@@ -3,7 +3,8 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 
 @Component({
   selector: 'app-cause-info',
-  template: ` <div class="dc__content">
+  template: ` 
+  <div class="dc__content">
       <div class="dc__content__img ">
         <img [src]="this.data.image" />
       </div>

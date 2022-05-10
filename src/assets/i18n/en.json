@@ -1556,6 +1556,38 @@
         "environment":"Environment",
         "human_rights":"Human Rights"
       }
+    },
+    "description_cause": {
+      "header": "Donations",
+      "button": "Donate",
+      "info": {
+        "global": "Global",
+        "receive": "Receive",
+        "unhcr": {
+          "title_1": "Donate to provide assistance to the affected populations in Ukraine and in the countries of the region.",
+          "title_2": "About the ONU Refugee Agency (UNHCR)",
+          "title_3": "Learn more about UNHCR",
+          "description": "It seeks to ensure that refugees have access to: protection from harm, shelter, food, water, blankets, medical supplies, the ability to go to school and, most importantly, hope for a future."
+        },
+        "water": {
+          "title_1": "Donate to help train vulnerable people on water care, and provide access to microloans for water and sanitation solutions at home.",
+          "title_2": "About Water.org",
+          "title_3": "Learn more about Water.org",
+          "description": "The water crisis negatively impacts the health and livelihoods of more than one-third of the world's population. Water.org aims to transform this reality by working to bring water and sanitation to the world."
+        },
+        "rainforest_rescue": {
+          "title_1": "Donate to protect and restore the world's longest-lived rainforest, the Daintree.",
+          "title_2": "About Rainforest Rescue",
+          "title_3": "Learn more about Rainforest Rescue",
+          "description": "Its projects seek to raise awareness and conserve the biodiversity and cultural heritage of the rainforest through planting, maintenance and restoration programs."
+        },
+        "free_the_girls": {
+          "title_1": "Its projects seek to raise awareness and conserve the biodiversity and cultural heritage of the rainforest through planting, maintenance and restoration programs.",
+          "title_2": "About Free the Girls",
+          "title_3": "Learn more about Free the Girls",
+          "description": "It helps these women become entrepreneurs by providing them with the tools to market in local second-hand clothing markets in their communities."
+        }
+      }
     }
   },
   "referrals": {
