@@ -1,8 +1,8 @@
-import { FiatRampProvider } from "../interfaces/fiat-ramp-provider.interface";
+import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
 
 export const PROVIDERS: FiatRampProvider[] = [
   {
-    id: 3, 
+    id: 3,
     alias: 'moonpay',
     name: 'Moonpay',
     logoRoute: 'assets/img/provider-logos/Moonpay.svg',
@@ -32,14 +32,8 @@ export const PROVIDERS: FiatRampProvider[] = [
     name: 'Kripton Market',
     logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
     description: 'fiat_ramps.select_provider.krypton_description',
+    disclaimer: 'fiat_ramps.shared.constants.providers.kripton.disclaimer',
     newOperationRoute: '/fiat-ramps/new-operation',
     countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
   },
-  // {
-  //   id: 3,
-  //   alias: 'paxful',
-  //   name: 'Paxful',
-  //   logoRoute: '../../assets/img/provider-logos/Paxful.svg',
-  //   newOperationRoute: '/fiat-ramps/information-paxful',
-  // },
 ];

@@ -1,4 +1,6 @@
-export const COUNTRIES = [
+import { FiatRampProviderCountry } from '../interfaces/fiat-ramp-provider-country';
+
+export const COUNTRIES: FiatRampProviderCountry[] = [
   { name: 'Mexico', value: 'fiat_ramps.countries_list.mexico' },
   { name: 'Guatemala', value: 'fiat_ramps.countries_list.guatemala' },
   { name: 'Honduras', value: 'fiat_ramps.countries_list.honduras' },
