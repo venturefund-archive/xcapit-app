@@ -113,7 +113,6 @@ describe('ResultObjetivePage', () => {
     component.weeks = Math.round(dataTest.necessaryAmount / (component.saving / 4));
     component.ionViewDidEnter();
     fixture.detectChanges();
-    console.log(component.saving);
     expect(component.saving).toEqual(300);
     expect(component.weeks).toEqual(33);
   });

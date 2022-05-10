@@ -4,7 +4,6 @@ import { NavigationExtras } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-
 import { CauseComponent } from './cause.component';
 
 const testCause = {

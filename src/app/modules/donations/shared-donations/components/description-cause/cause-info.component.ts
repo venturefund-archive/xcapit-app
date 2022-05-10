@@ -3,9 +3,8 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 
 @Component({
   selector: 'app-cause-info',
-  template: ` 
-  <div class="dc__content">
-      <div class="dc__content__img ">
+  template: ` <div class="dc__content">
+      <div class="dc__content__img">
         <img [src]="this.data.image" />
       </div>
     </div>
@@ -47,7 +46,9 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
       <div class="dc__content__links">
         <div class="dc__content__links__link" *ngFor="let media of this.data.social_media">
           <ion-icon [name]="media.logo"></ion-icon>
-          <ion-button fill="clear" (click)="this.browseTo(media.link)" class="ux-link-xs">{{ media.text }}</ion-button>
+          <ion-button fill="clear" name="link_to_social_media" (click)="this.browseTo(media.link)" class="ux-link-xs">{{
+            media.text
+          }}</ion-button>
         </div>
       </div>
     </div>`,
@@ -64,11 +65,9 @@ export class CauseInfoComponent implements OnInit {
 
   setType() {
     this.badge = `donations.causes.types.${this.data.type}`;
-    console.log(this.badge);
   }
 
   async browseTo(link) {
     await this.browserService.open({ url: link });
   }
-
 }
