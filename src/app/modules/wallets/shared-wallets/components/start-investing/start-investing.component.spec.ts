@@ -40,13 +40,13 @@ describe('StartInvestingComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should go to Coming Soon Page when user clicks Start Investing Button', () => {
-    fixture.debugElement.query(By.css('ion-button[name="Start Investing Button"]')).nativeElement.click();
+  it('should go to Coming Soon Page when user clicks ux_go_to_invest button', () => {
+    fixture.debugElement.query(By.css('ion-button[name="ux_go_to_invest"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/investments']);
   });
 
-  it('should call trackEvent on trackService when Start Investing Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Start Investing Button');
+  it('should call trackEvent on trackService when ux_go_to_invest button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_go_to_invest');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
