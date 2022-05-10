@@ -48,7 +48,7 @@ export class ObjetiveCardComponent implements OnInit {
   @Input() icon: string;
   @Input() name: string;
   @Input() category: string;
-  @Input() necessaryAmount: string;
+  @Input() necessaryAmount: number;
   @Input() edit = true;
 
   constructor(private navController: NavController) {}

@@ -124,7 +124,7 @@ export class HomePage implements OnInit {
   icon: string;
   category: string;
   name: string;
-  necessaryAmount: string;
+  necessaryAmount: number;
   private notificationQtySubscription: Subscription;
   private notificationQtySubject = new Subject();
   private timerSubscription: Subscription;

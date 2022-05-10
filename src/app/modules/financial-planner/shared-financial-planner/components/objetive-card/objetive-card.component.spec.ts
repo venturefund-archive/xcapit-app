@@ -12,7 +12,7 @@ const dataTest = {
   expenses: 700,
   income: 1000,
   name: 'Auto',
-  necessaryAmount: '2500',
+  necessaryAmount: 2500,
   icon:'assets/img/financial-planner/categories/purchases.svg'
 };
 
