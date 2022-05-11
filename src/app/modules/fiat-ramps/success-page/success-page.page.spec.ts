@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 
 
-fdescribe('SuccessPagePage', () => {
+describe('SuccessPagePage', () => {
   let component: SuccessPagePage;
   let fixture: ComponentFixture<SuccessPagePage>;
   

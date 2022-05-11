@@ -38,8 +38,6 @@ import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-c
         >
         </app-transfer-confirm-card>
       </div>
-      <!--   TODO: Borrar en en.json la diferenciacion entre confirm.buy y confirm.sell (no vamos a trabajar la venta por ahora), debe quedar igual que es.json pero traducido -->
-      <!--   TODO: Revisar los tests -->
       <div class="cp__disclaimer ux-font-text-xxs">
         {{'fiat_ramps.confirm.disclaimer' | translate}}
       </div>
