@@ -18,6 +18,7 @@ import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/ser
           fill="clear"
           [id]="this.category.name"
           appTrackClick
+          [attr.name]='this.category.buttonName'
           (click)="this.goToRoute(this.category)"
           >{{ this.category.category_title | translate }}</ion-button
         >
@@ -29,6 +30,7 @@ import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/ser
           [id]="item.name"
           color="neutral90"
           appTrackClick
+          [attr.name]='item.buttonName'
           (click)="this.goToRoute(item)"
           >{{ item.text | translate }}</ion-button
         >

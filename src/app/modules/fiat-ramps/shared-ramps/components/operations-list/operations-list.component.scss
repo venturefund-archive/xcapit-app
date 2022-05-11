@@ -1,0 +1,21 @@
+:host {
+  ion-card-header {
+    padding: 16px 16px 12px;
+  }
+
+  ion-card-header.with-line {
+    border-bottom: 0.5px solid var(--ion-color-neutral10);
+  }
+
+  ion-card-content {
+    padding: 0 16px;
+
+    .no-operations-text {
+      display: block;
+      width: 100%;
+      text-align: center;
+      color: var(--ion-color-primary);
+      padding-bottom: 8px;
+    }
+  }
+}

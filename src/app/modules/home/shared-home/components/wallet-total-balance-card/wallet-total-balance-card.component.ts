@@ -21,11 +21,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
         <div class="wbc__content_balance__body">
           <img src="assets/ux-icons/ux-wallet-circle-lightinfo.svg" />
           <div class="ux-font-text-xl wbc__content_balance__body__balance">
-            {{
-              (this.totalBalanceWallet ? this.totalBalanceWallet : '0.00')
-                | number: '1.2-2'
-                | hideText: this.hideFundText
-            }}
+            {{ this.totalBalanceWallet ?? '0.00' | number: '1.2-2' | hideText: this.hideFundText }}
             USD
             <div class="ux-font-text-xxs wbc__content_balance__body__description">
               {{ 'home.home_page.want_my_wallet.description' | translate }}
@@ -37,7 +33,13 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
           </a>
         </div>
       </div>
-      <div [ngClass]="{ walletArrow: this.walletExist }" class="wbc__arrow" name="ux_create_go_to_home_wallet" (click)="this.goToHomeWallet()" appTrackClick>
+      <div
+        [ngClass]="{ walletArrow: this.walletExist }"
+        class="wbc__arrow"
+        name="ux_create_go_to_home_wallet"
+        (click)="this.goToHomeWallet()"
+        appTrackClick
+      >
         <ion-icon name="chevron-forward-outline"></ion-icon>
       </div>
     </div>

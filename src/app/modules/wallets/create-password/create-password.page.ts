@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
@@ -14,7 +13,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-password',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">
@@ -61,15 +59,28 @@ import { TranslateService } from '@ngx-translate/core';
         <div name="Create Password Form Buttons" class="ux_footer">
           <div class="button">
             <ion-button
+            *ngIf="this.mode !== 'import'"
               class="ux_button"
               appTrackClick
+              [disabled]="!this.createPasswordForm.valid"
               name="ux_create_submit_wallet_password"
               type="submit"
               color="secondary"
               size="large"
-              [disabled]="this.submitButtonService.isDisabled | async"
             >
-              {{ 'wallets.create_password.finish_button' | translate }}
+              {{ 'wallets.create_password.finish_button_create' | translate }}
+            </ion-button>
+            <ion-button
+            *ngIf="this.mode === 'import'"
+              class="ux_button"
+              appTrackClick
+              [disabled]="!this.createPasswordForm.valid"
+              name="ux_import_submit_wallet_password"
+              type="submit"
+              color="secondary"
+              size="large"
+            >
+              {{ 'wallets.create_password.finish_button_import' | translate }}
             </ion-button>
           </div>
         </div>
@@ -103,10 +114,10 @@ export class CreatePasswordPage implements OnInit {
   passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
 
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
+
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public submitButtonService: SubmitButtonService,
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService,
     private loadingService: LoadingService,

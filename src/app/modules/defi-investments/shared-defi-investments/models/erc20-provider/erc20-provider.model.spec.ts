@@ -1,6 +1,6 @@
 import { Provider } from '@ethersproject/abstract-provider';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
-import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from '../erc20-provider/erc20-provider.model';
 
 const coin = {
   id: 5,
@@ -17,9 +17,9 @@ const coin = {
 } as Coin;
 
 describe('ERC20Provider', () => {
-  let erc20Provider: ERC20Provider;
+  let erc20Provider: DefaultERC20Provider;
   beforeEach(() => {
-    erc20Provider = new ERC20Provider(coin);
+    erc20Provider = new DefaultERC20Provider(coin);
   });
 
   it('should create', () => {

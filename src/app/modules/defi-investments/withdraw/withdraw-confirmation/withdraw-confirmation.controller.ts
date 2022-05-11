@@ -5,7 +5,7 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
-import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { FormattedFee } from '../../shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { GasFeeOf } from '../../shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
 import { TwoPiContract } from '../../shared-defi-investments/models/two-pi-contract/two-pi-contract.model';
@@ -30,14 +30,14 @@ export class WithdrawConfirmationController {
 
   async withdrawFeeContract(
     investmentProduct: InvestmentProduct,
-    erc20Provider: ERC20Provider,
+    erc20Provider: DefaultERC20Provider,
     signer: Signer
   ): Promise<TwoPiContract> {
     return new TwoPiContract(investmentProduct.contractAddress(), erc20Provider, signer);
   }
 
-  createErc20Provider(token: Coin): ERC20Provider {
-    return new ERC20Provider(token);
+  createErc20Provider(token: Coin): DefaultERC20Provider {
+    return new DefaultERC20Provider(token);
   }
 
   investment(investmentProduct: InvestmentProduct, signer: Signer, apiWalletService: ApiWalletService): Investment {

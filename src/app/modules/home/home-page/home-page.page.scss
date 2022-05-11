@@ -36,4 +36,12 @@
     bottom: 3px;
     border: 1px solid #ff9100;
   }
+
+  .financial-planner-card {
+    margin-top: 8px;
+
+    .title {
+      border-bottom: 1px solid var(--ion-color-neutral50);
+    }
+  }
 }

@@ -7,7 +7,6 @@ import { WalletTransactionCardItemComponent } from './components/wallet-transact
 import { WalletTransactionCardComponent } from './components/wallet-transaction-card/wallet-transaction-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
 import { AddressInputCardComponent } from './components/address-input-card/address-input-card.component';
-import { SendAmountInputCardComponent } from './components/send-amount-input-card/send-amount-input-card.component';
 import { TransactionSummaryCardComponent } from './components/transaction-summary-card/transaction-summary-card.component';
 import { WalletPasswordComponent } from './components/wallet-password/wallet-password.component';
 import { WalletSubheaderButtonsComponent } from './components/wallet-subheader-buttons/wallet-subheader-buttons.component';
@@ -19,7 +18,6 @@ import { StartInvestingComponent } from './components/start-investing/start-inve
 import { WalletConnectQrScanComponent } from './components/wallet-connect-qr-scan/wallet-connect-qr-scan.component';
 import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleton/nft-card-skeleton.component';
 import { InformativeCardComponent } from './components/informative-card/informative-card.component';
-import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-network.pipe';
 import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.component';
 
 @NgModule({
@@ -33,7 +31,6 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
     AddressInputCardComponent,
-    SendAmountInputCardComponent,
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,
@@ -44,7 +41,6 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
     StartInvestingComponent,
     WalletConnectQrScanComponent,
     InformativeCardComponent,
-    FormattedNetworkPipe,
   ],
   imports: [SharedModule],
   exports: [
@@ -58,7 +54,6 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
     AddressInputCardComponent,
-    SendAmountInputCardComponent,
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,
@@ -69,7 +64,6 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
     StartInvestingComponent,
     WalletConnectQrScanComponent,
     InformativeCardComponent,
-    FormattedNetworkPipe,
   ],
 })
 export class SharedWalletsModule {}

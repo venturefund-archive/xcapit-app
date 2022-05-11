@@ -76,6 +76,12 @@ import { FilterTabComponent } from '../modules/defi-investments/shared-defi-inve
 import { SelectProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/select-provider-card/select-provider-card.component';
 import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/provider-card/provider-card/provider-card.component';
 import { TransactionFeeComponent } from '../modules/defi-investments/shared-defi-investments/components/transaction-fee/transaction-fee.component';
+import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
+import { ObjetiveCardComponent } from '../modules/financial-planner/shared-financial-planner/components/objetive-card/objetive-card.component';
+import { NumberInputDirective } from './directives/number-input/number-input.directive';
+import { CauseComponent } from '../modules/donations/shared-donations/components/cause/cause.component';
+import { FormattedNetworkPipe } from '../modules/wallets/shared-wallets/pipes/formatted-network-name/formatted-network.pipe';
+import { CauseInfoComponent } from '../modules/donations/shared-donations/components/description-cause/cause-info.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +104,7 @@ import { TransactionFeeComponent } from '../modules/defi-investments/shared-defi
     ItemQuoteComponent,
     TokenSelectionListComponent,
     TransactionFeeComponent,
+    AmountInputCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -143,16 +150,22 @@ import { TransactionFeeComponent } from '../modules/defi-investments/shared-defi
     CoinSelectorComponent,
     SelectProviderCardComponent,
     ProviderCardComponent,
+    CauseComponent,
+    ObjetiveCardComponent,
+    CauseInfoComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
-    SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
     SplitStringPipe,
+    SuitePipe,
+    FormattedNetworkPipe,
+    //Directives
+    SelectStyleDirective,
+    NumberInputDirective,
     ButtonSpinnerDirective,
     FeatureFlagDirective,
-    SuitePipe,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
@@ -183,6 +196,7 @@ import { TransactionFeeComponent } from '../modules/defi-investments/shared-defi
     TokenSelectionListComponent,
     CoinSelectorComponent,
     TransactionFeeComponent,
+    AmountInputCardComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -225,16 +239,22 @@ import { TransactionFeeComponent } from '../modules/defi-investments/shared-defi
     ToastWithButtonsComponent,
     SelectProviderCardComponent,
     ProviderCardComponent,
+    CauseComponent,
+    ObjetiveCardComponent,
+    CauseInfoComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
-    SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
-    ButtonSpinnerDirective,
     SplitStringPipe,
-    FeatureFlagDirective,
     SuitePipe,
+    FormattedNetworkPipe,
+    //Directives
+    ButtonSpinnerDirective,
+    NumberInputDirective,
+    FeatureFlagDirective,
+    SelectStyleDirective,
   ],
 })
 export class SharedModule {}

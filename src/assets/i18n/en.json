@@ -975,6 +975,7 @@
       "change_pass": "Password Change",
       "category_security_wallet": "Security Xcapit wallet",
       "remove_wallet": "Remove Wallet",
+      "export_private_key": "Private key",
       "security_phrase": "Security phrase",
       "category_preferences": "Preferences",
       "push_notifications": "Push notifications",
@@ -1491,11 +1492,11 @@
       "placeholder_1": "Eg: Trip to Miami",
       "placeholder_2": "Eg: 1000",
       "categories": {
-        "category_1": "Other",
-        "category_2": "Travel",
-        "category_3": "Purchases",
-        "category_4": "Investment",
-        "category_5": "Gift"
+        "other": "Other",
+        "travel": "Travel",
+        "purchases": "Purchases",
+        "invest": "Investment",
+        "gift": "Gift"
       },
 
       "subtitle_2": "Money needed",
@@ -1513,7 +1514,84 @@
       "label": "USD",
       "button": "Continue",
       "of": "of",
-      "placeholder": "Eg: 1000"
+      "placeholder": "Eg: 1000",
+      "toast_text": "To move forward with your objetive, your income should exceed your expenses.",
+      "success_title": "Congratulations!",
+      "success_subtitle": "You have enough money to meet your goal.",
+      "success_button": "Create another objective"
+    },
+    "result_objetive": {
+      "saving": "Save",
+      "saving_description": "Depending on your monthly income and expenses, you could save {{saving}} USD per month. You would reach your objetive in {{weeks}} weeks.",
+      "invest": "Invest",
+      "invest_description": "If you invest monthly in DeFi, you will earn returns. Thus, you would achieve your objetive in:",
+      "disclaimer": "*These results are a simulation only, and may vary from day to day. They do not include compound interest, and are not financial advice.",
+      "weeks": "weeks*",
+      "annual": "% Annual",
+      "start_invest_button": "Start to invest",
+      "back_button": "Back to the start"
+    },
+    "shared_financial_planner": {
+      "objetive_card": {
+        "objetive": "My objective:",
+        "categories": {
+          "other": "Other",
+          "travel": "Travel",
+          "purchases": "Purchases",
+          "invest": "Investment",
+          "gift": "Gift"
+        }
+      }
+    }
+  },
+  "donations": {
+    "information": {
+      "header": "Donations",
+      "title": "Cryptos for a good cause!",
+      "item_1": "Discover new causes where you can collaborate with your donation.",
+      "item_2": "Choose by category, and become an agent of change.",
+      "button": "Let's start"
+    },
+    "causes":{
+      "header":"Donations",
+      "title":"Choose your cause",
+      "types":{
+        "humanitary":"Humanitarian aid",
+        "environment":"Environment",
+        "human_rights":"Human Rights"
+      }
+    },
+    "description_cause": {
+      "header": "Donations",
+      "button": "Donate",
+      "info": {
+        "global": "Global",
+        "receive": "Receive",
+        "unhcr": {
+          "title_1": "Donate to provide assistance to the affected populations in Ukraine and in the countries of the region.",
+          "title_2": "About the ONU Refugee Agency (UNHCR)",
+          "title_3": "Learn more about UNHCR",
+          "description": "It seeks to ensure that refugees have access to: protection from harm, shelter, food, water, blankets, medical supplies, the ability to go to school and, most importantly, hope for a future."
+        },
+        "water": {
+          "title_1": "Donate to help train vulnerable people on water care, and provide access to microloans for water and sanitation solutions at home.",
+          "title_2": "About Water.org",
+          "title_3": "Learn more about Water.org",
+          "description": "The water crisis negatively impacts the health and livelihoods of more than one-third of the world's population. Water.org aims to transform this reality by working to bring water and sanitation to the world."
+        },
+        "rainforest_rescue": {
+          "title_1": "Donate to protect and restore the world's longest-lived rainforest, the Daintree.",
+          "title_2": "About Rainforest Rescue",
+          "title_3": "Learn more about Rainforest Rescue",
+          "description": "Its projects seek to raise awareness and conserve the biodiversity and cultural heritage of the rainforest through planting, maintenance and restoration programs."
+        },
+        "free_the_girls": {
+          "title_1": "Its projects seek to raise awareness and conserve the biodiversity and cultural heritage of the rainforest through planting, maintenance and restoration programs.",
+          "title_2": "About Free the Girls",
+          "title_3": "Learn more about Free the Girls",
+          "description": "It helps these women become entrepreneurs by providing them with the tools to market in local second-hand clothing markets in their communities."
+        }
+      }
     }
   },
   "referrals": {
@@ -1703,7 +1781,7 @@
       "description": "Before creating your wallet, verify the essential permissions to start",
       "local_stored_keys_checkbox": "I understand that my funds are kept safely within this device, and not by a company.",
       "recovery_phrase_checkbox": "I understand that if this application is moved to another device or removed, my funds can only be recovered with the recovery phrase.",
-      "terms_of_use_checkbox": "I have read, understand and accept the <a class='ux-link-xs' href='https://xcapit.com/tyc/'>terms of use</a>.",
+      "terms_of_use_checkbox": "I have read, understand and accept the <a class='ux-link-xs' href='https://xcapit.com/terms-and-conditions/'>Terms of Use</a> y <a class='ux-link-xs' href='https://xcapit.com/privacy-policy/'>Privacy Policy.</a>",
       "terms_of_use_button": "See terms of use",
       "submit_button": "Confirm and accept",
       "error_did_not_accept": "You need to check all the options to continue."
@@ -1789,7 +1867,8 @@
       "description": "The password is used to make your wallet more secure, you can choose the same one that you use for the Xcapit app. In the event that you forget to retrieve it, recover your wallet with the 12 words.",
       "password": "Password",
       "repeat_password": "Confirm Password",
-      "finish_button": "Finish and create wallet",
+      "finish_button_create": "Finish and create wallet",
+      "finish_button_import": "Finish and import wallet",
       "loading": {
         "title": "Time!",
         "subtitle": {
@@ -1856,13 +1935,6 @@
         "address_input": {
           "title": "Target wallet",
           "help_text": "{{currency}} address or alias"
-        },
-        "amount_input": {
-          "title": "Amount to send",
-          "fee_title": "Transaction fee*",
-          "fee_text": "*This amount is an estimate and can vary depending on the moment you complete the transaction.",
-          "wrong_address": "We could not estimate the transaction fee. Invalid address",
-          "cant_estimate_fee": "We could not estimate the transaction fee. You might not have enough funds"
         },
         "alert": {
           "title": "Attention",
@@ -2099,6 +2171,18 @@
       "dapp_disconnection": {
         "message": "The connection to {{dapp}} was lost. This can happen if you disconnect manually or if the connection is unstable."
       }
+    },
+    "export_private_key": {
+      "header": "Private key",
+      "title": "Private key",
+      "content": "This key allows you to export your wallet from each network in a simple way.",
+      "select_title": "Choose a network",
+      "select_placeholder": "Select a network",
+      "address": "Address:",
+      "private_key": "Private key:",
+      "copy_button": "Copy private key",
+      "success_toast": "Your private key was successfully copied to the clipboard.",
+      "error_toast": "The password you entered is incorrect"
     }
   },
   "apikeys": {
@@ -2343,15 +2427,14 @@
   },
   "fiat_ramps": {
     "operations_list": {
-      "header": "Buy cryptocurrencies",
       "title": "My operations",
-      "id": "ID",
-      "operation": "Operation",
+      "operation": "Buy",
       "amount": "Amount",
-      "provider": "Provider",
-      "status": "Status",
       "date": "Date",
-      "new": "New"
+      "status": "Status",
+      "no_operations_message": "You still do not have any purchases made, here you will be able to see the list of your purchases",
+      "button_show_less": "Show less",
+      "button_show_more": "Show more"
     },
     "fiat_success": {
       "textPrimary": "Operation created!",
@@ -2413,23 +2496,11 @@
       "my_operations": "See my operations",
       "has_voucher": "Voucher has been uploaded"
     },
-
-    "operationStatus": {
-      "kripton": {
-        "pending_by_validate": "Pending",
-        "request": "Request",
-        "received": "Received",
-        "wait": "Waiting",
-        "complete": "Complete",
-        "cancel": "Cancelled"
-      },
-      "paxful": {
-        "SUCCESS": "Complete",
-        "EXPIRED": "Expired",
-        "CANCELLED": "Cancelled"
-      }
+    "operation_status": {
+      "deposited": "Deposited",
+      "in_progress": "In progress",
+      "canceled": "Canceled"
     },
-
     "ramp_initial": {
       "header": "Buy cryptocurrencies",
       "title": "New operation",
@@ -2553,6 +2624,29 @@
     "token_selection": {
       "header": "Buy crypto",
       "subtitle": "Select the currency you wish to purchase"
+    },
+    "countries_list": {
+      "mexico": "México",
+      "guatemala": "Guatemala",
+      "honduras": "Honduras",
+      "costa_rica": "Costa Rica",
+      "colombia": "Colombia",
+      "argentina": "Argentina",
+      "australia": "Australia",
+      "el_salvador": "El Salvador",
+      "guyana": "Guyana",
+      "paraguay": "Paraguay",
+      "peru": "Peru",
+      "portugal": "Portugal",
+      "spain": "Spain",
+      "uruguay": "Uruguay",
+      "united_states": "USA (United States of America)",
+      "venezuela": "Venezuela"
+    },
+    "shared": {
+      "fixed_footer": {
+        "text": "You are interacting with Kriptonmarket"
+      }
     }
   },
   "paxful": {
@@ -2587,7 +2681,8 @@
     },
     "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
     "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
-    "button_text": "Continue"
+    "button_text": "Continue",
+    "moonpay_operations": "View Moonpay purchases on the web"
   },
   "payment": {
     "methods": {
@@ -2682,7 +2777,8 @@
       },
       "financial_planner_card": {
         "title": "Organize your finances",
-        "description": "Plan your goals, and discover the best way to achieve them"
+        "description": "Plan your goals, and discover the best way to achieve them",
+        "my_plan": "My plan"
       }
     }
   },
@@ -2735,8 +2831,8 @@
     },
     "profiles": {
       "conservative": "Conservative",
-      "medium": "Medium",
-      "risky": "Risky"
+      "medium": "Moderate",
+      "risky": "Aggressive"
     },
     "about_investor_profile": {
       "of": "of",

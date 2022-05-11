@@ -62,7 +62,8 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
               class="ux_button"
               (click)="this.handleSubmit()"
               appTrackClick
-              name="Import Wallet"
+              [disabled]="!this.form.valid"
+              name="ux_import_import"
               type="submit"
               color="secondary"
               size="large"

@@ -9,7 +9,7 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
         <ion-tab-button
           tab="home"
           appTrackClick
-          name="Tab Home"
+          name="ux_nav_go_to_home"
           layout="{{ this.selectedTab === 'home' ? 'icon-start' : 'label-hide' }}"
         >
           <ion-icon src="assets/img/tabs/Home.svg"></ion-icon>
@@ -19,7 +19,7 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
         <ion-tab-button
           tab="wallets"
           appTrackClick
-          name="Tab Wallet"
+          name="ux_nav_go_to_wallet"
           (click)="this.goToWallet()"
           layout="{{ this.selectedTab === 'wallets' ? 'icon-start' : 'label-hide' }}"
         >
@@ -31,7 +31,7 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
           tab="investments"
           appTrackClick
           (click)="this.goToInvestments()"
-          name="Tab Investments"
+          name="ux_nav_go_to_invest"
           class="investments"
           layout="{{ this.selectedTab === 'investments' ? 'icon-start' : 'label-hide' }}"
         >

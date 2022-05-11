@@ -468,7 +468,7 @@ describe('SelectCoinsWalletPage', () => {
     });
   });
 
-  it('should set all values to true when Toggle All Coins clicked and all values are false', async () => {
+  it('should set all values to true when ux_create_all clicked and all values are false', async () => {
     activatedRouteSpy.snapshot = {
       paramMap: convertToParamMap({
         mode: 'import',
@@ -478,12 +478,12 @@ describe('SelectCoinsWalletPage', () => {
     component.form.patchValue(formData.invalid);
     component.setAllSelected();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-toggle[name="ux_create_all"]')).nativeElement.click();
     await fixture.whenStable();
     expect(component.form.value).toEqual(formData.allTrue);
   });
 
-  it('should set all values to true when Toggle All Coins clicked and some values are true', async () => {
+  it('should set all values to true when ux_create_all clicked and some values are true', async () => {
     activatedRouteSpy.snapshot = {
       paramMap: convertToParamMap({
         mode: 'import',
@@ -493,12 +493,12 @@ describe('SelectCoinsWalletPage', () => {
     component.form.patchValue(formData.valid);
     component.setAllSelected();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-toggle[name="ux_create_all"]')).nativeElement.click();
     await fixture.whenStable();
     expect(component.form.value).toEqual(formData.allTrue);
   });
 
-  it('should set all values to false when Toggle All Coins clicked and all values are true', async () => {
+  it('should set all values to false when ux_create_all clicked and all values are true', async () => {
     activatedRouteSpy.snapshot = {
       paramMap: convertToParamMap({
         mode: 'import',
@@ -508,7 +508,7 @@ describe('SelectCoinsWalletPage', () => {
     component.form.patchValue(formData.allTrue);
     component.setAllSelected();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-toggle[name="ux_create_all"]')).nativeElement.click();
     await fixture.whenStable();
     expect(component.form.value).toEqual(formData.invalid);
   });
@@ -525,7 +525,7 @@ describe('SelectCoinsWalletPage', () => {
     fixture.debugElement.queryAll(By.css('app-items-coin-group'))[0].triggerEventHandler('changed', { detail: { checked: true, value: TEST_ERC20_COINS[0] } });
     fixture.detectChanges();
     await fixture.whenStable();
-    const toggle = fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]'));
+    const toggle = fixture.debugElement.query(By.css('ion-toggle[name="ux_create_all"]'));
     expect(toggle.nativeElement.checked).toBeTrue();
   })
 
@@ -541,7 +541,7 @@ describe('SelectCoinsWalletPage', () => {
     fixture.debugElement.queryAll(By.css('app-items-coin-group'))[0].triggerEventHandler('changed', { detail: { checked: true, value: TEST_ERC20_COINS[0] } });
     fixture.detectChanges();
     await fixture.whenStable();
-    const toggle = fixture.debugElement.query(By.css('ion-toggle[name="Toggle All Coins"]'));
+    const toggle = fixture.debugElement.query(By.css('ion-toggle[name="ux_create_all"]'));
     expect(toggle.nativeElement.checked).toBeFalse();
   })
 });

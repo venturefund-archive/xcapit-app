@@ -26,7 +26,7 @@ describe('NativeTokenTransfer', () => {
       value: Promise.resolve({ gasPrice: '100000000' }),
     });
 
-    transfer = new NativeTokenSend(zeroAddress, zeroAddress, '1.0', nativeTokenSpy, ethCoin, false, networkConfigSpy);
+    transfer = new NativeTokenSend(zeroAddress, '1.0', nativeTokenSpy, ethCoin, false, networkConfigSpy);
   });
 
   it('should create', () => {
@@ -38,14 +38,8 @@ describe('NativeTokenTransfer', () => {
     expect(nativeTokenSpy.transfer).toHaveBeenCalledOnceWith(zeroAddress, parseEther('1'), { gasPrice: '100000000' });
   });
 
-  it('should call token transferFee on sendEstimateGas', async () => {
-    await transfer.sendEstimateGas();
-    expect(nativeTokenSpy.transferFee).toHaveBeenCalledOnceWith(zeroAddress, parseEther('1'));
-  });
-
   it('should create an instance of NativeTokenSend with no wallet on create', () => {
     const send = NativeTokenSend.create(
-      zeroAddress,
       zeroAddress,
       '1.0',
       ethCoin,
@@ -58,25 +52,8 @@ describe('NativeTokenTransfer', () => {
 
   it('should create an instance of NativeTokenSend with wallet on create', () => {
     const wallet = Wallet.createRandom();
-    const send = NativeTokenSend.create(zeroAddress, zeroAddress, '1.0', ethCoin, wallet, networkConfigSpy);
+    const send = NativeTokenSend.create(zeroAddress, '1.0', ethCoin, wallet, networkConfigSpy);
     expect(send).toBeInstanceOf(NativeTokenSend);
     expect(send.canSignTx).toBeTrue();
-  });
-
-  it('should call getGasPrice on getGasPrice', async () => {
-    await transfer.getGasPrice();
-    expect(nativeTokenSpy.getGasPrice).toHaveBeenCalledTimes(1);
-  });
-
-  it('should set and return fee estimate on sendEstimateFee', async () => {
-    const fee = await transfer.sendEstimateFee();
-    expect(fee).toEqual(BigNumber.from(6));
-    expect(transfer.fee).toEqual(fee);
-  });
-
-  it('should return parsed fee on parseFee', () => {
-    spyOnProperty(transfer, 'fee').and.returnValue(BigNumber.from(6));
-    const parsedFee = transfer.formatFee();
-    expect(parsedFee).toEqual('0.000000000000000006');
   });
 });

@@ -36,7 +36,7 @@ export class TrackClickDirective implements ITrackClickDirective {
       });
     }
   }
-
+  
   private getEventLabel(): string {
     return this.dataToTrack.eventLabel || (this.el.nativeElement as HTMLElement).getAttribute('name');
   }

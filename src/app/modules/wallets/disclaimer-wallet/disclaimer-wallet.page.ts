@@ -42,18 +42,18 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
                   <ion-label class="ux_checkbox_container__item__label checkbox__label">
                     {{ 'wallets.disclaimer.local_stored_keys_checkbox' | translate }}
                   </ion-label>
-                  <ion-checkbox formControlName="localStoredKeysCheckbox" slot="start"></ion-checkbox>
+                  <ion-checkbox name="ux_create_disclaimer_check_button_0" formControlName="localStoredKeysCheckbox" slot="start"></ion-checkbox>
                 </ion-item>
               </div>
             </ion-item>
 
-            <ion-item class="ion-no-padding ion-no-margin checkbox">
+            <ion-item name="" class="ion-no-padding ion-no-margin checkbox">
               <div class="ux_checkbox_container">
                 <ion-item class="ux_checkbox_container__item ux-font-text-xs">
                   <ion-label class="ux_checkbox_container__item__label checkbox__label">
                     {{ 'wallets.disclaimer.recovery_phrase_checkbox' | translate }}
                   </ion-label>
-                  <ion-checkbox formControlName="recoveryPhraseCheckbox" slot="start"></ion-checkbox>
+                  <ion-checkbox name="ux_create_disclaimer_check_button_1" formControlName="recoveryPhraseCheckbox" slot="start"></ion-checkbox>
                 </ion-item>
               </div>
             </ion-item>
@@ -61,25 +61,33 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
             <ion-item class="ion-no-padding ion-no-margin checkbox last">
               <div class="ux_checkbox_container">
                 <ion-item class="ux_checkbox_container__item ux-font-text-xs">
-                  <ion-label class="ux_checkbox_container__item__label checkbox__label lbl" [innerHTML]="this.textLink | translate">
+                  <ion-label
+                    class="ux_checkbox_container__item__label checkbox__label lbl"
+                    [innerHTML]="this.textLink | translate"
+                  >
                   </ion-label>
-                  <ion-checkbox formControlName="termsOfUseCheckbox" slot="start"></ion-checkbox>
+                  <ion-checkbox name="ux_create_disclaimer_check_button_2" formControlName="termsOfUseCheckbox" slot="start"></ion-checkbox>
                 </ion-item>
               </div>
             </ion-item>
           </div>
-          <app-wallet-advice [logo]="'ux-device'" [text]="'wallets.disclaimer.wallet_term_text'" [link]="'wallets.disclaimer.wallet_term_link'"></app-wallet-advice>
+          <app-wallet-advice
+            [logo]="'ux-device'"
+            [text]="'wallets.disclaimer.wallet_term_text'"
+            [link]="'wallets.disclaimer.wallet_term_link'"
+          ></app-wallet-advice>
         </div>
         <div name="Disclaimer Form Buttons" class="ux_footer">
           <div class="button">
             <ion-button
               class="ux_button"
               appTrackClick
+              [dataToTrack]="{ eventLabel: this.trackClickEventName }"
+              [disabled]="!this.disclaimerForm.valid"
               name="ux_create_submit"
               type="submit"
               color="secondary"
               size="large"
-              [disabled]="this.submitButtonService.isDisabled | async"
             >
               {{ 'wallets.disclaimer.submit_button' | translate }}
             </ion-button>
@@ -100,12 +108,16 @@ export class DisclaimerWalletPage implements AfterViewInit {
     recoveryPhraseCheckbox: [false, [Validators.requiredTrue]],
     termsOfUseCheckbox: [false, [Validators.requiredTrue]],
   });
+  trackClickEventName: string;
+  
+  private get isImporting(): boolean {
+    return this.mode === 'import';
+  }
 
   constructor(
     private elementRef: ElementRef,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public submitButtonService: SubmitButtonService,
     private modalController: ModalController,
     private navController: NavController,
     private translate: TranslateService,
@@ -121,13 +133,14 @@ export class DisclaimerWalletPage implements AfterViewInit {
   }
 
   handleAnchorClick(event: Event) {
-      event.preventDefault();
-      const anchor = event.target as HTMLAnchorElement;
-      this.navigateToLink(anchor.getAttribute('href'));
+    event.preventDefault();
+    const anchor = event.target as HTMLAnchorElement;
+    this.navigateToLink(anchor.getAttribute('href'));
   }
 
   ngOnInit() {
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.trackClickEventName = this.isImporting ? 'ux_import_submit' : 'ux_create_submit';
   }
 
   handleSubmit() {
@@ -139,7 +152,7 @@ export class DisclaimerWalletPage implements AfterViewInit {
     }
   }
   navigateByMode() {
-    const url = this.mode === 'import' ? 'wallets/recovery' : 'wallets/select-coins';
+    const url = this.isImporting ? 'wallets/recovery' : 'wallets/select-coins';
     this.navController.navigateForward([url]);
   }
 

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ObjetiveDataService } from '../shared-financial-planner/services/objetive-data.service';
 
@@ -10,10 +13,10 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/financial-planner/information"></ion-back-button>
+          <ion-back-button class="content__back" defaultHref="/financial-planner/information"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-start">{{ 'financial_planner.planner_information.header' | translate }}</ion-title>
-        <ion-label color="white" class="ux-font-text-xs step_counter" slot="end"
+        <ion-title class="ion-text-start">{{ 'financial_planner.objetive_info.header' | translate }}</ion-title>
+        <ion-label class="ux-font-text-xs content__step_counter" slot="end"
           >1 {{ 'financial_planner.new_objetive.of' | translate }} 2</ion-label
         >
       </ion-toolbar>
@@ -84,7 +87,7 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
               class="ux_button"
               color="secondary"
               expand="block"
-              [disabled]="!this.form.valid"
+              [disabled]="this.disabled || !this.form.valid"
               (click)="this.goToObjetiveInfo()"
             >
               {{ 'financial_planner.new_objetive.button' | translate }}
@@ -101,20 +104,34 @@ export class NewObjetivePage implements OnInit {
     income: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     expenses: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
+  disabled: boolean;
+
   constructor(
     private formBuilder: FormBuilder,
     private objetiveData: ObjetiveDataService,
-    private navController: NavController
+    private navController: NavController,
+    private toastService: ToastService,
+    private appStorage: AppStorageService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
     this.showData();
+    this.form.get('income').valueChanges.subscribe(() => {
+      this.disabled = false;
+    });
+    this.form.get('expenses').valueChanges.subscribe(() => {
+      this.disabled = false;
+    });
   }
 
   goToObjetiveInfo() {
-    if (this.form.valid) {
+    if (this.form.valid && !this.checkValidData()) {
       this.saveObjetiveData();
       this.navController.navigateForward('/financial-planner/objetive-info');
+    } else {
+      this.disabled = true;
+      this.showToast();
     }
   }
 
@@ -123,7 +140,18 @@ export class NewObjetivePage implements OnInit {
     this.objetiveData.expenses = this.form.value.expenses;
   }
 
-  showData() {
-    this.form.patchValue({ income: this.objetiveData.income, expenses: this.objetiveData.expenses });
+  async showData() {
+    const data = await this.appStorage.get('planner_data');
+    this.form.patchValue({ income: data?.income, expenses: data?.expenses });
+  }
+
+  checkValidData() {
+    if (this.form.value.income <= this.form.value.expenses) return true;
+  }
+
+  showToast() {
+    this.toastService.showWarningToast({
+      message: this.translate.instant('financial_planner.new_objetive.toast_text'),
+    });
   }
 }

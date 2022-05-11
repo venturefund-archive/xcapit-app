@@ -10,7 +10,7 @@ import { PROVIDERS } from '../../../shared-ramps/constants/providers';
       <div class="ux-card ion-padding">
         <div class="spc__select">
           <div class="spc__select__label-country">
-            <ion-text class="ux-font-title-xs">{{ 'fiat_ramps.select_provider.select_label' | translate }}</ion-text>
+            <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.select_provider.select_label' | translate }}</ion-text>
           </div>
           <div>
             <app-input-select
@@ -27,7 +27,7 @@ import { PROVIDERS } from '../../../shared-ramps/constants/providers';
         </div>
         <div>
           <div class="spc__select__label-provider">
-            <ion-text class="ux-font-title-xs">{{ 'fiat_ramps.select_provider.provider_label' | translate }}</ion-text>
+            <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.select_provider.provider_label' | translate }}</ion-text>
           </div>
           <ion-radio-group [formControlName]="this.controlNameProvider">
             <div *ngFor="let provider of providers">
@@ -89,8 +89,9 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   showProvider(country) {
+
     for (let provider of this.providers) {
-      const show = provider.countries.includes(country.value);
+      const show = provider.countries.includes(country.name);
       provider = Object.assign(provider, { showProvider: show });
     }
   }

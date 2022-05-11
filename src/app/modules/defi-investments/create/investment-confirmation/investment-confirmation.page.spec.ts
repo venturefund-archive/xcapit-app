@@ -21,7 +21,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { DynamicPrice } from '../../../../shared/models/dynamic-price/dynamic-price.model';
 import { of } from 'rxjs';
 import { ApiWalletService } from '../../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { ERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { Provider } from '@ethersproject/abstract-provider';
 import { ERC20Contract } from '../../shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
@@ -46,7 +46,7 @@ describe('InvestmentConfirmationPage', () => {
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let providerSpy: jasmine.SpyObj<Provider>;
-  let erc20ProviderSpy: jasmine.SpyObj<ERC20Provider>;
+  let erc20ProviderSpy: jasmine.SpyObj<DefaultERC20Provider>;
   let erc20ContractSpy: jasmine.SpyObj<ERC20Contract>;
   let createDynamicPriceSpy: jasmine.Spy<any>;
   let createErc20ProviderSpy: jasmine.Spy<any>;
@@ -175,7 +175,7 @@ describe('InvestmentConfirmationPage', () => {
     spyOn(component, 'investment').and.returnValue(investmentSpy);
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
     expect(storageSpy.set).toHaveBeenCalledOnceWith('_agreement_2PI_T&C', true);
@@ -187,7 +187,7 @@ describe('InvestmentConfirmationPage', () => {
     spyOn(component, 'investment').and.returnValue(investmentSpy);
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
     expect(storageSpy.set).not.toHaveBeenCalled();
@@ -201,7 +201,7 @@ describe('InvestmentConfirmationPage', () => {
     fakeModalController.modifyReturns({ data: undefined }, {});
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(walletEncryptionServiceSpy.getDecryptedWalletForCurrency).not.toHaveBeenCalled();
     expect(investmentSpy.deposit).not.toHaveBeenCalled();
@@ -211,7 +211,7 @@ describe('InvestmentConfirmationPage', () => {
     walletEncryptionServiceSpy.getDecryptedWalletForCurrency.and.rejectWith();
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).not.toHaveBeenCalled();
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
@@ -255,7 +255,7 @@ describe('InvestmentConfirmationPage', () => {
     walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(49));
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
   });
@@ -284,7 +284,7 @@ describe('InvestmentConfirmationPage', () => {
   it('should check agreements automatically when 2PI T&C agreement exists on cache', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]'));
     expect(component.form.valid).toBeTrue();
     expect(buttonEl.attributes['ng-reflect-disabled']).toEqual('false');
   });
@@ -293,7 +293,7 @@ describe('InvestmentConfirmationPage', () => {
     storageSpy.get.and.resolveTo(false);
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Confirm Investment"]'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]'));
     expect(component.form.valid).toBeFalse();
     expect(buttonEl.attributes['ng-reflect-disabled']).toEqual('true');
   });

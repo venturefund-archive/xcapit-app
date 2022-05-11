@@ -2,8 +2,8 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
 import { TwoPiInvestment } from './two-pi-investment.model';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
 import { BigNumber, Contract, Wallet, VoidSigner, Signer } from 'ethers';
-import { ERC20Token } from '../erc20-token/erc20-token.model';
-import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
+import { DefaultERC20Token } from '../erc20-token/default-erc20-token.model';
+import { DefaultERC20Provider } from '../erc20-provider/erc20-provider.model';
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
 import { TwoPiContract } from '../two-pi-contract/two-pi-contract.model';
 import { of } from 'rxjs';
@@ -15,20 +15,26 @@ const testAddress = '0x0001';
 describe('TwoPiInvestment', () => {
   let productSpy: jasmine.SpyObj<InvestmentProduct>;
   let wallet: Signer;
-  let erc20TokenSpy: jasmine.SpyObj<ERC20Token>;
-  let erc20ProviderSpy: jasmine.SpyObj<ERC20Provider>;
+  let erc20TokenSpy: jasmine.SpyObj<DefaultERC20Token>;
+  let erc20ProviderSpy: jasmine.SpyObj<DefaultERC20Provider>;
   let twoPiContractSpy: jasmine.SpyObj<TwoPiContract>;
   let contractSpy: jasmine.SpyObj<Contract>;
   let twoPiInvestment: TwoPiInvestment;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   beforeEach(() => {
-    contractSpy = jasmine.createSpyObj('Contract', {
-      deposit: Promise.resolve({} as TransactionResponse),
-      withdrawAll: Promise.resolve({} as TransactionResponse),
-      balanceOf: Promise.resolve(BigNumber.from('50000000')),
-      getPricePerFullShare: Promise.resolve(BigNumber.from('1000000')),
-      withdraw: Promise.resolve({} as TransactionResponse),
-    });
+    contractSpy = jasmine.createSpyObj(
+      'Contract',
+      {
+        deposit: Promise.resolve({} as TransactionResponse),
+        withdrawAll: Promise.resolve({} as TransactionResponse),
+        balanceOf: Promise.resolve(BigNumber.from('50000000')),
+        getPricePerFullShare: Promise.resolve(BigNumber.from('1000000')),
+        withdraw: Promise.resolve({} as TransactionResponse),
+      },
+      {
+        estimateGas: { deposit: () => Promise.resolve(BigNumber.from('100')) },
+      }
+    );
     productSpy = jasmine.createSpyObj('InvestmentProduct', {
       id: 1,
       token: { decimals: 6 },
@@ -41,6 +47,7 @@ describe('TwoPiInvestment', () => {
     );
     erc20TokenSpy = jasmine.createSpyObj('ERC20Token', {
       approve: Promise.resolve({ wait: () => Promise.resolve({} as TransactionReceipt) } as TransactionResponse),
+      allowance: Promise.resolve(BigNumber.from('50000000')),
     });
     erc20ProviderSpy = jasmine.createSpyObj('ERC20Provider', { value: {} });
     twoPiContractSpy = jasmine.createSpyObj('TwoPiContract', { value: contractSpy });
@@ -64,12 +71,20 @@ describe('TwoPiInvestment', () => {
     expect(TwoPiInvestment.create(productSpy, wallet, apiWalletServiceSpy)).toBeTruthy();
   });
 
+  it('should deposit specified amount on investment product contract without allowance', async () => {
+    const wei = BigNumber.from('60000000');
+    const gasPrice = BigNumber.from('100000000000');
+    await twoPiInvestment.deposit(60);
+    expect(erc20TokenSpy.approve).toHaveBeenCalledOnceWith(contractAddress, wei, gasPrice);
+    expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress, { gasPrice, gasLimit: '150' });
+  });
+
   it('should deposit specified amount on investment product contract', async () => {
     const wei = BigNumber.from('50000000');
     const gasPrice = BigNumber.from('100000000000');
     await twoPiInvestment.deposit(50);
-    expect(erc20TokenSpy.approve).toHaveBeenCalledOnceWith(contractAddress, wei, gasPrice);
-    expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress, { gasPrice: gasPrice });
+    expect(erc20TokenSpy.approve).not.toHaveBeenCalled();
+    expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress, { gasPrice, gasLimit: '150' });
   });
 
   it('should return the balance of a wallet in the investment product', async () => {

@@ -1,6 +1,8 @@
-export const PROVIDERS = [
+import { FiatRampProvider } from "../interfaces/fiat-ramp-provider.interface";
+
+export const PROVIDERS: FiatRampProvider[] = [
   {
-    id: 1,
+    id: 3, 
     alias: 'moonpay',
     name: 'Moonpay',
     logoRoute: 'assets/img/provider-logos/Moonpay.svg',
@@ -25,7 +27,7 @@ export const PROVIDERS = [
     ],
   },
   {
-    id: 2,
+    id: 1,
     alias: 'kripton',
     name: 'Kripton Market',
     logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
@@ -33,7 +35,6 @@ export const PROVIDERS = [
     newOperationRoute: '/fiat-ramps/new-operation',
     countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
   },
-
   // {
   //   id: 3,
   //   alias: 'paxful',

@@ -6,8 +6,8 @@ import { VoidSigner } from 'ethers';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { AmountInputCardComponent } from 'src/app/shared/components/amount-input-card/amount-input-card.component';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
-import { AmountInputCardComponent } from '../../shared-defi-investments/components/amount-input-card/amount-input-card.component';
 import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
 import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { TwoPiInvestment } from '../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
@@ -21,7 +21,7 @@ import { InvestmentDataService } from '../../shared-defi-investments/services/in
         <ion-buttons slot="start">
           <ion-back-button class="saw__back" defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
-        <ion-title class="saw__title">{{ 'defi_investments.withdraw.select_amount.header' | translate }}</ion-title>
+        <ion-title class="ion-text-start">{{ 'defi_investments.withdraw.select_amount.header' | translate }}</ion-title>
         <ion-label class="ux-font-text-xs saw__step_counter" slot="end"
           >1 {{ 'shared.step_counter.of' | translate }} 2</ion-label
         >
@@ -41,22 +41,28 @@ import { InvestmentDataService } from '../../shared-defi-investments/services/in
             [showRange]="true"
             [header]="'defi_investments.shared.amount_input_card.amount_invested' | translate"
           ></app-amount-input-card>
+          <app-amount-input-card-skeleton
+            *ngIf="!this.investedAmount"
+            [showRange]="true"
+          ></app-amount-input-card-skeleton>
         </form>
       </ion-card>
-      <div class="saw__footer">
+      <div class="saw__button">
         <ion-button
+          *ngIf="this.investedAmount"
           appTrackClick
           name="submit_withdraw_amount"
           expand="block"
           size="large"
           type="submit"
-          class="ion-padding-start ion-padding-end ux_button"
+          class="ux_button"
           color="secondary"
           (click)="this.saveWithdrawAmount()"
           [disabled]="!this.form.valid"
         >
           {{ 'defi_investments.withdraw.select_amount.button' | translate }}
         </ion-button>
+        <ion-skeleton-text *ngIf="!this.investedAmount" animated class="saw__button__skeleton"></ion-skeleton-text>
       </div>
     </ion-content>`,
   styleUrls: ['./select-amount-withdraw.page.scss'],
@@ -67,7 +73,7 @@ export class SelectAmountWithdrawPage implements OnInit {
     percentage: [0],
     range: [''],
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
-    quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
+    quoteAmount: ['', [Validators.required]],
   });
   investmentProduct: InvestmentProduct;
   token: Coin;

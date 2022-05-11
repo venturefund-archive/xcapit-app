@@ -38,7 +38,7 @@ const summaryData: SummaryData = {
     rpc: '',
   },
   address: constants.AddressZero,
-  amount: '1',
+  amount: 1,
   referenceAmount: '50000',
   balance: 2,
 };
@@ -56,7 +56,7 @@ const summaryDataInvalidAddress: SummaryData = {
     rpc: '',
   },
   address: 'invalid',
-  amount: '1',
+  amount: 1,
   referenceAmount: '50000',
   balance: 2,
 };
@@ -74,7 +74,7 @@ const summaryDataNotEnoughBalance: SummaryData = {
     rpc: '',
   },
   address: constants.AddressZero,
-  amount: '1',
+  amount: 1,
   referenceAmount: '50000',
   balanceNativeToken: 2,
   balance: 0.5,
@@ -177,7 +177,7 @@ describe('SendSummaryPage', () => {
     await fixture.whenStable();
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
       'testPassword',
-      '1',
+      1,
       constants.AddressZero,
       summaryData.currency
     );
@@ -197,7 +197,7 @@ describe('SendSummaryPage', () => {
     await fixture.whenStable();
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
       'invalid',
-      '1',
+      1,
       constants.AddressZero,
       summaryData.currency
     );

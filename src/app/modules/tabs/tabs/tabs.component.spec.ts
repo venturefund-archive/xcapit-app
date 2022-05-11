@@ -50,7 +50,7 @@ describe('TabsComponent', () => {
   });
 
   it('should call trackEvent on trackService when Tab Home button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'Tab Home');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'ux_nav_go_to_home');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -59,7 +59,7 @@ describe('TabsComponent', () => {
   });
 
   it('should call trackEvent on trackService when Tab Wallet button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'Tab Wallet');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'ux_nav_go_to_wallet');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -68,7 +68,7 @@ describe('TabsComponent', () => {
   });
 
   it('should call trackEvent on trackService when Tab Investments button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'Tab Investments');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'ux_nav_go_to_invest');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -77,12 +77,12 @@ describe('TabsComponent', () => {
   });
 
   it('should navigate to Investments Tab when Tab Investments clicked', () => {
-    fixture.debugElement.query(By.css('ion-tab-button[name="Tab Investments"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-tab-button[name="ux_nav_go_to_invest"]')).nativeElement.click();
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/investments']);
   });
 
   it('should navigate to Wallet Tab when Tab Wallet clicked', () => {
-    fixture.debugElement.query(By.css('ion-tab-button[name="Tab Wallet"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-tab-button[name="ux_nav_go_to_wallet"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
   });
   ['ionViewWillEnter', 'ionViewDidEnter', 'ionViewWillLeave', 'ionViewDidLeave'].forEach((event) => {

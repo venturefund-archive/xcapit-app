@@ -33,8 +33,8 @@ describe('FinancialPlannerCardComponent', () => {
   });
 
   it('should render properly', () => {
-    const titleEl = fixture.debugElement.query(By.css('ion-text.fpc__content__body__title'));
-    const descriptionEl = fixture.debugElement.query(By.css('ion-text.fpc__content__body__description'));
+    const titleEl = fixture.debugElement.query(By.css('div.fpc__content__body__title'));
+    const descriptionEl = fixture.debugElement.query(By.css('div.fpc__content__body__description'));
     expect(titleEl.nativeElement.innerHTML).toContain('home.shared.financial_planner_card.title');
     expect(descriptionEl.nativeElement.innerHTML).toContain('home.shared.financial_planner_card.description');
   });
