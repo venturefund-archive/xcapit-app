@@ -213,4 +213,12 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'financial_planner.new_objetive.success_button',
     urlPrimaryAction: '/financial-planner/new-objetive',
   },
+  success_fiat_ramps:{
+    image:"assets/img/fiat-ramps/success-page/operations-success.svg",
+    textPrimary: 'fiat_ramps.fiat_success.textPrimary', 
+    textSecondary:'fiat_ramps.fiat_success.textSecondary',
+    namePrimaryAction:'fiat_ramps.fiat_success.buttonText',
+    urlClose:'/fiat-ramps/new-operation',
+    urlPrimaryAction:'/tabs/home'
+  }
 };

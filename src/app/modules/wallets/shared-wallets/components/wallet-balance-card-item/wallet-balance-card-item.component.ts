@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { NETWORK_COLORS } from '../../constants/network-colors.constant';
 import { TokenDetail } from '../../models/token-detail/token-detail';
 
+
 @Component({
   selector: 'app-wallet-balance-card-item',
   template: `
