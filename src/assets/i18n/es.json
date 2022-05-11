@@ -271,7 +271,6 @@
     "confirmation": {
       "header": "Nueva inversión",
       "amount_to_invest": "Monto a invertir",
-      "transaction_fee": "Fee de transacción",
       "submit": "Invertir",
       "submit_loading": "Invirtiendo",
       "password_error": "La contraseña ingresada no es correcta.",
@@ -341,6 +340,10 @@
       "daily_earnings_disclaimer": "*Tu balance se actualiza a diario."
     },
     "shared": {
+      "transaction_fees": {
+        "label": "Fee de transacción",
+        "advice": "Fondos insuficientes"
+      },
       "filter_tab": {
         "conservative": "Perfil conservador",
         "medium": "Perfil moderado",
