@@ -17,12 +17,15 @@ import { LINKS } from 'src/app/config/static-links';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
-        <ion-title *ngIf="this.mode === 'import'" class="ion-text-center">{{
+        <ion-title *ngIf="this.mode === 'import'" >{{
           'wallets.recovery_wallet.header' | translate
         }}</ion-title>
-        <ion-title *ngIf="this.mode !== 'import'" class="ion-text-center">{{
+        <ion-title *ngIf="this.mode !== 'import'" >{{
           'wallets.disclaimer.header' | translate
         }}</ion-title>
+        <ion-label class="step_counter" slot="end"
+          >1 {{ 'shared.step_counter.of' | translate }} {{this.mode !== "import" ? '2' : '3'}}</ion-label
+        >
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -32,9 +35,8 @@ import { LINKS } from 'src/app/config/static-links';
             <ion-text name="Title" class="ux-font-text-xl">{{ 'wallets.disclaimer.title' | translate }}</ion-text>
           </div>
           <div class="description">
-            <ion-text name="Description" class="ux-font-text-xs">{{
-              'wallets.disclaimer.description' | translate
-            }}</ion-text>
+            <ion-text name="Description" class="ux-font-text-xs">
+              {{ (this.mode !== "import" ? 'wallets.disclaimer.create_wallet_description'  : 'wallets.disclaimer.import_wallet_description') | translate }}</ion-text>
           </div>
           <div class="ux_documents">
             <div class="ux_documents__item" lines="none" name='ux-terms-and-conditions' (click)="openDocument(links.xcapitTermsAndConditions)">
