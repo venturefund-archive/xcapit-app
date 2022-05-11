@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { StorageWalletsService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { LINKS } from 'src/app/config/static-links';
 
@@ -23,7 +22,7 @@ import { LINKS } from 'src/app/config/static-links';
         <ion-title *ngIf="this.mode !== 'import'" >{{
           'wallets.disclaimer.header' | translate
         }}</ion-title>
-        <ion-label class="step_counter" slot="end"
+        <ion-label class="step-counter" slot="end"
           >1 {{ 'shared.step_counter.of' | translate }} {{this.mode !== "import" ? '2' : '3'}}</ion-label
         >
       </ion-toolbar>
@@ -38,13 +37,13 @@ import { LINKS } from 'src/app/config/static-links';
             <ion-text name="Description" class="ux-font-text-xs">
               {{ (this.mode !== "import" ? 'wallets.disclaimer.create_wallet_description'  : 'wallets.disclaimer.import_wallet_description') | translate }}</ion-text>
           </div>
-          <div class="ux_documents">
-            <div class="ux_documents__item" lines="none" name='ux-terms-and-conditions' (click)="openDocument(links.xcapitTermsAndConditions)">
+          <div class="ux-documents">
+            <div class="ux-documents__item" lines="none" name='ux_terms_and_conditions' (click)="openDocument(links.xcapitTermsAndConditions)">
               <ion-icon name="ux-document"></ion-icon>
               <ion-label class="ux-font-text-lg">{{ 'wallets.disclaimer.terms_and_conditions' | translate }}</ion-label>
               <ion-icon name="chevron-forward-outline" color="info"></ion-icon>
             </div>
-            <div class="ux_documents__item" lines="none" name='ux-privacy-policy' (click)="openDocument(links.xcapitPrivacyPolicy)">
+            <div class="ux-documents__item" lines="none" name='ux_privacy_policy' (click)="openDocument(links.xcapitPrivacyPolicy)">
               <ion-icon name="ux-document"></ion-icon>
               <ion-label class="ux-font-text-lg">{{ 'wallets.disclaimer.privacy_policy' | translate }}</ion-label>
               <ion-icon name="chevron-forward-outline" color="info"></ion-icon>
@@ -58,8 +57,8 @@ import { LINKS } from 'src/app/config/static-links';
           ></app-wallet-advice>
         </div>
         <div name="Disclaimer Form Buttons" class="ux_footer">
-          <ion-item class="ux_checkbox_container__item ux-font-text-xs">
-            <ion-label class="ux_checkbox_container__item__label checkbox__label">
+          <ion-item class="ux-checkbox-container__item ux-font-text-xs">
+            <ion-label class="ux-checkbox-container__item__label checkbox__label">
               {{ 'wallets.disclaimer.agree_phrase_checkbox' | translate }}
             </ion-label>
             <ion-checkbox

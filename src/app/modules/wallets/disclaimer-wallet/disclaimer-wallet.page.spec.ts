@@ -15,7 +15,7 @@ import { By } from '@angular/platform-browser';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
-describe('DisclaimerWalletPage', () => {
+fdescribe('DisclaimerWalletPage', () => {
 
   const links = {
     generalHelp: '',
@@ -111,18 +111,18 @@ describe('DisclaimerWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should open terms and conditions when item ux-terms-and-conditions was clicked', () => {
+  it('should open terms and conditions when item ux_terms_and_conditions was clicked', () => {
     component.links = links;
-    const tycItem = fixture.debugElement.query(By.css('div[name="ux-terms-and-conditions"]'));
+    const tycItem = fixture.debugElement.query(By.css('div[name="ux_terms_and_conditions"]'));
     tycItem.nativeElement.click();
     fixture.detectChanges();
     expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://dummytermsandconditinos' });
   });
 
-  it('should open privacy policy when item ux-privacy-policy was clicked', () => {
+  it('should open privacy policy when item ux_privacy_policy was clicked', () => {
     component.links = links;
-    const tycItem = fixture.debugElement.query(By.css('div[name="ux-privacy-policy"]'));
+    const tycItem = fixture.debugElement.query(By.css('div[name="ux_privacy_policy"]'));
     tycItem.nativeElement.click();
     fixture.detectChanges();
     expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
