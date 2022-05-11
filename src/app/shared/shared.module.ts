@@ -80,6 +80,7 @@ import { ObjetiveCardComponent } from '../modules/financial-planner/shared-finan
 import { NumberInputDirective } from './directives/number-input/number-input.directive';
 import { CauseComponent } from '../modules/donations/shared-donations/components/cause/cause.component';
 import { FormattedNetworkPipe } from '../modules/wallets/shared-wallets/pipes/formatted-network-name/formatted-network.pipe';
+import { ReferralsComingComponent } from '../modules/referrals/shared-referrals/components/referrals-coming/referrals-coming.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { FormattedNetworkPipe } from '../modules/wallets/shared-wallets/pipes/fo
     ItemQuoteComponent,
     TokenSelectionListComponent,
     AmountInputCardComponent,
+    ReferralsComingComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -192,6 +194,7 @@ import { FormattedNetworkPipe } from '../modules/wallets/shared-wallets/pipes/fo
     TokenSelectionListComponent,
     CoinSelectorComponent,
     AmountInputCardComponent,
+    ReferralsComingComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,

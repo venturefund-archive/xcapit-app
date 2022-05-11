@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-referral-promotion-card',
@@ -30,11 +31,12 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./referral-promotion-card.component.scss'],
 })
 export class ReferralPromotionCardComponent implements OnInit {
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private remoteConfigService : RemoteConfigService) {}
 
   ngOnInit() {}
 
   goToReferrals(): void {
-    this.navController.navigateForward('/referrals/summary');
+    const url  = this.remoteConfigService.getString('referralsMenuUrl_referralPromotionCard');
+    this.navController.navigateForward(url);
   }
 }

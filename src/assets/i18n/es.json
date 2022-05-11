@@ -1607,6 +1607,9 @@
     "referrals_summary": {
       "header": "Referidos"
     },
+    "referrals_closed": {
+      "header": "Referidos"
+    },
     "referrals_share": {
       "title": "¡Refiere y gana!",
       "first_order_referrals_title": "Invita personas",
@@ -1614,6 +1617,11 @@
       "share": "Compartir mi Link",
       "copy": "Copiar mi link",
       "copied": "Copiado",
+      "tos": "Ver términos y condiciones"
+    },
+    "referrals_coming": {
+      "title": "Estamos creando magia",
+      "paragraph":"Este programa se encuentra cerrado. Próximamente estaremos retomando con nuevas propuestas y más beneficios. ",
       "tos": "Ver términos y condiciones"
     },
     "referrals_pending": {
