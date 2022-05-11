@@ -15,7 +15,7 @@ import { By } from '@angular/platform-browser';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
-fdescribe('DisclaimerWalletPage', () => {
+describe('DisclaimerWalletPage', () => {
 
   const links = {
     generalHelp: '',
