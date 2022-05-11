@@ -81,6 +81,8 @@ import { NumberInputDirective } from './directives/number-input/number-input.dir
 import { CauseComponent } from '../modules/donations/shared-donations/components/cause/cause.component';
 import { FormattedNetworkPipe } from '../modules/wallets/shared-wallets/pipes/formatted-network-name/formatted-network.pipe';
 import { ReferralsComingComponent } from '../modules/referrals/shared-referrals/components/referrals-coming/referrals-coming.component';
+import { FormattedAmountPipe } from './pipes/formatted-amount/formatted-amount.pipe';
+import { CauseInfoComponent } from '../modules/donations/shared-donations/components/description-cause/cause-info.component';
 
 @NgModule({
   declarations: [
@@ -145,12 +147,13 @@ import { ReferralsComingComponent } from '../modules/referrals/shared-referrals/
     NoWalletComponent,
     UpdateNewsComponent,
     NewsItemComponent,
-    ToastWithButtonsComponent, 
+    ToastWithButtonsComponent,
     CoinSelectorComponent,
     SelectProviderCardComponent,
     ProviderCardComponent,
     CauseComponent,
     ObjetiveCardComponent,
+    CauseInfoComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -159,6 +162,7 @@ import { ReferralsComingComponent } from '../modules/referrals/shared-referrals/
     SplitStringPipe,
     SuitePipe,
     FormattedNetworkPipe,
+    FormattedAmountPipe,
     //Directives
     SelectStyleDirective,
     NumberInputDirective,
@@ -239,6 +243,7 @@ import { ReferralsComingComponent } from '../modules/referrals/shared-referrals/
     ProviderCardComponent,
     CauseComponent,
     ObjetiveCardComponent,
+    CauseInfoComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -247,6 +252,7 @@ import { ReferralsComingComponent } from '../modules/referrals/shared-referrals/
     SplitStringPipe,
     SuitePipe,
     FormattedNetworkPipe,
+    FormattedAmountPipe,
     //Directives
     ButtonSpinnerDirective,
     NumberInputDirective,

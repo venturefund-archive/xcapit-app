@@ -19,7 +19,7 @@ import { NavController } from '@ionic/angular';
           appTrackClick
           class="option-button ux_button ion-no-padding ion-no-margin"
           fill="clear"
-          name="Investor Profile"
+          name="ux_go_to_investor_profile"
           (click)="this.goToInvestments()"
         >
           <ion-text>{{ 'profiles.user_profile_menu.profile_footer.investor_profile_button' | translate }}</ion-text>

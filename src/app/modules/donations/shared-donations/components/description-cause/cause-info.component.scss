@@ -1,0 +1,109 @@
+:host {
+  .dc {
+    &__content {
+      width: 100vw;
+
+      &__card {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        margin-top: -44px;
+
+        &__body {
+          width: 300px;
+          border-radius: 8px;
+          box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+          display: flex;
+          align-items: center;
+          background: var(--ion-color-white);
+          padding: 8px 16px 12px;
+          background-size: cover !important;
+
+          &__image {
+            margin-right: 10px;
+            justify-content: center;
+            width: 50px;
+          }
+        }
+
+        &__information {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+
+          &__group {
+            align-items: center;
+            width: 100%;
+
+            &__badge {
+              --background: var(--ion-color-successlight);
+              --color: var(--ion-color-successdark);
+              --height: 12px;
+
+              margin-top: 4px;
+            }
+          }
+
+          &__text,
+          &__icon-text {
+            display: grid;
+          }
+
+          &__icon-text {
+            justify-items: center;
+            align-items: center;
+
+            img {
+              align-self: end;
+              width: 25px;
+            }
+          }
+        }
+
+        &__image {
+          &__img {
+            border-radius: 50%;
+          }
+        }
+      }
+
+      &__general-title {
+        margin-bottom: 36px;
+      }
+
+      &__subtitle {
+        margin-bottom: 8px;
+      }
+
+      &__description {
+        margin-bottom: 24px;
+      }
+
+      &__social-media {
+        margin-bottom: 20px;
+      }
+
+      &__links {
+        &__link {
+          display: flex;
+          align-items: center;
+          height: 35px;
+        }
+
+        ion-icon {
+          font-size: 22px;
+        }
+
+        ion-button {
+          --padding-start: 9px;
+        }
+      }
+    }
+
+    &__button {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+    }
+  }
+}

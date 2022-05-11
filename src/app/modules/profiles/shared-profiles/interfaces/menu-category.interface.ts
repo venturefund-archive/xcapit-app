@@ -8,4 +8,5 @@ export interface MenuCategory {
   items?: MenuItem[];
   route?: string;
   name?: string;
+  buttonName?: string;
 }
