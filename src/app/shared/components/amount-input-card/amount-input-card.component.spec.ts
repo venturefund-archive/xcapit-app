@@ -216,6 +216,14 @@ describe('AmountInputCardComponent', () => {
     expect(rangeEl).toBe(null);
   });
 
+  it('should render loader when showRange false and available is not available yet', () => {
+    component.showRange = false;
+    walletBalanceServiceSpy.balanceOf.and.resolveTo(null)
+    
+    const loaderEl = fixture.debugElement.query(By.css('app-ux-loading-block'));
+    expect(loaderEl).toBeTruthy();
+  });
+
   it('should render properly available div', async () => {
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);

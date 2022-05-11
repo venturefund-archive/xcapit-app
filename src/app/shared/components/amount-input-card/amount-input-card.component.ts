@@ -15,11 +15,11 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
         <ion-text class="ux-font-titulo-xs">
           {{ this.header }}
         </ion-text>
-        <div class="aic__available__amounts">
+        <div  class="aic__available__amounts">
           <ion-text *ngIf="this.showRange" class="ux-font-text-xl">
             {{ this.investedAmount | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
           >
-          <ion-text *ngIf="!this.showRange" class="ux-font-text-xl">
+          <ion-text *ngIf="!this.showRange && this.available" class="ux-font-text-xl">
             {{ this.available | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
           >
           <ion-text *ngIf="this.investedAmount || this.available" class="ux-font-text-xxs">
@@ -27,7 +27,7 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
           </ion-text>
         </div>
       </div>
-      <div class="loader" *ngIf="!this.available">
+      <div class="loader" *ngIf="!this.available && !this.showRange">
         <app-ux-loading-block minSize="40px"></app-ux-loading-block>
       </div>
       <div class="aic__content">
