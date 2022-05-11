@@ -21,34 +21,19 @@ export interface OperationDataInterface {
 })
 export class StorageOperationService {
   constructor() {}
-  // TODO: Dejar el initial por defecto con todo vacio
-  // initial = {
-  //   country: '',
-  //   type: '',
-  //   pair: '',
-  //   amount_in: '',
-  //   amount_out: '',
-  //   currency_in: '',
-  //   currency_out: '',
-  //   price_in: '',
-  //   price_out: '',
-  //   wallet: '',
-  //   provider: '',
-  //   network: '',
-  // };
   initial = {
-    amount_in: '500',
-    amount_out: '2.433208428633997',
-    country: 'Argentina',
-    currency_in: 'ARS',
-    currency_out: 'USDC',
-    network: 'MATIC',
-    pair: 'ARS_USDC',
-    price_in: '205.49',
-    price_out: '1',
-    provider: '1',
-    type: 'cash-in',
-    wallet: '0x4eCbFb306585A7f981cF0Fe298162EDce4D11699',
+    country: '',
+    type: '',
+    pair: '',
+    amount_in: '',
+    amount_out: '',
+    currency_in: '',
+    currency_out: '',
+    price_in: '',
+    price_out: '',
+    wallet: '',
+    provider: '',
+    network: '',
   };
 
   private dataSource = new BehaviorSubject<OperationDataInterface>(this.initial);

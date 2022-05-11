@@ -30,100 +30,14 @@ import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-c
           {{ 'fiat_ramps.confirm.title' | translate }}
         </div>
       </ion-text>
-      <app-transfer-confirm-card
-        [token]="this.token"
-        [operationData]="this.operationData"
-        [provider]="this.provider"
-        [networkColors]="this.networkColors"
-      >
-      </app-transfer-confirm-card>
-      <!--       TODO: Mover esto a un componente-->
-      
-      <!--TODO: Borrar lo comentado (tambien los TODO)-->
-      <!--        <div *ngIf="false">-->
-      <!--          <ion-text class="ux-font-text-xs cp__content__text">-->
-      <!--            <span class="cp__content__text__title">-->
-      <!--              {{ 'fiat_ramps.confirm.provider' | translate }}-->
-      <!--            </span>-->
-      <!--            <span> {{ this.provider.name }} </span>-->
-      <!--          </ion-text>-->
-
-      <!--          <ion-text class="ux-font-text-xs cp__content__text">-->
-      <!--            <span class="cp__content__text__title"> {{ 'fiat_ramps.confirm.type' | translate }} </span>-->
-      <!--            <span *ngIf="this.operationData.type === 'cash-in'">-->
-      <!--              {{ 'fiat_ramps.confirm.buy.operationType' | translate }}-->
-      <!--            </span>-->
-      <!--            <span *ngIf="this.operationData.type === 'cash-out'">-->
-      <!--              {{ 'fiat_ramps.confirm.sell.operationType' | translate }}-->
-      <!--            </span>-->
-      <!--          </ion-text>-->
-
-      <!--          <ion-text class="ux-font-text-xs cp__content__text" *ngIf="this.operationData.type === 'cash-in'">-->
-      <!--            <span class="cp__content__text__title">-->
-      <!--              {{ 'fiat_ramps.confirm.buy.title' | translate }}-->
-      <!--            </span>-->
-      <!--            <span>-->
-      <!--              {{ this.operationData.currency_out | uppercase }}-->
-      <!--              {{ 'fiat_ramps.confirm.buy.with' | translate }}-->
-      <!--              {{ this.operationData.currency_in | uppercase }}-->
-      <!--            </span>-->
-      <!--          </ion-text>-->
-
-      <!--          <ion-text class="ux-font-text-xs cp__content__text" *ngIf="this.operationData.type === 'cash-out'">-->
-      <!--            <span class="cp__content__text__title">-->
-      <!--              {{ 'fiat_ramps.confirm.sell.title' | translate }}-->
-      <!--            </span>-->
-      <!--            <span>-->
-      <!--              {{ this.operationData.currency_in | uppercase }}-->
-      <!--              {{ 'fiat_ramps.confirm.sell.with' | translate }}-->
-      <!--              {{ this.operationData.currency_out | uppercase }}-->
-      <!--            </span>-->
-      <!--          </ion-text>-->
-
-      <!--          <ion-text class="ux-font-text-xs cp__content__text">-->
-      <!--            <span class="cp__content__text__title">-->
-      <!--              {{ 'fiat_ramps.confirm.amount' | translate }}-->
-      <!--            </span>-->
-      <!--            <span *ngIf="this.operationData.type === 'cash-in'"-->
-      <!--              >{{ this.operationData.amount_in | currency }}-->
-      <!--              <small>{{ this.operationData.currency_in }}</small>-->
-      <!--            </span>-->
-      <!--            <span *ngIf="this.operationData.type === 'cash-out'"-->
-      <!--              >{{ this.operationData.amount_out | currency }}-->
-      <!--              <small>{{ this.operationData.currency_out }}</small> }}</span-->
-      <!--            >-->
-      <!--          </ion-text>-->
-
-      <!--          <ion-text class="ux-font-text-xs cp__content__text">-->
-      <!--            <span class="cp__content__text__title">-->
-      <!--              {{ 'fiat_ramps.confirm.quotation' | translate }}-->
-      <!--            </span>-->
-      <!--            <span *ngIf="this.operationData.currency_in === 'ARS' || this.operationData.currency_in === 'USD'">-->
-      <!--              1 {{ this.operationData.currency_out | uppercase }} = {{ this.quotation | number: '1.2-2' }}-->
-      <!--              {{ this.operationData.currency_in | uppercase }}-->
-      <!--            </span>-->
-      <!--            <span *ngIf="this.operationData.currency_in !== 'ARS' && this.operationData.currency_in !== 'USD'">-->
-      <!--              1 {{ this.operationData.currency_in | uppercase }} = {{ this.quotation | number: '1.2-2' }}-->
-      <!--              {{ this.operationData.currency_out | uppercase }}-->
-      <!--            </span>-->
-      <!--          </ion-text>-->
-
-      <!--          <ion-text class="ux-font-text-xs cp__content__text">-->
-      <!--            <span class="cp__content__text__title">-->
-      <!--              {{ 'fiat_ramps.confirm.wallet' | translate }}-->
-      <!--            </span>-->
-      <!--            <span> {{ this.operationData.wallet }} </span>-->
-      <!--          </ion-text>-->
-      <!--        </div>-->
-      <!--      </div>-->
-
-      <!--      <div class="cp__content__advise">-->
-      <!--        <ion-text class="ion-margin-top ion-margin-bottom">-->
-      <!--          {{ 'fiat_ramps.confirm.disclaimer' | translate }}-->
-      <!--        </ion-text>-->
-      <!--      </div>-->
-
-      <!--   TODO: Agregar disclaimer -->
+      <div class="cp__transfer-confirm-card">
+        <app-transfer-confirm-card
+          [token]="this.token"
+          [operationData]="this.operationData"
+          [provider]="this.provider"
+        >
+        </app-transfer-confirm-card>
+      </div>
       <!--   TODO: Borrar en en.json la diferenciacion entre confirm.buy y confirm.sell (no vamos a trabajar la venta por ahora), debe quedar igual que es.json pero traducido -->
       <!--   TODO: Revisar los tests -->
       <div class="cp__disclaimer ux-font-text-xxs">
@@ -131,7 +45,7 @@ import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-c
       </div>
     </ion-content>
 
-    <div class="ux_footer">
+    <div class="cp__footer ux_footer">
       <div class="button-next">
         <ion-button
           class="ux_button"

@@ -6,16 +6,12 @@
 
     border-radius: 8px;
 
-    &__operation {
-      &__title {
-        align-items: center;
-      }
-    }
-
     &__name-and-icon {
+      margin-top: 8px;
       display: flex;
-      justify-content: space-between;
+      flex-direction: row;
       align-items: center;
+      justify-content: left;
       margin-bottom: 20px;
 
       &__icon {
@@ -23,6 +19,69 @@
         justify-content: center;
         align-items: center;
         max-width: 33px;
+      }
+
+      &__name {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-left: 12px;
+      }
+    }
+
+    &__operation {
+      margin-top: 16px;
+
+      &__title {
+        align-items: center;
+      }
+
+      &__content {
+        margin-top: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    &__amount {
+      margin-top: 16px;
+
+      &__content {
+        margin-top: 4px;
+      }
+    }
+
+    &__quotation {
+      margin-top: 16px;
+
+      &__content {
+        margin-top: 4px;
+      }
+    }
+
+    &__provider {
+      margin-top: 16px;
+
+      &__content {
+        margin-top: 4px;
+      }
+    }
+
+    &__address-dst {
+      margin-top: 16px;
+
+      &__content {
+        margin-top: 4px;
+      }
+    }
+
+    &__network {
+      margin-top: 16px;
+
+      &__content {
+        margin-top: 4px;
       }
     }
   }

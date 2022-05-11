@@ -1,5 +1,7 @@
 :host {
   .cp {
+    --background: var(--ion-color-neutral10);
+
     &__content {
       .op {
         &__card {
@@ -10,6 +12,10 @@
           }
         }
       }
+    }
+
+    &__transfer-confirm-card {
+      margin-top: 24px;
     }
 
     &__disclaimer {
