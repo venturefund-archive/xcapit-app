@@ -17,15 +17,15 @@
     margin-bottom: 16px;
   }
 
-  .button {
+  .ux_button {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 22px;
   }
 
   .ux_checkbox_container {
     width: fit-content;
-    margin-top: 10px;
 
     &__item {
       --padding-start: 16px;
@@ -38,6 +38,31 @@
 
       &__label {
         color: #212121;
+      }
+    }
+  }
+
+  .ux_documents {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 36px 0 25px;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border: 0.5px solid #b0b6c7;
+      box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
+      border-radius: 8px;
+
+      ion-label {
+        flex-grow: 1;
+        padding-left: 18px;
+      }
+
+      ion-icon {
+        font-size: 24px;
       }
     }
   }

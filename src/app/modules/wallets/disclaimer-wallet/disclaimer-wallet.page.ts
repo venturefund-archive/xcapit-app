@@ -7,6 +7,7 @@ import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { StorageWalletsService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { LINKS } from 'src/app/config/static-links';
 
 @Component({
   selector: 'app-disclaimer-wallet',
@@ -35,42 +36,19 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
               'wallets.disclaimer.description' | translate
             }}</ion-text>
           </div>
-          <div name="Disclaimer Form Checkboxes" class="checkbox_card">
-            <ion-item class="ion-no-padding ion-no-margin checkbox">
-              <div class="ux_checkbox_container">
-                <ion-item class="ux_checkbox_container__item ux-font-text-xs">
-                  <ion-label class="ux_checkbox_container__item__label checkbox__label">
-                    {{ 'wallets.disclaimer.local_stored_keys_checkbox' | translate }}
-                  </ion-label>
-                  <ion-checkbox name="ux_create_disclaimer_check_button_0" formControlName="localStoredKeysCheckbox" slot="start"></ion-checkbox>
-                </ion-item>
-              </div>
-            </ion-item>
-
-            <ion-item name="" class="ion-no-padding ion-no-margin checkbox">
-              <div class="ux_checkbox_container">
-                <ion-item class="ux_checkbox_container__item ux-font-text-xs">
-                  <ion-label class="ux_checkbox_container__item__label checkbox__label">
-                    {{ 'wallets.disclaimer.recovery_phrase_checkbox' | translate }}
-                  </ion-label>
-                  <ion-checkbox name="ux_create_disclaimer_check_button_1" formControlName="recoveryPhraseCheckbox" slot="start"></ion-checkbox>
-                </ion-item>
-              </div>
-            </ion-item>
-
-            <ion-item class="ion-no-padding ion-no-margin checkbox last">
-              <div class="ux_checkbox_container">
-                <ion-item class="ux_checkbox_container__item ux-font-text-xs">
-                  <ion-label
-                    class="ux_checkbox_container__item__label checkbox__label lbl"
-                    [innerHTML]="this.textLink | translate"
-                  >
-                  </ion-label>
-                  <ion-checkbox name="ux_create_disclaimer_check_button_2" formControlName="termsOfUseCheckbox" slot="start"></ion-checkbox>
-                </ion-item>
-              </div>
-            </ion-item>
+          <div class="ux_documents">
+            <div class="ux_documents__item" lines="none" name='ux-terms-and-conditions' (click)="openDocument(links.xcapitTermsAndConditions)">
+              <ion-icon name="ux-document"></ion-icon>
+              <ion-label class="ux-font-text-lg">{{ 'wallets.disclaimer.terms_and_conditions' | translate }}</ion-label>
+              <ion-icon name="chevron-forward-outline" color="info"></ion-icon>
+            </div>
+            <div class="ux_documents__item" lines="none" name='ux-privacy-policy' (click)="openDocument(links.xcapitPrivacyPolicy)">
+              <ion-icon name="ux-document"></ion-icon>
+              <ion-label class="ux-font-text-lg">{{ 'wallets.disclaimer.privacy_policy' | translate }}</ion-label>
+              <ion-icon name="chevron-forward-outline" color="info"></ion-icon>
+            </div>
           </div>
+
           <app-wallet-advice
             [logo]="'ux-device'"
             [text]="'wallets.disclaimer.wallet_term_text'"
@@ -78,35 +56,40 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
           ></app-wallet-advice>
         </div>
         <div name="Disclaimer Form Buttons" class="ux_footer">
-          <div class="button">
-            <ion-button
-              class="ux_button"
-              appTrackClick
-              [dataToTrack]="{ eventLabel: this.trackClickEventName }"
-              [disabled]="!this.disclaimerForm.valid"
-              name="ux_create_submit"
-              type="submit"
-              color="secondary"
-              size="large"
-            >
-              {{ 'wallets.disclaimer.submit_button' | translate }}
-            </ion-button>
-          </div>
+          <ion-item class="ux_checkbox_container__item ux-font-text-xs">
+            <ion-label class="ux_checkbox_container__item__label checkbox__label">
+              {{ 'wallets.disclaimer.agree_phrase_checkbox' | translate }}
+            </ion-label>
+            <ion-checkbox
+              name="ux_create_disclaimer_check_button_1"
+              formControlName="agreePhraseCheckbox"
+              slot="start"
+            ></ion-checkbox>
+          </ion-item>
+          <ion-button
+            class="ux_button"
+            appTrackClick
+            [dataToTrack]="{ eventLabel: this.trackClickEventName }"
+            [disabled]="!this.disclaimerForm.valid"
+            name="ux_create_submit"
+            type="submit"
+            color="secondary"
+            size="large"
+          >
+            {{ 'wallets.disclaimer.submit_button' | translate }}
+          </ion-button>
         </div>
       </form>
     </ion-content>
   `,
   styleUrls: ['./disclaimer-wallet.page.scss'],
 })
-export class DisclaimerWalletPage implements AfterViewInit {
+export class DisclaimerWalletPage implements OnInit {
   mode: string;
   hasAcceptedDisclaimer: boolean;
-  anchors;
-  textLink = 'wallets.disclaimer.terms_of_use_checkbox';
+  links = LINKS;
   disclaimerForm: FormGroup = this.formBuilder.group({
-    localStoredKeysCheckbox: [false, [Validators.requiredTrue]],
-    recoveryPhraseCheckbox: [false, [Validators.requiredTrue]],
-    termsOfUseCheckbox: [false, [Validators.requiredTrue]],
+    agreePhraseCheckbox: [false, [Validators.requiredTrue]],
   });
   trackClickEventName: string;
   
@@ -124,20 +107,7 @@ export class DisclaimerWalletPage implements AfterViewInit {
     private storageWalletsService: StorageWalletsService,
     private browserService: BrowserService
   ) {}
-
-  ngAfterViewInit() {
-    this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
-    this.anchors.forEach((anchor) => {
-      anchor.addEventListener('click', this.handleAnchorClick.bind(this));
-    });
-  }
-
-  handleAnchorClick(event: Event) {
-    event.preventDefault();
-    const anchor = event.target as HTMLAnchorElement;
-    this.navigateToLink(anchor.getAttribute('href'));
-  }
-
+  
   ngOnInit() {
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.trackClickEventName = this.isImporting ? 'ux_import_submit' : 'ux_create_submit';
@@ -156,6 +126,10 @@ export class DisclaimerWalletPage implements AfterViewInit {
     this.navController.navigateForward([url]);
   }
 
+  openDocument(url): void{
+    this.browserService.open({url});
+  }
+
   async showModalDidNotAccept() {
     const modal = await this.modalController.create({
       component: ToastAlertComponent,
@@ -167,12 +141,6 @@ export class DisclaimerWalletPage implements AfterViewInit {
       },
     });
     await modal.present();
-  }
-
-  async navigateToLink(link) {
-    await this.browserService.open({
-      url: link,
-    });
   }
 
   acceptToS() {

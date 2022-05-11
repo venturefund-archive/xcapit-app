@@ -15,9 +15,20 @@ import { By } from '@angular/platform-browser';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
-const textLink = "'Text test <a class='ux-link-xs' href='https://testLink'>terms of use</a>.'"
-
 describe('DisclaimerWalletPage', () => {
+
+  const links = {
+    generalHelp: '',
+    apiKeyTelegramSupport: '',
+    apiKeyWhatsappSupport: '',
+    binance: '',
+    infoPaxful: '',
+    twoPiTermsAndConditions: '',
+    moonpayTransactionHistory: '',
+    xcapitTermsAndConditions: 'https://dummytermsandconditinos',
+    xcapitPrivacyPolicy: 'https://dummyprivacypolicy'
+  }
+
   let component: DisclaimerWalletPage;
   let fixture: ComponentFixture<DisclaimerWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DisclaimerWalletPage>;
@@ -84,9 +95,7 @@ describe('DisclaimerWalletPage', () => {
 
   it('should proceed if all the checkboxes are checked', () => {
     component.disclaimerForm.patchValue({
-      localStoredKeysCheckbox: true,
-      recoveryPhraseCheckbox: true,
-      termsOfUseCheckbox: true,
+      agreePhraseCheckbox: true,
     });
     component.handleSubmit();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
@@ -102,15 +111,21 @@ describe('DisclaimerWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-
-  it('should open the link in the app when link is clicked', async () => {
-    component.textLink = textLink;
+  it('should open terms and conditions when item ux-terms-and-conditions was clicked', () => {
+    component.links = links;
+    const tycItem = fixture.debugElement.query(By.css('div[name="ux-terms-and-conditions"]'));
+    tycItem.nativeElement.click();
     fixture.detectChanges();
-    component.ngAfterViewInit();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    const link = anchor.nativeElement.getAttribute('href');
-    anchor.nativeElement.click();
-    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://testLink' });
-    expect(link).toEqual('https://testLink');
+    expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://dummytermsandconditinos' });
+  });
+
+  it('should open privacy policy when item ux-privacy-policy was clicked', () => {
+    component.links = links;
+    const tycItem = fixture.debugElement.query(By.css('div[name="ux-privacy-policy"]'));
+    tycItem.nativeElement.click();
+    fixture.detectChanges();
+    expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://dummyprivacypolicy' });
   });
 });
