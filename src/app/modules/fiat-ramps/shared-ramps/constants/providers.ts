@@ -34,6 +34,10 @@ export const PROVIDERS: FiatRampProvider[] = [
     description: 'fiat_ramps.select_provider.krypton_description',
     disclaimer: 'fiat_ramps.shared.constants.providers.kripton.disclaimer',
     newOperationRoute: '/fiat-ramps/new-operation/kripton',
-    countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
+    countries: ['Argentina', 'Venezuela', 'Uruguay', 'Colombia'],
+    currencies: [
+      { symbol: 'DAI', network: 'MATIC' },
+      { symbol: 'MATIC', network: 'MATIC' },
+    ],
   },
 ];
