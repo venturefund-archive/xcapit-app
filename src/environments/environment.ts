@@ -38,5 +38,36 @@ export const environment = {
     MATIC: "m/44'/80001'/0'/0/0",
     BSC_BEP20: "m/44'/60'/0'/0/0",
   },
-  IPFS_GATEWAY: 'https://gateway.pinata.cloud/ipfs'
+  IPFS_GATEWAY: 'https://gateway.pinata.cloud/ipfs',
+  ONE_INCH_DEFAULTS: {
+    slippage: 1,
+    referralAddress: "0x0",
+    fee: 0.5,
+  },
+  BLOCKCHAIN_DATA: [
+    {
+      name: "ERC20",
+      derivedPath: "m/44'/60'/0'/0/0",
+      id: "1",
+      rpc: "https://eth-mainnet.alchemyapi.io/v2/_tAb6nr3b1EEQqjG9fLAmuylZN4s0GhJ",
+    },
+    {
+      name: "RSK",
+      derivedPath: "m/44'/137'/0'/0/0",
+      id: "30",
+      rpc: "https://public-node.rsk.co/",
+    },
+    {
+      name: "MATIC",
+      derivedPath: "m/44'/966'/0'/0/0",
+      id: "137",
+      rpc: "https://polygon-mainnet.g.alchemy.com/v2/bNwqiwxYin5HEWHGGvFZ7QBoDTzhel11",
+    },
+    {
+      name: "BSC_BEP20",
+      derivedPath: "m/44'/60'/0'/0/0",
+      id: "56",
+      rpc: "https://bsc-dataseed.binance.org/",
+    },
+  ],
 };
