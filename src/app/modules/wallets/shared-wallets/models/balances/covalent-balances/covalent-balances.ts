@@ -25,7 +25,7 @@ export class CovalentBalances implements Balances {
 
   private _queryParams() {
     return {
-      match: `{contract_address: {$in: [${this._coins.map((coin) => coin.contract)}]}}`,
+      match: `{contract_address: {$in: [${this._coins.map((coin) => coin.contract.toLocaleLowerCase())}]}}`,
     };
   }
 
@@ -51,7 +51,7 @@ export class CovalentBalances implements Balances {
   }
 
   private coinOf(contract: string): Coin {
-    return this._coins.find((coin) => coin.contract === contract);
+    return this._coins.find((coin) => coin.contract.toLocaleLowerCase() === contract.toLocaleLowerCase());
   }
 
   private amountOf(aWei: string, aCoin: Coin): number {

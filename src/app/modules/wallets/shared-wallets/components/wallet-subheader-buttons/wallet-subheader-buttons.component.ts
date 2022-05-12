@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
 import { WalletBackupService } from '../../wallet-backup/wallet-backup.service';
+import { defaultSwapsUrls } from 'src/app/modules/swaps/swaps-routing.module';
+
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -104,7 +106,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
 
   async goToSwap() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
-      this.navController.navigateForward(['']);
+      this.navController.navigateForward(defaultSwapsUrls.swapHome);
     }
   }
 }
