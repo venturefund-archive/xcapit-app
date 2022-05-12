@@ -84,7 +84,7 @@ import { OperationDataInterface } from '../../services/operation/storage-operati
           </div>
           <div class="tcc__card_network__content">
             <ion-text class="ux-font-text-base-black">
-              {{ this.operationData.network | formattedNetwork | uppercase }}
+              {{ this.operationData.network | formattedNetwork }}
             </ion-text>
           </div>
         </div>
