@@ -1576,6 +1576,19 @@
           "description": "Ayuda a estas mujeres a convertirse en empresarias, brindando las herramientas para que puedan comercializar en los mercados locales de ropa de segunda mano en sus comunidades."
         }
       }
+    },
+    
+    "success":{
+      "textPrimary":"¡Gracias por sumarte!",
+      "textSecondary":"Acabas de aportar para una gran causa.",
+      "namePrimaryAction":"Seguir donando",
+      "nameThirdAction":"Volver al home"
+    },
+
+    "error":{
+      "textPrimary":"No se pudo completar tu donación",
+      "textSecondary":"Se produjo un error en la blockchain.",
+      "namePrimaryAction":"Intentar nuevamente"
     }
   },
   "referrals": {

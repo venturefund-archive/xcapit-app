@@ -1592,6 +1592,18 @@
           "description": "It helps these women become entrepreneurs by providing them with the tools to market in local second-hand clothing markets in their communities."
         }
       }
+    },
+    "success":{
+      "textPrimary":"Thanks for joining us!",
+      "textSecondary":"You have just contributed to a great cause.",
+      "namePrimaryAction":"Continue donating",
+      "nameThirdAction":"Back to home"
+    },
+
+    "error":{
+      "textPrimary":"Your donation could not be completed",
+      "textSecondary":"An error occurred in the blockchain.",
+      "namePrimaryAction":"Try again"
     }
   },
   "referrals": {
