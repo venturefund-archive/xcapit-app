@@ -3,4 +3,5 @@ export interface RemoteConfiguration {
     initialize(): Promise<void>;
     setDefaultConfig();
     getFeatureFlag(param: string): boolean;
+    getString(name : string) : string;
 }

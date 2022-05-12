@@ -63,22 +63,13 @@ import { ToastWithButtonsComponent } from '../../shared-defi-investments/compone
               </ion-text>
             </div>
           </div>
-          <div class="summary__fee" *ngIf="this.fee">
-            <div class="summary__fee__label">
-              <ion-text class="ux-font-titulo-xs">{{
-                'defi_investments.confirmation.transaction_fee' | translate
-              }}</ion-text>
-            </div>
-
-            <div class="summary__fee__qty">
-              <ion-text class="ux-font-text-base summary__fee__qty__amount"
-                >{{ this.fee.value | number: '1.2-6' }} {{ this.fee.token }}</ion-text
-              >
-              <ion-text class="ux-font-text-base summary__fee__qty__quoteFee"
-                >{{ this.quoteFee.value | number: '1.2-6' }} {{ this.quoteFee.token }}
-              </ion-text>
-            </div>
-          </div>
+          <app-transaction-fee
+            [fee]="this.fee"
+            [quoteFee]="this.quoteFee"
+            [isNegativeBalance]="this.isNegativeBalance"
+            [nativeTokenBalance]="this.nativeTokenBalance"
+          >
+          </app-transaction-fee>
         </div>
       </ion-card>
       <form [formGroup]="this.form" class="ion-padding-horizontal ion-padding-bottom">
@@ -156,6 +147,7 @@ export class InvestmentConfirmationPage {
   mode: string;
   headerText: string;
   labelText: string;
+  isNegativeBalance: boolean;
 
   constructor(
     private investmentDataService: InvestmentDataService,
@@ -330,6 +322,7 @@ export class InvestmentConfirmationPage {
   checkNativeTokenBalance() {
     if (this.nativeTokenBalance <= this.fee.value) {
       this.openModalNativeTokenBalance();
+      this.isNegativeBalance = true;
     } else {
       this.disable = false;
     }

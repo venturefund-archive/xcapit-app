@@ -37,6 +37,6 @@ export const WALLET_PRIVACY = [
   {
     title: 'support.wallet_privacy.question8',
     answer: 'support.wallet_privacy.answer8',
-    last: false,
+    last: true,
   },
 ];

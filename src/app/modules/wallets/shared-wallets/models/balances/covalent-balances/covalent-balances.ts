@@ -40,8 +40,8 @@ export class CovalentBalances implements Balances {
         .then((res) =>
           res.data.items.reduce((balances, resItem) => {
             balances.push({
-              coin: this.coinOf(resItem.contract_ticker_symbol),
-              balance: this.amountOf(resItem.balance, this.coinOf(resItem.contract_ticker_symbol)),
+              coin: this.coinOf(resItem.contract_address),
+              balance: this.amountOf(resItem.balance, this.coinOf(resItem.contract_address)),
             });
             return balances;
           }, [])
@@ -50,8 +50,8 @@ export class CovalentBalances implements Balances {
     return this._valueCache;
   }
 
-  private coinOf(symbol: string): Coin {
-    return this._coins.find((coin) => coin.value === symbol);
+  private coinOf(contract: string): Coin {
+    return this._coins.find((coin) => coin.contract === contract);
   }
 
   private amountOf(aWei: string, aCoin: Coin): number {

@@ -26,6 +26,7 @@ import { CovalentBalancesController } from '../shared-wallets/models/balances/co
 import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fake-balances';
 import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -47,6 +48,7 @@ describe('HomeWalletPage', () => {
   let covalentBalancesControllerSpy: jasmine.SpyObj<CovalentBalancesController>;
   let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -99,6 +101,10 @@ describe('HomeWalletPage', () => {
       });
 
       contentSpy = jasmine.createSpyObj('IonContent', { scrollToTop: Promise.resolve() });
+
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
+        trackEvent: Promise.resolve(true),
+      })
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
@@ -114,6 +120,7 @@ describe('HomeWalletPage', () => {
           { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
           { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
           { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
+          { provide: TrackService, useValue: trackServiceSpy},
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -217,5 +224,33 @@ describe('HomeWalletPage', () => {
     await fixture.whenRenderingDone();
     const balanceEl = fixture.debugElement.query(By.css('div.wt__amount > ion-text'));
     expect(balanceEl.nativeElement.innerHTML).toContain('0.00 USD');
+  });
+
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call appTrackEvent on trackService when Tokens Tab was clicked', () => {
+    component.walletExist = true;
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-segment-button', 'ux_tab_tokens');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+
+  it('should call appTrackEvent on trackService when NFTs Tab was clicked', () => {
+    component.walletExist = true;
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-segment-button', 'ux_tab_nfts');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

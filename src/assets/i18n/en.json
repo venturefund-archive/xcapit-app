@@ -290,7 +290,6 @@
     "confirmation": {
       "header": "New investment",
       "amount_to_invest": "Amount to invest",
-      "transaction_fee": "Transaction fee",
       "submit": "Invest",
       "submit_loading": "Investing",
       "password_error": "The password entered is not valid.",
@@ -360,6 +359,10 @@
       "daily_earnings_disclaimer": "*Your balance is updated daily."
     },
     "shared": {
+      "transaction_fees": {
+        "label": "Fee de transacción",
+        "advice": "Fondos insuficientes"
+      },
       "filter_tab": {
         "conservative": "Conservative profile",
         "medium": "Moderate profile",
@@ -1653,7 +1656,10 @@
       "email": "Email"
     },
     "referrals_summary": {
-      "header": "Referidos"
+      "header": "Referrals"
+    },
+    "referrals_closed": {
+      "header": "Referrals"
     },
     "referrals_share": {
       "title": "Refer and Win!",
@@ -1662,6 +1668,11 @@
       "share": "Share my link",
       "copy": "Copy my link",
       "copied": "Copied",
+      "tos": "See terms and conditions"
+    },
+    "referrals_coming": {
+      "title": "We are creating magic",
+      "paragraph":"This program is now closed. We will be resuming soon with new proposals and more benefits.",
       "tos": "See terms and conditions"
     },
     "referrals_pending": {
