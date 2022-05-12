@@ -8,22 +8,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormattedNetworkPipe } from '../../../../../shared/pipes/formatted-network-name/formatted-network.pipe'
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 
-
-
-const operationData : OperationDataInterface = {
-  amount_in: '500',
-  amount_out: '2.433208428633997',
-  country: 'Argentina',
-  currency_in: 'ARS',
-  currency_out: 'USDC',
-  network: 'POLYGON',
-  pair: 'ARS_USDC',
-  price_in: '205.49',
-  price_out: '1',
-  provider: '1',
-  type: 'cash-in',
-  wallet: '0x4eCbFb306585A7f981cF0Fe298162EDce4D11699'
-}
 const provider: any = {
   name: '2PI'
 }
@@ -36,7 +20,7 @@ describe('TransferConfirmCardComponent', () => {
   let operationDataSpy: jasmine.SpyObj<OperationDataInterface>;
 
   beforeEach(waitForAsync(() => {
-    operationDataSpy = jasmine.createSpyObj('OperationData', {}, operationData)
+    operationDataSpy = jasmine.createSpyObj('OperationData', {}, {wallet: '0x4eCbFb306585A7f981cF0Fe298162EDce4D11699', network: 'POLYGON' })
     tokenSpy = jasmine.createSpyObj('Token', {}, {name: 'ETH - Ethereum', logoRoute: 'assets/img/coins/ETH.svg'});
     TestBed.configureTestingModule({
       declarations: [TransferConfirmCardComponent, FormattedNetworkPipe],
@@ -49,7 +33,6 @@ describe('TransferConfirmCardComponent', () => {
     component.provider = provider
     component.operationData = operationDataSpy;
     component.token = tokenSpy;
-    console.log(component.operationData)
     fixture.detectChanges();
   }));
 
