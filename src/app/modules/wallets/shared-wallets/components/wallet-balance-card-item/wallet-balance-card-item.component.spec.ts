@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { WalletBalanceCardItemComponent } from './wallet-balance-card-item.component';
 import { By } from '@angular/platform-browser';
-import { FormattedNetworkPipe } from '../../pipes/formatted-network-name/formatted-network.pipe';
+import { FormattedNetworkPipe } from '../../../../../shared/pipes/formatted-network-name/formatted-network.pipe';
 import { TokenDetail } from '../../models/token-detail/token-detail';
 import { Coin } from '../../interfaces/coin.interface';
 
