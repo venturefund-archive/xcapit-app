@@ -169,6 +169,27 @@ export const SUCCESS_TYPES = {
     urlThirdAction: '/tabs/wallets',
     disclaimer: 'defi_investments.withdraw.success_withdraw.disclaimer',
   },
+
+  success_donation: {
+    image: '/assets/img/donations/success/success-donation.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'donations.success.textPrimary',
+    textSecondary: 'donations.success.textSecondary',
+    namePrimaryAction: 'donations.success.namePrimaryAction',
+    urlPrimaryAction: '/donations/causes',
+    nameThirdAction: 'donations.success.nameThirdAction',
+    urlThirdAction: '/tabs/wallets',
+  },
+
+    error_donation: {
+    image: '/assets/img/donations/error/error-donation.svg',
+    urlClose: '/donations/causes',
+    textPrimary: 'donations.error.textPrimary',
+    textSecondary: 'donations.error.textSecondary',
+    namePrimaryAction: 'donations.error.namePrimaryAction',
+    urlPrimaryAction: '/donations/causes',
+  },
+  
   success_investment: {
     image: 'assets/img/defi-investments/success-investment.svg',
     urlClose: '/tabs/wallets',

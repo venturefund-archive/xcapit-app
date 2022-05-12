@@ -36,6 +36,10 @@
       margin-top: 16px;
       text-align: center;
 
+      ion-text {
+        color: var(--ion-color-primary);
+      }
+
       .text {
         font-size: var(--ux-fsize-14);
       }
