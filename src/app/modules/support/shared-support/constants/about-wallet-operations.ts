@@ -57,7 +57,7 @@ export const ABOUT_WALLET_OPERATIONS = [
       {
         title: 'support.support_wallet_operations.question12',
         answer: 'support.support_wallet_operations.answer12',
-        last: false,
+        last: true,
       },
   ];
   

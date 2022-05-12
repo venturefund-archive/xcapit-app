@@ -32,7 +32,7 @@ export const NFT_TERMS = [
     {
       title: 'support.support_nft.question7',
       answer: 'support.support_nft.answer7',
-      last: false,
+      last: true,
     },
   ];
   

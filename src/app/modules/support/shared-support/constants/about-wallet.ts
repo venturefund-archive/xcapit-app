@@ -47,6 +47,6 @@ export const ABOUT_WALLET = [
   {
     title: 'support.support_wallet.question10',
     answer: 'support.support_wallet.answer10',
-    last: false,
+    last: true,
   },
 ];
