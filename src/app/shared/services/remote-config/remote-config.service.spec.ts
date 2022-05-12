@@ -11,7 +11,8 @@ describe('RemoteConfigService', () => {
       defaultConfig: {},
       initialize: () => Promise.resolve(),
       setDefaultConfig: () => {},
-      getFeatureFlag: () => true
+      getFeatureFlag: () => true,
+      getString: () => 'test'
     };
     TestBed.configureTestingModule({});
     service = TestBed.inject(RemoteConfigService);
@@ -31,6 +32,13 @@ describe('RemoteConfigService', () => {
     const spy = spyOn(remoteConfigMock, 'getFeatureFlag');
     await service.initialize(remoteConfigMock);
     service.getFeatureFlag('test');
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call getString on getString', async () => {
+    const spy = spyOn(remoteConfigMock, 'getString');
+    await service.initialize(remoteConfigMock);
+    service.getString('test');
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });

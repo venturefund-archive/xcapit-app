@@ -81,6 +81,7 @@ import { ObjetiveCardComponent } from '../modules/financial-planner/shared-finan
 import { NumberInputDirective } from './directives/number-input/number-input.directive';
 import { CauseComponent } from '../modules/donations/shared-donations/components/cause/cause.component';
 import { FormattedNetworkPipe } from '../modules/wallets/shared-wallets/pipes/formatted-network-name/formatted-network.pipe';
+import { ReferralsComingComponent } from '../modules/referrals/shared-referrals/components/referrals-coming/referrals-coming.component';
 import { FormattedAmountPipe } from './pipes/formatted-amount/formatted-amount.pipe';
 import { CauseInfoComponent } from '../modules/donations/shared-donations/components/description-cause/cause-info.component';
 
@@ -106,6 +107,7 @@ import { CauseInfoComponent } from '../modules/donations/shared-donations/compon
     TokenSelectionListComponent,
     TransactionFeeComponent,
     AmountInputCardComponent,
+    ReferralsComingComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -199,6 +201,7 @@ import { CauseInfoComponent } from '../modules/donations/shared-donations/compon
     CoinSelectorComponent,
     TransactionFeeComponent,
     AmountInputCardComponent,
+    ReferralsComingComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,

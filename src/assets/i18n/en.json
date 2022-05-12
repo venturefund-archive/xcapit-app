@@ -1656,7 +1656,10 @@
       "email": "Email"
     },
     "referrals_summary": {
-      "header": "Referidos"
+      "header": "Referrals"
+    },
+    "referrals_closed": {
+      "header": "Referrals"
     },
     "referrals_share": {
       "title": "Refer and Win!",
@@ -1665,6 +1668,11 @@
       "share": "Share my link",
       "copy": "Copy my link",
       "copied": "Copied",
+      "tos": "See terms and conditions"
+    },
+    "referrals_coming": {
+      "title": "We are creating magic",
+      "paragraph":"This program is now closed. We will be resuming soon with new proposals and more benefits.",
       "tos": "See terms and conditions"
     },
     "referrals_pending": {

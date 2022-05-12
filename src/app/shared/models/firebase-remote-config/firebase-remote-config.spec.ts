@@ -12,6 +12,7 @@ describe('FirebaseRemoteConfig', () => {
       getRemoteConfig: { settings: {}},
       fetchAndActivate: Promise.resolve(true),
       getValue: value,
+      getString: '/test/url'
     });
     firebaseAppSpy = jasmine.createSpyObj('FirebaseApp', {}, {name: 'test'});
     model = new FirebaseRemoteConfig(firebaseAppSpy);
@@ -31,6 +32,11 @@ describe('FirebaseRemoteConfig', () => {
   it('should get param for feature flag on getFeatureFlag', () => {
     const param = model.getFeatureFlag('test');
     expect(param).toBeFalse();
+  });
+
+  it('should get string for feature flag on getString', () => {
+    const url = model.getString('test');
+    expect(url).toBe('/test/url');
   });
 
   it('should call fetchAndActivate on fetchAndActivate', async () => {

@@ -17,4 +17,8 @@ export class RemoteConfigService {
   getFeatureFlag(param: string): boolean {
     return this.remoteConfig.getFeatureFlag(param);
   }
+
+  getString(name : string){
+    return this.remoteConfig.getString(name);
+  }
 }
