@@ -5,29 +5,31 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
-import { SupportBinanceInvestmentsPage } from './support-binance-investments.page';
+
+import { SupportWalletOperationsPage } from './support-wallet-operations.page';
 
 const faqs = [
   {
-    title: 'support.support_binance.question1',
-    answer: 'support.support_binance.answer1',
+    title: 'support.support_wallet_operations.question1',
+    answer: 'support.support_wallet_operations.answer1',
     last: false,
   },
   {
-    title: 'support.support_binance.question2',
-    answer: 'support.support_binance.answer2',
+    title: 'support.support_wallet_operations.question2',
+    answer: 'support.support_wallet_operations.answer2',
     last: false,
   },
   {
-    title: 'support.support_binance.question3',
-    answer: 'support.support_binance.answer3',
+    title: 'support.support_wallet_operations.question3',
+    answer: 'support.support_wallet_operations.answer3',
     last: false,
   },
 ];
 
-describe('SupportBinanceInvestmentsPage', () => {
-  let component: SupportBinanceInvestmentsPage;
-  let fixture: ComponentFixture<SupportBinanceInvestmentsPage>;
+
+describe('SupportWalletOperationsPage', () => {
+  let component: SupportWalletOperationsPage;
+  let fixture: ComponentFixture<SupportWalletOperationsPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: any;
 
@@ -36,22 +38,20 @@ describe('SupportBinanceInvestmentsPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [SupportBinanceInvestmentsPage],
+        declarations: [ SupportWalletOperationsPage ],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(SupportBinanceInvestmentsPage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(SupportWalletOperationsPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
   it('should render app-faq component', () => {
     component.faqs = faqs;
     fixture.detectChanges();
@@ -59,4 +59,5 @@ describe('SupportBinanceInvestmentsPage', () => {
     fixture.detectChanges();
     expect(appFaq.length).toBe(3);
   });
+
 });
