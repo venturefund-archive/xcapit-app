@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 @Component({
@@ -27,7 +28,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
   styleUrls: ['./referrals-coming.component.scss'],
 })
 export class ReferralsComingComponent implements OnInit {
-
+  links = LINKS;
   constructor(
     private browserService: BrowserService
   ) { }
@@ -36,7 +37,7 @@ export class ReferralsComingComponent implements OnInit {
 
   async goToToS() {
     await this.browserService.open({
-      url: 'https://xcapit.com/financial-freedom-tyc/',
+      url: this.links.referralsTermsAndConditions,
     });
   }
 
