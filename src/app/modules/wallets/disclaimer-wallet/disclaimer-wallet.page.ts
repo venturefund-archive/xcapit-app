@@ -57,8 +57,8 @@ import { LINKS } from 'src/app/config/static-links';
           ></app-wallet-advice>
         </div>
         <div name="Disclaimer Form Buttons" class="ux_footer">
-          <ion-item class="ux-checkbox-container__item ux-font-text-xs">
-            <ion-label class="ux-checkbox-container__item__label checkbox__label">
+          <ion-item class="ux-checkbox-container ux-font-text-xs">
+            <ion-label class="ux-checkbox-container__label">
               {{ 'wallets.disclaimer.agree_phrase_checkbox' | translate }}
             </ion-label>
             <ion-checkbox
