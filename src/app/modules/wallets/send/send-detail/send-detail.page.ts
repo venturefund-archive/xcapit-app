@@ -20,7 +20,6 @@ import { ERC20ContractController } from '../../../defi-investments/shared-defi-i
 import { FakeProvider } from '../../../../shared/models/provider/fake-provider.spec';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
 import { parseUnits } from 'ethers/lib/utils';
-import { couldStartTrivia } from 'typescript';
 
 @Component({
   selector: 'app-send-detail',
@@ -200,7 +199,7 @@ export class SendDetailPage {
   }
 
   parseWei(amount:number){
-    return parseUnits(Number(amount).toFixed(this.token.decimals), this.token.decimals);
+    return parseUnits(amount.toFixed(this.token.decimals), this.token.decimals);
   }
   
   async getPrice(): Promise<number> {

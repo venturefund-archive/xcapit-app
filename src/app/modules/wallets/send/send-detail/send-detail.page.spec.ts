@@ -65,12 +65,12 @@ const coins: Coin[] = [
 const formData = {
   valid: {
     address: 'asdfasdfasdfas',
-    amount: '29',
-    quoteAmount: '29',
+    amount: 29,
+    quoteAmount: 29,
   },
 };
 
-fdescribe('SendDetailPage', () => {
+describe('SendDetailPage', () => {
   let component: SendDetailPage;
   let fixture: ComponentFixture<SendDetailPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
