@@ -15,6 +15,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
 import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies';
+import { COUNTRIES } from '../shared-ramps/constants/countries';
+import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
+import { HttpClient } from '@angular/common/http';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
 
 @Component({
   selector: 'app-operations-new',
@@ -22,7 +28,7 @@ import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies';
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/new-operation/moonpay"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.new_operation.header' | translate }}
@@ -34,8 +40,9 @@ import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies';
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
         <div class="ux_content">
           <app-provider-new-operation-card
-            *ngIf="this.selectedCurrency"
+            *ngIf="this.selectedCurrency && this.fiatCurrency"
             [coin]="this.selectedCurrency"
+            [fiatCurrency]="this.fiatCurrency"
             [provider]="this.provider"
             (changeCurrency)="this.changeCurrency()"
           ></app-provider-new-operation-card>
@@ -73,7 +80,15 @@ import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies';
 
         <div class="ux_footer">
           <div class="button-next">
-            <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="secondary" size="large">
+            <ion-button
+              class="ux_button"
+              appTrackClick
+              name="Next"
+              type="submit"
+              color="secondary"
+              size="large"
+              [disabled]="!this.form.valid"
+            >
               {{ 'fiat_ramps.new_operation.next_button' | translate }}
             </ion-button>
           </div>
@@ -88,13 +103,17 @@ export class OperationsNewPage implements AfterViewInit {
   provider = PROVIDERS.find((provider) => provider.id === 1);
   providerCurrencies: Coin[];
   selectedCurrency: Coin;
-  country: any;
+  fiatCurrency: string;
+  country: FiatRampProviderCountry;
+  price: number;
+  priceRefreshInterval = 15000;
+  private destroy$ = new Subject<void>();
 
   form: FormGroup = this.formBuilder.group({
     currency_in: [null, [Validators.required]], //TT: Tiene que tener la del pais seleccionado
     currency_out: [null, [Validators.required]], //TT: La actual
-    amount: ['', [Validators.required]], //TT: Rangos cantidad para comprar
-    quoteAmount: ['', [Validators.required]],
+    cryptoAmount: ['', [Validators.required]],
+    fiatAmount: ['', [Validators.required]],
     thirdPartyKYC: [false, [Validators.required]],
     thirdPartyTransaction: [false, [Validators.required]],
     acceptTOSAndPrivacyPolicy: [false, [Validators.required]],
@@ -104,11 +123,6 @@ export class OperationsNewPage implements AfterViewInit {
     // pair: ['', [Validators.required]],
     // country: ['Argentina', [Validators.maxLength(150)]],
   });
-
-  quotations: any = null;
-  changePrice = null;
-  pairSplit = [];
-  amountOut = null;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -120,7 +134,8 @@ export class OperationsNewPage implements AfterViewInit {
     private apiWalletService: ApiWalletService,
     private route: ActivatedRoute,
     private elementRef: ElementRef,
-    private browserService: BrowserService
+    private browserService: BrowserService,
+    private http: HttpClient
   ) {}
 
   ngAfterViewInit() {
@@ -143,10 +158,42 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   ionViewWillEnter() {
-    this.providerCurrencies = KriptonCurrencies.create(this.apiWalletService.getCoins()).value();
-    this.setCurrency();
-    this.setCountry();
     this.fiatRampsService.setProvider(this.provider.id.toString());
+    this.providerCurrencies = KriptonCurrencies.create(this.apiWalletService.getCoins()).value();
+    this.setCountry();
+    this.setCurrency();
+    this.dynamicPrice();
+    this.subscribeToFormChanges();
+  }
+
+  subscribeToFormChanges() {
+    this.form.get('cryptoAmount').valueChanges.subscribe((value) => this.cryptoAmountChange(value));
+    this.form.get('fiatAmount').valueChanges.subscribe((value) => this.fiatAmountChange(value));
+  }
+
+  private cryptoAmountChange(value: number) {
+    this.form.patchValue({ fiatAmount: value * this.price }, { emitEvent: false, onlySelf: true });
+  }
+
+  private fiatAmountChange(value: number) {
+    this.form.patchValue({ cryptoAmount: value / this.price }, { emitEvent: false, onlySelf: true });
+  }
+
+  private dynamicPrice() {
+    this.createKriptonDynamicPrice()
+      .value()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((price: number) => (this.price = price));
+  }
+
+  createKriptonDynamicPrice(): KriptonDynamicPrice {
+    return KriptonDynamicPrice.create(this.priceRefreshInterval, this.fiatCurrency, this.selectedCurrency, this.http);
+  }
+
+  setCountry() {
+    this.country = COUNTRIES.find(
+      (country) => country.name.toLowerCase() === this.route.snapshot.paramMap.get('country')
+    );
   }
 
   setCurrency() {
@@ -156,11 +203,8 @@ export class OperationsNewPage implements AfterViewInit {
       asset && network
         ? this.providerCurrencies.find((currency) => currency.value === asset && currency.network === network)
         : this.providerCurrencies[0];
-  }
 
-  setCountry() {
-    this.country = this.route.snapshot.paramMap.get('country');
-    console.log(this.country);
+    this.fiatCurrency = this.country.fiatCode ? this.country.fiatCode : 'USD';
   }
 
   handleSubmit() {
@@ -172,66 +216,17 @@ export class OperationsNewPage implements AfterViewInit {
     }
   }
 
-  async getQuotations() {
-    this.changePrice = '';
-    this.form.controls.wallet.setValue('');
-    this.form.controls.network.setValue('');
-    this.form.controls.amount_in.setValue('');
-    this.fiatRampsService.getQuotations().subscribe((res) => {
-      this.quotations = res.data;
-      this.getPrice();
-    });
-  }
-
   async checkUser() {
-    this.fiatRampsService.checkUser().subscribe((res) => {
-      if (!res.id) {
-        this.createUser();
-      } else {
-        this.redirectByStatus(res);
-      }
-    });
-  }
+    const checkUserResponse = await this.fiatRampsService.checkUser().toPromise();
 
-  async getPrice() {
-    this.pairSplit = this.form.value.pair.split('_');
-    this.form.controls.currency_in.setValue(this.pairSplit[0]);
-    this.form.controls.currency_out.setValue(this.pairSplit[1]);
-    this.pairSplit = this.form.value.type === 'cash-out' ? this.pairSplit.reverse() : this.pairSplit;
-    const price = this.quotations.filter((pair) => pair.currency === this.pairSplit[1].toLowerCase());
-    const coin = this.apiWalletService.getCoins().find((coin) => coin.value === this.pairSplit[1]);
-
-    if (price[0]) {
-      if (this.form.value.type === 'cash-in') {
-        this.changePrice = price[0].quotations[this.pairSplit[0].toLowerCase()].sell;
-        this.form.controls.price_in.setValue(1);
-        this.form.controls.price_out.setValue(this.changePrice);
-      } else {
-        this.changePrice = price[0].quotations[this.pairSplit[0].toLowerCase()].buy;
-        this.form.controls.price_in.setValue(1);
-        this.form.controls.price_out.setValue(this.changePrice);
-      }
-    }
-    this.form.patchValue({ wallet: await this.userWalletFor(coin.network) });
-    this.form.patchValue({ network: coin.network });
-  }
-
-  async createUser() {
-    this.fiatRampsService.createUser().subscribe({
-      next: (res) => {
-        this.redirectByStatus(res);
-      },
-    });
+    this.redirectByStatus(
+      checkUserResponse.id ? checkUserResponse : await this.fiatRampsService.createUser().toPromise()
+    );
   }
 
   setOperationStorage() {
     const data = this.form.value;
     this.storageOperationService.updateData(data);
-  }
-
-  setOutAmount() {
-    this.amountOut = this.form.value.amount_in / this.changePrice;
-    this.form.controls.amount_out.setValue(this.amountOut);
   }
 
   async userWalletFor(network: string): Promise<string> {

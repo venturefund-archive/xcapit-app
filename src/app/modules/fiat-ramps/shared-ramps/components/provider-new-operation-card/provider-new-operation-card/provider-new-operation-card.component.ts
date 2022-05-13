@@ -26,16 +26,16 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
             {{ coin.value }}
           </ion-label>
           <ion-label class="ux-font-text-xs pnoc__amount-select__labels__quote" color="primary">
-            {{ this.quoteCurrency }}</ion-label
+            {{ this.fiatCurrency | uppercase }}</ion-label
           >
         </div>
         <div class="pnoc__amount-select__inputs">
           <div class="pnoc__amount-select__inputs__amount">
-            <ion-input appNumberInput formControlName="amount" type="number" inputmode="numeric"> </ion-input>
+            <ion-input appNumberInput formControlName="cryptoAmount" type="number" inputmode="numeric"> </ion-input>
           </div>
           <ion-text class="pnoc__amount-select__inputs__equal ux-fweight-medium ">=</ion-text>
           <div class="pnoc__amount-select__inputs__quoteAmount">
-            <ion-input appNumberInput formControlName="quoteAmount" type="number" inputmode="numeric"></ion-input>
+            <ion-input appNumberInput formControlName="fiatAmount" type="number" inputmode="numeric"></ion-input>
           </div>
         </div>
       </div>
@@ -71,7 +71,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
 })
 export class ProviderNewOperationCardComponent implements OnInit {
   @Input() coin: Coin;
-  @Input() quoteCurrency = 'USD';
+  @Input() fiatCurrency = 'USD';
   @Input() provider: FiatRampProvider;
   @Output() changeCurrency = new EventEmitter<void>();
 
