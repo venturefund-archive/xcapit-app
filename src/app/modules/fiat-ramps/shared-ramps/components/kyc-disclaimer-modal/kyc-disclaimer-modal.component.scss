@@ -1,0 +1,52 @@
+:host {
+  .kdm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__close {
+      position: absolute;
+      top: 22px;
+      right: 26px;
+
+      ion-button {
+        --padding-start: 0;
+        --padding-end: 0;
+
+        height: fit-content;
+        margin: 0;
+      }
+
+      &__icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    &__image {
+      padding: 52px 23px 24px;
+    }
+
+    &__title {
+      text-align: center;
+    }
+
+    &__description {
+      margin-top: 16px;
+
+      ion-text {
+        color: var(--ion-color-primary);
+      }
+    }
+
+    &__begin {
+      margin-top: 24px;
+      width: 100%;
+
+      ion-button {
+        width: inherit;
+      }
+    }
+  }
+}

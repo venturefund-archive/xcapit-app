@@ -1927,6 +1927,11 @@
       "provider_new_operation_card": {
         "quantity": "Cantidad",
         "provider": "Proveedor"
+      },
+      "kyc_disclaimer_modal": {
+        "title": "Registro cuenta Kripton",
+        "description": "Por única vez tienes que crearte una cuenta en kripton, la próxima vez que elijas este operador vas a acceder de manera automática.\n Recuerda que el registro y proceso de compra queda a cargo de Kripton.",
+        "button": "Empezar"
       }
     }
   },

@@ -1043,13 +1043,13 @@
       "item_2": "Choose by category, and become an agent of change.",
       "button": "Let's start"
     },
-    "causes":{
-      "header":"Donations",
-      "title":"Choose your cause",
-      "types":{
-        "humanitary":"Humanitarian aid",
-        "environment":"Environment",
-        "human_rights":"Human Rights"
+    "causes": {
+      "header": "Donations",
+      "title": "Choose your cause",
+      "types": {
+        "humanitary": "Humanitarian aid",
+        "environment": "Environment",
+        "human_rights": "Human Rights"
       }
     },
     "description_cause": {
@@ -1084,17 +1084,17 @@
         }
       }
     },
-    "success":{
-      "textPrimary":"Thanks for joining us!",
-      "textSecondary":"You have just contributed to a great cause.",
-      "namePrimaryAction":"Continue donating",
-      "nameThirdAction":"Back to home"
+    "success": {
+      "textPrimary": "Thanks for joining us!",
+      "textSecondary": "You have just contributed to a great cause.",
+      "namePrimaryAction": "Continue donating",
+      "nameThirdAction": "Back to home"
     },
 
-    "error":{
-      "textPrimary":"Your donation could not be completed",
-      "textSecondary":"An error occurred in the blockchain.",
-      "namePrimaryAction":"Try again"
+    "error": {
+      "textPrimary": "Your donation could not be completed",
+      "textSecondary": "An error occurred in the blockchain.",
+      "namePrimaryAction": "Try again"
     }
   },
   "referrals": {
@@ -1175,7 +1175,7 @@
     },
     "referrals_coming": {
       "title": "We are creating magic",
-      "paragraph":"This program is now closed. We will be resuming soon with new proposals and more benefits.",
+      "paragraph": "This program is now closed. We will be resuming soon with new proposals and more benefits.",
       "tos": "See terms and conditions"
     },
     "referrals_pending": {
@@ -1940,6 +1940,11 @@
       "provider_new_operation_card": {
         "quantity": "Amount",
         "provider": "Provider"
+      },
+      "kyc_disclaimer_modal": {
+        "title": "Krypton account registration",
+        "description": "You only have to create a Krypton account once, the next time you choose this operator you will be automatically logged in. Remember that the registration and purchase process is in the control of Krypton.",
+        "button": "Begin"
       }
     }
   },
