@@ -5,7 +5,10 @@ import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { Countries } from '../enums/countries.enum';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
+import {
+  OperationDataInterface,
+  StorageOperationService,
+} from '../shared-ramps/services/operation/storage-operation.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
@@ -200,9 +203,9 @@ export class OperationsNewPage implements AfterViewInit {
     this.fiatCurrency = this.country.fiatCode ? this.country.fiatCode : 'USD';
   }
 
-  handleSubmit() {
+  async handleSubmit() {
     if (this.form.valid) {
-      this.setOperationStorage();
+      await this.setOperationStorage();
       this.checkUser();
     } else {
       this.form.markAllAsTouched();
@@ -215,8 +218,23 @@ export class OperationsNewPage implements AfterViewInit {
     this.redirectByStatus(userStatus);
   }
 
-  setOperationStorage() {
-    const data = this.form.value;
+  async setOperationStorage() {
+    const wallet = await this.walletEncryptionService.getEncryptedWallet();
+    const walletAddress = wallet.addresses[this.selectedCurrency.network];
+
+    const data: OperationDataInterface = {
+      country: this.country.name,
+      type: 'cash-in',
+      amount_in: this.form.value.fiatAmount,
+      amount_out: this.form.value.cryptoAmount,
+      currency_in: this.fiatCurrency,
+      currency_out: this.selectedCurrency.value,
+      price_in: '1',
+      price_out: this.price.toString(),
+      wallet: walletAddress,
+      provider: this.provider.id.toString(),
+      network: this.selectedCurrency.network,
+    };
     this.storageOperationService.updateData(data);
   }
 

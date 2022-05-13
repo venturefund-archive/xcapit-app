@@ -4,7 +4,6 @@ import { BehaviorSubject } from 'rxjs';
 export interface OperationDataInterface {
   country: string;
   type: string;
-  pair: string;
   amount_in: string;
   amount_out: string;
   currency_in: string;
@@ -24,7 +23,6 @@ export class StorageOperationService {
   initial = {
     country: '',
     type: '',
-    pair: '',
     amount_in: '',
     amount_out: '',
     currency_in: '',
