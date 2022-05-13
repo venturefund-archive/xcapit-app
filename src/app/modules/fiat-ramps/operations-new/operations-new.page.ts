@@ -38,7 +38,7 @@ import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-pric
 
     <ion-content class="ion-padding">
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
-        <div class="ux_content">
+        <div class="ux_content aon">
           <app-provider-new-operation-card
             *ngIf="this.selectedCurrency && this.fiatCurrency"
             [coin]="this.selectedCurrency"
@@ -47,26 +47,26 @@ import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-pric
             (changeCurrency)="this.changeCurrency()"
           ></app-provider-new-operation-card>
 
-          <div>
-            <div class="term-item ion-no-padding ion-no-margin">
+          <div class="aon__disclaimer">
+            <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
               <ion-checkbox formControlName="thirdPartyKYC" mode="md" slot="start"></ion-checkbox>
               <ion-label class="ion-no-padding ion-no-margin">
                 <ion-text class="ux-font-text-xxs" color="neutral80">
                   {{ 'fiat_ramps.new_operation.thirdPartyKYC' | translate }}
                 </ion-text>
               </ion-label>
-            </div>
+            </ion-item>
 
-            <div class="term-item ion-no-padding ion-no-margin">
+            <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
               <ion-checkbox formControlName="thirdPartyTransaction" mode="md" slot="start"></ion-checkbox>
               <ion-label class="ion-no-padding ion-no-margin checkbox-link">
                 <ion-text class="ux-font-text-xxs" color="neutral80">
                   {{ 'fiat_ramps.new_operation.thirdPartyTransaction' | translate }}
                 </ion-text>
               </ion-label>
-            </div>
+            </ion-item>
 
-            <div class="term-item ion-no-padding ion-no-margin">
+            <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
               <ion-checkbox formControlName="acceptTOSAndPrivacyPolicy" mode="md" slot="start"></ion-checkbox>
               <ion-label
                 class="ion-no-padding ion-no-margin ux-font-text-xxs"
@@ -74,7 +74,7 @@ import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-pric
                 [innerHTML]="'fiat_ramps.new_operation.privacyPolicyAndTOS' | translate"
               >
               </ion-label>
-            </div>
+            </ion-item>
           </div>
         </div>
 
@@ -110,18 +110,11 @@ export class OperationsNewPage implements AfterViewInit {
   private destroy$ = new Subject<void>();
 
   form: FormGroup = this.formBuilder.group({
-    currency_in: [null, [Validators.required]], //TT: Tiene que tener la del pais seleccionado
-    currency_out: [null, [Validators.required]], //TT: La actual
     cryptoAmount: ['', [Validators.required]],
     fiatAmount: ['', [Validators.required]],
     thirdPartyKYC: [false, [Validators.required]],
     thirdPartyTransaction: [false, [Validators.required]],
     acceptTOSAndPrivacyPolicy: [false, [Validators.required]],
-    provider: [this.provider.id.toString()],
-    //TT: Hace falta ensuciar la view con el campo ahora o lo agrego luego con un objeto?
-    // type: ['cash-in', [Validators.required]],
-    // pair: ['', [Validators.required]],
-    // country: ['Argentina', [Validators.maxLength(150)]],
   });
 
   constructor(
@@ -218,10 +211,8 @@ export class OperationsNewPage implements AfterViewInit {
 
   async checkUser() {
     const checkUserResponse = await this.fiatRampsService.checkUser().toPromise();
-
-    this.redirectByStatus(
-      checkUserResponse.id ? checkUserResponse : await this.fiatRampsService.createUser().toPromise()
-    );
+    const userStatus = checkUserResponse.id ? checkUserResponse : await this.fiatRampsService.createUser().toPromise();
+    this.redirectByStatus(userStatus);
   }
 
   setOperationStorage() {

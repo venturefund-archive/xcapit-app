@@ -1,67 +1,31 @@
 :host {
-  width: 100%;
-
-  .custom-color {
-    color: var(--ion-color-neutral80);
-    font-size: var(--ux-fsize-14);
-  }
-
-  .ux-card {
-    background-color: var(--ion-color-white);
-    border-radius: 8px;
-
-    &__amount {
-      padding: 24px 14px;
-      display: flex;
-      width: 100%;
-
-      &__amount {
-        font-size: 14px;
-        border-bottom: 1px solid #bababa;
+  .aon {
+    &__disclaimer {
+      &__item {
         display: flex;
-        align-items: flex-start;
-      }
 
-      &__validator {
-        --ion-item-background: transparent;
-      }
+        --inner-border-width: 0;
+        --inner-padding-end: 0;
+        --background-activated: none;
 
-      &__info {
-        font-size: 12px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-        flex-flow: column wrap;
-        color: #bababa;
-        margin-left: 36px;
-        line-height: 18px;
+        margin-bottom: 16px;
 
-        &__description {
-          color: #7a7878;
+        ion-checkbox {
+          margin-right: 8px;
+          width: 24px;
+          height: 24px;
+        }
+
+        ion-label {
+          font-size: 12px;
+          line-height: 18px;
+          z-index: 3;
         }
       }
-    }
 
-    &__price {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #bababa;
-      font-size: 14px;
-      padding: 0 14px 24px;
-
-      &__dark {
-        color: #7a7878;
-        margin-left: 15px;
+      &__item:last-child {
+        margin-bottom: 10px;
       }
-    }
-
-    &__user-amount {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      padding-bottom: 24px;
     }
   }
 
@@ -70,20 +34,5 @@
     flex-direction: column;
     margin-top: 25px;
     margin-bottom: 16px;
-  }
-
-  .term-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-
-    ion-checkbox {
-      flex: 1 0 auto;
-      margin-right: 8px;
-    }
-  }
-
-  .term-item:last-child {
-    margin-bottom: 10px;
   }
 }
