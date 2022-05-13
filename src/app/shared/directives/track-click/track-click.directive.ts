@@ -16,12 +16,14 @@ export class TrackClickDirective implements ITrackClickDirective {
 
   @HostListener('click', ['$event'])
   clickEvent(event: any) {
-    this.dataToTrack.eventLabel = this.getEventLabel();
-    this.trackService.trackEvent({
-      eventAction: event.type,
-      description: window.location.href,
-      ...this.dataToTrack,
-    });
+    setTimeout(() => {
+      this.dataToTrack.eventLabel = this.getEventLabel();
+      this.trackService.trackEvent({
+        eventAction: event.type,
+        description: window.location.href,
+        ...this.dataToTrack,
+      });
+    }, 0);
   }
 
   @HostListener('ionChange', ['$event'])
@@ -36,7 +38,7 @@ export class TrackClickDirective implements ITrackClickDirective {
       });
     }
   }
-  
+
   private getEventLabel(): string {
     return this.dataToTrack.eventLabel || (this.el.nativeElement as HTMLElement).getAttribute('name');
   }

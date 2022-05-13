@@ -1,5 +1,5 @@
 import { TrackClickDirective } from './track-click.directive';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture, tick, fakeAsync } from '@angular/core/testing';
 import { TrackService } from '../../services/track/track.service';
 import { Component, DebugElement, ElementRef } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -46,10 +46,11 @@ describe('TrackClickDirective', () => {
     expect(directive).toBeTruthy();
   });
 
-  it('should call trackEvent on clickEvent', () => {
+  it('should call trackEvent on clickEvent', fakeAsync(() => {
     directive.clickEvent('click');
+    tick();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
-  });
+  }));
 
   it('should call trackEvent on trackService when button clicked', () => {
     directive = fixture.debugElement
