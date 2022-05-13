@@ -19,6 +19,8 @@ import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared
 import { ERC20ContractController } from '../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
 import { FakeProvider } from '../../../../shared/models/provider/fake-provider.spec';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
+import { parseUnits } from 'ethers/lib/utils';
+import { couldStartTrivia } from 'typescript';
 
 @Component({
   selector: 'app-send-detail',
@@ -169,7 +171,7 @@ export class SendDetailPage {
         new NativeFeeOf(
           new NativeGasOf(this.erc20Provider(), {
             to: this.form.value.address,
-            value: this.form.value.amount,
+            value: this.form.value.amount && this.parseWei(this.form.value.amount),
           }),
           new FakeProvider(await this.gasPrice())
         ),
@@ -185,18 +187,22 @@ export class SendDetailPage {
       .then((res) => res.gas_price);
   }
 
-  private async tokenContractTransferFee(): Promise<void> {
+  private async tokenContractTransferFee(): Promise<void> { 
     this.fee = await new FormattedFee(
       new NativeFeeOf(
         new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
           this.form.value.address,
-          this.form.value.amount,
-        ]),
+          this.parseWei(this.form.value.amount)       
+        ]),  
         new FakeProvider(await this.gasPrice())
       )
     ).value();
   }
 
+  parseWei(amount:number){
+    return parseUnits(Number(amount).toFixed(this.token.decimals), this.token.decimals);
+  }
+  
   async getPrice(): Promise<number> {
     const prices = (await this.apiWalletService.getPrices([this.token.value], false).toPromise()).prices;
     return prices[this.token.value];

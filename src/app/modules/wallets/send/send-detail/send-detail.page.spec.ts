@@ -37,7 +37,7 @@ const coins: Coin[] = [
     native: true,
   },
   {
-    id: 1,
+    id: 2,
     name: 'ETH - Ethereum',
     logoRoute: 'assets/img/coins/ETH.svg',
     last: false,
@@ -70,7 +70,7 @@ const formData = {
   },
 };
 
-describe('SendDetailPage', () => {
+fdescribe('SendDetailPage', () => {
   let component: SendDetailPage;
   let fixture: ComponentFixture<SendDetailPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
