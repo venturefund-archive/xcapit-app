@@ -58,7 +58,9 @@ export class SelectProviderPage {
   }
 
   goToRoute() {
-    this.navController.navigateForward([this.route]);
+    this.route === '/fiat-ramps/new-operation/kripton'
+      ? this.navController.navigateForward([this.route, this.form.value.country.name.toLowerCase()])
+      : this.navController.navigateForward([this.route]);
   }
 
   resetForm() {
