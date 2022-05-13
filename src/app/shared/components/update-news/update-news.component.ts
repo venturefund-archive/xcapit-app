@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { News } from '../../interfaces/news.interface';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { BrowserService } from '../../services/browser/browser.service';
+import { LINKS } from 'src/app/config/static-links';
 
 @Component({
   selector: 'app-update-news',
@@ -35,31 +37,30 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./update-news.component.scss'],
 })
 export class UpdateNewsComponent implements OnInit {
+  links = LINKS
   image = 'assets/img/update-news/news.svg';
   items: News[] = [
+
     {
       badge: this.translate.instant('shared.update_news.first.badge'),
       title: this.translate.instant('shared.update_news.first.title'),
       description: this.translate.instant('shared.update_news.first.description'),
-      url: '/fiat-ramps/moonpay',
+      url: this.links.discordCommunity,
+      isOpenByBrowser: true
     },
     {
       badge: this.translate.instant('shared.update_news.second.badge'),
       title: this.translate.instant('shared.update_news.second.title'),
       description: this.translate.instant('shared.update_news.second.description'),
-      url: '/tabs/investments',
-    },
-    {
-      badge: this.translate.instant('shared.update_news.third.badge'),
-      title: this.translate.instant('shared.update_news.third.title'),
-      description: this.translate.instant('shared.update_news.third.description'),
-      url: '/wallets/wallet-connect/new-connection',
-    },
+      url: '/financial-planner/information',
+      isOpenByBrowser:false
+    }
   ];
   constructor(
     private modalController: ModalController,
     private navController: NavController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private browserService: BrowserService,
   ) {}
 
   ngOnInit() {}
@@ -68,8 +69,14 @@ export class UpdateNewsComponent implements OnInit {
     this.modalController.dismiss();
   }
 
-  navigateToUrl(url: string) {
-    this.navController.navigateForward(url);
-    this.close();
+  navigateToUrl(item:News) {
+    if (item.isOpenByBrowser){
+      this.browserService.open({url:item.url})
+      this.close();
+    }else {
+      this.navController.navigateForward(item.url);
+      this.close();
+    }
+    
   }
 }

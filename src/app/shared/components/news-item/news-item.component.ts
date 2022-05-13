@@ -18,12 +18,12 @@ import { News } from '../../interfaces/news.interface';
 })
 export class NewsItemComponent implements OnInit {
   @Input() item: News;
-  @Output() clicked: EventEmitter<string> = new EventEmitter<string>();
+  @Output() clicked: EventEmitter<News> = new EventEmitter<News>();
   constructor() {}
 
   ngOnInit() {}
 
   emitClicked() {
-    this.clicked.emit(this.item.url);
+    this.clicked.emit(this.item);
   }
 }
