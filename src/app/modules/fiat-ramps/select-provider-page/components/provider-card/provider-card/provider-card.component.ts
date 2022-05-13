@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
+import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider.interface';
 @Component({
   selector: 'app-provider-card',
   template: `
@@ -21,8 +22,11 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
             mode="md"
             slot="end"
             checked="true"
+            name="ux_buy_moonpay"
             (click)="this.sendProviderData(this.provider)"
             [disabled]="!this.disabled"
+            appTrackClick
+            [dataToTrack]="{ eventLabel: this.provider.trackClickEventName }"
           ></ion-radio>
         </div>
       </div>
@@ -37,7 +41,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
   ],
 })
 export class ProviderCardComponent {
-  @Input() provider: any;
+  @Input() provider: FiatRampProvider;
   @Input() disabled: boolean;
   @Output() selectedProvider: EventEmitter<any> = new EventEmitter<any>();
 

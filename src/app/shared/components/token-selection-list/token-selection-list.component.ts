@@ -10,22 +10,25 @@ import { ApiWalletService } from '../../../modules/wallets/shared-wallets/servic
         <ion-list class="tsl__suite-container__suite">
           <ion-item lines="full" class="tsl__suite-container__suite__title ion-no-padding ion-no-margin">
             <ion-text class="ux-font-titulo-xs ion-no-padding ion-no-margin" lines="full">
-              {{ 'wallets.send.select_currency.suite' | translate: { suiteName: ((this.network | suite) | uppercase) } }}
+              {{ 'wallets.send.select_currency.suite' | translate: { suiteName: (this.network | suite | uppercase) } }}
             </ion-text>
           </ion-item>
           <div *ngFor="let coin of this.getCoinsFromNetwork(network); let last = last">
             <ion-item
               appTrackClick
-              name="Item Coin"
+              name="ux_buy_eth"
               [dataToTrack]="{ eventLabel: this.getTrackClickEventName(coin.value.toLowerCase()) }"
               class="tsl__suite-container__suite__coin-container ion-no-padding ion-no-margin"
               (click)="this.selectCurrency(coin)"
               [lines]="last ? 'none' : 'full'"
             >
               <div class="tsl__suite-container__suite__coin-container__coin">
-                <img class="tsl__suite-container__suite__coin-container__coin__img" [src]="this.coin.logoRoute">
+                <img class="tsl__suite-container__suite__coin-container__coin__img" [src]="this.coin.logoRoute" />
                 <div class="tsl__suite-container__suite__coin-container__coin__text-container">
-                  <ion-text class="tsl__suite-container__suite__coin-container__coin__text-container__label ux-font-text-xs">{{ this.coin.name }}</ion-text>
+                  <ion-text
+                    class="tsl__suite-container__suite__coin-container__coin__text-container__label ux-font-text-xs"
+                    >{{ this.coin.name }}</ion-text
+                  >
                   <ion-badge
                     *ngIf="this.coin.native"
                     class="tsl__suite-container__suite__coin-container__coin__text-container__badge ux-badge-native"
@@ -33,7 +36,12 @@ import { ApiWalletService } from '../../../modules/wallets/shared-wallets/servic
                     >{{ 'wallets.select_coin.native' | translate }}</ion-badge
                   >
                 </div>
-                <ion-icon class="tsl__suite-container__suite__coin-container__coin__chevron" name="chevron-forward-outline" color="info" item-right></ion-icon>
+                <ion-icon
+                  class="tsl__suite-container__suite__coin-container__coin__chevron"
+                  name="chevron-forward-outline"
+                  color="info"
+                  item-right
+                ></ion-icon>
               </div>
             </ion-item>
           </div>
@@ -49,7 +57,7 @@ export class TokenSelectionListComponent implements OnInit {
   @Output() clickedCoin: EventEmitter<Coin> = new EventEmitter<Coin>();
 
   get networks(): string[] {
-    return [...new Set(this.userCoins.map(coin => coin.network))];
+    return [...new Set(this.userCoins.map((coin) => coin.network))];
   }
 
   constructor(private apiWalletService: ApiWalletService) {}
@@ -69,9 +77,9 @@ export class TokenSelectionListComponent implements OnInit {
   }
 
   getTrackClickEventName(coin: string) {
-    if (this.state === 'send')
-      return `ux_${this.state}_${coin}`;
-
-    return 'Item Coin';
+    if (this.state === 'receive') {
+      return "Item Coin"
+    }
+    return `ux_${this.state}_${coin}`;
   }
 }

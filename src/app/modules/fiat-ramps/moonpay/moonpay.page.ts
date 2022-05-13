@@ -28,7 +28,8 @@ import { Currency } from '../../funds/shared-funds/enums/currency.enum';
         <div class="mnp__currency-select">
           <form [formGroup]="this.form">           
             <app-coin-selector
-            *ngIf="this.form.value.currency" [selectedCoin]="this.form.value.currency"
+            *ngIf="this.form.value.currency" 
+            [selectedCoin]="this.form.value.currency"
             (changeCurrency)="this.changeCurrency()"
           ></app-coin-selector>
           </form>

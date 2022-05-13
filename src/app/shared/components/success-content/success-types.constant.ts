@@ -240,6 +240,7 @@ export const SUCCESS_TYPES = {
     textSecondary:'fiat_ramps.fiat_success.textSecondary',
     namePrimaryAction:'fiat_ramps.fiat_success.buttonText',
     urlClose:'/fiat-ramps/new-operation',
-    urlPrimaryAction:'/tabs/home'
+    urlPrimaryAction:'/tabs/home',
+    trackClickEventNamePrimaryAction: 'ux_buy_kripton_details'
   }
 };
