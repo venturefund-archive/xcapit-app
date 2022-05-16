@@ -13,6 +13,20 @@ export class FormattedAmount {
     return Math.min(Math.max(this.totalDigits - this.entireQuantity(), 0), this.maxDecimals);
   }
 
+  public asString(): string {
+    let result = this.value().toString();
+
+    if (result.includes('e')) {
+      result = parseFloat(result).toFixed(this.decimals());
+    }
+
+    if (result.includes('.')) {
+      result = result.replace(/\.?0+$/, '');
+    }
+
+    return result;
+  }
+
   public value(): number {
     return parseFloat(this.aNumber.toFixed(this.decimals()));
   }
