@@ -32,4 +32,12 @@ describe('FormattedAmount', () => {
   it('should transform with custom values', () => {
     expect(new FormattedAmount(15.12345678918, 5, 3).value()).toEqual(15.123);
   });
+
+  it('should not use scientific notation when small number', () => {
+    expect(new FormattedAmount(0.00000001).asString()).toEqual('0.00000001');
+  });
+
+  it('should show 0 if minor to 8 decimals', () => {
+    expect(new FormattedAmount(0.000000000000009).value()).toEqual(0);
+  });
 });
