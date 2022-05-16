@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PROVIDERS } from '../../../constants/providers';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { By } from '@angular/platform-browser';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('ProviderNewOperationCardComponent', () => {
   let component: ProviderNewOperationCardComponent;
@@ -30,6 +31,7 @@ describe('ProviderNewOperationCardComponent', () => {
         declarations: [ProviderNewOperationCardComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [{ provide: FormGroupDirective, useValue: formGroupDirectiveMock }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(ProviderNewOperationCardComponent);
