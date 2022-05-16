@@ -48,7 +48,7 @@ import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-c
         <ion-button
           class="ux_button"
           appTrackClick
-          name="Next"
+          name="ux_buy_kripton_confirm"
           type="button"
           color="secondary"
           size="large"

@@ -75,7 +75,7 @@ describe('TokenSelectionListComponent', () => {
     component.state = 'send';
     component.userCoins = [TEST_ERC20_COINS[0]];
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-item', 'Item Coin');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-item', 'ux_buy_eth');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -88,7 +88,7 @@ describe('TokenSelectionListComponent', () => {
     component.state = 'receive';119
     component.userCoins = [TEST_ERC20_COINS[0]];
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-item', 'Item Coin');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-item', 'ux_buy_eth');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

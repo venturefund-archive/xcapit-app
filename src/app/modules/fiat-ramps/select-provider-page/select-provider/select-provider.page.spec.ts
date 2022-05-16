@@ -39,8 +39,8 @@ describe('SelectProviderPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when ux_fiat_ramps_continue is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_fiat_ramps_continue');
+  it('should call trackEvent on trackService when ux_vendor_buy_continue is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_vendor_buy_continue');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -48,9 +48,9 @@ describe('SelectProviderPage', () => {
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to provider url when ux_fiat_ramps_continue is clicked', () => {
+  it('should navigate to provider url when ux_vendor_buy_continue is clicked', () => {
     fixture.debugElement.query(By.css('app-select-provider-card')).triggerEventHandler('route', 'test');
-    fixture.debugElement.query(By.css("ion-button[name='ux_fiat_ramps_continue']")).nativeElement.click();
+    fixture.debugElement.query(By.css("ion-button[name='ux_vendor_buy_continue']")).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test']);
   });
 

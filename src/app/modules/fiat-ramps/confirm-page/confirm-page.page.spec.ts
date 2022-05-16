@@ -107,14 +107,14 @@ describe('ConfirmPagePage', () => {
   });
 
   it('should call createOperation on click confirm button', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_confirm');
     el.nativeElement.click();
     fixture.detectChanges();
     expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Next Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
+  it('should call trackEvent on trackService when ux_buy_kripton_confirm Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_confirm');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

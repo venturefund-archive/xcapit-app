@@ -21,6 +21,7 @@ const provider: FiatRampProvider = {
   description: 'fiat_ramps.select_provider.krypton_description',
   newOperationRoute: '/fiat-ramps/new-operation',
   countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
+  trackClickEventName: 'ux_buy_kripton_continue'
 };
 
 const operationStatus: OperationStatus = {

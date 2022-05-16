@@ -16,6 +16,7 @@ const providersTest = [
     newOperationRoute: '/fiat-ramps/moonpay',
     countries: ['Argentina', 'Colombia'],
     showProvider: false,
+    trackClickEventName: 'ux_buy_moonpay'
   },
   {
     id: 2,
@@ -26,6 +27,7 @@ const providersTest = [
     newOperationRoute: '/fiat-ramps/new-operation',
     countries: ['Argentina', 'Venezuela'],
     showProvider: false,
+    trackClickEventName: 'ux_buy_kripton'
   },
 ];
 

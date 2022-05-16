@@ -80,7 +80,7 @@ import { Currency } from '../../funds/shared-funds/enums/currency.enum';
       </div>
       <ion-button
         appTrackClick
-        name="Continue to Moonpay"
+        name="ux_buy_moonpay_continue"
         expand="block"
         size="large"
         type="submit"

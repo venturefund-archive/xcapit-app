@@ -186,8 +186,8 @@ describe('RampsMenuPage', () => {
     expect(url).toEqual(['fiat-ramps/confirm-page']);
   });
 
-  it('should call trackEvent on trackService when Next Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
+  it('should call trackEvent on trackService when ux_buy_kripton_continue Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_continue');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

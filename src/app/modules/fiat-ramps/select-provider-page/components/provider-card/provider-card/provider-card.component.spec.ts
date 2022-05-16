@@ -6,6 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+// import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 
 const providerTest = {
   id: 2,
@@ -15,6 +16,7 @@ const providerTest = {
   description: 'fiat_ramps.select_provider.krypton_description',
   newOperationRoute: '/fiat-ramps/new-operation',
   countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
+  trackClickEventName: 'ux_buy_moonpay'
 };
 
 describe('ProviderCardComponent', () => {
@@ -22,6 +24,8 @@ describe('ProviderCardComponent', () => {
   let fixture: ComponentFixture<ProviderCardComponent>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  // let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ProviderCardComponent>;
+
 
   beforeEach(
     waitForAsync(() => {
@@ -41,6 +45,7 @@ describe('ProviderCardComponent', () => {
     component = fixture.componentInstance;
     component.provider = providerTest;
     fixture.detectChanges();
+    // trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {

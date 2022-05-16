@@ -147,8 +147,8 @@ describe('MoonpayPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open in app browser and redirect to tabs wallets when Continue to Moonpay is clicked', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="Continue to Moonpay"]')).nativeElement.click();
+  it('should open in app browser and redirect to tabs wallets when ux_buy_moonpay_continue is clicked', async () => {
+    fixture.debugElement.query(By.css('ion-button[name="ux_buy_moonpay_continue"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'http://testURL.com' });
