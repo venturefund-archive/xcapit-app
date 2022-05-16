@@ -17,18 +17,6 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 describe('DisclaimerWalletPage', () => {
 
-  const links = {
-    generalHelp: '',
-    apiKeyTelegramSupport: '',
-    apiKeyWhatsappSupport: '',
-    binance: '',
-    infoPaxful: '',
-    twoPiTermsAndConditions: '',
-    moonpayTransactionHistory: '',
-    xcapitTermsAndConditions: 'https://dummytermsandconditinos',
-    xcapitPrivacyPolicy: 'https://dummyprivacypolicy'
-  }
-
   let component: DisclaimerWalletPage;
   let fixture: ComponentFixture<DisclaimerWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DisclaimerWalletPage>;
@@ -38,8 +26,13 @@ describe('DisclaimerWalletPage', () => {
   let modalControllerSpy: any;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let elementRefSpy: jasmine.SpyObj<ElementRef>;
+  let linksSpy: jasmine.SpyObj<any>;
   beforeEach(
     waitForAsync(() => {
+      linksSpy = jasmine.createSpyObj('links',{}, {
+        xcapitTermsAndConditions: 'https://dummytermsandconditinos',
+        xcapitPrivacyPolicy: 'https://dummyprivacypolicy'
+      })
       modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
@@ -72,7 +65,7 @@ describe('DisclaimerWalletPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
-          {provide: ElementRef, useValue: elementRefSpy}
+          { provide: ElementRef, useValue: elementRefSpy }
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -80,6 +73,7 @@ describe('DisclaimerWalletPage', () => {
       fixture = TestBed.createComponent(DisclaimerWalletPage);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
+      component.links = linksSpy;
       fixture.detectChanges();
     })
   );
@@ -112,7 +106,6 @@ describe('DisclaimerWalletPage', () => {
   });
 
   it('should open terms and conditions when item ux_terms_and_conditions was clicked', () => {
-    component.links = links;
     const tycItem = fixture.debugElement.query(By.css('div[name="ux_terms_and_conditions"]'));
     tycItem.nativeElement.click();
     fixture.detectChanges();
@@ -121,7 +114,6 @@ describe('DisclaimerWalletPage', () => {
   });
 
   it('should open privacy policy when item ux_privacy_policy was clicked', () => {
-    component.links = links;
     const tycItem = fixture.debugElement.query(By.css('div[name="ux_privacy_policy"]'));
     tycItem.nativeElement.click();
     fixture.detectChanges();
