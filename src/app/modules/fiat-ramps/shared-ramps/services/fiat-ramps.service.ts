@@ -141,7 +141,7 @@ export class FiatRampsService {
     } else {
       operationStatus = this.operationStatus.find((o) => o.name === name);
     }
-    
+
     operationStatus.provider = this.getProvider(operationStatus.providerId);
 
     return operationStatus;
