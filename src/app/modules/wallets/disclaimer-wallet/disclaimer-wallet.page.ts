@@ -62,7 +62,8 @@ import { LINKS } from 'src/app/config/static-links';
               {{ 'wallets.disclaimer.agree_phrase_checkbox' | translate }}
             </ion-label>
             <ion-checkbox
-              name="ux_create_disclaimer_check_button_1"
+              mode="md"
+              name="checkbox-condition"
               formControlName="agreePhraseCheckbox"
               slot="start"
             ></ion-checkbox>
