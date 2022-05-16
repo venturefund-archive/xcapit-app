@@ -2,7 +2,7 @@ import { KriptonDynamicPriceFactory } from './kripton-dynamic-price-factory';
 import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
 
 describe('KriptonDynamicPriceFactory', () => {
-  let coinSpy = jasmine.createSpyObj(
+  const coinSpy = jasmine.createSpyObj(
     'Coin',
     {},
     {
