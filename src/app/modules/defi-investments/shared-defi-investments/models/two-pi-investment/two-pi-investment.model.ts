@@ -7,7 +7,7 @@ import { TwoPiContract } from '../two-pi-contract/two-pi-contract.model';
 import { environment } from '../../../../../../environments/environment';
 import { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider';
 import { BigNumber } from '@ethersproject/bignumber';
-import { FixedNumber, Signer } from 'ethers';
+import { Signer } from 'ethers';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { Task } from '../../../../../shared/models/task/task';
 import { Retry } from '../../../../../shared/models/retry/retry';
@@ -97,18 +97,20 @@ export class TwoPiInvestment implements Investment {
     return this._anErc20Token.allowance(await this._aWallet.getAddress(), this._aProduct.contractAddress());
   }
 
+  private async gasLimitOf(methodName: string, args: any[]) {
+    return new GasLimitOf(new GasFeeOf(this._aTwoPiContract.value(), methodName, args)).value();
+  }
+
   async deposit(amount: number): Promise<TransactionResponse> {
     const gasPrice = await this._gasPrice();
     if (!new Allowance(await this._allowance()).enoughFor(this._weiOf(amount))) {
       await this._approve(this._weiOf(amount), gasPrice);
     }
-    const gasLimit = await new GasLimitOf(
-      new GasFeeOf(this._aTwoPiContract.value(), 'deposit', [
-        this._aProduct.id(),
-        this._weiOf(amount),
-        this._aReferralAddress,
-      ])
-    ).value();
+    const gasLimit = await this.gasLimitOf('deposit', [
+      this._aProduct.id(),
+      this._weiOf(amount),
+      this._aReferralAddress,
+    ]);
     return new Retry(
       new Task(() =>
         this._aTwoPiContract.value().deposit(this._aProduct.id(), this._weiOf(amount), this._aReferralAddress, {
@@ -123,19 +125,15 @@ export class TwoPiInvestment implements Investment {
 
   async withdraw(amount: number): Promise<TransactionResponse> {
     const gasPrice = await this._gasPrice();
-    const gasLimit = await new GasLimitOf(
-      new GasFeeOf(this._aTwoPiContract.value(), 'withdraw', [this._aProduct.id(), await this.amountToShare(amount)])
-    ).value();
+    const gasLimit = await this.gasLimitOf('withdraw', [this._aProduct.id(), await this.amountToShare(amount)]);
     return this._aTwoPiContract
       .value()
       .withdraw(this._aProduct.id(), await this.amountToShare(amount), { gasPrice, gasLimit });
   }
-// TODO: 
+
   async withdrawAll(): Promise<TransactionResponse> {
     const gasPrice = await this._gasPrice();
-    const gasLimit = await new GasLimitOf(
-      new GasFeeOf(this._aTwoPiContract.value(), 'withdrawAll', [this._aProduct.id()])
-    ).value();
+    const gasLimit = await this.gasLimitOf('withdrawAll', [this._aProduct.id()]);
     return this._aTwoPiContract.value().withdrawAll(this._aProduct.id(), { gasPrice, gasLimit });
   }
 }

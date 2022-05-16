@@ -14,7 +14,7 @@ const testAddress = '0x0001';
 const gasLimit = '150';
 const gasPrice = BigNumber.from('100000000000');
 
-fdescribe('TwoPiInvestment', () => {
+describe('TwoPiInvestment', () => {
   let productSpy: jasmine.SpyObj<InvestmentProduct>;
   let wallet: Signer;
   let erc20TokenSpy: jasmine.SpyObj<DefaultERC20Token>;
