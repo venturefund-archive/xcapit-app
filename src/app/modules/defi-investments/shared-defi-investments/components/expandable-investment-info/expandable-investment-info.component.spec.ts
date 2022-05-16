@@ -40,7 +40,7 @@ const dai_coin = {
 const btc_coin = {
   id: 9,
   name: 'BTC - USD Coin',
-  logoRoute: 'assets/img/coins/BTC.png',
+  logoRoute: 'assets/img/coins/BTC.svg',
   last: false,
   value: 'BTC',
   network: 'MATIC',
