@@ -1,5 +1,5 @@
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
-import { PROVIDERS } from '../constants/providers';
+import { PROVIDERS } from '../../constants/providers';
 
 export class KriptonCurrencies {
   constructor(
