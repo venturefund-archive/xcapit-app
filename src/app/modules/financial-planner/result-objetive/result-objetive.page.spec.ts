@@ -19,7 +19,7 @@ const dataTest = {
   income: 1000,
   name: 'Auto',
   necessaryAmount: 2500,
-  icon:'assets/img/financial-planner/categories/purchases.svg'
+  icon: 'assets/img/financial-planner/categories/purchases.svg',
 };
 
 const productTest = {
@@ -61,7 +61,6 @@ describe('ResultObjetivePage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
-  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
 
   beforeEach(
@@ -73,12 +72,7 @@ describe('ResultObjetivePage', () => {
         get: dataTest,
       });
 
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
-        getCoins: testCoins,
-      });
-
       twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
-        vaults: Promise.resolve([testVault]),
         vault: Promise.resolve(testVault),
       });
       TestBed.configureTestingModule({
@@ -87,6 +81,7 @@ describe('ResultObjetivePage', () => {
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: AppStorageService, useValue: appStorageServiceSpy },
+          { provide: TwoPiApi, useValue: twoPiApiSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
