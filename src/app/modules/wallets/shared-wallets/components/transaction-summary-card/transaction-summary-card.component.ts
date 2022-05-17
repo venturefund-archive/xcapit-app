@@ -6,6 +6,7 @@ import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 import { TransactionDataService } from '../../services/transaction-data/transaction-data.service';
 
+
 @Component({
   selector: 'app-transaction-summary-card',
   template: `

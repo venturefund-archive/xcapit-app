@@ -8,7 +8,7 @@ import { AmountInputCardComponent } from './amount-input-card.component';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
 import { By } from '@angular/platform-browser';
-import { SimpleChange } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 
 const testCoins = [
   {
@@ -73,6 +73,7 @@ describe('AmountInputCardComponent', () => {
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
         ],
+        schemas:[CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();
 
       fixture = TestBed.createComponent(AmountInputCardComponent);

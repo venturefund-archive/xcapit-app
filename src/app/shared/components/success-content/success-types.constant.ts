@@ -169,6 +169,27 @@ export const SUCCESS_TYPES = {
     urlThirdAction: '/tabs/wallets',
     disclaimer: 'defi_investments.withdraw.success_withdraw.disclaimer',
   },
+
+  success_donation: {
+    image: '/assets/img/donations/success/success-donation.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'donations.success.textPrimary',
+    textSecondary: 'donations.success.textSecondary',
+    namePrimaryAction: 'donations.success.namePrimaryAction',
+    urlPrimaryAction: '/donations/causes',
+    nameThirdAction: 'donations.success.nameThirdAction',
+    urlThirdAction: '/tabs/wallets',
+  },
+
+    error_donation: {
+    image: '/assets/img/donations/error/error-donation.svg',
+    urlClose: '/donations/causes',
+    textPrimary: 'donations.error.textPrimary',
+    textSecondary: 'donations.error.textSecondary',
+    namePrimaryAction: 'donations.error.namePrimaryAction',
+    urlPrimaryAction: '/donations/causes',
+  },
+  
   success_investment: {
     image: 'assets/img/defi-investments/success-investment.svg',
     urlClose: '/tabs/wallets',
@@ -213,4 +234,12 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'financial_planner.new_objetive.success_button',
     urlPrimaryAction: '/financial-planner/new-objetive',
   },
+  success_fiat_ramps:{
+    image:"assets/img/fiat-ramps/success-page/operations-success.svg",
+    textPrimary: 'fiat_ramps.fiat_success.textPrimary', 
+    textSecondary:'fiat_ramps.fiat_success.textSecondary',
+    namePrimaryAction:'fiat_ramps.fiat_success.buttonText',
+    urlClose:'/fiat-ramps/new-operation',
+    urlPrimaryAction:'/tabs/home'
+  }
 };

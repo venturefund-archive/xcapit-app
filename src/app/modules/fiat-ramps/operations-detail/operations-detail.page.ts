@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { Filesystem } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 
 @Component({
   selector: 'app-operations-detail',
@@ -183,6 +184,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
   styleUrls: ['./operations-detail.page.scss'],
 })
 export class OperationsDetailPage implements OnInit {
+  providers: FiatRampProvider[] = PROVIDERS;
   comprobante = null;
   operation: any = null;
   cotizacion: any = 0;
@@ -198,7 +200,7 @@ export class OperationsDetailPage implements OnInit {
   }
 
   getProvider(providerId: string) {
-    return PROVIDERS.find((provider) => provider.id.toString() === providerId);
+    return this.providers.find((provider) => provider.id.toString() === providerId);
   }
 
   constructor(

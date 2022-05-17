@@ -13,6 +13,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 
 @Component({
   selector: 'app-operations-new',
@@ -194,7 +195,8 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
   styleUrls: ['./operations-new.page.scss'],
 })
 export class OperationsNewPage implements OnInit {
-  provider = PROVIDERS.find((provider) => provider.id === 1);
+  provider: FiatRampProvider;
+  providers: FiatRampProvider[] = PROVIDERS;
   form: FormGroup = this.formBuilder.group({
     country: ['Argentina', [Validators.maxLength(150)]],
     type: ['cash-in', [Validators.required]],
@@ -215,7 +217,7 @@ export class OperationsNewPage implements OnInit {
     wallet: ['', [Validators.required]],
     price_in: [null, [Validators.required]],
     price_out: [null, [Validators.required]],
-    provider: [this.provider.id.toString()],
+    provider: [null],
     network: [null],
   });
 
@@ -241,6 +243,8 @@ export class OperationsNewPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.provider = this.providers.find((provider) => provider.id === 1);
+    this.form.get('provider').patchValue(this.provider.id.toString());
     this.fiatRampsService.setProvider(this.provider.id.toString());
   }
 

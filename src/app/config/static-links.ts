@@ -6,4 +6,7 @@ export const LINKS = {
   infoPaxful: 'https://www.notion.so/growthxcapit/Tutorial-Paxful-7a2de9251ef14e4daf0fbccf2a14c163',
   twoPiTermsAndConditions: 'https://docs.2pi.network/resources/terms-and-conditions',
   moonpayTransactionHistory: 'https://buy.moonpay.com/trade_history',
+  xcapitTermsAndConditions: 'https://xcapit.com/terms-and-conditions/',
+  xcapitPrivacyPolicy: 'https://xcapit.com/privacy-policy/',
+  referralsTermsAndConditions:'https://xcapit.com/financial-freedom-tyc/'
 };

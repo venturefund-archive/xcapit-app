@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { FormattedNetworkPipe } from 'src/app/modules/wallets/shared-wallets/pipes/formatted-network-name/formatted-network.pipe';
+import { FormattedNetworkPipe } from '../../pipes/formatted-network-name/formatted-network.pipe';
 
 const fakeData = ['OneSegment', 'TwoSegment'];
 

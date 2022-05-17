@@ -19,6 +19,14 @@ const routes: Routes = [
         path: 'description-cause',
         loadChildren: () => import('./description-cause/description-cause.module').then( m => m.DescriptionCausePageModule)
       },
+      {
+        path: 'success',
+        loadChildren: () => import('./success-donation/success-donation.module').then( m => m.SuccessDonationPageModule)
+      },
+      {
+        path: 'error',
+        loadChildren: () => import('./error-donation/error-donation.module').then( m => m.ErrorDonationPageModule)
+      },
     ]
   },
 ];

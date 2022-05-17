@@ -12,7 +12,7 @@ describe('FormattedAmountPipe', () => {
   });
 
   it('should transform a number', () => {
-    expect(pipe.transform(15.12345678918)).toEqual(15.12345679);
+    expect(pipe.transform(15.12345678918)).toEqual('15.12345679');
   });
 
   it('should transform an undefined value', () => {
@@ -20,6 +20,6 @@ describe('FormattedAmountPipe', () => {
   });
 
   it('should transform with custom values', () => {
-    expect(pipe.transform(15.12345678918, 5, 3)).toEqual(15.123);
+    expect(pipe.transform(15.12345678918, 5, 3)).toEqual('15.123');
   });
 });

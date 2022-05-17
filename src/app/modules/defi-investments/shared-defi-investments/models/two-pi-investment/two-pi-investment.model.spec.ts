@@ -11,6 +11,8 @@ import { of } from 'rxjs';
 const contractAddress = '0xCB50fF1863cBBAd718d3A1eEEf403a95C58d3B16';
 const referralAddress = 'referralAddress';
 const testAddress = '0x0001';
+const gasLimit = '150';
+const gasPrice = BigNumber.from('100000000000');
 
 describe('TwoPiInvestment', () => {
   let productSpy: jasmine.SpyObj<InvestmentProduct>;
@@ -32,7 +34,11 @@ describe('TwoPiInvestment', () => {
         withdraw: Promise.resolve({} as TransactionResponse),
       },
       {
-        estimateGas: { deposit: () => Promise.resolve(BigNumber.from('100')) },
+        estimateGas: {
+          deposit: () => Promise.resolve(BigNumber.from('100')),
+          withdraw: () => Promise.resolve(BigNumber.from('100')),
+          withdrawAll: () => Promise.resolve(BigNumber.from('100')),
+        },
       }
     );
     productSpy = jasmine.createSpyObj('InvestmentProduct', {
@@ -52,9 +58,10 @@ describe('TwoPiInvestment', () => {
     erc20ProviderSpy = jasmine.createSpyObj('ERC20Provider', { value: {} });
     twoPiContractSpy = jasmine.createSpyObj('TwoPiContract', { value: contractSpy });
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getGasPrice: of({ gas_price: '100000000000' }) });
+
     twoPiInvestment = new TwoPiInvestment(
       productSpy,
-      wallet,
+      new VoidSigner(testAddress),
       erc20TokenSpy,
       erc20ProviderSpy,
       twoPiContractSpy,
@@ -73,30 +80,19 @@ describe('TwoPiInvestment', () => {
 
   it('should deposit specified amount on investment product contract without allowance', async () => {
     const wei = BigNumber.from('60000000');
-    const gasPrice = BigNumber.from('100000000000');
     await twoPiInvestment.deposit(60);
     expect(erc20TokenSpy.approve).toHaveBeenCalledOnceWith(contractAddress, wei, gasPrice);
-    expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress, { gasPrice, gasLimit: '150' });
+    expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress, { gasPrice, gasLimit });
   });
 
   it('should deposit specified amount on investment product contract', async () => {
     const wei = BigNumber.from('50000000');
-    const gasPrice = BigNumber.from('100000000000');
     await twoPiInvestment.deposit(50);
     expect(erc20TokenSpy.approve).not.toHaveBeenCalled();
-    expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress, { gasPrice, gasLimit: '150' });
+    expect(contractSpy.deposit).toHaveBeenCalledOnceWith(1, wei, referralAddress, { gasPrice, gasLimit });
   });
 
   it('should return the balance of a wallet in the investment product', async () => {
-    twoPiInvestment = new TwoPiInvestment(
-      productSpy,
-      new VoidSigner(testAddress),
-      erc20TokenSpy,
-      erc20ProviderSpy,
-      twoPiContractSpy,
-      referralAddress,
-      apiWalletServiceSpy
-    );
     const balance = await twoPiInvestment.balance();
     expect(contractSpy.balanceOf).toHaveBeenCalledOnceWith(1, '0x0001');
     expect(contractSpy.getPricePerFullShare).toHaveBeenCalledOnceWith(1);
@@ -104,30 +100,12 @@ describe('TwoPiInvestment', () => {
   });
 
   it('should withdrawAll', async () => {
-    twoPiInvestment = new TwoPiInvestment(
-      productSpy,
-      new VoidSigner(testAddress),
-      erc20TokenSpy,
-      erc20ProviderSpy,
-      twoPiContractSpy,
-      referralAddress,
-      apiWalletServiceSpy
-    );
     await twoPiInvestment.withdrawAll();
-    expect(contractSpy.withdrawAll).toHaveBeenCalledTimes(1);
+    expect(contractSpy.withdrawAll).toHaveBeenCalledOnceWith(1, { gasPrice, gasLimit });
   });
 
   it('should withdraw', async () => {
-    twoPiInvestment = new TwoPiInvestment(
-      productSpy,
-      new VoidSigner(testAddress),
-      erc20TokenSpy,
-      erc20ProviderSpy,
-      twoPiContractSpy,
-      referralAddress,
-      apiWalletServiceSpy
-    );
     await twoPiInvestment.withdraw(20);
-    expect(contractSpy.withdraw).toHaveBeenCalledTimes(1);
+    expect(contractSpy.withdraw).toHaveBeenCalledOnceWith(1, BigNumber.from('20000000'), { gasPrice, gasLimit });
   });
 });

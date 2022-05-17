@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-interface OperationDataInterface {
+export interface OperationDataInterface {
   country: string;
   type: string;
   pair: string;
@@ -21,7 +21,6 @@ interface OperationDataInterface {
 })
 export class StorageOperationService {
   constructor() {}
-
   initial = {
     country: '',
     type: '',

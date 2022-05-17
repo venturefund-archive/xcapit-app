@@ -15,9 +15,8 @@ import { By } from '@angular/platform-browser';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
-const textLink = "'Text test <a class='ux-link-xs' href='https://testLink'>terms of use</a>.'"
-
 describe('DisclaimerWalletPage', () => {
+
   let component: DisclaimerWalletPage;
   let fixture: ComponentFixture<DisclaimerWalletPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DisclaimerWalletPage>;
@@ -27,8 +26,13 @@ describe('DisclaimerWalletPage', () => {
   let modalControllerSpy: any;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let elementRefSpy: jasmine.SpyObj<ElementRef>;
+  let linksSpy: jasmine.SpyObj<any>;
   beforeEach(
     waitForAsync(() => {
+      linksSpy = jasmine.createSpyObj('links',{}, {
+        xcapitTermsAndConditions: 'https://dummytermsandconditinos',
+        xcapitPrivacyPolicy: 'https://dummyprivacypolicy'
+      })
       modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
@@ -61,7 +65,7 @@ describe('DisclaimerWalletPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
-          {provide: ElementRef, useValue: elementRefSpy}
+          { provide: ElementRef, useValue: elementRefSpy }
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -69,6 +73,7 @@ describe('DisclaimerWalletPage', () => {
       fixture = TestBed.createComponent(DisclaimerWalletPage);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
+      component.links = linksSpy;
       fixture.detectChanges();
     })
   );
@@ -84,9 +89,7 @@ describe('DisclaimerWalletPage', () => {
 
   it('should proceed if all the checkboxes are checked', () => {
     component.disclaimerForm.patchValue({
-      localStoredKeysCheckbox: true,
-      recoveryPhraseCheckbox: true,
-      termsOfUseCheckbox: true,
+      agreePhraseCheckbox: true,
     });
     component.handleSubmit();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
@@ -102,15 +105,19 @@ describe('DisclaimerWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-
-  it('should open the link in the app when link is clicked', async () => {
-    component.textLink = textLink;
+  it('should open terms and conditions when item ux_terms_and_conditions was clicked', () => {
+    const tycItem = fixture.debugElement.query(By.css('div[name="ux_terms_and_conditions"]'));
+    tycItem.nativeElement.click();
     fixture.detectChanges();
-    component.ngAfterViewInit();
-    const anchor = fixture.debugElement.query(By.css('a'));
-    const link = anchor.nativeElement.getAttribute('href');
-    anchor.nativeElement.click();
-    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://testLink' });
-    expect(link).toEqual('https://testLink');
+    expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://dummytermsandconditinos' });
+  });
+
+  it('should open privacy policy when item ux_privacy_policy was clicked', () => {
+    const tycItem = fixture.debugElement.query(By.css('div[name="ux_privacy_policy"]'));
+    tycItem.nativeElement.click();
+    fixture.detectChanges();
+    expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://dummyprivacypolicy' });
   });
 });

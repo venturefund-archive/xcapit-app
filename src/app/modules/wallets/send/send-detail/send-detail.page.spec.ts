@@ -37,7 +37,7 @@ const coins: Coin[] = [
     native: true,
   },
   {
-    id: 1,
+    id: 2,
     name: 'ETH - Ethereum',
     logoRoute: 'assets/img/coins/ETH.svg',
     last: false,
@@ -65,8 +65,8 @@ const coins: Coin[] = [
 const formData = {
   valid: {
     address: 'asdfasdfasdfas',
-    amount: '29',
-    quoteAmount: '29',
+    amount: 0.01,
+    quoteAmount: 29,
   },
 };
 

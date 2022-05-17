@@ -30,4 +30,8 @@ export class FirebaseRemoteConfig implements RemoteConfiguration {
   getFeatureFlag(param: string): boolean {
     return this.firebaseRemoteConfig.getValue(this.remoteConfig, param).asBoolean();
   }
+
+  getString(name : string) : string {
+    return this.firebaseRemoteConfig.getString(this.remoteConfig, name);
+  }
 }
