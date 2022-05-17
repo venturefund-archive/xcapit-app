@@ -41,6 +41,7 @@
         &__arrow_icon {
           width: 10px;
           margin-right: 10px;
+          color: var(--ion-color-neutral90);
         }
 
         &__logo {
@@ -90,6 +91,42 @@
         &__arrow_icon {
           width: 10px;
           margin-right: 10px;
+          color: var(--ion-color-neutral90);
+        }
+      }
+    }
+  }
+
+  .modern {
+    .uxselect {
+      padding-top: 8px;
+
+      &__label {
+        font-family: var(--ux-font-lato);
+        font-size: var(--ux-fsize-14);
+        font-weight: var(--ux-fweight-extrabold);
+        color: var(--ion-color-neutral80);
+      }
+
+      &__item {
+        height: 100%;
+        border: 0.5px solid var(--ion-color-neutral50);
+        border-radius: 8px;
+
+        --background: var(--ion-color-white);
+        --inner-border-width: 0;
+        --highlight-background: none;
+
+        &.item-has-focus {
+          border: 1.5px solid var(--ion-color-secondary);
+
+          --background: var(--ion-color-white);
+        }
+
+        &__arrow_icon {
+          width: 14px;
+          margin-right: 10px;
+          color: var(--ion-color-info);
         }
       }
     }

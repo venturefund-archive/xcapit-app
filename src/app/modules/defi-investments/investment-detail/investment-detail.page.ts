@@ -139,7 +139,7 @@ export class InvestmentDetailPage implements OnInit {
   }
 
   goToWithdraw() {
-    this.navController.navigateForward(['/defi/withdraw', this.investmentProduct.name()]);
+    this.navController.navigateForward(['/defi/withdraw/select-amount', this.investmentProduct.name()]);
   }
 
   setDisclaimer() {

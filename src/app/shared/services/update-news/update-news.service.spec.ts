@@ -5,6 +5,7 @@ import { FakeModalController } from '../../../../testing/fakes/modal-controller.
 import { AppStorageService } from '../app-storage/app-storage.service';
 import { AuthService } from '../../../modules/usuarios/shared-usuarios/services/auth/auth.service';
 import { PlatformService } from '../platform/platform.service';
+import { RemoteConfigService } from '../remote-config/remote-config.service';
 
 describe('UpdateNewsService', () => {
   let service: UpdateNewsService;
@@ -14,6 +15,7 @@ describe('UpdateNewsService', () => {
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let appSpy: jasmine.SpyObj<any>;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(() => {
     fakeModalController = new FakeModalController();
@@ -25,6 +27,11 @@ describe('UpdateNewsService', () => {
     authServiceSpy = jasmine.createSpyObj('AuthService', { checkToken: Promise.resolve(true) });
     platformServiceSpy = jasmine.createSpyObj('PlatformService', { isNative: true });
     appSpy = jasmine.createSpyObj('App', { getInfo: Promise.resolve({ version: '2.0.0' }) });
+
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: true,
+    });
+
     TestBed.configureTestingModule({
       imports: [],
       providers: [
@@ -32,6 +39,7 @@ describe('UpdateNewsService', () => {
         { provide: AppStorageService, useValue: appStorageServiceSpy },
         { provide: AuthService, useValue: authServiceSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
       ],
     });
     service = TestBed.inject(UpdateNewsService);

@@ -1,22 +1,30 @@
 import { Injectable } from '@angular/core';
 import { UpdateService } from '../update/update.service';
-import { AlertController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
-import { App } from '@capacitor/app';
+import { ModalController } from '@ionic/angular';
+import { AppUpdate, AppUpdateAvailability } from '@robingenz/capacitor-app-update';
+import { RemoteConfigService } from '../remote-config/remote-config.service';
 @Injectable({
   providedIn: 'root',
 })
 export class UpdateAppService extends UpdateService {
-  app = App;
+  appUpdate = AppUpdate;
 
-  constructor(alertController: AlertController, translate: TranslateService, http: HttpClient) {
-    super(alertController, translate, http);
+  constructor(
+    modalController: ModalController,
+    remoteConfigService: RemoteConfigService
+  ) {
+    super(modalController, remoteConfigService);
   }
 
-  async getActualVersion(): Promise<any> {
-    return await this.app.getInfo().then((res) => res.version);
+  public async update(): Promise<void> {
+    return this.appUpdate.openAppStore();
   }
 
-  protected async update(): Promise<any> {}
+  async handleCheckForUpdate(): Promise<void> {
+    const updateAvailability = (await this.appUpdate.getAppUpdateInfo()).updateAvailability;
+
+    if (updateAvailability == AppUpdateAvailability.UPDATE_AVAILABLE) {
+      this.showRecommendedModal();
+    }
+  }
 }

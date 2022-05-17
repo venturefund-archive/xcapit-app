@@ -1,0 +1,51 @@
+:host {
+  .uam {
+    &__content {
+      &__button-close {
+        display: flex;
+        height: 32px;
+        justify-content: flex-end;
+
+        ion-button {
+          height: 32px;
+        }
+      }
+
+      &__title {
+        width: 100%;
+        padding-bottom: 8px;
+        display: flex;
+        justify-content: center;
+      }
+
+      &__text {
+        width: 100%;
+        padding-bottom: 24px;
+        display: flex;
+        justify-content: center;
+
+        ion-text {
+          color: var(--ion-color-primary);
+          text-align: center;
+        }
+      }
+
+      &__button-primary {
+        width: 100%;
+        padding-bottom: 8px;
+
+        ion-button {
+          height: 44px;
+        }
+      }
+
+      &__button-secondary {
+        width: 100%;
+
+        ion-button {
+          height: 44px;
+        }
+      }
+    }
+  }
+}

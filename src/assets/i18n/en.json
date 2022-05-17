@@ -89,6 +89,12 @@
         "toast_error": "Could not be copied to the clipboard"
       }
     },
+    "update_modal": {
+      "title": "Update the app!",
+      "text": "Discover new options to operate with your cryptocurrencies.",
+      "button_primary": "Update",
+      "button_secondary": "Remind me later"
+    },
     "card_info_robot": {
       "title": "How does our robot work?",
       "content": "Know all the details of the way we operate.",
@@ -264,7 +270,9 @@
       "capital_security": "Capital Security",
       "wallet": "Wallet",
       "nft": "NFT",
-      "others": "Others"
+      "others": "Others",
+      "referrals": "Referrals",
+      "transactions": "Transactions"
     }
   },
   "defi_investments": {
@@ -272,8 +280,8 @@
       "header": "New investment",
       "amount_to_invest": "Amount to invest",
       "button": "Continue",
-      "dont_have":"Don't have ",
-      "buy_button":"Buy now"
+      "dont_have": "Don't have ",
+      "buy_button": "Buy now"
     },
     "add": {
       "header": "Add amount",
@@ -282,7 +290,6 @@
     "confirmation": {
       "header": "New investment",
       "amount_to_invest": "Amount to invest",
-      "transaction_fee": "Transaction fee",
       "submit": "Invest",
       "submit_loading": "Investing",
       "password_error": "The password entered is not valid.",
@@ -294,8 +301,8 @@
       },
       "informative_modal": "You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
       "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay the transaction fee.",
-      "buy_button":"Buy {{nativeToken}}",
-      "deposit_button":"Deposit {{nativeToken}}",
+      "buy_button": "Buy {{nativeToken}}",
+      "deposit_button": "Deposit {{nativeToken}}",
       "terms": {
         "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
         "i_have_read": "I have read and agree to ",
@@ -310,8 +317,8 @@
       "title": "Start investing",
       "title_investments": "My investments",
       "recommendations": "You may be interested in",
-      "empty_products":"Soon you will be able to find the best investments for your profile.",
-      "link_button":"How do DeFi investments work?",
+      "empty_products": "Soon you will be able to find the best investments for your profile.",
+      "link_button": "How do DeFi investments work?",
       "choose_investor_profile": {
         "complete_test": {
           "title": "I want to choose my profile again",
@@ -352,6 +359,10 @@
       "daily_earnings_disclaimer": "*Your balance is updated daily."
     },
     "shared": {
+      "transaction_fees": {
+        "label": "Fee de transacción",
+        "advice": "Fondos insuficientes"
+      },
       "filter_tab": {
         "conservative": "Conservative profile",
         "medium": "Moderate profile",
@@ -382,19 +393,20 @@
         "annual": "% Annual",
         "blockchain": "Blockchain",
         "profile": "Profile",
-        "investment_info":{
-          "USDC":"Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
-          "DAI":"Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
-          "BTC":"Your tokens will be distributed in several decentralized protocols.You will earn interest in BTC. \n BTC (Bitcoin) is the first cryptocurrency with fixed issuance, and the largest market capitalization."
+        "investment_info": {
+          "USDC": "Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
+          "DAI": "Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
+          "BTC": "Your tokens will be distributed in several decentralized protocols.You will earn interest in BTC. \n BTC (Bitcoin) is the first cryptocurrency with fixed issuance, and the largest market capitalization."
         },
-        "profiles":{
-          "conservative":"Conservative",
-          "medium":"Moderate",
-          "risky":"Aggressive"
+        "profiles": {
+          "conservative": "Conservative",
+          "medium": "Moderate",
+          "risky": "Aggressive"
         }
       },
       "amount_input_card": {
         "available": "Balance available",
+        "amount_invested": "Total amount invested",
         "disclaimer": "The exchange rate is defined by the blockchain and amounts may vary, depending on when you make the transaction. \nPlease note that transaction fees will be charged in",
         "max_button": "Max"
       },
@@ -414,12 +426,22 @@
         "button_secondary": "Go to my wallet",
         "disclaimer": "* Your funds may take up to 5 minutes to be available in the Wallet."
       },
-      "withdraw": {
-        "header": "Make withdrawal"
+      "select_amount": {
+        "header": "Withdraw investment",
+        "button": "Continue",
+        "label": "Withdrawal"
       },
-      "password_modal":{
-        "description":"To confirm your withdrawal, enter your Xcapit wallet password.",
-        "confirm_button":"Make a withdrawal"
+      "withdraw": {
+        "header": "Withdraw investment",
+        "button": "Confirm",
+        "submit_loading": "Confirming",
+        "withdraw_amount": "Amount to withdraw",
+        "withdraw_fee": "Withdrawal fee",
+        "disclaimer": "It will only take a few seconds"
+      },
+      "password_modal": {
+        "description": "To confirm your withdrawal, enter your Xcapit wallet password.",
+        "confirm_button": "Make a withdrawal"
       }
     }
   },
@@ -1451,6 +1473,139 @@
       "i_agree_button": "I agree"
     }
   },
+  "financial_planner": {
+    "planner_information": {
+      "header": "Planner",
+      "title": "Organize your finances and meet your goals",
+      "item_1": "Define your monthly expenses and income",
+      "item_2": "Plan your objectives",
+      "item_3": "Discover strategies to achieve them",
+      "button": "Start"
+    },
+    "objetive_info": {
+      "header": "Planner",
+      "title": "Objective",
+      "subtitle_1": "Financial objective",
+      "paragraph_1": "Define what you want to achieve with your money. It can be a trip, buy a car, invest, others.",
+      "label_1": "Objetive name",
+      "label_2": "Category",
+      "placeholder_1": "Eg: Trip to Miami",
+      "placeholder_2": "Eg: 1000",
+      "categories": {
+        "other": "Other",
+        "travel": "Travel",
+        "purchases": "Purchases",
+        "invest": "Investment",
+        "gift": "Gift"
+      },
+
+      "subtitle_2": "Money needed",
+      "paragraph_2": "Calculate how much money you need in total to reach your goal.",
+      "label_3": "USD",
+      "button": "See strategies"
+    },
+    "new_objetive": {
+      "title": "Income and expenses*",
+      "subtitle_income": "Monthly income",
+      "description_income": "Add up all the money you receive during the month: payments, salary, gifts, returns.",
+      "subtitle_expenses": "Monthly expenses",
+      "description_expenses": "Add up all the money you spend in the month: purchases, utility payments, fees, rent.",
+      "disclaimer": "*This data is private, and will not be used outside of this simulation.",
+      "label": "USD",
+      "button": "Continue",
+      "of": "of",
+      "placeholder": "Eg: 1000",
+      "toast_text": "To move forward with your objetive, your income should exceed your expenses.",
+      "success_title": "Congratulations!",
+      "success_subtitle": "You have enough money to meet your goal.",
+      "success_button": "Create another objective"
+    },
+    "result_objetive": {
+      "saving": "Save",
+      "saving_description": "Depending on your monthly income and expenses, you could save {{saving}} USD per month. You would reach your objetive in {{weeks}} weeks.",
+      "invest": "Invest",
+      "invest_description": "If you invest monthly in DeFi, you will earn returns. Thus, you would achieve your objetive in:",
+      "disclaimer": "*These results are a simulation only, and may vary from day to day. They do not include compound interest, and are not financial advice.",
+      "weeks": "weeks*",
+      "annual": "% Annual",
+      "start_invest_button": "Start to invest",
+      "back_button": "Back to the start"
+    },
+    "shared_financial_planner": {
+      "objetive_card": {
+        "objetive": "My objective:",
+        "categories": {
+          "other": "Other",
+          "travel": "Travel",
+          "purchases": "Purchases",
+          "invest": "Investment",
+          "gift": "Gift"
+        }
+      }
+    }
+  },
+  "donations": {
+    "information": {
+      "header": "Donations",
+      "title": "Cryptos for a good cause!",
+      "item_1": "Discover new causes where you can collaborate with your donation.",
+      "item_2": "Choose by category, and become an agent of change.",
+      "button": "Let's start"
+    },
+    "causes":{
+      "header":"Donations",
+      "title":"Choose your cause",
+      "types":{
+        "humanitary":"Humanitarian aid",
+        "environment":"Environment",
+        "human_rights":"Human Rights"
+      }
+    },
+    "description_cause": {
+      "header": "Donations",
+      "button": "Donate",
+      "info": {
+        "global": "Global",
+        "receive": "Receive",
+        "unhcr": {
+          "title_1": "Donate to provide assistance to the affected populations in Ukraine and in the countries of the region.",
+          "title_2": "About the ONU Refugee Agency (UNHCR)",
+          "title_3": "Learn more about UNHCR",
+          "description": "It seeks to ensure that refugees have access to: protection from harm, shelter, food, water, blankets, medical supplies, the ability to go to school and, most importantly, hope for a future."
+        },
+        "water": {
+          "title_1": "Donate to help train vulnerable people on water care, and provide access to microloans for water and sanitation solutions at home.",
+          "title_2": "About Water.org",
+          "title_3": "Learn more about Water.org",
+          "description": "The water crisis negatively impacts the health and livelihoods of more than one-third of the world's population. Water.org aims to transform this reality by working to bring water and sanitation to the world."
+        },
+        "rainforest_rescue": {
+          "title_1": "Donate to protect and restore the world's longest-lived rainforest, the Daintree.",
+          "title_2": "About Rainforest Rescue",
+          "title_3": "Learn more about Rainforest Rescue",
+          "description": "Its projects seek to raise awareness and conserve the biodiversity and cultural heritage of the rainforest through planting, maintenance and restoration programs."
+        },
+        "free_the_girls": {
+          "title_1": "Its projects seek to raise awareness and conserve the biodiversity and cultural heritage of the rainforest through planting, maintenance and restoration programs.",
+          "title_2": "About Free the Girls",
+          "title_3": "Learn more about Free the Girls",
+          "description": "It helps these women become entrepreneurs by providing them with the tools to market in local second-hand clothing markets in their communities."
+        }
+      }
+    },
+    "success":{
+      "textPrimary":"Thanks for joining us!",
+      "textSecondary":"You have just contributed to a great cause.",
+      "namePrimaryAction":"Continue donating",
+      "nameThirdAction":"Back to home"
+    },
+
+    "error":{
+      "textPrimary":"Your donation could not be completed",
+      "textSecondary":"An error occurred in the blockchain.",
+      "namePrimaryAction":"Try again"
+    }
+  },
   "referrals": {
     "new_referral": {
       "header": "Refer",
@@ -1513,7 +1668,10 @@
       "email": "Email"
     },
     "referrals_summary": {
-      "header": "Referidos"
+      "header": "Referrals"
+    },
+    "referrals_closed": {
+      "header": "Referrals"
     },
     "referrals_share": {
       "title": "Refer and Win!",
@@ -1522,6 +1680,11 @@
       "share": "Share my link",
       "copy": "Copy my link",
       "copied": "Copied",
+      "tos": "See terms and conditions"
+    },
+    "referrals_coming": {
+      "title": "We are creating magic",
+      "paragraph":"This program is now closed. We will be resuming soon with new proposals and more benefits.",
       "tos": "See terms and conditions"
     },
     "referrals_pending": {
@@ -1633,9 +1796,13 @@
     "disclaimer": {
       "header": "Create Wallet",
       "title": "Let's start with your wallet!",
+      "terms_and_conditions": "Terms and conditions",
+      "privacy_policy": "Privacy policy",
       "wallet_term_text": "Your Wallet will be linked to this device, not to your e-mail. For more information, visit the ",
-      "wallet_term_link": "Wallet FAQs",
-      "description": "Before creating your wallet, verify the essential permissions to start",
+      "wallet_term_link": "Wallet FAQs.",
+      "create_wallet_description": "Before creating your wallet, verify the essential permissions to start",
+      "import_wallet_description": "Before importing your wallet, verify the essential permissions to start",
+      "agree_phrase_checkbox": "I agree to XCAPIT's terms and conditions and privacy policy.",
       "local_stored_keys_checkbox": "I understand that my funds are kept safely within this device, and not by a company.",
       "recovery_phrase_checkbox": "I understand that if this application is moved to another device or removed, my funds can only be recovered with the recovery phrase.",
       "terms_of_use_checkbox": "I have read, understand and accept the <a class='ux-link-xs' href='https://xcapit.com/terms-and-conditions/'>Terms of Use</a> y <a class='ux-link-xs' href='https://xcapit.com/privacy-policy/'>Privacy Policy.</a>",
@@ -1683,7 +1850,7 @@
         "send_card": "Send",
         "receive_card": "Receive",
         "buy_card": "Buy",
-        "performance_card": "Invest"
+        "swap_card": "Swap"
       }
     },
     "select_coin": {
@@ -1724,12 +1891,13 @@
       "description": "The password is used to make your wallet more secure, you can choose the same one that you use for the Xcapit app. In the event that you forget to retrieve it, recover your wallet with the 12 words.",
       "password": "Password",
       "repeat_password": "Confirm Password",
-      "finish_button": "Finish and create wallet",
+      "finish_button_create": "Finish and create wallet",
+      "finish_button_import": "Finish and import wallet",
       "loading": {
         "title": "Time!",
-        "subtitle":{
-          "create":"We are building your Wallet",
-          "import":"We are importing your Wallet"
+        "subtitle": {
+          "create": "We are building your Wallet",
+          "import": "We are importing your Wallet"
         }
       }
     },
@@ -1737,7 +1905,7 @@
       "header": "Receive",
       "title": "Your wallet information",
       "currency_select": "Currency",
-      "select_coins":"Select coin",
+      "select_coins": "Select coin",
       "average_time": "Average receive time: 3 min.",
       "receive_address_title": "Address",
       "receive_address_copy": "Copy",
@@ -1792,13 +1960,6 @@
           "title": "Target wallet",
           "help_text": "{{currency}} address or alias"
         },
-        "amount_input": {
-          "title": "Amount to send",
-          "fee_title": "Transaction fee*",
-          "fee_text": "*This amount is an estimate and can vary depending on the moment you complete the transaction.",
-          "wrong_address": "We could not estimate the transaction fee. Invalid address",
-          "cant_estimate_fee": "We could not estimate the transaction fee. You might not have enough funds"
-        },
         "alert": {
           "title": "Attention",
           "text": "You have 0 {{nativeToken}} in your account to pay the transaction fees. Buy some {{nativeToken}} or deposit them from another account."
@@ -1811,8 +1972,8 @@
         "send_button": "Send",
         "wrong_password": "Wrong password",
         "loader": "Sending",
-        "destination_address":"Destination address",
-        "fee":"Transaction fee",
+        "destination_address": "Destination address",
+        "fee": "Transaction fee",
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
@@ -1968,7 +2129,7 @@
         "operation": "Operation in",
         "sign_message": "Your signature has been requested for the following:",
         "date": "Date",
-        "from": "From",
+        "from": "From your wallet",
         "to": "To",
         "amount": "To pay",
         "transaction_fee": "Transation fee",
@@ -2290,33 +2451,30 @@
   },
   "fiat_ramps": {
     "operations_list": {
-      "header": "Buy cryptocurrencies",
       "title": "My operations",
-      "id": "ID",
-      "operation": "Operation",
+      "operation": "Buy",
       "amount": "Amount",
-      "provider": "Provider",
-      "status": "Status",
       "date": "Date",
-      "new": "New"
+      "status": "Status",
+      "no_operations_message": "You still do not have any purchases made, here you will be able to see the list of your purchases",
+      "button_show_less": "Show less",
+      "button_show_more": "Show more"
     },
     "fiat_success": {
-      "textPrimary": "Operation created!",
-      "textSecondary": "To continue you need to transfer from your bank to the following data:",
-      "bank": "Bank:",
-      "cbu": "CBU:",
-      "concept": "Concept:",
-      "amount": "Amount:",
-      "info_telegram": "If you have any questions, you can contact Kripton through Telegram:",
-      "info_email": "*The provider will email you when the process advances.",
-      "buttonText": "Attach voucher",
-      "copy_cbu_ok_text": "The CBU was copied succesfully."
+      "textPrimary": "Operation created",
+      "textSecondary": "Remember to make the transfer from your bank and upload the receipta",
+      "buttonText": "Go to operation detail"
     },
     "select_provider": {
       "header": "Buy Crypto",
-      "title": "Select the provider:"
+      "select_label": "Country in which you are going to operate",
+      "select_placeholder": "Select your country",
+      "provider_label": "Select provider",
+      "moonpay_description": "Buy with a credit card",
+      "krypton_description": "Buy with bank transfer",
+      "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
+      "button": "Continue"
     },
-
     "information_paxful": {
       "header": "Buy",
       "title": "Buy BTC with Paxful:",
@@ -2355,23 +2513,11 @@
       "my_operations": "See my operations",
       "has_voucher": "Voucher has been uploaded"
     },
-
-    "operationStatus": {
-      "kripton": {
-        "pending_by_validate": "Pending",
-        "request": "Request",
-        "received": "Received",
-        "wait": "Waiting",
-        "complete": "Complete",
-        "cancel": "Cancelled"
-      },
-      "paxful": {
-        "SUCCESS": "Complete",
-        "EXPIRED": "Expired",
-        "CANCELLED": "Cancelled"
-      }
+    "operation_status": {
+      "deposited": "Deposited",
+      "in_progress": "In progress",
+      "canceled": "Canceled"
     },
-
     "ramp_initial": {
       "header": "Buy cryptocurrencies",
       "title": "New operation",
@@ -2439,22 +2585,22 @@
     },
     "confirm": {
       "header": "Confirm operation",
-      "title": "Check that the data is correct:",
-      "provider": "Provider:",
-      "type": "Operation type:",
-      "amount": "Amount:",
-      "quotation": "Quotation:",
+      "title": "Check that the data is correct",
+      "provider": "Provider",
+      "type": "Operation type",
+      "amount": "Amount",
+      "quotation": "Quotation",
       "wallet": "Reception address",
       "disclaimer": "From this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
       "confirm": "Confirm",
       "buy": {
         "operationType": "Buy",
-        "title": "Buy:",
+        "title": "Buy",
         "with": " with "
       },
       "sell": {
         "operationType": "Sell",
-        "title": "Sell:",
+        "title": "Sell",
         "with": " for "
       }
     },
@@ -2491,6 +2637,33 @@
       "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
       "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
       "button_text": "Continue"
+    },
+    "token_selection": {
+      "header": "Buy crypto",
+      "subtitle": "Select the currency you wish to purchase"
+    },
+    "countries_list": {
+      "mexico": "México",
+      "guatemala": "Guatemala",
+      "honduras": "Honduras",
+      "costa_rica": "Costa Rica",
+      "colombia": "Colombia",
+      "argentina": "Argentina",
+      "australia": "Australia",
+      "el_salvador": "El Salvador",
+      "guyana": "Guyana",
+      "paraguay": "Paraguay",
+      "peru": "Peru",
+      "portugal": "Portugal",
+      "spain": "Spain",
+      "uruguay": "Uruguay",
+      "united_states": "USA (United States of America)",
+      "venezuela": "Venezuela"
+    },
+    "shared": {
+      "fixed_footer": {
+        "text": "You are interacting with Kriptonmarket"
+      }
     }
   },
   "paxful": {
@@ -2525,7 +2698,8 @@
     },
     "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
     "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
-    "button_text": "Continue"
+    "button_text": "Continue",
+    "moonpay_operations": "View Moonpay purchases on the web"
   },
   "payment": {
     "methods": {
@@ -2617,6 +2791,11 @@
     "shared": {
       "buy_crypto_card": {
         "title": "Buy crypto at best price"
+      },
+      "financial_planner_card": {
+        "title": "Organize your finances",
+        "description": "Plan your goals, and discover the best way to achieve them",
+        "my_plan": "My plan"
       }
     }
   },
@@ -2669,8 +2848,8 @@
     },
     "profiles": {
       "conservative": "Conservative",
-      "medium": "Medium",
-      "risky": "Risky"
+      "medium": "Moderate",
+      "risky": "Aggressive"
     },
     "about_investor_profile": {
       "of": "of",

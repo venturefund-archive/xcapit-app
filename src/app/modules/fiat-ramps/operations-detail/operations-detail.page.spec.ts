@@ -12,8 +12,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 
 const operation = {
   operation_id: 678,
@@ -28,12 +28,13 @@ const operation = {
   voucher: false,
 };
 
-const provider = PROVIDERS[1];
+const provider = rawProvidersData[1];
 
 const photo = {
   dataUrl: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD==',
   type: 'jpeg',
 };
+
 
 describe('OperationsDetailPage', () => {
   let component: OperationsDetailPage;
@@ -83,6 +84,7 @@ describe('OperationsDetailPage', () => {
     component = fixture.componentInstance;
     component.operation = operation;
     component.provider = provider;
+    component.providers = rawProvidersData;
     component.hasVoucher = false;
     component.comprobante = photo;
     fixture.detectChanges();
@@ -119,7 +121,7 @@ describe('OperationsDetailPage', () => {
     expect(spy).toHaveBeenCalledWith('678');
   });
 
-  PROVIDERS.forEach((p) => {
+  rawProvidersData.forEach((p) => {
     describe(`when provider is ${p.name}`, () => {
       it(`should return ${p.name} on getProvider`, () => {
         const result = component.getProvider(p.id.toString());
@@ -145,10 +147,11 @@ describe('OperationsDetailPage', () => {
 
   it('should set operation to data', () => {
     fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([operation]));
+
     component.ionViewWillEnter();
     fixture.detectChanges();
-    const result = component.operation;
-    expect(result).toEqual(operation);
+
+    expect(component.operation).toEqual(operation);
   });
 
   it('should calculate quotations from operation data for cash-in', () => {

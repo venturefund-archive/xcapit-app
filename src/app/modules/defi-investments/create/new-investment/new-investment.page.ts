@@ -10,7 +10,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
-import { AmountInputCardComponent } from '../../shared-defi-investments/components/amount-input-card/amount-input-card.component';
+import { AmountInputCardComponent } from '../../../../shared/components/amount-input-card/amount-input-card.component';
 @Component({
   selector: 'app-new-investment',
   template: `
@@ -24,20 +24,22 @@ import { AmountInputCardComponent } from '../../shared-defi-investments/componen
     </ion-header>
     <ion-content *ngIf="this.investmentProduct">
       <ion-card class="ux-card">
-        <app-expandable-investment-info [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
+        <app-expandable-investment-info fbPrefix='ux_invest' [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
       </ion-card>
       <ion-card class="ux-card">
         <form [formGroup]="this.form" *ngIf="this.investmentProduct && this.token">
           <app-amount-input-card
-            title="{{ this.labelText | translate }}"
+            label="{{ this.labelText | translate }}"
             [baseCurrency]="this.token"
+            [showRange]="false"
+            [header]="'defi_investments.shared.amount_input_card.available' | translate"
           ></app-amount-input-card>
         </form>
       </ion-card>
       <div class="ni__footer">
         <ion-button
           appTrackClick
-          name="Submit Amount"
+          name="ux_invest_continue"
           expand="block"
           size="large"
           type="submit"
@@ -133,7 +135,6 @@ export class NewInvestmentPage implements OnInit {
       this.investmentDataService.amount = this.form.value.amount;
       this.investmentDataService.quoteAmount = this.form.value.quoteAmount;
       this.investmentDataService.product = this.investmentProduct;
-
       this.navController.navigateForward(['/defi/new/confirmation', this.mode]);
     }
   }

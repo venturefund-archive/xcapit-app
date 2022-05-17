@@ -66,5 +66,9 @@
 	{
 		"pkg": "@codetrix-studio/capacitor-google-auth",
 		"classpath": "com.codetrixstudio.capacitor.GoogleAuth.GoogleAuth"
+	},
+	{
+		"pkg": "@robingenz/capacitor-app-update",
+		"classpath": "dev.robingenz.capacitor.appupdate.AppUpdatePlugin"
 	}
 ]

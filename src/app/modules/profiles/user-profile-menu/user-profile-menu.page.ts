@@ -10,7 +10,6 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interface';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
-import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
 import { LogOutModalComponent } from '../shared-profiles/components/log-out-modal/log-out-modal.component';
 

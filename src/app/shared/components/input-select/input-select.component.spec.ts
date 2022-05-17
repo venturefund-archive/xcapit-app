@@ -104,7 +104,7 @@ describe('InputSelectComponent', () => {
     component.placeholder = 'Test Placeholder';
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    const placeholderEl = fixture.debugElement.query(By.css('ion-label.uxselect__placeholder'));
+    const placeholderEl = fixture.debugElement.query(By.css('ion-label.uxselect__item__placeholder'));
     expect(placeholderEl.nativeElement.innerHTML).toContain('Test Placeholder');
   });
 });

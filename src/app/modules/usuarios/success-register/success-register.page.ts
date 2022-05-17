@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 
 @Component({
@@ -20,7 +21,7 @@ export class SuccessRegisterPage implements OnInit {
   data: any;
   email: string;
 
-  constructor(private route: ActivatedRoute, private router: Router, private navController: NavController) {
+  constructor(private route: ActivatedRoute, private router: Router, private navController: NavController, private translate: TranslateService) {
     this.route.queryParams.subscribe(() => {
       const navigationState = this.router.getCurrentNavigation().extras;
       if (navigationState) {
@@ -33,6 +34,8 @@ export class SuccessRegisterPage implements OnInit {
 
   ngOnInit() {
     this.data = SUCCESS_TYPES.register;
+    this.data.textSecondary = this.translate.instant(this.data.textSecondary, {email: this.email}) 
+    this.data.image = "assets/img/usuarios/success-register/success-register.svg"
   }
 
   resendVerificationEmail() {

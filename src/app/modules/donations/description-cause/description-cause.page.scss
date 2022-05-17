@@ -1,0 +1,16 @@
+:host {
+  .dc {
+    &__content {
+      &__back {
+        padding-right: 30px;
+        font-size: 12px;
+      }
+
+      &__button {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+      }
+    }
+  }
+}

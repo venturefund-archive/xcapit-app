@@ -1,5 +1,5 @@
 import { BigNumber, constants, Contract, Signer, VoidSigner } from 'ethers';
-import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
+import { ERC20Provider } from '../erc20-provider/erc20-provider.interface';
 
 export class ERC20Contract {
   constructor(private readonly _aProvider: ERC20Provider, private readonly _aSigner: Signer) {}

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { Vault } from '@2pi-network/sdk';
 import { InvestmentBalanceItemComponent } from './investment-balance-item.component';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { of } from 'rxjs';
@@ -10,7 +9,8 @@ import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TwoPiProduct } from '../../models/two-pi-product/two-pi-product.model';
 import { Coin } from '../../../../wallets/shared-wallets/interfaces/coin.interface';
-import { logoUsd } from 'ionicons/icons';
+import { FormattedAmount } from '../../../../../shared/models/formatted-amount/formatted-amount';
+import { FormattedAmountPipe } from '../../../../../shared/pipes/formatted-amount/formatted-amount.pipe';
 
 describe('InvestmentBalanceItemComponent', () => {
   let component: InvestmentBalanceItemComponent;
@@ -46,7 +46,7 @@ describe('InvestmentBalanceItemComponent', () => {
         name: 'polygon_usdc',
       });
       TestBed.configureTestingModule({
-        declarations: [InvestmentBalanceItemComponent, SplitStringPipe],
+        declarations: [InvestmentBalanceItemComponent, SplitStringPipe, FormattedAmountPipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
@@ -67,30 +67,22 @@ describe('InvestmentBalanceItemComponent', () => {
   });
 
   it('should render symbol properly', () => {
-    const symbolEl = fixture.debugElement.query(
-      By.css('div.ibi__content__group  .symbol')
-    );
+    const symbolEl = fixture.debugElement.query(By.css('div.ibi__content__group  .symbol'));
     expect(symbolEl.nativeElement.innerHTML).toContain('USDC');
   });
 
   it('should render balance properly', () => {
-    const balanceEl = fixture.debugElement.query(
-      By.css('div.ibi__content__group  .balance')
-    );
+    const balanceEl = fixture.debugElement.query(By.css('div.ibi__content__group  .balance'));
     expect(balanceEl.nativeElement.innerHTML).toContain(50.0);
   });
 
   it('should render description properly', () => {
-    const descriptionEl = fixture.debugElement.query(
-      By.css('div.ibi__content__group  .description')
-    );
+    const descriptionEl = fixture.debugElement.query(By.css('div.ibi__content__group  .description'));
     expect(descriptionEl.nativeElement.innerHTML).toContain('USD Coin');
   });
 
   it('should render converted-balance properly', () => {
-    const convertedBalanceEl = fixture.debugElement.query(
-      By.css('div.ibi__content__group  .converted-balance')
-    );
+    const convertedBalanceEl = fixture.debugElement.query(By.css('div.ibi__content__group  .converted-balance'));
     expect(convertedBalanceEl.nativeElement.innerHTML).toContain(50);
   });
 
@@ -100,9 +92,7 @@ describe('InvestmentBalanceItemComponent', () => {
   });
 
   it('should navigate to investment detail when go_to_invest_detail div is clicked', async () => {
-    const clickeableDiv = fixture.debugElement.query(
-      By.css('div[name="go_to_invest_detail"]')
-    );
+    const clickeableDiv = fixture.debugElement.query(By.css('div[name="go_to_invest_detail"]'));
     clickeableDiv.nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([

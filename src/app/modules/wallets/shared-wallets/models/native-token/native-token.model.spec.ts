@@ -1,5 +1,5 @@
 import { BigNumber, Signer } from 'ethers';
-import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
+import { DefaultERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { TEST_ERC20_COINS } from '../../constants/coins.test';
 import { Coin } from '../../interfaces/coin.interface';
 import { NativeToken } from './native-token.model';
@@ -9,7 +9,7 @@ describe('NativeToken', () => {
   let token: NativeToken;
   let ethCoin: Coin;
   let signerSpy: jasmine.SpyObj<Signer>;
-  let erc20ProviderSpy: jasmine.SpyObj<ERC20Provider>;
+  let erc20ProviderSpy: jasmine.SpyObj<DefaultERC20Provider>;
   let providerSpy: jasmine.SpyObj<Provider>;
 
   beforeEach(() => {

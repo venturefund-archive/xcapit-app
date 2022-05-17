@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-
 import { FiatRampsService } from './fiat-ramps.service';
 import { of } from 'rxjs';
 import { CustomHttpService } from '../../../../shared/services/custom-http/custom-http.service';
+import { rawProvidersData } from '../fixtures/raw-providers-data';
+
 
 describe('FiatRampsService', () => {
   let fiatRampsService: FiatRampsService;
@@ -19,7 +20,8 @@ describe('FiatRampsService', () => {
       providers: [{ provide: CustomHttpService, useValue: customHttpServiceSpy }],
     });
     fiatRampsService = TestBed.inject(FiatRampsService);
-    fiatRampsService.setProvider('1');
+    fiatRampsService.providers = rawProvidersData;
+    fiatRampsService.setProvider(`${rawProvidersData[1].id}`);
     customHttpServiceSpy = TestBed.inject(CustomHttpService);
   });
 
@@ -109,5 +111,24 @@ describe('FiatRampsService', () => {
     fiatRampsService.getMoonpayLink('0x0000', 'eth').subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('should return Kripton provider on getProvider when id is 1', () => {
+    const provider = fiatRampsService.getProvider(1);
+    expect(provider.alias).toEqual('kripton');
+  });
+
+  it('should return pending_by_validate on getOperationStatus when status name is pending_by_validate and provider id is 1', () => {
+    const status = fiatRampsService.getOperationStatus('pending_by_validate', 1);
+    expect(status.name).toEqual('pending_by_validate');
+    expect(status.textToShow).toEqual('in_progress');
+    expect(status.provider.alias).toEqual('kripton');
+  });
+
+  it('should return pending_by_validate on getOperationStatus when status name is pending_by_validate', () => {
+    const status = fiatRampsService.getOperationStatus('pending_by_validate');
+    expect(status.name).toEqual('pending_by_validate');
+    expect(status.textToShow).toEqual('in_progress');
+    expect(status.provider.alias).toEqual('kripton');
   });
 });

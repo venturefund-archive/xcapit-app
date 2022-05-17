@@ -1,31 +1,34 @@
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
 import { ERC20Contract } from '../erc20-contract/erc20-contract.model';
-import { ERC20Provider } from '../erc20-provider/erc20-provider.model';
-import { ERC20Token } from '../erc20-token/erc20-token.model';
+import { DefaultERC20Provider } from '../erc20-provider/erc20-provider.model';
+import { DefaultERC20Token } from '../erc20-token/default-erc20-token.model';
 import { TwoPiContract } from '../two-pi-contract/two-pi-contract.model';
 import { environment } from '../../../../../../environments/environment';
 import { TransactionResponse, TransactionReceipt } from '@ethersproject/abstract-provider';
 import { BigNumber } from '@ethersproject/bignumber';
-import { FixedNumber, Signer } from 'ethers';
+import { Signer } from 'ethers';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { Task } from '../../../../../shared/models/task/task';
 import { Retry } from '../../../../../shared/models/retry/retry';
 import { GasFeeOf } from '../gas-fee-of/gas-fee-of.model';
 import { Allowance } from '../allowance/allowance';
+import { GasLimitOf } from '../gas-limit-of/gas-limit-of';
 
 export interface Investment {
   balance(): Promise<number>;
   deposit(amount: number): Promise<TransactionResponse>;
-  withdraw(): any;
+  withdraw(amount: number): any;
+  withdrawAll(): any;
+  amountToShare(amount: number): Promise<BigNumber>;
 }
 
 export class TwoPiInvestment implements Investment {
   constructor(
     private readonly _aProduct: InvestmentProduct,
     private readonly _aWallet: Signer,
-    private readonly _anErc20Token: ERC20Token,
-    private readonly _anErc20Provider: ERC20Provider,
+    private readonly _anErc20Token: DefaultERC20Token,
+    private readonly _anErc20Provider: DefaultERC20Provider,
     private readonly _aTwoPiContract: TwoPiContract,
     private readonly _aReferralAddress: string,
     private readonly _anApiWalletService: ApiWalletService
@@ -36,8 +39,8 @@ export class TwoPiInvestment implements Investment {
     _aWallet: Signer,
     _anApiWalletService: ApiWalletService
   ): TwoPiInvestment {
-    const erc20Provider = new ERC20Provider(_aProduct.token());
-    const erc20Token = new ERC20Token(new ERC20Contract(erc20Provider, _aWallet));
+    const erc20Provider = new DefaultERC20Provider(_aProduct.token());
+    const erc20Token = new DefaultERC20Token(new ERC20Contract(erc20Provider, _aWallet));
     const twoPiContract = new TwoPiContract(_aProduct.contractAddress(), erc20Provider, _aWallet);
     const referralAddress = environment.twoPiReferralAddress;
     return new this(
@@ -67,6 +70,12 @@ export class TwoPiInvestment implements Investment {
     return this._aTwoPiContract.value().getPricePerFullShare(this._aProduct.id());
   }
 
+  public async amountToShare(amount: number): Promise<BigNumber> {
+    return this._weiOf(amount)
+      .mul(BigNumber.from('10').pow(this._aProduct.token().decimals))
+      .div(await this._sharePrice());
+  }
+
   private _tokenValueOf(aWei: BigNumber) {
     return parseFloat(formatUnits(aWei.toString(), this._aProduct.decimals() + this._aProduct.token().decimals));
   }
@@ -84,17 +93,12 @@ export class TwoPiInvestment implements Investment {
     return this._tokenValueOf((await this._walletShares()).mul(await this._sharePrice()));
   }
 
-  async gasLimit(amount: number): Promise<string> {
-    const gas = await new GasFeeOf(this._aTwoPiContract.value(), 'deposit', [
-      this._aProduct.id(),
-      this._weiOf(amount),
-      this._aReferralAddress,
-    ]).value();
-    return Promise.resolve((gas.toNumber() * 1.5).toFixed());
-  }
-
   async _allowance(): Promise<BigNumber> {
     return this._anErc20Token.allowance(await this._aWallet.getAddress(), this._aProduct.contractAddress());
+  }
+
+  private async gasLimitOf(methodName: string, args: any[]) {
+    return new GasLimitOf(new GasFeeOf(this._aTwoPiContract.value(), methodName, args)).value();
   }
 
   async deposit(amount: number): Promise<TransactionResponse> {
@@ -102,7 +106,11 @@ export class TwoPiInvestment implements Investment {
     if (!new Allowance(await this._allowance()).enoughFor(this._weiOf(amount))) {
       await this._approve(this._weiOf(amount), gasPrice);
     }
-    const gasLimit = await this.gasLimit(amount);
+    const gasLimit = await this.gasLimitOf('deposit', [
+      this._aProduct.id(),
+      this._weiOf(amount),
+      this._aReferralAddress,
+    ]);
     return new Retry(
       new Task(() =>
         this._aTwoPiContract.value().deposit(this._aProduct.id(), this._weiOf(amount), this._aReferralAddress, {
@@ -115,8 +123,17 @@ export class TwoPiInvestment implements Investment {
       .toPromise();
   }
 
-  async withdraw(): Promise<TransactionResponse> {
+  async withdraw(amount: number): Promise<TransactionResponse> {
     const gasPrice = await this._gasPrice();
-    return this._aTwoPiContract.value().withdrawAll(this._aProduct.id(), { gasPrice });
+    const gasLimit = await this.gasLimitOf('withdraw', [this._aProduct.id(), await this.amountToShare(amount)]);
+    return this._aTwoPiContract
+      .value()
+      .withdraw(this._aProduct.id(), await this.amountToShare(amount), { gasPrice, gasLimit });
+  }
+
+  async withdrawAll(): Promise<TransactionResponse> {
+    const gasPrice = await this._gasPrice();
+    const gasLimit = await this.gasLimitOf('withdrawAll', [this._aProduct.id()]);
+    return this._aTwoPiContract.value().withdrawAll(this._aProduct.id(), { gasPrice, gasLimit });
   }
 }

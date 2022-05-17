@@ -1,12 +1,12 @@
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { StorageWalletsService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
+import { LINKS } from 'src/app/config/static-links';
 
 @Component({
   selector: 'app-disclaimer-wallet',
@@ -16,12 +16,15 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
-        <ion-title *ngIf="this.mode === 'import'" class="ion-text-center">{{
+        <ion-title *ngIf="this.mode === 'import'" >{{
           'wallets.recovery_wallet.header' | translate
         }}</ion-title>
-        <ion-title *ngIf="this.mode !== 'import'" class="ion-text-center">{{
+        <ion-title *ngIf="this.mode !== 'import'" >{{
           'wallets.disclaimer.header' | translate
         }}</ion-title>
+        <ion-label class="step-counter" slot="end"
+          >1 {{ 'shared.step_counter.of' | translate }} {{this.mode !== "import" ? '2' : '3'}}</ion-label
+        >
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -31,46 +34,22 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
             <ion-text name="Title" class="ux-font-text-xl">{{ 'wallets.disclaimer.title' | translate }}</ion-text>
           </div>
           <div class="description">
-            <ion-text name="Description" class="ux-font-text-xs">{{
-              'wallets.disclaimer.description' | translate
-            }}</ion-text>
+            <ion-text name="Description" class="ux-font-text-xs">
+              {{ (this.mode !== "import" ? 'wallets.disclaimer.create_wallet_description'  : 'wallets.disclaimer.import_wallet_description') | translate }}</ion-text>
           </div>
-          <div name="Disclaimer Form Checkboxes" class="checkbox_card">
-            <ion-item class="ion-no-padding ion-no-margin checkbox">
-              <div class="ux_checkbox_container">
-                <ion-item class="ux_checkbox_container__item ux-font-text-xs">
-                  <ion-label class="ux_checkbox_container__item__label checkbox__label">
-                    {{ 'wallets.disclaimer.local_stored_keys_checkbox' | translate }}
-                  </ion-label>
-                  <ion-checkbox formControlName="localStoredKeysCheckbox" slot="start"></ion-checkbox>
-                </ion-item>
-              </div>
-            </ion-item>
-
-            <ion-item class="ion-no-padding ion-no-margin checkbox">
-              <div class="ux_checkbox_container">
-                <ion-item class="ux_checkbox_container__item ux-font-text-xs">
-                  <ion-label class="ux_checkbox_container__item__label checkbox__label">
-                    {{ 'wallets.disclaimer.recovery_phrase_checkbox' | translate }}
-                  </ion-label>
-                  <ion-checkbox formControlName="recoveryPhraseCheckbox" slot="start"></ion-checkbox>
-                </ion-item>
-              </div>
-            </ion-item>
-
-            <ion-item class="ion-no-padding ion-no-margin checkbox last">
-              <div class="ux_checkbox_container">
-                <ion-item class="ux_checkbox_container__item ux-font-text-xs">
-                  <ion-label
-                    class="ux_checkbox_container__item__label checkbox__label lbl"
-                    [innerHTML]="this.textLink | translate"
-                  >
-                  </ion-label>
-                  <ion-checkbox formControlName="termsOfUseCheckbox" slot="start"></ion-checkbox>
-                </ion-item>
-              </div>
-            </ion-item>
+          <div class="ux-documents">
+            <div class="ux-documents__item" lines="none" name='ux_terms_and_conditions' (click)="openDocument(links.xcapitTermsAndConditions)">
+              <ion-icon name="ux-document"></ion-icon>
+              <ion-label class="ux-font-text-lg">{{ 'wallets.disclaimer.terms_and_conditions' | translate }}</ion-label>
+              <ion-icon name="chevron-forward-outline" color="info"></ion-icon>
+            </div>
+            <div class="ux-documents__item" lines="none" name='ux_privacy_policy' (click)="openDocument(links.xcapitPrivacyPolicy)">
+              <ion-icon name="ux-document"></ion-icon>
+              <ion-label class="ux-font-text-lg">{{ 'wallets.disclaimer.privacy_policy' | translate }}</ion-label>
+              <ion-icon name="chevron-forward-outline" color="info"></ion-icon>
+            </div>
           </div>
+
           <app-wallet-advice
             [logo]="'ux-device'"
             [text]="'wallets.disclaimer.wallet_term_text'"
@@ -78,41 +57,51 @@ import { StorageWalletsService } from '../shared-wallets/services/storage-wallet
           ></app-wallet-advice>
         </div>
         <div name="Disclaimer Form Buttons" class="ux_footer">
-          <div class="button">
-            <ion-button
-              class="ux_button"
-              appTrackClick
-              name="ux_create_submit"
-              type="submit"
-              color="secondary"
-              size="large"
-              [disabled]="this.submitButtonService.isDisabled | async"
-            >
-              {{ 'wallets.disclaimer.submit_button' | translate }}
-            </ion-button>
-          </div>
+          <ion-item class="ux-checkbox-container ux-font-text-xs">
+            <ion-label class="ux-checkbox-container__label">
+              {{ 'wallets.disclaimer.agree_phrase_checkbox' | translate }}
+            </ion-label>
+            <ion-checkbox
+              name="ux_create_disclaimer_check_button_1"
+              formControlName="agreePhraseCheckbox"
+              slot="start"
+            ></ion-checkbox>
+          </ion-item>
+          <ion-button
+            class="ux_button"
+            appTrackClick
+            [dataToTrack]="{ eventLabel: this.trackClickEventName }"
+            [disabled]="!this.disclaimerForm.valid"
+            name="ux_create_submit"
+            type="submit"
+            color="secondary"
+            size="large"
+          >
+            {{ 'wallets.disclaimer.submit_button' | translate }}
+          </ion-button>
         </div>
       </form>
     </ion-content>
   `,
   styleUrls: ['./disclaimer-wallet.page.scss'],
 })
-export class DisclaimerWalletPage implements AfterViewInit {
+export class DisclaimerWalletPage implements OnInit {
   mode: string;
   hasAcceptedDisclaimer: boolean;
-  anchors;
-  textLink = 'wallets.disclaimer.terms_of_use_checkbox';
+  links = LINKS;
   disclaimerForm: FormGroup = this.formBuilder.group({
-    localStoredKeysCheckbox: [false, [Validators.requiredTrue]],
-    recoveryPhraseCheckbox: [false, [Validators.requiredTrue]],
-    termsOfUseCheckbox: [false, [Validators.requiredTrue]],
+    agreePhraseCheckbox: [false, [Validators.requiredTrue]],
   });
+  trackClickEventName: string;
+
+  private get isImporting(): boolean {
+    return this.mode === 'import';
+  }
 
   constructor(
     private elementRef: ElementRef,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public submitButtonService: SubmitButtonService,
     private modalController: ModalController,
     private navController: NavController,
     private translate: TranslateService,
@@ -120,21 +109,9 @@ export class DisclaimerWalletPage implements AfterViewInit {
     private browserService: BrowserService
   ) {}
 
-  ngAfterViewInit() {
-    this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
-    this.anchors.forEach((anchor) => {
-      anchor.addEventListener('click', this.handleAnchorClick.bind(this));
-    });
-  }
-
-  handleAnchorClick(event: Event) {
-    event.preventDefault();
-    const anchor = event.target as HTMLAnchorElement;
-    this.navigateToLink(anchor.getAttribute('href'));
-  }
-
   ngOnInit() {
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.trackClickEventName = this.isImporting ? 'ux_import_submit' : 'ux_create_submit';
   }
 
   handleSubmit() {
@@ -146,8 +123,12 @@ export class DisclaimerWalletPage implements AfterViewInit {
     }
   }
   navigateByMode() {
-    const url = this.mode === 'import' ? 'wallets/recovery' : 'wallets/select-coins';
+    const url = this.isImporting ? 'wallets/recovery' : 'wallets/select-coins';
     this.navController.navigateForward([url]);
+  }
+
+  openDocument(url): void{
+    this.browserService.open({url});
   }
 
   async showModalDidNotAccept() {
@@ -161,12 +142,6 @@ export class DisclaimerWalletPage implements AfterViewInit {
       },
     });
     await modal.present();
-  }
-
-  async navigateToLink(link) {
-    await this.browserService.open({
-      url: link,
-    });
   }
 
   acceptToS() {

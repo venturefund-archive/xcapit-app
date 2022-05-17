@@ -67,10 +67,27 @@ import { ButtonSpinnerDirective } from './directives/button-spinner/button-spinn
 import { UpdateNewsComponent } from './components/update-news/update-news.component';
 import { NewsItemComponent } from './components/news-item/news-item.component';
 import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.directive';
+import { UpdateAppModalComponent } from './components/update-app-modal/update-app-modal.component';
 import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
+import { TokenSelectionListComponent } from './components/token-selection-list/token-selection-list.component';
+import { SuitePipe } from './pipes/suite/suite.pipe';
+import { CoinSelectorComponent } from './components/coin-selector/coin-selector.component';
+import { FilterTabComponent } from '../modules/defi-investments/shared-defi-investments/components/filter-tab/filter-tab.component';
+import { SelectProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/select-provider-card/select-provider-card.component';
+import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/provider-card/provider-card/provider-card.component';
+import { TransactionFeeComponent } from '../modules/defi-investments/shared-defi-investments/components/transaction-fee/transaction-fee.component';
+import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
+import { ObjetiveCardComponent } from '../modules/financial-planner/shared-financial-planner/components/objetive-card/objetive-card.component';
+import { NumberInputDirective } from './directives/number-input/number-input.directive';
+import { CauseComponent } from '../modules/donations/shared-donations/components/cause/cause.component';
+import { ReferralsComingComponent } from '../modules/referrals/shared-referrals/components/referrals-coming/referrals-coming.component';
+import { FormattedAmountPipe } from './pipes/formatted-amount/formatted-amount.pipe';
+import { CauseInfoComponent } from '../modules/donations/shared-donations/components/description-cause/cause-info.component';
+import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-network.pipe';
 
 @NgModule({
   declarations: [
+    FilterTabComponent,
     ErrorsFormItemComponent,
     LanguagePopoverComponent,
     LanguageButtonComponent,
@@ -87,6 +104,10 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
     WalletConnectCardComponent,
     QuotesCardComponent,
     ItemQuoteComponent,
+    TokenSelectionListComponent,
+    TransactionFeeComponent,
+    AmountInputCardComponent,
+    ReferralsComingComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -123,24 +144,37 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
     TestOptionItemComponent,
     WalletTotalBalanceCardComponent,
     AvatarProfileComponent,
+    UpdateAppModalComponent,
     NetworkSelectCardComponent,
     NoWalletComponent,
     UpdateNewsComponent,
     NewsItemComponent,
     ToastWithButtonsComponent,
+    CoinSelectorComponent,
+    SelectProviderCardComponent,
+    ProviderCardComponent,
+    CauseComponent,
+    ObjetiveCardComponent,
+    CauseInfoComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
-    SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
     SplitStringPipe,
+    SuitePipe,
+    FormattedNetworkPipe,
+    FormattedAmountPipe,
+    //Directives
+    SelectStyleDirective,
+    NumberInputDirective,
     ButtonSpinnerDirective,
     FeatureFlagDirective,
   ],
   entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
+    FilterTabComponent,
     EmbedVideoComponent,
     ErrorsFormItemComponent,
     CommonModule,
@@ -156,12 +190,18 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
     ToastAlertComponent,
     ScanQrModalComponent,
     LoadingModalComponent,
+    UpdateAppModalComponent,
     NeedHelpCardComponent,
     InvestorTestCardsComponent,
     WalletConnectCardComponent,
     QuotesCardComponent,
     ItemQuoteComponent,
     NetworkSelectCardComponent,
+    TokenSelectionListComponent,
+    CoinSelectorComponent,
+    TransactionFeeComponent,
+    AmountInputCardComponent,
+    ReferralsComingComponent,
     // Ux
     SelectModalNewComponent,
     UxInputComponent,
@@ -202,15 +242,25 @@ import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-de
     UpdateNewsComponent,
     NewsItemComponent,
     ToastWithButtonsComponent,
+    SelectProviderCardComponent,
+    ProviderCardComponent,
+    CauseComponent,
+    ObjetiveCardComponent,
+    CauseInfoComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
-    SelectStyleDirective,
     SafeURLPipe,
     HideTextPipe,
-    ButtonSpinnerDirective,
     SplitStringPipe,
+    SuitePipe,
+    FormattedNetworkPipe,
+    FormattedAmountPipe,
+    //Directives
+    ButtonSpinnerDirective,
+    NumberInputDirective,
     FeatureFlagDirective,
+    SelectStyleDirective,
   ],
 })
 export class SharedModule {}

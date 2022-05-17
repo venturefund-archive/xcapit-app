@@ -16,7 +16,7 @@ import { NavController } from '@ionic/angular';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { isObservable, of, Subscription, throwError } from 'rxjs';
+import { of, Subscription, throwError } from 'rxjs';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
@@ -26,9 +26,25 @@ import { BalanceCacheService } from '../../wallets/shared-wallets/services/balan
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { QueueService } from '../../../shared/services/queue/queue.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
+import { TotalBalanceController } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.controller';
+import { TokenPricesController } from '../../wallets/shared-wallets/models/prices/token-prices/token-prices.controller';
+import { CovalentBalancesController } from '../../wallets/shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { TokenDetailController } from '../../wallets/shared-wallets/models/token-detail/token-detail.controller';
+import { TokenDetail } from '../../wallets/shared-wallets/models/token-detail/token-detail';
+import { FakeBalance } from '../../wallets/shared-wallets/models/balance/fake-balance/fake-balance';
+import { FakePrices } from '../../wallets/shared-wallets/models/prices/fake-prices/fake-prices';
+import { FakeBalances } from '../../wallets/shared-wallets/models/balances/fake-balances/fake-balances';
+import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+
+const dataTest = {
+  category: 'purchases',
+  expenses: 700,
+  income: 1000,
+  name: 'Auto',
+  necessaryAmount: 2500,
+};
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -46,12 +62,31 @@ describe('HomePage', () => {
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let queueServiceSpy: jasmine.SpyObj<QueueService>;
   let coinSpy: jasmine.SpyObj<Coin>;
+  let totalBalanceControllerSpy: jasmine.SpyObj<TotalBalanceController>;
+  let tokenPricesControllerSpy: jasmine.SpyObj<TokenPricesController>;
+  let covalentBalancesControllerSpy: jasmine.SpyObj<CovalentBalancesController>;
+  let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
+  let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
+  let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
 
   beforeEach(
     waitForAsync(() => {
       coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
+      totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
+      tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
+      covalentBalancesControllerSpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+      tokenDetailSpy = jasmine.createSpyObj(
+        'TokenDetail',
+        { cached: Promise.resolve({ balance: 10, price: 2 }), fetch: Promise.resolve(), cache: Promise.resolve() },
+        {
+          price: 20,
+          balance: 1,
+          quoteSymbol: 'USD',
+          coin: coinSpy,
+        }
+      );
+      tokenDetailControllerSpy = jasmine.createSpyObj('TokenDetailSpy', { new: tokenDetailSpy });
       windowSpy = spyOn(window, 'open');
       notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
         getCountNotifications: of({ count: 5 }),
@@ -68,15 +103,9 @@ describe('HomePage', () => {
       });
 
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getNetworks: ['MATIC'] });
-      queueServiceSpy = jasmine.createSpyObj('QueueService', {
-        dequeueAll: null,
-        create: null,
-        enqueue: null,
-        results: of({}),
-      });
-      queueServiceSpy.enqueue.and.callFake((queue, task) => (isObservable(task) ? task : task()));
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
         getAssestsSelected: Promise.resolve([coinSpy, coinSpy]),
+        getWalletsAddresses: Promise.resolve('0x00001'),
       });
       fakeWalletService = new FakeWalletService(true);
       walletServiceSpy = fakeWalletService.createSpy();
@@ -91,6 +120,8 @@ describe('HomePage', () => {
         unsubscribe: of(),
       });
 
+      appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', { get: dataTest });
+
       TestBed.configureTestingModule({
         declarations: [HomePage, FakeTrackClickDirective, FakeFeatureFlagDirective],
         imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot()],
@@ -103,7 +134,11 @@ describe('HomePage', () => {
           { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
-          { provide: QueueService, useValue: queueServiceSpy },
+          { provide: CovalentBalancesController, useValue: covalentBalancesControllerSpy },
+          { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
+          { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
+          { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
+          { provide: AppStorageService, useValue: appStorageServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -157,14 +192,11 @@ describe('HomePage', () => {
 
   it('should not get balance if wallet does not exist', async () => {
     fakeWalletService.modifyReturns(false, null);
-    const spyComplete = spyOn(component.leave$, 'complete');
     await component.ionViewDidEnter();
     await fixture.whenStable();
     component.ionViewDidLeave();
     expect(walletServiceSpy.walletExist).toHaveBeenCalledTimes(1);
-    expect(queueServiceSpy.dequeueAll).toHaveBeenCalledTimes(1);
     expect(component.balance).not.toBeDefined();
-    expect(spyComplete).toHaveBeenCalledTimes(1);
   });
 
   it('should get balance if wallet exists', async () => {
@@ -174,7 +206,7 @@ describe('HomePage', () => {
     component.ionViewDidLeave();
     expect(walletServiceSpy.walletExist).toHaveBeenCalledTimes(1);
     expect(storageServiceSpy.getAssestsSelected).toHaveBeenCalledTimes(1);
-    expect(component.balance).toEqual(400);
+    expect(component.balance).toEqual(10);
     expect(balanceCacheServiceSpy.total).toHaveBeenCalledTimes(1);
     expect(balanceCacheServiceSpy.updateTotal).toHaveBeenCalledTimes(1);
   });
@@ -183,7 +215,7 @@ describe('HomePage', () => {
     fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', 'true');
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/moonpay']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/select-provider']);
   });
 
   it('should re-initialize when refresher is triggered', fakeAsync(() => {
@@ -211,4 +243,36 @@ describe('HomePage', () => {
     expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
     expect(refreshTimeoutServiceSpy.lock).not.toHaveBeenCalled();
   }));
+
+  it('should render app-objetive-card and no render app-financial-planner-card component if there is data in the storage', async () => {
+    component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    const componentEl = fixture.debugElement.query(By.css('app-financial-planner-card'));
+    const componentObjetiveEl = fixture.debugElement.query(By.css('div.ux-card'));
+    expect(appStorageServiceSpy.get).toHaveBeenCalledTimes(1);
+    expect(componentEl).toBeFalsy();
+    expect(componentObjetiveEl).toBeTruthy();
+  });
+
+  it('should render app-financial-planner-card and no render app-objetive-card component if there isnt data in the storage', async () => {
+    appStorageServiceSpy.get.and.returnValue(null);
+    component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    const componentEl = fixture.debugElement.query(By.css('app-financial-planner-card'));
+    const componentObjetiveEl = fixture.debugElement.query(By.css('div.ux-card'));
+    expect(appStorageServiceSpy.get).toHaveBeenCalledTimes(1);
+    expect(componentEl).toBeTruthy();
+    expect(componentObjetiveEl).toBeFalsy();
+  });
+
+  it('should navigate to objetive page when objetive card is clicked', async () => {
+    component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('.ux-card .card-objetive')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/financial-planner/result-objetive']);
+  });
 });

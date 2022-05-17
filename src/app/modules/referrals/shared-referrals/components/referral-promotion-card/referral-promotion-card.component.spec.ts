@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 describe('ReferralPromotionCardComponent', () => {
   let component: ReferralPromotionCardComponent;
@@ -13,15 +14,16 @@ describe('ReferralPromotionCardComponent', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReferralPromotionCardComponent>;
-
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   beforeEach(
     waitForAsync(() => {
+      remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', { getString: '' });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
         declarations: [ReferralPromotionCardComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [{ provide: NavController, useValue: navControllerSpy }, { provide: RemoteConfigService, useValue: remoteConfigServiceSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(ReferralPromotionCardComponent);
@@ -36,7 +38,9 @@ describe('ReferralPromotionCardComponent', () => {
   });
 
 
-  it('should navigate to referrals page on card click', () => {
+  it('should navigate to page setted by remote config service on card click', () => {
+    remoteConfigServiceSpy.getString.and.returnValue('/referrals/summary');
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('div[name="Go To Referrals"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/referrals/summary');
   });

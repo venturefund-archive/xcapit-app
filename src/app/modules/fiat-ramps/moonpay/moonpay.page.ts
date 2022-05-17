@@ -2,13 +2,15 @@ import { environment } from './../../../../../variables.env';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ActivatedRoute } from '@angular/router';
 import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
+import { LINKS } from 'src/app/config/static-links';
+import { Currency } from '../../funds/shared-funds/enums/currency.enum';
 
 @Component({
   selector: 'app-moonpay',
@@ -24,18 +26,11 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
     <ion-content class="ion-padding-start ion-padding-end">
       <ion-card class="ux-card-new mnp">
         <div class="mnp__currency-select">
-          <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.moonpay.currency_label' | translate }}</ion-text>
-          <form [formGroup]="this.form">
-            <app-input-select
-              [modalTitle]="'wallets.receive.select_coins' | translate"
-              [placeholder]="'wallets.receive.select_coins' | translate"
-              controlName="currency"
-              [data]="this.coins"
-              key="name"
-              valueKey="value"
-              imageKey="logoRoute"
-              selectorStyle="white"
-            ></app-input-select>
+          <form [formGroup]="this.form">           
+            <app-coin-selector
+            *ngIf="this.form.value.currency" [selectedCoin]="this.form.value.currency"
+            (changeCurrency)="this.changeCurrency()"
+          ></app-coin-selector>
           </form>
         </div>
         <div class="mnp__provider">
@@ -57,11 +52,31 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
         </div>
         <div class="mnp__disclaimer">
           <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.moonpay.disclaimer' | translate }}</ion-text>
-        </div> 
-         <div class="mnp__information">
-          <ion-text class="ux-font-text-xxs" color="neutral50">{{ 'fiat_ramps.moonpay.information' | translate }}</ion-text>
+        </div>
+        <div class="mnp__information">
+          <ion-text class="ux-font-text-xxs" color="neutral50">{{
+            'fiat_ramps.moonpay.information' | translate
+          }}</ion-text>
         </div>
       </ion-card>
+      <div class="operations-list" *ngIf="this.operationsList">
+        <app-operations-list [operationsList]="this.operationsList"></app-operations-list>
+      </div>
+      <div class="moonpay-operations">
+        <ion-text class="ux-font-text-xxs">
+          {{ 'fiat_ramps.moonpay.moonpay_operations' | translate }}
+        </ion-text>
+        <ion-button
+          fill="clear"
+          type="button"
+          appTrackClick
+          name="Go To Moonpay History"
+          (click)="this.goToMoonpay()"
+          class="ux-link-xs moonpay-operations__link"
+        >
+          {{ this.txHistoryLink }}
+        </ion-button>
+      </div>
       <ion-button
         appTrackClick
         name="Continue to Moonpay"
@@ -84,6 +99,9 @@ export class MoonpayPage implements OnInit {
   });
   coins: Coin[];
   address: string;
+  operationsList: FiatRampOperation[];
+  txHistoryLink: string = LINKS.moonpayTransactionHistory;
+
   constructor(
     private formBuilder: FormBuilder,
     private browserService: BrowserService,
@@ -91,7 +109,7 @@ export class MoonpayPage implements OnInit {
     private route: ActivatedRoute,
     private walletEncryptionService: WalletEncryptionService,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController
+    private navController: NavController,
   ) {}
 
   ngOnInit() {}
@@ -99,14 +117,22 @@ export class MoonpayPage implements OnInit {
   ionViewWillEnter() {
     this.subscribeToFormChanges();
     this.initAssetsForm();
+    this.getOperations();
+  }
+
+  getOperations() {
+    this.fiatRampsService.getUserOperations().subscribe((data) => {
+      this.operationsList = data;
+    });
   }
 
   initAssetsForm() {
-    const initialAsset = this.route.snapshot.paramMap.get('asset');
+    const token = this.route.snapshot.queryParamMap.get('asset');
+    const network = this.route.snapshot.queryParamMap.get ('network');
     this.storageService.getAssestsSelected().then((coins) => {
       this.coins = coins.filter((coin) => Boolean(coin.moonpayCode));
-      if (initialAsset) {
-        this.form.patchValue({ currency: this.coins.find((coin) => coin.value === initialAsset) });
+      if (token&&network) {
+        this.form.patchValue({ currency: this.coins.find((coin) => coin.value === token && coin.network === network) });
       } else {
         this.form.patchValue({ currency: this.coins[0] });
       }
@@ -139,5 +165,13 @@ export class MoonpayPage implements OnInit {
 
   success(): Promise<boolean> {
     return this.navController.navigateForward(['/tabs/wallets']);
+  }
+
+  async goToMoonpay() {
+    await this.browserService.open({ url: this.txHistoryLink });
+  }
+
+  changeCurrency(): void{
+    this.navController.navigateForward(['/fiat-ramps/token-selection']);
   }
 }

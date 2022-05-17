@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
         <app-wallet-transaction-card-item
           *ngFor="let transaction of this.transactions; let last = last"
           [transaction]="transaction"
+          [network]="this.network"
           [last]="last"
         ></app-wallet-transaction-card-item>
       </ion-list>
@@ -17,6 +18,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class WalletTransactionCardComponent implements OnInit {
   @Input() transactions: any[];
+  @Input() network: string;
 
   constructor() {}
 

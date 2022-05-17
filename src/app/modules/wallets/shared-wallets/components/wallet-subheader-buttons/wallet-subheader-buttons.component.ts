@@ -12,7 +12,7 @@ import { NavigationExtras } from '@angular/router';
             (click)="this.goToSend()"
             appTrackClick
             class="ux-font-text-lg"
-            name="ux_send_go_to_send"
+            name="ux_go_to_send"
             [text]="'wallets.home.subheader_buttons_component.send_card' | translate"
             icon="ux-arrow-up"
           ></app-icon-button-card>
@@ -22,7 +22,7 @@ import { NavigationExtras } from '@angular/router';
             (click)="this.goToReceive()"
             appTrackClick
             class="ux-font-text-lg"
-            name="Go to Receive"
+            name="ux_go_to_receive"
             [text]="'wallets.home.subheader_buttons_component.receive_card' | translate"
             icon="ux-arrow-down"
           ></app-icon-button-card>
@@ -32,18 +32,19 @@ import { NavigationExtras } from '@angular/router';
             (click)="this.goToBuy()"
             appTrackClick
             class="ux-font-text-lg"
-            name="Go to Buy"
+            name="ux_go_to_buy"
             [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"
             icon="ux-currency"
           ></app-icon-button-card>
         </div>
-        <div class="wsb__card-buttons__performance card">
+        <div *appFeatureFlag="'ff_swap'" class="wsb__card-buttons__swap-card card">
           <app-icon-button-card
-            (click)="this.goToPerformance()"
+            (click)="this.goToSwap()"
             appTrackClick
-            name="Go to Performance"
-            [text]="'wallets.home.subheader_buttons_component.performance_card' | translate"
-            icon="ux-home-trending"
+            class="ux-font-text-lg"
+            name="ux_go_to_swap"
+            [text]="'wallets.home.subheader_buttons_component.swap_card' | translate"
+            icon="ux-vertical-switch"
           ></app-icon-button-card>
         </div>
       </div>
@@ -87,10 +88,10 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   }
 
   goToBuy() {
-    this.navController.navigateForward(['fiat-ramps/moonpay']);
+    this.navController.navigateForward(['fiat-ramps/select-provider']);
   }
 
-  goToPerformance() {
-    this.navController.navigateForward(['tabs/investments']);
+  goToSwap(){
+    this.navController.navigateForward(['']);
   }
 }

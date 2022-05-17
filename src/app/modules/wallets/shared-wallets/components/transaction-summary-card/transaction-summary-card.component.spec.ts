@@ -5,7 +5,7 @@ import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.
 import { By } from '@angular/platform-browser';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormattedNetworkPipe } from '../../pipes/formatted-network-name/formatted-network.pipe';
+import { FormattedNetworkPipe } from '../../../../../shared/pipes/formatted-network-name/formatted-network.pipe';
 
 const summaryData: SummaryData = {
   network: 'ERC20',
@@ -20,7 +20,7 @@ const summaryData: SummaryData = {
     rpc: '',
   },
   address: 'asdlkfjasd56lfjasdpodlfkj',
-  amount: '1',
+  amount: 1,
   referenceAmount: '50000',
   fee: '0.00001',
   referenceFee: '0.18'

@@ -18,24 +18,6 @@ import { ReferralsCount } from '../../interfaces/referrals-info.interface';
             "
           ></app-referral-detail>
         </div>
-        <div class="rh__summary__first-order">
-          <app-referral-detail
-            [title]="'referrals.referrals_history.first_order_title' | translate"
-            [subtitle]="
-              'referrals.referrals_history.first_order_subtitle'
-                | translate: { quantity: this.referrals.first_order.without_wallet }
-            "
-          ></app-referral-detail>
-        </div>
-        <div class="rh__summary__second-order">
-          <app-referral-detail
-            [title]="'referrals.referrals_history.second_order_title' | translate"
-            [subtitle]="
-              'referrals.referrals_history.second_order_subtitle'
-                | translate: { quantity: this.referrals.second_order.without_wallet }
-            "
-          ></app-referral-detail>
-        </div>
       </div>
     </div>
   `,

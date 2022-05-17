@@ -23,24 +23,6 @@ ion-card {
       }
     }
   }
-
-  &__fee {
-    padding-top: 12px;
-    padding-bottom: 16px;
-
-    &__label {
-      margin-bottom: 4px;
-    }
-
-    &__qty {
-      display: flex;
-      justify-content: space-between;
-
-      ion-text {
-        color: var(--ion-color-neutral90);
-      }
-    }
-  }
 }
 
 form {
@@ -55,9 +37,6 @@ form {
       margin-right: 8px;
       width: 24px;
       height: 24px;
-
-      --border-color: var(--ion-color-info);
-      --border-color-checked: var(--ion-color-info);
     }
 
     ion-label {

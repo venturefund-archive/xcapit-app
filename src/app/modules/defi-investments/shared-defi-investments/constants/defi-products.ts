@@ -13,12 +13,12 @@ export const PROD_DEFI_PRODUCTS: DefiProduct[] = [
     dailyEarning: true,
     category:'conservative',
   },
-  // {
-  //   id: 'polygon_btc',
-  //   isComing: false,
-  //   dailyEarning: true,
-  //   category: 'medium',
-  // },
+  {
+    id: 'polygon_btc',
+    isComing: false,
+    dailyEarning: true,
+    category: 'medium',
+  },
 ];
 
 export const NONPROD_DEFI_PRODUCTS: DefiProduct[] = [

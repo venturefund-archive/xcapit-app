@@ -122,6 +122,7 @@ export const SUCCESS_TYPES = {
     textPrimary: 'wallets.success_wallet_recovery.title',
     urlPrimaryAction: '/tabs/wallets',
     namePrimaryAction: 'wallets.success_wallet_recovery.button',
+    trackClickEventNamePrimaryAction: 'ux_import_go_to_home',
   },
   error_wallet_incorrect_password: {
     image: 'assets/img/defi-investments/error-investment.svg',
@@ -168,32 +169,77 @@ export const SUCCESS_TYPES = {
     urlThirdAction: '/tabs/wallets',
     disclaimer: 'defi_investments.withdraw.success_withdraw.disclaimer',
   },
+
+  success_donation: {
+    image: '/assets/img/donations/success/success-donation.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'donations.success.textPrimary',
+    textSecondary: 'donations.success.textSecondary',
+    namePrimaryAction: 'donations.success.namePrimaryAction',
+    urlPrimaryAction: '/donations/causes',
+    nameThirdAction: 'donations.success.nameThirdAction',
+    urlThirdAction: '/tabs/wallets',
+  },
+
+    error_donation: {
+    image: '/assets/img/donations/error/error-donation.svg',
+    urlClose: '/donations/causes',
+    textPrimary: 'donations.error.textPrimary',
+    textSecondary: 'donations.error.textSecondary',
+    namePrimaryAction: 'donations.error.namePrimaryAction',
+    urlPrimaryAction: '/donations/causes',
+  },
+  
   success_investment: {
     image: 'assets/img/defi-investments/success-investment.svg',
     urlClose: '/tabs/wallets',
+    trackClickEventNameCloseAction: 'ux_invest_go_to_wallet',
     textPrimary: 'defi_investments.success_investment.title',
     textSecondary: 'defi_investments.success_investment.subtitle',
     namePrimaryAction: 'defi_investments.success_investment.primaryButton',
     urlPrimaryAction: '/tabs/investments',
+    trackClickEventNamePrimaryAction: 'ux_invest_go_to_invest',
     nameThirdAction: 'defi_investments.success_investment.secondaryButton',
     urlThirdAction: '/tabs/wallets',
+    trackClickEventNameThirdAction: 'ux_invest_go_to_wallet'
   },
   success_add_amount: {
     image: 'assets/img/defi-investments/success-add.svg',
     urlClose: '/tabs/wallets',
+    trackClickEventNameCloseAction: 'ux_invest_go_to_wallet',
     textPrimary: 'defi_investments.success_add_amount.title',
     textSecondary: 'defi_investments.success_add_amount.subtitle',
     namePrimaryAction: 'defi_investments.success_add_amount.primaryButton',
     urlPrimaryAction: '/tabs/investments',
+    trackClickEventNamePrimaryAction: 'ux_invest_go_to_invest',
     nameThirdAction: 'defi_investments.success_add_amount.secondaryButton',
     urlThirdAction: '/tabs/wallets',
+    trackClickEventNameThirdAction: 'ux_invest_go_to_wallet'
   },
   error_investment: {
     image: 'assets/img/defi-investments/error-investment.svg',
-    urlClose: '/tabs/wallets',
+    urlClose: '/tabs/investments',
+    trackClickEventNameCloseAction: 'ux_invest_try_again',
     textPrimary: 'defi_investments.error_investment.title',
     textSecondary: 'defi_investments.error_investment.subtitle',
     namePrimaryAction: 'defi_investments.error_investment.primaryButton',
     urlPrimaryAction: '/tabs/investments',
+    trackClickEventNamePrimaryAction: 'ux_invest_try_again',
   },
+  success_objetive: {
+    image: 'assets/img/financial-planner/success.svg',
+    urlClose: '/financial-planner/new-objetive',
+    textPrimary: 'financial_planner.new_objetive.success_title',
+    textSecondary: 'financial_planner.new_objetive.success_subtitle',
+    namePrimaryAction: 'financial_planner.new_objetive.success_button',
+    urlPrimaryAction: '/financial-planner/new-objetive',
+  },
+  success_fiat_ramps:{
+    image:"assets/img/fiat-ramps/success-page/operations-success.svg",
+    textPrimary: 'fiat_ramps.fiat_success.textPrimary', 
+    textSecondary:'fiat_ramps.fiat_success.textSecondary',
+    namePrimaryAction:'fiat_ramps.fiat_success.buttonText',
+    urlClose:'/fiat-ramps/new-operation',
+    urlPrimaryAction:'/tabs/home'
+  }
 };

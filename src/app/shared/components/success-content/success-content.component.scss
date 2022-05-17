@@ -36,6 +36,10 @@
       margin-top: 16px;
       text-align: center;
 
+      ion-text {
+        color: var(--ion-color-primary);
+      }
+
       .text {
         font-size: var(--ux-fsize-14);
       }
@@ -60,7 +64,6 @@
         margin-top: 8px;
 
         ion-button {
-          font-size: var(--ux-fsize-14);
           margin-top: 0;
           text-align: center;
         }

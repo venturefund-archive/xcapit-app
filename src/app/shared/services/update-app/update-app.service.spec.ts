@@ -1,40 +1,68 @@
 import { TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { AlertController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
 import { UpdateAppService } from './update-app.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { AppUpdateAvailability } from '@robingenz/capacitor-app-update';
+import { RemoteConfigService } from '../remote-config/remote-config.service';
 
 describe('UpdateAppService', () => {
   let service: UpdateAppService;
-  let alertControllerSpy: any;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let appUpdateSpy: jasmine.SpyObj<any>;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(() => {
-    alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: true,
+    });
+    appUpdateSpy = jasmine.createSpyObj('AppUpdate', {
+      openAppStore: Promise.resolve(),
+      getAppUpdateInfo: Promise.resolve({
+        updateAvailability: AppUpdateAvailability.UPDATE_AVAILABLE
+      })
+    })
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
-      providers: [{ provide: AlertController, useValue: alertControllerSpy }],
+      imports: [HttpClientTestingModule],
+      providers: [
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
+      ],
     });
     service = TestBed.inject(UpdateAppService);
+    service.appUpdate = appUpdateSpy;
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  for (const { actual, expected, calledTimes } of [
-    { actual: '1.0.0', expected: { version: '1.1.0', level: 'REQUIRED' }, calledTimes: 1 },
-    { actual: '1.0.0', expected: { version: '1.1.0', level: 'RECOMMENDED' }, calledTimes: 1 },
-    { actual: '1.0.0', expected: { version: '1.1.0', level: 'NOT_REQUIRED' }, calledTimes: 0 },
-    { actual: '1.0.0', expected: { version: '1.0.0', level: 'REQUIRED' }, calledTimes: 0 },
-    { actual: '1.0.0', expected: { version: '1.0.0', level: 'RECOMMENDED' }, calledTimes: 0 },
-    { actual: '1.0.0', expected: { version: '1.0.0', level: 'NOT_REQUIRED' }, calledTimes: 0 },
-  ]) {
-    it(`should call ${calledTimes} times alert, actual version ${actual} expected version ${expected.version} and level ${expected.level}`, async () => {
-      spyOn(service, 'getActualVersion').and.returnValue(Promise.resolve(actual));
-      spyOn(service, 'getExpectedVersion').and.returnValue(Promise.resolve(expected));
-      await service.checkForUpdate();
-      expect(alertControllerSpy.create).toHaveBeenCalledTimes(calledTimes);
-    });
-  }
+  it('should show modal if update available', async () => {
+    await service.checkForUpdate();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not show modal if up to date', async () => {
+    const availability = {
+      updateAvailability: AppUpdateAvailability.UPDATE_NOT_AVAILABLE
+    };
+    appUpdateSpy.getAppUpdateInfo.and.returnValue(availability);
+    await service.checkForUpdate();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  });
+
+  it('should not show modal if disabled in remote config', async () => {
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
+    await service.checkForUpdate();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  });
+
+  it('should call openAppStore on update', async () => {
+    await service.update();
+    expect(appUpdateSpy.openAppStore).toHaveBeenCalledTimes(1);
+  });
 });

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { PROVIDERS } from '../../shared-ramps/constants/providers';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-select-provider',
   template: `
@@ -13,17 +14,29 @@ import { PROVIDERS } from '../../shared-ramps/constants/providers';
     </ion-header>
     <ion-content class="ion-padding-top">
       <div class="ux_main">
-        <div class="sp__title">
-          <ion-text class="ux-font-text-xl">
-            {{ 'fiat_ramps.select_provider.title' | translate }}
-          </ion-text>
-        </div>
         <div class="ux_content">
-          <div>
-            <ion-list>
-              <app-provider-card *ngFor="let provider of providers" [provider]="provider"> </app-provider-card>
-            </ion-list>
-          </div>
+          <form [formGroup]="this.form">
+            <app-select-provider-card
+              (route)="this.receiveRoute($event)"
+              (changedItem)="this.resetForm()"
+              controlNameProvider="provider"
+              controlNameSelect="country"
+            ></app-select-provider-card>
+          </form>
+        </div>
+        <div class="ux_footer ion-padding">
+          <ion-button
+            class="ux_button"
+            appTrackClick
+            name="ux_fiat_ramps_continue"
+            color="secondary"
+            size="large"
+            expand="block"
+            (click)="this.goToRoute()"
+            [disabled]="!this.form.valid"
+          >
+            {{ 'fiat_ramps.select_provider.button' | translate }}
+          </ion-button>
         </div>
       </div>
     </ion-content>
@@ -31,7 +44,24 @@ import { PROVIDERS } from '../../shared-ramps/constants/providers';
   styleUrls: ['./select-provider.page.scss'],
 })
 export class SelectProviderPage {
-  providers = PROVIDERS;
+  form: FormGroup = this.formBuilder.group({
+    country: ['', [Validators.required]],
+    provider: ['', [Validators.required]],
+  });
+  route: string;
+  disabled: boolean;
 
-  constructor() {}
+  constructor(private navController: NavController, private formBuilder: FormBuilder) {}
+
+  receiveRoute(route: string) {
+    this.route = route;
+  }
+
+  goToRoute() {
+    this.navController.navigateForward([this.route]);
+  }
+
+  resetForm() {
+    this.form.get('provider').reset();
+  }
 }

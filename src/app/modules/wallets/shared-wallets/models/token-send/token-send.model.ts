@@ -29,15 +29,13 @@ export class TokenSend {
 
   value(): NativeTokenSend | ERC20TokenSend {
     if (this.coin.native) {
-      return NativeTokenSend.create(this.from, this.to, this.amount, this.coin, this.signer, this.networkConfig);
+      return NativeTokenSend.create(this.to, this.amount, this.coin, this.signer, this.networkConfig);
     } else {
       const nativeCoin = this.apiWalletService.getNativeTokenFromNetwork(this.coin.network);
       return ERC20TokenSend.create(
-        this.from,
         this.to,
         this.amount,
         this.coin,
-        nativeCoin,
         this.signer,
         this.networkConfig
       );

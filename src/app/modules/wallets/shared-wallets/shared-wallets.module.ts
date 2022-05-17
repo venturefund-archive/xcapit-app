@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { CoinSelectorComponent } from './components/coin-selector/coin-selector.component';
 import { RecoveryPhraseCardComponent } from './components/recovery-phrase-card/recovery-phrase-card.component';
 import { RecoveryWordComponent } from './components/recovery-word/recovery-word.component';
 import { WalletBalanceCardItemComponent } from './components/wallet-balance-card-item/wallet-balance-card-item.component';
@@ -8,7 +7,6 @@ import { WalletTransactionCardItemComponent } from './components/wallet-transact
 import { WalletTransactionCardComponent } from './components/wallet-transaction-card/wallet-transaction-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
 import { AddressInputCardComponent } from './components/address-input-card/address-input-card.component';
-import { SendAmountInputCardComponent } from './components/send-amount-input-card/send-amount-input-card.component';
 import { TransactionSummaryCardComponent } from './components/transaction-summary-card/transaction-summary-card.component';
 import { WalletPasswordComponent } from './components/wallet-password/wallet-password.component';
 import { WalletSubheaderButtonsComponent } from './components/wallet-subheader-buttons/wallet-subheader-buttons.component';
@@ -18,18 +16,14 @@ import { NftCardComponent } from './components/nft-card/nft-card.component';
 import { WalletPasswordSmallComponent } from './components/wallet-password-small/wallet-password-small.component';
 import { StartInvestingComponent } from './components/start-investing/start-investing.component';
 import { WalletConnectQrScanComponent } from './components/wallet-connect-qr-scan/wallet-connect-qr-scan.component';
-import { SuitePipe } from './pipes/suite/suite.pipe';
 import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleton/nft-card-skeleton.component';
 import { InformativeCardComponent } from './components/informative-card/informative-card.component';
-import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-network.pipe';
-import { TokenSelectionListComponent } from './components/token-selection-list/token-selection-list.component';
 import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.component';
 
 @NgModule({
   declarations: [
     WalletAdviceComponent,
     NftCardSkeletonComponent,
-    CoinSelectorComponent,
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
     WalletsSubheaderComponent,
@@ -37,7 +31,6 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
     AddressInputCardComponent,
-    SendAmountInputCardComponent,
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,
@@ -48,15 +41,11 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
     StartInvestingComponent,
     WalletConnectQrScanComponent,
     InformativeCardComponent,
-    SuitePipe,
-    FormattedNetworkPipe,
-    TokenSelectionListComponent
   ],
   imports: [SharedModule],
   exports: [
     SharedModule,
     WalletAdviceComponent,
-    CoinSelectorComponent,
     NftCardSkeletonComponent,
     RecoveryPhraseCardComponent,
     RecoveryWordComponent,
@@ -65,7 +54,6 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
     AddressInputCardComponent,
-    SendAmountInputCardComponent,
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,
@@ -76,9 +64,6 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
     StartInvestingComponent,
     WalletConnectQrScanComponent,
     InformativeCardComponent,
-    SuitePipe,
-    FormattedNetworkPipe,
-    TokenSelectionListComponent
   ],
 })
 export class SharedWalletsModule {}

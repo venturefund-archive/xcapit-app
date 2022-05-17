@@ -52,3 +52,6 @@ project(':capacitor-storage').projectDir = new File('../node_modules/@capacitor/
 
 include ':codetrix-studio-capacitor-google-auth'
 project(':codetrix-studio-capacitor-google-auth').projectDir = new File('../node_modules/@codetrix-studio/capacitor-google-auth/android')
+
+include ':robingenz-capacitor-app-update'
+project(':robingenz-capacitor-app-update').projectDir = new File('../node_modules/@robingenz/capacitor-app-update/android')

@@ -47,7 +47,7 @@ describe('FilterTabComponent', () => {
       component = fixture.componentInstance;
       component.controlName = 'testControl';
       component.elRef = elementRefSpy;
-      component.items = [{ title: 'testTitle', value: 'testValue' }, { title: 'testTitle', value: 'value1' }];
+      component.items = [{ title: 'testTitle', value: 'testValue', icon:'',dataToTrack:"test" }, { title: 'testTitle', value: 'value1', icon:'', dataToTrack:'test1'}];
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
@@ -71,4 +71,14 @@ describe('FilterTabComponent', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should call trackEvent when ion-segment-button is clicked', ()=>{
+    fixture.detectChanges();
+    const segment = fixture.debugElement.query(By.css('ion-segment-button'));
+    const directive = trackClickDirectiveHelper.getDirective(segment);
+    const spy = spyOn(directive, 'clickEvent');
+    segment.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  })
 });

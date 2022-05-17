@@ -14,7 +14,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
         *ngFor="let item of this.data"
         (click)="this.selectItem(item)"
         [ngClass]="{ selected: item === this.selectedNetwork, 'not-selected': item !== this.selectedNetwork }"
-        >{{ item }}</ion-button
+        >{{ item | formattedNetwork }}</ion-button
       >
     </div>
   `,

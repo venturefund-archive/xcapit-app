@@ -73,7 +73,10 @@ import { NavController } from '@ionic/angular';
             </ion-label>
           </ion-item>
           <form [formGroup]="this.profileForm">
-            <app-filter-tab [items]="this.items" controlName="profile"></app-filter-tab>
+            <app-filter-tab 
+              [items]="this.items"
+              controlName="profile"
+            ></app-filter-tab>
           </form>
           <div *ngIf="!this.filteredAvailableInvestments.length" class="dp__empty">
             <div class="dp__empty__image text-center">
@@ -134,14 +137,17 @@ export class DefiInvestmentProductsPage {
     {
       title: 'wealth_managements.about_investor_profile.conservative_profile.title',
       value: 'conservative',
+      dataToTrack: 'ux_invest_conservative'
     },
     {
       title: 'wealth_managements.about_investor_profile.moderated_profile.title',
       value: 'medium',
+      dataToTrack: 'ux_invest_moderate'
     },
     {
       title: 'wealth_managements.about_investor_profile.aggressive_profile.title',
       value: 'risky',
+      dataToTrack: 'ux_invest_aggressive'
     },
   ];
   activeInvestments: DefiInvestment[] = [];

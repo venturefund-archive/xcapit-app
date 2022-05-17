@@ -11,7 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
-
 import { NewInvestmentPage } from './new-investment.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -101,7 +100,7 @@ describe('NewInvestmentPage', () => {
         token: no_moonpay_token,
         contractAddress: '0x00001',
         name: 'no_moonpay_token',
-        value:'NM'
+        value: 'NM',
       });
 
       fakeNavController = new FakeNavController({});
@@ -141,11 +140,11 @@ describe('NewInvestmentPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent when Submit Amount is clicked', async () => {
+  it('should call trackEvent when ux_invest_continue button is clicked', async () => {
     await component.ionViewDidEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Submit Amount');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_invest_continue');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -187,7 +186,7 @@ describe('NewInvestmentPage', () => {
     component.form.patchValue({ amount: 20, quoteAmount: 20 });
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Submit Amount"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_continue"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/new/confirmation', 'invest']);
   });
 
@@ -195,7 +194,7 @@ describe('NewInvestmentPage', () => {
     await component.ionViewDidEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Submit Amount"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_continue"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
   });
 

@@ -31,11 +31,6 @@ const routes: Routes = [
         loadChildren: () => import('./user-images/user-images.module').then((m) => m.UserImagesPageModule),
       },
       {
-        path: 'operations',
-        canActivate: [UserHasOperationsGuard],
-        loadChildren: () => import('./operations-page/operations-page.module').then((m) => m.OperationsPagePageModule),
-      },
-      {
         path: 'operation-detail/provider/:provider_id/operation/:operation_id',
         loadChildren: () =>
           import('./operations-detail/operations-detail.module').then((m) => m.OperationsDetailPageModule),
@@ -69,6 +64,10 @@ const routes: Routes = [
         path: 'moonpay',
         canActivate: [HasWallet],
         loadChildren: () => import('./moonpay/moonpay.module').then((m) => m.MoonpayPageModule),
+      },
+      {
+        path: 'token-selection',
+        loadChildren: () => import('./provider-token-selection/provider-token-selection.module').then( m => m.ProviderTokenSelectionPageModule),
       },
     ],
   },

@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { format, parseISO } from 'date-fns';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { ScanUrlOf } from '../../models/scan-url-of/scan-url-of';
 
 @Component({
   selector: 'app-wallet-transaction-card-item',
@@ -21,7 +23,7 @@ import { format, parseISO } from 'date-fns';
                 </ion-label>
               </div>
               <div class="wtci__content__top__type_date_hash__hash">
-                <ion-text class="ux-font-text-xs">
+                <ion-text (click)="this.openTransactionUrl()" class="ux-font-text-xs">
                   {{ this.transaction.hash }}
                 </ion-text>
               </div>
@@ -40,12 +42,16 @@ import { format, parseISO } from 'date-fns';
 export class WalletTransactionCardItemComponent implements OnInit {
   @Input() transaction;
   @Input() last: boolean;
+  @Input() network: string;
   formattedDate: string;
 
-  constructor() {}
+  constructor(private browserService:BrowserService) {}
 
   ngOnInit() {
-  this.formattedDate = this.formatDate(this.transaction.date);
+    this.formattedDate = this.formatDate(this.transaction.date);
+  }
+  openTransactionUrl(){ this.browserService.open({url:ScanUrlOf.create(this.transaction.hash, this.network).value()});
+    
   }
 
   formatDate(value) {

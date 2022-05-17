@@ -55,7 +55,6 @@ export class AppComponent implements OnInit {
     this.submitButtonService.enabled();
     this.loadingService.enabled();
     this.trackService.startTracker();
-    this.checkForUpdate();
   }
 
   private showUpdateModal() {
@@ -68,7 +67,6 @@ export class AppComponent implements OnInit {
 
   private initializeApp() {
     this.platform.ready().then(() => {
-      // this.showUpdateModal();
       this.languageService.setInitialAppLanguage();
       this.setLanguageSubscribe();
     });
@@ -79,7 +77,10 @@ export class AppComponent implements OnInit {
   }
 
   private initializeRemoteConfig() {
-    this.remoteConfigService.initialize(new FirebaseRemoteConfig(this.firebaseService.getApp()));
+    this.remoteConfigService.initialize(new FirebaseRemoteConfig(this.firebaseService.getApp())).then(() => {
+      this.checkForUpdate();
+      this.showUpdateModal();
+    });
   }
 
   private statusBarConfig() {

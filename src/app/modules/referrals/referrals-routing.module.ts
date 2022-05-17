@@ -28,6 +28,10 @@ const routes: Routes = [
         path: 'success-claim',
         loadChildren: () => import('./success-claim/success-claim.module').then((m) => m.SuccessClaimPageModule),
       },
+      {
+        path: 'closed',
+        loadChildren: () => import('./referrals-closed/referrals-closed.module').then( m => m.ReferralsClosedPageModule)
+      },
     ],
   },
 ];
