@@ -48,8 +48,8 @@ describe('DonationsInfoPage', () => {
     expect(imgItem2.attributes.src).toContain('assets/img/donations/information/item_2.svg');
   });
 
-  it('should call appTrackEvent on trackService when go_to_causes is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'go_to_causes');
+  it('should call appTrackEvent on trackService when ux_donations_start is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_donations_start');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
 

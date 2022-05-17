@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import { CAUSES } from '../shared-donations/constants/causes';
 
 @Component({
@@ -28,7 +29,15 @@ import { CAUSES } from '../shared-donations/constants/causes';
 })
 export class CausesPage implements OnInit {
   causes = CAUSES;
-  constructor() {}
+  constructor(private trackService: TrackService) {}
+
+  ionViewWillEnter() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_donations_screenview_causes'
+    });
+  }
 
   ngOnInit() {}
 }

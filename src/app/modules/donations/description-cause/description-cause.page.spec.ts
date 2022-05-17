@@ -62,7 +62,7 @@ describe('DescriptionCausePage', () => {
   });
 
   it('should navigate to donate page when button is clicked', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="go_to_donate"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_donations_donate"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['']);
   });
