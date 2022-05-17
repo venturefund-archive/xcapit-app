@@ -11,19 +11,19 @@ import { NavController } from '@ionic/angular';
       <div class="soc__content__body">
         <div class="soc__content__body__title">
           <div class="ux-font-text-lg">
-            <ion-text class="title" color="neutral90"> {{ this.option.title | translate }}</ion-text>
+            <ion-text class="title"> {{ this.option.title | translate }}</ion-text>
           </div>
         </div>
         <div class="soc__content__body__description">
           <div class="ux-font-text-xxs">
-            <ion-text class="description" color="neutral90"> {{ this.option.description | translate }}</ion-text>
+            <ion-text class="description"> {{ this.option.description | translate }}</ion-text>
           </div>
         </div>
       </div>
       <div class="soc__button">
         <div class="button">
-          <ion-button appTrackClick name="Select" fill="clear" color="neutral80" size="small" slot="end">
-            <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+          <ion-button appTrackClick name="Select" fill="clear" size="small" slot="end">
+            <ion-icon slot="end" name="chevron-forward-outline" class="chevron"></ion-icon>
           </ion-button>
         </div>
       </div>
