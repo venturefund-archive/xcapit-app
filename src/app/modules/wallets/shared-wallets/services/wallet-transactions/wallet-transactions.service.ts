@@ -295,7 +295,7 @@ export class WalletTransactionsService {
     if (coin.native) {
       gas = NativeGasOf.create(coin, { to: to, value: this._weiOf(coin, amount) });
     } else {
-      gas = new GasFeeOf(this.erc20Contract(coin, from).value(), 'transfer', [to, amount]);
+      gas = new GasFeeOf(this.erc20Contract(coin, from).value(), 'transfer', [to, this._weiOf(coin, amount)]);
     }
     const fee = new NativeFeeOf(gas, new FakeProvider(await this.gasPrice()));
     return (await this.formattedFee(fee).value()).toString();

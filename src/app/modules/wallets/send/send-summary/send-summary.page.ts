@@ -105,7 +105,7 @@ export class SendSummaryPage implements OnInit {
       password,
       this.summaryData.amount,
       this.summaryData.address,
-      this.summaryData.currency,
+      this.summaryData.currency
     );
     await this.goToSuccess(response);
   }
