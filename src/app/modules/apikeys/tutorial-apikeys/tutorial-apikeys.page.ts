@@ -6,7 +6,7 @@ import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apik
   selector: 'app-tutorial-apikeys',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/investments/binance"></ion-back-button>
         </ion-buttons>

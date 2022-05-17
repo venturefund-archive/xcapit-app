@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   selector: 'app-register-apikeys',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/apikeys/list"></ion-back-button>
         </ion-buttons>
