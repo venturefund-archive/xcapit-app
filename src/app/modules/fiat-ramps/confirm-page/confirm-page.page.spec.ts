@@ -13,6 +13,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 
 const storageData = {
   valid: {
@@ -48,6 +49,8 @@ const storageData = {
     valid: false,
   },
 };
+
+const provider = rawProvidersData[1];
 
 const operationId = 6;
 
@@ -120,5 +123,11 @@ describe('ConfirmPagePage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should get provider_id from operationData', () => {
+    const spy = spyOn(component, 'getProvider').and.returnValue(provider);
+    component.ionViewWillEnter();
+    expect(spy).toHaveBeenCalledWith('1');
   });
 });
