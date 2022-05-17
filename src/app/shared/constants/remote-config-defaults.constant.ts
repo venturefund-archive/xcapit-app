@@ -4,5 +4,6 @@ export const REMOTE_CONFIG_DEFAULTS = {
     ff_buyCryptoNewInvestmentFooter: false,
     ff_buyCryptoAddAmountInvestmentFooter: false,
     ff_updateAppModal: false,
-    referralsMenuUrl_referralPromotionCard: 'referrals/closed'
+    referralsMenuUrl_referralPromotionCard: 'referrals/closed',
+    ff_swap: false
 };
