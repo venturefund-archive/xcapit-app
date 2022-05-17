@@ -152,7 +152,7 @@ export class DisclaimerWalletPage implements AfterViewInit {
     }
   }
   navigateByMode() {
-    const url = this.isImporting ? 'wallets/recovery' : 'wallets/select-coins';
+    const url = this.isImporting ? 'wallets/recovery' : 'wallets/create-password/create';
     this.navController.navigateForward([url]);
   }
 

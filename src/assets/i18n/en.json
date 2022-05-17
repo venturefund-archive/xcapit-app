@@ -45,6 +45,11 @@
         "has_capital_case": "Minimum one capital letter is required ",
         "has_small_case": "Minimum one lowercase required "
       },
+      "create_wallet_password": {
+        "minlength": "At least 6 characters",
+        "has_capital_and_small_case": "Combination of uppercase and lowercase letters",
+        "not_alphanumeric": "Number and letter combination"
+      },
       "old_password": {
         "wallet_incorrect_password": "Incorrect password, try again"
       },
@@ -1863,12 +1868,16 @@
     },
     "create_password": {
       "header": "Create Wallet",
-      "title": "Create a password",
-      "description": "The password is used to make your wallet more secure, you can choose the same one that you use for the Xcapit app. In the event that you forget to retrieve it, recover your wallet with the 12 words.",
+      "title": "Create your password",
+      "description": "You will use it to approve your transactions.",
+      "write_password": "Enter your password.",
       "password": "Password",
-      "repeat_password": "Confirm Password",
-      "finish_button_create": "Finish and create wallet",
-      "finish_button_import": "Finish and import wallet",
+      "repeat_password": "Repeat your password",
+      "finish_button_create": "Create wallet",
+      "finish_button_import": "Import wallet",
+      "creating_button_state": "Creating wallet",
+      "importing_button_state": "Importing wallet",
+      "wait_loading_message": "It will only take a few seconds.",
       "loading": {
         "title": "Time!",
         "subtitle": {
