@@ -138,9 +138,10 @@ describe('CreatePasswordPage', () => {
     expect(walletEncryptionServiceSpy.encryptWallet).toHaveBeenCalledTimes(1);
   });
 
-  it('should create a wallet', () => {
+  it('should create a wallet', async () => {
     activatedRouteMock.snapshot.paramMap.get = () => 'create';
     component.ionViewWillEnter();
+    await component.ionViewDidEnter();
     fixture.detectChanges();
     expect(apiWalletServiceSpy.getCoins).toHaveBeenCalledTimes(1);
     expect(walletMnemonicServiceSpy.newMnemonic).toHaveBeenCalledTimes(1);
