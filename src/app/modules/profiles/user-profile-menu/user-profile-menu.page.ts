@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
 import { LogOutModalComponent } from '../shared-profiles/components/log-out-modal/log-out-modal.component';
+import { hostViewClassName } from '@angular/compiler';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -106,7 +107,9 @@ export class UserProfileMenuPage implements OnInit {
     private logOutModalService: LogOutModalService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
 
   ionViewWillEnter() {
     this.getProfile();
@@ -121,6 +124,7 @@ export class UserProfileMenuPage implements OnInit {
     this.apiProfiles.crud.get().subscribe((res) => {
       this.profile = res;
       this.patchNotificationsValue();
+      this.form.setValue({notificationsEnabled: this.profile.notifications_enabled});
       this.subscribeToFormChanges();
     });
   }
@@ -173,7 +177,7 @@ export class UserProfileMenuPage implements OnInit {
   }
 
   togglePushNotifications() {
-    this.notificationsService.toggle(!this.profile.notifications_enabled).subscribe(() => {
+      this.notificationsService.toggle(!this.profile.notifications_enabled).subscribe(() => {
       this.profile.notifications_enabled = !this.profile.notifications_enabled;
     });
   }
