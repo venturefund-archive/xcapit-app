@@ -5,7 +5,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { ObjetiveDataService } from '../shared-financial-planner/services/objetive-data.service';
-import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NewObjetivePage } from './new-objetive.page';
 import { By } from '@angular/platform-browser';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -26,8 +26,6 @@ describe('NewObjetivePage', () => {
   let component: NewObjetivePage;
   let fixture: ComponentFixture<NewObjetivePage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<NewObjetivePage>;
-  let controlContainerMock: FormGroup;
-  let formGroupDirectiveMock: FormGroupDirective;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let objetiveDataServiceSpy: jasmine.SpyObj<ObjetiveDataService>;
@@ -44,15 +42,8 @@ describe('NewObjetivePage', () => {
       });
 
       appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', {
-        get: {income: 500, expenses: 200},
+        get: { income: 500, expenses: 200 },
       });
-
-      controlContainerMock = new FormBuilder().group({
-        income: ['', []],
-        expenses: ['', []],
-      });
-      formGroupDirectiveMock = new FormGroupDirective([], []);
-      formGroupDirectiveMock.form = controlContainerMock;
       toastServiceSpy = jasmine.createSpyObj('ToastService', {
         showWarningToast: Promise.resolve(),
       });
@@ -62,7 +53,6 @@ describe('NewObjetivePage', () => {
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: ObjetiveDataService, useValue: objetiveDataServiceSpy },
-          { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
           { provide: ToastService, useValue: toastServiceSpy },
           { provide: AppStorageService, useValue: appStorageServiceSpy },
         ],
@@ -106,8 +96,8 @@ describe('NewObjetivePage', () => {
     expect(component.form.value.expenses).toEqual('');
   });
 
-  it('should patch data on form on ngOnInit', () => {
-    component.ngOnInit();
+  it('should patch data on form on init', async () => {
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(component.form.value.income).toEqual(500);
     expect(component.form.value.expenses).toEqual(200);
@@ -115,34 +105,43 @@ describe('NewObjetivePage', () => {
 
   it('should not fill income and expenses fields when there is not planner_data in storage', async () => {
     appStorageServiceSpy.get.and.returnValue(Promise.resolve());
-    component.ngOnInit();
+    await component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
     expect(component.form.value.income).toBeUndefined();
     expect(component.form.value.expenses).toBeUndefined();
   });
 
-  it('should show warning toast when button is clicked and the expenses are greather than income', () => {
+  it('should show warning toast when button is clicked and the expenses are greather than income', async () => {
     component.form.patchValue({ income: 200, expenses: 300 });
     fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_continue"]')).nativeElement.click();
-    component.ngOnInit();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
   });
 
-  it('should show warning toast when button is clicked and the expenses are equals than income', () => {
+  it('should show warning toast when button is clicked and the expenses are equals than income', async () => {
     component.form.patchValue({ income: 200, expenses: 200 });
     fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_continue"]')).nativeElement.click();
-    component.ngOnInit();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
   });
 
-  it('should not show warning toast when button is clicked and the expenses are less than income', () => {
+  it('should not show warning toast when button is clicked and the expenses are less than income', async () => {
     component.form.patchValue({ income: 400, expenses: 300 });
     fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_continue"]')).nativeElement.click();
-    component.ngOnInit();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(0);
+  });
+
+  it('should enable button when income or expenses value changes ', async () => {
+    component.disabled = true;
+    await component.ionViewWillEnter();
+    component.form.patchValue({ income: 100, expenses: 90 });
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_continue"]'));
+    expect(buttonEl.attributes['ng-reflect-disabled']).toEqual('false');
   });
 });
