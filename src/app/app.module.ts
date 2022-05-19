@@ -30,7 +30,6 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { TicketsModule } from './modules/tickets/tickets.module';
 import { AppStorageService } from './shared/services/app-storage/app-storage.service';
 import { RefreshTokenInterceptorService } from './modules/usuarios/shared-usuarios/services/refresh-token-interceptor/refresh-token-interceptor.service';
-import { PaymentsModule } from './modules/payments/payments.module';
 import { AppInitializerFactory } from './shared/factories/app-initializer/app-initializer.factory';
 import { updateServiceProvider } from './shared/providers/update/update.provider';
 import { httpLoaderFactory } from './shared/factories/translate/translate.factory';
@@ -70,7 +69,6 @@ registerLocaleData(localeEn, 'en');
     FinancialPlannerModule,
     DonationsModule,
     SubscriptionsModule,
-    PaymentsModule,
     TermsAndConditionsModule,
     ReferralsModule,
     TabsModule,
