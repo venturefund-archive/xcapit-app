@@ -10,6 +10,7 @@ import { Storage } from '@ionic/storage';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { UpdateNewsService } from 'src/app/shared/services/update-news/update-news.service';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
+import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 
 @Component({
   selector: 'app-login',
@@ -109,7 +110,8 @@ export class LoginPage implements OnInit {
     private navController: NavController,
     private storage: Storage,
     private updateNewsService: UpdateNewsService,
-    private platformService: PlatformService
+    private platformService: PlatformService,
+    private walletConnectService: WalletConnectService
   ) {}
 
   ngOnInit() {}
@@ -153,7 +155,11 @@ export class LoginPage implements OnInit {
     this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
-      await this.navigateTo(this.startUrl());
+      if (this.walletConnectService.uri && this.alreadyOnboarded) {
+        await this.walletConnectService.checkDeeplinkUrl();
+      } else {
+        await this.navigateTo(this.startUrl());
+      }
     }
     this.loading = false;
     await this.updateNewsService.showModal();
