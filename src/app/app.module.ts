@@ -15,7 +15,6 @@ import { FundsModule } from './modules/funds/funds.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { TrackClickModule } from './shared/directives/track-click/track-click.module';
 import { WildcardRoutingModule } from './wildcard-routing.module';
-import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-and-conditions.module';
 import { ReferralsModule } from './modules/referrals/referrals.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -69,7 +68,6 @@ registerLocaleData(localeEn, 'en');
     FinancialPlannerModule,
     DonationsModule,
     SubscriptionsModule,
-    TermsAndConditionsModule,
     ReferralsModule,
     TabsModule,
     ApikeysModule,
