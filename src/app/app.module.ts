@@ -13,7 +13,6 @@ import { TutorialsModule } from './modules/tutorials/tutorials.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { FundsModule } from './modules/funds/funds.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
-import { RunsModule } from './modules/runs/runs.module';
 import { TrackClickModule } from './shared/directives/track-click/track-click.module';
 import { WildcardRoutingModule } from './wildcard-routing.module';
 import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-and-conditions.module';
@@ -70,7 +69,6 @@ registerLocaleData(localeEn, 'en');
     FundsModule,
     FinancialPlannerModule,
     DonationsModule,
-    RunsModule,
     SubscriptionsModule,
     PaymentsModule,
     TermsAndConditionsModule,
