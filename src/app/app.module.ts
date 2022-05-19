@@ -26,7 +26,6 @@ import { ApikeysModule } from './modules/apikeys/apikeys.module';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
-import { DepositAddressesModule } from './modules/deposit-addresses/deposit-addresses.module';
 import { FiatRampsModule } from './modules/fiat-ramps/fiat-ramps.module';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { TicketsModule } from './modules/tickets/tickets.module';
@@ -81,7 +80,6 @@ registerLocaleData(localeEn, 'en');
     NotificationsModule,
     WalletsModule,
     TicketsModule,
-    DepositAddressesModule,
     FiatRampsModule,
     WalletsModule,
     HomeModule,
