@@ -110,8 +110,6 @@ export class ObjetiveInfoPage implements OnInit {
     income: [''],
     expenses: [''],
   });
-  income: number;
-  expenses: number;
   saving: number;
   key = 'planner_data';
 
@@ -150,14 +148,30 @@ export class ObjetiveInfoPage implements OnInit {
     private navController: NavController
   ) {}
 
-  ngOnInit() {
-    this.setData();
+  ngOnInit() {}
+
+  async ionViewWillEnter() {
+    await this.setData();
     this.calculateSaving();
   }
 
   async setData() {
-    const data = await this.appStorage.get('planner_data');
-    data ? this.form.patchValue(data) : this.form.patchValue(this.objetiveData);
+    const objetiveInfoData = await this.objetiveStorageData();
+
+    this.form.patchValue({
+      income: this.objetiveData.income,
+      expenses: this.objetiveData.expenses,
+      ...objetiveInfoData,
+    });
+  }
+
+  async objetiveStorageData() {
+    const plannerData = await this.appStorage.get('planner_data');
+    if (plannerData) {
+      delete plannerData['income'];
+      delete plannerData['expenses'];
+    }
+    return plannerData;
   }
 
   calculateSaving() {
@@ -166,12 +180,18 @@ export class ObjetiveInfoPage implements OnInit {
 
   handleSubmit() {
     if (this.form.valid) {
-      if (this.saving >= this.form.value.necessaryAmount) {
-        this.navController.navigateForward(['/financial-planner/success-objetive']);
-        return;
+      let url = [];
+      if (this.goalAlreadyAchieved()) {
+        url = ['/financial-planner/success-objetive'];
+      } else {
+        this.appStorageService.set(this.key, this.form.value);
+        url = ['/financial-planner/result-objetive'];
       }
-      this.appStorageService.set(this.key, this.form.value);
-      this.navController.navigateForward('/financial-planner/result-objetive');
+      this.navController.navigateForward(url);
     }
+  }
+
+  goalAlreadyAchieved(): boolean {
+    return this.saving >= this.form.value.necessaryAmount;
   }
 }
