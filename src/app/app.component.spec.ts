@@ -15,6 +15,7 @@ import { of } from 'rxjs';
 import { UpdateNewsService } from './shared/services/update-news/update-news.service';
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
 import { FirebaseService } from './shared/services/firebase/firebase.service';
+import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -34,11 +35,12 @@ describe('AppComponent', () => {
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let firebaseServiceSpy: jasmine.SpyObj<FirebaseService>;
+  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true });
+      platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
       submitButtonServiceSpy = jasmine.createSpyObj('SubmitButtonService', ['enabled', 'disabled']);
       trackServiceSpy = jasmine.createSpyObj('FirebaseLogsService', ['trackView', 'startTracker']);
       updateServiceSpy = jasmine.createSpyObj('UpdateService', ['checkForUpdate']);
@@ -51,6 +53,12 @@ describe('AppComponent', () => {
       updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
       remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', { initialize: Promise.resolve() });
       firebaseServiceSpy = jasmine.createSpyObj('FirebaseService', { init: null, getApp: {} });
+
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
+        retrieveWalletConnect: Promise.resolve(null),
+        setUri: null,
+        checkDeeplinkUrl: null
+      });
 
       TestBed.configureTestingModule({
         declarations: [AppComponent],
@@ -69,6 +77,7 @@ describe('AppComponent', () => {
           { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
           { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
           { provide: FirebaseService, useValue: firebaseServiceSpy },
+          { provide: WalletConnectService, useValue: walletConnectServiceSpy},
         ],
         imports: [TranslateModule.forRoot()],
       }).compileComponents();
