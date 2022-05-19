@@ -8,5 +8,5 @@ export interface FiatRampOperation {
     amount_out: number;
     created_at: Date;
     status: string;
-    voucher: any;
+    voucher?: any;
 }

@@ -14,8 +14,9 @@ import { convertToParamMap, ActivatedRoute } from '@angular/router';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
+import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 
-const operation = {
+const operation: FiatRampOperation = {
   operation_id: 678,
   operation_type: 'cash-in',
   status: 'cancel',
@@ -23,7 +24,7 @@ const operation = {
   amount_in: 500.0,
   currency_out: 'USDT',
   amount_out: 155.99,
-  created_at: '2021-02-27T10:02:49.719Z',
+  created_at: new Date('2021-02-27T10:02:49.719Z'),
   provider: '1',
   voucher: false,
 };
@@ -161,7 +162,7 @@ describe('OperationsDetailPage', () => {
       amount_out: 100.0,
     };
     const expectedResult = 5.5;
-    component.operation = cashIn;
+    // component.operation = cashIn;
     component.calculateQuotation();
     fixture.detectChanges();
     expect(component.cotizacion).toEqual(expectedResult);
@@ -174,7 +175,7 @@ describe('OperationsDetailPage', () => {
       amount_out: 540.0,
     };
     const expectedResult = 5.4;
-    component.operation = cashOut;
+    // component.operation = cashOut;
     component.calculateQuotation();
     fixture.detectChanges();
     expect(component.cotizacion).toEqual(expectedResult);
