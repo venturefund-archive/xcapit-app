@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { TutorialsModule } from './modules/tutorials/tutorials.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
-import { FundsModule } from './modules/funds/funds.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { TrackClickModule } from './shared/directives/track-click/track-click.module';
 import { WildcardRoutingModule } from './wildcard-routing.module';
@@ -20,7 +19,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { TabsModule } from './modules/tabs/tabs.module';
-import { ApikeysModule } from './modules/apikeys/apikeys.module';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
@@ -64,13 +62,11 @@ registerLocaleData(localeEn, 'en');
     UsuariosModule,
     TutorialsModule,
     ProfilesModule,
-    FundsModule,
     FinancialPlannerModule,
     DonationsModule,
     SubscriptionsModule,
     ReferralsModule,
     TabsModule,
-    ApikeysModule,
     NotificationsModule,
     WalletsModule,
     TicketsModule,
