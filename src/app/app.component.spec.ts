@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { AuthService } from './modules/users/shared-users/services/auth/auth.service';
 import { TrackService } from './shared/services/track/track.service';
 import { UpdateService } from './shared/services/update/update.service';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';

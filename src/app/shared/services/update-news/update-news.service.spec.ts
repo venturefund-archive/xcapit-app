@@ -3,7 +3,7 @@ import { UpdateNewsService } from './update-news.service';
 import { ModalController } from '@ionic/angular';
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
 import { AppStorageService } from '../app-storage/app-storage.service';
-import { AuthService } from '../../../modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { AuthService } from '../../../modules/users/shared-users/services/auth/auth.service';
 import { PlatformService } from '../platform/platform.service';
 import { RemoteConfigService } from '../remote-config/remote-config.service';
 

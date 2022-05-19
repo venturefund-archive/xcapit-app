@@ -137,24 +137,13 @@
       }
     }
   },
-  "register": {
-    "card_header": "Create your account",
-    "submit_button": "Sign Up",
-    "success_title": "You just need to validate your email address!",
-    "success_text": "We've sent you a verification email, check your inbox and follow the instructions to activate the account.",
-    "accept_button": "Accept",
-    "resend_email_button": "I didn't receive the email",
-    "referral_code_text": "Referral Code",
-    "manual_referral": "Enter referral code",
-    "referral_code_label": "Referral code (Optional)",
-    "back_login": "Already have account? Sign in to Xcapit",
-    "accept_tos": "I agree",
-    "link_tos": "Terms and conditions",
-    "waiting_list_alert": {
-      "alert_header": "Do you want to try the App?",
-      "alert_message": "To enter, join the waiting list and be one of the first to try it.",
-      "alert_cancel_button": "Cancel",
-      "alert_join_button": "Join"
+  "users": {
+    "email_validation": {
+      "error_title": "We could not verify the Email!",
+      "error_text": "Try sending the validation email again.",
+      "error_button": "Send",
+      "register_link": "Back to register",
+      "ok_text": "Email verified successfully!"
     },
     "login": {
       "password_label": "Password",
@@ -164,7 +153,7 @@
       "title": "Login",
       "google_auth": "Sign in with Google",
       "or_text": "or",
-      "loading": "Logging"
+      "loading": "Loading"
     },
     "register": {
       "card_header": "Create your account",
@@ -175,7 +164,7 @@
       "resend_email_button": "I didn't receive the email",
       "referral_code_text": "Referral Code",
       "manual_referral": "Enter referral code",
-      "referral_code_label": "Referral code",
+      "referral_code_label": "Referral code (Optional)",
       "back_login": "Already have account? Sign in to Xcapit",
       "accept_tos": "I agree",
       "link_tos": "Terms and conditions",

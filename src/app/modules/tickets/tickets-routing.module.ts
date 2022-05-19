@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NoAuthGuard } from '../usuarios/shared-usuarios/guards/no-auth/no-auth.guard';
+import { NoAuthGuard } from '../users/shared-users/guards/no-auth/no-auth.guard';
 
 const routes: Routes = [
   {

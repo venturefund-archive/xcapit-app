@@ -8,7 +8,7 @@ import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { UsuariosModule } from './modules/usuarios/usuarios.module';
+import { UsersModule } from './modules/users/users.module';
 import { TutorialsModule } from './modules/tutorials/tutorials.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
@@ -26,7 +26,7 @@ import { FiatRampsModule } from './modules/fiat-ramps/fiat-ramps.module';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { TicketsModule } from './modules/tickets/tickets.module';
 import { AppStorageService } from './shared/services/app-storage/app-storage.service';
-import { RefreshTokenInterceptorService } from './modules/usuarios/shared-usuarios/services/refresh-token-interceptor/refresh-token-interceptor.service';
+import { RefreshTokenInterceptorService } from './modules/users/shared-users/services/refresh-token-interceptor/refresh-token-interceptor.service';
 import { AppInitializerFactory } from './shared/factories/app-initializer/app-initializer.factory';
 import { updateServiceProvider } from './shared/providers/update/update.provider';
 import { httpLoaderFactory } from './shared/factories/translate/translate.factory';
@@ -59,7 +59,7 @@ registerLocaleData(localeEn, 'en');
       driverOrder: ['sqlite', 'indexeddb', 'websql'],
     }),
     AppRoutingModule,
-    UsuariosModule,
+    UsersModule,
     TutorialsModule,
     ProfilesModule,
     FinancialPlannerModule,

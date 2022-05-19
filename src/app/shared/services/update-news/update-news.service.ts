@@ -3,7 +3,7 @@ import { App, AppInfo } from '@capacitor/app';
 import { ModalController } from '@ionic/angular';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { AppStorageService } from '../app-storage/app-storage.service';
-import { AuthService } from '../../../modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { AuthService } from '../../../modules/users/shared-users/services/auth/auth.service';
 import { UpdateNewsComponent } from '../../components/update-news/update-news.component';
 import { PlatformService } from '../platform/platform.service';
 import { RemoteConfigService } from '../remote-config/remote-config.service';

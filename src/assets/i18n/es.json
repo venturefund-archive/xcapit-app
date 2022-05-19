@@ -128,7 +128,7 @@
       }
     }
   },
-  "usuarios": {
+  "users": {
     "email_validation": {
       "error_title": "No pudimos verificar el Email!",
       "error_text": "Intenta enviar nuevamente el email de validación.",
