@@ -1809,7 +1809,9 @@
     "recovery_phrase_read": {
       "header": "Frase de recuperación",
       "title": "Frase de recuperación",
-      "text": "Es muy importante que guardes tus 12 palabras en el orden que aparecen y en un lugar seguro.",
+      "text": "Guarda las 12 palabras que aparecen a continuación respetando su orden.",
+      "button_show_sentence":"Mostrar Frase",
+      "button_hide_sentence": "Ocultar Frase",
       "button_text": "Copiar",
       "button_text_coppied": "Copiado",
       "coppied_text": "Se copió la frase de recuperación al portapapeles",
