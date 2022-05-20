@@ -20,6 +20,7 @@ import { UpdateNewsService } from '../../../shared/services/update-news/update-n
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { By } from '@angular/platform-browser';
+import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -36,6 +37,7 @@ describe('LoginPage', () => {
   let storageSpy: jasmine.SpyObj<Storage>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   const formData = {
     valid: {
       email: 'test@test.com',
@@ -79,6 +81,11 @@ describe('LoginPage', () => {
       updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
       platformServiceSpy = jasmine.createSpyObj('PlatformService', { isWeb: true });
 
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
+        uri: 'wc:///',
+        checkDeeplinkUrl: Promise.resolve(null)
+      });
+
       TestBed.configureTestingModule({
         declarations: [LoginPage, AuthFormComponent, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -92,6 +99,7 @@ describe('LoginPage', () => {
           { provide: Storage, useValue: storageSpy },
           { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
           { provide: PlatformService, useValue: platformServiceSpy },
+          { provide: WalletConnectService, useValue: walletConnectServiceSpy},
         ],
       }).compileComponents();
     })
@@ -218,7 +226,7 @@ describe('LoginPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-    it('should init google if web platform', async () => {
+  it('should init google if web platform', async () => {
     component.ionViewWillEnter();
     await fixture.whenStable();
     expect(googleAuthPluginSpy.init).toHaveBeenCalledTimes(1);
@@ -242,4 +250,14 @@ describe('LoginPage', () => {
     fixture.detectChanges();
     expect(component.loading).toBeFalse();
   });
+
+  it('should call walletConnectService checkDeeplinkUrl on Success when has a uri defined', fakeAsync(() => {
+    subscriptionsServiceSpy.checkStoredLink.and.returnValue(Promise.resolve(false));
+    component.alreadyOnboarded = true;
+    fixture.detectChanges();
+    component.loginUser({});
+    tick();
+    
+    expect(walletConnectServiceSpy.checkDeeplinkUrl).toHaveBeenCalled();
+  }))
 });

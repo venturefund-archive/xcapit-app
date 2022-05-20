@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController, ModalController, AlertController } from '@ionic/angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -12,6 +12,7 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { alertControllerMock } from '../../../../../testing/spies/alert-controller-mock.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { servicesVersion } from 'typescript';
 
 const provider = {
   name: 'ETH',
@@ -69,7 +70,9 @@ describe('NewConnectionPage', () => {
 
   beforeEach(
     waitForAsync(() => {
-      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
+        uri: null,
+        setUri: null,
         connected: false,
         setAccountInfo: Promise.resolve({}),
         initWalletConnect: Promise.resolve({}),
@@ -225,14 +228,6 @@ describe('NewConnectionPage', () => {
     expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  xit('should load the wallestList when setWalletsInfo is excecuted', async () => {
-    component.providers = [provider];
-    fixture.detectChanges();
-    component.setWalletsInfo();
-    await fixture.whenStable();
-    expect(component.walletsList).toEqual([walletInfo]);
-  });
-
   it('should patchValue to form uri when handleScanRsult is called and the role is success', () => {
     component.handleScanResult('wc:fakeUri@bridge=fakeBridge', 'success');
 
@@ -263,4 +258,24 @@ describe('NewConnectionPage', () => {
 
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tickets/create-support-ticket');
   });
+
+  it('should clean the form and uri when cleanForm is called', () => {
+    component.form.patchValue(formData.valid);
+    fixture.detectChanges();
+
+    component.cleanForm();
+
+    expect(walletConnectServiceSpy.setUri).toHaveBeenCalledOnceWith('');
+    expect(component.form.value.uri).toEqual('');
+    expect(component.form.value.wallet).toEqual(null);
+  });
+
+  it('should return a wallet list mapped when setWalletsInfo is called', fakeAsync(() => {
+    component.providers = [provider];
+    fixture.detectChanges();
+    component.setWalletsInfo();
+    fixture.whenStable();
+    tick();
+    expect(component.walletsList).toEqual([walletInfo]);
+  }))
 });
