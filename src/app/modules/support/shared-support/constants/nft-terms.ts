@@ -29,10 +29,5 @@ export const NFT_TERMS = [
       answer: 'support.support_nft.answer6',
       last: false,
     },
-    {
-      title: 'support.support_nft.question7',
-      answer: 'support.support_nft.answer7',
-      last: true,
-    },
   ];
   

@@ -22,6 +22,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
 import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
+import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 
 @Component({
   selector: 'app-operations-new',
@@ -101,7 +102,8 @@ import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynam
 })
 export class OperationsNewPage implements AfterViewInit {
   anchors: any;
-  provider = PROVIDERS.find((provider) => provider.id === 1);
+  provider: FiatRampProvider;
+  providers: FiatRampProvider[] = PROVIDERS;
   providerCurrencies: Coin[];
   selectedCurrency: Coin;
   fiatCurrency: string;
@@ -153,6 +155,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   ionViewWillEnter() {
+    this.provider = this.providers.find((provider) => provider.id === 1);
     this.fiatRampsService.setProvider(this.provider.id.toString());
     this.providerCurrencies = KriptonCurrencies.create(this.apiWalletService.getCoins()).value();
     this.setCountry();
@@ -198,7 +201,7 @@ export class OperationsNewPage implements AfterViewInit {
       asset && network
         ? this.providerCurrencies.find((currency) => currency.value === asset && currency.network === network)
         : this.providerCurrencies[0];
-
+    console.log(this.country);
     this.fiatCurrency = this.country.fiatCode ? this.country.fiatCode : 'USD';
   }
 

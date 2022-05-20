@@ -57,14 +57,16 @@ import { LINKS } from 'src/app/config/static-links';
           ></app-wallet-advice>
         </div>
         <div name="Disclaimer Form Buttons" class="ux_footer">
-          <ion-item class="ux-checkbox-container ux-font-text-xs">
-            <ion-label class="ux-checkbox-container__label">
+          <ion-item class="last ux-font-text-xs">
+            <ion-label>
               {{ 'wallets.disclaimer.agree_phrase_checkbox' | translate }}
             </ion-label>
             <ion-checkbox
+              mode="md"
               name="ux_create_disclaimer_check_button_1"
               formControlName="agreePhraseCheckbox"
               slot="start"
+              (ionChange)="this.enableButton()"
             ></ion-checkbox>
           </ion-item>
           <ion-button
@@ -86,6 +88,7 @@ import { LINKS } from 'src/app/config/static-links';
   styleUrls: ['./disclaimer-wallet.page.scss'],
 })
 export class DisclaimerWalletPage implements OnInit {
+  acceptTos = false;
   mode: string;
   hasAcceptedDisclaimer: boolean;
   links = LINKS;
@@ -129,6 +132,10 @@ export class DisclaimerWalletPage implements OnInit {
 
   openDocument(url): void{
     this.browserService.open({url});
+  }
+
+  enableButton() {
+    return (this.acceptTos = !this.acceptTos);
   }
 
   async showModalDidNotAccept() {

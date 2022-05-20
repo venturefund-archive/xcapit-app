@@ -59,20 +59,20 @@
     }
   }
 
-  ion-checkbox {
-    --border-radius: 15%;
-    --border-width: 2px;
-    --border-style: solid;
-    --border-color: var(--ion-color-infoligt);
-    --background: #fff;
-    --size: 18px;
-    --checkmark-width: 2px;
+  .last {
+    margin-top: 10px;
 
-    margin-right: 12px;
-    color: var(--ion-color-info);
+    --border-color: transparent;
+    --background-hover: transparent;
+    --background-activated: transparent;
+    --padding-start: 5px;
+
+    color: var(--ion-color-neutral80);
   }
 
-  ion-item {
-    --background: transparent;
+  ion-checkbox {
+    --size: 18px;
+
+    color: var(--ion-color-info);
   }
 }

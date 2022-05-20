@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { FiatRampsService } from './fiat-ramps.service';
 import { of } from 'rxjs';
 import { CustomHttpService } from '../../../../shared/services/custom-http/custom-http.service';
+import { rawProvidersData } from '../fixtures/raw-providers-data';
+
 
 describe('FiatRampsService', () => {
   let fiatRampsService: FiatRampsService;
@@ -18,7 +20,8 @@ describe('FiatRampsService', () => {
       providers: [{ provide: CustomHttpService, useValue: customHttpServiceSpy }],
     });
     fiatRampsService = TestBed.inject(FiatRampsService);
-    fiatRampsService.setProvider('1');
+    fiatRampsService.providers = rawProvidersData;
+    fiatRampsService.setProvider(`${rawProvidersData[1].id}`);
     customHttpServiceSpy = TestBed.inject(CustomHttpService);
   });
 

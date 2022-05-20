@@ -121,19 +121,14 @@
     "update_news": {
       "title": "We have news!",
       "first": {
-        "badge": "New feature",
-        "title": "Moonpay",
-        "description": "Buy crypto with your local currency!"
+        "badge": "Community",
+        "title": "Discord",
+        "description": "Join and be part of our community"
       },
       "second": {
         "badge": "New feature",
-        "title": "DeFi Investments",
-        "description": "Invest with cryptocurrencies quickly, freely and without intermediaries."
-      },
-      "third": {
-        "badge": "New feature",
-        "title": "Wallet Connect",
-        "description": "Connect your wallet to the crypto world and stay in control with your tokens"
+        "title": "Financial Planner",
+        "description": "Optimize the return on your money"
       }
     }
   },
@@ -2811,24 +2806,16 @@
     "header": "Help",
     "title": "How can we help you?",
     "support_options": {
-      "title_nft": "NFT",
-      "description_nft": "View, Transfer and Receive",
-      "title_account": "XCAPIT Account",
-      "description_account": "Create account, configure and deposit money.",
       "title_wallet": "Wallet",
       "description_wallet": "Create, import, receive, send and more.",
+      "title_wallet_operations": "Transactions with my Wallet",
+      "description_wallet_operations": "How to invest, operations and costs.",
       "title_buy": "Crypto buying",
-      "description_buy": "Steps, providers and costs.",
-      "title_investment": "Binance investments",
-      "description_investment": "Types of strategies, terms and profitability.",
-      "title_apikeys": "Binance and API Keys",
-      "description_apikeys": "Create account, connect to binance and manage APY Keys.",
-      "title_security": "Security ",
-      "description_security": "About my data and my capital.",
-      "title_wallet_connect": "Wallet Connect",
+      "description_buy": "Buying, commissions, limits and payment methods.",
+      "title_wallet_connect": "WalletConnect",
       "description_wallet_connect": "Connect wallet and interact with dapp.",
-      "title_defi": "Decentralized Investments",
-      "description_defi": "How to invest, performances, costs and fees."
+      "title_nft": "NFT",
+      "description_nft": "View, transfer and receive."
     },
     "contact_support": {
       "title": "Write to support"

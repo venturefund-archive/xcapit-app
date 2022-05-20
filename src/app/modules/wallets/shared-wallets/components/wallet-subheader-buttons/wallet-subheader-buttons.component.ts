@@ -36,9 +36,8 @@ import { NavigationExtras } from '@angular/router';
             [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"
             icon="ux-currency"
           ></app-icon-button-card>
-          
         </div>
-        <div class="wsb__card-buttons__swap-card card">
+        <div *appFeatureFlag="'ff_swap'" class="wsb__card-buttons__swap-card card">
           <app-icon-button-card
             (click)="this.goToSwap()"
             appTrackClick
