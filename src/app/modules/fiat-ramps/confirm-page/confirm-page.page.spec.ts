@@ -13,6 +13,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 
 const storageData = {
   valid: {
@@ -48,6 +49,8 @@ const storageData = {
     valid: false,
   },
 };
+
+const provider = rawProvidersData[1];
 
 const operationId = 6;
 
@@ -100,6 +103,7 @@ describe('ConfirmPagePage', () => {
     fixture.detectChanges();
     storageOperationService = TestBed.inject(StorageOperationService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    component.providers = rawProvidersData;
   });
 
   it('should create', () => {
@@ -107,18 +111,24 @@ describe('ConfirmPagePage', () => {
   });
 
   it('should call createOperation on click confirm button', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_confirm');
     el.nativeElement.click();
     fixture.detectChanges();
     expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Next Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Next');
+  it('should call trackEvent on trackService when ux_buy_kripton_confirm Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_confirm');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should get provider_id from operationData', () => {
+    const spy = spyOn(component, 'getProvider').and.callThrough();
+    component.ionViewWillEnter();
+    expect(spy).toHaveBeenCalledWith('1');
   });
 });

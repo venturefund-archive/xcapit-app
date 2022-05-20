@@ -6,4 +6,5 @@ export interface FiatRampProvider {
     newOperationRoute: string;
     description: string;
     countries: string[];
+    trackClickEventName: string;
 }

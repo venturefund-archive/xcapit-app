@@ -26,7 +26,8 @@ import { LINKS } from 'src/app/config/static-links';
         <div class="mnp__currency-select">
           <form [formGroup]="this.form">           
             <app-coin-selector
-            *ngIf="this.form.value.currency" [selectedCoin]="this.form.value.currency"
+            *ngIf="this.form.value.currency" 
+            [selectedCoin]="this.form.value.currency"
             (changeCurrency)="this.changeCurrency()"
           ></app-coin-selector>
           </form>
@@ -77,7 +78,7 @@ import { LINKS } from 'src/app/config/static-links';
       </div>
       <ion-button
         appTrackClick
-        name="Continue to Moonpay"
+        name="ux_buy_moonpay_continue"
         expand="block"
         size="large"
         type="submit"
