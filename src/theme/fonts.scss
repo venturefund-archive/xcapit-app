@@ -14,6 +14,14 @@
   line-height: 18px;
 }
 
+.ux-font-text-xs-neutral {
+  font-family: var(--ux-font-lato);
+  font-size: var(--ux-fsize-14);
+  font-weight: var(--ux-fweight-regular);
+  color: var(--ion-color-neutral80);
+  line-height: 18px;
+}
+
 .underline {
   text-decoration: underline;
 }
@@ -133,5 +141,13 @@
   font-size: var(--ux-fsize-16);
   font-weight: var(--ux-fweight-semibold);
   color: var(--ion-color-neutral90);
+  line-height: 18.77px;
+}
+
+.ux-font-header-title {
+  font-family: var(--ux-font-worksans);
+  font-size: var(--ux-fsize-16);
+  font-weight: var(--ux-fweight-semibold);
+  color: var(--ion-color-primary);
   line-height: 18.77px;
 }
