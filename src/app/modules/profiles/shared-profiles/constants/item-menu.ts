@@ -6,7 +6,7 @@ export const ITEM_MENU: MenuCategory[] = [
     icon: 'assets/ux-icons/wallet-connect-icon.svg',
     route: '/wallets/wallet-connect/new-connection',
     name: 'WalletConnect',
-    buttonName: 'ux_go_to_wc',
+    buttonName: 'ux_menu_go_to_wallet_connect',
     showCategory: true,
   },
   {

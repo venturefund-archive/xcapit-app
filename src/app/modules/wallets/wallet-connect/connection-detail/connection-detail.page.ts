@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-connection-detail',
@@ -74,7 +75,7 @@ import { TranslateService } from '@ngx-translate/core';
         <ion-button
           class="ux_button connect_button"
           appTrackClick
-          name="Next"
+          name="ux_wc_connect"
           color="secondary"
           size="large"
           (click)="approveSession()"
@@ -115,7 +116,8 @@ export class ConnectionDetailPage implements OnInit {
     private walletConnectService: WalletConnectService,
     private navController: NavController,
     private alertController: AlertController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private trackService: TrackService
   ) {}
 
   ionViewWillEnter() {
@@ -150,6 +152,11 @@ export class ConnectionDetailPage implements OnInit {
     try {
       await this.walletConnectService.approveSession();
       this.connectionStatus = true;
+      this.trackService.trackEvent({
+        eventAction: 'screenview',
+        description: window.location.href,
+        eventLabel: 'ux_wc_screenview_connected'
+      });
     } catch (error) {
       const alert = await this.alertController.create({
         header: this.translate.instant('wallets.wallet_connect.connection_detail.errors.header'),

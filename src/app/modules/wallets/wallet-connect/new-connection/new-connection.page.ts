@@ -58,7 +58,11 @@ export interface PeerMeta {
               <div class="wcnc__radio_group">
                 <ion-radio-group formControlName="wallet">
                   <div *ngFor="let wallet of walletsList" class="container">
-                    <ion-item class="ux-font-input-label">
+                    <ion-item 
+                      class="ux-font-input-label"
+                      appTrackClick
+                      [dataToTrack]="{eventLabel: wallet.dataToTrack}"
+                    >
                       <ion-label>{{ wallet.name }}</ion-label>
                       <ion-radio
                         mode="md"
@@ -96,7 +100,7 @@ export interface PeerMeta {
             <ion-button
               class="ion-padding-start ion-padding-end ux_button"
               appTrackClick
-              name="Next"
+              name="ux_wc_next"
               type="submit"
               color="secondary"
               size="large"
@@ -176,22 +180,28 @@ export class NewConnectionPage implements OnInit {
 
   public async setWalletsInfo() {
     const walletsAddrs = await this.storageService.getWalletsAddresses();
-    this.walletsList = Object.keys(walletsAddrs).map((AddrKey) => {
+    this.walletsList = Object.keys(walletsAddrs).map((addrKey) => {
       const provider = this.providers.filter(
-        (prov) => prov.network === environment.walletNetwork && prov.chain === AddrKey
+        (prov) => prov.network === environment.walletNetwork && prov.chain === addrKey
       )[0];
       return {
-        address: walletsAddrs[AddrKey],
-        network: AddrKey,
+        address: walletsAddrs[addrKey],
+        network: addrKey,
         chainId: provider.chain_id,
         name: provider.name,
         logo: provider.logo,
         symbol: provider.native_currency.symbol,
         rpc: provider.rpc_url,
+        dataToTrack: `ux_wc_${this.dataToTrack(addrKey)}`
       };
     });
   }
 
+  dataToTrack(symbol: string){
+    const translations = {RSK:'rsk', BSC_BEP20:'bsc', ERC20:'eth', MATIC:'pol'};
+    return translations[symbol];
+  }
+  
   public async openQRScanner() {
     const modal = await this.modalController.create({
       component: ScanQrModalComponent,

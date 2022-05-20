@@ -13,6 +13,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FakeConnectedWallet } from '../../../../../testing/fakes/wallet.fake.spec';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { By } from '@angular/platform-browser';
 
 const requestSendTransaction = {
   method: 'eth_sendTransaction',
@@ -233,6 +234,32 @@ describe('OperationDetailPage', () => {
     await component.setLoadingText();
     expect(component.loadingText).toEqual('wallets.wallet_connect.operation_detail.confirmation_loading');
   });
+
+  it('should set button dataToTrack eventLabel ux_wc_confirm when isSignRequest is false and isApproval is false', () => {
+    component.isSignRequest = false;
+    component.isApproval = false;
+    component.dataToTrackButton = component.dataToTrack();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button.ux_button'));
+    expect(buttonEl.nativeNode.dataToTrack.eventLabel).toEqual('ux_wc_confirm');
+  });
+
+  it('should set button dataToTrack eventLabel ux_wc_approve when isSignRequest is false and isApproval is true', () => {
+    component.isSignRequest = false;
+    component.isApproval = true;
+    component.dataToTrackButton = component.dataToTrack();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button.ux_button'));
+    expect(buttonEl.nativeNode.dataToTrack.eventLabel).toEqual('ux_wc_approve');
+  });
+
+  it('should set button dataToTrack eventLabel ux_wc_sign when isSignRequest is true', () => {
+    component.dataToTrackButton = component.dataToTrack();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button.ux_button'));
+    expect(buttonEl.nativeNode.dataToTrack.eventLabel).toEqual('ux_wc_sign');
+  });
+
 
   it('should call decryptedWallet function when confirmOperation is called', async () => {
     const spy = spyOn(component, 'decryptedWallet');

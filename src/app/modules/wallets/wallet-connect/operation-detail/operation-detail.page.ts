@@ -106,7 +106,7 @@ import { EthersService } from '../../shared-wallets/services/ethers/ethers.servi
               [loadingText]=" this.loadingText | translate"
               class="ux_button"
               appTrackClick
-              name="Next"
+              [dataToTrack]="{eventLabel:this.dataToTrackButton}"
               color="secondary"
               size="large"
               (click)="confirmOperation()"
@@ -150,7 +150,7 @@ export class OperationDetailPage implements OnInit {
   loading = false;
   disable = false;
   loadingText = '';
-
+  dataToTrackButton:string;
   constructor(
     private walletConnectService: WalletConnectService,
     private navController: NavController,
@@ -164,9 +164,21 @@ export class OperationDetailPage implements OnInit {
 
   ionViewWillEnter() {
     this.checkProtocolInfo();
+    this.dataToTrackButton = this.dataToTrack();
   }
 
   ngOnInit() {}
+
+  dataToTrack(){
+    if(this.isSignRequest){
+      return 'ux_wc_sign'
+    }else{
+      if(this.isApproval){
+        return 'ux_wc_approve'
+      }
+    }
+    return 'ux_wc_confirm'
+  }
 
   async checkProtocolInfo() {
     if (!this.walletConnectService.peerMeta) {
