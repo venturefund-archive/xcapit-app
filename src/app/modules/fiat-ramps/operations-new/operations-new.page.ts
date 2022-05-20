@@ -84,7 +84,7 @@ import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynam
             <ion-button
               class="ux_button"
               appTrackClick
-              name="Next"
+              name="ux_buy_kripton_continue"
               type="submit"
               color="secondary"
               size="large"
