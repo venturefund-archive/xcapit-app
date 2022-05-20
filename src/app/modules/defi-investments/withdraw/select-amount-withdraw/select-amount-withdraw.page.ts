@@ -17,7 +17,7 @@ import { InvestmentDataService } from '../../shared-defi-investments/services/in
 @Component({
   selector: 'app-select-amount-withdraw',
   template: ` <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left no-border">
         <ion-buttons slot="start">
           <ion-back-button class="saw__back" defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>

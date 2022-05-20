@@ -26,6 +26,7 @@ import { ToastService } from '../../services/toast/toast.service';
         <ion-icon
           class="ux_input_container__item__error_icon"
           item-end
+          *ngIf="!this.showNewPasswordErrors"
           [hidden]="!(this.control && this.control.invalid && this.control.touched)"
           name="ux-error"
           color="secondary"
@@ -54,10 +55,17 @@ import { ToastService } from '../../services/toast/toast.service';
         </ion-button>
       </ion-item>
       <app-errors-form-item
+        *ngIf="!this.showNewPasswordErrors"
         class="ux_input_container__item__errors"
         [controlName]="this.controlName"
         [errors]="this.errors"
       ></app-errors-form-item>
+
+      <app-errors-form-password-item
+        *ngIf="this.showNewPasswordErrors"
+        [control]="this.control"
+        [errors]="this.errors"
+      ></app-errors-form-password-item>
     </div>
   `,
   styleUrls: ['./ux-input.component.scss'],
@@ -79,6 +87,7 @@ export class UxInputComponent implements OnInit {
   @Input() readonly = false;
   @Input() copyType = false;
   @Input() leftIcon = '';
+  @Input() showNewPasswordErrors = false;
 
   typeSetted: string;
   passwordType: boolean;

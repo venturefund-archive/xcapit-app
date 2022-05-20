@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
-import { ApikeysTutorialModalComponent } from '../shared-apikeys/components/apikeys-tutorial-modal/apikeys-tutorial-modal.component';
 
 @Component({
   selector: 'app-tutorial-exchange',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/investments/binance"></ion-back-button>
         </ion-buttons>

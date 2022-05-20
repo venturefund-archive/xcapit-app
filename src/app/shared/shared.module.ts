@@ -83,12 +83,14 @@ import { CauseComponent } from '../modules/donations/shared-donations/components
 import { ReferralsComingComponent } from '../modules/referrals/shared-referrals/components/referrals-coming/referrals-coming.component';
 import { FormattedAmountPipe } from './pipes/formatted-amount/formatted-amount.pipe';
 import { CauseInfoComponent } from '../modules/donations/shared-donations/components/description-cause/cause-info.component';
+import { ErrorsFormPasswordItemComponent } from './components/errors-form-password-item/errors-form-password-item.component';
 import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-network.pipe';
 
 @NgModule({
   declarations: [
     FilterTabComponent,
     ErrorsFormItemComponent,
+    ErrorsFormPasswordItemComponent,
     LanguagePopoverComponent,
     LanguageButtonComponent,
     IsSubscribedComponent,
@@ -177,6 +179,7 @@ import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-n
     FilterTabComponent,
     EmbedVideoComponent,
     ErrorsFormItemComponent,
+    ErrorsFormPasswordItemComponent,
     CommonModule,
     ReactiveFormsModule,
     IonicModule,

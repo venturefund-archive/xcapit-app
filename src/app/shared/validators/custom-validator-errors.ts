@@ -4,6 +4,10 @@ export class CustomValidatorErrors {
   static notChecked = { notChecked: true };
 
   static hasCapitalCase = { hasCapitalCase: true };
+  
+  static hasCapitalAndSmallCase = { hasCapitalAndSmallCase: true };
+
+  static notAlphanumeric = { notAlphanumeric: true };
 
   static hasSmallCase = { hasSmallCase: true };
 
