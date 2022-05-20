@@ -500,4 +500,33 @@ describe('WalletConnectService', () => {
 
     expect(res).toEqual(undefined);
   })
+
+  it('should call the ping function when checkConnection is called and walletConnector is defined', async () => {
+    service.walletConnector = new WalletConnect({uri: testUri});
+    const spy = spyOn(service, 'ping');
+    await service.checkConnection();
+    expect(spy).toHaveBeenCalled();
+  })
+
+  it('should remove from storage the walletconnect element when checkConnection is called and walletConnect is not defined', async () => {
+    service.walletConnector = null
+    await service.checkConnection();
+    expect(storageServiceSpy.remove).toHaveBeenCalled();
+  })
+
+  it('should call approveSession when ping is called and walletConnector is defined', async () => {
+    service.walletConnector = new WalletConnect({uri: testUri});
+    service.activeChainId = 1;
+    service.address = '0x0000000000000000001';
+    const spy = spyOn(service.walletConnector, 'approveSession');
+    const res = service.ping();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(res).toBeTruthy();
+  })
+
+  it('should return an error when ping is called and approveSession returns an error', async () => {
+    const error = await service.ping();
+    const res = error.toString().includes('TypeError:') && error.toString().includes('approveSession')
+    expect(res).toBeTruthy();
+  })
 });

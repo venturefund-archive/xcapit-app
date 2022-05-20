@@ -78,6 +78,7 @@ export class AppComponent implements OnInit {
   }
 
   private async checkDeeplinking() {
+    await this.walletConnectService.checkConnection();
     await this.walletConnectService.retrieveWalletConnect();
 
     if (this.platformService.isNative()) {

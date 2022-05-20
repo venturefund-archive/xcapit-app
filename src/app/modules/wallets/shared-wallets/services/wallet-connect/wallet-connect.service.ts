@@ -71,6 +71,29 @@ export class WalletConnectService {
     this.uri = uri;
   }
 
+  public async checkConnection() {
+    if (this.walletConnector) {
+      const isConnected = await this.ping();
+      if (isConnected) return;
+    }
+    
+    await this.appStorageService.remove('walletconnect');
+  }
+
+  public async ping() {
+    return new Promise((resolve) => {
+      try {
+        this.walletConnector.approveSession({
+          chainId: this.activeChainId,
+          accounts: [this.address],
+        });
+        resolve(true);
+      } catch (error) {
+        resolve(error);
+      }
+    });
+  }
+
   public async checkDeeplinkUrl() {
     if (!this.uri) return;
 
