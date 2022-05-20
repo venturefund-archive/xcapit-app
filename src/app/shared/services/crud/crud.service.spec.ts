@@ -16,7 +16,7 @@ describe('CrudService', () => {
       ]
     });
     service = TestBed.inject(CrudService);
-    endpoint = service.getEndpoints('usuarios');
+    endpoint = service.getEndpoints('users');
   });
 
   it('should be created', () => {

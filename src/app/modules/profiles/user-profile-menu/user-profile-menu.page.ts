@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from 'src/app/modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { AuthService } from 'src/app/modules/users/shared-users/services/auth/auth.service';
 import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
 import { ITEM_MENU } from '../shared-profiles/constants/item-menu';

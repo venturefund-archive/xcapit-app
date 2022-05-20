@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
-import { AuthService } from 'src/app/modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { AuthService } from 'src/app/modules/users/shared-users/services/auth/auth.service';
 import { SubscriptionsService } from '../../services/subscriptions/subscriptions.service';
 
 @Injectable({

@@ -1,4 +1,3 @@
-import { environment } from './../../../../../variables.env';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
@@ -10,7 +9,6 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { LINKS } from 'src/app/config/static-links';
-import { Currency } from '../../funds/shared-funds/enums/currency.enum';
 
 @Component({
   selector: 'app-moonpay',

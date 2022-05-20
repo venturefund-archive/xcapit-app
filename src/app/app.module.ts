@@ -8,31 +8,25 @@ import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { UsuariosModule } from './modules/usuarios/usuarios.module';
+import { UsersModule } from './modules/users/users.module';
 import { TutorialsModule } from './modules/tutorials/tutorials.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
-import { FundsModule } from './modules/funds/funds.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
-import { RunsModule } from './modules/runs/runs.module';
 import { TrackClickModule } from './shared/directives/track-click/track-click.module';
 import { WildcardRoutingModule } from './wildcard-routing.module';
-import { TermsAndConditionsModule } from './modules/terms-and-conditions/terms-and-conditions.module';
 import { ReferralsModule } from './modules/referrals/referrals.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { TabsModule } from './modules/tabs/tabs.module';
-import { ApikeysModule } from './modules/apikeys/apikeys.module';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
-import { DepositAddressesModule } from './modules/deposit-addresses/deposit-addresses.module';
 import { FiatRampsModule } from './modules/fiat-ramps/fiat-ramps.module';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { TicketsModule } from './modules/tickets/tickets.module';
 import { AppStorageService } from './shared/services/app-storage/app-storage.service';
-import { RefreshTokenInterceptorService } from './modules/usuarios/shared-usuarios/services/refresh-token-interceptor/refresh-token-interceptor.service';
-import { PaymentsModule } from './modules/payments/payments.module';
+import { RefreshTokenInterceptorService } from './modules/users/shared-users/services/refresh-token-interceptor/refresh-token-interceptor.service';
 import { AppInitializerFactory } from './shared/factories/app-initializer/app-initializer.factory';
 import { updateServiceProvider } from './shared/providers/update/update.provider';
 import { httpLoaderFactory } from './shared/factories/translate/translate.factory';
@@ -65,23 +59,17 @@ registerLocaleData(localeEn, 'en');
       driverOrder: ['sqlite', 'indexeddb', 'websql'],
     }),
     AppRoutingModule,
-    UsuariosModule,
+    UsersModule,
     TutorialsModule,
     ProfilesModule,
-    FundsModule,
     FinancialPlannerModule,
     DonationsModule,
-    RunsModule,
     SubscriptionsModule,
-    PaymentsModule,
-    TermsAndConditionsModule,
     ReferralsModule,
     TabsModule,
-    ApikeysModule,
     NotificationsModule,
     WalletsModule,
     TicketsModule,
-    DepositAddressesModule,
     FiatRampsModule,
     WalletsModule,
     HomeModule,

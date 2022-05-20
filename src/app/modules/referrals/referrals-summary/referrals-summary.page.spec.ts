@@ -3,7 +3,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 
 import { ReferralsSummaryPage } from './referrals-summary.page';
 import { TranslateModule } from '@ngx-translate/core';
-import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { ApiUsuariosService } from '../../users/shared-users/services/api-usuarios/api-usuarios.service';
 import { ApiReferralsService } from '../shared-referrals/services/api-referrals/api-referrals.service';
 import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';

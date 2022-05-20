@@ -13,7 +13,7 @@ import { DefiProduct } from '../shared-defi-investments/interfaces/defi-product.
 import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
-import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { ApiUsuariosService } from '../../users/shared-users/services/api-usuarios/api-usuarios.service';
 import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';

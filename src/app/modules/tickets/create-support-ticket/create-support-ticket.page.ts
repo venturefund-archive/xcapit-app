@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
-import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { ApiUsuariosService } from '../../users/shared-users/services/api-usuarios/api-usuarios.service';
 import { NavController } from '@ionic/angular';
 
 @Component({
