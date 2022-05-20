@@ -85,7 +85,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
             <ion-button
               class="ux_button"
               appTrackClick
-              name="Next"
+              name="ux_buy_kripton_continue"
               type="submit"
               color="secondary"
               size="large"
