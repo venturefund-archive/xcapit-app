@@ -7,8 +7,9 @@ import { MARITAL_STATUS } from '../constants/marital-status';
 import { Province } from '../enums/province.enums';
 import { GENDERS } from '../constants/gender';
 import { DOC_TYPES } from '../constants/doc_types';
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 import * as moment from 'moment';
+import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disclaimer-modal/kyc-disclaimer-modal.component';
 
 @Component({
   selector: 'app-user-information',
@@ -16,7 +17,7 @@ import * as moment from 'moment';
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/moonpay"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/new-operation/moonpay"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.register.header' | translate }}
@@ -210,10 +211,21 @@ export class UserInformationPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private formBuilder: FormBuilder,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController
+    private navController: NavController,
+    private modalController: ModalController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.showModal();
+  }
+
+  async showModal(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: KycDisclaimerModalComponent,
+      cssClass: 'kyc-disclaimer-modal',
+    });
+    await modal.present();
+  }
 
   handleSubmit() {
     const parsedValues = this.getParsedValues(this.form.value);

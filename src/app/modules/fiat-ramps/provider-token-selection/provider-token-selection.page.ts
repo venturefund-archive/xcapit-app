@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
+import { NavigationExtras, ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
+import { PROVIDERS } from '../shared-ramps/constants/providers';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies/kripton-currencies';
 
 @Component({
   selector: 'app-provider-token-selection',
@@ -32,14 +36,20 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 })
 export class ProviderTokenSelectionPage implements OnInit {
   coins: Coin[];
-  constructor(private navController: NavController, private storageService: StorageService) {}
+  provider: FiatRampProvider;
+  constructor(
+    private navController: NavController,
+    private storageService: StorageService,
+    private route: ActivatedRoute,
+    private apiWalletService: ApiWalletService
+  ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.storageService.getAssestsSelected().then((coins) => {
-      this.coins = coins.filter((coin) => Boolean(coin.moonpayCode));
-    });
+    const providerAlias = this.route.snapshot.paramMap.get('provider');
+    this.provider = PROVIDERS.find((provider) => provider.alias === providerAlias);
+    this.availableCoins();
   }
 
   selectCurrency(currency: Coin) {
@@ -50,6 +60,13 @@ export class ProviderTokenSelectionPage implements OnInit {
       },
     };
 
-    this.navController.navigateForward(['/fiat-ramps/moonpay'], navigationExtras);
+    this.navController.navigateForward([`/fiat-ramps/new-operation/${this.provider.alias}`], navigationExtras);
+  }
+
+  async availableCoins() {
+    this.coins =
+      this.provider.alias === 'kripton'
+        ? KriptonCurrencies.create(this.apiWalletService.getCoins()).value()
+        : (await this.storageService.getAssestsSelected()).filter((coin) => Boolean(coin.moonpayCode));
   }
 }

@@ -1043,13 +1043,13 @@
       "item_2": "Choose by category, and become an agent of change.",
       "button": "Let's start"
     },
-    "causes":{
-      "header":"Donations",
-      "title":"Choose your cause",
-      "types":{
-        "humanitary":"Humanitarian aid",
-        "environment":"Environment",
-        "human_rights":"Human Rights"
+    "causes": {
+      "header": "Donations",
+      "title": "Choose your cause",
+      "types": {
+        "humanitary": "Humanitarian aid",
+        "environment": "Environment",
+        "human_rights": "Human Rights"
       }
     },
     "description_cause": {
@@ -1084,17 +1084,17 @@
         }
       }
     },
-    "success":{
-      "textPrimary":"Thanks for joining us!",
-      "textSecondary":"You have just contributed to a great cause.",
-      "namePrimaryAction":"Continue donating",
-      "nameThirdAction":"Back to home"
+    "success": {
+      "textPrimary": "Thanks for joining us!",
+      "textSecondary": "You have just contributed to a great cause.",
+      "namePrimaryAction": "Continue donating",
+      "nameThirdAction": "Back to home"
     },
 
-    "error":{
-      "textPrimary":"Your donation could not be completed",
-      "textSecondary":"An error occurred in the blockchain.",
-      "namePrimaryAction":"Try again"
+    "error": {
+      "textPrimary": "Your donation could not be completed",
+      "textSecondary": "An error occurred in the blockchain.",
+      "namePrimaryAction": "Try again"
     }
   },
   "referrals": {
@@ -1175,7 +1175,7 @@
     },
     "referrals_coming": {
       "title": "We are creating magic",
-      "paragraph":"This program is now closed. We will be resuming soon with new proposals and more benefits.",
+      "paragraph": "This program is now closed. We will be resuming soon with new proposals and more benefits.",
       "tos": "See terms and conditions"
     },
     "referrals_pending": {
@@ -1778,19 +1778,11 @@
       "in_progress": "In progress",
       "canceled": "Canceled"
     },
-    "ramp_initial": {
-      "header": "Buy cryptocurrencies",
-      "title": "New operation",
-      "operation": "What operation do you want to do?",
-      "pair_buy": "What currency do you want to buy?",
-      "pair_sell": "What currency do you want to sell?",
-      "amount": "Amount",
-      "amount_ars": "Amount in ARS",
-      "amount_min": "Minimun amount:",
-      "amount_max": "Maximun amount:",
-      "wallet": "Wallet",
-      "buy": "Buy",
-      "sell": "Sell",
+    "new_operation": {
+      "header": "Buy crypto",
+      "thirdPartyKYC": "I understand that KYC information is not requested or stored by Xcapit and that Krypton has a different data privacy policy than Xcapit.",
+      "thirdPartyTransaction": "I understand that by continuing to purchase I will be purchasing through a third party vendor (Kripton Market) subject to their own terms and conditions, for which Xcapit is not responsible.",
+      "privacyPolicyAndTOS": "I have read and accept the: <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.",
       "next_button": "Next"
     },
     "register": {
@@ -1921,8 +1913,24 @@
       "venezuela": "Venezuela"
     },
     "shared": {
+      "constants": {
+        "providers": {
+          "kripton": {
+            "disclaimer": "Token delivery is made Monday through Friday from 9 a.m. to 6 p.m. and may take some time if the bank delays in processing the transaction to Krypton's client account."
+          }
+        }
+      },
       "fixed_footer": {
         "text": "You are interacting with Kriptonmarket"
+      },
+      "provider_new_operation_card": {
+        "quantity": "Amount",
+        "provider": "Provider"
+      },
+      "kyc_disclaimer_modal": {
+        "title": "Krypton account registration",
+        "description": "You only have to create a Krypton account once, the next time you choose this operator you will be automatically logged in. Remember that the registration and purchase process is in the control of Krypton.",
+        "button": "Begin"
       }
     }
   },

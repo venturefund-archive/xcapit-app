@@ -1,18 +1,27 @@
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
-import { Countries } from '../enums/countries.enum';
-import { Buy } from '../enums/buy.enum';
-import { Sell } from '../enums/sell.enum';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
+import {
+  OperationDataInterface,
+  StorageOperationService,
+} from '../shared-ramps/services/operation/storage-operation.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
-import { CustomValidators } from 'src/app/shared/validators/custom-validators';
-import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { ActivatedRoute } from '@angular/router';
+import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { BrowserService } from '../../../shared/services/browser/browser.service';
+import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies/kripton-currencies';
+import { COUNTRIES } from '../shared-ramps/constants/countries';
+import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
+import { HttpClient } from '@angular/common/http';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
+import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 
 @Component({
@@ -24,168 +33,65 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
           <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
         </ion-buttons>
         <ion-title>
-          {{ 'fiat_ramps.ramp_initial.header' | translate }}
+          {{ 'fiat_ramps.new_operation.header' | translate }}
         </ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content class="ion-padding">
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
-        <div class="ux_content">
-          <app-ux-title class="ion-padding-top ion-margin-top">
-            <div class="ion-margin-top">
-              {{ 'fiat_ramps.ramp_initial.title' | translate }}
-            </div>
-          </app-ux-title>
+        <div class="ux_content aon">
+          <app-provider-new-operation-card
+            *ngIf="this.selectedCurrency && this.fiatCurrency"
+            [coin]="this.selectedCurrency"
+            [fiatCurrency]="this.fiatCurrency"
+            [provider]="this.provider"
+            (changeCurrency)="this.changeCurrency()"
+          ></app-provider-new-operation-card>
 
-          <!-- Pais -->
-          <app-ux-input-select
-            [label]="'profiles.user_profile.country' | translate"
-            [modalTitle]="'profiles.user_profile.country_placeholder' | translate"
-            [placeholder]="'profiles.user_profile.country_placeholder' | translate"
-            controlName="country"
-            [data]="this.countries"
-          ></app-ux-input-select>
+          <div class="aon__disclaimer">
+            <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
+              <ion-checkbox formControlName="thirdPartyKYC" mode="md" slot="start"></ion-checkbox>
+              <ion-label class="ion-no-padding ion-no-margin">
+                <ion-text class="ux-font-text-xxs" color="neutral80">
+                  {{ 'fiat_ramps.new_operation.thirdPartyKYC' | translate }}
+                </ion-text>
+              </ion-label>
+            </ion-item>
 
-          <!-- Operaciones -->
-          <app-ux-text class="ion-padding-top ion-margin-top">
-            <div class="ux-font-input-label ion-margin-top">
-              {{ 'fiat_ramps.ramp_initial.operation' | translate }}
-            </div>
-          </app-ux-text>
+            <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
+              <ion-checkbox formControlName="thirdPartyTransaction" mode="md" slot="start"></ion-checkbox>
+              <ion-label class="ion-no-padding ion-no-margin checkbox-link">
+                <ion-text class="ux-font-text-xxs" color="neutral80">
+                  {{ 'fiat_ramps.new_operation.thirdPartyTransaction' | translate }}
+                </ion-text>
+              </ion-label>
+            </ion-item>
 
-          <app-ux-radio-group [label]="">
-            <ion-list>
-              <ion-radio-group formControlName="type">
-                <div class="container">
-                  <ion-item>
-                    <ion-label>{{ 'fiat_ramps.ramp_initial.buy' | translate }}</ion-label>
-                    <ion-radio mode="md" slot="start" [value]="'cash-in'" (click)="resetPair()"></ion-radio>
-                  </ion-item>
-                  <!--div class="list-divider"></div>
-                                  <ion-item>
-                                    <ion-label>{{ 'fiat_ramps.ramp_initial.sell' | translate }}</ion-label>
-                                    <ion-radio
-                                      mode="md"
-                                      slot="start"
-                                      [value]="'cash-out'"
-                                      (click)="resetPair()"
-                                    ></ion-radio>
-                                  </ion-item-->
-                </div>
-              </ion-radio-group>
-            </ion-list>
-            <app-errors-form-item controlName="type"></app-errors-form-item>
-          </app-ux-radio-group>
-
-          <!-- pares -->
-          <div *ngIf="this.form.value['type'] === 'cash-in'">
-            <app-ux-text class="ion-padding-top ion-margin-top">
-              <div class="ux-font-input-label ion-margin-top">
-                {{ 'fiat_ramps.ramp_initial.pair_buy' | translate }}
-              </div>
-            </app-ux-text>
-
-            <app-ux-radio-group [label]="">
-              <ion-list>
-                <ion-radio-group formControlName="pair">
-                  <div *ngFor="let pair of this.buyPair; let last = last" class="container">
-                    <ion-item>
-                      <ion-label>{{ pair.name }}</ion-label>
-                      <ion-radio mode="md" slot="start" [value]="pair.id" (click)="getQuotations()"></ion-radio>
-                    </ion-item>
-                    <div class="list-divider" *ngIf="!last"></div>
-                  </div>
-                </ion-radio-group>
-              </ion-list>
-              <app-errors-form-item controlName="pair"></app-errors-form-item>
-            </app-ux-radio-group>
-          </div>
-
-          <div *ngIf="this.form.value['type'] === 'cash-out'">
-            <app-ux-text class="ion-padding-top ion-margin-top">
-              <div class="ux-font-input-label  ion-margin-top">
-                {{ 'fiat_ramps.ramp_initial.pair_sell' | translate }}
-              </div>
-            </app-ux-text>
-
-            <app-ux-radio-group [label]="">
-              <ion-list>
-                <ion-radio-group formControlName="pair">
-                  <div *ngFor="let pair of this.sellPair; let last = last" class="container">
-                    <ion-item>
-                      <ion-label>{{ pair.name }}</ion-label>
-                      <ion-radio mode="md" slot="start" [value]="pair.id" (click)="getQuotations()"></ion-radio>
-                    </ion-item>
-                    <div class="list-divider" *ngIf="!last"></div>
-                  </div>
-                </ion-radio-group>
-              </ion-list>
-              <app-errors-form-item controlName="pair"></app-errors-form-item>
-            </app-ux-radio-group>
-          </div>
-
-          <!-- monto y wallet -->
-          <div *ngIf="this.form.value['pair']">
-            <app-ux-text class="ion-padding-top ion-margin-top">
-              <div class="ux-font-input-label ion-margin-top">
-                {{ 'fiat_ramps.ramp_initial.amount' | translate }}
-              </div>
-            </app-ux-text>
-            <div class="ux-card">
-              <div class="ux-card__amount">
-                <!-- monto -->
-                <div class="ux-card__amount__mount-and-validator">
-                  <ion-input
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                    class="ux-card__amount__amount"
-                    formControlName="amount_in"
-                    type="text"
-                    placeholder="{{ 'fiat_ramps.ramp_initial.amount_ars' | translate }} {{
-                      this.form.value['moneda_entrada']
-                    }}"
-                    (keyup)="this.setOutAmount()"
-                  >
-                  </ion-input>
-                  <div class="ux-card__amount__validator">
-                    <app-errors-form-item [controlName]="'amount_in'"> </app-errors-form-item>
-                  </div>
-                </div>
-                <div class="ux-card__amount__info">
-                  <div>
-                    {{ 'fiat_ramps.ramp_initial.amount_min' | translate }}
-                    <span class="ux-card__amount__info__description"> 200 ARS</span>
-                  </div>
-                  <div>
-                    {{ 'fiat_ramps.ramp_initial.amount_max' | translate }}
-                    <span class="ux-card__amount__info__description"> 250.000 ARS</span>
-                  </div>
-                </div>
-              </div>
-              <!-- precio seleccionado -->
-              <app-ux-loading-block *ngIf="!this.changePrice" minSize="30px"></app-ux-loading-block>
-              <div class="ux-card__price" *ngIf="this.changePrice">
-                1 {{ pairSplit[1] }}
-                <span class="ux-card__price__dark"> {{ changePrice | number: '1.2-2' }} {{ pairSplit[0] }}</span>
-              </div>
-            </div>
-
-            <!-- wallet -->
-            <div class="ion-margin-top">
-              <app-ux-input
-                [label]="'Wallet Address' | translate"
-                controlName="wallet"
-                [readonly]="true"
-                inputmode="text"
-              ></app-ux-input>
-            </div>
+            <ion-item class="aon__disclaimer__item ion-no-padding ion-no-margin">
+              <ion-checkbox formControlName="acceptTOSAndPrivacyPolicy" mode="md" slot="start"></ion-checkbox>
+              <ion-label
+                class="ion-no-padding ion-no-margin ux-font-text-xxs"
+                color="neutral80"
+                [innerHTML]="'fiat_ramps.new_operation.privacyPolicyAndTOS' | translate"
+              >
+              </ion-label>
+            </ion-item>
           </div>
         </div>
 
         <div class="ux_footer">
           <div class="button-next">
-            <ion-button class="ux_button" appTrackClick name="ux_buy_kripton_continue" type="submit" color="secondary" size="large">
-              {{ 'fiat_ramps.ramp_initial.next_button' | translate }}
+            <ion-button
+              class="ux_button"
+              appTrackClick
+              name="ux_buy_kripton_continue"
+              type="submit"
+              color="secondary"
+              size="large"
+              [disabled]="!this.form.valid"
+            >
+              {{ 'fiat_ramps.new_operation.next_button' | translate }}
             </ion-button>
           </div>
         </div>
@@ -194,41 +100,25 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
   `,
   styleUrls: ['./operations-new.page.scss'],
 })
-export class OperationsNewPage implements OnInit {
+export class OperationsNewPage implements AfterViewInit {
+  anchors: any;
   provider: FiatRampProvider;
   providers: FiatRampProvider[] = PROVIDERS;
-  form: FormGroup = this.formBuilder.group({
-    country: ['Argentina', [Validators.maxLength(150)]],
-    type: ['cash-in', [Validators.required]],
-    pair: ['', [Validators.required]],
-    currency_in: [null, [Validators.required]],
-    currency_out: ['', [Validators.required]],
-    amount_in: [
-      '',
-      [
-        Validators.required,
-        CustomValidators.patternValidator(
-          /^([2-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-1][0-9][0-9][0-9][0-9][0-9]|2[0-4][0-9][0-9][0-9][0-9]|250000)$/,
-          CustomValidatorErrors.isNotInRange
-        ),
-      ],
-    ],
-    amount_out: [null, [Validators.required]],
-    wallet: ['', [Validators.required]],
-    price_in: [null, [Validators.required]],
-    price_out: [null, [Validators.required]],
-    provider: [null],
-    network: [null],
-  });
+  providerCurrencies: Coin[];
+  selectedCurrency: Coin;
+  fiatCurrency: string;
+  country: FiatRampProviderCountry;
+  price: number;
+  priceRefreshInterval = 15000;
+  private destroy$ = new Subject<void>();
 
-  countries = Object.values(Countries);
-  buyPair = Object.keys(Buy).map((key) => ({ name: Buy[key], id: key }));
-  sellPair = Object.keys(Sell).map((key) => ({ name: Sell[key], id: key }));
-  quotations: any = null;
-  changePrice = null;
-  pairSplit = [];
-  amountOut = null;
-  walletAddress = [];
+  form: FormGroup = this.formBuilder.group({
+    cryptoAmount: ['', [Validators.required]],
+    fiatAmount: ['', [Validators.required]],
+    thirdPartyKYC: [false, [Validators.required]],
+    thirdPartyTransaction: [false, [Validators.required]],
+    acceptTOSAndPrivacyPolicy: [false, [Validators.required]],
+  });
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -237,101 +127,118 @@ export class OperationsNewPage implements OnInit {
     private navController: NavController,
     private storageOperationService: StorageOperationService,
     private walletEncryptionService: WalletEncryptionService,
-    private apiWalletService: ApiWalletService
+    private apiWalletService: ApiWalletService,
+    private route: ActivatedRoute,
+    private elementRef: ElementRef,
+    private browserService: BrowserService,
+    private http: HttpClient,
+    private kriptonDynamicPrice: KriptonDynamicPriceFactory
   ) {}
 
-  ngOnInit() {}
+  ngAfterViewInit() {
+    this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
+    this.anchors.forEach((anchor) => {
+      anchor.addEventListener('click', this.handleAnchorClick.bind(this));
+    });
+  }
+
+  handleAnchorClick(event: Event) {
+    event.preventDefault();
+    const anchor = event.target as HTMLAnchorElement;
+    this.navigateToLink(anchor.getAttribute('href'));
+  }
+
+  async navigateToLink(link) {
+    await this.browserService.open({
+      url: link,
+    });
+  }
 
   ionViewWillEnter() {
     this.provider = this.providers.find((provider) => provider.id === 1);
-    this.form.get('provider').patchValue(this.provider.id.toString());
     this.fiatRampsService.setProvider(this.provider.id.toString());
+    this.providerCurrencies = KriptonCurrencies.create(this.apiWalletService.getCoins()).value();
+    this.setCountry();
+    this.setCurrency();
+    this.dynamicPrice();
+    this.subscribeToFormChanges();
   }
 
-  resetPair() {
-    this.form.controls.pair.setValue('');
-    this.form.controls.amount_in.setValue('');
-    this.form.controls.price_out.setValue('');
-    this.form.controls.currency_in.setValue('');
-    this.form.controls.currency_out.setValue('');
-    this.form.controls.wallet.setValue('');
-    this.form.controls.network.setValue('');
+  subscribeToFormChanges() {
+    this.form.get('cryptoAmount').valueChanges.subscribe((value) => this.cryptoAmountChange(value));
+    this.form.get('fiatAmount').valueChanges.subscribe((value) => this.fiatAmountChange(value));
   }
 
-  handleSubmit() {
+  private cryptoAmountChange(value: number) {
+    this.form.patchValue({ fiatAmount: value * this.price }, { emitEvent: false, onlySelf: true });
+  }
+
+  private fiatAmountChange(value: number) {
+    this.form.patchValue({ cryptoAmount: value / this.price }, { emitEvent: false, onlySelf: true });
+  }
+
+  private dynamicPrice() {
+    this.createKriptonDynamicPrice()
+      .value()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((price: number) => (this.price = price));
+  }
+
+  createKriptonDynamicPrice(): KriptonDynamicPrice {
+    return this.kriptonDynamicPrice.new(this.priceRefreshInterval, this.fiatCurrency, this.selectedCurrency, this.http);
+  }
+
+  setCountry() {
+    this.country = COUNTRIES.find(
+      (country) => country.name.toLowerCase() === this.route.snapshot.paramMap.get('country')
+    );
+  }
+
+  setCurrency() {
+    const asset = this.route.snapshot.queryParamMap.get('asset');
+    const network = this.route.snapshot.queryParamMap.get('network');
+    this.selectedCurrency =
+      asset && network
+        ? this.providerCurrencies.find((currency) => currency.value === asset && currency.network === network)
+        : this.providerCurrencies[0];
+    console.log(this.country);
+    this.fiatCurrency = this.country.fiatCode ? this.country.fiatCode : 'USD';
+  }
+
+  async handleSubmit() {
     if (this.form.valid) {
-      this.setOperationStorage();
+      await this.setOperationStorage();
       this.checkUser();
     } else {
       this.form.markAllAsTouched();
     }
   }
 
-  async getQuotations() {
-    this.changePrice = '';
-    this.walletAddress = [];
-    this.form.controls.wallet.setValue('');
-    this.form.controls.network.setValue('');
-    this.form.controls.amount_in.setValue('');
-    this.fiatRampsService.getQuotations().subscribe((res) => {
-      this.quotations = res.data;
-      this.getPrice();
-    });
-  }
-
   async checkUser() {
-    this.fiatRampsService.checkUser().subscribe((res) => {
-      if (!res.id) {
-        this.createUser();
-      } else {
-        this.redirectByStatus(res);
-      }
-    });
+    const checkUserResponse = await this.fiatRampsService.checkUser().toPromise();
+    const userStatus = checkUserResponse.id ? checkUserResponse : await this.fiatRampsService.createUser().toPromise();
+    this.redirectByStatus(userStatus);
   }
 
-  async getPrice() {
-    this.pairSplit = this.form.value.pair.split('_');
-    this.form.controls.currency_in.setValue(this.pairSplit[0]);
-    this.form.controls.currency_out.setValue(this.pairSplit[1]);
-    this.pairSplit = this.form.value.type === 'cash-out' ? this.pairSplit.reverse() : this.pairSplit;
-    const price = this.quotations.filter((pair) => pair.currency === this.pairSplit[1].toLowerCase());
-    const coin = this.apiWalletService.getCoins().find((coin) => coin.value === this.pairSplit[1]);
-
-    if (price[0]) {
-      if (this.form.value.type === 'cash-in') {
-        this.changePrice = price[0].quotations[this.pairSplit[0].toLowerCase()].sell;
-        this.form.controls.price_in.setValue(1);
-        this.form.controls.price_out.setValue(this.changePrice);
-      } else {
-        this.changePrice = price[0].quotations[this.pairSplit[0].toLowerCase()].buy;
-        this.form.controls.price_in.setValue(1);
-        this.form.controls.price_out.setValue(this.changePrice);
-      }
-    }
-    this.form.patchValue({ wallet: await this.userWalletFor(coin.network) });
-    this.form.patchValue({ network: coin.network });
-  }
-
-  async createUser() {
-    this.fiatRampsService.createUser().subscribe({
-      next: (res) => {
-        this.redirectByStatus(res);
-      },
-    });
-  }
-
-  setOperationStorage() {
-    const data = this.form.value;
+  async setOperationStorage() {
+    const data: OperationDataInterface = {
+      country: this.country.name,
+      type: 'cash-in',
+      amount_in: this.form.value.fiatAmount,
+      amount_out: this.form.value.cryptoAmount,
+      currency_in: this.fiatCurrency,
+      currency_out: this.selectedCurrency.value,
+      price_in: '1',
+      price_out: this.price.toString(),
+      wallet: await this.walletAddress(),
+      provider: this.provider.id.toString(),
+      network: this.selectedCurrency.network,
+    };
     this.storageOperationService.updateData(data);
   }
 
-  setOutAmount() {
-    this.amountOut = this.form.value.amount_in / this.changePrice;
-    this.form.controls.amount_out.setValue(this.amountOut);
-  }
-
-  async userWalletFor(network: string): Promise<string> {
-    return (await this.walletEncryptionService.getEncryptedWallet()).addresses[network];
+  async walletAddress(): Promise<string> {
+    return (await this.walletEncryptionService.getEncryptedWallet()).addresses[this.selectedCurrency.network];
   }
 
   getUrlByStatus(statusName) {
@@ -360,5 +267,9 @@ export class OperationsNewPage implements OnInit {
   redirectByStatus(userStatus) {
     const url = this.getUrlByStatus(userStatus.registration_status);
     this.navController.navigateForward(url);
+  }
+
+  changeCurrency(): void {
+    this.navController.navigateForward(['/fiat-ramps/token-selection', this.provider.alias]);
   }
 }

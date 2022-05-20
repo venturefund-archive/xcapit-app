@@ -15,7 +15,7 @@ const providerTest = {
   name: 'Kripton Market',
   logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
   description: 'fiat_ramps.select_provider.krypton_description',
-  newOperationRoute: '/fiat-ramps/new-operation',
+  newOperationRoute: '/fiat-ramps/new-operation/kripton',
   countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
   trackClickEventName: 'ux_buy_moonpay'
 };

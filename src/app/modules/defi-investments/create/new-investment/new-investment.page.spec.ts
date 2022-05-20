@@ -178,7 +178,7 @@ describe('NewInvestmentPage', () => {
     await fixture.whenRenderingDone();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_moonpay"'));
     buttonEl.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/moonpay']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/new-operation/moonpay']);
   });
 
   it('should save amount and redirect if form is valid', async () => {
