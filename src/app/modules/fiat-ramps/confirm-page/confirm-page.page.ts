@@ -68,6 +68,7 @@ export class ConfirmPagePage implements OnInit {
   disabledButton = false;
   token: Coin;
   networkColors = NETWORK_COLORS;
+  providers = PROVIDERS;
 
   constructor(
     private storageOperationService: StorageOperationService,
@@ -87,7 +88,7 @@ export class ConfirmPagePage implements OnInit {
   }
 
   getProvider(providerId: string) {
-    return PROVIDERS.find((provider) => provider.id.toString() === providerId);
+    return this.providers.find((provider) => provider.id.toString() === providerId);
   }
 
   async createOperation() {

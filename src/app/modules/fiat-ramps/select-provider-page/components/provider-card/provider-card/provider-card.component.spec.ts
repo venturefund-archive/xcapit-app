@@ -6,7 +6,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-// import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 
 const providerTest = {
   id: 2,
@@ -24,7 +25,7 @@ describe('ProviderCardComponent', () => {
   let fixture: ComponentFixture<ProviderCardComponent>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  // let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ProviderCardComponent>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ProviderCardComponent>;
 
 
   beforeEach(
@@ -32,7 +33,7 @@ describe('ProviderCardComponent', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [ProviderCardComponent],
+        declarations: [ProviderCardComponent, FakeTrackClickDirective],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -45,7 +46,7 @@ describe('ProviderCardComponent', () => {
     component = fixture.componentInstance;
     component.provider = providerTest;
     fixture.detectChanges();
-    // trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -65,6 +66,15 @@ describe('ProviderCardComponent', () => {
     component.disabled = true;
     const spy = spyOn(component.selectedProvider, 'emit');
     fixture.debugElement.query(By.css('ion-radio')).nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when ux_buy_moonpay Radio clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-radio', 'ux_buy_moonpay');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });

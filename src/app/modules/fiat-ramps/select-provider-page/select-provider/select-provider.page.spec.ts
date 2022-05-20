@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
@@ -16,16 +17,20 @@ describe('SelectProviderPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectProviderPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
+        trackEvent: Promise.resolve(true),
+      })
       TestBed.configureTestingModule({
         declarations: [SelectProviderPage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [{ provide: NavController, useValue: navControllerSpy }, { provide: TrackService, useValue: trackServiceSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SelectProviderPage);
@@ -60,5 +65,10 @@ describe('SelectProviderPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.form.get('provider').value).toEqual('');
+  });
+
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

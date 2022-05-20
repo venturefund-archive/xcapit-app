@@ -103,6 +103,7 @@ describe('ConfirmPagePage', () => {
     fixture.detectChanges();
     storageOperationService = TestBed.inject(StorageOperationService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    component.providers = rawProvidersData;
   });
 
   it('should create', () => {
@@ -126,7 +127,7 @@ describe('ConfirmPagePage', () => {
   });
 
   it('should get provider_id from operationData', () => {
-    const spy = spyOn(component, 'getProvider').and.returnValue(provider);
+    const spy = spyOn(component, 'getProvider').and.callThrough();
     component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledWith('1');
   });

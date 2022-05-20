@@ -184,7 +184,6 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 
         <div class="ux_footer">
           <div class="button-next">
-            <!-- <ion-button class="ux_button" appTrackClick name="Next" type="submit" color="secondary" size="large"> -->
             <ion-button class="ux_button" appTrackClick name="ux_buy_kripton_continue" type="submit" color="secondary" size="large">
               {{ 'fiat_ramps.ramp_initial.next_button' | translate }}
             </ion-button>

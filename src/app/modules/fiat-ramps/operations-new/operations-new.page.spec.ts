@@ -71,6 +71,21 @@ const validForm = {
   price_out: '1',
 };
 
+const cleanForm = {
+  country: jasmine.any(String),
+  type: jasmine.any(String),
+  pair: '',
+  amount_in: '',
+  price_out: '',
+  currency_in: '',
+  currency_out: '',
+  wallet: '',
+  network: '',
+  amount_out: null,
+  price_in: null,
+  provider: null
+};
+
 const userNew = {
   id: false,
   registration_status: 'USER_INFORMATION',
@@ -99,6 +114,7 @@ describe('RampsMenuPage', () => {
         getUserWallets: of({}),
         checkUser: of({}),
         createUser: of({}),
+        setProvider: null
       });
 
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
@@ -194,4 +210,16 @@ describe('RampsMenuPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should clear fields when resetPair is called', () => {
+    component.resetPair();
+
+    expect(component.form.value).toEqual(cleanForm)
+  })
+
+  it('should get provider_id from provider patch value', () => {
+    component.ionViewWillEnter();
+    
+    expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledWith('1');
+  })
 });
