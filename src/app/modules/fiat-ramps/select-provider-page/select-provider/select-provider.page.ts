@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 @Component({
   selector: 'app-select-provider',
   template: `
@@ -28,7 +29,7 @@ import { NavController } from '@ionic/angular';
           <ion-button
             class="ux_button"
             appTrackClick
-            name="ux_fiat_ramps_continue"
+            name="ux_vendor_buy_continue"
             color="secondary"
             size="large"
             expand="block"
@@ -51,7 +52,15 @@ export class SelectProviderPage {
   route: string;
   disabled: boolean;
 
-  constructor(private navController: NavController, private formBuilder: FormBuilder) {}
+  constructor(private navController: NavController, private formBuilder: FormBuilder, private trackService: TrackService) {}
+
+  ionViewWillEnter() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_screenview_buy'
+    });
+  }
 
   receiveRoute(route: string) {
     this.route = route;

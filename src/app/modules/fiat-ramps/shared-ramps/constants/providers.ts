@@ -5,6 +5,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     id: 3,
     alias: 'moonpay',
     name: 'Moonpay',
+    trackClickEventName: "ux_buy_moonpay",
     logoRoute: 'assets/img/provider-logos/Moonpay.svg',
     description: 'fiat_ramps.select_provider.moonpay_description',
     newOperationRoute: '/fiat-ramps/new-operation/moonpay',
@@ -34,6 +35,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     description: 'fiat_ramps.select_provider.krypton_description',
     disclaimer: 'fiat_ramps.shared.constants.providers.kripton.disclaimer',
     newOperationRoute: '/fiat-ramps/new-operation/kripton',
+    trackClickEventName: "ux_buy_kripton",
     countries: ['Argentina', 'Venezuela', 'Uruguay', 'Colombia'],
     currencies: [
       { symbol: 'DAI', network: 'MATIC' },

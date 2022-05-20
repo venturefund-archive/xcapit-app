@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonInfiniteScroll, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LINKS } from 'src/app/config/static-links';
-import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { ApiUsuariosService } from '../../users/shared-users/services/api-usuarios/api-usuarios.service';
 import { ApiReferralsService } from '../shared-referrals/services/api-referrals/api-referrals.service';
 
 @Component({

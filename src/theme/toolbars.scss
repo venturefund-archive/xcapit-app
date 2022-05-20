@@ -11,4 +11,9 @@
 // Estilo de la toolbar para el diseño ux
 .ux_toolbar {
   --min-height: 60px;
+
+  &.ux_toolbar__left ion-title {
+    text-align: left;
+    padding-left: 52px;
+  }
 }

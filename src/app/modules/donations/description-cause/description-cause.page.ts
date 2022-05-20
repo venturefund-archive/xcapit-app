@@ -23,7 +23,7 @@ import { CAUSES } from '../shared-donations/constants/causes';
         <ion-button
           class="ux_button"
           appTrackClick
-          name="go_to_donate"
+          name="ux_donations_donate"
           color="secondary"
           expand="block"
           (click)="this.goToDonate()"

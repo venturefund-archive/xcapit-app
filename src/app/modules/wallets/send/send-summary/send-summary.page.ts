@@ -85,7 +85,7 @@ export class SendSummaryPage implements OnInit {
     await this.loadingService.dismiss();
     const modal = await this.modalController.create({
       component: WalletPasswordComponent,
-      cssClass: 'ux-routeroutlet-modal full-screen-modal',
+      cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       componentProps: {
         state: 'send',
       },

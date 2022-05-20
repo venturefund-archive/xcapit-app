@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
+import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { UserHasOperationsGuard } from './shared-ramps/guards/user-has-operations/user-has-operations.guard';
 import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 

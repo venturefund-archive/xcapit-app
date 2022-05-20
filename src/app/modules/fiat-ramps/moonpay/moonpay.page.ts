@@ -1,4 +1,3 @@
-import { environment } from './../../../../../variables.env';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
@@ -10,7 +9,6 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { LINKS } from 'src/app/config/static-links';
-import { Currency } from '../../funds/shared-funds/enums/currency.enum';
 
 @Component({
   selector: 'app-moonpay',
@@ -28,7 +26,8 @@ import { Currency } from '../../funds/shared-funds/enums/currency.enum';
         <div class="mnp__currency-select">
           <form [formGroup]="this.form">           
             <app-coin-selector
-            *ngIf="this.form.value.currency" [selectedCoin]="this.form.value.currency"
+            *ngIf="this.form.value.currency" 
+            [selectedCoin]="this.form.value.currency"
             (changeCurrency)="this.changeCurrency()"
           ></app-coin-selector>
           </form>
@@ -79,7 +78,7 @@ import { Currency } from '../../funds/shared-funds/enums/currency.enum';
       </div>
       <ion-button
         appTrackClick
-        name="Continue to Moonpay"
+        name="ux_buy_moonpay_continue"
         expand="block"
         size="large"
         type="submit"
