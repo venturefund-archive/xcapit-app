@@ -349,8 +349,8 @@
     },
     "shared": {
       "transaction_fees": {
-        "label": "Fee de transacción",
-        "advice": "Fondos insuficientes"
+        "label": "Transaction fee",
+        "advice": "Insufficient funds"
       },
       "filter_tab": {
         "conservative": "Conservative profile",
@@ -1084,11 +1084,32 @@
         }
       }
     },
-    "success": {
-      "textPrimary": "Thanks for joining us!",
-      "textSecondary": "You have just contributed to a great cause.",
-      "namePrimaryAction": "Continue donating",
-      "nameThirdAction": "Back to home"
+    "send_donations": {
+      "header": "Donations",
+      "title": "Transaction data",
+      "currency": "Currency",
+      "network": "Network",
+      "label": "Amount to donate",
+      "disclaimer": "The network you selected is {{network}}. Make sure that the target wallet uses this same network. Otherwise, you will lose your assets.",
+      "description_fee": "*This amount is an estimate and may vary depending on the time of the transaction.",
+      "summary": {
+        "destination_address": "Destination address",
+        "amount_title": "Amount to donate",
+        "button": "Donate",
+        "loading": "Donating"
+      },
+      "no_wallet":{
+        "title":"You don't have your Xcapit Wallet yet",
+        "subtitle":"Create your wallet to donate",
+        "button":"Create Wallet",
+        "link":"See causes"
+      }
+    },
+    "success":{
+      "textPrimary":"Thanks for joining us!",
+      "textSecondary":"You have just contributed to a great cause.",
+      "namePrimaryAction":"Continue donating",
+      "nameThirdAction":"Back to home"
     },
 
     "error": {

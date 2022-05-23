@@ -10,8 +10,11 @@ import { Amount } from '../../types/amount.type';
           'defi_investments.shared.transaction_fees.label' | translate
         }}</ion-text>
       </div>
+      <div class="tf__fee__label" *ngIf="this.description">
+        <ion-text class="ux-font-text-xxs">{{ this.description }}</ion-text>
+      </div>
 
-      <div class="tf__fee__qty_and_advice" *ngIf="this.fee.value">
+      <div class="tf__fee__qty_and_advice" *ngIf="this.quoteFee.value">
         <div class="tf__fee__qty_and_advice__qty">
           <ion-text class="ux-font-text-base tf__fee__qty__amount" [ngClass]="{ negative: this.isNegativeBalance }"
             >{{ this.fee.value | number: '1.2-6' }} {{ this.fee.token }}</ion-text
@@ -27,7 +30,7 @@ import { Amount } from '../../types/amount.type';
           </ion-text>
         </div>
       </div>
-      <div *ngIf="!this.fee.value" class="skeleton">
+      <div *ngIf="!this.quoteFee.value" class="skeleton">
         <ion-skeleton-text style="width:95%" animated> </ion-skeleton-text>
       </div>
     </div>
@@ -39,6 +42,7 @@ export class TransactionFeeComponent implements OnInit {
   @Input() quoteFee: Amount = { value: undefined, token: 'USD' };
   @Input() isNegativeBalance: boolean;
   @Input() nativeTokenBalance: number;
+  @Input() description: string;
 
   constructor() {}
 
