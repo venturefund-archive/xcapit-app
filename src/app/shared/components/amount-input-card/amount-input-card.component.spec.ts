@@ -196,6 +196,23 @@ describe('AmountInputCardComponent', () => {
     expect(component.form.value.quoteAmount).toEqual('40000');
   });
 
+  it('should render loader when available is not setted yet', async () => {
+    component.showRange = false;
+    component.ngOnInit();
+    const loaderEl = fixture.debugElement.query(By.css('div.aic__loader'));
+    expect(loaderEl).toBeTruthy();
+  });
+
+  it('should not render loader when available is setted', async () => {
+    component.showRange = false;
+    component.ngOnInit();
+    component.isLoaderActive = false;
+    fixture.detectChanges()
+     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    const loaderEl = fixture.debugElement.query(By.css('div.aic__loader'));
+    expect(loaderEl).toBeFalsy();
+  });
+
   it('should render percentage and range when showRange', async () => {
     component.showRange = true;
     component.ngOnInit();

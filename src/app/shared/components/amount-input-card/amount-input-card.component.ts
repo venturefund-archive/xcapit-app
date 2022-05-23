@@ -19,15 +19,15 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
           <ion-text *ngIf="this.showRange" class="ux-font-text-xl">
             {{ this.investedAmount | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
           >
-          <ion-text *ngIf="!this.showRange && this.available" class="ux-font-text-xl">
+          <ion-text *ngIf="!this.showRange && !this.isLoaderActive" class="ux-font-text-xl">
             {{ this.available | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
           >
-          <ion-text *ngIf="this.investedAmount || this.available" class="ux-font-text-xxs">
+          <ion-text *ngIf=" !this.isLoaderActive" class="ux-font-text-xxs">
             ≈ {{ this.usdPrice | number: '1.2-2' }} {{ this.quoteCurrency }}
           </ion-text>
         </div>
       </div>
-      <div class="loader" *ngIf="!this.available && !this.showRange">
+      <div class="aic__loader" *ngIf="this.isLoaderActive && !this.showRange">
         <app-ux-loading-block minSize="40px"></app-ux-loading-block>
       </div>
       <div class="aic__content">
@@ -115,6 +115,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
   price: number;
   form: FormGroup;
   usdPrice: number;
+  isLoaderActive: boolean;
 
   constructor(
     private formGroupDirective: FormGroupDirective,
@@ -123,6 +124,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit() {
+    this.isLoaderActive = true;
     this.balanceAvailable();
     this.setFeeCoin();
     this.dynamicPrice();
@@ -304,6 +306,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
 
   setPrice(available: number) {
     this.usdPrice = available * this.price;
+    this.isLoaderActive = false;
   }
 
   private setFeeCoin() {
