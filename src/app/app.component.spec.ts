@@ -57,7 +57,8 @@ describe('AppComponent', () => {
       walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
         retrieveWalletConnect: Promise.resolve(null),
         setUri: null,
-        checkDeeplinkUrl: null
+        checkDeeplinkUrl: null,
+        checkConnection: Promise.resolve()
       });
 
       TestBed.configureTestingModule({
