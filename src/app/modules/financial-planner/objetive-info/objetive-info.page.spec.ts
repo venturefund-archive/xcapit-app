@@ -27,6 +27,13 @@ const formData = {
     income: '',
     expenses: '',
   },
+  whiteSpaces: {
+    name: '   ',
+    category: 'travel',
+    necessaryAmount: 10,
+    income: '',
+    expenses: '',
+  } 
 };
 
 describe('ObjetiveInfoPage', () => {
@@ -142,5 +149,13 @@ describe('ObjetiveInfoPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_see_strategies"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/financial-planner/success-objetive']);
+  });
+
+  it('should not navigate to next page and not set storage when button is clicked and name is only whitespaces', () => {
+    component.form.patchValue(formData.whiteSpaces);
+    fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_see_strategies"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
+    expect(appStorageServiceSpy.set).toHaveBeenCalledTimes(0);
   });
 });
