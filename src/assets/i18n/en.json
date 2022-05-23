@@ -1923,29 +1923,16 @@
     },
     "operation_detail": {
       "header": "Operation detail",
-      "card": {
-        "provider": "Provider:",
-        "type": "Operation type:",
-        "buy": {
-          "operationType": "Buy",
-          "title": "Buy:",
-          "with": " with "
-        },
-        "sell": {
-          "operationType": "Sell",
-          "title": "Sell:",
-          "with": " for "
-        },
-        "amount": "Amount:",
-        "quotation": "Quotation:",
-        "status": "Status:",
-        "date": "Date:",
-        "id": "ID:"
-      },
-      "voucher": "Voucher",
-      "send": "Send voucher",
-      "my_operations": "See my operations",
-      "has_voucher": "Voucher has been uploaded"
+      "detail_card": {
+        "operation": "Operation",
+        "buy": "Buy",
+        "with": "with",
+        "amount": "Amount",
+        "quotation": "Quotation",
+        "provider": "Provider",
+        "reception_address": "Reception address",
+        "network": "Network"
+      }
     },
     "operation_status": {
       "deposited": "Deposited",

@@ -23,20 +23,20 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
       </div>
       <div class="odc__detail">
         <div class="odc__detail__header">
-          <ion-text>Operacion</ion-text>
+          <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.operation' | translate }}</ion-text>
         </div>
         <div class="odc__detail__content">
           <div>
-            <ion-text class="ux-font-text-base">Tipo</ion-text>
+            <ion-text class="ux-font-text-base">{{ 'fiat_ramps.operation_detail.detail_card.buy' | translate }}</ion-text>
           </div>
-          <div>
-            <ion-text class="ux-font-text-base">ARS con USDT</ion-text>
+          <div class="odc__detail__content__left">
+            <ion-text class="ux-font-text-base">ARS {{ 'fiat_ramps.operation_detail.detail_card.with' | translate }} USDT</ion-text>
           </div>
         </div>
       </div>
       <div class="odc__detail">
         <div class="odc__detail__header">
-          <ion-text>Monto</ion-text>
+          <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.amount' | translate }}</ion-text>
         </div>
         <div class="odc__detail__content">
           <ion-text class="ux-font-text-base">123123 asr</ion-text>
@@ -44,7 +44,7 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
       </div>
       <div class="odc__detail">
         <div class="odc__detail__header">
-          <ion-text class="ux-font-titulo-xs">Cotizacion</ion-text>
+          <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.quotation' | translate }}</ion-text>
         </div>
         <div class="odc__detail__content">
           <ion-text class="ux-font-text-base">1 USDT = 200 ARS</ion-text>
@@ -52,7 +52,7 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
       </div>
       <div class="odc__detail">
         <div class="odc__detail__header">
-          <ion-text class="ux-font-titulo-xs">Proveedor</ion-text>
+          <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.provider' | translate }}</ion-text>
         </div>
         <div class="odc__detail__content">
           <ion-text class="ux-font-text-base">Kripton Market</ion-text>
@@ -60,7 +60,7 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
       </div>
       <div class="odc__detail">
         <div class="odc__detail__header">
-          <ion-text class="ux-font-titulo-xs">Direccion de recepcion</ion-text>
+          <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.reception_address' | translate }}</ion-text>
         </div>
         <div class="odc__detail__content">
           <ion-text class="ux-font-text-base">0x0000000</ion-text>
@@ -68,7 +68,7 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
       </div>
       <div class="odc__detail">
         <div class="odc__detail__header">
-          <ion-text class="ux-font-titulo-xs">Red</ion-text>
+          <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.network' | translate }}</ion-text>
         </div>
         <div class="odc__detail__content">
           <ion-text class="ux-font-text-base">Polygonwannaland</ion-text>

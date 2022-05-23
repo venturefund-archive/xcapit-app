@@ -4,6 +4,8 @@
 
     &__header {
       display: inline-flex;
+      margin-bottom: 31px;
+      width: 100%;
 
       div {
         margin-top: auto;
@@ -19,6 +21,26 @@
       &__status-chip {
         margin-right: 12px;
         margin-left: auto;
+      }
+    }
+
+    &__detail {
+      &__header {
+        margin-bottom: 4px;
+      }
+
+      &__content {
+        width: 100%;
+        margin-bottom: 12px;
+        display: inline-flex;
+
+        &__left {
+          margin-left: auto;
+        }
+
+        ion-text {
+          color: var(--ion-color-neutral90);
+        }
       }
     }
   }
