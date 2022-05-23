@@ -22,7 +22,7 @@ const testCause = {
   description: 'donations.description_cause.info.unhcr.description',
 };
 
-fdescribe('DescriptionCausePage', () => {
+describe('DescriptionCausePage', () => {
   let component: DescriptionCausePage;
   let fixture: ComponentFixture<DescriptionCausePage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DescriptionCausePage>;
