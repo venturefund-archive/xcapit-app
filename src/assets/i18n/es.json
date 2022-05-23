@@ -341,7 +341,7 @@
     },
     "shared": {
       "transaction_fees": {
-        "label": "Fee de transacción",
+        "label": "Tarifa de transacción",
         "advice": "Fondos insuficientes"
       },
       "filter_tab": {
@@ -1075,18 +1075,38 @@
         }
       }
     },
-    
-    "success":{
-      "textPrimary":"¡Gracias por sumarte!",
-      "textSecondary":"Acabas de aportar para una gran causa.",
-      "namePrimaryAction":"Seguir donando",
-      "nameThirdAction":"Volver al home"
+    "send_donations": {
+      "header": "Donaciones",
+      "title": "Datos de la operación",
+      "currency": "Moneda",
+      "network": "Red",
+      "label": "Monto a donar",
+      "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos.",
+      "description_fee": "*Este monto es estimativo y puede sufrir variaciones de acuerdo al momento en que realices la transacción.",
+      "summary": {
+        "destination_address": "Dirección de destino",
+        "amount_title": "Monto a donar",
+        "button": "Donar",
+        "loading": "Donando"
+      },
+      "no_wallet":{
+        "title":"Aún no tienes tu Wallet Xcapit",
+        "subtitle":"Crea tu wallet para poder donar",
+        "button":"Crear Wallet",
+        "link":"Ver causas"
+      }
+    },
+    "success": {
+      "textPrimary": "¡Gracias por sumarte!",
+      "textSecondary": "Acabas de aportar para una gran causa.",
+      "namePrimaryAction": "Seguir donando",
+      "nameThirdAction": "Volver al home"
     },
 
-    "error":{
-      "textPrimary":"No se pudo completar tu donación",
-      "textSecondary":"Se produjo un error en la blockchain.",
-      "namePrimaryAction":"Intentar nuevamente"
+    "error": {
+      "textPrimary": "No se pudo completar tu donación",
+      "textSecondary": "Se produjo un error en la blockchain.",
+      "namePrimaryAction": "Intentar nuevamente"
     }
   },
   "referrals": {
@@ -1167,7 +1187,7 @@
     },
     "referrals_coming": {
       "title": "Estamos creando magia",
-      "paragraph":"Este programa se encuentra cerrado. Próximamente estaremos retomando con nuevas propuestas y más beneficios. ",
+      "paragraph": "Este programa se encuentra cerrado. Próximamente estaremos retomando con nuevas propuestas y más beneficios. ",
       "tos": "Ver términos y condiciones"
     },
     "referrals_pending": {
@@ -1854,7 +1874,7 @@
       "textPrimary": "La operacion fue creada",
       "textSecondary": "Recuerda hacer la transferencia desde tu banco y subir el comprobante",
       "buttonText": "Ir a detalle de operación"
-      },
+    },
     "paxful": {
       "header": "Comprar",
       "title": "Comprar BTC con Paxful",
@@ -2107,7 +2127,7 @@
       "question10": "¿Cómo puedo eliminar mi Wallet de Xcapit de este dispositivo?",
       "answer10": "Podrás eliminar la Wallet de la cuenta de Xcapit desde el menú principal de la app: ve a tu Perfil y haz clic en “Eliminar Wallet”. <br> La Wallet no se elimina nunca de forma completa. Podrás acceder a ella con tu frase de recuperación, en cualquier momento."
     },
-    "support_wallet_operations":{
+    "support_wallet_operations": {
       "header": "Ayuda",
       "title": "Operaciones con mi Wallet",
       "question1": "¿Qué costo tienen las transacciones a otra billetera?",

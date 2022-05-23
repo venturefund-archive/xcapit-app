@@ -81,7 +81,7 @@ export class WalletBalanceService {
       .toPromise();
   }
 
-  balanceOf(aCoin: Coin): Promise<number> {
+  async balanceOf(aCoin: Coin): Promise<number> {
     return this.walletService.balanceOf(this.walletService.addresses[aCoin.network], aCoin.value).then(parseFloat);
   }
 

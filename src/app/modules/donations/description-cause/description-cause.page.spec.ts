@@ -1,10 +1,13 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, NavigationExtras } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { DescriptionCausePage } from './description-cause.page';
 
 const testCause = {
@@ -19,11 +22,13 @@ const testCause = {
   description: 'donations.description_cause.info.unhcr.description',
 };
 
-describe('DescriptionCausePage', () => {
+fdescribe('DescriptionCausePage', () => {
   let component: DescriptionCausePage;
   let fixture: ComponentFixture<DescriptionCausePage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DescriptionCausePage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let activatedRouteSpy: any;
 
   beforeEach(
@@ -36,12 +41,14 @@ describe('DescriptionCausePage', () => {
           cause: 'unhcr',
         }),
       };
+      walletServiceSpy = jasmine.createSpyObj('WalletService', { walletExist: Promise.resolve(true) });
       TestBed.configureTestingModule({
-        declarations: [DescriptionCausePage],
+        declarations: [DescriptionCausePage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: WalletService, useValue: walletServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -49,6 +56,7 @@ describe('DescriptionCausePage', () => {
       fixture = TestBed.createComponent(DescriptionCausePage);
       component = fixture.componentInstance;
       fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
 
@@ -61,9 +69,32 @@ describe('DescriptionCausePage', () => {
     expect(component.data.id).toEqual(testCause.id);
   });
 
-  it('should navigate to donate page when button is clicked', async () => {
+  it('should call trackEvent on trackService when ux_donations_donate Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_donations_donate');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to donate page when button ux_donations_donate is clicked and wallet exist', async () => {
+    const navigationExstras: NavigationExtras = {
+      queryParams: {
+        cause: 'unhcr',
+      },
+    };
     fixture.debugElement.query(By.css('ion-button[name="ux_donations_donate"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['']);
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/donations/send-donation'], navigationExstras);
+  });
+
+  it('should navigate to no wallet page when button ux_donations_donate is clicked and wallet no exist', async () => {
+    walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
+    fixture.debugElement.query(By.css('ion-button[name="ux_donations_donate"]')).nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/donations/no-wallet']);
   });
 });

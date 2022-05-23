@@ -40,6 +40,7 @@ import { InvestmentDataService } from '../../shared-defi-investments/services/in
             [investedAmount]="this.investedAmount"
             [showRange]="true"
             [header]="'defi_investments.shared.amount_input_card.amount_invested' | translate"
+            [disclaimer]="false"
           ></app-amount-input-card>
           <app-amount-input-card-skeleton
             *ngIf="!this.investedAmount"

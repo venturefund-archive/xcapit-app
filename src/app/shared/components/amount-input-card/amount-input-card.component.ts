@@ -15,7 +15,7 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
         <ion-text class="ux-font-titulo-xs">
           {{ this.header }}
         </ion-text>
-        <div  class="aic__available__amounts">
+        <div class="aic__available__amounts">
           <ion-text *ngIf="this.showRange" class="ux-font-text-xl">
             {{ this.investedAmount | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
           >
@@ -32,7 +32,7 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
       </div>
       <div class="aic__content">
         <div class="aic__content__title">
-          <ion-text class="ux-font-text-lg"> {{ this.label }}</ion-text>
+          <ion-text class="ux-font-titulo-xs"> {{ this.label }}</ion-text>
         </div>
         <div *ngIf="this.showRange" class="aic__content__percentage">
           <ion-input
@@ -83,7 +83,7 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
             inputmode="numeric"
           ></ion-input>
         </div>
-        <div *ngIf="!this.showRange" class="aic__content__disclaimer">
+        <div *ngIf="this.disclaimer" class="aic__content__disclaimer">
           <ion-text class="ux-font-text-xs" style="white-space: pre-wrap;"
             >{{ 'defi_investments.shared.amount_input_card.disclaimer' | translate }} {{ this.feeCoin }}.</ion-text
           >
@@ -109,6 +109,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
   @Input() priceRefreshInterval = 15000;
   @Input() nativeFee = 0;
   @Input() isSend = false;
+  @Input() disclaimer = true;
   available: number;
   feeCoin: string;
   private destroy$ = new Subject<void>();
@@ -217,7 +218,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
           range: (value * 100) / this.investedAmount,
         },
         this.defaultPatchValueOptions()
-        );
+      );
     }
     if (this.isSend) {
       if (value > this.available) {
@@ -254,7 +255,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
       );
     }
     if (this.isSend) {
-      if (value > (this.available * this.price)) {
+      if (value > this.available * this.price) {
         this.form.patchValue(
           {
             quoteAmount: this.parseAmount(this.available * this.price),

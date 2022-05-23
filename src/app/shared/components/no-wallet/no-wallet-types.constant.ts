@@ -17,4 +17,14 @@ export const NO_WALLET_TYPES = {
     nameButton: 'wealth_managements.no_wallet.button',
     nameLink: 'wealth_managements.no_wallet.link',
   },
+  no_wallet_to_donate: {
+    urlClose: '/tabs/home',
+    urlPage: '/tabs/wallets',
+    urlLink: '/donations/causes',
+    img: 'assets/img/wallets/no-wallet.svg',
+    title: 'donations.send_donations.no_wallet.title',
+    subtitle: 'donations.send_donations.no_wallet.subtitle',
+    nameButton: 'donations.send_donations.no_wallet.button',
+    nameLink: 'donations.send_donations.no_wallet.link',
+  },
 };
