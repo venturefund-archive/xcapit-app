@@ -9,7 +9,7 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
     <div [appSelectStyle]="this.selectorStyle">
       <div class="uxselect">
         <ion-label class="ux-font-text-xs" color="neutral90">{{ this.label }}</ion-label>
-        <ion-item (click)="this.openModal()" [disabled]="this.isSingleInstance" class="ux-font-text-base uxselect__item">
+        <ion-item (click)="this.openModal()" [disabled]="this.isOpen" class="ux-font-text-base uxselect__item">
           <img
             *ngIf="this.imageKey"
             class="uxselect__item__logo"
@@ -51,7 +51,7 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
   ],
 })
 export class InputSelectComponent implements OnInit {
-  isSingleInstance: boolean = false;
+  isOpen: boolean = false;
   control: AbstractControl;
   @Input() label = '';
   @Input() modalTitle = '';
@@ -71,7 +71,7 @@ export class InputSelectComponent implements OnInit {
   }
 
   async openModal() {
-    this.isSingleInstance = true;
+    this.isOpen = true;
     const modal = await this.modalController.create({
       component: SelectModalNewComponent,
       componentProps: {
@@ -88,7 +88,7 @@ export class InputSelectComponent implements OnInit {
     await modal.present();
 
     const data = await modal.onDidDismiss();
-    this.isSingleInstance = false;
+    this.isOpen = false;
     if (data.role === 'selected') {
       this.setSelectedValue(data.data);
     }
