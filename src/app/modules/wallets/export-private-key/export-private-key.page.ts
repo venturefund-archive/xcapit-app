@@ -127,9 +127,11 @@ export class ExportPrivateKeyPage implements OnInit {
       );
       this.keys = { privateKey, address };
     } catch {
-      await this.toastService.showErrorToast({
-        message: this.translate.instant('wallets.export_private_key.error_toast'),
-      });
+      if (this.password !== undefined) {
+        await this.toastService.showErrorToast({
+          message: this.translate.instant('wallets.export_private_key.error_toast'),
+        });
+      }
       await this.navController.navigateBack(['/profiles/menu']);
     }
   }
