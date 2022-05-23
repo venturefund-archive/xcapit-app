@@ -104,7 +104,7 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
 })
 export class ObjetiveInfoPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
-    name: ['', Validators.required],
+    name: ['', [Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
     category: ['other', Validators.required],
     necessaryAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     income: [''],
