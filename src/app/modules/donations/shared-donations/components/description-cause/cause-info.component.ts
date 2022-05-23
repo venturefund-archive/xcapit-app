@@ -15,8 +15,8 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
         </div>
         <div class="dc__content__card__information">
           <div class="dc__content__card__information__text">
-            <ion-text class="ux-font-header-title"> {{ this.data.title | translate }}</ion-text>
-            <ion-text class="ux-font-text-xs-neutral">{{ 'donations.description_cause.info.global' | translate }}</ion-text>
+            <ion-text class="ux-font-header-titulo text"> {{ this.data.title | translate }}</ion-text>
+            <ion-text class="ux-font-text-xs neutral">{{ 'donations.description_cause.info.global' | translate }}</ion-text>
             <ion-badge
               class="ux-font-num-subtitulo ux-badge-coming dc__content__card__information__group__badge"
               slot="end"
@@ -32,16 +32,16 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
     </div>
     <div class="ion-padding">
       <div class="dc__content__general-title">
-        <ion-text class="ux-font-header-title">{{ this.data.title_1 | translate }} </ion-text>
+        <ion-text class="ux-font-header-titulo text">{{ this.data.title_1 | translate }} </ion-text>
       </div>
       <div class="dc__content__subtitle">
-        <ion-text class="ux-font-header-title">{{ this.data.title_2 | translate }}</ion-text>
+        <ion-text class="ux-font-header-titulo text">{{ this.data.title_2 | translate }}</ion-text>
       </div>
       <div class="dc__content__description">
         <ion-text class="ux-font-text-base-primary">{{ this.data.description | translate }}</ion-text>
       </div>
       <div class="dc__content__social-media">
-        <ion-text class="ux-font-header-title">{{ this.data.title_3 | translate }}</ion-text>
+        <ion-text class="ux-font-header-titulo text">{{ this.data.title_3 | translate }}</ion-text>
       </div>
       <div class="dc__content__links">
         <div class="dc__content__links__link" *ngFor="let media of this.data.social_media">
