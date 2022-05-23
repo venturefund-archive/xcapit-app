@@ -34,11 +34,11 @@ describe('LogOutModalComponent', () => {
       navControllerSpy = fakeNavController.createSpy();
 
       authServiceSpy = jasmine.createSpyObj('AuthService', {
-        logout: Promise.resolve()
+        logout: Promise.resolve(),
       });
 
       logOutModalSpy = jasmine.createSpyObj('LogOutModalService', {
-        addUserToNotShowModal: Promise.resolve()
+        addUserToNotShowModal: Promise.resolve(),
       });
       TestBed.configureTestingModule({
         declarations: [LogOutModalComponent, FakeTrackClickDirective],
@@ -73,9 +73,9 @@ describe('LogOutModalComponent', () => {
 
   it('should log out and remember that user checked do not show this again when Log Out button clicked', async () => {
     component.username = 'testUser2';
-    fixture.debugElement.query(By.css('ion-item > ion-checkbox')).nativeElement.click();
+    component.form.patchValue({ dontShowModalCheckbox: true });
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="Log Out"]')).nativeElement.click();
+    await component.logout();
     await fixture.whenStable();
     expect(logOutModalSpy.addUserToNotShowModal).toHaveBeenCalledOnceWith('testUser2');
     expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
@@ -92,7 +92,7 @@ describe('LogOutModalComponent', () => {
   });
 
   it('should navigate to Wallet FAQs when Wallet FAQs button clicked', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="Wallet FAQs"]')).nativeElement.click();
+    await component.goToWalletFaq();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/wallet']);
   });
