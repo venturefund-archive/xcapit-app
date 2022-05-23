@@ -92,6 +92,9 @@ export class SendSummaryPage implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
+    if (data === undefined) {
+      this.loading = false;
+    }
 
     return data;
   }
@@ -141,10 +144,10 @@ export class SendSummaryPage implements OnInit {
 
     try {
       const password = await this.askForPassword();
-      this.loading = true;
       if (!password) {
         return;
       }
+      this.loading = true;
       await this.send(password);
     } catch (error) {
       await this.handleSendError(error);
