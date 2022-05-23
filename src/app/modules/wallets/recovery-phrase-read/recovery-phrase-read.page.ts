@@ -32,7 +32,7 @@ import { IonAccordionGroup } from '@ionic/angular';
               {{ 'wallets.recovery_phrase_read.text' | translate }}
             </ion-text>
           </div>
-          <div >
+          <div class="rpr__footer ux_footer">
           <ion-button            
             name="Toggle Accordion"
             class="ux_button ion-no-margin"
@@ -53,6 +53,7 @@ import { IonAccordionGroup } from '@ionic/angular';
           </div>
         </div>
         <div class="rpr__footer ux_footer">
+          <!--los eventos de firebase van en el name?? name=”ux_phrase_copy” -->
           <ion-button
             class="ux_button"
             name="Copy"
