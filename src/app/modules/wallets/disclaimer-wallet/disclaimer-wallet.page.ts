@@ -16,14 +16,14 @@ import { LINKS } from 'src/app/config/static-links';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
-        <ion-title *ngIf="this.mode === 'import'" >{{
+        <ion-title class="ion-text-start" *ngIf="this.mode === 'import'">{{
           'wallets.recovery_wallet.header' | translate
         }}</ion-title>
-        <ion-title *ngIf="this.mode !== 'import'" >{{
+        <ion-title class="ion-text-start" *ngIf="this.mode !== 'import'">{{
           'wallets.disclaimer.header' | translate
         }}</ion-title>
         <ion-label class="step-counter" slot="end"
-          >1 {{ 'shared.step_counter.of' | translate }} {{this.mode !== "import" ? '2' : '3'}}</ion-label
+          >1 {{ 'shared.step_counter.of' | translate }} {{ this.mode !== 'import' ? '2' : '3' }}</ion-label
         >
       </ion-toolbar>
     </ion-header>
@@ -31,19 +31,35 @@ import { LINKS } from 'src/app/config/static-links';
       <form [formGroup]="this.disclaimerForm" class="ux_main" (ngSubmit)="this.handleSubmit()">
         <div class="ux_content">
           <div>
-            <ion-text name="Title" class="ux-font-text-xl">{{ 'wallets.disclaimer.title' | translate }}</ion-text>
+            <ion-text name="Title" class="ux-font-text-lg">{{ 'wallets.disclaimer.title' | translate }}</ion-text>
           </div>
           <div class="description">
             <ion-text name="Description" class="ux-font-text-xs">
-              {{ (this.mode !== "import" ? 'wallets.disclaimer.create_wallet_description'  : 'wallets.disclaimer.import_wallet_description') | translate }}</ion-text>
+              {{
+                (this.mode !== 'import'
+                  ? 'wallets.disclaimer.create_wallet_description'
+                  : 'wallets.disclaimer.import_wallet_description'
+                ) | translate
+              }}</ion-text
+            >
           </div>
           <div class="ux-documents">
-            <div class="ux-documents__item" lines="none" name='ux_terms_and_conditions' (click)="openDocument(links.xcapitTermsAndConditions)">
+            <div
+              class="ux-documents__item"
+              lines="none"
+              name="ux_terms_and_conditions"
+              (click)="openDocument(links.xcapitTermsAndConditions)"
+            >
               <ion-icon name="ux-document"></ion-icon>
               <ion-label class="ux-font-text-lg">{{ 'wallets.disclaimer.terms_and_conditions' | translate }}</ion-label>
               <ion-icon name="chevron-forward-outline" color="info"></ion-icon>
             </div>
-            <div class="ux-documents__item" lines="none" name='ux_privacy_policy' (click)="openDocument(links.xcapitPrivacyPolicy)">
+            <div
+              class="ux-documents__item"
+              lines="none"
+              name="ux_privacy_policy"
+              (click)="openDocument(links.xcapitPrivacyPolicy)"
+            >
               <ion-icon name="ux-document"></ion-icon>
               <ion-label class="ux-font-text-lg">{{ 'wallets.disclaimer.privacy_policy' | translate }}</ion-label>
               <ion-icon name="chevron-forward-outline" color="info"></ion-icon>
@@ -96,7 +112,7 @@ export class DisclaimerWalletPage implements OnInit {
     agreePhraseCheckbox: [false, [Validators.requiredTrue]],
   });
   trackClickEventName: string;
-  
+
   private get isImporting(): boolean {
     return this.mode === 'import';
   }
@@ -111,7 +127,7 @@ export class DisclaimerWalletPage implements OnInit {
     private storageWalletsService: StorageWalletsService,
     private browserService: BrowserService
   ) {}
-  
+
   ngOnInit() {
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.trackClickEventName = this.isImporting ? 'ux_import_submit' : 'ux_create_submit';
@@ -130,8 +146,8 @@ export class DisclaimerWalletPage implements OnInit {
     this.navController.navigateForward([url]);
   }
 
-  openDocument(url): void{
-    this.browserService.open({url});
+  openDocument(url): void {
+    this.browserService.open({ url });
   }
 
   enableButton() {
