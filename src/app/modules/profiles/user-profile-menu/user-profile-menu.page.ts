@@ -107,9 +107,7 @@ export class UserProfileMenuPage implements OnInit {
     private logOutModalService: LogOutModalService
   ) {}
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
     this.getProfile();
@@ -125,7 +123,7 @@ export class UserProfileMenuPage implements OnInit {
       this.profile = res;
       this.patchNotificationsValue();
       this.form.setValue({notificationsEnabled: this.profile.notifications_enabled});
-      this.subscribeToFormChanges();
+      this.subscribeToFormChanges();      
     });
   }
 
