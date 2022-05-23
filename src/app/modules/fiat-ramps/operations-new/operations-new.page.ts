@@ -201,7 +201,6 @@ export class OperationsNewPage implements AfterViewInit {
       asset && network
         ? this.providerCurrencies.find((currency) => currency.value === asset && currency.network === network)
         : this.providerCurrencies[0];
-    console.log(this.country);
     this.fiatCurrency = this.country.fiatCode ? this.country.fiatCode : 'USD';
   }
 
