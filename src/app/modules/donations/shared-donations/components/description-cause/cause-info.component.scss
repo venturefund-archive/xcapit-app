@@ -31,6 +31,14 @@
           display: flex;
           justify-content: space-between;
 
+          .text {
+            color: var(--ion-color-primary) !important;
+          }
+
+          .neutral {
+            color: var(--ion-color-neutral80);
+          }
+
           &__group {
             align-items: center;
             width: 100%;
@@ -73,10 +81,18 @@
 
       &__general-title {
         margin-bottom: 36px;
+
+        .text {
+          color: var(--ion-color-primary) !important;
+        }
       }
 
       &__subtitle {
         margin-bottom: 8px;
+
+        .text {
+          color: var(--ion-color-primary) !important;
+        }
       }
 
       &__description {
@@ -85,6 +101,10 @@
 
       &__social-media {
         margin-bottom: 20px;
+
+        .text {
+          color: var(--ion-color-primary) !important;
+        }
       }
 
       &__links {
