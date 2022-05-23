@@ -1,0 +1,104 @@
+:host {
+  .sd {
+    &__network-select-card {
+      &__title {
+        margin-bottom: 26px;
+      }
+
+      &__selected-coin {
+        margin-bottom: 16px;
+      }
+    }
+
+    &__selector {
+      &__item {
+        margin-top: 8px;
+        border: 1px solid var(--ion-color-neutral80);
+        border-radius: 8px;
+
+        --background: var(--ion-color-white);
+        --inner-padding-top: 6px;
+        --inner-padding-bottom: 6px;
+        --inner-padding-start: 10px;
+        --inner-padding-end: 10px;
+
+        &__logo {
+          width: 32px;
+          height: 32px;
+        }
+
+        &__label {
+          margin-left: 8px;
+          font-family: var(--ux-font-lato);
+          font-size: 15px;
+          font-weight: var(--ux-fweight-regular);
+          line-height: 18px;
+          color: var(--ion-color-primary);
+        }
+
+        &__chevron {
+          font-size: 24px;
+        }
+      }
+    }
+
+    &__send-amount-card {
+      margin-top: 8px;
+
+      &__title {
+        margin-bottom: 8px;
+      }
+
+      &__address {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        min-width: 110px;
+        background-color: var(--ion-color-neutral10);
+        border-radius: 4px;
+        border: 1px solid var(--ion-color-neutral80);
+        height: 48px;
+        align-items: center;
+        padding: 14px 0 14px 14px;
+      }
+
+      &__info {
+        padding: 0 16px 16px;
+
+        &__receive {
+          .title {
+            margin-bottom: 4px;
+          }
+
+          .amount {
+            margin-bottom: 17px;
+            display: flex;
+            justify-content: space-between;
+          }
+        }
+
+        &__fee {
+          .title {
+            margin-bottom: 4px;
+          }
+
+          .disclaimer {
+            margin-bottom: 14px;
+          }
+
+          .amount {
+            margin-bottom: 17px;
+            display: flex;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
+
+    &__submit-button {
+      &__button {
+        margin-top: 24px;
+      }
+    }
+  }
+}
