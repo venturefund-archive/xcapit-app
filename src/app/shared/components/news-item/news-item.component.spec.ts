@@ -15,6 +15,7 @@ describe('NewsItemComponent', () => {
         title: 'testTitle',
         description: 'testDescription',
         url: '/test/url',
+        isOpenByBrowser:false
       };
       TestBed.configureTestingModule({
         declarations: [NewsItemComponent],
@@ -36,6 +37,6 @@ describe('NewsItemComponent', () => {
     const spy = spyOn(component.clicked, 'emit');
     fixture.debugElement.query(By.css('ion-item')).nativeElement.click();
     await fixture.whenStable();
-    expect(spy).toHaveBeenCalledOnceWith('/test/url');
+    expect(spy).toHaveBeenCalledOnceWith(testItem);
   });
 });

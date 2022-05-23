@@ -153,8 +153,8 @@ describe('SendDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should find currency and networks on ionViewWillEnter', async () => {
-    component.ionViewWillEnter();
+  it('should find currency and networks on ionViewDidEnter', async () => {
+    await component.ionViewDidEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     expect(component.networks).toEqual([coins[2].network]);
@@ -164,9 +164,9 @@ describe('SendDetailPage', () => {
     expect(component.token).toEqual(coins[2]);
   });
 
-  it('should get native fee on ionViewWillEnter when token is native', fakeAsync(() => {
+  it('should get native fee on ionViewDidEnter when token is native', fakeAsync(() => {
     apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     tick();
     fixture.detectChanges();
     expect(component.token).toEqual(coins[1]);
@@ -209,7 +209,7 @@ describe('SendDetailPage', () => {
 
   it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync(() => {
     apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     tick();
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
@@ -228,7 +228,7 @@ describe('SendDetailPage', () => {
       }),
     };
     walletServiceSpy.balanceOf.and.resolveTo('0');
-    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
     await fixture.whenStable();
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
@@ -243,7 +243,7 @@ describe('SendDetailPage', () => {
       }),
     };
     walletServiceSpy.balanceOf.and.resolveTo('0');
-    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
     await fixture.whenStable();
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
@@ -258,7 +258,7 @@ describe('SendDetailPage', () => {
       }),
     };
     walletServiceSpy.balanceOf.and.resolveTo('1');
-    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
     await fixture.whenStable();
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
@@ -273,7 +273,7 @@ describe('SendDetailPage', () => {
       }),
     };
     walletServiceSpy.balanceOf.and.resolveTo('1');
-    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
     await fixture.whenStable();
     fixture.detectChanges();
     const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
@@ -288,7 +288,7 @@ describe('SendDetailPage', () => {
       }),
     };
     walletServiceSpy.balanceOf.and.resolveTo('0');
-    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
     await fixture.whenStable();
     fixture.detectChanges();
     fixture.debugElement

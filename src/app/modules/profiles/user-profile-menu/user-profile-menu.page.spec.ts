@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController, ModalController } from '@ionic/angular';
 import { of, ReplaySubject } from 'rxjs';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
-import { AuthService } from 'src/app/modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { AuthService } from 'src/app/modules/users/shared-users/services/auth/auth.service';
 import { UserProfileMenuPage } from './user-profile-menu.page';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { LanguageService } from '../../../shared/services/language/language.service';

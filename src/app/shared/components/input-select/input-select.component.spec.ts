@@ -107,4 +107,10 @@ describe('InputSelectComponent', () => {
     const placeholderEl = fixture.debugElement.query(By.css('ion-label.uxselect__item__placeholder'));
     expect(placeholderEl.nativeElement.innerHTML).toContain('Test Placeholder');
   });
+
+  it('should not allow multiple modals opening', async () => {
+    fixture.debugElement.query(By.css('ion-item.uxselect__item')).nativeElement.click();
+    fixture.detectChanges();
+    expect(fixture.debugElement.nativeElement.querySelector('ion-item.uxselect__item').disabled).toBeTruthy();
+  });
 });

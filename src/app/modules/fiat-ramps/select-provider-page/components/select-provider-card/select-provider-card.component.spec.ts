@@ -13,9 +13,10 @@ const providersTest = [
     name: 'Moonpay',
     logoRoute: 'assets/img/provider-logos/Moonpay.svg',
     description: 'fiat_ramps.select_provider.moonpay_description',
-    newOperationRoute: '/fiat-ramps/moonpay',
+    newOperationRoute: '/fiat-ramps/new-operation/moonpay',
     countries: ['Argentina', 'Colombia'],
     showProvider: false,
+    trackClickEventName: 'ux_buy_moonpay'
   },
   {
     id: 2,
@@ -23,9 +24,10 @@ const providersTest = [
     name: 'Kripton Market',
     logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
     description: 'fiat_ramps.select_provider.krypton_description',
-    newOperationRoute: '/fiat-ramps/new-operation',
+    newOperationRoute: '/fiat-ramps/new-operation/kripton',
     countries: ['Argentina', 'Venezuela'],
     showProvider: false,
+    trackClickEventName: 'ux_buy_kripton'
   },
 ];
 

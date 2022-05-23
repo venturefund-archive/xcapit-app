@@ -133,18 +133,23 @@ export class SendDetailPage {
     private erc20ContractController: ERC20ContractController
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewDidEnter() {
     this.tokenAndNetworks();
-    this.tokenBalances();
-    this.nativeTransferFee();
+    await this.tokenBalances();
+    await this.nativeTransferFee();
+  }
+
+  private async userWallet() {
+    return await this.storageService.getWalletsAddresses(this.selectedNetwork);
   }
 
   async tokenBalances() {
     this.nativeToken = this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
-    const walletAddress = await this.storageService.getWalletsAddresses(this.selectedNetwork);
 
-    this.nativeBalance = parseFloat(await this.walletService.balanceOf(walletAddress, this.nativeToken.value));
-    this.balance = parseFloat(await this.walletService.balanceOf(walletAddress, this.token.value));
+    this.nativeBalance = parseFloat(
+      await this.walletService.balanceOf(await this.userWallet(), this.nativeToken.value)
+    );
+    this.balance = parseFloat(await this.walletService.balanceOf(await this.userWallet(), this.token.value));
   }
 
   private tokenAndNetworks() {
@@ -156,8 +161,8 @@ export class SendDetailPage {
     this.selectedNetwork = network;
   }
 
-  erc20Contract(): ERC20Contract {
-    return this.erc20ContractController.new(this.erc20Provider(), new VoidSigner(this.form.value.address));
+  async erc20Contract(): Promise<ERC20Contract> {
+    return this.erc20ContractController.new(this.erc20Provider(), new VoidSigner(await this.userWallet()));
   }
 
   erc20Provider(): ERC20Provider {
@@ -186,22 +191,22 @@ export class SendDetailPage {
       .then((res) => res.gas_price);
   }
 
-  private async tokenContractTransferFee(): Promise<void> { 
+  private async tokenContractTransferFee(): Promise<void> {
     this.fee = await new FormattedFee(
       new NativeFeeOf(
         new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
-          this.form.value.address,
-          this.parseWei(this.form.value.amount)       
-        ]),  
+          await this.userWallet(),
+          this.parseWei(this.form.value.amount),
+        ]),
         new FakeProvider(await this.gasPrice())
       )
     ).value();
   }
 
-  parseWei(amount:number){
+  parseWei(amount: number) {
     return parseUnits(amount.toFixed(this.token.decimals), this.token.decimals);
   }
-  
+
   async getPrice(): Promise<number> {
     const prices = (await this.apiWalletService.getPrices([this.token.value], false).toPromise()).prices;
     return prices[this.token.value];

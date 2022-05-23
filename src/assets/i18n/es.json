@@ -45,6 +45,11 @@
         "has_capital_case": "Se requiere mínimo una mayúscula",
         "has_small_case": "Se requiere mínimo una minúscula"
       },
+      "create_wallet_password": {
+        "minlength": "Al menos 6 caracteres",
+        "has_capital_and_small_case": "Combinación de mayúsculas y minúsculas",
+        "not_alphanumeric": "Combinación de letras y números"
+      },
       "old_password": {
         "wallet_incorrect_password": "La contraseña es incorrecta, vuelve a intentarlo"
       },
@@ -112,23 +117,18 @@
     "update_news": {
       "title": "¡Tenemos novedades!",
       "first": {
-        "badge": "Nueva función",
-        "title": "Moonpay",
-        "description": "¡Compra cripto con tu moneda local!"
+        "badge": "Comunidad",
+        "title": "Discord",
+        "description": "Únete y se parte de nuestra comunidad"
       },
       "second": {
         "badge": "Nueva función",
-        "title": "Inversiones DeFi",
-        "description": "Invierte con criptomonedas de forma rápida, libre y sin intermediarios."
-      },
-      "third": {
-        "badge": "Nueva función",
-        "title": "Wallet Connect",
-        "description": "Conecta tu wallet al mundo cripto y mantén el control de tus tokens"
+        "title": "Planificador financiero",
+        "description": "Optimiza el rendimiento de tu dinero"
       }
     }
   },
-  "usuarios": {
+  "users": {
     "email_validation": {
       "error_title": "No pudimos verificar el Email!",
       "error_text": "Intenta enviar nuevamente el email de validación.",
@@ -341,7 +341,7 @@
     },
     "shared": {
       "transaction_fees": {
-        "label": "Fee de transacción",
+        "label": "Tarifa de transacción",
         "advice": "Fondos insuficientes"
       },
       "filter_tab": {
@@ -424,501 +424,6 @@
         "description": "Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",
         "confirm_button": "Realizar retiro"
       }
-    }
-  },
-  "funds": {
-    "investments_tab": {
-      "header": "Inversiones",
-      "text": "Gana a diario invirtiendo tus criptomonedas",
-      "how_investments_work_button": "¿Cómo funcionan las inversiones?",
-      "defi": {
-        "title": "Inversiones DeFi",
-        "text": "Utiliza tu Wallet de Xcapit para depositar Tokens y suscribirte a productos de inversión DeFi generando rendimientos diarios de forma sencilla."
-      },
-      "binance": {
-        "title": "Inversiones con Binance",
-        "text": "Actualmente no es posible crear nuevas inversiones en Binance. Si tienes fondos activos lo veras desde: Perfil > Inversiones en Binance > Fondos."
-      }
-    },
-    "fund_balance": {
-      "header": "Balance del Fondo",
-      "main_title": "{{fundName}} - Período: {{period}}",
-      "date_info_start_period_text": "Inicio del Período: ",
-      "date_info_last_update_text": "Última Actualización: ",
-      "balance_table_title": "Balance del Fondo",
-      "balance_total": "Total Balance ",
-      "change_ca": "Total en",
-      "change_fund_ca": "Seleccione un CA",
-      "change_fund_ca_button": "Cambiar"
-    },
-    "funds_list": {
-      "sub_header": {
-        "total_title": "Capital total operado",
-        "not_balance_found": "No hay balance para mostrar",
-        "total_detail": "En las últimas 24 hs",
-        "change_currency": "Cambiar moneda"
-      },
-      "user_status": {
-        "title": "No tienes fondos activos"
-      },
-      "funds_title": "MIS FONDOS",
-      "shared_funds_title": "FONDOS COMPARTIDOS",
-      "owner_text": "Dueño",
-      "news_title": "NOTICIAS",
-      "refresh_time": "Próxima actualización disponible en {{seconds}} s"
-    },
-    "new_fund": {
-      "header_new": "Nuevo Fondo",
-      "header_renew": "Renovar Fondo",
-      "header_edit": "Editar Fondo",
-      "ion_divider1": "Información del Exchange",
-      "exchange": "Exchange",
-      "api_key": "API Key",
-      "secret_key": "Secret Key",
-      "p1": "Mira como obtener las API y Secret key",
-      "a1": "aquí.",
-      "ion_divider2": "Fondo",
-      "fund_name": "Nombre del Fondo",
-      "currency": "Moneda a Optimizar",
-      "cantidad_dias": "Plazo de Operación",
-      "ion_option_cantidad_dias": "días",
-      "take_profit": "Porcentaje de Ganancia",
-      "stop_loss": "Porcentaje de Perdida",
-      "risk_level": "Nivel de Riesgo",
-      "ion_option_risk_level_pro": "PRO",
-      "ion_option_risk_level_classic": "CLASSIC",
-      "submit_button_new": "Crear Fondo",
-      "submit_button_renew": "Renovar Fondo",
-      "submit_button_edit": "Guardar",
-      "success_text_new": "El Fondo se creo correctamente!",
-      "success_text_renew": "El Fondo se renovo correctamente!",
-      "success_text_edit": "El Fondo se actualizó correctamente!",
-      "trailing_profit": "Trailing Profit",
-      "trailing_stop": "Trailing Stop"
-    },
-    "fund_share_chart": {
-      "share_title": "Únete a Xcapit e invierte en Criptomonedas",
-      "toast_text_copied": "El gráfico se copió correctamente al portapapeles",
-      "toast_image_downloaded": "Se guardo correctamente",
-      "toast_image_failed": "No se pudo guardar correctamente"
-    },
-    "fund_detail": {
-      "header": "Detalle del fondo",
-      "edit_button": "Ajustes",
-      "fund_summary_card": {
-        "actual_amount": "Capital actual",
-        "initial_amount": "Capital inicial",
-        "remaining_time": "Tiempo restante",
-        "days_label": "días",
-        "invite": "Invitar",
-        "alert_header": "Invita a tus amigos a ver tu fondo",
-        "alert_message": "Comparte tu link y ellos podrán ver la información de tu fondo",
-        "alert_exit_button": "Salir",
-        "alert_share_button": "Compartir"
-      },
-      "performance_chart_card": {
-        "title": "TU INVERSIÓN EN EL TIEMPO",
-        "days_label": "días",
-        "profit": "Ganancia",
-        "loss": "Pérdida",
-        "delta": {
-          "title": "Intérvalo",
-          "one_day": "24 horas",
-          "one_week": "7 días",
-          "thirty_days": "30 días",
-          "ninety_days": "90 días",
-          "all": "Todo"
-        }
-      },
-      "share_funds_details": {
-        "title": "Muestra tus rendimientos",
-        "subtitle": "Descargar"
-      },
-      "fund_metrics_card": {
-        "title": "RESUMEN",
-        "period": "Período",
-        "performance": "Rendimiento",
-        "take_profit": "Take profit",
-        "stop_loss": "Stop loss",
-        "strategy": "Estrategia",
-        "currency": "Moneda"
-      },
-      "fund_portfolio_card": {
-        "title": "COMPOSICIÓN DE CARTERA",
-        "view_detail": "Ver detalle",
-        "change_currency": "Cambiar moneda",
-        "fund_balance_detail_title": "Detalle Balance",
-        "fund_balance_detail_period_begin": "Inicio del período",
-        "fund_balance_detail_last_update": "Última actualización",
-        "view_operation_history": "Ver historial de operaciones"
-      },
-      "operations_history_card": {
-        "title": "HISTÓRICO DEL FONDO",
-        "run": "Corrida {{id_corrida}}"
-      }
-    },
-    "fund_runs": {
-      "header": "Corridas de fondo",
-      "subheader": "Fondo",
-      "card_title": "Corrida",
-      "configuration_title": "Configuración",
-      "state_title": "Estado",
-      "init_date_title": "Fecha de inicio",
-      "days_title": "Cantidad de dias",
-      "currency_title": "Moneda",
-      "gain_title": "Ganancia",
-      "loss_title": "Perdida",
-      "starting_amount_title": "Monto inicial",
-      "actual_amount_title": "Monto actual",
-      "final_amount_title": "Monto final",
-      "cant_btc_title": "BTC",
-      "cant_eth_title": "ETH",
-      "cant_xrp_title": "LTC",
-      "cant_bnb_title": "BNB",
-      "cant_usdt_title": "USDT",
-      "cant": "Cantidad: ",
-      "gain_current_currency_title": "Porcentaje de ganancia en",
-      "view_details": "Detalles",
-      "commission_amount_title": "Comisión a depositar:",
-      "commission_title": "Comisión",
-      "inversion_title": "Inversión",
-      "commission_percentage_title": "Porcentaje",
-      "no_commission_title": "No aplica comisión",
-      "view_commissions": "Ver comisiones"
-    },
-    "commissions": {
-      "header": "Comisiones de WCS",
-      "inversion_table_title": "Inversión",
-      "commission_table_title": "Comisión",
-      "to": "a"
-    },
-    "deposit_address": {
-      "header": "Dirección de depósito",
-      "currency_card_title": "Moneda",
-      "deposit_address_card_title": "Informacion de depósito",
-      "currency": "Seleccionar moneda",
-      "address": "Dirección",
-      "address_tag": "Etiqueta",
-      "link": "Enlace",
-      "copy_address_ok_text": "Se copió la dirección al portapapeles",
-      "copy_address_error_text": "No se pudo copiar la dirección al portapapeles"
-    },
-    "new_fund_info": {
-      "header": "Nuevo fondo - Ayuda",
-      "fund_name_title": "Nombre del Foshareddo",
-      "fund_name_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
-      "currency_title": "Moneda a Optimizar",
-      "currency_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
-      "term_of_operation_title": "Plazo de Operación",
-      "term_of_operation_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
-      "take_profit_title": "Porcentaje de Ganancia",
-      "take_profit_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
-      "stop_loss_title": "Porcentaje de Perdida",
-      "stop_loss_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
-      "trailing_title": "Trailing",
-      "trailing_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
-      "trailing_profit_title": "Trailing Profit",
-      "trailing_profit_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
-      "trailing_stop_title": "Trailing Stop",
-      "trailing_stop_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis.",
-      "risk_level_title": "Nivel de Riesgo",
-      "risk_level_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam placerat ac sapien finibus fermentum. Mauris eu felis sagittis, scelerisque sem at, vulputate turpis."
-    },
-    "fund_created": {
-      "go_to_fund_button_text": "Ver mi inversión",
-      "congrats_header_text": "¡Felicitaciones!",
-      "subtitle_header_text": "Ya estás invirtiendo en el mundo crypto",
-      "description_text": "Ya creamos tu fondo y nuestro robot empezará a gestionar tu capital en base a la información que configuraste."
-    },
-    "fund_name": {
-      "header": "Crea un fondo",
-      "title": "Nombra tu fondo",
-      "text_before": "Puede ser lo que quieras, es simplemente para que puedas identificarlo dentro de nuestra aplicación.",
-      "fund_name": "Nombre de mi fondo (solo puede contener mayúsculas, minúsculas y números).",
-      "fund_name_placeholder": "Ej: MiPrimerFondo",
-      "next_button": "Siguiente"
-    },
-    "fund_investment_info": {
-      "invest_button": "Invertir"
-    },
-    "fund_investment": {
-      "header": "Estrategias de inversión",
-      "header_more_about": "Más sobre",
-      "header_info": {
-        "title": "Elige tu estrategia favorita",
-        "description": "Cada estrategia tiene diferente rendimientos y volatilidad. Elige la que mejor se adapte a ti."
-      },
-      "card": {
-        "currency": "USD",
-        "min_capital_label": "Inversión mínima",
-        "invest_button": "Invertir",
-        "last_year_revenue": "90 días",
-        "new_badge": "Nuevo",
-        "profiles": {
-          "volume_profile_strategies_USDT": {
-            "title": "Denali",
-            "description": "Permite que nuestro algoritmo haga trading por ti. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a USDT (Theter).",
-            "more_info": "Leer más sobre Denali",
-            "strategy_type": "Trading",
-            "info_description": "Denali es una estrategia de inversión con un riesgo bajo, lo que la hace ideal para personas que estén empezando o que quieran asegurar el crecimiento controlado de su inversión. Su objetivo es generar retornos en dólares (Tether o USDT). Trabaja aplicando diferentes estrategias sobre cada cripto que opera. Su rendimiento anual ronda le 17%"
-          },
-          "volume_profile_strategies_BTC": {
-            "title": "Olympus Mons",
-            "description": "Genera más Bitcoins con tus criptos. Operamos la totalidad de tus cripto y cuando tu inversión finalice se convertirá a BTC (Bitcoin).",
-            "more_info": "Leer más sobre Olympus Mons",
-            "strategy_type": "Trading",
-            "info_description": "Olympus Mons es para aquellas personas a quienes les interesa acumular más Bitcoins ya que consideran que es la moneda del futuro. No importa si el Bitcoin cae o sube de valor respecto al dólar, lo que Olympus buscará es aumentar la cantidad de Bitcoins en tu portafolio."
-          },
-          "Metaverse_index": {
-            "title": "Oasis",
-            "description": "Fondo que sigue al índice metaverso, diseñado para capturar las tendencias de entretenimientos, deportes y nuevos negocios que se mueven en el mundo virtual.",
-            "more_info": "Leer más sobre Oasis",
-            "strategy_type": "Indice",
-            "info_description": "Oasis es un fondo que sigue al índice metaverso construido por Xcapit. Este fondo es de riesgo alto, ya que trabaja con los proyectos más novedosos y de mayor crecimiento en los últimos meses. En particular, el índice metaverso trata de capturar las tendencias de los protocolos orientados a el entretenimiento, los deportes y los nuevos negocios que se mueven en la red de Ethereum. La forma de hacerlo es considerar tanto el tamaño del protocolo (en términos de capitalización) y la cantidad de usuarios con los que cuenta (billeteras en la red Ethereum con tokens del protocolo). Una vez por mes, se realiza el rebalanceo de la billetera de inversión en el que además se añaden o eliminan tokens del índice para optimizar sus resultados."
-          },
-          "DeFi_index": {
-            "title": "Himalayas",
-            "description": "Invierte en los proyectos con mayor capital bloqueado de finanzas descentralizadas cubriendo un 80% del mercado. Cuando finalice tu inversión se convertirá a USDT (Thether)",
-            "more_info": "Leer más sobre Himalayas",
-            "strategy_type": "Indice",
-            "info_description": "Himalayas se comporta como un índice de inversión y se rebalancea una vez al mes. Un índice es un agregado de varios instrumentos financieros ponderados de alguna forma que refleja un resumen del mercado en su totalidad. En el caso de Himalayas, los pesos de cada activo dependen del tamaño de cada proyecto respecto al mercado total medido a través de la cantidad de capital bloqueado. La cantidad de activos dentro del índice puede variar y depende de la concentración del mercado. Si el 80% del mercado está muy concentrado en pocos activos el índice tendrá pocos componentes, pero si el mercado está muy distribuido el índice tendrá muchos componentes. \n Himalayas apunta a reflejar el comportamiento del ecosistema DeFi: un sistema descentralizado que se apalanca en instrumentos financieros de la vida real pero sin los intermediarios del sistema financiero tradicional que le agregan costosas tasas y comisiones."
-          },
-          "Mary_index": {
-            "title": "Andes",
-            "description": "Invierte en los proyectos cripto tradicionales con mayor capitalización cubriendo un 80% del mercado. Cuando finalice tu inversión se convertirá a USDT (Thether)",
-            "more_info": "Leer más sobre Andes",
-            "strategy_type": "Indice",
-            "info_description": "Andes se comporta como un índice de inversión que refleja el comportamiento del ecosistema cripto tradicional y se rebalancea una vez al mes. \n Un índice es un agregado de varios instrumentos financieros ponderados de alguna forma que refleja un resumen del mercado en su totalidad. En el caso de Andes, los pesos de cada activo dependen del tamaño de cada proyecto respecto al mercado total medido a través de su capitalización. La cantidad de activos dentro del índice puede variar y depende de la concentración del mercado. Si el 80% del mercado está muy concentrado en pocos activos el índice tendrá pocos componentes, pero si el mercado está muy distribuido el índice tendrá muchos componentes."
-          },
-          "classic_BTC": {
-            "title": "Classic"
-          },
-          "classic_USDT": {
-            "title": "Classic"
-          },
-          "pro_BTC": {
-            "title": "Pro"
-          },
-          "pro_USDT": {
-            "title": "Pro"
-          },
-          "multiestrategias_xl_USDT": {
-            "title": "Multi XL USDT"
-          },
-          "multiestrategias_xl_BTC": {
-            "title": "Multi XL BTC"
-          }
-        }
-      },
-      "balance_not_enough": {
-        "title": "Necesitás USD${{minBalance}} en tu cuenta de Binance para comenzar a invertir.",
-        "message": "Comprar cripto en Xcapit",
-        "cancel_text": "Cancelar",
-        "accept_text": "Aceptar",
-        "ok_text": "Comprar"
-      },
-      "no_apikeys_modal": {
-        "first_title": "Vincular cuenta",
-        "second_title": "Detectamos que aún no vinculaste tu cuenta con Binance. ",
-        "message": "Para comenzar a invertir necesitas tener una cuenta de Binance y  vincularla con tu cuenta de Xcapit.",
-        "button": "Vincular cuenta en Binance"
-      }
-    },
-    "fund_duration": {
-      "header": "Crea un fondo",
-      "title": "¿Cuál va a ser la duración de tu fondo de inversión?",
-      "text_before": "Fijaremos una duración para que tu fondo tenga un inicio y un fin, pero podrás detenerlo y extraer tus ganancias en cualquier momento.",
-      "duration": "Duración",
-      "duration_metric": "días",
-      "next_button": "Siguiente",
-      "back_button": "Anterior",
-      "text_help": "En plazos cortos es mas probable que el robot tenga problemas en su performance."
-    },
-    "fund_take_profit": {
-      "header": "Modificar Take Profit",
-      "title": "Configura el límites de beneficios",
-      "text_before": "¿Cuándo quieres que dejemos de invertir? Tu inversión se finalizará cuando alcance este porcentajes de beneficio.",
-      "take_profit": "Take profit",
-      "most_chosen": "Más elegida",
-      "custom_tp_button": "Elegir otra opción",
-      "next_button": "Siguiente",
-      "back_button": "Anterior",
-      "edit_custom": "Editar",
-      "submit_button_edit": "Guardar",
-      "edit_title": "Modificar Take Profit",
-      "manual_stop": "Voy a finalizarlo manualmente",
-      "alert_manual_option": "Ten en cuenta que invertir sin límite de beneficios implica que debes finalizar tu inversion manualmente."
-    },
-    "fund_stop_loss": {
-      "header": "Modificar Stop Loss",
-      "title": "Configura el límite de pérdida",
-      "text_before": "En el caso de perdida ¿Cuando quieres que dejemos de invertir? Tu inversión se finalizara cuando alcance este porcentaje de perdida",
-      "stop_loss": "Stop loss",
-      "most_chosen": "Más elegida",
-      "custom_tp_button": "Elegir otra opción",
-      "btc_text": "Bitcoin BTC",
-      "usdt_text": "Dólar USDT",
-      "submit_button": "Siguiente",
-      "submit_button_edit": "Guardar",
-      "edit_custom": "Editar",
-      "edit_title": "Modificar Stop Loss",
-      "classic_stop_loss": "Stop loss clásico",
-      "inteligent_stop_loss": "Stop loss inteligente",
-      "without_stop_loss": "Sin stop loss",
-      "title_classicSL": "Escribe el % de stop loss clásico",
-      "message_classicSL": "Dejaremos de invertir si la inversión llega a este porcentaje de pérdida",
-      "title_inteligentSL": "Escribe el % de stop loss inteligente",
-      "message_inteligentSL": "El stop Loss se movera a este porcentaje de distancia del rendimiento del fondo",
-      "manual_stop": "Voy a finalizarlo manualmente",
-      "alert_manual_option": "Ten en cuenta que invertir sin límite de pérdidas puede ocasionar una disminución importante en la valuación de tu capital en USD, sin embargo tendrás la misma cantidad de criptomonedas",
-      "inteligent_stop_loss_info": "¿Qué es un Stop Loss Inteligente?",
-      "inteligent_stop_loss_header": "Tutorial",
-      "inteligent_stop_loss_title": "¿Cómo funciona el stop loss inteligente?",
-      "inteligent_stop_loss_text": "A diferencia de un Stop Loss clásico que se mantiene estático en el porcentaje de pérdida que te dispongas a asumir, el Stop Loss inteligente se actualiza y se mueve a un cierto porcentaje de distancia del rendimiento de la estrategia.",
-      "inteligent_stop_loss_text1": "Esta opción de Stop Loss te permitirá capitalizar mas fácil tus ganancias si la estrategia genera rendimientos positivos pero no llega a finalizar tu fondo por Take Profit.",
-      "inteligent_stop_loss_text2": "Te recomendamos usar un porcentaje entre el 5% y el 20%.",
-      "inteligent_stop_loss_button": "Lo tengo claro"
-    },
-    "custom_range_component": {
-      "cancel_button": "Cancelar",
-      "confirm_button": "Confirmar"
-    },
-    "fund_success": {
-      "textPrimary": "¡Felicitaciones! Tu inversión está activa",
-      "textSecondary": "Ya creamos tu inversión y nuestros algoritmos comenzarán a gestionar tu capital en base a la información que configuraste. Asegurate haber chequeado el campo “habilitar spot trading” en Binance para que podemos operar.",
-      "namePrimaryAction": "Ver mis inversiones"
-    },
-    "fund_success_renew": {
-      "textPrimary": "¡Tu fondo ha sido renovado!",
-      "textSecondary": "Ya renovamos tu fondo y nuestro robot comenzará a gestionar tu capital en base a la información que configuraste.",
-      "namePrimaryAction": "Ver mi inversión"
-    },
-    "fund_card": {
-      "current_capital": "Capital actual",
-      "last_24hs": "Últimas 24 hs",
-      "view_fund": "Ver fondo",
-      "not_balance_found": "No hay balance para mostrar",
-      "days": "{{value}} día{{s}}",
-      "hours": "{{value}} hora{{s}}",
-      "minutes": "{{value}} minuto{{s}}",
-      "seconds": "{{value}} segundo{{s}}",
-      "finalized": "Finalizado",
-      "unsubscribe_toast": "Desuscripción exitosa",
-      "unsubscribe_alert_ok": "Desuscribir",
-      "unsubscribe_alert_cancel": "Cancelar",
-      "unsubscribe_alert_title": "¿Desuscribirme a este fondo?"
-    },
-    "change_currency_modal": {
-      "submit_button": "Aceptar",
-      "cancel_button": "Cancelar"
-    },
-    "fund_settings": {
-      "header": "Ajustes de fondo",
-      "fund_info_title": "INFORMACIÓN",
-      "currency": "Moneda",
-      "fund_modify_title": "MODIFICAR",
-      "apikey": "API Key",
-      "secretkey": "Secret key",
-      "take_profit": "Take profit",
-      "stop_loss": "Stop loss"
-    },
-    "fund_finish_pause_fund_card": {
-      "finish_fund": "Finalizar fondo",
-      "pause_fund": "Pausar",
-      "resume_fund": "Activar",
-      "fund_paused": "Se ha pausado el fondo",
-      "fund_resumed": "Se ha activado el fondo",
-      "fund_finished": "Se ha finalizado el fondo",
-      "alert_header": "Estas a punto de finalizar tu fondo",
-      "alert_message": "Al finalizar tu fondo todas las monedas se pasarán a tu moneda base",
-      "alert_cancel_button": "Cancelar",
-      "alert_finish_button": "Finalizar"
-    },
-    "funds_finished": {
-      "header": "Mis fondos finalizados",
-      "fund_finished_card": {
-        "risk": "Perfil",
-        "take_profit": "Take profit",
-        "stop_loss": "Stop loss",
-        "fund_deleted": "El fondo se ha eliminado"
-      }
-    },
-    "fund_operations": {
-      "title": "Historial de operaciones",
-      "since_date_range": "Inicio",
-      "until_date_range": "Fin",
-      "header_pair": "Par",
-      "header_price": "Precio",
-      "header_qty": "Cantidad",
-      "order_side_buy": "COMPRA",
-      "order_side_sell": "VENTA",
-      "order_type_market": "Mercado",
-      "cancel_datepicker_text": "Cancelar",
-      "done_datepicker_text": "Confirmar",
-      "loading_infinite_scroll": "Cargando más datos"
-    },
-    "fund_operations_detail": {
-      "title": "Detalle de la orden",
-      "order_type_market": "Mercado",
-      "price": "Precio",
-      "quantity": "Cantidad",
-      "order_type_label": "Tipo",
-      "fee_currency": "Moneda del fee",
-      "status": "Estado",
-      "date": "Fecha",
-      "status_closed": "Cerrado"
-    },
-    "fund_timeline": {
-      "active_fund": "Fondo actual",
-      "finished_fund": "Fondo finalizado",
-      "start_of": "Inicio de "
-    },
-    "fund_timeline_detail": {
-      "performance_card": {
-        "performance_label": "Rendimiento"
-      },
-      "config_card": {
-        "title": "CONFIGURACIÓN",
-        "item": {
-          "state": "Estado",
-          "initial_date": "Fecha de Inicio",
-          "profile": "Perfil",
-          "take_profit": "Take profit",
-          "stop_loss": "Stop loss",
-          "currency": "Moneda",
-          "status_finished": "Finalizado",
-          "status_active": "Activo"
-        }
-      }
-    },
-    "fund_summary": {
-      "header": "Crear inversión",
-      "title": "Vas a invertir en: ",
-      "strategy": "Con la estrategia: ",
-      "skip_invest": "Todavia no quiero invertir",
-      "stop_loss_take_profit_summary": {
-        "take_profit": "Take profit",
-        "stop_loss": "Stop loss",
-        "trailing_stop_loss": "Stop loss inteligente",
-        "no_stop_loss": "Sin stop loss",
-        "no_take_profit": "Sin take profit",
-        "change_button": "Cambiar"
-      },
-      "submit_button": "Crear fondo",
-      "submit_button_renew": "Renovar fondo",
-      "submit_button_edit": "Guardar"
-    }
-  },
-  "runs": {
-    "run_summary": {
-      "header": "Corrida",
-      "run_title": "Corrida",
-      "fund_title": " de Fondo",
-      "no_status_text": "Todavía no hay estado para mostrar para el fondo.",
-      "no_runs_text": "No hay una corrida activa.",
-      "profit_text": "Porcentaje de ganancia en {{days}} días y {{hours}}hs",
-      "fund_balance_button": "Ver Balance",
-      "chart_title": "Última actualización "
     }
   },
   "profiles": {
@@ -1450,13 +955,6 @@
       }
     }
   },
-  "terms_and_conditions": {
-    "accept": {
-      "header": "Términos y Condiciones",
-      "cancel_button": "Cancelar",
-      "i_agree_button": "Acepto"
-    }
-  },
   "financial_planner": {
     "planner_information": {
       "header": "Planificador",
@@ -1577,18 +1075,38 @@
         }
       }
     },
-    
-    "success":{
-      "textPrimary":"¡Gracias por sumarte!",
-      "textSecondary":"Acabas de aportar para una gran causa.",
-      "namePrimaryAction":"Seguir donando",
-      "nameThirdAction":"Volver al home"
+    "send_donations": {
+      "header": "Donaciones",
+      "title": "Datos de la operación",
+      "currency": "Moneda",
+      "network": "Red",
+      "label": "Monto a donar",
+      "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos.",
+      "description_fee": "*Este monto es estimativo y puede sufrir variaciones de acuerdo al momento en que realices la transacción.",
+      "summary": {
+        "destination_address": "Dirección de destino",
+        "amount_title": "Monto a donar",
+        "button": "Donar",
+        "loading": "Donando"
+      },
+      "no_wallet":{
+        "title":"Aún no tienes tu Wallet Xcapit",
+        "subtitle":"Crea tu wallet para poder donar",
+        "button":"Crear Wallet",
+        "link":"Ver causas"
+      }
+    },
+    "success": {
+      "textPrimary": "¡Gracias por sumarte!",
+      "textSecondary": "Acabas de aportar para una gran causa.",
+      "namePrimaryAction": "Seguir donando",
+      "nameThirdAction": "Volver al home"
     },
 
-    "error":{
-      "textPrimary":"No se pudo completar tu donación",
-      "textSecondary":"Se produjo un error en la blockchain.",
-      "namePrimaryAction":"Intentar nuevamente"
+    "error": {
+      "textPrimary": "No se pudo completar tu donación",
+      "textSecondary": "Se produjo un error en la blockchain.",
+      "namePrimaryAction": "Intentar nuevamente"
     }
   },
   "referrals": {
@@ -1669,7 +1187,7 @@
     },
     "referrals_coming": {
       "title": "Estamos creando magia",
-      "paragraph":"Este programa se encuentra cerrado. Próximamente estaremos retomando con nuevas propuestas y más beneficios. ",
+      "paragraph": "Este programa se encuentra cerrado. Próximamente estaremos retomando con nuevas propuestas y más beneficios. ",
       "tos": "Ver términos y condiciones"
     },
     "referrals_pending": {
@@ -1872,12 +1390,16 @@
     },
     "create_password": {
       "header": "Crear wallet",
-      "title": "Crear una contraseña",
-      "description": "La contraseña sirve para hacer tu wallet más segura, puedes elegir la misma que usas para la app de Xcapit. En el caso de que la olvides podrás recuperar tu wallet con las 12 palabras.",
+      "title": "Crea tu contraseña",
+      "description": "La usarás para aprobar tus transacciones.",
+      "write_password": "Escribe tu contraseña.",
       "password": "Contraseña",
-      "repeat_password": "Confirmar contraseña",
-      "finish_button_create": "Finalizar y crear wallet",
-      "finish_button_import": "Finalizar e importar wallet",
+      "repeat_password": "Repite tu contraseña.",
+      "finish_button_create": "Crear wallet",
+      "finish_button_import": "Importar wallet",
+      "creating_button_state": "Creando wallet",
+      "importing_button_state": "Importando wallet",
+      "wait_loading_message": "Solo tomará unos segundos.",
       "loading": {
         "title": "¡Tiempo!",
         "subtitle": {
@@ -2185,238 +1707,12 @@
       "error_toast": "La contraseña que ingresaste es incorrecta"
     }
   },
-  "apikeys": {
-    "new_apikeys": {
-      "slide1_title": "¿Tenés cuenta en Binance?",
-      "slide1_text": "Te recomendamos que accedas a tu cuenta para poder buscar la información que necesitaremos.",
-      "slide1_option_no": "NO",
-      "slide1_option_yes": "SI",
-      "slide1_link_text": "¿Qué es Binance y por que lo necesito?",
-      "slide2_title": "Crear una API KEY",
-      "slide2_text1": "La API KEY es un código que nos permitirá gestionar sobre tu cuenta de Binance.",
-      "slide2_text2": "Ingresa a tu cuenta de Binance y sigue estos pasos para crear una nueva API Key.",
-      "slide2_bullettext1": "Ingresá a \"Mi Cuenta\"",
-      "slide2_bullettext2": "Encontrá el módule \"API\"",
-      "slide2_bullettext3": "Ingresá una clave (puede ser lo que quieras)",
-      "slide2_bullettext4": "Seguí los pasos para crear tu API Key",
-      "slide2_option_next": "Siguiente",
-      "slide3_title": "Ingresá tu API Key",
-      "slide3_text": "Ahora copiá los 18 dígitos de tu Key",
-      "slide3_input_label": "API Key",
-      "slide3_option_next": "Siguiente",
-      "slide4_title": "SECRET Key",
-      "slide4_text1": "Junto con la creación de tu API Key, binance generó una \"SECRET Key\" para asegurar la seguridad de las transacciones (podrás encontrarlo justo debajo del API Key).",
-      "slide4_text2": "Ingresá tu SECRET KEY",
-      "slide4_input_label": "SECRET Key",
-      "slide4_option_next": "Siguiente",
-      "success_text_new": "La vinculación con el Exchange se realizó con éxito!"
-    },
-    "card_apikeys": {
-      "content": "Fondo:",
-      "action": "Gestionar",
-      "used_apikey": "Keys en uso",
-      "no_fund_text": "Sin fondos",
-      "success_toast": "Eliminaste exitosamente una key.",
-      "confirmation_alert": {
-        "header": "Estas a un paso de eliminar keys",
-        "message": "Entiendo que al eliminar las keys ya no podré verlas en el listado ni asociarlas a un fondo de inversion.",
-        "confirm_button": "Eliminar",
-        "cancel_button": "Cancelar"
-      }
-    },
-    "list_apikeys": {
-      "header": "Gestión de API Keys",
-      "subtitle": "Aún no tienes keys registradas. Agrega nuevas keys para gestionarlas.",
-      "add_api_key": "Agrega una API key",
-      "security_info_alert": "Recuerda que para tú seguridad, solo tendremos permisos para operar sobre el total de tu capital en la wallet Spot. No podremos realizar retiros."
-    },
-    "linked_apikeys": {
-      "title_header_text": "¡Ya vinculaste tu cuenta con Binance!",
-      "subtitle_header_text": "Ya comenzaste tu viaje crypto",
-      "create_fund_button_text": "Crear un fondo de inversión",
-      "description_text": "Estamos en condiciones de crear tu fondo para comenzar a gestionar tu inversion.",
-      "create_fund_later_button_text": "Lo voy a crear mas tarde"
-    },
-    "register_success_beginner": {
-      "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
-      "textSecondary": "Elige la estrategia que mejor se adapta a ti o empieza a comprar criptomonedas.",
-      "textThird": "o también puedes",
-      "namePrimaryAction": "Crear mi primera inversión",
-      "nameSecondaryAction": "Omitir por ahora",
-      "nameThirdAction": "Comprar criptomonedas"
-    },
-    "register_success": {
-      "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
-      "textSecondary": "Estamos en condiciones de gestionar tu capital de Binance.",
-      "namePrimaryAction": "Gestionar",
-      "nameSecondaryAction": "Omitir por ahora"
-    },
-    "tutorial_apikeys": {
-      "header": "Vincular con Binance",
-      "title": "Asocia una llave de gestión externas (API key)",
-      "text_before": "La API Key es un código que nos permitirá gestionar sobre tu cuenta de Binance.",
-      "text_before_2": "Ingresa desde una computadora a tu cuenta de www.binance.com y sigue estos pasos para crear una nueva API Key.",
-      "step1_before_icon": "Ingresa a la sección ",
-      "step1_after_icon": " \"Mi Cuenta\" > \"Gestión de API\" ",
-      "step2": "Escribe una \"Etiqueta de identificación para la clave API\" y haz clic en \"Crear API\".",
-      "step3": "Escanea los datos con QR o ingrésalos manualmente.",
-      "link_with_binance": "Vincular con Binance"
-    },
-    "scan_qr": {
-      "header": "Escanea tu API Key",
-      "register_manually": "Ingresar manualmente",
-      "errors": {
-        "invalidQR": "El código QR no es válido.",
-        "noContent": "El código QR no tenía ningún contenido.",
-        "permissionDenied": "No se pudo acceder a la cámara. Acceso denegado."
-      }
-    },
-    "insert_key": {
-      "header": "Vincular con Binance",
-      "title": "Ingresa tu API Key",
-      "text_before": "Copia la API Key que creaste. Recuerda que no tendremos permisos para retirar dinero, solo podremos operar.",
-      "insert_key": "API Key",
-      "insert_key_placeholder": "Ej: x34L6Jkd23Zcc421",
-      "text_help_link": "Conocé más.",
-      "next_button": "Siguiente"
-    },
-    "insert_secret": {
-      "header": "Vincular con Binance",
-      "title": "Ingresa tu Secret Key",
-      "text_before": "Junto con la creación de tu API Key, Binance generó un \"Secret Key\" por razones de seguridad. Podrás encontrarlo justo debajo del API Key.",
-      "insert_secret": "Secret Key",
-      "insert_secret_placeholder": "Ej: x34L6Jkd23Zcc421",
-      "text_help": "Recuerda que, para tu seguridad, solo tendremos permisos para operar sobre tu capital pero no podremos realizar retiros.",
-      "submit_button": "Finalizar configuración"
-    },
-    "success_apikeys": {
-      "textPrimary": "¡Ya vinculaste tu cuenta con Binance!",
-      "textSecondary": "Estamos en condiciones de crear un fondo para comenzar a gestionar tu inversión.",
-      "namePrimaryAction": "Crear mi primer fondo de inversión",
-      "nameSecondaryAction": "Omitir por ahora"
-    },
-    "success_apikeys_edition": {
-      "textPrimary": "¡Hemos modificado tu API Key!",
-      "textSecondary": "Observa tus fondos ahora",
-      "namePrimaryAction": "Ir a Inicio"
-    },
-    "edit_apikey": {
-      "header": "Modificar API Key",
-      "public_key": "Binance API Key",
-      "secret_key": "Binance Secret Key",
-      "key_placeholder": "Ej: Was34mndsjfhk444hjkhjhguyt5uhjkkh56mnh...",
-      "submit_button": "Guardar"
-    },
-    "register": {
-      "header": "Agregar API key",
-      "label_alias": "Ingresar Alias (Puede usar el mismo de binance)",
-      "placeholder_alias": "Ej: MiApiKey",
-      "label_apikey": "Ingresar API Key",
-      "placeholder_apikey": "Ej:iE29WXn9jGJ19nd3sAXXWnGTOLsDjCOXhk...",
-      "label_secretkey": "Ingresar Secret Key",
-      "placeholder_secretkey": "Ej: qL8YKiE29WXBQwJlRurMkwTn9jGJ19nd3sA...",
-      "button_submit": "Agregar"
-    },
-    "edit_modal": {
-      "title": "Cambiar Alias",
-      "description": "El alias es un nombre para que identifiques a qué API key de Binance pertenecen los fondos.",
-      "button_submit": "Modificar",
-      "edit_error": {
-        "default": "Ha ocurrido un error."
-      }
-    },
-    "qr_scanner": {
-      "title": "Apunta la cámara al código QR",
-      "cancel_label": "Cancelar e ingresar manual",
-      "text": "Apunta la cámara a un código QR."
-    },
-    "exchange_information": {
-      "header": "Vincular API Key",
-      "title": "Binance es nuestro Partner y el exchange más grande del mundo",
-      "description": "Cada inversión que hagas en Xcapit necesita conectarse a una API única de Binance. Pero primero paso a paso elige:",
-      "cards": {
-        "have_exchange_account": {
-          "title": "Ya tengo cuenta en Binance",
-          "description": "Si ya tienes cuenta en Binance vamos al siguiente paso."
-        },
-        "dont_have_exchange_account": {
-          "title": "No tengo cuenta en Binance",
-          "description": "Te contamos como crear una cuenta gratis en el exchange mas grande del mundo."
-        }
-      },
-
-      "information_card": "Recuerda que para tú seguridad, solo tendremos permisos para operar sobre el total de tu capital en la wallet Spot. No podremos realizar retiros."
-    },
-    "apikey_information": {
-      "header": "Vincular API Key",
-      "title": "Una API key sirve para conectar tu cuenta de Binance con Xcapit",
-      "description": "LA API Key es un código que solo nos permite gestionar sobre tu cuenta. Debes crearlo para que exista.",
-      "cards": {
-        "have_apikey": {
-          "title": "Ya tengo API Key",
-          "description": "Si ya creaste tu API Key con Binance vamos al siguiente paso."
-        },
-        "dont_have_apikey": {
-          "title": "No tengo API Key",
-          "description": "Si nunca creaste una API Key te ayudamos a crear una."
-        }
-      },
-      "tutorial_modal": {
-        "title": "Crear API Key",
-        "text1": "Ingresa a la web de binance desde una computadora.",
-        "text2": "Una vez logueado ingresa a tu perfil de Binance y selecciona “Gestión de API”.",
-        "text3": "Asigna una etiqueta de identificación. Esto es solo un nombre para que reconozcas la API.",
-        "text4": "Tilda el campo “Habilitar spot trading”. Esta accion nos permite operar, si no la tildas no podemos operar.",
-        "text5": "Hace click en “Crear API”",
-        "text6": "Completa la verificación de seguridad.",
-        "text7": "¡Listo!",
-        "button": "Ya tengo API Key"
-      },
-      "what_is_api_key": "¿Qué es una API Key?"
-    },
-    "whats_an_api_key": {
-      "header": "Qué es una API Key",
-      "title": "¿Qué es una API key?",
-      "description": "Una API key es una clave secreta que sirve para vincular tu cuenta de Binance con Xcapit. Al vincular la cuenta sólo nos das permiso para gestionar tus criptomonedas pero nunca retirarlas de tu cuenta, siempre están bajo tu control.",
-      "button": "Ya tengo una API key"
-    },
-    "how_create_binance_account": {
-      "header": "Tutorial",
-      "title": "Cómo crear una cuenta en Binance",
-      "text1": "1. Entra a Binance",
-      "text2": "2. Crea una cuenta con tu correo.",
-      "text3": "3. Verifica tu cuenta para poder utilizarla de manera segura.",
-      "text4": "4. ¡Listo!",
-      "button": "Ya tengo una cuenta en Binance"
-    }
-  },
   "tabs": {
     "home": "Inicio",
     "refer": "Referir",
     "new_fund": "Inversiones",
     "menu": "Más",
     "wallet": "Wallet"
-  },
-  "deposit_addresses": {
-    "deposit_currency": {
-      "header": "Dirección de depósito",
-      "currency_title": "Moneda",
-      "title": "¿En qué moneda pagarás la comisión?",
-      "text_before": "Elegí la moneda con la que quieres hacer el depósito",
-      "next_button": "Siguiente"
-    },
-    "deposit_address": {
-      "header": "Dirección de depósito",
-      "title": "Informacion de depósito",
-      "text_before": "Utiliza cualquiera de los siguientes datos para realizar el depósito",
-      "address_title": "Dirección",
-      "address_tag_title": "Etiqueta",
-      "link_title": "Enlace",
-      "qr_title": "QR",
-      "copy_address_ok_text": "Se copió la dirección al portapapeles",
-      "copy_address_error_text": "No se pudo copiar la dirección al portapapeles",
-      "back_link": "Ir al inicio"
-    }
   },
   "fiat_ramps": {
     "operations_list": {
@@ -2481,19 +1777,11 @@
       "in_progress": "En progreso",
       "canceled": "Cancelada"
     },
-    "ramp_initial": {
-      "header": "Comprar criptomonedas",
-      "title": "Nueva operación",
-      "operation": "¿Qué operación quieres hacer?",
-      "pair_buy": "¿Qué moneda quieres comprar?",
-      "pair_sell": "¿Qué moneda quieres vender?",
-      "amount": "Monto",
-      "amount_ars": "Monto en ARS",
-      "amount_min": "Cantidad mínima:",
-      "amount_max": "Cantidad máxima:",
-      "wallet": "Wallet",
-      "buy": "Comprar",
-      "sell": "Vender",
+    "new_operation": {
+      "header": "Comprar cripto",
+      "thirdPartyKYC": "Entiendo que la información KYC no es solicitada ni almacenada por Xcapit y que Kripton tiene una política de privacidad de datos distinta a la de Xcapit.",
+      "thirdPartyTransaction": "Entiendo que al continuar la compra lo haré a través de un proveedor externo (Kripton Market) sujeto a términos y condiciones propios, de los cuales Xcapit no es responsable.",
+      "privacyPolicyAndTOS": "He leído y acepto los: <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Términos y condiciones</a> y la <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Política de privacidad de Kripton Market</a>",
       "next_button": "Continuar"
     },
     "register": {
@@ -2572,7 +1860,7 @@
       "textPrimary": "La operacion fue creada",
       "textSecondary": "Recuerda hacer la transferencia desde tu banco y subir el comprobante",
       "buttonText": "Ir a detalle de operación"
-      },
+    },
     "paxful": {
       "header": "Comprar",
       "title": "Comprar BTC con Paxful",
@@ -2632,48 +1920,25 @@
       "venezuela": "Venezuela"
     },
     "shared": {
+      "constants": {
+        "providers": {
+          "kripton": {
+            "disclaimer": "La entrega de tokens se hace de Lunes a Viernes de 9 a 18 hs. y puede tardar si el banco demora en procesar la transaccion a la cuenta comitente de Kripton."
+          }
+        }
+      },
       "fixed_footer": {
         "text": "Estas operando con Kriptonmarket"
+      },
+      "provider_new_operation_card": {
+        "quantity": "Cantidad",
+        "provider": "Proveedor"
+      },
+      "kyc_disclaimer_modal": {
+        "title": "Registro cuenta Kripton",
+        "description": "Por única vez tienes que crearte una cuenta en kripton, la próxima vez que elijas este operador vas a acceder de manera automática.\n Recuerda que el registro y proceso de compra queda a cargo de Kripton.",
+        "button": "Empezar"
       }
-    }
-  },
-  "payment": {
-    "methods": {
-      "header": "Método de pago",
-      "title": "Elige tu método de pago para comenzar con el proceso",
-      "coming_badge": "Próximamente",
-      "all_countries": "Todos los países",
-      "arg": "Argentina"
-    },
-    "contact": {
-      "title": "¡Contáctanos para ser Premium!",
-      "textPrimary": "Nos encantaría saber un poco más de tu inversión para poder darte tu plan ideal. Nos estaremos comunicando contigo lo más breve posible.",
-      "label_email": "CORREO ELECTRÓNICO",
-      "placeholder_email": "ejemplo@email.com",
-      "label_message": "CUENTANOS UN POCO MÁS DE TU INVERSIÓN",
-      "placeholder_message": "Cuentanos más de tu inversión aquí",
-      "submit_button": "Enviar"
-    },
-    "licenses": {
-      "header": "Pagos anual",
-      "title": "Elige tu plan",
-      "textPrimary": "¡Prueba 30 días gratis todos los planes!",
-      "textSecondary": "Puedes cancelar cuando quieras.",
-      "btnAnnual": "Planes anuales",
-      "btnMonthly": "Planes mensuales",
-      "infoExplorer": "Puedes invertir hasta USD$300",
-      "infoAdvanced": "Invierte hasta USD$10.000",
-      "infoExpert": "Invierte hasta USD$50.000",
-      "infoPremium": "Para inversiones mayores a USD$50.000",
-      "contact": "Contactanos",
-      "monthly": "mensual",
-      "annual": "anual",
-      "free": "GRATIS"
-    },
-    "success": {
-      "textPrimary": "¡Tu plan está activo!",
-      "textSecondary": "Sigue configurando tu inversión",
-      "textBtn": "Continuar"
     }
   },
   "home": {
@@ -2800,7 +2065,7 @@
       "description_wallet_operations": "Cómo invertir, operatoria y costos.",
       "title_buy": "Compra de cripto",
       "description_buy": "Comprar, comisiones, límites y métodos de pago.",
-      "title_wallet_connect": "Wallet Connect",
+      "title_wallet_connect": "WalletConnect",
       "description_wallet_connect": "Conectar wallet e interactuar con dapp.",
       "title_nft": "NFT",
       "description_nft": "Visualizar, transferir y recibir."
@@ -2813,18 +2078,16 @@
       "title": "NFT's",
       "question1": "¿Dónde veo mi NFT?",
       "answer1": "Dentro de la wallet de Xcapit vas a poder acceder a la sección de NFTs donde podrás contenerlo de por vida.",
-      "question2": "¿Cómo transfiero mi NFT?",
-      "answer2": "Se transfiere de la misma manera que un token, a través de una red específica (Polygon o RC721).",
-      "question3": "¿En qué red está alojado el Smart Contract de mi NFT?",
-      "answer3": "Se encuentra en la red de Polygon.",
-      "question4": "¿Cómo puedo reclamar mi NFT?",
-      "answer4": "Desde el Home de Wallet, en la solapa NFT, encontrarás un botón de “Reclamar” para ello, es importante que crees tu Wallet con el mismo email que ingresaste a la Waiting List para recibir el NFT.",
-      "question5": "Creé mi Wallet pero en mi PC, ¿esto es un problema para recibir el NFT?",
-      "answer5": "Puedes hacerlo sin problema desde la PC, solo ten en cuenta que si creas tu wallet por primera vez desde la computadora y luego deseas pasar a la app, deberás importar la wallet usando la frase de recuperación. De lo contrario, se generarán dos wallets y el NFT se depositará en la última wallet creada.",
-      "question6": "¿Cuándo recibiré mi NFT?",
-      "answer6": "Una vez hayas “Reclamado” tu NFT desde la Aplicación, verificaremos que tu mail se encuentre en la Waiting list y de ser así lo estaremos enviando a tu Wallet, recibirás una notificación en cuanto lo recibas.",
-      "question7": "¿Cómo puedo visualizar mi NFT?",
-      "answer7": "Desde el Home de Wallet, en la solapa NFT, veras tu NFT de regalo una vez lo hayas recibido, podrás visualizar los detalles haciendo clic en el mismo."
+      "question2": "¿En qué red está alojado el Smart Contract de mi NFT?",
+      "answer2": "Se encuentra en la red de Polygon.",
+      "question3": "¿Cómo puedo reclamar mi NFT?",
+      "answer3": "Desde el Home de Wallet, en la solapa NFT, encontrarás un botón de “Reclamar” para ello, es importante que crees tu Wallet con el mismo email que ingresaste a la Waiting List para recibir el NFT.",
+      "question4": "Creé mi Wallet pero en mi PC, ¿esto es un problema para recibir el NFT?",
+      "answer4": "Puedes hacerlo sin problema desde la PC, solo ten en cuenta que si creas tu wallet por primera vez desde la computadora y luego deseas pasar a la app, deberás importar la wallet usando la frase de recuperación. De lo contrario, se generarán dos wallets y el NFT se depositará en la última wallet creada.",
+      "question5": "¿Cuándo recibiré mi NFT?",
+      "answer5": "Una vez hayas “Reclamado” tu NFT desde la Aplicación, verificaremos que tu mail se encuentre en la Waiting list y de ser así lo estaremos enviando a tu Wallet, recibirás una notificación en cuanto lo recibas.",
+      "question6": "¿Cómo puedo visualizar mi NFT?",
+      "answer6": "Desde el Home de Wallet, en la solapa NFT, veras tu NFT de regalo una vez lo hayas recibido, podrás visualizar los detalles haciendo clic en el mismo."
         },
     "support_wallet": {
       "header": "Ayuda",
@@ -2850,12 +2113,12 @@
       "question10": "¿Cómo puedo eliminar mi Wallet de Xcapit de este dispositivo?",
       "answer10": "Podrás eliminar la Wallet de la cuenta de Xcapit desde el menú principal de la app: ve a tu Perfil y haz clic en “Eliminar Wallet”. <br> La Wallet no se elimina nunca de forma completa. Podrás acceder a ella con tu frase de recuperación, en cualquier momento."
     },
-    "support_wallet_operations":{
+    "support_wallet_operations": {
       "header": "Ayuda",
       "title": "Operaciones con mi Wallet",
       "question1": "¿Qué costo tienen las transacciones a otra billetera?",
-      "answer1": "El costo de transferencia va a depender de la moneda transferida y a través de qué red se esté transfiriendo.<br>Los tokens que se van a poder alojar, recibir y transferir son todos los de la red de Ethereum, Polygon y RSK.<br>Polygon y RSK son las redes con menor costo de transacción.",
-      "question2": "¿Por qué aparece un mensaje de “fondo insuficiente” para realizar el pago de comisiones si yo tengo crypto?",
+      "answer1": "El costo de transferencia va a depender de la moneda transferida y a través de qué red se esté transfiriendo.<br>Los tokens que se van a poder alojar, recibir y transferir son todos los de la red de Ethereum, Polygon, RSK y BSC (Binance Smart Chain).<br>Polygon y RSK son las redes con menor costo de transacción.",
+      "question2": "¿Por qué aparece un mensaje de “fondo insuficiente” para realizar el pago de comisiones si yo tengo cripto?",
       "answer2": "Porque el pago de fee de las transacciones se hacen en la moneda nativa de la red.<br>A través de swap de la billetera de Xcapit podrás adquirir los tokens nativos para pagar las fee o comisiones.",
       "question3": "¿Cuánto tiempo demora en acreditarse una transferencia?",
       "answer3": "De la misma manera que el costo de la transferencia, el tiempo va a depender de la blockchain de la misma.",
@@ -2864,7 +2127,7 @@
       "question5": "¿Cómo transferir mi dinero?",
       "answer5": "<ol><li>Debes seleccionar el token que desea transferir.</li><li>Pegar en el campo de dirección, la dirección a la cual quiere enviar los mismos. Para transferir, necesitas la dirección de depósito específica del destinatario para el token que deseas transferir.</li><li>Ingresar el monto que quieres transferir.</li><li>Verificar que los datos sean correctos.</li></ol>",
       "question6": "¿Podré generar rendimientos con mis Tokens que se encuentren en la Wallet de Xcapit?",
-      "answer6": "Pronto podrás generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit, estos productos de inversión se encontrarán en las Blockchains de ETH, RSK y Polygon y variarán en rendimientos, riesgos y protocolos de inversión. El rendimiento es continuo para las inversiones en USDC, se actualiza cada 30 segundos.",
+      "answer6": "Puedes generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit. Estos productos de inversión se encontrarán en la blockchain de Polygon y variará en rendimientos, riesgos y protocolos de inversión. El rendimiento es continuo para las inversiones en USDC, se actualiza cada 30 segundos.",
       "question7": "¿Qué opciones tengo para invertir dentro de la App de Xcapit?",
       "answer7": "Actualmente puedes invertir en Productos de inversión descentralizados a través de los tokens USDC y  DAI, todos sobre la Blockchain de Polygon.",
       "question8": "¿Cómo invierto?",

@@ -13,7 +13,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/moonpay"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/new-operation/moonpay"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.operation_detail.header' | translate }}
@@ -275,6 +275,6 @@ export class OperationsDetailPage implements OnInit {
   }
 
   navigateBackToOperations() {
-    this.navController.navigateBack(['/fiat-ramps/moonpay']);
+    this.navController.navigateBack(['/fiat-ramps/new-operation/moonpay']);
   }
 }

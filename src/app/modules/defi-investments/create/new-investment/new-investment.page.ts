@@ -123,7 +123,7 @@ export class NewInvestmentPage implements OnInit {
   }
 
   goToMoonpay() {
-    this.navController.navigateForward(['fiat-ramps/moonpay']);
+    this.navController.navigateForward(['fiat-ramps/new-operation/moonpay']);
   }
 
   getToken() {

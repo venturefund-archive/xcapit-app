@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, NavController, ModalController } from '@ionic/angular';
 
 import { UserInformationPage } from './user-information.page';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
@@ -13,6 +13,8 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
+import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
 
 const formData = {
   valid: {
@@ -65,16 +67,19 @@ const formData = {
 describe('UserInformationPage', () => {
   let component: UserInformationPage;
   let fixture: ComponentFixture<UserInformationPage>;
-  let fiatRampsServiceSpy: any;
-  let navControllerSpy: any;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserInformationPage>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
 
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      navControllerSpy = navControllerSpy = new FakeNavController().createSpy();
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
         registerUserInfo: of({}),
       });
+
+      modalControllerSpy = new FakeModalController().createSpy();
 
       TestBed.configureTestingModule({
         declarations: [UserInformationPage, FakeTrackClickDirective, DummyComponent],
@@ -83,6 +88,7 @@ describe('UserInformationPage', () => {
         providers: [
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
         ],
       }).compileComponents();
     })
@@ -97,6 +103,10 @@ describe('UserInformationPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should show modal on init', () => {
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should call registerUserInfo when form submited is valid', () => {

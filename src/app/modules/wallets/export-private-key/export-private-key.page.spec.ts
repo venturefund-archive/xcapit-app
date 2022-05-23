@@ -81,8 +81,16 @@ describe('ExportPrivateKeyPage', () => {
     expect(component.keys.privateKey).toEqual('testPrivateKey');
   });
 
-  it('should redirect if password not set', async () => {
+  it('should redirect and not show error toast if password not set', async () => {
     fakeModalController.modifyReturns({}, { data: undefined });
+    walletEncryptionServiceSpy.getDecryptedWalletForNetwork.and.returnValue(Promise.reject());
+    await component.ionViewDidEnter();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(0);
+  });
+
+  it('should redirect and show error toast if password is incorrect', async () => {
     walletEncryptionServiceSpy.getDecryptedWalletForNetwork.and.returnValue(Promise.reject());
     await component.ionViewDidEnter();
     await fixture.whenStable();

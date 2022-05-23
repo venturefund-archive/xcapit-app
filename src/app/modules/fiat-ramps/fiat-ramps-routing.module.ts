@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
+import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { UserHasOperationsGuard } from './shared-ramps/guards/user-has-operations/user-has-operations.guard';
 import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 
@@ -11,7 +11,17 @@ const routes: Routes = [
     children: [
       {
         path: 'new-operation',
-        loadChildren: () => import('./operations-new/operations-new.module').then((m) => m.OperationsNewPageModule),
+        children: [
+          {
+            path: 'kripton',
+            loadChildren: () => import('./operations-new/operations-new.module').then((m) => m.OperationsNewPageModule),
+          },
+          {
+            path: 'moonpay',
+            canActivate: [HasWallet],
+            loadChildren: () => import('./moonpay/moonpay.module').then((m) => m.MoonpayPageModule),
+          },
+        ],
       },
       {
         path: 'confirm-page',
@@ -61,13 +71,11 @@ const routes: Routes = [
           import('./information-paxful/information-paxful.module').then((m) => m.InformationPaxfulPageModule),
       },
       {
-        path: 'moonpay',
-        canActivate: [HasWallet],
-        loadChildren: () => import('./moonpay/moonpay.module').then((m) => m.MoonpayPageModule),
-      },
-      {
         path: 'token-selection',
-        loadChildren: () => import('./provider-token-selection/provider-token-selection.module').then( m => m.ProviderTokenSelectionPageModule),
+        loadChildren: () =>
+          import('./provider-token-selection/provider-token-selection.module').then(
+            (m) => m.ProviderTokenSelectionPageModule
+          ),
       },
     ],
   },

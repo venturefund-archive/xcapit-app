@@ -42,7 +42,7 @@ import { NavController } from '@ionic/angular';
             <ion-button
               class="ux_button"
               appTrackClick
-              name="go_to_causes"
+              name="ux_donations_start"
               type="submit"
               color="secondary"
               size="large"

@@ -85,13 +85,16 @@ export class SendSummaryPage implements OnInit {
     await this.loadingService.dismiss();
     const modal = await this.modalController.create({
       component: WalletPasswordComponent,
-      cssClass: 'ux-routeroutlet-modal full-screen-modal',
+      cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       componentProps: {
         state: 'send',
       },
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
+    if (data === undefined) {
+      this.loading = false;
+    }
 
     return data;
   }
@@ -105,7 +108,7 @@ export class SendSummaryPage implements OnInit {
       password,
       this.summaryData.amount,
       this.summaryData.address,
-      this.summaryData.currency,
+      this.summaryData.currency
     );
     await this.goToSuccess(response);
   }
@@ -141,10 +144,10 @@ export class SendSummaryPage implements OnInit {
 
     try {
       const password = await this.askForPassword();
-      this.loading = true;
       if (!password) {
         return;
       }
+      this.loading = true;
       await this.send(password);
     } catch (error) {
       await this.handleSendError(error);
