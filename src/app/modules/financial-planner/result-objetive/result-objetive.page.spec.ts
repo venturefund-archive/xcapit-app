@@ -162,4 +162,14 @@ describe('ResultObjetivePage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should show a warning toast on calculating more than 500 weeks on objective goal', async () => {
+    const spy = spyOn (component, 'openModalMoreThan500Weeks')
+    component.products = [productTest];
+    component.isOpen = false;
+    component.weeks = 999999;
+    component.calculationsInvesting();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  })
 });
