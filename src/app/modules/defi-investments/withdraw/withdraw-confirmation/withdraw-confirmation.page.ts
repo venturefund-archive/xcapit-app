@@ -256,7 +256,8 @@ export class WithdrawConfirmationPage implements OnInit {
             await (await investment.withdraw(this.amount.value)).wait();
           }
           await this.navController.navigateForward('/defi/withdraw/success');
-        } catch {
+        } catch (error) {
+          console.log(error);
           await this.navController.navigateForward(['/defi/withdraw/error', this.vaultID()]);
         } finally {
           this.loadingEnabled(false);

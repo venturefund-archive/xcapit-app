@@ -22,7 +22,7 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
           <ion-text *ngIf="!this.showRange && !this.isLoaderActive" class="ux-font-text-xl">
             {{ this.available | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
           >
-          <ion-text *ngIf=" !this.isLoaderActive" class="ux-font-text-xxs">
+          <ion-text *ngIf="!this.isLoaderActive" class="ux-font-text-xxs">
             ≈ {{ this.usdPrice | number: '1.2-2' }} {{ this.quoteCurrency }}
           </ion-text>
         </div>
@@ -145,6 +145,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   setMax() {
+    console.log('set max amount ', this.available);
     this.form.get('amount').patchValue(this.available);
   }
 
@@ -170,6 +171,7 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   percentageChange(value) {
+    console.log('percentage change', value);
     if (!isNaN(value)) {
       if (value > 100) {
         this.form.patchValue(
@@ -200,6 +202,8 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private amountChange(value: number) {
+    console.log('amount change ', value);
+    console.log('invested amount ', this.investedAmount);
     if (value > this.investedAmount) {
       this.form.patchValue(
         {
@@ -282,19 +286,21 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private async balanceAvailable() {
-    const balance = await this.walletBalance.balanceOf(this.baseCurrency);
-    if (this.baseCurrency.native && this.nativeFee) {
-      const nativeBalanceWithoutFee = balance - this.nativeFee;
-      this.available = nativeBalanceWithoutFee > 0 ? nativeBalanceWithoutFee : 0;
-    } else {
-      this.available = balance;
-    }
-
     if (!this.showRange) {
+      const balance = await this.walletBalance.balanceOf(this.baseCurrency);
+      if (this.baseCurrency.native && this.nativeFee) {
+        const nativeBalanceWithoutFee = balance - this.nativeFee;
+        this.available = nativeBalanceWithoutFee > 0 ? nativeBalanceWithoutFee : 0;
+      } else {
+        this.available = balance;
+      }
       this.setPrice(this.available);
     } else {
+      this.available = this.investedAmount;
       this.setPrice(this.investedAmount);
     }
+
+    console.log('this.available ', this.available);
   }
 
   amount(value: number) {
