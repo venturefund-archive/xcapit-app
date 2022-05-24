@@ -43,7 +43,7 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
       </ion-card>
       <div class="id__weekly-profit-disclaimer ion-padding-horizontal" *ngIf="this.disclaimer">
         <ion-label class=" ux-font-text-xs" color="neutral80">
-          {{ 'defi_investments.invest_detail.daily_earnings_disclaimer' | translate }}
+          {{ this.updateEarning | translate }}
         </ion-label>
       </div>
       <ion-button
@@ -77,6 +77,7 @@ export class InvestmentDetailPage implements OnInit {
   referenceBalance: number;
   balance: number;
   disclaimer = false;
+  updateEarning: string;
   constructor(
     private route: ActivatedRoute,
     private twoPiApi: TwoPiApi,
@@ -146,7 +147,11 @@ export class InvestmentDetailPage implements OnInit {
     const product = this.createAvailableDefiProducts()
       .value()
       .find((product) => product.id === this.investmentProduct.name());
-    if (product) this.disclaimer = true;
+    if (product){
+      this.disclaimer = true;
+      this.updateEarning = product.continuousEarning ? '*Actualización continua' : '*Actualización semanal'
+      
+    } 
   }
 
   createAvailableDefiProducts(): AvailableDefiProducts {

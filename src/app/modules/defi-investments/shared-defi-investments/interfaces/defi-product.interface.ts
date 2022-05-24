@@ -1,6 +1,6 @@
 export interface DefiProduct {
   id: string;
   isComing: boolean;
-  dailyEarning: boolean;
+  continuousEarning: boolean;
   category : string;
 }

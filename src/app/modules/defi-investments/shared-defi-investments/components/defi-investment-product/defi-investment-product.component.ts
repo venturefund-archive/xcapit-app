@@ -78,7 +78,7 @@ import { NavController } from '@ionic/angular';
 export class DefiInvestmentProductComponent implements OnInit {
   @Input() investmentProduct: InvestmentProduct;
   @Input() isComing: boolean;
-  @Input() dailyEarning: boolean;
+  @Input() continuousEarning: boolean;
   apy: number;
   tvl: number;
   token: Coin;
@@ -92,9 +92,9 @@ export class DefiInvestmentProductComponent implements OnInit {
     this.tvl = this.investmentProduct.tvl();
     this.token = this.investmentProduct.token();
     this.secondFooterLabel =
-      this.dailyEarning
+      this.continuousEarning
         ? 'defi_investments.shared.defi_investment_product.daily_earnings'
-        : 'defi_investments.shared.defi_investment_product.immediate_rescue';
+        : 'defi_investments.shared.defi_investment_product.weekly_earnings';
     this.trackClickName = `ux_invest_${this.token.value.toLowerCase()}`;
   }
 

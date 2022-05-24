@@ -36,11 +36,11 @@ import { NavController } from '@ionic/angular';
             [investmentProduct]="investment.product"
             [balance]="investment.balance"
           ></app-investment-balance-item>
-          <div class="dp__weekly-profit-disclaimer" *ngIf="this.activeInvestments.length">
+          <!-- <div class="dp__weekly-profit-disclaimer" *ngIf="this.activeInvestments.length">
             <ion-label class=" ux-font-text-xxs" color="neutral80">
               {{ 'defi_investments.shared.defi_investment_product.daily_earnings_disclaimer_active' | translate }}
             </ion-label>
-          </div>
+          </div> -->
         </div>
         <div
           class="dp__available-card-skeleton"
@@ -92,16 +92,16 @@ import { NavController } from '@ionic/angular';
             *ngFor="let investment of this.filteredAvailableInvestments"
             [investmentProduct]="investment.product"
             [isComing]="investment.isComing"
-            [dailyEarning]="investment.dailyEarning"
+            [continuousEarning]="investment.continuousEarning"
           ></app-defi-investment-product>
-          <div
+          <!-- <div
             class="dp__weekly-profit-disclaimer"
             *ngIf="!this.activeInvestments.length && this.filteredAvailableInvestments.length"
           >
             <ion-label class=" ux-font-text-xxs" color="neutral80">
               {{ 'defi_investments.shared.defi_investment_product.daily_earnings_disclaimer_available' | translate }}
             </ion-label>
-          </div>
+          </div> -->
         </div>
       </div>
       <div *ngIf="this.activeInvestments.length || this.availableInvestments.length" class="dp__link">
@@ -232,7 +232,7 @@ export class DefiInvestmentProductsPage {
         product: investmentProduct,
         balance: balance,
         isComing: product.isComing,
-        dailyEarning: product.dailyEarning,
+        continuousEarning: product.continuousEarning,
         category: product.category,
       });
     }
