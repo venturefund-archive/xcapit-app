@@ -36,7 +36,6 @@ import { WalletBalanceService } from '../../../wallets/shared-wallets/services/w
         <app-expandable-investment-info [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
       </ion-card>
       <ion-card class="ux-card saw__amount_card">
-        iamount {{ this.investedAmount }}
         <form [formGroup]="this.form" *ngIf="this.investmentProduct && this.token">
           <app-amount-input-card
             *ngIf="this.investedAmount"

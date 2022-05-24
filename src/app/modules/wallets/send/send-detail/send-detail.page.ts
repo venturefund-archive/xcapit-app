@@ -20,6 +20,9 @@ import { ERC20ContractController } from '../../../defi-investments/shared-defi-i
 import { FakeProvider } from '../../../../shared/models/provider/fake-provider.spec';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
 import { parseUnits } from 'ethers/lib/utils';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 
 @Component({
   selector: 'app-send-detail',
@@ -67,11 +70,13 @@ import { parseUnits } from 'ethers/lib/utils';
         <div class="sd__amount-input-card" *ngIf="this.token">
           <ion-card class="ux-card">
             <app-amount-input-card
-              [isSend]="true"
+              *ngIf="this.balance && this.fee"
               [header]="'defi_investments.shared.amount_input_card.available' | translate"
               [showRange]="false"
               [baseCurrency]="this.token"
-              [nativeFee]="this.fee"
+              [max]="this.balance - this.fee"
+              [quotePrice]="this.quotePrice"
+              [feeToken]="this.nativeToken"
             ></app-amount-input-card>
           </ion-card>
         </div>
@@ -106,6 +111,9 @@ import { parseUnits } from 'ethers/lib/utils';
   styleUrls: ['./send-detail.page.scss'],
 })
 export class SendDetailPage {
+  private destroy$ = new Subject<void>();
+  private priceRefreshInterval = 15000;
+
   alertType = UX_ALERT_TYPES.warning;
   token: Coin;
   nativeToken: Coin;
@@ -114,6 +122,7 @@ export class SendDetailPage {
   nativeBalance: number;
   balance: number;
   amount: number;
+  quotePrice: number;
   fee: number;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
@@ -134,9 +143,11 @@ export class SendDetailPage {
   ) {}
 
   async ionViewDidEnter() {
+    //TODO: agregar skeleton al amount-input
     this.tokenAndNetworks();
-    await this.tokenBalances();
+    this.dynamicPrice();
     await this.nativeTransferFee();
+    await this.tokenBalances();
   }
 
   private async userWallet() {
@@ -248,5 +259,21 @@ export class SendDetailPage {
 
   selectedNetworkChanged(network) {
     this.selectedNetwork = network;
+  }
+
+  private dynamicPrice() {
+    this.createDynamicPrice()
+      .value()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((price: number) => (this.quotePrice = price));
+  }
+
+  createDynamicPrice(): DynamicPrice {
+    return DynamicPrice.create(this.priceRefreshInterval, this.token, this.apiWalletService);
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

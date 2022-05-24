@@ -1,6 +1,6 @@
 import { WalletBalanceService } from '../../../modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 
@@ -13,16 +13,11 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
           {{ this.header }}
         </ion-text>
         <div class="aic__available__amounts">
-          <ion-text *ngIf="!this.isLoaderActive" class="ux-font-text-xl">
-            {{ this.max | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
-          >
-          <ion-text *ngIf="!this.isLoaderActive" class="ux-font-text-xxs">
+          <ion-text class="ux-font-text-xl"> {{ this.max | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text>
+          <ion-text class="ux-font-text-xxs">
             ≈ {{ this.quoteMax | number: '1.2-2' }} {{ this.quoteCurrency }}
           </ion-text>
         </div>
-      </div>
-      <div class="aic__loader" *ngIf="this.isLoaderActive && !this.showRange">
-        <app-ux-loading-block minSize="40px"></app-ux-loading-block>
       </div>
       <div class="aic__content">
         <div class="aic__content__title">
@@ -92,7 +87,7 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
   ],
   styleUrls: ['./amount-input-card.component.scss'],
 })
-export class AmountInputCardComponent implements OnInit {
+export class AmountInputCardComponent implements OnInit, OnChanges {
   @Input() baseCurrency: Coin;
   @Input() quoteCurrency = 'USD';
   @Input() quotePrice: number;
@@ -101,16 +96,13 @@ export class AmountInputCardComponent implements OnInit {
   @Input() disclaimer = true;
   @Input() max: number;
   @Input() showRange: boolean;
-  @Input() isSend = false;
   @Input() feeToken: Coin;
   form: FormGroup;
   quoteMax: number;
-  isLoaderActive: boolean;
 
   constructor(private formGroupDirective: FormGroupDirective) {}
 
   ngOnInit() {
-    this.isLoaderActive = true;
     this.subscribeToFormChanges();
     this.setPrice();
   }
@@ -119,13 +111,9 @@ export class AmountInputCardComponent implements OnInit {
     return { emitEvent: false, onlySelf: true };
   }
 
-  // async ngOnChanges(changes: SimpleChanges): Promise<void> {
-  //   if (changes.nativeFee?.currentValue) {
-  //     const previousBalance = this.max;
-  //     await this.balanceAvailable();
-  //     if (this.form.value.amount === previousBalance) this.setMax();
-  //   }
-  // }
+  async ngOnChanges(): Promise<void> {
+    this.setPrice();
+  }
 
   setMax() {
     this.form.get('amount').patchValue(this.max);
@@ -160,18 +148,6 @@ export class AmountInputCardComponent implements OnInit {
       };
     }
     this.form.patchValue(patchValues, this.defaultPatchValueOptions());
-    // TODO: Agregar casos de send
-    // if (this.isSend) {
-    //   if (value > this.max) {
-    //     this.form.patchValue(
-    //       {
-    //         quoteAmount: this.parseAmount(this.max * this.quotePrice),
-    //         amount: this.max,
-    //       },
-    //       this.defaultPatchValueOptions()
-    //     );
-    //   }
-    // }
   }
 
   private quoteAmountChange(value: number) {
@@ -188,18 +164,6 @@ export class AmountInputCardComponent implements OnInit {
     }
 
     this.form.patchValue(patchValues, this.defaultPatchValueOptions());
-    // TODO: Agregar casos de send
-    // if (this.isSend) {
-    //   if (value > this.max * this.quotePrice) {
-    //     this.form.patchValue(
-    //       {
-    //         quoteAmount: this.parseAmount(this.max * this.quotePrice),
-    //         amount: this.max,
-    //       },
-    //       this.defaultPatchValueOptions()
-    //     );
-    //   }
-    // }
   }
   percentageChange(value) {
     let patchValues = {};
@@ -237,23 +201,6 @@ export class AmountInputCardComponent implements OnInit {
     return stringValue;
   }
 
-  // private async balanceAvailable() {
-  //   if (!this.showRange) {
-  //     const balance = await this.walletBalance.balanceOf(this.baseCurrency);
-  //     if (this.baseCurrency.native && this.nativeFee) {
-  //       const nativeBalanceWithoutFee = balance - this.nativeFee;
-  //       this.max = nativeBalanceWithoutFee > 0 ? nativeBalanceWithoutFee : 0;
-  //     } else {
-  //       this.max = balance;
-  //     }
-  //     this.setPrice(this.max);
-  //   } else {
-  //     this.max = this.investedAmount;
-  //     this.setPrice(this.investedAmount);
-  //   }
-  //   console.log('this.available ', this.max);
-  // }
-
   amount(value: number) {
     return (this.max * value) / 100;
   }
@@ -264,6 +211,5 @@ export class AmountInputCardComponent implements OnInit {
 
   setPrice() {
     this.quoteMax = this.max * this.quotePrice;
-    this.isLoaderActive = false;
   }
 }
