@@ -76,7 +76,10 @@ cache:
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
     - npm run test-ci
-    
+  after_script:
+    - npm run coveralls
+  allow_failure: true
+
 
 ### Docker lint
 .docker-lint: &docker-lint
