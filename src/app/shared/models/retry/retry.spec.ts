@@ -1,7 +1,7 @@
 import { of, throwError } from 'rxjs';
 import { Task } from '../task/task';
 import { Retry } from './retry';
-import { discardPeriodicTasks, fakeAsync, flush, flushMicrotasks, tick } from '@angular/core/testing';
+import { fakeAsync, tick } from '@angular/core/testing';
 
 describe('Retry', () => {
   let taskSpy: jasmine.SpyObj<Task>;
