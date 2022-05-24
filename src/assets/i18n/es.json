@@ -1348,9 +1348,17 @@
       "loading": "Cargando..."
     },
     "success_creation": {
-      "title": "¡Genial!",
-      "subtitle": "Verificaste tu frase de recuperación y creaste tu wallet",
-      "success_button": "Ir a wallet"
+      "title": "¡Felicitaciones!\nCreaste tu wallet",
+      "subtitle": "Protégela haciendo una copia de seguridad de tu frase de recuperación.\nEsta es la llave maestra de tus fondos.",
+      "success_button": "Ir a wallet",
+      "ribbon_recommended": "Recomendado",
+      "primary_action":{
+        "title":"Proteger mi wallet",
+        "subtitle":"Hazlo ahora y no pierdas el acceso a tu dinero. Sólo tomará unos minutos."
+      },
+      "secondary_action":{
+        "title":"En otro momento"
+      }
     },
     "recovery_phrase": {
       "header": "Crear wallet",
