@@ -1,0 +1,36 @@
+.main {
+  &__body {
+    padding: 24px 16px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+
+    &__form {
+      margin-top: 16px;
+
+      ion-item {
+        align-items: flex-start;
+
+        ion-checkbox {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+
+    &__button {
+      flex-basis: 50%;
+      text-decoration: none;
+
+      &-back {
+        color: var(--ion-color-neutral80);
+      }
+    }
+  }
+}
+
+.button-disabled {
+  color: var(--ion-color-neutral50);
+}

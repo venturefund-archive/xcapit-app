@@ -1356,9 +1356,17 @@
       "loading": "Loading..."
     },
     "success_creation": {
-      "title": "Nice!",
-      "subtitle": "You verified your recovery phrase and created your wallet",
-      "success_button": "Go to wallet"
+      "title": "Congratulations!\nYou have created your wallet",
+      "subtitle": "Protect it by backing up your recovery phrase.\nThis is the master key to your funds.",
+      "success_button": "Go to wallet",
+      "ribbon_recommended": "Suggested",
+      "primary_action":{
+        "title":"Protecting my wallet",
+        "subtitle":"Do it now and don't lose access to your money. It will only take a few minutes."
+      },
+      "secondary_action":{
+        "title":"Another time"
+      }
     },
     "recovery_phrase": {
       "header": "Create Wallet",
@@ -1546,6 +1554,12 @@
         "claimed_title": "¡Your NFT is on the way!",
         "claimed_subtitle": "Starting December 6, we will deliver the NFTs progressively.*",
         "claimed_note": "*They will be delivered according to the order in which they were claimed."
+      },
+      "skip-backup-modal":{
+        "title":"Skip backup?",
+        "description":"I understand that if I do not make a copy of my recovery phrase, I may lose access to my funds.",
+        "button_back":"Back",
+        "button_skip":"Skip"
       }
     },
     "asset_detail": {

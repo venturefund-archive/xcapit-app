@@ -1537,6 +1537,12 @@
           "title": "La contraseña ingresada no es correcta.",
           "button_text": "Reintentar"
         }
+      },
+      "skip-backup-modal":{
+        "title":"¿Omitir copia de seguridad?",
+        "description":"Entiendo que si no realizo una copia de mi frase de recuperación, podría perder el acceso a mis fondos.",
+        "button_back":"Atrás",
+        "button_skip":"Omitir"
       }
     },
     "asset_detail": {
