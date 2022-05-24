@@ -1,11 +1,8 @@
 import { WalletBalanceService } from '../../../modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
-import { Subject } from 'rxjs';
 import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
-import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { takeUntil } from 'rxjs/operators';
-import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
 
 @Component({
   selector: 'app-amount-input-card',
@@ -16,14 +13,11 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
           {{ this.header }}
         </ion-text>
         <div class="aic__available__amounts">
-          <ion-text *ngIf="this.showRange" class="ux-font-text-xl">
-            {{ this.investedAmount | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
-          >
-          <ion-text *ngIf="!this.showRange && !this.isLoaderActive" class="ux-font-text-xl">
-            {{ this.available | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
+          <ion-text *ngIf="!this.isLoaderActive" class="ux-font-text-xl">
+            {{ this.max | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text
           >
           <ion-text *ngIf="!this.isLoaderActive" class="ux-font-text-xxs">
-            ≈ {{ this.usdPrice | number: '1.2-2' }} {{ this.quoteCurrency }}
+            ≈ {{ this.quoteMax | number: '1.2-2' }} {{ this.quoteCurrency }}
           </ion-text>
         </div>
       </div>
@@ -65,7 +59,6 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
             >
             </ion-input>
             <ion-button
-              [disabled]="!this.usdPrice || (this.baseCurrency.native && !this.nativeFee)"
               (click)="this.setMax()"
               slot="end"
               fill="clear"
@@ -85,8 +78,8 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
         </div>
         <div *ngIf="this.disclaimer" class="aic__content__disclaimer">
           <ion-text class="ux-font-text-xs" style="white-space: pre-wrap;"
-            >{{ 'defi_investments.shared.amount_input_card.disclaimer' | translate }} {{ this.feeCoin }}.</ion-text
-          >
+            >{{ 'defi_investments.shared.amount_input_card.disclaimer' | translate }} {{ this.feeToken.value }}.
+          </ion-text>
         </div>
       </div>
     </div>
@@ -99,176 +92,135 @@ import { DynamicPrice } from '../../models/dynamic-price/dynamic-price.model';
   ],
   styleUrls: ['./amount-input-card.component.scss'],
 })
-export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() label: string;
-  @Input() header: string;
-  @Input() investedAmount: number;
+export class AmountInputCardComponent implements OnInit {
   @Input() baseCurrency: Coin;
   @Input() quoteCurrency = 'USD';
-  @Input() showRange: boolean;
-  @Input() priceRefreshInterval = 15000;
-  @Input() nativeFee = 0;
-  @Input() isSend = false;
+  @Input() quotePrice: number;
+  @Input() label: string;
+  @Input() header: string;
   @Input() disclaimer = true;
-  available: number;
-  feeCoin: string;
-  private destroy$ = new Subject<void>();
-  price: number;
+  @Input() max: number;
+  @Input() showRange: boolean;
+  @Input() isSend = false;
+  @Input() feeToken: Coin;
   form: FormGroup;
-  usdPrice: number;
+  quoteMax: number;
   isLoaderActive: boolean;
 
-  constructor(
-    private formGroupDirective: FormGroupDirective,
-    private apiWalletService: ApiWalletService,
-    private walletBalance: WalletBalanceService
-  ) {}
+  constructor(private formGroupDirective: FormGroupDirective) {}
 
   ngOnInit() {
     this.isLoaderActive = true;
-    this.balanceAvailable();
-    this.setFeeCoin();
-    this.dynamicPrice();
     this.subscribeToFormChanges();
+    this.setPrice();
   }
 
   defaultPatchValueOptions() {
     return { emitEvent: false, onlySelf: true };
   }
 
-  async ngOnChanges(changes: SimpleChanges): Promise<void> {
-    if (changes.nativeFee?.currentValue) {
-      const previousBalance = this.available;
-      await this.balanceAvailable();
-      if (this.form.value.amount === previousBalance) this.setMax();
-    }
-  }
+  // async ngOnChanges(changes: SimpleChanges): Promise<void> {
+  //   if (changes.nativeFee?.currentValue) {
+  //     const previousBalance = this.max;
+  //     await this.balanceAvailable();
+  //     if (this.form.value.amount === previousBalance) this.setMax();
+  //   }
+  // }
 
   setMax() {
-    console.log('set max amount ', this.available);
-    this.form.get('amount').patchValue(this.available);
+    this.form.get('amount').patchValue(this.max);
   }
 
-  private dynamicPrice() {
-    this.createDynamicPrice()
-      .value()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((price: number) => (this.price = price));
-  }
-
-  createDynamicPrice(): DynamicPrice {
-    return DynamicPrice.create(this.priceRefreshInterval, this.baseCurrency, this.apiWalletService);
+  private maxFormValues() {
+    return {
+      quoteAmount: this.parseAmount(this.max * this.quotePrice),
+      percentage: 100,
+      range: 100,
+      amount: this.max,
+    };
   }
 
   subscribeToFormChanges() {
     this.form = this.formGroupDirective.form;
-    const percentage = this.form.get('percentage');
-    const range = this.form.get('range');
     this.form.get('amount').valueChanges.subscribe((value) => this.amountChange(value));
     this.form.get('quoteAmount').valueChanges.subscribe((value) => this.quoteAmountChange(value));
-    if (percentage) percentage.valueChanges.subscribe((value) => this.percentageChange(value));
-    if (range) range.valueChanges.subscribe((value) => this.rangeChange(value));
-  }
-
-  percentageChange(value) {
-    console.log('percentage change', value);
-    if (!isNaN(value)) {
-      if (value > 100) {
-        this.form.patchValue(
-          {
-            percentage: 100,
-            range: 100,
-            quoteAmount: this.parseAmount(this.investedAmount * this.price),
-            amount: this.investedAmount,
-          },
-          this.defaultPatchValueOptions()
-        );
-      } else {
-        this.form.patchValue(
-          { range: value, amount: this.amount(value), quoteAmount: this.quoteAmount(value) },
-          this.defaultPatchValueOptions()
-        );
-      }
-    }
-  }
-
-  rangeChange(value) {
-    if (!isNaN(value)) {
-      this.form.patchValue(
-        { percentage: value, amount: this.amount(value), quoteAmount: this.quoteAmount(value) },
-        this.defaultPatchValueOptions()
-      );
-    }
+    if (this.showRange) this.form.get('percentage').valueChanges.subscribe((value) => this.percentageChange(value));
+    if (this.showRange) this.form.get('range').valueChanges.subscribe((value) => this.rangeChange(value));
   }
 
   private amountChange(value: number) {
-    console.log('amount change ', value);
-    console.log('invested amount ', this.investedAmount);
-    if (value > this.investedAmount) {
-      this.form.patchValue(
-        {
-          quoteAmount: this.parseAmount(this.investedAmount * this.price),
-          percentage: 100,
-          range: 100,
-          amount: this.investedAmount,
-        },
-        this.defaultPatchValueOptions()
-      );
+    let patchValues = {};
+    if (value > this.max) {
+      patchValues = this.maxFormValues();
     } else {
-      this.form.patchValue(
-        {
-          quoteAmount: this.parseAmount(value * this.price),
-          percentage: Math.round((value * 100) / this.investedAmount),
-          range: (value * 100) / this.investedAmount,
-        },
-        this.defaultPatchValueOptions()
-      );
+      patchValues = {
+        quoteAmount: this.parseAmount(value * this.quotePrice),
+        percentage: Math.round((value * 100) / this.max),
+        range: (value * 100) / this.max,
+      };
     }
-    if (this.isSend) {
-      if (value > this.available) {
-        this.form.patchValue(
-          {
-            quoteAmount: this.parseAmount(this.available * this.price),
-            amount: this.available,
-          },
-          this.defaultPatchValueOptions()
-        );
-      }
-    }
+    this.form.patchValue(patchValues, this.defaultPatchValueOptions());
+    // TODO: Agregar casos de send
+    // if (this.isSend) {
+    //   if (value > this.max) {
+    //     this.form.patchValue(
+    //       {
+    //         quoteAmount: this.parseAmount(this.max * this.quotePrice),
+    //         amount: this.max,
+    //       },
+    //       this.defaultPatchValueOptions()
+    //     );
+    //   }
+    // }
   }
 
   private quoteAmountChange(value: number) {
-    if (value > this.investedAmount) {
-      this.form.patchValue(
-        {
-          amount: this.investedAmount,
-          percentage: 100,
-          range: 100,
-          quoteAmount: this.parseAmount(this.investedAmount * this.price),
-        },
-        this.defaultPatchValueOptions()
-      );
+    let patchValues = {};
+
+    if (value > this.max * this.quotePrice) {
+      patchValues = this.maxFormValues();
     } else {
-      this.form.patchValue(
-        {
-          amount: value / this.price,
-          percentage: Math.round(((value / this.price) * 100) / this.investedAmount),
-          range: ((value / this.price) * 100) / this.investedAmount,
-        },
-        this.defaultPatchValueOptions()
-      );
+      patchValues = {
+        amount: value / this.quotePrice,
+        percentage: Math.round(((value / this.quotePrice) * 100) / this.max),
+        range: ((value / this.quotePrice) * 100) / this.max,
+      };
     }
-    if (this.isSend) {
-      if (value > this.available * this.price) {
-        this.form.patchValue(
-          {
-            quoteAmount: this.parseAmount(this.available * this.price),
-            amount: this.available,
-          },
-          this.defaultPatchValueOptions()
-        );
-      }
+
+    this.form.patchValue(patchValues, this.defaultPatchValueOptions());
+    // TODO: Agregar casos de send
+    // if (this.isSend) {
+    //   if (value > this.max * this.quotePrice) {
+    //     this.form.patchValue(
+    //       {
+    //         quoteAmount: this.parseAmount(this.max * this.quotePrice),
+    //         amount: this.max,
+    //       },
+    //       this.defaultPatchValueOptions()
+    //     );
+    //   }
+    // }
+  }
+  percentageChange(value) {
+    let patchValues = {};
+    if (!value) value = 0;
+    if (value > 100) {
+      patchValues = this.maxFormValues();
+    } else {
+      patchValues = {
+        quoteAmount: this.quoteAmount(value),
+        range: value,
+        amount: this.amount(value),
+      };
     }
+    this.form.patchValue(patchValues, this.defaultPatchValueOptions());
+  }
+
+  rangeChange(value) {
+    this.form.patchValue(
+      { percentage: value, amount: this.amount(value), quoteAmount: this.quoteAmount(value) },
+      this.defaultPatchValueOptions()
+    );
   }
 
   private parseAmount(value: number): string {
@@ -285,45 +237,33 @@ export class AmountInputCardComponent implements OnInit, OnDestroy, OnChanges {
     return stringValue;
   }
 
-  private async balanceAvailable() {
-    if (!this.showRange) {
-      const balance = await this.walletBalance.balanceOf(this.baseCurrency);
-      if (this.baseCurrency.native && this.nativeFee) {
-        const nativeBalanceWithoutFee = balance - this.nativeFee;
-        this.available = nativeBalanceWithoutFee > 0 ? nativeBalanceWithoutFee : 0;
-      } else {
-        this.available = balance;
-      }
-      this.setPrice(this.available);
-    } else {
-      this.available = this.investedAmount;
-      this.setPrice(this.investedAmount);
-    }
-
-    console.log('this.available ', this.available);
-  }
+  // private async balanceAvailable() {
+  //   if (!this.showRange) {
+  //     const balance = await this.walletBalance.balanceOf(this.baseCurrency);
+  //     if (this.baseCurrency.native && this.nativeFee) {
+  //       const nativeBalanceWithoutFee = balance - this.nativeFee;
+  //       this.max = nativeBalanceWithoutFee > 0 ? nativeBalanceWithoutFee : 0;
+  //     } else {
+  //       this.max = balance;
+  //     }
+  //     this.setPrice(this.max);
+  //   } else {
+  //     this.max = this.investedAmount;
+  //     this.setPrice(this.investedAmount);
+  //   }
+  //   console.log('this.available ', this.max);
+  // }
 
   amount(value: number) {
-    return (this.investedAmount * value) / 100;
+    return (this.max * value) / 100;
   }
 
   quoteAmount(value: number) {
-    return this.parseAmount(this.amount(value) * this.price);
+    return this.parseAmount(this.amount(value) * this.quotePrice);
   }
 
-  setPrice(available: number) {
-    this.usdPrice = available * this.price;
+  setPrice() {
+    this.quoteMax = this.max * this.quotePrice;
     this.isLoaderActive = false;
-  }
-
-  private setFeeCoin() {
-    this.feeCoin = this.apiWalletService
-      .getCoins()
-      .find((coin) => coin.native && coin.network === this.baseCurrency.network).value;
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

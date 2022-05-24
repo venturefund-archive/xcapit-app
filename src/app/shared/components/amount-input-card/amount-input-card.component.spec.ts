@@ -254,7 +254,7 @@ describe('AmountInputCardComponent', () => {
     component.nativeFee = 1;
     component.ngOnInit();
     fixture.detectChanges();
-    expect(component.available).toEqual(20);
+    expect(component.max).toEqual(20);
   });
 
   it('should recalculate available balance and re-set Max if applicable when nativeFee changes', async () => {
@@ -264,13 +264,13 @@ describe('AmountInputCardComponent', () => {
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     component.setMax();
-    expect(component.available).toEqual(19);
+    expect(component.max).toEqual(19);
     expect(component.form.value.amount).toEqual(19);
 
     component.nativeFee = 2;
     await component.ngOnChanges({ nativeFee: new SimpleChange(1, 2, true) });
     fixture.detectChanges();
-    expect(component.available).toEqual(18);
+    expect(component.max).toEqual(18);
     expect(component.form.value.amount).toEqual(18);
   });
 
@@ -280,10 +280,10 @@ describe('AmountInputCardComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(component.available).toEqual(19);
+    expect(component.max).toEqual(19);
 
     await component.ngOnChanges({ nativeFee: new SimpleChange(null, null, true) });
     fixture.detectChanges();
-    expect(component.available).toEqual(19);
+    expect(component.max).toEqual(19);
   })
 });

@@ -138,10 +138,10 @@ export class NewInvestmentPage implements OnInit {
       this.navController.navigateForward(['/defi/new/confirmation', this.mode]);
     }
   }
-
-  ionViewWillLeave() {
-    this.amountInputCard.ngOnDestroy();
-  }
+  // TODO: Aca
+  // ionViewWillLeave() {
+  //   this.amountInputCard.ngOnDestroy();
+  // }
 
   private updateTexts() {
     switch (this.mode) {
