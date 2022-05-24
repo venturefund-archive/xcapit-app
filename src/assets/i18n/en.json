@@ -1056,6 +1056,7 @@
       "header": "Donations",
       "button": "Donate",
       "info": {
+        "regional":"Regional",
         "global": "Global",
         "receive": "Receive",
         "unhcr": {
@@ -1081,6 +1082,12 @@
           "title_2": "About Free the Girls",
           "title_3": "Learn more about Free the Girls",
           "description": "It helps these women become entrepreneurs by providing them with the tools to market in local second-hand clothing markets in their communities."
+        },
+        "proof_of_integrity":{
+          "title_1": "To provide, through financial education, the necessary tools so that people struggling to meet their basic needs have access to the crypto ecosystem and can use these tools to their advantage.",
+          "title_2": "About Proof of integrity",
+          "title_3": "Learn more about POI",
+          "description": "Offer a cryptofinance education program and fund the transaction fees and deposits required to join the Proof of Humanity platform."
         }
       }
     },
