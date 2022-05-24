@@ -170,14 +170,9 @@ export class OperationDetailPage implements OnInit {
   ngOnInit() {}
 
   dataToTrack(){
-    if(this.isSignRequest){
-      return 'ux_wc_sign'
-    }else{
-      if(this.isApproval){
-        return 'ux_wc_approve'
-      }
-    }
-    return 'ux_wc_confirm'
+    if (this.isSignRequest) return 'ux_wc_sign';
+    if (this.isApproval) return 'ux_wc_approve';
+    return 'ux_wc_confirm';
   }
 
   async checkProtocolInfo() {
