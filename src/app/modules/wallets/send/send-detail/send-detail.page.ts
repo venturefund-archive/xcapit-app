@@ -78,6 +78,10 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
               [quotePrice]="this.quotePrice"
               [feeToken]="this.nativeToken"
             ></app-amount-input-card>
+            <app-amount-input-card-skeleton
+              *ngIf="!this.balance || !this.fee"
+              [showRange]="false"
+            ></app-amount-input-card-skeleton>
           </ion-card>
         </div>
       </form>
