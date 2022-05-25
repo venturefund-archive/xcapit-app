@@ -54,7 +54,7 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
             >
             </ion-input>
             <ion-button
-              (click)="this.setMax()"
+              (click)="this.setMaxAmount()"
               slot="end"
               fill="clear"
               size="small"
@@ -104,31 +104,32 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.subscribeToFormChanges();
-    this.setPrice();
+    this.setQuotePrice();
   }
 
-  defaultPatchValueOptions() {
+  private defaultPatchValueOptions() {
     return { emitEvent: false, onlySelf: true };
   }
 
   async ngOnChanges(): Promise<void> {
-    this.setPrice();
+    this.setQuotePrice();
   }
 
-  setMax() {
+  setMaxAmount() {
     this.form.get('amount').patchValue(this.max);
   }
 
-  private maxFormValues() {
-    return {
+  private setMaxFormValues(): void {
+    const maxValues = {
       quoteAmount: this.parseAmount(this.max * this.quotePrice),
       percentage: 100,
       range: 100,
       amount: this.max,
     };
+    this.form.patchValue(maxValues, this.defaultPatchValueOptions());
   }
 
-  subscribeToFormChanges() {
+  private subscribeToFormChanges(): void {
     this.form = this.formGroupDirective.form;
     this.form.get('amount').valueChanges.subscribe((value) => this.amountChange(value));
     this.form.get('quoteAmount').valueChanges.subscribe((value) => this.quoteAmountChange(value));
@@ -136,53 +137,51 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
     if (this.showRange) this.form.get('range').valueChanges.subscribe((value) => this.rangeChange(value));
   }
 
-  private amountChange(value: number) {
-    let patchValues = {};
+  private amountChange(value: number): void {
     if (value > this.max) {
-      patchValues = this.maxFormValues();
-    } else {
-      patchValues = {
-        quoteAmount: this.parseAmount(value * this.quotePrice),
-        percentage: Math.round((value * 100) / this.max),
-        range: (value * 100) / this.max,
-      };
+      this.setMaxFormValues();
+      return;
     }
-    this.form.patchValue(patchValues, this.defaultPatchValueOptions());
+    const newValues = {
+      quoteAmount: this.parseAmount(value * this.quotePrice),
+      percentage: Math.round((value * 100) / this.max),
+      range: (value * 100) / this.max,
+    };
+    this.form.patchValue(newValues, this.defaultPatchValueOptions());
   }
 
-  private quoteAmountChange(value: number) {
-    let patchValues = {};
-
+  private quoteAmountChange(value: number): void {
     if (value > this.max * this.quotePrice) {
-      patchValues = this.maxFormValues();
-    } else {
-      patchValues = {
-        amount: value / this.quotePrice,
-        percentage: Math.round(((value / this.quotePrice) * 100) / this.max),
-        range: ((value / this.quotePrice) * 100) / this.max,
-      };
+      this.setMaxFormValues();
+      return;
     }
-
-    this.form.patchValue(patchValues, this.defaultPatchValueOptions());
-  }
-  percentageChange(value) {
-    let patchValues = {};
-    if (!value) value = 0;
-    if (value > 100) {
-      patchValues = this.maxFormValues();
-    } else {
-      patchValues = {
-        quoteAmount: this.quoteAmount(value),
-        range: value,
-        amount: this.amount(value),
-      };
-    }
-    this.form.patchValue(patchValues, this.defaultPatchValueOptions());
+    const newValues = {
+      amount: value / this.quotePrice,
+      percentage: Math.round(((value / this.quotePrice) * 100) / this.max),
+      range: ((value / this.quotePrice) * 100) / this.max,
+    };
+    this.form.patchValue(newValues, this.defaultPatchValueOptions());
   }
 
-  rangeChange(value) {
+  private percentageChange(percentage: number): void {
+    if (!percentage) percentage = 0;
+    if (percentage > 100) {
+      this.setMaxFormValues();
+      return;
+    }
+    const newValues = {
+      quoteAmount: this.quoteAmountOf(percentage),
+      range: percentage,
+      amount: this.amountOf(percentage),
+      percentage: percentage,
+    };
+
+    this.form.patchValue(newValues, this.defaultPatchValueOptions());
+  }
+
+  private rangeChange(percentage: number): void {
     this.form.patchValue(
-      { percentage: value, amount: this.amount(value), quoteAmount: this.quoteAmount(value) },
+      { percentage: percentage, amount: this.amountOf(percentage), quoteAmount: this.quoteAmountOf(percentage) },
       this.defaultPatchValueOptions()
     );
   }
@@ -201,15 +200,15 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
     return stringValue;
   }
 
-  amount(value: number) {
-    return (this.max * value) / 100;
+  private amountOf(percentage: number): number {
+    return (this.max * percentage) / 100;
   }
 
-  quoteAmount(value: number) {
-    return this.parseAmount(this.amount(value) * this.quotePrice);
+  private quoteAmountOf(percentage: number): string {
+    return this.parseAmount(this.amountOf(percentage) * this.quotePrice);
   }
 
-  setPrice() {
+  private setQuotePrice(): void {
     this.quoteMax = this.max * this.quotePrice;
   }
 }
