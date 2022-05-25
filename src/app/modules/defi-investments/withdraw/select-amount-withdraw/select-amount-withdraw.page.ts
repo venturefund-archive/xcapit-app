@@ -16,7 +16,8 @@ import { InvestmentDataService } from '../../shared-defi-investments/services/in
 import { takeUntil } from 'rxjs/operators';
 import { DynamicPrice } from '../../../../shared/models/dynamic-price/dynamic-price.model';
 import { Subject } from 'rxjs';
-import { WalletBalanceService } from '../../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
+import { TwoPiInvestmentFactory } from '../../shared-defi-investments/models/two-pi-investment/factory/two-pi-investment-factory';
 
 @Component({
   selector: 'app-select-amount-withdraw',
@@ -74,7 +75,7 @@ import { WalletBalanceService } from '../../../wallets/shared-wallets/services/w
   styleUrls: ['./select-amount-withdraw.page.scss'],
 })
 export class SelectAmountWithdrawPage implements OnInit {
-  private destroy$ = new Subject<void>();
+  destroy$ = new Subject<void>();
   private priceRefreshInterval = 15000;
   quotePrice: number;
   investedAmount: number;
@@ -98,7 +99,9 @@ export class SelectAmountWithdrawPage implements OnInit {
     private twoPiApi: TwoPiApi,
     private investmentDataService: InvestmentDataService,
     private navController: NavController,
-    private walletEncryptionService: WalletEncryptionService
+    private walletEncryptionService: WalletEncryptionService,
+    private dynamicPriceFactory: DynamicPriceFactory,
+    private twoPiInvestmentFactory: TwoPiInvestmentFactory
   ) {}
 
   ngOnInit() {}
@@ -119,7 +122,7 @@ export class SelectAmountWithdrawPage implements OnInit {
   }
 
   createDynamicPrice(): DynamicPrice {
-    return DynamicPrice.create(this.priceRefreshInterval, this.token, this.apiWalletService);
+    return this.dynamicPriceFactory.new(this.priceRefreshInterval, this.token, this.apiWalletService);
   }
 
   private vaultID() {
@@ -163,6 +166,6 @@ export class SelectAmountWithdrawPage implements OnInit {
   }
 
   createInvestment(investmentProduct: InvestmentProduct, address: string): TwoPiInvestment {
-    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address), this.apiWalletService);
+    return this.twoPiInvestmentFactory.new(investmentProduct, new VoidSigner(address), this.apiWalletService);
   }
 }
