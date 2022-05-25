@@ -16,6 +16,7 @@ import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/w
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
+import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
 @Component({
   selector: 'app-new-investment',
   template: `
@@ -88,7 +89,7 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
   styleUrls: ['./new-investment.page.scss'],
 })
 export class NewInvestmentPage implements OnInit {
-  private destroy$ = new Subject<void>();
+  destroy$ = new Subject<void>();
   private priceRefreshInterval = 15000;
   form: FormGroup = this.formBuilder.group({
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
@@ -114,7 +115,7 @@ export class NewInvestmentPage implements OnInit {
     private investmentDataService: InvestmentDataService,
     private navController: NavController,
     private walletBalance: WalletBalanceService,
-    private walletService: WalletService
+    private dynamicPriceFactory: DynamicPriceFactory
   ) {}
 
   ngOnInit() {}
@@ -195,7 +196,7 @@ export class NewInvestmentPage implements OnInit {
   }
 
   createDynamicPrice(): DynamicPrice {
-    return DynamicPrice.create(this.priceRefreshInterval, this.token, this.apiWalletService);
+    return this.dynamicPriceFactory.new(this.priceRefreshInterval, this.token, this.apiWalletService);
   }
 
   private setFeeToken() {
