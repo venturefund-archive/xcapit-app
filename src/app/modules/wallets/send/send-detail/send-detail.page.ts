@@ -23,6 +23,7 @@ import { parseUnits } from 'ethers/lib/utils';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
+import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
 
 @Component({
   selector: 'app-send-detail',
@@ -70,16 +71,16 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
         <div class="sd__amount-input-card" *ngIf="this.token">
           <ion-card class="ux-card">
             <app-amount-input-card
-              *ngIf="this.balance && this.fee"
+              *ngIf="this.balance && (!this.token.native || (this.token.native && this.fee))"
               [header]="'defi_investments.shared.amount_input_card.available' | translate"
               [showRange]="false"
               [baseCurrency]="this.token"
-              [max]="this.balance - this.fee"
+              [max]="this.balance"
               [quotePrice]="this.quotePrice"
               [feeToken]="this.nativeToken"
             ></app-amount-input-card>
             <app-amount-input-card-skeleton
-              *ngIf="!this.balance || !this.fee"
+              *ngIf="!this.balance || (this.token.native && !this.fee)"
               [showRange]="false"
             ></app-amount-input-card-skeleton>
           </ion-card>
@@ -115,7 +116,7 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
   styleUrls: ['./send-detail.page.scss'],
 })
 export class SendDetailPage {
-  private destroy$ = new Subject<void>();
+  destroy$ = new Subject<void>();
   private priceRefreshInterval = 15000;
 
   alertType = UX_ALERT_TYPES.warning;
@@ -143,11 +144,11 @@ export class SendDetailPage {
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
     private erc20ProviderController: ERC20ProviderController,
-    private erc20ContractController: ERC20ContractController
+    private erc20ContractController: ERC20ContractController,
+    private dynamicPriceFactory: DynamicPriceFactory
   ) {}
 
   async ionViewDidEnter() {
-    //TODO: agregar skeleton al amount-input
     this.tokenAndNetworks();
     this.dynamicPrice();
     await this.nativeTransferFee();
@@ -164,7 +165,8 @@ export class SendDetailPage {
     this.nativeBalance = parseFloat(
       await this.walletService.balanceOf(await this.userWallet(), this.nativeToken.value)
     );
-    this.balance = parseFloat(await this.walletService.balanceOf(await this.userWallet(), this.token.value));
+    const rawBalance = parseFloat(await this.walletService.balanceOf(await this.userWallet(), this.token.value));
+    this.balance = this.token.native ? rawBalance - this.fee : rawBalance;
   }
 
   private tokenAndNetworks() {
@@ -273,7 +275,7 @@ export class SendDetailPage {
   }
 
   createDynamicPrice(): DynamicPrice {
-    return DynamicPrice.create(this.priceRefreshInterval, this.token, this.apiWalletService);
+    return this.dynamicPriceFactory.new(this.priceRefreshInterval, this.token, this.apiWalletService);
   }
 
   ionViewWillLeave() {
