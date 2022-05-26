@@ -87,7 +87,7 @@ cache:
   image: node:${NODE_VERSION}
   script:
     - npm i -g coveralls
-    - npm run coveralls
+    - cd /usr/local/lib/; npm run coveralls
   allow_failure: true  
  
 ### Docker lint
