@@ -308,7 +308,7 @@ export class SelectCoinsWalletPage implements OnInit {
         this.trackClickEventName = 'ux_import_next';
         this.userCoinsLoaded = true;
         this.headerText = 'wallets.recovery_wallet.header';
-        this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
+        this.submitButtonText = 'wallets.recovery_wallet.next_button';
         return;
       default:
         this.trackClickEventName = 'ux_create_next';
