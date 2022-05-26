@@ -81,7 +81,7 @@ cache:
       - coverage/lcov.info
 
 ### Coveralls 
-.coveralls: &nodejs-test
+.coveralls: &coveralls
   stage: test
   image: node:${NODE_VERSION}
   cache:
@@ -97,7 +97,7 @@ cache:
   script:
     - npm run coveralls
   allow_failure: true  
-  
+
 ### Docker lint
 .docker-lint: &docker-lint
   stage: syntax
@@ -138,6 +138,14 @@ syntax_checking:
 ### pytest
 test:
   <<: *nodejs-test
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+
+## coveralls
+test:
+  <<: *coveralls
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
