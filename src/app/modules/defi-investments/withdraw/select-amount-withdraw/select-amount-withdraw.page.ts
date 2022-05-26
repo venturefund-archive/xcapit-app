@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -13,6 +13,11 @@ import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi
 import { TwoPiInvestment } from '../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { TwoPiProduct } from '../../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
+import { takeUntil } from 'rxjs/operators';
+import { DynamicPrice } from '../../../../shared/models/dynamic-price/dynamic-price.model';
+import { Subject } from 'rxjs';
+import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
+import { TwoPiInvestmentFactory } from '../../shared-defi-investments/models/two-pi-investment/factory/two-pi-investment-factory';
 
 @Component({
   selector: 'app-select-amount-withdraw',
@@ -37,8 +42,9 @@ import { InvestmentDataService } from '../../shared-defi-investments/services/in
             *ngIf="this.investedAmount"
             [label]="'defi_investments.withdraw.select_amount.label' | translate"
             [baseCurrency]="this.token"
-            [investedAmount]="this.investedAmount"
             [showRange]="true"
+            [max]="this.investedAmount"
+            [quotePrice]="this.quotePrice"
             [header]="'defi_investments.shared.amount_input_card.amount_invested' | translate"
             [disclaimer]="false"
           ></app-amount-input-card>
@@ -69,7 +75,11 @@ import { InvestmentDataService } from '../../shared-defi-investments/services/in
   styleUrls: ['./select-amount-withdraw.page.scss'],
 })
 export class SelectAmountWithdrawPage implements OnInit {
+  destroy$ = new Subject<void>();
+  private priceRefreshInterval = 15000;
+  quotePrice: number;
   investedAmount: number;
+  feeToken: Coin;
   form: FormGroup = this.formBuilder.group({
     percentage: [0],
     range: [''],
@@ -79,10 +89,9 @@ export class SelectAmountWithdrawPage implements OnInit {
   investmentProduct: InvestmentProduct;
   token: Coin;
   mode: string;
-  headerText: string;
   coins: Coin[];
-  buyAvailable: boolean;
   @ViewChild(AmountInputCardComponent) amountInputCard: AmountInputCardComponent;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -90,7 +99,9 @@ export class SelectAmountWithdrawPage implements OnInit {
     private twoPiApi: TwoPiApi,
     private investmentDataService: InvestmentDataService,
     private navController: NavController,
-    private walletEncryptionService: WalletEncryptionService
+    private walletEncryptionService: WalletEncryptionService,
+    private dynamicPriceFactory: DynamicPriceFactory,
+    private twoPiInvestmentFactory: TwoPiInvestmentFactory
   ) {}
 
   ngOnInit() {}
@@ -98,7 +109,20 @@ export class SelectAmountWithdrawPage implements OnInit {
   async ionViewWillEnter() {
     await this.setInvestmentProduct();
     this.setToken();
+    this.setFeeToken();
+    this.dynamicPrice();
     await this.setBalanceFor(this.investmentProduct);
+  }
+
+  private dynamicPrice() {
+    this.createDynamicPrice()
+      .value()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((price: number) => (this.quotePrice = price));
+  }
+
+  createDynamicPrice(): DynamicPrice {
+    return this.dynamicPriceFactory.new(this.priceRefreshInterval, this.token, this.apiWalletService);
   }
 
   private vaultID() {
@@ -124,8 +148,13 @@ export class SelectAmountWithdrawPage implements OnInit {
     }
   }
 
+  private setFeeToken() {
+    this.feeToken = this.apiWalletService.getCoins().find((coin) => coin.native && coin.network === this.token.network);
+  }
+
   ionViewWillLeave() {
-    this.amountInputCard.ngOnDestroy();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   async setBalanceFor(anInvestmentProduct: InvestmentProduct): Promise<void> {
@@ -137,6 +166,6 @@ export class SelectAmountWithdrawPage implements OnInit {
   }
 
   createInvestment(investmentProduct: InvestmentProduct, address: string): TwoPiInvestment {
-    return TwoPiInvestment.create(investmentProduct, new VoidSigner(address), this.apiWalletService);
+    return this.twoPiInvestmentFactory.new(investmentProduct, new VoidSigner(address), this.apiWalletService);
   }
 }

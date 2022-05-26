@@ -23,6 +23,9 @@ import { BigNumber } from 'ethers';
 import { FakeContract } from '../../../defi-investments/shared-defi-investments/models/fake-contract/fake-contract.model';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { of } from 'rxjs';
+import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
+import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
+import { FakeActivatedRoute } from '../../../../../testing/fakes/activated-route.fake.spec';
 
 const coins: Coin[] = [
   {
@@ -74,7 +77,8 @@ describe('SendDetailPage', () => {
   let component: SendDetailPage;
   let fixture: ComponentFixture<SendDetailPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
-  let activatedRouteMock: any;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
@@ -83,6 +87,8 @@ describe('SendDetailPage', () => {
   let erc20ContractSpy: jasmine.SpyObj<ERC20Contract>;
   let erc20ProviderControllerSpy: jasmine.SpyObj<ERC20ProviderController>;
   let erc20ContractControllerSpy: jasmine.SpyObj<ERC20ContractController>;
+  let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
+  let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -91,13 +97,8 @@ describe('SendDetailPage', () => {
     walletServiceSpy = jasmine.createSpyObj('WalletService', {
       balanceOf: Promise.resolve('10'),
     });
-    activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['get']);
-    activatedRouteMock.snapshot = {
-      queryParamMap: convertToParamMap({
-        asset: 'USDT',
-        network: 'ERC20',
-      }),
-    };
+    fakeActivatedRoute = new FakeActivatedRoute(null, { asset: 'USDT', network: 'ERC20' });
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: coins,
       getCoin: JSON.parse(JSON.stringify(coins[2])),
@@ -121,6 +122,12 @@ describe('SendDetailPage', () => {
       new: erc20ContractSpy,
     });
 
+    dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
+
+    dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
+      new: dynamicPriceSpy,
+    });
+
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, FakeTrackClickDirective],
       imports: [
@@ -131,13 +138,14 @@ describe('SendDetailPage', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: WalletService, useValue: walletServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ERC20ProviderController, useValue: erc20ProviderControllerSpy },
         { provide: ERC20ContractController, useValue: erc20ContractControllerSpy },
+        { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -166,6 +174,7 @@ describe('SendDetailPage', () => {
 
   it('should get native fee on ionViewDidEnter when token is native', fakeAsync(() => {
     apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
+    component.form.patchValue({ amount: 1 });
     component.ionViewDidEnter();
     tick();
     fixture.detectChanges();
@@ -221,12 +230,7 @@ describe('SendDetailPage', () => {
   }));
 
   it('should show card if native token balance is zero when sending native token', async () => {
-    activatedRouteMock.snapshot = {
-      queryParamMap: convertToParamMap({
-        asset: 'ETH',
-        network: 'ERC20',
-      }),
-    };
+    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'ETH', network: 'ERC20' });
     walletServiceSpy.balanceOf.and.resolveTo('0');
     await component.ionViewDidEnter();
     await fixture.whenStable();
@@ -236,12 +240,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should show card if native token balance is zero when sending not native token', async () => {
-    activatedRouteMock.snapshot = {
-      queryParamMap: convertToParamMap({
-        asset: 'USDT',
-        network: 'ERC20',
-      }),
-    };
+    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'USDT', network: 'ERC20' });
     walletServiceSpy.balanceOf.and.resolveTo('0');
     await component.ionViewDidEnter();
     await fixture.whenStable();
@@ -251,12 +250,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
-    activatedRouteMock.snapshot = {
-      queryParamMap: convertToParamMap({
-        asset: 'ETH',
-        network: 'ERC20',
-      }),
-    };
+    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'ETH', network: 'ERC20' });
     walletServiceSpy.balanceOf.and.resolveTo('1');
     await component.ionViewDidEnter();
     await fixture.whenStable();
@@ -266,12 +260,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should not show card if native token balance is greater than zero when sending not native token', async () => {
-    activatedRouteMock.snapshot = {
-      queryParamMap: convertToParamMap({
-        asset: 'USDT',
-        network: 'ERC20',
-      }),
-    };
+    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'USDT', network: 'ERC20' });
     walletServiceSpy.balanceOf.and.resolveTo('1');
     await component.ionViewDidEnter();
     await fixture.whenStable();
@@ -281,12 +270,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should let user change currency on selected currency click', async () => {
-    activatedRouteMock.snapshot = {
-      queryParamMap: convertToParamMap({
-        asset: 'ETH',
-        network: 'ERC20',
-      }),
-    };
+    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'ETH', network: 'ERC20' });
     walletServiceSpy.balanceOf.and.resolveTo('0');
     await component.ionViewDidEnter();
     await fixture.whenStable();
@@ -295,5 +279,13 @@ describe('SendDetailPage', () => {
       .query(By.css('.sd__network-select-card__selected-coin > app-coin-selector'))
       .triggerEventHandler('changeCurrency', {});
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/wallets/send/select-currency']);
+  });
+
+  it('should unsubscribe when leave', () => {
+    const nextSpy = spyOn(component.destroy$, 'next');
+    const completeSpy = spyOn(component.destroy$, 'complete');
+    component.ionViewWillLeave();
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 });

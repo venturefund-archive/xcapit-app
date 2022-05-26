@@ -76,6 +76,7 @@ import { SelectProviderCardComponent } from '../modules/fiat-ramps/select-provid
 import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/provider-card/provider-card/provider-card.component';
 import { TransactionFeeComponent } from '../modules/defi-investments/shared-defi-investments/components/transaction-fee/transaction-fee.component';
 import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
+import { AmountInputCardSkeletonComponent } from './components/amount-input-card/amount-input-card-skeleton/amount-input-card-skeleton.component';
 import { ObjetiveCardComponent } from '../modules/financial-planner/shared-financial-planner/components/objetive-card/objetive-card.component';
 import { NumberInputDirective } from './directives/number-input/number-input.directive';
 import { CauseComponent } from '../modules/donations/shared-donations/components/cause/cause.component';
@@ -107,6 +108,7 @@ import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-n
     TokenSelectionListComponent,
     TransactionFeeComponent,
     AmountInputCardComponent,
+    AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
     // Ux
     SelectModalNewComponent,
@@ -201,6 +203,7 @@ import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-n
     CoinSelectorComponent,
     TransactionFeeComponent,
     AmountInputCardComponent,
+    AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
     // Ux
     SelectModalNewComponent,

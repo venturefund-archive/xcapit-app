@@ -14,8 +14,12 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { NewInvestmentPage } from './new-investment.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
+import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
+import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
+import { of } from 'rxjs';
+import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -41,20 +45,6 @@ const noMoonpayVault = {
   tvl: 1301621680000,
 } as Vault;
 
-const usdc_coin = {
-  id: 8,
-  name: 'USDC - USD Coin',
-  logoRoute: 'assets/img/coins/USDC.png',
-  last: false,
-  value: 'USDC',
-  network: 'MATIC',
-  chainId: 80001,
-  rpc: 'http://testrpc.text/',
-  moonpayCode: 'usdc_polygon',
-  decimals: 6,
-  symbol: 'USDCUSDT',
-};
-
 const no_moonpay_token = {
   id: 9,
   name: 'NO MOONPAY - NM Coin',
@@ -79,7 +69,11 @@ describe('NewInvestmentPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<NewInvestmentPage>;
   let investmentDataServiceSpy: jasmine.SpyObj<InvestmentDataService>;
-  let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
+  let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
+  let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
+  let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
+  let coinsSpy: jasmine.SpyObj<Coin>[];
+
   beforeEach(
     waitForAsync(() => {
       investmentDataServiceSpy = jasmine.createSpyObj(
@@ -95,12 +89,10 @@ describe('NewInvestmentPage', () => {
       fakeActivatedRoute = new FakeActivatedRoute({ vault: 'polygon_usdc', mode: 'invest' });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
 
-      investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
-        id: 3,
-        token: no_moonpay_token,
-        contractAddress: '0x00001',
-        name: 'no_moonpay_token',
-        value: 'NM',
+      dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
+
+      dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
+        new: dynamicPriceSpy,
       });
 
       fakeNavController = new FakeNavController({});
@@ -111,8 +103,21 @@ describe('NewInvestmentPage', () => {
         vault: Promise.resolve(testVault),
       });
 
+      coinsSpy = [
+        jasmine.createSpyObj(
+          'Coin',
+          {},
+          { name: 'USDC - USD Coin', value: 'USDC', network: 'MATIC', moonpayCode: 'usdc_polygon' }
+        ),
+        jasmine.createSpyObj('Coin', {}, { name: 'MATIC', value: 'MATIC', network: 'MATIC', native: true }),
+      ];
+
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
-        getCoins: [usdc_coin],
+        getCoins: coinsSpy,
+      });
+
+      walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', {
+        balanceOf: Promise.resolve(2),
       });
 
       TestBed.configureTestingModule({
@@ -124,6 +129,8 @@ describe('NewInvestmentPage', () => {
           { provide: TwoPiApi, useValue: twoPiApiSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
+          { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
+          { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -131,7 +138,6 @@ describe('NewInvestmentPage', () => {
       fixture = TestBed.createComponent(NewInvestmentPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
-      component.amountInputCard = jasmine.createSpyObj('AmountInputCardComponent', { ngOnDestroy: null });
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
@@ -198,8 +204,30 @@ describe('NewInvestmentPage', () => {
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
   });
 
-  it('should destroy amount input card on leave', () => {
+  it('should correctly display the header and label when user is investing for the first time', async () => {
+    await component.ionViewDidEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const titleEl = fixture.debugElement.query(By.css('ion-title'));
+    expect(titleEl.nativeElement.innerHTML).toContain('defi_investments.new.header');
+    expect(component.labelText).toEqual('defi_investments.new.amount_to_invest');
+  });
+
+  it('should correctly display the header and label when user is adding funds to the investment', async () => {
+    fakeActivatedRoute.modifySnapshotParams({ vault: 'polygon_usdc', mode: 'add' });
+    await component.ionViewDidEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const titleEl = fixture.debugElement.query(By.css('ion-title'));
+    expect(titleEl.nativeElement.innerHTML).toContain('defi_investments.add.header');
+    expect(component.labelText).toEqual('defi_investments.add.amount_to_add');
+  });
+
+  it('should unsubscribe when leave', () => {
+    const nextSpy = spyOn(component.destroy$, 'next');
+    const completeSpy = spyOn(component.destroy$, 'complete');
     component.ionViewWillLeave();
-    expect(component.amountInputCard.ngOnDestroy).toHaveBeenCalledTimes(1);
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 });
