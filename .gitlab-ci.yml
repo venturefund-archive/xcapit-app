@@ -83,11 +83,15 @@ cache:
 ## Coveralls 
 coveralls: 
   stage: test
+  needs: [test]
   image: node:${NODE_VERSION}
   script:
     - npm run coveralls
   allow_failure: true  
-
+  rules: 
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
 ### Docker lint
 .docker-lint: &docker-lint
   stage: syntax
