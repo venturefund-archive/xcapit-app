@@ -5,12 +5,41 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service';
 import { SelectProviderPage } from './select-provider.page';
 
+const rawOperations: any[] = [
+  {
+    operation_id: '355',
+    operation_type: 'cash-in',
+    status: 'pending_by_validate',
+    currency_in: 'ARS',
+    amount_in: 200.0,
+    currency_out: 'USDC',
+    amount_out: 1.33288904,
+    created_at: '2022-03-22T14:58:44.303Z',
+    provider: '1',
+    voucher: false,
+  },
+  {
+    operation_id: '364',
+    operation_type: 'cash-in',
+    status: 'pending_by_validate',
+    currency_in: 'ars',
+    amount_in: 145.68149073,
+    currency_out: 'MATIC',
+    amount_out: 1.38660038,
+    created_at: '2022-05-13T17:30:23.258Z',
+    provider: '1',
+    voucher: false,
+  },
+];
 describe('SelectProviderPage', () => {
   let component: SelectProviderPage;
   let fixture: ComponentFixture<SelectProviderPage>;
@@ -18,19 +47,30 @@ describe('SelectProviderPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
         trackEvent: Promise.resolve(true),
-      })
+      });
+      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
+        getUserOperations: of(rawOperations),
+      });
       TestBed.configureTestingModule({
         declarations: [SelectProviderPage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
-        providers: [{ provide: NavController, useValue: navControllerSpy }, { provide: TrackService, useValue: trackServiceSpy }],
+        providers: [
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: TrackService, useValue: trackServiceSpy },
+          { provide: BrowserService, useValue: browserServiceSpy },
+        ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SelectProviderPage);
@@ -70,5 +110,27 @@ describe('SelectProviderPage', () => {
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should get and show operations on ionViewWillEnter', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(1);
+    expect(component.operationsList.length).toEqual(2);
+  });
+
+  it('should go to Moonpay web when Go To Moonpay History clicked', () => {
+    fixture.debugElement.query(By.css('ion-button[name="Go To Moonpay History"]')).nativeElement.click();
+    expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent when Go To Moonpay History clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Moonpay History');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

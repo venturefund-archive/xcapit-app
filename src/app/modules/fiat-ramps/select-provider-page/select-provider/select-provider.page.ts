@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { LINKS } from 'src/app/config/static-links';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { FiatRampOperation } from '../../shared-ramps/interfaces/fiat-ramp-operation.interface';
+import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service';
 @Component({
   selector: 'app-select-provider',
   template: `
@@ -24,6 +28,25 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
               controlNameSelect="country"
             ></app-select-provider-card>
           </form>
+        </div>
+        <div class="operations-list ion-padding-start ion-padding-end" *ngIf="this.operationsList">
+          <app-operations-list [operationsList]="this.operationsList"></app-operations-list>
+        </div>
+        <div class="moonpay-operations ion-padding-start ion-padding-end">
+          <ion-text class="ux-font-text-xxs">
+            {{ 'fiat_ramps.moonpay.moonpay_operations' | translate }}
+          </ion-text>
+          <ion-button
+            size="small"
+            fill="clear"
+            type="button"
+            appTrackClick
+            name="Go To Moonpay History"
+            (click)="this.goToMoonpay()"
+            class="ux-link-xs ion-no-padding ion-no-margin moonpay-operations__link"
+          >
+            {{ this.txHistoryLink }}
+          </ion-button>
         </div>
         <div class="ux_footer ion-padding">
           <ion-button
@@ -51,14 +74,30 @@ export class SelectProviderPage {
   });
   route: string;
   disabled: boolean;
+  operationsList: FiatRampOperation[];
+  txHistoryLink: string = LINKS.moonpayTransactionHistory;
 
-  constructor(private navController: NavController, private formBuilder: FormBuilder, private trackService: TrackService) {}
+  constructor(
+    private navController: NavController,
+    private formBuilder: FormBuilder,
+    private trackService: TrackService,
+    private browserService: BrowserService,
+    private fiatRampsService: FiatRampsService
+  ) {}
 
   ionViewWillEnter() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: 'ux_screenview_buy'
+      eventLabel: 'ux_screenview_buy',
+    });
+
+    this.getOperations();
+  }
+
+  getOperations() {
+    this.fiatRampsService.getUserOperations().subscribe((data) => {
+      this.operationsList = data;
     });
   }
 
@@ -74,5 +113,9 @@ export class SelectProviderPage {
 
   resetForm() {
     this.form.get('provider').reset();
+  }
+
+  async goToMoonpay() {
+    await this.browserService.open({ url: this.txHistoryLink });
   }
 }

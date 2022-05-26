@@ -36,9 +36,9 @@ const cashIn: FiatRampOperation =
 {
   operation_id: 53,
   amount_in: 32,
-  currency_in: 'ETH',
+  currency_in: 'ARS',
   amount_out: 21,
-  currency_out: 'ARS',
+  currency_out: 'ETH',
   status: 'complete',
   created_at: new Date(),
   provider: '1',
@@ -133,24 +133,24 @@ describe('OperationsListItemComponent', () => {
     expect(fiatRampsServiceSpy.getOperationStatus).toHaveBeenCalledTimes(1);
   });
 
-  it('should show amount_in and currency_in on cash-in', async () => {
+  it('should show amount_in and currency_out on cash-in', async () => {
     component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     const coinEl = fixture.debugElement.query(By.css('ion-label[name="Provider"]')).nativeElement;
     const amountEl = fixture.debugElement.query(By.css('ion-label[name="Amount"]')).nativeElement;
-    expect(coinEl.innerText).toContain(cashIn.currency_in);
+    expect(coinEl.innerText).toContain(cashIn.currency_out);
     expect(amountEl.innerText).toContain(cashIn.amount_in);
   });
 
-  it('should show amount_out and currency_out on cash-out', async () => {
+  it('should show amount_out and currency_in on cash-out', async () => {
     component.operation = cashOut;
     component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     const coinEl = fixture.debugElement.query(By.css('ion-label[name="Provider"]')).nativeElement;
     const amountEl = fixture.debugElement.query(By.css('ion-label[name="Amount"]')).nativeElement;
-    expect(coinEl.innerText).toContain(cashIn.currency_in);
-    expect(amountEl.innerText).toContain(cashIn.amount_in);
-  })
+    expect(coinEl.innerText).toContain(cashOut.currency_in);
+    expect(amountEl.innerText).toContain(cashOut.amount_out);
+  });
 });
