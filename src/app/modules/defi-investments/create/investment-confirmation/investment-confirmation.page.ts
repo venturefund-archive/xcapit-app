@@ -47,7 +47,10 @@ import { ToastWithButtonsComponent } from '../../shared-defi-investments/compone
     </ion-header>
     <ion-content *ngIf="this.product">
       <ion-card class="ux-card">
-        <app-expandable-investment-info fbPrefix='ux_invest' [investmentProduct]="this.product"></app-expandable-investment-info>
+        <app-expandable-investment-info
+          fbPrefix="ux_invest"
+          [investmentProduct]="this.product"
+        ></app-expandable-investment-info>
         <div class="summary">
           <div class="summary__amount">
             <div class="summary__amount__label">
@@ -76,10 +79,10 @@ import { ToastWithButtonsComponent } from '../../shared-defi-investments/compone
         <ion-item class="term-item ion-no-padding ion-no-margin">
           <ion-checkbox
             appTrackClick
-            formControlName="thirdPartyDisclaimer" 
-            mode="md" 
-            slot="start" 
-            name='ux_invest_disclaimer_check_button_0'
+            formControlName="thirdPartyDisclaimer"
+            mode="md"
+            slot="start"
+            name="ux_invest_disclaimer_check_button_0"
           ></ion-checkbox>
           <ion-label class="ion-no-padding ion-no-margin">
             <ion-text class="ux-font-text-xxs" color="neutral80">
@@ -91,11 +94,11 @@ import { ToastWithButtonsComponent } from '../../shared-defi-investments/compone
         <ion-item class="term-item ion-no-padding ion-no-margin">
           <ion-checkbox
             appTrackClick
-            formControlName="termsAndConditions" 
-            mode="md" 
+            formControlName="termsAndConditions"
+            mode="md"
             slot="start"
-            name='ux_invest_disclaimer_check_button_1'
-            ></ion-checkbox>
+            name="ux_invest_disclaimer_check_button_1"
+          ></ion-checkbox>
           <ion-label class="ion-no-padding ion-no-margin checkbox-link">
             <ion-text class="ux-font-text-xxs" color="neutral80">{{
               'defi_investments.confirmation.terms.i_have_read' | translate
@@ -148,6 +151,7 @@ export class InvestmentConfirmationPage {
   headerText: string;
   labelText: string;
   isNegativeBalance: boolean;
+  modalHref: string;
 
   constructor(
     private investmentDataService: InvestmentDataService,
@@ -166,6 +170,7 @@ export class InvestmentConfirmationPage {
   ) {}
 
   async ionViewDidEnter() {
+    this.modalHref = window.location.href;
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.updateTexts();
     await this.getInvestmentInfo();
@@ -173,7 +178,7 @@ export class InvestmentConfirmationPage {
     this.checkTwoPiAgreement();
     await this.walletService.walletExist();
     await this.getNativeTokenBalance();
-    this.checkNativeTokenBalance();
+    await this.checkNativeTokenBalance();
   }
 
   private dynamicPrice() {
@@ -253,7 +258,7 @@ export class InvestmentConfirmationPage {
         inputLabel: this.translate.instant('defi_investments.confirmation.password_modal.input_label'),
         submitButtonText: this.translate.instant('defi_investments.confirmation.password_modal.confirm_button'),
         disclaimer: '',
-        state: 'invest'
+        state: 'invest',
       },
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       backdropDismiss: false,
@@ -319,9 +324,9 @@ export class InvestmentConfirmationPage {
     return this.nativeTokenBalance;
   }
 
-  checkNativeTokenBalance() {
+  async checkNativeTokenBalance() {
     if (this.nativeTokenBalance <= this.fee.value) {
-      this.openModalNativeTokenBalance();
+      await this.openModalNativeTokenBalance();
       this.isNegativeBalance = true;
     } else {
       this.disable = false;
@@ -333,6 +338,7 @@ export class InvestmentConfirmationPage {
       component: ToastWithButtonsComponent,
       cssClass: 'ux-toast-warning',
       showBackdrop: false,
+      id: 'feeModal',
       componentProps: {
         text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
           nativeToken: this.nativeToken?.value,
@@ -348,7 +354,10 @@ export class InvestmentConfirmationPage {
         data: this.nativeToken,
       },
     });
-    modal.present();
+    await this.modalController.dismiss(null, null, 'feeModal');
+    if (window.location.href === this.modalHref) {
+      await modal.present();
+    }
   }
 
   async invest() {
