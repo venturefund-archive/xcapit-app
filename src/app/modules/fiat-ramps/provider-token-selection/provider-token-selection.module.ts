@@ -3,10 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedRampsModule } from '../shared-ramps/shared-ramps.module';
 import { ProviderTokenSelectionPage } from './provider-token-selection.page';
 
-
 const routes: Routes = [
   {
     path: '',
+    component: ProviderTokenSelectionPage,
+  },
+  {
+    path: ':provider',
     component: ProviderTokenSelectionPage,
   },
 ];
