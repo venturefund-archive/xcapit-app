@@ -16,7 +16,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
         <div class="dc__content__card__information">
           <div class="dc__content__card__information__text">
             <ion-text class="ux-font-header-titulo text"> {{ this.data.title | translate }}</ion-text>
-            <ion-text class="ux-font-text-xs neutral">{{ 'donations.description_cause.info.global' | translate }}</ion-text>
+            <ion-text class="ux-font-text-xs neutral">{{ this.data.scope | translate }}</ion-text>
             <ion-badge
               class="ux-font-num-subtitulo ux-badge-coming dc__content__card__information__group__badge"
               slot="end"
