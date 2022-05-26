@@ -8,7 +8,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     trackClickEventName: "ux_buy_moonpay",
     logoRoute: 'assets/img/provider-logos/Moonpay.svg',
     description: 'fiat_ramps.select_provider.moonpay_description',
-    newOperationRoute: '/fiat-ramps/moonpay',
+    newOperationRoute: '/fiat-ramps/new-operation/moonpay',
     countries: [
       'Mexico',
       'Guatemala',
@@ -35,7 +35,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
     description: 'fiat_ramps.select_provider.krypton_description',
     disclaimer: 'fiat_ramps.shared.constants.providers.kripton.disclaimer',
-    newOperationRoute: '/fiat-ramps/new-operation',
+    newOperationRoute: '/fiat-ramps/new-operation/kripton',
     countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
   },
 ];

@@ -343,7 +343,7 @@ export class InvestmentConfirmationPage {
         secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
           nativeToken: this.nativeToken?.value,
         }),
-        firstLink: '/fiat-ramps/moonpay',
+        firstLink: '/fiat-ramps/new-operation/moonpay',
         secondLink: '/wallets/receive/detail',
         data: this.nativeToken,
       },

@@ -45,8 +45,8 @@ export class UpdateNewsComponent implements OnInit {
       badge: this.translate.instant('shared.update_news.first.badge'),
       title: this.translate.instant('shared.update_news.first.title'),
       description: this.translate.instant('shared.update_news.first.description'),
-      url: this.links.discordCommunity,
-      isOpenByBrowser: true
+      isOpenByBrowser: true,
+      url: '/fiat-ramps/new-operation/moonpay',
     },
     {
       badge: this.translate.instant('shared.update_news.second.badge'),
