@@ -1453,7 +1453,8 @@
       "title": "Enter recovery phrase",
       "subtitle": "Write your words separated by a space",
       "label": "Recovery phrase",
-      "button": "Import Wallet"
+      "button": "Import Wallet",
+      "next_button": "Next"
     },
     "transactions": {
       "header": "Transactions history",

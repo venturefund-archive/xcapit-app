@@ -1444,7 +1444,8 @@
       "title": "Ingresar frase de recuperación",
       "subtitle": "Escribe tus palabras separadas por un espacio",
       "label": "Frase de recuperación",
-      "button": "Importar wallet"
+      "button": "Importar wallet",
+      "next_button": "Siguiente"
     },
     "transactions": {
       "header": "Historico transacciones",
