@@ -112,7 +112,7 @@ export class ResultObjetivePage implements OnInit {
   name: string;
   necessaryAmount: number;
   env = environment.environment;
-  isOpen: boolean = false;
+  isOpen = false;
 
   constructor(
     private appStorage: AppStorageService,
