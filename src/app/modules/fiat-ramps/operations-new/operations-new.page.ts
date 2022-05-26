@@ -3,27 +3,25 @@ import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
-import { Countries } from '../enums/countries.enum';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import {
   OperationDataInterface,
   StorageOperationService,
 } from '../shared-ramps/services/operation/storage-operation.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
-import { CustomValidators } from 'src/app/shared/validators/custom-validators';
-import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
-import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies';
+import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies/kripton-currencies';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { HttpClient } from '@angular/common/http';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
+import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
 
 @Component({
   selector: 'app-operations-new',
@@ -131,7 +129,8 @@ export class OperationsNewPage implements AfterViewInit {
     private route: ActivatedRoute,
     private elementRef: ElementRef,
     private browserService: BrowserService,
-    private http: HttpClient
+    private http: HttpClient,
+    private kriptonDynamicPrice: KriptonDynamicPriceFactory
   ) {}
 
   ngAfterViewInit() {
@@ -183,7 +182,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   createKriptonDynamicPrice(): KriptonDynamicPrice {
-    return KriptonDynamicPrice.create(this.priceRefreshInterval, this.fiatCurrency, this.selectedCurrency, this.http);
+    return this.kriptonDynamicPrice.new(this.priceRefreshInterval, this.fiatCurrency, this.selectedCurrency, this.http);
   }
 
   setCountry() {
@@ -219,9 +218,6 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   async setOperationStorage() {
-    const wallet = await this.walletEncryptionService.getEncryptedWallet();
-    const walletAddress = wallet.addresses[this.selectedCurrency.network];
-
     const data: OperationDataInterface = {
       country: this.country.name,
       type: 'cash-in',
@@ -231,15 +227,15 @@ export class OperationsNewPage implements AfterViewInit {
       currency_out: this.selectedCurrency.value,
       price_in: '1',
       price_out: this.price.toString(),
-      wallet: walletAddress,
+      wallet: await this.walletAddress(),
       provider: this.provider.id.toString(),
       network: this.selectedCurrency.network,
     };
     this.storageOperationService.updateData(data);
   }
 
-  async userWalletFor(network: string): Promise<string> {
-    return (await this.walletEncryptionService.getEncryptedWallet()).addresses[network];
+  async walletAddress(): Promise<string> {
+    return (await this.walletEncryptionService.getEncryptedWallet()).addresses[this.selectedCurrency.network];
   }
 
   getUrlByStatus(statusName) {

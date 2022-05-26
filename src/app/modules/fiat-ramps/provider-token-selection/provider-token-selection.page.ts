@@ -6,7 +6,7 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies';
+import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies/kripton-currencies';
 
 @Component({
   selector: 'app-provider-token-selection',
