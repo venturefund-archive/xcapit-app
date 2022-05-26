@@ -8,6 +8,9 @@ import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/ser
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { alertControllerMock } from '../../../../../testing/spies/alert-controller-mock.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 describe('ConnectionDetailPage', () => {
   let component: ConnectionDetailPage;
@@ -16,6 +19,8 @@ describe('ConnectionDetailPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let alertControllerSpy: any;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ConnectionDetailPage>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -34,15 +39,18 @@ describe('ConnectionDetailPage', () => {
       });
 
       alertControllerSpy = jasmine.createSpyObj('AlertController', alertControllerMock);
-
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
+        trackEvent: Promise.resolve(true),
+      })
       TestBed.configureTestingModule({
-        declarations: [ConnectionDetailPage],
+        declarations: [ConnectionDetailPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
           UrlSerializer,
           { provide: WalletConnectService, useValue: walletConnectServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: AlertController, useValue: alertControllerSpy },
+          { provide: TrackService, useValue: trackServiceSpy}
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -50,6 +58,7 @@ describe('ConnectionDetailPage', () => {
       fixture = TestBed.createComponent(ConnectionDetailPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
 
@@ -106,6 +115,7 @@ describe('ConnectionDetailPage', () => {
     await fixture.whenStable();
     expect(walletConnectServiceSpy.approveSession).toHaveBeenCalledTimes(1);
     expect(component.connectionStatus).toBeTruthy();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
   it('should create an error alert when approveSession is called and walletConnet approveSession fails', async () => {
@@ -151,4 +161,13 @@ describe('ConnectionDetailPage', () => {
     component.supportHelp();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tickets/create-support-ticket');
   })
+
+  it('should call trackEvent on trackService when ux_wc_connect clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_wc_connect');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });

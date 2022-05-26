@@ -13,6 +13,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FakeConnectedWallet } from '../../../../../testing/fakes/wallet.fake.spec';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { By } from '@angular/platform-browser';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 
 const requestSendTransaction = {
   method: 'eth_sendTransaction',
@@ -49,6 +52,7 @@ describe('OperationDetailPage', () => {
   let connectedWalletSpy;
   let fakeConnectedWallet: FakeConnectedWallet;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationDetailPage>;
 
   beforeEach(
     waitForAsync(() => {
@@ -89,7 +93,7 @@ describe('OperationDetailPage', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [OperationDetailPage],
+        declarations: [OperationDetailPage,FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
           UrlSerializer,
@@ -110,6 +114,8 @@ describe('OperationDetailPage', () => {
       component.transactionDetail = null;
       component.loadingText = '';
       fixture.detectChanges();
+
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
 
@@ -232,6 +238,46 @@ describe('OperationDetailPage', () => {
     fixture.detectChanges();
     await component.setLoadingText();
     expect(component.loadingText).toEqual('wallets.wallet_connect.operation_detail.confirmation_loading');
+  });
+
+  it('should track ux_wc_sign when button is clicked and is a sign operation', () => {
+    spyOn(component, 'checkProtocolInfo');
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button.ux_button'));
+    const directive = trackClickDirectiveHelper.getDirective(buttonEl);
+    const spy = spyOn(directive, 'clickEvent');
+    buttonEl.nativeElement.click();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(directive.dataToTrack.eventLabel).toEqual('ux_wc_sign')
+  });
+
+  it('should track ux_wc_confirm when button is clicked and is a confirmation operation', () => {
+    spyOn(component, 'checkProtocolInfo');
+    component.isSignRequest = false;
+    component.isApproval = false;
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button.ux_button'));
+    const directive = trackClickDirectiveHelper.getDirective(buttonEl);
+    const spy = spyOn(directive, 'clickEvent');
+    buttonEl.nativeElement.click();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(directive.dataToTrack.eventLabel).toEqual('ux_wc_confirm')
+  });
+
+  it('should track ux_wc_approve when button is clicked and is an approval operation', () => {
+    spyOn(component, 'checkProtocolInfo');
+    component.isSignRequest = false;
+    component.isApproval = true;
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button.ux_button'));
+    const directive = trackClickDirectiveHelper.getDirective(buttonEl);
+    const spy = spyOn(directive, 'clickEvent');
+    buttonEl.nativeElement.click();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(directive.dataToTrack.eventLabel).toEqual('ux_wc_approve')
   });
 
   it('should call decryptedWallet function when confirmOperation is called', async () => {

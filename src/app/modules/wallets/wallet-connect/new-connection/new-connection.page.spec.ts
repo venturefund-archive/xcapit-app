@@ -1,5 +1,5 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController, ModalController, AlertController } from '@ionic/angular';
+import { IonicModule, NavController, ModalController, AlertController, Platform } from '@ionic/angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UrlSerializer } from '@angular/router';
@@ -12,7 +12,7 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { alertControllerMock } from '../../../../../testing/spies/alert-controller-mock.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
-import { servicesVersion } from 'typescript';
+import { of } from 'rxjs';
 
 const provider = {
   name: 'ETH',
@@ -37,7 +37,8 @@ const walletInfo = {
   name: 'ETH',
   logo: 'TestLogo',
   symbol: 'ETH',
-  rpc: 'TestRPC'
+  rpc: 'TestRPC',
+  dataToTrack:'ux_wc_eth'
 }
 
 const testWallet = {
@@ -67,6 +68,7 @@ describe('NewConnectionPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let alertControllerSpy: any;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let platformSpy: jasmine.SpyObj<Platform>;
 
   beforeEach(
     waitForAsync(() => {
@@ -87,6 +89,9 @@ describe('NewConnectionPage', () => {
         getWalletsAddresses: Promise.resolve({ERC20: '0x00000000001'}),
       });
 
+      platformSpy = jasmine.createSpyObj('Platform', {}, {
+        backButton: of({}),
+      })
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
 
@@ -107,6 +112,7 @@ describe('NewConnectionPage', () => {
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: AlertController, useValue: alertControllerSpy },
           { provide: ToastService, useValue: toastServiceSpy },
+          { provide: Platform, useValue: platformSpy}
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -262,9 +268,7 @@ describe('NewConnectionPage', () => {
   it('should clean the form and uri when cleanForm is called', () => {
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
-
-    component.cleanForm();
-
+    component.ionViewWillEnter();
     expect(walletConnectServiceSpy.setUri).toHaveBeenCalledOnceWith('');
     expect(component.form.value.uri).toEqual('');
     expect(component.form.value.wallet).toEqual(null);
