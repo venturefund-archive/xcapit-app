@@ -1771,19 +1771,11 @@
       "in_progress": "En progreso",
       "canceled": "Cancelada"
     },
-    "ramp_initial": {
-      "header": "Comprar criptomonedas",
-      "title": "Nueva operación",
-      "operation": "¿Qué operación quieres hacer?",
-      "pair_buy": "¿Qué moneda quieres comprar?",
-      "pair_sell": "¿Qué moneda quieres vender?",
-      "amount": "Monto",
-      "amount_ars": "Monto en ARS",
-      "amount_min": "Cantidad mínima:",
-      "amount_max": "Cantidad máxima:",
-      "wallet": "Wallet",
-      "buy": "Comprar",
-      "sell": "Vender",
+    "new_operation": {
+      "header": "Comprar cripto",
+      "thirdPartyKYC": "Entiendo que la información KYC no es solicitada ni almacenada por Xcapit y que Kripton tiene una política de privacidad de datos distinta a la de Xcapit.",
+      "thirdPartyTransaction": "Entiendo que al continuar la compra lo haré a través de un proveedor externo (Kripton Market) sujeto a términos y condiciones propios, de los cuales Xcapit no es responsable.",
+      "privacyPolicyAndTOS": "He leído y acepto los: <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Términos y condiciones</a> y la <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Política de privacidad de Kripton Market</a>",
       "next_button": "Continuar"
     },
     "register": {
@@ -1922,8 +1914,19 @@
       "venezuela": "Venezuela"
     },
     "shared": {
+      "constants": {
+        "providers": {
+          "kripton": {
+            "disclaimer": "La entrega de tokens se hace de Lunes a Viernes de 9 a 18 hs. y puede tardar si el banco demora en procesar la transaccion a la cuenta comitente de Kripton."
+          }
+        }
+      },
       "fixed_footer": {
         "text": "Estas operando con Kriptonmarket"
+      },
+      "provider_new_operation_card": {
+        "quantity": "Cantidad",
+        "provider": "Proveedor"
       }
     }
   },
