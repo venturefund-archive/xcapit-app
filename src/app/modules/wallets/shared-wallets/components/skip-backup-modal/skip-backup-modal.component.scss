@@ -1,14 +1,16 @@
 .main {
   &__body {
-    padding: 24px 16px;
+    padding-top: 24px;
     text-align: center;
-    border-bottom: 1px solid #eee;
 
     &__form {
-      margin-top: 16px;
+      &__content {
+        padding: 0 16px;
+      }
 
       ion-item {
         align-items: flex-start;
+        margin-top: 16px;
 
         ion-checkbox {
           margin-right: 8px;
@@ -19,6 +21,8 @@
 
   &__actions {
     display: flex;
+    margin-top: 24px;
+    border-top: 1px solid #eee;
 
     &__button {
       flex-basis: 50%;

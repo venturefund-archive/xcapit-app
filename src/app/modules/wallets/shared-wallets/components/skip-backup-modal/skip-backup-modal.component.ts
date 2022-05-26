@@ -5,10 +5,10 @@ import { NavController, ModalController } from '@ionic/angular';
 @Component({
   selector: 'app-skip-backup-modal',
   template: `
-  <div>
-    <div class="main__body">
+  <div class="main__body">
+    <form [formGroup]="skipBackUpForm" class="main__body__form" (ngSubmit)="handleSubmit()">
+    <div class="main__body__form__content">
     <ion-label class="ux-font-text-lg">{{'wallets.shared_wallets.skip-backup-modal.title' |translate}}  </ion-label>
-    <form [formGroup]="skipBackUpForm" class="main__body__form">
       <ion-item class="last ux-font-text-base ion-no-padding" lines="none">
             <ion-label color="neutral90" class="ion-no-margin">
             {{'wallets.shared_wallets.skip-backup-modal.description' |translate}}
@@ -21,12 +21,12 @@ import { NavController, ModalController } from '@ionic/angular';
               (ionChange)="this.enableButton()"
             ></ion-checkbox>
       </ion-item>
-    </form>
     </div>
-    <div class="main__actions">
+      <div class="main__actions">
       <ion-button 
       class="ux-link-xl main__actions__button main__actions__button-back" 
       fill="clear"
+      name="CancelSkip"
       (click)="close()"
       >
       {{'wallets.shared_wallets.skip-backup-modal.button_back' |translate}}
@@ -37,19 +37,20 @@ import { NavController, ModalController } from '@ionic/angular';
       name= "ux_create_skip_warning" 
       appTrackClick 
       [disabled]="!acceptSkip"
-      (click)=" goToHomeWallet()">
+      type="submit">
         {{'wallets.shared_wallets.skip-backup-modal.button_skip' |translate}}
       </ion-button>
     </div>
-  </div>`,
+    </form>
+    </div>`,
   styleUrls: ['./skip-backup-modal.component.scss'],
 })
 export class SkipBackupModalComponent implements OnInit {
   acceptSkip = false;
   skipBackUpForm = this.fb.group({ agreeSkipBackUp: [false, [Validators.requiredTrue]] })
-  constructor(private fb: FormBuilder, private modalController: ModalController, 
+  constructor(private fb: FormBuilder, private modalController: ModalController,
     private navController: NavController
-    ) { }
+  ) { }
 
   ngOnInit() { }
 
@@ -58,10 +59,10 @@ export class SkipBackupModalComponent implements OnInit {
   }
 
   close(state: string = 'canceled') {
-      this.modalController.dismiss(null, state);
+    this.modalController.dismiss(null, state);
   }
 
-  goToHomeWallet() {
+  handleSubmit() {
     this.close();
     this.navController.navigateForward(['/tabs/wallets']);
   }
