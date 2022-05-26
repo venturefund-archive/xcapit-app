@@ -1020,7 +1020,9 @@
       "weeks": "weeks*",
       "annual": "% Annual",
       "start_invest_button": "Start to invest",
-      "back_button": "Back to the start"
+      "back_button": "Back to the start",
+      "informative_modal": "This goal may take longer than expected. If you wish, you can start with a smaller one.",
+      "informative_modal_button": "Create new goal"
     },
     "shared_financial_planner": {
       "objetive_card": {

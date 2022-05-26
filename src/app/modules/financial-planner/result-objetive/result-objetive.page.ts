@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
@@ -7,6 +7,7 @@ import { TwoPiProduct } from '../../defi-investments/shared-defi-investments/mod
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { environment } from 'variables.env';
 import { NONPROD_DEFI_PRODUCTS, PROD_DEFI_PRODUCTS } from '../shared-financial-planner/constants/products';
+import { ToastWithButtonsComponent } from '../../defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 
 @Component({
   selector: 'app-result-objetive',
@@ -111,13 +112,15 @@ export class ResultObjetivePage implements OnInit {
   name: string;
   necessaryAmount: number;
   env = environment.environment;
+  isOpen = false;
 
   constructor(
     private appStorage: AppStorageService,
     private translate: TranslateService,
     private navController: NavController,
     private apiWalletService: ApiWalletService,
-    private twoPiApi: TwoPiApi
+    private twoPiApi: TwoPiApi,
+    private modalController: ModalController,
   ) {}
 
   ngOnInit() {}
@@ -154,6 +157,10 @@ export class ResultObjetivePage implements OnInit {
   calculationsInvesting() {
     for (const product of this.products) {
       product.weeks = Math.round(this.weeks / (1 * (1 + product.apy / 55)));
+      if (product.weeks > 500 && this.isOpen == false) {
+        this.isOpen = true;
+        this.openModalMoreThan500Weeks();
+      }
     }
   }
 
@@ -175,4 +182,21 @@ export class ResultObjetivePage implements OnInit {
   async getInvestmentProduct(product: any): Promise<TwoPiProduct> {
     return new TwoPiProduct(await this.twoPiApi.vault(product.id), this.apiWalletService);
   }
+
+  async openModalMoreThan500Weeks() {
+    const modal = await this.modalController.create({
+      component: ToastWithButtonsComponent,
+      cssClass: 'ux-toast-warning',
+      showBackdrop: false,
+      componentProps: {
+        text: this.translate.instant('financial_planner.result_objetive.informative_modal'),
+        firstButtonName: this.translate.instant('financial_planner.result_objetive.informative_modal_button'),
+        firstLink: '/financial-planner/new-objetive',
+      },
+    });
+    modal.present();
+    this.isOpen = false;
+  }
+
+  
 }

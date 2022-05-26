@@ -980,7 +980,7 @@
         "invest": "Inversión",
         "gift": "Regalo"
       },
-
+      
       "subtitle_2": "Dinero necesario",
       "paragraph_2": "Calcula cuánto dinero necesitas en total para alcanzar tu objetivo.",
       "label_3": "USD",
@@ -1011,7 +1011,9 @@
       "weeks": "semanas*",
       "annual": "% Anual",
       "start_invest_button": "Comenzar a invertir",
-      "back_button": "Volver al inicio"
+      "back_button": "Volver al inicio",
+      "informative_modal": "Este objetivo podría tardar más de lo esperado. Si lo deseas, puedes comenzar con uno más pequeño.",
+      "informative_modal_button": "Crear nuevo objetivo"
     },
     "shared_financial_planner": {
       "objetive_card": {
