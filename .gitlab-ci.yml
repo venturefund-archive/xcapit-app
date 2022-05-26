@@ -80,20 +80,10 @@ cache:
     paths:
       - coverage/lcov.info
 
-### Coveralls 
-.coveralls: &coveralls
+## Coveralls 
+coveralls: 
   stage: test
   image: node:${NODE_VERSION}
-  cache:
-    key:
-      files:
-        - yarn.lock
-    paths:
-      - node_modules
-    policy: pull
-  variables:
-    CI: 'true'
-    COVERALLS_REPO_TOKEN: $COVERALLS_REPO_TOKEN
   script:
     - npm run coveralls
   allow_failure: true  
@@ -138,14 +128,6 @@ syntax_checking:
 ### pytest
 test:
   <<: *nodejs-test
-  rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-
-## coveralls
-test:
-  <<: *coveralls
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
