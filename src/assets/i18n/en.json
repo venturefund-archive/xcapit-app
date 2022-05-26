@@ -1020,7 +1020,9 @@
       "weeks": "weeks*",
       "annual": "% Annual",
       "start_invest_button": "Start to invest",
-      "back_button": "Back to the start"
+      "back_button": "Back to the start",
+      "informative_modal": "This goal may take longer than expected. If you wish, you can start with a smaller one.",
+      "informative_modal_button": "Create new goal"
     },
     "shared_financial_planner": {
       "objetive_card": {
@@ -1056,6 +1058,7 @@
       "header": "Donations",
       "button": "Donate",
       "info": {
+        "regional":"Regional",
         "global": "Global",
         "receive": "Receive",
         "unhcr": {
@@ -1081,6 +1084,12 @@
           "title_2": "About Free the Girls",
           "title_3": "Learn more about Free the Girls",
           "description": "It helps these women become entrepreneurs by providing them with the tools to market in local second-hand clothing markets in their communities."
+        },
+        "proof_of_integrity":{
+          "title_1": "To provide, through financial education, the necessary tools so that people struggling to meet their basic needs have access to the crypto ecosystem and can use these tools to their advantage.",
+          "title_2": "About Proof of integrity",
+          "title_3": "Learn more about POI",
+          "description": "Offer a cryptofinance education program and fund the transaction fees and deposits required to join the Proof of Humanity platform."
         }
       }
     },
@@ -1454,7 +1463,8 @@
       "title": "Enter recovery phrase",
       "subtitle": "Write your words separated by a space",
       "label": "Recovery phrase",
-      "button": "Import Wallet"
+      "button": "Import Wallet",
+      "next_button": "Next"
     },
     "transactions": {
       "header": "Transactions history",

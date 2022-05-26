@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 export const CAUSES = [
   {
     id: 'unhcr',
+    scope:'donations.description_cause.info.global',
     image: 'assets/img/donations/causes/cause_1/image.jpg',
     title: 'UNHCR',
     logo: 'assets/img/donations/causes/cause_1/logo.svg',
@@ -34,6 +35,7 @@ export const CAUSES = [
   },
   {
     id: 'freethegirls',
+    scope:'donations.description_cause.info.global',
     image: 'assets/img/donations/causes/cause_2/image.jpg',
     title: 'Free the Girls',
     logo: 'assets/img/donations/causes/cause_2/logo.jpg',
@@ -65,6 +67,7 @@ export const CAUSES = [
   },
   {
     id: 'rainforestrescue',
+    scope: 'donations.description_cause.info.global',
     image: 'assets/img/donations/causes/cause_3/image.jpg',
     title: 'Rainforest rescue',
     logo: 'assets/img/donations/causes/cause_3/logo.svg',
@@ -96,6 +99,7 @@ export const CAUSES = [
   },
   {
     id: 'water',
+    scope:'donations.description_cause.info.global',
     image: 'assets/img/donations/causes/cause_4/image.jpg',
     title: 'Water.org',
     logo: 'assets/img/donations/causes/cause_4/logo.jpg',
@@ -109,6 +113,38 @@ export const CAUSES = [
       { logo: 'instagram', link: 'https://instagram.com/water', text: 'instagram.com/water' },
       { logo: 'twitter', link: 'https://twitter.com/water', text: 'twitter.com/water' },
       { logo: 'mail', link: 'https://water.org/contact-us', text: 'water.org/contact-us' },
+    ],
+    token: {
+      id: 1,
+      name: 'ETH - Ethereum',
+      logoRoute: 'assets/img/coins/ETH.svg',
+      last: false,
+      value: 'ETH',
+      network: 'ERC20',
+      chainId: 42,
+      rpc: environment.ethAlchemyApiUrl,
+      moonpayCode: 'keth',
+      native: true,
+      symbol: 'ETHUSDT',
+      contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    },
+  },
+  {
+    id: 'proofofintegrity',
+    scope:'donations.description_cause.info.regional',
+    image: 'assets/img/donations/causes/cause_5/image.jpg',
+    title: 'Proof of integrity',
+    logo: 'assets/img/donations/causes/cause_5/logo.svg',
+    type: 'humanitary',
+    title_1: 'donations.description_cause.info.proof_of_integrity.title_1',
+    title_2: 'donations.description_cause.info.proof_of_integrity.title_2',
+    title_3: 'donations.description_cause.info.proof_of_integrity.title_3',
+    description: 'donations.description_cause.info.proof_of_integrity.description',
+    address: '0x75DeD588d2a4734D0a61B9953A3C4e6C6D00AbC4',
+    social_media: [
+      { logo: 'instagram', link: 'https://instagram.com/proofofintegrity', text: 'instagram.com/proofofintegrity' },
+      { logo: 'twitter', link: 'https:/twitter.com/proof_integrity', text: 'twitter.com/proof_integrity' },
+      { logo: 'mail', link: 'https://info@proofofintegrity.org', text: 'info@proofofintegrity.org' },
     ],
     token: {
       id: 1,

@@ -31,11 +31,11 @@ export const PROVIDERS: FiatRampProvider[] = [
     id: 1,
     alias: 'kripton',
     name: 'Kripton Market',
-    trackClickEventName: "ux_buy_kripton",
     logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
     description: 'fiat_ramps.select_provider.krypton_description',
     disclaimer: 'fiat_ramps.shared.constants.providers.kripton.disclaimer',
     newOperationRoute: '/fiat-ramps/new-operation/kripton',
+    trackClickEventName: "ux_buy_kripton",
     countries: ['Argentina', 'Venezuela', 'Uruguay', 'Colombia'],
     currencies: [
       { symbol: 'DAI', network: 'MATIC' },

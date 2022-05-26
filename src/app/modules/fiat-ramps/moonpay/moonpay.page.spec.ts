@@ -14,7 +14,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 
 const testCoins = [
   {
@@ -52,42 +51,6 @@ const testCoins = [
   },
 ];
 
-const rawOperations: FiatRampOperation[] = [
-  {
-    operation_id: 1,
-    amount_in: 12,
-    currency_in: 'ETH',
-    amount_out: 21,
-    currency_out: 'ARS',
-    status: 'complete',
-    created_at: new Date(),
-    provider: '1',
-    operation_type: 'cash-in'
-  },
-  {
-    operation_id: 2,
-    amount_in: 23,
-    currency_in: 'USDT',
-    amount_out: 21,
-    currency_out: 'ARS',
-    status: 'complete',
-    created_at: new Date(),
-    provider: '1',
-    operation_type: 'cash-in'
-  },
-  {
-    operation_id: 3,
-    amount_in: 32,
-    currency_in: 'ETH',
-    amount_out: 21,
-    currency_out: 'ARS',
-    status: 'complete',
-    created_at: new Date(),
-    provider: '1',
-    operation_type: 'cash-in'
-  },
-]
-
 describe('MoonpayPage', () => {
   let component: MoonpayPage;
   let fixture: ComponentFixture<MoonpayPage>;
@@ -111,11 +74,10 @@ describe('MoonpayPage', () => {
           snapshot: { queryParamMap: convertToParamMap({}) },
         }
       );
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
-        getUserOperations: of(rawOperations),
         getMoonpayLink: of({ url: 'http://testURL.com' }),
       });
-      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
         getEncryptedWallet: Promise.resolve({ addresses: { ERC20: 'testERC20Address' } }),
       });
@@ -178,28 +140,6 @@ describe('MoonpayPage', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.coins.length).toEqual(2);
-  });
-
-  it('should get and show operations on ionViewWillEnter', async () => {
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(1);
-    expect(component.operationsList.length).toEqual(3);
-  });
-
-  it('should go to Moonpay web when Go To Moonpay History clicked', () => {
-    fixture.debugElement.query(By.css('ion-button[name="Go To Moonpay History"]')).nativeElement.click();
-    expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call trackEvent when Go To Moonpay History clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Moonpay History');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should redirect to coin selection when coin is clicked', async () => {

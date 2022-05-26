@@ -58,24 +58,7 @@ import { LINKS } from 'src/app/config/static-links';
           }}</ion-text>
         </div>
       </ion-card>
-      <div class="operations-list" *ngIf="this.operationsList">
-        <app-operations-list [operationsList]="this.operationsList"></app-operations-list>
-      </div>
-      <div class="moonpay-operations">
-        <ion-text class="ux-font-text-xxs">
-          {{ 'fiat_ramps.moonpay.moonpay_operations' | translate }}
-        </ion-text>
-        <ion-button
-          fill="clear"
-          type="button"
-          appTrackClick
-          name="Go To Moonpay History"
-          (click)="this.goToMoonpay()"
-          class="ux-link-xs moonpay-operations__link"
-        >
-          {{ this.txHistoryLink }}
-        </ion-button>
-      </div>
+      
       <ion-button
         appTrackClick
         name="ux_buy_moonpay_continue"
@@ -99,7 +82,6 @@ export class MoonpayPage implements OnInit {
   coins: Coin[];
   address: string;
   operationsList: FiatRampOperation[];
-  txHistoryLink: string = LINKS.moonpayTransactionHistory;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -116,13 +98,6 @@ export class MoonpayPage implements OnInit {
   ionViewWillEnter() {
     this.subscribeToFormChanges();
     this.initAssetsForm();
-    this.getOperations();
-  }
-
-  getOperations() {
-    this.fiatRampsService.getUserOperations().subscribe((data) => {
-      this.operationsList = data;
-    });
   }
 
   initAssetsForm() {
@@ -166,9 +141,7 @@ export class MoonpayPage implements OnInit {
     return this.navController.navigateForward(['/tabs/wallets']);
   }
 
-  async goToMoonpay() {
-    await this.browserService.open({ url: this.txHistoryLink });
-  }
+  
 
   changeCurrency(): void{
     this.navController.navigateForward(['/fiat-ramps/token-selection']);

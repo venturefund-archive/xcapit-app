@@ -44,6 +44,7 @@
 
   .last {
     margin-top: 10px;
+
     --border-color: transparent;
     --background-hover: transparent;
     --background-activated: transparent;
@@ -54,6 +55,7 @@
 
   ion-checkbox {
     --size: 18px;
+
     color: var(--ion-color-info);
   }
 }

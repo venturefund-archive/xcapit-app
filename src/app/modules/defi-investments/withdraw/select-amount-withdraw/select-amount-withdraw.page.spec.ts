@@ -14,10 +14,13 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
-import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { TwoPiInvestment } from '../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { By } from '@angular/platform-browser';
+import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
+import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
+import { of } from 'rxjs';
+import { TwoPiInvestmentFactory } from '../../shared-defi-investments/models/two-pi-investment/factory/two-pi-investment-factory';
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -30,20 +33,6 @@ const testVault = {
   token_address: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
   tvl: 1301621680000,
 } as Vault;
-
-const usdc_coin = {
-  id: 8,
-  name: 'USDC - USD Coin',
-  logoRoute: 'assets/img/coins/USDC.png',
-  last: false,
-  value: 'USDC',
-  network: 'MATIC',
-  chainId: 80001,
-  rpc: 'http://testrpc.text/',
-  moonpayCode: 'usdc_polygon',
-  decimals: 6,
-  symbol: 'USDCUSDT',
-};
 
 const formData = {
   valid: {
@@ -71,19 +60,15 @@ describe('SelectAmountWithdrawPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SelectAmountWithdrawPage>;
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
   let investmentDataServiceSpy: jasmine.SpyObj<InvestmentDataService>;
-  let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
-  let coinSpy: jasmine.SpyObj<Coin>;
   let investmentSpy: jasmine.SpyObj<TwoPiInvestment>;
+  let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
+  let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
+  let twoPiInvestmentFactory: jasmine.SpyObj<TwoPiInvestmentFactory>;
+  let coinsSpy: jasmine.SpyObj<Coin>[];
+
   beforeEach(
     waitForAsync(() => {
-      investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
-        id: 3,
-        token: coinSpy,
-        contractAddress: '0x0000001',
-        name: 'polygon_usdc',
-      });
-
       investmentDataServiceSpy = jasmine.createSpyObj(
         'InvestmentDataService',
         {},
@@ -94,26 +79,17 @@ describe('SelectAmountWithdrawPage', () => {
         }
       );
 
-      coinSpy = jasmine.createSpyObj(
-        {},
-        {
-          name: 'USDC - USD Coin',
-          value: 'USDC',
-          network: 'MATIC',
-          decimals: 6,
-        }
-      );
-
-      investmentSpy = jasmine.createSpyObj('TwoPiInvestment', {
-        balance: Promise.resolve(50),
-      });
-
       twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
         vault: Promise.resolve(testVault),
       });
 
+      coinsSpy = [
+        jasmine.createSpyObj('Coin', {}, { name: 'USDC - USD Coin', value: 'USDC', network: 'MATIC' }),
+        jasmine.createSpyObj('Coin', {}, { name: 'MATIC', value: 'MATIC', network: 'MATIC', native: true }),
+      ];
+
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
-        getCoins: [usdc_coin],
+        getCoins: coinsSpy,
       });
 
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionServiceSpy', {
@@ -124,6 +100,21 @@ describe('SelectAmountWithdrawPage', () => {
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       fakeNavController = new FakeNavController({});
       navControllerSpy = fakeNavController.createSpy();
+
+      dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
+
+      dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
+        new: dynamicPriceSpy,
+      });
+
+      investmentSpy = jasmine.createSpyObj('TwoPiInvestment', {
+        balance: Promise.resolve(50),
+      });
+
+      twoPiInvestmentFactory = jasmine.createSpyObj('TwoPiInvestmentFactory', {
+        new: investmentSpy,
+      });
+
       TestBed.configureTestingModule({
         declarations: [SelectAmountWithdrawPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -133,6 +124,9 @@ describe('SelectAmountWithdrawPage', () => {
           { provide: TwoPiApi, useValue: twoPiApiSpy },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
+          { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
+          { provide: TwoPiInvestmentFactory, useValue: twoPiInvestmentFactory },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -140,8 +134,6 @@ describe('SelectAmountWithdrawPage', () => {
       fixture = TestBed.createComponent(SelectAmountWithdrawPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
-      component.amountInputCard = jasmine.createSpyObj('AmountInputCardComponent', { ngOnDestroy: null });
-      component.investmentProduct = investmentProductSpy;
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
@@ -151,7 +143,6 @@ describe('SelectAmountWithdrawPage', () => {
   });
 
   it('should call trackEvent on trackService when submit withdraw amount button is clicked', async () => {
-    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     component.form.patchValue(formData.valid);
@@ -164,14 +155,16 @@ describe('SelectAmountWithdrawPage', () => {
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should destroy amount input card on leave', () => {
+  it('should unsubscribe when leave', () => {
+    const nextSpy = spyOn(component.destroy$, 'next');
+    const completeSpy = spyOn(component.destroy$, 'complete');
     component.ionViewWillLeave();
-    expect(component.amountInputCard.ngOnDestroy).toHaveBeenCalledTimes(1);
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should render amount input card when invested Amount not null or undefined', async () => {
     component.investedAmount = 30;
-    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     await component.ionViewWillEnter();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
@@ -181,7 +174,6 @@ describe('SelectAmountWithdrawPage', () => {
   });
 
   it('should save withdraw amount and redirect if form is valid', async () => {
-    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     await component.ionViewWillEnter();
     component.form.patchValue({ amount: 20, quoteAmount: 20 });
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -190,8 +182,20 @@ describe('SelectAmountWithdrawPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/withdraw/confirmation', 'polygon_usdc']);
   });
 
+  it('should redirect with an additional parameter if it is a total withdrawal', async () => {
+    await component.ionViewWillEnter();
+    component.form.patchValue({ range: 100, amount: 20, quoteAmount: 20 });
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="submit_withdraw_amount"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
+      '/defi/withdraw/confirmation',
+      'polygon_usdc',
+      'all',
+    ]);
+  });
+
   it('should not save withdraw amount nor redirect if form is not valid', async () => {
-    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();

@@ -44,7 +44,7 @@ const cleanForm = {
   network: '',
   amount_out: null,
   price_in: null,
-  provider: null
+  provider: null,
 };
 
 const userNew = {
