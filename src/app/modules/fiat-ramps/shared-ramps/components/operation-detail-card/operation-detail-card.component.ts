@@ -82,7 +82,8 @@ export class OperationDetailCardComponent implements OnInit {
   @Input() operation: FiatRampOperation;
   coin: Coin = NONPROD_COINS[0];
   address: string;
-  operationStatus: OperationStatus = OPERATION_STATUS[0];
+  @Input() operationStatus: OperationStatus;
+  network: string;
 
   constructor() {}
 
