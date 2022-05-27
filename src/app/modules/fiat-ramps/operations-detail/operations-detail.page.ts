@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { Filesystem } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
@@ -12,7 +11,7 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
 @Component({
   selector: 'app-operations-detail',
   template: `
-    <ion-header >
+    <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
@@ -23,37 +22,69 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
       </ion-toolbar>
     </ion-header>
 
-    <ion-content class="ion-padding dp">
-      <app-operation-detail-card [operation]="this.operation"></app-operation-detail-card>
+    <ion-content class="ion-padding dp" *ngIf="this.operation">
+      <div class="dp__card-container" *ngIf="this.operation.voucher; then voucher; else transferData"></div>
+      <ng-template #voucher>
+        <app-voucher-card></app-voucher-card>
+      </ng-template>
+      <ng-template #transferData>
+        <app-bank-info-card [provider]="this.provider"></app-bank-info-card>
+      </ng-template>
+      <div class="dp__card-container">
+        <app-operation-detail-card [operation]="this.operation" [provider]="this.provider"></app-operation-detail-card>
+      </div>
+      <div class="dp__disclaimer">
+        <div class="dp__disclaimer__text">
+          <ion-text class="ux-font-text-xxs">
+            {{ 'fiat_ramps.operation_detail.disclaimer1' | translate }}
+          </ion-text>
+          <br>
+          <ion-text class="ux-font-text-xxs">
+            {{ 'fiat_ramps.operation_detail.disclaimer2' | translate }}
+          </ion-text>
+        </div>
+        <div class="dp__disclaimer__support">
+          <ion-text class="ux-font-text-xxs">
+            {{ 'fiat_ramps.operation_detail.support_text' | translate }}
+            <ion-button class="ux-link-xs ion-no-margin ion-no-padding" fill="clear" size="small">
+              {{ 'fiat_ramps.operation_detail.support_button' | translate }}
+            </ion-button>
+          </ion-text>
+        </div>
+      </div>
+      <div class="dp__upload-voucher" *ngIf="!this.operation.voucher">
+        <ion-button class="ux_button ion-no-margin" color="secondary" expand="full">
+          {{ 'fiat_ramps.operation_detail.upload_voucher' | translate }}
+        </ion-button>
+      </div>
     </ion-content>
   `,
   styleUrls: ['./operations-detail.page.scss'],
 })
 export class OperationsDetailPage implements OnInit {
-  providers: FiatRampProvider[] = PROVIDERS;
-  comprobante = null;
-  operation: FiatRampOperation;
-  cotizacion: any = 0;
   provider: FiatRampProvider;
+  operation: FiatRampOperation;
+  comprobante = null;
+  cotizacion: any = 0;
   hasVoucher: boolean = false;
   loading: boolean = false;
-
-  ionViewWillEnter() {
-    const operationId = this.route.snapshot.paramMap.get('operation_id');
-    const providerId = this.route.snapshot.paramMap.get('provider_id');
-    this.provider = this.getProvider(providerId);
-    this.getUserOperation(operationId);
-  }
-
-  getProvider(providerId: string) {
-    return this.providers.find((provider) => provider.id.toString() === providerId);
-  }
 
   constructor(
     private route: ActivatedRoute,
     private fiatRampsService: FiatRampsService,
     private navController: NavController
   ) {}
+
+  ionViewWillEnter() {
+    const operationId = this.route.snapshot.paramMap.get('operation_id');
+    const providerId = this.route.snapshot.paramMap.get('provider_id');
+    this.getProvider(parseInt(providerId));
+    this.getUserOperation(operationId);
+  }
+
+  private getProvider(providerId: number) {
+    this.provider = this.fiatRampsService.getProvider(providerId);
+  }
 
   ngOnInit() {}
 
@@ -70,12 +101,11 @@ export class OperationsDetailPage implements OnInit {
     this.comprobante = photo;
   }
 
-  async getUserOperation(operationId: string) {
+  private async getUserOperation(operationId: string) {
     this.fiatRampsService.setProvider(this.provider.id.toString());
     this.fiatRampsService.getUserSingleOperation(operationId).subscribe({
       next: (data) => {
         this.operation = data[0];
-        this.calculateQuotation();
         this.verifyVoucher();
       },
       error: (e) => {
@@ -115,7 +145,7 @@ export class OperationsDetailPage implements OnInit {
   }
 
   verifyVoucher() {
-    if (this.provider.alias !== 'paxful') {
+    if (this.provider.alias === 'kripton') {
       this.hasVoucher = this.operation.voucher;
     }
   }

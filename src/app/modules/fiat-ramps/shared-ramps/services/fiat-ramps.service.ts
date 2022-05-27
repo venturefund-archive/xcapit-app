@@ -29,6 +29,7 @@ export class FiatRampsService {
     );
   }
 
+  // TODO: Esto no anda porque es de binance. 
   getUserWallets(currency): Observable<any> {
     return this.http.get(`${environment.apiUrl}/apikeys/deposit_address/${currency}`, undefined, undefined, false);
   }

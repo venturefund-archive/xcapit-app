@@ -1902,6 +1902,11 @@
     },
     "operation_detail": {
       "header": "Detalle de operación",
+      "disclaimer1": "Recuerda que Xcapit no vende criptomonedas, Todo el flujo de compra y adjudicación queda a cargo del operador.",
+      "disclaimer2": "La entrega de tokens se hace de Lunes a Viernes de 9 a 18 hs. y puede tardar si el banco demora en procesar la transaccion a la cuenta comitente de Kripton.",
+      "support_text": "Si tienes dudas y consultas contáctate con",
+      "support_button": "Soporte de Kripton Market",
+      "upload_voucher": "Adjuntar comprobante",
       "detail_card": {
         "operation": "Operación",
         "buy": "Compra",

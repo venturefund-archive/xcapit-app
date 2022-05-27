@@ -1923,6 +1923,11 @@
     },
     "operation_detail": {
       "header": "Operation detail",
+      "disclaimer1": "Remember that Xcapit does not sell cryptocurrencies, The entire purchase and adjudication flow is the responsibility of the operator.",
+      "disclaimer2": "The delivery of tokens is made from Monday to Friday from 9 a.m. to 6 p.m. and it may take longer if the bank delays in processing the transaction to the Krypton principal account.",
+      "support_text": "If you have any questions contact",
+      "support_button": "Kripton Market Support",
+      "upload_voucher": "Attach voucher",
       "detail_card": {
         "operation": "Operation",
         "buy": "Buy",

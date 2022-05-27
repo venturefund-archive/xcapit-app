@@ -1,0 +1,27 @@
+:host {
+  .dp {
+    --background: var(--ion-color-neutral10);
+
+    &__disclaimer {
+      padding: 0 16px;
+
+      &__text {
+        color: var(--ion-color-neutral80);
+        margin-top: 16px;
+      }
+
+      &__support {
+        color: var(--ion-color-neutral80);
+        margin-top: 16px;
+
+        ion-button {
+          height: 16.42px;
+        }
+      }
+    }
+
+    &__upload-voucher {
+      margin-top: 16px;
+    }
+  }
+}

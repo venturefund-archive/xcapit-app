@@ -1,19 +1,21 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NONPROD_COINS } from 'src/app/modules/wallets/shared-wallets/constants/coins.nonprod';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
-import { OPERATION_STATUS } from '../../constants/operation-status';
+import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
+import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface';
 import { OperationStatus } from '../../interfaces/operation-status.interface';
+import { FiatRampsService } from '../../services/fiat-ramps.service';
 
 @Component({
   selector: 'app-operation-detail-card',
   template: `
-    <ion-card class="ux-card odc">
+    <ion-card class="ux-card odc ion-no-margin" *ngIf="this.address">
       <div class="odc__header">
-        <div class="odc__header__logo">
-          <img [src]="'assets/img/coins/' + this.coin.value.toUpperCase() + '.svg'" alt="Coin Logo" />
+        <div name="Coin Logo" class="odc__header__logo">
+          <img [src]=" this.coin.logoRoute" alt="Coin Logo" />
         </div>
-        <div class="odc__header__coin-name">
+        <div name="Coin Name" class="odc__header__coin-name">
           <ion-text class="ux-font-text-lg">{{ this.coin.value.toUpperCase() }}</ion-text>
           <ion-text class="ux-font-text-base">{{ this.coin.name.split('-')[1] }}</ion-text>
         </div>
@@ -21,16 +23,16 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
           <app-operation-status-chip [status]="this.operationStatus"></app-operation-status-chip>
         </div>
       </div>
-      <div class="odc__detail">
+      <div name="Operation" class="odc__detail">
         <div class="odc__detail__header">
           <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.operation' | translate }}</ion-text>
         </div>
         <div class="odc__detail__content">
-          <div>
+          <div name="Operation Type">
             <ion-text class="ux-font-text-base">{{ 'fiat_ramps.operation_detail.detail_card.buy' | translate }}</ion-text>
           </div>
-          <div class="odc__detail__content__left">
-            <ion-text class="ux-font-text-base">ARS {{ 'fiat_ramps.operation_detail.detail_card.with' | translate }} USDT</ion-text>
+          <div name="Operation Type Detail" class="odc__detail__content__left">
+            <ion-text class="ux-font-text-base">{{ this.operation.currency_out.toUpperCase() }} {{ 'fiat_ramps.operation_detail.detail_card.with' | translate }} {{ this.operation.currency_in.toUpperCase() }}</ion-text>
           </div>
         </div>
       </div>
@@ -38,40 +40,40 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
         <div class="odc__detail__header">
           <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.amount' | translate }}</ion-text>
         </div>
-        <div class="odc__detail__content">
-          <ion-text class="ux-font-text-base">123123 asr</ion-text>
+        <div name="Amount" class="odc__detail__content">
+          <ion-text class="ux-font-text-base">{{ this.operation.amount_in | number: '1.2-8' }} {{ this.operation.currency_in.toUpperCase() }}</ion-text>
         </div>
       </div>
       <div class="odc__detail">
         <div class="odc__detail__header">
           <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.quotation' | translate }}</ion-text>
         </div>
-        <div class="odc__detail__content">
-          <ion-text class="ux-font-text-base">1 USDT = 200 ARS</ion-text>
+        <div name="Quotation" class="odc__detail__content">
+          <ion-text class="ux-font-text-base">1 {{ this.operation.currency_out.toUpperCase() }} = {{ this.quoation | number: '1.2-8'  }} {{ this.operation.currency_in.toUpperCase() }}</ion-text>
         </div>
       </div>
       <div class="odc__detail">
         <div class="odc__detail__header">
           <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.provider' | translate }}</ion-text>
         </div>
-        <div class="odc__detail__content">
-          <ion-text class="ux-font-text-base">Kripton Market</ion-text>
+        <div name="Provider" class="odc__detail__content">
+          <ion-text class="ux-font-text-base">{{ this.provider.name }}</ion-text>
         </div>
       </div>
       <div class="odc__detail">
         <div class="odc__detail__header">
           <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.reception_address' | translate }}</ion-text>
         </div>
-        <div class="odc__detail__content">
-          <ion-text class="ux-font-text-base">0x0000000</ion-text>
+        <div name="Address" class="odc__detail__content">
+          <ion-text class="ux-font-text-base">{{ this.address }}</ion-text>
         </div>
       </div>
       <div class="odc__detail">
         <div class="odc__detail__header">
           <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.network' | translate }}</ion-text>
         </div>
-        <div class="odc__detail__content">
-          <ion-text class="ux-font-text-base">Polygonwannaland</ion-text>
+        <div name="Network" class="odc__detail__content">
+          <ion-text class="ux-font-text-base">{{ this.network | formattedNetwork }}</ion-text>
         </div>
       </div>
     </ion-card>
@@ -80,14 +82,31 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
 })
 export class OperationDetailCardComponent implements OnInit {
   @Input() operation: FiatRampOperation;
-  coin: Coin = NONPROD_COINS[0];
+  @Input() provider: FiatRampProvider;
+  coin: Coin;
   address: string;
-  @Input() operationStatus: OperationStatus;
+  operationStatus: OperationStatus;
   network: string;
+  quoation: number;
 
-  constructor() {}
+  constructor(
+    private fiatRampsService: FiatRampsService,
+    private apiWalletSertvice: ApiWalletService,
+    private walletEncryptionService: WalletEncryptionService,
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.operationStatus = this.fiatRampsService.getOperationStatus(this.operation.status, parseInt(this.operation.provider));
+    this.coin = this.apiWalletSertvice.getCoin(this.operation.currency_out);
+    this.network = this.coin.network;
+    this.walletEncryptionService.getEncryptedWallet().then((data) => {
+      this.address = data.addresses[this.network];
+    });
 
-  ionViewWillEnter() {}
+    this.getQuotation();
+  }
+
+  private getQuotation() {
+    this.quoation = this.operation.amount_in / this.operation.amount_out;
+  }
 }
