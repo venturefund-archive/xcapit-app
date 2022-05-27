@@ -325,9 +325,10 @@ describe('InvestmentConfirmationPage', () => {
     expect(headerEl.nativeElement.innerHTML).toContain('defi_investments.add.header');
     expect(labelEl.nativeElement.innerHTML).toContain('defi_investments.add.amount_to_add');
   });
+
   it('should render app-transaction-fee component', async () => {
-    await fixture.whenRenderingDone()
-    await fixture.whenStable()
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
     const componentEl = fixture.debugElement.queryAll(By.css('app-transaction-fee'));
     fixture.detectChanges();
     expect(componentEl).toBeTruthy();

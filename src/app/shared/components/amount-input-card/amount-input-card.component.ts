@@ -1,8 +1,6 @@
-import { WalletBalanceService } from '../../../modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
-import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 
 @Component({
   selector: 'app-amount-input-card',

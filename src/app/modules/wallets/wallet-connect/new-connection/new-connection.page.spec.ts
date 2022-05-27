@@ -1,7 +1,7 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController, ModalController, AlertController, Platform } from '@ionic/angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { UrlSerializer } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NewConnectionPage } from './new-connection.page';

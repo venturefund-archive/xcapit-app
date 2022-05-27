@@ -4,7 +4,7 @@ import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from 
 import { IonicModule } from '@ionic/angular';
 import { AmountInputCardComponent } from './amount-input-card.component';
 import { By } from '@angular/platform-browser';
-import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SpyProperty } from '../../../../testing/spy-property.spec';
 
 const testCoins = [

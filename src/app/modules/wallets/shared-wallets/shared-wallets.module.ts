@@ -19,6 +19,7 @@ import { WalletConnectQrScanComponent } from './components/wallet-connect-qr-sca
 import { NftCardSkeletonComponent } from './components/nft-card/nft-card-skeleton/nft-card-skeleton.component';
 import { InformativeCardComponent } from './components/informative-card/informative-card.component';
 import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.component';
+import { SkipBackupModalComponent } from './components/skip-backup-modal/skip-backup-modal.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
     StartInvestingComponent,
     WalletConnectQrScanComponent,
     InformativeCardComponent,
+    SkipBackupModalComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -64,6 +66,7 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
     StartInvestingComponent,
     WalletConnectQrScanComponent,
     InformativeCardComponent,
+    SkipBackupModalComponent,
   ],
 })
 export class SharedWalletsModule {}
