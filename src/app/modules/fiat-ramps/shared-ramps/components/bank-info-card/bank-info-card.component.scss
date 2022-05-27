@@ -1,0 +1,29 @@
+:host {
+  .bic {
+    padding: 20px 16px;
+
+    &__content {
+      margin-bottom: 5px;
+
+      &__item {
+        display: flex;
+        flex-direction: row;
+        margin-top: 10px;
+
+        ion-button {
+          margin: auto 0;
+        }
+
+        &__container {
+          margin-right: auto;
+          display: flex;
+          flex-direction: column;
+
+          &__content {
+            margin-top: 4px;
+          }
+        }
+      }
+    }
+  }
+}

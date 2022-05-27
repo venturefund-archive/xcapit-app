@@ -1907,6 +1907,12 @@
       "support_text": "Si tienes dudas y consultas contáctate con",
       "support_button": "Soporte de Kripton Market",
       "upload_voucher": "Adjuntar comprobante",
+      "bank_info_card": {
+        "header": "Datos para transferencia",
+        "amount": "Monto",
+        "bank": "Banco",
+        "concept": "Concepto"
+      },
       "detail_card": {
         "operation": "Operación",
         "buy": "Compra",

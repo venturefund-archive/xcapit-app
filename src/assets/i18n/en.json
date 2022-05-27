@@ -1928,6 +1928,12 @@
       "support_text": "If you have any questions contact",
       "support_button": "Kripton Market Support",
       "upload_voucher": "Attach voucher",
+      "bank_info_card": {
+        "header": "Data for transfer",
+        "amount": "Amount",
+        "bank": "Bank",
+        "concept": "Concept"
+      },
       "detail_card": {
         "operation": "Operation",
         "buy": "Buy",

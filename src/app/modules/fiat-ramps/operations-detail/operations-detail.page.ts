@@ -23,13 +23,16 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
     </ion-header>
 
     <ion-content class="ion-padding dp" *ngIf="this.operation">
-      <div class="dp__card-container" *ngIf="this.operation.voucher; then voucher; else transferData"></div>
-      <ng-template #voucher>
-        <app-voucher-card></app-voucher-card>
-      </ng-template>
-      <ng-template #transferData>
-        <app-bank-info-card [provider]="this.provider"></app-bank-info-card>
-      </ng-template>
+      <div class="dp__card-container">
+        <div *ngIf="this.operation.voucher; then voucher; else transferData"></div>
+        <ng-template #voucher>
+          <app-voucher-card></app-voucher-card>
+        </ng-template>
+        <ng-template #transferData>
+          <app-bank-info-card [operation]="this.operation" [provider]="this.provider"></app-bank-info-card>
+        </ng-template>
+      </div>
+
       <div class="dp__card-container">
         <app-operation-detail-card [operation]="this.operation" [provider]="this.provider"></app-operation-detail-card>
       </div>
@@ -38,7 +41,7 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
           <ion-text class="ux-font-text-xxs">
             {{ 'fiat_ramps.operation_detail.disclaimer1' | translate }}
           </ion-text>
-          <br>
+          <br />
           <ion-text class="ux-font-text-xxs">
             {{ 'fiat_ramps.operation_detail.disclaimer2' | translate }}
           </ion-text>
@@ -75,6 +78,8 @@ export class OperationsDetailPage implements OnInit {
     private navController: NavController
   ) {}
 
+  ngOnInit() {}
+
   ionViewWillEnter() {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
     const providerId = this.route.snapshot.paramMap.get('provider_id');
@@ -84,21 +89,6 @@ export class OperationsDetailPage implements OnInit {
 
   private getProvider(providerId: number) {
     this.provider = this.fiatRampsService.getProvider(providerId);
-  }
-
-  ngOnInit() {}
-
-  async addPhoto() {
-    const filePermissions = await Filesystem.requestPermissions();
-    const cameraPermissions = await Camera.requestPermissions();
-
-    const photo = await Camera.getPhoto({
-      source: CameraSource.Prompt,
-      saveToGallery: false,
-      resultType: CameraResultType.DataUrl,
-    });
-
-    this.comprobante = photo;
   }
 
   private async getUserOperation(operationId: string) {
@@ -112,6 +102,19 @@ export class OperationsDetailPage implements OnInit {
         this.navigateBackToOperations();
       },
     });
+  }
+
+  async addPhoto() {
+    const filePermissions = await Filesystem.requestPermissions();
+    const cameraPermissions = await Camera.requestPermissions();
+
+    const photo = await Camera.getPhoto({
+      source: CameraSource.Prompt,
+      saveToGallery: false,
+      resultType: CameraResultType.DataUrl,
+    });
+
+    this.comprobante = photo;
   }
 
   async calculateQuotation() {
