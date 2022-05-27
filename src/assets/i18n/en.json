@@ -385,7 +385,7 @@
         "investment_info": {
           "USDC": "Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
           "DAI": "Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
-          "BTC": "Your tokens will be distributed in several decentralized protocols.You will earn interest in BTC. \n BTC (Bitcoin) is the first cryptocurrency with fixed issuance, and the largest market capitalization."
+          "WBTC": "Your tokens will be distributed in various decentralized protocols. You will earn continuous interest in WBTC. No investment limits."
         },
         "profiles": {
           "conservative": "Conservative",
@@ -1058,7 +1058,7 @@
       "header": "Donations",
       "button": "Donate",
       "info": {
-        "regional":"Regional",
+        "regional": "Regional",
         "global": "Global",
         "receive": "Receive",
         "unhcr": {
@@ -1085,7 +1085,7 @@
           "title_3": "Learn more about Free the Girls",
           "description": "It helps these women become entrepreneurs by providing them with the tools to market in local second-hand clothing markets in their communities."
         },
-        "proof_of_integrity":{
+        "proof_of_integrity": {
           "title_1": "To provide, through financial education, the necessary tools so that people struggling to meet their basic needs have access to the crypto ecosystem and can use these tools to their advantage.",
           "title_2": "About Proof of integrity",
           "title_3": "Learn more about POI",
@@ -1107,18 +1107,18 @@
         "button": "Donate",
         "loading": "Donating"
       },
-      "no_wallet":{
-        "title":"You don't have your Xcapit Wallet yet",
-        "subtitle":"Create your wallet to donate",
-        "button":"Create Wallet",
-        "link":"See causes"
+      "no_wallet": {
+        "title": "You don't have your Xcapit Wallet yet",
+        "subtitle": "Create your wallet to donate",
+        "button": "Create Wallet",
+        "link": "See causes"
       }
     },
-    "success":{
-      "textPrimary":"Thanks for joining us!",
-      "textSecondary":"You have just contributed to a great cause.",
-      "namePrimaryAction":"Continue donating",
-      "nameThirdAction":"Back to home"
+    "success": {
+      "textPrimary": "Thanks for joining us!",
+      "textSecondary": "You have just contributed to a great cause.",
+      "namePrimaryAction": "Continue donating",
+      "nameThirdAction": "Back to home"
     },
 
     "error": {
