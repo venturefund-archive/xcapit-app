@@ -71,12 +71,6 @@ export const ITEM_MENU: MenuCategory[] = [
         type: 'link',
       },
       {
-        name: 'PrivateKey',
-        text: 'profiles.user_profile_menu.export_private_key',
-        route: '/wallets/export-private-key',
-        type: 'link',
-      },
-      {
         name: 'RemoveWallet',
         text: 'profiles.user_profile_menu.remove_wallet',
         route: '/wallets/remove',
