@@ -268,14 +268,11 @@ export class SendDetailPage {
   }
 
   private dynamicPrice() {
-    this.createDynamicPrice()
+    this.dynamicPriceFactory
+      .new(this.priceRefreshInterval, this.token, this.apiWalletService)
       .value()
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => (this.quotePrice = price));
-  }
-
-  createDynamicPrice(): DynamicPrice {
-    return this.dynamicPriceFactory.new(this.priceRefreshInterval, this.token, this.apiWalletService);
   }
 
   ionViewWillLeave() {
