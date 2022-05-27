@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
@@ -14,12 +14,12 @@ describe('InvestorTestCardsComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InvestorTestCardsComponent>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
+  let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', {
+      storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
         get: null
       });
       TestBed.configureTestingModule({
@@ -31,8 +31,8 @@ describe('InvestorTestCardsComponent', () => {
             useValue: navControllerSpy,
           },
           {
-            provide: AppStorageService,
-            useValue: appStorageServiceSpy,
+            provide: IonicStorageService,
+            useValue: storageServiceSpy,
           },
         ],
       }).compileComponents();
@@ -81,7 +81,7 @@ describe('InvestorTestCardsComponent', () => {
 
   it('should not navigate to education tests page when testAvailable is true and user make introduction', async () => {
     component.testAvailable = true;
-    appStorageServiceSpy.get.and.resolveTo(true);
+    storageServiceSpy.get.and.resolveTo(true);
     const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_education_go"]'));
     clickeableDiv.nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);

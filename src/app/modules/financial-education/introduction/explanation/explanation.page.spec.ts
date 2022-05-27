@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
@@ -18,9 +18,9 @@ describe('ExplanationPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ExplanationPage>;
-  let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
+  let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   beforeEach(waitForAsync(() => {
-    appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', {
+    storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
     });
     fakeNavController = new FakeNavController();
@@ -29,7 +29,7 @@ describe('ExplanationPage', () => {
     TestBed.configureTestingModule({
       declarations: [ ExplanationPage, FakeTrackClickDirective ],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      providers:[{ provide: TrackService, useValue: trackServiceSpy},{ provide: NavController, useValue: navControllerSpy }, { provide: AppStorageService, useValue: appStorageServiceSpy },],
+      providers:[{ provide: TrackService, useValue: trackServiceSpy},{ provide: NavController, useValue: navControllerSpy }, { provide: IonicStorageService, useValue: storageServiceSpy },],
       schemas:[CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
@@ -64,7 +64,7 @@ describe('ExplanationPage', () => {
 
     fixture.detectChanges();
     
-    expect(appStorageServiceSpy.set).toHaveBeenCalledTimes(1);
+    expect(storageServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('');
   });
 
