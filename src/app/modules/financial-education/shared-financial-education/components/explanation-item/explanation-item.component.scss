@@ -1,0 +1,29 @@
+:host {
+  .ei {
+    width: 92%;
+    margin-top: 30px;
+
+    &__title {
+      margin-left: 8px;
+      display: inline-flex;
+
+      ion-text:last-child {
+        padding: 4px 4px 0 8px;
+      }
+    }
+
+    &__item {
+      align-items: center;
+      margin-top: 16px;
+      display: inline-flex;
+
+      ion-text {
+        color: var(--ion-color-neutral90) !important;
+      }
+
+      img {
+        margin-right: 16px;
+      }
+    }
+  }
+}

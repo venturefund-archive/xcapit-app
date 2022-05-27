@@ -964,6 +964,37 @@
       }
     }
   },
+  "financial_education":{
+    "introduction":{
+      "financial_freedom":{
+        "header":"Education",
+        "title":"Towards your financial freedom!",
+        "subtitle":"We want you to learn how to get the most for your money in a quick, clear and simple way.",
+        "button":"Next"
+      },
+      "explanation":{
+        "header":"Education",
+        "title":"How does it work?",
+        "button":"Start",
+        "item_1":{
+          "number":"1.",
+          "title":" Complete all modules",
+          "description":"In order to learn about financial freedom we divide the topics into several modules so be sure to read them all."
+        },
+        "item_2":{
+          "number":"2.",
+          "title":" Passes tests without errors",
+          "description":"You must pass all the tests without errors, you can repeat it as many times as you need."
+        },
+        "item_3":{
+          "number":"3.",
+          "title":" Wait for your NFT",
+          "description":"At the end of all the modules, you will get a free NFT as a prize."
+        }
+      }
+    }
+  },
+
   "financial_planner": {
     "planner_information": {
       "header": "Planner",
@@ -1995,8 +2026,8 @@
       },
       "test_investor_cards": {
         "badge_text": "Coming soon",
-        "title1": "Discover your knowledge in finance",
-        "link1": "Take test",
+        "title1": "Increase your knowledge in finance and cryptocurrencies",
+        "link1": "Learn",
         "title2": "Do you know what type of investor you are?",
         "link2": "Find out"
       },
