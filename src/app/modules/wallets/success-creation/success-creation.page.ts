@@ -7,7 +7,7 @@ import { SkipBackupModalComponent } from '../shared-wallets/components/skip-back
   selector: 'app-success-creation',
   template: ` <ion-content [scrollY]="false">
     <div class="header__ux_success_image">
-      <img src="../../../../assets/img/wallets/success_creation.svg" />
+      <img src="assets/img/wallets/success_creation.svg" />
     </div>
     <div class="main ion-padding">
       <div class="main__primary_text ux-font-text-xl">
@@ -31,10 +31,11 @@ import { SkipBackupModalComponent } from '../shared-wallets/components/skip-back
           <ion-icon class="main__actions__primary__key-icon" name="ux-key-outline" color="info"> </ion-icon>
           <ion-label
             ><span class="ux-font-text-lg">{{ 'wallets.success_creation.primary_action.title' | translate }}</span
-            ><br /><span class="ux-font-text-xxs subtitle">{{
+            ><br />
+            <span class="ux-font-text-xxs subtitle">{{
               'wallets.success_creation.primary_action.subtitle' | translate
-            }}</span></ion-label
-          >
+            }}</span>
+          </ion-label>
           <ion-icon class="main__actions__primary__chevron-forward-icon" name="chevron-forward-outline" color="info">
           </ion-icon>
         </div>

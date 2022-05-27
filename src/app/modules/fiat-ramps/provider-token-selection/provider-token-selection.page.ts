@@ -27,6 +27,7 @@ import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies/kri
       <div class="sc__list" *ngIf="this.coins">
         <app-token-selection-list
           [userCoins]="this.coins"
+          state="buy_moonpay"
           (clickedCoin)="this.selectCurrency($event)"
         ></app-token-selection-list>
       </div>
