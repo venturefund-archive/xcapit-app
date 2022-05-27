@@ -1,0 +1,25 @@
+:host {
+  .bic {
+    &__information {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: #e1e9fe;
+      border: 1px solid var(--ion-color-info);
+      border-radius: 6px;
+
+      &__text {
+        ion-text {
+          color: var(--ion-color-info);
+        }
+      }
+
+      &__icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 9px;
+      }
+    }
+  }
+}
