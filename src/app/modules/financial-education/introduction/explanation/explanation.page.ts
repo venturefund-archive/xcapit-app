@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-import { Storage } from '@ionic/storage';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-explanation',
@@ -68,7 +67,7 @@ export class ExplanationPage implements OnInit {
   ];
   
   key =  'introductionCompleted';
-  constructor(private trackService : TrackService, private navController: NavController, private storage : AppStorageService) {}
+  constructor(private trackService : TrackService, private navController: NavController, private storage : IonicStorageService) {}
 
   ngOnInit(){}
 

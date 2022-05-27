@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 @Component({
   selector: 'app-investor-test-cards',
   template: ` <div class="investor-cards">
@@ -66,7 +65,7 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
 export class InvestorTestCardsComponent implements OnInit {
   optionsTestAvailable = true;
   testAvailable = true;
-  constructor(private navController: NavController, private appStorage : AppStorageService) {}
+  constructor(private navController: NavController, private storage : IonicStorageService) {}
   ngOnInit() {}
 
   goToInvestorOptions() {
@@ -76,7 +75,7 @@ export class InvestorTestCardsComponent implements OnInit {
   }
 
   async goToEducation() {
-    const introductionCompleted = await this.appStorage.get('introductionCompleted');
+    const introductionCompleted = await this.storage.get('introductionCompleted');
       if (this.testAvailable) {
         const url = !introductionCompleted ? 'financial-education/introduction/financial-freedom' : '';
         this.navController.navigateForward([url]);
