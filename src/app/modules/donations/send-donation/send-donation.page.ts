@@ -281,7 +281,7 @@ export class SendDonationPage implements OnInit {
         secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
           nativeToken: this.token.value,
         }),
-        firstLink: '/fiat-ramps/moonpay',
+        firstLink: '/fiat-ramps/select-provider',
         secondLink: '/wallets/receive/detail',
         data: this.token,
       },
