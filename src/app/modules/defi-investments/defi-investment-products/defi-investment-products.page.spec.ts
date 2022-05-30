@@ -21,6 +21,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { Vault } from '@2pi-network/sdk';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 const testCoins = [
   jasmine.createSpyObj(
@@ -51,6 +52,7 @@ describe('DefiInvestmentProductsPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DefiInvestmentProductsPage>;
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -132,6 +134,8 @@ describe('DefiInvestmentProductsPage', () => {
         value: [{ id: 'mumbai_usdc', isComing: false, category: 'conservative' }],
       });
 
+      remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ test: 'test' }] });
+
       TestBed.configureTestingModule({
         declarations: [DefiInvestmentProductsPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule, ReactiveFormsModule],
@@ -142,6 +146,7 @@ describe('DefiInvestmentProductsPage', () => {
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: TwoPiApi, useValue: twoPiApiSpy },
+          { provide: RemoteConfigService, useValue: remoteConfigSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();

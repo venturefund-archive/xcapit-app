@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { RemoteConfiguration } from '../../interfaces/remote-configuration.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RemoteConfigService {
   private remoteConfig: RemoteConfiguration;
 
-  constructor() { }
+  constructor() {}
 
   initialize(remoteConfig: RemoteConfiguration): Promise<void> {
     this.remoteConfig = remoteConfig;
@@ -18,7 +18,11 @@ export class RemoteConfigService {
     return this.remoteConfig.getFeatureFlag(param);
   }
 
-  getString(name : string){
+  getString(name: string) {
     return this.remoteConfig.getString(name);
+  }
+
+  getObject(name: string): any {
+    return this.remoteConfig.getObject(name);
   }
 }

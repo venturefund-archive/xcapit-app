@@ -20,6 +20,7 @@ import { TwoPiInvestment } from '../shared-defi-investments/models/two-pi-invest
 import { InvestmentProduct } from '../shared-defi-investments/interfaces/investment-product.interface';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -50,6 +51,7 @@ describe('InvestmentDetailPage', () => {
   let createInvestmentProductSpy: jasmine.Spy<any>;
   let availableDefiProductsSpy: jasmine.SpyObj<AvailableDefiProducts>;
   let coinSpy: jasmine.SpyObj<Coin>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
   beforeEach(
     waitForAsync(() => {
       fakeActivatedRoute = new FakeActivatedRoute({ vault: 'polygon_usdc' });
@@ -101,8 +103,10 @@ describe('InvestmentDetailPage', () => {
       });
 
       availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
-        value: [{ id: 'polygon_usdc', isComing: false, dailyEarning: true }],
+        value: [{ id: 'polygon_usdc', isComing: false, continuousEarning: true }],
       });
+
+      remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ test: 'test' }] });
 
       TestBed.configureTestingModule({
         declarations: [InvestmentDetailPage, FakeTrackClickDirective],
@@ -114,6 +118,7 @@ describe('InvestmentDetailPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+          { provide: RemoteConfigService, useValue: remoteConfigSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -205,13 +210,26 @@ describe('InvestmentDetailPage', () => {
     expect(await component.createInvestment(investmentProductSpy, '0x')).toBeInstanceOf(TwoPiInvestment);
   });
 
-  it('should render disclaimer if product have weekly earnings', async () => {
+  it('should render disclaimer of continuous earning if product have continuousEarnings on true', async () => {
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const disclaimerEl = fixture.debugElement.query(By.css('div.id__weekly-profit-disclaimer > ion-label'));
-    expect(disclaimerEl.nativeElement.innerHTML).toContain('defi_investments.invest_detail.daily_earnings_disclaimer');
+    expect(disclaimerEl.nativeElement.innerHTML).toContain('defi_investments.invest_detail.continuous_update');
+  });
+
+  it('should render disclaimer of weekly earning if product have continuousEarnings on false', async () => {
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    availableDefiProductsSpy.value.and.returnValue([
+      { id: 'polygon_usdc', isComing: false, continuousEarning: false, category: 'test' },
+    ]);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    const disclaimerEl = fixture.debugElement.query(By.css('div.id__weekly-profit-disclaimer > ion-label'));
+    expect(disclaimerEl.nativeElement.innerHTML).toContain('defi_investments.invest_detail.weekly_update');
   });
 });

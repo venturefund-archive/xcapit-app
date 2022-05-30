@@ -337,7 +337,9 @@
       "button": "Añadir monto",
       "button_link": "Realizar retiro",
       "invested_amount": "Balance*",
-      "daily_earnings_disclaimer": "*Tu balance se actualiza a diario."
+      "daily_earnings_disclaimer": "*Tu balance se actualiza a diario.",
+      "continuous_update":"*Actualización continua",
+      "weekly_update":"*Actualización semanal"
     },
     "shared": {
       "transaction_fees": {
@@ -358,7 +360,8 @@
         "liquidity": "Liquidez",
         "not_min_ammount": "Sin monto mínimo",
         "immediate_rescue": "Rescate inmediato",
-        "daily_earnings": "Ganancias diarias*",
+        "continuous_earnings": "Ganancias continuas",
+        "weekly_earnings":"Ganacias semanales",
         "daily_earnings_disclaimer_active": "*Tu balance se actualiza a diario.",
         "daily_earnings_disclaimer_available": "*Ahora tu balance se actualiza a diario.",
         "coming_badge": "Próximamente",

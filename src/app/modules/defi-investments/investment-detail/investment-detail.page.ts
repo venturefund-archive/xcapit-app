@@ -11,6 +11,7 @@ import { TwoPiInvestment } from '../shared-defi-investments/models/two-pi-invest
 import { VoidSigner } from 'ethers';
 import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-investment-detail',
@@ -43,7 +44,7 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
       </ion-card>
       <div class="id__weekly-profit-disclaimer ion-padding-horizontal" *ngIf="this.disclaimer">
         <ion-label class=" ux-font-text-xs" color="neutral80">
-          {{ 'defi_investments.invest_detail.daily_earnings_disclaimer' | translate }}
+          {{ this.updateEarningText | translate }}
         </ion-label>
       </div>
       <ion-button
@@ -77,13 +78,15 @@ export class InvestmentDetailPage implements OnInit {
   referenceBalance: number;
   balance: number;
   disclaimer = false;
+  updateEarningText: string;
   constructor(
     private route: ActivatedRoute,
     private twoPiApi: TwoPiApi,
     private navController: NavController,
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
-    private walletEncryptionService: WalletEncryptionService
+    private walletEncryptionService: WalletEncryptionService,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   ngOnInit() {}
@@ -146,10 +149,14 @@ export class InvestmentDetailPage implements OnInit {
     const product = this.createAvailableDefiProducts()
       .value()
       .find((product) => product.id === this.investmentProduct.name());
-    if (product) this.disclaimer = true;
+    if (product){
+      this.disclaimer = true;
+      this.updateEarningText = product.continuousEarning ? 'defi_investments.invest_detail.continuous_update' : 'defi_investments.invest_detail.weekly_update'
+      
+    } 
   }
 
   createAvailableDefiProducts(): AvailableDefiProducts {
-    return new AvailableDefiProducts();
+    return new AvailableDefiProducts(this.remoteConfig);
   }
 }
