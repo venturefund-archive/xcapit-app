@@ -5,16 +5,17 @@ import { ActivatedRoute } from '@angular/router';
 import { NETWORK_COLORS } from 'src/app/modules/wallets/shared-wallets/constants/network-colors.constant';
 import { DefiProduct } from '../../interfaces/defi-product.interface';
 import { AvailableDefiProducts } from '../../models/available-defi-products/available-defi-products.model';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-expandable-investment-info',
   template: `
     <ion-accordion-group class="eif">
-      <ion-accordion 
-        class="eif__accordion" 
-        value="investment-info" 
+      <ion-accordion
+        class="eif__accordion"
+        value="investment-info"
         appTrackClick
-        [dataToTrack]='{eventLabel: this.trackClickName}'
+        [dataToTrack]="{ eventLabel: this.trackClickName }"
       >
         <ion-item slot="header" class="eif__accordion__header">
           <div class="eif__accordion__header__content">
@@ -51,7 +52,7 @@ import { AvailableDefiProducts } from '../../models/available-defi-products/avai
         <ion-list lines="none" slot="content" class="eif__accordion__content">
           <div class="eif__accordion__content__product_description">
             <ion-text class="eif__accordion__content__information-item__text ux-font-text-base">
-                  {{this.infoText | translate}}
+              {{ this.infoText | translate }}
             </ion-text>
           </div>
           <!-- <ion-item>
@@ -104,8 +105,8 @@ import { AvailableDefiProducts } from '../../models/available-defi-products/avai
                 {{ 'defi_investments.shared.expandable_investment_info.blockchain' | translate }}
               </ion-text>
               <ion-badge [color]="this.networkColors[this.token.network]" class="ux-badge ux-font-num-subtitulo">{{
-                this.token.network !== 'MATIC' ? this.token.network : 'Polygon' | uppercase
-            }}</ion-badge>
+                this.token.network !== 'MATIC' ? this.token.network : ('Polygon' | uppercase)
+              }}</ion-badge>
             </ion-label>
           </ion-item>
           <ion-item>
@@ -124,7 +125,7 @@ import { AvailableDefiProducts } from '../../models/available-defi-products/avai
                 {{ 'defi_investments.shared.expandable_investment_info.profile' | translate }}
               </ion-text>
               <ion-text class="eif__accordion__content__information-item__text ux-font-text-base">
-                {{this.profile | translate}}
+                {{ this.profile | translate }}
               </ion-text>
             </ion-label>
           </ion-item>
@@ -147,20 +148,18 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
   infoText: string;
   networkColors = NETWORK_COLORS;
   defiProducts: DefiProduct[];
-  profile : string;
+  profile: string;
   trackClickName = 'display_product_info';
 
-  constructor(
-  ) {}
-  
+  constructor(private remoteConfig: RemoteConfigService) {}
 
   ngOnInit() {
     this.token = this.investmentProduct.token();
     this.tvl = this.investmentProduct.tvl();
     this.apy = this.investmentProduct.apy();
     this.provider = this.investmentProduct.provider();
-    this.type = this.investmentProduct.type();   
-    this.name = this.investmentProduct.name();   
+    this.type = this.investmentProduct.type();
+    this.name = this.investmentProduct.name();
     this.getAvailableDefiProducts();
     this.setInvestmentInfo();
     this.trackClickName = this.fbPrefix && `${this.fbPrefix}_${this.trackClickName}`;
@@ -171,17 +170,16 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
     this.setProductProfile();
   }
 
-
   createAvailableDefiProducts(): AvailableDefiProducts {
-    return new AvailableDefiProducts();
+    return new AvailableDefiProducts(this.remoteConfig);
   }
 
-  setProductProfile(){
+  setProductProfile() {
     const category = this.defiProducts.find((product) => product.id === this.name).category;
-    this.profile = `defi_investments.shared.expandable_investment_info.profiles.${category}`
+    this.profile = `defi_investments.shared.expandable_investment_info.profiles.${category}`;
   }
 
   private setInvestmentInfo() {
-    this.infoText = `defi_investments.shared.expandable_investment_info.investment_info.${this.token.value}`
+    this.infoText = `defi_investments.shared.expandable_investment_info.investment_info.${this.token.value}`;
   }
 }

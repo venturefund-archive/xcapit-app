@@ -93,7 +93,7 @@ export class DefiInvestmentProductComponent implements OnInit {
     this.token = this.investmentProduct.token();
     this.secondFooterLabel =
       this.continuousEarning
-        ? 'defi_investments.shared.defi_investment_product.daily_earnings'
+        ? 'defi_investments.shared.defi_investment_product.continuous_earnings'
         : 'defi_investments.shared.defi_investment_product.weekly_earnings';
     this.trackClickName = `ux_invest_${this.token.value.toLowerCase()}`;
   }

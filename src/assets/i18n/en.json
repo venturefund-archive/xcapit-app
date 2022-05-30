@@ -345,7 +345,9 @@
       "button": "Add amount",
       "button_link": "Make withdrawal",
       "invested_amount": "Balance*",
-      "daily_earnings_disclaimer": "*Your balance is updated daily."
+      "daily_earnings_disclaimer": "*Your balance is updated daily.",
+      "continuous_update":"*Continuous update",
+      "weekly_update":"*Weekly update"
     },
     "shared": {
       "transaction_fees": {
@@ -366,7 +368,8 @@
         "liquidity": "Liquidity",
         "not_min_ammount": "No minimum amount",
         "immediate_rescue": "Immediate Rescue",
-        "daily_earnings": "Daily earnings",
+        "continuous_earnings": "Continuous earnings",
+        "weekly_earnings":"Weekly earnings",
         "daily_earnings_disclaimer_active": "*Your balance is updated daily.",
         "daily_earnings_disclaimer_available": "*Your balance is now updated daily.",
         "coming_badge": "Coming soon",

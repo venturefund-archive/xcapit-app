@@ -13,6 +13,7 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 import { ApiUsuariosService } from '../../users/shared-users/services/api-usuarios/api-usuarios.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -36,11 +37,6 @@ import { NavController } from '@ionic/angular';
             [investmentProduct]="investment.product"
             [balance]="investment.balance"
           ></app-investment-balance-item>
-          <!-- <div class="dp__weekly-profit-disclaimer" *ngIf="this.activeInvestments.length">
-            <ion-label class=" ux-font-text-xxs" color="neutral80">
-              {{ 'defi_investments.shared.defi_investment_product.daily_earnings_disclaimer_active' | translate }}
-            </ion-label>
-          </div> -->
         </div>
         <div
           class="dp__available-card-skeleton"
@@ -73,10 +69,7 @@ import { NavController } from '@ionic/angular';
             </ion-label>
           </ion-item>
           <form [formGroup]="this.profileForm">
-            <app-filter-tab 
-              [items]="this.items"
-              controlName="profile"
-            ></app-filter-tab>
+            <app-filter-tab [items]="this.items" controlName="profile"></app-filter-tab>
           </form>
           <div *ngIf="!this.filteredAvailableInvestments.length" class="dp__empty">
             <div class="dp__empty__image text-center">
@@ -94,14 +87,6 @@ import { NavController } from '@ionic/angular';
             [isComing]="investment.isComing"
             [continuousEarning]="investment.continuousEarning"
           ></app-defi-investment-product>
-          <!-- <div
-            class="dp__weekly-profit-disclaimer"
-            *ngIf="!this.activeInvestments.length && this.filteredAvailableInvestments.length"
-          >
-            <ion-label class=" ux-font-text-xxs" color="neutral80">
-              {{ 'defi_investments.shared.defi_investment_product.daily_earnings_disclaimer_available' | translate }}
-            </ion-label>
-          </div> -->
         </div>
       </div>
       <div *ngIf="this.activeInvestments.length || this.availableInvestments.length" class="dp__link">
@@ -137,17 +122,17 @@ export class DefiInvestmentProductsPage {
     {
       title: 'wealth_managements.about_investor_profile.conservative_profile.title',
       value: 'conservative',
-      dataToTrack: 'ux_invest_conservative'
+      dataToTrack: 'ux_invest_conservative',
     },
     {
       title: 'wealth_managements.about_investor_profile.moderated_profile.title',
       value: 'medium',
-      dataToTrack: 'ux_invest_moderate'
+      dataToTrack: 'ux_invest_moderate',
     },
     {
       title: 'wealth_managements.about_investor_profile.aggressive_profile.title',
       value: 'risky',
-      dataToTrack: 'ux_invest_aggressive'
+      dataToTrack: 'ux_invest_aggressive',
     },
   ];
   activeInvestments: DefiInvestment[] = [];
@@ -161,7 +146,8 @@ export class DefiInvestmentProductsPage {
     private twoPiApi: TwoPiApi,
     private walletEncryptionService: WalletEncryptionService,
     private walletService: WalletService,
-    private navController: NavController
+    private navController: NavController,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   get hasDoneInvestorTest(): boolean {
@@ -219,7 +205,7 @@ export class DefiInvestmentProductsPage {
   }
 
   createAvailableDefiProducts(): AvailableDefiProducts {
-    return new AvailableDefiProducts();
+    return new AvailableDefiProducts(this.remoteConfig);
   }
 
   async getInvestments(): Promise<void> {
