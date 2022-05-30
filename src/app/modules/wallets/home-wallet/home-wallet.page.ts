@@ -78,8 +78,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
       <div class="wt__overlap_buttons" *ngIf="this.walletExist">
         <app-wallet-subheader-buttons></app-wallet-subheader-buttons>
       </div>
-      <div class="wt__backup ion-padding" *ngIf="this.walletExist && !this.protectedWallet">
-        <app-backup-information-card [text]="'hola'"> </app-backup-information-card>
+      <div class="wt__backup" *ngIf="this.walletExist && !this.protectedWallet">
+        <app-backup-information-card [text]="'wallets.home.backup_card_component.text'" [textClass]="'ux-home-backup-card'"> </app-backup-information-card>
       </div>
       <div class="wt__segments ion-padding-start ion-padding-end" *ngIf="this.walletExist">
         <form [formGroup]="this.segmentsForm">
@@ -284,7 +284,6 @@ export class HomeWalletPage implements OnInit {
 
   async isProtectedWallet(){
     this.protectedWallet = await this.ionicStorageService.get('protectedWallet');
-    console.log(this.protectedWallet);
   } 
 
   goToRecoveryWallet(): void {

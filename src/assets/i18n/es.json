@@ -1363,6 +1363,9 @@
         "receive_card": "Recibir",
         "buy_card": "Comprar",
         "swap_card": "Intercambiar"
+      },
+      "backup_card_component":{
+        "text":"No pierdas tu dinero. <b> Protege tu wallet. </b>"
       }
     },
     "select_coin": {

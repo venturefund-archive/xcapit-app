@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NavController, ModalController } from '@ionic/angular';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-skip-backup-modal',
@@ -46,7 +47,8 @@ export class SkipBackupModalComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private modalController: ModalController,
-    private navController: NavController
+    private navController: NavController,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ngOnInit() {}
@@ -58,5 +60,6 @@ export class SkipBackupModalComponent implements OnInit {
   handleSubmit() {
     this.close();
     this.navController.navigateForward(['/tabs/wallets']);
+    this.ionicStorageService.set('protectedWallet', false);
   }
 }
