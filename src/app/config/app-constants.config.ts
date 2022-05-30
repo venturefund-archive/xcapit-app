@@ -126,6 +126,23 @@ export const CONFIG = {
         rules: [],
       },
     ],
+    recoverWalletPhrase: [
+      {
+        name: 'twelveWords',
+        text: 'config.field_errors.import_wallet_phrase.twelve_words',
+        rules: [],
+      },
+      {
+        name: 'spaceBetween',
+        text: 'config.field_errors.import_wallet_phrase.space_between',
+        rules: [],
+      },
+      {
+        name: 'noSpecialCharacters',
+        text: 'config.field_errors.import_wallet_phrase.no_special_characters',
+        rules: [],
+      }
+    ],
     oldPassword: [
       {
         name: 'walletIncorrectPassword',

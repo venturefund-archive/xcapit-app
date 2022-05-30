@@ -7,15 +7,18 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
 
 @Component({
   selector: 'app-recovery-wallet',
-  template: ` <ion-header>
+  template: ` 
+    <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
-        <div>
-          <ion-title class="rwp__header">{{ 'wallets.recovery_wallet.header' | translate }}</ion-title>
-        </div>
-        <div class="fd__header-button"></div>
+        <ion-title class="rwp__header">{{
+          'wallets.recovery_wallet.header' | translate
+        }}</ion-title>
+        <ion-label class="step-counter" slot="end"
+          >2 {{ 'shared.step_counter.of' | translate }} 3</ion-label
+        >
       </ion-toolbar>
     </ion-header>
 
@@ -26,6 +29,8 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
             <ion-text class="ux-font-text-xl">
               {{ 'wallets.recovery_wallet.title' | translate }}
             </ion-text>
+            <!-- HYPERLINK A MODAL -->
+            <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
           </div>
           <div class="rwp__subtitle">
             <ion-text class="ux-font-text-xs resize">

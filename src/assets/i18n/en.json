@@ -50,6 +50,11 @@
         "has_capital_and_small_case": "Combination of uppercase and lowercase letters",
         "not_alphanumeric": "Number and letter combination"
       },
+      "import_wallet_phrase": {
+        "twelve_words": "12 lowercase words",
+        "space_between": "Separated by space",
+        "no_special_characters": "No special characters"
+      },
       "old_password": {
         "wallet_incorrect_password": "Incorrect password, try again"
       },
