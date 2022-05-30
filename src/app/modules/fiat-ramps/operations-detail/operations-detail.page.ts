@@ -24,7 +24,7 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
 
     <ion-content class="ion-padding dp" *ngIf="this.operation">
       <div class="dp__card-container">
-        <div *ngIf="this.operation.voucher; then voucher; else transferData"></div>
+        <div *ngIf="this.hasVoucher; then voucher; else transferData"></div>
         <ng-template #voucher>
           <app-voucher-card></app-voucher-card>
         </ng-template>
@@ -56,7 +56,7 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
         </div>
       </div>
       <div class="dp__upload-voucher" *ngIf="!this.operation.voucher">
-        <ion-button class="ux_button ion-no-margin" color="secondary" expand="full">
+        <ion-button class="ux_button ion-no-margin" color="secondary" expand="block">
           {{ 'fiat_ramps.operation_detail.upload_voucher' | translate }}
         </ion-button>
       </div>
@@ -67,7 +67,7 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
 export class OperationsDetailPage implements OnInit {
   provider: FiatRampProvider;
   operation: FiatRampOperation;
-  comprobante = null;
+  voucher = null;
   cotizacion: any = 0;
   hasVoucher: boolean = false;
   loading: boolean = false;
@@ -81,6 +81,7 @@ export class OperationsDetailPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.loading = true;
     const operationId = this.route.snapshot.paramMap.get('operation_id');
     const providerId = this.route.snapshot.paramMap.get('provider_id');
     this.getProvider(parseInt(providerId));
@@ -101,7 +102,14 @@ export class OperationsDetailPage implements OnInit {
       error: (e) => {
         this.navigateBackToOperations();
       },
+      complete: () => this.loading = false
     });
+  }
+
+  private verifyVoucher() {
+    if (this.provider.alias === 'kripton') {
+      this.hasVoucher = this.operation.voucher;
+    }
   }
 
   async addPhoto() {
@@ -114,28 +122,13 @@ export class OperationsDetailPage implements OnInit {
       resultType: CameraResultType.DataUrl,
     });
 
-    this.comprobante = photo;
-  }
-
-  async calculateQuotation() {
-    let firstAmount = 0;
-    let secondAmount = 0;
-
-    if (this.operation.operation_type === 'cash-in') {
-      firstAmount = Number(this.operation.amount_in);
-      secondAmount = Number(this.operation.amount_out);
-    } else {
-      firstAmount = Number(this.operation.amount_out);
-      secondAmount = Number(this.operation.amount_in);
-    }
-
-    this.cotizacion = firstAmount / secondAmount;
+    this.voucher = photo;
   }
 
   async sendPicture() {
     this.loading = true;
     const formData = new FormData();
-    formData.append('file', this.comprobante.dataUrl);
+    formData.append('file', this.voucher.dataUrl);
     this.fiatRampsService.confirmOperation(this.operation.operation_id, formData).subscribe({
       next: (data) => {
         this.loading = false;
@@ -145,12 +138,6 @@ export class OperationsDetailPage implements OnInit {
         this.loading = false;
       },
     });
-  }
-
-  verifyVoucher() {
-    if (this.provider.alias === 'kripton') {
-      this.hasVoucher = this.operation.voucher;
-    }
   }
 
   navigateBackToOperations() {

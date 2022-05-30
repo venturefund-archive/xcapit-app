@@ -96,7 +96,7 @@ describe('OperationDetailCardComponent', () => {
   });
 
   it('should render data correctly', async () => {
-    component.ionViewWillEnter();
+    component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
 
@@ -120,10 +120,9 @@ describe('OperationDetailCardComponent', () => {
   });
 
   it('should get operation status, wallet address and network on ionViewWillEnter', async () => {
-    component.ionViewWillEnter();
+    component.ngOnInit();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.address).toEqual(testAddress);
     expect(component.network).toEqual(testNetwork);
     expect(component.operationStatus).toEqual(testStatus);
   });

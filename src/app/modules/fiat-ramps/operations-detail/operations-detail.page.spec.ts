@@ -87,7 +87,7 @@ describe('OperationsDetailPage', () => {
     component.provider = provider;
     component.providers = rawProvidersData;
     component.hasVoucher = false;
-    component.comprobante = photo;
+    component.voucher = photo;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
@@ -105,7 +105,7 @@ describe('OperationsDetailPage', () => {
 
   it('should call confirmOperation on sendPicture with and a voucher image', () => {
     fixture.detectChanges();
-    component.comprobante = photo;
+    component.voucher = photo;
     component.sendPicture();
     expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledTimes(1);
   });

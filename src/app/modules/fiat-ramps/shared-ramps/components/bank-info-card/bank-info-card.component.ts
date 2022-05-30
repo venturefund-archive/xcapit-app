@@ -75,7 +75,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
             </div>
             <div class="bic__content__item__container__content">
               <ion-text class="ux-font-text-base">
-                
+                Kriptobroker
               </ion-text>
             </div>
           </div>

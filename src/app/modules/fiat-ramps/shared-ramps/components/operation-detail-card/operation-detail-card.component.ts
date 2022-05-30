@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface';
 import { OperationStatus } from '../../interfaces/operation-status.interface';
@@ -10,7 +9,7 @@ import { FiatRampsService } from '../../services/fiat-ramps.service';
 @Component({
   selector: 'app-operation-detail-card',
   template: `
-    <ion-card class="ux-card odc ion-no-margin" *ngIf="this.address">
+    <ion-card class="ux-card odc ion-no-margin">
       <div class="odc__header">
         <div name="Coin Logo" class="odc__header__logo">
           <img [src]=" this.coin.logoRoute" alt="Coin Logo" />
@@ -65,7 +64,7 @@ import { FiatRampsService } from '../../services/fiat-ramps.service';
           <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.operation_detail.detail_card.reception_address' | translate }}</ion-text>
         </div>
         <div name="Address" class="odc__detail__content">
-          <ion-text class="ux-font-text-base">{{ this.address }}</ion-text>
+          <ion-text class="ux-font-text-base">{{ this.operation.wallet_address }}</ion-text>
         </div>
       </div>
       <div class="odc__detail">
@@ -84,7 +83,6 @@ export class OperationDetailCardComponent implements OnInit {
   @Input() operation: FiatRampOperation;
   @Input() provider: FiatRampProvider;
   coin: Coin;
-  address: string;
   operationStatus: OperationStatus;
   network: string;
   quoation: number;
@@ -92,21 +90,17 @@ export class OperationDetailCardComponent implements OnInit {
   constructor(
     private fiatRampsService: FiatRampsService,
     private apiWalletSertvice: ApiWalletService,
-    private walletEncryptionService: WalletEncryptionService,
   ) {}
 
   ngOnInit() {
     this.operationStatus = this.fiatRampsService.getOperationStatus(this.operation.status, parseInt(this.operation.provider));
     this.coin = this.apiWalletSertvice.getCoin(this.operation.currency_out);
     this.network = this.coin.network;
-    this.walletEncryptionService.getEncryptedWallet().then((data) => {
-      this.address = data.addresses[this.network];
-    });
 
-    this.getQuotation();
+    this.calculateQuotation();
   }
 
-  private getQuotation() {
+  private calculateQuotation() {
     this.quoation = this.operation.amount_in / this.operation.amount_out;
   }
 }
