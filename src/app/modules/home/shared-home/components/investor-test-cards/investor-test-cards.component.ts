@@ -65,8 +65,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 export class InvestorTestCardsComponent implements OnInit {
   optionsTestAvailable = true;
   testAvailable = true;
-  constructor(private navController: NavController, private storage : IonicStorageService) {}
-  ngOnInit() {}
+  constructor(private navController: NavController, private storage: IonicStorageService) { }
+  ngOnInit() { }
 
   goToInvestorOptions() {
     if (this.optionsTestAvailable) {
@@ -75,10 +75,10 @@ export class InvestorTestCardsComponent implements OnInit {
   }
 
   async goToEducation() {
-    const introductionCompleted = await this.storage.get('introductionCompleted');
-      if (this.testAvailable) {
-        const url = !introductionCompleted ? 'financial-education/introduction/financial-freedom' : '';
-        this.navController.navigateForward([url]);
-      };
+    if (this.testAvailable) {
+      const introductionCompleted = await this.storage.get('introductionCompleted');
+      const url = !introductionCompleted ? 'financial-education/introduction/financial-freedom' : '';
+      this.navController.navigateForward([url]);
+    }
   }
 }
