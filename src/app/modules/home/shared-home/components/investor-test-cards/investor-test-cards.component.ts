@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 @Component({
   selector: 'app-investor-test-cards',
   template: ` <div class="investor-cards">
-    <div class="take-test-card vertical-card" name="Go Investor Test" (click)="this.goToInvestorTest()">
+    <div class="take-test-card vertical-card" name="ux_education_go" (click)="this.goToEducation()">
       <div class="take-test-card__image">
         <ion-img src="assets/ux-icons/take-test.svg"></ion-img>
       </div>
@@ -16,7 +16,7 @@ import { NavController } from '@ionic/angular';
           *ngIf="this.testAvailable"
           appTrackClick
           class="link ux-link-xl"
-          name="Manage"
+          name="ux_education_go"
           fill="clear"
           size="small"
         >
@@ -64,9 +64,9 @@ import { NavController } from '@ionic/angular';
 })
 export class InvestorTestCardsComponent implements OnInit {
   optionsTestAvailable = true;
-  testAvailable = false;
-  constructor(private navController: NavController) {}
-  ngOnInit() {}
+  testAvailable = true;
+  constructor(private navController: NavController, private storage: IonicStorageService) { }
+  ngOnInit() { }
 
   goToInvestorOptions() {
     if (this.optionsTestAvailable) {
@@ -74,9 +74,11 @@ export class InvestorTestCardsComponent implements OnInit {
     }
   }
 
-  goToInvestorTest() {
+  async goToEducation() {
     if (this.testAvailable) {
-      this.navController.navigateForward(['']);
+      const introductionCompleted = await this.storage.get('introductionCompleted');
+      const url = !introductionCompleted ? 'financial-education/introduction/financial-freedom' : '';
+      this.navController.navigateForward([url]);
     }
   }
 }

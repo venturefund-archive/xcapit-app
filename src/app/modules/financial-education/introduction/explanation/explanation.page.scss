@@ -1,0 +1,39 @@
+:host {
+  ion-toolbar {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  .ep {
+    &__button {
+      display: flex;
+      flex-direction: column;
+      margin: 16px;
+    }
+
+    &__content {
+      top: 0;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      &__title {
+        width: 100%;
+        padding: 0 16px;
+        margin-top: 24px;
+        text-align: center;
+      }
+
+      &__items {
+        padding: 0 16px;
+        width: 100%;
+        display: grid;
+      }
+    }
+  }
+
+  .no-border {
+    --border-width: 0 !important;
+  }
+}

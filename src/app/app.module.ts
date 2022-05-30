@@ -39,6 +39,7 @@ import { trackServiceProvider } from './shared/providers/track-service/track-ser
 import { DefiInvestmentsModule } from './modules/defi-investments/defi-investments.module';
 import { FinancialPlannerModule } from './modules/financial-planner/financial-planner.module';
 import { DonationsModule } from './modules/donations/donations.module';
+import { FinancialEducationModule } from './modules/financial-education/financial-education.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -62,6 +63,7 @@ registerLocaleData(localeEn, 'en');
     UsersModule,
     TutorialsModule,
     ProfilesModule,
+    FinancialEducationModule,
     FinancialPlannerModule,
     DonationsModule,
     SubscriptionsModule,

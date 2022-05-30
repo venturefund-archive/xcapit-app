@@ -955,6 +955,37 @@
       }
     }
   },
+
+  "financial_education":{
+    "introduction":{
+      "financial_freedom":{
+        "header":"Educación",
+        "title":"¡Hacia tu libertad financiera!",
+        "subtitle":"Queremos que aprendas cómo obtener el mayor rendimiento posible de tu dinero de una manera rápida, clara y sencilla.",
+        "button":"Siguiente"
+      },
+      "explanation":{
+        "header":"Educación",
+        "title":"¿Cómo funciona?",
+        "button":"Comenzar",
+        "item_1":{
+          "number":"1.",
+          "title":" Completa todos los módulos",
+          "description":"Para lograr aprender sobre la libertad financiera dividimos los temas en varios módulos asegurate de leerlos todos."
+        },
+        "item_2":{
+          "number":"2.",
+          "title":" Pasa los test sin errores",
+          "description":"Deberás pasar todos los test sin errores, puedes repetirlo cuantas veces lo necesites."
+        },
+        "item_3":{
+          "number":"3.",
+          "title":" Espera tu NFT",
+          "description":"Al finalizar todos los módulos, obtendrás un NFT de regalo como premio. "
+        }
+      }
+    }
+  },
   "financial_planner": {
     "planner_information": {
       "header": "Planificador",
@@ -1995,8 +2026,8 @@
       },
       "test_investor_cards": {
         "badge_text": "Próximamente",
-        "title1": "Descubre tus conocimientos en finanzas",
-        "link1": "Hacer test",
+        "title1": "Aumenta tus conocimientos en finanzas y Crypto",
+        "link1": "Aprender",
         "title2": "¿Sabes qué tipo de inversor eres?",
         "link2": "Descúbrelo"
       },
