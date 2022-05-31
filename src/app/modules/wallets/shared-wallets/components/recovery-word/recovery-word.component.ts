@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-recovery-word',
@@ -13,30 +12,22 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
       (click)="useValue(this.word)"
     >
       {{ this.showOrder ? index + 1 + '.' : '' }}
-      {{ this.word | hideText: this.hidePhrase}}
+      {{ this.word }}
     </ion-button>
   `,
   styleUrls: ['./recovery-word.component.scss'],
 })
 export class RecoveryWordComponent implements OnInit {
   @Input() word: string;
-  
+
   @Input() index: number;
   @Input() showOrder: boolean;
   @Input() clickable: boolean;
   @Output() useButtonClicked: EventEmitter<string> = new EventEmitter<string>();
   isActivated = true;
-  hidePhrase: boolean;
-  
-  constructor(
-    private localStorageService: LocalStorageService
-  ) {
-    
-  }
+  constructor() {}
 
-  ngOnInit() {
-    this.subscribeOnHidePhrase();
-  }
+  ngOnInit() {}
 
   useValue(word: string) {
     if (this.clickable) {
@@ -44,9 +35,4 @@ export class RecoveryWordComponent implements OnInit {
       this.isActivated = false;
     }
   }
-  subscribeOnHidePhrase() {
-    this.localStorageService.hidePhrase.subscribe((res) => (this.hidePhrase = res));
-  }
-
-
 }

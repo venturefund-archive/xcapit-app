@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
-import { WalletPasswordSmallComponent } from '../shared-wallets/components/wallet-password-small/wallet-password-small.component';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-recovery-phrase-information',
@@ -63,7 +62,7 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
         <div class="rpi__footer ux_footer">
           <ion-button
             class="ux_button"
-            name="Continue"
+            name="ux_phrase_continue"
             type="button"
             color="secondary"
             expand="block"
@@ -80,22 +79,11 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
   styleUrls: ['./recovery-phrase-information.page.scss'],
 })
 export class RecoveryPhraseInformationPage implements OnInit {
-  constructor(private modalController: ModalController,
-    private navController: NavController) {}
+  constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
-  //async continue() {
-    // const modal = await this.modalController.create({
-    //  component: WalletPasswordSmallComponent,
-    //   cssClass: 'small-wallet-password-modal ux-routeroutlet-modal',
-    //   swipeToClose: false,
-    // });
-
-  //   await modal.present();
-  // }
-
-  continue(){
+  continue() {
     this.navController.navigateForward(['/wallets/recovery/read']);
   }
 }

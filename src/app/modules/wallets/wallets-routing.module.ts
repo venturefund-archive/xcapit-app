@@ -16,7 +16,7 @@ const routes: Routes = [
         loadChildren: () => import('./recovery-phrase/recovery-phrase.module').then((m) => m.RecoveryPhrasePageModule),
       },
       {
-        canActivate: [AcceptedToSGuard, CreatedWalletGuard],
+        canActivate: [AcceptedToSGuard],
         path: 'create-first/verify-phrase',
         loadChildren: () => import('./verify-phrase/verify-phrase.module').then((m) => m.VerifyPhrasePageModule),
       },

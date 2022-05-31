@@ -68,7 +68,6 @@ export class WalletPasswordSmallComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private navController: NavController,
     private modalController: ModalController,
     private walletEncryptionService: WalletEncryptionService,
     private walletMnemonicService: WalletMnemonicService,
@@ -86,9 +85,7 @@ export class WalletPasswordSmallComponent implements OnInit {
         .getDecryptedWallet(this.form.value.password)
         .then((wallet) => {
           this.walletMnemonicService.getMnemonic(wallet);
-          this.modalController.dismiss(this.walletMnemonicService.mnemonic);
-          
-         // this.navController.navigateForward(['wallets/recovery/read']);
+          this.modalController.dismiss();
         })
         .catch((error) => {
           if (error.message === 'invalid password') {

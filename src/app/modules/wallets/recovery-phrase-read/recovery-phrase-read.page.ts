@@ -1,45 +1,71 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { Mnemonic } from '@ethersproject/hdnode';
 import { ClipboardService } from '../../../shared/services/clipboard/clipboard.service';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { IonAccordionGroup, ModalController, NavController } from '@ionic/angular';
-import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
-import { WalletPasswordSmallComponent } from '../shared-wallets/components/wallet-password-small/wallet-password-small.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletPasswordComponent } from '../shared-wallets/components/wallet-password/wallet-password.component';
+import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 
 @Component({
   selector: 'app-recovery-phrase-read',
   template: `
     <ion-header>
-      <ion-toolbar [class.ux_toolbar__left]="!this.protectedWallet" color="primary" class="ux_toolbar">
+      <ion-toolbar
+        [class.ux_toolbar__left]="!this.protectedWallet"
+        [class.ux_toolbar_xs]="this.protectedWallet"
+        color="primary"
+        class="ux_toolbar"
+      >
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="" (click)="this.navigateBack()"></ion-back-button>
+          <ion-back-button defaultHref="/wallets/recovery/info"></ion-back-button>
         </ion-buttons>
         <ion-title class="ux-font-text-lg">
-          {{(this.protectedWallet ? 'wallets.recovery_phrase_read.recovery_phrase' : 'wallets.recovery_phrase_read.protect_my_wallet')| translate }}
+          {{
+            (this.protectedWallet
+              ? 'wallets.recovery_phrase_read.recovery_phrase'
+              : 'wallets.recovery_phrase_read.protect_my_wallet'
+            ) | translate
+          }}
         </ion-title>
-        <ion-label class="step-counter" *ngIf="!this.protectedWallet"  slot="end">1 {{ 'shared.step_counter.of' | translate }} 2</ion-label>
+        <ion-label class="step-counter" *ngIf="!this.protectedWallet" slot="end"
+          >1 {{ 'shared.step_counter.of' | translate }} 2</ion-label
+        >
       </ion-toolbar>
     </ion-header>
     <ion-content class="rpr ion-padding-start ion-padding-end">
       <div class="ux_main">
-        <div class="ux_content">          
-            <div class="rpr__title">         
-              <ion-text class="ux-font-text-lg" color="primary">
-                {{ 'wallets.recovery_phrase_read.title' | translate }}
-              </ion-text>
-              <div class="rpr__title__icon">
-                <ion-icon  icon="information-circle"></ion-icon>
-              </div>
+        <div class="ux_content">
+          <div class="rpr__title">
+            <ion-text class="ux-font-text-lg" color="primary">
+              {{ 'wallets.recovery_phrase_read.title' | translate }}
+            </ion-text>
+            <div class="rpr__title__icon">
+              <ion-icon
+                icon="information-circle"
+                *ngIf="!this.protectedWallet"
+                appTrackClick
+                [dataToTrack]="{ eventLabel: 'ux_protect_information' }"
+              ></ion-icon>
+              <ion-icon *ngIf="this.protectedWallet" icon="information-circle"></ion-icon>
             </div>
-            <div class="rpr__text" >
-              <ion-text class="ux-font-text-base" color="neutral90" [innerHTML]=" (this.protectedWallet ? 'wallets.recovery_phrase_read.text' : 'wallets.recovery_phrase_read.text_protect_my_wallet')| translate">
-              </ion-text>
-            </div>
+          </div>
+          <div class="rpr__text">
+            <ion-text
+              class="ux-font-text-base"
+              color="neutral90"
+              [innerHTML]="
+                (this.protectedWallet
+                  ? 'wallets.recovery_phrase_read.text'
+                  : 'wallets.recovery_phrase_read.text_protect_my_wallet'
+                ) | translate
+              "
+            >
+            </ion-text>
+          </div>
           <div class="rpr__button-show-hide">
-            <ion-button            
+            <ion-button
               name="Toggle Phrase"
               class="ux_button"
               color="info"
@@ -47,28 +73,34 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
               fill="clear"
               size="small"
               (click)="this.togglePhrase()"
-              >
-              {{ this.buttonText2 | translate }}
-          </ion-button>
-          </div>          
-              <div class="rpr__phrase-card" *ngIf="this.mnemonic">
-                <app-recovery-phrase-card
-                  [isProtected]="this.protectedWallet"
-                  [phrase]="this.mnemonic.phrase.split(' ')"
-                  [showOrder]="true"
-                ></app-recovery-phrase-card>
+            >
+              {{
+                (!this.isRevealed
+                  ? 'wallets.recovery_phrase_read.button_show_phrase'
+                  : 'wallets.recovery_phrase_read.button_hide_phrase'
+                ) | translate
+              }}
+            </ion-button>
+          </div>
+          <div class="rpr__phrase-card" *ngIf="this.mnemonic">
+            <app-recovery-phrase-card
+              [isProtected]="this.protectedWallet"
+              [phrase]="this.mnemonic.phrase.split(' ')"
+              [showOrder]="true"
+            ></app-recovery-phrase-card>
+          </div>
+          <div class="rpr__information">
+            <ion-icon icon="information-circle" class="rpr__information__icon"></ion-icon>
+            <div class="rpr__information__text">
+              <ion-text class="ux-font-text-base" color="info">
+                {{ 'wallets.recovery_phrase_read.security_information' | translate }}
+              </ion-text>
             </div>
-            <div class="rpr__information">
-              <ion-icon icon="information-circle" class="rpr__information__icon"></ion-icon> 
-              <div class="rpr__information__text">            
-                <ion-text class="ux-font-text-base" color="info">             
-                    {{ 'wallets.recovery_phrase_read.security_information' | translate }}
-                </ion-text>
-              </div>  
-            </div>
-          </div>        
-          <div class="rpr__footer ux_footer">
-            <ion-button *ngIf="this.protectedWallet"
+          </div>
+        </div>
+        <div class="rpr__footer ux_footer">
+          <ion-button
+            *ngIf="this.protectedWallet"
             class="ux_button"
             name="ux_phrase_copy"
             type="button"
@@ -76,12 +108,13 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
             color="{{ this.buttonColor }}"
             expand="block"
             size="large"
-            appTrackClick            
+            appTrackClick
             (click)="this.copyPhrase()"
-            >
-            {{  this.buttonText | translate }}
-            </ion-button>
-            <ion-button *ngIf="!this.protectedWallet"
+          >
+            {{ this.buttonText | translate }}
+          </ion-button>
+          <ion-button
+            *ngIf="!this.protectedWallet"
             class="ux_button"
             name="ux_protect_continue_phrase"
             type="button"
@@ -89,13 +122,13 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
             color="secondary"
             expand="block"
             size="large"
-            appTrackClick            
-            (click)="this.copyPhrase()"
-            >
-            {{  'wallets.recovery_phrase_read.button_continue' | translate }}
-            </ion-button>
-          </div>
-          </div>      
+            appTrackClick
+            (click)="this.goToVerifyPhrase()"
+          >
+            {{ 'wallets.recovery_phrase_read.button_continue' | translate }}
+          </ion-button>
+        </div>
+      </div>
     </ion-content>
   `,
   styleUrls: ['./recovery-phrase-read.page.scss'],
@@ -109,55 +142,43 @@ export class RecoveryPhraseReadPage implements OnInit {
   buttonText2: string;
   title: string;
   text: string;
-  isShowPhrase:boolean;
-  isRevealed= false;
+  isShowPhrase: boolean;
+  isRevealed = false;
   protectedWallet: boolean;
-  
-  
-    constructor(
+  private password: any;
+
+  constructor(
     private clipboardService: ClipboardService,
     private toastService: ToastService,
     private translate: TranslateService,
-    private localStorageService: LocalStorageService,
     private modalController: ModalController,
-    private storage : IonicStorageService,
-    private navController: NavController
-    ) {}
+    private storage: IonicStorageService,
+    private navController: NavController,
+    private walletEncryptionService: WalletEncryptionService
+  ) {}
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
-  ionViewWillEnter() {
-    this.storage.get('protectedWallet').then((res) => (this.protectedWallet = res));
+  async ionViewDidEnter() {
+    this.protectedWallet = await this.storage.get('protectedWallet');
     this.buttonColor = 'primary';
     this.buttonFill = 'outline';
     this.buttonText = 'wallets.recovery_phrase_read.button_text';
-    this.buttonText2 = !this.isRevealed ? 'wallets.recovery_phrase_read.button_show_phrase' : 'wallets.recovery_phrase_read.button_hide_phrase'
-    this.mnemonic = {
-      locale: 'en',
-      path: '',
-      phrase: '**** **** **** **** **** **** **** **** **** **** **** ****',
-    }
-    this.localStorageService.toggleHidePhrase();
+    this.clearMnemonic();
   }
 
-  
-  async copyPhrase() {
-    if (this.isRevealed){
-      this.copyToClipboard();
-    } else{
-      const modal = await this.modalController.create({
-        component: WalletPasswordSmallComponent,
-        cssClass: 'small-wallet-password-modal ux-routeroutlet-modal',
-        swipeToClose: false,
-      });
-      await modal.present();
-      await modal.onDidDismiss().then(() => this.copyToClipboard())
-    }    
-    
+  goToVerifyPhrase() {
+    this.navController.navigateForward(['/wallets/create-first/verify-phrase']);
   }
-  copyToClipboard(){
+
+  async copyPhrase() {
+    if (!this.isRevealed) {
+      await this.togglePhrase();
+    }
+    this.copyToClipboard();
+  }
+
+  copyToClipboard() {
     this.clipboardService.write({ string: this.mnemonic.phrase }).then(
       () => {
         this.buttonColor = 'secondary';
@@ -168,11 +189,7 @@ export class RecoveryPhraseReadPage implements OnInit {
       () => {
         this.showErrorToast('wallets.recovery_phrase_read.copy_error_text');
       }
-    )
-  }
-
-  navigateBack(){
-    this.navController.pop();
+    );
   }
 
   private showInfoToast(text: string) {
@@ -186,20 +203,55 @@ export class RecoveryPhraseReadPage implements OnInit {
       message: this.translate.instant(text),
     });
   }
-
-  async togglePhrase(){
-    if(!this.isRevealed){
+  private async setPassword() {
     const modal = await this.modalController.create({
-        component: WalletPasswordSmallComponent,
-        cssClass: 'small-wallet-password-modal ux-routeroutlet-modal',
-        swipeToClose: false,
-      });
-      await modal.present();
-      const { data } = await modal.onWillDismiss();
-      this.mnemonic = data;
+      component: WalletPasswordComponent,
+      cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    this.password = data;
+  }
+
+  private async setMnemonic() {
+    const decriptedWallet = await this.walletEncryptionService.getDecryptedWallet(this.password);
+    this.mnemonic = decriptedWallet.mnemonic;
+  }
+
+  async togglePhrase() {
+    if (!this.isRevealed) {
+      await this.setPassword();
+      try {
+        await this.setMnemonic();
+        this.isRevealed = !this.isRevealed;
+      } catch {
+        this.showErrorToast(
+          // Modificar mensaje para mostrar, solo la ruta, no el contenido
+          'wallets.export_private_key.error_toast'
+        );
+      }
+    } else {
+      this.clearMnemonic();
+      this.clearPassword();
+      this.isRevealed = !this.isRevealed;
     }
-    this.localStorageService.toggleHidePhrase();   
-    this.buttonText2 = this.isRevealed ? 'wallets.recovery_phrase_read.button_show_phrase' : 'wallets.recovery_phrase_read.button_hide_phrase'
-    this.isRevealed = !this.isRevealed;
-    } 
+  }
+
+  clearPassword() {
+    this.password = undefined;
+  }
+
+  clearMnemonic() {
+    this.mnemonic = {
+      locale: 'en',
+      path: '',
+      phrase: '***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** *****',
+    };
+  }
+
+  ionViewWillLeave() {
+    this.clearPassword();
+    this.clearMnemonic();
+  }
+
 }
