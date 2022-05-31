@@ -23,6 +23,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { ToastWithButtonsComponent } from '../../defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 import { TranslateService } from '@ngx-translate/core';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
+import { parseUnits } from 'ethers/lib/utils';
 
 @Component({
   selector: 'app-send-donation',
@@ -216,7 +217,7 @@ export class SendDonationPage implements OnInit {
         new NativeFeeOf(
           new NativeGasOf(this.erc20Provider(), {
             to: this.form.value.address,
-            value: this.form.value.amount,
+            value: this.form.value.amount && this.parseWei(this.form.value.amount),
           }),
           new FakeProvider(await this.gasPrice())
         ),
@@ -224,6 +225,10 @@ export class SendDonationPage implements OnInit {
       ).value();
       this.dynamicFee.value = this.fee;
     }
+  }
+
+  parseWei(amount: number) {
+    return parseUnits(amount.toFixed(this.token.decimals), this.token.decimals);
   }
 
   private dynamicPrice() {
