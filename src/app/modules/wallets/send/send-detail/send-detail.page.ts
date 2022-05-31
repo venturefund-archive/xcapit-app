@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
@@ -22,8 +22,10 @@ import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-inve
 import { parseUnits } from 'ethers/lib/utils';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
+import { Amount } from 'src/app/modules/defi-investments/shared-defi-investments/types/amount.type';
+import { ToastWithButtonsComponent } from 'src/app/modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-send-detail',
@@ -71,7 +73,7 @@ import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/fac
         <div class="sd__amount-input-card" *ngIf="this.token">
           <ion-card class="ux-card">
             <app-amount-input-card
-              *ngIf="this.balance && (!this.token.native || (this.token.native && this.fee))"
+              *ngIf="this.balance !== undefined && (!this.token.native || (this.token.native && this.fee))"
               [header]="'defi_investments.shared.amount_input_card.available' | translate"
               [showRange]="false"
               [baseCurrency]="this.token"
@@ -80,25 +82,20 @@ import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/fac
               [feeToken]="this.nativeToken"
             ></app-amount-input-card>
             <app-amount-input-card-skeleton
-              *ngIf="!this.balance || (this.token.native && !this.fee)"
+              *ngIf="this.balance === undefined || (this.token.native && !this.fee)"
               [showRange]="false"
             ></app-amount-input-card-skeleton>
+            <div class="ion-padding-start ion-padding-end">
+              <app-transaction-fee
+                [fee]="this.dynamicFee"
+                [quoteFee]="this.quoteFee"
+                [balance]="this.balance"
+                [description]="'donations.send_donations.description_fee' | translate"
+              ></app-transaction-fee>
+            </div>
           </ion-card>
         </div>
       </form>
-
-      <div class="sd__alert" *ngIf="!!this.nativeToken && this.nativeBalance === 0">
-        <app-ux-alert-message [type]="this.alertType">
-          <div class="sd__alert__title">
-            <ion-text>{{ 'wallets.send.send_detail.alert.title' | translate }}</ion-text>
-          </div>
-          <div class="sd__alert__text">
-            <ion-text>{{
-              'wallets.send.send_detail.alert.text' | translate: { nativeToken: this.nativeToken.value }
-            }}</ion-text>
-          </div>
-        </app-ux-alert-message>
-      </div>
 
       <div class="sd__submit-button ion-padding">
         <ion-button
@@ -118,7 +115,6 @@ import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/fac
 export class SendDetailPage {
   destroy$ = new Subject<void>();
   private priceRefreshInterval = 15000;
-
   alertType = UX_ALERT_TYPES.warning;
   token: Coin;
   nativeToken: Coin;
@@ -129,9 +125,12 @@ export class SendDetailPage {
   amount: number;
   quotePrice: number;
   fee: number;
+  dynamicFee: Amount = { value: undefined, token: undefined };
+  quoteFee: Amount = { value: undefined, token: 'USD' };
+  modalHref: string;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
-    amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
+    amount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
 
@@ -145,14 +144,18 @@ export class SendDetailPage {
     private apiWalletService: ApiWalletService,
     private erc20ProviderController: ERC20ProviderController,
     private erc20ContractController: ERC20ContractController,
-    private dynamicPriceFactory: DynamicPriceFactory
+    private dynamicPriceFactory: DynamicPriceFactory,
+    private modalController: ModalController,
+    private translate: TranslateService
   ) {}
 
   async ionViewDidEnter() {
+    this.modalHref = window.location.href;
     this.tokenAndNetworks();
     this.dynamicPrice();
-    await this.nativeTransferFee();
+    await this.getFee();
     await this.tokenBalances();
+    await this.checkBalance();
   }
 
   private async userWallet() {
@@ -176,6 +179,12 @@ export class SendDetailPage {
     this.token = this.apiWalletService.getCoin(coin, network);
     this.networks = this.apiWalletService.getNetworks(coin);
     this.selectedNetwork = network;
+  }
+
+  private async getFee(): Promise<void> {
+    this.token.native ? await this.nativeTransferFee() : await this.nonNativeTransferFee();
+    this.dynamicFee = { value: this.fee, token: this.token.value };
+    this.getQuoteFee();
   }
 
   async erc20Contract(): Promise<ERC20Contract> {
@@ -208,7 +217,7 @@ export class SendDetailPage {
       .then((res) => res.gas_price);
   }
 
-  private async tokenContractTransferFee(): Promise<void> {
+  private async nonNativeTransferFee(): Promise<void> {
     this.fee = await new FormattedFee(
       new NativeFeeOf(
         new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
@@ -229,13 +238,8 @@ export class SendDetailPage {
     return prices[this.token.value];
   }
 
-  async quoteFee(): Promise<string> {
-    return (this.fee * (await this.getPrice())).toString();
-  }
-
   async submitForm() {
     if (this.form.valid) {
-      if (!this.token.native) await this.tokenContractTransferFee();
       await this.saveTransactionData();
       await this.goToSummary();
     }
@@ -255,7 +259,7 @@ export class SendDetailPage {
       balanceNativeToken: this.nativeBalance,
       balance: this.balance,
       fee: this.fee.toString(),
-      referenceFee: await this.quoteFee(),
+      referenceFee: this.quoteFee.value.toString(),
     };
   }
 
@@ -272,11 +276,50 @@ export class SendDetailPage {
       .new(this.priceRefreshInterval, this.token, this.apiWalletService)
       .value()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((price: number) => (this.quotePrice = price));
+      .subscribe((price: number) => {
+        this.quotePrice = price;
+        this.getQuoteFee();
+      });
+  }
+
+  private getQuoteFee() {
+    return (this.quoteFee.value = this.quotePrice * this.fee);
   }
 
   ionViewWillLeave() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  async checkBalance() {
+    this.token.native ? await this.nativeTransferFee() : await this.nonNativeTransferFee();
+    if (this.balance < this.fee) this.openModalBalance();
+  }
+
+  async openModalBalance() {
+    const modal = await this.modalController.create({
+      component: ToastWithButtonsComponent,
+      cssClass: 'ux-toast-warning',
+      showBackdrop: false,
+      id: 'feeModal',
+      componentProps: {
+        text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
+          nativeToken: this.nativeToken?.value,
+        }),
+        firstButtonName: this.translate.instant('defi_investments.confirmation.buy_button', {
+          nativeToken: this.nativeToken?.value,
+        }),
+        secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
+          nativeToken: this.nativeToken?.value,
+        }),
+        firstLink: '/fiat-ramps/new-operation/moonpay',
+        secondLink: '/wallets/receive/detail',
+        data: this.nativeToken,
+      },
+    });
+    await this.modalController.dismiss(null, null, 'feeModal');
+    if (window.location.href === this.modalHref) {
+      await modal.present();
+    }
   }
 }

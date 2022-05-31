@@ -69,8 +69,7 @@ import { ToastWithButtonsComponent } from '../../shared-defi-investments/compone
           <app-transaction-fee
             [fee]="this.fee"
             [quoteFee]="this.quoteFee"
-            [isNegativeBalance]="this.isNegativeBalance"
-            [nativeTokenBalance]="this.nativeTokenBalance"
+            [balance]="this.nativeTokenBalance"
           >
           </app-transaction-fee>
         </div>

@@ -105,7 +105,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
               <app-transaction-fee
                 [fee]="this.dynamicFee"
                 [quoteFee]="this.quoteFee"
-                [nativeTokenBalance]="this.balance"
+                [balance]="this.balance"
                 [description]="'donations.send_donations.description_fee' | translate"
               ></app-transaction-fee>
             </div>
