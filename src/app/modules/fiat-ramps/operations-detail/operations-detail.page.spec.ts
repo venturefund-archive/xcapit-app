@@ -36,8 +36,7 @@ const photo = {
   type: 'jpeg',
 };
 
-
-describe('OperationsDetailPage', () => {
+fdescribe('OperationsDetailPage', () => {
   let component: OperationsDetailPage;
   let fixture: ComponentFixture<OperationsDetailPage>;
   let fiatRampsServiceSpy: any;
@@ -77,20 +76,19 @@ describe('OperationsDetailPage', () => {
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
         ],
       }).compileComponents();
+
+      fixture = TestBed.createComponent(OperationsDetailPage);
+      component = fixture.componentInstance;
+      component.operation = operation;
+      component.provider = provider;
+      component.hasVoucher = false;
+      component.voucher = photo;
+      fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(OperationsDetailPage);
-    component = fixture.componentInstance;
-    component.operation = operation;
-    component.provider = provider;
-    component.providers = rawProvidersData;
-    component.hasVoucher = false;
-    component.voucher = photo;
-    fixture.detectChanges();
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-  });
+  beforeEach(() => {});
 
   it('should create', () => {
     expect(component).toBeTruthy();

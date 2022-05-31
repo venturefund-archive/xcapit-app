@@ -15,7 +15,7 @@ export const BANK_INFO_KRIPTON: BankInfo[] = [
     {
         providerId: 1,
         countryIsoCode: "ARS",
-        name: "HSBC",
+        name: "Santander",
         extras: [
             {
                 key: "CBU",
@@ -23,7 +23,7 @@ export const BANK_INFO_KRIPTON: BankInfo[] = [
             },
             {
                 key: "Alias",
-                value: "CARNE.JAGUAR.PILAR"
+                value: "kriptonmarket.ars"
             }
         ]
     }

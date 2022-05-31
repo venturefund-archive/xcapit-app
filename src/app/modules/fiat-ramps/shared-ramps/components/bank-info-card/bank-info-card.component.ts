@@ -24,7 +24,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
               </ion-text>
             </div>
             <div class="bic__content__item__container__content">
-              <ion-text class="ux-font-text-base">
+              <ion-text class="ux-font-text-base-black">
                 $ {{ this.operation.amount_in | number: '1.2-8' }} {{ this.operation.currency_in.toUpperCase() }}
               </ion-text>
             </div>
@@ -41,7 +41,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
               </ion-text>
             </div>
             <div class="bic__content__item__container__content">
-              <ion-text class="ux-font-text-base">
+              <ion-text class="ux-font-text-base-black">
                 {{ this.bankInfo.name }}
               </ion-text>
             </div>
@@ -56,7 +56,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
                 </ion-text>
               </div>
               <div class="bic__content__item__container__content">
-                <ion-text class="ux-font-text-base">
+                <ion-text class="ux-font-text-base-black">
                   {{ extra.value }}
                 </ion-text>
               </div>
@@ -74,9 +74,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
               </ion-text>
             </div>
             <div class="bic__content__item__container__content">
-              <ion-text class="ux-font-text-base">
-                Kriptobroker
-              </ion-text>
+              <ion-text class="ux-font-text-base-black">Cash In</ion-text>
             </div>
           </div>
           <ion-button class="ion-no-margin" fill="clear" size="small">
@@ -104,10 +102,14 @@ export class BankInfoCardComponent implements OnInit {
   }
 
   private getCountry() {
-    this.country = this.countries.find((c) => c.fiatCode && c.fiatCode.toUpperCase() === this.operation.currency_in.toUpperCase());
+    this.country = this.countries.find(
+      (c) => c.fiatCode && c.fiatCode.toUpperCase() === this.operation.currency_in.toUpperCase()
+    );
   }
 
   private getBankInfo() {
-    this.bankInfo = this.allBanks.find((b) => b.providerId === this.provider.id && b.countryIsoCode === this.country.isoCode);
+    this.bankInfo = this.allBanks.find(
+      (b) => b.providerId === this.provider.id && b.countryIsoCode === this.country.isoCode
+    );
   }
 }

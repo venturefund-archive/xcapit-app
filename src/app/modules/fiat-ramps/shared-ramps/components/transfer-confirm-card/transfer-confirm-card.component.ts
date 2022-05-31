@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NETWORK_COLORS } from 'src/app/modules/wallets/shared-wallets/constants/network-colors.constant';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
+import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
+import { OperationStatus } from '../../interfaces/operation-status.interface';
 import { OperationDataInterface } from '../../services/operation/storage-operation.service';
 
 @Component({
@@ -14,6 +16,11 @@ import { OperationDataInterface } from '../../services/operation/storage-operati
         </div>
         <div class="tcc__card__name-and-icon__name ux-font-text-base-black">
           {{ this.token.name }}
+        </div>
+        <div *ngIf="this.operationStatus">
+          <div class="tcc__card__name-and-icon__chip">
+            <app-operation-status-chip [status]="this.operationStatus"></app-operation-status-chip>
+          </div>
         </div>
       </div>
 
@@ -98,7 +105,7 @@ export class TransferConfirmCardComponent implements OnInit {
   @Input() token: Coin;
   @Input() operationData: OperationDataInterface;
   @Input() provider: any;
-  networkColors = NETWORK_COLORS;
+  @Input() operationStatus: OperationStatus;
 
   constructor() {}
 

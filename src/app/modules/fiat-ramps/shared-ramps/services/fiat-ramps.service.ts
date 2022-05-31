@@ -7,6 +7,7 @@ import { PROVIDERS } from '../constants/providers';
 import { FiatRampOperation } from '../interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
 import { OperationStatus } from '../interfaces/operation-status.interface';
+import { OperationDataInterface } from './operation/storage-operation.service';
 
 @Injectable({
   providedIn: 'root',

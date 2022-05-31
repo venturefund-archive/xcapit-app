@@ -4,9 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Filesystem } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
+import { OperationDataInterface } from '../shared-ramps/services/operation/storage-operation.service';
+import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { OperationStatus } from '../shared-ramps/interfaces/operation-status.interface';
 
 @Component({
   selector: 'app-operations-detail',
@@ -24,17 +27,16 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
 
     <ion-content class="ion-padding dp" *ngIf="this.operation">
       <div class="dp__card-container">
-        <div *ngIf="this.hasVoucher; then voucher; else transferData"></div>
-        <ng-template #voucher>
-          <app-voucher-card></app-voucher-card>
-        </ng-template>
-        <ng-template #transferData>
+        <div *ngIf="!this.hasVoucher">
           <app-bank-info-card [operation]="this.operation" [provider]="this.provider"></app-bank-info-card>
-        </ng-template>
+        </div>
+        <div *ngIf="!this.hasVoucher">
+          <app-voucher-card></app-voucher-card>
+        </div>
       </div>
 
       <div class="dp__card-container">
-        <app-operation-detail-card [operation]="this.operation" [provider]="this.provider"></app-operation-detail-card>
+        <app-transfer-confirm-card [operationStatus]="this.operationStatus" [token]="this.coin" [operationData]="this.operation" [provider]="this.provider"></app-transfer-confirm-card>
       </div>
       <div class="dp__disclaimer">
         <div class="dp__disclaimer__text">
@@ -55,7 +57,7 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
           </ion-text>
         </div>
       </div>
-      <div class="dp__upload-voucher" *ngIf="!this.operation.voucher">
+      <div class="dp__upload-voucher" *ngIf="!this.hasVoucher">
         <ion-button class="ux_button ion-no-margin" color="secondary" expand="block">
           {{ 'fiat_ramps.operation_detail.upload_voucher' | translate }}
         </ion-button>
@@ -66,22 +68,25 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
 })
 export class OperationsDetailPage implements OnInit {
   provider: FiatRampProvider;
-  operation: FiatRampOperation;
+  operation: OperationDataInterface;
+  operationStatus: OperationStatus;
+  coin: Coin;
   voucher = null;
   cotizacion: any = 0;
   hasVoucher: boolean = false;
-  loading: boolean = false;
+  showBankInfo: boolean = false;
+  showVoucher: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController
+    private navController: NavController,
+    private apiWalletSertvice: ApiWalletService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.loading = true;
     const operationId = this.route.snapshot.paramMap.get('operation_id');
     const providerId = this.route.snapshot.paramMap.get('provider_id');
     this.getProvider(parseInt(providerId));
@@ -96,14 +101,42 @@ export class OperationsDetailPage implements OnInit {
     this.fiatRampsService.setProvider(this.provider.id.toString());
     this.fiatRampsService.getUserSingleOperation(operationId).subscribe({
       next: (data) => {
-        this.operation = data[0];
+        this.getOperationCoin(data[0].currency_out);
+        this.mapOperationData(data[0]);
+        this.getOperationStatus(data[0].status);
         this.verifyVoucher();
       },
       error: (e) => {
         this.navigateBackToOperations();
       },
-      complete: () => this.loading = false
     });
+  }
+
+  private getOperationCoin(currencyName: string) {
+    this.coin = this.apiWalletSertvice.getCoin(currencyName);
+  }
+
+  private mapOperationData(data: FiatRampOperation) {
+    if (data.operation_type === 'cash-in') {
+      this.operation = {
+        type: data.operation_type,
+        amount_in: data.amount_in.toString(),
+        amount_out: data.amount_out.toString(),
+        currency_in: data.currency_in,
+        currency_out: data.currency_out,
+        price_in: '1',
+        price_out: (data.amount_in / data.amount_out).toString(),
+        wallet: data.wallet_address,
+        provider: data.provider,
+        voucher: data.voucher,
+        operation_id: data.operation_id,
+        network: this.coin.network
+      }
+    }
+  }
+
+  private getOperationStatus(status: string) {
+    this.operationStatus = this.fiatRampsService.getOperationStatus(status, this.provider.id);
   }
 
   private verifyVoucher() {
@@ -126,16 +159,11 @@ export class OperationsDetailPage implements OnInit {
   }
 
   async sendPicture() {
-    this.loading = true;
     const formData = new FormData();
     formData.append('file', this.voucher.dataUrl);
     this.fiatRampsService.confirmOperation(this.operation.operation_id, formData).subscribe({
       next: (data) => {
-        this.loading = false;
         this.hasVoucher = true;
-      },
-      error: (e) => {
-        this.loading = false;
       },
     });
   }

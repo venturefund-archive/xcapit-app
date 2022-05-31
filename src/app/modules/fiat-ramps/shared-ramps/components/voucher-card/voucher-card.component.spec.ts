@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { VoucherCardComponent } from './voucher-card.component';
 
-describe('VoucherCardComponent', () => {
+fdescribe('VoucherCardComponent', () => {
   let component: VoucherCardComponent;
   let fixture: ComponentFixture<VoucherCardComponent>;
 

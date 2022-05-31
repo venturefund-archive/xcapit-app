@@ -1,0 +1,51 @@
+:host {
+  .vc {
+    padding: 20px 16px 22px;
+
+    &__header {
+      margin-bottom: 10px;
+    }
+
+    &__file {
+      display: flex;
+      flex-direction: row;
+
+      &__text-container {
+        display: flex;
+        flex-direction: column;
+        margin-right: auto;
+
+        &__title {
+          margin-bottom: 4px;
+        }
+
+        &__link {
+          color: var(--ion-color-neutral90);
+          height: 18.77px;
+        }
+      }
+
+      &__trash {
+        margin: auto 0;
+      }
+    }
+
+    &__success {
+      display: flex;
+      flex-direction: row;
+
+      &__text {
+        margin-right: auto;
+      }
+
+      &__icon {
+        margin: auto 12px auto 0;
+
+        ion-icon {
+          height: 24px;
+          width: 24px;
+        }
+      }
+    }
+  }
+}
