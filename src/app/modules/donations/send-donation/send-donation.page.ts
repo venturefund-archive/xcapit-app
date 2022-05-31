@@ -137,7 +137,7 @@ export class SendDonationPage implements OnInit {
   selectedNetwork: string;
   leave$ = new Subject<void>();
   networks = [];
-  cause;
+  cause: any;
   token: Coin;
   fee: number;
   causes = CAUSES;
@@ -165,7 +165,6 @@ export class SendDonationPage implements OnInit {
 
   async ionViewWillEnter() {
     await this.walletService.walletExist();
-    this.sendDonationData.cause = this.cause;
     this.getCause();
     this.setTokens();
     this.setNetwork();
@@ -176,7 +175,10 @@ export class SendDonationPage implements OnInit {
   }
 
   getCause() {
-    this.cause = this.causes.find((cause) => cause.id === this.route.snapshot.queryParamMap.get('cause'));
+    const causeIDParam = this.route.snapshot.queryParamMap.get('cause');
+
+    this.cause = this.causes.find((cause) => (cause.id === causeIDParam ? causeIDParam : this.sendDonationData.cause));
+    this.sendDonationData.cause = this.cause.id;
   }
 
   setNetwork() {
