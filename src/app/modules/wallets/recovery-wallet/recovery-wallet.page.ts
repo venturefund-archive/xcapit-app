@@ -27,29 +27,36 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
       <div class="ux_main">
         <div class="ux_content">
           <div class="rwp__title">
-            <ion-text class="ux-font-text-xl">
+            <ion-text class="ux-font-text-lg">
               {{ 'wallets.recovery_wallet.title' | translate }}
             </ion-text>
-            <!-- HYPERLINK A MODAL -->
-            <!-- <button ion-button icon-only clear item-right (click)="showPhraseInfo()"> -->
-              <ion-icon name="ux-info-circle-outline" (click)="showPhraseInfo()" color="info"></ion-icon>
-            <!-- </button> -->
+            <ion-button
+              class="ion-no-padding"
+              slot="icon-only"
+              fill="clear"
+              appTrackClick
+              name="ux_phrase_information"
+              size="small"
+              (click)="this.showPhraseInfo()"
+            >
+              <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
+            </ion-button>
           </div>
           <div class="rwp__subtitle">
-            <ion-text class="ux-font-text-xs resize">
+            <ion-text class="ux-font-text-base-primary">
               {{ 'wallets.recovery_wallet.subtitle' | translate }}
             </ion-text>
           </div>
           <div class="rwp__label_and_icon">
             <div class="rwp__label">
-              <ion-label class="ux-font-text-xs">{{ 'wallets.recovery_wallet.label' | translate }}</ion-label>
+              <ion-label class="ux-font-titulo-xs">{{ 'wallets.recovery_wallet.label' | translate }}</ion-label>
             </div>
             <div class="rwp__copy_button">
               <ion-button
                 appTrackClick
                 name="Paste Phrase"
                 fill="clear"
-                color="neutral90"
+                color="info"
                 size="small"
                 class="cib__buttons__editButton"
                 (click)="this.pastePhrase()"
@@ -71,7 +78,7 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
               (click)="this.handleSubmit()"
               appTrackClick
               [disabled]="!this.form.valid"
-              name="ux_import_import"
+              name="ux_import_submit_phrase"
               type="submit"
               color="secondary"
               size="large"
@@ -125,7 +132,6 @@ export class RecoveryWalletPage implements OnInit {
   }
 
   async showPhraseInfo() {
-    console.log('This works')
     const modal = await this.modalController.create({
       component: InfoPhraseModalComponent,
       componentProps: {},

@@ -24,10 +24,21 @@
   }
 
   .rwp {
+    &__title {
+      ion-button {
+        height: 16px;
+
+        ion-icon {
+          height: 16px;
+        }
+      }
+    }
+
     &__label_and_icon {
-      margin-top: 16px;
+      margin-top: 40px;
       display: flex;
       align-items: center;
+      margin-bottom: -12px;
     }
 
     &__subtitle {
