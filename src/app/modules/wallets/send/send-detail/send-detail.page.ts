@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
@@ -22,9 +22,10 @@ import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-inve
 import { parseUnits } from 'ethers/lib/utils';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
 import { Amount } from 'src/app/modules/defi-investments/shared-defi-investments/types/amount.type';
+import { ToastWithButtonsComponent } from 'src/app/modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-send-detail',
@@ -96,19 +97,6 @@ import { Amount } from 'src/app/modules/defi-investments/shared-defi-investments
         </div>
       </form>
 
-      <div class="sd__alert" *ngIf="!!this.nativeToken && this.nativeBalance === 0">
-        <app-ux-alert-message [type]="this.alertType">
-          <div class="sd__alert__title">
-            <ion-text>{{ 'wallets.send.send_detail.alert.title' | translate }}</ion-text>
-          </div>
-          <div class="sd__alert__text">
-            <ion-text>{{
-              'wallets.send.send_detail.alert.text' | translate: { nativeToken: this.nativeToken.value }
-            }}</ion-text>
-          </div>
-        </app-ux-alert-message>
-      </div>
-
       <div class="sd__submit-button ion-padding">
         <ion-button
           class="ux_button sd__submit-button__button"
@@ -139,6 +127,7 @@ export class SendDetailPage {
   fee: number;
   dynamicFee: Amount = { value: undefined, token: undefined };
   quoteFee: Amount = { value: undefined, token: 'USD' };
+  modalHref: string;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
     amount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
@@ -155,14 +144,18 @@ export class SendDetailPage {
     private apiWalletService: ApiWalletService,
     private erc20ProviderController: ERC20ProviderController,
     private erc20ContractController: ERC20ContractController,
-    private dynamicPriceFactory: DynamicPriceFactory
+    private dynamicPriceFactory: DynamicPriceFactory,
+    private modalController: ModalController,
+    private translate: TranslateService
   ) {}
 
   async ionViewDidEnter() {
+    this.modalHref = window.location.href;
     this.tokenAndNetworks();
     this.dynamicPrice();
     await this.getFee();
     await this.tokenBalances();
+    await this.checkBalance();
   }
 
   private async userWallet() {
@@ -296,5 +289,37 @@ export class SendDetailPage {
   ionViewWillLeave() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  async checkBalance() {
+    this.token.native ? await this.nativeTransferFee() : await this.nonNativeTransferFee();
+    if (this.balance < this.fee) this.openModalBalance();
+  }
+
+  async openModalBalance() {
+    const modal = await this.modalController.create({
+      component: ToastWithButtonsComponent,
+      cssClass: 'ux-toast-warning',
+      showBackdrop: false,
+      id: 'feeModal',
+      componentProps: {
+        text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
+          nativeToken: this.nativeToken?.value,
+        }),
+        firstButtonName: this.translate.instant('defi_investments.confirmation.buy_button', {
+          nativeToken: this.nativeToken?.value,
+        }),
+        secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
+          nativeToken: this.nativeToken?.value,
+        }),
+        firstLink: '/fiat-ramps/new-operation/moonpay',
+        secondLink: '/wallets/receive/detail',
+        data: this.nativeToken,
+      },
+    });
+    await this.modalController.dismiss(null, null, 'feeModal');
+    if (window.location.href === this.modalHref) {
+      await modal.present();
+    }
   }
 }
