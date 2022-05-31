@@ -22,6 +22,7 @@ import { SendDonationDataService } from '../shared-donations/services/send-donat
 import { ModalController, NavController } from '@ionic/angular';
 import { ToastWithButtonsComponent } from '../../defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 import { TranslateService } from '@ngx-translate/core';
+import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 
 @Component({
   selector: 'app-send-donation',
@@ -35,7 +36,7 @@ import { TranslateService } from '@ngx-translate/core';
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd ion-padding">
-      <div *ngIf="this.data">
+      <div *ngIf="this.cause">
         <div class="ux-card ion-padding">
           <div class="sd__network-select-card">
             <div class="sd__network-select-card__title">
@@ -48,10 +49,10 @@ import { TranslateService } from '@ngx-translate/core';
               <div class="sd__selector">
                 <ion-item class="sd__selector__item ion-no-padding ion-no-margin" lines="none">
                   <div class="sd__selector__item__logo">
-                    <img [src]="this.data.token.logoRoute" alt="logo" />
+                    <img [src]="this.token.logoRoute" alt="logo" />
                   </div>
                   <ion-label class="sd__selector__item__label ion-no-margin" color="neutral90">{{
-                    this.data.token.value
+                    this.token.value
                   }}</ion-label>
                 </ion-item>
               </div>
@@ -78,7 +79,7 @@ import { TranslateService } from '@ngx-translate/core';
               <ion-text class="ux-font-titulo-xs">Billetera de destino</ion-text>
             </div>
             <div class="sd__send-amount-card__address ux-card">
-              {{ this.data.address }}
+              {{ this.cause.address }}
             </div>
             <div>
               <ion-text class="ux-font-text-xxs">Dirección o alias</ion-text>
@@ -86,17 +87,25 @@ import { TranslateService } from '@ngx-translate/core';
           </div>
           <div class="sd__send-amount-card ux-card">
             <app-amount-input-card
+              *ngIf="this.balance !== undefined && (!this.token.native || (this.token.native && this.fee))"
               [label]="'donations.send_donations.label' | translate"
               [header]="'defi_investments.shared.amount_input_card.available' | translate"
               [baseCurrency]="this.token"
-              [nativeFee]="this.fee"
+              [quotePrice]="this.quotePrice"
+              [showRange]="false"
               [disclaimer]="false"
+              [max]="this.balance"
+              [feeToken]="this.token"
             ></app-amount-input-card>
+            <app-amount-input-card-skeleton
+              *ngIf="this.balance === undefined || (this.token.native && !this.fee)"
+              [showRange]="false"
+            ></app-amount-input-card-skeleton>
             <div class="sd__send-amount-card__info">
               <app-transaction-fee
                 [fee]="this.dynamicFee"
                 [quoteFee]="this.quoteFee"
-                [nativeTokenBalance]="this.balance"
+                [balance]="this.balance"
                 [description]="'donations.send_donations.description_fee' | translate"
               ></app-transaction-fee>
             </div>
@@ -126,16 +135,16 @@ export class SendDonationPage implements OnInit {
   });
 
   selectedNetwork: string;
+  leave$ = new Subject<void>();
   networks = [];
   cause;
-  data;
   token: Coin;
-  fee;
+  fee: number;
   causes = CAUSES;
   dynamicFee: Amount = { value: undefined, token: 'ETH' };
   quoteFee: Amount = { value: undefined, token: 'USD' };
   balance: number;
-  leave$ = new Subject<void>();
+  quotePrice: number;
   private readonly priceRefreshInterval = 15000;
 
   constructor(
@@ -148,42 +157,44 @@ export class SendDonationPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private erc20ProviderController: ERC20ProviderController,
     private modalController: ModalController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private dynamicPriceFactory: DynamicPriceFactory
   ) {}
 
   ngOnInit() {}
 
   async ionViewWillEnter() {
     await this.walletService.walletExist();
-    this.cause = this.route.snapshot.queryParamMap.get('cause');
     this.sendDonationData.cause = this.cause;
-    this.getData();
-    this.setToken();
+    this.getCause();
+    this.setTokens();
     this.setNetwork();
+    this.dynamicPrice();
     await this.nativeTransferFee();
     await this.tokenBalance();
-    this.dynamicPrice();
     this.checkAvailableBalance();
   }
 
-  getData() {
-    this.data = this.causes.find((cause) => cause.id === this.cause);
+  getCause() {
+    this.cause = this.causes.find((cause) => cause.id === this.route.snapshot.queryParamMap.get('cause'));
   }
 
   setNetwork() {
-    this.selectedNetwork = this.data.token.network;
-    this.networks = [this.data.token.network];
+    this.selectedNetwork = this.cause.token.network;
+    this.networks = [this.cause.token.network];
   }
 
-  setToken() {
-    if (this.data) {
-      this.token = this.data.token;
-    }
+  setTokens() {
+    this.token = this.apiWalletService
+      .getCoins()
+      .find((coin: Coin) => coin.value === this.cause.token.value && coin.network === this.cause.token.network);
   }
 
   async tokenBalance() {
     const walletAddress = await this.storageService.getWalletsAddresses(this.selectedNetwork);
-    this.balance = parseFloat(await this.walletService.balanceOf(walletAddress, this.data.token.value));
+
+    const rawBalance = parseFloat(await this.walletService.balanceOf(walletAddress, this.token.value));
+    this.balance = this.token.native ? Math.max(rawBalance - this.fee, 0) : rawBalance;
   }
 
   erc20Provider(): ERC20Provider {
@@ -214,23 +225,21 @@ export class SendDonationPage implements OnInit {
   }
 
   private dynamicPrice() {
-    this.createDynamicPrice()
+    this.dynamicPriceFactory
+      .new(this.priceRefreshInterval, this.token, this.apiWalletService)
       .value()
       .pipe(takeUntil(this.leave$))
       .subscribe((price: number) => {
-        this.quoteFee.value = price * this.fee;
+        this.quotePrice = price;
+        this.quoteFee.value = this.quotePrice * this.fee;
       });
-  }
-
-  createDynamicPrice(): DynamicPrice {
-    return DynamicPrice.create(this.priceRefreshInterval, this.token, this.apiWalletService);
   }
 
   private saveDonationData() {
     this.sendDonationData.data = {
       network: this.selectedNetwork,
       currency: this.token,
-      address: this.data.address,
+      address: this.cause.address,
       amount: this.form.value.amount,
       referenceAmount: this.form.value.quoteAmount,
       balanceNativeToken: this.balance,
@@ -252,7 +261,7 @@ export class SendDonationPage implements OnInit {
   }
 
   checkAvailableBalance() {
-    if (this.balance < this.fee) {
+    if (this.balance === 0) {
       this.openModalNativeTokenBalance();
     }
   }
@@ -264,17 +273,17 @@ export class SendDonationPage implements OnInit {
       showBackdrop: false,
       componentProps: {
         text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
-          nativeToken: this.data.token.value,
+          nativeToken: this.token.value,
         }),
         firstButtonName: this.translate.instant('defi_investments.confirmation.buy_button', {
-          nativeToken: this.data.token.value,
+          nativeToken: this.token.value,
         }),
         secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
-          nativeToken: this.data.token.value,
+          nativeToken: this.token.value,
         }),
-        firstLink: '/fiat-ramps/moonpay',
+        firstLink: '/fiat-ramps/select-provider',
         secondLink: '/wallets/receive/detail',
-        data: this.data.token,
+        data: this.token,
       },
     });
     modal.present();

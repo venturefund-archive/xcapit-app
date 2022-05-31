@@ -191,16 +191,14 @@ describe('UserProfileMenuPage', () => {
 
   it('should show modal if user has wallet and modal list is empty when Log Out button is clicked', async () => {
     component.profile = profile;
-    const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
-    button.nativeElement.click();
+    await component.logout();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should show modal if user has wallet and is not in modal list when Log Out button is clicked', async () => {
     component.profile = profile;
-    const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
-    button.nativeElement.click();
+    await component.logout();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });

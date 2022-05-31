@@ -345,7 +345,9 @@
       "button": "Add amount",
       "button_link": "Make withdrawal",
       "invested_amount": "Balance*",
-      "daily_earnings_disclaimer": "*Your balance is updated daily."
+      "daily_earnings_disclaimer": "*Your balance is updated daily.",
+      "continuous_update":"*Continuous update",
+      "weekly_update":"*Weekly update"
     },
     "shared": {
       "transaction_fees": {
@@ -366,7 +368,8 @@
         "liquidity": "Liquidity",
         "not_min_ammount": "No minimum amount",
         "immediate_rescue": "Immediate Rescue",
-        "daily_earnings": "Daily earnings",
+        "continuous_earnings": "Continuous earnings",
+        "weekly_earnings":"Weekly earnings",
         "daily_earnings_disclaimer_active": "*Your balance is updated daily.",
         "daily_earnings_disclaimer_available": "*Your balance is now updated daily.",
         "coming_badge": "Coming soon",
@@ -385,7 +388,7 @@
         "investment_info": {
           "USDC": "Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
           "DAI": "Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
-          "BTC": "Your tokens will be distributed in several decentralized protocols.You will earn interest in BTC. \n BTC (Bitcoin) is the first cryptocurrency with fixed issuance, and the largest market capitalization."
+          "WBTC": "Your tokens will be distributed in various decentralized protocols. You will earn continuous interest in WBTC. No investment limits."
         },
         "profiles": {
           "conservative": "Conservative",
@@ -964,6 +967,37 @@
       }
     }
   },
+  "financial_education":{
+    "introduction":{
+      "financial_freedom":{
+        "header":"Education",
+        "title":"Towards your financial freedom!",
+        "subtitle":"We want you to learn how to get the most for your money in a quick, clear and simple way.",
+        "button":"Next"
+      },
+      "explanation":{
+        "header":"Education",
+        "title":"How does it work?",
+        "button":"Start",
+        "item_1":{
+          "number":"1.",
+          "title":" Complete all modules",
+          "description":"In order to learn about financial freedom we divide the topics into several modules so be sure to read them all."
+        },
+        "item_2":{
+          "number":"2.",
+          "title":" Passes tests without errors",
+          "description":"You must pass all the tests without errors, you can repeat it as many times as you need."
+        },
+        "item_3":{
+          "number":"3.",
+          "title":" Wait for your NFT",
+          "description":"At the end of all the modules, you will get a free NFT as a prize."
+        }
+      }
+    }
+  },
+
   "financial_planner": {
     "planner_information": {
       "header": "Planner",
@@ -1058,7 +1092,7 @@
       "header": "Donations",
       "button": "Donate",
       "info": {
-        "regional":"Regional",
+        "regional": "Regional",
         "global": "Global",
         "receive": "Receive",
         "unhcr": {
@@ -1085,7 +1119,7 @@
           "title_3": "Learn more about Free the Girls",
           "description": "It helps these women become entrepreneurs by providing them with the tools to market in local second-hand clothing markets in their communities."
         },
-        "proof_of_integrity":{
+        "proof_of_integrity": {
           "title_1": "To provide, through financial education, the necessary tools so that people struggling to meet their basic needs have access to the crypto ecosystem and can use these tools to their advantage.",
           "title_2": "About Proof of integrity",
           "title_3": "Learn more about POI",
@@ -1107,18 +1141,18 @@
         "button": "Donate",
         "loading": "Donating"
       },
-      "no_wallet":{
-        "title":"You don't have your Xcapit Wallet yet",
-        "subtitle":"Create your wallet to donate",
-        "button":"Create Wallet",
-        "link":"See causes"
+      "no_wallet": {
+        "title": "You don't have your Xcapit Wallet yet",
+        "subtitle": "Create your wallet to donate",
+        "button": "Create Wallet",
+        "link": "See causes"
       }
     },
-    "success":{
-      "textPrimary":"Thanks for joining us!",
-      "textSecondary":"You have just contributed to a great cause.",
-      "namePrimaryAction":"Continue donating",
-      "nameThirdAction":"Back to home"
+    "success": {
+      "textPrimary": "Thanks for joining us!",
+      "textSecondary": "You have just contributed to a great cause.",
+      "namePrimaryAction": "Continue donating",
+      "nameThirdAction": "Back to home"
     },
 
     "error": {
@@ -2012,8 +2046,8 @@
       },
       "test_investor_cards": {
         "badge_text": "Coming soon",
-        "title1": "Discover your knowledge in finance",
-        "link1": "Take test",
+        "title1": "Increase your knowledge in finance and cryptocurrencies",
+        "link1": "Learn",
         "title2": "Do you know what type of investor you are?",
         "link2": "Find out"
       },
