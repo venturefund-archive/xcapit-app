@@ -1490,10 +1490,10 @@
   resolved "https://registry.npmjs.org/@capacitor/push-notifications/-/push-notifications-1.0.7.tgz"
   integrity sha512-vbvAptFq5cI6xKYYWMb7tsWvA88/PTG4v6ptxN0Ygtc1fQ4l/AzONQiYqdtFpbBhF2fML2kXQ/5eSAfn8HY9aw==
 
-"@capacitor/share@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/@capacitor/share/-/share-1.0.7.tgz"
-  integrity sha512-v7FRld2SdV64YjrZrKGoDyfYqcoEC2I4tk6nkhbOI8ZOaqm6XNiqCWEeTdeb6XPwDftozmfILSzhCxbASrXKMg==
+"@capacitor/share@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@capacitor/share/-/share-1.1.2.tgz#7e35c2c3bccc9955e852d3dd401afe7bd5a69b7e"
+  integrity sha512-FUTdjA7MAiD1tkGVZ+C3gs7a4fyEhXojDO2HkZ954oupG1cQ51dEJ1xTNnR9BAmCwUJO4sa91cxy7SMyCDPuGg==
 
 "@capacitor/splash-screen@^1.2.1":
   version "1.2.1"
