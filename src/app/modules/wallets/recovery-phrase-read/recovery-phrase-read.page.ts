@@ -18,7 +18,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           <ion-back-button defaultHref="" (click)="this.navigateBack()"></ion-back-button>
         </ion-buttons>
         <ion-title class="ux-font-text-lg">
-          {{ this.title | translate }}
+          {{(this.protectedWallet ? 'wallets.recovery_phrase_read.recovery_phrase' : 'wallets.recovery_phrase_read.protect_my_wallet')| translate }}
         </ion-title>
         <ion-label class="step-counter" *ngIf="!this.protectedWallet"  slot="end">1 {{ 'shared.step_counter.of' | translate }} 2</ion-label>
       </ion-toolbar>
@@ -35,7 +35,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
               </div>
             </div>
             <div class="rpr__text" >
-              <ion-text class="ux-font-text-base" color="neutral90" [innerHTML]="this.text | translate">
+              <ion-text class="ux-font-text-base" color="neutral90" [innerHTML]=" (this.protectedWallet ? 'wallets.recovery_phrase_read.text' : 'wallets.recovery_phrase_read.text_protect_my_wallet')| translate">
               </ion-text>
             </div>
           <div class="rpr__button-show-hide">
@@ -111,7 +111,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   text: string;
   isShowPhrase:boolean;
   isRevealed= false;
-  protectedWallet: boolean = true;
+  protectedWallet: boolean;
   
   
     constructor(
@@ -129,9 +129,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.title=this.protectedWallet ? 'wallets.recovery_phrase_read.recovery_phrase' : 'wallets.recovery_phrase_read.protect_my_wallet'
-    this.text= this.protectedWallet ? 'wallets.recovery_phrase_read.text' : 'wallets.recovery_phrase_read.text_protect_my_wallet'
-    //this.storage.get('protectedWallet').then((res) => (this.protectedWallet = res));
+    this.storage.get('protectedWallet').then((res) => (this.protectedWallet = res));
     this.buttonColor = 'primary';
     this.buttonFill = 'outline';
     this.buttonText = 'wallets.recovery_phrase_read.button_text';

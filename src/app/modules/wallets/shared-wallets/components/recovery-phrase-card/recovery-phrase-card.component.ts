@@ -19,7 +19,7 @@ import { RecoveryWordComponent } from '../recovery-word/recovery-word.component'
     <div class="info" >
       <ion-icon [name]="this.isProtected? 'ux-checked-circle-outline' : 'ux-error-circle-outline'" [color]="this.isProtected? 'successdark': 'danger'"></ion-icon>
       <ion-text class="ux-font-text-xxs" [color]="this.isProtected? 'successdark': 'danger'">
-      {{ this.protected | translate }}
+      {{ (this.isProtected ? 'wallets.recovery_phrase_read.protected' : 'wallets.recovery_phrase_read.not_protected') | translate }}
       </ion-text>   
     </div>
   `,
@@ -44,7 +44,6 @@ export class RecoveryPhraseCardComponent implements OnInit {
     if (this.ordered) {
       this.sortPhrase();
     }
-    this.protected= this.isProtected ? 'wallets.recovery_phrase_read.protected' : 'wallets.recovery_phrase_read.not_protected'
   }
 
   sortPhrase() {
