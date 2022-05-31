@@ -43,9 +43,9 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
   styleUrls: ['./skip-backup-modal.component.scss'],
 })
 export class SkipBackupModalComponent implements OnInit {
-  skipBackUpForm = this.fb.group({ agreeSkipBackUp: [false, [Validators.requiredTrue]] });
+  skipBackUpForm = this.formBuilder.group({ agreeSkipBackUp: [false, [Validators.requiredTrue]] });
   constructor(
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private modalController: ModalController,
     private navController: NavController,
     private ionicStorageService: IonicStorageService

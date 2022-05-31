@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
     <div class="bic__information">
       <img src="assets/img/wallets/backup-information-circle.svg" class="bic__information__icon">
       <div class="bic__information__text">
-        <ion-text [ngClass]="this.textClass" color="info" [innerHTML]="this.text | translate ">
+        <ion-text [ngClass]="this.textClass" [innerHTML]="this.text | translate ">
         </ion-text>
       </div>
     </div>

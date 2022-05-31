@@ -1372,6 +1372,9 @@
         "receive_card": "Receive",
         "buy_card": "Buy",
         "swap_card": "Swap"
+      },
+      "backup_card_component":{
+        "text":"Don't lose your money. <b> Protect your wallet. </b>"
       }
     },
     "select_coin": {

@@ -18,8 +18,8 @@
       }
 
       &__icon {
-        width: 22px;
-        height: 22px;
+        width: 24px;
+        height: 24px;
         margin-right: 8px;
       }
     }
@@ -30,10 +30,5 @@
     font-family: var(--ux-font-lato);
     font-weight: var(--ux-fweight-regular);
     line-height: 18px;
-  }
-
-  .negrita {
-    font-family: var(--ux-font-worksans);
-    font-weight: var(--ux-fweight-semibold);
   }
 }
