@@ -8,8 +8,8 @@ import { CONFIG } from 'src/app/config/app-constants.config';
     <div class="main">
       <app-ux-textarea controlName="phrase" inputmode="text"></app-ux-textarea>
       <div class="wallet-recover-warning-item ux-font-text-xxs" *ngFor="let warning of processedWarnings">
-        <ion-icon name="ux-info-circle-outline" color="warningdark"></ion-icon>
-        <ion-label class="wallet-recover-warning-item__description " color="warningdark">{{
+        <ion-icon name="ux-info-circle-outline" color="infodark"></ion-icon>
+        <ion-label class="wallet-recover-warning-item__description " color="infodark">{{
           warning.text | translate
         }}</ion-label>
       </div>

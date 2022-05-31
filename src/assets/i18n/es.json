@@ -1615,6 +1615,11 @@
         "description":"Entiendo que si no realizo una copia de mi frase de recuperación, podría perder el acceso a mis fondos.",
         "button_back":"Atrás",
         "button_skip":"Omitir"
+      },
+      "recovery_phrase_info": {
+        "title": "Frase de recuperación",
+        "description": "Es un conjunto de 12 palabras ordenadas, que sirven como llave maestra de tus fondos.",
+        "button_text": "Entendido"
       }
     },
     "asset_detail": {

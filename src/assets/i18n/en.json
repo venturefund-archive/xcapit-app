@@ -1633,6 +1633,11 @@
         "description":"I understand that if I do not make a copy of my recovery phrase, I may lose access to my funds.",
         "button_back":"Back",
         "button_skip":"Skip"
+      },
+      "recovery_phrase_info": {
+        "title": "Recovery phrase",
+        "description": "It is a set of 12 ordered words, which serve as a master key to your funds.",
+        "button_text": "Understood"
       }
     },
     "asset_detail": {

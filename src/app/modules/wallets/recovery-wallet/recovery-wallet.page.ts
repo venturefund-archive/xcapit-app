@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
+import { InfoPhraseModalComponent } from '../shared-wallets/components/info-phrase-modal/info-phrase-modal.component';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 
 @Component({
@@ -30,7 +31,9 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
               {{ 'wallets.recovery_wallet.title' | translate }}
             </ion-text>
             <!-- HYPERLINK A MODAL -->
-            <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
+            <!-- <button ion-button icon-only clear item-right (click)="showPhraseInfo()"> -->
+              <ion-icon name="ux-info-circle-outline" (click)="showPhraseInfo()" color="info"></ion-icon>
+            <!-- </button> -->
           </div>
           <div class="rwp__subtitle">
             <ion-text class="ux-font-text-xs resize">
@@ -91,7 +94,8 @@ export class RecoveryWalletPage implements OnInit {
     private clipboardService: ClipboardService,
     private formBuilder: FormBuilder,
     private walletMnemonicService: WalletMnemonicService,
-    private navController: NavController
+    private navController: NavController,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {}
@@ -118,5 +122,16 @@ export class RecoveryWalletPage implements OnInit {
         this.navController.navigateForward(['wallets/recovery/error']);
       }
     }
+  }
+
+  async showPhraseInfo() {
+    console.log('This works')
+    const modal = await this.modalController.create({
+      component: InfoPhraseModalComponent,
+      componentProps: {},
+      cssClass: 'ux-sm-modal-informative',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 }
