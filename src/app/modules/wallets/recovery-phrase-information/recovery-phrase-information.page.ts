@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { WalletPasswordSmallComponent } from '../shared-wallets/components/wallet-password-small/wallet-password-small.component';
 
 @Component({
@@ -80,17 +80,22 @@ import { WalletPasswordSmallComponent } from '../shared-wallets/components/walle
   styleUrls: ['./recovery-phrase-information.page.scss'],
 })
 export class RecoveryPhraseInformationPage implements OnInit {
-  constructor(private modalController: ModalController) {}
+  constructor(private modalController: ModalController,
+    private navController: NavController) {}
 
   ngOnInit() {}
 
-  async continue() {
-    const modal = await this.modalController.create({
-      component: WalletPasswordSmallComponent,
-      cssClass: 'small-wallet-password-modal ux-routeroutlet-modal',
-      swipeToClose: false,
-    });
+  //async continue() {
+    // const modal = await this.modalController.create({
+    //  component: WalletPasswordSmallComponent,
+    //   cssClass: 'small-wallet-password-modal ux-routeroutlet-modal',
+    //   swipeToClose: false,
+    // });
 
-    await modal.present();
+  //   await modal.present();
+  // }
+
+  continue(){
+    this.navController.navigateForward(['/wallets/recovery/read']);
   }
 }

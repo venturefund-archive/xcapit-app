@@ -12,6 +12,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { of } from 'rxjs';
 
 const testMnemonic: Mnemonic = {
   path: '',
@@ -19,17 +21,19 @@ const testMnemonic: Mnemonic = {
   phrase: 'test recovery phrase',
 };
 
-describe('RecoveryPhraseReadPage', () => {
+fdescribe('RecoveryPhraseReadPage', () => {
   let component: RecoveryPhraseReadPage;
   let fixture: ComponentFixture<RecoveryPhraseReadPage>;
   let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
   let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<RecoveryPhraseReadPage>;
+  let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
 
   beforeEach(
     waitForAsync(() => {
       walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {}, { mnemonic: testMnemonic });
+      localStorageServiceSpy = jasmine.createSpyObj('LocalStorageService', {toggleHidePhrase: undefined}, { hidePhrase: of(true) });
       clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', { write: Promise.resolve() });
       toastServiceSpy = jasmine.createSpyObj('ToastService', {
         showInfoToast: Promise.resolve(),
@@ -42,6 +46,7 @@ describe('RecoveryPhraseReadPage', () => {
         providers: [
           TranslateService,
           { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
+          { provide: LocalStorageService, useValue: localStorageServiceSpy },
           { provide: ClipboardService, useValue: clipboardServiceSpy },
           { provide: ToastService, useValue: toastServiceSpy },
         ],
@@ -66,7 +71,7 @@ describe('RecoveryPhraseReadPage', () => {
 
   it('should copy to clipboard, show toast and change button on Copy Button click', async () => {
     component.ionViewWillEnter();
-    fixture.debugElement.query(By.css('ion-button[name="Copy"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_phrase_copy"]')).nativeElement.click();
     await fixture.whenStable();
     expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
@@ -77,7 +82,7 @@ describe('RecoveryPhraseReadPage', () => {
   it('should show toast and not change button if error ocurred while copying on Copy Button click', async () => {
     component.ionViewWillEnter();
     clipboardServiceSpy.write.and.rejectWith({});
-    fixture.debugElement.query(By.css('ion-button[name="Copy"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_phrase_copy"]')).nativeElement.click();
     await fixture.whenStable();
     expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
@@ -85,13 +90,12 @@ describe('RecoveryPhraseReadPage', () => {
     expect(component.buttonFill).toEqual('outline');
   });
 
-  it('should call trackEvent on trackService when Copy Button clicked', () => {
+  it('should hide phrase when Toggle Phrase is clicked', async () => {
     component.ionViewWillEnter();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Copy');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="Toggle Phrase"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
+    await fixture.whenStable();
+    expect(localStorageServiceSpy.toggleHidePhrase).toHaveBeenCalled();
   });
+
 });
