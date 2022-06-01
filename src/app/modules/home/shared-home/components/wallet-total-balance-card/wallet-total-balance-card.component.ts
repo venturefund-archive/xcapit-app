@@ -57,7 +57,7 @@ export class WalletTotalBalanceCardComponent implements OnInit {
     this.subscribeOnHideFunds();
   }
 
-  subscribeOnHideFunds() {
+  subscribeOnHideFunds()  {
     this.localStorageService.hideFunds.subscribe((res) => (this.hideFundText = res));
   }
 

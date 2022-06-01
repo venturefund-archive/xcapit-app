@@ -1,4 +1,9 @@
 :host {
+  .ux_toolbar_xs ion-title {
+    padding-left: 70px;
+    padding-right: 70px;
+  }
+
   .rpr {
     --ion-background-color: var(--ion-color-primary-contrast);
 
@@ -6,11 +11,53 @@
 
     &__title {
       margin-top: 24px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 0;
+      gap: 4px;
+
+
 
       ion-text {
         color: var(--ion-color-primary);
       }
+
+      &__icon {
+        width: 16px;
+        height: 16px;
+      }
     }
+
+    &__phrase-card {
+      background: #fff;
+      border: 1px solid var(--ion-color-neutral50);
+      box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
+      border-radius: 8px;
+    }
+
+    &__information {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: #e1e9fe;
+      border: 1px solid var(--ion-color-info);
+      border-radius: 6px;
+
+      &__text {
+        ion-text {
+          color: var(--ion-color-info);
+        }
+      }
+
+      &__icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 9px;
+      }
+    }
+
 
     &__text {
       margin-top: 16px;
@@ -20,8 +67,16 @@
       }
     }
 
-    &__phrase-card {
-      margin-top: 16px;
+    &__button-show-hide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 24px;
+
+      ion-button {
+        padding: 12.5px 0;
+        margin: 0;
+      }
     }
 
     &__footer {

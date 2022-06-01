@@ -1378,13 +1378,22 @@
       "button_faq": "¿Qué es la frase de recuperación?"
     },
     "recovery_phrase_read": {
-      "header": "Frase de recuperación",
+      "recovery_phrase": "Frase de recuperación",
+      "protect_my_wallet": "Proteger mi wallet",
       "title": "Frase de recuperación",
-      "text": "Es muy importante que guardes tus 12 palabras en el orden que aparecen y en un lugar seguro.",
+      "text": "Guarda las 12 palabras que aparecen a continuación respetando su orden.",
+      "text_protect_my_wallet":"Para completar tu copia de seguridad, guarda las 12 palabras que aparecen a continuación respetando su orden.<br>En el siguiente paso deberás completar los espacios con las palabras solicitadas.",
+      "button_show_phrase":"Mostrar Frase",
+      "button_hide_phrase": "Ocultar Frase",
       "button_text": "Copiar",
+      "button_continue": "Continuar",
+      "security_information":"Xcapit no podrá recuperar tu wallet si pierdes tu frase de recuperación.",
       "button_text_coppied": "Copiado",
       "coppied_text": "Se copió la frase de recuperación al portapapeles",
-      "copy_error_text": "No se puedo copiar la frase de recuperación al portapapeles"
+      "copy_error_text": "No se puedo copiar la frase de recuperación al portapapeles",
+      "protected": "Copia de seguridad completa",
+      "not_protected":"Sin copia de seguridad",
+      "error_toast": "La contraseña que ingresaste es incorrecta"
     },
     "home": {
       "available_money": "Tus activos",
