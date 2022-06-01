@@ -22,7 +22,7 @@ const testMnemonic: Mnemonic = {
   phrase: 'test recovery phrase',
 };
 
-describe('RecoveryPhraseReadPage', () => {
+fdescribe('RecoveryPhraseReadPage', () => {
   let component: RecoveryPhraseReadPage;
   let fixture: ComponentFixture<RecoveryPhraseReadPage>;
   let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;
@@ -41,6 +41,7 @@ describe('RecoveryPhraseReadPage', () => {
       navControllerSpy = fakeNavController.createSpy();
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       
       clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', { write: Promise.resolve() });
       
@@ -93,9 +94,19 @@ describe('RecoveryPhraseReadPage', () => {
     expect(buttonEl.properties.disabled).toBeTrue();
   });
 
+  it('should call trackEvent on trackService when continue is clicked',()=>{
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button','ux_protect_continue_phrase');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  })
+
   it('should navigate to verify phrase if Continue button was clicked', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
+    
     await fixture.whenStable();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_protect_continue_phrase"]'));
     buttonEl.nativeElement.click();

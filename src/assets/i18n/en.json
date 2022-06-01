@@ -1835,8 +1835,9 @@
       "button_text_coppied": "Coppied",
       "coppied_text": "The recovery phrase was copied to the clipboard",
       "copy_error_text": "The recovery phrase could not be coppied to the clipboard",
-      "protected": "Copia de seguridad completa",
-      "not_protected":"Sin copia de seguridad"
+      "protected": "Complete backup",
+      "not_protected":"No backup copy",
+      "error_toast": "The password you entered is incorrect"
     },
     "home": {
       "available_money": "Available money in wallet",

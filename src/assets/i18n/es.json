@@ -1821,7 +1821,8 @@
       "coppied_text": "Se copió la frase de recuperación al portapapeles",
       "copy_error_text": "No se puedo copiar la frase de recuperación al portapapeles",
       "protected": "Copia de seguridad completa",
-      "not_protected":"Sin copia de seguridad"
+      "not_protected":"Sin copia de seguridad",
+      "error_toast": "La contraseña que ingresaste es incorrecta"
     },
     "home": {
       "available_money": "Tus activos",

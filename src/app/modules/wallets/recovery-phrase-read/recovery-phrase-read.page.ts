@@ -226,8 +226,7 @@ export class RecoveryPhraseReadPage implements OnInit {
         this.isRevealed = !this.isRevealed;
       } catch {
         this.showErrorToast(
-          // Modificar mensaje para mostrar, solo la ruta, no el contenido
-          'wallets.export_private_key.error_toast'
+          'wallets.recovery_phrase_read.error_toast'
         );
       }
     } else {
