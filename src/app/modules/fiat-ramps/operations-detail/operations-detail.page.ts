@@ -30,13 +30,23 @@ import { OperationStatus } from '../shared-ramps/interfaces/operation-status.int
         <div *ngIf="!this.hasVoucher">
           <app-bank-info-card [operation]="this.operation" [provider]="this.provider"></app-bank-info-card>
         </div>
-        <div *ngIf="!this.hasVoucher">
-          <app-voucher-card></app-voucher-card>
+        <div *ngIf="this.hasVoucher">
+          <app-voucher-card
+            [uploading]="this.uploadingVoucher"
+            [voucher]="this.voucher"
+            (sendVoucher)="this.sendPicture()"
+            (removePhoto)="this.removePhoto()"
+          ></app-voucher-card>
         </div>
       </div>
 
       <div class="dp__card-container">
-        <app-transfer-confirm-card [operationStatus]="this.operationStatus" [token]="this.coin" [operationData]="this.operation" [provider]="this.provider"></app-transfer-confirm-card>
+        <app-transfer-confirm-card
+          [operationStatus]="this.operationStatus"
+          [token]="this.coin"
+          [operationData]="this.operation"
+          [provider]="this.provider"
+        ></app-transfer-confirm-card>
       </div>
       <div class="dp__disclaimer">
         <div class="dp__disclaimer__text">
@@ -58,7 +68,7 @@ import { OperationStatus } from '../shared-ramps/interfaces/operation-status.int
         </div>
       </div>
       <div class="dp__upload-voucher" *ngIf="!this.hasVoucher">
-        <ion-button class="ux_button ion-no-margin" color="secondary" expand="block">
+        <ion-button class="ux_button ion-no-margin" color="secondary" expand="block" (click)="this.addPhoto()">
           {{ 'fiat_ramps.operation_detail.upload_voucher' | translate }}
         </ion-button>
       </div>
@@ -76,6 +86,7 @@ export class OperationsDetailPage implements OnInit {
   hasVoucher: boolean = false;
   showBankInfo: boolean = false;
   showVoucher: boolean = false;
+  uploadingVoucher: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -130,8 +141,8 @@ export class OperationsDetailPage implements OnInit {
         provider: data.provider,
         voucher: data.voucher,
         operation_id: data.operation_id,
-        network: this.coin.network
-      }
+        network: this.coin.network,
+      };
     }
   }
 
@@ -156,19 +167,29 @@ export class OperationsDetailPage implements OnInit {
     });
 
     this.voucher = photo;
+    this.hasVoucher = true;
   }
 
   async sendPicture() {
+    this.uploadingVoucher = true;
     const formData = new FormData();
     formData.append('file', this.voucher.dataUrl);
     this.fiatRampsService.confirmOperation(this.operation.operation_id, formData).subscribe({
       next: (data) => {
+        this.voucher = undefined;
         this.hasVoucher = true;
+        this.uploadingVoucher = false;
       },
+      error: () => (this.uploadingVoucher = false),
     });
   }
 
   navigateBackToOperations() {
     this.navController.navigateBack(['/fiat-ramps/select-provider']);
+  }
+
+  removePhoto() {
+    this.voucher = undefined;
+    this.hasVoucher = false;
   }
 }

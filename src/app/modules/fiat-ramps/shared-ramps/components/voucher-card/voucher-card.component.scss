@@ -1,6 +1,10 @@
 :host {
   .vc {
     padding: 20px 16px 22px;
+    background: var(--ion-color-white);
+    border-radius: 8px;
+
+    --ion-background-color: var(--ion-color-white);
 
     &__header {
       margin-bottom: 10px;
@@ -9,6 +13,7 @@
     &__file {
       display: flex;
       flex-direction: row;
+      margin-bottom: 10px;
 
       &__text-container {
         display: flex;

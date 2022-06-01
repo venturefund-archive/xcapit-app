@@ -12,7 +12,7 @@ const provider: any = {
   name: '2PI'
 }
 
-describe('TransferConfirmCardComponent', () => {
+fdescribe('TransferConfirmCardComponent', () => {
   let component: TransferConfirmCardComponent;
   let fixture: ComponentFixture<TransferConfirmCardComponent>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;

@@ -1,6 +1,10 @@
 :host {
   .bic {
     padding: 20px 16px;
+    background: var(--ion-color-white);
+    border-radius: 8px;
+
+    --ion-background-color: var(--ion-color-white);
 
     &__content {
       margin-bottom: 5px;

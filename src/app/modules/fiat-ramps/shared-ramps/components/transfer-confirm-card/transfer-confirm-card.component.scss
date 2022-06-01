@@ -47,6 +47,10 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        &__margin {
+          margin-right: 12px;
+        }
       }
     }
 

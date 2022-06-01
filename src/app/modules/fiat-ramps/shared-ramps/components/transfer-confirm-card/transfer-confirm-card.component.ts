@@ -33,7 +33,7 @@ import { OperationDataInterface } from '../../services/operation/storage-operati
           <ion-text class="ux-font-text-base-black">
             {{ 'fiat_ramps.confirm.buy.operationType' | translate }}
           </ion-text>
-          <ion-text float-right class="ux-font-text-base-black">
+          <ion-text float-right class="tcc__card__operation__content__margin ux-font-text-base-black">
             {{ this.operationData.currency_out | uppercase }}
             {{ 'fiat_ramps.confirm.buy.with' | translate }} {{ this.operationData.currency_in | uppercase }}
           </ion-text>

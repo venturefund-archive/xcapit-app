@@ -9,7 +9,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
 @Component({
   selector: 'app-bank-info-card',
   template: `
-    <ion-card class="ux-card ion-no-margin bic">
+    <ion-card class="ux-card-new ion-no-margin bic">
       <div class="bic__header">
         <ion-text class="ux-font-text-lg">
           {{ 'fiat_ramps.operation_detail.bank_info_card.header' | translate }}

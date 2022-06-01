@@ -18,7 +18,8 @@ const firstOperations: FiatRampOperation[] = [
     status: 'complete',
     created_at: new Date(),
     provider: '1',
-    operation_type: 'cash-in'
+    operation_type: 'cash-in',
+    voucher: false,
   },
   {
     operation_id: 2,
@@ -29,7 +30,8 @@ const firstOperations: FiatRampOperation[] = [
     status: 'complete',
     created_at: new Date(),
     provider: '1',
-    operation_type: 'cash-in'
+    operation_type: 'cash-in',
+    voucher: false,
   },
 ];
 
@@ -43,7 +45,8 @@ const remainingOperations: FiatRampOperation[] = [
     status: 'complete',
     created_at: new Date(),
     provider: '1',
-    operation_type: 'cash-in'
+    operation_type: 'cash-in',
+    voucher: false,
   },
 ];
 
@@ -57,7 +60,7 @@ describe('OperationsListAccordionComponent', () => {
       TestBed.configureTestingModule({
         declarations: [OperationsListAccordionComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(OperationsListAccordionComponent);
