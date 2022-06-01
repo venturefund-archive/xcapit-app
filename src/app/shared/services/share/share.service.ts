@@ -10,11 +10,7 @@ import { WriteOptions } from '@capacitor/clipboard';
 export class ShareService {
   sharePlugin = Share;
   constructor(private toastService: ToastService, private clipboardService: ClipboardService) {}
-  /**
-   * Funcion que comparte segun la plataforma, si no puede lo copia al clipboard
-   * @param data - Data para compartir.
-   * @param copiedMessage - Es el mensaje que se muestra cuando no se puede compartir y en cambio se copia al clipboard.
-   */
+
   async share(data: ShareOptions, copiedMessage: string) {
     this.sharePlugin.share(data).then(
       () => {},
@@ -27,6 +23,10 @@ export class ShareService {
         this.clipboardService.write(clipboardData).then(() => this.showToast(copiedMessage));
       }
     );
+  }
+
+  async canShare(): Promise<boolean> {
+    return (await this.sharePlugin.canShare()).value;
   }
 
   private showToast(message) {

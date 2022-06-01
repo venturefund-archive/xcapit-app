@@ -4,8 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ShareService } from './share.service';
 import { ClipboardService } from '../clipboard/clipboard.service';
 import { ToastService } from '../toast/toast.service';
-import { WriteOptions } from '@capacitor/clipboard';
-import { ShareOptions } from '@capacitor/share';
+import { ShareOptions, SharePlugin } from '@capacitor/share';
 
 describe('ShareService', () => {
   const data = {
@@ -15,22 +14,17 @@ describe('ShareService', () => {
     dialogTitle: 'testdialogtitle',
   } as ShareOptions;
 
-  const dataClipboard = {
-    string: 'testext testurl',
-    label: 'testitle',
-    url: 'testurl',
-  } as WriteOptions;
-
-  let shareMock: any;
+  let shareSpy: jasmine.SpyObj<SharePlugin>;
   let service: ShareService;
   let clipboardServiceMock: any;
   let clipboardService: any;
   let toastServiceMock: any;
   let toastService: any;
   beforeEach(async () => {
-    shareMock = {
-      share: () => Promise.resolve({}),
-    };
+    shareSpy = jasmine.createSpyObj('Share', {
+      share: Promise.resolve({}),
+      canShare: Promise.resolve({ value: true }),
+    });
     clipboardServiceMock = {
       write: () => Promise.resolve({}),
     };
@@ -52,7 +46,7 @@ describe('ShareService', () => {
     clipboardService = TestBed.inject(ClipboardService);
     toastService = TestBed.inject(ToastService);
     service = TestBed.inject(ShareService);
-    service.sharePlugin = shareMock;
+    service.sharePlugin = shareSpy;
   });
 
   it('should be created', () => {
@@ -60,34 +54,37 @@ describe('ShareService', () => {
   });
 
   it('should not call clipboardService write on share success', () => {
-    const spy = spyOn(service.sharePlugin, 'share').and.returnValue(Promise.resolve({}));
     spyOn(clipboardService, 'write').and.returnValue(Promise.resolve({}));
     spyOn(toastService, 'showInfoToast').and.returnValue(Promise.resolve());
 
     service.share(data, 'Copied');
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(shareSpy.share).toHaveBeenCalledTimes(1);
   });
 
   it('should call clipboardService write on share error', fakeAsync(() => {
-    const spy = spyOn(service.sharePlugin, 'share').and.returnValue(Promise.reject({}));
+    shareSpy.share.and.returnValue(Promise.reject({}));
     const spyClipboard = spyOn(clipboardService, 'write').and.returnValue(Promise.resolve({}));
     const spyToast = spyOn(toastService, 'showInfoToast').and.returnValue(Promise.resolve());
     service.share(data, 'Copied');
     tick();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(shareSpy.share).toHaveBeenCalledTimes(1);
     expect(spyClipboard).toHaveBeenCalledTimes(1);
     expect(spyToast).toHaveBeenCalledTimes(1);
   }));
 
   it('should call clipboardService write on share error and not url data', fakeAsync(() => {
-    const spy = spyOn(service.sharePlugin, 'share').and.returnValue(Promise.reject({}));
+    shareSpy.share.and.returnValue(Promise.reject({}));
     const spyClipboard = spyOn(clipboardService, 'write').and.returnValue(Promise.resolve({}));
     const spyToast = spyOn(toastService, 'showInfoToast').and.returnValue(Promise.resolve());
     delete data.url;
     service.share(data, 'Copied');
     tick();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(shareSpy.share).toHaveBeenCalledTimes(1);
     expect(spyClipboard).toHaveBeenCalledTimes(1);
     expect(spyToast).toHaveBeenCalledTimes(1);
   }));
+
+  it('should check if share is available', async () => {
+    expect(await service.canShare()).toEqual(true);
+  });
 });
