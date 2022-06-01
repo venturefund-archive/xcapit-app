@@ -160,11 +160,19 @@ export class RecoveryPhraseReadPage implements OnInit {
   ngOnInit() {}
 
   async ionViewDidEnter() {
+    this.setProtectedWallet();
+    this.setButtonProperties();
+    this.clearMnemonic();
+  }
+
+  async setProtectedWallet(){
     this.protectedWallet = await this.storage.get('protectedWallet');
+  }
+
+  setButtonProperties(){
     this.buttonColor = 'primary';
     this.buttonFill = 'outline';
     this.buttonText = 'wallets.recovery_phrase_read.button_text';
-    this.clearMnemonic();
   }
 
   goToVerifyPhrase() {

@@ -36,7 +36,6 @@ export class RecoveryPhraseCardComponent implements OnInit {
   @Input() set phrase(phrase: string[]) {
     this.phraseCopy = [...phrase];
   }
-  protected:string;
 
   constructor() {}
 
