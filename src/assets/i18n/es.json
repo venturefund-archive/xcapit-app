@@ -987,6 +987,13 @@
           "description":"Al finalizar todos los módulos, obtendrás un NFT de regalo como premio. "
         }
       }
+    },
+    "shared": {
+      "share-education": {
+        "title": "Una wallet, todas las oportunidades",
+        "text": "La educación es la base de las finanzas y crypto",
+        "dialogTitle": "Compartir"
+      }
     }
   },
   "financial_planner": {

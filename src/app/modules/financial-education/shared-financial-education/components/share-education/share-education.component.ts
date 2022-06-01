@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Share } from '@capacitor/share';
-import { Directory, Filesystem } from '@capacitor/filesystem';
+import { Component, Input, OnInit } from '@angular/core';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { TranslateService } from '@ngx-translate/core';
+import { ShareService } from '../../../../../shared/services/share/share.service';
+import { CachedAssetFactory } from 'src/app/shared/models/asset/cached-asset/factory/cached-asset-factory';
 
 @Component({
   selector: 'app-share-education',
@@ -15,49 +15,41 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 })
 export class ShareEducationComponent implements OnInit {
   asset: string;
-  public canShare: boolean;
-  constructor(private http: HttpClient) {}
+  canShare: boolean;
+  constructor(
+    private platformService: PlatformService,
+    private translate: TranslateService,
+    private shareService: ShareService,
+    private cachedAsset: CachedAssetFactory
+  ) {}
 
   async ngOnInit() {
-    await Promise.all([this.loadAsset(), this.isNativePlatform()]);
+    await this.setCanShare();
   }
 
-  async isNativePlatform(): Promise<void> {
-    this.canShare = (await Share.canShare()).value;
-  }
-
-  async setBlob() {
-    const blob = await this.http
-      .get('/assets/img/financial-education/shared-financial-education/share-image.jpg', { responseType: 'blob' })
-      .toPromise();
-    return blob;
-  }
-
-  async loadAsset() {
-    const blob = await this.setBlob();
-
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
-
-    reader.onloadend = () => {
-      const result = reader.result as string;
-      this.asset = result.split(',')[1];
-    };
+  async setCanShare(): Promise<void> {
+    this.canShare = await this.shareService.canShare();
   }
 
   async share() {
-    const fileName = new Date().getTime() + '.jpg';
-    const savedFile = await Filesystem.writeFile({
-      directory: Directory.Cache,
-      path: fileName,
-      data: this.asset,
-    });
+    const cachedAsset = await this.cachedAsset
+      .new('/assets/img/financial-education/shared-financial-education/share-image.jpg')
+      .value();
 
-    await Share.share({
-      title: 'Share Xcapit',
-      text: '',
-      url: savedFile.uri,
-      dialogTitle: 'Share',
-    });
+    await this.shareService.share(
+      {
+        title: this.translate.instant('financial_education.shared.share_education.title'),
+        text: this.translate.instant(`financial_education.shared.share_education.text ${this.storeLink()}`),
+        url: cachedAsset.uri,
+        dialogTitle: this.translate.instant('financial_education.shared.share_education.dialogTitle'),
+      },
+      ''
+    );
+  }
+
+  storeLink() {
+    return this.platformService.platform() === 'android'
+      ? 'https://play.google.com/store/apps/details?id=com.xcapit.app'
+      : 'https://apps.apple.com/ar/app/xcapit/id1545648148';
   }
 }
