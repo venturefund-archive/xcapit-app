@@ -160,7 +160,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   ngOnInit() {}
 
   async ionViewDidEnter() {
-    this.setProtectedWallet();
+    await this.setProtectedWallet();
     this.setButtonProperties();
     this.clearMnemonic();
   }
