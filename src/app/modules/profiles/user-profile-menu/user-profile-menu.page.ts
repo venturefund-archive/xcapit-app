@@ -122,7 +122,6 @@ export class UserProfileMenuPage implements OnInit {
     this.apiProfiles.crud.get().subscribe((res) => {
       this.profile = res;
       this.patchNotificationsValue();
-      this.form.setValue({notificationsEnabled: this.profile.notifications_enabled});
       this.subscribeToFormChanges();      
     });
   }

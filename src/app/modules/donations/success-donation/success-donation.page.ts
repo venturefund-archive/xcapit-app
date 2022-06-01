@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-success-donation',
@@ -12,9 +13,17 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
 })
 export class SuccessDonationPage implements OnInit {
   data = SUCCESS_TYPES.success_donation;
-  constructor() { }
+  constructor(private trackService : TrackService) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_donations_screenview_success'
+    });
   }
 
 }

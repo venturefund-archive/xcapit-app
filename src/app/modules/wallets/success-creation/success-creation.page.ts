@@ -65,6 +65,7 @@ export class SuccessCreationPage implements OnInit {
       eventLabel: 'ux_create_screenview_success',
     });
   }
+  
   async skipBackup() {
     const modal = await this.modalController.create({
       component: SkipBackupModalComponent,

@@ -176,8 +176,10 @@ export const SUCCESS_TYPES = {
     textPrimary: 'donations.success.textPrimary',
     textSecondary: 'donations.success.textSecondary',
     namePrimaryAction: 'donations.success.namePrimaryAction',
+    trackClickEventNamePrimaryAction: 'ux_donations_go_to_donations',
     urlPrimaryAction: '/donations/causes',
     nameThirdAction: 'donations.success.nameThirdAction',
+    trackClickEventNameThirdAction: 'ux_donations_go_to_home',
     urlThirdAction: '/tabs/wallets',
   },
 
@@ -187,6 +189,7 @@ export const SUCCESS_TYPES = {
     textPrimary: 'donations.error.textPrimary',
     textSecondary: 'donations.error.textSecondary',
     namePrimaryAction: 'donations.error.namePrimaryAction',
+    trackClickEventNamePrimaryAction: 'ux_donations_go_to_donations',
     urlPrimaryAction: '/donations/causes',
   },
   
