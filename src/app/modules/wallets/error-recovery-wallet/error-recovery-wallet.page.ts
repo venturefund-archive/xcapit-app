@@ -12,6 +12,11 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
   styleUrls: ['./error-recovery-wallet.page.scss'],
 })
 export class ErrorRecoveryWalletPage implements OnInit {
+  
+  data: any;
+  constructor(private trackService: TrackService
+    ) {}
+
   ionViewWillEnter() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
@@ -19,9 +24,6 @@ export class ErrorRecoveryWalletPage implements OnInit {
       eventLabel: 'ux_import_screenview_error'
     });
   }
-  data: any;
-  constructor(private trackService: TrackService
-    ) {}
 
   ngOnInit() {
     this.data = SUCCESS_TYPES.error_wallet_recovery;
