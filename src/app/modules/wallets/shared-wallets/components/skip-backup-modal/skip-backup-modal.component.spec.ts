@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
@@ -19,6 +20,7 @@ describe('SkipBackupModalComponent', () => {
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -29,7 +31,9 @@ describe('SkipBackupModalComponent', () => {
       });
       fakeModalController = new FakeModalController(null, {});
       modalControllerSpy = fakeModalController.createSpy();
-
+      ionicStorageServiceSpy = jasmine.createSpyObj('StorageService', {
+       set: Promise.resolve(false),
+      });
       TestBed.configureTestingModule({
         declarations: [SkipBackupModalComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
@@ -37,6 +41,7 @@ describe('SkipBackupModalComponent', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: TrackService, useValue: trackServiceSpy },
           { provide: ModalController, useValue: modalControllerSpy },
+          { provide: IonicStorageService, useValue: ionicStorageServiceSpy }
         ],
       }).compileComponents();
 
@@ -98,5 +103,17 @@ describe('SkipBackupModalComponent', () => {
     buttonEl.nativeElement.click();
     fixture.detectChanges();
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set storage when form is valid and click ux_create_skip_warning button ', () => {
+    component.skipBackUpForm.patchValue({
+      agreeSkipBackUp: true,
+    });
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_create_skip_warning"]'));
+    buttonEl.nativeElement.click();
+
+    fixture.detectChanges();
+    
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledTimes(1);
   });
 });

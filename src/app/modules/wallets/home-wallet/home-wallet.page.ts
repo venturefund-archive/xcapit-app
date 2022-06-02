@@ -19,6 +19,7 @@ import { TokenPricesController } from '../shared-wallets/models/prices/token-pri
 import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
 import { TotalBalanceController } from '../shared-wallets/models/balance/total-balance/total-balance.controller';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -77,18 +78,20 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
       <div class="wt__overlap_buttons" *ngIf="this.walletExist">
         <app-wallet-subheader-buttons></app-wallet-subheader-buttons>
       </div>
-
+      <div class="wt__backup" *ngIf="this.walletExist && !this.protectedWallet">
+        <app-backup-information-card [text]="'wallets.home.backup_card_component.text'" [textClass]="'ux-home-backup-card'"> </app-backup-information-card>
+      </div>
       <div class="wt__segments ion-padding-start ion-padding-end" *ngIf="this.walletExist">
         <form [formGroup]="this.segmentsForm">
           <ion-segment mode="md" class="ux-segment" formControlName="tab">
-            <ion-segment-button value="assets" name='ux_tab_tokens' appTrackClick>
+            <ion-segment-button value="assets" name="ux_tab_tokens" appTrackClick>
               <ion-label
                 [ngClass]="{ 'active-tab': this.segmentsForm.value.tab === 'assets' }"
                 class="ux-font-header-titulo"
                 >{{ 'wallets.home.tab_assets' | translate }}</ion-label
               >
             </ion-segment-button>
-            <ion-segment-button value="nft" name='ux_tab_nfts' appTrackClick>
+            <ion-segment-button value="nft" name="ux_tab_nfts" appTrackClick>
               <ion-label
                 [ngClass]="{ 'active-tab': this.segmentsForm.value.tab === 'nft' }"
                 class="ux-font-header-titulo"
@@ -154,6 +157,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 })
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
+  protectedWallet:boolean;
   tokenDetails: TokenDetail[] = [];
   userTokens: Coin[];
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
@@ -179,19 +183,22 @@ export class HomeWalletPage implements OnInit {
     private tokenPrices: TokenPricesController,
     private tokenDetail: TokenDetailController,
     private totalBalance: TotalBalanceController,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: 'ux_screenview_wallet'
+      eventLabel: 'ux_screenview_wallet',
     });
+
+    this.isProtectedWallet();
   }
-  
+
   async ionViewDidEnter() {
     await this.checkWalletExist();
     await this.initialize();
@@ -274,6 +281,10 @@ export class HomeWalletPage implements OnInit {
   private async setUserTokens(): Promise<void> {
     this.userTokens = await this.storageService.getAssestsSelected();
   }
+
+  async isProtectedWallet(){
+    this.protectedWallet = await this.ionicStorageService.get('protectedWallet');
+  } 
 
   goToRecoveryWallet(): void {
     this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);

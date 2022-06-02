@@ -30,19 +30,21 @@ import { WalletService } from '../../wallets/shared-wallets/services/wallet/wall
 import { SendDonationDataService } from '../shared-donations/services/send-donation-data.service';
 import { SendDonationPage } from './send-donation.page';
 import { SpyProperty } from '../../../../testing/spy-property.spec';
+import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
 
 describe('SendDonationPage', () => {
   let component: SendDonationPage;
   let fixture: ComponentFixture<SendDonationPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDonationPage>;
-  let activatedRouteMock: any;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let erc20ProviderControllerSpy: jasmine.SpyObj<ERC20ProviderController>;
-  let sendDonationDataSpy: any;
+  let sendDonationDataSpy: jasmine.SpyObj<SendDonationDataService>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let causeSpy: jasmine.SpyObj<any>;
@@ -73,7 +75,13 @@ describe('SendDonationPage', () => {
           token: { network: 'ERC20', value: 'ETH' },
         }
       );
-      sendDonationDataSpy = { data: causeSpy };
+      sendDonationDataSpy = jasmine.createSpyObj(
+        'SendDonationDataService',
+        {},
+        {
+          cause: causeSpy,
+        }
+      );
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
         getWalletsAddresses: Promise.resolve(['testAddress']),
       });
@@ -81,12 +89,12 @@ describe('SendDonationPage', () => {
         balanceOf: Promise.resolve('20'),
         walletExist: Promise.resolve(true),
       });
-      activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['get']);
-      activatedRouteMock.snapshot = {
-        queryParamMap: convertToParamMap({
-          cause: 'unhcr',
-        }),
-      };
+
+      fakeActivatedRoute = new FakeActivatedRoute(null, {
+        cause: 'unhcr',
+      });
+      activatedRouteSpy = fakeActivatedRoute.createSpy();
+
       coinsSpy = [
         jasmine.createSpyObj('Coin', {}, { value: 'ETH', network: 'ERC20', native: true }),
         jasmine.createSpyObj('Coin', {}, { value: 'USDT', network: 'ERC20' }),
@@ -118,7 +126,7 @@ describe('SendDonationPage', () => {
         declarations: [SendDonationPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
         providers: [
-          { provide: ActivatedRoute, useValue: activatedRouteMock },
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
@@ -163,6 +171,15 @@ describe('SendDonationPage', () => {
     expect(component.token).toEqual(coinsSpy[0]);
     expect(component.selectedNetwork).toEqual(causeSpy.token.network);
     expect(component.networks).toEqual([causeSpy.token.network]);
+  });
+
+  it('should get cause if user is returning from donation summary', async () => {
+    fakeActivatedRoute.modifySnapshotParams(null, {});
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    expect(component.cause).toEqual(causeSpy);
   });
 
   it('should get token balance when token is native on ionViewWillEnter', fakeAsync(() => {

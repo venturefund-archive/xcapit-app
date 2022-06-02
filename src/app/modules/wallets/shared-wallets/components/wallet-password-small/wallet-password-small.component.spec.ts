@@ -78,15 +78,6 @@ describe('WalletPasswordSmallComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should go to Recovery Phrase Read Page when user password is correct', async () => {
-    component.form.patchValue({ password: 'testPassword' });
-    fixture.debugElement.query(By.css("ion-button[name='Confirm Password']")).nativeElement.click();
-    await fixture.whenStable();
-    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/recovery/read']);
-    expect(walletMnemonicServiceSpy.getMnemonic).toHaveBeenCalledTimes(1);
-  });
-
   it('should show error when user password is incorrect', async () => {
     walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(new Error('invalid password'));
     component.form.patchValue({ password: 'testPassword' });

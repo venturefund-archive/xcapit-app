@@ -23,6 +23,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { ToastWithButtonsComponent } from '../../defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 import { TranslateService } from '@ngx-translate/core';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
+import { parseUnits } from 'ethers/lib/utils';
 
 @Component({
   selector: 'app-send-donation',
@@ -137,7 +138,7 @@ export class SendDonationPage implements OnInit {
   selectedNetwork: string;
   leave$ = new Subject<void>();
   networks = [];
-  cause;
+  cause: any;
   token: Coin;
   fee: number;
   causes = CAUSES;
@@ -165,7 +166,6 @@ export class SendDonationPage implements OnInit {
 
   async ionViewWillEnter() {
     await this.walletService.walletExist();
-    this.sendDonationData.cause = this.cause;
     this.getCause();
     this.setTokens();
     this.setNetwork();
@@ -176,7 +176,10 @@ export class SendDonationPage implements OnInit {
   }
 
   getCause() {
-    this.cause = this.causes.find((cause) => cause.id === this.route.snapshot.queryParamMap.get('cause'));
+    const causeIDParam = this.route.snapshot.queryParamMap.get('cause');
+
+    this.cause = this.causes.find((cause) => (cause.id === causeIDParam ? causeIDParam : this.sendDonationData.cause));
+    this.sendDonationData.cause = this.cause.id;
   }
 
   setNetwork() {
@@ -214,7 +217,7 @@ export class SendDonationPage implements OnInit {
         new NativeFeeOf(
           new NativeGasOf(this.erc20Provider(), {
             to: this.form.value.address,
-            value: this.form.value.amount,
+            value: this.form.value.amount && this.parseWei(this.form.value.amount),
           }),
           new FakeProvider(await this.gasPrice())
         ),
@@ -222,6 +225,10 @@ export class SendDonationPage implements OnInit {
       ).value();
       this.dynamicFee.value = this.fee;
     }
+  }
+
+  parseWei(amount: number) {
+    return parseUnits(amount.toFixed(this.token.decimals), this.token.decimals);
   }
 
   private dynamicPrice() {
