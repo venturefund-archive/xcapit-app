@@ -17,6 +17,7 @@ import { FirebaseRemoteConfig } from './shared/models/firebase-remote-config/fir
 import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { WalletConnectService } from './modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { IonicStorageService } from './shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -48,7 +49,8 @@ export class AppComponent implements OnInit {
     private remoteConfigService: RemoteConfigService,
     private firebaseService: FirebaseService,
     private zone: NgZone,
-    private walletConnectService: WalletConnectService
+    private walletConnectService: WalletConnectService,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ngOnInit() {
@@ -106,7 +108,16 @@ export class AppComponent implements OnInit {
     this.remoteConfigService.initialize(new FirebaseRemoteConfig(this.firebaseService.getApp())).then(() => {
       this.checkForUpdate();
       this.showUpdateModal();
+      this.checkWalletProtected();
     });
+  }
+
+  async checkWalletProtected() {
+    this.ionicStorageService.get('protectedWallet').then((protectedWallet) => {
+      if (!protectedWallet) {
+        this.ionicStorageService.set('backupWarningWallet', true);
+      }
+    });  
   }
 
   private statusBarConfig() {
@@ -122,6 +133,7 @@ export class AppComponent implements OnInit {
   }
 
   async logout() {
+    await this.ionicStorageService.set('backupWarningWallet', false);
     await this.authService.logout();
     await this.navController.navigateForward(['users/login']);
   }

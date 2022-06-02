@@ -1705,6 +1705,13 @@
         "item_3":"Do not share it via messaging services or social networks.",
         "item_4":"Keep it in a safe place.",
         "item_5":"You can engrave it on some element to make it last over time."
+      },
+      "warning_backup_info": {
+        "title": "Attention!",
+        "title2":"You have not yet protected your wallet",
+        "description": "Before performing any operation, protect it by backing up your recovery phrase.",
+        "button_protect": "Protect my wallet",
+        "button_skip": "Skip"
       }
     },
     "asset_detail": {

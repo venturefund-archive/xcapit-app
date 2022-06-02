@@ -157,7 +157,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 })
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
-  protectedWallet:boolean;
+  protectedWallet: boolean;
   tokenDetails: TokenDetail[] = [];
   userTokens: Coin[];
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;

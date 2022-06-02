@@ -1688,6 +1688,13 @@
         "item_3":"No la compartas por servicios de mensajería ni redes sociales.",
         "item_4":"Guárdala en un lugar seguro.",
         "item_5":"Puedes grabarla en algún elemento para que perdure en el tiempo."
+      },
+      "warning_backup_info": {
+        "title": "¡Atención!",
+        "title2": "Aún no protegiste tu wallet",
+        "description": "Antes de realizar cualquier operación, protégela haciendo una copia de seguridad de tu frase de recuperación.",
+        "button_protect": "Proteger mi wallet",
+        "button_skip": "Omitir"
       }
     },
     "asset_detail": {
