@@ -75,4 +75,14 @@ describe('ExplanationPage', () => {
     fixture.detectChanges();
     expect(componentEl).toBeTruthy();
   });
+
+
+  it('should render app-share-education component', async () => {
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    const componentEl = fixture.debugElement.queryAll(By.css('app-share-education'));
+    fixture.detectChanges();
+    expect(componentEl).toBeTruthy();
+  });
+
 });

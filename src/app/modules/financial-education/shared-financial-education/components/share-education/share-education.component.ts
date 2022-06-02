@@ -3,6 +3,8 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 import { TranslateService } from '@ngx-translate/core';
 import { ShareService } from '../../../../../shared/services/share/share.service';
 import { CachedAssetFactory } from 'src/app/shared/models/asset/cached-asset/factory/cached-asset-factory';
+import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-share-education',
@@ -20,7 +22,9 @@ export class ShareEducationComponent implements OnInit {
     private platformService: PlatformService,
     private translate: TranslateService,
     private shareService: ShareService,
-    private cachedAsset: CachedAssetFactory
+    private cachedAsset: CachedAssetFactory,
+    private clipboardService: ClipboardService,
+    private toastService: ToastService
   ) {}
 
   async ngOnInit() {
@@ -36,15 +40,26 @@ export class ShareEducationComponent implements OnInit {
       .new('/assets/img/financial-education/shared-financial-education/share-image.jpg')
       .value();
 
-    await this.shareService.share(
-      {
+    this.shareService
+      .share({
         title: this.translate.instant('financial_education.shared.share_education.title'),
-        text: this.translate.instant(`financial_education.shared.share_education.text ${this.storeLink()}`),
+        text: `${this.translate.instant('financial_education.shared.share_education.text')} ${this.storeLink()}`,
         url: cachedAsset.uri,
         dialogTitle: this.translate.instant('financial_education.shared.share_education.dialogTitle'),
-      },
-      ''
-    );
+      })
+      .catch(() => {
+        this.clipboardService
+          .write({
+            string: `${this.translate.instant('financial_education.shared.share_education.text')} ${this.storeLink()}`,
+          })
+          .then(() => {this.showToast()});
+      });
+  }
+
+  private showToast() {
+    this.toastService.showInfoToast({
+      message : this.translate.instant('financial_education.shared.share_education.share_error')
+    });
   }
 
   storeLink() {

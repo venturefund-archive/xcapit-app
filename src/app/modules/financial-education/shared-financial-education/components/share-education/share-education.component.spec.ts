@@ -8,6 +8,8 @@ import { CachedAssetFactory } from '../../../../../shared/models/asset/cached-as
 import { CachedAsset } from 'src/app/shared/models/asset/cached-asset/cached-asset';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { By } from '@angular/platform-browser';
+import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 describe('ShareEducationComponent', () => {
   let component: ShareEducationComponent;
@@ -16,9 +18,20 @@ describe('ShareEducationComponent', () => {
   let cachedAssetFactorySpy: jasmine.SpyObj<CachedAssetFactory>;
   let cachedAssetSpy: jasmine.SpyObj<CachedAsset>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let clipboardServiceSpy : jasmine.SpyObj<ClipboardService>
+  let toastServiceSpy: jasmine.SpyObj<ToastService>
 
   beforeEach(
     waitForAsync(() => {
+
+      toastServiceSpy = jasmine.createSpyObj('ToastServiceSpy', {
+        showInfoToast: Promise.resolve()
+      })
+
+      clipboardServiceSpy = jasmine.createSpyObj('ClipboardServiceSpy', {
+        write : Promise.resolve()
+      })
+
       shareServiceSpy = jasmine.createSpyObj('ShareServiceSpy', {
         canShare: Promise.resolve(true),
         share: Promise.resolve(),
@@ -43,6 +56,8 @@ describe('ShareEducationComponent', () => {
           { provide: ShareService, useValue: shareServiceSpy },
           { provide: CachedAssetFactory, useValue: cachedAssetFactorySpy },
           { provide: PlatformService, useValue: platformServiceSpy },
+          { provide: ClipboardService, useValue: clipboardServiceSpy },
+          { provide: ToastService, useValue: toastServiceSpy },
         ],
       }).compileComponents();
 
@@ -66,6 +81,7 @@ describe('ShareEducationComponent', () => {
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
+
     expect(shareServiceSpy.share).toHaveBeenCalledOnceWith(
       {
         title: 'financial_education.shared.share_education.title',
@@ -73,8 +89,23 @@ describe('ShareEducationComponent', () => {
         url: 'cache/file.jpg',
         dialogTitle: 'financial_education.shared.share_education.dialogTitle',
       },
-      ''
     );
+  });
+
+  it('should copy on clipboard and show toast when share fail', async () => {
+    shareServiceSpy.share.and.rejectWith('');
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('div.se')).nativeElement.click();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+
+    expect(clipboardServiceSpy.write).toHaveBeenCalledOnceWith(
+      {
+        string: 'financial_education.shared.share_education.text https://play.google.com/store/apps/details?id=com.xcapit.app',
+      },
+    );
+    expect(toastServiceSpy.showInfoToast).toHaveBeenCalledOnceWith({message: 'financial_education.shared.share_education.share_error'});
   });
 
   it('should share image with iOS link when component is clicked', async () => {
@@ -84,6 +115,7 @@ describe('ShareEducationComponent', () => {
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
+
     expect(shareServiceSpy.share).toHaveBeenCalledOnceWith(
       {
         title: 'financial_education.shared.share_education.title',
@@ -91,7 +123,6 @@ describe('ShareEducationComponent', () => {
         url: 'cache/file.jpg',
         dialogTitle: 'financial_education.shared.share_education.dialogTitle',
       },
-      ''
     );
   });
 });

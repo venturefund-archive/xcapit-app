@@ -1000,7 +1000,8 @@
       "share-education": {
         "title": "One wallet, all opportunities",
         "text": "Education is the foundation of finance and crypto",
-        "dialogTitle": "Share"
+        "dialogTitle": "Share",
+        "share_error":"Text was copied to the clipboard"
       }
     }
   },
@@ -1242,7 +1243,8 @@
       "share": "Share my link",
       "copy": "Copy my link",
       "copied": "Copied",
-      "tos": "See terms and conditions"
+      "tos": "See terms and conditions",
+      "share_error":"Text was copied to the clipboard"
     },
     "referrals_coming": {
       "title": "We are creating magic",
@@ -1484,7 +1486,8 @@
       "receive_address_title": "Address",
       "receive_address_copy": "Copy",
       "disclaimer_header": "Send only {{currency}} using the network {{network}} to this deposit address.",
-      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit."
+      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit.",
+      "toast_success":"Copied to the clipboard"
     },
     "nft_detail": {
       "title": "NFT Detail",
