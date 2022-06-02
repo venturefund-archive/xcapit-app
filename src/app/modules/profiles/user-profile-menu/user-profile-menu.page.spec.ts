@@ -157,7 +157,6 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should call trackEvent on trackService when Log Out button clicked', () => {
-    // spyOn(component, 'logout');
     component.profile = profile;
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Log Out');
     const directive = trackClickDirectiveHelper.getDirective(el);
