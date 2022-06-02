@@ -45,4 +45,8 @@ export class LanguageService {
   private setUserLanguage(language: string) {
     this.apiProfilesService.setLanguage(language).subscribe();
   }
+
+  getSelectedLanguage(): Promise<any> {
+    return this.storage.get(LNG_KEY);
+  }
 }

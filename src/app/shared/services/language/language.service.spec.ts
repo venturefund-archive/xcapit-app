@@ -55,4 +55,9 @@ describe('LanguageService', () => {
     service.setLanguage('es');
     expect(apiProfilesServiceSpy.setLanguage).toHaveBeenCalledOnceWith('es');
   });
+
+  it('should get language from storage', () => {
+    service.getSelectedLanguage();
+    expect(storageSpy.get).toHaveBeenCalledTimes(1);
+  });
 });

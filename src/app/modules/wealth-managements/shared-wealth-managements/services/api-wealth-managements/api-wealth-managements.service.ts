@@ -26,7 +26,12 @@ export class ApiWealthManagementsService {
     this.crud = this.crudService.getEndpoints(this.entity);
   }
 
-  getInvestorTestQuestions(): Observable<Question[]> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/investor_test`, undefined, undefined, true);
+  getInvestorTestQuestions(language = 'es'): Observable<Question[]> {
+    return this.http.get(
+      `${environment.apiUrl}/${this.entity}/investor_test`,
+      { params: { language } },
+      undefined,
+      true
+    );
   }
 }
