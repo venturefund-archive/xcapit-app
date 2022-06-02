@@ -22,7 +22,7 @@ const testMnemonic: Mnemonic = {
   phrase: 'test recovery phrase',
 };
 
-fdescribe('RecoveryPhraseReadPage', () => {
+describe('RecoveryPhraseReadPage', () => {
   let component: RecoveryPhraseReadPage;
   let fixture: ComponentFixture<RecoveryPhraseReadPage>;
   let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;

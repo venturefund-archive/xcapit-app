@@ -6,7 +6,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 @Component({
   selector: 'app-skip-backup-modal',
   template: ` <div class="main__body">
-    <form [formGroup]="skipBackUpForm" class="main__body__form" (ngSubmit)="handleSubmit()">
+    <form [formGroup]="skipBackUpForm" class="main__body__form">
       <div class="main__body__form__content">
         <ion-label class="ux-font-text-lg"
           >{{ 'wallets.shared_wallets.skip-backup-modal.title' | translate }}
@@ -32,8 +32,9 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           fill="clear"
           name="ux_create_skip_warning"
           appTrackClick
-          [disabled]="!this.skipBackUpForm.value.agreeSkipBackUp"
+          [disabled]="!this.skipBackUpForm.valid"
           type="submit"
+          (click)="this.handleSubmit()"
         >
           {{ 'wallets.shared_wallets.skip-backup-modal.button_skip' | translate }}
         </ion-button>
@@ -53,13 +54,15 @@ export class SkipBackupModalComponent implements OnInit {
 
   ngOnInit() {}
 
-  close() {
-    this.modalController.dismiss(null);
+  handleSubmit() {
+    if (this.skipBackUpForm.valid) {
+      this.close();
+      this.navController.navigateForward(['/tabs/wallets']);
+      this.ionicStorageService.set('protectedWallet', false);
+    }
   }
 
-  handleSubmit() {
-    this.close();
-    this.navController.navigateForward(['/tabs/wallets']);
-    this.ionicStorageService.set('protectedWallet', false);
+  close() {
+    this.modalController.dismiss();
   }
 }

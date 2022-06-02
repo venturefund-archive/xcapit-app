@@ -138,6 +138,7 @@ describe('UserProfileMenuPage', () => {
       component = fixture.componentInstance;
       apiProfilesService = TestBed.inject(ApiProfilesService);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+      
       fixture.detectChanges();
     })
   );
@@ -156,7 +157,7 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should call trackEvent on trackService when Log Out button clicked', () => {
-    spyOn(component, 'logout');
+    component.profile = profile;
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Log Out');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
