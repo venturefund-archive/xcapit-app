@@ -351,8 +351,8 @@
       "button_link": "Make withdrawal",
       "invested_amount": "Balance*",
       "daily_earnings_disclaimer": "*Your balance is updated daily.",
-      "continuous_update":"*Continuous update",
-      "weekly_update":"*Weekly update"
+      "continuous_update": "*Continuous update",
+      "weekly_update": "*Weekly update"
     },
     "shared": {
       "transaction_fees": {
@@ -374,7 +374,7 @@
         "not_min_ammount": "No minimum amount",
         "immediate_rescue": "Immediate Rescue",
         "continuous_earnings": "Continuous earnings",
-        "weekly_earnings":"Weekly earnings",
+        "weekly_earnings": "Weekly earnings",
         "daily_earnings_disclaimer_active": "*Your balance is updated daily.",
         "daily_earnings_disclaimer_available": "*Your balance is now updated daily.",
         "coming_badge": "Coming soon",
@@ -972,33 +972,41 @@
       }
     }
   },
-  "financial_education":{
-    "introduction":{
-      "financial_freedom":{
-        "header":"Education",
-        "title":"Towards your financial freedom!",
-        "subtitle":"We want you to learn how to get the most for your money in a quick, clear and simple way.",
-        "button":"Next"
+  "financial_education": {
+    "introduction": {
+      "financial_freedom": {
+        "header": "Education",
+        "title": "Towards your financial freedom!",
+        "subtitle": "We want you to learn how to get the most for your money in a quick, clear and simple way.",
+        "button": "Next"
       },
-      "explanation":{
-        "header":"Education",
-        "title":"How does it work?",
-        "button":"Start",
-        "item_1":{
-          "number":"1.",
-          "title":" Complete all modules",
-          "description":"In order to learn about financial freedom we divide the topics into several modules so be sure to read them all."
+      "explanation": {
+        "header": "Education",
+        "title": "How does it work?",
+        "button": "Start",
+        "item_1": {
+          "number": "1.",
+          "title": " Complete all modules",
+          "description": "In order to learn about financial freedom we divide the topics into several modules so be sure to read them all."
         },
-        "item_2":{
-          "number":"2.",
-          "title":" Passes tests without errors",
-          "description":"You must pass all the tests without errors, you can repeat it as many times as you need."
+        "item_2": {
+          "number": "2.",
+          "title": " Passes tests without errors",
+          "description": "You must pass all the tests without errors, you can repeat it as many times as you need."
         },
-        "item_3":{
-          "number":"3.",
-          "title":" Wait for your NFT",
-          "description":"At the end of all the modules, you will get a free NFT as a prize."
+        "item_3": {
+          "number": "3.",
+          "title": " Wait for your NFT",
+          "description": "At the end of all the modules, you will get a free NFT as a prize."
         }
+      }
+    },
+    "shared": {
+      "share_education": {
+        "title": "One wallet, all opportunities",
+        "text": "Education is the foundation of finance and crypto",
+        "dialogTitle": "Share",
+        "share_error":"Text was copied to the clipboard"
       }
     }
   },
@@ -1240,7 +1248,8 @@
       "share": "Share my link",
       "copy": "Copy my link",
       "copied": "Copied",
-      "tos": "See terms and conditions"
+      "tos": "See terms and conditions",
+      "share_error":"Text was copied to the clipboard"
     },
     "referrals_coming": {
       "title": "We are creating magic",
@@ -1441,12 +1450,12 @@
       "subtitle": "Protect it by backing up your recovery phrase.\nThis is the master key to your funds.",
       "success_button": "Go to wallet",
       "ribbon_recommended": "Suggested",
-      "primary_action":{
-        "title":"Protecting my wallet",
-        "subtitle":"Do it now and don't lose access to your money. It will only take a few minutes."
+      "primary_action": {
+        "title": "Protecting my wallet",
+        "subtitle": "Do it now and don't lose access to your money. It will only take a few minutes."
       },
-      "secondary_action":{
-        "title":"Another time"
+      "secondary_action": {
+        "title": "Another time"
       }
     },
     "recovery_phrase": {
@@ -1494,7 +1503,8 @@
       "receive_address_title": "Address",
       "receive_address_copy": "Copy",
       "disclaimer_header": "Send only {{currency}} using the network {{network}} to this deposit address.",
-      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit."
+      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit.",
+      "toast_success":"Copied to the clipboard"
     },
     "nft_detail": {
       "title": "NFT Detail",
@@ -1637,7 +1647,7 @@
         "claimed_subtitle": "Starting December 6, we will deliver the NFTs progressively.*",
         "claimed_note": "*They will be delivered according to the order in which they were claimed."
       },
-      "skip-backup-modal":{
+      "skip_backup_modal":{
         "title":"Skip backup?",
         "description":"I understand that if I do not make a copy of my recovery phrase, I may lose access to my funds.",
         "button_back":"Back",

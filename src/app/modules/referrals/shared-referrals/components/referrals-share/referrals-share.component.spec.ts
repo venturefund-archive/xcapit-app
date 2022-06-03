@@ -1,14 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { ReferralsShareComponent } from './referrals-share.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule} from '@ngx-translate/core';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
 import { ShareService } from '../../../../../shared/services/share/share.service';
 import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { By } from '@angular/platform-browser';
 import { PlatformService } from '../../../../../shared/services/platform/platform.service';
-import { FakeNavController } from '../../../../../../testing/fakes/nav-controller.fake.spec';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 describe('ReferralsShareComponent', () => {
@@ -19,8 +18,11 @@ describe('ReferralsShareComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ReferralsShareComponent>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+
+
   beforeEach(
     waitForAsync(() => {
+    
       browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
       platformServiceSpy = jasmine.createSpyObj('PlatformServiceSpy', {
         isNative: true,
@@ -71,7 +73,20 @@ describe('ReferralsShareComponent', () => {
     const el = fixture.debugElement.query(By.css('ion-button[name="Share"]'));
     el.nativeElement.click();
     await fixture.whenStable();
-    expect(shareServiceSpy.share).toHaveBeenCalledOnceWith({ url: 'test_link' }, '');
+    expect(shareServiceSpy.share).toHaveBeenCalledOnceWith({ url: 'test_link' });
+  });
+
+
+  it('should copy link when Share fail', async () => {
+    shareServiceSpy.share.and.rejectWith();
+    component.link = 'test_link';
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    const el = fixture.debugElement.query(By.css('ion-button[name="Share"]'));
+    el.nativeElement.click();
+    await fixture.whenStable();
+    expect(clipboardServiceSpy.write).toHaveBeenCalledOnceWith({ string: 'test_link', url: 'test_link' });
   });
 
   it('should call copy when Copy button clicked', async () => {

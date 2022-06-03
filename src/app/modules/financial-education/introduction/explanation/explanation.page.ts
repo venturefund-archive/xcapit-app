@@ -11,6 +11,10 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           <ion-back-button defaultHref="financial-education/introduction/financial-freedom"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'financial_education.introduction.explanation.header' | translate }}</ion-title>
+        <ion-buttons class="back-button" slot="end">
+          <app-share-education></app-share-education>
+        </ion-buttons>
+       
       </ion-toolbar>
     </ion-header>
     <ion-content>

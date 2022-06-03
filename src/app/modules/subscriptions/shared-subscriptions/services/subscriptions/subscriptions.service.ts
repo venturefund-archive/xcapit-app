@@ -33,8 +33,7 @@ export class SubscriptionsService {
           dialogTitle: this.translate.instant(
             'subscriptions.subscriptions_service.share_title'
           )
-        },
-        this.translate.instant('subscriptions.subscriptions_service.toast_text_copied'));
+        })
       });
   }
 
