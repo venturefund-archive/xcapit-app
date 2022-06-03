@@ -1002,7 +1002,7 @@
       }
     },
     "shared": {
-      "share-education": {
+      "share_education": {
         "title": "One wallet, all opportunities",
         "text": "Education is the foundation of finance and crypto",
         "dialogTitle": "Share",

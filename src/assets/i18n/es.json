@@ -994,7 +994,7 @@
       }
     },
     "shared": {
-      "share-education": {
+      "share_education": {
         "title": "Una wallet, todas las oportunidades",
         "text": "La educación es la base de las finanzas y crypto",
         "dialogTitle": "Compartir",
