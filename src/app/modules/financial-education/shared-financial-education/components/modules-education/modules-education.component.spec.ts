@@ -59,7 +59,7 @@ describe('FinanceEducationComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('');
   });
 
-  it('should call appTrackEvent on trackService when NFTs Tab was clicked', () => {
+  it('should call appTrackEvent on trackService when item is clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-item', 'item_sub_module');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
