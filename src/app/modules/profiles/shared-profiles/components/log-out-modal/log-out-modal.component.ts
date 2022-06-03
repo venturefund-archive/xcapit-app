@@ -67,7 +67,6 @@ export class LogOutModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private logOutModalService: LogOutModalService,
     private modalController: ModalController,
-    private ionicStorageService: IonicStorageService,
   ) {}
 
   ngOnInit() {}
@@ -76,7 +75,6 @@ export class LogOutModalComponent implements OnInit {
     if (this.form.value.dontShowModalCheckbox) {
       await this.saveModalChoice();
     }
-    await this.ionicStorageService.set('backupWarningWallet', false);
     await this.authService.logout();
     await this.navController.navigateRoot(['/users/login']);
     await this.modalController.dismiss();

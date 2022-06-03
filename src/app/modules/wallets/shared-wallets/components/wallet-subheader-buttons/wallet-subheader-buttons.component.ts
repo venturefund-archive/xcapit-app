@@ -75,6 +75,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   async goToSend() {
     if (this.showBackupWarning) {
       if (!await this.showWarningBackup()) {
+        // se puede redireccionar
         return;
       }
     }
@@ -120,6 +121,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
 
   async checkBackupWarning() {
     this.showBackupWarning = await this.ionicStorageService.get('backupWarningWallet')
+    console.log('backupWarningWallet obtenido con valor: ', this.showBackupWarning)
   }
 
   async showWarningBackup() {

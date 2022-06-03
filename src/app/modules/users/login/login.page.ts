@@ -11,6 +11,7 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { UpdateNewsService } from 'src/app/shared/services/update-news/update-news.service';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -111,7 +112,8 @@ export class LoginPage implements OnInit {
     private storage: Storage,
     private updateNewsService: UpdateNewsService,
     private platformService: PlatformService,
-    private walletConnectService: WalletConnectService
+    private walletConnectService: WalletConnectService,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ngOnInit() {}
@@ -141,6 +143,16 @@ export class LoginPage implements OnInit {
     this.apiUsuarios.loginWithGoogle(googleUser.authentication.idToken).subscribe(() => this.success());
   }
 
+  async checkWalletProtected() {
+    this.ionicStorageService.get('protectedWallet').then((protectedWallet) => {
+      if (!protectedWallet) {
+        // PW != undefined -> si es True no entra al if else setea el warning
+        // PW == undefined -> JS lo castea a boolean, y undefined o null son false
+        this.ionicStorageService.set('backupWarningWallet', true);
+      }
+    });  
+  }
+
   loginUser(data: any) {
     this.loading = true;
     this.apiUsuarios.login(data).subscribe(
@@ -161,6 +173,7 @@ export class LoginPage implements OnInit {
         await this.navigateTo(this.startUrl());
       }
     }
+    await this.checkWalletProtected()
     this.loading = false;
     await this.updateNewsService.showModal();
   }

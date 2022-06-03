@@ -64,6 +64,7 @@ export class WarningBackupModalComponent implements OnInit {
 
   close() {
     this.modalController.dismiss(false);
+    //redireccion
   }
 
   skip() {

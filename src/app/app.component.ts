@@ -49,8 +49,7 @@ export class AppComponent implements OnInit {
     private remoteConfigService: RemoteConfigService,
     private firebaseService: FirebaseService,
     private zone: NgZone,
-    private walletConnectService: WalletConnectService,
-    private ionicStorageService: IonicStorageService
+    private walletConnectService: WalletConnectService
   ) {}
 
   ngOnInit() {
@@ -108,16 +107,7 @@ export class AppComponent implements OnInit {
     this.remoteConfigService.initialize(new FirebaseRemoteConfig(this.firebaseService.getApp())).then(() => {
       this.checkForUpdate();
       this.showUpdateModal();
-      this.checkWalletProtected();
     });
-  }
-
-  async checkWalletProtected() {
-    this.ionicStorageService.get('protectedWallet').then((protectedWallet) => {
-      if (!protectedWallet) {
-        this.ionicStorageService.set('backupWarningWallet', true);
-      }
-    });  
   }
 
   private statusBarConfig() {
@@ -133,7 +123,6 @@ export class AppComponent implements OnInit {
   }
 
   async logout() {
-    await this.ionicStorageService.set('backupWarningWallet', false);
     await this.authService.logout();
     await this.navController.navigateForward(['users/login']);
   }
