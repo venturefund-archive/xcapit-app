@@ -1028,6 +1028,14 @@
           "title": "Inversiones DeFi"
         }
       }
+    },
+    "shared": {
+      "share_education": {
+        "title": "Una wallet, todas las oportunidades",
+        "text": "La educación es la base de las finanzas y crypto",
+        "dialogTitle": "Compartir",
+        "share_error":"El texto se copió en el portapapeles"
+      }
     }
   },
   "financial_planner": {
@@ -1267,7 +1275,8 @@
       "share": "Compartir mi Link",
       "copy": "Copiar mi link",
       "copied": "Copiado",
-      "tos": "Ver términos y condiciones"
+      "tos": "Ver términos y condiciones",
+      "share_error":"El texto se copió en el portapapeles"
     },
     "referrals_coming": {
       "title": "Estamos creando magia",
@@ -1521,7 +1530,8 @@
       "receive_address_title": "Dirección",
       "receive_address_copy": "Copiar",
       "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección de depósito.",
-      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito."
+      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito.",
+      "toast_success":"Se copió al portapapeles"
     },
     "nft_detail": {
       "title": "Detalle de NFT",
@@ -1655,7 +1665,7 @@
           "button_text": "Reintentar"
         }
       },
-      "skip-backup-modal":{
+      "skip_backup_modal":{
         "title":"¿Omitir copia de seguridad?",
         "description":"Entiendo que si no realizo una copia de mi frase de recuperación, podría perder el acceso a mis fondos.",
         "button_back":"Atrás",

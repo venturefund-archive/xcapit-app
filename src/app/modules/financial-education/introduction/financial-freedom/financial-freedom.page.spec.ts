@@ -37,6 +37,14 @@ describe('FinancialFreedomPage', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should render app-share-education component', async () => {
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    const componentEl = fixture.debugElement.queryAll(By.css('app-share-education'));
+    fixture.detectChanges();
+    expect(componentEl).toBeTruthy();
+  });
+
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);

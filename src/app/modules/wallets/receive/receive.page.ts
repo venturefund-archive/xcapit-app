@@ -164,7 +164,7 @@ export class ReceivePage {
         string: this.address,
       })
       .then(() => {
-        this.showToast('shared.services.copy.toast_success');
+        this.showToast('wallets.receive.toast_success');
       });
   }
 
@@ -174,16 +174,19 @@ export class ReceivePage {
     });
   }
 
-  async shareAddress() {
-    await this.shareService.share(
+   shareAddress() {
+    this.shareService.share(
       {
         title: this.translate.instant('wallets.receive.share_title'),
         dialogTitle: this.translate.instant('wallets.receive.share_title'),
         text: this.address,
-      },
-      this.translate.instant('shared.services.share.share_error')
-    );
+      }
+    ).catch(() => {
+      this.copyAddress();
+    });
   }
+
+
 
   generateAddressQR() {
     this.qrCodeService.generateQRFromText(this.address).then((qr) => (this.addressQr = qr));
