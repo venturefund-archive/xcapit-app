@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
@@ -46,10 +46,11 @@ describe('HomeFinancialEducationPage', () => {
     expect(component.modules).toEqual(MODULES_FINANCE);
   });
 
-  it('should set the corresponding data in the crypto tab when tab crypto is clicked', () => {
+  it('should set the corresponding data in the crypto tab when tab crypto is clicked', async () => {
     component.ionViewWillEnter();
     fixture.debugElement.query(By.css('ion-segment-button[name="ux_tab_crypto"]')).nativeElement.click();
     fixture.detectChanges();
+    await fixture.whenStable();
     expect(component.segmentsForm.value.tab).toEqual('crypto');
     expect(component.modules).toEqual(MODULES_CRYPTO);
   });
