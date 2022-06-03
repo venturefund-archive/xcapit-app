@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Amount } from '../../types/amount.type';
 
 @Component({
@@ -16,14 +16,14 @@ import { Amount } from '../../types/amount.type';
 
       <div class="tf__fee__qty_and_advice" *ngIf="this.quoteFee.value">
         <div class="tf__fee__qty_and_advice__qty">
-          <ion-text class="ux-font-text-base tf__fee__qty__amount" [ngClass]="{ negative: this.isNegativeBalance }"
+          <ion-text class="ux-font-text-base tf__fee__qty__amount" [ngClass]="{ negative: this.balance < this.fee.value}"
             >{{ this.fee.value | number: '1.2-6' }} {{ this.fee.token }}</ion-text
           >
-          <ion-text class="ux-font-text-base tf__fee__qty__quoteFee" [ngClass]="{ negative: this.isNegativeBalance }"
+          <ion-text class="ux-font-text-base tf__fee__qty__quoteFee" [ngClass]="{ negative: this.balance < this.fee.value}"
             >{{ this.quoteFee.value | number: '1.2-6' }} {{ this.quoteFee.token }}
           </ion-text>
         </div>
-        <div class="tf__fee__qty_and_advice__funds-advice" *ngIf="this.isNegativeBalance">
+        <div class="tf__fee__qty_and_advice__funds-advice" *ngIf="this.balance < this.fee.value">
           <img src="assets/img/defi-investments/shared/transaction-fee/exclamation.svg" />
           <ion-text class="ux-font-text-xxs">
             {{ 'defi_investments.shared.transaction_fees.advice' | translate }}
@@ -40,8 +40,7 @@ import { Amount } from '../../types/amount.type';
 export class TransactionFeeComponent implements OnInit {
   @Input() fee: Amount = { value: undefined, token: 'MATIC' };
   @Input() quoteFee: Amount = { value: undefined, token: 'USD' };
-  @Input() isNegativeBalance: boolean;
-  @Input() nativeTokenBalance: number;
+  @Input() balance: number;
   @Input() description: string;
 
   constructor() {}

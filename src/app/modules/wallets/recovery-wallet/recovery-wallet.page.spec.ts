@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Mnemonic } from '@ethersproject/hdnode';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { navControllerMock } from 'src/testing/spies/nav-controller-mock.spec';
@@ -12,6 +12,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { RecoveryWalletPage } from './recovery-wallet.page';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const formData = {
   valid: {
@@ -40,9 +41,13 @@ describe('RecoveryWalletPage', () => {
   let clipboardServiceMock: any;
   let navControllerSpy: any;
   let walletMnemonicServiceSpy: any;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
 
   beforeEach(
     waitForAsync(() => {
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       clipboardServiceMock = {
         read: () => Promise.resolve({ value: 'phrase', type: 'text/plain' }),
@@ -58,6 +63,7 @@ describe('RecoveryWalletPage', () => {
           TranslateService,
           { provide: ClipboardService, useValue: clipboardServiceMock },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
           { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -119,8 +125,8 @@ describe('RecoveryWalletPage', () => {
     expect(component.form.valid).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when Send Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_import_import');
+  it('should call trackEvent on trackService when ux_import_submit_phrase clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_import_submit_phrase');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -138,7 +144,7 @@ describe('RecoveryWalletPage', () => {
 
   it('should call import mnemonic and navigate "([wallets/select-coins, import])" when form and phrase are valid', () => {
     component.form.patchValue(formData.valid);
-    fixture.debugElement.query(By.css('ion-button[name="ux_import_import"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_import_submit_phrase"]')).nativeElement.click();
     expect(walletMnemonicServiceSpy.importMnemonic).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/select-coins', 'import']);
   });
@@ -146,7 +152,17 @@ describe('RecoveryWalletPage', () => {
   it('should navigate "([wallets/recovery/error])" when form is valid and phrase not exist', () => {
     component.form.patchValue(formData.valid);
     walletMnemonicServiceSpy.importMnemonic = jasmine.createSpy().and.throwError('invalid mnemonic');
-    fixture.debugElement.query(By.css('ion-button[name="ux_import_import"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_import_submit_phrase"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/recovery/error']);
+  });
+
+  it('should show modal and call trackEvent on trackService when ux_phrase_information clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_phrase_information');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });

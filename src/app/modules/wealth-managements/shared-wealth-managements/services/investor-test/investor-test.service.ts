@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiProfilesService } from 'src/app/modules/profiles/shared-profiles/services/api-profiles/api-profiles.service';
+import { LanguageService } from '../../../../../shared/services/language/language.service';
 import {
   Answer,
   ApiWealthManagementsService,
@@ -52,7 +53,8 @@ export class InvestorTestService {
 
   constructor(
     private apiWealthManagementsService: ApiWealthManagementsService,
-    private apiProfilesService: ApiProfilesService
+    private apiProfilesService: ApiProfilesService,
+    private languageService: LanguageService
   ) {}
 
   getQuestionByNumber(n: number): Question {
@@ -72,17 +74,16 @@ export class InvestorTestService {
   }
 
   async loadQuestions() {
-    return Promise.resolve().then(() => {
-      if (!this.hasLoadedQuestions) {
-        return this.apiWealthManagementsService
-          .getInvestorTestQuestions()
-          .toPromise()
-          .then((questions) => {
-            this.questions = questions;
-            return Promise.resolve();
-          });
-      } else return Promise.resolve();
-    });
+    return this.apiWealthManagementsService
+      .getInvestorTestQuestions(await this.getUserLanguage())
+      .toPromise()
+      .then((questions) => {
+        this.questions = questions;
+      });
+  }
+
+  getUserLanguage() {
+    return this.languageService.getSelectedLanguage();
   }
 
   setAnswer(question: Question, answer: Answer) {

@@ -138,6 +138,7 @@ describe('UserProfileMenuPage', () => {
       component = fixture.componentInstance;
       apiProfilesService = TestBed.inject(ApiProfilesService);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+      
       fixture.detectChanges();
     })
   );
@@ -156,7 +157,7 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should call trackEvent on trackService when Log Out button clicked', () => {
-    spyOn(component, 'logout');
+    component.profile = profile;
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Log Out');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -191,16 +192,14 @@ describe('UserProfileMenuPage', () => {
 
   it('should show modal if user has wallet and modal list is empty when Log Out button is clicked', async () => {
     component.profile = profile;
-    const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
-    button.nativeElement.click();
+    await component.logout();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should show modal if user has wallet and is not in modal list when Log Out button is clicked', async () => {
     component.profile = profile;
-    const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
-    button.nativeElement.click();
+    await component.logout();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });

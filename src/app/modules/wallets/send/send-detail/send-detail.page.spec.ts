@@ -1,5 +1,5 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { SendDetailPage } from './send-detail.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,6 +26,7 @@ import { of } from 'rxjs';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { FakeActivatedRoute } from '../../../../../testing/fakes/activated-route.fake.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const coins: Coin[] = [
   {
@@ -89,6 +90,8 @@ describe('SendDetailPage', () => {
   let erc20ContractControllerSpy: jasmine.SpyObj<ERC20ContractController>;
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -109,6 +112,9 @@ describe('SendDetailPage', () => {
     });
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
+
 
     erc20ProviderControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
       new: new FakeERC20Provider(null, new FakeProvider('100000000')),
@@ -146,6 +152,7 @@ describe('SendDetailPage', () => {
         { provide: ERC20ProviderController, useValue: erc20ProviderControllerSpy },
         { provide: ERC20ContractController, useValue: erc20ContractControllerSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
+        { provide: ModalController, useValue: modalControllerSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -161,16 +168,18 @@ describe('SendDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should find currency and networks on ionViewDidEnter', async () => {
-    await component.ionViewDidEnter();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+  it('should find currency and networks on ionViewDidEnter', fakeAsync( () => {
+    component.ionViewDidEnter();
+    tick();
     fixture.detectChanges();
     expect(component.networks).toEqual([coins[2].network]);
     expect(component.selectedNetwork).toEqual(coins[2].network);
     expect(component.nativeToken).toEqual(coins[1]);
     expect(component.nativeBalance).toEqual(10);
     expect(component.token).toEqual(coins[2]);
-  });
+    discardPeriodicTasks()
+    flush()
+  }));
 
   it('should get native fee on ionViewDidEnter when token is native', fakeAsync(() => {
     apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
@@ -180,7 +189,18 @@ describe('SendDetailPage', () => {
     fixture.detectChanges();
     expect(component.token).toEqual(coins[1]);
     expect(component.fee).toEqual(10);
+    discardPeriodicTasks()
+    flush()
   }));
+
+  it('should get non native fee on ionViewDidEnter when token is non native',fakeAsync( ()=>{
+    apiWalletServiceSpy.getCoin.and.returnValue(coins[2]);
+    component.ionViewDidEnter();
+    tick();
+    fixture.detectChanges();
+    expect(component.token).toEqual(coins[2]);
+    expect(component.fee).toEqual(0.000001);
+  }))
 
   it('should change selected network on event emited', () => {
     component.networks = ['ERC20', 'BTC'];
@@ -205,16 +225,6 @@ describe('SendDetailPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should calculate non native fee when ux_send_continue button is clicked and token is not native', fakeAsync(() => {
-    component.token = coins[2];
-    component.form.patchValue(formData.valid);
-    fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
-    el.nativeElement.click();
-    tick();
-    fixture.detectChanges();
-    expect(component.fee).toEqual(0.000001);
-  }));
 
   it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync(() => {
     apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);

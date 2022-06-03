@@ -1,0 +1,34 @@
+:host {
+  .bic {
+    &__information {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: var(--ion-color-infolight);
+      border: 1px solid var(--ion-color-info);
+      border-radius: 6px;
+
+      &__text {
+        display: flex;
+
+        ion-text {
+          color: var(--ion-color-info);
+        }
+      }
+
+      &__icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .ux-home-backup-card {
+    font-size: var(--ux-fsize-14);
+    font-family: var(--ux-font-lato);
+    font-weight: var(--ux-fweight-regular);
+    line-height: 18px;
+  }
+}

@@ -30,8 +30,9 @@ describe('TransactionFeeComponent', () => {
   });
 
   it('should render advice div when you dont have necessary fee', () => {
+    component.fee.value = 2;
+    component.balance = 1;
     component.quoteFee.value = 0.0017;
-    component.isNegativeBalance = true;
     fixture.detectChanges();
     const divEl = fixture.debugElement.query(By.css('div.tf__fee__qty_and_advice__funds-advice'));
     expect(divEl).toBeTruthy();
@@ -39,7 +40,6 @@ describe('TransactionFeeComponent', () => {
 
   it('should not render advice div when you dont have necessary fee', () => {
     component.fee.value = 0.0017;
-    component.isNegativeBalance = false;
     fixture.detectChanges();
     const divEl = fixture.debugElement.query(By.css('div.tf__fee__qty_and_advice__funds-advice'));
     expect(divEl).toBeFalsy();

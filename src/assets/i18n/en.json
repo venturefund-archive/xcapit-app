@@ -50,6 +50,11 @@
         "has_capital_and_small_case": "Combination of uppercase and lowercase letters",
         "not_alphanumeric": "Number and letter combination"
       },
+      "import_wallet_phrase": {
+        "twelve_words": "12 lowercase words",
+        "space_between": "Separated by space",
+        "no_special_characters": "No special characters"
+      },
       "old_password": {
         "wallet_incorrect_password": "Incorrect password, try again"
       },
@@ -1391,13 +1396,22 @@
       "button_faq": "What is the recovery phrase?"
     },
     "recovery_phrase_read": {
-      "header": "Recovery phrase",
+      "recovery_phrase": "Recovery phrase",
+      "protect_my_wallet":"Protect my wallet",
       "title": "Recovery phrase",
-      "text": "It's very important that you save your 12 words in a safe place and in the order that are shown.",
+      "text": "Store the 12 words listed below in the following order.",
+      "text_protect_my_wallet": "To complete your backup, save the 12 words below in their order.<br>In the next step you will fill in the spaces with the requested words.",
+      "button_show_phrase":"Show phrase",
+      "button_hide_phrase": "Hide phrase",
       "button_text": "Copy",
+      "button_continue": "Continue",
+      "security_information":"Xcapit will not be able to recover your wallet if you lose your recovery phrase.",
       "button_text_coppied": "Coppied",
       "coppied_text": "The recovery phrase was copied to the clipboard",
-      "copy_error_text": "The recovery phrase could not be coppied to the clipboard"
+      "copy_error_text": "The recovery phrase could not be coppied to the clipboard",
+      "protected": "Complete backup",
+      "not_protected":"No backup copy",
+      "error_toast": "The password you entered is incorrect"
     },
     "home": {
       "available_money": "Available money in wallet",
@@ -1415,6 +1429,9 @@
         "receive_card": "Receive",
         "buy_card": "Buy",
         "swap_card": "Swap"
+      },
+      "backup_card_component":{
+        "text":"Don't lose your money. <b> Protect your wallet. </b>"
       }
     },
     "select_coin": {
@@ -1630,11 +1647,16 @@
         "claimed_subtitle": "Starting December 6, we will deliver the NFTs progressively.*",
         "claimed_note": "*They will be delivered according to the order in which they were claimed."
       },
-      "skip-backup-modal": {
-        "title": "Skip backup?",
-        "description": "I understand that if I do not make a copy of my recovery phrase, I may lose access to my funds.",
-        "button_back": "Back",
-        "button_skip": "Skip"
+      "skip_backup_modal":{
+        "title":"Skip backup?",
+        "description":"I understand that if I do not make a copy of my recovery phrase, I may lose access to my funds.",
+        "button_back":"Back",
+        "button_skip":"Skip"
+      },
+      "recovery_phrase_info": {
+        "title": "Recovery phrase",
+        "description": "It is a set of 12 ordered words, which serve as a master key to your funds.",
+        "button_text": "Understood"
       }
     },
     "asset_detail": {
