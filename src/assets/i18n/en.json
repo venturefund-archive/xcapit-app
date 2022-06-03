@@ -1000,6 +1000,42 @@
           "description":"At the end of all the modules, you will get a free NFT as a prize."
         }
       }
+    },
+    "home": {
+      "header": "Education",
+      "finance": "Finances",
+      "crypto": "Crypto",
+      "title": "What would you like to learn today?",
+      "coming_soon":"Coming soon",
+      "module_finance": {
+        "module_1": {
+          "title": "Module: introduction to personal finance",
+          "sub_modules": {
+            "sub_module_1": "How to get started in finance?",
+            "sub_module_2": "Budgets"
+          }
+        },
+        "module_2": {
+          "title": "Credits"
+        },
+        "module_3": {
+          "title": "Investment"
+        }
+      },
+      "module_crypto": {
+        "module_1": {
+          "title": "Module: introduction to blockchain",
+          "sub_modules": {
+            "sub_module_1": "What is blockchain?"
+          }
+        },
+        "module_2": {
+          "title": "Introduction to cryptocurrencies"
+        },
+        "module_3": {
+          "title": "DeFi Investments"
+        }
+      }
     }
   },
 

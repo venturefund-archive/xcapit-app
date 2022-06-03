@@ -19,8 +19,30 @@
 
       ion-label.active-tab {
         font-size: var(--ux-fsize-22);
-        color: white;
+        color: var(--ion-color-white);
       }
     }
+
+    &__content_card {
+      margin: 0 16px;
+      border: 0.5px solid;
+      border-color: var(--ion-color-neutral50);
+      box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: var(--ion-color-white);
+
+      &__modules {
+        border-bottom: 1px solid;
+      }
+    }
+  }
+
+  .non-radius-left {
+    border-top-left-radius: 0;
+  }
+
+  .non-radius-right {
+    border-top-right-radius: 0;
   }
 }
