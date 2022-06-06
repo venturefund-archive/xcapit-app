@@ -12,7 +12,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
 import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
 import { NativeFeeOf } from 'src/app/modules/defi-investments/shared-defi-investments/models/native-fee-of/native-fee-of.model';
 import { FormattedFee } from 'src/app/modules/defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
-import { GasFeeOf } from '../../../defi-investments/shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
+import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { VoidSigner, BigNumber } from 'ethers';
 import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
@@ -221,7 +221,7 @@ export class SendDetailPage {
     this.fee = await new FormattedFee(
       new NativeFeeOf(
         new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
-          await this.userWallet(),
+          this.form.value.address,
           this.parseWei(this.form.value.amount),
         ]),
         new FakeProvider(await this.gasPrice())

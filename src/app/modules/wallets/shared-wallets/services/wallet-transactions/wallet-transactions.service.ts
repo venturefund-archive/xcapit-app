@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
-import { TransactionResponse, Provider } from '@ethersproject/abstract-provider';
+import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { Coin } from '../../interfaces/coin.interface';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
@@ -13,21 +13,19 @@ import { BigNumber, VoidSigner, Wallet } from 'ethers';
 import { personalSign, signTypedData_v4 } from 'eth-sig-util';
 import { TokenSend } from '../../models/token-send/token-send.model';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
-import { parseEther, parseUnits } from 'ethers/lib/utils';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { NetworkConfig } from '../../models/network-config/network-config';
-import { FormattedFee } from 'src/app/modules/defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { NativeFeeOf } from 'src/app/modules/defi-investments/shared-defi-investments/models/native-fee-of/native-fee-of.model';
-import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
-import { GasFeeOf } from '../../../../defi-investments/shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
 import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
 import { ERC20ProviderController } from '../../../../defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
 import { ERC20ContractController } from '../../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
 import { ERC20TokenController } from '../../../../defi-investments/shared-defi-investments/models/erc20-token/controller/erc20-token.controller';
 import { ERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/erc20-token.interface';
-import { FormattedFeeController } from '../../../../defi-investments/shared-defi-investments/models/formatted-fee/controller/formatted-fee.controller';
 import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
+import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
+import { GasFeeOfFactory } from '../../../../../shared/models/gas-fee-of/factory/gas-fee-of.factory';
+import { NativeGasOfFactory } from '../../../../../shared/models/native-gas-of/factory/native-gas-of.factory';
 
 @Injectable({
   providedIn: 'root',
@@ -44,7 +42,8 @@ export class WalletTransactionsService {
     private erc20ProviderController: ERC20ProviderController,
     private erc20ContractController: ERC20ContractController,
     private erc20TokenController: ERC20TokenController,
-    private formattedFeeController: FormattedFeeController
+    private gasFeeOfFactory: GasFeeOfFactory,
+    private nativeGasOfFactory: NativeGasOfFactory
   ) {}
 
   async send(password: string, amount: number, to: string, coin: Coin): Promise<TransactionResponse> {
@@ -53,7 +52,7 @@ export class WalletTransactionsService {
     const tx = new this.tokenSendClass(
       from,
       to,
-      amount.toString(),
+      amount,
       coin,
       this.apiWalletService,
       wallet,
@@ -260,8 +259,8 @@ export class WalletTransactionsService {
 
     return Promise.all([feePromise, nativeBalancePromise, nonNativeBalancePromise])
       .then(([fee, nativeBalance, nonNativeBalance]) => {
-        const totalNativeCoin = coin.native ? parseEther(fee).add(parseEther(amount.toString())) : parseEther(fee);
-        const totalNonNativeCoin = coin.native ? 0 : parseUnits(amount.toString(), coin.decimals);
+        const totalNativeCoin = coin.native ? fee.add(new WeiOf(amount, coin).value()) : fee;
+        const totalNonNativeCoin = coin.native ? 0 : new WeiOf(amount, coin).value();
 
         return !!(nativeBalance.gte(totalNativeCoin) && nonNativeBalance.gte(totalNonNativeCoin));
       })
@@ -274,7 +273,7 @@ export class WalletTransactionsService {
     const nativeBalancePromise = this.balanceOfNativeCoin(from, coin);
 
     return Promise.all([feePromise, nativeBalancePromise]).then(([fee, nativeBalance]) => {
-      return !!nativeBalance.gte(parseEther(fee));
+      return !!nativeBalance.gte(fee);
     });
   }
 
@@ -285,20 +284,14 @@ export class WalletTransactionsService {
       .then((res) => res.gas_price);
   }
 
-  private _weiOf(coin: Coin, amount: number): BigNumber {
-    return parseUnits(amount.toFixed(coin.decimals), coin.decimals);
-  }
-
-  async sendEstimatedFee(from: string, to: string, amount: number, coin: Coin): Promise<string> {
-    let gas: Fee;
-
-    if (coin.native) {
-      gas = NativeGasOf.create(coin, { to: to, value: this._weiOf(coin, amount) });
-    } else {
-      gas = new GasFeeOf(this.erc20Contract(coin, from).value(), 'transfer', [to, this._weiOf(coin, amount)]);
-    }
-    const fee = new NativeFeeOf(gas, new FakeProvider(await this.gasPrice()));
-    return (await this.formattedFee(fee).value()).toString();
+  async sendEstimatedFee(from: string, to: string, amount: number, coin: Coin): Promise<BigNumber> {
+    const gas: Fee = coin.native
+      ? this.nativeGasOfFactory.create(coin, { to: to, value: new WeiOf(amount, coin).value() })
+      : this.gasFeeOfFactory.new(this.erc20Contract(coin, from).value(), 'transfer', [
+          to,
+          new WeiOf(amount, coin).value(),
+        ]);
+    return new NativeFeeOf(gas, new FakeProvider(await this.gasPrice())).value();
   }
 
   private balanceOfNativeCoin(address: string, coin: Coin): Promise<BigNumber> {
@@ -323,9 +316,5 @@ export class WalletTransactionsService {
 
   erc20Token(contract: ERC20Contract): ERC20Token {
     return this.erc20TokenController.new(contract);
-  }
-
-  formattedFee(fee: Fee, decimals: number = undefined): FormattedFee {
-    return this.formattedFeeController.new(fee, decimals);
   }
 }
