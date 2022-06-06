@@ -31,6 +31,13 @@ const routes: Routes = [
             (m) => m.HomeFinancialEducationPageModule
           ),
       },
+      {
+        path: 'information',
+        loadChildren: () =>
+          import('./sub-module-information/sub-module-information.module').then(
+            (m) => m.SubModuleInformationPageModule
+          ),
+      },
     ],
   },
 ];
