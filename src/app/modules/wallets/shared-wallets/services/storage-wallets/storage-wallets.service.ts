@@ -119,20 +119,4 @@ export class StorageService {
       }
     }
   }
-
-  setShowWarningBackup(showWarning: boolean): Promise<void> {
-    return this.ionicStorageService.set('backupWarningWallet', showWarning);
-  }
-  
-  getShowWarningBackup(): Promise<boolean> {
-    return this.ionicStorageService.get('backupWarningWallet');
-  }
-
-  setProtectedWallet(isProtected: boolean): Promise<void> {
-    return this.ionicStorageService.set('protectedWallet', isProtected);
-  }
-  
-  getProtectedWallet(): Promise<boolean> {
-    return this.ionicStorageService.get('protectedWallet');
-  }
 }

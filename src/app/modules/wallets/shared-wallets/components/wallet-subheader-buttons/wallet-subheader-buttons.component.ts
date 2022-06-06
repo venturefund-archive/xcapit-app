@@ -3,7 +3,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
 import { WarningBackupModalComponent } from '../warning-backup-modal/warning-backup-modal.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { StorageService } from '../../services/storage-wallets/storage-wallets.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -58,44 +58,59 @@ import { StorageService } from '../../services/storage-wallets/storage-wallets.s
 export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
   @Input() network: string;
-  showBackupWarning: boolean;
+  showBackupWarning: boolean = false;
   isProtectedWallet: boolean;
+  isWarningModalOpen: boolean = false;
 
   constructor(
     private navController: NavController,
     private modalController: ModalController,
     private ionicStorageService: IonicStorageService,
-    private storageService: StorageService
-    ) {}
+    private remoteConfigService: RemoteConfigService
+  ) {}
 
   ngOnInit() {
     this.checkBackupWarning();
   }
 
-  async goToSend() {
-    if (this.showBackupWarning) {
-      if (!await this.showWarningBackup()) {
-        // se puede redireccionar
-        return;
-      }
+  private async shouldChangeNavigation(): Promise<boolean> {
+    const shouldChangeNavigation = await this.showWarningBackupModal();
+
+    switch (shouldChangeNavigation) {
+      case 'skip':
+        this.showBackupWarning = false;
+        await this.ionicStorageService.set('backupWarningWallet', false);
+        return false;
+      case 'close':
+      case 'backup':
+        return true;
     }
-    this.showBackupWarning = false;
-    this.ionicStorageService.set('backupWarningWallet', false)
-    
+  }
+
+  async goToSend() {
+    if (this.showBackupWarning && (await this.shouldChangeNavigation())) {
+      return;
+    }
+
     if (!this.asset) {
       return this.navController.navigateForward(['wallets/send/select-currency']);
     }
+
     const navigationExtras: NavigationExtras = {
       queryParams: {
         asset: this.asset,
         network: this.network,
       },
     };
+
     return this.navController.navigateForward(['wallets/send/detail'], navigationExtras);
   }
 
-  goToReceive() {
-    this.showWarningBackup();
+  async goToReceive() {
+    if (this.showBackupWarning && (await this.shouldChangeNavigation())) {
+      return;
+    }
+
     if (!this.asset) {
       return this.navController.navigateForward(['wallets/receive/select-currency']);
     }
@@ -109,30 +124,41 @@ export class WalletSubheaderButtonsComponent implements OnInit {
     return this.navController.navigateForward(['wallets/receive/detail'], navigationExtras);
   }
 
-  goToBuy() {
-    this.showWarningBackup();
+  async goToBuy() {
+    if (this.showBackupWarning && (await this.shouldChangeNavigation())) {
+      return;
+    }
+
     this.navController.navigateForward(['fiat-ramps/select-provider']);
   }
 
-  goToSwap(){
-    this.showWarningBackup();
+  async goToSwap() {
+    if (this.showBackupWarning && (await this.shouldChangeNavigation())) {
+      return;
+    }
+
     this.navController.navigateForward(['']);
   }
 
   async checkBackupWarning() {
-    this.showBackupWarning = await this.ionicStorageService.get('backupWarningWallet')
-    console.log('backupWarningWallet obtenido con valor: ', this.showBackupWarning)
+    if (this.remoteConfigService.getFeatureFlag('ff_showBackupWarningModal')) {
+      this.showBackupWarning = await this.ionicStorageService.get('backupWarningWallet');
+    }
   }
 
-  async showWarningBackup() {
-    const modal = await this.modalController.create({
-      component: WarningBackupModalComponent,
-      componentProps: {},
-      cssClass: 'ux-md-modal-informative',
-      backdropDismiss: false,
-    });
-    await modal.present();
-    const { data } = await modal.onWillDismiss();
-    return data;
+  async showWarningBackupModal(): Promise<string> {
+    if (!this.isWarningModalOpen) {
+      this.isWarningModalOpen = true;
+      const modal = await this.modalController.create({
+        component: WarningBackupModalComponent,
+        componentProps: {},
+        cssClass: 'ux-md-modal-informative',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      const { data } = await modal.onWillDismiss();
+      this.isWarningModalOpen = false;
+      return data;
+    }
   }
 }

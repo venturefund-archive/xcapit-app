@@ -17,7 +17,6 @@ import { FirebaseRemoteConfig } from './shared/models/firebase-remote-config/fir
 import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { WalletConnectService } from './modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { IonicStorageService } from './shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-root',

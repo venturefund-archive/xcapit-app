@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-warning-backup-modal',
@@ -33,16 +33,16 @@ import { ModalController } from '@ionic/angular';
     <div class="main__actions">
       <ion-button
         class="ux_button main__actions__button ion-no-margin"
-        name="Understood"
+        name="Backup"
         color="secondary"
         size="large"
-        (click)="this.close()"
+        (click)="this.backup()"
       >
         {{ 'wallets.shared_wallets.warning_backup_info.button_protect' | translate }}
       </ion-button>
       <ion-button
         class="ux-link-xl main__actions__button ion-no-margin"
-        name="Understood"
+        name="Skip"
         fill="clear"
         size="large"
         (click)="this.skip()"
@@ -58,17 +58,22 @@ export class WarningBackupModalComponent implements OnInit {
 
   constructor(
     private modalController: ModalController,
+    private navController: NavController
   ) { }
 
   ngOnInit() {}
 
+  backup() {
+    this.navController.navigateForward(['wallets/recovery/read']);
+    this.modalController.dismiss('backup');
+  }
+
   close() {
-    this.modalController.dismiss(false);
-    //redireccion
+    this.modalController.dismiss('close');
   }
 
   skip() {
-    this.modalController.dismiss(true);
+    this.modalController.dismiss('skip');
   }
 
 }
