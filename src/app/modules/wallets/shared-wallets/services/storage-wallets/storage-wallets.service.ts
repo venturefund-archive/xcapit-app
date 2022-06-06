@@ -4,7 +4,6 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
 import * as moment from 'moment';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { Coin } from '../../interfaces/coin.interface';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -36,9 +35,7 @@ export class StorageWalletsService {
 export class StorageService {
   allCoins = [];
   coins: Coin[];
-  constructor(private appStorageService: AppStorageService,
-              private apiWalletService: ApiWalletService,
-              private ionicStorageService: IonicStorageService) {}
+  constructor(private appStorageService: AppStorageService, private apiWalletService: ApiWalletService) {}
 
   async getWalletFromStorage() {
     return await this.appStorageService.get('enc_wallet');
@@ -48,7 +45,7 @@ export class StorageService {
     return await this.appStorageService.set('enc_wallet', wallet);
   }
 
-  async removeWalletFromStorage(){
+  async removeWalletFromStorage() {
     return await this.appStorageService.remove('enc_wallet');
   }
 
