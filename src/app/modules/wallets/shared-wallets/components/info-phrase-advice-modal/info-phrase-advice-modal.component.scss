@@ -18,6 +18,7 @@
 
       &__icon {
         align-items: flex-end;
+        color: var(--ion-color-primary);
       }
     }
 
@@ -31,7 +32,6 @@
       &__content {
         display: flex;
         flex-direction: column;
-        margin-bottom: 24px;
         text-align: center;
 
         &__title {
@@ -42,17 +42,30 @@
         &__description {
           text-align: left;
           padding: 0 10px;
+          color: var(--ion-color-primary) !important;
+        }
+
+        &__list {
+          text-align: left;
+          padding: 0 10px;
+          margin-top: 16px;
+
+          &__items {
+            list-style-type: initial;
+            padding-inline-start: 20px;
+            margin: 0;
+            color: var(--ion-color-primary) !important;
+          }
         }
       }
     }
 
     &__actions {
       width: 100%;
-      padding: 0 10px;
+      padding: 16px 10px;
 
       ion-button {
         width: inherit;
-        padding-bottom: 16px;
       }
     }
   }

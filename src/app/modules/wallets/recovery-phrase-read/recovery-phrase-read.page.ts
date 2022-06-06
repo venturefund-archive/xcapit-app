@@ -7,6 +7,7 @@ import { IonAccordionGroup, ModalController, NavController } from '@ionic/angula
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletPasswordComponent } from '../shared-wallets/components/wallet-password/wallet-password.component';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { InfoPhraseAdviceModalComponent } from '../shared-wallets/components/info-phrase-advice-modal/info-phrase-advice-modal.component';
 
 @Component({
   selector: 'app-recovery-phrase-read',
@@ -41,12 +42,10 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
             <ion-text class="ux-font-text-lg" color="primary">
               {{ 'wallets.recovery_phrase_read.title' | translate }}
             </ion-text>
-            <div class="rpr__title__icon">
+            <div class="rpr__title__icon" name="ux_protect_information" appTrackClick   (click)="this.showPhraseInfoAdvice()">
               <ion-icon
                 icon="information-circle"
-                *ngIf="!this.protectedWallet"
-                appTrackClick
-                [dataToTrack]="{ eventLabel: 'ux_protect_information' }"
+                *ngIf="!this.protectedWallet"              
               ></ion-icon>
               <ion-icon *ngIf="this.protectedWallet" icon="information-circle"></ion-icon>
             </div>
@@ -261,4 +260,13 @@ export class RecoveryPhraseReadPage implements OnInit {
     this.clearMnemonic();
   }
 
+  async showPhraseInfoAdvice() {
+    const modal = await this.modalController.create({
+      component: InfoPhraseAdviceModalComponent,
+      componentProps: {},
+      cssClass: 'ux-hug-modal-informative',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
 }
