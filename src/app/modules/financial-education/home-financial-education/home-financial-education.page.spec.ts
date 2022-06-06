@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -48,7 +48,7 @@ describe('HomeFinancialEducationPage', () => {
 
   it('should set the corresponding data in the crypto tab when tab crypto is clicked', async () => {
     component.ionViewWillEnter();
-    fixture.debugElement.query(By.css('ion-segment-button[name="ux_tab_crypto"]')).nativeElement.click();
+    component.segmentsForm.patchValue({ tab:'crypto' });
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.segmentsForm.value.tab).toEqual('crypto');
