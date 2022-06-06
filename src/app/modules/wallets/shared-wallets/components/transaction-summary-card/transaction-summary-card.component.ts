@@ -13,7 +13,7 @@ import { TransactionDataService } from '../../services/transaction-data/transact
     <div class="tsc ion-padding ux-card">
       <div class="tsc__title">
         <ion-text class="ux-font-text-lg">
-          {{ 'wallets.send.send_summary.title' | translate }}
+          {{ this.title }}
         </ion-text>
       </div>
       <div class="tsc__name-and-icon">
@@ -69,6 +69,7 @@ import { TransactionDataService } from '../../services/transaction-data/transact
 })
 export class TransactionSummaryCardComponent implements OnInit {
   @Input() summaryData: SummaryData;
+  @Input() title: string;
   @Input() amountsTitle: string;
   @Input() addressTitle: string;
   networkColors = NETWORK_COLORS;

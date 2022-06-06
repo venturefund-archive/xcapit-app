@@ -26,6 +26,7 @@ import { isAddress } from 'ethers/lib/utils';
     <ion-content class="ss ion-padding">
       <div class="ss__transaction-summary-card" *ngIf="this.summaryData">
         <app-transaction-summary-card
+          [title]="'wallets.send.send_summary.title' | translate"
           [addressTitle]="'wallets.send.send_summary.destination_address' | translate"
           [amountsTitle]="'wallets.send.send_summary.amounts_title' | translate"
           [summaryData]="this.summaryData"

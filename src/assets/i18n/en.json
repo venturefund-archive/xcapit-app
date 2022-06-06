@@ -1149,6 +1149,7 @@
       "disclaimer": "The network you selected is {{network}}. Make sure that the target wallet uses this same network. Otherwise, you will lose your assets.",
       "description_fee": "*This amount is an estimate and may vary depending on the time of the transaction.",
       "summary": {
+        "title": "Transaction data",
         "destination_address": "Destination address",
         "amount_title": "Amount to donate",
         "button": "Donate",

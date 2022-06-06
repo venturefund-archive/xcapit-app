@@ -26,6 +26,7 @@ import { LocalNotificationSchema } from '@capacitor/local-notifications';
     <ion-content class="sdsd ion-padding">
       <div class="sdsd__transaction-summary-card" *ngIf="this.summaryData">
         <app-transaction-summary-card
+          [title]="'donations.send_donations.summary.title' | translate"
           [addressTitle]="'donations.send_donations.summary.destination_address' | translate"
           [amountsTitle]="'donations.send_donations.summary.amount_title' | translate"
           [summaryData]="this.summaryData"

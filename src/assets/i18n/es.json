@@ -1140,6 +1140,7 @@
       "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos.",
       "description_fee": "*Este monto es estimativo y puede sufrir variaciones de acuerdo al momento en que realices la transacción.",
       "summary": {
+        "title": "Datos de la operación",
         "destination_address": "Dirección de destino",
         "amount_title": "Monto a donar",
         "button": "Donar",
