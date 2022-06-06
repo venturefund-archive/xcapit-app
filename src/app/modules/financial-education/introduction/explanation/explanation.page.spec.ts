@@ -65,7 +65,7 @@ describe('ExplanationPage', () => {
     fixture.detectChanges();
     
     expect(storageServiceSpy.set).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/financial-education/home');
   });
 
   it('should render app-explanation-item component', async () => {

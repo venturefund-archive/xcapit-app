@@ -1001,12 +1001,48 @@
         }
       }
     },
+    "home": {
+      "header": "Education",
+      "finance": "Finances",
+      "crypto": "Crypto",
+      "title": "What would you like to learn today?",
+      "coming_soon": "Coming soon",
+      "module_finance": {
+        "module_1": {
+          "title": "Module: introduction to personal finance",
+          "sub_modules": {
+            "sub_module_1": "How to get started in finance?",
+            "sub_module_2": "Budgets"
+          }
+        },
+        "module_2": {
+          "title": "Credits"
+        },
+        "module_3": {
+          "title": "Investment"
+        }
+      },
+      "module_crypto": {
+        "module_1": {
+          "title": "Module: introduction to blockchain",
+          "sub_modules": {
+            "sub_module_1": "What is blockchain?"
+          }
+        },
+        "module_2": {
+          "title": "Introduction to cryptocurrencies"
+        },
+        "module_3": {
+          "title": "DeFi Investments"
+        }
+      }
+    },
     "shared": {
       "share_education": {
         "title": "One wallet, all opportunities",
         "text": "Education is the foundation of finance and crypto",
         "dialogTitle": "Share",
-        "share_error":"Text was copied to the clipboard"
+        "share_error": "Text was copied to the clipboard"
       }
     }
   },
@@ -1249,7 +1285,7 @@
       "copy": "Copy my link",
       "copied": "Copied",
       "tos": "See terms and conditions",
-      "share_error":"Text was copied to the clipboard"
+      "share_error": "Text was copied to the clipboard"
     },
     "referrals_coming": {
       "title": "We are creating magic",
@@ -1397,20 +1433,20 @@
     },
     "recovery_phrase_read": {
       "recovery_phrase": "Recovery phrase",
-      "protect_my_wallet":"Protect my wallet",
+      "protect_my_wallet": "Protect my wallet",
       "title": "Recovery phrase",
       "text": "Store the 12 words listed below in the following order.",
       "text_protect_my_wallet": "To complete your backup, save the 12 words below in their order.<br>In the next step you will fill in the spaces with the requested words.",
-      "button_show_phrase":"Show phrase",
+      "button_show_phrase": "Show phrase",
       "button_hide_phrase": "Hide phrase",
       "button_text": "Copy",
       "button_continue": "Continue",
-      "security_information":"Xcapit will not be able to recover your wallet if you lose your recovery phrase.",
+      "security_information": "Xcapit will not be able to recover your wallet if you lose your recovery phrase.",
       "button_text_coppied": "Coppied",
       "coppied_text": "The recovery phrase was copied to the clipboard",
       "copy_error_text": "The recovery phrase could not be coppied to the clipboard",
       "protected": "Complete backup",
-      "not_protected":"No backup copy",
+      "not_protected": "No backup copy",
       "error_toast": "The password you entered is incorrect"
     },
     "home": {
@@ -1430,8 +1466,8 @@
         "buy_card": "Buy",
         "swap_card": "Swap"
       },
-      "backup_card_component":{
-        "text":"Don't lose your money. <b> Protect your wallet. </b>"
+      "backup_card_component": {
+        "text": "Don't lose your money. <b> Protect your wallet. </b>"
       }
     },
     "select_coin": {
@@ -1504,7 +1540,7 @@
       "receive_address_copy": "Copy",
       "disclaimer_header": "Send only {{currency}} using the network {{network}} to this deposit address.",
       "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit.",
-      "toast_success":"Copied to the clipboard"
+      "toast_success": "Copied to the clipboard"
     },
     "nft_detail": {
       "title": "NFT Detail",
@@ -1647,11 +1683,11 @@
         "claimed_subtitle": "Starting December 6, we will deliver the NFTs progressively.*",
         "claimed_note": "*They will be delivered according to the order in which they were claimed."
       },
-      "skip_backup_modal":{
-        "title":"Skip backup?",
-        "description":"I understand that if I do not make a copy of my recovery phrase, I may lose access to my funds.",
-        "button_back":"Back",
-        "button_skip":"Skip"
+      "skip_backup_modal": {
+        "title": "Skip backup?",
+        "description": "I understand that if I do not make a copy of my recovery phrase, I may lose access to my funds.",
+        "button_back": "Back",
+        "button_skip": "Skip"
       },
       "recovery_phrase_info": {
         "title": "Recovery phrase",

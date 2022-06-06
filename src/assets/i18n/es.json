@@ -343,8 +343,8 @@
       "button_link": "Realizar retiro",
       "invested_amount": "Balance*",
       "daily_earnings_disclaimer": "*Tu balance se actualiza a diario.",
-      "continuous_update":"*Actualización continua",
-      "weekly_update":"*Actualización semanal"
+      "continuous_update": "*Actualización continua",
+      "weekly_update": "*Actualización semanal"
     },
     "shared": {
       "transaction_fees": {
@@ -366,7 +366,7 @@
         "not_min_ammount": "Sin monto mínimo",
         "immediate_rescue": "Rescate inmediato",
         "continuous_earnings": "Ganancias continuas",
-        "weekly_earnings":"Ganacias semanales",
+        "weekly_earnings": "Ganacias semanales",
         "daily_earnings_disclaimer_active": "*Tu balance se actualiza a diario.",
         "daily_earnings_disclaimer_available": "*Ahora tu balance se actualiza a diario.",
         "coming_badge": "Próximamente",
@@ -964,32 +964,68 @@
     }
   },
 
-  "financial_education":{
-    "introduction":{
-      "financial_freedom":{
-        "header":"Educación",
-        "title":"¡Hacia tu libertad financiera!",
-        "subtitle":"Queremos que aprendas cómo obtener el mayor rendimiento posible de tu dinero de una manera rápida, clara y sencilla.",
-        "button":"Siguiente"
+  "financial_education": {
+    "introduction": {
+      "financial_freedom": {
+        "header": "Educación",
+        "title": "¡Hacia tu libertad financiera!",
+        "subtitle": "Queremos que aprendas cómo obtener el mayor rendimiento posible de tu dinero de una manera rápida, clara y sencilla.",
+        "button": "Siguiente"
       },
-      "explanation":{
-        "header":"Educación",
-        "title":"¿Cómo funciona?",
-        "button":"Comenzar",
-        "item_1":{
-          "number":"1.",
-          "title":" Completa todos los módulos",
-          "description":"Para lograr aprender sobre la libertad financiera dividimos los temas en varios módulos asegurate de leerlos todos."
+      "explanation": {
+        "header": "Educación",
+        "title": "¿Cómo funciona?",
+        "button": "Comenzar",
+        "item_1": {
+          "number": "1.",
+          "title": " Completa todos los módulos",
+          "description": "Para lograr aprender sobre la libertad financiera dividimos los temas en varios módulos asegurate de leerlos todos."
         },
-        "item_2":{
-          "number":"2.",
-          "title":" Pasa los test sin errores",
-          "description":"Deberás pasar todos los test sin errores, puedes repetirlo cuantas veces lo necesites."
+        "item_2": {
+          "number": "2.",
+          "title": " Pasa los test sin errores",
+          "description": "Deberás pasar todos los test sin errores, puedes repetirlo cuantas veces lo necesites."
         },
-        "item_3":{
-          "number":"3.",
-          "title":" Espera tu NFT",
-          "description":"Al finalizar todos los módulos, obtendrás un NFT de regalo como premio. "
+        "item_3": {
+          "number": "3.",
+          "title": " Espera tu NFT",
+          "description": "Al finalizar todos los módulos, obtendrás un NFT de regalo como premio. "
+        }
+      }
+    },
+    "home": {
+      "header": "Educación",
+      "finance": "Finanzas",
+      "crypto": "Cripto",
+      "title": "¿Qué te gustaría aprender hoy?",
+      "coming_soon":"Próximamente",
+      "module_finance": {
+        "module_1": {
+          "title": "Módulo: introducción a las finanzas personales",
+          "sub_modules": {
+            "sub_module_1": "¿Cómo empezar en finanzas?",
+            "sub_module_2": "Presupuestos"
+          }
+        },
+        "module_2": {
+          "title": "Créditos"
+        },
+        "module_3": {
+          "title": "Inversión"
+        }
+      },
+      "module_crypto": {
+        "module_1": {
+          "title": "Módulo: introducción a blockchain",
+          "sub_modules": {
+            "sub_module_1": "¿Qué es la blockchain?"
+          }
+        },
+        "module_2": {
+          "title": "Introducción a criptomonedas"
+        },
+        "module_3": {
+          "title": "Inversiones DeFi"
         }
       }
     },
@@ -1027,7 +1063,7 @@
         "invest": "Inversión",
         "gift": "Regalo"
       },
-      
+
       "subtitle_2": "Dinero necesario",
       "paragraph_2": "Calcula cuánto dinero necesitas en total para alcanzar tu objetivo.",
       "label_3": "USD",
@@ -1096,7 +1132,7 @@
       "header": "Donaciones",
       "button": "Donar",
       "info": {
-        "regional":"Regional",
+        "regional": "Regional",
         "global": "Global",
         "receive": "Recibe",
         "unhcr": {
@@ -1123,7 +1159,7 @@
           "title_3": "Conoce más sobre Free the Girls",
           "description": "Ayuda a estas mujeres a convertirse en empresarias, brindando las herramientas para que puedan comercializar en los mercados locales de ropa de segunda mano en sus comunidades."
         },
-        "proof_of_integrity":{
+        "proof_of_integrity": {
           "title_1": "Brindar a través de educación financiera, los instrumentos necesarios para que las personas que luchan por cubrir sus necesidades básicas tengan acceso al ecosistema crypto y puedan utilizar estas herramientas a su favor.",
           "title_2": "Sobre Proof of integrity",
           "title_3": "Conoce más sobre POI",
@@ -1145,11 +1181,11 @@
         "button": "Donar",
         "loading": "Donando"
       },
-      "no_wallet":{
-        "title":"Aún no tienes tu Wallet Xcapit",
-        "subtitle":"Crea tu wallet para poder donar",
-        "button":"Crear Wallet",
-        "link":"Ver causas"
+      "no_wallet": {
+        "title": "Aún no tienes tu Wallet Xcapit",
+        "subtitle": "Crea tu wallet para poder donar",
+        "button": "Crear Wallet",
+        "link": "Ver causas"
       }
     },
     "success": {
@@ -1441,12 +1477,12 @@
       "subtitle": "Protégela haciendo una copia de seguridad de tu frase de recuperación.\nEsta es la llave maestra de tus fondos.",
       "success_button": "Ir a wallet",
       "ribbon_recommended": "Recomendado",
-      "primary_action":{
-        "title":"Proteger mi wallet",
-        "subtitle":"Hazlo ahora y no pierdas el acceso a tu dinero. Sólo tomará unos minutos."
+      "primary_action": {
+        "title": "Proteger mi wallet",
+        "subtitle": "Hazlo ahora y no pierdas el acceso a tu dinero. Sólo tomará unos minutos."
       },
-      "secondary_action":{
-        "title":"En otro momento"
+      "secondary_action": {
+        "title": "En otro momento"
       }
     },
     "recovery_phrase": {
@@ -2178,7 +2214,7 @@
       "answer5": "Una vez hayas “Reclamado” tu NFT desde la Aplicación, verificaremos que tu mail se encuentre en la Waiting list y de ser así lo estaremos enviando a tu Wallet, recibirás una notificación en cuanto lo recibas.",
       "question6": "¿Cómo puedo visualizar mi NFT?",
       "answer6": "Desde el Home de Wallet, en la solapa NFT, veras tu NFT de regalo una vez lo hayas recibido, podrás visualizar los detalles haciendo clic en el mismo."
-        },
+    },
     "support_wallet": {
       "header": "Ayuda",
       "title": "Wallet de Xcapit",

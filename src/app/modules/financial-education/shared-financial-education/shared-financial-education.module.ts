@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ModulesEducationComponent } from './components/modules-education/modules-education.component';
 import { ShareEducationComponent } from './components/share-education/share-education.component';
 
 @NgModule({
-  declarations: [ShareEducationComponent],
+  declarations: [ModulesEducationComponent, ShareEducationComponent],
   imports: [SharedModule],
-  exports: [SharedModule, ShareEducationComponent],
+  exports: [SharedModule, ModulesEducationComponent, ShareEducationComponent],
 })
 export class SharedFinancialEducationModule {}

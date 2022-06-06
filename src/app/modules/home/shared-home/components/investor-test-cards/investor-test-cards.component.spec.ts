@@ -85,7 +85,7 @@ describe('InvestorTestCardsComponent', () => {
     const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_education_go"]'));
     clickeableDiv.nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['financial-education/home']);
   });
 
 
