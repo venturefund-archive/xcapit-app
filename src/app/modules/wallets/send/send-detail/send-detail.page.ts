@@ -163,8 +163,6 @@ export class SendDetailPage {
   }
 
   async tokenBalances() {
-    this.nativeToken = this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
-
     this.nativeBalance = parseFloat(
       await this.walletService.balanceOf(await this.userWallet(), this.nativeToken.value)
     );
@@ -179,11 +177,12 @@ export class SendDetailPage {
     this.token = this.apiWalletService.getCoin(coin, network);
     this.networks = this.apiWalletService.getNetworks(coin);
     this.selectedNetwork = network;
+    this.nativeToken = this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
   }
 
   private async getFee(): Promise<void> {
     this.token.native ? await this.nativeTransferFee() : await this.nonNativeTransferFee();
-    this.dynamicFee = { value: this.fee, token: this.token.value };
+    this.dynamicFee = { value: this.fee, token: this.nativeToken.value };
     this.getQuoteFee();
   }
 
@@ -201,7 +200,7 @@ export class SendDetailPage {
         new NativeFeeOf(
           new NativeGasOf(this.erc20Provider(), {
             to: this.form.value.address,
-            value: this.form.value.amount && this.parseWei(this.form.value.amount),
+            value: this.parseWei(1),
           }),
           new FakeProvider(await this.gasPrice())
         ),
@@ -221,8 +220,8 @@ export class SendDetailPage {
     this.fee = await new FormattedFee(
       new NativeFeeOf(
         new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
-          this.form.value.address,
-          this.parseWei(this.form.value.amount),
+          await this.userWallet(),
+          this.parseWei(1),
         ]),
         new FakeProvider(await this.gasPrice())
       )
