@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
-import { WarningBackupModalComponent } from '../warning-backup-modal/warning-backup-modal.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { WarningBackupModalComponent } from '../warning-backup-modal/warning-backup-modal.component';
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -146,7 +146,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   }
 
   async checkBackupWarning() {
-    if (this.remoteConfigService.getFeatureFlag('ff_showBackupWarningModal')) {
+    if (this.remoteConfigService.getFeatureFlag('ff_homeWalletBackupWarningModal')) {
       this.showBackupWarning = await this.ionicStorageService.get('backupWarningWallet');
     }
   }
