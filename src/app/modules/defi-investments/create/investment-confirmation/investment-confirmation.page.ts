@@ -26,7 +26,7 @@ import { DefaultERC20Provider } from '../../shared-defi-investments/models/erc20
 import { FormattedFee } from '../../shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { FakeContract } from '../../shared-defi-investments/models/fake-contract/fake-contract.model';
 import { Coin } from '../../../wallets/shared-wallets/interfaces/coin.interface';
-import { GasFeeOf } from '../../shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
+import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { TotalFeeOf } from '../../shared-defi-investments/models/total-fee-of/total-fee-of.model';
 import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/native-fee-of.model';
