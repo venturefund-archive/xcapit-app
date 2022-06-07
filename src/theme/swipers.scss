@@ -2,7 +2,7 @@
 @import '~swiper/scss/navigation';
 
 .swiper-button-next {
-  background-image: url(../assets/img/investor-test/next.svg);
+  background-image: url('../assets/img/investor-test/next.svg');
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: center;
@@ -15,7 +15,7 @@
 }
 
 .swiper-button-prev {
-  background-image: url(../assets/img/investor-test/back.svg);
+  background-image: url('../assets/img/investor-test/back.svg');
   background-repeat: no-repeat;
   background-size: 100% auto;
   width: 34px;
@@ -25,4 +25,35 @@
 
 .swiper-button-prev::after {
   display: none;
+}
+
+.verify-phrase-page-swiper .swiper-wrapper {
+  .swiper-slide-active {
+    flex-direction: column;
+
+    .input-phrase {
+      &__card {
+        border-color: var(--ion-color-info) !important;
+        margin-top: 0 !important;
+
+        &__input {
+          border-bottom: 2px solid var(--ion-color-info) !important;
+        }
+
+        &__label {
+          color: var(--ion-color-info);
+        }
+      }
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ion-color-info);
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 8px;
+    }
+  }
 }

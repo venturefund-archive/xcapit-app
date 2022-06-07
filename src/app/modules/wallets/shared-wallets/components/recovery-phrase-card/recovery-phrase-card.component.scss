@@ -1,5 +1,11 @@
 :host {
   .card {
+    &.centered {
+      justify-content: center;
+      text-align: center;
+      row-gap: 8px;
+    }
+
     display: flex;
     flex-wrap: wrap;
     padding: 16px 8.5px;

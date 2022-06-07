@@ -1498,11 +1498,12 @@
       "btn_next": "Siguiente"
     },
     "verify_phrase": {
-      "header": "Crear wallet",
-      "title": "Verifica tu frase",
-      "text1": "Toca las palabras en el orden correspondiente",
-      "btn_create": "Verificar mis 12 palabras",
-      "verifying": "Verificando..."
+      "header": "Proteger mi wallet",
+      "title": "Verifica tu frase de recuperación",
+      "description": "Selecciona las palabras correspondientes respetando su orden.",
+      "btn_create": "Finalizar",
+      "verifying": "Verificando...",
+      "word_counter": "Palabra N°"
     },
     "create_password": {
       "header": "Crear wallet",
@@ -1546,7 +1547,7 @@
     },
     "failed_mnemonic": {
       "title": "Tu frase de recuperación es incorrecta",
-      "description": "Generaremos otras 12 palabras para mayor seguridad. Recuerda que tienes que anotarlas y guardarlas en un lugar seguro.",
+      "description": "Verifica que las palabras seleccionadas sean las correctas y respeten el orden.",
       "button": "Volver a intentarlo"
     },
     "recovery_wallet": {
