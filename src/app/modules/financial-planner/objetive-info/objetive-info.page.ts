@@ -182,6 +182,7 @@ export class ObjetiveInfoPage implements OnInit {
     if (this.form.valid) {
       let url = [];
       if (this.goalAlreadyAchieved()) {
+        this.appStorageService.set(this.key, this.form.value);
         url = ['/financial-planner/success-objetive'];
       } else {
         this.appStorageService.set(this.key, this.form.value);
