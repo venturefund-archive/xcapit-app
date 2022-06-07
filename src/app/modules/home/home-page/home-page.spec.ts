@@ -1,23 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  ComponentFixture,
-  discardPeriodicTasks,
-  fakeAsync,
-  flush,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { HomePage } from './home-page.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { NavController } from '@ionic/angular';
-import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { of, Subscription, throwError } from 'rxjs';
-import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
+import { of } from 'rxjs';
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
@@ -49,11 +38,8 @@ const dataTest = {
 describe('HomePage', () => {
   let component: HomePage;
   let fixture: ComponentFixture<HomePage>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomePage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let notificationsService: NotificationsService;
-  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let windowSpy: any;
   let fakeWalletService: FakeWalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
@@ -88,9 +74,6 @@ describe('HomePage', () => {
       );
       tokenDetailControllerSpy = jasmine.createSpyObj('TokenDetailSpy', { new: tokenDetailSpy });
       windowSpy = spyOn(window, 'open');
-      notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
-        getCountNotifications: of({ count: 5 }),
-      });
 
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
@@ -123,11 +106,10 @@ describe('HomePage', () => {
       appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', { get: dataTest });
 
       TestBed.configureTestingModule({
-        declarations: [HomePage, FakeTrackClickDirective, FakeFeatureFlagDirective],
+        declarations: [HomePage, FakeFeatureFlagDirective],
         imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
-          { provide: NotificationsService, useValue: notificationsServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
           { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
@@ -145,8 +127,6 @@ describe('HomePage', () => {
       fixture = TestBed.createComponent(HomePage);
       component = fixture.componentInstance;
       fixture.detectChanges();
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      notificationsService = TestBed.inject(NotificationsService);
     })
   );
 
@@ -154,41 +134,10 @@ describe('HomePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call trackEvent on trackService when Show Notifications button clicked', () => {
-    spyOn(component, 'showNotifications');
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Show Notifications');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to notifications list when Show Notifications is clicked', () => {
-    const button = fixture.debugElement.query(By.css("ion-button[name='Show Notifications']"));
-    button.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/notifications/list');
-  });
-
-  it('should unsubscribe timerSubscription, notificationQtySubscription on ionViewDidLeave', () => {
-    component.ionViewWillEnter();
-    const spy = spyOn(Subscription.prototype, 'unsubscribe');
+  it('should unsubscribe refresh timeout service on ionViewDidLeave', () => {
     component.ionViewDidLeave();
-    expect(spy).toHaveBeenCalledTimes(2);
+    expect(refreshTimeoutServiceSpy.unsubscribe).toHaveBeenCalledTimes(1);
   });
-
-  it('should get empty notifications if error', fakeAsync(() => {
-    component.notificationInterval = 1;
-    fixture.detectChanges();
-    notificationsServiceSpy.getCountNotifications.and.returnValue(throwError({}));
-    component.ionViewWillEnter();
-    tick();
-    const spy = spyOn(Subscription.prototype, 'unsubscribe');
-    component.ionViewDidLeave();
-    expect(spy).toHaveBeenCalledTimes(2);
-    discardPeriodicTasks();
-    flush();
-  }));
 
   it('should not get balance if wallet does not exist', async () => {
     fakeWalletService.modifyReturns(false, null);
