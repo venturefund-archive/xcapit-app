@@ -69,6 +69,12 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
               </ion-text>
             </div>
           </div>
+          <app-transaction-fee
+            [fee]="this.fee"
+            [quoteFee]="this.quoteFee"
+            [balance]="this.nativeTokenBalance"
+            [description]="'donations.send_donations.description_fee' | translate"
+          ></app-transaction-fee>
         </div>
       </ion-card>
       <ion-button
