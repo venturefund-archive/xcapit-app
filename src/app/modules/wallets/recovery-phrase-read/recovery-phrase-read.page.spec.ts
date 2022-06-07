@@ -15,14 +15,15 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 
 const testMnemonic: Mnemonic = {
-  path: '',
   locale: 'en',
-  phrase: 'test recovery phrase',
+  path: '',
+  phrase: 'test phrase other word number another rooster keyboard confort destroy jingle july',
 };
 
-fdescribe('RecoveryPhraseReadPage', () => {
+describe('RecoveryPhraseReadPage', () => {
   let component: RecoveryPhraseReadPage;
   let fixture: ComponentFixture<RecoveryPhraseReadPage>;
   let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;
@@ -34,6 +35,7 @@ fdescribe('RecoveryPhraseReadPage', () => {
   let navControllerSpy: any;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: any;
+  let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -56,7 +58,9 @@ fdescribe('RecoveryPhraseReadPage', () => {
         remove: Promise.resolve(),
       });
 
-
+      walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {
+        importMnemonic: '',
+      });
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
         getDecryptedWallet: Promise.resolve(jasmine.createSpyObj('Wallet', {},{ mnemonic: testMnemonic })),
       });
@@ -71,6 +75,7 @@ fdescribe('RecoveryPhraseReadPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+          { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -95,6 +100,8 @@ fdescribe('RecoveryPhraseReadPage', () => {
   });
 
   it('should call trackEvent on trackService when continue is clicked',()=>{
+    component.isRevealed = true;
+    component.mnemonic = testMnemonic;
     const el = trackClickDirectiveHelper.getByElementByName('ion-button','ux_protect_continue_phrase');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -106,8 +113,9 @@ fdescribe('RecoveryPhraseReadPage', () => {
   it('should navigate to verify phrase if Continue button was clicked', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    
     await fixture.whenStable();
+    component.isRevealed = true;
+    component.mnemonic = testMnemonic;
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_protect_continue_phrase"]'));
     buttonEl.nativeElement.click();
     await fixture.whenStable();

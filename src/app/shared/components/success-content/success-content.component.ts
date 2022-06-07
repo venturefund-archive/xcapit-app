@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { TrackService } from '../../services/track/track.service';
 
 @Component({
   selector: 'app-success-content',
@@ -85,9 +86,19 @@ export class SuccessContentComponent implements OnInit {
   @Output() secondaryActionEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() thirdActionEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private trackService: TrackService) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter(){
+    if(this.data.hasToTrackScreenview){
+      this.trackService.trackEvent({
+        eventAction: 'screenview',
+        description: window.location.href,
+        eventLabel: this.data.screenviewEventLabel
+      });
+    }
+  }
 
   close() {
     this.navController.navigateForward([this.data.urlClose]);

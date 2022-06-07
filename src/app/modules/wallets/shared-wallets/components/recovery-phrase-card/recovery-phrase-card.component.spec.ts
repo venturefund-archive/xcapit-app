@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 import { RecoveryWordComponent } from '../recovery-word/recovery-word.component';
 
 import { RecoveryPhraseCardComponent } from './recovery-phrase-card.component';
@@ -14,7 +15,7 @@ describe('RecoveryPhraseCardComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [RecoveryPhraseCardComponent, RecoveryWordComponent],
-        imports: [IonicModule],
+        imports: [IonicModule,TranslateModule.forRoot()],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 

@@ -25,4 +25,8 @@ export class WalletMnemonicService {
 
     return this.mnemonic;
   }
+
+  clearMnemonic(){
+    this.mnemonic = undefined;
+  }
 }

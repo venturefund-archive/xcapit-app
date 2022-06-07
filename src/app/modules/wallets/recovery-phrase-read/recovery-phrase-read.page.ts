@@ -7,6 +7,7 @@ import { IonAccordionGroup, ModalController, NavController } from '@ionic/angula
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletPasswordComponent } from '../shared-wallets/components/wallet-password/wallet-password.component';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
+import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 
 @Component({
   selector: 'app-recovery-phrase-read',
@@ -154,7 +155,8 @@ export class RecoveryPhraseReadPage implements OnInit {
     private modalController: ModalController,
     private storage: IonicStorageService,
     private navController: NavController,
-    private walletEncryptionService: WalletEncryptionService
+    private walletEncryptionService: WalletEncryptionService,
+    private walletMnemonicService: WalletMnemonicService
   ) {}
 
   ngOnInit() {}
@@ -176,6 +178,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   }
 
   goToVerifyPhrase() {
+    this.walletMnemonicService.importMnemonic(this.mnemonic.phrase);
     this.navController.navigateForward(['/wallets/create-first/verify-phrase']);
   }
 
@@ -259,6 +262,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   ionViewWillLeave() {
     this.clearPassword();
     this.clearMnemonic();
+    this.isRevealed = false;
   }
 
 }

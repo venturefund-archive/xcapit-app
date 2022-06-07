@@ -94,10 +94,14 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'tickets.create_support_ticket_success.namePrimaryAction',
   },
   unsuccesful_mnemonic_verification: {
+    bottomImage: true,
+    hasToTrackScreenview: true,
+    screenviewEventLabel: 'ux_protect_screenview_error',
+    image: 'assets/img/wallets/failed_mnemonic.svg',
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.failed_mnemonic.title',
     textSecondary: 'wallets.failed_mnemonic.description',
-    urlPrimaryAction: '/wallets/create-first/recovery-phrase',
+    urlPrimaryAction: '/wallets/recovery/read',
     namePrimaryAction: 'wallets.failed_mnemonic.button',
   },
   wallet_send: {
