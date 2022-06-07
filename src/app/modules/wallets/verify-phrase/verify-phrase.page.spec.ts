@@ -137,9 +137,8 @@ describe('VerifyPhrasePage', () => {
   });
 
   it('should clear password and mnemonic on leave', async () => {
-    const spyMnemonic = spyOn(component, 'clearMnemonic').and.callThrough();
     component.ionViewWillLeave();
-    expect(spyMnemonic).toHaveBeenCalledTimes(1);
+    expect(walletMnemonicServiceSpy.clearMnemonic).toHaveBeenCalledTimes(1);
   });
 
 });
