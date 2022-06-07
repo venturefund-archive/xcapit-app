@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NETWORK_COLORS } from 'src/app/modules/wallets/shared-wallets/constants/network-colors.constant';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
-import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 import { OperationStatus } from '../../interfaces/operation-status.interface';
 import { OperationDataInterface } from '../../services/operation/storage-operation.service';
 

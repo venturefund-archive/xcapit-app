@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { BankInfoCardComponent } from './bank-info-card.component';
 
-fdescribe('BankInfoCardComponent', () => {
+describe('BankInfoCardComponent', () => {
   let component: BankInfoCardComponent;
   let fixture: ComponentFixture<BankInfoCardComponent>;
 

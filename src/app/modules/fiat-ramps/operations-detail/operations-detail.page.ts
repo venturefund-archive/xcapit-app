@@ -10,6 +10,7 @@ import { OperationDataInterface } from '../shared-ramps/services/operation/stora
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { OperationStatus } from '../shared-ramps/interfaces/operation-status.interface';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-operations-detail',
@@ -59,7 +60,7 @@ import { OperationStatus } from '../shared-ramps/interfaces/operation-status.int
         <div class="dp__disclaimer__support">
           <ion-text class="ux-font-text-xxs">
             {{ 'fiat_ramps.operation_detail.support_text' | translate }}
-            <ion-button class="ux-link-xs ion-no-margin ion-no-padding" fill="clear" size="small">
+            <ion-button class="ux-link-xs ion-no-margin ion-no-padding" fill="clear" (click)="this.navigateToKriptonTOS()" size="small">
               {{ 'fiat_ramps.operation_detail.support_button' | translate }}
             </ion-button>
           </ion-text>
@@ -98,7 +99,8 @@ export class OperationsDetailPage implements OnInit {
     private route: ActivatedRoute,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
-    private apiWalletSertvice: ApiWalletService
+    private apiWalletSertvice: ApiWalletService,
+    private browserService: BrowserService,
   ) {}
 
   ngOnInit() {}
@@ -197,5 +199,12 @@ export class OperationsDetailPage implements OnInit {
   removePhoto() {
     this.voucher = undefined;
     this.hasVoucher = false;
+  }
+
+
+  async navigateToKriptonTOS() {
+    await this.browserService.open({
+      url: 'https://kriptonmarket.com/terms-and-conditions',
+    });
   }
 }
