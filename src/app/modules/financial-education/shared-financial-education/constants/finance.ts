@@ -1,5 +1,6 @@
 export const MODULES_FINANCE = [
   {
+    name: 'finance_1',
     open: 'yes',
     icon: 'assets/ux-icons/introduction-finances.svg',
     title: 'financial_education.home.module_finance.module_1.title',
@@ -7,20 +8,29 @@ export const MODULES_FINANCE = [
     last: false,
     sub_modules: [
       {
-        link: '',
-        title: 'financial_education.home.module_finance.module_1.sub_modules.sub_module_1',
-        dataToTrack:'how_to_get_started_in_finance',
+        name: '1',
+        title: 'financial_education.home.module_finance.module_1.sub_modules.sub_module_1.title',
+        info: 'financial_education.home.module_finance.module_1.sub_modules.sub_module_1.description',
+        img: 'assets/img/financial-education/startied.svg',
+        dataToTrack: 'how_to_get_started_in_finance',
+        learning_code: 'xcapit-fivi',
+        test_code: 'KwmHX7on',
         last: false,
       },
       {
-        link: '',
-        title: 'financial_education.home.module_finance.module_1.sub_modules.sub_module_2',
-        dataToTrack:'budgets',
+        name: '2',
+        title: 'financial_education.home.module_finance.module_1.sub_modules.sub_module_2.title',
+        info: 'financial_education.home.module_finance.module_1.sub_modules.sub_module_2.description',
+        img: 'assets/img/financial-education/manage-money.svg',
+        dataToTrack: 'budgets',
+        learning_code: 'FuuouYni',
+        test_code: 'f7W1WhTP',
         last: false,
       },
     ],
   },
   {
+    name: 'finance_2',
     icon: 'assets/ux-icons/quote.svg',
     title: 'financial_education.home.module_finance.module_2.title',
     description: 'financial_education.home.module_finance.module_2.description',
@@ -29,6 +39,7 @@ export const MODULES_FINANCE = [
     last: false,
   },
   {
+    name: 'finance_3',
     icon: 'assets/ux-icons/invest.svg',
     title: 'financial_education.home.module_finance.module_3.title',
     description: 'financial_education.home.module_finance.module_3.description',

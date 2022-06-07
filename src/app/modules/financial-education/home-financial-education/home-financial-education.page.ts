@@ -46,6 +46,7 @@ import { MODULES_FINANCE } from '../shared-financial-education/constants/finance
           class="hfe__content_card__modules"
           *ngFor="let module of this.modules"
           [module]="module"
+          [selectedTab]="this.segmentsForm.value.tab"
         ></app-modules-education>
       </div>
       <div class="hfe__rule_card">
