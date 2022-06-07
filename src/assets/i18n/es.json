@@ -15,7 +15,9 @@
       "api_keys_managment": "Gestión de API Keys",
       "change_language": "Idioma",
       "payment": "Planes",
-      "wallet_connect": "WalletConnect"
+      "wallet_connect": "WalletConnect",
+      "pull_to_refresh": "Próxima actualizacion disponible en"
+
     }
   },
   "config": {
@@ -2084,6 +2086,7 @@
         "title": "¡Quiero mi wallet!",
         "subtitle": "Crea tu wallet y comienza a tener el control de tus finanzas.",
         "description": "En tu wallet"
+
       },
       "strategies": {
         "title": "Estrategias",

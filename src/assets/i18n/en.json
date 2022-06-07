@@ -15,7 +15,8 @@
       "api_keys_managment": "Manage API Keys",
       "change_language": "Language",
       "payment": "Plans",
-      "wallet_connect": "WalletConnect"
+      "wallet_connect": "WalletConnect",
+      "pull_to_refresh": "Próxima actualizacion disponible en"
     }
   },
   "config": {
