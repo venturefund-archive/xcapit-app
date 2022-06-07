@@ -30,24 +30,11 @@ import { Filesystem } from '@capacitor/filesystem';
               </ion-button>
             </div>
           </div>
-          <div class="vc__send-button">
-            <ion-text>
-              <ion-button
-                name="Send Button"
-                class="ux-link-xl ion-no-margin ion-no-padding"
-                fill="clear"
-                size="small"
-                (click)="this.sendVoucherEvent()"
-              >
-                Enviar
-              </ion-button>
-            </ion-text>
-          </div>
         </ng-template>
         <ng-template #success>
           <div class="vc__success">
             <div class="vc__success__text">
-              <ion-text class="ux-font-text-base-black">El comprobante se envió correctamente</ion-text>
+              <ion-text class="ux-font-text-base-black">{{ 'fiat_ramps.operation_detail.voucher_card.success' | translate }}</ion-text>
             </div>
             <div class="vc__success__icon">
               <ion-icon name="ux-checked-circle"></ion-icon>
@@ -62,7 +49,6 @@ import { Filesystem } from '@capacitor/filesystem';
 export class VoucherCardComponent implements OnInit {
   @Input() voucher: any;
   @Input() uploading: boolean;
-  @Output() sendVoucher: EventEmitter<any> = new EventEmitter<any>();
   @Output() removePhoto: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {}
@@ -71,9 +57,5 @@ export class VoucherCardComponent implements OnInit {
 
   removePhotoEvent() {
     this.removePhoto.emit();
-  }
-
-  sendVoucherEvent() {
-    this.sendVoucher.emit();
   }
 }

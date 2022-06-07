@@ -1907,9 +1907,11 @@
       "support_text": "Si tienes dudas y consultas contáctate con",
       "support_button": "Soporte de Kripton Market",
       "upload_voucher": "Adjuntar comprobante",
+      "send_voucher": "Enviar comprobante",
       "voucher_card": {
         "header": "Comprobante",
-        "file": "Archivo"
+        "file": "Archivo",
+        "success": "El comprobante se envió correctamente"
       },
       "bank_info_card": {
         "header": "Datos para transferencia",

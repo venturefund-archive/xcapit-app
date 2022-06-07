@@ -34,12 +34,10 @@ import { OperationStatus } from '../shared-ramps/interfaces/operation-status.int
           <app-voucher-card
             [uploading]="this.uploadingVoucher"
             [voucher]="this.voucher"
-            (sendVoucher)="this.sendPicture()"
             (removePhoto)="this.removePhoto()"
           ></app-voucher-card>
         </div>
       </div>
-
       <div class="dp__card-container">
         <app-transfer-confirm-card
           [operationStatus]="this.operationStatus"
@@ -67,10 +65,18 @@ import { OperationStatus } from '../shared-ramps/interfaces/operation-status.int
           </ion-text>
         </div>
       </div>
-      <div class="dp__upload-voucher" *ngIf="!this.hasVoucher">
-        <ion-button class="ux_button ion-no-margin" color="secondary" expand="block" (click)="this.addPhoto()">
-          {{ 'fiat_ramps.operation_detail.upload_voucher' | translate }}
-        </ion-button>
+      <div class="dp__upload-voucher">
+        <div *ngIf="this.hasVoucher; then sendPictureElement; else addPhotoElement"></div>
+        <ng-template #addPhotoElement>
+          <ion-button class="ux_button ion-no-margin" color="secondary" expand="block" (click)="this.addPhoto()">
+            {{ 'fiat_ramps.operation_detail.upload_voucher' | translate }}
+          </ion-button>
+        </ng-template>
+        <ng-template #sendPictureElement>
+          <ion-button class="ux_button ion-no-margin" color="secondary" expand="block" (click)="this.sendPicture()">
+            {{ 'fiat_ramps.operation_detail.send_voucher' | translate }}
+          </ion-button>
+        </ng-template>
       </div>
     </ion-content>
   `,

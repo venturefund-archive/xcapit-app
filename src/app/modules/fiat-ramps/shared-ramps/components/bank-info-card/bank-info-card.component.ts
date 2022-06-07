@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { BANK_INFO_KRIPTON } from '../../constants/bank-info-kripton';
 import { COUNTRIES } from '../../constants/countries';
 import { BankInfo } from '../../interfaces/bank-info.interface';
@@ -29,7 +30,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
               </ion-text>
             </div>
           </div>
-          <ion-button class="ion-no-margin" fill="clear" size="small">
+          <ion-button class="ion-no-margin" fill="clear" size="small" (click)="this.copyAmountToClipboard()">
             <ion-icon name="ux-paste"></ion-icon>
           </ion-button>
         </div>
@@ -48,7 +49,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
           </div>
         </div>
         <div *ngIf="this.bankInfo">
-          <div class="bic__content__item" *ngFor="let extra of this.bankInfo.extras">
+          <div class="bic__content__item" *ngFor="let extra of this.bankInfo.extras; let i = index">
             <div class="bic__content__item__container">
               <div class="bic__content__item__container__header">
                 <ion-text class="ux-font-titulo-xs">
@@ -61,7 +62,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
                 </ion-text>
               </div>
             </div>
-            <ion-button class="ion-no-margin" fill="clear" size="small">
+            <ion-button class="ion-no-margin" fill="clear" size="small" (click)="this.copyExtraDataToClipboard(i)">
               <ion-icon name="ux-paste"></ion-icon>
             </ion-button>
           </div>
@@ -74,10 +75,12 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
               </ion-text>
             </div>
             <div class="bic__content__item__container__content">
-              <ion-text class="ux-font-text-base-black">Cash In</ion-text>
+              <ion-text class="ux-font-text-base-black">
+                {{ this.concept }}
+              </ion-text>
             </div>
           </div>
-          <ion-button class="ion-no-margin" fill="clear" size="small">
+          <ion-button class="ion-no-margin" fill="clear" size="small" (click)="this.copyConceptToClipboard()">
             <ion-icon name="ux-paste"></ion-icon>
           </ion-button>
         </div>
@@ -93,8 +96,11 @@ export class BankInfoCardComponent implements OnInit {
   allBanks = BANK_INFO_KRIPTON;
   countries = COUNTRIES;
   bankInfo: BankInfo;
+  concept = "Cash In";
 
-  constructor() {}
+  constructor(
+    private clipboardService: ClipboardService,
+  ) {}
 
   ngOnInit() {
     this.getCountry();
@@ -111,5 +117,21 @@ export class BankInfoCardComponent implements OnInit {
     this.bankInfo = this.allBanks.find(
       (b) => b.providerId === this.provider.id && b.countryIsoCode === this.country.isoCode
     );
+  }
+
+  copyAmountToClipboard() {
+    this.copyDataToClipboard(this.operation.amount_in.toString());
+  }
+
+  copyExtraDataToClipboard(index: number) {
+    this.copyDataToClipboard(this.bankInfo.extras[index].value);
+  }
+
+  copyConceptToClipboard() {
+    this.copyDataToClipboard(this.concept);
+  }
+
+  private copyDataToClipboard(data: string): Promise<void> {
+    return this.clipboardService.write({ string: data });
   }
 }

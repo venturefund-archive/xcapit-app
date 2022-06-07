@@ -1928,9 +1928,11 @@
       "support_text": "If you have any questions contact",
       "support_button": "Kripton Market Support",
       "upload_voucher": "Attach voucher",
+      "send_voucher": "Send voucher",
       "voucher_card": {
         "header": "Voucher",
-        "file": "File"
+        "file": "File",
+        "success": "The voucher has been sent successfully"
       },
       "bank_info_card": {
         "header": "Data for transfer",
