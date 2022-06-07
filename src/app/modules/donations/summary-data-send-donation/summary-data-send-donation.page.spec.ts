@@ -151,7 +151,7 @@ describe('SummaryDataSendDonationPage', () => {
     );
     expect(component.isSending).toBeFalse();
     expect(localNotificationsServiceSpy.send).not.toHaveBeenCalled();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/donations/error']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/donations/invalid-password');
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
