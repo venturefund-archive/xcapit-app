@@ -50,6 +50,17 @@
   }
 }
 
+// Modal informativo medium
+.ux-md-modal-informative {
+  --max-height: 437.73px;
+  --max-width: 296px;
+  --background: #fff;
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
 // Modal no tienes apikeys
 .ux-modal-no-apikeys {
   --max-height: 378px;

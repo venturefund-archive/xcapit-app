@@ -45,7 +45,7 @@ export class StorageService {
     return await this.appStorageService.set('enc_wallet', wallet);
   }
 
-  async removeWalletFromStorage(){
+  async removeWalletFromStorage() {
     return await this.appStorageService.remove('enc_wallet');
   }
 

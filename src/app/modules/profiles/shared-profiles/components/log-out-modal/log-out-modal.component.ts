@@ -65,7 +65,7 @@ export class LogOutModalComponent implements OnInit {
     private navController: NavController,
     private formBuilder: FormBuilder,
     private logOutModalService: LogOutModalService,
-    private modalController: ModalController
+    private modalController: ModalController,
   ) {}
 
   ngOnInit() {}
@@ -74,7 +74,6 @@ export class LogOutModalComponent implements OnInit {
     if (this.form.value.dontShowModalCheckbox) {
       await this.saveModalChoice();
     }
-
     await this.authService.logout();
     await this.navController.navigateRoot(['/users/login']);
     await this.modalController.dismiss();
