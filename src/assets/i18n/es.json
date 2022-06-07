@@ -1676,6 +1676,16 @@
         "title": "Frase de recuperación",
         "description": "Es un conjunto de 12 palabras ordenadas, que sirven como llave maestra de tus fondos.",
         "button_text": "Entendido"
+      },
+      "info_phrase_advice_modal": {
+        "title": "Frase de recuperación",
+        "description": "Es un conjunto de 12 palabras ordenadas, que sirven como llave maestra de tus fondos.",
+        "button_text": "Entendido",
+        "item_1":"No la compartas con nadie, pues quien la posea podrá acceder a tus fondos.",
+        "item_2":"No guardes tu frase en la nube ni en tus dispositivos móviles.",
+        "item_3":"No la compartas por servicios de mensajería ni redes sociales.",
+        "item_4":"Guárdala en un lugar seguro.",
+        "item_5":"Puedes grabarla en algún elemento para que perdure en el tiempo."
       }
     },
     "asset_detail": {

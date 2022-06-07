@@ -1694,6 +1694,16 @@
         "title": "Recovery phrase",
         "description": "It is a set of 12 ordered words, which serve as a master key to your funds.",
         "button_text": "Understood"
+      },
+      "info_phrase_advice_modal": {
+        "title": "Recovery phrase",
+        "description": "It is a set of 12 ordered words, which serve as a master key to your funds.",
+        "button_text": "Understood",
+        "item_1":"Do not share it with anyone else, as anyone who has it will be able to access your funds.",
+        "item_2":"Do not save your phrase in the cloud or on your mobile devices.",
+        "item_3":"Do not share it via messaging services or social networks.",
+        "item_4":"Keep it in a safe place.",
+        "item_5":"You can engrave it on some element to make it last over time."
       }
     },
     "asset_detail": {
