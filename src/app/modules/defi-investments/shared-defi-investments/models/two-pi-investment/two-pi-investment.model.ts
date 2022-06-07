@@ -11,7 +11,7 @@ import { Signer } from 'ethers';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { Task } from '../../../../../shared/models/task/task';
 import { Retry } from '../../../../../shared/models/retry/retry';
-import { GasFeeOf } from '../gas-fee-of/gas-fee-of.model';
+import { GasFeeOf } from '../../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { Allowance } from '../allowance/allowance';
 import { GasLimitOf } from '../gas-limit-of/gas-limit-of';
 

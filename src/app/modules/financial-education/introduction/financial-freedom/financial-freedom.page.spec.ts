@@ -8,6 +8,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 
 import { FinancialFreedomPage } from './financial-freedom.page';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('FinancialFreedomPage', () => {
   let component: FinancialFreedomPage;
@@ -16,25 +17,39 @@ describe('FinancialFreedomPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FinancialFreedomPage>;
-  beforeEach(waitForAsync(() => {
-    fakeNavController = new FakeNavController();
-    navControllerSpy = fakeNavController.createSpy();
-    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{ trackEvent: Promise.resolve(true),})
+  beforeEach(
+    waitForAsync(() => {
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', { trackEvent: Promise.resolve(true) });
 
-    TestBed.configureTestingModule({
-      declarations: [ FinancialFreedomPage,  FakeTrackClickDirective ],
-      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      providers:[{ provide: TrackService, useValue: trackServiceSpy},{ provide: NavController, useValue: navControllerSpy },]
-    }).compileComponents();
+      TestBed.configureTestingModule({
+        declarations: [FinancialFreedomPage, FakeTrackClickDirective],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+        providers: [
+          { provide: TrackService, useValue: trackServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(FinancialFreedomPage);
-    component = fixture.componentInstance;
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    fixture.detectChanges();
-  }));
+      fixture = TestBed.createComponent(FinancialFreedomPage);
+      component = fixture.componentInstance;
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+      fixture.detectChanges();
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render app-share-education component', async () => {
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    const componentEl = fixture.debugElement.queryAll(By.css('app-share-education'));
+    fixture.detectChanges();
+    expect(componentEl).toBeTruthy();
   });
 
   it('should track screenview event on init', () => {
@@ -46,7 +61,7 @@ describe('FinancialFreedomPage', () => {
     fixture.debugElement.query(By.css('.ff__button ion-button')).nativeElement.click();
 
     fixture.detectChanges();
-    
+
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('financial-education/introduction/explanation');
   });
 
@@ -69,5 +84,4 @@ describe('FinancialFreedomPage', () => {
     expect(titleEl.nativeElement.innerHTML).toContain('financial_education.introduction.financial_freedom.title');
     expect(subtitleEl.nativeElement.innerHTML).toContain('financial_education.introduction.financial_freedom.subtitle');
   });
-
 });

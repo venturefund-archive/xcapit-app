@@ -45,7 +45,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
           <ion-text class="ux-font-text-xxs" color="neutral80" *ngIf="(this.isRefreshAvailable$ | async) === false">
             {{
-              'funds.funds_list.refresh_time'
+              'app.main_menu.pull_to_refresh'
                 | translate
                   : {
                       seconds: (this.refreshRemainingTime$ | async)
@@ -157,7 +157,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 })
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
-  protectedWallet:boolean;
+  protectedWallet: boolean;
   tokenDetails: TokenDetail[] = [];
   userTokens: Coin[];
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;

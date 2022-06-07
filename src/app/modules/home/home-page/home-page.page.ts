@@ -1,12 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NavController } from '@ionic/angular';
-import { EMPTY, Subject, Subscription, timer } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { QuotesCardComponent } from '../shared-home/components/quotes-card/quotes-card.component';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
-import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { BalanceCacheService } from '../../wallets/shared-wallets/services/balance-cache/balance-cache.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -28,14 +24,6 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
   template: `
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">
-        <ion-buttons slot="end" *ngIf="true">
-          <ion-button appTrackClick name="Show Notifications" (click)="this.showNotifications()">
-            <ion-icon slot="icon-only" name="ux-bell"></ion-icon>
-            <div class="notificationQty" *ngIf="this.unreadNotifications > 0">
-              {{ this.unreadNotifications }}
-            </div>
-          </ion-button>
-        </ion-buttons>
         <div class="header">
           <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
         </div>
@@ -56,9 +44,9 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
           <app-ux-loading-block *ngIf="this.isRefreshAvailable$ | async" minSize="34px"></app-ux-loading-block>
           <ion-text class="ux-font-text-xxs" color="neutral80" *ngIf="(this.isRefreshAvailable$ | async) === false">
             {{
-              'funds.funds_list.refresh_time'
+              'app.main_menu.pull_to_refresh'
                 | translate
-                  : {
+                : {
                       seconds: (this.refreshRemainingTime$ | async)
                     }
             }}
@@ -115,7 +103,6 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
 })
 export class HomePage implements OnInit {
   @ViewChild(QuotesCardComponent) quotesCardComponent: QuotesCardComponent;
-  hasNotifications = false;
   lockActivated = false;
   hideFundText: boolean;
   balance: number;
@@ -123,7 +110,6 @@ export class HomePage implements OnInit {
   coins: Coin[];
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
-  notificationInterval = 30000;
   totalBalanceModel: TotalBalance;
   userTokens: Coin[];
   tokenDetails: TokenDetail[] = [];
@@ -132,17 +118,11 @@ export class HomePage implements OnInit {
   category: string;
   name: string;
   necessaryAmount: number;
-  private notificationQtySubscription: Subscription;
-  private notificationQtySubject = new Subject();
-  private timerSubscription: Subscription;
-  public unreadNotifications: number;
 
   constructor(
     private navController: NavController,
-    private notificationsService: NotificationsService,
     private refreshTimeoutService: RefreshTimeoutService,
     private walletService: WalletService,
-    private walletBalance: WalletBalanceService,
     private apiWalletService: ApiWalletService,
     private balanceCacheService: BalanceCacheService,
     private storageService: StorageService,
@@ -157,8 +137,6 @@ export class HomePage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.initQtyNotifications();
-    this.createNotificationTimer();
     this.getPlannerData();
   }
 
@@ -245,41 +223,7 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidLeave() {
-    if (this.timerSubscription && !this.timerSubscription.closed) {
-      this.timerSubscription.unsubscribe();
-    }
-
-    if (this.notificationQtySubscription && !this.notificationQtySubscription.closed) {
-      this.notificationQtySubscription.unsubscribe();
-    }
-
     this.refreshTimeoutService.unsubscribe();
-  }
-
-  createNotificationTimer() {
-    this.timerSubscription = timer(0, this.notificationInterval).subscribe(() => {
-      this.notificationQtySubject.next();
-    });
-  }
-
-  initQtyNotifications() {
-    this.notificationQtySubscription = this.notificationQtySubject
-      .pipe(
-        switchMap(() =>
-          this.notificationsService.getCountNotifications().pipe(
-            catchError((_) => {
-              return EMPTY;
-            })
-          )
-        )
-      )
-      .subscribe((res: any) => (this.unreadNotifications = res.count));
-    this.notificationQtySubject.next();
-  }
-
-  showNotifications() {
-    this.navController.navigateForward('/notifications/list');
-    this.unreadNotifications = 0;
   }
 
   async refresh(event: any): Promise<void> {

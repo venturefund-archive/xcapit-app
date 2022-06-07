@@ -26,6 +26,7 @@ import { LocalNotificationSchema } from '@capacitor/local-notifications';
     <ion-content class="sdsd ion-padding">
       <div class="sdsd__transaction-summary-card" *ngIf="this.summaryData">
         <app-transaction-summary-card
+          [title]="'donations.send_donations.summary.title' | translate"
           [addressTitle]="'donations.send_donations.summary.destination_address' | translate"
           [amountsTitle]="'donations.send_donations.summary.amount_title' | translate"
           [summaryData]="this.summaryData"
@@ -116,6 +117,7 @@ export class SummaryDataSendDonationPage implements OnInit {
 
   private async endTx() {
     this.isSending = false;
+    this.loading = false;
     await this.loadingService.dismiss();
   }
 
@@ -149,9 +151,8 @@ export class SummaryDataSendDonationPage implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-    if (data === undefined) {
-      this.loading = false;
-    }
+    if (data === undefined) this.loading = false;
+
     return data;
   }
 
@@ -255,7 +256,7 @@ export class SummaryDataSendDonationPage implements OnInit {
   }
 
   private async handleInvalidPassword() {
-    await this.navController.navigateForward(['/donations/error']);
+    await this.navController.navigateForward('/donations/invalid-password');
   }
 
   private async handleNotEnoughBalance() {

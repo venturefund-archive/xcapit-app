@@ -6,33 +6,23 @@ import { Coin } from '../../interfaces/coin.interface';
 import { Send } from '../../interfaces/send.interface';
 import { NativeToken } from '../native-token/native-token.model';
 import { NetworkConfig } from '../network-config/network-config';
+import { WeiOf } from '../../../../../shared/models/wei-of/wei-of';
 
 export class NativeTokenSend implements Send {
-
   get tokenDecimals(): number {
     return this._aCoin.decimals ? this._aCoin.decimals : 18;
   }
 
-  private get amount(): BigNumber {
-    return parseUnits(this._anAmount, this.tokenDecimals);
-  }
-
   constructor(
     private readonly _anAddressTo: string,
-    private readonly _anAmount: string,
+    private readonly _anAmount: number,
     private readonly _aToken: NativeToken,
     private readonly _aCoin: Coin,
     public readonly canSignTx: boolean,
     private readonly networkConfig: NetworkConfig
   ) {}
 
-  static create(
-    to: string,
-    amount: string,
-    coin: Coin,
-    signer: Signer,
-    networkConfig: NetworkConfig
-  ): NativeTokenSend {
+  static create(to: string, amount: number, coin: Coin, signer: Signer, networkConfig: NetworkConfig): NativeTokenSend {
     const provider = new DefaultERC20Provider(coin);
     const canSignTx = !(signer instanceof VoidSigner);
     const _aToken = new NativeToken(provider, signer);
@@ -41,6 +31,10 @@ export class NativeTokenSend implements Send {
   }
 
   async send(): Promise<TransactionResponse> {
-    return this._aToken.transfer(this._anAddressTo, this.amount, await this.networkConfig.value());
+    return this._aToken.transfer(
+      this._anAddressTo,
+      new WeiOf(this._anAmount, this._aCoin).value(),
+      await this.networkConfig.value()
+    );
   }
 }

@@ -3,6 +3,8 @@ import { ShareService } from '../../../../../shared/services/share/share.service
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
 import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-referrals-share',
@@ -68,7 +70,7 @@ export class ReferralsShareComponent implements OnInit {
     private shareService: ShareService,
     private clipboardService: ClipboardService,
     private platformService: PlatformService,
-    private browserService: BrowserService
+    private browserService: BrowserService,
   ) {}
 
   ngOnInit() {
@@ -76,7 +78,9 @@ export class ReferralsShareComponent implements OnInit {
   }
 
   share() {
-    this.shareService.share({ url: this.link }, '').then(() => this.shared.emit());
+    this.shareService.share({ url: this.link }).then(() => this.shared.emit()).catch(() => {
+     this.copy()
+    });
   }
 
   copy() {

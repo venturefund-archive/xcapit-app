@@ -29,7 +29,7 @@ describe('ERC20TokenSend', () => {
     });
     transfer = new ERC20TokenSend(
       zeroAddress,
-      '1.0',
+      1.0,
       erc20TokenSpy,
       usdtCoin,
       false,
@@ -51,7 +51,7 @@ describe('ERC20TokenSend', () => {
   it('should create an instance of ERC20TokenSend with no wallet on create', () => {
     const send = ERC20TokenSend.create(
       zeroAddress,
-      '1.0',
+      1.0,
       usdtCoin,
       new VoidSigner(zeroAddress),
       networkConfigSpy
@@ -62,7 +62,7 @@ describe('ERC20TokenSend', () => {
 
   it('should create an instance of ERC20TokenSend with wallet on create', () => {
     const wallet = Wallet.createRandom();
-    const send = ERC20TokenSend.create(zeroAddress, '1.0', usdtCoin, wallet, networkConfigSpy);
+    const send = ERC20TokenSend.create(zeroAddress, 1.0, usdtCoin, wallet, networkConfigSpy);
     expect(send).toBeInstanceOf(ERC20TokenSend);
     expect(send.canSignTx).toBeTrue();
   });

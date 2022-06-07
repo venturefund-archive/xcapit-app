@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { ReceivePage } from './receive.page';
 import { QRCodeService } from '../../../shared/services/qr-code/qr-code.service';
@@ -18,6 +18,7 @@ import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-d
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { WriteOptions } from '@capacitor/clipboard';
 
 const testCurrencies: Coin[] = [
   {
@@ -47,12 +48,9 @@ describe('ReceivePage', () => {
   let fixture: ComponentFixture<ReceivePage>;
   let qrCodeServiceMock;
   let qrCodeService: QRCodeService;
-  let clipboardServiceMock;
-  let clipboardService: ClipboardService;
-  let shareServiceMock;
-  let shareService: ShareService;
+  let clipboardServiceSpy : jasmine.SpyObj<ClipboardService>;
+  let shareServiceSpy : jasmine.SpyObj<ShareService>;
   let toastServiceMock;
-  let walletEncryptionService: WalletEncryptionService;
   let walletEncryptionServiceMock;
   let platformServiceSpy;
   let toastService: ToastService;
@@ -73,12 +71,12 @@ describe('ReceivePage', () => {
       qrCodeServiceMock = {
         generateQRFromText: () => Promise.resolve('test_qr'),
       };
-      clipboardServiceMock = {
-        write: () => Promise.resolve(),
-      };
-      shareServiceMock = {
-        share: () => Promise.resolve(),
-      };
+      clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', {
+        write: Promise.resolve(),
+      });
+      shareServiceSpy = jasmine.createSpyObj('ShareService', {
+        share: Promise.resolve(),
+      });
       toastServiceMock = {
         showInfoToast: () => Promise.resolve(),
       };
@@ -105,8 +103,8 @@ describe('ReceivePage', () => {
         ],
         providers: [
           { provide: QRCodeService, useValue: qrCodeServiceMock },
-          { provide: ClipboardService, useValue: clipboardServiceMock },
-          { provide: ShareService, useValue: shareServiceMock },
+          { provide: ClipboardService, useValue: clipboardServiceSpy },
+          { provide: ShareService, useValue: shareServiceSpy },
           { provide: ToastService, useValue: toastServiceMock },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceMock },
           { provide: PlatformService, useValue: platformServiceSpy },
@@ -122,10 +120,7 @@ describe('ReceivePage', () => {
       component.address = 'test_address';
       fixture.detectChanges();
       qrCodeService = TestBed.inject(QRCodeService);
-      clipboardService = TestBed.inject(ClipboardService);
-      shareService = TestBed.inject(ShareService);
       toastService = TestBed.inject(ToastService);
-      walletEncryptionService = TestBed.inject(WalletEncryptionService);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
@@ -147,31 +142,37 @@ describe('ReceivePage', () => {
 
   it('should copy address when click in copy button', async () => {
     const spyToast = spyOn(toastService, 'showInfoToast').and.callThrough();
-    const spy = spyOn(clipboardService, 'write').and.callThrough();
     const button = fixture.debugElement.query(By.css('#copy-address-button'));
     await button.nativeElement.click();
     expect(spyToast).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith({ string: 'test_address' });
+    expect(clipboardServiceSpy.write).toHaveBeenCalledOnceWith({ string: 'test_address' });
   });
 
   it('should share address when click in share button - native platform', async () => {
-    const spy = spyOn(shareService, 'share').and.callThrough();
     component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     const button = fixture.debugElement.query(By.css('#share-address-button'));
     await button.nativeElement.click();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(
+    expect(shareServiceSpy.share).toHaveBeenCalledOnceWith(
       {
         title: 'wallets.receive.share_title',
         dialogTitle: 'wallets.receive.share_title',
         text: 'test_address',
-      },
-      'shared.services.share.share_error'
+      }
     );
+  });
+
+  it('should copy address when click in share button and it fails - native platform', async () => {
+    shareServiceSpy.share.and.rejectWith();
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    const button = fixture.debugElement.query(By.css('#share-address-button'));
+    await button.nativeElement.click();
+    expect(clipboardServiceSpy.write).toHaveBeenCalledOnceWith({string: 'test_address'});
   });
 
   it('should not render share button on no native platform', async () => {

@@ -21,6 +21,7 @@ import { InformativeCardComponent } from './components/informative-card/informat
 import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.component';
 import { SkipBackupModalComponent } from './components/skip-backup-modal/skip-backup-modal.component';
 import { InfoPhraseModalComponent } from './components/info-phrase-modal/info-phrase-modal.component';
+import { WarningBackupModalComponent } from './components/warning-backup-modal/warning-backup-modal.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { InfoPhraseModalComponent } from './components/info-phrase-modal/info-ph
     WalletConnectQrScanComponent,
     InformativeCardComponent,
     SkipBackupModalComponent,
-    InfoPhraseModalComponent
+    InfoPhraseModalComponent,
+    WarningBackupModalComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -69,7 +71,8 @@ import { InfoPhraseModalComponent } from './components/info-phrase-modal/info-ph
     WalletConnectQrScanComponent,
     InformativeCardComponent,
     SkipBackupModalComponent,
-    InfoPhraseModalComponent
+    InfoPhraseModalComponent,
+    WarningBackupModalComponent
   ],
 })
 export class SharedWalletsModule {}

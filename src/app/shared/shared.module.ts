@@ -87,6 +87,7 @@ import { ErrorsFormPasswordItemComponent } from './components/errors-form-passwo
 import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-network.pipe';
 import { BackupInformationCardComponent } from '../modules/wallets/shared-wallets/components/backup-information-card/backup-information-card.component';
 import { ExplanationItemComponent } from '../modules/financial-education/shared-financial-education/components/explanation-item/explanation-item.component';
+import { InfoPhraseAdviceModalComponent } from '../modules/wallets/shared-wallets/components/info-phrase-advice-modal/info-phrase-advice-modal.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +114,7 @@ import { ExplanationItemComponent } from '../modules/financial-education/shared-
     AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
     // Ux
+    InfoPhraseAdviceModalComponent,
     BackupInformationCardComponent,
     ExplanationItemComponent,
     SelectModalNewComponent,
@@ -210,6 +212,7 @@ import { ExplanationItemComponent } from '../modules/financial-education/shared-
     AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
     // Ux
+    InfoPhraseAdviceModalComponent,
     BackupInformationCardComponent,
     ExplanationItemComponent,
     SelectModalNewComponent,

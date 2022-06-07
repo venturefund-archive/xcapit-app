@@ -190,4 +190,14 @@ describe('RecoveryPhraseReadPage', () => {
     expect(spyPassword).toHaveBeenCalledTimes(1);
     expect(spyMnemonic).toHaveBeenCalledTimes(1);
   });
+
+  it('should show modal and call trackEvent on trackService when ux_protect_information clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('div', 'ux_protect_information');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
 });

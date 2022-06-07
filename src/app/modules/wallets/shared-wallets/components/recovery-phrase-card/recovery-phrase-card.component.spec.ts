@@ -15,7 +15,7 @@ describe('RecoveryPhraseCardComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [RecoveryPhraseCardComponent, RecoveryWordComponent],
-        imports: [IonicModule,TranslateModule.forRoot()],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 

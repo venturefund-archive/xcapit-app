@@ -12,7 +12,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
 import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
 import { NativeFeeOf } from 'src/app/modules/defi-investments/shared-defi-investments/models/native-fee-of/native-fee-of.model';
 import { FormattedFee } from 'src/app/modules/defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
-import { GasFeeOf } from '../../../defi-investments/shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
+import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { VoidSigner, BigNumber } from 'ethers';
 import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
@@ -163,8 +163,6 @@ export class SendDetailPage {
   }
 
   async tokenBalances() {
-    this.nativeToken = this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
-
     this.nativeBalance = parseFloat(
       await this.walletService.balanceOf(await this.userWallet(), this.nativeToken.value)
     );
@@ -179,11 +177,12 @@ export class SendDetailPage {
     this.token = this.apiWalletService.getCoin(coin, network);
     this.networks = this.apiWalletService.getNetworks(coin);
     this.selectedNetwork = network;
+    this.nativeToken = this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
   }
 
   private async getFee(): Promise<void> {
     this.token.native ? await this.nativeTransferFee() : await this.nonNativeTransferFee();
-    this.dynamicFee = { value: this.fee, token: this.token.value };
+    this.dynamicFee = { value: this.fee, token: this.nativeToken.value };
     this.getQuoteFee();
   }
 
@@ -201,7 +200,7 @@ export class SendDetailPage {
         new NativeFeeOf(
           new NativeGasOf(this.erc20Provider(), {
             to: this.form.value.address,
-            value: this.form.value.amount && this.parseWei(this.form.value.amount),
+            value: this.parseWei(1),
           }),
           new FakeProvider(await this.gasPrice())
         ),
@@ -222,7 +221,7 @@ export class SendDetailPage {
       new NativeFeeOf(
         new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
           await this.userWallet(),
-          this.parseWei(this.form.value.amount),
+          this.parseWei(1),
         ]),
         new FakeProvider(await this.gasPrice())
       )

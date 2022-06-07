@@ -1,0 +1,64 @@
+:host {
+  justify-content: unset;
+
+  --height: 437px;
+
+  .main {
+    position: relative;
+
+    &__close_button {
+      display: flex;
+      justify-content: flex-end;
+      height: 32px;
+
+      ion-button {
+        height: inherit;
+        margin: 0;
+        padding-right: 10px;
+        padding-top: 10px;
+      }
+
+      &__icon {
+        align-items: flex-end;
+      }
+    }
+
+    &__body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0 0 16px;
+
+      &__content {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 24px;
+        text-align: center;
+
+        &__title {
+          margin-top: 16px;
+
+          &__body {
+            margin-bottom: 8px;
+          }
+        }
+
+        &__description {
+          text-align: left;
+          padding: 0 10px;
+        }
+      }
+    }
+
+    &__actions {
+      width: 100%;
+      padding: 0 10px;
+
+      ion-button {
+        width: inherit;
+        margin-bottom: 8px;
+      }
+    }
+  }
+}

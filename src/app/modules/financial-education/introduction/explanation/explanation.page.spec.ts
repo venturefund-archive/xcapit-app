@@ -65,7 +65,7 @@ describe('ExplanationPage', () => {
     fixture.detectChanges();
     
     expect(storageServiceSpy.set).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/financial-education/home');
   });
 
   it('should render app-explanation-item component', async () => {
@@ -75,4 +75,14 @@ describe('ExplanationPage', () => {
     fixture.detectChanges();
     expect(componentEl).toBeTruthy();
   });
+
+
+  it('should render app-share-education component', async () => {
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    const componentEl = fixture.debugElement.queryAll(By.css('app-share-education'));
+    fixture.detectChanges();
+    expect(componentEl).toBeTruthy();
+  });
+
 });

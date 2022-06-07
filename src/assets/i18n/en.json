@@ -15,7 +15,8 @@
       "api_keys_managment": "Manage API Keys",
       "change_language": "Language",
       "payment": "Plans",
-      "wallet_connect": "WalletConnect"
+      "wallet_connect": "WalletConnect",
+      "pull_to_refresh": "Próxima actualizacion disponible en"
     }
   },
   "config": {
@@ -351,8 +352,8 @@
       "button_link": "Make withdrawal",
       "invested_amount": "Balance*",
       "daily_earnings_disclaimer": "*Your balance is updated daily.",
-      "continuous_update":"*Continuous update",
-      "weekly_update":"*Weekly update"
+      "continuous_update": "*Continuous update",
+      "weekly_update": "*Weekly update"
     },
     "shared": {
       "transaction_fees": {
@@ -374,7 +375,7 @@
         "not_min_ammount": "No minimum amount",
         "immediate_rescue": "Immediate Rescue",
         "continuous_earnings": "Continuous earnings",
-        "weekly_earnings":"Weekly earnings",
+        "weekly_earnings": "Weekly earnings",
         "daily_earnings_disclaimer_active": "*Your balance is updated daily.",
         "daily_earnings_disclaimer_available": "*Your balance is now updated daily.",
         "coming_badge": "Coming soon",
@@ -972,33 +973,77 @@
       }
     }
   },
-  "financial_education":{
-    "introduction":{
-      "financial_freedom":{
-        "header":"Education",
-        "title":"Towards your financial freedom!",
-        "subtitle":"We want you to learn how to get the most for your money in a quick, clear and simple way.",
-        "button":"Next"
+  "financial_education": {
+    "introduction": {
+      "financial_freedom": {
+        "header": "Education",
+        "title": "Towards your financial freedom!",
+        "subtitle": "We want you to learn how to get the most for your money in a quick, clear and simple way.",
+        "button": "Next"
       },
-      "explanation":{
-        "header":"Education",
-        "title":"How does it work?",
-        "button":"Start",
-        "item_1":{
-          "number":"1.",
-          "title":" Complete all modules",
-          "description":"In order to learn about financial freedom we divide the topics into several modules so be sure to read them all."
+      "explanation": {
+        "header": "Education",
+        "title": "How does it work?",
+        "button": "Start",
+        "item_1": {
+          "number": "1.",
+          "title": " Complete all modules",
+          "description": "In order to learn about financial freedom we divide the topics into several modules so be sure to read them all."
         },
-        "item_2":{
-          "number":"2.",
-          "title":" Passes tests without errors",
-          "description":"You must pass all the tests without errors, you can repeat it as many times as you need."
+        "item_2": {
+          "number": "2.",
+          "title": " Passes tests without errors",
+          "description": "You must pass all the tests without errors, you can repeat it as many times as you need."
         },
-        "item_3":{
-          "number":"3.",
-          "title":" Wait for your NFT",
-          "description":"At the end of all the modules, you will get a free NFT as a prize."
+        "item_3": {
+          "number": "3.",
+          "title": " Wait for your NFT",
+          "description": "At the end of all the modules, you will get a free NFT as a prize."
         }
+      }
+    },
+    "home": {
+      "header": "Education",
+      "finance": "Finances",
+      "crypto": "Crypto",
+      "title": "What would you like to learn today?",
+      "coming_soon": "Coming soon",
+      "module_finance": {
+        "module_1": {
+          "title": "Module: introduction to personal finance",
+          "sub_modules": {
+            "sub_module_1": "How to get started in finance?",
+            "sub_module_2": "Budgets"
+          }
+        },
+        "module_2": {
+          "title": "Credits"
+        },
+        "module_3": {
+          "title": "Investment"
+        }
+      },
+      "module_crypto": {
+        "module_1": {
+          "title": "Module: introduction to blockchain",
+          "sub_modules": {
+            "sub_module_1": "What is blockchain?"
+          }
+        },
+        "module_2": {
+          "title": "Introduction to cryptocurrencies"
+        },
+        "module_3": {
+          "title": "DeFi Investments"
+        }
+      }
+    },
+    "shared": {
+      "share_education": {
+        "title": "One wallet, all opportunities",
+        "text": "Education is the foundation of finance and crypto",
+        "dialogTitle": "Share",
+        "share_error": "Text was copied to the clipboard"
       }
     }
   },
@@ -1141,6 +1186,7 @@
       "disclaimer": "The network you selected is {{network}}. Make sure that the target wallet uses this same network. Otherwise, you will lose your assets.",
       "description_fee": "*This amount is an estimate and may vary depending on the time of the transaction.",
       "summary": {
+        "title": "Transaction data",
         "destination_address": "Destination address",
         "amount_title": "Amount to donate",
         "button": "Donate",
@@ -1240,7 +1286,8 @@
       "share": "Share my link",
       "copy": "Copy my link",
       "copied": "Copied",
-      "tos": "See terms and conditions"
+      "tos": "See terms and conditions",
+      "share_error": "Text was copied to the clipboard"
     },
     "referrals_coming": {
       "title": "We are creating magic",
@@ -1388,20 +1435,20 @@
     },
     "recovery_phrase_read": {
       "recovery_phrase": "Recovery phrase",
-      "protect_my_wallet":"Protect my wallet",
+      "protect_my_wallet": "Protect my wallet",
       "title": "Recovery phrase",
       "text": "Store the 12 words listed below in the following order.",
       "text_protect_my_wallet": "To complete your backup, save the 12 words below in their order.<br>In the next step you will fill in the spaces with the requested words.",
-      "button_show_phrase":"Show phrase",
+      "button_show_phrase": "Show phrase",
       "button_hide_phrase": "Hide phrase",
       "button_text": "Copy",
       "button_continue": "Continue",
-      "security_information":"Xcapit will not be able to recover your wallet if you lose your recovery phrase.",
+      "security_information": "Xcapit will not be able to recover your wallet if you lose your recovery phrase.",
       "button_text_coppied": "Coppied",
       "coppied_text": "The recovery phrase was copied to the clipboard",
       "copy_error_text": "The recovery phrase could not be coppied to the clipboard",
       "protected": "Complete backup",
-      "not_protected":"No backup copy",
+      "not_protected": "No backup copy",
       "error_toast": "The password you entered is incorrect"
     },
     "home": {
@@ -1421,8 +1468,8 @@
         "buy_card": "Buy",
         "swap_card": "Swap"
       },
-      "backup_card_component":{
-        "text":"Don't lose your money. <b> Protect your wallet. </b>"
+      "backup_card_component": {
+        "text": "Don't lose your money. <b> Protect your wallet. </b>"
       }
     },
     "select_coin": {
@@ -1441,12 +1488,12 @@
       "subtitle": "Protect it by backing up your recovery phrase.\nThis is the master key to your funds.",
       "success_button": "Go to wallet",
       "ribbon_recommended": "Suggested",
-      "primary_action":{
-        "title":"Protecting my wallet",
-        "subtitle":"Do it now and don't lose access to your money. It will only take a few minutes."
+      "primary_action": {
+        "title": "Protecting my wallet",
+        "subtitle": "Do it now and don't lose access to your money. It will only take a few minutes."
       },
-      "secondary_action":{
-        "title":"Another time"
+      "secondary_action": {
+        "title": "Another time"
       }
     },
     "recovery_phrase": {
@@ -1495,7 +1542,8 @@
       "receive_address_title": "Address",
       "receive_address_copy": "Copy",
       "disclaimer_header": "Send only {{currency}} using the network {{network}} to this deposit address.",
-      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit."
+      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit.",
+      "toast_success": "Copied to the clipboard"
     },
     "nft_detail": {
       "title": "NFT Detail",
@@ -1638,16 +1686,33 @@
         "claimed_subtitle": "Starting December 6, we will deliver the NFTs progressively.*",
         "claimed_note": "*They will be delivered according to the order in which they were claimed."
       },
-      "skip-backup-modal":{
-        "title":"Skip backup?",
-        "description":"I understand that if I do not make a copy of my recovery phrase, I may lose access to my funds.",
-        "button_back":"Back",
-        "button_skip":"Skip"
+      "skip_backup_modal": {
+        "title": "Skip backup?",
+        "description": "I understand that if I do not make a copy of my recovery phrase, I may lose access to my funds.",
+        "button_back": "Back",
+        "button_skip": "Skip"
       },
       "recovery_phrase_info": {
         "title": "Recovery phrase",
         "description": "It is a set of 12 ordered words, which serve as a master key to your funds.",
         "button_text": "Understood"
+      },
+      "info_phrase_advice_modal": {
+        "title": "Recovery phrase",
+        "description": "It is a set of 12 ordered words, which serve as a master key to your funds.",
+        "button_text": "Understood",
+        "item_1":"Do not share it with anyone else, as anyone who has it will be able to access your funds.",
+        "item_2":"Do not save your phrase in the cloud or on your mobile devices.",
+        "item_3":"Do not share it via messaging services or social networks.",
+        "item_4":"Keep it in a safe place.",
+        "item_5":"You can engrave it on some element to make it last over time."
+      },
+      "warning_backup_info": {
+        "title": "Attention!",
+        "title2":"You have not yet protected your wallet",
+        "description": "Before performing any operation, protect it by backing up your recovery phrase.",
+        "button_protect": "Protect my wallet",
+        "button_skip": "Skip"
       }
     },
     "asset_detail": {

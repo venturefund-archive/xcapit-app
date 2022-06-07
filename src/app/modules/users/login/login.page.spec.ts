@@ -21,6 +21,7 @@ import { PlatformService } from '../../../shared/services/platform/platform.serv
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { By } from '@angular/platform-browser';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -38,6 +39,7 @@ describe('LoginPage', () => {
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
+  let ionicStorageSpy: jasmine.SpyObj<IonicStorageService>;
   const formData = {
     valid: {
       email: 'test@test.com',
@@ -52,6 +54,10 @@ describe('LoginPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       fakeNavController.modifyReturns({}, {}, {}, {});
+      ionicStorageSpy = jasmine.createSpyObj('IonicStorageService', {
+        get: Promise.resolve(true),
+        set: Promise.resolve()
+      }, {})
 
       apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', {
         login: of({}),
@@ -100,6 +106,7 @@ describe('LoginPage', () => {
           { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
           { provide: PlatformService, useValue: platformServiceSpy },
           { provide: WalletConnectService, useValue: walletConnectServiceSpy},
+          { provide: IonicStorageService, useValue: ionicStorageSpy},
         ],
       }).compileComponents();
     })
@@ -259,5 +266,20 @@ describe('LoginPage', () => {
     tick();
     
     expect(walletConnectServiceSpy.checkDeeplinkUrl).toHaveBeenCalled();
+  }))
+
+  it('should check if wallet is protected on login, and if not protected, set backupWarningWallet for modal', fakeAsync (() => {
+    ionicStorageSpy.get.and.returnValue(Promise.resolve(false));
+    fixture.debugElement.query(By.css('app-auth-form')).triggerEventHandler('send', formData.valid);
+    tick();
+
+    expect(ionicStorageSpy.set).toHaveBeenCalledOnceWith('backupWarningWallet', true);
+  }));
+
+  it('should check if wallet is protected on login, and if protected, ignore backupWarningWarning', fakeAsync(() => {
+    fixture.debugElement.query(By.css('app-auth-form')).triggerEventHandler('send', formData.valid);
+    tick();
+
+    expect(ionicStorageSpy.set).toHaveBeenCalledTimes(0);
   }))
 });

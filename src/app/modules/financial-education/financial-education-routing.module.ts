@@ -12,21 +12,31 @@ const routes: Routes = [
         children: [
           {
             path: 'financial-freedom',
-            loadChildren: () => import('./introduction/financial-freedom/financial-freedom.module').then( m => m.FinancialFreedomPageModule)
+            loadChildren: () =>
+              import('./introduction/financial-freedom/financial-freedom.module').then(
+                (m) => m.FinancialFreedomPageModule
+              ),
           },
           {
             path: 'explanation',
-            loadChildren: () => import('./introduction/explanation/explanation.module').then( m => m.ExplanationPageModule)
-          }
+            loadChildren: () =>
+              import('./introduction/explanation/explanation.module').then((m) => m.ExplanationPageModule),
+          },
         ],
       },
-    ]
+      {
+        path: 'home',
+        loadChildren: () =>
+          import('./home-financial-education/home-financial-education.module').then(
+            (m) => m.HomeFinancialEducationPageModule
+          ),
+      },
+    ],
   },
-  
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class FinancialEducationRoutingModule { }
+export class FinancialEducationRoutingModule {}

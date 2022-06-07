@@ -77,7 +77,7 @@ export class InvestorTestCardsComponent implements OnInit {
   async goToEducation() {
     if (this.testAvailable) {
       const introductionCompleted = await this.storage.get('introductionCompleted');
-      const url = !introductionCompleted ? 'financial-education/introduction/financial-freedom' : '';
+      const url = !introductionCompleted ? 'financial-education/introduction/financial-freedom' : 'financial-education/home';
       this.navController.navigateForward([url]);
     }
   }
