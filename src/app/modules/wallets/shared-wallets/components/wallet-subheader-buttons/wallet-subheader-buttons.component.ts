@@ -58,9 +58,9 @@ import { WarningBackupModalComponent } from '../warning-backup-modal/warning-bac
 export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
   @Input() network: string;
-  showBackupWarning: boolean = false;
+  showBackupWarning = false;
   isProtectedWallet: boolean;
-  isWarningModalOpen: boolean = false;
+  isWarningModalOpen = false;
 
   constructor(
     private navController: NavController,

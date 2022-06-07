@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/modules/users/shared-users/services/auth/auth.service';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { LogOutModalService } from '../../services/log-out-modal/log-out-modal.service';
 
 @Component({

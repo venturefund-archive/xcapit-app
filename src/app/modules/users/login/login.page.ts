@@ -146,8 +146,6 @@ export class LoginPage implements OnInit {
   async checkWalletProtected() {
     this.ionicStorageService.get('protectedWallet').then((protectedWallet) => {
       if (!protectedWallet) {
-        // PW != undefined -> si es True no entra al if else setea el warning
-        // PW == undefined -> JS lo castea a boolean, y undefined o null son false
         this.ionicStorageService.set('backupWarningWallet', true);
       }
     });  
