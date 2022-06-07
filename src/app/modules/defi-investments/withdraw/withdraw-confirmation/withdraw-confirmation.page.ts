@@ -243,6 +243,7 @@ export class WithdrawConfirmationPage implements OnInit {
   }
 
   async withdraw() {
+    this.loadingEnabled(true);
     await this.getNativeTokenBalance();
     const wallet = await this.wallet();
     if (wallet) {
@@ -266,6 +267,7 @@ export class WithdrawConfirmationPage implements OnInit {
       }
       this.loadingEnabled(false);
     }
+    this.loadingEnabled(false);
   }
 
   async getNativeTokenBalance() {
