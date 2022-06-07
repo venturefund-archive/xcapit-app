@@ -148,6 +148,7 @@ describe('ObjetiveInfoPage', () => {
     component.saving = 100;
     fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_see_strategies"]')).nativeElement.click();
     fixture.detectChanges();
+    expect(appStorageServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/financial-planner/success-objetive']);
   });
 
