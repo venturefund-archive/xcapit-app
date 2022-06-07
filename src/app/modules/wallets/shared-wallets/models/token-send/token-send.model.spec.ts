@@ -9,7 +9,7 @@ import { NetworkConfig } from '../network-config/network-config';
 describe('TokenSend', () => {
   const from = '';
   const to = '';
-  const amount = '';
+  const amount = 0;
   let coinSpy: jasmine.SpyObj<Coin>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let signerSpy: jasmine.SpyObj<Signer>;

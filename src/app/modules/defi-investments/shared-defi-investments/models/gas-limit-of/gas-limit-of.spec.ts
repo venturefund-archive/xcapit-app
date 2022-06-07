@@ -1,4 +1,4 @@
-import { GasFeeOf } from '../gas-fee-of/gas-fee-of.model';
+import { GasFeeOf } from '../../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { BigNumber } from 'ethers';
 import { GasLimitOf } from './gas-limit-of';
 

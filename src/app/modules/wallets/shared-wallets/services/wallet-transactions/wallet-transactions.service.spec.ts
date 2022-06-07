@@ -8,7 +8,6 @@ import { of } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { FakeConnectedWallet } from '../../../../../../testing/fakes/wallet.fake.spec';
 import { FakeTokenSend } from 'src/testing/fakes/token-send.fake.spec';
-import { parseUnits, parseEther } from 'ethers/lib/utils';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import linkAbi from '../../constants/assets-abi-prod/link-abi-prod.json';
 import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
@@ -19,9 +18,10 @@ import { BigNumber } from 'ethers';
 import { FakeERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/fake/fake-erc20-provider';
 import { ERC20TokenController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/controller/erc20-token.controller';
 import { FakeERC20Token } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-token/fake/fake-erc20-token';
-import { FormattedFeeController } from 'src/app/modules/defi-investments/shared-defi-investments/models/formatted-fee/controller/formatted-fee.controller';
-import { FormattedFee } from '../../../../defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
-import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
+import { NativeGasOfFactory } from 'src/app/shared/models/native-gas-of/factory/native-gas-of.factory';
+import { GasFeeOfFactory } from 'src/app/shared/models/gas-fee-of/factory/gas-fee-of.factory';
+import { NativeGasOf } from '../../../../../shared/models/native-gas-of/native-gas-of';
+import { GasFeeOf } from 'src/app/shared/models/gas-fee-of/gas-fee-of.model';
 
 const ETH: Coin = {
   id: 1,
@@ -161,8 +161,10 @@ describe('WalletTransactionsService', () => {
   let erc20ProviderControllerSpy: jasmine.SpyObj<ERC20ProviderController>;
   let erc20ContractControllerSpy: jasmine.SpyObj<ERC20ContractController>;
   let erc20TokenControllerSpy: jasmine.SpyObj<ERC20TokenController>;
-  let formattedFeeControllerSpy: jasmine.SpyObj<FormattedFeeController>;
-  let feeSpy: jasmine.SpyObj<Fee>;
+  let gasFeeOfSpy: jasmine.SpyObj<GasFeeOf>;
+  let gasFeeOfFactorySpy: jasmine.SpyObj<GasFeeOfFactory>;
+  let nativeGasOfFactorySpy: jasmine.SpyObj<NativeGasOfFactory>;
+  let nativeGasOfSpy: jasmine.SpyObj<NativeGasOf>;
   let modifyGetBalanceReturn: (balance: string) => void;
 
   beforeEach(() => {
@@ -172,7 +174,7 @@ describe('WalletTransactionsService', () => {
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getNativeTokenFromNetwork: ETH,
-      getGasPrice: of(BigNumber.from('100000000000')),
+      getGasPrice: of({ gas_price: BigNumber.from('100000000000') }),
     });
     fakeTokenSend = FakeTokenSend;
 
@@ -205,13 +207,23 @@ describe('WalletTransactionsService', () => {
     });
 
     erc20TokenControllerSpy = jasmine.createSpyObj('ERC20TokenController', {
-      new: new FakeERC20Token(BigNumber.from('1')),
+      new: new FakeERC20Token(Promise.resolve(BigNumber.from('1'))),
     });
 
-    feeSpy = jasmine.createSpyObj('Fee', { value: Promise.resolve(parseEther('0.00012')) });
+    nativeGasOfSpy = jasmine.createSpyObj('NativeGasOf', {
+      value: Promise.resolve(BigNumber.from('1000')),
+    });
 
-    formattedFeeControllerSpy = jasmine.createSpyObj('FormattedFeeController', {
-      new: new FormattedFee(feeSpy),
+    nativeGasOfFactorySpy = jasmine.createSpyObj('NativeGasOfFactory', {
+      create: nativeGasOfSpy,
+    });
+
+    gasFeeOfSpy = jasmine.createSpyObj('GasFeeOf', {
+      value: Promise.resolve(BigNumber.from('1000')),
+    });
+
+    gasFeeOfFactorySpy = jasmine.createSpyObj('GasFeeOfFactory', {
+      new: gasFeeOfSpy,
     });
 
     TestBed.configureTestingModule({
@@ -224,7 +236,8 @@ describe('WalletTransactionsService', () => {
         { provide: ERC20ProviderController, useValue: erc20ProviderControllerSpy },
         { provide: ERC20ContractController, useValue: erc20ContractControllerSpy },
         { provide: ERC20TokenController, useValue: erc20TokenControllerSpy },
-        { provide: FormattedFeeController, useValue: formattedFeeControllerSpy },
+        { provide: GasFeeOfFactory, useValue: gasFeeOfFactorySpy },
+        { provide: NativeGasOfFactory, useValue: nativeGasOfFactorySpy },
       ],
     });
     service = TestBed.inject(WalletTransactionsService);
@@ -274,125 +287,41 @@ describe('WalletTransactionsService', () => {
     expect(connectedWalletSpy.sendTransaction).not.toHaveBeenCalled();
   });
 
-  describe('when user sends not native token', () => {
-    const amount = 1;
-
-    const nativeBalances = [
-      {
-        name: 'native balance is zero',
-        balance: '0',
-        canAffordFees: false,
-      },
-      {
-        name: 'native balance is less than fee',
-        balance: '0.00002',
-        canAffordFees: false,
-      },
-      {
-        name: 'native balance is equal to fee',
-        balance: '0.00012',
-        canAffordFees: true,
-      },
-      {
-        name: 'native balance greater than fee',
-        balance: '0.01',
-        canAffordFees: true,
-      },
-    ];
-
-    const notNativeBalances = [
-      {
-        name: 'not native balance is zero',
-        balance: '0',
-        canAffordAmount: false,
-      },
-      {
-        name: 'not native balance is less than amount',
-        balance: '0.5',
-        canAffordAmount: false,
-      },
-      {
-        name: 'not native balance is equal to amount',
-        balance: '1',
-        canAffordAmount: true,
-      },
-      {
-        name: 'not native balance greater than amount',
-        balance: '10',
-        canAffordAmount: true,
-      },
-    ];
-
-    nativeBalances.forEach((nb) => {
-      notNativeBalances.forEach((nnb) => {
-        it(`should return ${nb.canAffordFees && nnb.canAffordAmount} when ${nb.name} and ${
-          nnb.name
-        } on canAffordFee`, async () => {
-          erc20TokenControllerSpy.new.and.returnValue(new FakeERC20Token(parseUnits(nnb.balance, USDT.decimals)));
-          modifyGetBalanceReturn(nb.balance);
-
-          const canAffordFee = await service.canAffordSendTx('testAddress2', amount, USDT);
-          expect(canAffordFee).toBe(nb.canAffordFees && nnb.canAffordAmount);
-        });
-      });
-    });
-
-    it('should return false when estimateFee throws an error on canAffordFee', async () => {
-      service.tokenSendClass = {
-        create: () => ({
-          value: () => ({
-            sendEstimateFee: () => Promise.reject(),
-          }),
-        }),
-      };
-      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, USDT);
-      expect(canAffordFee).toBeFalse();
-    });
+  it('should return false when balance is not enough to afford fee', async () => {
+    expect(await service.canAffordSendFee('testAddress', 1, ETH)).toBeFalse();
   });
 
-  describe('when user sends native token', () => {
-    const fee = '0.00008';
-    const amount = 0.003;
-    it('should return false if user is trying to send more amount + fee than balance in wallet', async () => {
-      modifyGetBalanceReturn('0.00000001');
-      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
-      expect(canAffordFee).toBeFalse();
-    });
+  it('should return true when balance is enough to afford fee', async () => {
+    erc20ProviderControllerSpy.new.and.returnValue(
+      new FakeERC20Provider(null, new FakeProvider('100000000', '100000000000'))
+    );
+    expect(await service.canAffordSendFee('testAddress', 1, ETH)).toBeTrue();
+  });
 
-    it('should return true if user is trying to send less amount + fee than balance in wallet', async () => {
-      modifyGetBalanceReturn('0.1');
-      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
-      expect(canAffordFee).toBeTrue();
-    });
+  it('should return false when estimateFee throws an error on canAffordFee', async () => {
+    service.tokenSendClass = {
+      create: () => ({
+        value: () => ({
+          sendEstimateFee: () => Promise.reject(),
+        }),
+      }),
+    };
+    const canAffordFee = await service.canAffordSendTx('testAddress2', 1, USDT);
+    expect(canAffordFee).toBeFalse();
+  });
 
-    it('should return false if user is trying to send with balance zero in wallet', async () => {
-      modifyGetBalanceReturn('0');
-      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
-      expect(canAffordFee).toBeFalse();
-    });
+  it('should return false if balance is not enough to afford transaction with native token', async () => {
+    expect(await service.canAffordSendTx('testAddress', 1, ETH)).toBeFalse();
+  });
 
-    it('should return false if user can afford amount to send but not amount + fee', async () => {
-      modifyGetBalanceReturn('0.0030001');
-      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
-      expect(canAffordFee).toBeFalse();
-    });
+  it('should return true if balance is enough to afford transaction with non-native-token', async () => {
+    erc20ProviderControllerSpy.new.and.returnValue(new FakeERC20Provider(null, new FakeProvider('1000', '1000')));
+    apiWalletServiceSpy.getGasPrice.and.returnValue(of({ gas_price: BigNumber.from('1') }));
+    expect(await service.canAffordSendTx('testAddress', 0.000001, USDT)).toBeTrue();
+  });
 
-    it('should return false if user can afford fee to send but not amount + fee', async () => {
-      modifyGetBalanceReturn('0.00009');
-      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
-      expect(canAffordFee).toBeFalse();
-    });
-
-    it('should return false if wallet balance is equal to the amount to send', async () => {
-      modifyGetBalanceReturn(amount.toString());
-      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
-      expect(canAffordFee).toBeFalse();
-    });
-
-    it('should return false if wallet balance is equal to the fee to send', async () => {
-      modifyGetBalanceReturn(fee);
-      const canAffordFee = await service.canAffordSendTx('testAddress2', amount, ETH);
-      expect(canAffordFee).toBeFalse();
-    });
+  it('should return false if canAffordSendTx fails', async () => {
+    spyOn(service, 'sendEstimatedFee').and.rejectWith();
+    expect(await service.canAffordSendTx('testAddress', 1, ETH)).toBeFalse();
   });
 });

@@ -1,6 +1,6 @@
 import { BigNumber, Contract } from 'ethers';
-import { FakeContract } from '../fake-contract/fake-contract.model';
-import { Fee } from '../../interfaces/fee.interface';
+import { FakeContract } from '../../../modules/defi-investments/shared-defi-investments/models/fake-contract/fake-contract.model';
+import { Fee } from '../../../modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
 
 export class GasFeeOf implements Fee {
   constructor(

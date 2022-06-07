@@ -9,7 +9,7 @@ export class TokenSend {
   constructor(
     private readonly from: string,
     private readonly to: string,
-    private readonly amount: string,
+    private readonly amount: number,
     private readonly coin: Coin,
     private readonly apiWalletService: ApiWalletService,
     private readonly signer: Signer,
@@ -19,7 +19,7 @@ export class TokenSend {
   static create(
     from: string,
     to: string,
-    amount: string,
+    amount: number,
     coin: Coin,
     apiWalletService: ApiWalletService,
     networkConfig: NetworkConfig

@@ -26,7 +26,7 @@ describe('NativeTokenTransfer', () => {
       value: Promise.resolve({ gasPrice: '100000000' }),
     });
 
-    transfer = new NativeTokenSend(zeroAddress, '1.0', nativeTokenSpy, ethCoin, false, networkConfigSpy);
+    transfer = new NativeTokenSend(zeroAddress, 1.0, nativeTokenSpy, ethCoin, false, networkConfigSpy);
   });
 
   it('should create', () => {
@@ -39,20 +39,14 @@ describe('NativeTokenTransfer', () => {
   });
 
   it('should create an instance of NativeTokenSend with no wallet on create', () => {
-    const send = NativeTokenSend.create(
-      zeroAddress,
-      '1.0',
-      ethCoin,
-      new VoidSigner(zeroAddress),
-      networkConfigSpy
-    );
+    const send = NativeTokenSend.create(zeroAddress, 1.0, ethCoin, new VoidSigner(zeroAddress), networkConfigSpy);
     expect(send).toBeInstanceOf(NativeTokenSend);
     expect(send.canSignTx).toBeFalse();
   });
 
   it('should create an instance of NativeTokenSend with wallet on create', () => {
     const wallet = Wallet.createRandom();
-    const send = NativeTokenSend.create(zeroAddress, '1.0', ethCoin, wallet, networkConfigSpy);
+    const send = NativeTokenSend.create(zeroAddress, 1.0, ethCoin, wallet, networkConfigSpy);
     expect(send).toBeInstanceOf(NativeTokenSend);
     expect(send.canSignTx).toBeTrue();
   });
