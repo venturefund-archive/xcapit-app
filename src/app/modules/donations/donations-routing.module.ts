@@ -35,15 +35,27 @@ const routes: Routes = [
       },
       {
         path: 'summary-data',
-        loadChildren: () => import('./summary-data-send-donation/summary-data-send-donation.module').then( m => m.SummaryDataSendDonationPageModule)
+        loadChildren: () =>
+          import('./summary-data-send-donation/summary-data-send-donation.module').then(
+            (m) => m.SummaryDataSendDonationPageModule
+          ),
       },
       {
         path: 'no-wallet',
-        loadChildren: () => import('./send-donation-no-wallet/send-donation-no-wallet.module').then( m => m.SendDonationNoWalletPageModule)
+        loadChildren: () =>
+          import('./send-donation-no-wallet/send-donation-no-wallet.module').then(
+            (m) => m.SendDonationNoWalletPageModule
+          ),
+      },
+      {
+        path: 'invalid-password',
+        loadChildren: () =>
+          import('./donations-invalid-password/donations-invalid-password.module').then(
+            (m) => m.DonationsInvalidPasswordPageModule
+          ),
       },
     ],
   },
-
 ];
 
 @NgModule({
