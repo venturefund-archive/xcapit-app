@@ -77,6 +77,6 @@ export class SuccessCreationPage implements OnInit {
   }
 
   goToProtectWallet() {
-    this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
+    this.navController.navigateForward(['/wallets/recovery/read']);
   }
 }

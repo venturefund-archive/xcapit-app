@@ -12,7 +12,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/create-first/recovery-phrase"></ion-back-button>
+          <ion-back-button defaultHref="/wallets/recovery/read"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wallets.verify_phrase.header' | translate }}</ion-title>
         <ion-label class="step-counter" slot="end">2 {{ 'shared.step_counter.of' | translate }} 2</ion-label>
