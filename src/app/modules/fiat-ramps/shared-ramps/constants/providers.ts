@@ -15,7 +15,6 @@ export const PROVIDERS: FiatRampProvider[] = [
       'Honduras',
       'Costa Rica',
       'Colombia',
-      'Argentina',
       'Australia',
       'El Salvador',
       'Guyana',
