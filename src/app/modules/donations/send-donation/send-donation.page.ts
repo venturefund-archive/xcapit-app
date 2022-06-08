@@ -178,7 +178,7 @@ export class SendDonationPage implements OnInit {
   getCause() {
     const causeIDParam = this.route.snapshot.queryParamMap.get('cause');
 
-    this.cause = this.causes.find((cause) => (cause.id === causeIDParam ? causeIDParam : this.sendDonationData.cause));
+    this.cause = this.causes.find((cause) => cause.id === (causeIDParam ? causeIDParam : this.sendDonationData.cause));
     this.sendDonationData.cause = this.cause.id;
   }
 
