@@ -155,24 +155,4 @@ describe('MoonpayPage', () => {
     fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', undefined);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection', 'moonpay']);
   });
-
-  // it('should call trackEvent on trackService when ux_buy_kripton_continue Button clicked', () => {
-  //   component
-  //   const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_continue');
-  //   const directive = trackClickDirectiveHelper.getDirective(el);
-  //   const spy = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
-  // it('should redirect to coin selection when coin is clicked', async () => {
-  //   component.ionViewWillEnter();
-  //   fixture.detectChanges();
-  //   await fixture.whenStable();
-  //   await fixture.whenRenderingDone();
-  //   fixture.detectChanges();
-  //   fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', undefined);
-  //   await fixture.whenStable();
-  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection'])
-  // });
 });
