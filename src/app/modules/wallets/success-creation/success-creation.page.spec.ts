@@ -73,7 +73,7 @@ describe('SuccessCreationPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/create-first/recovery-phrase']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/recovery/read']);
   });
 
   it('should track screenview event on init', () => {
