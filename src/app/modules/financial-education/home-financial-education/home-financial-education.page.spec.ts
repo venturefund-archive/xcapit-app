@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 
+
 describe('HomeFinancialEducationPage', () => {
   let component: HomeFinancialEducationPage;
   let fixture: ComponentFixture<HomeFinancialEducationPage>;
@@ -79,4 +80,11 @@ describe('HomeFinancialEducationPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should render app-rule-card component properly', () => {
+    const ruleEl = fixture.debugElement.query(By.css('app-rule-card'));
+
+    expect(ruleEl).toBeTruthy();
+  });
+
 });

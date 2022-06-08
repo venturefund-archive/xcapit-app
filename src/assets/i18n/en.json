@@ -1044,6 +1044,12 @@
         "text": "Education is the foundation of finance and crypto",
         "dialogTitle": "Share",
         "share_error": "Text was copied to the clipboard"
+      },
+      "rule_card":{
+        "rule_1": {
+          "title":"How do I get my NFT?",
+          "subtitle":"Terms and Conditions"
+        }
       }
     }
   },

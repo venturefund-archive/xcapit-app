@@ -23,6 +23,14 @@
       }
     }
 
+    &__rule_card {
+      margin-top: 16px;
+
+      ion-text {
+        margin-left: 16px;
+      }
+    }
+
     &__content_card {
       margin: 0 16px;
       border: 0.5px solid;
