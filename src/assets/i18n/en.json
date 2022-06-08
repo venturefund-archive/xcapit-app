@@ -1008,6 +1008,7 @@
       "crypto": "Crypto",
       "title": "What would you like to learn today?",
       "coming_soon": "Coming soon",
+      "rules_title":"Rules",
       "module_finance": {
         "module_1": {
           "title": "Module: introduction to personal finance",
