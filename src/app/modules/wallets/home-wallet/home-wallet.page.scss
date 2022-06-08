@@ -10,15 +10,23 @@
   }
 
   .wt {
+    border: 0.5px solid;
+    border-color: var(--ion-color-neutral50);
+    box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--ion-color-white);
+    margin: 16px;
+
     &__segments {
+      margin: 6px 8px 0;
+
       ion-label:not(.active-tab) {
-        font-size: var(--ux-fsize-20);
-        color: var(--ion-color-neutral80);
+        color: var(--ion-color-neutral50);
       }
 
       ion-label.active-tab {
-        font-size: var(--ux-fsize-20);
-        color: var(--ion-color-primary);
+        color: var(--ion-color-white);
       }
     }
 
@@ -74,6 +82,10 @@
       }
     }
 
+    &__start-investing {
+      padding: 0 16px;
+    }
+
     &__button {
       display: flex;
       flex-direction: column;
@@ -115,13 +127,6 @@
   }
 
   .segment-content {
-    border: 0.5px solid;
-    border-color: var(--ion-color-neutral50);
-    box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
-    border-radius: 8px;
-    overflow: hidden;
-    background: var(--ion-color-white);
-
     &.first-selected {
       border-top-left-radius: 0;
     }

@@ -79,66 +79,69 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
         <app-wallet-subheader-buttons></app-wallet-subheader-buttons>
       </div>
       <div class="wt__backup" *ngIf="this.walletExist && !this.protectedWallet">
-        <app-backup-information-card [text]="'wallets.home.backup_card_component.text'" [textClass]="'ux-home-backup-card'"> </app-backup-information-card>
-      </div>
-      <div class="wt__segments ion-padding-start ion-padding-end" *ngIf="this.walletExist">
-        <form [formGroup]="this.segmentsForm">
-          <ion-segment mode="md" class="ux-segment" formControlName="tab">
-            <ion-segment-button value="assets" name="ux_tab_tokens" appTrackClick>
-              <ion-label
-                [ngClass]="{ 'active-tab': this.segmentsForm.value.tab === 'assets' }"
-                class="ux-font-header-titulo"
-                >{{ 'wallets.home.tab_assets' | translate }}</ion-label
-              >
-            </ion-segment-button>
-            <ion-segment-button value="nft" name="ux_tab_nfts" appTrackClick>
-              <ion-label
-                [ngClass]="{ 'active-tab': this.segmentsForm.value.tab === 'nft' }"
-                class="ux-font-header-titulo"
-                >{{ 'wallets.home.tab_nfts' | translate }}</ion-label
-              >
-            </ion-segment-button>
-          </ion-segment>
-        </form>
+        <app-backup-information-card
+          [text]="'wallets.home.backup_card_component.text'"
+          [textClass]="'ux-home-backup-card'"
+        >
+        </app-backup-information-card>
       </div>
 
-      <div class="wt__nfts ion-padding-start ion-padding-end" *ngIf="this.segmentsForm.value.tab === 'nft'">
-        <div class="wt__nfts__content segment-content last-selected">
-          <app-nft-card *ngIf="this.walletExist"></app-nft-card>
+      <div class="wt">
+        <div class="wt__segments" *ngIf="this.walletExist">
+          <form [formGroup]="this.segmentsForm">
+            <ion-segment mode="ios" class="ux-segment-modern" formControlName="tab">
+              <ion-segment-button value="assets" name="ux_tab_tokens" appTrackClick>
+                <ion-label
+                  [ngClass]="{ 'active-tab': this.segmentsForm.value.tab === 'assets' }"
+                  class="ux-font-text-lg"
+                  >{{ 'wallets.home.tab_assets' | translate }}</ion-label
+                >
+              </ion-segment-button>
+              <ion-segment-button value="nft" name="ux_tab_nfts" appTrackClick>
+                <ion-label
+                  [ngClass]="{ 'active-tab': this.segmentsForm.value.tab === 'nft' }"
+                  class="ux-font-text-lg"
+                  >{{ 'wallets.home.tab_nfts' | translate }}</ion-label
+                >
+              </ion-segment-button>
+            </ion-segment>
+          </form>
+        </div>
+        <div class="wt__nfts" *ngIf="this.segmentsForm.value.tab === 'nft'">
+          <div class="wt__nfts__content segment-content last-selected">
+            <app-nft-card *ngIf="this.walletExist"></app-nft-card>
+          </div>
+        </div>
+        <div class="wt__balance" *ngIf="this.walletExist && this.segmentsForm.value.tab === 'assets'">
+          <div class="wt__balance segment-content first-selected">
+            <div class="wt__balance__button ion-padding-end">
+              <ion-button
+                appTrackClick
+                name="Edit Tokens"
+                class="ion-no-margin"
+                fill="clear"
+                size="small"
+                (click)="this.goToSelectCoins()"
+              >
+                <ion-icon icon="ux-adjustments"></ion-icon>
+              </ion-button>
+            </div>
+            <ion-spinner
+              class="wt__balance__loading"
+              color="primary"
+              name="crescent"
+              *ngIf="this.tokenDetails.length === 0"
+            ></ion-spinner>
+            <app-wallet-balance-card-item
+              *ngFor="let tokenDetail of this.tokenDetails; let last = last"
+              [tokenDetail]="tokenDetail"
+              [last]="last"
+            ></app-wallet-balance-card-item>
+          </div>
         </div>
       </div>
-      <div
-        class="wt__balance ion-padding-start ion-padding-end"
-        *ngIf="this.walletExist && this.segmentsForm.value.tab === 'assets'"
-      >
-        <div class="wt__balance segment-content first-selected">
-          <div class="wt__balance__button ion-padding-end">
-            <ion-button
-              appTrackClick
-              name="Edit Tokens"
-              class="ion-no-margin"
-              fill="clear"
-              size="small"
-              (click)="this.goToSelectCoins()"
-            >
-              <ion-icon icon="ux-adjustments"></ion-icon>
-            </ion-button>
-          </div>
-          <ion-spinner
-            class="wt__balance__loading"
-            color="primary"
-            name="crescent"
-            *ngIf="this.tokenDetails.length === 0"
-          ></ion-spinner>
-          <app-wallet-balance-card-item
-            *ngFor="let tokenDetail of this.tokenDetails; let last = last"
-            [tokenDetail]="tokenDetail"
-            [last]="last"
-          ></app-wallet-balance-card-item>
-        </div>
-        <div class="wt__start-investing">
-          <app-start-investing></app-start-investing>
-        </div>
+      <div class="wt__start-investing">
+        <app-start-investing></app-start-investing>
       </div>
       <div class="wt__button" *ngIf="!this.walletExist">
         <ion-button
@@ -282,9 +285,9 @@ export class HomeWalletPage implements OnInit {
     this.userTokens = await this.storageService.getAssestsSelected();
   }
 
-  async isProtectedWallet(){
+  async isProtectedWallet() {
     this.protectedWallet = await this.ionicStorageService.get('protectedWallet');
-  } 
+  }
 
   goToRecoveryWallet(): void {
     this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
