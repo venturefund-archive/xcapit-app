@@ -158,7 +158,7 @@ export class SendDetailPage {
     await this.checkBalance();
   }
 
-  private async userWallet() {
+  private async userWallet(): Promise<string> {
     return await this.storageService.getWalletsAddresses(this.selectedNetwork);
   }
 
@@ -199,7 +199,7 @@ export class SendDetailPage {
       this.fee = await new FormattedFee(
         new NativeFeeOf(
           new NativeGasOf(this.erc20Provider(), {
-            to: this.form.value.address,
+            to: await this.userWallet(),
             value: this.parseWei(1),
           }),
           new FakeProvider(await this.gasPrice())
@@ -219,10 +219,7 @@ export class SendDetailPage {
   private async nonNativeTransferFee(): Promise<void> {
     this.fee = await new FormattedFee(
       new NativeFeeOf(
-        new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
-          await this.userWallet(),
-          this.parseWei(1),
-        ]),
+        new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [await this.userWallet(), this.parseWei(1)]),
         new FakeProvider(await this.gasPrice())
       )
     ).value();

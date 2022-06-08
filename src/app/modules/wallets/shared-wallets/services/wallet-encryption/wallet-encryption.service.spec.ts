@@ -1,4 +1,4 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { WalletService } from '../wallet/wallet.service';
 import { WalletEncryptionService } from './wallet-encryption.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
@@ -102,7 +102,6 @@ const testCoinsStructure = {
 describe('WalletEncryptionService', () => {
   let service: WalletEncryptionService;
   let storageSpy: any;
-  let storageService: StorageService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let fakeEthers: FakeEthersService;
@@ -135,7 +134,6 @@ describe('WalletEncryptionService', () => {
       ],
     });
     service = TestBed.inject(WalletEncryptionService);
-    storageService = TestBed.inject(StorageService);
   });
 
   it('should be created', () => {
