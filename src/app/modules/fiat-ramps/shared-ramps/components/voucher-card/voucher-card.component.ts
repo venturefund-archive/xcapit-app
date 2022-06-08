@@ -22,10 +22,10 @@ import { Filesystem } from '@capacitor/filesystem';
               <ion-text class="ux-font-titulo-xs vc__file__text-container__title">
                 {{ 'fiat_ramps.operation_detail.voucher_card.file' | translate }}
               </ion-text>
-              <img [src]="this.voucher.dataUrl" />
+              <img class="vc__file__photo" [src]="this.voucher.dataUrl" />
             </div>
             <div class="vc__file__trash">
-              <ion-button class="ion-no-margin" fill="clear" size="small" (click)="this.removePhotoEvent()">
+              <ion-button class="ion-no-margin" name="delete-photo" fill="clear" size="small" (click)="this.removePhotoEvent()">
                 <ion-icon name="ux-trash"></ion-icon>
               </ion-button>
             </div>

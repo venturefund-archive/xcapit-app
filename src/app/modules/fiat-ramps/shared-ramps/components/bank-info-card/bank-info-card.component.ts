@@ -25,12 +25,12 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
               </ion-text>
             </div>
             <div class="bic__content__item__container__content">
-              <ion-text class="ux-font-text-base-black">
+              <ion-text class="ux-font-text-base-black bic__content__item__container__content__amount">
                 $ {{ this.operation.amount_in | number: '1.2-8' }} {{ this.operation.currency_in.toUpperCase() }}
               </ion-text>
             </div>
           </div>
-          <ion-button class="ion-no-margin" fill="clear" size="small" (click)="this.copyAmountToClipboard()">
+          <ion-button class="ion-no-margin" name="ux_copy_amount" fill="clear" size="small" (click)="this.copyAmountToClipboard()">
             <ion-icon name="ux-paste"></ion-icon>
           </ion-button>
         </div>
@@ -42,7 +42,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
               </ion-text>
             </div>
             <div class="bic__content__item__container__content">
-              <ion-text class="ux-font-text-base-black">
+              <ion-text class="ux-font-text-base-black bic__content__item__container__content__bank">
                 {{ this.bankInfo.name }}
               </ion-text>
             </div>
@@ -52,7 +52,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
           <div class="bic__content__item" *ngFor="let extra of this.bankInfo.extras; let i = index">
             <div class="bic__content__item__container">
               <div class="bic__content__item__container__header">
-                <ion-text class="ux-font-titulo-xs">
+                <ion-text class="ux-font-titulo-xs bic__content__item__container__header__extra-key">
                   {{ extra.key }}
                 </ion-text>
               </div>
@@ -75,7 +75,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
               </ion-text>
             </div>
             <div class="bic__content__item__container__content">
-              <ion-text class="ux-font-text-base-black">
+              <ion-text class="ux-font-text-base-black bic__content__item__container__content__concept">
                 {{ this.concept }}
               </ion-text>
             </div>
