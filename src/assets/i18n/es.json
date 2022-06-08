@@ -1001,6 +1001,7 @@
       "crypto": "Cripto",
       "title": "¿Qué te gustaría aprender hoy?",
       "coming_soon":"Próximamente",
+      "rules_title":"Reglas",
       "module_finance": {
         "module_1": {
           "title": "Módulo: introducción a las finanzas personales",
@@ -1037,6 +1038,12 @@
         "text": "La educación es la base de las finanzas y crypto",
         "dialogTitle": "Compartir",
         "share_error":"El texto se copió en el portapapeles"
+      },
+      "rule_card":{
+        "rule_1": {
+          "title":"¿Cómo obtengo mi NFT?",
+          "subtitle":"Términos y condiciones"
+        }
       }
     }
   },
