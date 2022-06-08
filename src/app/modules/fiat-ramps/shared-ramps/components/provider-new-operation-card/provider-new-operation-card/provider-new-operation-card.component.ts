@@ -15,7 +15,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
           (changeCurrency)="this.emitChangeCurrency()"
         ></app-coin-selector>
       </div>
-      <div class="pnoc__amount-select">
+      <div *ngIf="this.amountEnabled" class="pnoc__amount-select">
         <div class="pnoc__amount-select__qty-label">
           <ion-label class="ux-font-titulo-xs">{{
             'fiat_ramps.shared.provider_new_operation_card.quantity' | translate
@@ -42,7 +42,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
       <div class="pnoc__provider">
         <div class="pnoc__provider__label">
           <ion-text class="ux-font-titulo-xs">{{
-            'fiat_ramps.shared.provider_new_operation_card.quantity' | translate
+            'fiat_ramps.shared.provider_new_operation_card.provider' | translate
           }}</ion-text>
         </div>
         <div class="pnoc__provider__content">
@@ -71,6 +71,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
 })
 export class ProviderNewOperationCardComponent implements OnInit {
   @Input() coin: Coin;
+  @Input() amountEnabled = true;
   @Input() fiatCurrency = 'USD';
   @Input() provider: FiatRampProvider;
   @Output() changeCurrency = new EventEmitter<void>();
