@@ -79,7 +79,7 @@ describe('SendDonationPage', () => {
         'SendDonationDataService',
         {},
         {
-          cause: causeSpy,
+          cause: causeSpy.id,
         }
       );
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -164,8 +164,7 @@ describe('SendDonationPage', () => {
   it('should get cause information on ionViewWillEnter', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
     expect(component.cause).toEqual(causeSpy);
 
     expect(component.token).toEqual(coinsSpy[0]);
@@ -174,11 +173,10 @@ describe('SendDonationPage', () => {
   });
 
   it('should get cause if user is returning from donation summary', async () => {
-    fakeActivatedRoute.modifySnapshotParams(null, {});
+    fakeActivatedRoute.modifySnapshotParams(null, undefined);
     component.ionViewWillEnter();
     fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
     expect(component.cause).toEqual(causeSpy);
   });
 
