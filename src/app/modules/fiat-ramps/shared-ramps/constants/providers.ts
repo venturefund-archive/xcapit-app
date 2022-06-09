@@ -9,6 +9,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     logoRoute: 'assets/img/provider-logos/Moonpay.svg',
     description: 'fiat_ramps.select_provider.moonpay_description',
     newOperationRoute: '/fiat-ramps/new-operation/moonpay',
+    disclaimer: 'fiat_ramps.moonpay.disclaimer',
     countries: [
       'Mexico',
       'Guatemala',

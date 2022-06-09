@@ -155,7 +155,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   ionViewWillEnter() {
-    this.provider = this.providers.find((provider) => provider.id === 1);
+    this.provider = this.providers.find((provider) => provider.alias === 'kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
     this.providerCurrencies = KriptonCurrencies.create(this.apiWalletService.getCoins()).value();
     this.setCountry();

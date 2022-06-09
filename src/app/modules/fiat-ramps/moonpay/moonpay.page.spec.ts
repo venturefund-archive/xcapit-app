@@ -51,6 +51,10 @@ const testCoins = [
   },
 ];
 
+const formValid={
+  currency: testCoins[0]
+}
+
 describe('MoonpayPage', () => {
   let component: MoonpayPage;
   let fixture: ComponentFixture<MoonpayPage>;
@@ -142,14 +146,13 @@ describe('MoonpayPage', () => {
     expect(component.coins.length).toEqual(2);
   });
 
-  it('should redirect to coin selection when coin is clicked', async () => {
+  it('should redirect to change currency when currency button is clicked on provider card', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
+    await Promise.all([fixture.whenStable(),fixture.whenRenderingDone()])
+    component.form.patchValue(formValid);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-coin-selector')).triggerEventHandler('changeCurrency', undefined);
-    await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection'])
+    fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', undefined);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection', 'moonpay']);
   });
 });
