@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Photo } from '@capacitor/camera';
 import { Filesystem } from '@capacitor/filesystem';
 
 @Component({
@@ -47,7 +48,7 @@ import { Filesystem } from '@capacitor/filesystem';
   styleUrls: ['./voucher-card.component.scss'],
 })
 export class VoucherCardComponent implements OnInit {
-  @Input() voucher: any;
+  @Input() voucher: Photo;
   @Input() uploading: boolean;
   @Output() removePhoto: EventEmitter<any> = new EventEmitter<any>();
 

@@ -62,7 +62,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
                 </ion-text>
               </div>
             </div>
-            <ion-button class="ion-no-margin" fill="clear" size="small" (click)="this.copyExtraDataToClipboard(i)">
+            <ion-button class="ion-no-margin" fill="clear" name="ux_copy_extra" size="small" (click)="this.copyExtraDataToClipboard(i)">
               <ion-icon name="ux-paste"></ion-icon>
             </ion-button>
           </div>
@@ -80,7 +80,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
               </ion-text>
             </div>
           </div>
-          <ion-button class="ion-no-margin" fill="clear" size="small" (click)="this.copyConceptToClipboard()">
+          <ion-button class="ion-no-margin" fill="clear" name="ux_copy_concept" size="small" (click)="this.copyConceptToClipboard()">
             <ion-icon name="ux-paste"></ion-icon>
           </ion-button>
         </div>

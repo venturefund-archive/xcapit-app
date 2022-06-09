@@ -14,7 +14,7 @@ const photo: Photo = {
   saved: true
 }
 
-fdescribe('VoucherCardComponent', () => {
+describe('VoucherCardComponent', () => {
   let component: VoucherCardComponent;
   let fixture: ComponentFixture<VoucherCardComponent>;
 
@@ -35,42 +35,19 @@ fdescribe('VoucherCardComponent', () => {
   });
 
   it('should be rendered properly', async () => {
-
-    
-
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     
     const photoEl = fixture.debugElement.query(By.css('img.vc__file__photo'));
-    // const bankInfoExtraKeyEl =  fixture.debugElement.query(By.css('.bic__content__item__container__header__extra-key'))
-    // const operationCurrencyAmountInEl = fixture.debugElement.query(By.css('.bic__content__item__container__content__amount'))
-    // const conceptNameEl = fixture.debugElement.query(By.css('.bic__content__item__container__content__concept'));
-
-    console.log('voucher en const: ', voucher)
-    console.log('voucher en componente: ', component.voucher)
-    console.log('voucher en Photo: ', photo)
 
     expect(photoEl.attributes.src).toEqual(photo.dataUrl);
-    // expect(bankInfoExtraKeyEl.nativeElement.innerHTML).toContain('CBU');
-    // expect(operationCurrencyAmountInEl.nativeElement.innerHTML).toContain('150');
-    // expect(conceptNameEl.nativeElement.innerHTML).toContain('Cash In');
   })
 
-  it ('should delete uploaded photo when delete-photo is clicked', async () => {
-    // Lo esta llamando 0 veces, como manejar event emitters?
-    // Es responsabilidad de la card o del componente contenedor?
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-
+  it ('should delete uploaded photo when delete-photo is clicked', () => {
+    const removeSpy = spyOn(component.removePhoto, 'emit')
     fixture.debugElement.query(By.css('ion-button[name="delete-photo"]')).nativeElement.click();
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    
-    const removeSpy = spyOn(component, 'removePhotoEvent')
+  
     expect(removeSpy).toHaveBeenCalledTimes(1);
   })
 });

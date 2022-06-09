@@ -122,6 +122,7 @@ describe('OperationsDetailPage', () => {
       amount_out: 100.0,
     };
     const expectedResult = 5.5;
+    // YA NO EXISTE EL METODO DE ESTA PRUEBA, como se calcula la cotizacion ahora?
     // component.operation = cashIn;
     // component.calculateQuotation();
     fixture.detectChanges();
@@ -135,6 +136,7 @@ describe('OperationsDetailPage', () => {
       amount_out: 540.0,
     };
     const expectedResult = 5.4;
+    // YA NO EXISTE EL METODO DE ESTA PRUEBA, como se calcula la cotizacion ahora?
     // component.operation = cashOut;
     // component.calculateQuotation();
     fixture.detectChanges();
