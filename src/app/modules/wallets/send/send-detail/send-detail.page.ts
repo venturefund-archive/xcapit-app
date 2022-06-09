@@ -167,7 +167,7 @@ export class SendDetailPage {
       await this.walletService.balanceOf(await this.userWallet(), this.nativeToken.value)
     );
     const rawBalance = parseFloat(await this.walletService.balanceOf(await this.userWallet(), this.token.value));
-    this.balance = this.token.native ? rawBalance - this.fee : rawBalance;
+    this.balance = this.token.native ? Math.max(rawBalance - this.fee, 0) : rawBalance;
   }
 
   private tokenAndNetworks() {
