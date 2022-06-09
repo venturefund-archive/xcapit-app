@@ -427,7 +427,8 @@
       "select_amount": {
         "header": "Withdraw investment",
         "button": "Continue",
-        "label": "Withdrawal"
+        "label": "Amount to withdraw*",
+        "legend":"*Transaction fees will be charged in MATIC."
       },
       "withdraw": {
         "header": "Withdraw investment",
@@ -439,7 +440,7 @@
       },
       "password_modal": {
         "description": "To confirm your withdrawal, enter your Xcapit wallet password.",
-        "confirm_button": "Make a withdrawal"
+        "confirm_button": "Acept"
       }
     }
   },

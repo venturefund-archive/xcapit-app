@@ -420,7 +420,8 @@
       "select_amount": {
         "header": "Retirar Inversión",
         "button": "Continuar",
-        "label": "Retiro"
+        "label": "Monto a retirar*",
+        "legend":"*Se cobrarán tarifas de transacción en MATIC."
       },
       "withdraw": {
         "header": "Retirar Inversión",
@@ -432,7 +433,7 @@
       },
       "password_modal": {
         "description": "Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",
-        "confirm_button": "Realizar retiro"
+        "confirm_button": "Aceptar"
       }
     }
   },

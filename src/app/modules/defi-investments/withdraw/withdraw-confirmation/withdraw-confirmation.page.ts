@@ -75,7 +75,7 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
         [appLoading]="this.loading"
         [loadingText]="'defi_investments.withdraw.withdraw.submit_loading' | translate"
         appTrackClick
-        name="confirm_withdraw"
+        name="ux_invest_withdraw_confirm"
         expand="block"
         size="large"
         type="submit"
@@ -210,6 +210,7 @@ export class WithdrawConfirmationPage implements OnInit {
         description: this.translate.instant('defi_investments.withdraw.password_modal.description'),
         inputLabel: this.translate.instant('defi_investments.confirmation.password_modal.input_label'),
         submitButtonText: this.translate.instant('defi_investments.withdraw.password_modal.confirm_button'),
+        state:"invest_withdraw",
         disclaimer: '',
       },
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
