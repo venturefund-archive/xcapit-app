@@ -1917,7 +1917,8 @@
         "header": "Datos para transferencia",
         "amount": "Monto",
         "bank": "Banco",
-        "concept": "Concepto"
+        "concept": "Concepto",
+        "copy_success_text": "Se copió el dato correctamente al portapapeles"
       },
       "detail_card": {
         "operation": "Operación",

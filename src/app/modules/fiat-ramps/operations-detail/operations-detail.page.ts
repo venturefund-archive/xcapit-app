@@ -60,7 +60,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
         <div class="dp__disclaimer__support">
           <ion-text class="ux-font-text-xxs">
             {{ 'fiat_ramps.operation_detail.support_text' | translate }}
-            <ion-button class="ux-link-xs ion-no-margin ion-no-padding" fill="clear" (click)="this.navigateToKriptonTOS()" size="small">
+            <ion-button name="ux_goto_kripton_tos" class="ux-link-xs ion-no-margin ion-no-padding" fill="clear" (click)="this.navigateToKriptonTOS()" size="small">
               {{ 'fiat_ramps.operation_detail.support_button' | translate }}
             </ion-button>
           </ion-text>
@@ -69,12 +69,12 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
       <div class="dp__upload-voucher">
         <div *ngIf="this.hasVoucher; then sendPictureElement; else addPhotoElement"></div>
         <ng-template #addPhotoElement>
-          <ion-button class="ux_button ion-no-margin" color="secondary" expand="block" (click)="this.addPhoto()">
+          <ion-button name="ux_add_photo" class="ux_button ion-no-margin" color="secondary" expand="block" (click)="this.addPhoto()">
             {{ 'fiat_ramps.operation_detail.upload_voucher' | translate }}
           </ion-button>
         </ng-template>
         <ng-template #sendPictureElement>
-          <ion-button class="ux_button ion-no-margin" color="secondary" expand="block" (click)="this.sendPicture()">
+          <ion-button name="ux_upload_photo" class="ux_button ion-no-margin" color="secondary" expand="block" (click)="this.sendPicture()">
             {{ 'fiat_ramps.operation_detail.send_voucher' | translate }}
           </ion-button>
         </ng-template>
@@ -89,11 +89,12 @@ export class OperationsDetailPage implements OnInit {
   operationStatus: OperationStatus;
   coin: Coin;
   voucher = null;
-  cotizacion: any = 0;
-  hasVoucher: boolean = false;
-  showBankInfo: boolean = false;
-  showVoucher: boolean = false;
-  uploadingVoucher: boolean = false;
+  cotizacion = 0;
+  hasVoucher = false;
+  showBankInfo = false;
+  uploadingVoucher = false;
+  filesystemPlugin = Filesystem;
+  cameraPlugin = Camera;
 
   constructor(
     private route: ActivatedRoute,
@@ -165,10 +166,10 @@ export class OperationsDetailPage implements OnInit {
   }
 
   async addPhoto() {
-    const filePermissions = await Filesystem.requestPermissions();
-    const cameraPermissions = await Camera.requestPermissions();
+    const filePermissions = await this.filesystemPlugin.requestPermissions();
+    const cameraPermissions = await this.cameraPlugin.requestPermissions();
 
-    const photo = await Camera.getPhoto({
+    const photo = await this.cameraPlugin.getPhoto({
       source: CameraSource.Prompt,
       saveToGallery: false,
       resultType: CameraResultType.DataUrl,

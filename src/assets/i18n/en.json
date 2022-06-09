@@ -1938,7 +1938,8 @@
         "header": "Data for transfer",
         "amount": "Amount",
         "bank": "Bank",
-        "concept": "Concept"
+        "concept": "Concept",
+        "copy_success_text": "Copied successfully to clipboard"
       },
       "detail_card": {
         "operation": "Operation",

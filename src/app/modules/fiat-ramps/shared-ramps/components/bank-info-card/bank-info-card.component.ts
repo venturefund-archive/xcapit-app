@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { BANK_INFO_KRIPTON } from '../../constants/bank-info-kripton';
 import { COUNTRIES } from '../../constants/countries';
 import { BankInfo } from '../../interfaces/bank-info.interface';
@@ -100,6 +102,8 @@ export class BankInfoCardComponent implements OnInit {
 
   constructor(
     private clipboardService: ClipboardService,
+    private toastService: ToastService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -131,7 +135,11 @@ export class BankInfoCardComponent implements OnInit {
     this.copyDataToClipboard(this.concept);
   }
 
-  private copyDataToClipboard(data: string): Promise<void> {
-    return this.clipboardService.write({ string: data });
+  private copyDataToClipboard(data: string) {
+    this.clipboardService.write({ string: data }).then(() => {
+      this.toastService.showSuccessToast({
+        message: this.translate.instant('fiat_ramps.operation_detail.bank_info_card.copy_success_text')
+      })
+    });
   }
 }
