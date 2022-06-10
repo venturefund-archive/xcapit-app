@@ -3,7 +3,9 @@ export const MODULES_FINANCE = [
     open: 'yes',
     icon: 'assets/ux-icons/introduction-finances.svg',
     title: 'financial_education.home.module_finance.module_1.title',
+    progress_title: 'financial_education.home.module_finance.module_1.progress_title',
     disabled: false,
+    done: true,
     last: false,
     sub_modules: [
       {

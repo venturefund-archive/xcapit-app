@@ -1009,9 +1009,17 @@
       "title": "What would you like to learn today?",
       "coming_soon": "Coming soon",
       "rules_title":"Rules",
+      "global_progress_title":"Global progress",
+      "global_progress":{
+        "card_title":"Introductory modules",
+        "card_state_0":"You haven't completed any module yet, shall we start?",
+        "card_state_50":"You have {{doneModules}} modules complete, you are almost there.",
+        "card_state_100":"Congratulations! You have completed all the modules."
+      },
       "module_finance": {
         "module_1": {
           "title": "Module: introduction to personal finance",
+          "progress_title": "Introduction to personal finance",
           "sub_modules": {
             "sub_module_1": "How to get started in finance?",
             "sub_module_2": "Budgets"
@@ -1027,6 +1035,7 @@
       "module_crypto": {
         "module_1": {
           "title": "Module: introduction to blockchain",
+          "progress_title": "Introduction to blockchain",
           "sub_modules": {
             "sub_module_1": "What is blockchain?"
           }
