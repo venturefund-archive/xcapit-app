@@ -243,11 +243,11 @@ export const SUCCESS_TYPES = {
   },
   success_fiat_ramps:{
     image:"assets/img/fiat-ramps/success-page/operations-success.svg",
+    urlClose:'/fiat-ramps/select-provider',
     textPrimary: 'fiat_ramps.fiat_success.textPrimary', 
     textSecondary:'fiat_ramps.fiat_success.textSecondary',
     namePrimaryAction:'fiat_ramps.fiat_success.buttonText',
-    urlClose:'/fiat-ramps/new-operation',
     urlPrimaryAction:'/tabs/home',
     trackClickEventNamePrimaryAction: 'ux_buy_kripton_details'
-  }
+  },
 };
