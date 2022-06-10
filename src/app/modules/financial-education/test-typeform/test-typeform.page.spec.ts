@@ -1,6 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { ActivatedRoute, convertToParamMap, NavigationExtras } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,39 +6,39 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
-import { SubModuleInformationPage } from './sub-module-information.page';
+import { TestTypeformPage } from './test-typeform.page';
 
-describe('SubModuleInformationPage', () => {
-  let component: SubModuleInformationPage;
-  let fixture: ComponentFixture<SubModuleInformationPage>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SubModuleInformationPage>;
+describe('TestTypeformPage', () => {
+  let component: TestTypeformPage;
+  let fixture: ComponentFixture<TestTypeformPage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TestTypeformPage>;
   let activatedRouteSpy: any;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
 
   beforeEach(
     waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
       activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['get']);
       activatedRouteSpy.snapshot = {
         queryParamMap: convertToParamMap({
           tab: 'finance',
           module: 'finance_1',
           sub_module: 'finance_sub_1',
+          code: 'dVKXJqBs',
         }),
       };
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [SubModuleInformationPage, FakeTrackClickDirective],
+        declarations: [TestTypeformPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },
         ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(SubModuleInformationPage);
+      fixture = TestBed.createComponent(TestTypeformPage);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -51,60 +49,50 @@ describe('SubModuleInformationPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get data on init', async () => {
+  it('should get data on will enter', () => {
+    component.ionViewWillEnter();
     expect(component.data).toEqual(MODULES_FINANCE);
     expect(component.module).toEqual(MODULES_FINANCE[0]);
     expect(component.subModule).toEqual(MODULES_FINANCE[0].sub_modules[0]);
+    expect(component.code).toEqual('dVKXJqBs');
   });
 
-  it('should call trackEvent on trackService when ux_education_learn Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_learn');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
+  it('should set correct header according to learning_code', () => {
+    component.ionViewWillEnter();
+    component.redirectToPage();
+    expect(component.headerText).toEqual('financial_education.typeform_header.finance_sub_1');
   });
 
-  it('should navigate to typeform page when button ux_education_learn is clicked', () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        tab: 'finance',
-        module: 'finance_1',
-        sub_module: 'finance_sub_1',
-        code: 'dVKXJqBs',
-      },
-    };
-    fixture.debugElement.query(By.css('ion-button[name="ux_education_learn"]')).nativeElement.click();
-    fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['financial-education/typeform'],
-      navigationExtras
-    );
-  });
-
-  it('should call trackEvent on trackService when ux_education_test Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_test');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to typeform page when button ux_education_test is clicked', () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
+  it('should set correct header according to test_code', () => {
+    activatedRouteSpy.snapshot = {
+      queryParamMap: convertToParamMap({
         tab: 'finance',
         module: 'finance_1',
         sub_module: 'finance_sub_1',
         code: 'KwmHX7on',
+      }),
+    };
+    component.ionViewWillEnter();
+    component.redirectToPage();
+    fixture.detectChanges();
+    expect(component.headerText).toEqual(
+      'financial_education.typeform_header.text financial_education.typeform_header.finance_sub_1'
+    );
+  });
+
+  it('should navigate to information page when submit test on typeform', () => {
+    component.ionViewWillEnter();
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        tab: 'finance',
+        module: 'finance_1',
+        sub_module: 'finance_sub_1',
       },
     };
-    fixture.debugElement.query(By.css('ion-button[name="ux_education_test"]')).nativeElement.click();
     fixture.detectChanges();
+    component.redirectToPage();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['financial-education/typeform'],
+      ['financial-education/information'],
       navigationExtras
     );
   });

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { NavigationExtras } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
@@ -23,12 +24,13 @@ describe('FinanceEducationComponent', () => {
         'module',
         {},
         {
+          name: 'finance_1',
           icon: 'assets/ux-icons/introduction-finances.svg',
           title: 'financial_education.home.module_finance.module_1.title',
           comingSoon: true,
           sub_modules: [
             {
-              link: '',
+              name: 'finance_sub_1',
               title: 'financial_education.home.module_finance.module_1.sub_modules.sub_module_1',
               dataToTrack: 'how_to_get_started_in_finance',
             },
@@ -45,6 +47,7 @@ describe('FinanceEducationComponent', () => {
       component = fixture.componentInstance;
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component.module = moduleSpy;
+      component.selectedTab = 'finance';
       fixture.detectChanges();
     })
   );
@@ -53,10 +56,20 @@ describe('FinanceEducationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to info education page when item is clicked', async () => {
+  it('should navigate to info education page when item is clicked', () => {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        tab: 'finance',
+        module: 'finance_1',
+        sub_module: 'finance_sub_1',
+      },
+    };
     fixture.debugElement.query(By.css('ion-item[name="item_sub_module"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      ['financial-education/information'],
+      navigationExtras
+    );
   });
 
   it('should call appTrackEvent on trackService when item is clicked', () => {
@@ -78,6 +91,8 @@ describe('FinanceEducationComponent', () => {
     expect(imgModuleEl.attributes.src).toContain('assets/ux-icons/introduction-finances.svg');
     expect(titleModuleEl.nativeElement.innerHTML).toContain('financial_education.home.module_finance.module_1.title');
     expect(comingSoonEl.nativeElement.innerHTML).toContain('financial_education.home.coming_soon');
-    expect(titleSubModuleEl.nativeElement.innerHTML).toContain('financial_education.home.module_finance.module_1.sub_modules.sub_module_1');
+    expect(titleSubModuleEl.nativeElement.innerHTML).toContain(
+      'financial_education.home.module_finance.module_1.sub_modules.sub_module_1'
+    );
   });
 });

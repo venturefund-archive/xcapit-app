@@ -38,6 +38,10 @@ const routes: Routes = [
             (m) => m.SubModuleInformationPageModule
           ),
       },
+      {
+        path: 'typeform',
+        loadChildren: () => import('./test-typeform/test-typeform.module').then( m => m.TestTypeformPageModule)
+      },
     ],
   },
 ];

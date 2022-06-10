@@ -8,6 +8,12 @@
     position: relative;
   }
 
+  ion-toolbar {
+    .back-button {
+      margin-right: 16px;
+    }
+  }
+
   .hfe {
     &__segments {
       margin-top: -76px;

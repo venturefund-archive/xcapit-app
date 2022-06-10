@@ -1,29 +1,59 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { MODULES_CRYPTO } from '../shared-financial-education/constants/crypto';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
 
 @Component({
   selector: 'app-sub-module-information',
   template: ` <ion-content>
-    <app-sub-module-info [subModule]="this.subModule"></app-sub-module-info>
+    <div>
+      <app-sub-module-info [subModule]="this.subModule"></app-sub-module-info>
+    </div>
+    <div class="ion-padding">
+      <div>
+        <ion-button
+          appTrackClick
+          class="ux_button"
+          expand="block"
+          color="secondary"
+          name="ux_education_learn"
+          (click)="this.goToLearningMore()"
+          >{{ 'financial_education.shared.sub_module_info.button_1' | translate }}</ion-button
+        >
+      </div>
+      <div>
+        <ion-button
+          appTrackClick
+          class="ux_button ux-button-outlined"
+          expand="block"
+          name="ux_education_test"
+          (click)="this.goToStartTest()"
+          >{{ 'financial_education.shared.sub_module_info.button_2' | translate }}</ion-button
+        >
+      </div>
+    </div>
   </ion-content>`,
   styleUrls: ['./sub-module-information.page.scss'],
 })
 export class SubModuleInformationPage implements OnInit {
-  selectedTab;
-  module;
-  subModule;
-  data;
-  constructor(private route: ActivatedRoute) {}
+  selectedTab: string;
+  module: any;
+  subModule: any;
+  data: any;
+  constructor(private route: ActivatedRoute, private navController: NavController) {}
 
   ngOnInit() {
-    this.selectedTab = this.route.snapshot.queryParamMap.get('tab');
-    this.module = this.route.snapshot.queryParamMap.get('module');
-    this.subModule = this.route.snapshot.queryParamMap.get('sub_module');
+    this.getParams();
     this.getData();
     this.getModule();
     this.getSubModule();
+  }
+
+  getParams() {
+    this.selectedTab = this.route.snapshot.queryParamMap.get('tab');
+    this.module = this.route.snapshot.queryParamMap.get('module');
+    this.subModule = this.route.snapshot.queryParamMap.get('sub_module');
   }
 
   getData() {
@@ -38,5 +68,29 @@ export class SubModuleInformationPage implements OnInit {
     for (let subModule of this.module.sub_modules) {
       if (subModule.name === this.subModule) this.subModule = subModule;
     }
+  }
+
+  goToLearningMore() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        tab: this.selectedTab,
+        module: this.module.name,
+        sub_module: this.subModule.name,
+        code: this.subModule.learning_code,
+      },
+    };
+    this.navController.navigateForward(['financial-education/typeform'], navigationExtras);
+  }
+
+  goToStartTest() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        tab: this.selectedTab,
+        module: this.module.name,
+        sub_module: this.subModule.name,
+        code: this.subModule.test_code,
+      },
+    };
+    this.navController.navigateForward(['financial-education/typeform'], navigationExtras);
   }
 }

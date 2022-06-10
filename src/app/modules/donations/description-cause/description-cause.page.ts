@@ -52,12 +52,12 @@ export class DescriptionCausePage implements OnInit {
   async goToDonate() {
     const walletExist = await this.walletService.walletExist();
     if (walletExist) {
-      const navigationExstras: NavigationExtras = {
+      const navigationExtras: NavigationExtras = {
         queryParams: {
           cause: this.cause,
         },
       };
-      this.navController.navigateForward(['/donations/send-donation'], navigationExstras);
+      this.navController.navigateForward(['/donations/send-donation'], navigationExtras);
     } else {
       this.navController.navigateForward(['/donations/no-wallet']);
     }

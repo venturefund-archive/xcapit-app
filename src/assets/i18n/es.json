@@ -1011,7 +1011,7 @@
               "description": "Llamamos finanzas personales a la administración del dinero de una persona para ahorrar, gastar y  presupuestar a través del tiempo. Teniendo en cuenta riesgos y/o acontecimientos futuros."
             },
             "sub_module_2": {
-              "title": "Presupuestos",
+              "title": "Presupuesto",
               "description": "Es una herramienta que permite planificar y controlar tus finanzas, teniendo en cuenta los ingresos y gastos. De manera que puedas obtener un mayor rendimiento de tu dinero."
             }
           }
@@ -1058,6 +1058,12 @@
         "button_1": "Aprender más",
         "button_2": "Empezar test"
       }
+    },
+    "typeform_header": {
+      "text": "Test de",
+      "finance_sub_1": "Finanzas",
+      "finance_sub_2": "Presupuesto",
+      "crypto_sub_1": "Blockchain"
     }
   },
   "financial_planner": {

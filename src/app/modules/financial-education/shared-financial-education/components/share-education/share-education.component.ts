@@ -9,7 +9,13 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 @Component({
   selector: 'app-share-education',
   template: `
-    <div *ngIf="this.canShare" class="se" (click)="this.share()">
+    <div
+      appTrackClick
+      [dataToTrack]="{ eventLabel: 'ux_education_share' }"
+      *ngIf="this.canShare"
+      class="se"
+      (click)="this.share()"
+    >
       <img src="/assets/img/financial-education/shared-financial-education/share.svg" />
     </div>
   `,
@@ -52,13 +58,15 @@ export class ShareEducationComponent implements OnInit {
           .write({
             string: `${this.translate.instant('financial_education.shared.share_education.text')} ${this.storeLink()}`,
           })
-          .then(() => {this.showToast()});
+          .then(() => {
+            this.showToast();
+          });
       });
   }
 
   private showToast() {
     this.toastService.showInfoToast({
-      message : this.translate.instant('financial_education.shared.share_education.share_error')
+      message: this.translate.instant('financial_education.shared.share_education.share_error'),
     });
   }
 

@@ -11,6 +11,9 @@ import { MODULES_FINANCE } from '../shared-financial-education/constants/finance
           <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'financial_education.home.header' | translate }}</ion-title>
+        <ion-buttons class="back-button" slot="end">
+          <app-share-education></app-share-education>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content>

@@ -8,13 +8,13 @@ export const MODULES_CRYPTO = [
     last: false,
     sub_modules: [
       {
-        name: '1',
+        name: 'crypto_sub_1',
         title: 'financial_education.home.module_crypto.module_1.sub_modules.sub_module_1.title',
         info: 'financial_education.home.module_crypto.module_1.sub_modules.sub_module_1.description',
         img: 'assets/img/financial-education/maitenance.svg',
         dataToTrack: 'what_is_blockchain',
-        learning_code: 'mod1-blockchain',
-        test_code: 'rM313f0w',
+        learning_code: 's9aemiAX',
+        test_code: 'fwLYdNnE',
         last: true,
       },
     ],
