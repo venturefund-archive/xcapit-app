@@ -23,10 +23,10 @@ import { OperationDataInterface } from '../../services/operation/storage-operati
         </div>
 
         <div class="tcc__card__operation__content" *ngIf="this.operationData.type === 'cash-in'">
-          <ion-text class="ux-font-text-base-black">
+          <ion-text class="ux-font-text-base-primary">
             {{ 'fiat_ramps.confirm.buy.operationType' | translate }}
           </ion-text>
-          <ion-text float-right class="ux-font-text-base-black">
+          <ion-text float-right class="ux-font-text-base-primary">
             {{ this.operationData.currency_out | uppercase }}
             {{ 'fiat_ramps.confirm.buy.with' | translate }} {{ this.operationData.currency_in | uppercase }}
           </ion-text>
@@ -38,7 +38,7 @@ import { OperationDataInterface } from '../../services/operation/storage-operati
           <ion-text> {{ 'fiat_ramps.confirm.amount' | translate }}</ion-text>
         </div>
         <div class="tcc__card__amount__content">
-          <ion-text class="ux-font-text-base-black">
+          <ion-text class="ux-font-text-base-primary">
             {{ this.operationData.amount_in }} {{ this.operationData.currency_in | uppercase }}
           </ion-text>
         </div>
@@ -51,7 +51,7 @@ import { OperationDataInterface } from '../../services/operation/storage-operati
           </div>
         </div>
         <div class="tcc__card__quotation__content">
-          <ion-text class="ux-font-text-base-black">
+          <ion-text class="ux-font-text-base-primary">
             {{ this.operationData.price_in }}
             {{ this.operationData.currency_out | uppercase }} =
             {{ this.operationData.price_out }}
@@ -64,7 +64,7 @@ import { OperationDataInterface } from '../../services/operation/storage-operati
           <ion-text>{{ 'fiat_ramps.confirm.provider' | translate }}</ion-text>
         </div>
         <div class="tcc__card__provider__content">
-          <ion-text class="ux-font-text-base-black">
+          <ion-text class="ux-font-text-base-primary">
             {{ this.provider.name }}
           </ion-text>
         </div>
@@ -75,7 +75,7 @@ import { OperationDataInterface } from '../../services/operation/storage-operati
           <ion-text>{{ 'fiat_ramps.confirm.wallet' | translate }}</ion-text>
         </div>
         <div class="tcc__card__address-dst__content">
-          <ion-text class="ux-font-text-base-black">
+          <ion-text class="ux-font-text-base-primary">
             {{ this.operationData.wallet }}
           </ion-text>
         </div>
@@ -85,7 +85,7 @@ import { OperationDataInterface } from '../../services/operation/storage-operati
           <ion-text>{{ 'fiat_ramps.confirm.network' | translate }}</ion-text>
         </div>
         <div class="tcc__card_network__content">
-          <ion-text class="ux-font-text-base-black">
+          <ion-text class="ux-font-text-base-primary">
             {{ this.operationData.network | formattedNetwork }}
           </ion-text>
         </div>

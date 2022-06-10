@@ -40,6 +40,8 @@ import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-c
       </div>
       <div class="cp__disclaimer ux-font-text-xxs">
         {{'fiat_ramps.confirm.disclaimer' | translate}}
+        <br>
+        {{'fiat_ramps.confirm.disclaimer2' | translate}}
       </div>
     </ion-content>
 

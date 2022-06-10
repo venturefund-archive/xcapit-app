@@ -2018,7 +2018,8 @@
       "amount": "Amount",
       "quotation": "Quotation",
       "wallet": "Reception address",
-      "disclaimer": "From this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
+      "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, the entire purchase and allocation flow is handled by the operator.",
+      "disclaimer2": "The delivery of tokens is done from Monday to Friday from 9 am to 6 pm and may take some time if the bank delays in processing the transaction to Krypton's account.",
       "confirm": "Confirm",
       "buy": {
         "operationType": "Buy",
