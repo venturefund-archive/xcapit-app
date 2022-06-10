@@ -194,13 +194,9 @@ export class OperationDetailPage implements OnInit {
   }
 
   async getTotalFeeAmount(estimatedGas) {
-    console.log(estimatedGas)
     const gasPrice = await this.walletConnectService.getGasPrice();
     const gas = ethers.BigNumber.from(estimatedGas);
-    console.log(gas)
     this.totalFeeAmount = parseFloat(ethers.utils.formatEther(gasPrice.mul(gas).toString()));
-    console.log('tipo de dato totalFeeAmount' , typeof(this.totalFeeAmount))
-    console.log(this.totalFeeAmount)
   }
 
   public async checkRequestInfo(request) {
