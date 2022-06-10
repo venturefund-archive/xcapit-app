@@ -33,6 +33,7 @@ import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastWithButtonsComponent } from '../../shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
+import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -66,11 +67,7 @@ import { ToastWithButtonsComponent } from '../../shared-defi-investments/compone
               </ion-text>
             </div>
           </div>
-          <app-transaction-fee
-            [fee]="this.fee"
-            [quoteFee]="this.quoteFee"
-            [balance]="this.nativeTokenBalance"
-          >
+          <app-transaction-fee [fee]="this.fee" [quoteFee]="this.quoteFee" [balance]="this.nativeTokenBalance">
           </app-transaction-fee>
         </div>
       </ion-card>
@@ -231,7 +228,10 @@ export class InvestmentConfirmationPage {
   }
 
   private async approvalFee(): Promise<Fee> {
-    return new GasFeeOf((await this.approveFeeContract()).value(), 'approve', [this.product.contractAddress(), 0]);
+    return new GasFeeOf((await this.approveFeeContract()).value(), 'approve', [
+      this.product.contractAddress(),
+      new WeiOf(this.investmentDataService.amount, this.product.token()).value(),
+    ]);
   }
 
   private async depositFee(): Promise<Fee> {
