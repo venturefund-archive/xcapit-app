@@ -37,7 +37,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
             <ion-button
               class="ux_button"
               appTrackClick
-              name="ux_education_next"
+              name="ux_education_screenview_intro_1"
               type="submit"
               color="secondary"
               size="large"
