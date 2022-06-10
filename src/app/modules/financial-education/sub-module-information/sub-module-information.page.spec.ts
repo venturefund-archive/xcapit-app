@@ -98,7 +98,7 @@ describe('SubModuleInformationPage', () => {
         tab: 'finance',
         module: 'finance_1',
         sub_module: 'finance_sub_1',
-        code: 'KwmHX7on',
+        code: 'GGLKURh6',
       },
     };
     fixture.debugElement.query(By.css('ion-button[name="ux_education_test"]')).nativeElement.click();
