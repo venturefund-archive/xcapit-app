@@ -1898,7 +1898,7 @@
     },
     "fiat_success": {
       "textPrimary": "Operation created",
-      "textSecondary": "Remember to make the transfer from your bank and upload the receipta",
+      "textSecondary": "Remember to make the transfer from your bank and upload the receipt",
       "buttonText": "Go to operation detail"
     },
     "select_provider": {
