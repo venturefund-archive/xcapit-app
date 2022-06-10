@@ -1045,6 +1045,13 @@
           "subtitle":"Términos y condiciones"
         }
       }
+    },
+    "error_test": {
+      "textPrimary":"¡A seguir mejorando!",
+      "textSecondary":"Recuerda que necesitas responder satisfactoriamente todas las instancias.",
+      "namePrimaryAction":"Repetir módulo",
+      "nameSecondaryAction":"Ir al menú",
+      "nameThirdAction":"Aprender más"
     }
   },
   "financial_planner": {

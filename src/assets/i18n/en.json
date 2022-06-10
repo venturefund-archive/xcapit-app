@@ -1052,6 +1052,13 @@
           "subtitle":"Terms and Conditions"
         }
       }
+    },
+    "error_test": {
+      "textPrimary":"Let's keep improving!",
+      "textSecondary":"Remember that you need to respond satisfactorily to all instances.",
+      "namePrimaryAction":"Repeat module",
+      "nameSecondaryAction":"Go to menu",
+      "nameThirdAction":"Learn more"
     }
   },
 

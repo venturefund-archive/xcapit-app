@@ -6,7 +6,7 @@ import { TrackService } from '../../services/track/track.service';
   selector: 'app-success-content',
   template: `
     <div class="main">
-      <div class="main__close-button">
+      <div class="main__close-button" *ngIf="this.data.urlClose">
         <ion-button
           fill="clear"
           appTrackClick

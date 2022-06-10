@@ -31,8 +31,13 @@ const routes: Routes = [
             (m) => m.HomeFinancialEducationPageModule
           ),
       },
+      {
+        path: 'error-test',
+        loadChildren: () => import('./error-test/error-test.module').then( m => m.ErrorTestPageModule)
+      },
     ],
   },
+
 ];
 
 @NgModule({
