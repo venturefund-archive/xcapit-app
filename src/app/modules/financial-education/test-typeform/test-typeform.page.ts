@@ -73,7 +73,7 @@ export class TestTypeformPage implements OnInit {
   }
 
   getSubModule() {
-    for (let subModule of this.module.sub_modules) {
+    for (const subModule of this.module.sub_modules) {
       if (subModule.name === this.subModule) this.subModule = subModule;
     }
   }
