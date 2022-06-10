@@ -1997,7 +1997,8 @@
       "quotation": "Cotización",
       "wallet": "Dirección de recepción",
       "network": "Red",
-      "disclaimer": "Desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se resposabiliza por precios incorrectos en los valores o divisas definidas de aquí en adelante, ni de prejuicios que puedan surgir con la interacción con el proveedor.",
+      "disclaimer": "Recuerda que Xcapit no vende criptomonedas, Todo el flujo de compra y adjudicación queda a cargo del operador.",
+      "disclaimer2":"La entrega de tokens se hace de Lunes a Viernes de 9 a 18 hs. y puede tardar si el banco demora en procesar la transaccion a la cuenta comitente de Kripton.",
       "confirm": "Confirmar",
       "buy": {
         "operationType": "Compra",
