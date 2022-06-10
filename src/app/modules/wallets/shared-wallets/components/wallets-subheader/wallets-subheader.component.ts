@@ -5,7 +5,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-wallets-subheader',
   template: `
     <div class="wsc">
-      <div class="wsc ion-padding">
+      <div class="ion-padding">
         <div class="ux-font-text-xs wsc__title">
           <ion-text>
             {{ 'wallets.home.subheader_component.title_without_wallet' | translate }}
