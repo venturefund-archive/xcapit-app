@@ -88,7 +88,7 @@ import { EthersService } from '../../shared-wallets/services/ethers/ethers.servi
                 </div>
 
                 <div class="wcod__transaction_detail__container__content">
-                  <ion-label> {{ this.totalFeeAmount }} {{ this.providerSymbol }} </ion-label>
+                  <ion-label> {{ this.totalFeeAmount | formattedAmount }} {{ this.providerSymbol }} </ion-label>
                 </div>
               </div>
             </div>
@@ -194,9 +194,13 @@ export class OperationDetailPage implements OnInit {
   }
 
   async getTotalFeeAmount(estimatedGas) {
+    console.log(estimatedGas)
     const gasPrice = await this.walletConnectService.getGasPrice();
     const gas = ethers.BigNumber.from(estimatedGas);
-    this.totalFeeAmount = ethers.utils.formatEther(gasPrice.mul(gas).toString());
+    console.log(gas)
+    this.totalFeeAmount = parseFloat(ethers.utils.formatEther(gasPrice.mul(gas).toString()));
+    console.log('tipo de dato totalFeeAmount' , typeof(this.totalFeeAmount))
+    console.log(this.totalFeeAmount)
   }
 
   public async checkRequestInfo(request) {
