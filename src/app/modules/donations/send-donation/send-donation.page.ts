@@ -17,7 +17,6 @@ import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
 import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec';
 import { ERC20ProviderController } from '../../defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
 import { takeUntil } from 'rxjs/operators';
-import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { SendDonationDataService } from '../shared-donations/services/send-donation-data.service';
 import { ModalController, NavController } from '@ionic/angular';
 import { ToastWithButtonsComponent } from '../../defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
@@ -170,7 +169,7 @@ export class SendDonationPage implements OnInit {
     this.setTokens();
     this.setNetwork();
     this.dynamicPrice();
-    await this.nativeTransferFee();
+    await this.getFee();
     await this.tokenBalance();
     this.checkAvailableBalance();
   }
@@ -193,11 +192,13 @@ export class SendDonationPage implements OnInit {
       .find((coin: Coin) => coin.value === this.cause.token.value && coin.network === this.cause.token.network);
   }
 
-  async tokenBalance() {
-    const walletAddress = await this.storageService.getWalletsAddresses(this.selectedNetwork);
+  private async userWallet(): Promise<string> {
+    return await this.storageService.getWalletsAddresses(this.selectedNetwork);
+  }
 
-    const rawBalance = parseFloat(await this.walletService.balanceOf(walletAddress, this.token.value));
-    this.balance = this.token.native ? Math.max(rawBalance - this.fee, 0) : rawBalance;
+  async tokenBalance() {
+    const tokenBalance = parseFloat(await this.walletService.balanceOf(await this.userWallet(), this.token.value));
+    this.balance = this.token.native ? Math.max(tokenBalance - this.fee, 0) : tokenBalance;
   }
 
   erc20Provider(): ERC20Provider {
@@ -211,20 +212,29 @@ export class SendDonationPage implements OnInit {
       .then((res) => res.gas_price);
   }
 
+  private async getFee(): Promise<void> {
+    this.loadingFee();
+    await this.nativeTransferFee();
+    this.getQuoteFee();
+    this.checkAvailableBalance();
+  }
+
+  private loadingFee(): void {
+    this.dynamicFee.value = this.quoteFee.value = undefined;
+  }
+
   private async nativeTransferFee(): Promise<void> {
-    if (this.token.native) {
-      this.fee = await new FormattedFee(
-        new NativeFeeOf(
-          new NativeGasOf(this.erc20Provider(), {
-            to: this.form.value.address,
-            value: this.form.value.amount && this.parseWei(this.form.value.amount),
-          }),
-          new FakeProvider(await this.gasPrice())
-        ),
-        this.token.decimals
-      ).value();
-      this.dynamicFee.value = this.fee;
-    }
+    this.fee = await new FormattedFee(
+      new NativeFeeOf(
+        new NativeGasOf(this.erc20Provider(), {
+          to: await this.userWallet(),
+          value: this.parseWei(1),
+        }),
+        new FakeProvider(await this.gasPrice())
+      ),
+      this.token.decimals
+    ).value();
+    this.dynamicFee.value = this.fee;
   }
 
   parseWei(amount: number) {
@@ -238,8 +248,11 @@ export class SendDonationPage implements OnInit {
       .pipe(takeUntil(this.leave$))
       .subscribe((price: number) => {
         this.quotePrice = price;
-        this.quoteFee.value = this.quotePrice * this.fee;
       });
+  }
+
+  private getQuoteFee(): void {
+    this.quoteFee.value = this.quotePrice * this.fee;
   }
 
   private saveDonationData() {
