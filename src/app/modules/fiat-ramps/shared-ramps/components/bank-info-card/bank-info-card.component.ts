@@ -28,7 +28,7 @@ import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface'
             </div>
             <div class="bic__content__item__container__content">
               <ion-text class="ux-font-text-base-black bic__content__item__container__content__amount">
-                $ {{ this.operation.amount_in | number: '1.2-8' }} {{ this.operation.currency_in.toUpperCase() }}
+                $ {{ this.operation.amount_in | number: '1.2-8' }} {{ this.operation.currency_in | uppercase }}
               </ion-text>
             </div>
           </div>
