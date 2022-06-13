@@ -53,27 +53,13 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
               </ion-text>
             </div>
           </div>
-          <div class="wp__fee" *ngIf="this.fee">
-            <div class="wp__fee__label">
-              <ion-text class="ux-font-titulo-xs">{{
-                'defi_investments.withdraw.withdraw.withdraw_fee' | translate
-              }}</ion-text>
-            </div>
-
-            <div class="wp__fee__qty">
-              <ion-text class="ux-font-text-base wp__fee__qty__amount"
-                >{{ this.fee.value | number: '1.2-6' }} {{ this.fee.token }}</ion-text
-              >
-              <ion-text class="ux-font-text-base wp__fee__qty__quoteFee"
-                >{{ this.quoteFee.value | number: '1.2-6' }} {{ this.quoteFee.token }}
-              </ion-text>
-            </div>
+          <div class="wp__fee">
+            <app-transaction-fee
+              [fee]="this.fee"
+              [quoteFee]="this.quoteFee"
+              [balance]="this.nativeTokenBalance"
+            ></app-transaction-fee>
           </div>
-          <app-transaction-fee
-            [fee]="this.fee"
-            [quoteFee]="this.quoteFee"
-            [balance]="this.nativeTokenBalance"
-          ></app-transaction-fee>
         </div>
       </ion-card>
       <ion-button
@@ -103,8 +89,8 @@ export class WithdrawConfirmationPage implements OnInit {
   token: Coin;
   amount: Amount;
   quoteAmount: Amount = { value: 0, token: 'USD' };
-  fee: Amount = { value: 0, token: 'MATIC' };
-  quoteFee: Amount = { value: 0, token: 'USD' };
+  fee: Amount = { value: undefined, token: 'MATIC' };
+  quoteFee: Amount = { value: undefined, token: 'USD' };
   loading = false;
   leave$ = new Subject<void>();
   private readonly priceRefreshInterval = 15000;
@@ -215,7 +201,7 @@ export class WithdrawConfirmationPage implements OnInit {
         description: this.translate.instant('defi_investments.withdraw.password_modal.description'),
         inputLabel: this.translate.instant('defi_investments.confirmation.password_modal.input_label'),
         submitButtonText: this.translate.instant('defi_investments.withdraw.password_modal.confirm_button'),
-        state:"invest_withdraw",
+        state: 'invest_withdraw',
         disclaimer: '',
       },
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
