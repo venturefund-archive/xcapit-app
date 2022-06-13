@@ -9,7 +9,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 @Component({
   selector: 'app-share-education',
   template: `
-    <div *ngIf="this.canShare" [ngClass]="this.lightBackground ? 'se_light': 'se'" (click)="this.share()">
+    <div *ngIf="this.canShare" [ngClass]="this.lightBackground ? 'se-light': 'se'" (click)="this.share()">
       <img *ngIf="!this.lightBackground" src="/assets/img/financial-education/shared-financial-education/share.svg" />
       <img *ngIf="this.lightBackground" src="/assets/img/financial-education/shared-financial-education/share-blue.svg"/>
     </div>

@@ -1053,6 +1053,11 @@
           "subtitle":"Terms and Conditions"
         }
       }
+    },
+    "final_success_test": {
+      "textPrimary":"You did it, that's the way to do it!",
+      "textSecondary":"You have completed all financial education and crypto modules. Your NFT will be credited to your wallet soon.",
+      "primaryButton":"Finish"
     }
   },
 

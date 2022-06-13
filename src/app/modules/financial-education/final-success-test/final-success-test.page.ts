@@ -23,6 +23,10 @@ export class FinalSuccessTestPage implements OnInit {
   }
 
   ionViewWillEnter() {
+   this.trackScreenView();
+  }
+
+  trackScreenView(){
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
