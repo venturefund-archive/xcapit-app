@@ -1,5 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -53,13 +52,8 @@ export class ModulesEducationComponent implements OnInit {
   ngOnInit() {}
 
   goToPage(subModule) {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        tab: this.selectedTab,
-        module: this.module.name,
-        sub_module: subModule.name,
-      },
-    };
-    this.navController.navigateForward(['financial-education/information'], navigationExtras);
+    this.navController.navigateForward([
+      `financial-education/information/tab/${this.selectedTab}/module/${this.module.name}/submodule/${subModule.name}`,
+    ]);
   }
 }

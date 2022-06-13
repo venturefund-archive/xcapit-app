@@ -1,9 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute, convertToParamMap, NavigationExtras } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
@@ -14,7 +15,8 @@ describe('SubModuleInformationPage', () => {
   let component: SubModuleInformationPage;
   let fixture: ComponentFixture<SubModuleInformationPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SubModuleInformationPage>;
-  let activatedRouteSpy: any;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
 
@@ -22,20 +24,15 @@ describe('SubModuleInformationPage', () => {
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['get']);
-      activatedRouteSpy.snapshot = {
-        queryParamMap: convertToParamMap({
-          tab: 'finance',
-          module: 'finance_1',
-          sub_module: 'finance_sub_1',
-        }),
-      };
+      fakeActivatedRoute = new FakeActivatedRoute({ tab: 'finance', module: 'finance_1', submodule: 'finance_sub_1', code: 'dVKXJqBs' });
+      activatedRouteSpy = fakeActivatedRoute.createSpy();
       TestBed.configureTestingModule({
         declarations: [SubModuleInformationPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -67,20 +64,11 @@ describe('SubModuleInformationPage', () => {
   });
 
   it('should navigate to typeform page when button ux_education_learn is clicked', () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        tab: 'finance',
-        module: 'finance_1',
-        sub_module: 'finance_sub_1',
-        code: 'dVKXJqBs',
-      },
-    };
     fixture.debugElement.query(By.css('ion-button[name="ux_education_learn"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['financial-education/typeform'],
-      navigationExtras
-    );
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
+      'financial-education/typeform/tab/finance/module/finance_1/submodule/finance_sub_1/code/dVKXJqBs',
+    ]);
   });
 
   it('should call trackEvent on trackService when ux_education_test Button clicked', () => {
@@ -93,19 +81,10 @@ describe('SubModuleInformationPage', () => {
   });
 
   it('should navigate to typeform page when button ux_education_test is clicked', () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        tab: 'finance',
-        module: 'finance_1',
-        sub_module: 'finance_sub_1',
-        code: 'GGLKURh6',
-      },
-    };
     fixture.debugElement.query(By.css('ion-button[name="ux_education_test"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['financial-education/typeform'],
-      navigationExtras
-    );
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
+      'financial-education/typeform/tab/finance/module/finance_1/submodule/finance_sub_1/code/GGLKURh6',
+    ]);
   });
 });

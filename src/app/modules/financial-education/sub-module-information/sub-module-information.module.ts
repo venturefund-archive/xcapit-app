@@ -6,13 +6,13 @@ import { SubModuleInfoComponent } from '../shared-financial-education/components
 
 const routes: Routes = [
   {
-    path: '',
-    component: SubModuleInformationPage
-  }
+    path: 'tab/:tab/module/:module/submodule/:submodule',
+    component: SubModuleInformationPage,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), SharedFinancialEducationModule],
-  declarations: [SubModuleInformationPage, SubModuleInfoComponent]
+  declarations: [SubModuleInformationPage, SubModuleInfoComponent],
 })
 export class SubModuleInformationPageModule {}

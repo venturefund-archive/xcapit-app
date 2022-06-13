@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { MODULES_CRYPTO } from '../shared-financial-education/constants/crypto';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
@@ -51,9 +51,9 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   getParams() {
-    this.selectedTab = this.route.snapshot.queryParamMap.get('tab');
-    this.module = this.route.snapshot.queryParamMap.get('module');
-    this.subModule = this.route.snapshot.queryParamMap.get('sub_module');
+    this.selectedTab = this.route.snapshot.paramMap.get('tab');
+    this.module = this.route.snapshot.paramMap.get('module');
+    this.subModule = this.route.snapshot.paramMap.get('submodule');
   }
 
   getData() {
@@ -71,26 +71,14 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   goToLearningMore() {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        tab: this.selectedTab,
-        module: this.module.name,
-        sub_module: this.subModule.name,
-        code: this.subModule.learning_code,
-      },
-    };
-    this.navController.navigateForward(['financial-education/typeform'], navigationExtras);
+    this.navController.navigateForward([
+      `financial-education/typeform/tab/${this.selectedTab}/module/${this.module.name}/submodule/${this.subModule.name}/code/${this.subModule.learning_code}`,
+    ]);
   }
 
   goToStartTest() {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        tab: this.selectedTab,
-        module: this.module.name,
-        sub_module: this.subModule.name,
-        code: this.subModule.test_code,
-      },
-    };
-    this.navController.navigateForward(['financial-education/typeform'], navigationExtras);
+    this.navController.navigateForward([
+      `financial-education/typeform/tab/${this.selectedTab}/module/${this.module.name}/submodule/${this.subModule.name}/code/${this.subModule.test_code}`,
+    ]);
   }
 }

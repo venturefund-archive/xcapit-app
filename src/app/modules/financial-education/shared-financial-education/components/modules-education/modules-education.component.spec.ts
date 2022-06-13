@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NavigationExtras } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
@@ -37,6 +36,7 @@ describe('FinanceEducationComponent', () => {
           ],
         }
       );
+
       TestBed.configureTestingModule({
         declarations: [ModulesEducationComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -57,19 +57,11 @@ describe('FinanceEducationComponent', () => {
   });
 
   it('should navigate to info education page when item is clicked', () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        tab: 'finance',
-        module: 'finance_1',
-        sub_module: 'finance_sub_1',
-      },
-    };
     fixture.debugElement.query(By.css('ion-item[name="item_sub_module"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['financial-education/information'],
-      navigationExtras
-    );
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
+      'financial-education/information/tab/finance/module/finance_1/submodule/finance_sub_1',
+    ]);
   });
 
   it('should call appTrackEvent on trackService when item is clicked', () => {

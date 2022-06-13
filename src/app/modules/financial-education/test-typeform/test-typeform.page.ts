@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { createWidget } from '@typeform/embed';
@@ -58,10 +58,10 @@ export class TestTypeformPage implements OnInit {
   }
 
   getParams() {
-    this.selectedTab = this.route.snapshot.queryParamMap.get('tab');
-    this.module = this.route.snapshot.queryParamMap.get('module');
-    this.subModule = this.route.snapshot.queryParamMap.get('sub_module');
-    this.code = this.route.snapshot.queryParamMap.get('code');
+    this.selectedTab = this.route.snapshot.paramMap.get('tab');
+    this.module = this.route.snapshot.paramMap.get('module');
+    this.subModule = this.route.snapshot.paramMap.get('submodule');
+    this.code = this.route.snapshot.paramMap.get('code');
   }
 
   getData() {
@@ -80,14 +80,9 @@ export class TestTypeformPage implements OnInit {
 
   redirectToPage() {
     this.updateTexts();
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        tab: this.selectedTab,
-        module: this.module.name,
-        sub_module: this.subModule.name,
-      },
-    };
-    this.navController.navigateForward(['financial-education/information'], navigationExtras);
+    this.navController.navigateForward([
+      `financial-education/information/tab/${this.selectedTab}/module/${this.module.name}/submodule/${this.subModule.name}`,
+    ]);
   }
 
   private updateTexts() {
