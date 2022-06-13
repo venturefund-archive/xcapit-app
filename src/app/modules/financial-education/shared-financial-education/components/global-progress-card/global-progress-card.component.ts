@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MODULES_CRYPTO } from '../../constants/crypto';
 import { MODULES_FINANCE } from '../../constants/finance';
 
@@ -9,7 +9,7 @@ import { MODULES_FINANCE } from '../../constants/finance';
       <ion-accordion class="gpc__card__accordion">
         <ion-item slot="header" class="gpc__card__accordion__item ion-no-padding" lines="none" color="info">
           <app-circle-progress
-            (percentage)="this.setPercentage($event)"
+            [percentage]="this.percentage"
             [doneModules]="this.doneModules"
             [allModules]="this.allModules"
           ></app-circle-progress>
@@ -17,15 +17,26 @@ import { MODULES_FINANCE } from '../../constants/finance';
             <ion-text class="ux-font-header-titulo">{{
               'financial_education.home.global_progress.card_title' | translate
             }}</ion-text>
-            <ion-text *ngIf="this.percentage >= 0 && this.percentage < 50" class="ux-font-text-xxs">
+            <ion-text *ngIf="this.percentage === 0" class="ux-font-text-xxs">
               {{ 'financial_education.home.global_progress.card_state_0' | translate }}
             </ion-text>
-            <ion-text *ngIf="this.percentage >= 50 && this.percentage < 60" class="ux-font-text-xxs">
-              {{ 'financial_education.home.global_progress.card_state_50' | translate: { doneModules: this.doneModules } }} 
+            <ion-text *ngIf="this.percentage >= 1 && this.percentage < 41" class="ux-font-text-xxs">
+              {{
+                'financial_education.home.global_progress.card_state_25' | translate: { doneModules: this.doneModules }
+              }}
             </ion-text>
-            <ion-text *ngIf="this.percentage >= 60" class="ux-font-text-xxs">
-            {{ 'financial_education.home.global_progress.card_state_100' | translate }}
-            
+            <ion-text *ngIf="this.percentage >= 41 && this.percentage < 60" class="ux-font-text-xxs">
+              {{
+                'financial_education.home.global_progress.card_state_50' | translate: { doneModules: this.doneModules }
+              }}
+            </ion-text>
+            <ion-text *ngIf="this.percentage >= 60 && this.percentage < 100" class="ux-font-text-xxs">
+              {{
+                'financial_education.home.global_progress.card_state_75' | translate: { doneModules: this.doneModules }
+              }}
+            </ion-text>
+            <ion-text *ngIf="this.percentage === 100" class="ux-font-text-xxs">
+              {{ 'financial_education.home.global_progress.card_state_100' | translate }}
             </ion-text>
           </div>
         </ion-item>
@@ -48,17 +59,21 @@ export class GlobalProgressCardComponent implements OnInit {
   doneModules: number;
   allModules: number;
   percentage: number;
-  modules = [...MODULES_FINANCE, ...MODULES_CRYPTO];
+  modules;
   constructor() {}
 
   ngOnInit() {
-    this.modules = this.modules.filter((mod) => !mod.disabled);
-    this.allModules = this.modules.length;
-    this.doneModules = this.modules.filter((mod) => mod.done).length;
-    console.log(this.percentage);
+    this.setModules();
+    this.calculateProgressPercentage();
   }
 
-  setPercentage(value) {
-    this.percentage = value;
+  setModules() {
+    this.modules = [...MODULES_FINANCE, ...MODULES_CRYPTO].filter((mod) => !mod.disabled);
+  }
+
+  calculateProgressPercentage() {
+    this.allModules = this.modules.length;
+    this.doneModules = this.modules.filter((mod) => mod.done).length;
+    this.percentage = (this.doneModules / this.allModules) * 100;
   }
 }

@@ -22,7 +22,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class CircleProgressComponent implements OnInit {
   @Input() doneModules: number;
   @Input() allModules: number;
-  @Output() percentage = new EventEmitter<number>();
+  @Input() percentage: number;
+  // Circle Perimeter = PI * r ^^ 2
+  circlePerimeter = 157;
   actualProgress: number;
   constructor() {}
 
@@ -31,12 +33,6 @@ export class CircleProgressComponent implements OnInit {
   }
 
   setProgress() {
-    this.actualProgress = 157 - 157 * this.calculateProgressPercentage();
-  }
-
-  calculateProgressPercentage() {
-    const percentage = this.doneModules / this.allModules;
-    this.percentage.emit(percentage);
-    return percentage;
+    this.actualProgress = this.circlePerimeter - (this.circlePerimeter * this.percentage)/100;
   }
 }

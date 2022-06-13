@@ -1006,7 +1006,9 @@
       "global_progress":{
         "card_title":"Módulos introductorios",
         "card_state_0":"Aún no completaste ningún módulo ¿Comenzamos?",
-        "card_state_50":"Tienes {{doneModules}} módulos completo, falta poco.",
+        "card_state_25":"Tienes {{doneModules}} módulos completos, no te detengas.",
+        "card_state_50":"Tienes {{doneModules}} módulos completos, falta poco.",
+        "card_state_75":"Tienes {{doneModules}} módulos completos, un ultimo esfuerzo.",
         "card_state_100":"¡Felicitaciones! Completaste todos los módulos."
       },
       "module_finance": {
