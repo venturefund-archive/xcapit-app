@@ -28,6 +28,13 @@
       ion-label.active-tab {
         color: var(--ion-color-white);
       }
+
+      ion-segment {
+        ion-segment-button {
+          min-height: 32px;
+          min-width: 156px;
+        }
+      }
     }
 
     &__title {
