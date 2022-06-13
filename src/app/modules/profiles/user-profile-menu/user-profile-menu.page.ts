@@ -125,7 +125,7 @@ export class UserProfileMenuPage {
         data: this.language.getLanguages(),
         keyName: 'text',
         valueName: 'value',
-        selected: this.language.selected,
+        selected: await this.language.getSelectedLanguage(),
       },
       cssClass: 'ux_modal_crm',
     });
