@@ -33,6 +33,15 @@
         ion-segment-button {
           min-height: 32px;
           min-width: 156px;
+          margin: 0;
+        }
+
+        ion-segment-button:first-child {
+          left: -2px;
+        }
+
+        ion-segment-button:last-child {
+          right: -2px;
         }
       }
     }

@@ -5,8 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ErrorsFormItemComponent } from './components/errors-form-item/errors-form-item.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { LanguagePopoverComponent } from './components/language-popover/language-popover.component';
-import { LanguageButtonComponent } from './components/language-button/language-button.component';
 import { TrackClickModule } from './directives/track-click/track-click.module';
 import { PercentageDisplayComponent } from './components/percentage-display/percentage-display.component';
 import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.component';
@@ -95,8 +93,6 @@ import { RuleCardComponent } from '../modules/financial-education/shared-financi
     FilterTabComponent,
     ErrorsFormItemComponent,
     ErrorsFormPasswordItemComponent,
-    LanguagePopoverComponent,
-    LanguageButtonComponent,
     PercentageDisplayComponent,
     XcapitLogoComponent,
     NeedHelpComponent,
@@ -181,7 +177,7 @@ import { RuleCardComponent } from '../modules/financial-education/shared-financi
     ButtonSpinnerDirective,
     FeatureFlagDirective,
   ],
-  entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
+  entryComponents: [UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
     FilterTabComponent,
@@ -192,7 +188,6 @@ import { RuleCardComponent } from '../modules/financial-education/shared-financi
     ReactiveFormsModule,
     IonicModule,
     TranslateModule,
-    LanguageButtonComponent,
     TrackClickModule,
     PercentageDisplayComponent,
     XcapitLogoComponent,

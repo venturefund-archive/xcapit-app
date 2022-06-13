@@ -250,4 +250,12 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction:'/tabs/home',
     trackClickEventNamePrimaryAction: 'ux_buy_kripton_details'
   },
+  final_success_test:{
+    image:"assets/img/financial-education/final-success-test.svg",
+    textPrimary: 'financial_education.final_success_test.textPrimary', 
+    textSecondary:'financial_education.final_success_test.textSecondary',
+    namePrimaryAction: 'financial_education.final_success_test.primaryButton',
+    urlPrimaryAction:'/financial-education/home',
+    trackClickEventNamePrimaryAction: 'ux_education_finalize'
+  }
 };
