@@ -31,6 +31,14 @@ const routes: Routes = [
             (m) => m.HomeFinancialEducationPageModule
           ),
       },
+      {
+        path: 'success-submodules',
+        loadChildren: () =>
+          import('./success-submodules/success-submodules.module').then(
+            (m) => m.SuccessSubmodulesPageModule
+          ),
+      }
+      
     ],
   },
 ];

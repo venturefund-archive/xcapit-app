@@ -1,5 +1,6 @@
 export const MODULES_FINANCE = [
   {
+    id:4,
     open: 'yes',
     icon: 'assets/ux-icons/introduction-finances.svg',
     title: 'financial_education.home.module_finance.module_1.title',
@@ -7,20 +8,25 @@ export const MODULES_FINANCE = [
     last: false,
     sub_modules: [
       {
+        id:1,
         link: '',
         title: 'financial_education.home.module_finance.module_1.sub_modules.sub_module_1',
         dataToTrack:'how_to_get_started_in_finance',
+        screenViewLabel: 'ux_education_screenview_intro_fin_complete',
         last: false,
       },
       {
+        id:2,
         link: '',
         title: 'financial_education.home.module_finance.module_1.sub_modules.sub_module_2',
         dataToTrack:'budgets',
+        screenViewLabel: 'ux_education_screenview_budgets_complete',
         last: false,
       },
     ],
   },
   {
+    id:5,
     icon: 'assets/ux-icons/quote.svg',
     title: 'financial_education.home.module_finance.module_2.title',
     description: 'financial_education.home.module_finance.module_2.description',
@@ -29,6 +35,7 @@ export const MODULES_FINANCE = [
     last: false,
   },
   {
+    id:6,
     icon: 'assets/ux-icons/invest.svg',
     title: 'financial_education.home.module_finance.module_3.title',
     description: 'financial_education.home.module_finance.module_3.description',

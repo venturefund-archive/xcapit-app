@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ShareService } from '../../../../../shared/services/share/share.service';
@@ -9,13 +9,15 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 @Component({
   selector: 'app-share-education',
   template: `
-    <div *ngIf="this.canShare" class="se" (click)="this.share()">
-      <img src="/assets/img/financial-education/shared-financial-education/share.svg" />
+    <div *ngIf="this.canShare" [ngClass]="this.lightBackground ? 'se_ligth ': 'se'" (click)="this.share()">
+      <img *ngIf="!this.lightBackground" src="/assets/img/financial-education/shared-financial-education/share.svg" />
+      <img *ngIf="this.lightBackground" src="/assets/img/financial-education/shared-financial-education/share-blue.svg"/>
     </div>
   `,
   styleUrls: ['./share-education.component.scss'],
 })
 export class ShareEducationComponent implements OnInit {
+  @Input() lightBackground = false;
   asset: string;
   canShare: boolean;
   constructor(

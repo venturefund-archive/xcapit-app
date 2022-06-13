@@ -1,0 +1,13 @@
+:host {
+  .no-border {
+    --border-width: 0 !important;
+  }
+
+  ion-buttons {
+    margin-right: 28px;
+  }
+
+  .back-button {
+    margin-right: 16px;
+  }
+}
