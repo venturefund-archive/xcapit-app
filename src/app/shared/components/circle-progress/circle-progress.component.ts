@@ -33,6 +33,6 @@ export class CircleProgressComponent implements OnInit {
   }
 
   setProgress() {
-    this.actualProgress = this.circlePerimeter - (this.circlePerimeter * this.percentage)/100;
+    this.actualProgress = this.circlePerimeter * (this.percentage/100);
   }
 }
