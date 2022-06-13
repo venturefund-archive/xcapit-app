@@ -116,11 +116,12 @@ describe('UserProfileMenuPage', () => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
 
-      languageServiceSpy = jasmine.createSpyObj('LanguageService', [
-        'setInitialAppLanguage',
-        'getLanguages',
-        'setLanguage',
-      ]);
+      languageServiceSpy = jasmine.createSpyObj('LanguageService', {
+        setInitialAppLanguage: null,
+        getLanguages: [],
+        setLanguage: null,
+        getSelectedLanguage: Promise.resolve('es')
+      });
 
       fakeWalletService = new FakeWalletService(true, {});
       walletServiceSpy = fakeWalletService.createSpy();
