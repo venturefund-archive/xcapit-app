@@ -308,4 +308,9 @@ export class SendDonationPage implements OnInit {
     });
     modal.present();
   }
+
+  ionViewWillLeave() {
+    this.leave$.next();
+    this.leave$.complete();
+  }
 }
