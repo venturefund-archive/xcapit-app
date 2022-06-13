@@ -1716,7 +1716,7 @@
     },
     "error_wallet_recovery": {
       "title": "Tu frase de recuperación es incorrecta",
-      "description": "Verifica que tus palabras estén escritas en minúscula y separadas por un espacio.",
+      "description": "Verifica que tus palabras estén escritas en minúscula y en su orden original.",
       "button": "Volver a intentarlo"
     },
     "success_wallet_recovery": {

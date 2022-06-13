@@ -1734,7 +1734,7 @@
     },
     "error_wallet_recovery": {
       "title": "Your recovery phrase is incorrect",
-      "description": "Verify that your words are written in lowercase and separated by a space.",
+      "description": "Verify that your words are written in lowercase and in their original order.",
       "button": "Try again"
     },
     "success_wallet_recovery": {
