@@ -31,8 +31,14 @@ const routes: Routes = [
             (m) => m.HomeFinancialEducationPageModule
           ),
       },
+      {
+        path: 'final-success-test',
+        loadChildren: () => import('./final-success-test/final-success-test.module').then( m => m.FinalSuccessTestPageModule)
+      },
     ],
   },
+ 
+
 ];
 
 @NgModule({
