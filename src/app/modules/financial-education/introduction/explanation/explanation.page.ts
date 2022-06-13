@@ -34,7 +34,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
             <ion-button
               class="ux_button"
               appTrackClick
-              name="ux_education_start"
+              name="ux_education_screenview_intro_2"
               type="submit"
               color="secondary"
               size="large"

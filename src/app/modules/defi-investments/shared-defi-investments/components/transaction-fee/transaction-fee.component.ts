@@ -14,7 +14,7 @@ import { Amount } from '../../types/amount.type';
         <ion-text class="ux-font-text-xxs">{{ this.description }}</ion-text>
       </div>
 
-      <div class="tf__fee__qty_and_advice" *ngIf="this.quoteFee.value">
+      <div class="tf__fee__qty_and_advice" *ngIf="this.quoteFee.value !== undefined">
         <div class="tf__fee__qty_and_advice__qty">
           <ion-text class="ux-font-text-base tf__fee__qty__amount" [ngClass]="{ negative: this.balance < this.fee.value}"
             >{{ this.fee.value | formattedAmount }} {{ this.fee.token }}</ion-text
@@ -30,7 +30,7 @@ import { Amount } from '../../types/amount.type';
           </ion-text>
         </div>
       </div>
-      <div *ngIf="!this.quoteFee.value" class="skeleton">
+      <div *ngIf="this.quoteFee.value === undefined" class="skeleton">
         <ion-skeleton-text style="width:95%" animated> </ion-skeleton-text>
       </div>
     </div>

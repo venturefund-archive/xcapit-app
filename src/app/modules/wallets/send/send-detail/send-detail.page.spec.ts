@@ -1,4 +1,12 @@
-import { ComponentFixture, discardPeriodicTasks, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  discardPeriodicTasks,
+  fakeAsync,
+  flush,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { SendDetailPage } from './send-detail.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -91,7 +99,7 @@ describe('SendDetailPage', () => {
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let fakeModalController: FakeModalController;
-  let modalControllerSpy: jasmine.SpyObj<ModalController>
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -114,7 +122,6 @@ describe('SendDetailPage', () => {
     navControllerSpy = fakeNavController.createSpy();
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
-
 
     erc20ProviderControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
       new: new FakeERC20Provider(null, new FakeProvider('100000000')),
@@ -159,7 +166,6 @@ describe('SendDetailPage', () => {
 
     fixture = TestBed.createComponent(SendDetailPage);
     component = fixture.componentInstance;
-    component.nativeBalance = 1;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
@@ -168,17 +174,16 @@ describe('SendDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should find currency and networks on ionViewDidEnter', fakeAsync( () => {
+  it('should find currency and networks on ionViewDidEnter', fakeAsync(() => {
     component.ionViewDidEnter();
     tick();
     fixture.detectChanges();
     expect(component.networks).toEqual([coins[2].network]);
     expect(component.selectedNetwork).toEqual(coins[2].network);
     expect(component.nativeToken).toEqual(coins[1]);
-    expect(component.nativeBalance).toEqual(10);
     expect(component.token).toEqual(coins[2]);
-    discardPeriodicTasks()
-    flush()
+    discardPeriodicTasks();
+    flush();
   }));
 
   it('should get native fee on ionViewDidEnter when token is native', fakeAsync(() => {
@@ -189,18 +194,28 @@ describe('SendDetailPage', () => {
     fixture.detectChanges();
     expect(component.token).toEqual(coins[1]);
     expect(component.fee).toEqual(10);
-    discardPeriodicTasks()
-    flush()
+    discardPeriodicTasks();
+    flush();
   }));
 
-  it('should get non native fee on ionViewDidEnter when token is non native',fakeAsync( ()=>{
-    apiWalletServiceSpy.getCoin.and.returnValue(coins[2]);
+  it('should calculate fee when user enters valid address and amount and token isnt native', fakeAsync(() => {
     component.ionViewDidEnter();
     tick();
+    component.form.patchValue(formData.valid);
+    tick();
     fixture.detectChanges();
-    expect(component.token).toEqual(coins[2]);
     expect(component.fee).toEqual(0.000001);
-  }))
+  }));
+
+  it('should reset fee when user enters invalid address or amount and token isnt native', fakeAsync(() => {
+    component.ionViewDidEnter();
+    tick();
+    component.form.patchValue({ address: '' });
+    tick();
+    fixture.detectChanges();
+    expect(component.dynamicFee.value).toEqual(0.0);
+    expect(component.quoteFee.value).toEqual(0.0);
+  }));
 
   it('should change selected network on event emited', () => {
     component.networks = ['ERC20', 'BTC'];
@@ -224,7 +239,6 @@ describe('SendDetailPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-
 
   it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync(() => {
     apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
@@ -297,5 +311,12 @@ describe('SendDetailPage', () => {
     component.ionViewWillLeave();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show toast when native balance is less than fee', () => {
+    component.nativeBalance = 0.5;
+    component.fee = 1;
+    component.checkEnoughBalance();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });

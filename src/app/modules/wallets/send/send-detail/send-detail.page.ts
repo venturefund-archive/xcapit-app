@@ -73,7 +73,7 @@ import { TranslateService } from '@ngx-translate/core';
         <div class="sd__amount-input-card" *ngIf="this.token">
           <ion-card class="ux-card">
             <app-amount-input-card
-              *ngIf="this.balance !== undefined && (!this.token.native || (this.token.native && this.fee))"
+              *ngIf="this.balance !== undefined"
               [header]="'defi_investments.shared.amount_input_card.available' | translate"
               [showRange]="false"
               [baseCurrency]="this.token"
@@ -82,7 +82,7 @@ import { TranslateService } from '@ngx-translate/core';
               [feeToken]="this.nativeToken"
             ></app-amount-input-card>
             <app-amount-input-card-skeleton
-              *ngIf="this.balance === undefined || (this.token.native && !this.fee)"
+              *ngIf="this.balance === undefined"
               [showRange]="false"
             ></app-amount-input-card-skeleton>
             <div class="ion-padding-start ion-padding-end">
@@ -103,7 +103,7 @@ import { TranslateService } from '@ngx-translate/core';
           appTrackClick
           name="ux_send_continue"
           (click)="this.submitForm()"
-          [disabled]="!this.form.valid || !this.selectedNetwork"
+          [disabled]="!this.form.valid || !this.selectedNetwork || !this.quoteFee.value"
           color="secondary"
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
         >
@@ -120,13 +120,13 @@ export class SendDetailPage {
   nativeToken: Coin;
   networks: string[];
   selectedNetwork: string;
-  nativeBalance: number;
   balance: number;
+  nativeBalance: number;
   amount: number;
   quotePrice: number;
   fee: number;
-  dynamicFee: Amount = { value: undefined, token: undefined };
-  quoteFee: Amount = { value: undefined, token: 'USD' };
+  dynamicFee: Amount = { value: 0, token: undefined };
+  quoteFee: Amount = { value: 0, token: 'USD' };
   modalHref: string;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
@@ -153,21 +153,11 @@ export class SendDetailPage {
     this.modalHref = window.location.href;
     this.tokenAndNetworks();
     this.dynamicPrice();
-    await this.getFee();
     await this.tokenBalances();
-    await this.checkBalance();
   }
 
   private async userWallet(): Promise<string> {
     return await this.storageService.getWalletsAddresses(this.selectedNetwork);
-  }
-
-  async tokenBalances() {
-    this.nativeBalance = parseFloat(
-      await this.walletService.balanceOf(await this.userWallet(), this.nativeToken.value)
-    );
-    const rawBalance = parseFloat(await this.walletService.balanceOf(await this.userWallet(), this.token.value));
-    this.balance = this.token.native ? rawBalance - this.fee : rawBalance;
   }
 
   private tokenAndNetworks() {
@@ -177,13 +167,54 @@ export class SendDetailPage {
     this.token = this.apiWalletService.getCoin(coin, network);
     this.networks = this.apiWalletService.getNetworks(coin);
     this.selectedNetwork = network;
-    this.nativeToken = this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
+    this.nativeToken = this.token.native
+      ? this.token
+      : this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
+    this.dynamicFee.token = this.nativeToken.value;
+  }
+
+  async tokenBalances() {
+    const tokenBalance = parseFloat(await this.userBalanceOf(this.token));
+    if (this.token.native) {
+      await this.getFee();
+      this.balance = this.nativeBalance = Math.max(tokenBalance - this.fee, 0);
+    } else {
+      this.balance = tokenBalance;
+      this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken));
+      this.watchFormChanges();
+    }
+  }
+
+  private async userBalanceOf(_aToken: Coin) {
+    return this.walletService.balanceOf(await this.userWallet(), _aToken.value);
+  }
+
+  private watchFormChanges() {
+    this.form.valueChanges.subscribe(async () => {
+      if (this.form.valid) {
+        await this.getFee();
+      } else this.resetFee();
+    });
+  }
+
+  private loadingFee(): void {
+    this.dynamicFee.value = this.quoteFee.value = undefined;
   }
 
   private async getFee(): Promise<void> {
+    this.loadingFee();
     this.token.native ? await this.nativeTransferFee() : await this.nonNativeTransferFee();
     this.dynamicFee = { value: this.fee, token: this.nativeToken.value };
     this.getQuoteFee();
+    this.checkEnoughBalance();
+  }
+
+  private getQuoteFee(): void {
+    this.quoteFee.value = this.quotePrice * this.fee;
+  }
+
+  private resetFee() {
+    this.dynamicFee.value = this.quoteFee.value = 0;
   }
 
   async erc20Contract(): Promise<ERC20Contract> {
@@ -195,18 +226,16 @@ export class SendDetailPage {
   }
 
   private async nativeTransferFee(): Promise<void> {
-    if (this.token.native) {
-      this.fee = await new FormattedFee(
-        new NativeFeeOf(
-          new NativeGasOf(this.erc20Provider(), {
-            to: await this.userWallet(),
-            value: this.parseWei(1),
-          }),
-          new FakeProvider(await this.gasPrice())
-        ),
-        this.token.decimals
-      ).value();
-    }
+    this.fee = await new FormattedFee(
+      new NativeFeeOf(
+        new NativeGasOf(this.erc20Provider(), {
+          to: await this.userWallet(),
+          value: this.parseWei(1),
+        }),
+        new FakeProvider(await this.gasPrice())
+      ),
+      this.token.decimals
+    ).value();
   }
 
   private async gasPrice(): Promise<BigNumber> {
@@ -219,7 +248,10 @@ export class SendDetailPage {
   private async nonNativeTransferFee(): Promise<void> {
     this.fee = await new FormattedFee(
       new NativeFeeOf(
-        new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [await this.userWallet(), this.parseWei(1)]),
+        new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
+          this.form.value.address,
+          this.parseWei(this.form.value.amount),
+        ]),
         new FakeProvider(await this.gasPrice())
       )
     ).value();
@@ -227,11 +259,6 @@ export class SendDetailPage {
 
   parseWei(amount: number) {
     return parseUnits(amount.toFixed(this.token.decimals), this.token.decimals);
-  }
-
-  async getPrice(): Promise<number> {
-    const prices = (await this.apiWalletService.getPrices([this.token.value], false).toPromise()).prices;
-    return prices[this.token.value];
   }
 
   async submitForm() {
@@ -274,12 +301,7 @@ export class SendDetailPage {
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
         this.quotePrice = price;
-        this.getQuoteFee();
       });
-  }
-
-  private getQuoteFee() {
-    return (this.quoteFee.value = this.quotePrice * this.fee);
   }
 
   ionViewWillLeave() {
@@ -287,9 +309,8 @@ export class SendDetailPage {
     this.destroy$.complete();
   }
 
-  async checkBalance() {
-    this.token.native ? await this.nativeTransferFee() : await this.nonNativeTransferFee();
-    if (this.balance < this.fee) this.openModalBalance();
+  async checkEnoughBalance() {
+    if (this.nativeBalance < this.fee) this.openModalBalance();
   }
 
   async openModalBalance() {
