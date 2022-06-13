@@ -28,6 +28,20 @@
       ion-label.active-tab {
         color: var(--ion-color-white);
       }
+
+      ion-segment {
+        ion-segment-button {
+          margin: 0;
+        }
+
+        ion-segment-button:first-child {
+          left: -2px;
+        }
+
+        ion-segment-button:last-child {
+          right: -2px;
+        }
+      }
     }
 
     &__title {
