@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { TransactionFeeComponent } from './transaction-fee.component';
 
 describe('TransactionFeeComponent', () => {
@@ -10,7 +11,7 @@ describe('TransactionFeeComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [TransactionFeeComponent],
+        declarations: [TransactionFeeComponent, FormattedAmountPipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       }).compileComponents();
 

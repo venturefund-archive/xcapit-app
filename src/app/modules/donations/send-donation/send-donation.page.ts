@@ -260,7 +260,7 @@ export class SendDonationPage implements OnInit {
       network: this.selectedNetwork,
       currency: this.token,
       address: this.cause.address,
-      amount: this.form.value.amount,
+      amount: parseFloat(this.form.value.amount),
       referenceAmount: this.form.value.quoteAmount,
       balanceNativeToken: this.balance,
       balance: this.balance,

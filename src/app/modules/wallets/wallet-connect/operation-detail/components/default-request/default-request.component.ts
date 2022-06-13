@@ -54,7 +54,7 @@ import { ethers } from 'ethers';
         </div>
 
         <div class="drc__container__content">
-          <ion-label> {{ this.totalAmount }} {{ this.providerSymbol }} </ion-label>
+          <ion-label> {{ this.totalAmount | formattedAmount }} {{ this.providerSymbol }} </ion-label>
         </div>
       </div>
     </div>
@@ -75,7 +75,7 @@ export class DefaultRequestComponent implements OnInit {
   }
 
   getTotalAmount() {
-    this.totalAmount = this.request.params[0].value ? ethers.utils.formatEther(ethers.BigNumber.from(this.request.params[0].value)) : null;
+    this.totalAmount = parseFloat(this.request.params[0].value ? ethers.utils.formatEther(ethers.BigNumber.from(this.request.params[0].value)) : null);
   }
 
 }

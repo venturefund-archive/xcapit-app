@@ -12,7 +12,6 @@ import { NavController } from '@ionic/angular';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
 import { AmountInputCardComponent } from '../../../../shared/components/amount-input-card/amount-input-card.component';
 import { WalletBalanceService } from '../../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
-import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
@@ -164,7 +163,7 @@ export class NewInvestmentPage implements OnInit {
   saveAmount() {
     if (this.form.valid) {
       this.investmentDataService.amount = this.form.value.amount;
-      this.investmentDataService.quoteAmount = this.form.value.quoteAmount;
+      this.investmentDataService.quoteAmount = parseFloat(this.form.value.quoteAmount);
       this.investmentDataService.product = this.investmentProduct;
       this.navController.navigateForward(['/defi/new/confirmation', this.mode]);
     }

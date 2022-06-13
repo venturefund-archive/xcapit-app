@@ -60,10 +60,10 @@ import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 
             <div class="summary__amount__qty">
               <ion-text class="ux-font-text-base summary__amount__qty__amount"
-                >{{ this.amount.value | number: '1.2-6' }} {{ this.amount.token }}</ion-text
+                >{{ this.amount.value | formattedAmount }} {{ this.amount.token }}</ion-text
               >
               <ion-text class="ux-font-text-base summary__amount__qty__quoteAmount"
-                >{{ this.quoteAmount.value | number: '1.2-2' }} {{ this.quoteAmount.token }}
+                >{{ this.quoteAmount.value | formattedAmount: 10: 2 }} {{ this.quoteAmount.token }}
               </ion-text>
             </div>
           </div>

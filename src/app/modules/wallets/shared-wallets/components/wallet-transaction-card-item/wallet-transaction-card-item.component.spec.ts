@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { WalletTransactionCardItemComponent } from './wallet-transaction-card-item.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 const transaction = {
   icon: 'assets/img/wallet-transactions/received.svg',
@@ -33,7 +34,7 @@ describe('WalletTransactionCardItemComponent', () => {
     waitForAsync(() => {
       browserServiceSpy = jasmine.createSpyObj('BrowserService', {open:Promise.resolve()})
       TestBed.configureTestingModule({
-        declarations: [WalletTransactionCardItemComponent],
+        declarations: [WalletTransactionCardItemComponent, FormattedAmountPipe],
         imports: [IonicModule, TranslateModule.forRoot()],
         providers: [{provide:BrowserService, useValue:browserServiceSpy}]
       }).compileComponents();
