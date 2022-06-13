@@ -33,18 +33,20 @@ import { ModalController, NavController } from '@ionic/angular';
     <div class="main__actions">
       <ion-button
         class="ux_button main__actions__button ion-no-margin"
-        name="Backup"
+        name="ux_go_to_protect"
         color="secondary"
         size="large"
+        appTrackClick
         (click)="this.backup()"
       >
         {{ 'wallets.shared_wallets.warning_backup_info.button_protect' | translate }}
       </ion-button>
       <ion-button
         class="ux-link-xl main__actions__button ion-no-margin"
-        name="Skip"
+        name="ux_create_skip"
         fill="clear"
         size="large"
+        appTrackClick
         (click)="this.skip()"
       >
         {{ 'wallets.shared_wallets.warning_backup_info.button_skip' | translate }}
