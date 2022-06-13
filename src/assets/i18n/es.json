@@ -1046,6 +1046,11 @@
           "subtitle":"Términos y condiciones"
         }
       }
+    },
+    "final_success_test": {
+      "textPrimary":"Lo lograste, ¡así se hace!",
+      "textSecondary":"Completaste todos los módulos de educación financiera y cripto. Próximamente acreditaremos tu NFT en tu wallet.",
+      "primaryButton":"Finalizar"
     }
   },
   "financial_planner": {
