@@ -55,7 +55,7 @@ import { InvestorTestService } from '../shared-wealth-managements/services/inves
   `,
   styleUrls: ['./investor-test-question.page.scss'],
 })
-export class InvestorTestQuestionPage implements OnInit {
+export class InvestorTestQuestionPage {
   question: Question;
   currentQuestionNumber: number;
   mode: string;
@@ -118,7 +118,7 @@ export class InvestorTestQuestionPage implements OnInit {
   ionViewWillEnter() {
     this.currentQuestionNumber = parseInt(this.route.snapshot.paramMap.get('question'));
     this.mode = this.route.snapshot.paramMap.get('mode');
-    this.investorTestService.loadQuestions().then(() => {
+    this.loadQuestions().then(() => {
       if (this.isValidQuestionNumber && !this.isUserSkippingQuestions) {
         this.loadQuestionAndAnswers();
       } else {
@@ -127,7 +127,9 @@ export class InvestorTestQuestionPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  loadQuestions() {
+    return this.isFirstQuestion ? this.investorTestService.loadQuestions() : Promise.resolve();
+  }
 
   goToNextQuestion() {
     this.navController.navigateForward([`${this.baseRoute}/${this.mode}/${this.currentQuestionNumber + 1}`]);
@@ -146,7 +148,7 @@ export class InvestorTestQuestionPage implements OnInit {
     this.investorTestService.setAnswer(this.question, this.form.value.answer);
     if (this.isLastQuestion) {
       this.investorTestService.saveAnswers().subscribe(() => {
-      this.investorTestService.clearAnswers();
+        this.investorTestService.clearAnswers();
         this.goToSuccessPage();
       });
     } else {

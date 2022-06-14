@@ -10,7 +10,7 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -164,7 +164,7 @@ describe('SendDonationPage', () => {
   it('should get cause information on ionViewWillEnter', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(component.cause).toEqual(causeSpy);
 
     expect(component.token).toEqual(coinsSpy[0]);
@@ -176,7 +176,7 @@ describe('SendDonationPage', () => {
     fakeActivatedRoute.modifySnapshotParams(null, undefined);
     component.ionViewWillEnter();
     fixture.detectChanges();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(component.cause).toEqual(causeSpy);
   });
 
@@ -246,4 +246,12 @@ describe('SendDonationPage', () => {
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
     flush();
   }));
+
+  it('should unsubscribe when leave', () => {
+    const nextSpy = spyOn(component.leave$, 'next');
+    const completeSpy = spyOn(component.leave$, 'complete');
+    component.ionViewWillLeave();
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
 });

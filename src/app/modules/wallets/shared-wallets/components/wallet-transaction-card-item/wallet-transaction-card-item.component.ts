@@ -7,7 +7,7 @@ import { ScanUrlOf } from '../../models/scan-url-of/scan-url-of';
   selector: 'app-wallet-transaction-card-item',
   template: `
     <div>
-      <div class="wtci ion-padding">
+      <div class="wtci">
         <div>
           <ion-img class="wtci__img" [src]="this.transaction.icon"></ion-img>
         </div>
@@ -29,7 +29,7 @@ import { ScanUrlOf } from '../../models/scan-url-of/scan-url-of';
               </div>
             </div>
             <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold">
-              {{ this.transaction.amount | number: '1.2-6' }} {{ this.transaction.symbol }}
+              {{ this.transaction.amount | formattedAmount }} {{ this.transaction.symbol }}
             </ion-label>
           </div>
         </div>

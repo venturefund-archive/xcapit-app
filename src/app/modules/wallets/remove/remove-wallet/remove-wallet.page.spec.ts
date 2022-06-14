@@ -12,6 +12,7 @@ import { RemoveWalletPage } from './remove-wallet.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BalanceCacheService } from '../../shared-wallets/services/balance-cache/balance-cache.service';
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 describe('RemoveWalletPage', () => {
   let component: RemoveWalletPage;
@@ -23,6 +24,7 @@ describe('RemoveWalletPage', () => {
   let balanceCacheServiceSpy: jasmine.SpyObj<BalanceCacheService>;
   let queueServiceSpy: jasmine.SpyObj<QueueService>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -44,6 +46,10 @@ describe('RemoveWalletPage', () => {
         killSession: Promise.resolve(),
       });
 
+      ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+        set: Promise.resolve(),
+      });
+
       TestBed.configureTestingModule({
         declarations: [RemoveWalletPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
@@ -53,6 +59,7 @@ describe('RemoveWalletPage', () => {
           { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
           { provide: QueueService, useValue: queueServiceSpy },
           { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+          { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -93,5 +100,6 @@ describe('RemoveWalletPage', () => {
     expect(queueServiceSpy.dequeueAll).toHaveBeenCalledTimes(1);
     expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/remove/success']);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('protectedWallet', false);
   });
 });
