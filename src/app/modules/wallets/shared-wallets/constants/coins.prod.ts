@@ -5,7 +5,6 @@ import linkAbi from './assets-abi-prod/link-abi-prod.json';
 import uniAbi from './assets-abi-prod/uni-abi-prod.json';
 import usdtAbi from './assets-abi-prod/usdt-abi-prod.json';
 import rifAbi from './assets-abi-prod/rif-abi-prod.json';
-import lunaAbi from './assets-abi-prod/luna-abi-prod.json';
 import axsAbi from './assets-abi-prod/axs-abi-prod.json';
 import manaAbi from './assets-abi-prod/mana-abi-prod.json';
 import sushiAbi from './assets-abi-prod/sushi-abi-prod.json';
@@ -89,20 +88,6 @@ export const PROD_COINS: Coin[] = [
     abi: uniAbi,
     decimals: 18,
     symbol: 'UNIUSDT',
-  },
-  {
-    id: 6,
-    name: 'LUNA',
-    logoRoute: 'assets/img/coins/LUNA.png',
-    last: false,
-    value: 'LUNA',
-    network: 'ERC20',
-    chainId: 1,
-    rpc: environment.ethAlchemyApiUrl,
-    contract: '0xd2877702675e6ceb975b4a1dff9fb7baf4c91ea9',
-    abi: lunaAbi,
-    decimals: 18,
-    symbol: 'LUNAUSDT',
   },
   {
     id: 7,
