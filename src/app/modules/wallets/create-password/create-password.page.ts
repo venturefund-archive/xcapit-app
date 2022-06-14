@@ -153,11 +153,11 @@ export class CreatePasswordPage implements OnInit {
   }
 
   async ionViewDidEnter(){
+    this.walletService.coins = this.apiWalletService.getCoins().filter((coin) => coin.native);
     if (this.mode === 'create') {
-      this.walletService.coins = this.apiWalletService.getCoins().filter((coin) => coin.native);
       this.walletMnemonicService.mnemonic = this.walletMnemonicService.newMnemonic();
-      await this.walletService.create();
     }
+    await this.walletService.create();
   }
 
   ngOnInit() {}

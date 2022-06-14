@@ -142,11 +142,11 @@ describe('RecoveryWalletPage', () => {
     expect(component.validPhrase).toEqual('test phrase');
   });
 
-  it('should call import mnemonic and navigate "([wallets/select-coins, import])" when form and phrase are valid', () => {
+  it('should call import mnemonic and navigate "([wallets/create-password, import])" when form and phrase are valid', () => {
     component.form.patchValue(formData.valid);
     fixture.debugElement.query(By.css('ion-button[name="ux_import_submit_phrase"]')).nativeElement.click();
     expect(walletMnemonicServiceSpy.importMnemonic).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/select-coins', 'import']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/create-password', 'import']);
   });
 
   it('should navigate "([wallets/recovery/error])" when form is valid and phrase not exist', () => {
