@@ -16,7 +16,7 @@
       "change_language": "Language",
       "payment": "Plans",
       "wallet_connect": "WalletConnect",
-      "pull_to_refresh": "Próxima actualizacion disponible en"
+      "pull_to_refresh": "Próxima actualizacion disponible en {{seconds}} s"
     }
   },
   "config": {
@@ -1010,9 +1010,19 @@
       "title": "What would you like to learn today?",
       "coming_soon": "Coming soon",
       "rules_title": "Rules",
+      "global_progress_title": "Global progress",
+      "global_progress": {
+        "card_title": "Introductory modules",
+        "card_state_0": "You haven't completed any module yet, shall we start?",
+        "card_state_25": "You have {{doneModules}} complete modules, don't stop.",
+        "card_state_50": "You have {{doneModules}} complete modules, you are almost there.",
+        "card_state_75": "You have {{doneModules}} complete modules, last effort.",
+        "card_state_100": "Congratulations! You have completed all the modules."
+      },
       "module_finance": {
         "module_1": {
           "title": "Module: introduction to personal finance",
+          "progress_title": "Introduction to personal finance",
           "sub_modules": {
             "sub_module_1": {
               "title": "How to get started in finance?",
@@ -1034,6 +1044,7 @@
       "module_crypto": {
         "module_1": {
           "title": "Module: introduction to blockchain",
+          "progress_title": "Introduction to blockchain",
           "sub_modules": {
             "sub_module_1": {
               "title": "What is blockchain?",
@@ -1072,6 +1083,11 @@
       "finance_sub_1": "Finances",
       "finance_sub_2": "Budget",
       "crypto_sub_1": "Blockchain"
+    },
+    "final_success_test": {
+      "textPrimary": "You did it, that's the way to do it!",
+      "textSecondary": "You have completed all financial education and crypto modules. Your NFT will be credited to your wallet soon.",
+      "primaryButton": "Finish"
     }
   },
 
@@ -1748,7 +1764,7 @@
     },
     "error_wallet_recovery": {
       "title": "Your recovery phrase is incorrect",
-      "description": "Verify that your words are written in lowercase and separated by a space.",
+      "description": "Verify that your words are written in lowercase and in their original order.",
       "button": "Try again"
     },
     "success_wallet_recovery": {
@@ -1917,7 +1933,7 @@
     },
     "fiat_success": {
       "textPrimary": "Operation created",
-      "textSecondary": "Remember to make the transfer from your bank and upload the receipta",
+      "textSecondary": "Remember to make the transfer from your bank and upload the receipt",
       "buttonText": "Go to operation detail"
     },
     "select_provider": {

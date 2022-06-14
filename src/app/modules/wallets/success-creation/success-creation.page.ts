@@ -5,7 +5,7 @@ import { SkipBackupModalComponent } from '../shared-wallets/components/skip-back
 
 @Component({
   selector: 'app-success-creation',
-  template: ` <ion-content [scrollY]="false">
+  template: ` <ion-content>
     <div class="header__ux_success_image">
       <img src="assets/img/wallets/success_creation.svg" />
     </div>
@@ -65,7 +65,7 @@ export class SuccessCreationPage implements OnInit {
       eventLabel: 'ux_create_screenview_success',
     });
   }
-  
+
   async skipBackup() {
     const modal = await this.modalController.create({
       component: SkipBackupModalComponent,

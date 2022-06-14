@@ -40,4 +40,9 @@ describe('FormattedAmount', () => {
   it('should show 0 if minor to 8 decimals', () => {
     expect(new FormattedAmount(0.000000000000009).value()).toEqual(0);
   });
+
+  it('should show 0 if value is 0', () => {
+    expect(new FormattedAmount(0).value()).toEqual(0);
+  });
+
 });

@@ -52,16 +52,20 @@ import { MODULES_FINANCE } from '../shared-financial-education/constants/finance
           [selectedTab]="this.segmentsForm.value.tab"
         ></app-modules-education>
       </div>
+      <div class="ion-padding"></div>
+      <div class="hfe__global_progress_card">
+        <ion-text class="ux-font-text-lg">{{ 'financial_education.home.global_progress_title' | translate }}</ion-text>
+        <app-global-progress-card ></app-global-progress-card>
+      </div>
       <div class="hfe__rule_card">
-        <ion-text class="ux-font-text-lg">{{'financial_education.home.rules_title' | translate}}</ion-text>
+        <ion-text class="ux-font-text-lg">{{ 'financial_education.home.rules_title' | translate }}</ion-text>
         <app-rule-card
           [title]="'financial_education.shared.rule_card.rule_1.title'"
           [subtitle]="'financial_education.shared.rule_card.rule_1.subtitle'"
           [url]="'financial-education/introduction/explanation'"
         ></app-rule-card>
       </div>
-    </ion-content>
-    `,
+    </ion-content> `,
   styleUrls: ['./home-financial-education.page.scss'],
 })
 export class HomeFinancialEducationPage {

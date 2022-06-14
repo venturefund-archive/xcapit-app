@@ -64,8 +64,8 @@ describe('FinancialFreedomPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('financial-education/introduction/explanation');
   });
 
-  it('should call appTrackEvent on trackService when ux_education_next is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_next');
+  it('should call appTrackEvent on trackService when ux_education_screenview_intro_1 is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_screenview_intro_1');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
 

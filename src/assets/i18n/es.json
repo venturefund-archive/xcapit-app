@@ -16,7 +16,7 @@
       "change_language": "Idioma",
       "payment": "Planes",
       "wallet_connect": "WalletConnect",
-      "pull_to_refresh": "Próxima actualizacion disponible en"
+      "pull_to_refresh": "Próxima actualizacion disponible en {{seconds}} s"
     }
   },
   "config": {
@@ -1000,11 +1000,21 @@
       "finance": "Finanzas",
       "crypto": "Cripto",
       "title": "¿Qué te gustaría aprender hoy?",
-      "coming_soon": "Próximamente",
-      "rules_title": "Reglas",
+      "coming_soon":"Próximamente",
+      "rules_title":"Reglas",
+      "global_progress_title":"Progreso global",
+      "global_progress":{
+        "card_title":"Módulos introductorios",
+        "card_state_0":"Aún no completaste ningún módulo ¿Comenzamos?",
+        "card_state_25":"Tienes {{doneModules}} módulos completos, no te detengas.",
+        "card_state_50":"Tienes {{doneModules}} módulos completos, falta poco.",
+        "card_state_75":"Tienes {{doneModules}} módulos completos, un ultimo esfuerzo.",
+        "card_state_100":"¡Felicitaciones! Completaste todos los módulos."
+      },
       "module_finance": {
         "module_1": {
           "title": "Módulo: introducción a las finanzas personales",
+          "progress_title": "Introducción a las finanzas personales",
           "sub_modules": {
             "sub_module_1": {
               "title": "¿Cómo empezar en finanzas?",
@@ -1026,6 +1036,7 @@
       "module_crypto": {
         "module_1": {
           "title": "Módulo: introducción a blockchain",
+          "progress_title": "Introducción a la blockchain",
           "sub_modules": {
             "sub_module_1": {
               "title": "¿Qué es la blockchain?",
@@ -1064,6 +1075,11 @@
       "finance_sub_1": "Finanzas",
       "finance_sub_2": "Presupuesto",
       "crypto_sub_1": "Blockchain"
+    },
+    "final_success_test": {
+      "textPrimary":"Lo lograste, ¡así se hace!",
+      "textSecondary":"Completaste todos los módulos de educación financiera y cripto. Próximamente acreditaremos tu NFT en tu wallet.",
+      "primaryButton":"Finalizar"
     }
   },
   "financial_planner": {
@@ -1730,7 +1746,7 @@
     },
     "error_wallet_recovery": {
       "title": "Tu frase de recuperación es incorrecta",
-      "description": "Verifica que tus palabras estén escritas en minúscula y separadas por un espacio.",
+      "description": "Verifica que tus palabras estén escritas en minúscula y en su orden original.",
       "button": "Volver a intentarlo"
     },
     "success_wallet_recovery": {

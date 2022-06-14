@@ -135,6 +135,21 @@ describe('RecoveryPhraseReadPage', () => {
     expect(component.buttonFill).toEqual('solid');
   });
 
+  it('should not reveal phrase, not copy to clipboard, show toast on Copy Button click and wrong password', async () => {
+    storageSpy.get.and.returnValue(Promise.resolve(true));
+    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith('error');
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await component.copyPhrase();
+    await fixture.whenStable();
+    expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(0);
+    expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(0);
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
+    expect(component.buttonColor).toEqual('primary');
+    expect(component.buttonFill).toEqual('outline');
+  });
+
 
   it('should copy to clipboard, show toast and change button on Copy Button click if phrase was revealed', async () => {
     component.isRevealed = true;

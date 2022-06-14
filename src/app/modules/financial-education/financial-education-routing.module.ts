@@ -40,7 +40,12 @@ const routes: Routes = [
       },
       {
         path: 'typeform',
-        loadChildren: () => import('./test-typeform/test-typeform.module').then( m => m.TestTypeformPageModule)
+        loadChildren: () => import('./test-typeform/test-typeform.module').then((m) => m.TestTypeformPageModule),
+      },
+      {
+        path: 'final-success-test',
+        loadChildren: () =>
+          import('./final-success-test/final-success-test.module').then((m) => m.FinalSuccessTestPageModule),
       },
     ],
   },

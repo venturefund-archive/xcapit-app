@@ -4,7 +4,9 @@ export const MODULES_CRYPTO = [
     open: 'yes',
     icon: 'assets/ux-icons/clip.svg',
     title: 'financial_education.home.module_crypto.module_1.title',
+    progress_title: 'financial_education.home.module_crypto.module_1.progress_title',
     disabled: false,
+    done: false,
     last: false,
     sub_modules: [
       {

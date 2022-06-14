@@ -143,7 +143,7 @@ export class SelectAmountWithdrawPage implements OnInit {
   saveWithdrawAmount() {
     if (this.form.valid) {
       this.investmentDataService.amount = this.form.value.amount;
-      this.investmentDataService.quoteAmount = this.form.value.quoteAmount;
+      this.investmentDataService.quoteAmount = parseFloat(this.form.value.quoteAmount);
       this.investmentDataService.product = this.investmentProduct;
       const url = ['/defi/withdraw/confirmation', this.vaultID()];
       if (this.form.value.range === 100) url.push('all');
