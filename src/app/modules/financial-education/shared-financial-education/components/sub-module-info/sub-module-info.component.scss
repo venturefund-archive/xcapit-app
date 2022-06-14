@@ -1,0 +1,17 @@
+:host {
+  .smi {
+    &__img {
+      text-align: center;
+      margin-top: 15px;
+      margin-bottom: 30px;
+    }
+
+    &__description {
+      padding: 15px;
+    }
+  }
+
+  .ux_button {
+    margin-bottom: 10px;
+  }
+}

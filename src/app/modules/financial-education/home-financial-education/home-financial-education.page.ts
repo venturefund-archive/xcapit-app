@@ -11,6 +11,9 @@ import { MODULES_FINANCE } from '../shared-financial-education/constants/finance
           <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'financial_education.home.header' | translate }}</ion-title>
+        <ion-buttons class="back-button" slot="end">
+          <app-share-education></app-share-education>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -46,6 +49,7 @@ import { MODULES_FINANCE } from '../shared-financial-education/constants/finance
           class="hfe__content_card__modules"
           *ngFor="let module of this.modules"
           [module]="module"
+          [selectedTab]="this.segmentsForm.value.tab"
         ></app-modules-education>
       </div>
       <div class="ion-padding"></div>

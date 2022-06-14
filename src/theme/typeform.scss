@@ -1,0 +1,14 @@
+.tf-v1-widget {
+  height: 100%;
+  width: 100%;
+
+  iframe {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+.tf-v1-widget-close {
+  display: none;
+}

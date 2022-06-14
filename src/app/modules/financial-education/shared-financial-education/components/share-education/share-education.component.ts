@@ -9,9 +9,18 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 @Component({
   selector: 'app-share-education',
   template: `
-    <div *ngIf="this.canShare" [ngClass]="this.lightBackground ? 'se-light': 'se'" (click)="this.share()">
+    <div
+      appTrackClick
+      [dataToTrack]="{ eventLabel: 'ux_education_share' }"
+      *ngIf="this.canShare"
+      [ngClass]="this.lightBackground ? 'se-light' : 'se'"
+      (click)="this.share()"
+    >
       <img *ngIf="!this.lightBackground" src="/assets/img/financial-education/shared-financial-education/share.svg" />
-      <img *ngIf="this.lightBackground" src="/assets/img/financial-education/shared-financial-education/share-blue.svg"/>
+      <img
+        *ngIf="this.lightBackground"
+        src="/assets/img/financial-education/shared-financial-education/share-blue.svg"
+      />
     </div>
   `,
   styleUrls: ['./share-education.component.scss'],
@@ -54,13 +63,15 @@ export class ShareEducationComponent implements OnInit {
           .write({
             string: `${this.translate.instant('financial_education.shared.share_education.text')} ${this.storeLink()}`,
           })
-          .then(() => {this.showToast()});
+          .then(() => {
+            this.showToast();
+          });
       });
   }
 
   private showToast() {
     this.toastService.showInfoToast({
-      message : this.translate.instant('financial_education.shared.share_education.share_error')
+      message: this.translate.instant('financial_education.shared.share_education.share_error'),
     });
   }
 

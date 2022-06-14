@@ -428,7 +428,7 @@
         "header": "Withdraw investment",
         "button": "Continue",
         "label": "Amount to withdraw*",
-        "legend":"*Transaction fees will be charged in MATIC."
+        "legend": "*Transaction fees will be charged in MATIC."
       },
       "withdraw": {
         "header": "Withdraw investment",
@@ -1009,23 +1009,29 @@
       "crypto": "Crypto",
       "title": "What would you like to learn today?",
       "coming_soon": "Coming soon",
-      "rules_title":"Rules",
-      "global_progress_title":"Global progress",
-      "global_progress":{
-        "card_title":"Introductory modules",
-        "card_state_0":"You haven't completed any module yet, shall we start?",
-        "card_state_25":"You have {{doneModules}} complete modules, don't stop.",
-        "card_state_50":"You have {{doneModules}} complete modules, you are almost there.",
-        "card_state_75":"You have {{doneModules}} complete modules, last effort.",
-        "card_state_100":"Congratulations! You have completed all the modules."
+      "rules_title": "Rules",
+      "global_progress_title": "Global progress",
+      "global_progress": {
+        "card_title": "Introductory modules",
+        "card_state_0": "You haven't completed any module yet, shall we start?",
+        "card_state_25": "You have {{doneModules}} complete modules, don't stop.",
+        "card_state_50": "You have {{doneModules}} complete modules, you are almost there.",
+        "card_state_75": "You have {{doneModules}} complete modules, last effort.",
+        "card_state_100": "Congratulations! You have completed all the modules."
       },
       "module_finance": {
         "module_1": {
           "title": "Module: introduction to personal finance",
           "progress_title": "Introduction to personal finance",
           "sub_modules": {
-            "sub_module_1": "How to get started in finance?",
-            "sub_module_2": "Budgets"
+            "sub_module_1": {
+              "title": "How to get started in finance?",
+              "description": "Personal finance is the management of a person's money for saving, spending and budgeting over time. Taking into account risks and/or future events."
+            },
+            "sub_module_2": {
+              "title": "Budget",
+              "description": "It is a tool that allows you to plan and control your finances, taking into account income and expenses. So you can get a better return on your money."
+            }
           }
         },
         "module_2": {
@@ -1040,7 +1046,10 @@
           "title": "Module: introduction to blockchain",
           "progress_title": "Introduction to blockchain",
           "sub_modules": {
-            "sub_module_1": "What is blockchain?"
+            "sub_module_1": {
+              "title": "What is blockchain?",
+              "description": "All cryptocurrencies work thanks to the technology called blockchain. In Spanish it means blockchain, and to understand it in a simple way, blockchain is a decentralized database. Like a giant excel spreadsheet where we can all upload data."
+            }
           }
         },
         "module_2": {
@@ -1058,17 +1067,27 @@
         "dialogTitle": "Share",
         "share_error": "Text was copied to the clipboard"
       },
-      "rule_card":{
+      "rule_card": {
         "rule_1": {
-          "title":"How do I get my NFT?",
-          "subtitle":"Terms and Conditions"
+          "title": "How do I get my NFT?",
+          "subtitle": "Terms and Conditions"
         }
+      },
+      "sub_module_info": {
+        "button_1": "Learn more",
+        "button_2": "Start test"
       }
     },
+    "typeform_header": {
+      "text": "Test of",
+      "finance_sub_1": "Finances",
+      "finance_sub_2": "Budget",
+      "crypto_sub_1": "Blockchain"
+    },
     "final_success_test": {
-      "textPrimary":"You did it, that's the way to do it!",
-      "textSecondary":"You have completed all financial education and crypto modules. Your NFT will be credited to your wallet soon.",
-      "primaryButton":"Finish"
+      "textPrimary": "You did it, that's the way to do it!",
+      "textSecondary": "You have completed all financial education and crypto modules. Your NFT will be credited to your wallet soon.",
+      "primaryButton": "Finish"
     }
   },
 
@@ -1725,15 +1744,15 @@
         "title": "Recovery phrase",
         "description": "It is a set of 12 ordered words, which serve as a master key to your funds.",
         "button_text": "Understood",
-        "item_1":"Do not share it with anyone else, as anyone who has it will be able to access your funds.",
-        "item_2":"Do not save your phrase in the cloud or on your mobile devices.",
-        "item_3":"Do not share it via messaging services or social networks.",
-        "item_4":"Keep it in a safe place.",
-        "item_5":"You can engrave it on some element to make it last over time."
+        "item_1": "Do not share it with anyone else, as anyone who has it will be able to access your funds.",
+        "item_2": "Do not save your phrase in the cloud or on your mobile devices.",
+        "item_3": "Do not share it via messaging services or social networks.",
+        "item_4": "Keep it in a safe place.",
+        "item_5": "You can engrave it on some element to make it last over time."
       },
       "warning_backup_info": {
         "title": "Attention!",
-        "title2":"You have not yet protected your wallet",
+        "title2": "You have not yet protected your wallet",
         "description": "Before performing any operation, protect it by backing up your recovery phrase.",
         "button_protect": "Protect my wallet",
         "button_skip": "Skip"

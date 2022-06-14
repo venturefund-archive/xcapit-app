@@ -11,9 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes), SharedFinancialEducationModule
-  ],
-  declarations: [ExplanationPage]
+  imports: [RouterModule.forRoot(routes), SharedFinancialEducationModule],
+  declarations: [ExplanationPage],
 })
 export class ExplanationPageModule {}

@@ -24,7 +24,7 @@ import { NavController } from '@ionic/angular';
             appTrackClick
             [dataToTrack]="{ eventLabel: subModule.dataToTrack }"
             *ngFor="let subModule of this.module.sub_modules"
-            (click)="this.goToPage(subModule.link)"
+            (click)="this.goToPage(subModule)"
           >
             <div class="item-content">
               <div class="item-content__body">
@@ -45,12 +45,20 @@ import { NavController } from '@ionic/angular';
 })
 export class ModulesEducationComponent implements OnInit {
   @Input() module: any;
+  @Input() selectedTab: string;
 
   constructor(private navController: NavController) {}
 
   ngOnInit() {}
 
-  goToPage(link) {
-    this.navController.navigateForward(link);
+  goToPage(subModule) {
+    this.navController.navigateForward([
+      'financial-education/information/tab',
+      this.selectedTab,
+      'module',
+      this.module.name,
+      'submodule',
+      subModule.name,
+    ]);
   }
 }
