@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NETWORK_COLORS } from 'src/app/modules/wallets/shared-wallets/constants/network-colors.constant';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
+import { OperationStatus } from '../../interfaces/operation-status.interface';
 import { OperationDataInterface } from '../../services/operation/storage-operation.service';
 
 @Component({
@@ -15,6 +15,11 @@ import { OperationDataInterface } from '../../services/operation/storage-operati
         <div class="tcc__card__name-and-icon__name ux-font-text-base-black">
           {{ this.token.name }}
         </div>
+        <div *ngIf="this.operationStatus">
+          <div class="tcc__card__name-and-icon__chip">
+            <app-operation-status-chip [status]="this.operationStatus"></app-operation-status-chip>
+          </div>
+        </div>
       </div>
 
       <div class="tcc__card__operation">
@@ -26,7 +31,7 @@ import { OperationDataInterface } from '../../services/operation/storage-operati
           <ion-text class="ux-font-text-base-primary">
             {{ 'fiat_ramps.confirm.buy.operationType' | translate }}
           </ion-text>
-          <ion-text float-right class="ux-font-text-base-primary">
+          <ion-text float-right class="tcc__card__operation__content__margin ux-font-text-base-black">
             {{ this.operationData.currency_out | uppercase }}
             {{ 'fiat_ramps.confirm.buy.with' | translate }} {{ this.operationData.currency_in | uppercase }}
           </ion-text>
@@ -98,7 +103,7 @@ export class TransferConfirmCardComponent implements OnInit {
   @Input() token: Coin;
   @Input() operationData: OperationDataInterface;
   @Input() provider: any;
-  networkColors = NETWORK_COLORS;
+  @Input() operationStatus: OperationStatus;
 
   constructor() {}
 

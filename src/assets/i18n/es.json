@@ -1917,30 +1917,35 @@
       "modal_content": "Por favor tilda los puntos a considerar antes de realizar una compra"
     },
     "operation_detail": {
-      "header": "Operación:",
-      "card": {
-        "provider": "Proveedor:",
-        "type": "Tipo de operación:",
-        "buy": {
-          "operationType": "Compra",
-          "title": "Comprar:",
-          "with": " con "
-        },
-        "sell": {
-          "operationType": "Venta",
-          "title": "Vender:",
-          "with": " por "
-        },
-        "amount": "Monto:",
-        "quotation": "Cotización:",
-        "status": "Estado:",
-        "date": "Fecha:",
-        "id": "ID:"
+      "header": "Detalle de operación",
+      "disclaimer1": "Recuerda que Xcapit no vende criptomonedas, Todo el flujo de compra y adjudicación queda a cargo del operador.",
+      "disclaimer2": "La entrega de tokens se hace de Lunes a Viernes de 9 a 18 hs. y puede tardar si el banco demora en procesar la transaccion a la cuenta comitente de Kripton.",
+      "support_text": "Si tienes dudas y consultas contáctate con",
+      "support_button": "Soporte de Kripton Market",
+      "upload_voucher": "Adjuntar comprobante",
+      "send_voucher": "Enviar comprobante",
+      "voucher_card": {
+        "header": "Comprobante",
+        "file": "Archivo",
+        "success": "El comprobante se envió correctamente"
       },
-      "voucher": "Comprobante",
-      "send": "Enviar comprobante",
-      "my_operations": "Ver mis operaciones",
-      "has_voucher": "El comprobante ha sido cargado"
+      "bank_info_card": {
+        "header": "Datos para transferencia",
+        "amount": "Monto",
+        "bank": "Banco",
+        "concept": "Concepto",
+        "copy_success_text": "Se copió el dato correctamente al portapapeles"
+      },
+      "detail_card": {
+        "operation": "Operación",
+        "buy": "Compra",
+        "with": "con",
+        "amount": "Monto",
+        "quotation": "Cotización",
+        "provider": "Proveedor",
+        "reception_address": "Dirección de recepción",
+        "network": "Red"
+      }
     },
     "operation_status": {
       "deposited": "Depositado",

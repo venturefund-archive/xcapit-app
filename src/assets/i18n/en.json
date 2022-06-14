@@ -1939,30 +1939,35 @@
       "modal_content": "Please check the points to consider before making a purchase"
     },
     "operation_detail": {
-      "header": "Operation:",
-      "card": {
-        "provider": "Provider:",
-        "type": "Operation type:",
-        "buy": {
-          "operationType": "Buy",
-          "title": "Buy:",
-          "with": " with "
-        },
-        "sell": {
-          "operationType": "Sell",
-          "title": "Sell:",
-          "with": " for "
-        },
-        "amount": "Amount:",
-        "quotation": "Quotation:",
-        "status": "Status:",
-        "date": "Date:",
-        "id": "ID:"
+      "header": "Operation detail",
+      "disclaimer1": "Remember that Xcapit does not sell cryptocurrencies, The entire purchase and adjudication flow is the responsibility of the operator.",
+      "disclaimer2": "The delivery of tokens is made from Monday to Friday from 9 a.m. to 6 p.m. and it may take longer if the bank delays in processing the transaction to the Krypton principal account.",
+      "support_text": "If you have any questions contact",
+      "support_button": "Kripton Market Support",
+      "upload_voucher": "Attach voucher",
+      "send_voucher": "Send voucher",
+      "voucher_card": {
+        "header": "Voucher",
+        "file": "File",
+        "success": "The voucher has been sent successfully"
       },
-      "voucher": "Voucher",
-      "send": "Send voucher",
-      "my_operations": "See my operations",
-      "has_voucher": "Voucher has been uploaded"
+      "bank_info_card": {
+        "header": "Data for transfer",
+        "amount": "Amount",
+        "bank": "Bank",
+        "concept": "Concept",
+        "copy_success_text": "Copied successfully to clipboard"
+      },
+      "detail_card": {
+        "operation": "Operation",
+        "buy": "Buy",
+        "with": "with",
+        "amount": "Amount",
+        "quotation": "Quotation",
+        "provider": "Provider",
+        "reception_address": "Reception address",
+        "network": "Network"
+      }
     },
     "operation_status": {
       "deposited": "Deposited",
