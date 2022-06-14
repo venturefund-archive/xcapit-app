@@ -68,7 +68,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
     private ionicStorageService: IonicStorageService,
     private remoteConfigService: RemoteConfigService
   ) {}
-
+  
   ngOnInit() {
     this.checkBackupWarning();
   }
