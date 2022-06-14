@@ -28,7 +28,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
           <ion-list>
             <ion-radio-group (ionChange)="this.select($event)" formControlName="radio">
               <div class="container" *ngFor="let item of this.data; let last = last">
-                <ion-item>
+                <ion-item class="sm__content__item">
                   <ion-label class="sm__content__radio_label">{{
                     this.translated ? (item[this.key] | translate) : item[this.key]
                   }}</ion-label>
