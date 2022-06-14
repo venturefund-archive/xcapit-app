@@ -88,6 +88,19 @@
       padding: 0 10px;
       margin-top: 8px;
     }
+
+    &__gains {
+      padding: 18px;
+      padding-top: 20px;
+      font-family: var(--ux-font-lato);
+      color: var(--ion-color-neutral80);
+    }
+
+    &__weeklygains {
+      padding: 18px;
+      font-family: var(--ux-font-lato);
+      color: var(--ion-color-neutral80);
+    }
   }
 
   ion-item::part(native) {
