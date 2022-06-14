@@ -3,7 +3,6 @@ import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
-
 import { InfoPhraseModalComponent } from './info-phrase-modal.component';
 
 describe('InfoPhraseModalComponent', () => {
@@ -17,12 +16,9 @@ describe('InfoPhraseModalComponent', () => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [ InfoPhraseModalComponent ],
-        imports: [IonicModule.forRoot(),
-                  TranslateModule.forRoot()],
-        providers: [
-          { provide: ModalController, useValue: modalControllerSpy },
-        ]
+        declarations: [InfoPhraseModalComponent],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+        providers: [{ provide: ModalController, useValue: modalControllerSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(InfoPhraseModalComponent);
@@ -42,8 +38,8 @@ describe('InfoPhraseModalComponent', () => {
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
-  it('should close modal when Understood is clicked', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="Understood"]')).nativeElement.click();
+  it('should close modal when ux_phrase_information is clicked', async () => {
+    fixture.debugElement.query(By.css('ion-button[name="ux_phrase_information"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
