@@ -87,6 +87,7 @@ import { BackupInformationCardComponent } from '../modules/wallets/shared-wallet
 import { ExplanationItemComponent } from '../modules/financial-education/shared-financial-education/components/explanation-item/explanation-item.component';
 import { InfoPhraseAdviceModalComponent } from '../modules/wallets/shared-wallets/components/info-phrase-advice-modal/info-phrase-advice-modal.component';
 import { RuleCardComponent } from '../modules/financial-education/shared-financial-education/components/rule-card/rule-card.component';
+import { CircleProgressComponent } from './components/circle-progress/circle-progress.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { RuleCardComponent } from '../modules/financial-education/shared-financi
     AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
     // Ux
+    CircleProgressComponent,
     RuleCardComponent,
     InfoPhraseAdviceModalComponent,
     BackupInformationCardComponent,
@@ -180,6 +182,7 @@ import { RuleCardComponent } from '../modules/financial-education/shared-financi
   entryComponents: [UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
+    CircleProgressComponent,
     FilterTabComponent,
     EmbedVideoComponent,
     ErrorsFormItemComponent,
