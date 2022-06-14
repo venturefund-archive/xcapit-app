@@ -183,7 +183,11 @@ export class RecoveryPhraseReadPage implements OnInit {
 
   async copyPhrase() {
     if (!this.isRevealed) {
-      await this.togglePhrase();
+      try {
+        await this.togglePhrase();
+      } catch {
+        return;
+      }
     }
     this.copyToClipboard();
   }
@@ -234,10 +238,11 @@ export class RecoveryPhraseReadPage implements OnInit {
       try {
         await this.setMnemonic();
         this.isRevealed = !this.isRevealed;
-      } catch {
+      } catch (e) {
         this.showErrorToast(
           'wallets.recovery_phrase_read.error_toast'
         );
+        throw e;
       }
     } else {
       this.clearMnemonic();
