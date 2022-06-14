@@ -72,13 +72,27 @@ export class SubModuleInformationPage implements OnInit {
 
   goToLearningMore() {
     this.navController.navigateForward([
-      `financial-education/typeform/tab/${this.selectedTab}/module/${this.module.name}/submodule/${this.subModule.name}/code/${this.subModule.learning_code}`,
+      'financial-education/typeform/tab',
+      this.selectedTab,
+      'module',
+      this.module.name,
+      'submodule',
+      this.subModule.name,
+      'code',
+      this.subModule.learning_code,
     ]);
   }
 
   goToStartTest() {
     this.navController.navigateForward([
-      `financial-education/typeform/tab/${this.selectedTab}/module/${this.module.name}/submodule/${this.subModule.name}/code/${this.subModule.test_code}`,
+      'financial-education/typeform/tab',
+      this.selectedTab,
+      'module',
+      this.module.name,
+      'submodule',
+      this.subModule.name,
+      'code',
+      this.subModule.test_code,
     ]);
   }
 }

@@ -53,7 +53,12 @@ export class ModulesEducationComponent implements OnInit {
 
   goToPage(subModule) {
     this.navController.navigateForward([
-      `financial-education/information/tab/${this.selectedTab}/module/${this.module.name}/submodule/${subModule.name}`,
+      'financial-education/information/tab',
+      this.selectedTab,
+      'module',
+      this.module.name,
+      'submodule',
+      subModule.name,
     ]);
   }
 }

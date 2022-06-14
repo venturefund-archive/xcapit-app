@@ -24,7 +24,12 @@ describe('SubModuleInformationPage', () => {
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      fakeActivatedRoute = new FakeActivatedRoute({ tab: 'finance', module: 'finance_1', submodule: 'finance_sub_1', code: 'dVKXJqBs' });
+      fakeActivatedRoute = new FakeActivatedRoute({
+        tab: 'finance',
+        module: 'finance_1',
+        submodule: 'finance_sub_1',
+        code: 'dVKXJqBs',
+      });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       TestBed.configureTestingModule({
         declarations: [SubModuleInformationPage, FakeTrackClickDirective],
@@ -67,7 +72,14 @@ describe('SubModuleInformationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_education_learn"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      'financial-education/typeform/tab/finance/module/finance_1/submodule/finance_sub_1/code/dVKXJqBs',
+      'financial-education/typeform/tab',
+      'finance',
+      'module',
+      'finance_1',
+      'submodule',
+      'finance_sub_1',
+      'code',
+      'dVKXJqBs',
     ]);
   });
 
@@ -84,7 +96,14 @@ describe('SubModuleInformationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_education_test"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      'financial-education/typeform/tab/finance/module/finance_1/submodule/finance_sub_1/code/GGLKURh6',
+      'financial-education/typeform/tab',
+      'finance',
+      'module',
+      'finance_1',
+      'submodule',
+      'finance_sub_1',
+      'code',
+      'GGLKURh6',
     ]);
   });
 });

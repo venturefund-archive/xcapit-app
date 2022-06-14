@@ -60,7 +60,12 @@ describe('FinanceEducationComponent', () => {
     fixture.debugElement.query(By.css('ion-item[name="item_sub_module"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      'financial-education/information/tab/finance/module/finance_1/submodule/finance_sub_1',
+      'financial-education/information/tab',
+      'finance',
+      'module',
+      'finance_1',
+      'submodule',
+      'finance_sub_1',
     ]);
   });
 

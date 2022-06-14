@@ -81,7 +81,12 @@ export class TestTypeformPage implements OnInit {
   redirectToPage() {
     this.updateTexts();
     this.navController.navigateForward([
-      `financial-education/information/tab/${this.selectedTab}/module/${this.module.name}/submodule/${this.subModule.name}`,
+      'financial-education/information/tab',
+      this.selectedTab,
+      'module',
+      this.module.name,
+      'submodule',
+      this.subModule.name,
     ]);
   }
 

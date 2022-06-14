@@ -85,7 +85,12 @@ describe('TestTypeformPage', () => {
     fixture.detectChanges();
     component.redirectToPage();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      'financial-education/information/tab/finance/module/finance_1/submodule/finance_sub_1',
+      'financial-education/information/tab',
+      'finance',
+      'module',
+      'finance_1',
+      'submodule',
+      'finance_sub_1',
     ]);
   });
 });
