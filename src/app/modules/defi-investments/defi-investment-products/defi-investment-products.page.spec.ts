@@ -189,7 +189,7 @@ describe('DefiInvestmentProductsPage', () => {
     expect(activeEl.nativeElement.innerHTML).toContain('defi_investments.defi_investment_products.title_investments');
 
     const balanceEl = fixture.debugElement.query(By.css('app-investment-balance-item'));
-    expect(balanceEl).toBeTruthy();
+    expect(balanceEl).toBeNull();
   });
 
   it('should render available investment card', async () => {

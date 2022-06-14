@@ -32,12 +32,16 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           <ion-item lines="none" slot="header">
             <ion-label>{{ 'defi_investments.defi_investment_products.title_investments' | translate }}</ion-label>
           </ion-item>
-          <ion-text *ngIf="this.activeInvestmentsContinuousEarning.length">{{ 'defi_investments.defi_investment_products.gains' | translate }}</ion-text>
+          <ion-text class="dp__gains" *ngIf="this.activeInvestmentsContinuousEarning.length">{{
+            'defi_investments.defi_investment_products.gains' | translate
+          }}</ion-text>
           <div *ngFor="let investment of this.activeInvestmentsContinuousEarning">
             <app-investment-balance-item [investmentProduct]="investment.product" [balance]="investment.balance">
             </app-investment-balance-item>
           </div>
-          <ion-text *ngIf="this.activeInvestmentsWeaklyEarning.length">{{ 'defi_investments.defi_investment_products.gains_weekly' | translate }}</ion-text>
+          <ion-text class="dp__weeklygains" *ngIf="this.activeInvestmentsWeaklyEarning.length">{{
+            'defi_investments.defi_investment_products.gains_weekly' | translate
+          }}</ion-text>
           <div *ngFor="let investment of this.activeInvestmentsWeaklyEarning">
             <app-investment-balance-item [investmentProduct]="investment.product" [balance]="investment.balance">
             </app-investment-balance-item>
