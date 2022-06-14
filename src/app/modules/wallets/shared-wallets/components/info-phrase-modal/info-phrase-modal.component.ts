@@ -24,7 +24,7 @@ import { ModalController } from '@ionic/angular';
       <div class="main__actions">
         <ion-button
           class="ux_button main__actions__button"
-          name="ux_phrase_information"
+          name="ux_phrase_information_confirmation"
           color="secondary"
           expand="block"
           (click)="this.close()"

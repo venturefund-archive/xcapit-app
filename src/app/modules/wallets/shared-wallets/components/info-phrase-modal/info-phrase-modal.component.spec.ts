@@ -39,7 +39,7 @@ describe('InfoPhraseModalComponent', () => {
   });
 
   it('should close modal when ux_phrase_information is clicked', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="ux_phrase_information"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_phrase_information_confirmation"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
