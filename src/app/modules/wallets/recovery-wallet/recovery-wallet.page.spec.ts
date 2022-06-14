@@ -165,4 +165,13 @@ describe('RecoveryWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
+
+  it('should not allow multiple phrase info modals opening', () => {
+    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="ux_phrase_information"]'))
+    infoButtonel.nativeElement.click();
+    infoButtonel.nativeElement.click();
+    infoButtonel.nativeElement.click();
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
 });
