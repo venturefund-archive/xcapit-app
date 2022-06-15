@@ -168,8 +168,14 @@ export class NewConnectionPage implements OnInit {
       this.providers = supportedProviders;
       this.setWalletsInfo();
       this.isNative = this.platformService.isNative();
-      this.form.patchValue({ uri: this.walletConnectService.uri });
+      this.uriSubscription();
     }
+  }
+
+  private uriSubscription() {
+    this.walletConnectService.uri.subscribe((res) => {
+      this.form.patchValue({ uri: this.walletConnectService.uri.value });
+    })
   }
 
   public async setWalletsInfo() {
@@ -263,6 +269,7 @@ export class NewConnectionPage implements OnInit {
 
       if (response) {
         this.navController.navigateForward(['/wallets/wallet-connect/connection-detail']);
+        this.form.patchValue({ wallet: null, uri: '' });
       }
     } catch (error) {
       await this.killSession();
