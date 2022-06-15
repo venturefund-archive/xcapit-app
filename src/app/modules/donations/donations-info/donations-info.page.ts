@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-donations-info',
@@ -57,11 +58,14 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./donations-info.page.scss'],
 })
 export class DonationsInfoPage implements OnInit {
-  constructor(private navController: NavController) {}
+    
+  key =  'donationsIntroductionCompleted';
+  constructor(private navController: NavController, private storage : IonicStorageService) {}
 
   ngOnInit() {}
 
   navigateToCauses() {
+    this.storage.set(this.key, true);
     this.navController.navigateForward(['/donations/causes']);
   }
 }

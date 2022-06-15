@@ -2170,6 +2170,10 @@
         "title": "¿Necesitas ayuda?",
         "subtitle": "Ver preguntas frecuentes"
       },
+      "donations_card": {
+        "title": "Dona con cripto",
+        "subtitle": "Descubre organizaciones y personas a las que puedes ayudar."
+      },
       "test_investor_cards": {
         "badge_text": "Próximamente",
         "title1": "Aumenta tus conocimientos en finanzas y Crypto",
