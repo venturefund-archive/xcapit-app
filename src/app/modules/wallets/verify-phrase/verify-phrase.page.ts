@@ -6,6 +6,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletBackupService } from '../shared-wallets/wallet-backup/wallet-backup.service';
 @Component({
   selector: 'app-verify-phrase',
   template: `
@@ -106,7 +107,8 @@ export class VerifyPhrasePage implements OnInit {
   constructor(
     private navController: NavController,
     private walletMnemonicService: WalletMnemonicService,
-    private ionicStorageService: IonicStorageService
+    private ionicStorageService: IonicStorageService,
+    private walletBackupService: WalletBackupService
   ) {}
 
   ngOnInit() {}
@@ -195,6 +197,7 @@ export class VerifyPhrasePage implements OnInit {
       this.loading = true;
       this.ionicStorageService
         .set('protectedWallet', true)
+        .then(() => this.walletBackupService.disableModal())
         .then(() => this.navController.navigateForward(['/tabs/wallets']))
         .finally(() => (this.loading = false));
     } else {

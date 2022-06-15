@@ -5,7 +5,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 import { WarningBackupModalComponent } from '../components/warning-backup-modal/warning-backup-modal.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WalletBackupService {
   private showBackupWarning: boolean;
@@ -14,8 +14,8 @@ export class WalletBackupService {
   constructor(
     private modalController: ModalController,
     private remoteConfigService: RemoteConfigService,
-    private ionicStorageService: IonicStorageService,
-  ) { }
+    private ionicStorageService: IonicStorageService
+  ) {}
 
   async presentModal(): Promise<string> {
     if (this.isWarningModalOpen) {
@@ -23,19 +23,17 @@ export class WalletBackupService {
     }
     this.isWarningModalOpen = true;
 
-    await this.getBackupWarningWallet();
-
     if (this.showBackupWarning) {
       const shouldChangeNavigation = await this.showWarningBackupModal();
 
       if (shouldChangeNavigation === 'skip') {
-          await this.disableModal();
+        await this.disableModal();
       }
-      
+
       return shouldChangeNavigation;
     }
-
-    return;
+    this.isWarningModalOpen = false;
+    return 'skip';
   }
 
   private async showWarningBackupModal(): Promise<string> {
@@ -52,12 +50,13 @@ export class WalletBackupService {
   }
 
   async getBackupWarningWallet(): Promise<void> {
-    if (this.showBackupWarning === undefined || this.showBackupWarning === null) {
-      if (this.remoteConfigService.getFeatureFlag('ff_homeWalletBackupWarningModal')) {
-        this.showBackupWarning = await this.ionicStorageService.get('backupWarningWallet');
-      } else {
-        this.showBackupWarning = false;
-      }
+    if (
+      this.remoteConfigService.getFeatureFlag('ff_homeWalletBackupWarningModal') &&
+      !(await this.ionicStorageService.get('protectedWallet'))
+    ) {
+      this.showBackupWarning = !!(await this.ionicStorageService.get('backupWarningWallet'));
+    } else {
+      this.disableModal();
     }
   }
 
@@ -67,6 +66,7 @@ export class WalletBackupService {
   }
 
   async disableModal(): Promise<void> {
+    console.log('entra a disabled modal')
     this.showBackupWarning = false;
     await this.ionicStorageService.set('backupWarningWallet', false);
   }

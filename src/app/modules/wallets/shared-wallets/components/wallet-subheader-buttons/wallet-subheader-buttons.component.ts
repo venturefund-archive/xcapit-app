@@ -4,6 +4,7 @@ import { NavigationExtras } from '@angular/router';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { WarningBackupModalComponent } from '../warning-backup-modal/warning-backup-modal.component';
+import { WalletBackupService } from '../../wallet-backup/wallet-backup.service';
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -66,9 +67,10 @@ export class WalletSubheaderButtonsComponent implements OnInit {
     private navController: NavController,
     private modalController: ModalController,
     private ionicStorageService: IonicStorageService,
-    private remoteConfigService: RemoteConfigService
+    private remoteConfigService: RemoteConfigService,
+    private walletBackupService: WalletBackupService
   ) {}
-  
+
   ngOnInit() {
     this.checkBackupWarning();
   }
@@ -93,56 +95,47 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   }
 
   async goToSend() {
-    if (this.showBackupWarning && (await this.shouldChangeNavigation())) {
-      return;
+    if ((await this.walletBackupService.presentModal()) === 'skip') {
+      if (!this.asset) {
+        return this.navController.navigateForward(['wallets/send/select-currency']);
+      }
+
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          asset: this.asset,
+          network: this.network,
+        },
+      };
+
+      return this.navController.navigateForward(['wallets/send/detail'], navigationExtras);
     }
-
-    if (!this.asset) {
-      return this.navController.navigateForward(['wallets/send/select-currency']);
-    }
-
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        asset: this.asset,
-        network: this.network,
-      },
-    };
-
-    return this.navController.navigateForward(['wallets/send/detail'], navigationExtras);
   }
 
   async goToReceive() {
-    if (this.showBackupWarning && (await this.shouldChangeNavigation())) {
-      return;
+    if ((await this.walletBackupService.presentModal()) === 'skip') {
+      if (!this.asset) {
+        return this.navController.navigateForward(['wallets/receive/select-currency']);
+      }
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          asset: this.asset,
+          network: this.network,
+        },
+      };
+      return this.navController.navigateForward(['wallets/receive/detail'], navigationExtras);
     }
-
-    if (!this.asset) {
-      return this.navController.navigateForward(['wallets/receive/select-currency']);
-    }
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        asset: this.asset,
-        network: this.network,
-      },
-    };
-
-    return this.navController.navigateForward(['wallets/receive/detail'], navigationExtras);
   }
 
   async goToBuy() {
-    if (this.showBackupWarning && (await this.shouldChangeNavigation())) {
-      return;
+    if ((await this.walletBackupService.presentModal()) === 'skip') {
+      this.navController.navigateForward(['fiat-ramps/select-provider']);
     }
-
-    this.navController.navigateForward(['fiat-ramps/select-provider']);
   }
 
   async goToSwap() {
-    if (this.showBackupWarning && (await this.shouldChangeNavigation())) {
-      return;
+    if ((await this.walletBackupService.presentModal()) === 'skip') {
+      this.navController.navigateForward(['']);
     }
-
-    this.navController.navigateForward(['']);
   }
 
   async checkBackupWarning() {
