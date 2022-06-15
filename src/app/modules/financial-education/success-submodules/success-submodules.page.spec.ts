@@ -15,14 +15,11 @@ describe('SuccessSubmodulesPage', () => {
   let fixture: ComponentFixture<SuccessSubmodulesPage>;
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
-  //Crear 1- Variable
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let moduleServiceSpy: jasmine.SpyObj<ModulesService>;
 
-  //aca definomos todo globalmente antes que arranquen cada test
   beforeEach(
     waitForAsync(() => {
-      //2do- definir el spy con sus metodos o variables
       trackServiceSpy = jasmine.createSpyObj('TrackService', {
         trackEvent: Promise.resolve(true),
       });
@@ -49,7 +46,6 @@ describe('SuccessSubmodulesPage', () => {
         declarations: [SuccessSubmodulesPage],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
-          //3ro no uses el real, usa el trackServiceSpy
           { provide: TrackService, useValue: trackServiceSpy },
           { provide: ModulesService, useValue: moduleServiceSpy },
         ],
