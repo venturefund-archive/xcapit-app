@@ -1,8 +1,12 @@
 :host {
   .wsc {
-    background-color: white;
     margin: 0 16px 16px;
     border-radius: 8px;
+    border: 0.5px solid;
+    border-color: var(--ion-color-neutral50);
+    box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
+    overflow: hidden;
+    background: var(--ion-color-white);
 
     &__title {
       text-align: center;

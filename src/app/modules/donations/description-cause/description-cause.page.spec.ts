@@ -79,7 +79,7 @@ describe('DescriptionCausePage', () => {
   });
 
   it('should navigate to donate page when button ux_donations_donate is clicked and wallet exist', async () => {
-    const navigationExstras: NavigationExtras = {
+    const navigationExtras: NavigationExtras = {
       queryParams: {
         cause: 'unhcr',
       },
@@ -87,7 +87,7 @@ describe('DescriptionCausePage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_donations_donate"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/donations/send-donation'], navigationExstras);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/donations/send-donation'], navigationExtras);
   });
 
   it('should navigate to no wallet page when button ux_donations_donate is clicked and wallet no exist', async () => {

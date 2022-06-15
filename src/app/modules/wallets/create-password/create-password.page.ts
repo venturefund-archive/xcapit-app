@@ -113,7 +113,7 @@ export class CreatePasswordPage implements OnInit {
           Validators.minLength(6),
           Validators.maxLength(100),
           CustomValidators.patternValidator(
-            /^((?=.*[A-Z])|(?=.*[a-z]))(?=.*[0-9])\w*?$/,
+            /^((?=.*[A-Z])|(?=.*[a-z]))(?=.*[0-9])\S*?$/,
             CustomValidatorErrors.notAlphanumeric
           ),
           CustomValidators.patternValidator(/[A-Z]/, CustomValidatorErrors.hasCapitalCase),

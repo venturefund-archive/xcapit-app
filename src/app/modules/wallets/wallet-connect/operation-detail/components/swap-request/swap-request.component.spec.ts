@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { ethers } from 'ethers';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule} from '@ngx-translate/core';
 import * as moment from 'moment';
 
 import { SwapRequestComponent } from './swap-request.component';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 const dateInfo = {
   date: moment().utc().format('DD/MM/YYYY'),
@@ -59,7 +59,7 @@ describe('SwapRequestComponent', () => {
     });
 
     TestBed.configureTestingModule({
-      declarations: [ SwapRequestComponent ],
+      declarations: [ SwapRequestComponent, FormattedAmountPipe ],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: WalletConnectService, useValue: walletConnectServiceSpy},
@@ -106,7 +106,7 @@ describe('SwapRequestComponent', () => {
     component.decodedData = decodedData;
     fixture.detectChanges();
     component.parseInfo();
-    expect(component.amountIn).toEqual('5.0');
-    expect(component.amountOut).toEqual('0.000498351048004129');
+    expect(component.amountIn).toEqual(5);
+    expect(component.amountOut).toEqual(0.000498351048004129);
   });
 });

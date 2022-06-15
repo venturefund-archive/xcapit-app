@@ -16,7 +16,7 @@
       "change_language": "Language",
       "payment": "Plans",
       "wallet_connect": "WalletConnect",
-      "pull_to_refresh": "Próxima actualizacion disponible en"
+      "pull_to_refresh": "Próxima actualizacion disponible en {{seconds}} s"
     }
   },
   "config": {
@@ -427,7 +427,8 @@
       "select_amount": {
         "header": "Withdraw investment",
         "button": "Continue",
-        "label": "Withdrawal"
+        "label": "Amount to withdraw*",
+        "legend": "*Transaction fees will be charged in MATIC."
       },
       "withdraw": {
         "header": "Withdraw investment",
@@ -439,7 +440,7 @@
       },
       "password_modal": {
         "description": "To confirm your withdrawal, enter your Xcapit wallet password.",
-        "confirm_button": "Make a withdrawal"
+        "confirm_button": "Acept"
       }
     }
   },
@@ -1008,13 +1009,29 @@
       "crypto": "Crypto",
       "title": "What would you like to learn today?",
       "coming_soon": "Coming soon",
-      "rules_title":"Rules",
+      "rules_title": "Rules",
+      "global_progress_title": "Global progress",
+      "global_progress": {
+        "card_title": "Introductory modules",
+        "card_state_0": "You haven't completed any module yet, shall we start?",
+        "card_state_25": "You have {{doneModules}} complete modules, don't stop.",
+        "card_state_50": "You have {{doneModules}} complete modules, you are almost there.",
+        "card_state_75": "You have {{doneModules}} complete modules, last effort.",
+        "card_state_100": "Congratulations! You have completed all the modules."
+      },
       "module_finance": {
         "module_1": {
           "title": "Module: introduction to personal finance",
+          "progress_title": "Introduction to personal finance",
           "sub_modules": {
-            "sub_module_1": "How to get started in finance?",
-            "sub_module_2": "Budgets"
+            "sub_module_1": {
+              "title": "How to get started in finance?",
+              "description": "Personal finance is the management of a person's money for saving, spending and budgeting over time. Taking into account risks and/or future events."
+            },
+            "sub_module_2": {
+              "title": "Budget",
+              "description": "It is a tool that allows you to plan and control your finances, taking into account income and expenses. So you can get a better return on your money."
+            }
           }
         },
         "module_2": {
@@ -1027,8 +1044,12 @@
       "module_crypto": {
         "module_1": {
           "title": "Module: introduction to blockchain",
+          "progress_title": "Introduction to blockchain",
           "sub_modules": {
-            "sub_module_1": "What is blockchain?"
+            "sub_module_1": {
+              "title": "What is blockchain?",
+              "description": "All cryptocurrencies work thanks to the technology called blockchain. In Spanish it means blockchain, and to understand it in a simple way, blockchain is a decentralized database. Like a giant excel spreadsheet where we can all upload data."
+            }
           }
         },
         "module_2": {
@@ -1046,11 +1067,15 @@
         "dialogTitle": "Share",
         "share_error": "Text was copied to the clipboard"
       },
-      "rule_card":{
+      "rule_card": {
         "rule_1": {
-          "title":"How do I get my NFT?",
-          "subtitle":"Terms and Conditions"
+          "title": "How do I get my NFT?",
+          "subtitle": "Terms and Conditions"
         }
+      },
+      "sub_module_info": {
+        "button_1": "Learn more",
+        "button_2": "Start test"
       }
     },
     "success_submodule":{
@@ -1058,6 +1083,17 @@
       "textSecondary": "Que nada te detenga, estás cada vez más cerca de convertirte en un experto.",
       "buttonText": "Siguiente módulo",
       "buttonText2": "Ir al menú"
+    },
+    "typeform_header": {
+      "text": "Test of",
+      "finance_sub_1": "Finances",
+      "finance_sub_2": "Budget",
+      "crypto_sub_1": "Blockchain"
+    },
+    "final_success_test": {
+      "textPrimary": "You did it, that's the way to do it!",
+      "textSecondary": "You have completed all financial education and crypto modules. Your NFT will be credited to your wallet soon.",
+      "primaryButton": "Finish"
     }
   },
 
@@ -1714,15 +1750,15 @@
         "title": "Recovery phrase",
         "description": "It is a set of 12 ordered words, which serve as a master key to your funds.",
         "button_text": "Understood",
-        "item_1":"Do not share it with anyone else, as anyone who has it will be able to access your funds.",
-        "item_2":"Do not save your phrase in the cloud or on your mobile devices.",
-        "item_3":"Do not share it via messaging services or social networks.",
-        "item_4":"Keep it in a safe place.",
-        "item_5":"You can engrave it on some element to make it last over time."
+        "item_1": "Do not share it with anyone else, as anyone who has it will be able to access your funds.",
+        "item_2": "Do not save your phrase in the cloud or on your mobile devices.",
+        "item_3": "Do not share it via messaging services or social networks.",
+        "item_4": "Keep it in a safe place.",
+        "item_5": "You can engrave it on some element to make it last over time."
       },
       "warning_backup_info": {
         "title": "Attention!",
-        "title2":"You have not yet protected your wallet",
+        "title2": "You have not yet protected your wallet",
         "description": "Before performing any operation, protect it by backing up your recovery phrase.",
         "button_protect": "Protect my wallet",
         "button_skip": "Skip"
@@ -1734,7 +1770,7 @@
     },
     "error_wallet_recovery": {
       "title": "Your recovery phrase is incorrect",
-      "description": "Verify that your words are written in lowercase and separated by a space.",
+      "description": "Verify that your words are written in lowercase and in their original order.",
       "button": "Try again"
     },
     "success_wallet_recovery": {
@@ -1903,7 +1939,7 @@
     },
     "fiat_success": {
       "textPrimary": "Operation created",
-      "textSecondary": "Remember to make the transfer from your bank and upload the receipta",
+      "textSecondary": "Remember to make the transfer from your bank and upload the receipt",
       "buttonText": "Go to operation detail"
     },
     "select_provider": {
@@ -1928,30 +1964,35 @@
       "modal_content": "Please check the points to consider before making a purchase"
     },
     "operation_detail": {
-      "header": "Operation:",
-      "card": {
-        "provider": "Provider:",
-        "type": "Operation type:",
-        "buy": {
-          "operationType": "Buy",
-          "title": "Buy:",
-          "with": " with "
-        },
-        "sell": {
-          "operationType": "Sell",
-          "title": "Sell:",
-          "with": " for "
-        },
-        "amount": "Amount:",
-        "quotation": "Quotation:",
-        "status": "Status:",
-        "date": "Date:",
-        "id": "ID:"
+      "header": "Operation detail",
+      "disclaimer1": "Remember that Xcapit does not sell cryptocurrencies, The entire purchase and adjudication flow is the responsibility of the operator.",
+      "disclaimer2": "The delivery of tokens is made from Monday to Friday from 9 a.m. to 6 p.m. and it may take longer if the bank delays in processing the transaction to the Krypton principal account.",
+      "support_text": "If you have any questions contact",
+      "support_button": "Kripton Market Support",
+      "upload_voucher": "Attach voucher",
+      "send_voucher": "Send voucher",
+      "voucher_card": {
+        "header": "Voucher",
+        "file": "File",
+        "success": "The voucher has been sent successfully"
       },
-      "voucher": "Voucher",
-      "send": "Send voucher",
-      "my_operations": "See my operations",
-      "has_voucher": "Voucher has been uploaded"
+      "bank_info_card": {
+        "header": "Data for transfer",
+        "amount": "Amount",
+        "bank": "Bank",
+        "concept": "Concept",
+        "copy_success_text": "Copied successfully to clipboard"
+      },
+      "detail_card": {
+        "operation": "Operation",
+        "buy": "Buy",
+        "with": "with",
+        "amount": "Amount",
+        "quotation": "Quotation",
+        "provider": "Provider",
+        "reception_address": "Reception address",
+        "network": "Network"
+      }
     },
     "operation_status": {
       "deposited": "Deposited",
@@ -2023,7 +2064,8 @@
       "amount": "Amount",
       "quotation": "Quotation",
       "wallet": "Reception address",
-      "disclaimer": "From this moment the operation will continue with the selected provider. Xcapit is not responsible for incorrect prices in the values ​​or currencies defined hereinafter, nor for prejudices that may arise with the interaction with the provider.",
+      "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, the entire purchase and allocation flow is handled by the operator.",
+      "disclaimer2": "The delivery of tokens is done from Monday to Friday from 9 am to 6 pm and may take some time if the bank delays in processing the transaction to Krypton's account.",
       "confirm": "Confirm",
       "buy": {
         "operationType": "Buy",

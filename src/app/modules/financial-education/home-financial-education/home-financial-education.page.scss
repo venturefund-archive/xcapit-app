@@ -8,6 +8,12 @@
     position: relative;
   }
 
+  ion-toolbar {
+    .back-button {
+      margin-right: 16px;
+    }
+  }
+
   .hfe {
     &__segments {
       margin-top: -76px;
@@ -26,6 +32,12 @@
     &__rule_card {
       margin-top: 16px;
 
+      ion-text {
+        margin-left: 16px;
+      }
+    }
+
+    &__global_progress_card {
       ion-text {
         margin-left: 16px;
       }

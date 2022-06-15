@@ -26,7 +26,6 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 0 0 16px;
 
       &__content {
         display: flex;
@@ -47,13 +46,7 @@
     }
 
     &__actions {
-      width: 100%;
-      padding: 0 10px;
-
-      ion-button {
-        width: inherit;
-        padding-bottom: 16px;
-      }
+      width: 95%;
     }
   }
 }

@@ -54,11 +54,14 @@ import { TwoPiInvestmentFactory } from '../../shared-defi-investments/models/two
           ></app-amount-input-card-skeleton>
         </form>
       </ion-card>
+      <div class="ux-font-text-xs saw__legend">
+        <ion-label> {{ 'defi_investments.withdraw.select_amount.legend' | translate }}</ion-label>
+      </div>
       <div class="saw__button">
         <ion-button
           *ngIf="this.investedAmount"
           appTrackClick
-          name="submit_withdraw_amount"
+          name="ux_invest_withdraw"
           expand="block"
           size="large"
           type="submit"
@@ -140,7 +143,7 @@ export class SelectAmountWithdrawPage implements OnInit {
   saveWithdrawAmount() {
     if (this.form.valid) {
       this.investmentDataService.amount = this.form.value.amount;
-      this.investmentDataService.quoteAmount = this.form.value.quoteAmount;
+      this.investmentDataService.quoteAmount = parseFloat(this.form.value.quoteAmount);
       this.investmentDataService.product = this.investmentProduct;
       const url = ['/defi/withdraw/confirmation', this.vaultID()];
       if (this.form.value.range === 100) url.push('all');

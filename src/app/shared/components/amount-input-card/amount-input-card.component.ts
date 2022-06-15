@@ -11,15 +11,15 @@ import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
           {{ this.header }}
         </ion-text>
         <div class="aic__available__amounts">
-          <ion-text class="ux-font-text-xl"> {{ this.max | number: '1.2-6' }} {{ this.baseCurrency.value }}</ion-text>
+          <ion-text class="ux-font-text-xl"> {{ this.max | formattedAmount }} {{ this.baseCurrency.value }}</ion-text>
           <ion-text class="ux-font-text-xxs">
-            ≈ {{ this.quoteMax | number: '1.2-2' }} {{ this.quoteCurrency }}
+            ≈ {{ this.quoteMax | formattedAmount : 10 : 2 }} {{ this.quoteCurrency }}
           </ion-text>
         </div>
       </div>
       <div class="aic__content">
         <div class="aic__content__title">
-          <ion-text class="ux-font-titulo-xs"> {{ this.label }}</ion-text>
+          <ion-text class="ux-font-text-lg"> {{ this.label }}</ion-text>
         </div>
         <div *ngIf="this.showRange" class="aic__content__percentage">
           <ion-input

@@ -243,10 +243,10 @@ export const SUCCESS_TYPES = {
   },
   success_fiat_ramps:{
     image:"assets/img/fiat-ramps/success-page/operations-success.svg",
+    urlClose:'/fiat-ramps/select-provider',
     textPrimary: 'fiat_ramps.fiat_success.textPrimary', 
     textSecondary:'fiat_ramps.fiat_success.textSecondary',
     namePrimaryAction:'fiat_ramps.fiat_success.buttonText',
-    urlClose:'/fiat-ramps/new-operation',
     urlPrimaryAction:'/tabs/home',
     trackClickEventNamePrimaryAction: 'ux_buy_kripton_details'
   },
@@ -260,5 +260,13 @@ export const SUCCESS_TYPES = {
     urlThirdAction:'/financial-education/home',
     trackClickEventNamePrimaryAction: 'ux_education_next_module',
     trackClickEventNameThirdAction: 'ux_education_go_to_menu'
+  },
+  final_success_test:{
+    image:"assets/img/financial-education/final-success-test.svg",
+    textPrimary: 'financial_education.final_success_test.textPrimary', 
+    textSecondary:'financial_education.final_success_test.textSecondary',
+    namePrimaryAction: 'financial_education.final_success_test.primaryButton',
+    urlPrimaryAction:'/financial-education/home',
+    trackClickEventNamePrimaryAction: 'ux_education_finalize'
   }
 };

@@ -42,7 +42,8 @@ const cashIn: FiatRampOperation =
   status: 'complete',
   created_at: new Date(),
   provider: '1',
-  operation_type: 'cash-in'
+  operation_type: 'cash-in',
+  voucher: false,
 };
 
 const cashOut: FiatRampOperation = 
@@ -55,7 +56,8 @@ const cashOut: FiatRampOperation =
   status: 'complete',
   created_at: new Date(),
   provider: '1',
-  operation_type: 'cash-out'
+  operation_type: 'cash-out',
+  voucher: false,
 };
 
 describe('OperationsListItemComponent', () => {

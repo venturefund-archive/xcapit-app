@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 export interface OperationDataInterface {
-  country: string;
+  country?: string;
   type: string;
   amount_in: string;
   amount_out: string;
@@ -13,6 +13,8 @@ export interface OperationDataInterface {
   wallet: string;
   provider: string;
   network: string;
+  voucher?: boolean;
+  operation_id?: number;
 }
 
 @Injectable({

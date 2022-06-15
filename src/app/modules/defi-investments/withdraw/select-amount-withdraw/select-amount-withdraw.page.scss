@@ -29,6 +29,12 @@
       border-top-left-radius: 0;
       border-top-right-radius: 0;
       border-top: none;
+      margin-bottom: 8px;
+    }
+
+    &__legend {
+      padding: 0 24px 16px 16px;
+      color: var(--ion-color-neutral80);
     }
 
     &__button {
