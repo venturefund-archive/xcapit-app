@@ -26,10 +26,8 @@
   .rwp {
     &__title {
       display: flex;
-
-      ion-text {
-        margin-right: 6px;
-      }
+      align-items: center;
+      gap: 6px;
 
       ion-button {
         height: 16px;
