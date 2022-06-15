@@ -75,7 +75,7 @@ export class DefaultRequestComponent implements OnInit {
   }
 
   getTotalAmount() {
-    this.totalAmount = parseFloat(this.request.params[0].value ? ethers.utils.formatEther(ethers.BigNumber.from(this.request.params[0].value)) : null);
+    this.totalAmount = this.request.params[0].value ? parseFloat(ethers.utils.formatEther(ethers.BigNumber.from(this.request.params[0].value))) : null;
   }
 
 }

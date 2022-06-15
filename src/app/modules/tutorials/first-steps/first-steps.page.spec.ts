@@ -8,6 +8,7 @@ import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { Storage } from '@ionic/storage';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { BehaviorSubject } from 'rxjs';
 class IonSlidesMock {
   public constructor() {}
 
@@ -34,7 +35,7 @@ describe('FirstStepsPage', () => {
       });
 
       walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
-        uri: '',
+        uri: new BehaviorSubject(null),
         checkDeeplinkUrl: Promise.resolve(null)
       });
 
@@ -92,7 +93,7 @@ describe('FirstStepsPage', () => {
   });
 
   it('should go to the menu when finishEvent is received and walletConnectService does not have defined an uri', () => {
-    walletConnectServiceSpy.uri = null;
+    walletConnectServiceSpy.uri = new BehaviorSubject(null);
     fixture.detectChanges();
 
     fixture.debugElement.queryAll(By.css('app-step'))[2].triggerEventHandler('finishEvent', null);
@@ -101,7 +102,7 @@ describe('FirstStepsPage', () => {
   });
 
   it('should check walletConnectService checkDeeplinkUrl when finishEvent is received and walletConnectService does have defined an uri', () => {
-    walletConnectServiceSpy.uri = 'wc://';
+    walletConnectServiceSpy.uri = new BehaviorSubject('wc://');
     fixture.detectChanges();
 
     fixture.debugElement.queryAll(By.css('app-step'))[2].triggerEventHandler('finishEvent', null);

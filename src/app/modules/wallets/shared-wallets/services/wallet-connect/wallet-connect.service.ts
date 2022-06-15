@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { transactionType } from '../../constants/transaction-type';
 import { supportedProviders } from '../../../shared-wallets/constants/supported-providers';
+import { BehaviorSubject } from 'rxjs';
 
 export interface IPeerMeta {
   description: string;
@@ -28,7 +29,7 @@ export interface IPeerMeta {
 })
 export class WalletConnectService {
   public walletConnector: WalletConnect | null = null;
-  uri = '';
+  uri = new BehaviorSubject(null);
   peerMeta: IPeerMeta = null;
   requestInfo: any;
   providerSymbol = '';
@@ -68,7 +69,7 @@ export class WalletConnectService {
   }
 
   public setUri(uri) {
-    this.uri = uri;
+    this.uri.next(uri);
   }
 
   public async checkConnection() {
@@ -76,8 +77,8 @@ export class WalletConnectService {
       const isConnected = await this.ping();
       if (isConnected) return;
     }
-    
-    await this.appStorageService.remove('walletconnect');
+
+    await this.appStorageService.forceRemove('walletconnect');
   }
 
   public async ping() {
@@ -95,9 +96,9 @@ export class WalletConnectService {
   }
 
   public async checkDeeplinkUrl() {
-    if (!this.uri) return;
+    if (!this.uri.value) return;
 
-    if (this.isValidURL(this.uri)) {
+    if (this.isValidURL(this.uri.value)) {
       await this.navController.navigateForward(['wallets/wallet-connect/new-connection']);
     }
   }
@@ -274,7 +275,7 @@ export class WalletConnectService {
 
       this.peerMeta = null;
       this.connected = false;
-      this.setUri('');
+      this.setUri(null);
       
       if (this.walletConnector.session.connected) {
         await this.walletConnector.killSession();

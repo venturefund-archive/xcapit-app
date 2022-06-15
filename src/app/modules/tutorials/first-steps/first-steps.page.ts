@@ -87,7 +87,7 @@ export class FirstStepsPage implements OnInit {
   finishOnboarding() {
     this.storage.set('FINISHED_ONBOARDING', true);
 
-    if (this.walletConnectService.uri) {
+    if (this.walletConnectService.uri.value) {
       this.walletConnectService.checkDeeplinkUrl();
     } else {
       this.navController.navigateForward(['tabs/home']);
