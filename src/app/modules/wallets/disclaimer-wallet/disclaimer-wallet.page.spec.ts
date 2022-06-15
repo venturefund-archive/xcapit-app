@@ -96,8 +96,8 @@ describe('DisclaimerWalletPage', () => {
   });
 
 
-  it('should call trackEvent on trackService when ux_create_submit Button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_create_submit');
+  it('should call trackEvent on trackService when Submit Button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Submit');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

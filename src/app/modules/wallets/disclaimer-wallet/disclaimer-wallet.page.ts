@@ -90,7 +90,7 @@ import { LINKS } from 'src/app/config/static-links';
             appTrackClick
             [dataToTrack]="{ eventLabel: this.trackClickEventName }"
             [disabled]="!this.disclaimerForm.valid"
-            name="ux_create_submit"
+            name="Submit"
             type="submit"
             color="secondary"
             size="large"
