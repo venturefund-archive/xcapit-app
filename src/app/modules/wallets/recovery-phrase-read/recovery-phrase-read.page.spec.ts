@@ -44,14 +44,14 @@ describe('RecoveryPhraseReadPage', () => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      
+
       clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', { write: Promise.resolve() });
-      
+
       toastServiceSpy = jasmine.createSpyObj('ToastService', {
         showInfoToast: Promise.resolve(),
         showErrorToast: Promise.resolve(),
       });
-      
+
       storageSpy = jasmine.createSpyObj('IonicStorageService', {
         set: Promise.resolve(),
         get: Promise.resolve(false),
@@ -62,7 +62,7 @@ describe('RecoveryPhraseReadPage', () => {
         importMnemonic: '',
       });
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-        getDecryptedWallet: Promise.resolve(jasmine.createSpyObj('Wallet', {},{ mnemonic: testMnemonic })),
+        getDecryptedWallet: Promise.resolve(jasmine.createSpyObj('Wallet', {}, { mnemonic: testMnemonic })),
       });
       TestBed.configureTestingModule({
         declarations: [RecoveryPhraseReadPage, FakeTrackClickDirective],
@@ -99,16 +99,16 @@ describe('RecoveryPhraseReadPage', () => {
     expect(buttonEl.properties.disabled).toBeTrue();
   });
 
-  it('should call trackEvent on trackService when continue is clicked',()=>{
+  it('should call trackEvent on trackService when continue is clicked', () => {
     component.isRevealed = true;
     component.mnemonic = testMnemonic;
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button','ux_protect_continue_phrase');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_protect_continue_phrase');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
-  })
+  });
 
   it('should navigate to verify phrase if Continue button was clicked', async () => {
     await component.ionViewDidEnter();
@@ -124,6 +124,7 @@ describe('RecoveryPhraseReadPage', () => {
 
   it('should reveal phrase, copy to clipboard, show toast and change button on Copy Button click', async () => {
     storageSpy.get.and.returnValue(Promise.resolve(true));
+    fakeModalController.modifyReturns({}, { data: 'testPass' });
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -137,7 +138,8 @@ describe('RecoveryPhraseReadPage', () => {
 
   it('should not reveal phrase, not copy to clipboard, show toast on Copy Button click and wrong password', async () => {
     storageSpy.get.and.returnValue(Promise.resolve(true));
-    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith('error');
+    fakeModalController.modifyReturns({}, { data: 'testPass' });
+    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(new Error('invalid password'));
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -149,7 +151,6 @@ describe('RecoveryPhraseReadPage', () => {
     expect(component.buttonColor).toEqual('primary');
     expect(component.buttonFill).toEqual('outline');
   });
-
 
   it('should copy to clipboard, show toast and change button on Copy Button click if phrase was revealed', async () => {
     component.isRevealed = true;
@@ -166,8 +167,9 @@ describe('RecoveryPhraseReadPage', () => {
   });
 
   it('should show error toast when password is incorrect', async () => {
+    fakeModalController.modifyReturns({}, { data: 'testPass' });
     storageSpy.get.and.returnValue(Promise.resolve(true));
-    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith();
+    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(new Error('invalid password'));
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -179,6 +181,8 @@ describe('RecoveryPhraseReadPage', () => {
   it('should show error toast when copy to clipboard fails', async () => {
     storageSpy.get.and.returnValue(Promise.resolve(true));
     clipboardServiceSpy.write.and.rejectWith();
+    fakeModalController.modifyReturns({}, { data: 'testPass' });
+    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(new Error('invalid password'));
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();

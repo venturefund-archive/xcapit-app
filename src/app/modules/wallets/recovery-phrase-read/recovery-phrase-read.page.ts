@@ -189,11 +189,13 @@ export class RecoveryPhraseReadPage implements OnInit {
     if (!this.isRevealed) {
       try {
         await this.togglePhrase();
+        if (this.password) this.copyToClipboard();
       } catch {
         return;
       }
+    } else {
+      this.copyToClipboard();
     }
-    this.copyToClipboard();
   }
 
   copyToClipboard() {
@@ -245,8 +247,8 @@ export class RecoveryPhraseReadPage implements OnInit {
         await this.setMnemonic();
         this.isRevealed = !this.isRevealed;
       } catch (e) {
-        this.showErrorToast('wallets.recovery_phrase_read.error_toast');
-        throw e;
+        if (this.password) this.showErrorToast('wallets.recovery_phrase_read.error_toast');
+        this.clearPassword();
       }
     } else {
       this.clearMnemonic();
