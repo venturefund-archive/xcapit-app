@@ -1070,6 +1070,12 @@
         "button_2": "Empezar test"
       }
     },
+    "success_submodule":{
+      "textPrimary": "¡Felicitaciones! Completaste: {{submodule}}",
+      "textSecondary": "Que nada te detenga, estás cada vez más cerca de convertirte en un experto.",
+      "buttonText": "Siguiente módulo",
+      "buttonText2": "Ir al menú"
+    },
     "typeform_header": {
       "text": "Test de",
       "finance_sub_1": "Finanzas",

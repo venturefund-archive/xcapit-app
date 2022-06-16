@@ -1,5 +1,6 @@
 export const MODULES_CRYPTO = [
   {
+    id: 1,
     name: 'crypto_1',
     open: 'yes',
     icon: 'assets/ux-icons/clip.svg',
@@ -10,6 +11,8 @@ export const MODULES_CRYPTO = [
     last: false,
     sub_modules: [
       {
+        id: 1,
+        screenViewLabel: 'ux_education_screenview_intro_block_complete',
         name: 'crypto_sub_1',
         title: 'financial_education.home.module_crypto.module_1.sub_modules.sub_module_1.title',
         info: 'financial_education.home.module_crypto.module_1.sub_modules.sub_module_1.description',
@@ -22,6 +25,7 @@ export const MODULES_CRYPTO = [
     ],
   },
   {
+    id:2,
     name: 'crypto_2',
     icon: 'assets/ux-icons/money.svg',
     title: 'financial_education.home.module_crypto.module_2.title',
@@ -30,6 +34,7 @@ export const MODULES_CRYPTO = [
     last: false,
   },
   {
+    id:3,
     name: 'crypto_3',
     icon: 'assets/ux-icons/briefcase.svg',
     title: 'financial_education.home.module_crypto.module_3.title',
