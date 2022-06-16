@@ -7,21 +7,15 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-success-submodules',
-  template: `
-    <ion-header>
+  template: ` <ion-header>
       <ion-toolbar color="transparent" class="ux_toolbar no-border">
         <ion-buttons class="back-button " slot="end">
-          <app-share-education
-            [lightBackground]="true"
-            >
-          </app-share-education>
+          <app-share-education [lightBackground]="true"> </app-share-education>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <app-success-content *ngIf="this.data" [data]="this.data"
-      >
-      </app-success-content>
+      <app-success-content *ngIf="this.data" [data]="this.data"> </app-success-content>
     </ion-content>`,
   styleUrls: ['./success-submodules.page.scss'],
 })
@@ -29,11 +23,13 @@ export class SuccessSubmodulesPage implements OnInit {
   data: any;
   modules;
   subModule;
-  
-  constructor(private trackService : TrackService,
-              private translate: TranslateService,
-              private modulesService: ModulesService,
-              private route: ActivatedRoute) { }
+
+  constructor(
+    private trackService: TrackService,
+    private translate: TranslateService,
+    private modulesService: ModulesService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {}
 
@@ -43,31 +39,26 @@ export class SuccessSubmodulesPage implements OnInit {
     this.setTitle();
     this.event();
   }
-  
-  setModules(){
-    this.modules= this.modulesService.getModules();
+
+  setModules() {
+    this.modules = this.modulesService.getModules();
   }
 
-
-  setTitle(){
-    const moduleId= parseInt(this.route.snapshot.paramMap.get("moduleId"))
-    const submoduleId= parseInt(this.route.snapshot.paramMap.get("submoduleId"))
-    const module= this.modules.find(item =>item.id === moduleId)
-    this.subModule = module.sub_modules && module.sub_modules.find(item => item.id ===submoduleId)
-    this.data.textPrimary= this.translate.instant('financial_education.success_submodule.textPrimary',{
-      submodule: this.translate.instant(this.subModule.title)
+  setTitle() {
+    const moduleId = parseInt(this.route.snapshot.paramMap.get('moduleId'));
+    const submoduleId = parseInt(this.route.snapshot.paramMap.get('submoduleId'));
+    const module = this.modules.find((item) => item.id === moduleId);
+    this.subModule = module.sub_modules && module.sub_modules.find((item) => item.id === submoduleId);
+    this.data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
+      submodule: this.translate.instant(this.subModule.title),
     });
   }
 
-  event(){
+  event() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: this.subModule.screenViewLabel
+      eventLabel: this.subModule.screenViewLabel,
     });
   }
-
-
-
-
 }

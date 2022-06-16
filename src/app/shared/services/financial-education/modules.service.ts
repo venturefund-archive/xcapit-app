@@ -3,13 +3,13 @@ import { MODULES_CRYPTO } from 'src/app/modules/financial-education/shared-finan
 import { MODULES_FINANCE } from 'src/app/modules/financial-education/shared-financial-education/constants/finance';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ModulesService {
   modules = [...MODULES_CRYPTO, ...MODULES_FINANCE];
-  constructor() { }
+  constructor() {}
 
-  getModules(){
+  getModules() {
     return this.modules;
   }
 }

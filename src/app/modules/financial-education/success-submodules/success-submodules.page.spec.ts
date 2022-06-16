@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -31,8 +30,8 @@ describe('SuccessSubmodulesPage', () => {
             sub_modules: [
               {
                 id: 1,
-                title:'Test',
-                screenViewLabel:'Event test'
+                title: 'Test',
+                screenViewLabel: 'Event test',
               },
             ],
           },
@@ -50,7 +49,7 @@ describe('SuccessSubmodulesPage', () => {
           { provide: ModulesService, useValue: moduleServiceSpy },
         ],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SuccessSubmodulesPage);
@@ -68,8 +67,10 @@ describe('SuccessSubmodulesPage', () => {
     fixture.detectChanges();
     expect(component.data).toEqual(SUCCESS_TYPES.success_submodules);
     expect(component.data.textPrimary).toEqual('financial_education.success_submodule.textPrimary');
-    expect(trackServiceSpy.trackEvent).toHaveBeenCalledOnceWith({eventAction: 'screenview',
-    description: window.location.href,
-    eventLabel:'Event test'});
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledOnceWith({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'Event test',
+    });
   });
 });
