@@ -17,6 +17,7 @@ import { FirebaseRemoteConfig } from './shared/models/firebase-remote-config/fir
 import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { WalletConnectService } from './modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { WalletBackupService } from './modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
 
 @Component({
   selector: 'app-root',
@@ -48,7 +49,8 @@ export class AppComponent implements OnInit {
     private remoteConfigService: RemoteConfigService,
     private firebaseService: FirebaseService,
     private zone: NgZone,
-    private walletConnectService: WalletConnectService
+    private walletConnectService: WalletConnectService,
+    private walletBackupService: WalletBackupService
   ) {}
 
   ngOnInit() {
@@ -81,10 +83,10 @@ export class AppComponent implements OnInit {
     this.walletConnectService.checkConnection().then(async () => {
       await this.walletConnectService.retrieveWalletConnect();
 
-      if (this.platformService.isNative()) {
-        App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
-          this.zone.run(async () => {
-            const url = event.url.split("?uri=").pop();
+    if (this.platformService.isNative()) {
+      App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+        this.zone.run(async () => {
+          const url = event.url.split('?uri=').pop();
 
             if (url) {
               this.walletConnectService.setUri(url);
@@ -93,10 +95,10 @@ export class AppComponent implements OnInit {
                 this.walletConnectService.checkDeeplinkUrl();
               }
             }
-          })
+          }
         });
-      }
-    })
+      });
+    }
   }
 
   private initializeFirebase() {
@@ -107,6 +109,7 @@ export class AppComponent implements OnInit {
     this.remoteConfigService.initialize(new FirebaseRemoteConfig(this.firebaseService.getApp())).then(() => {
       this.checkForUpdate();
       this.showUpdateModal();
+      this.walletBackupService.getBackupWarningWallet();
     });
   }
 

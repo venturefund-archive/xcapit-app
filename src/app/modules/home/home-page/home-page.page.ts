@@ -18,6 +18,7 @@ import { TokenDetailController } from '../../wallets/shared-wallets/models/token
 import { TotalBalanceController } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.controller';
 import { HttpClient } from '@angular/common/http';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { WalletBackupService } from '../../wallets/shared-wallets/wallet-backup/wallet-backup.service';
 
 @Component({
   selector: 'app-home',
@@ -131,7 +132,8 @@ export class HomePage implements OnInit {
     private tokenPrices: TokenPricesController,
     private tokenDetail: TokenDetailController,
     private totalBalance: TotalBalanceController,
-    private appStorage: AppStorageService
+    private appStorage: AppStorageService,
+    private walletBackupService: WalletBackupService
   ) {}
 
   ngOnInit() {}
@@ -235,8 +237,10 @@ export class HomePage implements OnInit {
     setTimeout(() => event.target.complete(), 1000);
   }
 
-  goToBuyCrypto() {
-    this.navController.navigateForward(['/fiat-ramps/select-provider']);
+  async goToBuyCrypto() {
+    if ((await this.walletBackupService.presentModal()) === 'skip') {
+      this.navController.navigateForward(['/fiat-ramps/select-provider']);
+    }
   }
 
   goToPlannerInfo() {

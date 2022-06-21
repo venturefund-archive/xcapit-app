@@ -13,6 +13,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { SwiperModule } from 'swiper/angular';
+import { WalletBackupService } from '../shared-wallets/wallet-backup/wallet-backup.service';
 
 const phraseTrue = [
   {order:1,value:'test'},
@@ -38,6 +39,8 @@ describe('VerifyPhrasePage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
+  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -55,6 +58,10 @@ describe('VerifyPhrasePage', () => {
         get: Promise.resolve(true),
       });
 
+      walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
+        disableModal: Promise.resolve(),
+      });
+
       TestBed.configureTestingModule({
         declarations: [VerifyPhrasePage, FakeTrackClickDirective, RecoveryPhraseCardComponent],
         imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot(), SwiperModule],
@@ -62,6 +69,7 @@ describe('VerifyPhrasePage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
           { provide: IonicStorageService, useValue: storageSpy },
+          { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -115,6 +123,7 @@ describe('VerifyPhrasePage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
     expect(storageSpy.set).toHaveBeenCalledOnceWith('protectedWallet', true);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/tabs/wallets']);
+    expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when ux_protect_finalize clicked', () => {
