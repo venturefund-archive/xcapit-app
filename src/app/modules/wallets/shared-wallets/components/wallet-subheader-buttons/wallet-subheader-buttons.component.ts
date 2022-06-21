@@ -1,9 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
-import { WarningBackupModalComponent } from '../warning-backup-modal/warning-backup-modal.component';
 import { WalletBackupService } from '../../wallet-backup/wallet-backup.service';
 
 @Component({
@@ -59,40 +56,13 @@ import { WalletBackupService } from '../../wallet-backup/wallet-backup.service';
 export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
   @Input() network: string;
-  showBackupWarning = false;
-  isProtectedWallet: boolean;
-  isWarningModalOpen = false;
 
   constructor(
     private navController: NavController,
-    private modalController: ModalController,
-    private ionicStorageService: IonicStorageService,
-    private remoteConfigService: RemoteConfigService,
     private walletBackupService: WalletBackupService
   ) {}
 
-  ngOnInit() {
-    this.checkBackupWarning();
-  }
-
-  private async shouldChangeNavigation(): Promise<boolean> {
-    if (!this.isWarningModalOpen) {
-      this.isWarningModalOpen = true;
-      const shouldChangeNavigation = await this.showWarningBackupModal();
-
-      switch (shouldChangeNavigation) {
-        case 'skip':
-          this.showBackupWarning = false;
-          await this.ionicStorageService.set('backupWarningWallet', false);
-          return false;
-        case 'close':
-        case 'backup':
-          return true;
-      }
-    }
-
-    return true;
-  }
+  ngOnInit() {}
 
   async goToSend() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
@@ -136,24 +106,5 @@ export class WalletSubheaderButtonsComponent implements OnInit {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
       this.navController.navigateForward(['']);
     }
-  }
-
-  async checkBackupWarning() {
-    if (this.remoteConfigService.getFeatureFlag('ff_homeWalletBackupWarningModal')) {
-      this.showBackupWarning = await this.ionicStorageService.get('backupWarningWallet');
-    }
-  }
-
-  async showWarningBackupModal(): Promise<string> {
-    const modal = await this.modalController.create({
-      component: WarningBackupModalComponent,
-      componentProps: {},
-      cssClass: 'ux-md-modal-informative',
-      backdropDismiss: false,
-    });
-    await modal.present();
-    const { data } = await modal.onWillDismiss();
-    this.isWarningModalOpen = false;
-    return data;
   }
 }

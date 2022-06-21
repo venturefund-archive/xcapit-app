@@ -16,6 +16,7 @@ import { UpdateNewsService } from './shared/services/update-news/update-news.ser
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
 import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { WalletBackupService } from './modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -36,6 +37,8 @@ describe('AppComponent', () => {
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let firebaseServiceSpy: jasmine.SpyObj<FirebaseService>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
+  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -61,6 +64,10 @@ describe('AppComponent', () => {
         checkConnection: Promise.resolve()
       });
 
+      walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
+        getBackupWarningWallet: Promise.resolve(),
+      });
+
       TestBed.configureTestingModule({
         declarations: [AppComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -79,6 +86,7 @@ describe('AppComponent', () => {
           { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
           { provide: FirebaseService, useValue: firebaseServiceSpy },
           { provide: WalletConnectService, useValue: walletConnectServiceSpy},
+          { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         ],
         imports: [TranslateModule.forRoot()],
       }).compileComponents();
@@ -105,6 +113,7 @@ describe('AppComponent', () => {
     expect(remoteConfigServiceSpy.initialize).toHaveBeenCalledTimes(1);
     expect(firebaseServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(statusBarSpy.setBackgroundColor).not.toHaveBeenCalled();
+    expect(walletBackupServiceSpy.getBackupWarningWallet).toHaveBeenCalledTimes(1);
     // expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
   });
 

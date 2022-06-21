@@ -66,7 +66,6 @@ export class WalletBackupService {
   }
 
   async disableModal(): Promise<void> {
-    console.log('entra a disabled modal')
     this.showBackupWarning = false;
     await this.ionicStorageService.set('backupWarningWallet', false);
   }
