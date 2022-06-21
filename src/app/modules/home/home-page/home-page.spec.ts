@@ -180,7 +180,11 @@ describe('HomePage', () => {
   });
 
   it('should not navigate when closing backup modal without skipping', async () => {
+    fakeWalletService.modifyReturns(true, null);
     walletBackupServiceSpy.presentModal.and.resolveTo('close');
+    component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', 'true');
     fixture.detectChanges();
     await fixture.whenStable();
@@ -188,7 +192,11 @@ describe('HomePage', () => {
   });
 
   it('should not navigate when closing backup modal when clicking backup', async () => {
+    fakeWalletService.modifyReturns(true, null);
     walletBackupServiceSpy.presentModal.and.resolveTo('backup');
+    component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', 'true');
     fixture.detectChanges();
     await fixture.whenStable();
