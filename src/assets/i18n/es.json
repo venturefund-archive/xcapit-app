@@ -1070,6 +1070,12 @@
         "button_2": "Empezar test"
       }
     },
+    "success_submodule":{
+      "textPrimary": "¡Felicitaciones! Completaste: {{submodule}}",
+      "textSecondary": "Que nada te detenga, estás cada vez más cerca de convertirte en un experto.",
+      "buttonText": "Siguiente módulo",
+      "buttonText2": "Ir al menú"
+    },
     "typeform_header": {
       "text": "Test de",
       "finance_sub_1": "Finanzas",
@@ -1472,7 +1478,7 @@
       "protect_my_wallet": "Proteger mi wallet",
       "title": "Frase de recuperación",
       "text": "Guarda las 12 palabras que aparecen a continuación respetando su orden.",
-      "text_protect_my_wallet": "Para completar tu copia de seguridad, guarda las 12 palabras que aparecen a continuación respetando su orden.<br>En el siguiente paso deberás completar los espacios con las palabras solicitadas.",
+      "text_protect_my_wallet": "Guarda las 12 palabras que aparecen a continuación respetando su orden.<br>En el siguiente paso deberás completar los espacios con las palabras solicitadas.",
       "button_show_phrase": "Mostrar Frase",
       "button_hide_phrase": "Ocultar Frase",
       "button_text": "Copiar",

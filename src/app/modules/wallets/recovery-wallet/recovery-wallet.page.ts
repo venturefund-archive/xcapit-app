@@ -125,7 +125,7 @@ export class RecoveryWalletPage implements OnInit {
       try {
         this.eraseSpacesBetweenWords();
         this.walletMnemonicService.importMnemonic(this.validPhrase);
-        this.navController.navigateForward(['wallets/select-coins', 'import']);
+        this.navController.navigateForward(['wallets/create-password', 'import']);
       } catch (e) {
         this.navController.navigateForward(['wallets/recovery/error']);
       }

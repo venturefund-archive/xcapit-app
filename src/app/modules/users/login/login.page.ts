@@ -167,7 +167,7 @@ export class LoginPage implements OnInit {
     this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
-      if (this.walletConnectService.uri && this.alreadyOnboarded) {
+      if (this.walletConnectService.uri.value && this.alreadyOnboarded) {
         await this.walletConnectService.checkDeeplinkUrl();
       } else {
         await this.navigateTo(this.startUrl());

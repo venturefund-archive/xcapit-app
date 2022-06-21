@@ -32,6 +32,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'success-submodules',
+        loadChildren: () =>
+          import('./success-submodules/success-submodules.module').then(
+            (m) => m.SuccessSubmodulesPageModule
+          ),
+      },
+      {
         path: 'information',
         loadChildren: () =>
           import('./sub-module-information/sub-module-information.module').then(

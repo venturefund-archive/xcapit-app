@@ -250,6 +250,17 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction:'/tabs/home',
     trackClickEventNamePrimaryAction: 'ux_buy_kripton_details'
   },
+  success_submodules:{ 
+    image:"assets/img/financial-education/success-submodules/success-submodules.svg",
+    textPrimary: 'financial_education.success_submodule.textPrimary', 
+    textSecondary:'financial_education.success_submodule.textSecondary',
+    namePrimaryAction:'financial_education.success_submodule.buttonText',
+    nameThirdAction:"financial_education.success_submodule.buttonText2",
+    urlPrimaryAction:'',
+    urlThirdAction:'/financial-education/home',
+    trackClickEventNamePrimaryAction: 'ux_education_next_module',
+    trackClickEventNameThirdAction: 'ux_education_go_to_menu'
+  },
   final_success_test:{
     image:"assets/img/financial-education/final-success-test.svg",
     textPrimary: 'financial_education.final_success_test.textPrimary', 
