@@ -62,7 +62,9 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
           ></app-wallet-total-balance-card>
         </div>
         <div *appFeatureFlag="'ff_buyCriptoHomeCard'" class="buy-crypto-card">
-          <app-buy-crypto-card name="Buy Cripto Card" (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
+          <div *ngIf="this.hasWallet">
+            <app-buy-crypto-card name="Buy Cripto Card" (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
+          </div>
         </div>
         <div class="wallet-connect-card">
           <app-wallet-connect-card></app-wallet-connect-card>
