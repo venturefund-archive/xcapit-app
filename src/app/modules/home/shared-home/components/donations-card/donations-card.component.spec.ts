@@ -57,8 +57,6 @@ describe('DonationsCardComponent', () => {
     const imgEl = fixture.debugElement.query(By.css('.dc__content__img')); 
     expect(titleEl.nativeElement.innerHTML).toContain('home.home_page.donations_card.title');
     expect(subtitleEl.nativeElement.innerHTML).toContain('home.home_page.donations_card.subtitle');
-    expect(imgEl.attributes.src).toContain("a");
+    expect(imgEl.attributes.src).toContain("/assets/img/home/donations.svg");
   });
-
-  
 });

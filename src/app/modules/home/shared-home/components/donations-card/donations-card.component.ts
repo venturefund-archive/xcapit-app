@@ -15,7 +15,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           {{ 'home.home_page.donations_card.subtitle' | translate }}
         </ion-text>
       </div>
-      <img class="dc__content__img" src="a"/>
+      <img class="dc__content__img" src="/assets/img/home/donations.svg"/>
     </div>
   </div>`,
   styleUrls: ['./donations-card.component.scss'],
