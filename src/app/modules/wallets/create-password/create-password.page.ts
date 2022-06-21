@@ -113,7 +113,7 @@ export class CreatePasswordPage implements OnInit {
           Validators.minLength(6),
           Validators.maxLength(100),
           CustomValidators.patternValidator(
-            /^((?=.*[A-Z])|(?=.*[a-z]))(?=.*[0-9])\w*?$/,
+            /^((?=.*[A-Z])|(?=.*[a-z]))(?=.*[0-9])\S*?$/,
             CustomValidatorErrors.notAlphanumeric
           ),
           CustomValidators.patternValidator(/[A-Z]/, CustomValidatorErrors.hasCapitalCase),
@@ -153,11 +153,11 @@ export class CreatePasswordPage implements OnInit {
   }
 
   async ionViewDidEnter(){
+    this.walletService.coins = this.apiWalletService.getCoins().filter((coin) => coin.native);
     if (this.mode === 'create') {
-      this.walletService.coins = this.apiWalletService.getCoins().filter((coin) => coin.native);
       this.walletMnemonicService.mnemonic = this.walletMnemonicService.newMnemonic();
-      await this.walletService.create();
     }
+    await this.walletService.create();
   }
 
   ngOnInit() {}

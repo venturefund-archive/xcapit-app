@@ -5,6 +5,9 @@
     "selector-class-pattern": ["", { "resolveNestedSelectors": false }],
     "no-descending-specificity": null,
     "string-quotes": "single",
-    "no-empty-source": null
+    "no-empty-source": null,
+    "selector-pseudo-element-no-unknown": [true, {
+      "ignorePseudoElements": ["ng-deep"]
+    }]
   }
 }

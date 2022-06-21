@@ -16,8 +16,7 @@
       "change_language": "Idioma",
       "payment": "Planes",
       "wallet_connect": "WalletConnect",
-      "pull_to_refresh": "Próxima actualizacion disponible en"
-
+      "pull_to_refresh": "Próxima actualizacion disponible en {{seconds}} s"
     }
   },
   "config": {
@@ -420,7 +419,8 @@
       "select_amount": {
         "header": "Retirar Inversión",
         "button": "Continuar",
-        "label": "Retiro"
+        "label": "Monto a retirar*",
+        "legend": "*Se cobrarán tarifas de transacción en MATIC."
       },
       "withdraw": {
         "header": "Retirar Inversión",
@@ -432,7 +432,7 @@
       },
       "password_modal": {
         "description": "Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",
-        "confirm_button": "Realizar retiro"
+        "confirm_button": "Aceptar"
       }
     }
   },
@@ -1002,12 +1002,28 @@
       "title": "¿Qué te gustaría aprender hoy?",
       "coming_soon":"Próximamente",
       "rules_title":"Reglas",
+      "global_progress_title":"Progreso global",
+      "global_progress":{
+        "card_title":"Módulos introductorios",
+        "card_state_0":"Aún no completaste ningún módulo ¿Comenzamos?",
+        "card_state_25":"Tienes {{doneModules}} módulos completos, no te detengas.",
+        "card_state_50":"Tienes {{doneModules}} módulos completos, falta poco.",
+        "card_state_75":"Tienes {{doneModules}} módulos completos, un ultimo esfuerzo.",
+        "card_state_100":"¡Felicitaciones! Completaste todos los módulos."
+      },
       "module_finance": {
         "module_1": {
           "title": "Módulo: introducción a las finanzas personales",
+          "progress_title": "Introducción a las finanzas personales",
           "sub_modules": {
-            "sub_module_1": "¿Cómo empezar en finanzas?",
-            "sub_module_2": "Presupuestos"
+            "sub_module_1": {
+              "title": "¿Cómo empezar en finanzas?",
+              "description": "Llamamos finanzas personales a la administración del dinero de una persona para ahorrar, gastar y  presupuestar a través del tiempo. Teniendo en cuenta riesgos y/o acontecimientos futuros."
+            },
+            "sub_module_2": {
+              "title": "Presupuesto",
+              "description": "Es una herramienta que permite planificar y controlar tus finanzas, teniendo en cuenta los ingresos y gastos. De manera que puedas obtener un mayor rendimiento de tu dinero."
+            }
           }
         },
         "module_2": {
@@ -1020,8 +1036,12 @@
       "module_crypto": {
         "module_1": {
           "title": "Módulo: introducción a blockchain",
+          "progress_title": "Introducción a la blockchain",
           "sub_modules": {
-            "sub_module_1": "¿Qué es la blockchain?"
+            "sub_module_1": {
+              "title": "¿Qué es la blockchain?",
+              "description": "Todas las criptomonedas funcionan gracias a la tecnología llamada blockchain. En español significa cadena de bloques, y para entenderlo de manera simple, blockchain es una base de datos descentralizada. Como si fuera una planilla excel gigante donde todos podemos cargar datos."
+            }
           }
         },
         "module_2": {
@@ -1037,13 +1057,17 @@
         "title": "Una wallet, todas las oportunidades",
         "text": "La educación es la base de las finanzas y crypto",
         "dialogTitle": "Compartir",
-        "share_error":"El texto se copió en el portapapeles"
+        "share_error": "El texto se copió en el portapapeles"
       },
-      "rule_card":{
+      "rule_card": {
         "rule_1": {
-          "title":"¿Cómo obtengo mi NFT?",
-          "subtitle":"Términos y condiciones"
+          "title": "¿Cómo obtengo mi NFT?",
+          "subtitle": "Términos y condiciones"
         }
+      },
+      "sub_module_info": {
+        "button_1": "Aprender más",
+        "button_2": "Empezar test"
       }
     },
     "error_test": {
@@ -1052,6 +1076,23 @@
       "namePrimaryAction":"Repetir módulo",
       "nameSecondaryAction":"Ir al menú",
       "nameThirdAction":"Aprender más"
+    },
+    "success_submodule":{
+      "textPrimary": "¡Felicitaciones! Completaste: {{submodule}}",
+      "textSecondary": "Que nada te detenga, estás cada vez más cerca de convertirte en un experto.",
+      "buttonText": "Siguiente módulo",
+      "buttonText2": "Ir al menú"
+    },
+    "typeform_header": {
+      "text": "Test de",
+      "finance_sub_1": "Finanzas",
+      "finance_sub_2": "Presupuesto",
+      "crypto_sub_1": "Blockchain"
+    },
+    "final_success_test": {
+      "textPrimary":"Lo lograste, ¡así se hace!",
+      "textSecondary":"Completaste todos los módulos de educación financiera y cripto. Próximamente acreditaremos tu NFT en tu wallet.",
+      "primaryButton":"Finalizar"
     }
   },
   "financial_planner": {
@@ -1293,7 +1334,7 @@
       "copy": "Copiar mi link",
       "copied": "Copiado",
       "tos": "Ver términos y condiciones",
-      "share_error":"El texto se copió en el portapapeles"
+      "share_error": "El texto se copió en el portapapeles"
     },
     "referrals_coming": {
       "title": "Estamos creando magia",
@@ -1444,17 +1485,17 @@
       "protect_my_wallet": "Proteger mi wallet",
       "title": "Frase de recuperación",
       "text": "Guarda las 12 palabras que aparecen a continuación respetando su orden.",
-      "text_protect_my_wallet":"Para completar tu copia de seguridad, guarda las 12 palabras que aparecen a continuación respetando su orden.<br>En el siguiente paso deberás completar los espacios con las palabras solicitadas.",
-      "button_show_phrase":"Mostrar Frase",
+      "text_protect_my_wallet": "Guarda las 12 palabras que aparecen a continuación respetando su orden.<br>En el siguiente paso deberás completar los espacios con las palabras solicitadas.",
+      "button_show_phrase": "Mostrar Frase",
       "button_hide_phrase": "Ocultar Frase",
       "button_text": "Copiar",
       "button_continue": "Continuar",
-      "security_information":"Xcapit no podrá recuperar tu wallet si pierdes tu frase de recuperación.",
+      "security_information": "Xcapit no podrá recuperar tu wallet si pierdes tu frase de recuperación.",
       "button_text_coppied": "Copiado",
       "coppied_text": "Se copió la frase de recuperación al portapapeles",
       "copy_error_text": "No se puedo copiar la frase de recuperación al portapapeles",
       "protected": "Copia de seguridad completa",
-      "not_protected":"Sin copia de seguridad",
+      "not_protected": "Sin copia de seguridad",
       "error_toast": "La contraseña que ingresaste es incorrecta"
     },
     "home": {
@@ -1474,8 +1515,8 @@
         "buy_card": "Comprar",
         "swap_card": "Intercambiar"
       },
-      "backup_card_component":{
-        "text":"No pierdas tu dinero. <b> Protege tu wallet. </b>"
+      "backup_card_component": {
+        "text": "No pierdas tu dinero. <b> Protege tu wallet. </b>"
       }
     },
     "select_coin": {
@@ -1549,7 +1590,7 @@
       "receive_address_copy": "Copiar",
       "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección de depósito.",
       "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito.",
-      "toast_success":"Se copió al portapapeles"
+      "toast_success": "Se copió al portapapeles"
     },
     "nft_detail": {
       "title": "Detalle de NFT",
@@ -1683,11 +1724,11 @@
           "button_text": "Reintentar"
         }
       },
-      "skip_backup_modal":{
-        "title":"¿Omitir copia de seguridad?",
-        "description":"Entiendo que si no realizo una copia de mi frase de recuperación, podría perder el acceso a mis fondos.",
-        "button_back":"Atrás",
-        "button_skip":"Omitir"
+      "skip_backup_modal": {
+        "title": "¿Omitir copia de seguridad?",
+        "description": "Entiendo que si no realizo una copia de mi frase de recuperación, podría perder el acceso a mis fondos.",
+        "button_back": "Atrás",
+        "button_skip": "Omitir"
       },
       "recovery_phrase_info": {
         "title": "Frase de recuperación",
@@ -1698,11 +1739,11 @@
         "title": "Frase de recuperación",
         "description": "Es un conjunto de 12 palabras ordenadas, que sirven como llave maestra de tus fondos.",
         "button_text": "Entendido",
-        "item_1":"No la compartas con nadie, pues quien la posea podrá acceder a tus fondos.",
-        "item_2":"No guardes tu frase en la nube ni en tus dispositivos móviles.",
-        "item_3":"No la compartas por servicios de mensajería ni redes sociales.",
-        "item_4":"Guárdala en un lugar seguro.",
-        "item_5":"Puedes grabarla en algún elemento para que perdure en el tiempo."
+        "item_1": "No la compartas con nadie, pues quien la posea podrá acceder a tus fondos.",
+        "item_2": "No guardes tu frase en la nube ni en tus dispositivos móviles.",
+        "item_3": "No la compartas por servicios de mensajería ni redes sociales.",
+        "item_4": "Guárdala en un lugar seguro.",
+        "item_5": "Puedes grabarla en algún elemento para que perdure en el tiempo."
       },
       "warning_backup_info": {
         "title": "¡Atención!",
@@ -1718,7 +1759,7 @@
     },
     "error_wallet_recovery": {
       "title": "Tu frase de recuperación es incorrecta",
-      "description": "Verifica que tus palabras estén escritas en minúscula y separadas por un espacio.",
+      "description": "Verifica que tus palabras estén escritas en minúscula y en su orden original.",
       "button": "Volver a intentarlo"
     },
     "success_wallet_recovery": {
@@ -1908,30 +1949,35 @@
       "modal_content": "Por favor tilda los puntos a considerar antes de realizar una compra"
     },
     "operation_detail": {
-      "header": "Operación:",
-      "card": {
-        "provider": "Proveedor:",
-        "type": "Tipo de operación:",
-        "buy": {
-          "operationType": "Compra",
-          "title": "Comprar:",
-          "with": " con "
-        },
-        "sell": {
-          "operationType": "Venta",
-          "title": "Vender:",
-          "with": " por "
-        },
-        "amount": "Monto:",
-        "quotation": "Cotización:",
-        "status": "Estado:",
-        "date": "Fecha:",
-        "id": "ID:"
+      "header": "Detalle de operación",
+      "disclaimer1": "Recuerda que Xcapit no vende criptomonedas, Todo el flujo de compra y adjudicación queda a cargo del operador.",
+      "disclaimer2": "La entrega de tokens se hace de Lunes a Viernes de 9 a 18 hs. y puede tardar si el banco demora en procesar la transaccion a la cuenta comitente de Kripton.",
+      "support_text": "Si tienes dudas y consultas contáctate con",
+      "support_button": "Soporte de Kripton Market",
+      "upload_voucher": "Adjuntar comprobante",
+      "send_voucher": "Enviar comprobante",
+      "voucher_card": {
+        "header": "Comprobante",
+        "file": "Archivo",
+        "success": "El comprobante se envió correctamente"
       },
-      "voucher": "Comprobante",
-      "send": "Enviar comprobante",
-      "my_operations": "Ver mis operaciones",
-      "has_voucher": "El comprobante ha sido cargado"
+      "bank_info_card": {
+        "header": "Datos para transferencia",
+        "amount": "Monto",
+        "bank": "Banco",
+        "concept": "Concepto",
+        "copy_success_text": "Se copió el dato correctamente al portapapeles"
+      },
+      "detail_card": {
+        "operation": "Operación",
+        "buy": "Compra",
+        "with": "con",
+        "amount": "Monto",
+        "quotation": "Cotización",
+        "provider": "Proveedor",
+        "reception_address": "Dirección de recepción",
+        "network": "Red"
+      }
     },
     "operation_status": {
       "deposited": "Depositado",
@@ -2004,7 +2050,8 @@
       "quotation": "Cotización",
       "wallet": "Dirección de recepción",
       "network": "Red",
-      "disclaimer": "Desde este momento la operación continuará con el proveedor seleccionado. Xcapit no se resposabiliza por precios incorrectos en los valores o divisas definidas de aquí en adelante, ni de prejuicios que puedan surgir con la interacción con el proveedor.",
+      "disclaimer": "Recuerda que Xcapit no vende criptomonedas, Todo el flujo de compra y adjudicación queda a cargo del operador.",
+      "disclaimer2": "La entrega de tokens se hace de Lunes a Viernes de 9 a 18 hs. y puede tardar si el banco demora en procesar la transaccion a la cuenta comitente de Kripton.",
       "confirm": "Confirmar",
       "buy": {
         "operationType": "Compra",
@@ -2108,7 +2155,6 @@
         "title": "¡Quiero mi wallet!",
         "subtitle": "Crea tu wallet y comienza a tener el control de tus finanzas.",
         "description": "En tu wallet"
-
       },
       "strategies": {
         "title": "Estrategias",

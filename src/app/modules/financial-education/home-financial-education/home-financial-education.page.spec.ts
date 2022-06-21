@@ -83,8 +83,12 @@ describe('HomeFinancialEducationPage', () => {
 
   it('should render app-rule-card component properly', () => {
     const ruleEl = fixture.debugElement.query(By.css('app-rule-card'));
-
     expect(ruleEl).toBeTruthy();
+  });
+
+  it('should render app-global-progress-card component properly', () => {
+    const progressEl = fixture.debugElement.query(By.css('app-global-progress-card'));
+    expect(progressEl).toBeTruthy();
   });
 
 });

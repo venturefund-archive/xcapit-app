@@ -93,6 +93,7 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
 })
 export class RecoveryWalletPage implements OnInit {
   validPhrase: string;
+  isInfoModalOpen = false;
   form: FormGroup = this.formBuilder.group({
     phrase: ['', [Validators.required, CustomValidators.countWords(12)]],
   });
@@ -124,7 +125,7 @@ export class RecoveryWalletPage implements OnInit {
       try {
         this.eraseSpacesBetweenWords();
         this.walletMnemonicService.importMnemonic(this.validPhrase);
-        this.navController.navigateForward(['wallets/select-coins', 'import']);
+        this.navController.navigateForward(['wallets/create-password', 'import']);
       } catch (e) {
         this.navController.navigateForward(['wallets/recovery/error']);
       }
@@ -132,12 +133,16 @@ export class RecoveryWalletPage implements OnInit {
   }
 
   async showPhraseInfo() {
-    const modal = await this.modalController.create({
-      component: InfoPhraseModalComponent,
-      componentProps: {},
-      cssClass: 'ux-sm-modal-informative',
-      backdropDismiss: false,
-    });
-    await modal.present();
+    if (this.isInfoModalOpen === false) {
+      this.isInfoModalOpen = true
+      const modal = await this.modalController.create({
+        component: InfoPhraseModalComponent,
+        componentProps: {},
+        cssClass: 'ux-sm-modal-informative',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
   }
 }

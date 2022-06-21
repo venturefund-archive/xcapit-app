@@ -82,12 +82,13 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
         <app-backup-information-card
           [text]="'wallets.home.backup_card_component.text'"
           [textClass]="'ux-home-backup-card'"
+          (cardClicked)="this.goToBackup()"
         >
         </app-backup-information-card>
       </div>
 
-      <div class="wt">
-        <div class="wt__segments" *ngIf="this.walletExist">
+      <div class="wt" *ngIf="this.walletExist">
+        <div class="wt__segments">
           <form [formGroup]="this.segmentsForm">
             <ion-segment mode="ios" class="ux-segment-modern" formControlName="tab">
               <ion-segment-button value="assets" name="ux_tab_tokens" appTrackClick>
@@ -140,7 +141,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           </div>
         </div>
       </div>
-      <div class="wt__start-investing">
+      <div class="wt__start-investing" *ngIf="this.walletExist">
         <app-start-investing></app-start-investing>
       </div>
       <div class="wt__button" *ngIf="!this.walletExist">
@@ -218,6 +219,10 @@ export class HomeWalletPage implements OnInit {
       await this.fetchTotalBalance();
       await this.updateCachedTotalBalance();
     }
+  }
+
+  goToBackup() {
+    this.navController.navigateForward('/wallets/recovery/read');
   }
 
   private initializeTotalBalance() {

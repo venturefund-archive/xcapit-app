@@ -20,7 +20,7 @@ import { TokenDetail } from '../../models/token-detail/token-detail';
             >
           </ion-label>
           <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold"
-            >{{ this.tokenDetail.balance | number: '1.2-6' }} {{ this.tokenDetail.coin.value }}</ion-label
+            >{{ this.tokenDetail.balance | formattedAmount }} {{ this.tokenDetail.coin.value }}</ion-label
           >
         </div>
         <div class="wbci__content__bottom">
@@ -28,7 +28,7 @@ import { TokenDetail } from '../../models/token-detail/token-detail';
             >{{ this.tokenDetail.coin.name }}
           </ion-label>
           <ion-label color="neutral50" class="ux-font-lato ux-fsize-12 ux-fweight-regular">
-            {{ this.tokenDetail.price * this.tokenDetail.balance | number: '1.2-2' }}
+            {{ this.tokenDetail.price * this.tokenDetail.balance | formattedAmount: 10 : 2 }}
             {{ this.tokenDetail.quoteSymbol }}
           </ion-label>
         </div>
@@ -42,7 +42,7 @@ export class WalletBalanceCardItemComponent implements OnInit {
   @Input() tokenDetail: TokenDetail;
   @Input() last: boolean;
   networkColors = NETWORK_COLORS;
-
+  
   constructor(private navController: NavController) {}
 
   ngOnInit() {}

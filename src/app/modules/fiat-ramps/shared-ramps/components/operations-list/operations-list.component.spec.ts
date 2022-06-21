@@ -17,7 +17,8 @@ const operations: FiatRampOperation[] = [
     status: 'complete',
     created_at: new Date(),
     provider: '1',
-    operation_type: 'cash-in'
+    operation_type: 'cash-in',
+    voucher: false,
   },
   {
     operation_id: 2,
@@ -28,7 +29,8 @@ const operations: FiatRampOperation[] = [
     status: 'complete',
     created_at: new Date(),
     provider: '1',
-    operation_type: 'cash-in'
+    operation_type: 'cash-in',
+    voucher: false,
   },
   {
     operation_id: 3,
@@ -39,7 +41,8 @@ const operations: FiatRampOperation[] = [
     status: 'complete',
     created_at: new Date(),
     provider: '1',
-    operation_type: 'cash-in'
+    operation_type: 'cash-in',
+    voucher: false,
   },
 ];
 describe('OperationsListComponent', () => {

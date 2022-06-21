@@ -33,7 +33,29 @@ const routes: Routes = [
       },
       {
         path: 'error-test',
-        loadChildren: () => import('./error-test/error-test.module').then( m => m.ErrorTestPageModule)
+        loadChildren: () => import('./error-test/error-test.module').then( m => m.ErrorTestPageModule) },
+      {
+        path: 'success-submodules',
+        loadChildren: () =>
+          import('./success-submodules/success-submodules.module').then(
+            (m) => m.SuccessSubmodulesPageModule
+          ),
+      },
+      {
+        path: 'information',
+        loadChildren: () =>
+          import('./sub-module-information/sub-module-information.module').then(
+            (m) => m.SubModuleInformationPageModule
+          ),
+      },
+      {
+        path: 'typeform',
+        loadChildren: () => import('./test-typeform/test-typeform.module').then((m) => m.TestTypeformPageModule),
+      },
+      {
+        path: 'final-success-test',
+        loadChildren: () =>
+          import('./final-success-test/final-success-test.module').then((m) => m.FinalSuccessTestPageModule),
       },
     ],
   },

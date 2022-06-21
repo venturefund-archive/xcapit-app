@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-transfers-response/covalent-transfers-response';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 const nativeTransfersResponse = {
   data: {
@@ -80,7 +81,7 @@ describe('AssetDetailPage', () => {
       navControllerSpy = fakeNavController.createSpy();
 
       TestBed.configureTestingModule({
-        declarations: [AssetDetailPage],
+        declarations: [AssetDetailPage, FormattedAmountPipe],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule.forRoot(), RouterTestingModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
@@ -135,7 +136,7 @@ describe('AssetDetailPage', () => {
     expect(amountEl.nativeElement.innerHTML).toContain('ETH');
     const quoteAmountEl = fixture.debugElement.query(By.css('.wad__asset_amount__usd ion-text'));
     expect(quoteAmountEl.nativeElement.innerHTML).toContain('USD');
-    expect(quoteAmountEl.nativeElement.innerHTML).toContain('60,000.00 USD');
+    expect(quoteAmountEl.nativeElement.innerHTML).toContain('60000 USD');
   });
 
   it('should get prices and balances on view will enter without prices', async () => {

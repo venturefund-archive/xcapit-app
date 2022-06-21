@@ -17,10 +17,15 @@ export class ErrorTestPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.trackScreenView();
+  }
+
+  trackScreenView(){
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_education_screenview_retry'
     });
   }
+
 }

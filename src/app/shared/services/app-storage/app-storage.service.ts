@@ -6,6 +6,7 @@ import { Storage } from '@capacitor/storage';
 })
 export class AppStorageService {
   storage = Storage;
+  windowStorage = window.localStorage;
 
   constructor() {
     this.storage.migrate().then();
@@ -32,5 +33,9 @@ export class AppStorageService {
 
   public remove(key: string): Promise<void> {
     return this.storage.remove({ key });
+  }
+
+  public forceRemove(key: string): void {
+    return this.windowStorage.removeItem(key);
   }
 }

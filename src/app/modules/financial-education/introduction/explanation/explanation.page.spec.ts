@@ -48,8 +48,8 @@ describe('ExplanationPage', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should call appTrackEvent on trackService when ux_donations_start is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_start');
+  it('should call appTrackEvent on trackService when ux_education_screenview_intro_2 is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_screenview_intro_2');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
 

@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { ethers } from 'ethers';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule} from '@ngx-translate/core';
 import * as moment from 'moment';
 
 import { DefaultRequestComponent } from './default-request.component';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 const dateInfo = {
   date: moment().utc().format('DD/MM/YYYY'),
@@ -34,7 +34,7 @@ describe('DefaultRequestComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DefaultRequestComponent ],
+      declarations: [ DefaultRequestComponent , FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()]
     }).compileComponents();
 
@@ -56,7 +56,7 @@ describe('DefaultRequestComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  xit('should set totalAmount null when value does not exists in request info', () => {
+  it('should set totalAmount null when value does not exists in request info', () => {
     component.request = request;
     fixture.detectChanges();
     component.getTotalAmount();
@@ -64,11 +64,11 @@ describe('DefaultRequestComponent', () => {
   });
 
   it('shuould set totalAmount with the request value if exists', () => {
-    const req = {...request, params: [...request.params]};
+    const req = JSON.parse(JSON.stringify(request))
     req.params[0]['value'] = '5000000000000000000';
     component.request = req;
     fixture.detectChanges();
     component.getTotalAmount();
-    expect(component.totalAmount).toEqual('5.0');
+    expect(component.totalAmount).toEqual(5);
   })
 });

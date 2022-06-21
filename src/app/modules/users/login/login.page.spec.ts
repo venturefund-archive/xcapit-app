@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { ApiUsuariosService } from '../shared-users/services/api-usuarios/api-usuarios.service';
 import { AuthFormComponent } from '../shared-users/components/auth-form/auth-form.component';
-import { of, throwError } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -88,7 +88,7 @@ describe('LoginPage', () => {
       platformServiceSpy = jasmine.createSpyObj('PlatformService', { isWeb: true });
 
       walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
-        uri: 'wc:///',
+        uri: new BehaviorSubject(null),
         checkDeeplinkUrl: Promise.resolve(null)
       });
 
@@ -260,6 +260,7 @@ describe('LoginPage', () => {
 
   it('should call walletConnectService checkDeeplinkUrl on Success when has a uri defined', fakeAsync(() => {
     subscriptionsServiceSpy.checkStoredLink.and.returnValue(Promise.resolve(false));
+    walletConnectServiceSpy.uri = new BehaviorSubject('wc:///');
     component.alreadyOnboarded = true;
     fixture.detectChanges();
     component.loginUser({});

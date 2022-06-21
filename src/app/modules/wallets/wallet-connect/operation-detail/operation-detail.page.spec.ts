@@ -16,6 +16,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 const requestSendTransaction = {
   method: 'eth_sendTransaction',
@@ -93,7 +94,7 @@ describe('OperationDetailPage', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [OperationDetailPage,FakeTrackClickDirective],
+        declarations: [OperationDetailPage,FakeTrackClickDirective, FormattedAmountPipe],
         imports: [IonicModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
           UrlSerializer,
@@ -153,7 +154,7 @@ describe('OperationDetailPage', () => {
   it('should asign totalFeeAmount when getTotalFeeAmount is called', async () => {
     component.getTotalFeeAmount('21000');
     await fixture.whenStable();
-    expect(component.totalFeeAmount).toEqual('0.00000000000021');
+    expect(component.totalFeeAmount).toEqual(2.1e-13);
   });
 
   it('should call getTotalFeeAmount when checkRequestInfo is called with a sendTransaction method', async () => {

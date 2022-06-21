@@ -78,24 +78,25 @@ export class AppComponent implements OnInit {
   }
 
   private async checkDeeplinking() {
-    await this.walletConnectService.checkConnection();
-    await this.walletConnectService.retrieveWalletConnect();
+    this.walletConnectService.checkConnection().then(async () => {
+      await this.walletConnectService.retrieveWalletConnect();
 
-    if (this.platformService.isNative()) {
-      App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
-        this.zone.run(async () => {
-          const url = event.url.split("?uri=").pop();
+      if (this.platformService.isNative()) {
+        App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+          this.zone.run(async () => {
+            const url = event.url.split("?uri=").pop();
 
-          if (url) {
-            this.walletConnectService.setUri(url);
+            if (url) {
+              this.walletConnectService.setUri(url);
 
-            if (await this.authService.checkToken()) {
-              this.walletConnectService.checkDeeplinkUrl();
+              if (await this.authService.checkToken()) {
+                this.walletConnectService.checkDeeplinkUrl();
+              }
             }
-          }
-        })
-      });
-    }
+          })
+        });
+      }
+    })
   }
 
   private initializeFirebase() {

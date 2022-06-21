@@ -17,13 +17,13 @@
       margin-top: 16px;
       display: inline-flex;
 
-      ion-text {
-        color: var(--ion-color-neutral90) !important;
-      }
-
       img {
         margin-right: 16px;
       }
     }
+  }
+
+  ion-text {
+    color: var(--ion-color-primary) !important;
   }
 }

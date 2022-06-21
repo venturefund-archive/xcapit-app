@@ -6,6 +6,7 @@ import { AmountInputCardComponent } from './amount-input-card.component';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SpyProperty } from '../../../../testing/spy-property.spec';
+import { FormattedAmountPipe } from '../../pipes/formatted-amount/formatted-amount.pipe';
 
 const testCoins = [
   {
@@ -51,7 +52,7 @@ describe('AmountInputCardComponent', () => {
         }
       );
       TestBed.configureTestingModule({
-        declarations: [AmountInputCardComponent],
+        declarations: [AmountInputCardComponent, FormattedAmountPipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [{ provide: FormGroupDirective, useValue: formGroupDirectiveSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],

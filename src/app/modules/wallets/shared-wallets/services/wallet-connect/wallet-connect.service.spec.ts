@@ -151,6 +151,7 @@ describe('WalletConnectService', () => {
       navControllerSpy = fakeNavController.createSpy();
 
       storageServiceSpy = jasmine.createSpyObj('AppStorageService', {
+        forceRemove: (): void => {},
         remove: Promise.resolve({}),
         set: Promise.resolve({}),
         get: Promise.resolve({}),
@@ -199,7 +200,7 @@ describe('WalletConnectService', () => {
 
   it('should set uri when setUri is called', () => {
     service.setUri(testUri);
-    expect(service.uri).toEqual(testUri);
+    expect(service.uri.value).toEqual(testUri);
   });
 
   it('should create a new connector and call subscribe when initWalletConnect is called with an uri', async () => {
@@ -388,14 +389,14 @@ describe('WalletConnectService', () => {
 
   it('should not call isValidURL() when checkDeeplinkUrl is called and this.uri is not defined', async () => {
     const spy = spyOn(service, 'isValidURL');
-    service.uri = undefined;
+    service.uri.next(undefined);
     service.checkDeeplinkUrl();
     
     expect(spy).toHaveBeenCalledTimes(0);
   });
 
   it('should navigate to new-connection when checkDeeplinkUrl is called and this.uri is a valid url', async () => {
-    service.uri = testUri;
+    service.uri.next(testUri);
     const spy = spyOn(service, 'isValidURL').and.returnValue(true);
     service.checkDeeplinkUrl();
 
@@ -404,7 +405,7 @@ describe('WalletConnectService', () => {
   });
 
   it('should not navigate to new-connection when checkDeeplinkUrl is called and this.uri is a invalid url', async () => {
-    service.uri = 'https://';
+    service.uri.next('https://');
     const spy = spyOn(service, 'isValidURL').and.returnValue(false);
     service.checkDeeplinkUrl();
 
@@ -476,6 +477,7 @@ describe('WalletConnectService', () => {
     const spyAccountInfo = spyOn(service, 'setAccountInfo');
     const spySubscriptions = spyOn(service, 'subscribeToEvents');
     storageServiceSpy.get.and.returnValue(Promise.resolve(walletConnectSession.valid));
+    service.walletConnector = new WalletConnect({uri: testUri});
 
     await service.retrieveWalletConnect();
 
@@ -511,7 +513,7 @@ describe('WalletConnectService', () => {
   it('should remove from storage the walletconnect element when checkConnection is called and walletConnect is not defined', async () => {
     service.walletConnector = null
     await service.checkConnection();
-    expect(storageServiceSpy.remove).toHaveBeenCalled();
+    expect(storageServiceSpy.forceRemove).toHaveBeenCalled();
   })
 
   it('should call approveSession when ping is called and walletConnector is defined', async () => {

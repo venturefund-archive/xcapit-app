@@ -37,11 +37,11 @@ import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-tra
         <div class="wad__asset_amount ion-margin-top">
           <div class="wad__asset_amount__original" *ngIf="this.balance">
             <ion-text class="ux-font-num-titulo">
-              {{ this.balance.amount | number: '1.2-6' }} {{ this.balance.symbol }}
+              {{ this.balance.amount | formattedAmount }} {{ this.balance.symbol }}
             </ion-text>
           </div>
           <div class="wad__asset_amount__usd" *ngIf="this.balance?.usdAmount">
-            <ion-text class="ux-font-num-subtitulo"> = {{ this.balance.usdAmount | number: '1.2-2' }} USD </ion-text>
+            <ion-text class="ux-font-num-subtitulo"> = {{ this.balance.usdAmount | formattedAmount : 10 : 2 }} USD </ion-text>
           </div>
         </div>
 

@@ -11,7 +11,7 @@ import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-d
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { TrackService } from '../../services/track/track.service';
 
-fdescribe('SuccessContentComponent', () => {
+describe('SuccessContentComponent', () => {
   let component: SuccessContentComponent;
   let fixture: ComponentFixture<SuccessContentComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SuccessContentComponent>;

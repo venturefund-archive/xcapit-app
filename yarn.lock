@@ -1490,7 +1490,7 @@
   resolved "https://registry.npmjs.org/@capacitor/push-notifications/-/push-notifications-1.0.7.tgz"
   integrity sha512-vbvAptFq5cI6xKYYWMb7tsWvA88/PTG4v6ptxN0Ygtc1fQ4l/AzONQiYqdtFpbBhF2fML2kXQ/5eSAfn8HY9aw==
 
-"@capacitor/share@^1.1.2":
+"@capacitor/share@1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@capacitor/share/-/share-1.1.2.tgz#7e35c2c3bccc9955e852d3dd401afe7bd5a69b7e"
   integrity sha512-FUTdjA7MAiD1tkGVZ+C3gs7a4fyEhXojDO2HkZ954oupG1cQ51dEJ1xTNnR9BAmCwUJO4sa91cxy7SMyCDPuGg==
@@ -3028,6 +3028,11 @@
   version "1.0.2"
   resolved "https://registry.npmjs.org/@tsconfig/node16/-/node16-1.0.2.tgz"
   integrity sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==
+
+"@typeform/embed@^1.35.1":
+  version "1.35.1"
+  resolved "https://registry.yarnpkg.com/@typeform/embed/-/embed-1.35.1.tgz#96e0c84e0af385f90411b2f75277ca7ae0d50fa1"
+  integrity sha512-dDLewxUKwfCfU/nMaVpwQ3nOF1nMhey3wtALAQRgS9fe6XRbZH6YkmtqvTsxTjilOnswJqghGFJ3GfaZh87n/A==
 
 "@types/bn.js@^4.11.3":
   version "4.11.6"
