@@ -168,6 +168,10 @@ describe('HomePage', () => {
   });
 
   it('should navigate to moonpay page when Buy Cripto Card is clicked and wallet exist', async () => {
+    fakeWalletService.modifyReturns(true, null);
+    component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', 'true');
     fixture.detectChanges();
     await fixture.whenStable();
@@ -247,5 +251,23 @@ describe('HomePage', () => {
     fixture.debugElement.query(By.css('.ux-card .card-objetive')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/financial-planner/result-objetive']);
+  });
+
+  it('should show Buy Crypto Card if user has wallet', async() => {
+    fakeWalletService.modifyReturns(true, null);
+    await component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    const cardEl = fixture.debugElement.query(By.css('app-buy-crypto-card[name="Buy Cripto Card"]'));
+    expect(cardEl).toBeTruthy();
+  });
+
+  it('should not show Buy Crypto Card if user has not created wallet', async() => {
+    fakeWalletService.modifyReturns(false, null);
+    await component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    const cardEl = fixture.debugElement.query(By.css('app-buy-crypto-card[name="Buy Cripto Card"]'));
+    expect(cardEl).toBeFalsy();
   });
 });
