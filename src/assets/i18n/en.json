@@ -1498,6 +1498,8 @@
       "copy_error_text": "The recovery phrase could not be coppied to the clipboard",
       "protected": "Complete backup",
       "not_protected": "No backup copy",
+      "loading_text": "Decrypting wallet",
+      "loading_label": "Wait a few seconds...",
       "error_toast": "The password you entered is incorrect"
     },
     "home": {
