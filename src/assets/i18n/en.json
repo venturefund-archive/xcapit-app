@@ -1487,7 +1487,7 @@
       "protect_my_wallet": "Protect my wallet",
       "title": "Recovery phrase",
       "text": "Store the 12 words listed below in the following order.",
-      "text_protect_my_wallet": "To complete your backup, save the 12 words below in their order.<br>In the next step you will fill in the spaces with the requested words.",
+      "text_protect_my_wallet": "Save the 12 words below in their order.<br>In the next step you will fill in the spaces with the requested words.",
       "button_show_phrase": "Show phrase",
       "button_hide_phrase": "Hide phrase",
       "button_text": "Copy",
