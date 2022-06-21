@@ -88,9 +88,7 @@ export class SuccessContentComponent implements OnInit {
 
   constructor(private navController: NavController, private trackService: TrackService) {}
 
-  ngOnInit() {}
-
-  ionViewWillEnter(){
+  ngOnInit() {
     if(this.data.hasToTrackScreenview){
       this.trackService.trackEvent({
         eventAction: 'screenview',

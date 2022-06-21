@@ -70,8 +70,8 @@ describe('SuccessContentComponent', () => {
   });
 
   it('should track screenview event on init', () => {
-    component.ionViewWillEnter();
-    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+    component.ngOnInit();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalled();
   });
 
   describe('Buttons should call trackEvent on TrackService when they are clicked', () => {
