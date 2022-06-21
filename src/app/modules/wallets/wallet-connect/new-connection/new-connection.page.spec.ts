@@ -12,7 +12,8 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { alertControllerMock } from '../../../../../testing/spies/alert-controller-mock.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
-import { of } from 'rxjs';
+import { servicesVersion } from 'typescript';
+import { of, BehaviorSubject } from 'rxjs';
 
 const provider = {
   name: 'ETH',
@@ -73,7 +74,7 @@ describe('NewConnectionPage', () => {
   beforeEach(
     waitForAsync(() => {
       walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
-        uri: null,
+        uri: new BehaviorSubject(null),
         setUri: null,
         connected: false,
         setAccountInfo: Promise.resolve({}),
@@ -143,6 +144,7 @@ describe('NewConnectionPage', () => {
 
   it('should excecute setWalletsInfo when isConnected is called and WalletConnect is disconnected', () => {
     walletConnectServiceSpy.connected = false;
+    walletConnectServiceSpy.uri = new BehaviorSubject(null);
     fixture.detectChanges();
     const spy = spyOn(component, 'setWalletsInfo');
     component.isConnected();

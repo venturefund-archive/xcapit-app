@@ -56,7 +56,7 @@ describe('DefaultRequestComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  xit('should set totalAmount null when value does not exists in request info', () => {
+  it('should set totalAmount null when value does not exists in request info', () => {
     component.request = request;
     fixture.detectChanges();
     component.getTotalAmount();
@@ -64,7 +64,7 @@ describe('DefaultRequestComponent', () => {
   });
 
   it('shuould set totalAmount with the request value if exists', () => {
-    const req = {...request, params: [...request.params]};
+    const req = JSON.parse(JSON.stringify(request))
     req.params[0]['value'] = '5000000000000000000';
     component.request = req;
     fixture.detectChanges();

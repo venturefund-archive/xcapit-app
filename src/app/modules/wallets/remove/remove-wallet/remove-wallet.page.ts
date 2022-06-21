@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletBackupService } from '../../shared-wallets/wallet-backup/wallet-backup.service';
 
 @Component({
   selector: 'app-remove-wallet',
@@ -109,6 +110,7 @@ export class RemoveWalletPage implements OnInit {
     private queueService: QueueService,
     private walletConnectService: WalletConnectService,
     private ionicStorageService: IonicStorageService,
+    private walletBackupService: WalletBackupService
   ) {}
 
   ngOnInit() {}
@@ -119,6 +121,7 @@ export class RemoveWalletPage implements OnInit {
     this.queueService.dequeueAll();
     this.balanceCacheService.removeTotal();
     this.ionicStorageService.set('protectedWallet', false);
+    this.walletBackupService.enableModal();
     await this.walletConnectService.killSession();
     this.goToSuccessPage();
   }

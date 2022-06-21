@@ -12,6 +12,7 @@ import { UpdateNewsService } from 'src/app/shared/services/update-news/update-ne
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletBackupService } from '../../wallets/shared-wallets/wallet-backup/wallet-backup.service';
 
 @Component({
   selector: 'app-login',
@@ -113,7 +114,8 @@ export class LoginPage implements OnInit {
     private updateNewsService: UpdateNewsService,
     private platformService: PlatformService,
     private walletConnectService: WalletConnectService,
-    private ionicStorageService: IonicStorageService
+    private ionicStorageService: IonicStorageService,
+    private walletBackupService: WalletBackupService
   ) {}
 
   ngOnInit() {}
@@ -146,7 +148,7 @@ export class LoginPage implements OnInit {
   async checkWalletProtected() {
     this.ionicStorageService.get('protectedWallet').then((protectedWallet) => {
       if (!protectedWallet) {
-        this.ionicStorageService.set('backupWarningWallet', true);
+        this.walletBackupService.enableModal()
       }
     });  
   }
@@ -165,7 +167,7 @@ export class LoginPage implements OnInit {
     this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
-      if (this.walletConnectService.uri && this.alreadyOnboarded) {
+      if (this.walletConnectService.uri.value && this.alreadyOnboarded) {
         await this.walletConnectService.checkDeeplinkUrl();
       } else {
         await this.navigateTo(this.startUrl());

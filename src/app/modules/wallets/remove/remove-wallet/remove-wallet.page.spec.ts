@@ -13,6 +13,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BalanceCacheService } from '../../shared-wallets/services/balance-cache/balance-cache.service';
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletBackupService } from '../../shared-wallets/wallet-backup/wallet-backup.service';
 
 describe('RemoveWalletPage', () => {
   let component: RemoveWalletPage;
@@ -25,6 +26,7 @@ describe('RemoveWalletPage', () => {
   let queueServiceSpy: jasmine.SpyObj<QueueService>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -50,6 +52,10 @@ describe('RemoveWalletPage', () => {
         set: Promise.resolve(),
       });
 
+      walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
+        enableModal: Promise.resolve(),
+      });
+
       TestBed.configureTestingModule({
         declarations: [RemoveWalletPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
@@ -60,6 +66,7 @@ describe('RemoveWalletPage', () => {
           { provide: QueueService, useValue: queueServiceSpy },
           { provide: WalletConnectService, useValue: walletConnectServiceSpy },
           { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+          { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -101,5 +108,6 @@ describe('RemoveWalletPage', () => {
     expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/remove/success']);
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('protectedWallet', false);
+    expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
   });
 });

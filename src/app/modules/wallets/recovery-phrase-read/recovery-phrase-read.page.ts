@@ -44,11 +44,13 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
             <ion-text class="ux-font-text-lg" color="primary">
               {{ 'wallets.recovery_phrase_read.title' | translate }}
             </ion-text>
-            <div class="rpr__title__icon" name="ux_protect_information" appTrackClick   (click)="this.showPhraseInfoAdvice()">
-              <ion-icon
-                icon="information-circle"
-                *ngIf="!this.protectedWallet"              
-              ></ion-icon>
+            <div
+              class="rpr__title__icon"
+              name="ux_protect_information"
+              appTrackClick
+              (click)="this.showPhraseInfoAdvice()"
+            >
+              <ion-icon icon="information-circle" *ngIf="!this.protectedWallet"></ion-icon>
               <ion-icon *ngIf="this.protectedWallet" icon="information-circle"></ion-icon>
             </div>
           </div>
@@ -73,6 +75,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
               appTrackClick
               fill="clear"
               size="small"
+              [disabled]="this.isModalPasswordOpen"
               (click)="this.togglePhrase()"
             >
               {{
@@ -151,6 +154,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   isShowPhrase: boolean;
   isRevealed = false;
   protectedWallet: boolean;
+  isModalPasswordOpen: boolean;
   private password: any;
   loading= false;
 
@@ -175,11 +179,11 @@ export class RecoveryPhraseReadPage implements OnInit {
     this.clearMnemonic();
   }
 
-  async setProtectedWallet(){
+  async setProtectedWallet() {
     this.protectedWallet = await this.storage.get('protectedWallet');
   }
 
-  setButtonProperties(){
+  setButtonProperties() {
     this.buttonColor = 'primary';
     this.buttonFill = 'outline';
     this.buttonText = 'wallets.recovery_phrase_read.button_text';
@@ -249,15 +253,15 @@ export class RecoveryPhraseReadPage implements OnInit {
   async togglePhrase() {
     this.toggleLoading()    
     if (!this.isRevealed) {
-      await this.setPassword();      
+      this.isModalPasswordOpen = true;
+      await this.setPassword();
       try {
+        this.isModalPasswordOpen = false;
         await this.setMnemonic();
         this.isRevealed = !this.isRevealed;
         this.toggleLoading();
       } catch (e) {
-        this.showErrorToast(
-          'wallets.recovery_phrase_read.error_toast'
-        );
+        this.showErrorToast('wallets.recovery_phrase_read.error_toast');
         throw e;
       }
     } else {
