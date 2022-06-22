@@ -131,7 +131,7 @@ describe('DefiInvestmentProductsPage', () => {
       });
 
       availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
-        value: [{ id: 'mumbai_usdc', isComing: false, category: 'conservative' }],
+        value: [{ id: 'mumbai_usdc', isComing: false, category: 'conservative', continuousEarning: true }],
       });
 
       remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ test: 'test' }] });
