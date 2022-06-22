@@ -9,6 +9,7 @@ import { WalletPasswordComponent } from '../shared-wallets/components/wallet-pas
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { InfoPhraseAdviceModalComponent } from '../shared-wallets/components/info-phrase-advice-modal/info-phrase-advice-modal.component';
+import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 
 @Component({
   selector: 'app-recovery-phrase-read',
@@ -102,6 +103,9 @@ import { InfoPhraseAdviceModalComponent } from '../shared-wallets/components/inf
           </div>
         </div>
         <div class="rpr__footer ux_footer">
+          <ion-label *ngIf="this.loading" class="ux-loading-message ux-font-text-xxs" color="neutral80">
+            {{ 'wallets.recovery_phrase_read.loading_label' | translate }}
+          </ion-label>
           <ion-button
             *ngIf="this.protectedWallet"
             class="ux_button"
@@ -111,10 +115,12 @@ import { InfoPhraseAdviceModalComponent } from '../shared-wallets/components/inf
             color="{{ this.buttonColor }}"
             expand="block"
             size="large"
+            [appLoading]="this.loading"
+            [loadingText]="'wallets.recovery_phrase_read.loading_text' | translate"
             appTrackClick
             (click)="this.copyPhrase()"
           >
-            {{ this.buttonText | translate }}
+            {{ 'wallets.recovery_phrase_read.button_text' | translate }}
           </ion-button>
           <ion-button
             *ngIf="!this.protectedWallet"
@@ -125,6 +131,8 @@ import { InfoPhraseAdviceModalComponent } from '../shared-wallets/components/inf
             color="secondary"
             expand="block"
             size="large"
+            [appLoading]="this.loading"
+            [loadingText]="'wallets.recovery_phrase_read.loading_text' | translate"
             appTrackClick
             (click)="this.goToVerifyPhrase()"
           >
@@ -150,6 +158,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   protectedWallet: boolean;
   isModalPasswordOpen: boolean;
   private password: any;
+  loading = false;
 
   constructor(
     private clipboardService: ClipboardService,
@@ -159,7 +168,7 @@ export class RecoveryPhraseReadPage implements OnInit {
     private storage: IonicStorageService,
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService,
-    private walletMnemonicService: WalletMnemonicService
+    private walletMnemonicService: WalletMnemonicService,
   ) {}
 
   ngOnInit() {}
@@ -177,7 +186,6 @@ export class RecoveryPhraseReadPage implements OnInit {
   setButtonProperties() {
     this.buttonColor = 'primary';
     this.buttonFill = 'outline';
-    this.buttonText = 'wallets.recovery_phrase_read.button_text';
   }
 
   goToVerifyPhrase() {
@@ -236,7 +244,12 @@ export class RecoveryPhraseReadPage implements OnInit {
     this.mnemonic = decriptedWallet.mnemonic;
   }
 
+  toggleLoading() {
+    this.loading = !this.loading;
+  }
+
   async togglePhrase() {
+    this.toggleLoading();
     if (!this.isRevealed) {
       this.isModalPasswordOpen = true;
       await this.setPassword();
@@ -244,6 +257,7 @@ export class RecoveryPhraseReadPage implements OnInit {
         this.isModalPasswordOpen = false;
         await this.setMnemonic();
         this.isRevealed = !this.isRevealed;
+        this.toggleLoading();
       } catch (e) {
         this.showErrorToast('wallets.recovery_phrase_read.error_toast');
         throw e;
@@ -251,6 +265,7 @@ export class RecoveryPhraseReadPage implements OnInit {
     } else {
       this.clearMnemonic();
       this.clearPassword();
+      this.toggleLoading();
       this.isRevealed = !this.isRevealed;
     }
   }
