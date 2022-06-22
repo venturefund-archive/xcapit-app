@@ -169,14 +169,12 @@ export class RecoveryPhraseReadPage implements OnInit {
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService,
     private walletMnemonicService: WalletMnemonicService,
-    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {}
 
   async ionViewDidEnter() {
     await this.setProtectedWallet();
-    this.loadingService.enabled();
     this.setButtonProperties();
     this.clearMnemonic();
   }
