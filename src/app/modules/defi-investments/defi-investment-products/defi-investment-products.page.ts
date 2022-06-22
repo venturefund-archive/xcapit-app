@@ -33,14 +33,14 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
             <ion-label>{{ 'defi_investments.defi_investment_products.title_investments' | translate }}</ion-label>
           </ion-item>
           <ion-text class="dp__gains" *ngIf="this.activeInvestmentsContinuousEarning.length">{{
-            'defi_investments.defi_investment_products.gains' | translate
+            'defi_investments.defi_investment_products.profits' | translate
           }}</ion-text>
           <div *ngFor="let investment of this.activeInvestmentsContinuousEarning">
             <app-investment-balance-item [investmentProduct]="investment.product" [balance]="investment.balance">
             </app-investment-balance-item>
           </div>
           <ion-text class="dp__weeklygains" *ngIf="this.activeInvestmentsWeaklyEarning.length">{{
-            'defi_investments.defi_investment_products.gains_weekly' | translate
+            'defi_investments.defi_investment_products.profits_weekly' | translate
           }}</ion-text>
           <div *ngFor="let investment of this.activeInvestmentsWeaklyEarning">
             <app-investment-balance-item [investmentProduct]="investment.product" [balance]="investment.balance">
@@ -145,8 +145,8 @@ export class DefiInvestmentProductsPage {
     },
   ];
   activeInvestments: DefiInvestment[] = [];
-  activeInvestmentsContinuousEarning;
-  activeInvestmentsWeaklyEarning;
+  activeInvestmentsContinuousEarning: DefiInvestment[] = [];  
+  activeInvestmentsWeaklyEarning: DefiInvestment[] = [];  
   availableInvestments: DefiInvestment[] = [];
   filteredAvailableInvestments: DefiInvestment[] = [];
   haveInvestments = true;

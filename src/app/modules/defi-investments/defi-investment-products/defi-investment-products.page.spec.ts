@@ -131,7 +131,7 @@ describe('DefiInvestmentProductsPage', () => {
       });
 
       availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
-        value: [{ id: 'mumbai_usdc', isComing: false, category: 'conservative' }],
+        value: [{ id: 'mumbai_usdc', isComing: false, category: 'conservative', continuousEarning: true }],
       });
 
       remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ test: 'test' }] });
@@ -189,7 +189,7 @@ describe('DefiInvestmentProductsPage', () => {
     expect(activeEl.nativeElement.innerHTML).toContain('defi_investments.defi_investment_products.title_investments');
 
     const balanceEl = fixture.debugElement.query(By.css('app-investment-balance-item'));
-    expect(balanceEl).toBeNull();
+    expect(balanceEl).toBeTruthy();
   });
 
   it('should render available investment card', async () => {
