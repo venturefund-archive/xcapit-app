@@ -331,7 +331,7 @@ export const NONPROD_COINS: Coin[] = [
     rpc: environment.maticApiUrl,
     decimals: 18,
     abi: daiAbi,
-    symbol: 'DAIUSDT',
+    symbol: 'USDTDAI',
   },
   {
     id: 27,
