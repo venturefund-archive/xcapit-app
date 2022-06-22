@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
@@ -15,16 +16,20 @@ describe('DonationsCardComponent', () => {
   let fakeNavController: FakeNavController;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DonationsCardComponent>;
   let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: null
     });
+     walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
+        presentModal: Promise.resolve('skip'),
+      });
     TestBed.configureTestingModule({
       declarations: [ DonationsCardComponent ],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      providers: [{provide: NavController, useValue: navControllerSpy }, {provide: IonicStorageService, useValue: storageServiceSpy}]
+      providers: [{provide: NavController, useValue: navControllerSpy }, {provide: IonicStorageService, useValue: storageServiceSpy}, { provide: WalletBackupService, useValue: walletBackupServiceSpy },]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DonationsCardComponent);
@@ -41,6 +46,7 @@ describe('DonationsCardComponent', () => {
     const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_donations_go"]'));
     clickeableDiv.nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['donations/information']);
   });
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
@@ -22,13 +23,15 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 })
 export class DonationsCardComponent implements OnInit {
 
-  constructor(private navController: NavController, private storage: IonicStorageService) { }
+  constructor(private navController: NavController, private storage: IonicStorageService, private walletBackupService : WalletBackupService) { }
 
   ngOnInit() {}
 
   async goToDonations() {
-    const introductionCompleted = await this.storage.get('donationsIntroductionCompleted');
-    const url = !introductionCompleted ? 'donations/information' : 'donations/causes';
-    this.navController.navigateForward([url]);
+    if ((await this.walletBackupService.presentModal()) === 'skip'){
+      const introductionCompleted = await this.storage.get('donationsIntroductionCompleted');
+      const url = !introductionCompleted ? 'donations/information' : 'donations/causes';
+      this.navController.navigateForward([url]);
+    }
   }
 }
