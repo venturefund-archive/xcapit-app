@@ -50,12 +50,23 @@ describe('DonationsCardComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['donations/information']);
   });
 
-  it('should not navigate to education tests page when user make introduction', async () => {
+  it('should navigate to causes when user make introduction', async () => {
     storageServiceSpy.get.and.resolveTo(true);
     const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_donations_go"]'));
     clickeableDiv.nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['donations/causes']);
+  });
+
+
+  it('should not navigate to causes/information when user click on backup wallet inside modal', async () => {
+    walletBackupServiceSpy.presentModal.and.resolveTo('')
+    const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_donations_go"]'));
+    clickeableDiv.nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
   });
 
   it('should render properly', async () => {

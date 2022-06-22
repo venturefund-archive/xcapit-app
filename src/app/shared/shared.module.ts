@@ -165,7 +165,6 @@ import { DonationsCardComponent } from '../modules/home/shared-home/components/d
     CauseComponent,
     ObjetiveCardComponent,
     CauseInfoComponent,
-    DonationsCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -262,7 +261,6 @@ import { DonationsCardComponent } from '../modules/home/shared-home/components/d
     CauseComponent,
     ObjetiveCardComponent,
     CauseInfoComponent,
-    DonationsCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
