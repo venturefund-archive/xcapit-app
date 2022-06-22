@@ -1070,6 +1070,13 @@
         "button_2": "Empezar test"
       }
     },
+    "error_test": {
+      "textPrimary":"¡A seguir mejorando!",
+      "textSecondary":"Recuerda que necesitas responder satisfactoriamente todas las instancias.",
+      "namePrimaryAction":"Repetir módulo",
+      "nameSecondaryAction":"Ir al menú",
+      "nameThirdAction":"Aprender más"
+    },
     "success_submodule":{
       "textPrimary": "¡Felicitaciones! Completaste: {{submodule}}",
       "textSecondary": "Que nada te detenga, estás cada vez más cerca de convertirte en un experto.",
