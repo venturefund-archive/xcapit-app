@@ -103,9 +103,9 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
           </div>
         </div>
         <div class="rpr__footer ux_footer">
-        <ion-label *ngIf="this.loading" class="ux-loading-message ux-font-text-xxs" color="neutral80"
-              > {{'wallets.recovery_phrase_read.loading_label' | translate}}
-            </ion-label>
+          <ion-label *ngIf="this.loading" class="ux-loading-message ux-font-text-xxs" color="neutral80">
+            {{ 'wallets.recovery_phrase_read.loading_label' | translate }}
+          </ion-label>
           <ion-button
             *ngIf="this.protectedWallet"
             class="ux_button"
@@ -115,10 +115,12 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
             color="{{ this.buttonColor }}"
             expand="block"
             size="large"
+            [appLoading]="this.loading"
+            [loadingText]="'wallets.recovery_phrase_read.loading_text' | translate"
             appTrackClick
             (click)="this.copyPhrase()"
           >
-            {{ this.buttonText | translate }}
+            {{ 'wallets.recovery_phrase_read.button_text' | translate }}
           </ion-button>
           <ion-button
             *ngIf="!this.protectedWallet"
@@ -156,7 +158,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   protectedWallet: boolean;
   isModalPasswordOpen: boolean;
   private password: any;
-  loading= false;
+  loading = false;
 
   constructor(
     private clipboardService: ClipboardService,
@@ -186,7 +188,6 @@ export class RecoveryPhraseReadPage implements OnInit {
   setButtonProperties() {
     this.buttonColor = 'primary';
     this.buttonFill = 'outline';
-    this.buttonText = 'wallets.recovery_phrase_read.button_text';
   }
 
   goToVerifyPhrase() {
@@ -194,7 +195,7 @@ export class RecoveryPhraseReadPage implements OnInit {
     this.navController.navigateForward(['/wallets/create-first/verify-phrase']);
   }
 
-  async copyPhrase() {    
+  async copyPhrase() {
     if (!this.isRevealed) {
       try {
         await this.togglePhrase();
@@ -238,7 +239,6 @@ export class RecoveryPhraseReadPage implements OnInit {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     this.password = data;
-
   }
 
   private async setMnemonic() {
@@ -246,12 +246,12 @@ export class RecoveryPhraseReadPage implements OnInit {
     this.mnemonic = decriptedWallet.mnemonic;
   }
 
-  toggleLoading(){
+  toggleLoading() {
     this.loading = !this.loading;
   }
 
   async togglePhrase() {
-    this.toggleLoading()    
+    this.toggleLoading();
     if (!this.isRevealed) {
       this.isModalPasswordOpen = true;
       await this.setPassword();
@@ -267,8 +267,8 @@ export class RecoveryPhraseReadPage implements OnInit {
     } else {
       this.clearMnemonic();
       this.clearPassword();
-      this.isRevealed = !this.isRevealed;
       this.toggleLoading();
+      this.isRevealed = !this.isRevealed;
     }
   }
 
