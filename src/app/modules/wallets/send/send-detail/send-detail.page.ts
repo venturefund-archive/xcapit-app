@@ -20,7 +20,7 @@ import { ERC20ContractController } from '../../../defi-investments/shared-defi-i
 import { FakeProvider } from '../../../../shared/models/provider/fake-provider.spec';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
 import { parseUnits } from 'ethers/lib/utils';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
 import { Amount } from 'src/app/modules/defi-investments/shared-defi-investments/types/amount.type';
@@ -124,6 +124,7 @@ export class SendDetailPage {
   nativeBalance: number;
   amount: number;
   quotePrice: number;
+  nativeTokenPrice: number;
   fee: number;
   dynamicFee: Amount = { value: 0, token: undefined };
   quoteFee: Amount = { value: 0, token: 'USD' };
@@ -152,8 +153,26 @@ export class SendDetailPage {
   async ionViewDidEnter() {
     this.modalHref = window.location.href;
     this.tokenAndNetworks();
-    this.dynamicPrice();
+    this.getPrices();
+
     await this.tokenBalances();
+  }
+
+  private getPrices(): void {
+    this.setNativePrice();
+    this.setQuotePrice();
+  }
+
+  private setNativePrice(): void {
+    this.getDynamicPriceOf(this.nativeToken).subscribe((price: number) => {
+      this.nativeTokenPrice = price;
+    });
+  }
+
+  private setQuotePrice(): void {
+    this.getDynamicPriceOf(this.token.native ? this.nativeToken : this.token).subscribe((price: number) => {
+      this.quotePrice = price;
+    });
   }
 
   private async userWallet(): Promise<string> {
@@ -210,7 +229,7 @@ export class SendDetailPage {
   }
 
   private getQuoteFee(): void {
-    this.quoteFee.value = this.quotePrice * this.fee;
+    this.quoteFee.value = this.nativeTokenPrice * this.fee;
   }
 
   private resetFee() {
@@ -294,14 +313,11 @@ export class SendDetailPage {
     this.selectedNetwork = network;
   }
 
-  private dynamicPrice() {
-    this.dynamicPriceFactory
-      .new(this.priceRefreshInterval, this.token, this.apiWalletService)
+  private getDynamicPriceOf(token: Coin): Observable<number> {
+    return this.dynamicPriceFactory
+      .new(this.priceRefreshInterval, token, this.apiWalletService)
       .value()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((price: number) => {
-        this.quotePrice = price;
-      });
+      .pipe(takeUntil(this.destroy$));
   }
 
   ionViewWillLeave() {
