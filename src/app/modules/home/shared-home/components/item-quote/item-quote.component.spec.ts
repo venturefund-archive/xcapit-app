@@ -7,15 +7,24 @@ import { ItemQuoteComponent } from './item-quote.component';
 const testQuote = [
   {
     symbol: 'BTCUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'ETHUSDT',
+    openPrice: 2900,
     lastPrice: 3000,
     priceChangePercent: -0.24,
   },
 ];
+
+const reversedQuote = {
+  symbol: 'USDTDAI',
+  openPrice: 0.441,
+  lastPrice: 0.416,
+  priceChangePercent: -5.669,
+};
 
 describe('ItemQuoteComponent', () => {
   let component: ItemQuoteComponent;
@@ -31,7 +40,7 @@ describe('ItemQuoteComponent', () => {
 
       fixture = TestBed.createComponent(ItemQuoteComponent);
       component = fixture.componentInstance;
-      component.quote = testQuote[0];
+      component.quotation = testQuote[0];
       fixture.detectChanges();
     })
   );
@@ -73,11 +82,28 @@ describe('ItemQuoteComponent', () => {
   });
 
   it('should render properly the negative 24hs percent Change', async () => {
-    component.quote = testQuote[1];
+    component.quotation = testQuote[1];
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     const symbolEl = fixture.debugElement.query(By.css('.negative'));
     expect(symbolEl.nativeElement.innerHTML).toContain(-0.24);
+  });
+
+  it('should invert pair prices and change percentage', async () => {
+    component.quotation = reversedQuote;
+
+    component.ngOnInit();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const baseEl = fixture.debugElement.query(By.css('.symbol'));
+    const quoteEl = fixture.debugElement.query(By.css('.pair'));
+    const priceEl = fixture.debugElement.query(By.css('.lastPrice'));
+    const percentagChangeEl = fixture.debugElement.query(By.css('.positive'));
+
+    expect(baseEl.nativeElement.innerHTML).toContain('DAI');
+    expect(quoteEl.nativeElement.innerHTML).toContain('/USDT');
+    expect(priceEl.nativeElement.innerHTML).toContain('$2.40');
+    expect(percentagChangeEl.nativeElement.innerHTML).toContain('+6.01%');
   });
 });
