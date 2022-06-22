@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
@@ -13,14 +14,18 @@ describe('DonationsInfoPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DonationsInfoPage>;
+  let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   beforeEach(
     waitForAsync(() => {
+      storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+        set: Promise.resolve(),
+      });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
         declarations: [DonationsInfoPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [{ provide: NavController, useValue: navControllerSpy },  { provide: IonicStorageService, useValue: storageServiceSpy }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(DonationsInfoPage);
@@ -59,11 +64,11 @@ describe('DonationsInfoPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to causes when button is clicked', () => {
+  it('should navigate to causes and set storage when button is clicked', () => {
     fixture.debugElement.query(By.css('.di__button ion-button')).nativeElement.click();
 
     fixture.detectChanges();
-    
+    expect(storageServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/donations/causes']);
   });
 });

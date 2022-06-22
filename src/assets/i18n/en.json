@@ -2193,6 +2193,10 @@
         "title": "Need help?",
         "subtitle": "See frequently asked questions"
       },
+      "donations_card": {
+        "title": "Donate with crypto",
+        "subtitle": "Discover organizations and people you can help."
+      },
       "test_investor_cards": {
         "badge_text": "Coming soon",
         "title1": "Increase your knowledge in finance and cryptocurrencies",
