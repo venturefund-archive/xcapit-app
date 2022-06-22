@@ -89,7 +89,7 @@ import { TranslateService } from '@ngx-translate/core';
               <app-transaction-fee
                 [fee]="this.dynamicFee"
                 [quoteFee]="this.quoteFee"
-                [balance]="this.balance"
+                [balance]="this.nativeBalance"
                 [description]="'donations.send_donations.description_fee' | translate"
               ></app-transaction-fee>
             </div>
