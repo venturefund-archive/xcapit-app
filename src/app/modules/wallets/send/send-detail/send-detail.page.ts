@@ -52,7 +52,7 @@ import { TranslateService } from '@ngx-translate/core';
               'wallets.send.send_detail.network_select.disclaimer'
                 | translate
                   : {
-                      network: this.selectedNetwork
+                      network: this.selectedNetwork | formattedNetwork
                     }
             "
           [textClass]="'ux-home-backup-card'"
