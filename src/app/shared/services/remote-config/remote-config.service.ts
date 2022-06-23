@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { RemoteConfiguration } from '../../interfaces/remote-configuration.interface';
 
 @Injectable({
@@ -6,12 +6,16 @@ import { RemoteConfiguration } from '../../interfaces/remote-configuration.inter
 })
 export class RemoteConfigService {
   private remoteConfig: RemoteConfiguration;
+  isInitialized = false;
+  initializationCompleteEvent: EventEmitter<void> = new EventEmitter();
 
   constructor() {}
 
-  initialize(remoteConfig: RemoteConfiguration): Promise<void> {
+  async initialize(remoteConfig: RemoteConfiguration): Promise<void> {
     this.remoteConfig = remoteConfig;
-    return this.remoteConfig.initialize();
+    await this.remoteConfig.initialize();
+    this.initializationCompleteEvent.emit();
+    this.isInitialized = true;
   }
 
   getFeatureFlag(param: string): boolean {
