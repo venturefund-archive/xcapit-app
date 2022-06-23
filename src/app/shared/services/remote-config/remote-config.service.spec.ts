@@ -25,8 +25,11 @@ describe('RemoteConfigService', () => {
 
   it('should call initialize on initialize', async () => {
     const spy = spyOn(remoteConfigMock, 'initialize');
+    const eventSpy = spyOn(service.initializationCompleteEvent, 'emit');
     await service.initialize(remoteConfigMock);
     expect(spy).toHaveBeenCalledTimes(1);
+    expect(service.isInitialized).toBeTrue();
+    expect(eventSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should call getFeatureFlag on getFeatureFlag', async () => {

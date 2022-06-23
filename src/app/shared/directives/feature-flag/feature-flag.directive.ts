@@ -14,7 +14,7 @@ export class FeatureFlagDirective implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.createView();
+    this.checkIfRemoteConfigIsInitialized();
   }
 
   private createView() {
@@ -22,6 +22,16 @@ export class FeatureFlagDirective implements OnInit {
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {
       this.viewContainer.clear();
+    }
+  }
+
+  private checkIfRemoteConfigIsInitialized() {
+    if (this.remoteConfigService.isInitialized) {
+      this.createView();
+    } else {
+      this.remoteConfigService.initializationCompleteEvent.subscribe(() => {
+        this.createView();
+      })
     }
   }
 }
