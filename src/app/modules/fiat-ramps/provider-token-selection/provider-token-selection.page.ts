@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
-import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies/kripton-currencies';
+import { FiatRampCurrenciesOf } from '../shared-ramps/models/fiat-ramp-currencies-of/fiat-ramp-currencies-of';
 
 @Component({
   selector: 'app-provider-token-selection',
@@ -36,10 +35,10 @@ import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies/kri
 })
 export class ProviderTokenSelectionPage implements OnInit {
   coins: Coin[];
+  providers = PROVIDERS;
   provider: FiatRampProvider;
   constructor(
     private navController: NavController,
-    private storageService: StorageService,
     private route: ActivatedRoute,
     private apiWalletService: ApiWalletService
   ) {}
@@ -48,7 +47,7 @@ export class ProviderTokenSelectionPage implements OnInit {
 
   ionViewWillEnter() {
     const providerAlias = this.route.snapshot.paramMap.get('provider');
-    this.provider = PROVIDERS.find((provider) => provider.alias === providerAlias);
+    this.provider = this.providers.find((provider) => provider.alias === providerAlias);
     this.availableCoins();
   }
 
@@ -66,7 +65,7 @@ export class ProviderTokenSelectionPage implements OnInit {
   async availableCoins() {
     this.coins =
       this.provider.alias === 'kripton'
-        ? KriptonCurrencies.create(this.apiWalletService.getCoins()).value()
-        : (await this.storageService.getAssestsSelected()).filter((coin) => Boolean(coin.moonpayCode));
+        ? new FiatRampCurrenciesOf(this.provider, this.apiWalletService.getCoins()).value()
+        : this.apiWalletService.getCoins().filter((coin) => Boolean(coin.moonpayCode));
   }
 }

@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ProviderNewOperationCardComponent } from './provider-new-operation-card.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { PROVIDERS } from '../../../constants/providers';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { rawProvidersData } from '../../../fixtures/raw-providers-data';
 
 describe('ProviderNewOperationCardComponent', () => {
   let component: ProviderNewOperationCardComponent;
@@ -37,7 +37,7 @@ describe('ProviderNewOperationCardComponent', () => {
       fixture = TestBed.createComponent(ProviderNewOperationCardComponent);
       component = fixture.componentInstance;
 
-      component.provider = PROVIDERS.find((provider) => provider.alias === 'kripton');
+      component.provider = rawProvidersData[0];
       component.coin = coinSpy;
       fixture.detectChanges();
     })
