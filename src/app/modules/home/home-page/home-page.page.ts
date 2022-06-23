@@ -73,7 +73,7 @@ import { WalletBackupService } from '../../wallets/shared-wallets/wallet-backup/
         <div class="quotes-card">
           <app-quotes-card></app-quotes-card>
         </div>
-        <div class="doantions-card">
+        <div *ngIf="this.hasWallet" class="doantions-card">
           <app-donations-card></app-donations-card>
         </div>
         <div class="investor-test-card">
