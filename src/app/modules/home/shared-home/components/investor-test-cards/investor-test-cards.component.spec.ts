@@ -9,7 +9,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { InvestorTestCardsComponent } from './investor-test-cards.component';
 
 
-fdescribe('InvestorTestCardsComponent', () => {
+describe('InvestorTestCardsComponent', () => {
 
   let component: InvestorTestCardsComponent;
   let fixture: ComponentFixture<InvestorTestCardsComponent>;
