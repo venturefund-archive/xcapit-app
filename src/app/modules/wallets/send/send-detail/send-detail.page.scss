@@ -1,4 +1,13 @@
 :host {
+  ion-toolbar {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  .step-counter {
+    margin-right: 13px;
+  }
+
   .sd {
     &__title {
       margin-top: 24px;
@@ -48,13 +57,19 @@
 
     &__amount-input-card {
       margin-top: 16px;
+      box-shadow: 0 2px 8px rgb(74 117 247 / 5%);
     }
 
-    &__submit-button {
-      display: flex;
+    &__footer {
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+      border-radius: 8px;
 
-      &__button {
-        flex-grow: 1;
+      &__submit-button {
+        display: flex;
+
+        &__button {
+          flex-grow: 1;
+        }
       }
     }
 

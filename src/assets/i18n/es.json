@@ -351,7 +351,7 @@
     },
     "shared": {
       "transaction_fees": {
-        "label": "Tarifa de transacción",
+        "label": "Tarifa de transacción estimada",
         "advice": "Fondos insuficientes"
       },
       "filter_tab": {
@@ -397,6 +397,7 @@
         }
       },
       "amount_input_card": {
+        "title":"Monto a enviar estimado",
         "available": "Saldo disponible",
         "amount_invested": "Monto total invertido",
         "max_button": "Máx"
@@ -1635,8 +1636,7 @@
         "title": "Datos de la transferencia",
         "network_select": {
           "title": "Datos del envio",
-          "network": "Red",
-          "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos."
+          "network": "Red"
         },
         "continue_button": "Continuar",
         "address_input": {
@@ -1698,7 +1698,8 @@
       "address_input_card": {
         "scan_error": "Error al escanear el código QR",
         "placeholder":"Mantén presionado para pegar",
-        "scan_unauthorized": "No tienes permiso para escanear"
+        "scan_unauthorized": "No tienes permiso para escanear",
+        "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos."
       },
       "wallet_password": {
         "title": "Ingrese la contraseña",

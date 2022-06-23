@@ -59,7 +59,7 @@ import { ToastService } from '../../services/toast/toast.service';
           appTrackClick
           fill="clear"
           size="small"
-          color="neutral80"
+          color="info"
           item-end
           type="button"          
           (click)="this.pasteClipboardData()"

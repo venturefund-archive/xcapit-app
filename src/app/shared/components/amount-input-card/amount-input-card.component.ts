@@ -10,14 +10,14 @@ import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
         <ion-text class="ux-font-titulo-xs">
           {{ this.header }}
         </ion-text>
-        <div class="aic__available__amounts">
-          <ion-text class="ux-font-text-xl"> {{ this.max | formattedAmount }} {{ this.baseCurrency.value }}</ion-text>
-          <ion-text class="ux-font-text-xxs">
+        <div class="aic__available__amounts " >
+          <ion-text class="ux-font-text-xl" color="neutral80"> {{ this.max | formattedAmount }} {{ this.baseCurrency.value }}</ion-text>
+          <ion-text class="ux-font-text-xxs" color="neutral80">
             ≈ {{ this.quoteMax | formattedAmount: 10:2 }} {{ this.quoteCurrency }}
           </ion-text>
         </div>
       </div>
-      <div>
+      <div class="aic__send">
         <ion-text class="ux-font-titulo-xs">
           {{ this.title }}
         </ion-text>

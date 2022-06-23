@@ -31,11 +31,12 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-send-detail',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/select-currency"></ion-back-button>
+          <ion-back-button defaultHref="/wallets/send/select-currency"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
+        <ion-title class="sd__header ion-text-left">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
+        <ion-label class="step-counter" slot="end">2 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd">
@@ -46,40 +47,30 @@ import { TranslateService } from '@ngx-translate/core';
         <div class="sd__network-select-card__selected-coin">
           <app-coin-selector [selectedCoin]="this.token" (changeCurrency)="this.changeCurrency()"></app-coin-selector>
         </div>
-        <div class="sd__network-select-card__networks" *ngIf="this.selectedNetwork">
-        <app-backup-information-card
-          [text]="
-              'wallets.send.send_detail.network_select.disclaimer'
-                | translate
-                  : {
-                      network: this.selectedNetwork | formattedNetwork
-                    }
-            "
-          [textClass]="'ux-home-backup-card'"
-          >
-          </app-backup-information-card>
+        <div class="sd__network-select-card__networks">
           <app-network-select-card
             (networkChanged)="this.selectedNetworkChanged($event)"
             [title]="'wallets.send.send_detail.network_select.network' | translate"
             [networks]="this.networks"
-            [selectedNetwork]="this.selectedNetwork"
           ></app-network-select-card>
         </div>
       </div>
-
       <form [formGroup]="this.form">
-        <div class="sd__address-input-card  ion-padding-start ion-padding-end" *ngIf="this.token">
+        <div
+          class="sd__address-input-card  ion-padding-start ion-padding-end"
+          *ngIf="this.token && this.selectedNetwork"
+        >
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
             [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
+            [selectedNetwork]="this.selectedNetwork"
           ></app-address-input-card>
         </div>
         <div class="sd__amount-input-card" *ngIf="this.token">
           <ion-card class="ux-card">
-
             <app-amount-input-card
               *ngIf="this.balance !== undefined"
-              [title]="'hola'"
+              [title]="'defi_investments.shared.amount_input_card.title' | translate"
               [header]="'defi_investments.shared.amount_input_card.available' | translate"
               [showRange]="false"
               [baseCurrency]="this.token"
@@ -87,7 +78,7 @@ import { TranslateService } from '@ngx-translate/core';
               [quotePrice]="this.quotePrice"
               [feeToken]="this.nativeToken"
             ></app-amount-input-card>
-            
+
             <app-amount-input-card-skeleton
               *ngIf="this.balance === undefined"
               [showRange]="false"
@@ -102,10 +93,10 @@ import { TranslateService } from '@ngx-translate/core';
           </ion-card>
         </div>
       </form>
-
-      <div class="sd__submit-button ion-padding">
+      <ion-footer class="sd__footer">
+      <div class="sd__footer__submit-button ion-padding">
         <ion-button
-          class="ux_button sd__submit-button__button"
+          class="ux_button sd__footer__submit-button__button"
           appTrackClick
           name="ux_send_continue"
           (click)="this.submitForm()"
@@ -114,6 +105,7 @@ import { TranslateService } from '@ngx-translate/core';
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
         >
       </div>
+      </ion-footer>
     </ion-content>
   `,
   styleUrls: ['./send-detail.page.scss'],
@@ -168,8 +160,6 @@ export class SendDetailPage {
     this.setNativePrice();
     this.setQuotePrice();
   }
-
- 
 
   private setNativePrice(): void {
     this.getDynamicPriceOf(this.nativeToken).subscribe((price: number) => {

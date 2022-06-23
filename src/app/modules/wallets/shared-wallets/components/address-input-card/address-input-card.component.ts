@@ -10,7 +10,20 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 @Component({
   selector: 'app-address-input-card',
   template: `
-    <div class="aic ion-padding">
+    <div class="aic">
+    <div class="aic__info">
+          <app-backup-information-card
+            [text]="
+              'wallets.shared_wallets.address_input_card.disclaimer'
+                | translate
+                  : {
+                      network: this.selectedNetwork | formattedNetwork
+                    }
+            "
+            [textClass]="'ux-home-backup-card'"
+          >
+          </app-backup-information-card>
+        </div>
       <div class="aic__header">
         <div class="aic__header__title">
           <ion-text class="ux-font-titulo-xs">{{ this.title }}</ion-text>
@@ -21,7 +34,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
             name="Scan QR"
             appTrackClick
             fill="clear"
-            size="small"            
+            size="small"
             color="neutral80"
             (click)="this.scanQR()"
           >
@@ -31,15 +44,16 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
       </div>
       <div class="aic__content">
         <app-ux-input
-          [placeholder]="'wallets.shared_wallets.address_input_card.placeholder' | translate" 
+          class="ion-no-padding"
+          [placeholder]="'wallets.shared_wallets.address_input_card.placeholder' | translate"
           [pasteType]="'ux-paste'"
           debounce="1000"
           controlName="address"
           type="text"
           id="address-input"
         ></app-ux-input>
-        <ion-label>
-        {{this.helpText}}
+        <ion-label class="aic__content__helpText ux-font-text-xxs ">
+          {{ this.helpText }}
         </ion-label>
       </div>
     </div>
@@ -56,6 +70,7 @@ export class AddressInputCardComponent implements OnInit {
   @Input() title: string;
   @Input() helpText: string;
   @Input() enableQR = true;
+  @Input() selectedNetwork: string;
   isPWA = true;
   form: FormGroup;
 

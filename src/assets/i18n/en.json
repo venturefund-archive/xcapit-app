@@ -359,7 +359,7 @@
     },
     "shared": {
       "transaction_fees": {
-        "label": "Transaction fee",
+        "label": "Estimated transaction fee",
         "advice": "Insufficient funds"
       },
       "filter_tab": {
@@ -405,6 +405,7 @@
         }
       },
       "amount_input_card": {
+        "title":"Estimated amount to send",
         "available": "Balance available",
         "amount_invested": "Total amount invested",
         "max_button": "Max"
@@ -1644,8 +1645,7 @@
         "title": "Shipment data",
         "network_select": {
           "title": "Transfer data",
-          "network": "Network",
-          "disclaimer": "The network you selected is {{network}}. Make sure that the destination wallet uses this same network. Otherwise, you will lose your assets"
+          "network": "Network"
         },
         "continue_button": "Continue",
         "address_input": {
@@ -1716,7 +1716,8 @@
       "address_input_card": {
         "scan_error": "Error scanning QR code",
         "placeholder":"Press and hold to paste",
-        "scan_unauthorized": "You have no permission to scan"
+        "scan_unauthorized": "You have no permission to scan",
+        "disclaimer": "The network you selected is {{network}}. Make sure that the destination wallet uses this same network. Otherwise, you will lose your assets"
       },
       "wallet_password": {
         "title": "Enter your password",
