@@ -16,7 +16,7 @@
       "change_language": "Idioma",
       "payment": "Planes",
       "wallet_connect": "WalletConnect",
-      "pull_to_refresh": "Próxima actualizacion disponible en {{seconds}} s"
+      "pull_to_refresh": "Próxima actualización disponible en {{seconds}} s"
     }
   },
   "config": {
