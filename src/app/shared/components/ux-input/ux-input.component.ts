@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/forms';
+import { ControlContainer, FormGroupDirective, AbstractControl, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from '../../services/clipboard/clipboard.service';
 import { ToastService } from '../../services/toast/toast.service';
@@ -21,6 +21,7 @@ import { ToastService } from '../../services/toast/toast.service';
           [maxlength]="this.maxlength"
           [readonly]="this.readonly"
           [clearOnEdit]="false"
+          
         ></ion-input>
 
         <ion-icon
@@ -46,12 +47,24 @@ import { ToastService } from '../../services/toast/toast.service';
           name="Copy"
           [disabled]="!this.control.value"
           [hidden]="!this.copyType"
-          item-end
           type="button"
           class="ux_input_container__item__copy_icon"
           (click)="this.copyToClipboard()"
         >
           <img src="assets/img/nft-detail/copy.svg" />
+        </ion-button>
+        <ion-button
+          [hidden]="!this.pasteType"
+          name="Paste Address"
+          appTrackClick
+          fill="clear"
+          size="small"
+          color="neutral80"
+          item-end
+          type="button"          
+          (click)="this.pasteClipboardData()"
+        >
+        <ion-icon name="ux-paste"></ion-icon>
         </ion-button>
       </ion-item>
       <app-errors-form-item
@@ -88,11 +101,13 @@ export class UxInputComponent implements OnInit {
   @Input() copyType = false;
   @Input() leftIcon = '';
   @Input() showNewPasswordErrors = false;
+  @Input() pasteType = false;
 
   typeSetted: string;
   passwordType: boolean;
   @ViewChild('inputRegister', { read: ElementRef, static: true })
   input: ElementRef;
+  form: FormGroup;
 
   control: AbstractControl;
 
@@ -104,6 +119,7 @@ export class UxInputComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.form = this.formGroupDirective.form;
     this.typeSetted = this.type === 'google-places' ? 'text' : this.type;
     this.passwordType = this.typeSetted === 'password';
     this.control = this.formGroupDirective.form.get(this.controlName);
@@ -112,6 +128,14 @@ export class UxInputComponent implements OnInit {
   copyToClipboard() {
     this.clipboardService.write({ url: this.control.value }).then(() => {
       this.showToast('shared.services.copy.toast_success');
+    });
+  }
+
+  pasteClipboardData() {
+    this.clipboardService.read().then((result) => {
+      if (result.type === 'text/plain') {
+        this.form.patchValue({ address: result.value });
+      }
     });
   }
 

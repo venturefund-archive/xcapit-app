@@ -399,7 +399,6 @@
       "amount_input_card": {
         "available": "Saldo disponible",
         "amount_invested": "Monto total invertido",
-        "disclaimer": "La tasa de cambio la define la blockchain. Los montos pueden variar, según el momento en que realices la transacción. \nTen en cuenta que se cobrarán tarifas de transacción en",
         "max_button": "Máx"
       },
       "withdraw_card": {
@@ -1233,7 +1232,6 @@
       "network": "Red",
       "label": "Monto a donar",
       "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos.",
-      "description_fee": "*Este monto es estimativo y puede sufrir variaciones de acuerdo al momento en que realices la transacción.",
       "summary": {
         "title": "Datos de la operación",
         "destination_address": "Dirección de destino",
@@ -1636,13 +1634,13 @@
         "header": "Enviar",
         "title": "Datos de la transferencia",
         "network_select": {
-          "title": "Datos de la transferencia",
+          "title": "Datos del envio",
           "network": "Red",
-          "disclaimer": "Asegúrese que la wallet de destino use de la misma red que {{network}} a esta direción de envío.\nEnviar otras monedas o tokens a una dirección distinta a {{network}} puede resultar en la pérdida de su depósito.\n Actualmente solo se pueden enviar tokens por la red nativa del mismo, estamos trabajando para sumar mas y nuevas redes."
+          "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos."
         },
         "continue_button": "Continuar",
         "address_input": {
-          "title": "Wallet destino",
+          "title": "Billetera de destino",
           "help_text": "{{currency}} direccion o alias"
         },
         "alert": {
@@ -1699,6 +1697,7 @@
       },
       "address_input_card": {
         "scan_error": "Error al escanear el código QR",
+        "placeholder":"Mantén presionado para pegar",
         "scan_unauthorized": "No tienes permiso para escanear"
       },
       "wallet_password": {

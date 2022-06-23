@@ -47,17 +47,21 @@ import { TranslateService } from '@ngx-translate/core';
           <app-coin-selector [selectedCoin]="this.token" (changeCurrency)="this.changeCurrency()"></app-coin-selector>
         </div>
         <div class="sd__network-select-card__networks" *ngIf="this.selectedNetwork">
-          <app-network-select-card
-            (networkChanged)="this.selectedNetworkChanged($event)"
-            [title]="'wallets.send.send_detail.network_select.network' | translate"
-            [networks]="this.networks"
-            [disclaimer]="
+        <app-backup-information-card
+          [text]="
               'wallets.send.send_detail.network_select.disclaimer'
                 | translate
                   : {
                       network: this.selectedNetwork
                     }
             "
+          [textClass]="'ux-home-backup-card'"
+          >
+          </app-backup-information-card>
+          <app-network-select-card
+            (networkChanged)="this.selectedNetworkChanged($event)"
+            [title]="'wallets.send.send_detail.network_select.network' | translate"
+            [networks]="this.networks"
             [selectedNetwork]="this.selectedNetwork"
           ></app-network-select-card>
         </div>
@@ -72,8 +76,10 @@ import { TranslateService } from '@ngx-translate/core';
         </div>
         <div class="sd__amount-input-card" *ngIf="this.token">
           <ion-card class="ux-card">
+
             <app-amount-input-card
               *ngIf="this.balance !== undefined"
+              [title]="'hola'"
               [header]="'defi_investments.shared.amount_input_card.available' | translate"
               [showRange]="false"
               [baseCurrency]="this.token"
@@ -81,6 +87,7 @@ import { TranslateService } from '@ngx-translate/core';
               [quotePrice]="this.quotePrice"
               [feeToken]="this.nativeToken"
             ></app-amount-input-card>
+            
             <app-amount-input-card-skeleton
               *ngIf="this.balance === undefined"
               [showRange]="false"
@@ -90,7 +97,6 @@ import { TranslateService } from '@ngx-translate/core';
                 [fee]="this.dynamicFee"
                 [quoteFee]="this.quoteFee"
                 [balance]="this.nativeBalance"
-                [description]="'donations.send_donations.description_fee' | translate"
               ></app-transaction-fee>
             </div>
           </ion-card>
@@ -162,6 +168,8 @@ export class SendDetailPage {
     this.setNativePrice();
     this.setQuotePrice();
   }
+
+ 
 
   private setNativePrice(): void {
     this.getDynamicPriceOf(this.nativeToken).subscribe((price: number) => {

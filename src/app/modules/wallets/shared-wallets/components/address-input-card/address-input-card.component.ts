@@ -17,21 +17,11 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
         </div>
         <div class="aic__header__buttons">
           <ion-button
-            name="Paste Address"
-            appTrackClick
-            fill="clear"
-            size="small"
-            color="neutral80"
-            (click)="this.pasteClipboardData()"
-          >
-            <ion-icon name="ux-paste"></ion-icon>
-          </ion-button>
-          <ion-button
             *ngIf="this.enableQR && !this.isPWA"
             name="Scan QR"
             appTrackClick
             fill="clear"
-            size="small"
+            size="small"            
             color="neutral80"
             (click)="this.scanQR()"
           >
@@ -40,13 +30,17 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
         </div>
       </div>
       <div class="aic__content">
-        <app-ux-input-underlined
-          [labelLeft]="this.helpText"
+        <app-ux-input
+          [placeholder]="'wallets.shared_wallets.address_input_card.placeholder' | translate" 
+          [pasteType]="'ux-paste'"
           debounce="1000"
           controlName="address"
           type="text"
           id="address-input"
-        ></app-ux-input-underlined>
+        ></app-ux-input>
+        <ion-label>
+        {{this.helpText}}
+        </ion-label>
       </div>
     </div>
   `,
@@ -67,7 +61,6 @@ export class AddressInputCardComponent implements OnInit {
 
   constructor(
     private clipboardService: ClipboardService,
-    private formBuilder: FormBuilder,
     private modalController: ModalController,
     private toastService: ToastService,
     private translate: TranslateService,

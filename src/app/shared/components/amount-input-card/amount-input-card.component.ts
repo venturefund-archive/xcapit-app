@@ -13,9 +13,14 @@ import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
         <div class="aic__available__amounts">
           <ion-text class="ux-font-text-xl"> {{ this.max | formattedAmount }} {{ this.baseCurrency.value }}</ion-text>
           <ion-text class="ux-font-text-xxs">
-            ≈ {{ this.quoteMax | formattedAmount : 10 : 2 }} {{ this.quoteCurrency }}
+            ≈ {{ this.quoteMax | formattedAmount: 10:2 }} {{ this.quoteCurrency }}
           </ion-text>
         </div>
+      </div>
+      <div>
+        <ion-text class="ux-font-titulo-xs">
+          {{ this.title }}
+        </ion-text>
       </div>
       <div class="aic__content">
         <div class="aic__content__title">
@@ -69,11 +74,7 @@ import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
             inputmode="numeric"
           ></ion-input>
         </div>
-        <div *ngIf="this.disclaimer" class="aic__content__disclaimer">
-          <ion-text class="ux-font-text-xs" style="white-space: pre-wrap;"
-            >{{ 'defi_investments.shared.amount_input_card.disclaimer' | translate }} {{ this.feeToken.value }}.
-          </ion-text>
-        </div>
+        
       </div>
     </div>
   `,
@@ -91,6 +92,7 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   @Input() quotePrice: number;
   @Input() label: string;
   @Input() header: string;
+  @Input() title: string;
   @Input() disclaimer = true;
   @Input() max: number;
   @Input() showRange: boolean;
