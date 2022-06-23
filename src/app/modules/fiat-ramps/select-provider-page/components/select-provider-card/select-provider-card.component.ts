@@ -69,11 +69,20 @@ export class SelectProviderCardComponent implements OnInit {
   constructor(private formGroupDirective: FormGroupDirective) {}
 
   ngOnInit() {
+    this.countries = this.availableCountries();
     this.form = this.formGroupDirective.form;
     this.countries.sort(this.sortCountries);
     this.form.get('country').valueChanges.subscribe((value) => {
       this.selectedCountry(value);
     });
+  }
+
+  availableCountries(): any {
+    const providerCountries = [];
+    this.providers.forEach((provider) => {
+      providerCountries.push(...provider.countries);
+    });
+    return this.countries.filter((country) => providerCountries.includes(country.name));
   }
 
   selectedProvider(provider) {
@@ -89,7 +98,6 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   showProvider(country) {
-
     for (let provider of this.providers) {
       const show = provider.countries.includes(country.name);
       provider = Object.assign(provider, { showProvider: show });
