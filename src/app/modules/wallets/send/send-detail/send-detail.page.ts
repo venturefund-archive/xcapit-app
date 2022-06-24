@@ -189,8 +189,8 @@ export class SendDetailPage {
     this.token = this.apiWalletService.getCoin(coin, network);
     this.networks = this.apiWalletService.getNetworks(coin);
     this.selectedNetwork = network;
-    this.amountSend = !this.amountSend;
-    this.transactionFee = !this.transactionFee;
+    this.amountSend = true;
+    this.transactionFee = true;
     this.nativeToken = this.token.native
       ? this.token
       : this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);

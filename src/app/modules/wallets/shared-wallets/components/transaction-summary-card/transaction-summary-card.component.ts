@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { symbolName } from 'typescript';
 import { SummaryData } from '../../../send/send-summary/interfaces/summary-data.interface';
 import { NETWORK_COLORS } from '../../constants/network-colors.constant';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 import { TransactionDataService } from '../../services/transaction-data/transaction-data.service';
+import { InfoSendModalComponent } from '../info-send-modal/info-send-modal.component';
 
 
 @Component({
@@ -108,7 +110,9 @@ export class TransactionSummaryCardComponent implements OnInit {
   referenceAmount : number;
   fee: number;
   referenceFee: number; 
-  constructor(private apiWalletService: ApiWalletService) {}
+  isAmountSend: boolean;
+  constructor(private apiWalletService: ApiWalletService,
+    private modalController: ModalController) {}
 
   ngOnInit() {
     this.getNativeToken();
@@ -125,9 +129,25 @@ export class TransactionSummaryCardComponent implements OnInit {
     this.nativeToken = this.apiWalletService.getNativeTokenFromNetwork(this.summaryData.network);
   }
 
-  showPhraseAmountInfo(){
-
+  async showPhraseAmountInfo(){
+    this.isAmountSend = true
+    const modal = await this.modalController.create({
+      component: InfoSendModalComponent ,
+      componentProps: {isAmountSend:this.isAmountSend},
+      cssClass: 'ux-xxs-modal-informative',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 
-  showPhrasereferenceFeeInfo(){}
+  async showPhrasereferenceFeeInfo(){
+    this.isAmountSend = false
+    const modal = await this.modalController.create({
+      component: InfoSendModalComponent ,
+      componentProps: {isAmountSend:this.isAmountSend},
+      cssClass: 'ux-xxs-modal-informative',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
 }

@@ -1770,6 +1770,12 @@
         "item_4": "Keep it in a safe place.",
         "item_5": "You can engrave it on some element to make it last over time."
       },
+      "info_send_modal":{
+        "title_send_amount": "Why is the amount to be sent estimated?",
+        "title_transaction_fee": "Why is the transaction fee estimated?",
+        "description": "Due to market volatility, the exchange rate may vary slightly at the time of the transaction.",
+        "button_text": "Understood"
+      },
       "warning_backup_info": {
         "title": "Attention!",
         "title2": "You have not yet protected your wallet",

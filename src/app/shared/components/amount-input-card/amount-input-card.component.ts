@@ -1,6 +1,8 @@
 import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
+import { InfoSendModalComponent } from 'src/app/modules/wallets/shared-wallets/components/info-send-modal/info-send-modal.component';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-amount-input-card',
@@ -111,11 +113,13 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   @Input() showRange: boolean;
   @Input() feeToken: Coin;
   @Input() amountSend: boolean;
+  isAmountSend: boolean;
   
   form: FormGroup;
   quoteMax: number;
 
-  constructor(private formGroupDirective: FormGroupDirective) {}
+  constructor(private formGroupDirective: FormGroupDirective, 
+    private modalController: ModalController) {}
 
   ngOnInit() {
     this.subscribeToFormChanges();
@@ -144,8 +148,15 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
     this.form.patchValue(maxValues, this.defaultPatchValueOptions());
   }
 
-  showPhraseAmountInfo(){
-    console.log("Hola Amount")
+  async showPhraseAmountInfo(){
+    this.isAmountSend = true
+    const modal = await this.modalController.create({
+      component: InfoSendModalComponent ,
+      componentProps: {isAmountSend:this.isAmountSend},
+      cssClass: 'ux-xxs-modal-informative',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 
   

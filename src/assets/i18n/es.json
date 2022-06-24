@@ -1752,6 +1752,12 @@
         "item_4": "Guárdala en un lugar seguro.",
         "item_5": "Puedes grabarla en algún elemento para que perdure en el tiempo."
       },
+      "info_send_modal":{
+        "title_send_amount": "¿Por qué es “estimado” el monto a enviar?",
+        "title_transaction_fee": "¿Por qué es “estimada” la tarifa de transacción?",
+        "description": "Por la volatilidad del mercado, la tasa de cambio puede variar ligeramente al momento de realizar la operación.",
+        "button_text": "Entendido"
+      },
       "warning_backup_info": {
         "title": "¡Atención!",
         "title2": "Aún no protegiste tu wallet",

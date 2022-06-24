@@ -30,7 +30,7 @@ import { isAddress } from 'ethers/lib/utils';
           [title]="'wallets.send.send_summary.title' | translate"
           [addressTitle]="'wallets.send.send_summary.destination_address' | translate"
           [amountsTitle]="'wallets.send.send_summary.amounts_title' | translate"
-          [summaryData]="!this.summaryData"
+          [summaryData]="this.summaryData"
           [amountSend]="!this.amountSend"
           [transactionFee]="!this.transactionFee"
         ></app-transaction-summary-card>

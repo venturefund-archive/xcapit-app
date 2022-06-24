@@ -1,4 +1,6 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { InfoSendModalComponent } from 'src/app/modules/wallets/shared-wallets/components/info-send-modal/info-send-modal.component';
 import { Amount } from '../../types/amount.type';
 
 @Component({
@@ -55,12 +57,19 @@ export class TransactionFeeComponent implements OnInit {
   @Input() balance: number;
   @Input() description: string;
   @Input() transactionFee: Boolean;
-
-  constructor() {}
+  isAmountSend: boolean;
+  constructor( private modalController: ModalController) {}
 
   ngOnInit() {}
   
-  showPhrasetransactionFeeInfo(){
-    console.log("Hola Transacction")
+  async showPhrasetransactionFeeInfo(){
+    this.isAmountSend = false
+    const modal = await this.modalController.create({
+      component: InfoSendModalComponent ,
+      componentProps: {isAmountSend:this.isAmountSend},
+      cssClass: 'ux-xxs-modal-informative',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 }
