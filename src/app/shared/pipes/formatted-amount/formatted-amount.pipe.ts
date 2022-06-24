@@ -6,6 +6,6 @@ import { FormattedAmount } from '../../models/formatted-amount/formatted-amount'
 })
 export class FormattedAmountPipe implements PipeTransform {
   transform(value: number, totalDigits = 14, maxDecimals = 8): string {
-    return value ? new FormattedAmount(value, totalDigits, maxDecimals).asString() : undefined;
+    return value !== undefined ? new FormattedAmount(value, totalDigits, maxDecimals).asString() : undefined;
   }
 }

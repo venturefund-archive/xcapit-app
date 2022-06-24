@@ -5,10 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ErrorsFormItemComponent } from './components/errors-form-item/errors-form-item.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { LanguagePopoverComponent } from './components/language-popover/language-popover.component';
-import { LanguageButtonComponent } from './components/language-button/language-button.component';
 import { TrackClickModule } from './directives/track-click/track-click.module';
-import { IsSubscribedComponent } from './components/is-subscribed/is-subscribed.component';
 import { PercentageDisplayComponent } from './components/percentage-display/percentage-display.component';
 import { XcapitLogoComponent } from './components/xcapit-logo/xcapit-logo.component';
 import { UxInputComponent } from './components/ux-input/ux-input.component';
@@ -77,21 +74,25 @@ import { SelectProviderCardComponent } from '../modules/fiat-ramps/select-provid
 import { ProviderCardComponent } from '../modules/fiat-ramps/select-provider-page/components/provider-card/provider-card/provider-card.component';
 import { TransactionFeeComponent } from '../modules/defi-investments/shared-defi-investments/components/transaction-fee/transaction-fee.component';
 import { AmountInputCardComponent } from './components/amount-input-card/amount-input-card.component';
+import { AmountInputCardSkeletonComponent } from './components/amount-input-card/amount-input-card-skeleton/amount-input-card-skeleton.component';
 import { ObjetiveCardComponent } from '../modules/financial-planner/shared-financial-planner/components/objetive-card/objetive-card.component';
 import { NumberInputDirective } from './directives/number-input/number-input.directive';
 import { CauseComponent } from '../modules/donations/shared-donations/components/cause/cause.component';
 import { ReferralsComingComponent } from '../modules/referrals/shared-referrals/components/referrals-coming/referrals-coming.component';
 import { FormattedAmountPipe } from './pipes/formatted-amount/formatted-amount.pipe';
 import { CauseInfoComponent } from '../modules/donations/shared-donations/components/description-cause/cause-info.component';
+import { ErrorsFormPasswordItemComponent } from './components/errors-form-password-item/errors-form-password-item.component';
 import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-network.pipe';
-
+import { BackupInformationCardComponent } from '../modules/wallets/shared-wallets/components/backup-information-card/backup-information-card.component';
+import { ExplanationItemComponent } from '../modules/financial-education/shared-financial-education/components/explanation-item/explanation-item.component';
+import { InfoPhraseAdviceModalComponent } from '../modules/wallets/shared-wallets/components/info-phrase-advice-modal/info-phrase-advice-modal.component';
+import { RuleCardComponent } from '../modules/financial-education/shared-financial-education/components/rule-card/rule-card.component';
+import { CircleProgressComponent } from './components/circle-progress/circle-progress.component';
 @NgModule({
   declarations: [
     FilterTabComponent,
     ErrorsFormItemComponent,
-    LanguagePopoverComponent,
-    LanguageButtonComponent,
-    IsSubscribedComponent,
+    ErrorsFormPasswordItemComponent,
     PercentageDisplayComponent,
     XcapitLogoComponent,
     NeedHelpComponent,
@@ -107,8 +108,14 @@ import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-n
     TokenSelectionListComponent,
     TransactionFeeComponent,
     AmountInputCardComponent,
+    AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
     // Ux
+    CircleProgressComponent,
+    RuleCardComponent,
+    InfoPhraseAdviceModalComponent,
+    BackupInformationCardComponent,
+    ExplanationItemComponent,
     SelectModalNewComponent,
     UxInputComponent,
     UxCenterImgComponent,
@@ -171,19 +178,19 @@ import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-n
     ButtonSpinnerDirective,
     FeatureFlagDirective,
   ],
-  entryComponents: [LanguagePopoverComponent, UxSelectModalComponent],
+  entryComponents: [UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
+    CircleProgressComponent,
     FilterTabComponent,
     EmbedVideoComponent,
     ErrorsFormItemComponent,
+    ErrorsFormPasswordItemComponent,
     CommonModule,
     ReactiveFormsModule,
     IonicModule,
     TranslateModule,
-    LanguageButtonComponent,
     TrackClickModule,
-    IsSubscribedComponent,
     PercentageDisplayComponent,
     XcapitLogoComponent,
     NeedHelpComponent,
@@ -201,8 +208,13 @@ import { FormattedNetworkPipe } from './pipes/formatted-network-name/formatted-n
     CoinSelectorComponent,
     TransactionFeeComponent,
     AmountInputCardComponent,
+    AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
     // Ux
+    RuleCardComponent,
+    InfoPhraseAdviceModalComponent,
+    BackupInformationCardComponent,
+    ExplanationItemComponent,
     SelectModalNewComponent,
     UxInputComponent,
     UxCenterImgComponent,

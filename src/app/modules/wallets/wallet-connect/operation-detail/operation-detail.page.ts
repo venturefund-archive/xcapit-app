@@ -88,7 +88,7 @@ import { EthersService } from '../../shared-wallets/services/ethers/ethers.servi
                 </div>
 
                 <div class="wcod__transaction_detail__container__content">
-                  <ion-label> {{ this.totalFeeAmount }} {{ this.providerSymbol }} </ion-label>
+                  <ion-label> {{ this.totalFeeAmount | formattedAmount }} {{ this.providerSymbol }} </ion-label>
                 </div>
               </div>
             </div>
@@ -106,7 +106,7 @@ import { EthersService } from '../../shared-wallets/services/ethers/ethers.servi
               [loadingText]=" this.loadingText | translate"
               class="ux_button"
               appTrackClick
-              name="Next"
+              [dataToTrack]="{eventLabel:this.dataToTrackButton}"
               color="secondary"
               size="large"
               (click)="confirmOperation()"
@@ -150,7 +150,7 @@ export class OperationDetailPage implements OnInit {
   loading = false;
   disable = false;
   loadingText = '';
-
+  dataToTrackButton:string;
   constructor(
     private walletConnectService: WalletConnectService,
     private navController: NavController,
@@ -164,9 +164,16 @@ export class OperationDetailPage implements OnInit {
 
   ionViewWillEnter() {
     this.checkProtocolInfo();
+    this.dataToTrackButton = this.dataToTrack();
   }
 
   ngOnInit() {}
+
+  dataToTrack(){
+    if (this.isSignRequest) return 'ux_wc_sign';
+    if (this.isApproval) return 'ux_wc_approve';
+    return 'ux_wc_confirm';
+  }
 
   async checkProtocolInfo() {
     if (!this.walletConnectService.peerMeta) {
@@ -189,7 +196,7 @@ export class OperationDetailPage implements OnInit {
   async getTotalFeeAmount(estimatedGas) {
     const gasPrice = await this.walletConnectService.getGasPrice();
     const gas = ethers.BigNumber.from(estimatedGas);
-    this.totalFeeAmount = ethers.utils.formatEther(gasPrice.mul(gas).toString());
+    this.totalFeeAmount = parseFloat(ethers.utils.formatEther(gasPrice.mul(gas).toString()));
   }
 
   public async checkRequestInfo(request) {

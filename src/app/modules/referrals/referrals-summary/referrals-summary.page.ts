@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiReferralsService } from '../shared-referrals/services/api-referrals/api-referrals.service';
 import { ReferralsCount } from '../shared-referrals/interfaces/referrals-info.interface';
 import { environment } from '../../../../environments/environment';
-import { ApiUsuariosService } from '../../usuarios/shared-usuarios/services/api-usuarios/api-usuarios.service';
+import { ApiUsuariosService } from '../../users/shared-users/services/api-usuarios/api-usuarios.service';
 
 @Component({
   selector: 'app-referrals-summary',

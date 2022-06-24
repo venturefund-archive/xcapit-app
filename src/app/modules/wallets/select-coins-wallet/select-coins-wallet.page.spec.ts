@@ -59,7 +59,7 @@ const modeTestsData = [
     },
     changeTexts: {
       header: 'wallets.recovery_wallet.header',
-      submitButton: ' deposit_addresses.deposit_currency.next_button ',
+      submitButton: ' wallets.recovery_wallet.next_button ',
     },
   },
   {

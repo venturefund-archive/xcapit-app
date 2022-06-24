@@ -26,6 +26,7 @@ import { isAddress } from 'ethers/lib/utils';
     <ion-content class="ss ion-padding">
       <div class="ss__transaction-summary-card" *ngIf="this.summaryData">
         <app-transaction-summary-card
+          [title]="'wallets.send.send_summary.title' | translate"
           [addressTitle]="'wallets.send.send_summary.destination_address' | translate"
           [amountsTitle]="'wallets.send.send_summary.amounts_title' | translate"
           [summaryData]="this.summaryData"
@@ -85,13 +86,16 @@ export class SendSummaryPage implements OnInit {
     await this.loadingService.dismiss();
     const modal = await this.modalController.create({
       component: WalletPasswordComponent,
-      cssClass: 'ux-routeroutlet-modal full-screen-modal',
+      cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
       componentProps: {
         state: 'send',
       },
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
+    if (data === undefined) {
+      this.loading = false;
+    }
 
     return data;
   }
@@ -141,10 +145,10 @@ export class SendSummaryPage implements OnInit {
 
     try {
       const password = await this.askForPassword();
-      this.loading = true;
       if (!password) {
         return;
       }
+      this.loading = true;
       await this.send(password);
     } catch (error) {
       await this.handleSendError(error);

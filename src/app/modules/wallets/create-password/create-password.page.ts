@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
@@ -10,21 +10,25 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
 import { ActivatedRoute } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { TranslateService } from '@ngx-translate/core';
+import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
+import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 
 @Component({
   selector: 'app-create-password',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
-        <ion-title *ngIf="this.mode === 'import'" class="ion-text-center">{{
-          'wallets.recovery_wallet.header' | translate
-        }}</ion-title>
-        <ion-title *ngIf="this.mode !== 'import'" class="ion-text-center">{{
-          'wallets.create_password.header' | translate
-        }}</ion-title>
+        <ion-title *ngIf="this.mode === 'import'">{{ 'wallets.recovery_wallet.header' | translate }}</ion-title>
+        <ion-title *ngIf="this.mode !== 'import'">{{ 'wallets.create_password.header' | translate }}</ion-title>
+        <ion-label *ngIf="this.mode === 'import'" class="step-counter" slot="end"
+          >3 {{ 'shared.step_counter.of' | translate }} 3</ion-label
+        >
+        <ion-label *ngIf="this.mode !== 'import'" class="step-counter" slot="end"
+          >2 {{ 'shared.step_counter.of' | translate }} 2</ion-label
+        >
       </ion-toolbar>
     </ion-header>
 
@@ -43,9 +47,10 @@ import { TranslateService } from '@ngx-translate/core';
           <app-ux-input
             controlName="password"
             type="password"
-            [label]="'wallets.create_password.password' | translate"
+            [label]="'wallets.create_password.write_password' | translate"
             inputmode="password"
             [errors]="this.passwordErrors"
+            [showNewPasswordErrors]="true"
           ></app-ux-input>
 
           <app-ux-input
@@ -58,8 +63,11 @@ import { TranslateService } from '@ngx-translate/core';
         </div>
         <div name="Create Password Form Buttons" class="ux_footer">
           <div class="button">
+            <ion-label *ngIf="this.loading" class="ux-loading-message ux-font-text-xxs" color="neutral80"
+              > {{'wallets.create_password.wait_loading_message' | translate}}
+            </ion-label>
             <ion-button
-            *ngIf="this.mode !== 'import'"
+              *ngIf="this.mode !== 'import'"
               class="ux_button"
               appTrackClick
               [disabled]="!this.createPasswordForm.valid"
@@ -67,11 +75,13 @@ import { TranslateService } from '@ngx-translate/core';
               type="submit"
               color="secondary"
               size="large"
+              [appLoading]="this.loading"
+              [loadingText]="'wallets.create_password.creating_button_state' | translate"
             >
               {{ 'wallets.create_password.finish_button_create' | translate }}
             </ion-button>
             <ion-button
-            *ngIf="this.mode === 'import'"
+              *ngIf="this.mode === 'import'"
               class="ux_button"
               appTrackClick
               [disabled]="!this.createPasswordForm.valid"
@@ -79,6 +89,8 @@ import { TranslateService } from '@ngx-translate/core';
               type="submit"
               color="secondary"
               size="large"
+              [appLoading]="this.loading"
+              [loadingText]="'wallets.create_password.importing_button_state' | translate"
             >
               {{ 'wallets.create_password.finish_button_import' | translate }}
             </ion-button>
@@ -91,6 +103,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class CreatePasswordPage implements OnInit {
   mode: string;
+  loading: boolean;
   createPasswordForm: FormGroup = this.formBuilder.group(
     {
       password: [
@@ -99,9 +112,13 @@ export class CreatePasswordPage implements OnInit {
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(100),
-          CustomValidators.patternValidator(/\d/, CustomValidatorErrors.hasNumber),
+          CustomValidators.patternValidator(
+            /^((?=.*[A-Z])|(?=.*[a-z]))(?=.*[0-9])\S*?$/,
+            CustomValidatorErrors.notAlphanumeric
+          ),
           CustomValidators.patternValidator(/[A-Z]/, CustomValidatorErrors.hasCapitalCase),
           CustomValidators.patternValidator(/[a-z]/, CustomValidatorErrors.hasSmallCase),
+          CustomValidators.patternValidator(/(?=.*[a-z])(?=.*[A-Z])/, CustomValidatorErrors.hasCapitalAndSmallCase),
         ],
       ],
       repeat_password: ['', [Validators.required]],
@@ -111,9 +128,12 @@ export class CreatePasswordPage implements OnInit {
     }
   );
 
-  passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
+  passwordErrors: ItemFormError[] = CONFIG.fieldErrors.createWalletPassword;
 
-  repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
+  repeatPasswordErrors: ItemFormError[] = [
+    ...CONFIG.fieldErrors.repeatPassword,
+    ...CONFIG.fieldErrors.createWalletPassword,
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -122,7 +142,9 @@ export class CreatePasswordPage implements OnInit {
     private walletEncryptionService: WalletEncryptionService,
     private loadingService: LoadingService,
     private apiWalletService: ApiWalletService,
-    private translate: TranslateService
+    private walletService: WalletService,
+    private translate: TranslateService,
+    private walletMnemonicService: WalletMnemonicService
   ) {}
 
   ionViewWillEnter() {
@@ -130,30 +152,29 @@ export class CreatePasswordPage implements OnInit {
     this.mode = this.route.snapshot.paramMap.get('mode');
   }
 
+  async ionViewDidEnter(){
+    this.walletService.coins = this.apiWalletService.getCoins().filter((coin) => coin.native);
+    if (this.mode === 'create') {
+      this.walletMnemonicService.mnemonic = this.walletMnemonicService.newMnemonic();
+    }
+    await this.walletService.create();
+  }
+
   ngOnInit() {}
 
   handleSubmit() {
     if (this.createPasswordForm.valid) {
-      this.loadingService
-        .showModal(this.modalOptions())
-        .then(() => this.walletEncryptionService.encryptWallet(this.createPasswordForm.value.password))
+      this.loading = true;
+      this.walletEncryptionService
+        .encryptWallet(this.createPasswordForm.value.password)
         .then(() => this.walletEncryptionService.getEncryptedWallet())
         .then((encryptedWallet) => this.formattedWallets(encryptedWallet))
         .then((wallets) => this.apiWalletService.saveWalletAddresses(wallets).toPromise())
-        .then(() => this.loadingService.dismiss())
-        .then(() => this.navigateByMode())
-        .then(() => this.loadingService.dismissModal());
+        .then(() => (this.loading = false))
+        .then(() => this.navigateByMode());
     } else {
       this.createPasswordForm.markAllAsTouched();
     }
-  }
-
-  private modalOptions() {
-    return {
-      title: this.translate.instant('wallets.create_password.loading.title'),
-      subtitle: this.translate.instant(`wallets.create_password.loading.subtitle.${this.mode}`),
-      image: 'assets/img/create-password/building.svg',
-    };
   }
 
   formattedWallets(encryptedWallet: any): Promise<any> {

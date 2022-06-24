@@ -31,25 +31,25 @@ export const SUCCESS_TYPES = {
   },
   email_reset_password: {
     urlClose: '/users/login',
-    textPrimary: 'usuarios.reset_password.success_send_email_title',
-    textSecondary: 'usuarios.reset_password.success_send_email_text',
+    textPrimary: 'users.reset_password.success_send_email_title',
+    textSecondary: 'users.reset_password.success_send_email_text',
     urlPrimaryAction: '/users/login',
-    namePrimaryAction: 'usuarios.reset_password.success_button',
+    namePrimaryAction: 'users.reset_password.success_button',
   },
   reset_password: {
     urlClose: '/users/login',
-    textPrimary: 'usuarios.reset_password.success_reset_password_header',
-    textSecondary: 'usuarios.reset_password.success_reset_password_message',
+    textPrimary: 'users.reset_password.success_reset_password_header',
+    textSecondary: 'users.reset_password.success_reset_password_message',
     urlPrimaryAction: '/users/login',
-    namePrimaryAction: 'usuarios.reset_password.success_button',
+    namePrimaryAction: 'users.reset_password.success_button',
   },
   register: {
     urlClose: '/users/login',
-    textPrimary: 'usuarios.register.success_title',
-    textSecondary: 'usuarios.register.success_text',
+    textPrimary: 'users.register.success_title',
+    textSecondary: 'users.register.success_text',
     urlPrimaryAction: '/users/login',
-    namePrimaryAction: 'usuarios.register.accept_button',
-    nameSecondaryAction: 'usuarios.register.resend_email_button',
+    namePrimaryAction: 'users.register.accept_button',
+    nameSecondaryAction: 'users.register.resend_email_button',
   },
   fund_renew: {
     urlClose: '/tabs/investments/binance',
@@ -62,7 +62,7 @@ export const SUCCESS_TYPES = {
     urlClose: '/tabs/home',
     urlPrimaryAction: '/funds/fund-name',
     urlSecondaryAction: '/tabs/home',
-    urlThirdAction: '/fiat-ramps/moonpay',
+    urlThirdAction: '/fiat-ramps/new-operation/moonpay',
     textPrimary: 'apikeys.register_success_beginner.textPrimary',
     textSecondary: 'apikeys.register_success_beginner.textSecondary',
     textThird: 'apikeys.register_success_beginner.textThird',
@@ -94,10 +94,14 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'tickets.create_support_ticket_success.namePrimaryAction',
   },
   unsuccesful_mnemonic_verification: {
+    bottomImage: true,
+    hasToTrackScreenview: true,
+    screenviewEventLabel: 'ux_protect_screenview_error',
+    image: 'assets/img/wallets/failed_mnemonic.svg',
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.failed_mnemonic.title',
     textSecondary: 'wallets.failed_mnemonic.description',
-    urlPrimaryAction: '/wallets/create-first/recovery-phrase',
+    urlPrimaryAction: '/wallets/recovery/read',
     namePrimaryAction: 'wallets.failed_mnemonic.button',
   },
   wallet_send: {
@@ -176,8 +180,10 @@ export const SUCCESS_TYPES = {
     textPrimary: 'donations.success.textPrimary',
     textSecondary: 'donations.success.textSecondary',
     namePrimaryAction: 'donations.success.namePrimaryAction',
+    trackClickEventNamePrimaryAction: 'ux_donations_go_to_donations',
     urlPrimaryAction: '/donations/causes',
     nameThirdAction: 'donations.success.nameThirdAction',
+    trackClickEventNameThirdAction: 'ux_donations_go_to_home',
     urlThirdAction: '/tabs/wallets',
   },
 
@@ -187,6 +193,7 @@ export const SUCCESS_TYPES = {
     textPrimary: 'donations.error.textPrimary',
     textSecondary: 'donations.error.textSecondary',
     namePrimaryAction: 'donations.error.namePrimaryAction',
+    trackClickEventNamePrimaryAction: 'ux_donations_go_to_donations',
     urlPrimaryAction: '/donations/causes',
   },
   
@@ -236,10 +243,43 @@ export const SUCCESS_TYPES = {
   },
   success_fiat_ramps:{
     image:"assets/img/fiat-ramps/success-page/operations-success.svg",
+    urlClose:'/fiat-ramps/select-provider',
     textPrimary: 'fiat_ramps.fiat_success.textPrimary', 
     textSecondary:'fiat_ramps.fiat_success.textSecondary',
     namePrimaryAction:'fiat_ramps.fiat_success.buttonText',
-    urlClose:'/fiat-ramps/new-operation',
-    urlPrimaryAction:'/tabs/home'
+    urlPrimaryAction:'/tabs/home',
+    trackClickEventNamePrimaryAction: 'ux_buy_kripton_details'
+  },
+  error_test_financial_education:{
+    image: '/assets/img/financial-education/error-test-financial-education.svg',
+    textPrimary: 'financial_education.error_test.textPrimary',
+    textSecondary: 'financial_education.error_test.textSecondary',
+    namePrimaryAction: 'financial_education.error_test.namePrimaryAction',
+    trackClickEventNamePrimaryAction: 'ux_education_retry_module',
+    urlPrimaryAction: '',
+    nameSecondaryAction: 'financial_education.error_test.nameSecondaryAction',
+    urlSecondaryAction: '/financial-education/home',
+    TrackClickEventNameSecondaryAction:'ux_education_go_to_menu',
+    nameThirdAction: 'financial_education.error_test.nameThirdAction',
+    urlThirdAction: ''
+  },
+  success_submodules:{ 
+    image:"assets/img/financial-education/success-submodules/success-submodules.svg",
+    textPrimary: 'financial_education.success_submodule.textPrimary', 
+    textSecondary:'financial_education.success_submodule.textSecondary',
+    namePrimaryAction:'financial_education.success_submodule.buttonText',
+    nameThirdAction:"financial_education.success_submodule.buttonText2",
+    urlPrimaryAction:'',
+    urlThirdAction:'/financial-education/home',
+    trackClickEventNamePrimaryAction: 'ux_education_next_module',
+    trackClickEventNameThirdAction: 'ux_education_go_to_menu'
+  },
+  final_success_test:{
+    image:"assets/img/financial-education/final-success-test.svg",
+    textPrimary: 'financial_education.final_success_test.textPrimary', 
+    textSecondary:'financial_education.final_success_test.textSecondary',
+    namePrimaryAction: 'financial_education.final_success_test.primaryButton',
+    urlPrimaryAction:'/financial-education/home',
+    trackClickEventNamePrimaryAction: 'ux_education_finalize'
   }
 };

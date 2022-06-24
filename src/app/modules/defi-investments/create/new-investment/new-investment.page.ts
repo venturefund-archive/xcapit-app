@@ -11,6 +11,11 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
 import { AmountInputCardComponent } from '../../../../shared/components/amount-input-card/amount-input-card.component';
+import { WalletBalanceService } from '../../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
+import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
 @Component({
   selector: 'app-new-investment',
   template: `
@@ -24,16 +29,27 @@ import { AmountInputCardComponent } from '../../../../shared/components/amount-i
     </ion-header>
     <ion-content *ngIf="this.investmentProduct">
       <ion-card class="ux-card">
-        <app-expandable-investment-info fbPrefix='ux_invest' [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
+        <app-expandable-investment-info
+          fbPrefix="ux_invest"
+          [investmentProduct]="this.investmentProduct"
+        ></app-expandable-investment-info>
       </ion-card>
       <ion-card class="ux-card">
-        <form [formGroup]="this.form" *ngIf="this.investmentProduct && this.token">
+        <form [formGroup]="this.form">
           <app-amount-input-card
-            label="{{ this.labelText | translate }}"
+            *ngIf="this.investmentProduct && this.token && this.tokenBalance !== undefined"
+            [label]="this.labelText | translate"
             [baseCurrency]="this.token"
+            [quotePrice]="this.quotePrice"
             [showRange]="false"
+            [max]="this.tokenBalance"
+            [feeToken]="this.feeToken"
             [header]="'defi_investments.shared.amount_input_card.available' | translate"
           ></app-amount-input-card>
+          <app-amount-input-card-skeleton
+            *ngIf="this.tokenBalance === undefined"
+            [showRange]="false"
+          ></app-amount-input-card-skeleton>
         </form>
       </ion-card>
       <div class="ni__footer">
@@ -72,12 +88,17 @@ import { AmountInputCardComponent } from '../../../../shared/components/amount-i
   styleUrls: ['./new-investment.page.scss'],
 })
 export class NewInvestmentPage implements OnInit {
+  destroy$ = new Subject<void>();
+  private priceRefreshInterval = 15000;
   form: FormGroup = this.formBuilder.group({
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
   investmentProduct: InvestmentProduct;
   token: Coin;
+  tokenBalance: number;
+  quotePrice: number;
+  feeToken: Coin;
   mode: string;
   headerText: string;
   labelText: string;
@@ -91,7 +112,9 @@ export class NewInvestmentPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private twoPiApi: TwoPiApi,
     private investmentDataService: InvestmentDataService,
-    private navController: NavController
+    private navController: NavController,
+    private walletBalance: WalletBalanceService,
+    private dynamicPriceFactory: DynamicPriceFactory
   ) {}
 
   ngOnInit() {}
@@ -99,9 +122,12 @@ export class NewInvestmentPage implements OnInit {
   async ionViewDidEnter() {
     await this.getInvestmentProduct();
     this.getToken();
+    this.dynamicPrice();
+    this.setFeeToken();
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.updateTexts();
     this.getCoins();
+    await this.setTokenBalance();
   }
 
   private vaultID() {
@@ -123,24 +149,29 @@ export class NewInvestmentPage implements OnInit {
   }
 
   goToMoonpay() {
-    this.navController.navigateForward(['fiat-ramps/moonpay']);
+    this.navController.navigateForward(['fiat-ramps/new-operation/moonpay']);
   }
 
   getToken() {
     this.token = this.investmentProduct.token();
   }
 
+  async setTokenBalance(): Promise<void> {
+    this.tokenBalance = await this.walletBalance.balanceOf(this.token);
+  }
+
   saveAmount() {
     if (this.form.valid) {
       this.investmentDataService.amount = this.form.value.amount;
-      this.investmentDataService.quoteAmount = this.form.value.quoteAmount;
+      this.investmentDataService.quoteAmount = parseFloat(this.form.value.quoteAmount);
       this.investmentDataService.product = this.investmentProduct;
       this.navController.navigateForward(['/defi/new/confirmation', this.mode]);
     }
   }
 
   ionViewWillLeave() {
-    this.amountInputCard.ngOnDestroy();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private updateTexts() {
@@ -154,5 +185,20 @@ export class NewInvestmentPage implements OnInit {
         this.labelText = 'defi_investments.add.amount_to_add';
         return;
     }
+  }
+
+  private dynamicPrice() {
+    this.createDynamicPrice()
+      .value()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((price: number) => (this.quotePrice = price));
+  }
+
+  createDynamicPrice(): DynamicPrice {
+    return this.dynamicPriceFactory.new(this.priceRefreshInterval, this.token, this.apiWalletService);
+  }
+
+  private setFeeToken() {
+    this.feeToken = this.apiWalletService.getCoins().find((coin) => coin.native && coin.network === this.token.network);
   }
 }

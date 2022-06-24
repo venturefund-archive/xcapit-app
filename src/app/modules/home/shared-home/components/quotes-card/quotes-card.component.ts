@@ -37,7 +37,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
                 <div class="container">
                   <app-item-quote
                     *ngFor="let quote of this.firstQuotes; let last = last"
-                    [quote]="quote"
+                    [quotation]="quote"
                   ></app-item-quote>
                 </div>
                 <ion-accordion-group>
@@ -45,7 +45,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
                     <div slot="content" class="container">
                       <app-item-quote
                         *ngFor="let quote of this.remainingQuotes; let last = last"
-                        [quote]="quote"
+                        [quotation]="quote"
                         [last]="last"
                       ></app-item-quote>
                     </div>

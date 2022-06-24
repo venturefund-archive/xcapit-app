@@ -5,7 +5,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-cause',
   template: `
-    <div class="content" (click)="this.goToCause()">
+    <div class="content" appTrackClick [dataToTrack]="{eventLabel: this.name}" (click)="this.goToCause()">
       <div class="cc ">
         <div class="cc__image">
           <img [src]="this.cause.image" alt="Cause Image" />
@@ -29,14 +29,16 @@ import { NavController } from '@ionic/angular';
 export class CauseComponent implements OnInit {
   @Input() cause;
   badge: string;
+  name: string;
   constructor(private navController: NavController) {}
 
   ngOnInit() {
-    this.setType();
+    this.setData();
   }
 
-  setType() {
+  setData() {
     this.badge = `donations.causes.types.${this.cause.type}`;
+    this.name = `ux_donations_${this.cause.id}_go`
   }
 
   goToCause(){
@@ -46,8 +48,6 @@ export class CauseComponent implements OnInit {
       },
     };
     this.navController.navigateForward(['donations/description-cause'], navigationExtras)
-
-
   }
 
 }

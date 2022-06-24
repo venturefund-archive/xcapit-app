@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController, ModalController } from '@ionic/angular';
 import { of, ReplaySubject } from 'rxjs';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
-import { AuthService } from 'src/app/modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { AuthService } from 'src/app/modules/users/shared-users/services/auth/auth.service';
 import { UserProfileMenuPage } from './user-profile-menu.page';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { LanguageService } from '../../../shared/services/language/language.service';
@@ -13,11 +13,10 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interface';
-import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
-import { ReactiveFormsModule } from '@angular/forms';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
+import { CRUD } from 'src/app/shared/services/crud/crud';
 
 const itemMenu: MenuCategory[] = [
   {
@@ -67,21 +66,20 @@ const itemMenu: MenuCategory[] = [
   },
 ];
 
-const profile = { notifications_enabled: true, email: 'test@mail.com' };
+const profile = { email: 'test@mail.com' };
 
 describe('UserProfileMenuPage', () => {
   let component: UserProfileMenuPage;
   let fixture: ComponentFixture<UserProfileMenuPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserProfileMenuPage>;
-  let apiProfilesServiceSpy: any;
-  let apiProfilesService: ApiProfilesService;
-  let authServiceSpy: any;
+  let apiProfilesServiceSpy: jasmine.SpyObj<ApiProfilesService>;
+  let crudSpy: jasmine.SpyObj<CRUD>;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let languageServiceSpy: jasmine.SpyObj<LanguageService>;
-  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let fakeWalletService: FakeWalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let logOutModalServiceSpy: jasmine.SpyObj<LogOutModalService>;
@@ -94,40 +92,49 @@ describe('UserProfileMenuPage', () => {
       });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
-        toggle: of({}),
+
+      crudSpy = jasmine.createSpyObj('CRUD', {
+        get: of(profile),
       });
-      apiProfilesServiceSpy = {
-        crud: {
-          get: () => of(profile),
+
+      apiProfilesServiceSpy = jasmine.createSpyObj(
+        'ApiProfilesService',
+        {},
+        {
+          crud: crudSpy,
+        }
+      );
+      authServiceSpy = jasmine.createSpyObj(
+        'AuthService',
+        {
+          logout: null,
         },
-      };
-      authServiceSpy = {
-        isLoggedIn: new ReplaySubject<boolean>(1),
-        logout: () => null,
-      };
+        {
+          isLoggedIn: new ReplaySubject<boolean>(1),
+        }
+      );
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
 
-      languageServiceSpy = jasmine.createSpyObj('LanguageService', [
-        'setInitialAppLanguage',
-        'getLanguages',
-        'setLanguage',
-      ]);
+      languageServiceSpy = jasmine.createSpyObj('LanguageService', {
+        setInitialAppLanguage: null,
+        getLanguages: [],
+        setLanguage: null,
+        getSelectedLanguage: Promise.resolve('es')
+      });
 
       fakeWalletService = new FakeWalletService(true, {});
       walletServiceSpy = fakeWalletService.createSpy();
 
       TestBed.configureTestingModule({
         declarations: [UserProfileMenuPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [
           { provide: ApiProfilesService, useValue: apiProfilesServiceSpy },
           { provide: AuthService, useValue: authServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: LanguageService, useValue: languageServiceSpy },
-          { provide: NotificationsService, useValue: notificationsServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: LogOutModalService, useValue: logOutModalServiceSpy },
         ],
@@ -136,7 +143,6 @@ describe('UserProfileMenuPage', () => {
 
       fixture = TestBed.createComponent(UserProfileMenuPage);
       component = fixture.componentInstance;
-      apiProfilesService = TestBed.inject(ApiProfilesService);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       fixture.detectChanges();
     })
@@ -156,7 +162,7 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should call trackEvent on trackService when Log Out button clicked', () => {
-    spyOn(component, 'logout');
+    component.profile = profile;
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Log Out');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -166,10 +172,8 @@ describe('UserProfileMenuPage', () => {
   });
 
   it('should get data of users when ionViewWillEnter is called', () => {
-    const spy = spyOn(apiProfilesService.crud, 'get');
-    spy.and.returnValue(of({}));
     component.ionViewWillEnter();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.profile).toEqual(profile);
   });
 
   it('should set language when Change Language button is clicked', async () => {
@@ -191,16 +195,14 @@ describe('UserProfileMenuPage', () => {
 
   it('should show modal if user has wallet and modal list is empty when Log Out button is clicked', async () => {
     component.profile = profile;
-    const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
-    button.nativeElement.click();
+    await component.logout();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should show modal if user has wallet and is not in modal list when Log Out button is clicked', async () => {
     component.profile = profile;
-    const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
-    button.nativeElement.click();
+    await component.logout();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
@@ -208,22 +210,20 @@ describe('UserProfileMenuPage', () => {
   it('should log out if user does not have a wallet when Log Out button is clicked', async () => {
     component.profile = profile;
     fakeWalletService.modifyReturns(false, {});
-    const spy = spyOn(authServiceSpy, 'logout');
     const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
     button.nativeElement.click();
     await fixture.whenStable();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
   });
 
   it('should log out if user selected to not see modal in this device when Log Out button is clicked and navigate to users/login', async () => {
     component.profile = profile;
     logOutModalServiceSpy.isShowModalTo.and.returnValue(Promise.resolve(false));
-    const spy = spyOn(authServiceSpy, 'logout');
     const button = fixture.debugElement.query(By.css('ion-button[name="Log Out"]'));
     button.nativeElement.click();
     await fixture.whenStable();
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
   });
 
@@ -233,16 +233,5 @@ describe('UserProfileMenuPage', () => {
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
     expect(menu.length).toBe(3);
-  });
-
-  it('should toggle notifications on toggle click', async () => {
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    const toggleEl = fixture.debugElement.query(By.css('ion-toggle'));
-    component.form.patchValue({ notificationsEnabled: true });
-    await fixture.whenStable();
-    expect(notificationsServiceSpy.toggle).toHaveBeenCalledTimes(1);
   });
 });

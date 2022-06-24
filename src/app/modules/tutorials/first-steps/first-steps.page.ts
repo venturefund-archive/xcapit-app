@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 @Component({
   selector: 'app-first-steps',
   template: `
@@ -58,7 +59,7 @@ export class FirstStepsPage implements OnInit {
   actualStep: number;
   sliderLength: number;
 
-  constructor(private navController: NavController, private storage: Storage) {}
+  constructor(private navController: NavController, private storage: Storage, private walletConnectService: WalletConnectService) {}
 
   ngOnInit() {}
 
@@ -85,6 +86,11 @@ export class FirstStepsPage implements OnInit {
 
   finishOnboarding() {
     this.storage.set('FINISHED_ONBOARDING', true);
-    this.navController.navigateForward(['tabs/home']);
+
+    if (this.walletConnectService.uri.value) {
+      this.walletConnectService.checkDeeplinkUrl();
+    } else {
+      this.navController.navigateForward(['tabs/home']);
+    }
   }
 }

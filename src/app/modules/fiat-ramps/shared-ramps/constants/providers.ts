@@ -1,20 +1,21 @@
-import { FiatRampProvider } from "../interfaces/fiat-ramp-provider.interface";
+import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
 
 export const PROVIDERS: FiatRampProvider[] = [
   {
     id: 3,
     alias: 'moonpay',
     name: 'Moonpay',
+    trackClickEventName: "ux_buy_moonpay",
     logoRoute: 'assets/img/provider-logos/Moonpay.svg',
     description: 'fiat_ramps.select_provider.moonpay_description',
-    newOperationRoute: '/fiat-ramps/moonpay',
+    newOperationRoute: '/fiat-ramps/new-operation/moonpay',
+    disclaimer: 'fiat_ramps.moonpay.disclaimer',
     countries: [
       'Mexico',
       'Guatemala',
       'Honduras',
       'Costa Rica',
       'Colombia',
-      'Argentina',
       'Australia',
       'El Salvador',
       'Guyana',
@@ -32,14 +33,13 @@ export const PROVIDERS: FiatRampProvider[] = [
   //   name: 'Kripton Market',
   //   logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
   //   description: 'fiat_ramps.select_provider.krypton_description',
-  //   newOperationRoute: '/fiat-ramps/new-operation',
-  //   countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
-  // },
-  // {
-  //   id: 3,
-  //   alias: 'paxful',
-  //   name: 'Paxful',
-  //   logoRoute: '../../assets/img/provider-logos/Paxful.svg',
-  //   newOperationRoute: '/fiat-ramps/information-paxful',
+  //   disclaimer: 'fiat_ramps.shared.constants.providers.kripton.disclaimer',
+  //   newOperationRoute: '/fiat-ramps/new-operation/kripton',
+  //   trackClickEventName: "ux_buy_kripton",
+  //   countries: ['Argentina', 'Venezuela', 'Uruguay', 'Colombia'],
+  //   currencies: [
+  //     { symbol: 'DAI', network: 'MATIC' },
+  //     { symbol: 'MATIC', network: 'MATIC' },
+  //   ],
   // },
 ];

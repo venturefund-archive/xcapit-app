@@ -6,7 +6,7 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
 import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
 import { DefaultERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { FormattedFee } from '../../shared-defi-investments/models/formatted-fee/formatted-fee.model';
-import { GasFeeOf } from '../../shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
+import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { TwoPiContract } from '../../shared-defi-investments/models/two-pi-contract/two-pi-contract.model';
 import { TwoPiInvestment } from '../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { TwoPiProduct } from '../../shared-defi-investments/models/two-pi-product/two-pi-product.model';

@@ -7,7 +7,7 @@ import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
 import { DefaultERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { FormattedFee } from '../../shared-defi-investments/models/formatted-fee/formatted-fee.model';
-import { GasFeeOf } from '../../shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
+import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { TwoPiContract } from '../../shared-defi-investments/models/two-pi-contract/two-pi-contract.model';
 import {
   Investment,

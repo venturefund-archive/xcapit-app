@@ -4,7 +4,7 @@ import { RecoveryWordComponent } from '../recovery-word/recovery-word.component'
 @Component({
   selector: 'app-recovery-phrase-card',
   template: `
-    <div class="card ion-padding">
+    <div class="card" [ngClass]="{ centered:this.centered}" >
       <div class="word" *ngFor="let word of this.phraseCopy; let i = index">
         <app-recovery-word
           [clickable]="this.clickable"
@@ -16,13 +16,22 @@ import { RecoveryWordComponent } from '../recovery-word/recovery-word.component'
         </app-recovery-word>
       </div>
     </div>
+    <div class="info" *ngIf="this.showBackupMessage">
+      <ion-icon [name]="this.isProtected? 'ux-checked-circle-outline' : 'ux-error-circle-outline'" [color]="this.isProtected? 'successdark': 'danger'"></ion-icon>
+      <ion-text class="ux-font-text-xxs" [color]="this.isProtected? 'successdark': 'danger'">
+      {{ (this.isProtected ? 'wallets.recovery_phrase_read.protected' : 'wallets.recovery_phrase_read.not_protected') | translate }}
+      </ion-text>   
+    </div>
   `,
   styleUrls: ['./recovery-phrase-card.component.scss'],
 })
 export class RecoveryPhraseCardComponent implements OnInit {
   @ViewChildren(RecoveryWordComponent) recoveryWordComponents: QueryList<RecoveryWordComponent>;
+  @Input() isProtected: boolean;
   @Input() showOrder = true;
+  @Input() showBackupMessage = true;
   @Input() ordered = false;
+  @Input() centered = false;
   @Input() clickable = false;
   @Output() useButtonClicked: EventEmitter<string> = new EventEmitter<string>();
   phraseCopy: string[];

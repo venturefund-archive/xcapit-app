@@ -13,26 +13,30 @@ import { ToastService } from '../../../../../shared/services/toast/toast.service
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { transactionType } from '../../constants/transaction-type';
+import { supportedProviders } from '../../../shared-wallets/constants/supported-providers';
+import { BehaviorSubject } from 'rxjs';
+
+export interface IPeerMeta {
+  description: string;
+  url: string;
+  icons: string[];
+  name: string;
+  ssl?: boolean;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class WalletConnectService {
   public walletConnector: WalletConnect | null = null;
-  uri = '';
-  peerMeta: {
-    description: string;
-    url: string;
-    icons: string[];
-    name: string;
-    ssl?: boolean;
-  };
+  uri = new BehaviorSubject(null);
+  peerMeta: IPeerMeta = null;
   requestInfo: any;
   providerSymbol = '';
   rpcUrl = '';
   network = '';
   public requests: any[] = [];
-  connected = false;
+  public connected = false;
   public address: string;
   public activeChainId = 1;
   public walletId: string;
@@ -64,10 +68,8 @@ export class WalletConnectService {
     this.transactionTypes = transactionType;
   }
 
-  async onInit() {}
-
   public setUri(uri) {
-    this.uri = uri;
+    this.uri.next(uri);
   }
 
   public async checkConnection() {
@@ -75,8 +77,8 @@ export class WalletConnectService {
       const isConnected = await this.ping();
       if (isConnected) return;
     }
-    
-    await this.appStorageService.remove('walletconnect');
+
+    await this.appStorageService.forceRemove('walletconnect');
   }
 
   public async ping() {
@@ -86,10 +88,54 @@ export class WalletConnectService {
           chainId: this.activeChainId,
           accounts: [this.address],
         });
+        resolve(true);
       } catch (error) {
         resolve(error);
       }
     });
+  }
+
+  public async checkDeeplinkUrl() {
+    if (!this.uri.value) return;
+
+    if (this.isValidURL(this.uri.value)) {
+      await this.navController.navigateForward(['wallets/wallet-connect/new-connection']);
+    }
+  }
+
+  isValidURL(url: string): boolean {
+    return url.includes('wc:') && url.includes('bridge=');
+  }
+
+  public async retrieveWalletConnect() {
+    const walletConnectSession = await this.appStorageService.get('walletConnectSession');
+
+    if (walletConnectSession) {
+      const { session, wallet, chainId } = walletConnectSession;
+      this.walletConnector = new WalletConnect({ session });
+      const { connected, peerMeta } = this.walletConnector;
+      
+      if (peerMeta) {
+        const provider = supportedProviders.filter(prov => prov.chain_id === chainId)[0];
+        const walletData =  {
+          address: wallet,
+          network: provider.chain,
+          chainId: provider.chain_id,
+          symbol: provider.native_currency.symbol,
+          rpc: provider.rpc_url,
+        };
+
+        this.setAccountInfo(walletData);
+
+        this.peerMeta = peerMeta;
+        this.connected = connected;
+
+        return await this.subscribeToEvents();
+      }
+
+      this.walletConnector = null;
+      await this.appStorageService.remove('walletConnectSession');
+    }
   }
 
   public async initWalletConnect(uri): Promise<void> {
@@ -126,6 +172,16 @@ export class WalletConnectService {
     });
   }
 
+  public async setWalletConnectSession() {
+    const walletConnectSession = {
+      session: this.walletConnector.session,
+      wallet: this.address,
+      chainId: this.activeChainId
+    }
+
+    await this.appStorageService.set('walletConnectSession', walletConnectSession);
+  }
+
   public async setAccountInfo(wallet) {
     if (wallet) {
       this.address = wallet.address;
@@ -142,11 +198,6 @@ export class WalletConnectService {
         chainId: this.activeChainId,
         accounts: [this.address],
       });
-
-      window.addEventListener('beforeunload', async () => {
-        await this.killSession();
-      });
-
     } else {
       throw new Error();
     }
@@ -175,13 +226,14 @@ export class WalletConnectService {
 
       this.requestInfo = payload;
 
-      this.navController.navigateForward(['wallets/wallet-connect/operation-detail']);
+      await this.navController.navigateForward(['wallets/wallet-connect/operation-detail']);
     });
 
     this.walletConnector.on('connect', async (error, payload) => {
       if (error) {
         throw error;
       }
+      await this.setWalletConnectSession();
 
       this.connected = true;
     });
@@ -199,7 +251,7 @@ export class WalletConnectService {
     const url = this.router.url.split('/').pop();
     
     if (url === 'connection-detail') {
-      this.navController.navigateBack(['wallets/wallet-connect/new-connection']);
+      await this.navController.navigateBack(['wallets/wallet-connect/new-connection']);
     }
     
     const dapp = this.peerMeta.name
@@ -223,6 +275,7 @@ export class WalletConnectService {
 
       this.peerMeta = null;
       this.connected = false;
+      this.setUri(null);
       
       if (this.walletConnector.session.connected) {
         await this.walletConnector.killSession();
@@ -230,6 +283,7 @@ export class WalletConnectService {
 
       this.walletConnector = null;
     }
+    await this.appStorageService.remove('walletConnectSession');
   }
 
   public async approveRequest(id, result): Promise<void> {
@@ -281,8 +335,9 @@ export class WalletConnectService {
   public async getTokenSymbol(token) {
     const provider = new ethers.providers.JsonRpcProvider(this.rpcUrl);
     const contract = new ethers.Contract(token, erc20Abi, provider);
+    const symbol = await contract.symbol();
 
-    return await contract.symbol();
+    return symbol;
   }
 
   public async getPairTokens(routerAddress, token0, token1 = null) {

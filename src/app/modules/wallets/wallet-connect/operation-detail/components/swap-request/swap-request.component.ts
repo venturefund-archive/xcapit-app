@@ -41,7 +41,7 @@ import { ethers } from 'ethers';
 
         <div class="src__container__content">
           <ion-label *ngIf="!this.loading">
-            {{ this.amountIn }} {{this.symbols[0]}}
+            {{ this.amountIn | formattedAmount}} {{this.symbols[0]}}
           </ion-label>
           <ion-label *ngIf="amountInMax && !this.loading" class="src__container__content__info">
             ({{ 'wallets.wallet_connect.operation_detail.types.swap.amount_to_send_max' | translate }})
@@ -60,7 +60,7 @@ import { ethers } from 'ethers';
 
         <div class="src__container__content">
           <ion-label *ngIf="!this.loading">
-            {{ this.amountOut }} {{this.symbols[1]}}
+            {{ this.amountOut | formattedAmount }} {{this.symbols[1]}}
           </ion-label>
           <ion-label *ngIf="amountOutMin  && !this.loading" class="src__container__content__info">
             ({{ 'wallets.wallet_connect.operation_detail.types.swap.amount_to_receive_min' | translate }})
@@ -118,14 +118,14 @@ export class SwapRequestComponent implements OnInit {
     if (this.decodedData.hasValue) {
       const outValue = this.decodedData.data.filter((data) => data.name === this.decodedData.out)[0];
       
-      this.amountOut = ethers.utils.formatEther(ethers.BigNumber.from(outValue.value));
-      this.amountIn = ethers.utils.formatEther(ethers.BigNumber.from(this.request.params[0].value));
+      this.amountOut = parseFloat(ethers.utils.formatEther(ethers.BigNumber.from(outValue.value)));
+      this.amountIn = parseFloat(ethers.utils.formatEther(ethers.BigNumber.from(this.request.params[0].value)));
     } else {
       const inValue = this.decodedData.data.filter((data) => data.name === this.decodedData.in)[0];
       const outValue = this.decodedData.data.filter((data) => data.name === this.decodedData.out)[0];
 
-      this.amountOut = ethers.utils.formatEther(ethers.BigNumber.from(outValue.value));
-      this.amountIn = ethers.utils.formatEther(ethers.BigNumber.from(inValue.value));
+      this.amountOut = parseFloat(ethers.utils.formatEther(ethers.BigNumber.from(outValue.value)));
+      this.amountIn = parseFloat(ethers.utils.formatEther(ethers.BigNumber.from(inValue.value)));
     }
   }
 

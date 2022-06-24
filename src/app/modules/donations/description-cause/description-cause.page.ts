@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { CAUSES } from '../shared-donations/constants/causes';
 
 @Component({
@@ -23,7 +24,7 @@ import { CAUSES } from '../shared-donations/constants/causes';
         <ion-button
           class="ux_button"
           appTrackClick
-          name="go_to_donate"
+          name="ux_donations_donate"
           color="secondary"
           expand="block"
           (click)="this.goToDonate()"
@@ -37,14 +38,28 @@ import { CAUSES } from '../shared-donations/constants/causes';
 export class DescriptionCausePage implements OnInit {
   cause: string;
   data;
-  constructor(private route: ActivatedRoute, private navController: NavController) {}
+  constructor(
+    private route: ActivatedRoute,
+    private navController: NavController,
+    private walletService: WalletService
+  ) {}
 
   ngOnInit() {
     this.cause = this.route.snapshot.queryParamMap.get('cause');
     this.data = CAUSES.find((cause) => cause.id === this.cause);
   }
 
-  goToDonate() {
-    this.navController.navigateForward(['']);
+  async goToDonate() {
+    const walletExist = await this.walletService.walletExist();
+    if (walletExist) {
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          cause: this.cause,
+        },
+      };
+      this.navController.navigateForward(['/donations/send-donation'], navigationExtras);
+    } else {
+      this.navController.navigateForward(['/donations/no-wallet']);
+    }
   }
 }

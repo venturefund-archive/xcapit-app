@@ -115,8 +115,10 @@ export class NewObjetivePage implements OnInit {
     private translate: TranslateService
   ) {}
 
-  ngOnInit() {
-    this.showData();
+  ngOnInit() {}
+
+  async ionViewWillEnter() {
+    await this.showData();
     this.form.get('income').valueChanges.subscribe(() => {
       this.disabled = false;
     });

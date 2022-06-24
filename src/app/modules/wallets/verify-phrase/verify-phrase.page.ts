@@ -1,161 +1,204 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonSlides, NavController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { Mnemonic } from '@ethersproject/hdnode';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
-import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recovery-phrase-card/recovery-phrase-card.component';
+import { SwiperOptions } from 'swiper';
+import { SwiperComponent } from 'swiper/angular';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletBackupService } from '../shared-wallets/wallet-backup/wallet-backup.service';
 @Component({
   selector: 'app-verify-phrase',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/create-first/recovery-phrase"></ion-back-button>
+          <ion-back-button defaultHref="/wallets/recovery/read"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'wallets.verify_phrase.header' | translate }}</ion-title>
+        <ion-title>{{ 'wallets.verify_phrase.header' | translate }}</ion-title>
+        <ion-label class="step-counter" slot="end">2 {{ 'shared.step_counter.of' | translate }} 2</ion-label>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
       <div class="ux_main">
         <div class="ux_content">
           <div class="title">
-            <ion-text class="ux-font-text-xl">{{ 'wallets.verify_phrase.title' | translate }}</ion-text>
+            <ion-text class="ux-font-text-lg">{{ 'wallets.verify_phrase.title' | translate }}</ion-text>
           </div>
-          <ion-slides [options]="options">
-            <ion-slide class="slide" *ngFor="let word of this.phrase; let i = index">
-              <ion-card>
-                <div class="div-input">
-                  <div class="hidden-input" *ngIf="!this.verificationPhrase[i]"></div>
+          <div class="description">
+            <ion-text>
+              {{ 'wallets.verify_phrase.description' | translate }}
+            </ion-text>
+          </div>
+          <swiper class="verify-phrase-page-swiper" *ngIf="this.wordsToVerify.length > 0" #swiper [config]="config">
+            <ng-template class="template" swiperSlide *ngFor="let word of this.wordsToVerify; let i = index">
+              <ion-card class="input-phrase__card">
+                <div class="input-phrase__card__input">
+                  <div class="input-phrase__card__input__hidden" *ngIf="!word.value"></div>
                   <ion-button
                     class="input-word ux-font-text-xxs"
                     [id]="i"
-                    [ngClass]="{ active: this.verificationPhrase[i] }"
+                    [ngClass]="{ active: word.value}"
                     size="small"
+                    name="Remove Word"
                     fill="clear"
-                    *ngIf="this.verificationPhrase[i]"
+                    *ngIf="word.value"
                     (click)="this.deleteWord(i)"
-                    >{{ this.verificationPhrase[i] }}
-                    <ion-icon name="close" slot="end"></ion-icon>
+                    >{{ word.value }}
+                    <ion-icon name="ux-error-circle-outline" slot="end"></ion-icon>
                   </ion-button>
                 </div>
-                <ion-label class="label-card">{{ i + 1 + '/' + this.countWords }}</ion-label>
+                <ion-label class="input-phrase__card__label"
+                  >{{ 'wallets.verify_phrase.word_counter' | translate }}{{ word.order }}</ion-label
+                >
               </ion-card>
-            </ion-slide>
-          </ion-slides>
-          <div class="text1">
-            <ion-text class="text1 ux-font-text-base">{{ 'wallets.verify_phrase.text1' | translate }}</ion-text>
-          </div>
-          <div *ngIf="this.phrase">
+              <div class="dot"></div>
+            </ng-template>
+          </swiper>
+          <div class="recovery-phrase-wrapper" *ngIf="this.phrase">
             <app-recovery-phrase-card
+              [centered]="true"
               [phrase]="this.phrase"
               [ordered]="true"
-              [clickable]="true"
+              [clickable]="!this.allWordsSelected"
               [showOrder]="false"
+              [showBackupMessage]="false"
               (useButtonClicked)="this.addWord($event)"
             ></app-recovery-phrase-card>
           </div>
         </div>
         <div class="ux_footer">
-          <div class="create_button">
-            <ion-button
-              color="secondary"
-              class="ux_button"
-              appTrackClick
-              name="ux_create_verify_wallet"
-              (click)="this.createWallet()"
-              [appLoading]="this.loading"
-              [loadingText]="'wallets.verify_phrase.verifying' | translate"
-              [disabled]="!this.activated"
-            >
-              {{ 'wallets.verify_phrase.btn_create' | translate }}
-            </ion-button>
-          </div>
+          <ion-button
+            color="secondary"
+            class="ux_button"
+            appTrackClick
+            name="ux_protect_finalize"
+            (click)="this.verifyWallet()"
+            [appLoading]="this.loading"
+            [loadingText]="'wallets.verify_phrase.verifying' | translate"
+            [disabled]="!this.allWordsSelected"
+          >
+            {{ 'wallets.verify_phrase.btn_create' | translate }}
+          </ion-button>
         </div>
       </div>
     </ion-content>
   `,
   styleUrls: ['./verify-phrase.page.scss'],
 })
-export class VerifyPhrasePage {
-  @ViewChild(IonSlides) slides: IonSlides;
+export class VerifyPhrasePage implements OnInit {
   @ViewChild(RecoveryPhraseCardComponent) recoveryPhraseComponent: RecoveryPhraseCardComponent;
-  options = {
-    slidesPerView: 2,
-    spaceBetween: -30,
-  };
-  activated = false;
+  @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
+  allWordsSelected = false;
   ordered = true;
   verificationPhrase: string[] = [];
   phrase: string[];
-  countWords: number;
   mnemonic: Mnemonic;
-  slide = 0;
   loading = false;
+  wordsToVerify = [];
+  public config: SwiperOptions = {
+    allowSlideNext: false,
+    allowSlidePrev: false,
+    navigation: false,
+    slidesPerView: 2,
+    centeredSlides: true,
+  };
 
   constructor(
     private navController: NavController,
     private walletMnemonicService: WalletMnemonicService,
-    private walletService: WalletService
+    private ionicStorageService: IonicStorageService,
+    private walletBackupService: WalletBackupService
   ) {}
 
+  ngOnInit() {}
+
   ionViewWillEnter() {
-    this.mnemonic = this.walletMnemonicService.mnemonic;
+    this.mnemonic = this.walletMnemonicService.getMnemonic();
     this.phrase = this.mnemonic.phrase.split(' ');
-    this.countWords = this.phrase.length;
-    this.blockNextSlide(true);
-    this.blockPrevSlide(true);
+    this.selectWordsToVerify();
+  }
+
+  selectWordsToVerify() {
+    let i = 1;
+    while (i <= 3) {
+      const wordOrder = Math.floor(Math.random() * 12) + 1;
+      if (!this.wordsToVerify.some((word) => word.order === wordOrder)) {
+        this.addWordToVerify(wordOrder);
+        i++;
+      }
+    }
+    this.orderWordsToVerify();
+  }
+
+  addWordToVerify(wordOrder: number) {
+    this.wordsToVerify.push({
+      order: wordOrder,
+      value: null,
+    });
+  }
+
+  orderWordsToVerify() {
+    this.wordsToVerify.sort((a, b) => (a.order > b.order ? 1 : b.order > a.order ? -1 : 0));
   }
 
   swipeNext() {
-    if (this.slide > 1) {
-      this.blockNextSlide(false);
-      this.slides.slideNext();
-      this.blockNextSlide(true);
-      this.blockPrevSlide(true);
-    }
+    this.swiper.swiperRef.allowSlideNext = true;
+    this.swiper.swiperRef.slideNext();
+    this.swiper.swiperRef.allowSlideNext = false;
   }
 
-  blockNextSlide(state: boolean) {
-    return this.slides.lockSwipeToNext(state);
+  swipePrev() {
+    this.swiper.swiperRef.allowSlidePrev = true;
+    this.swiper.swiperRef.slidePrev();
+    this.swiper.swiperRef.allowSlidePrev = false;
   }
 
-  blockPrevSlide(state: boolean) {
-    return this.slides.lockSwipeToPrev(state);
+  updateWordToDoVerify(word = null) {
+    this.wordsToVerify.map((w, index) => {
+      if (index === this.verificationPhrase.length) {
+        w.value = word;
+      }
+    });
   }
 
   addWord(word: string) {
+    this.updateWordToDoVerify(word);
     this.verificationPhrase.push(word);
-    this.slide++;
     this.swipeNext();
-    this.activated = this.verificationPhrase.length === this.countWords;
+    this.allWordsSelected = this.checkAllWordsSelected();
   }
 
   validPhrase(): boolean {
-    return JSON.stringify(this.verificationPhrase) === JSON.stringify(this.phrase);
+    return this.wordsToVerify.every((w) => this.phrase[w.order - 1] === w.value);
   }
 
   async deleteWord(index: number) {
     const word = this.verificationPhrase[index];
     const activeIndex = this.getActiveIndex();
-
     if (activeIndex - 1 === index && word) {
       this.verificationPhrase.pop();
-      this.blockPrevSlide(false);
-      this.slides.slidePrev();
-      this.blockPrevSlide(true);
+      this.updateWordToDoVerify();
+      if (this.verificationPhrase.length !== this.wordsToVerify.length - 1) {
+        this.swipePrev();
+      }
       this.recoveryPhraseComponent.enable(word);
-      this.slide--;
-      this.activated = this.verificationPhrase.length === this.countWords;
+      this.allWordsSelected = this.checkAllWordsSelected();
     }
   }
 
-  createWallet() {
+  checkAllWordsSelected(){
+    return this.verificationPhrase.length === 3
+  }
+
+  verifyWallet() {
     this.loading = true;
     if (this.validPhrase()) {
       this.loading = true;
-      this.walletService
-        .create()
-        .then(() => this.navController.navigateForward(['/wallets/create-password/create']))
+      this.ionicStorageService
+        .set('protectedWallet', true)
+        .then(() => this.walletBackupService.disableModal())
+        .then(() => this.navController.navigateForward(['/tabs/wallets']))
         .finally(() => (this.loading = false));
     } else {
       this.navController.navigateForward(['/wallets/failed-mnemonic']);
@@ -164,5 +207,13 @@ export class VerifyPhrasePage {
 
   getActiveIndex() {
     return this.verificationPhrase.length;
+  }
+
+  clearMnemonic() {
+    this.walletMnemonicService.clearMnemonic();
+  }
+
+  ionViewWillLeave(){
+    this.clearMnemonic();
   }
 }

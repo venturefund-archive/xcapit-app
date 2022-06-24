@@ -83,18 +83,6 @@ export const NONPROD_COINS: Coin[] = [
     symbol: 'UNIUSDT',
   },
   {
-    id: 6,
-    name: 'LUNA',
-    logoRoute: 'assets/img/coins/LUNA.png',
-    last: false,
-    value: 'LUNA',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: environment.ethAlchemyApiUrl,
-    decimals: 18,
-    symbol: 'LUNAUSDT',
-  },
-  {
     id: 7,
     name: 'AXS - Axie Infinity Shard',
     logoRoute: 'assets/img/coins/AXS.png',
@@ -236,7 +224,7 @@ export const NONPROD_COINS: Coin[] = [
     decimals: 18,
     native: true,
     symbol: 'BNBUSDT',
-    contract: '0xtzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'
+    contract: '0xtzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz',
   },
   {
     id: 19,
@@ -343,7 +331,7 @@ export const NONPROD_COINS: Coin[] = [
     rpc: environment.maticApiUrl,
     decimals: 18,
     abi: daiAbi,
-    symbol: 'DAIUSDT',
+    symbol: 'USDTDAI',
   },
   {
     id: 27,

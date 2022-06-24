@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AuthService } from './modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { AuthService } from './modules/users/shared-users/services/auth/auth.service';
 import { TrackService } from './shared/services/track/track.service';
 import { UpdateService } from './shared/services/update/update.service';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
@@ -15,6 +15,8 @@ import { of } from 'rxjs';
 import { UpdateNewsService } from './shared/services/update-news/update-news.service';
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
 import { FirebaseService } from './shared/services/firebase/firebase.service';
+import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { WalletBackupService } from './modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -34,11 +36,14 @@ describe('AppComponent', () => {
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let firebaseServiceSpy: jasmine.SpyObj<FirebaseService>;
+  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
+  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true });
+      platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
       submitButtonServiceSpy = jasmine.createSpyObj('SubmitButtonService', ['enabled', 'disabled']);
       trackServiceSpy = jasmine.createSpyObj('FirebaseLogsService', ['trackView', 'startTracker']);
       updateServiceSpy = jasmine.createSpyObj('UpdateService', ['checkForUpdate']);
@@ -51,6 +56,17 @@ describe('AppComponent', () => {
       updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
       remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', { initialize: Promise.resolve() });
       firebaseServiceSpy = jasmine.createSpyObj('FirebaseService', { init: null, getApp: {} });
+
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
+        retrieveWalletConnect: Promise.resolve(null),
+        setUri: null,
+        checkDeeplinkUrl: null,
+        checkConnection: Promise.resolve()
+      });
+
+      walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
+        getBackupWarningWallet: Promise.resolve(),
+      });
 
       TestBed.configureTestingModule({
         declarations: [AppComponent],
@@ -69,6 +85,8 @@ describe('AppComponent', () => {
           { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
           { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
           { provide: FirebaseService, useValue: firebaseServiceSpy },
+          { provide: WalletConnectService, useValue: walletConnectServiceSpy},
+          { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         ],
         imports: [TranslateModule.forRoot()],
       }).compileComponents();
@@ -95,6 +113,7 @@ describe('AppComponent', () => {
     expect(remoteConfigServiceSpy.initialize).toHaveBeenCalledTimes(1);
     expect(firebaseServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(statusBarSpy.setBackgroundColor).not.toHaveBeenCalled();
+    expect(walletBackupServiceSpy.getBackupWarningWallet).toHaveBeenCalledTimes(1);
     // expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
   });
 

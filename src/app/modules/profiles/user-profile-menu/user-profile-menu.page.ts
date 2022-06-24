@@ -1,14 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from 'src/app/modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { AuthService } from 'src/app/modules/users/shared-users/services/auth/auth.service';
 import { UxSelectModalComponent } from 'src/app/shared/components/ux-select-modal/ux-select-modal.component';
 import { LanguageService } from 'src/app/shared/services/language/language.service';
 import { ITEM_MENU } from '../shared-profiles/constants/item-menu';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
-import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interface';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
 import { LogOutModalComponent } from '../shared-profiles/components/log-out-modal/log-out-modal.component';
@@ -32,10 +30,7 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
         <app-referral-promotion-card></app-referral-promotion-card>
       </div>
       <div class="card-item" *ngIf="this.itemMenu">
-        <app-card-category-menu
-          *ngFor="let category of this.itemMenu"
-          [category]="category"
-        ></app-card-category-menu>
+        <app-card-category-menu *ngFor="let category of this.itemMenu" [category]="category"></app-card-category-menu>
       </div>
       <div>
         <div class="ux-card">
@@ -45,17 +40,6 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
               'profiles.user_profile_menu.category_preferences' | translate
             }}</ion-text>
           </div>
-          <form class="toggle" *ngIf="this.profile" [formGroup]="this.form">
-            <ion-text color="neutral90" class="ux-font-text-xs">{{
-              'profiles.user_profile_menu.push_notifications' | translate
-            }}</ion-text>
-            <ion-toggle
-              color="info"
-              class="ux-toggle"
-              name="Push Notifications"
-              formControlName="notificationsEnabled"
-            ></ion-toggle>
-          </form>
           <div>
             <ion-button
               [disabled]="this.disable"
@@ -84,14 +68,10 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
   `,
   styleUrls: ['./user-profile-menu.page.scss'],
 })
-export class UserProfileMenuPage implements OnInit {
+export class UserProfileMenuPage {
   profile: any;
-  status: any;
   disable = false;
   itemMenu: MenuCategory[] = ITEM_MENU;
-  form: FormGroup = this.formBuilder.group({
-    notificationsEnabled: [false, []],
-  });
 
   constructor(
     private apiProfiles: ApiProfilesService,
@@ -100,33 +80,23 @@ export class UserProfileMenuPage implements OnInit {
     private modalController: ModalController,
     private translate: TranslateService,
     private language: LanguageService,
-    private notificationsService: NotificationsService,
-    private formBuilder: FormBuilder,
     private walletService: WalletService,
     private logOutModalService: LogOutModalService
   ) {}
-
-  ngOnInit() {}
 
   ionViewWillEnter() {
     this.getProfile();
     this.existWallet();
   }
 
-  private subscribeToFormChanges() {
-    this.form.controls.notificationsEnabled.valueChanges.subscribe(() => this.togglePushNotifications());
-  }
-
   private getProfile() {
     this.apiProfiles.crud.get().subscribe((res) => {
       this.profile = res;
-      this.patchNotificationsValue();
-      this.subscribeToFormChanges();
     });
   }
 
   async logout() {
-    if (await this.walletService.walletExist() && await this.logOutModalService.isShowModalTo(this.profile.email)) {
+    if ((await this.walletService.walletExist()) && (await this.logOutModalService.isShowModalTo(this.profile.email))) {
       await this.showLogOutModal();
     } else {
       await this.authService.logout();
@@ -138,7 +108,7 @@ export class UserProfileMenuPage implements OnInit {
     const modal = await this.modalController.create({
       component: LogOutModalComponent,
       componentProps: {
-        username: this.profile.email
+        username: this.profile.email,
       },
       cssClass: 'log-out-modal',
     });
@@ -155,7 +125,7 @@ export class UserProfileMenuPage implements OnInit {
         data: this.language.getLanguages(),
         keyName: 'text',
         valueName: 'value',
-        selected: this.language.selected,
+        selected: await this.language.getSelectedLanguage(),
       },
       cssClass: 'ux_modal_crm',
     });
@@ -166,16 +136,6 @@ export class UserProfileMenuPage implements OnInit {
       this.language.setLanguage(data.data);
     }
     this.disable = false;
-  }
-
-  private patchNotificationsValue() {
-    this.form.patchValue({ notificationsEnabled: this.profile.notifications_enabled });
-  }
-
-  togglePushNotifications() {
-    this.notificationsService.toggle(!this.profile.notifications_enabled).subscribe(() => {
-      this.profile.notifications_enabled = !this.profile.notifications_enabled;
-    });
   }
 
   existWallet() {

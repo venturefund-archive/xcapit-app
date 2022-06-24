@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 export interface OperationDataInterface {
-  country: string;
+  country?: string;
   type: string;
-  pair: string;
   amount_in: string;
   amount_out: string;
   currency_in: string;
@@ -14,6 +13,8 @@ export interface OperationDataInterface {
   wallet: string;
   provider: string;
   network: string;
+  voucher?: boolean;
+  operation_id?: number;
 }
 
 @Injectable({
@@ -24,7 +25,6 @@ export class StorageOperationService {
   initial = {
     country: '',
     type: '',
-    pair: '',
     amount_in: '',
     amount_out: '',
     currency_in: '',

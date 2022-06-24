@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormattedNetworkPipe } from '../../../../../shared/pipes/formatted-network-name/formatted-network.pipe';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 const summaryData: SummaryData = {
   network: 'ERC20',
@@ -49,7 +50,7 @@ describe('TransactionSummaryCardComponent', () => {
       getNativeTokenFromNetwork: nativeToken,
     });
     TestBed.configureTestingModule({
-      declarations: [TransactionSummaryCardComponent, FormattedNetworkPipe],
+      declarations: [TransactionSummaryCardComponent, FormattedNetworkPipe, FormattedAmountPipe ],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [{ provide: ApiWalletService, useValue: apiWalletServiceSpy }],
     }).compileComponents();

@@ -1,0 +1,25 @@
+:host {
+  .rc {
+    &__card {
+      margin: 16px;
+      border-radius: 8px;
+      border: 0.5px solid;
+      border-color: var(--ion-color-neutral50);
+
+      &__content {
+        padding: 16px 24px 16px 16px;
+        display: inline-flex;
+
+        &__text {
+          margin-right: 9px;
+          margin-left: 16px;
+          display: block;
+
+          ion-text:last-child {
+            color: var(--ion-color-neutral80);
+          }
+        }
+      }
+    }
+  }
+}

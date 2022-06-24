@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { FormattedNetworkPipe } from '../../../../../shared/pipes/formatted-network-name/formatted-network.pipe';
 import { TokenDetail } from '../../models/token-detail/token-detail';
 import { Coin } from '../../interfaces/coin.interface';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 describe('WalletBalanceCardItemComponent', () => {
   let component: WalletBalanceCardItemComponent;
@@ -22,7 +23,7 @@ describe('WalletBalanceCardItemComponent', () => {
       coinSpy = jasmine.createSpyObj(
         'Coin',
         {},
-        { value: 'MATIC', logoRoute: 'assets/img/coins/MATIC.svg', network: 'MATIC' }
+        { value: 'MATIC', logoRoute: 'assets/img/coins/MATIC.png', network: 'MATIC' }
       );
       tokenDetailSpy = jasmine.createSpyObj(
         'TokenDetail',
@@ -35,7 +36,7 @@ describe('WalletBalanceCardItemComponent', () => {
         }
       );
       TestBed.configureTestingModule({
-        declarations: [WalletBalanceCardItemComponent, FormattedNetworkPipe],
+        declarations: [WalletBalanceCardItemComponent, FormattedNetworkPipe, FormattedAmountPipe],
         imports: [IonicModule],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
       }).compileComponents();
@@ -60,10 +61,10 @@ describe('WalletBalanceCardItemComponent', () => {
     const imgEl = fixture.debugElement.query(By.css('img.wbci__img'));
     const labelList = fixture.debugElement.queryAll(By.css('ion-label'));
 
-    expect(imgEl.attributes.src).toContain('assets/img/coins/MATIC.svg');
+    expect(imgEl.attributes.src).toContain('assets/img/coins/MATIC.png');
     expect(labelList[0].nativeElement.innerHTML).toContain('MATIC');
-    expect(labelList[1].nativeElement.innerHTML).toContain('1.00 MATIC');
-    expect(labelList[3].nativeElement.innerHTML).toContain('20.00 USD');
+    expect(labelList[1].nativeElement.innerHTML).toContain('1 MATIC');
+    expect(labelList[3].nativeElement.innerHTML).toContain('20 USD');
     expect(fixture.debugElement.query(By.css('ion-badge')).nativeElement.innerHTML).toContain('POLYGON');
   });
 });

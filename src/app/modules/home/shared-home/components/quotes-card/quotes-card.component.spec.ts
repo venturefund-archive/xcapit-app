@@ -19,36 +19,43 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
 const totalQuotes: Quotes[] = [
   {
     symbol: 'BTCUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'ETHUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'MATICUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'BNBUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'AAVEUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'UNIUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'SOVUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
@@ -115,16 +122,19 @@ const coins = [
 const firstNativeQuotes = [
   {
     symbol: 'BTCUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'ETHUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'MATICUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
@@ -133,6 +143,7 @@ const firstNativeQuotes = [
 const remainingNativeQuotes = [
   {
     symbol: 'BNBUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
@@ -142,21 +153,25 @@ const remainingNativeQuotes = [
 const userQuotes = [
   {
     symbol: 'BNBUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'AAVEUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'UNIUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'SOVUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
@@ -165,16 +180,19 @@ const userQuotes = [
 const firstUserQuotes = [
   {
     symbol: 'BNBUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'AAVEUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
   {
     symbol: 'UNIUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
@@ -183,6 +201,7 @@ const firstUserQuotes = [
 const remainingUserQuotes = [
   {
     symbol: 'SOVUSDT',
+    openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },

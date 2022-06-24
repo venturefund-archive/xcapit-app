@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers';
 import { FormattedFee } from './formatted-fee.model';
-import { GasFeeOf } from '../gas-fee-of/gas-fee-of.model';
+import { GasFeeOf } from '../../../../../shared/models/gas-fee-of/gas-fee-of.model';
 
 describe('FormattedFee', () => {
   let feeSpy: jasmine.SpyObj<GasFeeOf>;

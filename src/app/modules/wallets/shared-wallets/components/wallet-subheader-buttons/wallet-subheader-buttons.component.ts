@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
+import { WalletBackupService } from '../../wallet-backup/wallet-backup.service';
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -56,42 +57,54 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
   @Input() network: string;
 
-  constructor(private navController: NavController) {}
+  constructor(
+    private navController: NavController,
+    private walletBackupService: WalletBackupService
+  ) {}
 
   ngOnInit() {}
 
-  goToSend() {
-    if (!this.asset) {
-      return this.navController.navigateForward(['wallets/send/select-currency']);
+  async goToSend() {
+    if ((await this.walletBackupService.presentModal()) === 'skip') {
+      if (!this.asset) {
+        return this.navController.navigateForward(['wallets/send/select-currency']);
+      }
+
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          asset: this.asset,
+          network: this.network,
+        },
+      };
+
+      return this.navController.navigateForward(['wallets/send/detail'], navigationExtras);
     }
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        asset: this.asset,
-        network: this.network,
-      },
-    };
-    return this.navController.navigateForward(['wallets/send/detail'], navigationExtras);
   }
 
-  goToReceive() {
-    if (!this.asset) {
-      return this.navController.navigateForward(['wallets/receive/select-currency']);
+  async goToReceive() {
+    if ((await this.walletBackupService.presentModal()) === 'skip') {
+      if (!this.asset) {
+        return this.navController.navigateForward(['wallets/receive/select-currency']);
+      }
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          asset: this.asset,
+          network: this.network,
+        },
+      };
+      return this.navController.navigateForward(['wallets/receive/detail'], navigationExtras);
     }
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        asset: this.asset,
-        network: this.network,
-      },
-    };
-
-    return this.navController.navigateForward(['wallets/receive/detail'], navigationExtras);
   }
 
-  goToBuy() {
-    this.navController.navigateForward(['fiat-ramps/select-provider']);
+  async goToBuy() {
+    if ((await this.walletBackupService.presentModal()) === 'skip') {
+      this.navController.navigateForward(['fiat-ramps/select-provider']);
+    }
   }
 
-  goToSwap(){
-    this.navController.navigateForward(['']);
+  async goToSwap() {
+    if ((await this.walletBackupService.presentModal()) === 'skip') {
+      this.navController.navigateForward(['']);
+    }
   }
 }

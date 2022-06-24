@@ -4,6 +4,7 @@ import { AppStorageService } from './app-storage.service';
 describe('AppStorageService', () => {
   let service: AppStorageService;
   let storageSpy: any;
+  let windowStorageSpy: any;
 
   beforeEach(() => {
     storageSpy = jasmine.createSpyObj('Storage', {
@@ -11,11 +12,17 @@ describe('AppStorageService', () => {
       get: Promise.resolve({ value: 'test' }),
       remove: Promise.resolve(),
     });
+
+    windowStorageSpy = jasmine.createSpyObj('window.localStorage', {
+      removeItem: (): void => {}
+    });
+
     TestBed.configureTestingModule({
       providers: [],
     });
     service = TestBed.inject(AppStorageService);
     service.storage = storageSpy;
+    service.windowStorage = windowStorageSpy;
   });
 
   it('should be created', () => {
@@ -49,4 +56,9 @@ describe('AppStorageService', () => {
     await service.remove('oneKey');
     expect(storageSpy.remove).toHaveBeenCalledTimes(1);
   });
+
+  it('should force remove a value from storage', async () => {
+    await service.forceRemove('oneKey');
+    expect(windowStorageSpy.removeItem).toHaveBeenCalledTimes(1);
+  })
 });

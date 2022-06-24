@@ -1,24 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
+import { WalletConnectService, IPeerMeta } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { environment } from 'src/environments/environment';
 import { supportedProviders } from '../../shared-wallets/constants/supported-providers';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PlatformService } from '../../../../shared/services/platform/platform.service';
 import { NavController } from '@ionic/angular';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { ScanQrModalComponent } from '../../../../shared/components/scan-qr-modal/scan-qr-modal.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingService } from '../../../../shared/services/loading/loading.service';
 import { ToastService } from '../../../../shared/services/toast/toast.service';
-
-export interface PeerMeta {
-  description: string;
-  url: string;
-  icons: string[];
-  name: string;
-  ssl?: boolean;
-}
 
 @Component({
   selector: 'app-new-connection',
@@ -26,7 +18,7 @@ export interface PeerMeta {
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/home" (click)="this.cleanForm()"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">
           {{ 'wallets.wallet_connect.header' | translate }}
@@ -58,7 +50,11 @@ export interface PeerMeta {
               <div class="wcnc__radio_group">
                 <ion-radio-group formControlName="wallet">
                   <div *ngFor="let wallet of walletsList" class="container">
-                    <ion-item class="ux-font-input-label">
+                    <ion-item 
+                      class="ux-font-input-label"
+                      appTrackClick
+                      [dataToTrack]="{eventLabel: wallet.dataToTrack}"
+                    >
                       <ion-label>{{ wallet.name }}</ion-label>
                       <ion-radio
                         mode="md"
@@ -96,7 +92,7 @@ export interface PeerMeta {
             <ion-button
               class="ion-padding-start ion-padding-end ux_button"
               appTrackClick
-              name="Next"
+              name="ux_wc_next"
               type="submit"
               color="secondary"
               size="large"
@@ -129,7 +125,7 @@ export interface PeerMeta {
   styleUrls: ['./new-connection.page.scss'],
 })
 export class NewConnectionPage implements OnInit {
-  public peerMeta: PeerMeta;
+  public peerMeta: IPeerMeta;
   public connected = false;
   public selectedWallet = {};
   public address: string;
@@ -154,10 +150,12 @@ export class NewConnectionPage implements OnInit {
     private alertController: AlertController,
     private translate: TranslateService,
     private loadingService: LoadingService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private platform: Platform
   ) {}
 
   ionViewWillEnter() {
+    this.platform.backButton.subscribe(() => this.cleanForm());
     this.isConnected();
   }
 
@@ -170,28 +168,40 @@ export class NewConnectionPage implements OnInit {
       this.providers = supportedProviders;
       this.setWalletsInfo();
       this.isNative = this.platformService.isNative();
-      this.form.controls.uri.setValue(this.walletConnectService.uri);
+      this.uriSubscription();
     }
+  }
+
+  private uriSubscription() {
+    this.walletConnectService.uri.subscribe((res) => {
+      this.form.patchValue({ uri: this.walletConnectService.uri.value });
+    })
   }
 
   public async setWalletsInfo() {
     const walletsAddrs = await this.storageService.getWalletsAddresses();
-    this.walletsList = Object.keys(walletsAddrs).map((AddrKey) => {
+    this.walletsList = Object.keys(walletsAddrs).map((addrKey) => {
       const provider = this.providers.filter(
-        (prov) => prov.network === environment.walletNetwork && prov.chain === AddrKey
+        (prov) => prov.network === environment.walletNetwork && prov.chain === addrKey
       )[0];
       return {
-        address: walletsAddrs[AddrKey],
-        network: AddrKey,
+        address: walletsAddrs[addrKey],
+        network: addrKey,
         chainId: provider.chain_id,
         name: provider.name,
         logo: provider.logo,
         symbol: provider.native_currency.symbol,
         rpc: provider.rpc_url,
+        dataToTrack: `ux_wc_${this.dataToTrack(addrKey)}`
       };
     });
   }
 
+  dataToTrack(symbol: string){
+    const translations = {RSK:'rsk', BSC_BEP20:'bsc', ERC20:'eth', MATIC:'pol'};
+    return translations[symbol];
+  }
+  
   public async openQRScanner() {
     const modal = await this.modalController.create({
       component: ScanQrModalComponent,
@@ -219,6 +229,11 @@ export class NewConnectionPage implements OnInit {
         await this.showErrorToast(this.translate.instant('wallets.wallet_connect.scan_qr.errors.permissionDenied'));
         break;
     }
+  }
+
+  cleanForm() {
+    this.walletConnectService.setUri('');
+    this.form.patchValue({ wallet: null, uri: '' });
   }
 
   isValidQR(content: string): boolean {
@@ -254,6 +269,7 @@ export class NewConnectionPage implements OnInit {
 
       if (response) {
         this.navController.navigateForward(['/wallets/wallet-connect/connection-detail']);
+        this.form.patchValue({ wallet: null, uri: '' });
       }
     } catch (error) {
       await this.killSession();

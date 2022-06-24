@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -27,6 +27,13 @@ const formData = {
     income: '',
     expenses: '',
   },
+  whiteSpaces: {
+    name: '   ',
+    category: 'travel',
+    necessaryAmount: 10,
+    income: '',
+    expenses: '',
+  } 
 };
 
 describe('ObjetiveInfoPage', () => {
@@ -35,40 +42,32 @@ describe('ObjetiveInfoPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let objetiveDataServiceSpy: jasmine.SpyObj<ObjetiveDataService>;
-  let controlContainerMock: FormGroup;
-  let formGroupDirectiveMock: FormGroupDirective;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ObjetiveInfoPage>;
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      objetiveDataServiceSpy = jasmine.createSpyObj('ObjetiveDataService', {
-        income: 500,
-        expenses: 200,
-      });
+      objetiveDataServiceSpy = jasmine.createSpyObj(
+        'ObjetiveDataService',
+        {},
+        {
+          income: 500,
+          expenses: 200,
+        }
+      );
 
       appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', {
         set: Promise.resolve(),
-        get: {name:"Miami",category:"travel",necessaryAmount:1000,income:600,expenses:300},
+        get: { name: 'Miami', category: 'travel', necessaryAmount: 1000, income: 600, expenses: 300 },
       });
 
-      controlContainerMock = new FormBuilder().group({
-        name: ['', []],
-        category: ['', []],
-        necessaryAmount: ['', []],
-        income: ['', []],
-        expenses: ['', []],
-      });
-      formGroupDirectiveMock = new FormGroupDirective([], []);
-      formGroupDirectiveMock.form = controlContainerMock;
       TestBed.configureTestingModule({
         declarations: [ObjetiveInfoPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: ObjetiveDataService, useValue: objetiveDataServiceSpy },
-          { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
           { provide: AppStorageService, useValue: appStorageServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -94,22 +93,30 @@ describe('ObjetiveInfoPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should patch data on form on ngOnInit', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(component.form.value.income).toEqual(600);
-    expect(component.form.value.expenses).toEqual(300);
-  });
-
-  it('should fill objetive data from service', async () => {
-    objetiveDataServiceSpy.income = 500;
-    objetiveDataServiceSpy.expenses = 200;
-    appStorageServiceSpy.get.and.returnValue(Promise.resolve());
-    component.ngOnInit();
+  it('should initialize form on init with previous page information', async () => {
+    appStorageServiceSpy.get.and.resolveTo();
+    await component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.form.value.income).toEqual(500);
-    expect(component.form.value.expenses).toEqual(200);
+    expect(component.form.value).toEqual({
+      income: 500,
+      expenses: 200,
+      name: '',
+      category: 'other',
+      necessaryAmount: '',
+    });
+  });
+
+  it('should initialize form on init with previous page information and storage data when a goal is set', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.form.value).toEqual({
+      income: 500,
+      expenses: 200,
+      name: 'Miami',
+      category: 'travel',
+      necessaryAmount: 1000,
+    });
   });
 
   it('should render filter tab component', async () => {
@@ -129,20 +136,27 @@ describe('ObjetiveInfoPage', () => {
 
   it('should navigate to next page and set storage when button is clicked and valid form', () => {
     component.form.patchValue(formData.valid);
-    component.ngOnInit();
     component.saving = 9;
     fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_see_strategies"]')).nativeElement.click();
     fixture.detectChanges();
     expect(appStorageServiceSpy.set).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/financial-planner/result-objetive');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/financial-planner/result-objetive']);
   });
 
-  it('should navigate to success page if the form is valid and saving is greather than necessary amount when button is clicked and valid form', () => {
+  it('should navigate to success page if saving is greather than necessary amount when button is clicked and valid form', () => {
     component.form.patchValue(formData.valid);
-    component.ngOnInit();
     component.saving = 100;
     fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_see_strategies"]')).nativeElement.click();
     fixture.detectChanges();
+    expect(appStorageServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/financial-planner/success-objetive']);
+  });
+
+  it('should not navigate to next page and not set storage when button is clicked and name is only whitespaces', () => {
+    component.form.patchValue(formData.whiteSpaces);
+    fixture.debugElement.query(By.css('ion-button[name="ux_financial_planner_see_strategies"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
+    expect(appStorageServiceSpy.set).toHaveBeenCalledTimes(0);
   });
 });

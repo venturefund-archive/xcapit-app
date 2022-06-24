@@ -8,7 +8,6 @@ import { DefiInvestmentWithdrawComponent } from './components/defi-investment-wi
 import { DefiInvestmentProductSkeletonComponent } from './components/defi-investment-product/defi-investment-product-skeleton/defi-investment-product-skeleton.component';
 import { ChooseInvestorProfileSkeletonComponent } from './components/choose-investor-profile-card/choose-investor-profile-card-skeleton/choose-investor-profile-skeleton.component';
 import { ChooseInvestorProfileCardComponent } from './components/choose-investor-profile-card/choose-investor-profile-card.component';
-import { AmountInputCardSkeletonComponent } from './components/amount-input-card/amount-input-card-skeleton/amount-input-card-skeleton.component';
 @NgModule({
   declarations: [
     ExpandableInvestmentInfoComponent,
@@ -19,7 +18,6 @@ import { AmountInputCardSkeletonComponent } from './components/amount-input-card
     ComingSoonInvestmentsComponent,
     DefiInvestmentWithdrawComponent,
     ChooseInvestorProfileCardComponent,
-    AmountInputCardSkeletonComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -32,7 +30,6 @@ import { AmountInputCardSkeletonComponent } from './components/amount-input-card
     ComingSoonInvestmentsComponent,
     DefiInvestmentWithdrawComponent,
     ChooseInvestorProfileCardComponent,
-    AmountInputCardSkeletonComponent,
   ],
 })
 export class SharedDefiInvestmentsModule {}

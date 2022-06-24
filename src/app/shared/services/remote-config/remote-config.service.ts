@@ -1,24 +1,32 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { RemoteConfiguration } from '../../interfaces/remote-configuration.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RemoteConfigService {
   private remoteConfig: RemoteConfiguration;
+  isInitialized = false;
+  initializationCompleteEvent: EventEmitter<void> = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
-  initialize(remoteConfig: RemoteConfiguration): Promise<void> {
+  async initialize(remoteConfig: RemoteConfiguration): Promise<void> {
     this.remoteConfig = remoteConfig;
-    return this.remoteConfig.initialize();
+    await this.remoteConfig.initialize();
+    this.initializationCompleteEvent.emit();
+    this.isInitialized = true;
   }
 
   getFeatureFlag(param: string): boolean {
     return this.remoteConfig.getFeatureFlag(param);
   }
 
-  getString(name : string){
+  getString(name: string) {
     return this.remoteConfig.getString(name);
+  }
+
+  getObject(name: string): any {
+    return this.remoteConfig.getObject(name);
   }
 }

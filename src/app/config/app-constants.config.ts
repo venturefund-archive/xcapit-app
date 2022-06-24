@@ -109,6 +109,40 @@ export const CONFIG = {
         rules: [],
       },
     ],
+    createWalletPassword: [
+      {
+        name: 'minlength',
+        text: 'config.field_errors.create_wallet_password.minlength',
+        rules: [],
+      },
+      {
+        name: 'notAlphanumeric',
+        text: 'config.field_errors.create_wallet_password.not_alphanumeric',
+        rules: [],
+      },
+      {
+        name: 'hasCapitalAndSmallCase',
+        text: 'config.field_errors.create_wallet_password.has_capital_and_small_case',
+        rules: [],
+      },
+    ],
+    recoverWalletPhrase: [
+      {
+        name: 'twelveWords',
+        text: 'config.field_errors.import_wallet_phrase.twelve_words',
+        rules: [],
+      },
+      {
+        name: 'spaceBetween',
+        text: 'config.field_errors.import_wallet_phrase.space_between',
+        rules: [],
+      },
+      {
+        name: 'noSpecialCharacters',
+        text: 'config.field_errors.import_wallet_phrase.no_special_characters',
+        rules: [],
+      }
+    ],
     oldPassword: [
       {
         name: 'walletIncorrectPassword',

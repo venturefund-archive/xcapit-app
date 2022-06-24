@@ -13,7 +13,7 @@ import { TransactionDataService } from '../../services/transaction-data/transact
     <div class="tsc ion-padding ux-card">
       <div class="tsc__title">
         <ion-text class="ux-font-text-lg">
-          {{ 'wallets.send.send_summary.title' | translate }}
+          {{ this.title }}
         </ion-text>
       </div>
       <div class="tsc__name-and-icon">
@@ -35,9 +35,9 @@ import { TransactionDataService } from '../../services/transaction-data/transact
         </div>
         <div class="tsc__amount__content">
           <ion-text class="ux-font-text-base"
-            >{{ this.summaryData.amount }} {{ this.summaryData.currency.value }}</ion-text
+            >{{ this.summaryData.amount | formattedAmount }} {{ this.summaryData.currency.value }}</ion-text
           >
-          <ion-text class="ux-font-text-base">{{ this.summaryData.referenceAmount }} USD</ion-text>
+          <ion-text class="ux-font-text-base">{{ this.referenceAmount | formattedAmount: 10: 2 }} USD</ion-text>
         </div>
       </div>
       <div class="tsc__address">
@@ -56,10 +56,10 @@ import { TransactionDataService } from '../../services/transaction-data/transact
         </div>
         <div class="tsc__fee__fee">
           <ion-text class="saic__fee__fee__amount ux-font-text-base"
-            >{{ this.summaryData.fee | number: '1.5-5' }} {{ this.nativeToken.value }}</ion-text
+            >{{ this.fee| formattedAmount  }} {{ this.nativeToken.value }}</ion-text
           >
           <ion-text class="saic__fee__fee__reference_amount ux-font-text-base"
-            >{{ this.summaryData.referenceFee | number: '1.2-2' }} USD</ion-text
+            >{{ this.referenceFee | formattedAmount : 10 : 2 }} USD</ion-text
           >
         </div>
       </div>
@@ -69,15 +69,25 @@ import { TransactionDataService } from '../../services/transaction-data/transact
 })
 export class TransactionSummaryCardComponent implements OnInit {
   @Input() summaryData: SummaryData;
+  @Input() title: string;
   @Input() amountsTitle: string;
   @Input() addressTitle: string;
   networkColors = NETWORK_COLORS;
   nativeToken: Coin;
-
+  referenceAmount : number;
+  fee: number;
+  referenceFee: number; 
   constructor(private apiWalletService: ApiWalletService) {}
 
   ngOnInit() {
     this.getNativeToken();
+    this.switchToNumber();
+  }
+  
+  switchToNumber(){
+    this.referenceAmount = parseFloat(this.summaryData.referenceAmount);
+    this.fee = parseFloat(this.summaryData.fee);
+    this.referenceFee = parseFloat(this.summaryData.referenceFee);
   }
 
   private getNativeToken() {

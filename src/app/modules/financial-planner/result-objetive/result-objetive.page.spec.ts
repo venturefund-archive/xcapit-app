@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
@@ -12,6 +12,7 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { ResultObjetivePage } from './result-objetive.page';
 import { Vault } from '@2pi-network/sdk';
 import { By } from '@angular/platform-browser';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const dataTest = {
   category: 'purchases',
@@ -62,12 +63,15 @@ describe('ResultObjetivePage', () => {
   let fakeNavController: FakeNavController;
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
       appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', {
         get: dataTest,
       });
@@ -82,6 +86,7 @@ describe('ResultObjetivePage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: AppStorageService, useValue: appStorageServiceSpy },
           { provide: TwoPiApi, useValue: twoPiApiSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -93,6 +98,7 @@ describe('ResultObjetivePage', () => {
       component.necessaryAmount = dataTest.necessaryAmount;
       component.category = dataTest.category;
       component.icon = dataTest.icon;
+      component.isOpen = false;
       fixture.detectChanges();
     })
   );
@@ -162,4 +168,13 @@ describe('ResultObjetivePage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should show a warning toast on calculating more than 500 weeks on objective goal', async () => {
+    component.products = [productTest];
+    component.weeks = 999999;
+    component.calculationsInvesting();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  })
 });

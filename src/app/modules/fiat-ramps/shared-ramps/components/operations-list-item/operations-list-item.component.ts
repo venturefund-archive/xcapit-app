@@ -61,10 +61,10 @@ export class OperationsListItemComponent implements OnInit {
 
   private setCoinAndAmount() {
     if (this.isBuy) {
-      this.coin = this.operation.currency_in;
+      this.coin = this.operation.currency_out;
       this.amount = this.operation.amount_in;
     } else {
-      this.coin = this.operation.currency_out;
+      this.coin = this.operation.currency_in;
       this.amount = this.operation.amount_out;
     }
   }

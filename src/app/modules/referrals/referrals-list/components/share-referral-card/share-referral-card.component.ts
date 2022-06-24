@@ -38,8 +38,6 @@ export class ShareReferralCardComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private shareService: ShareService,
-    private clipboardService: ClipboardService,
-    private toastService: ToastService
   ) {}
 
   ngOnInit() {}
@@ -52,7 +50,6 @@ export class ShareReferralCardComponent implements OnInit {
         url: `${environment.appUrl}users/register/${this.referralId}`,
         text: this.translate.instant('referrals.referrals_list.referral_id_card.share_text'),
       },
-      this.translate.instant('referrals.referrals_list.referral_id_card.toast_text_copied')
     );
   }
 }

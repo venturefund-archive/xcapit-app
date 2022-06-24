@@ -1,4 +1,4 @@
-export interface FiatRampOperation { 
+export interface FiatRampOperation {
     operation_id: number;
     provider: string;
     operation_type: string;
@@ -7,5 +7,7 @@ export interface FiatRampOperation {
     currency_out: string;
     amount_out: number;
     created_at: Date;
+    wallet_address?: string;
     status: string;
+    voucher: boolean;
 }

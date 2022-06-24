@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
-import { AuthService } from 'src/app/modules/usuarios/shared-usuarios/services/auth/auth.service';
+import { AuthService } from 'src/app/modules/users/shared-users/services/auth/auth.service';
 import { LogOutModalService } from '../../services/log-out-modal/log-out-modal.service';
 
 @Component({
@@ -65,7 +65,7 @@ export class LogOutModalComponent implements OnInit {
     private navController: NavController,
     private formBuilder: FormBuilder,
     private logOutModalService: LogOutModalService,
-    private modalController: ModalController
+    private modalController: ModalController,
   ) {}
 
   ngOnInit() {}
@@ -74,7 +74,6 @@ export class LogOutModalComponent implements OnInit {
     if (this.form.value.dontShowModalCheckbox) {
       await this.saveModalChoice();
     }
-
     await this.authService.logout();
     await this.navController.navigateRoot(['/users/login']);
     await this.modalController.dismiss();

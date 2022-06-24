@@ -22,7 +22,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
 import { WithdrawConfirmationController } from './withdraw-confirmation.controller';
-import { GasFeeOf } from '../../shared-defi-investments/models/gas-fee-of/gas-fee-of.model';
+import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 describe('WithdrawConfirmationPage', () => {
   let component: WithdrawConfirmationPage;
@@ -140,7 +141,7 @@ describe('WithdrawConfirmationPage', () => {
       walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', { balanceOf: Promise.resolve('51') });
 
       TestBed.configureTestingModule({
-        declarations: [WithdrawConfirmationPage],
+        declarations: [WithdrawConfirmationPage, FormattedAmountPipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },

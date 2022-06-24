@@ -7,6 +7,8 @@ import {
   Question,
 } from '../api-wealth-managements/api-wealth-managements.service';
 import { InvestorTestService } from './investor-test.service';
+import { LanguageService } from '../../../../../shared/services/language/language.service';
+import { CRUD } from 'src/app/shared/services/crud/crud';
 
 const testQuestions: Question[] = [
   {
@@ -79,20 +81,36 @@ const testQuestionsUnsorted: Question[] = [
 describe('InvestorTestService', () => {
   let service: InvestorTestService;
   let apiWealthManagementsServiceSpy: jasmine.SpyObj<ApiWealthManagementsService>;
-  let apiProfilesServiceMock: any;
+  let apiProfilesServiceSpy: jasmine.SpyObj<ApiProfilesService>;
+  let crudSpy: jasmine.SpyObj<CRUD>;
+  let languageServiceSpy: jasmine.SpyObj<LanguageService>;
 
   beforeEach(() => {
     apiWealthManagementsServiceSpy = jasmine.createSpyObj('ApiWealthManagementsService', {
       getInvestorTestQuestions: of(testQuestions),
     });
 
-    apiProfilesServiceMock = {
-      crud: jasmine.createSpyObj('CRUD', ['patch']),
-    };
+    crudSpy = jasmine.createSpyObj('CRUD', {
+      patch: Promise.resolve(),
+    });
+
+    apiProfilesServiceSpy = jasmine.createSpyObj(
+      'ApiProfilesServiceSpy',
+      {},
+      {
+        crud: crudSpy,
+      }
+    );
+
+    languageServiceSpy = jasmine.createSpyObj('LanguageService', {
+      getSelectedLanguage: Promise.resolve('es'),
+    });
+
     TestBed.configureTestingModule({
       providers: [
         { provide: ApiWealthManagementsService, useValue: apiWealthManagementsServiceSpy },
-        { provide: ApiProfilesService, useValue: apiProfilesServiceMock },
+        { provide: ApiProfilesService, useValue: apiProfilesServiceSpy },
+        { provide: LanguageService, useValue: languageServiceSpy },
       ],
     });
     service = TestBed.inject(InvestorTestService);
@@ -250,13 +268,13 @@ describe('InvestorTestService', () => {
   it('should not call saveInvestorTestScore if hasAnsweredAllQuestions is false on saveAnswers', () => {
     spyOnProperty(service, 'hasAnsweredAllQuestions').and.returnValue(false);
     service.saveAnswers();
-    expect(apiProfilesServiceMock.crud.patch).not.toHaveBeenCalled();
+    expect(apiProfilesServiceSpy.crud.patch).not.toHaveBeenCalled();
   });
 
   it('should call saveInvestorTestScore if hasAnsweredAllQuestions is true on saveAnswers', () => {
     spyOnProperty(service, 'hasAnsweredAllQuestions').and.returnValue(true);
     service.saveAnswers();
-    expect(apiProfilesServiceMock.crud.patch).toHaveBeenCalledTimes(1);
+    expect(apiProfilesServiceSpy.crud.patch).toHaveBeenCalledTimes(1);
   });
 
   it('should return 0 if has not answered any question on get totalScore', () => {

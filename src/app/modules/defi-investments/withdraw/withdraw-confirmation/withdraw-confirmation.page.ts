@@ -23,7 +23,7 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
   selector: 'app-withdraw-confirmation',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left no-border">
         <ion-buttons slot="start">
           <ion-back-button class="wp__back" defaultHref="/tabs/wallets"></ion-back-button>
         </ion-buttons>
@@ -46,28 +46,19 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
 
             <div class="wp__amount__qty">
               <ion-text class="ux-font-text-base wp__amount__qty__amount"
-                >{{ this.amount.value | number: '1.2-6' }} {{ this.amount.token }}</ion-text
+                >{{ this.amount.value | formattedAmount }} {{ this.amount.token }}</ion-text
               >
               <ion-text class="ux-font-text-base wp__amount__qty__quoteAmount"
-                >{{ this.quoteAmount.value | number: '1.2-2' }} {{ this.quoteAmount.token }}
+                >{{ this.quoteAmount.value | formattedAmount: 10 : 2 }} {{ this.quoteAmount.token }}
               </ion-text>
             </div>
           </div>
-          <div class="wp__fee" *ngIf="this.fee">
-            <div class="wp__fee__label">
-              <ion-text class="ux-font-titulo-xs">{{
-                'defi_investments.withdraw.withdraw.withdraw_fee' | translate
-              }}</ion-text>
-            </div>
-
-            <div class="wp__fee__qty">
-              <ion-text class="ux-font-text-base wp__fee__qty__amount"
-                >{{ this.fee.value | number: '1.2-6' }} {{ this.fee.token }}</ion-text
-              >
-              <ion-text class="ux-font-text-base wp__fee__qty__quoteFee"
-                >{{ this.quoteFee.value | number: '1.2-6' }} {{ this.quoteFee.token }}
-              </ion-text>
-            </div>
+          <div class="wp__fee">
+            <app-transaction-fee
+              [fee]="this.fee"
+              [quoteFee]="this.quoteFee"
+              [balance]="this.nativeTokenBalance"
+            ></app-transaction-fee>
           </div>
         </div>
       </ion-card>
@@ -75,7 +66,7 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
         [appLoading]="this.loading"
         [loadingText]="'defi_investments.withdraw.withdraw.submit_loading' | translate"
         appTrackClick
-        name="confirm_withdraw"
+        name="ux_invest_withdraw_confirm"
         expand="block"
         size="large"
         type="submit"
@@ -98,8 +89,8 @@ export class WithdrawConfirmationPage implements OnInit {
   token: Coin;
   amount: Amount;
   quoteAmount: Amount = { value: 0, token: 'USD' };
-  fee: Amount = { value: 0, token: 'MATIC' };
-  quoteFee: Amount = { value: 0, token: 'USD' };
+  fee: Amount = { value: undefined, token: 'MATIC' };
+  quoteFee: Amount = { value: undefined, token: 'USD' };
   loading = false;
   leave$ = new Subject<void>();
   private readonly priceRefreshInterval = 15000;
@@ -144,7 +135,7 @@ export class WithdrawConfirmationPage implements OnInit {
   }
 
   private getQuoteAmount(): void {
-    this.quoteAmount = { value: this.investmentDataService.quoteAmount, token: 'USD' };
+    this.quoteAmount = { value: this.investmentDataService.quoteAmount, token: 'USD' } as Amount;
   }
 
   private vaultID() {
@@ -210,6 +201,7 @@ export class WithdrawConfirmationPage implements OnInit {
         description: this.translate.instant('defi_investments.withdraw.password_modal.description'),
         inputLabel: this.translate.instant('defi_investments.confirmation.password_modal.input_label'),
         submitButtonText: this.translate.instant('defi_investments.withdraw.password_modal.confirm_button'),
+        state: 'invest_withdraw',
         disclaimer: '',
       },
       cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
@@ -243,6 +235,7 @@ export class WithdrawConfirmationPage implements OnInit {
   }
 
   async withdraw() {
+    this.loadingEnabled(true);
     await this.getNativeTokenBalance();
     const wallet = await this.wallet();
     if (wallet) {
@@ -266,6 +259,7 @@ export class WithdrawConfirmationPage implements OnInit {
       }
       this.loadingEnabled(false);
     }
+    this.loadingEnabled(false);
   }
 
   async getNativeTokenBalance() {

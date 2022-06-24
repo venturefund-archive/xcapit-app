@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiProfilesService } from 'src/app/modules/profiles/shared-profiles/services/api-profiles/api-profiles.service';
+import { LanguageService } from '../../../../../shared/services/language/language.service';
 import {
   Answer,
   ApiWealthManagementsService,
@@ -13,6 +14,7 @@ import {
 export class InvestorTestService {
   answers: Map<Question, Answer>;
   questions: Question[];
+  questionLanguage: string;
 
   get hasLoadedQuestions(): boolean {
     return !!this.questions && this.questions.length !== 0;
@@ -52,7 +54,8 @@ export class InvestorTestService {
 
   constructor(
     private apiWealthManagementsService: ApiWealthManagementsService,
-    private apiProfilesService: ApiProfilesService
+    private apiProfilesService: ApiProfilesService,
+    private languageService: LanguageService
   ) {}
 
   getQuestionByNumber(n: number): Question {
@@ -72,17 +75,17 @@ export class InvestorTestService {
   }
 
   async loadQuestions() {
-    return Promise.resolve().then(() => {
-      if (!this.hasLoadedQuestions) {
-        return this.apiWealthManagementsService
-          .getInvestorTestQuestions()
-          .toPromise()
-          .then((questions) => {
-            this.questions = questions;
-            return Promise.resolve();
-          });
-      } else return Promise.resolve();
-    });
+    this.questionLanguage = await this.getUserLanguage();
+    return this.apiWealthManagementsService
+      .getInvestorTestQuestions(this.questionLanguage)
+      .toPromise()
+      .then((questions) => {
+        this.questions = questions;
+      });
+  }
+
+  getUserLanguage() {
+    return this.languageService.getSelectedLanguage();
   }
 
   setAnswer(question: Question, answer: Answer) {
@@ -98,12 +101,14 @@ export class InvestorTestService {
   }
 
   saveAnswers(): Observable<any> {
-    if (this.hasAnsweredAllQuestions) {
-      return this.apiProfilesService.crud.patch({ investor_score: this.totalScore });
-    }
+    if (this.hasAnsweredAllQuestions) return this.apiProfilesService.crud.patch({ investor_score: this.totalScore });
   }
 
   clearAnswers() {
     this.answers = new Map();
+  }
+
+  async questionsInUserLanguage(): Promise<boolean> {
+    return this.questionLanguage === (await this.getUserLanguage());
   }
 }

@@ -15,7 +15,7 @@ export class UserHasOperationsGuard implements CanActivate {
     return this.fiatRamps.userHasOperations().pipe(
       map((res) => {
         if (!res.user_has_operations) {
-          this.navController.navigateForward(['/fiat-ramps/moonpay']);
+          this.navController.navigateForward(['/fiat-ramps/new-operation/moonpay']);
         }
         return res.user_has_operations;
       })

@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { RecoveryWalletFormComponent } from './recovery-wallet-form.component';
 
@@ -12,7 +13,8 @@ describe('RecoveryWalletFormComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [RecoveryWalletFormComponent],
-        imports: [IonicModule.forRoot()],
+        imports: [IonicModule.forRoot(),
+                  TranslateModule.forRoot()],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 

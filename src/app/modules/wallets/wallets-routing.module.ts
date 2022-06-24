@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../usuarios/shared-usuarios/guards/auth/auth.guard';
+import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { AcceptedToSGuard } from './shared-wallets/guards/accepted-tos/accepted-tos.guard';
 import { CreatedWalletGuard } from './shared-wallets/guards/created-wallet/created-wallet.guard';
 import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
@@ -16,7 +16,7 @@ const routes: Routes = [
         loadChildren: () => import('./recovery-phrase/recovery-phrase.module').then((m) => m.RecoveryPhrasePageModule),
       },
       {
-        canActivate: [AcceptedToSGuard, CreatedWalletGuard],
+        canActivate: [AcceptedToSGuard],
         path: 'create-first/verify-phrase',
         loadChildren: () => import('./verify-phrase/verify-phrase.module').then((m) => m.VerifyPhrasePageModule),
       },

@@ -7,6 +7,8 @@ import { IonSlides, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { Storage } from '@ionic/storage';
+import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { BehaviorSubject } from 'rxjs';
 class IonSlidesMock {
   public constructor() {}
 
@@ -22,6 +24,7 @@ describe('FirstStepsPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let storageSpy: jasmine.SpyObj<Storage>;
+  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -29,6 +32,11 @@ describe('FirstStepsPage', () => {
       navControllerSpy = fakeNavController.createSpy();
       storageSpy = jasmine.createSpyObj('Storage', {
         set: Promise.resolve(),
+      });
+
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
+        uri: new BehaviorSubject(null),
+        checkDeeplinkUrl: Promise.resolve(null)
       });
 
       TestBed.configureTestingModule({
@@ -39,6 +47,7 @@ describe('FirstStepsPage', () => {
           { provide: IonSlides, useClass: IonSlidesMock },
           { provide: NavController, useValue: navControllerSpy },
           { provide: Storage, useValue: storageSpy },
+          { provide: WalletConnectService, useValue: walletConnectServiceSpy},
         ],
       }).compileComponents();
     })
@@ -83,9 +92,21 @@ describe('FirstStepsPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should go to the menu when finishEvent is received', () => {
+  it('should go to the menu when finishEvent is received and walletConnectService does not have defined an uri', () => {
+    walletConnectServiceSpy.uri = new BehaviorSubject(null);
+    fixture.detectChanges();
+
     fixture.debugElement.queryAll(By.css('app-step'))[2].triggerEventHandler('finishEvent', null);
     expect(storageSpy.set).toHaveBeenCalledOnceWith('FINISHED_ONBOARDING', true);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tabs/home']);
+  });
+
+  it('should check walletConnectService checkDeeplinkUrl when finishEvent is received and walletConnectService does have defined an uri', () => {
+    walletConnectServiceSpy.uri = new BehaviorSubject('wc://');
+    fixture.detectChanges();
+
+    fixture.debugElement.queryAll(By.css('app-step'))[2].triggerEventHandler('finishEvent', null);
+    expect(storageSpy.set).toHaveBeenCalledOnceWith('FINISHED_ONBOARDING', true);
+    expect(walletConnectServiceSpy.checkDeeplinkUrl).toHaveBeenCalled();
   });
 });

@@ -10,7 +10,6 @@ const LNG_KEY = 'SELECTED_LANGUAGE';
   providedIn: 'root',
 })
 export class LanguageService {
-  selected = '';
 
   constructor(
     private translate: TranslateService,
@@ -20,12 +19,9 @@ export class LanguageService {
 
   setInitialAppLanguage() {
     this.translate.setDefaultLang(CONFIG.app.defaultLanguage);
-    this.selected = CONFIG.app.defaultLanguage;
-    this.storage.get(LNG_KEY).then((val) => {
-      if (val) {
-        this.setLanguage(val);
-      }
-    });
+    this.storage.get(LNG_KEY).then((lang) => {
+      this.setLanguage(lang ? lang : this.getBrowserDefaultLanguage())
+    })
   }
 
   getLanguages() {
@@ -35,14 +31,21 @@ export class LanguageService {
     ];
   }
 
-  setLanguage(lng: string) {
+  getBrowserDefaultLanguage(): string {
+    return navigator.language === 'es-ES' ? 'es' : 'en'
+  }
+
+  setLanguage(lng: string): void {
     this.translate.use(lng);
-    this.selected = lng;
     this.storage.set(LNG_KEY, lng);
     this.setUserLanguage(lng);
   }
 
-  private setUserLanguage(language: string) {
+  private setUserLanguage(language: string): void {
     this.apiProfilesService.setLanguage(language).subscribe();
+  }
+
+  getSelectedLanguage(): Promise<any> {
+    return this.storage.get(LNG_KEY);
   }
 }

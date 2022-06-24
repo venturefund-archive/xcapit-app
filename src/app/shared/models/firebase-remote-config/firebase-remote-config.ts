@@ -31,7 +31,11 @@ export class FirebaseRemoteConfig implements RemoteConfiguration {
     return this.firebaseRemoteConfig.getValue(this.remoteConfig, param).asBoolean();
   }
 
-  getString(name : string) : string {
+  getString(name: string): string {
     return this.firebaseRemoteConfig.getString(this.remoteConfig, name);
+  }
+
+  getObject(name: string): any {
+    return JSON.parse(this.firebaseRemoteConfig.getValue(this.remoteConfig, name).asString());
   }
 }

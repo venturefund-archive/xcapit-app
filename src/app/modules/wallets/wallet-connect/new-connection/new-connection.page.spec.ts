@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController, ModalController, AlertController } from '@ionic/angular';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { IonicModule, NavController, ModalController, AlertController, Platform } from '@ionic/angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { UrlSerializer } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NewConnectionPage } from './new-connection.page';
@@ -12,6 +12,8 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { alertControllerMock } from '../../../../../testing/spies/alert-controller-mock.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { servicesVersion } from 'typescript';
+import { of, BehaviorSubject } from 'rxjs';
 
 const provider = {
   name: 'ETH',
@@ -36,7 +38,8 @@ const walletInfo = {
   name: 'ETH',
   logo: 'TestLogo',
   symbol: 'ETH',
-  rpc: 'TestRPC'
+  rpc: 'TestRPC',
+  dataToTrack:'ux_wc_eth'
 }
 
 const testWallet = {
@@ -66,10 +69,13 @@ describe('NewConnectionPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let alertControllerSpy: any;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let platformSpy: jasmine.SpyObj<Platform>;
 
   beforeEach(
     waitForAsync(() => {
-      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
+        uri: new BehaviorSubject(null),
+        setUri: null,
         connected: false,
         setAccountInfo: Promise.resolve({}),
         initWalletConnect: Promise.resolve({}),
@@ -84,6 +90,9 @@ describe('NewConnectionPage', () => {
         getWalletsAddresses: Promise.resolve({ERC20: '0x00000000001'}),
       });
 
+      platformSpy = jasmine.createSpyObj('Platform', {}, {
+        backButton: of({}),
+      })
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
 
@@ -104,6 +113,7 @@ describe('NewConnectionPage', () => {
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: AlertController, useValue: alertControllerSpy },
           { provide: ToastService, useValue: toastServiceSpy },
+          { provide: Platform, useValue: platformSpy}
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -134,6 +144,7 @@ describe('NewConnectionPage', () => {
 
   it('should excecute setWalletsInfo when isConnected is called and WalletConnect is disconnected', () => {
     walletConnectServiceSpy.connected = false;
+    walletConnectServiceSpy.uri = new BehaviorSubject(null);
     fixture.detectChanges();
     const spy = spyOn(component, 'setWalletsInfo');
     component.isConnected();
@@ -225,14 +236,6 @@ describe('NewConnectionPage', () => {
     expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  xit('should load the wallestList when setWalletsInfo is excecuted', async () => {
-    component.providers = [provider];
-    fixture.detectChanges();
-    component.setWalletsInfo();
-    await fixture.whenStable();
-    expect(component.walletsList).toEqual([walletInfo]);
-  });
-
   it('should patchValue to form uri when handleScanRsult is called and the role is success', () => {
     component.handleScanResult('wc:fakeUri@bridge=fakeBridge', 'success');
 
@@ -263,4 +266,22 @@ describe('NewConnectionPage', () => {
 
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tickets/create-support-ticket');
   });
+
+  it('should clean the form and uri when cleanForm is called', () => {
+    component.form.patchValue(formData.valid);
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    expect(walletConnectServiceSpy.setUri).toHaveBeenCalledOnceWith('');
+    expect(component.form.value.uri).toEqual('');
+    expect(component.form.value.wallet).toEqual(null);
+  });
+
+  it('should return a wallet list mapped when setWalletsInfo is called', fakeAsync(() => {
+    component.providers = [provider];
+    fixture.detectChanges();
+    component.setWalletsInfo();
+    fixture.whenStable();
+    tick();
+    expect(component.walletsList).toEqual([walletInfo]);
+  }))
 });

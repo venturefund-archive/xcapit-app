@@ -9,17 +9,19 @@ import { navControllerMock } from '../../../../testing/spies/nav-controller-mock
 import { NavController } from '@ionic/angular';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
+import { TrackService } from '../../services/track/track.service';
 
 describe('SuccessContentComponent', () => {
   let component: SuccessContentComponent;
   let fixture: ComponentFixture<SuccessContentComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SuccessContentComponent>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let navControllerSpy: any;
   let closeSuccessButton: any;
   let actionPrimaryButton: any;
   let actionSecondaryButton: any;
   let actionThirdButton: any;
-
+  
   const testData = {
     urlClose: '/tabs/investments/binance',
     textPrimary: 'test.test.textPrimary',
@@ -33,15 +35,23 @@ describe('SuccessContentComponent', () => {
     nameThirdAction: 'test.test.nameThirdAction',
     disclaimer: 'test.test.disclaimer',
     image: 'assets/img/defi-investments/success-withdraw.svg',
-    bottomImage: true
+    bottomImage: true,
+    hasToTrackScreenview: true,
+    screenviewEventLabel: 'example',
   };
   let testDataSpy: jasmine.SpyObj<any>;
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       testDataSpy = jasmine.createSpyObj('TestData', {}, testData);
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
+        trackEvent: Promise.resolve(true),
+      })
       TestBed.configureTestingModule({
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: TrackService, useValue: trackServiceSpy },
+        ],
         declarations: [SuccessContentComponent, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [HttpClientTestingModule, TranslateModule.forRoot()],
@@ -57,6 +67,11 @@ describe('SuccessContentComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should track screenview event on init', () => {
+    component.ngOnInit();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalled();
   });
 
   describe('Buttons should call trackEvent on TrackService when they are clicked', () => {
@@ -142,11 +157,12 @@ describe('SuccessContentComponent', () => {
       actionThirdButton.nativeElement.click();
       expect(spy).toHaveBeenCalledTimes(1);
     });
-
   });
 
   it('should render bottom image when bottomImage attribute is true', () => {
     const imageEl = fixture.debugElement.query(By.css('.main__ux-success-image'));
     expect(imageEl).toBeTruthy();
   });
+
+  
 });

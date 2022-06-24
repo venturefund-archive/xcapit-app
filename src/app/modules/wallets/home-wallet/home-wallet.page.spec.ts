@@ -27,6 +27,7 @@ import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fa
 import { TokenDetailController } from '../shared-wallets/models/token-detail/token-detail.controller';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -49,6 +50,8 @@ describe('HomeWalletPage', () => {
   let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -102,9 +105,14 @@ describe('HomeWalletPage', () => {
 
       contentSpy = jasmine.createSpyObj('IonContent', { scrollToTop: Promise.resolve() });
 
-      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
         trackEvent: Promise.resolve(true),
-      })
+      });
+
+      ionicStorageServiceSpy = jasmine.createSpyObj('StorageService', {
+        get: Promise.resolve(false),
+      });
+
       TestBed.configureTestingModule({
         declarations: [HomeWalletPage, FakeTrackClickDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
@@ -120,7 +128,8 @@ describe('HomeWalletPage', () => {
           { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
           { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
           { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
-          { provide: TrackService, useValue: trackServiceSpy},
+          { provide: TrackService, useValue: trackServiceSpy },
+          { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -207,6 +216,32 @@ describe('HomeWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should render app-backup-information-card component', async () => {
+    component.walletExist = true;
+    ionicStorageServiceSpy.get.and.resolveTo(false);
+    component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const componentEl = fixture.debugElement.query(By.css('div.wt__backup app-backup-information-card'));
+
+    expect(componentEl).toBeTruthy();
+  });
+
+  it('should not render app-backup-information-card component when wallets exist and is protected', async () => {
+    component.walletExist = true;
+    ionicStorageServiceSpy.get.and.resolveTo(true);
+    component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const componentEl = fixture.debugElement.query(By.css('div.wt__backup app-backup-information-card'));
+
+    expect(componentEl).toBeFalsy();
+  });
+
   it('should navigate when Edit Tokens button is clicked', async () => {
     component.walletExist = true;
     fixture.detectChanges();
@@ -242,7 +277,6 @@ describe('HomeWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-
   it('should call appTrackEvent on trackService when NFTs Tab was clicked', () => {
     component.walletExist = true;
     fixture.detectChanges();
@@ -252,5 +286,20 @@ describe('HomeWalletPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should get on storage onInit', () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(ionicStorageServiceSpy.get).toHaveBeenCalledTimes(1);
+  });
+
+  it('should go to backup wallet when info card is clicked', () => {
+    component.walletExist = true;
+    component.protectedWallet = false;
+    fixture.detectChanges();
+    const card = fixture.debugElement.query(By.css('app-backup-information-card'));
+    card.triggerEventHandler('cardClicked', null);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/recovery/read');
   });
 });

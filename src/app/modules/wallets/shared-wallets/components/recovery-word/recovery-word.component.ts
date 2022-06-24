@@ -11,7 +11,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       [disabled]="!this.isActivated"
       (click)="useValue(this.word)"
     >
-      {{ this.showOrder ? index + 1 + '. ' : '' }}
+      {{ this.showOrder ? index + 1 + '.' : '' }}
       {{ this.word }}
     </ion-button>
   `,
@@ -19,12 +19,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class RecoveryWordComponent implements OnInit {
   @Input() word: string;
+
   @Input() index: number;
   @Input() showOrder: boolean;
   @Input() clickable: boolean;
   @Output() useButtonClicked: EventEmitter<string> = new EventEmitter<string>();
   isActivated = true;
-
   constructor() {}
 
   ngOnInit() {}

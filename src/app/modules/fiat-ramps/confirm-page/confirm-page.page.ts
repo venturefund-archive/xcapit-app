@@ -16,7 +16,7 @@ import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-c
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/new-operation/moonpay"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.confirm.header' | translate }}
@@ -40,6 +40,8 @@ import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-c
       </div>
       <div class="cp__disclaimer ux-font-text-xxs">
         {{'fiat_ramps.confirm.disclaimer' | translate}}
+        <br>
+        {{'fiat_ramps.confirm.disclaimer2' | translate}}
       </div>
     </ion-content>
 
@@ -48,7 +50,7 @@ import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-c
         <ion-button
           class="ux_button"
           appTrackClick
-          name="Next"
+          name="ux_buy_kripton_confirm"
           type="button"
           color="secondary"
           size="large"
@@ -68,6 +70,7 @@ export class ConfirmPagePage implements OnInit {
   disabledButton = false;
   token: Coin;
   networkColors = NETWORK_COLORS;
+  providers = PROVIDERS;
 
   constructor(
     private storageOperationService: StorageOperationService,
@@ -87,7 +90,7 @@ export class ConfirmPagePage implements OnInit {
   }
 
   getProvider(providerId: string) {
-    return PROVIDERS.find((provider) => provider.id.toString() === providerId);
+    return this.providers.find((provider) => provider.id.toString() === providerId);
   }
 
   async createOperation() {

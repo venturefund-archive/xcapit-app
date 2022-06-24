@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
-import { EthersService } from '../ethers/ethers.service'
+import { EthersService } from '../ethers/ethers.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,11 +31,11 @@ export class WalletEncryptionService {
     wallets.forEach((wallet) => {
       if (wallet.mnemonic.path === derivedPaths.ERC20) {
         this.ethWallet = wallet;
-        this.walletsAddresses['BSC_BEP20'] = wallet.address;
+        this.walletsAddresses['BSC_BEP20'] = wallet.address.toLowerCase();
       }
 
       const key = Object.keys(derivedPaths).filter((keyName) => derivedPaths[keyName] === wallet.mnemonic.path);
-      const value = wallet.address;
+      const value = wallet.address.toLowerCase();
 
       this.walletsAddresses[key[0]] = value;
     });
