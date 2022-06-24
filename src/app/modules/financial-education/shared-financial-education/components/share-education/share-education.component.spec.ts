@@ -93,7 +93,7 @@ describe('ShareEducationComponent', () => {
   });
 
   it('should copy on clipboard and show toast when share fail', async () => {
-    shareServiceSpy.share.and.rejectWith('');
+    shareServiceSpy.share.and.rejectWith({message: ''});
     fixture.detectChanges();
     fixture.debugElement.query(By.css('div.se')).nativeElement.click();
     await fixture.whenStable();
@@ -107,6 +107,18 @@ describe('ShareEducationComponent', () => {
     expect(toastServiceSpy.showInfoToast).toHaveBeenCalledOnceWith({
       message: 'financial_education.shared.share_education.share_error',
     });
+  });
+
+  it('should not copy on clipboard when user cancels sharing', async () => {
+    shareServiceSpy.share.and.rejectWith({message: 'Error: Share canceled'});
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('div.se')).nativeElement.click();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+
+    expect(clipboardServiceSpy.write).toHaveBeenCalledTimes(0);
+    expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(0);
   });
 
   it('should share image with iOS link when component is clicked', async () => {
