@@ -20,12 +20,25 @@ import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
       <div class="aic__send">
         <ion-text class="ux-font-titulo-xs">
           {{ this.title }}
-        </ion-text>
+        </ion-text>        
+        <ion-button *ngIf="this.amountSend"
+              class="ion-no-padding"
+              slot="icon-only"
+              fill="clear"
+              appTrackClick
+              name="ux_phrase_information"
+              size="small"
+              (click)="this.showPhraseAmountInfo()"
+            >
+              <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
+            </ion-button>
+            
       </div>
       <div class="aic__content">
         <div class="aic__content__title">
           <ion-text class="ux-font-text-lg"> {{ this.label }}</ion-text>
         </div>
+          
         <div *ngIf="this.showRange" class="aic__content__percentage">
           <ion-input
             appNumberInput="positiveInteger"
@@ -97,6 +110,8 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   @Input() max: number;
   @Input() showRange: boolean;
   @Input() feeToken: Coin;
+  @Input() amountSend: boolean;
+  
   form: FormGroup;
   quoteMax: number;
 
@@ -129,6 +144,11 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
     this.form.patchValue(maxValues, this.defaultPatchValueOptions());
   }
 
+  showPhraseAmountInfo(){
+    console.log("Hola Amount")
+  }
+
+  
   private subscribeToFormChanges(): void {
     this.form = this.formGroupDirective.form;
     this.form.get('amount').valueChanges.subscribe((value) => this.amountChange(value));

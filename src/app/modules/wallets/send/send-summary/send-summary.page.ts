@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { SummaryData } from './interfaces/summary-data.interface';
 import { SubmitButtonService } from '../../../../shared/services/submit-button/submit-button.service';
@@ -16,11 +16,12 @@ import { isAddress } from 'ethers/lib/utils';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/home"></ion-back-button>
+          <ion-back-button defaultHref=""></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'wallets.send.send_summary.header' | translate }}</ion-title>
+        <ion-title class="sd__header ion-text-left">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
+        <ion-label class="step-counter" slot="end">3 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ss ion-padding">
@@ -29,7 +30,9 @@ import { isAddress } from 'ethers/lib/utils';
           [title]="'wallets.send.send_summary.title' | translate"
           [addressTitle]="'wallets.send.send_summary.destination_address' | translate"
           [amountsTitle]="'wallets.send.send_summary.amounts_title' | translate"
-          [summaryData]="this.summaryData"
+          [summaryData]="!this.summaryData"
+          [amountSend]="!this.amountSend"
+          [transactionFee]="!this.transactionFee"
         ></app-transaction-summary-card>
       </div>
 
@@ -54,6 +57,12 @@ export class SendSummaryPage implements OnInit {
   action: string;
   isSending: boolean;
   loading: boolean;
+  amountSend = false;
+  transactionFee = false;
+
+  @Output() showPhraseAmountInfo: EventEmitter<void> = new EventEmitter<void>();
+  @Output() showPhrasetransactionFeeInfo: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(
     private transactionDataService: TransactionDataService,
     private walletTransactionsService: WalletTransactionsService,
@@ -72,8 +81,10 @@ export class SendSummaryPage implements OnInit {
   ionViewWillEnter() {
     this.isSending = false;
     this.summaryData = this.transactionDataService.transactionData;
-    this.checkMode();
+    this.checkMode();    
   }
+
+
 
   checkMode() {
     const mode = this.route.snapshot.paramMap.get('mode') === 'retry';

@@ -1650,16 +1650,19 @@
       },
       "send_summary": {
         "header": "Enviar",
-        "title": "Datos de la transferencia",
-        "amounts_title": "Monto a enviar",
+        "title": "Datos del envio",
+        "amounts_title": "Monto a enviar estimado",
         "send_button": "Enviar",
         "wrong_password": "Password incorrecto",
         "loader": "Enviando",
         "destination_address": "Dirección de destino",
-        "fee": "Tarifa de transacción",
+        "fee": "Tarifa de transacción estimada",
         "sent_notification": {
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"
+        },
+        "transaction_summary_card":{
+          "disclaimer": "Comprueba que los datos ingresados sean correctos. Una vez realizado el envío, no podrás cancelarlo."
         },
         "alert_not_enough_native_token": {
           "title": "Error de transacción",

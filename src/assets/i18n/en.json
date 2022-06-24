@@ -1659,16 +1659,19 @@
       },
       "send_summary": {
         "header": "Send",
-        "title": "Transfer data",
-        "amounts_title": "Amount to send",
+        "title": "Sending data",
+        "amounts_title": "Estimated amount to send",
         "send_button": "Send",
         "wrong_password": "Wrong password",
         "loader": "Sending",
         "destination_address": "Destination address",
-        "fee": "Transaction fee",
+        "fee": "Estimated transaction fee",
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
+        },
+        "transaction_summary_card":{
+          "disclaimer": "Check that the data entered are correct. Once the shipment has been sent, you will not be able to cancel it."
         },
         "alert_not_enough_native_token": {
           "title": "Transaction error",

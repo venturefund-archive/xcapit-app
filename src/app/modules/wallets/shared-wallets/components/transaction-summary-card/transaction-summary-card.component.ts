@@ -32,6 +32,17 @@ import { TransactionDataService } from '../../services/transaction-data/transact
       <div class="tsc__amount">
         <div class="tsc__amount__title">
           <ion-text class="ux-font-titulo-xs">{{ this.amountsTitle }}</ion-text>
+          <ion-button *ngIf="this.amountSend"
+              class="ion-no-padding"
+              slot="icon-only"
+              fill="clear"
+              appTrackClick
+              name="ux_phrase_information"
+              size="small"
+              (click)="this.showPhraseAmountInfo()"
+            >
+              <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
+            </ion-button>
         </div>
         <div class="tsc__amount__content">
           <ion-text class="ux-font-text-base"
@@ -43,7 +54,9 @@ import { TransactionDataService } from '../../services/transaction-data/transact
       <div class="tsc__address">
         <div class="tsc__address__title">
           <ion-text class="ux-font-titulo-xs">{{ this.addressTitle }}</ion-text>
+          
         </div>
+        
         <div class="tsc__address__content">
           <ion-text class="ux-font-text-base">{{ this.summaryData.address }}</ion-text>
         </div>
@@ -53,6 +66,17 @@ import { TransactionDataService } from '../../services/transaction-data/transact
           <ion-text class="ux-font-titulo-xs">
             {{ 'wallets.send.send_summary.fee' | translate }}
           </ion-text>
+          <ion-button *ngIf="this.transactionFee"
+              class="ion-no-padding"
+              slot="icon-only"
+              fill="clear"
+              appTrackClick
+              name="ux_phrase_information"
+              size="small"
+              (click)="this.showPhrasereferenceFeeInfo()"
+            >
+              <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
+            </ion-button>
         </div>
         <div class="tsc__fee__fee">
           <ion-text class="saic__fee__fee__amount ux-font-text-base"
@@ -63,6 +87,11 @@ import { TransactionDataService } from '../../services/transaction-data/transact
           >
         </div>
       </div>
+      <app-backup-information-card
+            [text]="'wallets.send.send_summary.transaction_summary_card.disclaimer' | translate"
+            [textClass]="'ux-home-backup-card'"
+          >
+          </app-backup-information-card>
     </div>
   `,
   styleUrls: ['./transaction-summary-card.component.scss'],
@@ -72,6 +101,8 @@ export class TransactionSummaryCardComponent implements OnInit {
   @Input() title: string;
   @Input() amountsTitle: string;
   @Input() addressTitle: string;
+  @Input() amountSend: boolean;
+  @Input() transactionFee:boolean;
   networkColors = NETWORK_COLORS;
   nativeToken: Coin;
   referenceAmount : number;
@@ -93,4 +124,10 @@ export class TransactionSummaryCardComponent implements OnInit {
   private getNativeToken() {
     this.nativeToken = this.apiWalletService.getNativeTokenFromNetwork(this.summaryData.network);
   }
+
+  showPhraseAmountInfo(){
+
+  }
+
+  showPhrasereferenceFeeInfo(){}
 }

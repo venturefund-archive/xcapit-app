@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { ModalController, NavController } from '@ionic/angular';
@@ -77,8 +77,8 @@ import { TranslateService } from '@ngx-translate/core';
               [max]="this.balance"
               [quotePrice]="this.quotePrice"
               [feeToken]="this.nativeToken"
+              [amountSend]="this.amountSend"
             ></app-amount-input-card>
-
             <app-amount-input-card-skeleton
               *ngIf="this.balance === undefined"
               [showRange]="false"
@@ -88,12 +88,14 @@ import { TranslateService } from '@ngx-translate/core';
                 [fee]="this.dynamicFee"
                 [quoteFee]="this.quoteFee"
                 [balance]="this.nativeBalance"
+                [transactionFee]="this.transactionFee"
               ></app-transaction-fee>
             </div>
           </ion-card>
         </div>
-      </form>
-      <ion-footer class="sd__footer">
+      </form>      
+    </ion-content>
+    <ion-footer class="sd__footer">
       <div class="sd__footer__submit-button ion-padding">
         <ion-button
           class="ux_button sd__footer__submit-button__button"
@@ -106,7 +108,6 @@ import { TranslateService } from '@ngx-translate/core';
         >
       </div>
       </ion-footer>
-    </ion-content>
   `,
   styleUrls: ['./send-detail.page.scss'],
 })
@@ -124,6 +125,8 @@ export class SendDetailPage {
   quotePrice: number;
   nativeTokenPrice: number;
   fee: number;
+  amountSend = false;
+  transactionFee = false;
   dynamicFee: Amount = { value: 0, token: undefined };
   quoteFee: Amount = { value: 0, token: 'USD' };
   modalHref: string;
@@ -132,6 +135,8 @@ export class SendDetailPage {
     amount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
+  @Output() showPhraseAmountInfo: EventEmitter<void> = new EventEmitter<void>();
+  @Output() showPhrasetransactionFeeInfo: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -184,12 +189,15 @@ export class SendDetailPage {
     this.token = this.apiWalletService.getCoin(coin, network);
     this.networks = this.apiWalletService.getNetworks(coin);
     this.selectedNetwork = network;
+    this.amountSend = !this.amountSend;
+    this.transactionFee = !this.transactionFee;
     this.nativeToken = this.token.native
       ? this.token
       : this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
     this.dynamicFee.token = this.nativeToken.value;
   }
 
+  
   async tokenBalances() {
     const tokenBalance = parseFloat(await this.userBalanceOf(this.token));
     if (this.token.native) {

@@ -8,8 +8,20 @@ import { Amount } from '../../types/amount.type';
       <div class="tf__fee__label">
         <ion-text class="ux-font-titulo-xs">{{
           'defi_investments.shared.transaction_fees.label' | translate
-        }}</ion-text>
+        }}</ion-text>        
+        <ion-button class="tf__fee__label__button" *ngIf="this.transactionFee"
+              class="ion-no-padding"
+              slot="icon-only"
+              fill="clear"
+              appTrackClick
+              name="ux_phrase_information"
+              size="small"
+              (click)="this.showPhrasetransactionFeeInfo()"
+            >
+              <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
+            </ion-button> 
       </div>
+      
       <div class="tf__fee__label" *ngIf="this.description">
         <ion-text class="ux-font-text-xxs">{{ this.description }}</ion-text>
       </div>
@@ -42,8 +54,13 @@ export class TransactionFeeComponent implements OnInit {
   @Input() quoteFee: Amount = { value: undefined, token: 'USD' };
   @Input() balance: number;
   @Input() description: string;
+  @Input() transactionFee: Boolean;
 
   constructor() {}
 
   ngOnInit() {}
+  
+  showPhrasetransactionFeeInfo(){
+    console.log("Hola Transacction")
+  }
 }
