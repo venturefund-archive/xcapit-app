@@ -114,6 +114,7 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   @Input() feeToken: Coin;
   @Input() amountSend: boolean;
   isAmountSend: boolean;
+  isInfoModalOpen = false;
   
   form: FormGroup;
   quoteMax: number;
@@ -149,6 +150,8 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   }
 
   async showPhraseAmountInfo(){
+    if (this.isInfoModalOpen === false) {
+      this.isInfoModalOpen = true
     this.isAmountSend = true
     const modal = await this.modalController.create({
       component: InfoSendModalComponent ,
@@ -157,7 +160,8 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
       backdropDismiss: false,
     });
     await modal.present();
-  }
+    this.isInfoModalOpen = false;
+  }}
 
   
   private subscribeToFormChanges(): void {

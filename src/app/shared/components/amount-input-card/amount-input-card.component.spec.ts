@@ -1,12 +1,15 @@
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { AmountInputCardComponent } from './amount-input-card.component';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SpyProperty } from '../../../../testing/spy-property.spec';
 import { FormattedAmountPipe } from '../../pipes/formatted-amount/formatted-amount.pipe';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { SummaryData } from 'src/app/modules/wallets/send/send-summary/interfaces/summary-data.interface';
 
 const testCoins = [
   {
@@ -33,12 +36,19 @@ const testCoins = [
     decimals: 18,
   },
 ];
+
 describe('AmountInputCardComponent', () => {
   let component: AmountInputCardComponent;
   let fixture: ComponentFixture<AmountInputCardComponent>;
   let formGroupDirectiveSpy: jasmine.SpyObj<FormGroupDirective>;
   let formGroupMock: FormGroup;
-  beforeEach(
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<AmountInputCardComponent>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
+
+  beforeEach( () => {
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
     waitForAsync(() => {
       formGroupMock = new FormGroup({
         amount: new FormControl(),
@@ -54,7 +64,8 @@ describe('AmountInputCardComponent', () => {
       TestBed.configureTestingModule({
         declarations: [AmountInputCardComponent, FormattedAmountPipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [{ provide: FormGroupDirective, useValue: formGroupDirectiveSpy }],
+        providers: [{ provide: FormGroupDirective, useValue: formGroupDirectiveSpy },
+          { provide: ModalController, useValue: modalControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
@@ -64,10 +75,10 @@ describe('AmountInputCardComponent', () => {
       component.feeToken = testCoins[0];
       component.max = 2;
       component.quotePrice = 10;
-
       fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
-  );
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -112,6 +123,26 @@ describe('AmountInputCardComponent', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const availableEl = fixture.debugElement.query(By.css('.aic__available'));
     expect(availableEl.nativeElement.innerHTML).toBeTruthy();
+  });
+
+  it('should show modal on trackService when ux_phrase_information clicked', async () => {
+    component.amountSend = true;
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_phrase_information');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not allow multiple phrase info modals opening', async () => {
+    component.amountSend = true;
+    fixture.detectChanges();
+    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="ux_phrase_information"]'))
+    infoButtonel.nativeElement.click();
+    infoButtonel.nativeElement.click();
+    infoButtonel.nativeElement.click();
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   describe('ShowRange enabled', () => {
@@ -178,6 +209,7 @@ describe('AmountInputCardComponent', () => {
         range: 0,
         amount: 0,
       });
+
     });
   });
 });

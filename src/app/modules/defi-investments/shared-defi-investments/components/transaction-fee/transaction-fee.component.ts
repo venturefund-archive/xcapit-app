@@ -58,11 +58,14 @@ export class TransactionFeeComponent implements OnInit {
   @Input() description: string;
   @Input() transactionFee: Boolean;
   isAmountSend: boolean;
+  isInfoModalOpen = false;
   constructor( private modalController: ModalController) {}
 
   ngOnInit() {}
   
   async showPhrasetransactionFeeInfo(){
+    if (this.isInfoModalOpen === false) {
+      this.isInfoModalOpen = true
     this.isAmountSend = false
     const modal = await this.modalController.create({
       component: InfoSendModalComponent ,
@@ -71,5 +74,7 @@ export class TransactionFeeComponent implements OnInit {
       backdropDismiss: false,
     });
     await modal.present();
+    this.isInfoModalOpen = false;
+  }
   }
 }

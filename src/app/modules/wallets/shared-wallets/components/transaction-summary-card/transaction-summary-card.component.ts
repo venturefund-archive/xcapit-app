@@ -73,7 +73,7 @@ import { InfoSendModalComponent } from '../info-send-modal/info-send-modal.compo
               slot="icon-only"
               fill="clear"
               appTrackClick
-              name="ux_phrase_information"
+              name="transaction-fee"
               size="small"
               (click)="this.showPhrasereferenceFeeInfo()"
             >
@@ -111,6 +111,7 @@ export class TransactionSummaryCardComponent implements OnInit {
   fee: number;
   referenceFee: number; 
   isAmountSend: boolean;
+  isInfoModalOpen = false;
   constructor(private apiWalletService: ApiWalletService,
     private modalController: ModalController) {}
 
@@ -130,6 +131,8 @@ export class TransactionSummaryCardComponent implements OnInit {
   }
 
   async showPhraseAmountInfo(){
+    if (this.isInfoModalOpen === false) {
+    this.isInfoModalOpen = true
     this.isAmountSend = true
     const modal = await this.modalController.create({
       component: InfoSendModalComponent ,
@@ -138,9 +141,13 @@ export class TransactionSummaryCardComponent implements OnInit {
       backdropDismiss: false,
     });
     await modal.present();
+    this.isInfoModalOpen = false;
+    }
   }
 
   async showPhrasereferenceFeeInfo(){
+    if (this.isInfoModalOpen === false) {
+      this.isInfoModalOpen = true
     this.isAmountSend = false
     const modal = await this.modalController.create({
       component: InfoSendModalComponent ,
@@ -149,5 +156,7 @@ export class TransactionSummaryCardComponent implements OnInit {
       backdropDismiss: false,
     });
     await modal.present();
+    this.isInfoModalOpen = false;
+    }
   }
 }
