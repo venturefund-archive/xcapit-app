@@ -278,4 +278,13 @@ describe('HomePage', () => {
     const cardEl = fixture.debugElement.query(By.css('app-buy-crypto-card[name="Buy Cripto Card"]'));
     expect(cardEl).toBeFalsy();
   });
+
+  it('should not show Donations Card if user has not created wallet', async() => {
+    fakeWalletService.modifyReturns(false, null);
+    await component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    const cardEl = fixture.debugElement.query(By.css('app-donations-card'));
+    expect(cardEl).toBeFalsy();
+  });
 });

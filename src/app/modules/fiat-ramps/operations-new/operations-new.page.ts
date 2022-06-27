@@ -1,5 +1,5 @@
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ElementRef } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
@@ -14,7 +14,6 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
-import { KriptonCurrencies } from '../shared-ramps/models/kripton-currencies/kripton-currencies';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { HttpClient } from '@angular/common/http';
@@ -23,6 +22,7 @@ import { Subject } from 'rxjs';
 import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
 import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
+import { FiatRampCurrenciesOf } from '../shared-ramps/models/fiat-ramp-currencies-of/fiat-ramp-currencies-of';
 
 @Component({
   selector: 'app-operations-new',
@@ -157,7 +157,7 @@ export class OperationsNewPage implements AfterViewInit {
   ionViewWillEnter() {
     this.provider = this.providers.find((provider) => provider.alias === 'kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
-    this.providerCurrencies = KriptonCurrencies.create(this.apiWalletService.getCoins()).value();
+    this.providerCurrencies = new FiatRampCurrenciesOf(this.provider, this.apiWalletService.getCoins()).value();
     this.setCountry();
     this.setCurrency();
     this.dynamicPrice();

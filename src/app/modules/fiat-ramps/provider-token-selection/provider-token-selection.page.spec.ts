@@ -9,10 +9,10 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TokenSelectionListComponent } from 'src/app/shared/components/token-selection-list/token-selection-list.component';
 import { SuitePipe } from 'src/app/shared/pipes/suite/suite.pipe';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
-import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ProviderTokenSelectionPage } from './provider-token-selection.page';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 
 const coins: Coin[] = [
   {
@@ -98,7 +98,6 @@ describe('ProviderTokenSelectionPage', () => {
   let fixture: ComponentFixture<ProviderTokenSelectionPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
@@ -109,10 +108,6 @@ describe('ProviderTokenSelectionPage', () => {
 
     fakeActivatedRoute = new FakeActivatedRoute({ provider: 'moonpay' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
-
-    storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      getAssestsSelected: Promise.resolve(coins),
-    });
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: [
@@ -125,7 +120,6 @@ describe('ProviderTokenSelectionPage', () => {
       imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
-        { provide: StorageService, useValue: storageServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
       ],
@@ -133,18 +127,12 @@ describe('ProviderTokenSelectionPage', () => {
 
     fixture = TestBed.createComponent(ProviderTokenSelectionPage);
     component = fixture.componentInstance;
+    component.providers = rawProvidersData;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should get user selected coins of storage on init', async () => {
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    expect(component.coins).toEqual(expectedCoins);
   });
 
   it('should render a list of coins', async () => {

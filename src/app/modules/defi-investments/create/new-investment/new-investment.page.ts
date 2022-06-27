@@ -16,6 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
+import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
 @Component({
   selector: 'app-new-investment',
   template: `
@@ -114,7 +115,8 @@ export class NewInvestmentPage implements OnInit {
     private investmentDataService: InvestmentDataService,
     private navController: NavController,
     private walletBalance: WalletBalanceService,
-    private dynamicPriceFactory: DynamicPriceFactory
+    private dynamicPriceFactory: DynamicPriceFactory,
+    private walletBackupService: WalletBackupService,
   ) {}
 
   ngOnInit() {}
@@ -148,8 +150,10 @@ export class NewInvestmentPage implements OnInit {
     this.buyAvailable = coin[0].hasOwnProperty('moonpayCode');
   }
 
-  goToMoonpay() {
+  async goToMoonpay() {
+    if ((await this.walletBackupService.presentModal()) === 'skip') {
     this.navController.navigateForward(['fiat-ramps/new-operation/moonpay']);
+    }
   }
 
   getToken() {
