@@ -154,7 +154,7 @@ describe('RecoveryWalletPage', () => {
     fixture.detectChanges();
     expect(component.form.get('phrase').hasError('required')).toBeFalse();
     expect(component.form.get('phrase').hasError('twelveWords')).toBeTrue();
-    expect(component.form.get('phrase').hasError('spaceBetween')).toBeFalse();
+    expect(component.form.get('phrase').hasError('spaceBetween')).toBeTrue();
     expect(component.form.get('phrase').hasError('hasSpecialCharacter')).toBeFalse();
     expect(component.form.valid).toBeFalse();
   });
