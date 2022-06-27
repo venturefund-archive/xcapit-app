@@ -111,9 +111,107 @@ describe('CustomValidators', () => {
     form.patchValue({ testPattern: 'asd' });
     expect(form.valid).toBe(false);
     expect(form.get('testPattern').hasError('hasNumber')).toBe(true);
+    
+    form.patchValue({ testPattern: '' });
+    expect(form.valid).toBe(true);
+    expect(form.get('testPattern').hasError('hasNumber')).toBe(false);
 
     form.patchValue({ testPattern: 123 });
     expect(form.valid).toBe(true);
     expect(form.get('testPattern').hasError('hasNumber')).toBe(false);
+  });
+
+  it('should fail empty validate pattern when failWhenEmpty is true',  () => {
+    const form: FormGroup = formBuilder.group({
+      testPattern: ['', [CustomValidators.patternValidator(/\d/, CustomValidatorErrors.hasNumber, true)]],
+    });
+
+    form.patchValue({ testPattern: '' });
+    expect(form.valid).toBe(false);
+    expect(form.get('testPattern').hasError('hasNumber')).toBe(true);
+  });
+
+  it('should validate that form control has no special characters', () => {
+    const form: FormGroup = formBuilder.group({
+      testPattern: ['', [CustomValidators.hasNoSpecialCharacters()]],
+    });
+
+    form.patchValue({ testPattern: 'asd' });
+    expect(form.valid).toBe(true);
+    expect(form.get('testPattern').hasError('hasSpecialCharacter')).toBe(false);
+
+    form.patchValue({ testPattern: 'test test' });
+    expect(form.valid).toBe(true);
+    expect(form.get('testPattern').hasError('hasSpecialCharacter')).toBe(false);
+
+    form.patchValue({ testPattern: '' });
+    expect(form.valid).toBe(true);
+    expect(form.get('testPattern').hasError('hasSpecialCharacter')).toBe(false);
+
+    form.patchValue({ testPattern: ' ' });
+    expect(form.valid).toBe(true);
+    expect(form.get('testPattern').hasError('hasSpecialCharacter')).toBe(false);
+
+    form.patchValue({ testPattern: 'test123' });
+    expect(form.valid).toBe(false);
+    expect(form.get('testPattern').hasError('hasSpecialCharacter')).toBe(true);
+
+    form.patchValue({ testPattern: 'te$t' });
+    expect(form.valid).toBe(false);
+    expect(form.get('testPattern').hasError('hasSpecialCharacter')).toBe(true);
+
+    form.patchValue({ testPattern: 'tes/t, ' });
+    expect(form.valid).toBe(false);
+    expect(form.get('testPattern').hasError('hasSpecialCharacter')).toBe(true);
+
+    form.patchValue({ testPattern: '$' });
+    expect(form.valid).toBe(false);
+    expect(form.get('testPattern').hasError('hasSpecialCharacter')).toBe(true);
+  });
+
+  it('should validate advanced word count', () => {
+    const form: FormGroup = formBuilder.group({
+      testPattern: ['', [CustomValidators.advancedCountWords(3)]],
+    });
+
+    form.patchValue({ testPattern: 'one two three' });
+    expect(form.valid).toBe(true);
+    expect(form.get('testPattern').hasError('countWordsMatch')).toBe(false);
+
+    form.patchValue({ testPattern: 'one, two, three' });
+    expect(form.valid).toBe(true);
+    expect(form.get('testPattern').hasError('countWordsMatch')).toBe(false);
+
+    form.patchValue({ testPattern: 'one-two-three' });
+    expect(form.valid).toBe(true);
+    expect(form.get('testPattern').hasError('countWordsMatch')).toBe(false);
+
+    form.patchValue({ testPattern: 'one/two/three/ -' });
+    expect(form.valid).toBe(true);
+    expect(form.get('testPattern').hasError('countWordsMatch')).toBe(false);
+
+    form.patchValue({ testPattern: 'word1/word2 - word3' });
+    expect(form.valid).toBe(true);
+    expect(form.get('testPattern').hasError('countWordsMatch')).toBe(false);
+
+    form.patchValue({ testPattern: 'one two' });
+    expect(form.valid).toBe(false);
+    expect(form.get('testPattern').hasError('countWordsMatch')).toBe(true);
+
+    form.patchValue({ testPattern: 'one/two/three/four' });
+    expect(form.valid).toBe(false);
+    expect(form.get('testPattern').hasError('countWordsMatch')).toBe(true);
+
+    form.patchValue({ testPattern: '' });
+    expect(form.valid).toBe(false);
+    expect(form.get('testPattern').hasError('countWordsMatch')).toBe(true);
+
+    form.patchValue({ testPattern: ' ' });
+    expect(form.valid).toBe(false);
+    expect(form.get('testPattern').hasError('countWordsMatch')).toBe(true);
+
+    form.patchValue({ testPattern: '$' });
+    expect(form.valid).toBe(false);
+    expect(form.get('testPattern').hasError('countWordsMatch')).toBe(true);
   });
 });

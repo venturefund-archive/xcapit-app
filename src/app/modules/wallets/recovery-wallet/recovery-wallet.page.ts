@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
+import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { InfoPhraseModalComponent } from '../shared-wallets/components/info-phrase-modal/info-phrase-modal.component';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
@@ -67,7 +68,7 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
           </div>
           <div class="form_component">
             <form [formGroup]="this.form" class="ux_main">
-              <app-recovery-wallet-form></app-recovery-wallet-form>
+              <app-recovery-wallet-form controlName="phrase"></app-recovery-wallet-form>
             </form>
           </div>
         </div>
@@ -95,7 +96,12 @@ export class RecoveryWalletPage implements OnInit {
   validPhrase: string;
   isInfoModalOpen = false;
   form: FormGroup = this.formBuilder.group({
-    phrase: ['', [Validators.required, CustomValidators.countWords(12)]],
+    phrase: ['', [
+      Validators.required, 
+      CustomValidators.advancedCountWords(12, CustomValidatorErrors.twelveWords),
+      CustomValidators.patternValidator(/^[\w\s][\w\s]*$/, CustomValidatorErrors.spaceBetween, true),
+      CustomValidators.hasNoSpecialCharacters()
+    ]],
   });
 
   constructor(

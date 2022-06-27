@@ -138,7 +138,7 @@ export const CONFIG = {
         rules: [],
       },
       {
-        name: 'noSpecialCharacters',
+        name: 'hasSpecialCharacter',
         text: 'config.field_errors.import_wallet_phrase.no_special_characters',
         rules: [],
       }

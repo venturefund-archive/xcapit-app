@@ -28,4 +28,8 @@ export class CustomValidatorErrors {
   static hasSpecialCharacter = { hasSpecialCharacter: true };
 
   static greaterThanError = { greaterThan: true };
+
+  static twelveWords = { twelveWords: true };
+
+  static spaceBetween = { spaceBetween: true };
 }
