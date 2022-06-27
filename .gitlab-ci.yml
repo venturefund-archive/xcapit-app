@@ -83,7 +83,6 @@ cache:
 ## Coveralls 
 .coveralls: &coveralls 
   stage: test
-  needs: [test]
   image: node:${NODE_VERSION}
   script:
     - npm i -g coveralls
