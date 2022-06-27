@@ -77,6 +77,10 @@ const routes: Routes = [
             (m) => m.ProviderTokenSelectionPageModule
           ),
       },
+      {
+        path: 'buy-conditions',
+        loadChildren: () => import('./buy-conditions/buy-conditions.module').then((m) => m.BuyConditionsPageModule),
+      },
     ],
   },
 ];

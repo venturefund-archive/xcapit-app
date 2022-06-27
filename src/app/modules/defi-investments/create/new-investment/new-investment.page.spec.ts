@@ -20,6 +20,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { of } from 'rxjs';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -73,6 +74,7 @@ describe('NewInvestmentPage', () => {
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
+  let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -120,6 +122,10 @@ describe('NewInvestmentPage', () => {
         balanceOf: Promise.resolve(2),
       });
 
+      storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+        get: Promise.resolve(false),
+      });
+
       TestBed.configureTestingModule({
         declarations: [NewInvestmentPage, FakeTrackClickDirective, FakeFeatureFlagDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -131,6 +137,7 @@ describe('NewInvestmentPage', () => {
           { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
           { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
           { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
+          { provide: IonicStorageService, useValue: storageServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -162,7 +169,7 @@ describe('NewInvestmentPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_moonpay"'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
     expect(buttonEl).toBeTruthy();
   });
 
@@ -177,14 +184,31 @@ describe('NewInvestmentPage', () => {
     expect(buttonEl).toBeNull();
   });
 
-  it('should navigate to moonpay when go_to_moonpay button is clicked', async () => {
+  it('should navigate to buy conditions page when go_to_buy button is clicked and conditionsPurchasesAccepted if not exist in the storage', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
+    buttonEl.nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/buy-conditions']);
+  });
+
+  it('should navigate to select provider page when go_to_buy button is clicked and conditionsPurchasesAccepted if exist in the storage', async () => {
+    storageServiceSpy.get.and.resolveTo(true);
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_moonpay"'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
     buttonEl.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/new-operation/moonpay']);
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
   });
 
   it('should save amount and redirect if form is valid', async () => {

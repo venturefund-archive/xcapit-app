@@ -16,6 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 @Component({
   selector: 'app-new-investment',
   template: `
@@ -72,9 +73,9 @@ import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/fac
               {{ 'defi_investments.new.dont_have' | translate }}{{ this.token.value + '?' }}
             </span>
             <ion-button
-              name="go_to_moonpay"
+              name="go_to_buy"
               class="ux-link-xl ni__footer__text__button"
-              (click)="this.goToMoonpay()"
+              (click)="this.goToBuyCrypto()"
               appTrackClick
               fill="clear"
             >
@@ -114,7 +115,8 @@ export class NewInvestmentPage implements OnInit {
     private investmentDataService: InvestmentDataService,
     private navController: NavController,
     private walletBalance: WalletBalanceService,
-    private dynamicPriceFactory: DynamicPriceFactory
+    private dynamicPriceFactory: DynamicPriceFactory,
+    private storage: IonicStorageService
   ) {}
 
   ngOnInit() {}
@@ -148,8 +150,10 @@ export class NewInvestmentPage implements OnInit {
     this.buyAvailable = coin[0].hasOwnProperty('moonpayCode');
   }
 
-  goToMoonpay() {
-    this.navController.navigateForward(['fiat-ramps/new-operation/moonpay']);
+  async goToBuyCrypto() {
+    const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+    const url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
+    this.navController.navigateForward([url]);
   }
 
   getToken() {

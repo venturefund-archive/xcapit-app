@@ -63,7 +63,7 @@ import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
                 >{{ this.amount.value | formattedAmount }} {{ this.amount.token }}</ion-text
               >
               <ion-text class="ux-font-text-base summary__amount__qty__quoteAmount"
-                >{{ this.quoteAmount.value | formattedAmount: 10: 2 }} {{ this.quoteAmount.token }}
+                >{{ this.quoteAmount.value | formattedAmount: 10:2 }} {{ this.quoteAmount.token }}
               </ion-text>
             </div>
           </div>
@@ -148,6 +148,7 @@ export class InvestmentConfirmationPage {
   labelText: string;
   isNegativeBalance: boolean;
   modalHref: string;
+  url: string;
 
   constructor(
     private investmentDataService: InvestmentDataService,
@@ -172,6 +173,7 @@ export class InvestmentConfirmationPage {
     await this.getInvestmentInfo();
     this.dynamicPrice();
     this.checkTwoPiAgreement();
+    await this.setUrlToBuyCrypto();
     await this.walletService.walletExist();
     await this.getNativeTokenBalance();
     await this.checkNativeTokenBalance();
@@ -332,6 +334,12 @@ export class InvestmentConfirmationPage {
     }
   }
 
+  async setUrlToBuyCrypto() {
+    const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+    this.url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
+    return this.url;
+  }
+
   async openModalNativeTokenBalance() {
     const modal = await this.modalController.create({
       component: ToastWithButtonsComponent,
@@ -348,7 +356,7 @@ export class InvestmentConfirmationPage {
         secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
           nativeToken: this.nativeToken?.value,
         }),
-        firstLink: '/fiat-ramps/new-operation/moonpay',
+        firstLink: this.url,
         secondLink: '/wallets/receive/detail',
         data: this.nativeToken,
       },
