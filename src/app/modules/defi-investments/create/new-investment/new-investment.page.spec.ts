@@ -20,6 +20,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { of } from 'rxjs';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
+import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 const testVault = {
@@ -74,7 +75,9 @@ describe('NewInvestmentPage', () => {
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let walletBalanceServiceSpy: jasmine.SpyObj<WalletBalanceService>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
-  let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+
 
   beforeEach(
     waitForAsync(() => {
@@ -122,8 +125,13 @@ describe('NewInvestmentPage', () => {
         balanceOf: Promise.resolve(2),
       });
 
-      storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
         get: Promise.resolve(false),
+        set: Promise.resolve(),
+      });
+
+      walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
+        presentModal: Promise.resolve('skip'),
       });
 
       TestBed.configureTestingModule({
@@ -137,7 +145,8 @@ describe('NewInvestmentPage', () => {
           { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
           { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
           { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
-          { provide: IonicStorageService, useValue: storageServiceSpy },
+          { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+          { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -198,17 +207,30 @@ describe('NewInvestmentPage', () => {
   });
 
   it('should navigate to select provider page when go_to_buy button is clicked and conditionsPurchasesAccepted if exist in the storage', async () => {
-    storageServiceSpy.get.and.resolveTo(true);
+    ionicStorageServiceSpy.get.and.resolveTo(true);
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();
-    await fixture.whenRenderingDone();
+    walletBackupServiceSpy.presentModal.and.resolveTo('skip')
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
     buttonEl.nativeElement.click();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     await fixture.whenStable();
+    expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
+  });
+
+  it('should not navigate when user click on backup wallet inside modal', async () => {
+    walletBackupServiceSpy.presentModal.and.resolveTo('backup')
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
+    buttonEl.nativeElement.click();
+    await fixture.whenStable();
+    expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
   });
 
   it('should save amount and redirect if form is valid', async () => {
