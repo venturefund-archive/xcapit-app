@@ -39,6 +39,28 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
           </div>
         </div>
       </div>
+
+      <div *ngIf="this.amountUSDEnabled" class="pnoc__amount-select">
+        <div class="pnoc__amount-select__qty-label">
+          <ion-label class="ux-font-titulo-xs">{{
+            'fiat_ramps.shared.provider_new_operation_card.to_pay' | translate
+          }}*</ion-label>
+        </div>
+        <div class="pnoc__amount-select__labels">
+          <ion-label class="ux-font-text-xs pnoc__amount-select__labels__base" color="primary">
+            USD
+          </ion-label>         
+        </div>
+        <div class="pnoc__amount-select__inputs">
+          <div class="pnoc__amount-select__inputs__amount">
+            <ion-input appNumberInput formControlName="usdAmount" type="number" inputmode="numeric"> </ion-input>
+          </div>
+        </div>
+        <ion-text class="ux-font-text-xs pnoc__amount-select__usd-disclaimer">{{
+            'fiat_ramps.shared.provider_new_operation_card.usd_disclaimer' | translate
+          }}</ion-text>
+      </div>
+
       <div class="pnoc__provider">
         <div class="pnoc__provider__label">
           <ion-text class="ux-font-titulo-xs">{{
@@ -72,6 +94,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
 export class ProviderNewOperationCardComponent implements OnInit {
   @Input() coin: Coin;
   @Input() amountEnabled = true;
+  @Input() amountUSDEnabled = false;
   @Input() fiatCurrency = 'USD';
   @Input() provider: FiatRampProvider;
   @Output() changeCurrency = new EventEmitter<void>();

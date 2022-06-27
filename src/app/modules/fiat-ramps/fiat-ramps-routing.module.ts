@@ -21,6 +21,10 @@ const routes: Routes = [
             canActivate: [HasWallet],
             loadChildren: () => import('./moonpay/moonpay.module').then((m) => m.MoonpayPageModule),
           },
+          {
+            path: 'others',
+            loadChildren: () => import('./directa/directa.module').then((m) => m.DirectaPageModule),
+          },
         ],
       },
       {
@@ -79,6 +83,11 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'directa',
+    loadChildren: () => import('./directa/directa.module').then( m => m.DirectaPageModule)
+  },
+
 ];
 
 @NgModule({

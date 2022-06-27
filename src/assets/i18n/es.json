@@ -2142,9 +2142,14 @@
       "fixed_footer": {
         "text": "Estas operando con Kriptonmarket"
       },
+      "redirect_footer": {
+        "text": "Al presionar “Continuar”, serás redirigido al sitio del proveedor externo para completar tu ticket de compra y abonar la transacción."
+      },
       "provider_new_operation_card": {
         "quantity": "Cantidad",
-        "provider": "Proveedor"
+        "provider": "Proveedor",
+        "to_pay": "Pagarás",
+        "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día."
       },
       "kyc_disclaimer_modal": {
         "title": "Registro cuenta Kripton",
