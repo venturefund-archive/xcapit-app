@@ -26,6 +26,7 @@ import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/fac
 import { Amount } from 'src/app/modules/defi-investments/shared-defi-investments/types/amount.type';
 import { ToastWithButtonsComponent } from 'src/app/modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 import { TranslateService } from '@ngx-translate/core';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-send-detail',
@@ -129,6 +130,7 @@ export class SendDetailPage {
   dynamicFee: Amount = { value: 0, token: undefined };
   quoteFee: Amount = { value: 0, token: 'USD' };
   modalHref: string;
+  url: string;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
     amount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
@@ -147,14 +149,15 @@ export class SendDetailPage {
     private erc20ContractController: ERC20ContractController,
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalController: ModalController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private storage: IonicStorageService
   ) {}
 
   async ionViewDidEnter() {
     this.modalHref = window.location.href;
     this.tokenAndNetworks();
     this.getPrices();
-
+    this.setUrlToBuyCrypto();
     await this.tokenBalances();
   }
 
@@ -329,6 +332,12 @@ export class SendDetailPage {
     if (this.nativeBalance < this.fee) this.openModalBalance();
   }
 
+  async setUrlToBuyCrypto() {
+    const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+    this.url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
+    return this.url;
+  }
+
   async openModalBalance() {
     const modal = await this.modalController.create({
       component: ToastWithButtonsComponent,
@@ -345,7 +354,7 @@ export class SendDetailPage {
         secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
           nativeToken: this.nativeToken?.value,
         }),
-        firstLink: '/fiat-ramps/new-operation/moonpay',
+        firstLink: this.url,
         secondLink: '/wallets/receive/detail',
         data: this.nativeToken,
       },
