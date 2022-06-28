@@ -81,16 +81,10 @@
 
       &__content {
         display: flex;
-        align-items: center;
 
         &__img {
           display: flex;
-          align-items: center;
           margin-right: 16px;
-
-          img {
-            width: 32px;
-          }
         }
 
         &__provider-name {

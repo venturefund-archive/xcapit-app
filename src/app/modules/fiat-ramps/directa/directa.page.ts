@@ -31,7 +31,7 @@ import { OperationDataInterface, StorageOperationService } from '../shared-ramps
     </ion-header>
 
     <ion-content class="ion-padding">
-      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
+      <form [formGroup]="this.form" (ngSubmit)="this.goToD24()" class="ux_main">
         <div class="ux_content aon">
           <app-provider-new-operation-card
             *ngIf="this.selectedCurrency && this.fiatCurrency"
@@ -45,6 +45,12 @@ import { OperationDataInterface, StorageOperationService } from '../shared-ramps
         </div>
 
         <div class="ux_footer">
+          <div class="ux_footer__content">
+            <ion-text class="ux-font-text-xs ux_footer__content__disclaimer">{{
+              'fiat_ramps.shared.redirect_footer.text' | translate 
+            }}
+            </ion-text>
+          </div>
           <div class="button-next">
             <ion-button
               class="ux_button"
@@ -66,7 +72,7 @@ import { OperationDataInterface, StorageOperationService } from '../shared-ramps
 })
 export class DirectaPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
-    currency: ['', Validators.required],
+    usdAmount: ['', Validators.required],
   });
   provider: FiatRampProvider;
   providers: FiatRampProvider[] = PROVIDERS;
@@ -92,8 +98,7 @@ export class DirectaPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() { 
-    console.log('IonViewWillEnter')
-    this.provider = this.providers.find((provider) => provider.alias === 'kripton');
+    this.provider = this.providers.find((provider) => provider.alias === 'mercadopago');
     this.fiatRampsService.setProvider(this.provider.id.toString());
     this.providerCurrencies = new FiatRampCurrenciesOf(this.provider, this.apiWalletService.getCoins()).value();
     this.setCountry();
@@ -101,11 +106,9 @@ export class DirectaPage implements OnInit {
   }
 
   setCountry() {
-    console.log('Empieza setCountry')
     this.country = COUNTRIES.find(
       (country) => country.name.toLowerCase() === this.route.snapshot.paramMap.get('country')
     );
-    console.log('Termina setCountry')
   }
 
   setCurrency() {
@@ -182,7 +185,7 @@ export class DirectaPage implements OnInit {
     this.navController.navigateForward(url);
   }
 
-  openD24(): void {
+  goToD24(): void {
     throw 'not implemented';
   }
 

@@ -67,12 +67,17 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
             'fiat_ramps.shared.provider_new_operation_card.provider' | translate
           }}</ion-text>
         </div>
-        <div class="pnoc__provider__content">
+        <div class="pnoc__provider__content ux-card ion-padding">
           <div class="pnoc__provider__content__img">
             <img [src]="this.provider.logoRoute" />
           </div>
-          <div class="pnoc__provider__content__provider-name">
-            <ion-text class="pnoc__provider__content__text__name ux-font-text-base">{{ this.provider.name }}</ion-text>
+          <div class="pnoc__provider__content__body">
+            <div class="pnoc__provider__content__body__provider-name">
+              <ion-text class="pnoc__provider__content__body__text__name ux-font-text-lg">{{ this.provider.name }}</ion-text>
+            </div>
+            <div class="ux-font-text-xxs">
+              <ion-text class="pnoc__provider__content__body__description">{{ this.provider?.description | translate }}</ion-text>
+            </div>
           </div>
         </div>
         <div class="pnoc__provider__description">

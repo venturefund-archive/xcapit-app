@@ -28,7 +28,7 @@ export const PROVIDERS: FiatRampProvider[] = [
       'Estados Unidos',
     ],
   },
-  //TODO DEJAR COMENTADO KRIPTON, CAMBIAR URL REDIRECCION
+  //TODO DEJAR COMENTADO KRIPTON
   {
     id: 1,
     alias: 'kripton',
@@ -48,15 +48,15 @@ export const PROVIDERS: FiatRampProvider[] = [
     id: 2,
     alias: 'mercadopago',
     name: 'Mercado Pago',
-    trackClickEventName: "ux_buy_mercadopago",
     logoRoute: 'assets/img/provider-logos/Moonpay.svg',
     description: 'fiat_ramps.select_provider.moonpay_description',
     newOperationRoute: '/fiat-ramps/new-operation/others',
+    trackClickEventName: "ux_buy_mercadopago",
     countries: [
       'Argentina'
     ],
     currencies: [
-      { symbol: 'DAI', network: 'MATIC' },
+      { symbol: 'USDC', network: 'MATIC' },
     ],
   },
 ];
