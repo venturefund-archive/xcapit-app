@@ -1708,7 +1708,7 @@
         "input_label": "Contraseña"
       },
       "claim_nft_card": {
-        "base": "Aquí podrás ver tus NFT",
+        "base": "Aquí podrás ver tus NFTs",
         "unclaimed_title": "¡Tu NFT te espera!",
         "unclaimed_subtitle": "Reclama tu NFT de la Conmemoración a la independencia de Mexico",
         "unclaimed_note": "*Solo lo recibiras si te anotaste en la lista de espera.",
