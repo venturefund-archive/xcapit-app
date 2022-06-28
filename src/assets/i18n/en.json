@@ -2076,7 +2076,7 @@
       }
     },
     "confirm": {
-      "header": "Confirm operation",
+      "header": "Confirm purchase",
       "title": "Check that the data is correct",
       "provider": "Provider",
       "type": "Operation type",

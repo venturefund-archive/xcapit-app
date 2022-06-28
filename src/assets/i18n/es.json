@@ -2054,7 +2054,7 @@
       }
     },
     "confirm": {
-      "header": "Confirmar operación",
+      "header": "Confirmar compra",
       "title": "Revisa que los datos sean correctos:",
       "provider": "Proveedor",
       "type": "Operación",
