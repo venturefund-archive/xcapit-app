@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { CreatePasswordPage } from './create-password.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,12 +17,48 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { Mnemonic } from '@ethersproject/hdnode';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
   path: '',
   phrase: 'test phrase other word number another rooster keyboard confort destroy jingle july',
 };
+const formData = {
+  valid: {
+    password: 'Test123',
+    repeat_password: 'Test123',
+  },
+  invalid: {
+    password: 'Test123',
+    repeat_password: 'Test111',
+  },
+};
+const coins = [
+  {
+    id: 0,
+    name: 'ETH - Ethereum',
+    logoRoute: 'assets/img/coins/ETH.svg',
+    last: false,
+    value: 'ETH',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'http://testrpc.test/',
+    native: true,
+  },
+  {
+    id: 1,
+    name: 'LINK - Chainlink',
+    logoRoute: 'assets/img/coins/LINK.png',
+    last: false,
+    value: 'LINK',
+    network: 'ERC20',
+    chainId: 42,
+    rpc: 'http://testrpc.test/',
+    contract: '0x01BE23585060835E02B77ef475b0Cc51aA1e0709',
+    decimals: 18,
+  },
+];
 
 describe('CreatePasswordPage', () => {
   let component: CreatePasswordPage;
@@ -37,41 +73,8 @@ describe('CreatePasswordPage', () => {
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CreatePasswordPage>;
   let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
-  const formData = {
-    valid: {
-      password: 'Test123',
-      repeat_password: 'Test123',
-    },
-    invalid: {
-      password: 'Test123',
-      repeat_password: 'Test111',
-    },
-  };
-  const coins = [
-    {
-      id: 0,
-      name: 'ETH - Ethereum',
-      logoRoute: 'assets/img/coins/ETH.svg',
-      last: false,
-      value: 'ETH',
-      network: 'ERC20',
-      chainId: 42,
-      rpc: 'http://testrpc.test/',
-      native: true,
-    },
-    {
-      id: 1,
-      name: 'LINK - Chainlink',
-      logoRoute: 'assets/img/coins/LINK.png',
-      last: false,
-      value: 'LINK',
-      network: 'ERC20',
-      chainId: 42,
-      rpc: 'http://testrpc.test/',
-      contract: '0x01BE23585060835E02B77ef475b0Cc51aA1e0709',
-      decimals: 18,
-    },
-  ]
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+
   beforeEach(() => {
     fakeLoadingService = new FakeLoadingService();
     loadingServiceSpy = fakeLoadingService.createSpy();
@@ -89,11 +92,18 @@ describe('CreatePasswordPage', () => {
       encryptWallet: Promise.resolve(true),
       getEncryptedWallet: Promise.resolve({ addresses: { ERC20: 'testERC20Address', RSK: 'testRSKAddress' } }),
     });
-    walletServiceSpy = jasmine.createSpyObj('WalletService', { 
-      create: Promise.resolve({}) 
-    },{
-      coins: [],
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      set: Promise.resolve(),
     });
+    walletServiceSpy = jasmine.createSpyObj(
+      'WalletService',
+      {
+        create: Promise.resolve({}),
+      },
+      {
+        coins: [],
+      }
+    );
     activatedRouteMock = { snapshot: { paramMap: { get: () => 'import' } } };
     TestBed.configureTestingModule({
       declarations: [CreatePasswordPage, FakeTrackClickDirective],
@@ -107,6 +117,7 @@ describe('CreatePasswordPage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: WalletService, useValue: walletServiceSpy },
         { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -197,4 +208,28 @@ describe('CreatePasswordPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should set protectedWallet to true when importing wallet succeeds', fakeAsync(() => {
+    activatedRouteMock.snapshot.paramMap.get = () => 'import';
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    tick();
+    component.createPasswordForm.patchValue(formData.valid);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    tick();
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('protectedWallet', true);
+  }));
+
+  it('should not set protectedWallet to true when creating wallet', fakeAsync(() => {
+    activatedRouteMock.snapshot.paramMap.get = () => 'create';
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    tick();
+    component.createPasswordForm.patchValue(formData.valid);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    tick();
+    expect(ionicStorageServiceSpy.set).not.toHaveBeenCalled();
+  }));
 });

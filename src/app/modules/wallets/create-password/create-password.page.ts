@@ -12,6 +12,7 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-create-password',
@@ -144,7 +145,8 @@ export class CreatePasswordPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private walletService: WalletService,
     private translate: TranslateService,
-    private walletMnemonicService: WalletMnemonicService
+    private walletMnemonicService: WalletMnemonicService,
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ionViewWillEnter() {
@@ -170,10 +172,17 @@ export class CreatePasswordPage implements OnInit {
         .then(() => this.walletEncryptionService.getEncryptedWallet())
         .then((encryptedWallet) => this.formattedWallets(encryptedWallet))
         .then((wallets) => this.apiWalletService.saveWalletAddresses(wallets).toPromise())
+        .then(() => this.setWalletAsProtectedIfImporting())
         .then(() => (this.loading = false))
         .then(() => this.navigateByMode());
     } else {
       this.createPasswordForm.markAllAsTouched();
+    }
+  }
+
+  private setWalletAsProtectedIfImporting(): Promise<void> {
+    if (this.mode === 'import') {
+      return this.ionicStorageService.set('protectedWallet', true);
     }
   }
 
