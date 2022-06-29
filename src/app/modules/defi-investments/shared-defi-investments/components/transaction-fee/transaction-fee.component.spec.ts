@@ -17,6 +17,8 @@ describe('TransactionFeeComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
       TestBed.configureTestingModule({
         declarations: [TransactionFeeComponent, FormattedAmountPipe, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -26,8 +28,6 @@ describe('TransactionFeeComponent', () => {
       fixture = TestBed.createComponent(TransactionFeeComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
-      fakeModalController = new FakeModalController();
-      modalControllerSpy = fakeModalController.createSpy();
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     })
   );
@@ -65,7 +65,7 @@ describe('TransactionFeeComponent', () => {
     expect(skeletonEl).toBeFalsy();
   });
 
-  it('should show modal on trackService when transactionFee clicked', () => {
+  it('should show modal on trackService when transaction_fee clicked', () => {
     component.transactionFee = true;
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'transaction_fee');
@@ -76,7 +76,7 @@ describe('TransactionFeeComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit event and when transaction fee clicked', () => {
+  it('should emit event and when transaction_fee fee clicked', () => {
     component.transactionFee = true;
     fixture.detectChanges();
     const spy = spyOn(component.transactionFeeInfoClicked, 'emit');

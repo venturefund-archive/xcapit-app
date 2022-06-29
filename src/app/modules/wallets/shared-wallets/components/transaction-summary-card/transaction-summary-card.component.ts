@@ -129,11 +129,11 @@ export class TransactionSummaryCardComponent implements OnInit {
     this.nativeToken = this.apiWalletService.getNativeTokenFromNetwork(this.summaryData.network);
   }
 
-  async showPhraseAmountInfo() {
+  showPhraseAmountInfo() {
     this.phraseAmountInfoClicked.emit();
   }
 
-  async showPhrasereferenceFeeInfo() {
+  showPhrasereferenceFeeInfo() {
     this.phrasetransactionFeeInfoClicked.emit();
   }
 }

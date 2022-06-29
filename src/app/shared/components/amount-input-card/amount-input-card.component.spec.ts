@@ -129,7 +129,7 @@ describe('AmountInputCardComponent', () => {
     expect(availableEl.nativeElement.innerHTML).toBeTruthy();
   });
 
-  it('should show modal on trackService when transactionFee clicked', () => {
+  it('should show modal on trackService when ux_phrase_information  clicked', () => {
     component.amountSend = true;
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_phrase_information');
@@ -140,7 +140,7 @@ describe('AmountInputCardComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit event and when transaction fee clicked', () => {
+  it('should emit event and when ux_phrase_information clicked', () => {
     component.amountSend = true;
     fixture.detectChanges();
     const spy = spyOn(component.phraseAmountInfoClicked, 'emit');
