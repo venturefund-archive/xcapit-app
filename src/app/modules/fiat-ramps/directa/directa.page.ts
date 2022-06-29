@@ -74,7 +74,7 @@ export class DirectaPage implements OnInit {
   providers: FiatRampProvider[] = PROVIDERS;
   providerCurrencies: Coin[];
   selectedCurrency: Coin;
-  fiatCurrency: string = 'USD';
+  fiatCurrency = 'USD';
   country: FiatRampProviderCountry;
   providerAlias: string;
 
