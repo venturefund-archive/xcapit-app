@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { createWidget } from '@typeform/embed';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { MODULES_CRYPTO } from '../shared-financial-education/constants/crypto';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
 
@@ -26,6 +27,7 @@ import { MODULES_FINANCE } from '../shared-financial-education/constants/finance
 export class TestTypeformPage implements OnInit {
   selectedTab: string;
   module: any;
+  wallet_address:string;
   subModule: any;
   data: any;
   code: string;
@@ -34,23 +36,36 @@ export class TestTypeformPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
+    await this.getUserWalletAddress();
     this.getParams();
-    this.createTypeform();
     this.getData();
     this.getModule();
     this.getSubModule();
+    this.createTypeform();
     this.updateTexts();
   }
+
+
+  private async getUserWalletAddress() {
+    const wallet = await this.storageService.getWalletFromStorage();
+    this.wallet_address = wallet.addresses.ERC20;
+  }
+
 
   createTypeform() {
     createWidget(this.code, {
       container: document.querySelector('#form'),
+      hidden:{
+        wallet_address:`${this.wallet_address}`,
+        submodule_id:`${this.subModule.id}`,
+      },
       onSubmit: () => {
         this.redirectToPage();
       },
