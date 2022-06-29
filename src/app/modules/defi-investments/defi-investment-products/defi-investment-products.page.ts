@@ -32,11 +32,20 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           <ion-item lines="none" slot="header">
             <ion-label>{{ 'defi_investments.defi_investment_products.title_investments' | translate }}</ion-label>
           </ion-item>
-          <app-investment-balance-item
-            *ngFor="let investment of this.activeInvestments"
-            [investmentProduct]="investment.product"
-            [balance]="investment.balance"
-          ></app-investment-balance-item>
+          <ion-text class="dp__gains" *ngIf="this.activeInvestmentsContinuousEarning.length">{{
+            'defi_investments.defi_investment_products.profits' | translate
+          }}</ion-text>
+          <div *ngFor="let investment of this.activeInvestmentsContinuousEarning">
+            <app-investment-balance-item [investmentProduct]="investment.product" [balance]="investment.balance">
+            </app-investment-balance-item>
+          </div>
+          <ion-text class="dp__weeklygains" *ngIf="this.activeInvestmentsWeaklyEarning.length">{{
+            'defi_investments.defi_investment_products.profits_weekly' | translate
+          }}</ion-text>
+          <div *ngFor="let investment of this.activeInvestmentsWeaklyEarning">
+            <app-investment-balance-item [investmentProduct]="investment.product" [balance]="investment.balance">
+            </app-investment-balance-item>
+          </div>
         </div>
         <div
           class="dp__available-card-skeleton"
@@ -136,9 +145,12 @@ export class DefiInvestmentProductsPage {
     },
   ];
   activeInvestments: DefiInvestment[] = [];
+  activeInvestmentsContinuousEarning: DefiInvestment[] = [];  
+  activeInvestmentsWeaklyEarning: DefiInvestment[] = [];  
   availableInvestments: DefiInvestment[] = [];
   filteredAvailableInvestments: DefiInvestment[] = [];
   haveInvestments = true;
+
   constructor(
     private formBuilder: FormBuilder,
     private apiWalletService: ApiWalletService,
@@ -238,6 +250,12 @@ export class DefiInvestmentProductsPage {
 
   filterUserInvestments(investments: DefiInvestment[]): void {
     this.activeInvestments = investments.filter((investment) => investment.balance > 0);
+    this.activeInvestmentsContinuousEarning = this.activeInvestments.filter(
+      (investment) => investment.continuousEarning === true
+    );
+    this.activeInvestmentsWeaklyEarning = this.activeInvestments.filter(
+      (investment) => investment.continuousEarning === false
+    );
     this.availableInvestments = investments.filter((investment) => investment.balance === 0);
     this.setFilter(this.investorCategory);
   }

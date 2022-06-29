@@ -79,6 +79,7 @@ export class SelectProviderCardComponent implements OnInit {
   constructor(private formGroupDirective: FormGroupDirective, private fiatRampsService: FiatRampsService) {}
 
   ngOnInit() {
+    this.countries = this.availableCountries();
     this.form = this.formGroupDirective.form;
     this.countries.sort(this.sortCountries);
     this.form.get('country').valueChanges.subscribe((value) => {
@@ -97,6 +98,17 @@ export class SelectProviderCardComponent implements OnInit {
     this.availableDirectaProviders = this.filterDirectaProviders(availableDirectaProviders, country);
   }
 
+  availableCountries(): any {
+    const providerCountries = [];
+    this.providers.forEach((provider) => {
+      providerCountries.push(...provider.countries);
+    });
+    this.directaProviders.forEach((provider) => {
+      providerCountries.push(...provider.countries);
+    });
+    return this.countries.filter((country) => providerCountries.includes(country.name));
+  }
+
   selectedProvider(provider) {
     this.route.emit(provider.newOperationRoute);
   }
@@ -109,7 +121,7 @@ export class SelectProviderCardComponent implements OnInit {
     this.showProvider(country);
   }
 
-  async showProvider(country) {
+  showProvider(country) {
     for (let provider of this.providers) {
       const show = provider.countries.includes(country.name);
       provider = Object.assign(provider, { showProvider: show });

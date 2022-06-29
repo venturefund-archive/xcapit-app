@@ -20,6 +20,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
 import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
+import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 
 const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
@@ -124,6 +125,7 @@ describe('OperationsNewPage', () => {
     fixture = TestBed.createComponent(OperationsNewPage);
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    component.providers = rawProvidersData;
     fixture.detectChanges();
   });
 

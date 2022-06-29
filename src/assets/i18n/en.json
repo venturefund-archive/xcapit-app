@@ -16,7 +16,7 @@
       "change_language": "Language",
       "payment": "Plans",
       "wallet_connect": "WalletConnect",
-      "pull_to_refresh": "Próxima actualizacion disponible en {{seconds}} s"
+      "pull_to_refresh": "Next update available in {{seconds}} s"
     }
   },
   "config": {
@@ -311,6 +311,8 @@
       "header": "DeFi investments",
       "title": "Start investing",
       "title_investments": "My investments",
+      "profits": "Profits",
+      "profits_weekly": "Weekly profits",
       "recommendations": "You may be interested in",
       "empty_products": "Soon you will be able to find the best investments for your profile.",
       "link_button": "How do DeFi investments work?",
@@ -1078,6 +1080,13 @@
         "button_2": "Start test"
       }
     },
+    "error_test": {
+      "textPrimary":"Let's keep improving!",
+      "textSecondary":"Remember that you need to respond satisfactorily to all instances.",
+      "namePrimaryAction":"Repeat module",
+      "nameSecondaryAction":"Go to menu",
+      "nameThirdAction":"Learn more"
+    },
     "success_submodule":{
       "textPrimary": "¡Felicitaciones! Completaste: {{submodule}}",
       "textSecondary": "Que nada te detenga, estás cada vez más cerca de convertirte en un experto.",
@@ -1498,6 +1507,8 @@
       "copy_error_text": "The recovery phrase could not be coppied to the clipboard",
       "protected": "Complete backup",
       "not_protected": "No backup copy",
+      "loading_text": "Decrypting wallet",
+      "loading_label": "Wait a few seconds...",
       "error_toast": "The password you entered is incorrect"
     },
     "home": {
@@ -1927,6 +1938,14 @@
     "wallet": "Wallet"
   },
   "fiat_ramps": {
+    "buy_conditions": {
+      "title": "What do you need to know before you buy?",
+      "condition_1": "Purchases are made through a third party provider. Xcapit does not sell cryptocurrencies.",
+      "condition_2": "The conditions of sale and delivery of tokens depend on each provider.",
+      "condition_3": "The provider may ask you for verification or KYC information. Xcapit does not (and will not) ask for personal or validation data.",
+      "label_check": "I agree to the terms and conditions of purchase.",
+      "button": "Continue"
+    },
     "operations_list": {
       "title": "My operations",
       "operation": "Buy",
@@ -2065,7 +2084,7 @@
       }
     },
     "confirm": {
-      "header": "Confirm operation",
+      "header": "Confirm purchase",
       "title": "Check that the data is correct",
       "provider": "Provider",
       "type": "Operation type",
@@ -2193,6 +2212,10 @@
       "need_help_card": {
         "title": "Need help?",
         "subtitle": "See frequently asked questions"
+      },
+      "donations_card": {
+        "title": "Donate with crypto",
+        "subtitle": "Discover organizations and people you can help."
       },
       "test_investor_cards": {
         "badge_text": "Coming soon",

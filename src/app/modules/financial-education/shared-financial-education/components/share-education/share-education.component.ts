@@ -17,7 +17,9 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
       (click)="this.share()"
     >
       <img *ngIf="!this.lightBackground" src="/assets/img/financial-education/shared-financial-education/share.svg" />
-      <img *ngIf="this.lightBackground"  src="/assets/img/financial-education/shared-financial-education/share-blue.svg"
+      <img
+        *ngIf="this.lightBackground"
+        src="/assets/img/financial-education/shared-financial-education/share-blue.svg"
       />
     </div>
   `,
@@ -56,14 +58,18 @@ export class ShareEducationComponent implements OnInit {
         url: cachedAsset.uri,
         dialogTitle: this.translate.instant('financial_education.shared.share_education.dialogTitle'),
       })
-      .catch(() => {
-        this.clipboardService
-          .write({
-            string: `${this.translate.instant('financial_education.shared.share_education.text')} ${this.storeLink()}`,
-          })
-          .then(() => {
-            this.showToast();
-          });
+      .catch((err) => {
+        if (!err.message.includes('canceled')) {
+          this.clipboardService
+            .write({
+              string: `${this.translate.instant(
+                'financial_education.shared.share_education.text'
+              )} ${this.storeLink()}`,
+            })
+            .then(() => {
+              this.showToast();
+            });
+        }
       });
   }
 

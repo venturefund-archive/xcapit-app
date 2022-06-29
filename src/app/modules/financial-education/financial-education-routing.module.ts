@@ -32,6 +32,9 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'error-test',
+        loadChildren: () => import('./error-test/error-test.module').then( m => m.ErrorTestPageModule) },
+      {
         path: 'success-submodules',
         loadChildren: () =>
           import('./success-submodules/success-submodules.module').then(
@@ -56,6 +59,7 @@ const routes: Routes = [
       },
     ],
   },
+
 ];
 
 @NgModule({

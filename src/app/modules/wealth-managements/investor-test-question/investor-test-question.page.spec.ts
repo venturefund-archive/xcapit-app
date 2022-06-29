@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -20,9 +20,9 @@ const testQuestions: Question[] = [
     text: 'Que tan arriesgado sos?',
     order: 0,
     options: [
-      { text: 'Me asustan las cachorros', points: 1 },
-      { text: 'Mas o menos', points: 2 },
-      { text: 'Me tiro a la pileta sin agua', points: 3 },
+      { text: 'Respuesta conservadora', points: 1 },
+      { text: 'Respuesta moderada', points: 2 },
+      { text: 'Respuesta riesgosa', points: 3 },
     ],
   },
   {
@@ -90,6 +90,7 @@ describe('InvestorTestQuestionPage', () => {
           hasAnsweredQuestion: false,
           clearAnswers: undefined,
           saveAnswers: of({}),
+          questionsInUserLanguage: Promise.resolve(true),
         },
         {
           questions: testQuestions,
@@ -261,7 +262,7 @@ describe('InvestorTestQuestionPage', () => {
     fakeActivatedRoute.modifySnapshotParams({ question: '1' });
     component.ionViewWillEnter();
     fixture.detectChanges();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(component.form.value).toEqual({ answer: testQuestions[0].options[0] });
   });
 
@@ -347,4 +348,13 @@ describe('InvestorTestQuestionPage', () => {
     fixture.debugElement.query(By.css("ion-back-button[name='back']")).nativeElement.click();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['wealth-management/investor-test-options']);
   });
+
+  it('should reload questions if questions are not in the user selected language', fakeAsync(() => {
+    investorTestServiceSpy.questionsInUserLanguage.and.resolveTo(false);
+    fakeActivatedRoute.modifySnapshotParams({ question: '1' });
+    component.ionViewWillEnter();
+    tick();
+    fixture.detectChanges();
+    expect(investorTestServiceSpy.loadQuestions).toHaveBeenCalledTimes(1);
+  }));
 });

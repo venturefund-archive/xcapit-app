@@ -14,6 +14,7 @@ import {
 export class InvestorTestService {
   answers: Map<Question, Answer>;
   questions: Question[];
+  questionLanguage: string;
 
   get hasLoadedQuestions(): boolean {
     return !!this.questions && this.questions.length !== 0;
@@ -74,8 +75,9 @@ export class InvestorTestService {
   }
 
   async loadQuestions() {
+    this.questionLanguage = await this.getUserLanguage();
     return this.apiWealthManagementsService
-      .getInvestorTestQuestions(await this.getUserLanguage())
+      .getInvestorTestQuestions(this.questionLanguage)
       .toPromise()
       .then((questions) => {
         this.questions = questions;
@@ -99,12 +101,14 @@ export class InvestorTestService {
   }
 
   saveAnswers(): Observable<any> {
-    if (this.hasAnsweredAllQuestions) {
-      return this.apiProfilesService.crud.patch({ investor_score: this.totalScore });
-    }
+    if (this.hasAnsweredAllQuestions) return this.apiProfilesService.crud.patch({ investor_score: this.totalScore });
   }
 
   clearAnswers() {
     this.answers = new Map();
+  }
+
+  async questionsInUserLanguage(): Promise<boolean> {
+    return this.questionLanguage === (await this.getUserLanguage());
   }
 }

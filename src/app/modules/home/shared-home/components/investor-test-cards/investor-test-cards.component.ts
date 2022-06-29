@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 @Component({
   selector: 'app-investor-test-cards',
   template: ` <div class="investor-cards">
@@ -64,9 +65,16 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 })
 export class InvestorTestCardsComponent implements OnInit {
   optionsTestAvailable = true;
-  testAvailable = true;
-  constructor(private navController: NavController, private storage: IonicStorageService) { }
-  ngOnInit() { }
+  testAvailable: boolean;
+  constructor(
+    private navController: NavController,
+    private storage: IonicStorageService,
+    private remoteConfigService: RemoteConfigService,
+  ) { }
+
+  ngOnInit() {
+    this.testAvailable = this.remoteConfigService.getFeatureFlag('ff_educationCardAvailable');
+  }
 
   goToInvestorOptions() {
     if (this.optionsTestAvailable) {

@@ -127,8 +127,10 @@ export class InvestorTestQuestionPage {
     });
   }
 
-  loadQuestions() {
-    return this.isFirstQuestion ? this.investorTestService.loadQuestions() : Promise.resolve();
+  async loadQuestions() {
+    return this.isFirstQuestion && !(await this.investorTestService.questionsInUserLanguage())
+      ? this.investorTestService.loadQuestions()
+      : Promise.resolve();
   }
 
   goToNextQuestion() {
