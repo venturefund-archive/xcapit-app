@@ -44,7 +44,9 @@ const rawOperations: any[] = [
 const testForm = {
   valid: {
     provider: 'testProvider',
-    country: 'testCountry'
+    country: {
+      name: 'testCountry'
+    } 
   }
 } 
 
@@ -101,21 +103,12 @@ describe('SelectProviderPage', () => {
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 
-  fit('should navigate to provider url when ux_vendor_buy_continue is clicked', () => {
+  it('should navigate to provider url when ux_vendor_buy_continue is clicked', () => {
     fixture.detectChanges();
     component.form.patchValue(testForm.valid)
-    fixture.whenStable();
-    fixture.whenRenderingDone();
-    fixture.detectChanges();
     fixture.debugElement.query(By.css('app-select-provider-card')).triggerEventHandler('route', 'test');
-    fixture.whenStable();
-    fixture.whenRenderingDone();
-    fixture.detectChanges();
     fixture.debugElement.query(By.css("ion-button[name='ux_vendor_buy_continue']")).nativeElement.click();
-    fixture.whenStable();
-    fixture.whenRenderingDone();
-    fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test', 'testcountry']);
   });
 
   it('should reset form when country is changed', () => {

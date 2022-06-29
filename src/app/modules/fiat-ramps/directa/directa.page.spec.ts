@@ -16,7 +16,7 @@ const validForm = {
   usdAmount: 200
 };
 
-fdescribe('DirectaPage', () => {
+describe('DirectaPage', () => {
   let component: DirectaPage;
   let fixture: ComponentFixture<DirectaPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
@@ -76,16 +76,15 @@ fdescribe('DirectaPage', () => {
   it('should set country, default currency and provider on init', () => {
     fakeActivatedRoute.modifySnapshotParams({ country: 'argentina', alias: 'mercadopago'}, {});
     component.ionViewWillEnter();
-    // expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledOnceWith('1');
-    // expect(component.providerCurrencies).toEqual(coinsSpy);
-    // expect(component.country).toEqual({
-    //   name: 'Argentina',
-    //   value: 'fiat_ramps.countries_list.argentina',
-    //   fiatCode: 'ars',
-    //   isoCode: 'ARS',
-    // });
-    // expect(component.selectedCurrency).toEqual(coinsSpy[0]);
-    // expect(component.fiatCurrency).toEqual('USD');
-    expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledTimes(1)
+    expect(component.providerCurrencies).toEqual(coinsSpy);
+    expect(component.country).toEqual({
+      name: 'Argentina',
+      value: 'fiat_ramps.countries_list.argentina',
+      fiatCode: 'ars',
+      isoCode: 'ARS',
+    });
+    expect(component.selectedCurrency).toEqual(coinsSpy[0]);
+    expect(component.fiatCurrency).toEqual('USD');
+    expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledOnceWith('2')
   });
 });

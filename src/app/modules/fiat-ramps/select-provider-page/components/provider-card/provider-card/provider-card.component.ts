@@ -49,7 +49,5 @@ export class ProviderCardComponent {
 
   sendProviderData(provider) {
     this.selectedProvider.emit(provider);
-    //TODO: quitar log
-    console.log('El proveedor es: ', provider)
   }
 }

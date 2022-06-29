@@ -91,7 +91,6 @@ export class DirectaPage implements OnInit {
   ionViewWillEnter() { 
     this.providerAlias = this.route.snapshot.paramMap.get('alias')
     this.provider = this.providers.find((provider) => provider.alias === this.providerAlias);
-    console.log('El proveedor obtenido desde el alias es: ', this.providerAlias, ' y ', this.provider)
     this.fiatRampsService.setProvider(this.provider.id.toString());
     this.providerCurrencies = new FiatRampCurrenciesOf(this.provider, this.apiWalletService.getCoins()).value();
     this.setCountry();

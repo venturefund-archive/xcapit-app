@@ -28,50 +28,19 @@ export const PROVIDERS: FiatRampProvider[] = [
       'Estados Unidos',
     ],
   },
-  //TODO DEJAR COMENTADO KRIPTON
-  {
-    id: 1,
-    alias: 'kripton',
-    name: 'Kripton Market',
-    logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
-    description: 'fiat_ramps.select_provider.krypton_description',
-    disclaimer: 'fiat_ramps.shared.constants.providers.kripton.disclaimer',
-    newOperationRoute: '/fiat-ramps/new-operation/kripton',
-    trackClickEventName: "ux_buy_kripton",
-    countries: ['Argentina', 'Venezuela', 'Uruguay', 'Colombia'],
-    currencies: [
-      { symbol: 'DAI', network: 'MATIC' },
-      { symbol: 'MATIC', network: 'MATIC' },
-    ],
-  },
-  {
-    id: 2,
-    alias: 'mercadopago',
-    name: 'Mercado Pago',
-    logoRoute: 'assets/img/provider-logos/Moonpay.svg',
-    description: 'fiat_ramps.select_provider.moonpay_description',
-    newOperationRoute: '/fiat-ramps/new-operation/others/mercadopago',
-    trackClickEventName: "ux_buy_mercadopago",
-    countries: [
-      'Argentina'
-    ],
-    currencies: [
-      { symbol: 'USDC', network: 'MATIC' },
-    ],
-  },
-  {
-    id: 4,
-    alias: 'pagofacil',
-    name: 'PagoFacil',
-    logoRoute: 'assets/img/provider-logos/Moonpay.svg',
-    description: 'fiat_ramps.select_provider.moonpay_description',
-    newOperationRoute: '/fiat-ramps/new-operation/others/pagofacil',
-    trackClickEventName: "ux_buy_pagofacil",
-    countries: [
-      'Argentina'
-    ],
-    currencies: [
-      { symbol: 'USDC', network: 'MATIC' },
-    ],
-  },
+  // {
+  //   id: 1,
+  //   alias: 'kripton',
+  //   name: 'Kripton Market',
+  //   logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
+  //   description: 'fiat_ramps.select_provider.krypton_description',
+  //   disclaimer: 'fiat_ramps.shared.constants.providers.kripton.disclaimer',
+  //   newOperationRoute: '/fiat-ramps/new-operation/kripton',
+  //   trackClickEventName: "ux_buy_kripton",
+  //   countries: ['Argentina', 'Venezuela', 'Uruguay', 'Colombia'],
+  //   currencies: [
+  //     { symbol: 'DAI', network: 'MATIC' },
+  //     { symbol: 'MATIC', network: 'MATIC' },
+  //   ],
+  // },
 ];
