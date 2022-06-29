@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
+import { FiatRampsService } from '../../../shared-ramps/services/fiat-ramps.service';
 import { SelectProviderCardComponent } from './select-provider-card.component';
 
 const providersTest = [
@@ -16,7 +18,7 @@ const providersTest = [
     newOperationRoute: '/fiat-ramps/new-operation/moonpay',
     countries: ['Argentina', 'Colombia'],
     showProvider: false,
-    trackClickEventName: 'ux_buy_moonpay'
+    trackClickEventName: 'ux_buy_moonpay',
   },
   {
     id: 2,
@@ -27,15 +29,51 @@ const providersTest = [
     newOperationRoute: '/fiat-ramps/new-operation/kripton',
     countries: ['Argentina', 'Venezuela'],
     showProvider: false,
-    trackClickEventName: 'ux_buy_kripton'
+    trackClickEventName: 'ux_buy_kripton',
   },
 ];
 
+const directaProviders = [
+  {
+    code: 'UU',
+    name: 'Ualá',
+    logo: 'logoUala',
+    paymentType: 'VOUCHER',
+  },
+  {
+    code: 'LN',
+    name: 'Banco Nacion',
+    logo: 'logoBanco',
+    paymentType: 'BANK_TRANSFER',
+  },
+];
+
+const localDirectaProviders = [
+  {
+    alias: 'PF',
+    name: 'Pagofacil',
+    logoRoute: 'pagofacil_logo',
+    description: 'pagofacil_description',
+    newOperationRoute: '/',
+    trackClickEventName: 'ux_buy_pagofacil',
+    countries: ['Argentina'],
+  },
+  {
+    alias: 'UU',
+    name: 'UALA',
+    logoRoute: 'uala_logo',
+    description: 'uala_description',
+    newOperationRoute: '/',
+    trackClickEventName: 'ux_buy_uala',
+    countries: ['Argentina'],
+  },
+];
 describe('SelectProviderCardComponent', () => {
   let component: SelectProviderCardComponent;
   let fixture: ComponentFixture<SelectProviderCardComponent>;
   let formGroupDirectiveMock: FormGroupDirective;
   let controlContainerMock: FormGroup;
+  let fiatRampsServiceSpy: any;
 
   beforeEach(
     waitForAsync(() => {
@@ -43,18 +81,27 @@ describe('SelectProviderCardComponent', () => {
         country: ['', []],
         provider: ['', []],
       });
+
       formGroupDirectiveMock = new FormGroupDirective([], []);
       formGroupDirectiveMock.form = controlContainerMock;
+
+      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+        getDirectaProviders: of(directaProviders),
+      });
       TestBed.configureTestingModule({
         declarations: [SelectProviderCardComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [{ provide: FormGroupDirective, useValue: formGroupDirectiveMock }],
+        providers: [
+          { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SelectProviderCardComponent);
       component = fixture.componentInstance;
       component.providers = providersTest;
+      component.directaProviders = localDirectaProviders;
       fixture.detectChanges();
     })
   );
@@ -96,6 +143,15 @@ describe('SelectProviderCardComponent', () => {
     expect(providerCard).toBeTruthy();
     expect(providersTest[0].showProvider).toEqual(true);
     expect(providersTest[1].showProvider).toEqual(true);
+  });
+
+  it('should show correct directa24 providers for Argentina', async () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+    component.form.patchValue({ country: { name: 'Argentina', directaCode: 'AR' } });
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(),fixture.whenRenderingDone()]);
+    expect(component.availableDirectaProviders.length).toEqual(1);
   });
 
   it('should show correct providers for Colombia', () => {

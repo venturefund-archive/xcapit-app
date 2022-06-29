@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { COUNTRIES } from '../../../shared-ramps/constants/countries';
+import { DIRECTA_PROVIDERS } from '../../../shared-ramps/constants/directa-providers';
 import { PROVIDERS } from '../../../shared-ramps/constants/providers';
+import { FiatRampsService } from '../../../shared-ramps/services/fiat-ramps.service';
 
 @Component({
   selector: 'app-select-provider-card',
@@ -38,6 +40,13 @@ import { PROVIDERS } from '../../../shared-ramps/constants/providers';
                 (selectedProvider)="this.selectedProvider($event)"
               ></app-provider-card>
             </div>
+            <div *ngFor="let provider of availableDirectaProviders">
+              <app-provider-card
+                [disabled]="this.disabled"
+                [provider]="provider"
+                (selectedProvider)="this.selectedProvider($event)"
+              ></app-provider-card>
+            </div>
           </ion-radio-group>
         </div>
         <div>
@@ -63,10 +72,11 @@ export class SelectProviderCardComponent implements OnInit {
   @Output() changedItem: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
   providers = PROVIDERS;
+  directaProviders = DIRECTA_PROVIDERS;
   countries = COUNTRIES;
   disabled: boolean;
-
-  constructor(private formGroupDirective: FormGroupDirective) {}
+  availableDirectaProviders;
+  constructor(private formGroupDirective: FormGroupDirective, private fiatRampsService: FiatRampsService) {}
 
   ngOnInit() {
     this.form = this.formGroupDirective.form;
@@ -74,6 +84,17 @@ export class SelectProviderCardComponent implements OnInit {
     this.form.get('country').valueChanges.subscribe((value) => {
       this.selectedCountry(value);
     });
+  }
+
+  filterDirectaProviders(availableDirectaProviders: any[], country) {
+    return this.directaProviders.filter((dp) => {
+      return availableDirectaProviders.some((dpf: any) => dpf.code === dp.alias && dp.countries.includes(country.name));
+    });
+  }
+
+  async getDirectaProviders(country) {
+    const availableDirectaProviders = await this.fiatRampsService.getDirectaProviders(country.directaCode).toPromise();
+    this.availableDirectaProviders = this.filterDirectaProviders(availableDirectaProviders, country);
   }
 
   selectedProvider(provider) {
@@ -88,11 +109,13 @@ export class SelectProviderCardComponent implements OnInit {
     this.showProvider(country);
   }
 
-  showProvider(country) {
-
+  async showProvider(country) {
     for (let provider of this.providers) {
       const show = provider.countries.includes(country.name);
       provider = Object.assign(provider, { showProvider: show });
+    }
+    if (country.directaCode) {
+      this.getDirectaProviders(country);
     }
   }
 

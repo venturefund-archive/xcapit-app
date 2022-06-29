@@ -82,6 +82,12 @@ describe('FiatRampsService', () => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
+  
+  it('should call get on http when getDirectaProviders', () => {
+    fiatRampsService.getDirectaProviders('AR').subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
 
   it('should call get on http when userHasOperations', () => {
     fiatRampsService.userHasOperations().subscribe(() => {

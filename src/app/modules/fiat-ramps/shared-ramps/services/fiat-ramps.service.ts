@@ -146,4 +146,10 @@ export class FiatRampsService {
 
     return operationStatus;
   }
+
+  getDirectaProviders(country: string): Observable<any> {
+    return this.http.get(`${environment.directa24Url}payment_methods?country=${country}`, {
+      headers: { Authorization: `Bearer ${environment.directa24ApiKey}`},
+    });
+  }
 }
