@@ -83,11 +83,6 @@ const routes: Routes = [
       },
     ],
   },
-  {
-    path: 'directa',
-    loadChildren: () => import('./directa/directa.module').then( m => m.DirectaPageModule)
-  },
-
 ];
 
 @NgModule({

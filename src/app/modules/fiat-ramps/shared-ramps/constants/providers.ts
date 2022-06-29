@@ -50,8 +50,23 @@ export const PROVIDERS: FiatRampProvider[] = [
     name: 'Mercado Pago',
     logoRoute: 'assets/img/provider-logos/Moonpay.svg',
     description: 'fiat_ramps.select_provider.moonpay_description',
-    newOperationRoute: '/fiat-ramps/new-operation/others',
+    newOperationRoute: '/fiat-ramps/new-operation/others/mercadopago',
     trackClickEventName: "ux_buy_mercadopago",
+    countries: [
+      'Argentina'
+    ],
+    currencies: [
+      { symbol: 'USDC', network: 'MATIC' },
+    ],
+  },
+  {
+    id: 4,
+    alias: 'pagofacil',
+    name: 'PagoFacil',
+    logoRoute: 'assets/img/provider-logos/Moonpay.svg',
+    description: 'fiat_ramps.select_provider.moonpay_description',
+    newOperationRoute: '/fiat-ramps/new-operation/others/pagofacil',
+    trackClickEventName: "ux_buy_pagofacil",
     countries: [
       'Argentina'
     ],

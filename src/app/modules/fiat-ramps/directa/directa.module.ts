@@ -9,7 +9,7 @@ const routes: Routes = [
     component: DirectaPage,
   },
   {
-    path: ':country',
+    path: ':alias/:country',
     component: DirectaPage,
   },
 ];

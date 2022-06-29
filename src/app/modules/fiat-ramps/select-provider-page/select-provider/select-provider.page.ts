@@ -104,18 +104,18 @@ export class SelectProviderPage {
   receiveRoute(route: string) {
     this.route = route;
   }
- //TODO: REVERTIR A COMENTADO
+
+  goToRoute() {
+    console.log('Los parametros de ruta y pais obtenidos son: ', this.route, ' y ', this.form.value.country.name.toLowerCase())
+    this.navController.navigateForward([this.route, this.form.value.country.name.toLowerCase()])
+  }
+
+  //TODO: REVERTIR A COMENTADO
   // goToRoute() {
   //   this.route === '/fiat-ramps/new-operation/kripton'
   //     ? this.navController.navigateForward([this.route, this.form.value.country.name.toLowerCase()])
   //     : this.navController.navigateForward([this.route]);
   // }
-
-  goToRoute() {
-    this.route === '/fiat-ramps/new-operation/others'
-      ? this.navController.navigateForward([this.route, this.form.value.country.name.toLowerCase()])
-      : this.navController.navigateForward([this.route]);
-  }
 
   resetForm() {
     this.form.get('provider').reset();

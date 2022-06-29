@@ -39,4 +39,19 @@ export const rawProvidersData = [
       { symbol: 'MATIC', network: 'MATIC' },
     ],
   },
+  {
+    id: 2,
+    alias: 'mercadopago',
+    name: 'Mercado Pago',
+    logoRoute: 'assets/img/provider-logos/Moonpay.svg',
+    description: 'fiat_ramps.select_provider.moonpay_description',
+    newOperationRoute: '/fiat-ramps/new-operation/others/mercadopago',
+    trackClickEventName: "ux_buy_mercadopago",
+    countries: [
+      'Argentina'
+    ],
+    currencies: [
+      { symbol: 'USDC', network: 'MATIC' },
+    ],
+  }
 ];

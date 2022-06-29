@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
-import { NavController } from '@ionic/angular';
 import { Coin } from '../../../../../wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interface';
 
@@ -13,6 +12,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
           *ngIf="coin"
           [selectedCoin]="coin"
           (changeCurrency)="this.emitChangeCurrency()"
+          [coinSelectorEnabled]="this.coinSelectorEnabled"
         ></app-coin-selector>
       </div>
       <div *ngIf="this.amountEnabled" class="pnoc__amount-select">
@@ -102,6 +102,7 @@ export class ProviderNewOperationCardComponent implements OnInit {
   @Input() amountUSDEnabled = false;
   @Input() fiatCurrency = 'USD';
   @Input() provider: FiatRampProvider;
+  @Input() coinSelectorEnabled = true;
   @Output() changeCurrency = new EventEmitter<void>();
 
   form: FormGroup;

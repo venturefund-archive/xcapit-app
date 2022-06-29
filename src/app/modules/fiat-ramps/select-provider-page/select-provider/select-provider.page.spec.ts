@@ -40,6 +40,14 @@ const rawOperations: any[] = [
     voucher: false,
   },
 ];
+
+const testForm = {
+  valid: {
+    provider: 'testProvider',
+    country: 'testCountry'
+  }
+} 
+
 describe('SelectProviderPage', () => {
   let component: SelectProviderPage;
   let fixture: ComponentFixture<SelectProviderPage>;
@@ -93,9 +101,20 @@ describe('SelectProviderPage', () => {
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to provider url when ux_vendor_buy_continue is clicked', () => {
+  fit('should navigate to provider url when ux_vendor_buy_continue is clicked', () => {
+    fixture.detectChanges();
+    component.form.patchValue(testForm.valid)
+    fixture.whenStable();
+    fixture.whenRenderingDone();
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('app-select-provider-card')).triggerEventHandler('route', 'test');
+    fixture.whenStable();
+    fixture.whenRenderingDone();
+    fixture.detectChanges();
     fixture.debugElement.query(By.css("ion-button[name='ux_vendor_buy_continue']")).nativeElement.click();
+    fixture.whenStable();
+    fixture.whenRenderingDone();
+    fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test']);
   });
 
