@@ -20,7 +20,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/home"></ion-back-button>
+          <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
         <ion-title *ngIf="this.mode === 'import'">{{ 'wallets.recovery_wallet.header' | translate }}</ion-title>
         <ion-title *ngIf="this.mode !== 'import'">{{ 'wallets.create_password.header' | translate }}</ion-title>
