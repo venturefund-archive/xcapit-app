@@ -60,7 +60,7 @@ export class TransactionFeeComponent implements OnInit {
   @Input() quoteFee: Amount = { value: undefined, token: 'USD' };
   @Input() balance: number;
   @Input() description: string;
-  @Input() transactionFee: Boolean;
+  @Input() transactionFee: boolean;
   @Output() transactionFeeInfoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   isAmountSend: boolean;
