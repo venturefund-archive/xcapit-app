@@ -35,6 +35,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { FakeActivatedRoute } from '../../../../../testing/fakes/activated-route.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 const coins: Coin[] = [
   {
@@ -100,6 +101,7 @@ describe('SendDetailPage', () => {
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -141,6 +143,10 @@ describe('SendDetailPage', () => {
       new: dynamicPriceSpy,
     });
 
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(true),
+    });
+
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, FakeTrackClickDirective],
       imports: [
@@ -160,6 +166,7 @@ describe('SendDetailPage', () => {
         { provide: ERC20ContractController, useValue: erc20ContractControllerSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: ModalController, useValue: modalControllerSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -368,4 +375,16 @@ describe('SendDetailPage', () => {
     fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   })
+  it('should set "fiat-ramps/buy-conditions" in the variable url if not exist conditionsPurchasesAccepted in the storage', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(false);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(component.url).toEqual('fiat-ramps/buy-conditions');
+  });
+
+  it('should set "fiat-ramps/select-provider" in the variable url if exist conditionsPurchasesAccepted in the storage', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(component.url).toEqual('fiat-ramps/select-provider');
+  });
 });

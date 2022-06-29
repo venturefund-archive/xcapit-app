@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
 import { WalletBackupService } from '../../wallet-backup/wallet-backup.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -59,7 +60,8 @@ export class WalletSubheaderButtonsComponent implements OnInit {
 
   constructor(
     private navController: NavController,
-    private walletBackupService: WalletBackupService
+    private walletBackupService: WalletBackupService,
+    private storage: IonicStorageService
   ) {}
 
   ngOnInit() {}
@@ -98,7 +100,9 @@ export class WalletSubheaderButtonsComponent implements OnInit {
 
   async goToBuy() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
-      this.navController.navigateForward(['fiat-ramps/select-provider']);
+      const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+      const url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
+      this.navController.navigateForward([url]);
     }
   }
 

@@ -23,6 +23,7 @@ import { ModalController } from '@ionic/angular';
       </div>
       <div class="main__actions">
         <ion-button
+          appTrackClick
           class="ux_button main__actions__button"
           name="ux_phrase_information_confirmation"
           color="secondary"

@@ -178,7 +178,7 @@ describe('NewInvestmentPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_moonpay"'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
     expect(buttonEl).toBeTruthy();
   });
 
@@ -193,25 +193,40 @@ describe('NewInvestmentPage', () => {
     expect(buttonEl).toBeNull();
   });
 
-  it('should navigate to moonpay when go_to_moonpay button is clicked', async () => {
+  it('should navigate to buy conditions page when go_to_buy button is clicked and conditionsPurchasesAccepted if not exist in the storage', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    ionicStorageServiceSpy.get.and.resolveTo(false);
-    walletBackupServiceSpy.presentModal.and.resolveTo('skip')
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_moonpay"'));
-    buttonEl.nativeElement.click();
     await fixture.whenStable();
-    expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/new-operation/moonpay']);
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
+    buttonEl.nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/buy-conditions']);
   });
 
-  it('should not navigate to moonpay when user click on backup wallet inside modal', async () => {
+  it('should navigate to select provider page when go_to_buy button is clicked and conditionsPurchasesAccepted if exist in the storage', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(true);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    walletBackupServiceSpy.presentModal.and.resolveTo('skip')
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
+    buttonEl.nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
+  });
+
+  it('should not navigate when user click on backup wallet inside modal', async () => {
     walletBackupServiceSpy.presentModal.and.resolveTo('backup')
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_moonpay"'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
     buttonEl.nativeElement.click();
     await fixture.whenStable();
     expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);

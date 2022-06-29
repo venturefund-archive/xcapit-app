@@ -7,7 +7,8 @@
     align-items: center;
 
     &__title {
-      color: var(--ion-color-primary);
+      color: var(--ion-color-neutral80);
+      line-height: 24px !important;
       margin-bottom: 16px;
     }
   }

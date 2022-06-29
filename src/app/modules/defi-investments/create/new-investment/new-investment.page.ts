@@ -16,6 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
 @Component({
   selector: 'app-new-investment',
@@ -73,9 +74,9 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/wall
               {{ 'defi_investments.new.dont_have' | translate }}{{ this.token.value + '?' }}
             </span>
             <ion-button
-              name="go_to_moonpay"
+              name="go_to_buy"
               class="ux-link-xl ni__footer__text__button"
-              (click)="this.goToMoonpay()"
+              (click)="this.goToBuyCrypto()"
               appTrackClick
               fill="clear"
             >
@@ -116,7 +117,8 @@ export class NewInvestmentPage implements OnInit {
     private navController: NavController,
     private walletBalance: WalletBalanceService,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private walletBackupService: WalletBackupService,
+    private storage: IonicStorageService,
+    private walletBackupService: WalletBackupService
   ) {}
 
   ngOnInit() {}
@@ -150,9 +152,11 @@ export class NewInvestmentPage implements OnInit {
     this.buyAvailable = coin[0].hasOwnProperty('moonpayCode');
   }
 
-  async goToMoonpay() {
+  async goToBuyCrypto() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
-    this.navController.navigateForward(['fiat-ramps/new-operation/moonpay']);
+      const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+      const url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
+      this.navController.navigateForward([url]);
     }
   }
 

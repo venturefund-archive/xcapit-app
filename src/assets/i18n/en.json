@@ -1947,6 +1947,14 @@
     "wallet": "Wallet"
   },
   "fiat_ramps": {
+    "buy_conditions": {
+      "title": "What do you need to know before you buy?",
+      "condition_1": "Purchases are made through a third party provider. Xcapit does not sell cryptocurrencies.",
+      "condition_2": "The conditions of sale and delivery of tokens depend on each provider.",
+      "condition_3": "The provider may ask you for verification or KYC information. Xcapit does not (and will not) ask for personal or validation data.",
+      "label_check": "I agree to the terms and conditions of purchase.",
+      "button": "Continue"
+    },
     "operations_list": {
       "title": "My operations",
       "operation": "Buy",
@@ -2077,7 +2085,7 @@
       }
     },
     "confirm": {
-      "header": "Confirm operation",
+      "header": "Confirm purchase",
       "title": "Check that the data is correct",
       "provider": "Provider",
       "type": "Operation type",

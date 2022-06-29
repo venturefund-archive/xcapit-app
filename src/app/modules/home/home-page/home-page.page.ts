@@ -19,6 +19,7 @@ import { TotalBalanceController } from '../../wallets/shared-wallets/models/bala
 import { HttpClient } from '@angular/common/http';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { WalletBackupService } from '../../wallets/shared-wallets/wallet-backup/wallet-backup.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -47,7 +48,7 @@ import { WalletBackupService } from '../../wallets/shared-wallets/wallet-backup/
             {{
               'app.main_menu.pull_to_refresh'
                 | translate
-                : {
+                  : {
                       seconds: (this.refreshRemainingTime$ | async)
                     }
             }}
@@ -138,7 +139,8 @@ export class HomePage implements OnInit {
     private tokenDetail: TokenDetailController,
     private totalBalance: TotalBalanceController,
     private appStorage: AppStorageService,
-    private walletBackupService: WalletBackupService
+    private walletBackupService: WalletBackupService,
+    private storage: IonicStorageService
   ) {}
 
   ngOnInit() {}
@@ -244,7 +246,9 @@ export class HomePage implements OnInit {
 
   async goToBuyCrypto() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
-      this.navController.navigateForward(['/fiat-ramps/select-provider']);
+      const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+      const url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
+      this.navController.navigateForward([url]);
     }
   }
 

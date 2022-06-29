@@ -18,14 +18,32 @@ const formData = {
   valid: {
     phrase: 'rhythm heavy choose day question few genre sport dog daring item carbon',
   },
-  invalid: {
+  empty: {
     phrase: '',
+  },
+  onlySpace: {
+    phrase: ' ',
   },
   moreThan12: {
     phrase: 'rhythm heavy choose day question few genre sport dog daring item cat carbon',
   },
   lessThan12: {
     phrase: 'heavy choose day question few genre sport dog daring item cat',
+  },
+  allCaps: {
+    phrase: 'HEAVY CHOOSE DAY QUESTION FEW GENRE SPORT DOG DARING ITEM CAT RHYTHM',
+  },
+  separatedByComma: {
+    phrase: 'rhythm, heavy, choose, day, question, few, genre, sport, dog, daring, item, carbon',
+  },
+  separatedByHyphen: {
+    phrase: 'rhythm-heavy-choose-day-question-few-genre-sport-dog-daring-item-carbon',
+  },
+  weirdCharacters: {
+    phrase: 'rhythm heavy choose day question# few genre sport dog daring item carbon',
+  },
+  numbers: {
+    phrase: 'rhythm heavy ch00se day question few genre sport dog daring item carbon',
   },
 };
 
@@ -99,30 +117,112 @@ describe('RecoveryWalletPage', () => {
 
   it('form should be invalid when textarea is empty in handleSubmit', () => {
     spyOn(component, 'handleSubmit');
-    component.form.patchValue(formData.invalid);
+    component.form.patchValue(formData.empty);
     fixture.detectChanges();
-    expect(component.form.valid).toBeFalsy();
+    expect(component.form.get('phrase').hasError('required')).toBeTrue();
+    expect(component.form.get('phrase').hasError('twelveWords')).toBeTrue();
+    expect(component.form.get('phrase').hasError('spaceBetween')).toBeTrue();
+    expect(component.form.get('phrase').hasError('hasSpecialCharacter')).toBeFalse();
+    expect(component.form.valid).toBeFalse();
   });
 
   it('form should be invalid when textarea has more than 12 words in handleSubmit', () => {
     spyOn(component, 'handleSubmit');
     component.form.patchValue(formData.moreThan12);
     fixture.detectChanges();
-    expect(component.form.valid).toBeFalsy();
+    expect(component.form.get('phrase').hasError('required')).toBeFalse();
+    expect(component.form.get('phrase').hasError('twelveWords')).toBeTrue();
+    expect(component.form.get('phrase').hasError('spaceBetween')).toBeFalse();
+    expect(component.form.get('phrase').hasError('hasSpecialCharacter')).toBeFalse();
+    expect(component.form.valid).toBeFalse();
   });
 
   it('form should be invalid when textarea has less than 12 words in handleSubmit', () => {
     spyOn(component, 'handleSubmit');
     component.form.patchValue(formData.lessThan12);
     fixture.detectChanges();
-    expect(component.form.valid).toBeFalsy();
+    expect(component.form.get('phrase').hasError('required')).toBeFalse();
+    expect(component.form.get('phrase').hasError('twelveWords')).toBeTrue();
+    expect(component.form.get('phrase').hasError('spaceBetween')).toBeFalse();
+    expect(component.form.get('phrase').hasError('hasSpecialCharacter')).toBeFalse();
+    expect(component.form.valid).toBeFalse();
+  });
+
+  it('form should be invalid when textarea has only spaces in handleSubmit', () => {
+    spyOn(component, 'handleSubmit');
+    component.form.patchValue(formData.onlySpace);
+    fixture.detectChanges();
+    expect(component.form.get('phrase').hasError('required')).toBeFalse();
+    expect(component.form.get('phrase').hasError('twelveWords')).toBeTrue();
+    expect(component.form.get('phrase').hasError('spaceBetween')).toBeTrue();
+    expect(component.form.get('phrase').hasError('hasSpecialCharacter')).toBeFalse();
+    expect(component.form.valid).toBeFalse();
+  });
+
+  it('form should be invalid when textarea has phrase in all caps in handleSubmit', () => {
+    spyOn(component, 'handleSubmit');
+    component.form.patchValue(formData.allCaps);
+    fixture.detectChanges();
+    expect(component.form.get('phrase').hasError('required')).toBeFalse();
+    expect(component.form.get('phrase').hasError('twelveWords')).toBeTrue();
+    expect(component.form.get('phrase').hasError('spaceBetween')).toBeFalse();
+    expect(component.form.get('phrase').hasError('hasSpecialCharacter')).toBeFalse();
+    expect(component.form.valid).toBeFalse();
+  });
+
+  it('form should be invalid when textarea has numbers in handleSubmit', () => {
+    spyOn(component, 'handleSubmit');
+    component.form.patchValue(formData.numbers);
+    fixture.detectChanges();
+    expect(component.form.get('phrase').hasError('required')).toBeFalse();
+    expect(component.form.get('phrase').hasError('twelveWords')).toBeFalse();
+    expect(component.form.get('phrase').hasError('spaceBetween')).toBeFalse();
+    expect(component.form.get('phrase').hasError('hasSpecialCharacter')).toBeTrue();
+    expect(component.form.valid).toBeFalse();
+  });
+
+  it('form should be invalid when textarea has weird characters in handleSubmit', () => {
+    spyOn(component, 'handleSubmit');
+    component.form.patchValue(formData.weirdCharacters);
+    fixture.detectChanges();
+    expect(component.form.get('phrase').hasError('required')).toBeFalse();
+    expect(component.form.get('phrase').hasError('twelveWords')).toBeFalse();
+    expect(component.form.get('phrase').hasError('spaceBetween')).toBeTrue();
+    expect(component.form.get('phrase').hasError('hasSpecialCharacter')).toBeTrue();
+    expect(component.form.valid).toBeFalse();
+  });
+
+  it('form should be invalid when phrase is separated by commas in handleSubmit', () => {
+    spyOn(component, 'handleSubmit');
+    component.form.patchValue(formData.separatedByComma);
+    fixture.detectChanges();
+    expect(component.form.get('phrase').hasError('required')).toBeFalse();
+    expect(component.form.get('phrase').hasError('twelveWords')).toBeFalse();
+    expect(component.form.get('phrase').hasError('spaceBetween')).toBeTrue();
+    expect(component.form.get('phrase').hasError('hasSpecialCharacter')).toBeTrue();
+    expect(component.form.valid).toBeFalse();
+  });
+
+  it('form should be invalid when phrase is separated by hyphens in handleSubmit', () => {
+    spyOn(component, 'handleSubmit');
+    component.form.patchValue(formData.separatedByHyphen);
+    fixture.detectChanges();
+    expect(component.form.get('phrase').hasError('required')).toBeFalse();
+    expect(component.form.get('phrase').hasError('twelveWords')).toBeFalse();
+    expect(component.form.get('phrase').hasError('spaceBetween')).toBeTrue();
+    expect(component.form.get('phrase').hasError('hasSpecialCharacter')).toBeTrue();
+    expect(component.form.valid).toBeFalse();
   });
 
   it('form should be valid when textarea is not empty & the phrase has 12 words in handleSubmit', () => {
     spyOn(component, 'handleSubmit');
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
-    expect(component.form.valid).toBeTruthy();
+    expect(component.form.get('phrase').hasError('required')).toBeFalse();
+    expect(component.form.get('phrase').hasError('twelveWords')).toBeFalse();
+    expect(component.form.get('phrase').hasError('spaceBetween')).toBeFalse();
+    expect(component.form.get('phrase').hasError('hasSpecialCharacter')).toBeFalse();
+    expect(component.form.valid).toBeTrue();
   });
 
   it('should call trackEvent on trackService when ux_import_submit_phrase clicked', () => {

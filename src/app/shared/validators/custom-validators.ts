@@ -2,19 +2,39 @@ import { ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { CustomValidatorErrors } from './custom-validator-errors';
 
 export class CustomValidators {
-  static patternValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
+  static patternValidator(regex: RegExp, error: ValidationErrors, failWhenEmpty = false): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
       if (!control.value) {
-        return null;
+        return failWhenEmpty ? error : null;
       }
       const valid = regex.test(control.value);
       return valid ? null : error;
     };
   }
 
+  static hasNoSpecialCharacters(error: ValidationErrors = CustomValidatorErrors.hasSpecialCharacter): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (!control.value) {
+        return null;
+      }
+
+      const invalid = /[^a-zA-Z\s]/.test(control.value);
+
+      return invalid ? error : null;
+    };
+  }
+
   static countWords(value: number, error: ValidationErrors = CustomValidatorErrors.countWordsMatch): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       return control.value !== undefined && control.value.split(' ').filter((m) => m).length !== value ? error : null;
+    };
+  }
+
+  static advancedCountWords(value: number, error: ValidationErrors = CustomValidatorErrors.countWordsMatch): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const words = control.value.match(/[a-z0-9]+/g) || [];
+      const hasUppercase = /[A-Z]+/g.test(control.value)
+      return hasUppercase ||  words.length !== value ? error : null;
     };
   }
 

@@ -1002,16 +1002,16 @@
       "finance": "Finanzas",
       "crypto": "Cripto",
       "title": "¿Qué te gustaría aprender hoy?",
-      "coming_soon":"Próximamente",
-      "rules_title":"Reglas",
-      "global_progress_title":"Progreso global",
-      "global_progress":{
-        "card_title":"Módulos introductorios",
-        "card_state_0":"Aún no completaste ningún módulo ¿Comenzamos?",
-        "card_state_25":"Tienes {{doneModules}} módulos completos, no te detengas.",
-        "card_state_50":"Tienes {{doneModules}} módulos completos, falta poco.",
-        "card_state_75":"Tienes {{doneModules}} módulos completos, un ultimo esfuerzo.",
-        "card_state_100":"¡Felicitaciones! Completaste todos los módulos."
+      "coming_soon": "Próximamente",
+      "rules_title": "Reglas",
+      "global_progress_title": "Progreso global",
+      "global_progress": {
+        "card_title": "Módulos introductorios",
+        "card_state_0": "Aún no completaste ningún módulo ¿Comenzamos?",
+        "card_state_25": "Tienes {{doneModules}} módulos completos, no te detengas.",
+        "card_state_50": "Tienes {{doneModules}} módulos completos, falta poco.",
+        "card_state_75": "Tienes {{doneModules}} módulos completos, un ultimo esfuerzo.",
+        "card_state_100": "¡Felicitaciones! Completaste todos los módulos."
       },
       "module_finance": {
         "module_1": {
@@ -1073,13 +1073,13 @@
       }
     },
     "error_test": {
-      "textPrimary":"¡A seguir mejorando!",
-      "textSecondary":"Recuerda que necesitas responder satisfactoriamente todas las instancias.",
-      "namePrimaryAction":"Repetir módulo",
-      "nameSecondaryAction":"Ir al menú",
-      "nameThirdAction":"Aprender más"
+      "textPrimary": "¡A seguir mejorando!",
+      "textSecondary": "Recuerda que necesitas responder satisfactoriamente todas las instancias.",
+      "namePrimaryAction": "Repetir módulo",
+      "nameSecondaryAction": "Ir al menú",
+      "nameThirdAction": "Aprender más"
     },
-    "success_submodule":{
+    "success_submodule": {
       "textPrimary": "¡Felicitaciones! Completaste: {{submodule}}",
       "textSecondary": "Que nada te detenga, estás cada vez más cerca de convertirte en un experto.",
       "buttonText": "Siguiente módulo",
@@ -1092,9 +1092,9 @@
       "crypto_sub_1": "Blockchain"
     },
     "final_success_test": {
-      "textPrimary":"Lo lograste, ¡así se hace!",
-      "textSecondary":"Completaste todos los módulos de educación financiera y cripto. Próximamente acreditaremos tu NFT en tu wallet.",
-      "primaryButton":"Finalizar"
+      "textPrimary": "Lo lograste, ¡así se hace!",
+      "textSecondary": "Completaste todos los módulos de educación financiera y cripto. Próximamente acreditaremos tu NFT en tu wallet.",
+      "primaryButton": "Finalizar"
     }
   },
   "financial_planner": {
@@ -1711,7 +1711,7 @@
         "input_label": "Contraseña"
       },
       "claim_nft_card": {
-        "base": "Aquí podrás ver tus NFT",
+        "base": "Aquí podrás ver tus NFTs",
         "unclaimed_title": "¡Tu NFT te espera!",
         "unclaimed_subtitle": "Reclama tu NFT de la Conmemoración a la independencia de Mexico",
         "unclaimed_note": "*Solo lo recibiras si te anotaste en la lista de espera.",
@@ -1930,6 +1930,14 @@
     "wallet": "Wallet"
   },
   "fiat_ramps": {
+    "buy_conditions": {
+      "title": "¿Qué necesitas saber antes de comprar?",
+      "condition_1": "Las compras se realizan a través de un proovedor externo. Xcapit no vende criptomonedas.",
+      "condition_2": "Las condiciones de venta y entrega de tokens dependen de cada proveedor.",
+      "condition_3": "El proovedor puede solicitarte información de verificación o KYC. Xcapit no pide (ni pedirá) datos personales ni de validación.",
+      "label_check": "Estoy de acuerdo con los términos y condiciones de compra.",
+      "button": "Continuar"
+    },
     "operations_list": {
       "title": "Mis operaciones",
       "operation": "Compra",
@@ -2055,7 +2063,7 @@
       }
     },
     "confirm": {
-      "header": "Confirmar operación",
+      "header": "Confirmar compra",
       "title": "Revisa que los datos sean correctos:",
       "provider": "Proveedor",
       "type": "Operación",
