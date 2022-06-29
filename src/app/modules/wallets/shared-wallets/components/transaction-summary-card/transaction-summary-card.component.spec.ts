@@ -9,6 +9,7 @@ import { FormattedNetworkPipe } from '../../../../../shared/pipes/formatted-netw
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 
 const summaryData: SummaryData = {
   network: 'ERC20',
@@ -26,21 +27,21 @@ const summaryData: SummaryData = {
   amount: 1,
   referenceAmount: '50000',
   fee: '0.00001',
-  referenceFee: '0.18'
+  referenceFee: '0.18',
 };
 
 const nativeToken = {
   chainId: 42,
   id: 1,
   last: false,
-  logoRoute: "assets/img/coins/ETH.svg",
-  moonpayCode: "keth",
-  name: "ETH - Ethereum",
+  logoRoute: 'assets/img/coins/ETH.svg',
+  moonpayCode: 'keth',
+  name: 'ETH - Ethereum',
   native: true,
-  network: "ERC20",
-  rpc: "https://eth-kovan.alchemyapi.io/v2/tfmomSigQreoKgOjz0W9W-j5SdtKkiZN",
-  symbol: "ETHUSDT",
-  value: "ETH"
+  network: 'ERC20',
+  rpc: 'https://eth-kovan.alchemyapi.io/v2/tfmomSigQreoKgOjz0W9W-j5SdtKkiZN',
+  symbol: 'ETHUSDT',
+  value: 'ETH',
 };
 
 describe('TransactionSummaryCardComponent', () => {
@@ -58,10 +59,17 @@ describe('TransactionSummaryCardComponent', () => {
       getNativeTokenFromNetwork: nativeToken,
     });
     TestBed.configureTestingModule({
-      declarations: [TransactionSummaryCardComponent, FormattedNetworkPipe, FormattedAmountPipe ],
+      declarations: [
+        TransactionSummaryCardComponent,
+        FormattedNetworkPipe,
+        FormattedAmountPipe,
+        FakeTrackClickDirective,
+      ],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      providers: [{ provide: ApiWalletService, useValue: apiWalletServiceSpy },
-        { provide: ModalController, useValue: modalControllerSpy }],
+      providers: [
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransactionSummaryCardComponent);
@@ -100,43 +108,43 @@ describe('TransactionSummaryCardComponent', () => {
     expect(feeEl.nativeElement.innerHTML).toContain('0.18 USD');
   });
 
-  it('should show modal on trackService when ux_phrase_information clicked', async () => {
+  it('should show modal on trackService when ux_phrase_information clicked', () => {
     component.amountSend = true;
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_phrase_information');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should show modal on trackService when transactionFee clicked', async () => {
-    component.transactionFee = true;
-    fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'transaction-fee');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not allow multiple phrase info modals opening', async () => {
+  it('should emit event and when ux_phrase_information clicked', () => {
     component.amountSend = true;
     fixture.detectChanges();
-    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="ux_phrase_informations"]'))
+    const spy = spyOn(component.phraseAmountInfoClicked, 'emit');
+    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="ux_phrase_information"]'));
     infoButtonel.nativeElement.click();
-    infoButtonel.nativeElement.click();
-    infoButtonel.nativeElement.click();
-    fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should not allow multiple phrase info modals opening', async () => {
+  it('should show modal on trackService when transactionFee clicked', () => {
     component.transactionFee = true;
     fixture.detectChanges();
-    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="transaction-fee"]'))
-    infoButtonel.nativeElement.click();
-    infoButtonel.nativeElement.click();
-    infoButtonel.nativeElement.click();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'transaction_fee');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
     fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should emit event and when transaction fee clicked', () => {
+    component.transactionFee = true;
+    fixture.detectChanges();
+    const spy = spyOn(component.phrasetransactionFeeInfoClicked, 'emit');
+    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="transaction_fee"]'));
+    infoButtonel.nativeElement.click();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

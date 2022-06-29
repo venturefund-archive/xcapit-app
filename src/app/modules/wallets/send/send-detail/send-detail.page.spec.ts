@@ -319,4 +319,53 @@ describe('SendDetailPage', () => {
     component.checkEnoughBalance();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
+
+  it('should open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is false',async ()=>{
+    component.amountSend = true 
+    component.isInfoModalOpen = false
+    await component.ionViewDidEnter()
+    await fixture.whenRenderingDone()
+    await fixture.whenStable()
+    fixture.detectChanges()
+    fixture.debugElement.query(By.css('app-amount-input-card')).triggerEventHandler('phraseAmountInfoClicked', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  })
+
+  it('should not open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is true ', async()=>{
+    component.amountSend = true 
+    component.isInfoModalOpen = true
+    await component.ionViewDidEnter()
+    await fixture.whenRenderingDone()
+    await fixture.whenStable()
+    fixture.detectChanges()
+    fixture.debugElement.query(By.css('app-amount-input-card')).triggerEventHandler('phraseAmountInfoClicked', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  })
+
+  it('should open modal when transactionFeeInfoClicked event is emited and isInfoModalOpen is false',async()=>{    
+    component.amountSend = true 
+    component.isInfoModalOpen = false
+    await component.ionViewDidEnter()
+    await fixture.whenRenderingDone()
+    await fixture.whenStable()
+    fixture.detectChanges()
+    fixture.debugElement.query(By.css('app-transaction-fee')).triggerEventHandler('transactionFeeInfoClicked', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  })
+
+  
+  it('should not open modal when transactionFeeInfoClicked event is emited and isInfoModalOpen is true ', async()=>{    
+    component.amountSend = true 
+    component.isInfoModalOpen = true
+    await component.ionViewDidEnter()
+    await fixture.whenRenderingDone()
+    await fixture.whenStable()
+    fixture.detectChanges()
+    fixture.debugElement.query(By.css('app-transaction-fee')).triggerEventHandler('transactionFeeInfoClicked', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  })
 });

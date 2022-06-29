@@ -287,4 +287,51 @@ describe('SendSummaryPage', () => {
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(1);
     expect(alertSpy.present).toHaveBeenCalledTimes(1);
   });
+
+  it('should open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is false', () => {
+    component.summaryData = summaryData;
+    component.amountSend = true;
+    component.isInfoModalOpen = false;
+    fixture.detectChanges();
+    fixture.debugElement
+      .query(By.css('app-transaction-summary-card'))
+      .triggerEventHandler('phraseAmountInfoClicked', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+  it('should not open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is true ', () => {
+    component.summaryData = summaryData;
+    component.amountSend = true;
+    component.isInfoModalOpen = true;
+    fixture.detectChanges();
+    fixture.debugElement
+      .query(By.css('app-transaction-summary-card'))
+      .triggerEventHandler('phraseAmountInfoClicked', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  });
+
+  it('should open modal when phrasetransactionFeeInfoClicked event is emited and isInfoModalOpen is false', () => {
+    component.summaryData = summaryData;
+    component.transactionFee = true;
+    component.isInfoModalOpen = false;
+    fixture.detectChanges();
+    fixture.debugElement
+      .query(By.css('app-transaction-summary-card'))
+      .triggerEventHandler('phrasetransactionFeeInfoClicked', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not open modal when phrasetransactionFeeInfoClicked event is emited and isInfoModalOpen is true ', () => {
+    component.summaryData = summaryData;
+    component.transactionFee = true;
+    component.isInfoModalOpen = true;
+    fixture.detectChanges();
+    fixture.debugElement
+      .query(By.css('app-transaction-summary-card'))
+      .triggerEventHandler('phrasetransactionFeeInfoClicked', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  });
 });

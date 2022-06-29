@@ -21,9 +21,7 @@ import { ToastService } from '../../services/toast/toast.service';
           [maxlength]="this.maxlength"
           [readonly]="this.readonly"
           [clearOnEdit]="false"
-          
         ></ion-input>
-
         <ion-icon
           class="ux_input_container__item__error_icon"
           item-end
@@ -55,16 +53,16 @@ import { ToastService } from '../../services/toast/toast.service';
         </ion-button>
         <ion-button
           [hidden]="!this.pasteType"
-          name="Paste Address"
+          name="Paste_Address"
           appTrackClick
           fill="clear"
           size="small"
           color="info"
           item-end
-          type="button"          
+          type="button"
           (click)="this.pasteClipboardData()"
         >
-        <ion-icon name="ux-paste"></ion-icon>
+          <ion-icon name="ux-paste"></ion-icon>
         </ion-button>
       </ion-item>
       <app-errors-form-item
@@ -107,7 +105,6 @@ export class UxInputComponent implements OnInit {
   passwordType: boolean;
   @ViewChild('inputRegister', { read: ElementRef, static: true })
   input: ElementRef;
-  form: FormGroup;
 
   control: AbstractControl;
 
@@ -119,7 +116,6 @@ export class UxInputComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.form = this.formGroupDirective.form;
     this.typeSetted = this.type === 'google-places' ? 'text' : this.type;
     this.passwordType = this.typeSetted === 'password';
     this.control = this.formGroupDirective.form.get(this.controlName);
@@ -134,7 +130,7 @@ export class UxInputComponent implements OnInit {
   pasteClipboardData() {
     this.clipboardService.read().then((result) => {
       if (result.type === 'text/plain') {
-        this.form.patchValue({ address: result.value });
+        this.control.patchValue(result.value);
       }
     });
   }

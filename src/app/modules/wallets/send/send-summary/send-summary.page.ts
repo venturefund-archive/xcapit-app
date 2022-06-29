@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { SummaryData } from './interfaces/summary-data.interface';
 import { SubmitButtonService } from '../../../../shared/services/submit-button/submit-button.service';
@@ -12,6 +12,7 @@ import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract
 import { TranslateService } from '@ngx-translate/core';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { isAddress } from 'ethers/lib/utils';
+import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
 
 @Component({
   selector: 'app-send-summary',
@@ -33,6 +34,8 @@ import { isAddress } from 'ethers/lib/utils';
           [summaryData]="this.summaryData"
           [amountSend]="!this.amountSend"
           [transactionFee]="!this.transactionFee"
+          (phraseAmountInfoClicked)="this.showPhraseAmountInfo()"
+          (phrasetransactionFeeInfoClicked)="this.showPhrasereferenceFeeInfo()"
         ></app-transaction-summary-card>
       </div>
 
@@ -59,9 +62,7 @@ export class SendSummaryPage implements OnInit {
   loading: boolean;
   amountSend = false;
   transactionFee = false;
-
-  @Output() showPhraseAmountInfo: EventEmitter<void> = new EventEmitter<void>();
-  @Output() showPhrasetransactionFeeInfo: EventEmitter<void> = new EventEmitter<void>();
+  isInfoModalOpen = false;
 
   constructor(
     private transactionDataService: TransactionDataService,
@@ -81,10 +82,44 @@ export class SendSummaryPage implements OnInit {
   ionViewWillEnter() {
     this.isSending = false;
     this.summaryData = this.transactionDataService.transactionData;
-    this.checkMode();    
+    this.checkMode();
   }
 
+  async showPhraseAmountInfo() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: InfoSendModalComponent,
+        componentProps: {
+          title: this.translate.instant('wallets.shared_wallets.info_send_modal.title_send_amount'),
+          description: this.translate.instant('wallets.shared_wallets.info_send_modal.description'),
+          buttonText: this.translate.instant('wallets.shared_wallets.info_send_modal.button_text'),
+        },
+        cssClass: 'ux-xxs-modal-informative',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
+  }
 
+  async showPhrasereferenceFeeInfo() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: InfoSendModalComponent,
+        componentProps: {
+          title: this.translate.instant('wallets.shared_wallets.info_send_modal.title_transaction_fee'),
+          description: this.translate.instant('wallets.shared_wallets.info_send_modal.description'),
+          buttonText: this.translate.instant('wallets.shared_wallets.info_send_modal.button_text'),
+        },
+        cssClass: 'ux-xxs-modal-informative',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
+  }
 
   checkMode() {
     const mode = this.route.snapshot.paramMap.get('mode') === 'retry';

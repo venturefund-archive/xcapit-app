@@ -1,8 +1,6 @@
 import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
-import { InfoSendModalComponent } from 'src/app/modules/wallets/shared-wallets/components/info-send-modal/info-send-modal.component';
-import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-amount-input-card',
@@ -12,8 +10,10 @@ import { ModalController } from '@ionic/angular';
         <ion-text class="ux-font-titulo-xs">
           {{ this.header }}
         </ion-text>
-        <div class="aic__available__amounts " >
-          <ion-text class="ux-font-text-xl" color="neutral80"> {{ this.max | formattedAmount }} {{ this.baseCurrency.value }}</ion-text>
+        <div class="aic__available__amounts ">
+          <ion-text class="ux-font-text-xl" color="neutral80">
+            {{ this.max | formattedAmount }} {{ this.baseCurrency.value }}</ion-text
+          >
           <ion-text class="ux-font-text-xxs" color="neutral80">
             ≈ {{ this.quoteMax | formattedAmount: 10:2 }} {{ this.quoteCurrency }}
           </ion-text>
@@ -22,25 +22,25 @@ import { ModalController } from '@ionic/angular';
       <div class="aic__send">
         <ion-text class="ux-font-titulo-xs">
           {{ this.title }}
-        </ion-text>        
-        <ion-button *ngIf="this.amountSend"
-              class="ion-no-padding"
-              slot="icon-only"
-              fill="clear"
-              appTrackClick
-              name="ux_phrase_information"
-              size="small"
-              (click)="this.showPhraseAmountInfo()"
-            >
-              <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
-            </ion-button>
-            
+        </ion-text>
+        <ion-button
+          *ngIf="this.amountSend"
+          class="ion-no-padding"
+          slot="icon-only"
+          fill="clear"
+          appTrackClick
+          name="ux_phrase_information"
+          size="small"
+          (click)="this.showPhraseAmountInfo()"
+        >
+          <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
+        </ion-button>
       </div>
       <div class="aic__content">
         <div class="aic__content__title">
           <ion-text class="ux-font-text-lg"> {{ this.label }}</ion-text>
         </div>
-          
+
         <div *ngIf="this.showRange" class="aic__content__percentage">
           <ion-input
             appNumberInput="positiveInteger"
@@ -89,7 +89,6 @@ import { ModalController } from '@ionic/angular';
             inputmode="numeric"
           ></ion-input>
         </div>
-        
       </div>
     </div>
   `,
@@ -113,14 +112,16 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   @Input() showRange: boolean;
   @Input() feeToken: Coin;
   @Input() amountSend: boolean;
+
+  @Output() phraseAmountInfoClicked: EventEmitter<void> = new EventEmitter<void>();
+
   isAmountSend: boolean;
   isInfoModalOpen = false;
-  
+
   form: FormGroup;
   quoteMax: number;
 
-  constructor(private formGroupDirective: FormGroupDirective, 
-    private modalController: ModalController) {}
+  constructor(private formGroupDirective: FormGroupDirective) {}
 
   ngOnInit() {
     this.subscribeToFormChanges();
@@ -149,21 +150,10 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
     this.form.patchValue(maxValues, this.defaultPatchValueOptions());
   }
 
-  async showPhraseAmountInfo(){
-    if (this.isInfoModalOpen === false) {
-      this.isInfoModalOpen = true
-    this.isAmountSend = true
-    const modal = await this.modalController.create({
-      component: InfoSendModalComponent ,
-      componentProps: {isAmountSend:this.isAmountSend},
-      cssClass: 'ux-xxs-modal-informative',
-      backdropDismiss: false,
-    });
-    await modal.present();
-    this.isInfoModalOpen = false;
-  }}
+  showPhraseAmountInfo() {
+    this.phraseAmountInfoClicked.emit();
+  }
 
-  
   private subscribeToFormChanges(): void {
     this.form = this.formGroupDirective.form;
     this.form.get('amount').valueChanges.subscribe((value) => this.amountChange(value));

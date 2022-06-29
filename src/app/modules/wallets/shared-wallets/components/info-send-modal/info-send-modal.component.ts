@@ -11,15 +11,10 @@ import { ModalController } from '@ionic/angular';
 <div class="main__body">
   <div class="main__body__content">
     <ion-label class="ux-font-text-lg main__body__content__title" 
-      >{{
-            (this.isAmountSend
-              ? 'wallets.shared_wallets.info_send_modal.title_send_amount'
-              : 'wallets.shared_wallets.info_send_modal.title_transaction_fee'
-            ) | translate
-          }}
+      >{{this.title}}
     </ion-label>
     <ion-label class="ion-no-margin ux-font-text-base main__body__content__description">
-      {{ 'wallets.shared_wallets.info_send_modal.description' | translate }}
+      {{ this.description }}
     </ion-label>
     <div class="main__actions">
       <ion-button
@@ -29,7 +24,7 @@ import { ModalController } from '@ionic/angular';
         size="large"
         (click)="this.close()"
       >
-        {{ 'wallets.shared_wallets.info_send_modal.button_text' | translate }}
+        {{ this.buttonText }}
       </ion-button>
     </div>
   </div>
@@ -37,10 +32,14 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./info-send-modal.component.scss'],
 })
 export class InfoSendModalComponent implements OnInit {
-  isAmountSend: boolean;
+  title: string;
+  description: string;
+  buttonText: string;
+
   constructor(private modalController: ModalController) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   close() {
     this.modalController.dismiss();

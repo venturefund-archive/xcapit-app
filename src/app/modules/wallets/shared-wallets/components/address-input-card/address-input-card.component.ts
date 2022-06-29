@@ -47,8 +47,8 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
           class="ion-no-padding"
           [placeholder]="'wallets.shared_wallets.address_input_card.placeholder' | translate"
           [pasteType]="'ux-paste'"
+          [controlName]="'address'"
           debounce="1000"
-          controlName="address"
           type="text"
           id="address-input"
         ></app-ux-input>
@@ -90,14 +90,6 @@ export class AddressInputCardComponent implements OnInit {
 
   checkIsWebPlatform() {
     this.isPWA = this.platformService.isWeb();
-  }
-
-  pasteClipboardData() {
-    this.clipboardService.read().then((result) => {
-      if (result.type === 'text/plain') {
-        this.form.patchValue({ address: result.value });
-      }
-    });
   }
 
   async scanQR() {

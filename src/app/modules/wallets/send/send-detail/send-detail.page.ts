@@ -26,6 +26,7 @@ import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/fac
 import { Amount } from 'src/app/modules/defi-investments/shared-defi-investments/types/amount.type';
 import { ToastWithButtonsComponent } from 'src/app/modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 import { TranslateService } from '@ngx-translate/core';
+import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
 
 @Component({
   selector: 'app-send-detail',
@@ -78,6 +79,7 @@ import { TranslateService } from '@ngx-translate/core';
               [quotePrice]="this.quotePrice"
               [feeToken]="this.nativeToken"
               [amountSend]="this.amountSend"
+              (phraseAmountInfoClicked)="this.showPhraseAmountInfo()"
             ></app-amount-input-card>
             <app-amount-input-card-skeleton
               *ngIf="this.balance === undefined"
@@ -89,11 +91,12 @@ import { TranslateService } from '@ngx-translate/core';
                 [quoteFee]="this.quoteFee"
                 [balance]="this.nativeBalance"
                 [transactionFee]="this.transactionFee"
+                (transactionFeeInfoClicked)="this.showPhrasetransactionFeeInfo()"
               ></app-transaction-fee>
             </div>
           </ion-card>
         </div>
-      </form>      
+      </form>
     </ion-content>
     <ion-footer class="sd__footer">
       <div class="sd__footer__submit-button ion-padding">
@@ -107,7 +110,7 @@ import { TranslateService } from '@ngx-translate/core';
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
         >
       </div>
-      </ion-footer>
+    </ion-footer>
   `,
   styleUrls: ['./send-detail.page.scss'],
 })
@@ -130,13 +133,13 @@ export class SendDetailPage {
   dynamicFee: Amount = { value: 0, token: undefined };
   quoteFee: Amount = { value: 0, token: 'USD' };
   modalHref: string;
+  isInfoModalOpen = false;
+
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
     amount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
-  @Output() showPhraseAmountInfo: EventEmitter<void> = new EventEmitter<void>();
-  @Output() showPhrasetransactionFeeInfo: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -178,6 +181,42 @@ export class SendDetailPage {
     });
   }
 
+  async showPhraseAmountInfo() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: InfoSendModalComponent,
+        componentProps: {
+          title: this.translate.instant('wallets.shared_wallets.info_send_modal.title_send_amount'),
+          description: this.translate.instant('wallets.shared_wallets.info_send_modal.description'),
+          buttonText: this.translate.instant('wallets.shared_wallets.info_send_modal.button_text'),
+        },
+        cssClass: 'ux-xxs-modal-informative',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
+  }
+
+  async showPhrasetransactionFeeInfo() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: InfoSendModalComponent,
+        componentProps: {
+          title: this.translate.instant('wallets.shared_wallets.info_send_modal.title_transaction_fee'),
+          description: this.translate.instant('wallets.shared_wallets.info_send_modal.description'),
+          buttonText: this.translate.instant('wallets.shared_wallets.info_send_modal.button_text'),
+        },
+        cssClass: 'ux-xxs-modal-informative',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
+  }
+
   private async userWallet(): Promise<string> {
     return await this.storageService.getWalletsAddresses(this.selectedNetwork);
   }
@@ -185,7 +224,6 @@ export class SendDetailPage {
   private tokenAndNetworks() {
     const coin = this.route.snapshot.queryParamMap.get('asset');
     const network = this.route.snapshot.queryParamMap.get('network');
-
     this.token = this.apiWalletService.getCoin(coin, network);
     this.networks = this.apiWalletService.getNetworks(coin);
     this.selectedNetwork = network;
@@ -197,7 +235,6 @@ export class SendDetailPage {
     this.dynamicFee.token = this.nativeToken.value;
   }
 
-  
   async tokenBalances() {
     const tokenBalance = parseFloat(await this.userBalanceOf(this.token));
     if (this.token.native) {
