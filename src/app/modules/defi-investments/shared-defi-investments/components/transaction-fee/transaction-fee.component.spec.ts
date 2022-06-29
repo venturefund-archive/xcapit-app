@@ -65,7 +65,7 @@ describe('TransactionFeeComponent', () => {
     expect(skeletonEl).toBeFalsy();
   });
 
-  it('should show modal on trackService when transaction_fee clicked', () => {
+  it('should call clickEvent on trackService when transaction_fee clicked', () => {
     component.transactionFee = true;
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'transaction_fee');
@@ -76,7 +76,7 @@ describe('TransactionFeeComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should emit event and when transaction_fee fee clicked', () => {
+  it('should emit event when transaction_fee fee clicked', () => {
     component.transactionFee = true;
     fixture.detectChanges();
     const spy = spyOn(component.transactionFeeInfoClicked, 'emit');
