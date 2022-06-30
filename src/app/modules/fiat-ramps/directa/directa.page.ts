@@ -33,7 +33,6 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
             [fiatCurrency]="this.fiatCurrency"
             [provider]="this.provider"
             [amountEnabled]="false"
-            [amountUSDEnabled]="true"
             [coinSelectorEnabled]="false"
           ></app-provider-new-operation-card>
         </div>

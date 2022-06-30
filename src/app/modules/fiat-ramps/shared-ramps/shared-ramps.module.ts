@@ -8,6 +8,7 @@ import { OperationStatusChipComponent } from './components/operation-status-chip
 import { TransferConfirmCardComponent } from './components/transfer-confirm-card/transfer-confirm-card.component';
 import { ProviderNewOperationCardComponent } from './components/provider-new-operation-card/provider-new-operation-card/provider-new-operation-card.component';
 import { KycDisclaimerModalComponent } from './components/kyc-disclaimer-modal/kyc-disclaimer-modal.component';
+import { FiatInputComponent } from './components/fiat-input/fiat-input.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { KycDisclaimerModalComponent } from './components/kyc-disclaimer-modal/k
     OperationStatusChipComponent,
     OperationsListAccordionComponent,
     OperationsListItemComponent,
+    FiatInputComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -31,6 +33,7 @@ import { KycDisclaimerModalComponent } from './components/kyc-disclaimer-modal/k
     OperationStatusChipComponent,
     OperationsListAccordionComponent,
     OperationsListItemComponent,
+    FiatInputComponent,
   ],
 })
 export class SharedRampsModule {}

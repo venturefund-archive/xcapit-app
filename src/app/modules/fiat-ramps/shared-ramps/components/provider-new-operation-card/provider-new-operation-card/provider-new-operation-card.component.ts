@@ -40,25 +40,12 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
         </div>
       </div>
 
-      <div *ngIf="this.amountUSDEnabled" class="pnoc__amount-select">
-        <div class="pnoc__amount-select__qty-label">
-          <ion-label class="ux-font-titulo-xs">{{
-            'fiat_ramps.shared.provider_new_operation_card.to_pay' | translate
-          }}</ion-label>
-        </div>
-        <div class="pnoc__amount-select__labels">
-          <ion-label class="ux-font-text-xs pnoc__amount-select__labels__base" color="primary">
-            USD
-          </ion-label>         
-        </div>
-        <div class="pnoc__amount-select__inputs">
-          <div class="pnoc__amount-select__inputs__amount">
-            <ion-input appNumberInput formControlName="fiatAmount" type="number" inputmode="numeric"> </ion-input>
-          </div>
-        </div>
-        <ion-text class="ux-font-text-xs pnoc__amount-select__usd-disclaimer">{{
-            'fiat_ramps.shared.provider_new_operation_card.usd_disclaimer' | translate
-          }}</ion-text>
+      <div *ngIf="this.provider.alias !== 'kripton' && this.provider.alias !== 'moonpay'">
+        <app-fiat-input
+        label="fiat_ramps.shared.provider_new_operation_card.to_pay"
+        disclaimer="fiat_ramps.shared.provider_new_operation_card.usd_disclaimer"
+        >
+        </app-fiat-input>
       </div>
 
       <div class="pnoc__provider">
@@ -99,7 +86,6 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
 export class ProviderNewOperationCardComponent implements OnInit {
   @Input() coin: Coin;
   @Input() amountEnabled = true;
-  @Input() amountUSDEnabled = false;
   @Input() fiatCurrency = 'USD';
   @Input() provider: FiatRampProvider;
   @Input() coinSelectorEnabled = true;

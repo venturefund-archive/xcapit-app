@@ -36,6 +36,7 @@ describe('DirectaPage', () => {
 
       coinsSpy = [
         jasmine.createSpyObj('Coin', {}, { value: 'USDC', network: 'MATIC' }),
+        jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' }),
       ];
       fakeActivatedRoute = new FakeActivatedRoute({ country: 'argentina' }, {});
       activatedRouteSpy = fakeActivatedRoute.createSpy();
@@ -76,7 +77,6 @@ describe('DirectaPage', () => {
   it('should set country, default currency and provider on init', () => {
     fakeActivatedRoute.modifySnapshotParams({ country: 'argentina', alias: 'mercadopago'}, {});
     component.ionViewWillEnter();
-    expect(component.providerCurrencies).toEqual(coinsSpy);
     expect(component.country).toEqual({
       name: 'Argentina',
       value: 'fiat_ramps.countries_list.argentina',
