@@ -157,6 +157,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   isRevealed = false;
   protectedWallet: boolean;
   isModalPasswordOpen: boolean;
+  isInfoModalOpen = false;
   private password: any;
   loading = false;
 
@@ -291,6 +292,8 @@ export class RecoveryPhraseReadPage implements OnInit {
   }
 
   async showPhraseInfoAdvice() {
+    if (this.isInfoModalOpen === false) {
+      this.isInfoModalOpen = true
     const modal = await this.modalController.create({
       component: InfoPhraseAdviceModalComponent,
       componentProps: {},
@@ -298,5 +301,7 @@ export class RecoveryPhraseReadPage implements OnInit {
       backdropDismiss: false,
     });
     await modal.present();
+    this.isInfoModalOpen = false;
+    }
   }
 }
