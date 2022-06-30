@@ -219,4 +219,13 @@ describe('RecoveryPhraseReadPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
+
+  it('should not allow multiple info modals opening', () => {
+    const infoButtonel = fixture.debugElement.query(By.css('div[name="ux_protect_information"]'))
+    infoButtonel.nativeElement.click();
+    infoButtonel.nativeElement.click();
+    infoButtonel.nativeElement.click();
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
 });
