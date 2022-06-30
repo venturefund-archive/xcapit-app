@@ -1,0 +1,89 @@
+import { SimpleSubject, Subscribable } from '../simple-subject/simple-subject';
+import { Wallet as EthersWallet, providers } from 'ethers';
+import { BlockchainTx } from '../blockchain-tx';
+import { Blockchain } from '../blockchain/blockchain';
+
+export interface Wallet {
+  address: () => string;
+  onNeedPass: () => Subscribable;
+  onDecryptedWallet: () => Subscribable;
+  sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
+}
+
+export class DefaultWallet implements Wallet {
+  private _onNeedPass: SimpleSubject = new SimpleSubject();
+  private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
+
+  constructor(
+    private _rawData: any,
+    private _aBlockchain: Blockchain,
+    private _ethersWallet: any = EthersWallet,
+    private _ethersProviders: any = providers
+  ) {}
+
+  address(): string {
+    return this._rawData['address'];
+  }
+
+  onDecryptedWallet(): Subscribable {
+    return this._onWalletDecrypted;
+  }
+
+  onNeedPass(): Subscribable {
+    return this._onNeedPass;
+  }
+
+  async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
+    const connectedWallet = this._connectedWallet(this._derivedWallet(await this._decryptedWallet()));
+    for (const tx of transactions) {
+      await (await connectedWallet.sendTransaction(await tx.value())).wait();
+    }
+    return true;
+  }
+
+  private _encryptedWallet(): string {
+    return this._rawData['encryptedWallet'];
+  }
+
+  private async _decryptedWallet(): Promise<EthersWallet> {
+    const password = await this._onNeedPass.notify();
+    return this._ethersWallet
+      .fromEncryptedJson(this._encryptedWallet(), password)
+      .then((decryptedWallet: EthersWallet) => {
+        this._onWalletDecrypted.notify();
+        return decryptedWallet;
+      });
+  }
+
+  private _derivedWallet(aEthersWallet: EthersWallet): EthersWallet {
+    return this._ethersWallet.fromMnemonic(aEthersWallet.mnemonic.phrase, this._aBlockchain.derivedPath());
+  }
+
+  private _connectedWallet(aEthersWallet: EthersWallet): EthersWallet {
+    return aEthersWallet.connect(new this._ethersProviders.JsonRpcProvider(this._aBlockchain.rpc()));
+  }
+}
+
+export class FakeWallet implements Wallet {
+  private _onNeedPass: SimpleSubject = new SimpleSubject();
+  private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
+
+  constructor() {}
+
+  public onNeedPass(): Subscribable {
+    return this._onNeedPass;
+  }
+
+  public onDecryptedWallet(): Subscribable {
+    return this._onWalletDecrypted;
+  }
+
+  async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
+    await Promise.all([this._onNeedPass.notify(), this._onWalletDecrypted.notify()]);
+    return Promise.resolve(false);
+  }
+
+  address(): string {
+    return '';
+  }
+}

@@ -2461,5 +2461,20 @@
       "button": "Crear Wallet",
       "link": "Volver a inversiones"
     }
+  },
+  "swaps": {
+    "home": {
+      "header": "Swap",
+      "button": "Intercambiar",
+      "loading_button_text": "Intercambiando",
+      "from_token_title": "Desde",
+      "to_token_title": "Hacia",
+      "footer_text": "Solo tomará unos segundos."
+    },
+    "select_token": {
+      "header": "Swap",
+      "fromToken_title": "Selecciona la moneda que quieres intercambiar",
+      "toToken_title": "Selecciona la moneda que quieres obtener"
+    }
   }
 }
