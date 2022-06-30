@@ -8,10 +8,6 @@ const routes: Routes = [
     path: '',
     component: DirectaPage,
   },
-  {
-    path: ':alias/:country',
-    component: DirectaPage,
-  },
 ];
 
 @NgModule({

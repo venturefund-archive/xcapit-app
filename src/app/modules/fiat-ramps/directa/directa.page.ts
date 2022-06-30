@@ -8,7 +8,6 @@ import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
-import { FiatRampCurrenciesOf } from '../shared-ramps/models/fiat-ramp-currencies-of/fiat-ramp-currencies-of';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 
 @Component({
@@ -68,11 +67,11 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 })
 export class DirectaPage implements OnInit {
   form: FormGroup = this.formBuilder.group({
-    usdAmount: ['', Validators.required],
+    fiatAmount: ['', Validators.required],
   });
   provider: FiatRampProvider;
   providers: FiatRampProvider[] = PROVIDERS;
-  providerCurrencies: Coin[];
+  tokens: Coin[];
   selectedCurrency: Coin;
   fiatCurrency = 'USD';
   country: FiatRampProviderCountry;
@@ -82,8 +81,8 @@ export class DirectaPage implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private fiatRampsService: FiatRampsService,
-    private apiWalletService: ApiWalletService,
     private navController: NavController,
+    private apiWalletService: ApiWalletService
   ) { }
 
   ngOnInit() {}
@@ -92,7 +91,6 @@ export class DirectaPage implements OnInit {
     this.providerAlias = this.route.snapshot.paramMap.get('alias')
     this.provider = this.providers.find((provider) => provider.alias === this.providerAlias);
     this.fiatRampsService.setProvider(this.provider.id.toString());
-    this.providerCurrencies = new FiatRampCurrenciesOf(this.provider, this.apiWalletService.getCoins()).value();
     this.setCountry();
     this.setCurrency();
   }
@@ -104,7 +102,8 @@ export class DirectaPage implements OnInit {
   }
 
   setCurrency() {
-    this.selectedCurrency = this.providerCurrencies[0];
+    this.tokens = this.apiWalletService.getCoins()
+    this.selectedCurrency = this.tokens.find((token) => token.value === 'USDC' && token.network === 'MATIC');
   }
 
   openD24() {

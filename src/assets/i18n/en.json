@@ -2162,7 +2162,7 @@
       "provider_new_operation_card": {
         "quantity": "Amount",
         "provider": "Provider",
-        "to_pay": "You will pay",
+        "to_pay": "You will pay*",
         "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day."
       },
       "kyc_disclaimer_modal": {

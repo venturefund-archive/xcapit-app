@@ -12,7 +12,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
           *ngIf="coin"
           [selectedCoin]="coin"
           (changeCurrency)="this.emitChangeCurrency()"
-          [coinSelectorEnabled]="this.coinSelectorEnabled"
+          [enabled]="this.coinSelectorEnabled"
         ></app-coin-selector>
       </div>
       <div *ngIf="this.amountEnabled" class="pnoc__amount-select">
@@ -44,7 +44,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
         <div class="pnoc__amount-select__qty-label">
           <ion-label class="ux-font-titulo-xs">{{
             'fiat_ramps.shared.provider_new_operation_card.to_pay' | translate
-          }}*</ion-label>
+          }}</ion-label>
         </div>
         <div class="pnoc__amount-select__labels">
           <ion-label class="ux-font-text-xs pnoc__amount-select__labels__base" color="primary">
@@ -53,7 +53,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
         </div>
         <div class="pnoc__amount-select__inputs">
           <div class="pnoc__amount-select__inputs__amount">
-            <ion-input appNumberInput formControlName="usdAmount" type="number" inputmode="numeric"> </ion-input>
+            <ion-input appNumberInput formControlName="fiatAmount" type="number" inputmode="numeric"> </ion-input>
           </div>
         </div>
         <ion-text class="ux-font-text-xs pnoc__amount-select__usd-disclaimer">{{
