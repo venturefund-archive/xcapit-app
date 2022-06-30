@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UxInputComponent } from './ux-input.component';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
@@ -11,7 +10,7 @@ import { ClipboardService } from '../../services/clipboard/clipboard.service';
 import { ToastService } from '../../services/toast/toast.service';
 import { By } from '@angular/platform-browser';
 
-describe('UxInputComponent', () => {
+fdescribe('UxInputComponent', () => {
   let component: UxInputComponent;
   let fixture: ComponentFixture<UxInputComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UxInputComponent>;
@@ -22,7 +21,10 @@ describe('UxInputComponent', () => {
   beforeEach(
     waitForAsync(() => {
       toastServiceSpy = jasmine.createSpyObj('ToastService', { showInfoToast: Promise.resolve() });
-      clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', { write: Promise.resolve() });
+      clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', {
+        write: Promise.resolve(),
+        read: Promise.resolve({ value: 'test', type: 'text/plain' }),
+      });
       controlContainerMock = new FormGroup({
         testControl: new FormControl(),
       });
@@ -68,6 +70,24 @@ describe('UxInputComponent', () => {
     fixture.whenStable().then(() => {
       expect(clipboardServiceSpy.write).toHaveBeenCalledWith(expectedArg);
     });
+  });
+
+  it('should paste test when paste button is clicked and type is text/plain', async () => {
+    const pasteButtonEl = fixture.debugElement.query(By.css('ion-button[name="Paste_Address"]'));
+    pasteButtonEl.nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.control.value).toBe('test');
+  });
+
+  it('should not paste test when paste button is clicked and type is not text/plain', async () => {
+    component.control.patchValue('');
+    clipboardServiceSpy.read.and.resolveTo({ type: 'other', value: 'test' });
+    const pasteButton = fixture.debugElement.query(By.css('ion-button[name="Paste_Address"]'));
+    pasteButton.nativeElement.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.control.value).toBe('');
   });
 
   it('should call showToast when copyToClipboard is called', async () => {

@@ -12,15 +12,17 @@ import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract
 import { TranslateService } from '@ngx-translate/core';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { isAddress } from 'ethers/lib/utils';
+import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
 
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/home"></ion-back-button>
+          <ion-back-button defaultHref=""></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'wallets.send.send_summary.header' | translate }}</ion-title>
+        <ion-title class="sd__header ion-text-left">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
+        <ion-label class="step-counter" slot="end">3 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ss ion-padding">
@@ -30,6 +32,10 @@ import { isAddress } from 'ethers/lib/utils';
           [addressTitle]="'wallets.send.send_summary.destination_address' | translate"
           [amountsTitle]="'wallets.send.send_summary.amounts_title' | translate"
           [summaryData]="this.summaryData"
+          [amountSend]="!this.amountSend"
+          [transactionFee]="!this.transactionFee"
+          (phraseAmountInfoClicked)="this.showPhraseAmountInfo()"
+          (phrasetransactionFeeInfoClicked)="this.showPhrasereferenceFeeInfo()"
         ></app-transaction-summary-card>
       </div>
 
@@ -54,6 +60,10 @@ export class SendSummaryPage implements OnInit {
   action: string;
   isSending: boolean;
   loading: boolean;
+  amountSend = false;
+  transactionFee = false;
+  isInfoModalOpen = false;
+
   constructor(
     private transactionDataService: TransactionDataService,
     private walletTransactionsService: WalletTransactionsService,
@@ -73,6 +83,42 @@ export class SendSummaryPage implements OnInit {
     this.isSending = false;
     this.summaryData = this.transactionDataService.transactionData;
     this.checkMode();
+  }
+
+  async showPhraseAmountInfo() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: InfoSendModalComponent,
+        componentProps: {
+          title: this.translate.instant('wallets.shared_wallets.info_send_modal.title_send_amount'),
+          description: this.translate.instant('wallets.shared_wallets.info_send_modal.description'),
+          buttonText: this.translate.instant('wallets.shared_wallets.info_send_modal.button_text'),
+        },
+        cssClass: 'ux-xxs-modal-informative',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
+  }
+
+  async showPhrasereferenceFeeInfo() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: InfoSendModalComponent,
+        componentProps: {
+          title: this.translate.instant('wallets.shared_wallets.info_send_modal.title_transaction_fee'),
+          description: this.translate.instant('wallets.shared_wallets.info_send_modal.description'),
+          buttonText: this.translate.instant('wallets.shared_wallets.info_send_modal.button_text'),
+        },
+        cssClass: 'ux-xxs-modal-informative',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
   }
 
   checkMode() {

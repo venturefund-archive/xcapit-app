@@ -359,7 +359,7 @@
     },
     "shared": {
       "transaction_fees": {
-        "label": "Transaction fee",
+        "label": "Estimated transaction fee",
         "advice": "Insufficient funds"
       },
       "filter_tab": {
@@ -405,9 +405,9 @@
         }
       },
       "amount_input_card": {
+        "title":"Estimated amount to send",
         "available": "Balance available",
         "amount_invested": "Total amount invested",
-        "disclaimer": "The exchange rate is defined by the blockchain and amounts may vary, depending on when you make the transaction. \nPlease note that transaction fees will be charged in",
         "max_button": "Max"
       },
       "withdraw_card": {
@@ -1242,7 +1242,6 @@
       "network": "Network",
       "label": "Amount to donate",
       "disclaimer": "The network you selected is {{network}}. Make sure that the target wallet uses this same network. Otherwise, you will lose your assets.",
-      "description_fee": "*This amount is an estimate and may vary depending on the time of the transaction.",
       "summary": {
         "title": "Transaction data",
         "destination_address": "Destination address",
@@ -1643,11 +1642,10 @@
       },
       "send_detail": {
         "header": "Send",
-        "title": "Transfer data",
+        "title": "Shipment data",
         "network_select": {
           "title": "Transfer data",
-          "network": "Network",
-          "disclaimer": "Make sure the destination wallet uses the same network as {{network}} at this shipping address.\nSending other coins or tokens to an address other than {{network}} may result in the loss of your deposit.\n Currently only tokens can be sent through its native network, we are working to add more and new networks."
+          "network": "Network"
         },
         "continue_button": "Continue",
         "address_input": {
@@ -1661,16 +1659,19 @@
       },
       "send_summary": {
         "header": "Send",
-        "title": "Transfer data",
-        "amounts_title": "Amount to send",
+        "title": "Sending data",
+        "amounts_title": "Estimated amount to send",
         "send_button": "Send",
         "wrong_password": "Wrong password",
         "loader": "Sending",
         "destination_address": "Destination address",
-        "fee": "Transaction fee",
+        "fee": "Estimated transaction fee",
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
+        },
+        "transaction_summary_card":{
+          "disclaimer": "Check that the data entered are correct. Once the shipment has been sent, you will not be able to cancel it."
         },
         "alert_not_enough_native_token": {
           "title": "Transaction error",
@@ -1717,7 +1718,9 @@
 
       "address_input_card": {
         "scan_error": "Error scanning QR code",
-        "scan_unauthorized": "You have no permission to scan"
+        "placeholder":"Press and hold to paste",
+        "scan_unauthorized": "You have no permission to scan",
+        "disclaimer": "The network you selected is {{network}}. Make sure that the destination wallet uses this same network. Otherwise, you will lose your assets"
       },
       "wallet_password": {
         "title": "Enter your password",
@@ -1766,6 +1769,12 @@
         "item_3": "Do not share it via messaging services or social networks.",
         "item_4": "Keep it in a safe place.",
         "item_5": "You can engrave it on some element to make it last over time."
+      },
+      "info_send_modal":{
+        "title_send_amount": "Why is the amount to be sent estimated?",
+        "title_transaction_fee": "Why is the transaction fee estimated?",
+        "description": "Due to market volatility, the exchange rate may vary slightly at the time of the transaction.",
+        "button_text": "Understood"
       },
       "warning_backup_info": {
         "title": "Attention!",
