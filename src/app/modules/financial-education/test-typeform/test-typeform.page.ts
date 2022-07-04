@@ -13,7 +13,7 @@ import { MODULES_FINANCE } from '../shared-financial-education/constants/finance
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
-          <ion-back-button class="content__back" defaultHref="/financial-education/home"></ion-back-button>
+          <ion-back-button class="content__back" defaultHref="tabs/financial-education"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ this.headerText }}</ion-title>
       </ion-toolbar>
@@ -96,7 +96,7 @@ export class TestTypeformPage implements OnInit {
   redirectToPage() {
     this.updateTexts();
     this.navController.navigateForward([
-      'financial-education/information/tab',
+      'tabs/financial-education/information/tab',
       this.selectedTab,
       'module',
       this.module.name,

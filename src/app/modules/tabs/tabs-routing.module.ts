@@ -25,6 +25,20 @@ const routes: Routes = [
         loadChildren: () => import('../wallets/home-wallet/home-wallet.module').then((m) => m.HomeWalletPageModule),
       },
       {
+        path: 'financial-education',
+        loadChildren: () =>
+          import('../financial-education/home-financial-education/home-financial-education.module').then(
+            (m) => m.HomeFinancialEducationPageModule
+          ),
+      },
+      {
+        path: 'financial-education/information',
+        loadChildren: () =>
+          import('../financial-education/sub-module-information/sub-module-information.module').then(
+            (m) => m.SubModuleInformationPageModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full',
