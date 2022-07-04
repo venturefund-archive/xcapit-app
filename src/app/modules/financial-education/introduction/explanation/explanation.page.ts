@@ -85,6 +85,6 @@ export class ExplanationPage implements OnInit {
 
   navigateToTests() {
     this.storage.set(this.key, true);
-    this.navController.navigateForward('/financial-education/home');
+    this.navController.navigateForward('tabs/financial-education');
   }
 }
