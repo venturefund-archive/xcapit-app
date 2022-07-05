@@ -2475,6 +2475,11 @@
       "header": "Swap",
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
+    },
+    "swap_in_progress":{
+      "textPrimary":"¡Tu orden está en camino!",
+      "textSecondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "buttonText":"Ir a Wallet"
     }
   }
 }

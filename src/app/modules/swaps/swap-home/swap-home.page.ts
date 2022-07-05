@@ -288,7 +288,7 @@ export class SwapHomePage {
     this.disableMainButton();
     const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());
-    wallet.onDecryptedWallet().subscribe(() => this.navController.navigateBack([this.defaultNavBackUrl]));
+    wallet.onDecryptedWallet().subscribe(() => this.navController.navigateBack(['swaps/swap-in-progress']));
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
       .then(() => console.log('Swap OK!'))
