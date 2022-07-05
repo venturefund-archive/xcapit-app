@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
-import { WarningBackupModalComponent } from '../components/warning-backup-modal/warning-backup-modal.component';
+import { WarningBackupModalComponent } from '../../components/warning-backup-modal/warning-backup-modal.component';
 
 @Injectable({
   providedIn: 'root',

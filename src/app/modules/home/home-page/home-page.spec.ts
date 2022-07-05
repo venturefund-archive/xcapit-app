@@ -26,7 +26,7 @@ import { FakeBalance } from '../../wallets/shared-wallets/models/balance/fake-ba
 import { FakePrices } from '../../wallets/shared-wallets/models/prices/fake-prices/fake-prices';
 import { FakeBalances } from '../../wallets/shared-wallets/models/balances/fake-balances/fake-balances';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
-import { WalletBackupService } from '../../wallets/shared-wallets/wallet-backup/wallet-backup.service';
+import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 const dataTest = {

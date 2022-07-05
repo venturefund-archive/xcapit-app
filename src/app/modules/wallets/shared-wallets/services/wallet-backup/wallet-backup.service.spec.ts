@@ -1,8 +1,8 @@
 import { fakeAsync,TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { FakeModalController } from '../../../../../testing/fakes/modal-controller.fake.spec';
+import { FakeModalController } from '../../../../../../testing/fakes/modal-controller.fake.spec';
 import { WalletBackupService } from './wallet-backup.service';
 import { ModalController } from '@ionic/angular';
-import { WarningBackupModalComponent } from '../../shared-wallets/components/warning-backup-modal/warning-backup-modal.component';
+import { WarningBackupModalComponent } from '../../components/warning-backup-modal/warning-backup-modal.component';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
