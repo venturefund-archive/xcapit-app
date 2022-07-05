@@ -40,18 +40,25 @@ export const rawProvidersData = [
     ],
   },
   {
-    id: 2,
-    alias: 'mercadopago',
-    name: 'Mercado Pago',
-    logoRoute: 'assets/img/provider-logos/Moonpay.svg',
-    description: 'fiat_ramps.select_provider.moonpay_description',
-    newOperationRoute: '/fiat-ramps/new-operation/others/mercadopago',
-    trackClickEventName: "ux_buy_mercadopago",
-    countries: [
-      'Argentina'
-    ],
-    currencies: [
-      { symbol: 'USDC', network: 'MATIC' },
-    ],
-  }
+    id: 15,
+    alias: 'GB',
+    name: 'Banco Guayaquil',
+    providerName: 'directa24',
+    logoRoute: 'assets/img/provider-logos/directa24/BancoGuayaquil.svg',
+    description: 'fiat_ramps.select_provider.directa24.transfer_description',
+    newOperationRoute: '/',
+    trackClickEventName: 'ux_buy_d24_BGUAYAQUIL',
+    countries: ['Ecuador'],
+  },
+  {
+    id: 16,
+    alias: 'PX',
+    name: 'Banco Pichincha',
+    providerName: 'directa24',
+    logoRoute: 'assets/img/provider-logos/directa24/BancoPichincha.svg',
+    description: 'fiat_ramps.select_provider.directa24.nearest_branch_office_description',
+    newOperationRoute: '/',
+    trackClickEventName: 'ux_buy_d24_BPICHINCHA',
+    countries: ['Ecuador'],
+  },
 ];

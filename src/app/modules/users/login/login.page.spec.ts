@@ -53,7 +53,7 @@ describe('LoginPage', () => {
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      fakeNavController.modifyReturns({}, {}, {}, {});
+      fakeNavController.modifyReturns({}, {}, {}, {}, {});
       ionicStorageSpy = jasmine.createSpyObj('IonicStorageService', {
         get: Promise.resolve(true),
         set: Promise.resolve()

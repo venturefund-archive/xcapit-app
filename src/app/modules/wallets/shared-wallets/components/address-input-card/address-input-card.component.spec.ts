@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UxInputUnderlinedComponent } from '../../../../../shared/components/ux-input-underlined/ux-input-underlined.component';
 import { FakeModalController } from '../../../../../../testing/fakes/modal-controller.fake.spec';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { FormattedNetworkPipe } from 'src/app/shared/pipes/formatted-network-name/formatted-network.pipe';
 
 describe('AddressInputCardComponent', () => {
   let component: AddressInputCardComponent;
@@ -41,7 +42,7 @@ describe('AddressInputCardComponent', () => {
       showToast: () => Promise.resolve(),
     };
     TestBed.configureTestingModule({
-      declarations: [AddressInputCardComponent, UxInputUnderlinedComponent],
+      declarations: [AddressInputCardComponent, UxInputUnderlinedComponent, FormattedNetworkPipe],
       imports: [IonicModule, ReactiveFormsModule, TranslateModule.forRoot()],
       providers: [
         { provide: ClipboardService, useValue: clipboardServiceMock },
@@ -83,22 +84,7 @@ describe('AddressInputCardComponent', () => {
     expect(scanQrEl).toBeNull();
   });
 
-  it('should paste test when paste button is clicked and type is text/plain', async () => {
-    const pasteButtonEl = fixture.debugElement.query(By.css('ion-button[name="Paste Address"]'));
-    pasteButtonEl.nativeElement.click();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    expect(component.form.value.address).toBe('test');
-  });
-
-  it('should not paste test when paste button is clicked and type is not text/plain', async () => {
-    clipboardServiceMock.read = () => Promise.resolve({ type: 'other', value: 'test' });
-    const pasteButton = fixture.debugElement.query(By.css('ion-button[name="Paste Address"]'));
-    pasteButton.nativeElement.click();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    expect(component.form.value.address).toBe('');
-  });
+  
 
   it('should render address on qr code scanned success', async () => {
     fakeModalController.modifyReturns(

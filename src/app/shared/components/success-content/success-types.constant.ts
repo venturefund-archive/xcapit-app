@@ -258,7 +258,7 @@ export const SUCCESS_TYPES = {
     trackClickEventNamePrimaryAction: 'ux_education_retry_module',
     urlPrimaryAction: '',
     nameSecondaryAction: 'financial_education.error_test.nameSecondaryAction',
-    urlSecondaryAction: '/financial-education/home',
+    urlSecondaryAction: 'tabs/financial-education',
     TrackClickEventNameSecondaryAction:'ux_education_go_to_menu',
     nameThirdAction: 'financial_education.error_test.nameThirdAction',
     urlThirdAction: ''
@@ -270,7 +270,7 @@ export const SUCCESS_TYPES = {
     namePrimaryAction:'financial_education.success_submodule.buttonText',
     nameThirdAction:"financial_education.success_submodule.buttonText2",
     urlPrimaryAction:'',
-    urlThirdAction:'/financial-education/home',
+    urlThirdAction:'tabs/financial-education',
     trackClickEventNamePrimaryAction: 'ux_education_next_module',
     trackClickEventNameThirdAction: 'ux_education_go_to_menu'
   },
@@ -279,7 +279,15 @@ export const SUCCESS_TYPES = {
     textPrimary: 'financial_education.final_success_test.textPrimary', 
     textSecondary:'financial_education.final_success_test.textSecondary',
     namePrimaryAction: 'financial_education.final_success_test.primaryButton',
-    urlPrimaryAction:'/financial-education/home',
+    urlPrimaryAction:'tabs/financial-education',
     trackClickEventNamePrimaryAction: 'ux_education_finalize'
+  },
+  swap_in_progress:{
+    image:"assets/img/swaps/swap-in-progress.svg",
+    urlClose:'/tabs/wallets',
+    textPrimary: 'swaps.swap_in_progress.textPrimary', 
+    textSecondary:'swaps.swap_in_progress.textSecondary',
+    namePrimaryAction:'swaps.swap_in_progress.buttonText',
+    urlPrimaryAction:'/tabs/wallets',
   }
 };

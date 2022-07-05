@@ -12,6 +12,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { WalletBackupService } from '../../wallet-backup/wallet-backup.service';
+import { defaultSwapsUrls } from 'src/app/modules/swaps/swaps-routing.module';
 
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
@@ -73,7 +74,7 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(div).not.toBeNull();
   });
 
-  it('should navigate to Send page when ux_go_to_send is clicked from HomeWalletPage', async() => {
+  it('should navigate to Send page when ux_go_to_send is clicked from HomeWalletPage', async () => {
     component.asset = '';
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_go_to_send');
@@ -83,7 +84,7 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/send/select-currency']);
   });
 
-  it('should navigate to Send page of an specific asset when ux_go_to_send is clicked from AssetDetailPage', async() => {
+  it('should navigate to Send page of an specific asset when ux_go_to_send is clicked from AssetDetailPage', async () => {
     component.asset = 'USDT';
     component.network = 'ERC20';
     fixture.detectChanges();
@@ -98,7 +99,7 @@ describe('WalletSubheaderButtonsComponent', () => {
     );
   });
 
-  it('should navigate to receive page with the default asset selected when ux_go_to_receive is clicked from HomeWalletPage', async() => {
+  it('should navigate to receive page with the default asset selected when ux_go_to_receive is clicked from HomeWalletPage', async () => {
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_go_to_receive');
     component.asset = '';
     el.nativeElement.click();
@@ -107,7 +108,7 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/receive/select-currency']);
   });
 
-  it('should navigate to receive page with an asset selected when ux_go_to_receive is clicked from AssetDetailPage', async() => {
+  it('should navigate to receive page with an asset selected when ux_go_to_receive is clicked from AssetDetailPage', async () => {
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_go_to_receive');
     component.asset = 'LINK';
     component.network = 'ERC20';
@@ -123,13 +124,21 @@ describe('WalletSubheaderButtonsComponent', () => {
     fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_swap']")).nativeElement.click();
     await fixture.whenStable();
 
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(defaultSwapsUrls.swapHome);
   });
 
-  it('should navigate to fiat-ramps moonpay page when ux_go_to_buy button is clicked', async () => {
+  it('should navigate to buy conditions page when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is not set on storage', async () => {
     fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_buy']")).nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/buy-conditions']);
+  });
+
+  it('should navigate to select-provider page when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is set on storage', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(false);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_buy']")).nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/buy-conditions']);
   });
 
   [

@@ -62,7 +62,7 @@ import { MODULES_FINANCE } from '../shared-financial-education/constants/finance
         <app-rule-card
           [title]="'financial_education.shared.rule_card.rule_1.title'"
           [subtitle]="'financial_education.shared.rule_card.rule_1.subtitle'"
-          [url]="'financial-education/introduction/explanation'"
+          [url]="'financial-education/introduction/explanation/rule'"
         ></app-rule-card>
       </div>
     </ion-content> `,

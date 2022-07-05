@@ -157,6 +157,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   isRevealed = false;
   protectedWallet: boolean;
   isModalPasswordOpen: boolean;
+  isInfoModalOpen = false;
   private password: any;
   loading = false;
 
@@ -168,7 +169,7 @@ export class RecoveryPhraseReadPage implements OnInit {
     private storage: IonicStorageService,
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService,
-    private walletMnemonicService: WalletMnemonicService,
+    private walletMnemonicService: WalletMnemonicService
   ) {}
 
   ngOnInit() {}
@@ -251,23 +252,27 @@ export class RecoveryPhraseReadPage implements OnInit {
   }
 
   async togglePhrase() {
-    this.toggleLoading();
     if (!this.isRevealed) {
+      this.toggleLoading();
       this.isModalPasswordOpen = true;
       await this.setPassword();
       try {
         this.isModalPasswordOpen = false;
         await this.setMnemonic();
-        this.isRevealed = !this.isRevealed;
         this.toggleLoading();
+        this.isRevealed = !this.isRevealed;
       } catch (e) {
-        if (this.password) this.showErrorToast('wallets.recovery_phrase_read.error_toast');
-        this.clearPassword();
+        if (this.password) {
+          this.toggleLoading();
+          this.showErrorToast('wallets.recovery_phrase_read.error_toast');
+          this.clearPassword();
+        } else {
+          this.toggleLoading();
+        }
       }
     } else {
       this.clearMnemonic();
       this.clearPassword();
-      this.toggleLoading();
       this.isRevealed = !this.isRevealed;
     }
   }
@@ -291,12 +296,16 @@ export class RecoveryPhraseReadPage implements OnInit {
   }
 
   async showPhraseInfoAdvice() {
-    const modal = await this.modalController.create({
-      component: InfoPhraseAdviceModalComponent,
-      componentProps: {},
-      cssClass: 'ux-hug-modal-informative',
-      backdropDismiss: false,
-    });
-    await modal.present();
+    if (this.isInfoModalOpen === false) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: InfoPhraseAdviceModalComponent,
+        componentProps: {},
+        cssClass: 'ux-hug-modal-informative',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
   }
 }
