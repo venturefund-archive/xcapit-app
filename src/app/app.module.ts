@@ -40,6 +40,7 @@ import { DefiInvestmentsModule } from './modules/defi-investments/defi-investmen
 import { FinancialPlannerModule } from './modules/financial-planner/financial-planner.module';
 import { DonationsModule } from './modules/donations/donations.module';
 import { FinancialEducationModule } from './modules/financial-education/financial-education.module';
+import { SwapsModule } from './modules/swaps/swaps.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -78,6 +79,7 @@ registerLocaleData(localeEn, 'en');
     SupportModule,
     WealthManagementsModule,
     DefiInvestmentsModule,
+    SwapsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

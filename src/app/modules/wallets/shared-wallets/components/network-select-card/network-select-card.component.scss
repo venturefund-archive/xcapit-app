@@ -1,5 +1,12 @@
 :host {
   .nsc {
+    &__title {
+      ion-text {
+        font-size: var(--nsc-title-font-size, --ux-fsize-14);
+        font-family: var(--nsc-title-font-family, --ux-font-lato);
+      }
+    }
+
     background: transparent;
     padding: 0;
 
