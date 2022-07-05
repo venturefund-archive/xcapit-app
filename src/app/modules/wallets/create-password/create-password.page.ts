@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wallet-backup.service';
 
 @Component({
   selector: 'app-create-password',
@@ -146,7 +147,8 @@ export class CreatePasswordPage implements OnInit {
     private walletService: WalletService,
     private translate: TranslateService,
     private walletMnemonicService: WalletMnemonicService,
-    private ionicStorageService: IonicStorageService
+    private ionicStorageService: IonicStorageService,
+    private walletBackupService: WalletBackupService
   ) {}
 
   ionViewWillEnter() {
@@ -180,9 +182,9 @@ export class CreatePasswordPage implements OnInit {
     }
   }
 
-  private setWalletAsProtectedIfImporting(): Promise<void> {
+  private setWalletAsProtectedIfImporting(): Promise<void[]> {
     if (this.mode === 'import') {
-      return this.ionicStorageService.set('protectedWallet', true);
+      return Promise.all([this.ionicStorageService.set('protectedWallet', true), this.walletBackupService.disableModal()]);
     }
   }
 

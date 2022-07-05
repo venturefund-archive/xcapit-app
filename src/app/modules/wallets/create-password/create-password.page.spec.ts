@@ -18,6 +18,7 @@ import { Mnemonic } from '@ethersproject/hdnode';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wallet-backup.service';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -74,6 +75,7 @@ describe('CreatePasswordPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CreatePasswordPage>;
   let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
 
   beforeEach(() => {
     fakeLoadingService = new FakeLoadingService();
@@ -94,6 +96,9 @@ describe('CreatePasswordPage', () => {
     });
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
+    });
+    walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
+      disableModal: Promise.resolve(),
     });
     walletServiceSpy = jasmine.createSpyObj(
       'WalletService',
@@ -118,6 +123,7 @@ describe('CreatePasswordPage', () => {
         { provide: WalletService, useValue: walletServiceSpy },
         { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: WalletBackupService, useValue: walletBackupServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -219,6 +225,7 @@ describe('CreatePasswordPage', () => {
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     tick();
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('protectedWallet', true);
+    expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
   }));
 
   it('should not set protectedWallet to true when creating wallet', fakeAsync(() => {
@@ -231,5 +238,6 @@ describe('CreatePasswordPage', () => {
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     tick();
     expect(ionicStorageServiceSpy.set).not.toHaveBeenCalled();
+    expect(walletBackupServiceSpy.disableModal).not.toHaveBeenCalled();
   }));
 });
