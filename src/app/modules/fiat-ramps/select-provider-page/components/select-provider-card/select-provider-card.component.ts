@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 import { COUNTRIES } from '../../../shared-ramps/constants/countries';
-import { DIRECTA_PROVIDERS } from '../../../shared-ramps/constants/directa-providers';
-import { PROVIDERS } from '../../../shared-ramps/constants/providers';
-import { FiatRampsService } from '../../../shared-ramps/services/fiat-ramps.service';
+import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory/providers.factory';
+import { FiatRampProvider } from '../../../shared-ramps/interfaces/fiat-ramp-provider.interface';
+import { ProviderDataRepo } from '../../../shared-ramps/models/provider-data-repo/provider-data-repo';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-select-provider-card',
@@ -32,15 +33,7 @@ import { FiatRampsService } from '../../../shared-ramps/services/fiat-ramps.serv
             <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.select_provider.provider_label' | translate }}</ion-text>
           </div>
           <ion-radio-group [formControlName]="this.controlNameProvider">
-            <div *ngFor="let provider of providers">
-              <app-provider-card
-                *ngIf="this.provider.showProvider || this.disabled === undefined"
-                [disabled]="this.disabled"
-                [provider]="provider"
-                (selectedProvider)="this.selectedProvider($event)"
-              ></app-provider-card>
-            </div>
-            <div *ngFor="let provider of availableDirectaProviders">
+            <div *ngFor="let provider of availableProviders">
               <app-provider-card
                 [disabled]="this.disabled"
                 [provider]="provider"
@@ -71,41 +64,28 @@ export class SelectProviderCardComponent implements OnInit {
   @Output() route: EventEmitter<any> = new EventEmitter<any>();
   @Output() changedItem: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
-  providers = PROVIDERS;
-  directaProviders = DIRECTA_PROVIDERS;
   countries = COUNTRIES;
-  disabled: boolean;
-  availableDirectaProviders;
-  constructor(private formGroupDirective: FormGroupDirective, private fiatRampsService: FiatRampsService) {}
+  disabled = true;
+  availableProviders: FiatRampProvider[];
+  constructor(
+    private formGroupDirective: FormGroupDirective,
+    private providersFactory: ProvidersFactory,
+    private http: HttpClient
+  ) {}
 
   ngOnInit() {
     this.countries = this.availableCountries();
     this.form = this.formGroupDirective.form;
-    this.countries.sort(this.sortCountries);
-    this.form.get('country').valueChanges.subscribe((value) => {
-      this.selectedCountry(value);
-    });
-  }
-
-  filterDirectaProviders(availableDirectaProviders: any[], country) {
-    return this.directaProviders.filter((dp) => {
-      return availableDirectaProviders.some((dpf: any) => dpf.code === dp.alias && dp.countries.includes(country.name));
-    });
-  }
-
-  async getDirectaProviders(country) {
-    const availableDirectaProviders = await this.fiatRampsService.getDirectaProviders(country.directaCode).toPromise();
-    this.availableDirectaProviders = this.filterDirectaProviders(availableDirectaProviders, country);
+    this.sortCountries();
+    this.availableProviders = this.providers().all();
+    this.form.get('country').valueChanges.subscribe((value) => this.selectedCountry(value));
   }
 
   availableCountries(): any {
     const providerCountries = [];
-    this.providers.forEach((provider) => {
-      providerCountries.push(...provider.countries);
-    });
-    this.directaProviders.forEach((provider) => {
-      providerCountries.push(...provider.countries);
-    });
+    this.providers()
+      .all()
+      .forEach((provider) => providerCountries.push(...provider.countries));
     return this.countries.filter((country) => providerCountries.includes(country.name));
   }
 
@@ -113,25 +93,17 @@ export class SelectProviderCardComponent implements OnInit {
     this.route.emit(provider.newOperationRoute);
   }
 
-  selectedCountry(country) {
+  async selectedCountry(country) {
     this.changedItem.emit();
-    if (country) {
-      this.disabled = true;
-    }
-    this.showProvider(country);
+    this.availableProviders = await this.providers().availablesBy(country);
+    this.disabled = false;
   }
 
-  showProvider(country) {
-    for (let provider of this.providers) {
-      const show = provider.countries.includes(country.name);
-      provider = Object.assign(provider, { showProvider: show });
-    }
-    if (country.directaCode) {
-      this.getDirectaProviders(country);
-    }
+  sortCountries() {
+    this.countries.sort((x, y) => x.value.localeCompare(y.value));
   }
 
-  sortCountries(x, y) {
-    return x.value.localeCompare(y.value);
+  providers() {
+    return this.providersFactory.create(new ProviderDataRepo(), this.http);
   }
 }
