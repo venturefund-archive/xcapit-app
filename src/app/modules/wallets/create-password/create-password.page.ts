@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 
 @Component({
   selector: 'app-create-password',
@@ -64,8 +65,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
         </div>
         <div name="Create Password Form Buttons" class="ux_footer">
           <div class="button">
-            <ion-label *ngIf="this.loading" class="ux-loading-message ux-font-text-xxs" color="neutral80"
-              > {{'wallets.create_password.wait_loading_message' | translate}}
+            <ion-label *ngIf="this.loading" class="ux-loading-message ux-font-text-xxs" color="neutral80">
+              {{ 'wallets.create_password.wait_loading_message' | translate }}
             </ion-label>
             <ion-button
               *ngIf="this.mode !== 'import'"
@@ -146,7 +147,8 @@ export class CreatePasswordPage implements OnInit {
     private walletService: WalletService,
     private translate: TranslateService,
     private walletMnemonicService: WalletMnemonicService,
-    private ionicStorageService: IonicStorageService
+    private ionicStorageService: IonicStorageService,
+    private blockchains: BlockchainsFactory
   ) {}
 
   ionViewWillEnter() {
@@ -154,7 +156,7 @@ export class CreatePasswordPage implements OnInit {
     this.mode = this.route.snapshot.paramMap.get('mode');
   }
 
-  async ionViewDidEnter(){
+  async ionViewDidEnter() {
     this.walletService.coins = this.apiWalletService.getCoins().filter((coin) => coin.native);
     if (this.mode === 'create') {
       this.walletMnemonicService.mnemonic = this.walletMnemonicService.newMnemonic();
@@ -172,12 +174,21 @@ export class CreatePasswordPage implements OnInit {
         .then(() => this.walletEncryptionService.getEncryptedWallet())
         .then((encryptedWallet) => this.formattedWallets(encryptedWallet))
         .then((wallets) => this.apiWalletService.saveWalletAddresses(wallets).toPromise())
+        .then(() => this.createToken())
         .then(() => this.setWalletAsProtectedIfImporting())
         .then(() => (this.loading = false))
         .then(() => this.navigateByMode());
     } else {
       this.createPasswordForm.markAllAsTouched();
     }
+  }
+
+  private async createToken(): Promise<void> {
+    const blockchain = this.blockchains.create().oneByName('ERC20');
+    const wallet = this.walletService.createdWallets.find((w) => w.mnemonic.path === blockchain.derivedPath());
+    const signedMsg = await wallet.signMessage(wallet.address);
+    const authToken = `${wallet.address}_${signedMsg}`;
+    return this.ionicStorageService.set('x-auth', authToken);
   }
 
   private setWalletAsProtectedIfImporting(): Promise<void> {

@@ -18,6 +18,9 @@ import { Mnemonic } from '@ethersproject/hdnode';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { Wallet } from 'ethers';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -64,25 +67,38 @@ describe('CreatePasswordPage', () => {
   let component: CreatePasswordPage;
   let fixture: ComponentFixture<CreatePasswordPage>;
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
-  let activatedRouteMock: any;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let fakeActivatedRoute: FakeActivatedRoute;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
   let fakeLoadingService: FakeLoadingService;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
+  let walletSpy: jasmine.SpyObj<Wallet>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CreatePasswordPage>;
   let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
 
   beforeEach(() => {
     fakeLoadingService = new FakeLoadingService();
     loadingServiceSpy = fakeLoadingService.createSpy();
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
+    fakeActivatedRoute = new FakeActivatedRoute();
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
+    fakeActivatedRoute.modifySnapshotParams({ mode: 'import' });
     walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {
       newMnemonic: () => testMnemonic,
       mnemonic: testMnemonic,
+    });
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: {
+        oneByName: () => ({
+          derivedPath: () => 'aDerivedPath',
+        }),
+      },
     });
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       saveWalletAddresses: of({}),
@@ -92,9 +108,19 @@ describe('CreatePasswordPage', () => {
       encryptWallet: Promise.resolve(true),
       getEncryptedWallet: Promise.resolve({ addresses: { ERC20: 'testERC20Address', RSK: 'testRSKAddress' } }),
     });
+
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
     });
+
+    walletSpy = jasmine.createSpyObj(
+      'Wallet',
+      {
+        signMessage: Promise.resolve('aSignedMessage'),
+      },
+      { mnemonic: { path: 'aDerivedPath' }, address: 'anAddress' }
+    );
+
     walletServiceSpy = jasmine.createSpyObj(
       'WalletService',
       {
@@ -102,15 +128,15 @@ describe('CreatePasswordPage', () => {
       },
       {
         coins: [],
+        createdWallets: [walletSpy],
       }
     );
-    activatedRouteMock = { snapshot: { paramMap: { get: () => 'import' } } };
     TestBed.configureTestingModule({
       declarations: [CreatePasswordPage, FakeTrackClickDirective],
       imports: [ReactiveFormsModule, IonicModule, TranslateModule.forRoot()],
       providers: [
         UrlSerializer,
-        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: LoadingService, useValue: loadingServiceSpy },
@@ -118,6 +144,7 @@ describe('CreatePasswordPage', () => {
         { provide: WalletService, useValue: walletServiceSpy },
         { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -150,7 +177,7 @@ describe('CreatePasswordPage', () => {
   });
 
   it('should create a wallet', async () => {
-    activatedRouteMock.snapshot.paramMap.get = () => 'create';
+    fakeActivatedRoute.modifySnapshotParams({ mode: 'create' });
     component.ionViewWillEnter();
     await component.ionViewDidEnter();
     fixture.detectChanges();
@@ -179,7 +206,7 @@ describe('CreatePasswordPage', () => {
   });
 
   it('should show create text when creating wallet', () => {
-    activatedRouteMock.snapshot.paramMap.get = () => '';
+    fakeActivatedRoute.modifySnapshotParams({ mode: '' });
     component.ionViewWillEnter();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(By.css('ion-title')).nativeElement;
@@ -191,7 +218,7 @@ describe('CreatePasswordPage', () => {
   });
 
   it('should call trackEvent on trackService when ux_create_submit_wallet_password clicked', () => {
-    activatedRouteMock.snapshot.paramMap.get = () => '';
+    fakeActivatedRoute.modifySnapshotParams({ mode: '' });
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_create_submit_wallet_password');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -210,7 +237,6 @@ describe('CreatePasswordPage', () => {
   });
 
   it('should set protectedWallet to true when importing wallet succeeds', fakeAsync(() => {
-    activatedRouteMock.snapshot.paramMap.get = () => 'import';
     fixture.detectChanges();
     component.ionViewWillEnter();
     tick();
@@ -218,11 +244,11 @@ describe('CreatePasswordPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     tick();
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('protectedWallet', true);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', true);
   }));
 
   it('should not set protectedWallet to true when creating wallet', fakeAsync(() => {
-    activatedRouteMock.snapshot.paramMap.get = () => 'create';
+    fakeActivatedRoute.modifySnapshotParams({ mode: 'create' });
     fixture.detectChanges();
     component.ionViewWillEnter();
     tick();
@@ -230,6 +256,18 @@ describe('CreatePasswordPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     tick();
-    expect(ionicStorageServiceSpy.set).not.toHaveBeenCalled();
+    expect(ionicStorageServiceSpy.set).not.toHaveBeenCalledWith('protectedWallet', true);
+  }));
+
+  it('should save x-auth token after encrypt wallet', fakeAsync(() => {
+    fakeActivatedRoute.modifySnapshotParams({ mode: 'create' });
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    tick();
+    component.createPasswordForm.patchValue(formData.valid);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    tick();
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('x-auth', 'anAddress_aSignedMessage');
   }));
 });
