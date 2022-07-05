@@ -215,7 +215,7 @@ describe('SwapHomePage', () => {
     await component.swapThem();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['swaps/swap-in-progress']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.swapInProgressUrl]);
   });
 
   it('password modal open on click swap button', async () => {
