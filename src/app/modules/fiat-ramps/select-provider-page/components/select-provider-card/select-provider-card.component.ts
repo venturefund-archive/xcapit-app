@@ -90,7 +90,8 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   selectedProvider(provider) {
-    this.route.emit(provider.newOperationRoute);
+    const params = provider.providerName === 'directa24' ? provider.alias : '';
+    this.route.emit(`${provider.newOperationRoute}/${params}`);
   }
 
   async selectedCountry(country) {

@@ -5,10 +5,12 @@ import { NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
-import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-directa',
@@ -39,9 +41,8 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 
         <div class="ux_footer">
           <div class="ux_footer__content">
-            <ion-text class="ux-font-text-xs ux_footer__content__disclaimer">{{
-              'fiat_ramps.shared.redirect_footer.text' | translate 
-            }}
+            <ion-text class="ux-font-text-xs ux_footer__content__disclaimer"
+              >{{ 'fiat_ramps.shared.redirect_footer.text' | translate }}
             </ion-text>
           </div>
           <div class="button-next">
@@ -69,7 +70,7 @@ export class DirectaPage implements OnInit {
     fiatAmount: ['', Validators.required],
   });
   provider: FiatRampProvider;
-  providers: FiatRampProvider[] = PROVIDERS;
+  countries = COUNTRIES;
   tokens: Coin[];
   selectedCurrency: Coin;
   fiatCurrency = 'USD';
@@ -79,33 +80,36 @@ export class DirectaPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private fiatRampsService: FiatRampsService,
     private navController: NavController,
-    private apiWalletService: ApiWalletService
-  ) { }
+    private apiWalletService: ApiWalletService,
+    private providers: ProvidersFactory,
+    private http: HttpClient
+  ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() { 
-    this.providerAlias = this.route.snapshot.paramMap.get('alias')
-    this.provider = this.providers.find((provider) => provider.alias === this.providerAlias);
-    this.fiatRampsService.setProvider(this.provider.id.toString());
+  ionViewWillEnter() {
+    this.providerAlias = this.route.snapshot.paramMap.get('alias');
+    this.provider = this.providers
+      .create(new ProviderDataRepo(), this.http)
+      .all()
+      .find((provider) => provider.alias === this.providerAlias && provider.providerName === 'directa24');
     this.setCountry();
     this.setCurrency();
   }
 
   setCountry() {
-    this.country = COUNTRIES.find(
+    this.country = this.countries.find(
       (country) => country.name.toLowerCase() === this.route.snapshot.paramMap.get('country')
     );
   }
 
   setCurrency() {
-    this.tokens = this.apiWalletService.getCoins()
+    this.tokens = this.apiWalletService.getCoins();
     this.selectedCurrency = this.tokens.find((token) => token.value === 'USDC' && token.network === 'MATIC');
   }
 
   openD24() {
-    return this.navController.navigateForward(['/tabs/wallets']);  
+    return this.navController.navigateForward(['/tabs/wallets']);
   }
 }

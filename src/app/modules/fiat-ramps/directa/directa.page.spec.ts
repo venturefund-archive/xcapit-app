@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -9,30 +10,26 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
-import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { Providers } from '../shared-ramps/models/providers/providers';
 import { DirectaPage } from './directa.page';
-
-const validForm = {
-  usdAmount: 200
-};
+import { rawProviderCountriesData } from '../shared-ramps/fixtures/raw-provider-countries-data';
 
 describe('DirectaPage', () => {
   let component: DirectaPage;
   let fixture: ComponentFixture<DirectaPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
   let fakeActivatedRoute: FakeActivatedRoute;
-  
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
+  let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = new FakeNavController().createSpy();
-      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-        setProvider: null,
-      });
 
       coinsSpy = [
         jasmine.createSpyObj('Coin', {}, { value: 'USDC', network: 'MATIC' }),
@@ -45,20 +42,29 @@ describe('DirectaPage', () => {
         getCoins: coinsSpy,
       });
 
+      providersSpy = jasmine.createSpyObj('Providers', {
+        all: rawProvidersData,
+      });
+
+      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+        create: providersSpy,
+      });
+
       TestBed.configureTestingModule({
         declarations: [DirectaPage],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
-          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
+          { provide: ProvidersFactory, useValue: providersFactorySpy },
+          { provide: HttpClient, useValue: httpClientSpy },
         ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(DirectaPage);
       component = fixture.componentInstance;
-      component.providers = rawProvidersData;
+      component.countries = rawProviderCountriesData;
       fixture.detectChanges();
     })
   );
@@ -75,16 +81,10 @@ describe('DirectaPage', () => {
   });
 
   it('should set country, default currency and provider on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({ country: 'argentina', alias: 'mercadopago'}, {});
+    fakeActivatedRoute.modifySnapshotParams({ country: 'ecuador', alias: 'MP' }, {});
     component.ionViewWillEnter();
-    expect(component.country).toEqual({
-      name: 'Argentina',
-      value: 'fiat_ramps.countries_list.argentina',
-      fiatCode: 'ars',
-      isoCode: 'ARS',
-    });
+    expect(component.country.name).toEqual('Ecuador');
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);
     expect(component.fiatCurrency).toEqual('USD');
-    expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledOnceWith('2')
   });
 });
