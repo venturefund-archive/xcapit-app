@@ -281,5 +281,13 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'financial_education.final_success_test.primaryButton',
     urlPrimaryAction:'tabs/financial-education',
     trackClickEventNamePrimaryAction: 'ux_education_finalize'
+  },
+  swap_in_progress:{
+    image:"assets/img/swaps/swap-in-progress.svg",
+    urlClose:'/tabs/wallets',
+    textPrimary: 'swaps.swap_in_progress.textPrimary', 
+    textSecondary:'swaps.swap_in_progress.textSecondary',
+    namePrimaryAction:'swaps.swap_in_progress.buttonText',
+    urlPrimaryAction:'/tabs/wallets',
   }
 };
