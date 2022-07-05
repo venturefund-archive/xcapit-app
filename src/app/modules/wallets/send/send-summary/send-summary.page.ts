@@ -18,7 +18,7 @@ import { isAddress } from 'ethers/lib/utils';
   template: ` <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/home"></ion-back-button>
+          <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'wallets.send.send_summary.header' | translate }}</ion-title>
       </ion-toolbar>
