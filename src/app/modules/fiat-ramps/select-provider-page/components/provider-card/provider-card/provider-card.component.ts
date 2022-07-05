@@ -4,7 +4,7 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
 @Component({
   selector: 'app-provider-card',
   template: `
-    <div class="pcc ux-card ion-padding" [ngClass]="{ pcc: this.disabled, 'card-off': !this.disabled }">
+    <div class="pcc ux-card ion-padding" [ngClass]="{ pcc: !this.disabled, 'card-off': this.disabled }">
       <div class="pcc__content">
         <div class="pcc__content__image">
           <img [src]="this.provider?.logoRoute" alt="Provider Logo" />
@@ -24,7 +24,7 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
             checked="true"
             name="ux_buy_moonpay"
             (click)="this.sendProviderData(this.provider)"
-            [disabled]="!this.disabled"
+            [disabled]="this.disabled"
             appTrackClick
             [dataToTrack]="{ eventLabel: this.provider.trackClickEventName }"
           ></ion-radio>

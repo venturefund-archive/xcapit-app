@@ -35,7 +35,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/wallets/send/select-currency"></ion-back-button>
+          <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref="/wallets/send/select-currency"></ion-back-button>
         </ion-buttons>
         <ion-title class="sd__header ion-text-left">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
         <ion-label class="step-counter" slot="end">2 {{ 'shared.step_counter.of' | translate }} 3</ion-label>

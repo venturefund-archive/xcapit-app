@@ -979,7 +979,7 @@
       "explanation": {
         "header": "Educación",
         "title": "¿Cómo funciona?",
-        "button": "Comenzar",
+        "button": "Aceptar",
         "item_1": {
           "number": "1.",
           "title": " Completa todos los módulos",
@@ -1955,6 +1955,14 @@
       "provider_label": "Selecciona el proveedor",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
+      "directa24":{
+        "platform_description":"Compra USDC a través de la plataforma",
+        "nearest_store_description": "Compra USDC en tu tienda más cercana",
+        "nearest_branch_office_description": "Compra USDC en tu sucursal más cercana.",
+        "in_app_description": "Compra USDC a través de la app",
+        "debit_credit_description": "Compra USDC con débito o crédito",
+        "transfer_description": "Compra USDC a través de transferencia"
+      },
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
       "button": "Continuar"
     },
@@ -2146,7 +2154,9 @@
       "spain": "España",
       "uruguay": "Uruguay",
       "united_states": "Estados Unidos (EEUU)",
-      "venezuela": "Venezuela"
+      "venezuela": "Venezuela",
+      "ecuador":"Ecuador",
+      "chile":"Chile"
     },
     "shared": {
       "constants": {
@@ -2475,6 +2485,11 @@
       "header": "Swap",
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
+    },
+    "swap_in_progress":{
+      "textPrimary":"¡Tu orden está en camino!",
+      "textSecondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "buttonText":"Ir a Wallet"
     }
   }
 }

@@ -9,4 +9,5 @@ export interface FiatRampProvider {
   countries: string[];
   currencies?: { symbol: string; network: string }[];
   trackClickEventName: string;
+  providerName?: string;
 }

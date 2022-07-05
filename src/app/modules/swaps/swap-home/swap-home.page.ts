@@ -157,6 +157,7 @@ export class SwapHomePage {
     fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
   });
   defaultNavBackUrl = 'tabs/wallets';
+  swapInProgressUrl = 'swaps/swap-in-progress'; 
 
   constructor(
     private route: ActivatedRoute,
@@ -288,7 +289,7 @@ export class SwapHomePage {
     this.disableMainButton();
     const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());
-    wallet.onDecryptedWallet().subscribe(() => this.navController.navigateBack([this.defaultNavBackUrl]));
+    wallet.onDecryptedWallet().subscribe(() => this.navController.navigateForward([this.swapInProgressUrl]));
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
       .then(() => console.log('Swap OK!'))
