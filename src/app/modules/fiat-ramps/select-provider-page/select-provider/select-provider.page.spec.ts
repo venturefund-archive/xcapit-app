@@ -95,6 +95,7 @@ describe('SelectProviderPage', () => {
   });
 
   it('should call trackEvent on trackService when ux_vendor_buy_continue is clicked', () => {
+    component.form.patchValue(testForm.valid)
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_vendor_buy_continue');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');

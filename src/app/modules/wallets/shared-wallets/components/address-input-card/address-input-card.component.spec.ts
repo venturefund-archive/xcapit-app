@@ -10,12 +10,12 @@ import { UxInputUnderlinedComponent } from '../../../../../shared/components/ux-
 import { FakeModalController } from '../../../../../../testing/fakes/modal-controller.fake.spec';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { FormattedNetworkPipe } from 'src/app/shared/pipes/formatted-network-name/formatted-network.pipe';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('AddressInputCardComponent', () => {
   let component: AddressInputCardComponent;
   let fixture: ComponentFixture<AddressInputCardComponent>;
   let clipboardServiceMock: any;
-  let modalController: ModalController;
   let modalControllerSpy: any;
   let toastServiceMock: any;
   let toastService: ToastService;
@@ -51,6 +51,7 @@ describe('AddressInputCardComponent', () => {
         { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
         { provide: PlatformService, useValue: platformServiceSpy },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AddressInputCardComponent);
@@ -58,7 +59,6 @@ describe('AddressInputCardComponent', () => {
     component.title = 'Test title';
     component.helpText = 'Test help text';
     fixture.detectChanges();
-    modalController = TestBed.inject(ModalController);
     toastService = TestBed.inject(ToastService);
   });
 
@@ -83,8 +83,6 @@ describe('AddressInputCardComponent', () => {
     scanQrEl = fixture.debugElement.query(By.css('ion-button[name="Scan QR"]'));
     expect(scanQrEl).toBeNull();
   });
-
-  
 
   it('should render address on qr code scanned success', async () => {
     fakeModalController.modifyReturns(

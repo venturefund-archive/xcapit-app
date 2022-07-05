@@ -51,7 +51,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     providerName: 'directa24',
     logoRoute: 'assets/img/provider-logos/directa24/MercadoPago.svg',
     description: 'fiat_ramps.select_provider.directa24.platform_description',
-    newOperationRoute: '/fiat-ramps/new-operation/others/',
+    newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_mercadopago',
     countries: ['Argentina', 'Chile'],
   },

@@ -10,6 +10,7 @@ import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/forma
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const summaryData: SummaryData = {
   network: 'ERC20',
@@ -70,6 +71,7 @@ describe('TransactionSummaryCardComponent', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransactionSummaryCardComponent);
