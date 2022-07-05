@@ -8,6 +8,10 @@ const routes: Routes = [
     path: '',
     component: ExplanationPage,
   },
+  {
+    path: ':mode',
+    component: ExplanationPage,
+  },
 ];
 
 @NgModule({
