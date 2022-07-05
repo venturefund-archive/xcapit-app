@@ -3,6 +3,12 @@
     background: var(--ion-color-white);
     border-radius: 8px;
 
+    &__send {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+    }
+
     &__available {
       text-align: center;
 
@@ -44,7 +50,6 @@
       }
 
       &__title {
-        margin-top: 32px;
         margin-bottom: 16px;
       }
 
@@ -154,5 +159,11 @@
         }
       }
     }
+  }
+
+  ion-icon {
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
   }
 }

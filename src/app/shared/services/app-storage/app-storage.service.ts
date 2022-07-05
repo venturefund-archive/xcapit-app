@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@capacitor/storage';
 
+
+export interface StorageService {
+
+  get(key: string): Promise<any>;
+}
+
+
 @Injectable({
   providedIn: 'root',
 })
-export class AppStorageService {
+export class AppStorageService implements StorageService {
   storage = Storage;
   windowStorage = window.localStorage;
 
@@ -26,7 +33,7 @@ export class AppStorageService {
     return AppStorageService.securedJSONParse((await this.storage.get({ key })).value);
   }
 
-  public set(key, value): Promise<void> {
+  public set(key: string, value: any): Promise<void> {
     const fixValue = typeof value === 'string' ? value : JSON.stringify(value);
     return this.storage.set({ key, value: fixValue });
   }
@@ -37,5 +44,15 @@ export class AppStorageService {
 
   public forceRemove(key: string): void {
     return this.windowStorage.removeItem(key);
+  }
+}
+
+
+export class FakeAppStorage implements StorageService {
+
+  constructor(private _aFakeStorageValue: any = {}) { }
+
+  async get(aStorageKey: string): Promise<any> {
+    return this._aFakeStorageValue[aStorageKey];
   }
 }

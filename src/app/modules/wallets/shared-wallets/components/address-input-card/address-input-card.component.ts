@@ -10,22 +10,25 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 @Component({
   selector: 'app-address-input-card',
   template: `
-    <div class="aic ion-padding">
+    <div class="aic">
+    <div class="aic__info">
+          <app-backup-information-card
+            [text]="
+              'wallets.shared_wallets.address_input_card.disclaimer'
+                | translate
+                  : {
+                      network: this.selectedNetwork | formattedNetwork
+                    }
+            "
+            [textClass]="'ux-home-backup-card'"
+          >
+          </app-backup-information-card>
+        </div>
       <div class="aic__header">
         <div class="aic__header__title">
           <ion-text class="ux-font-titulo-xs">{{ this.title }}</ion-text>
         </div>
         <div class="aic__header__buttons">
-          <ion-button
-            name="Paste Address"
-            appTrackClick
-            fill="clear"
-            size="small"
-            color="neutral80"
-            (click)="this.pasteClipboardData()"
-          >
-            <ion-icon name="ux-paste"></ion-icon>
-          </ion-button>
           <ion-button
             *ngIf="this.enableQR && !this.isPWA"
             name="Scan QR"
@@ -40,13 +43,18 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
         </div>
       </div>
       <div class="aic__content">
-        <app-ux-input-underlined
-          [labelLeft]="this.helpText"
+        <app-ux-input
+          class="ion-no-padding"
+          [placeholder]="'wallets.shared_wallets.address_input_card.placeholder' | translate"
+          [pasteType]="'ux-paste'"
+          [controlName]="'address'"
           debounce="1000"
-          controlName="address"
           type="text"
           id="address-input"
-        ></app-ux-input-underlined>
+        ></app-ux-input>
+        <ion-label class="aic__content__helpText ux-font-text-xxs ">
+          {{ this.helpText }}
+        </ion-label>
       </div>
     </div>
   `,
@@ -62,12 +70,12 @@ export class AddressInputCardComponent implements OnInit {
   @Input() title: string;
   @Input() helpText: string;
   @Input() enableQR = true;
+  @Input() selectedNetwork: string;
   isPWA = true;
   form: FormGroup;
 
   constructor(
     private clipboardService: ClipboardService,
-    private formBuilder: FormBuilder,
     private modalController: ModalController,
     private toastService: ToastService,
     private translate: TranslateService,
@@ -82,14 +90,6 @@ export class AddressInputCardComponent implements OnInit {
 
   checkIsWebPlatform() {
     this.isPWA = this.platformService.isWeb();
-  }
-
-  pasteClipboardData() {
-    this.clipboardService.read().then((result) => {
-      if (result.type === 'text/plain') {
-        this.form.patchValue({ address: result.value });
-      }
-    });
   }
 
   async scanQR() {

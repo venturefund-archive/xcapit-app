@@ -49,7 +49,7 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
                 >{{ this.amount.value | formattedAmount }} {{ this.amount.token }}</ion-text
               >
               <ion-text class="ux-font-text-base wp__amount__qty__quoteAmount"
-                >{{ this.quoteAmount.value | formattedAmount: 10 : 2 }} {{ this.quoteAmount.token }}
+                >{{ this.quoteAmount.value | formattedAmount: 10:2 }} {{ this.quoteAmount.token }}
               </ion-text>
             </div>
           </div>
@@ -65,6 +65,7 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
       <ion-button
         [appLoading]="this.loading"
         [loadingText]="'defi_investments.withdraw.withdraw.submit_loading' | translate"
+        [disabled]="!this.quoteFee.value"
         appTrackClick
         name="ux_invest_withdraw_confirm"
         expand="block"
@@ -118,6 +119,7 @@ export class WithdrawConfirmationPage implements OnInit {
     this.getAmount();
     this.getQuoteAmount();
     this.getToken();
+    await this.getNativeTokenBalance();
     await this.getFee();
     this.tokenDynamicPrice();
     this.nativeDynamicPrice();
@@ -236,7 +238,6 @@ export class WithdrawConfirmationPage implements OnInit {
 
   async withdraw() {
     this.loadingEnabled(true);
-    await this.getNativeTokenBalance();
     const wallet = await this.wallet();
     if (wallet) {
       if (this.checkNativeTokenBalance()) {

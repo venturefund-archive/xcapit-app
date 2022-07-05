@@ -11,6 +11,8 @@ log.txt
 *.sublime-workspace
 .vscode/
 npm-debug.log*
+.\#*
+flycheck_*.el
 
 .idea/
 .ionic/
@@ -38,3 +40,6 @@ variables.env
 docker-compose.yml
 android/app/google-services.json
 ios/App/App/GoogleService-Info.plist
+
+# customs
+development_notes.*

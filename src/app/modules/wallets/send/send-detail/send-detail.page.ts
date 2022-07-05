@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { ModalController, NavController } from '@ionic/angular';
@@ -26,17 +26,19 @@ import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/fac
 import { Amount } from 'src/app/modules/defi-investments/shared-defi-investments/types/amount.type';
 import { ToastWithButtonsComponent } from 'src/app/modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 import { TranslateService } from '@ngx-translate/core';
+import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-send-detail',
   template: `
     <ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar">
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref="/wallets/select-currency"></ion-back-button>
+          <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref="/wallets/send/select-currency"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
+        <ion-title class="sd__header ion-text-left">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
+        <ion-label class="step-counter" slot="end">2 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd">
@@ -47,40 +49,38 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
         <div class="sd__network-select-card__selected-coin">
           <app-coin-selector [selectedCoin]="this.token" (changeCurrency)="this.changeCurrency()"></app-coin-selector>
         </div>
-        <div class="sd__network-select-card__networks" *ngIf="this.selectedNetwork">
+        <div class="sd__network-select-card__networks">
           <app-network-select-card
             (networkChanged)="this.selectedNetworkChanged($event)"
             [title]="'wallets.send.send_detail.network_select.network' | translate"
             [networks]="this.networks"
-            [disclaimer]="
-              'wallets.send.send_detail.network_select.disclaimer'
-                | translate
-                  : {
-                      network: this.selectedNetwork
-                    }
-            "
-            [selectedNetwork]="this.selectedNetwork"
           ></app-network-select-card>
         </div>
       </div>
-
       <form [formGroup]="this.form">
-        <div class="sd__address-input-card  ion-padding-start ion-padding-end" *ngIf="this.token">
+        <div
+          class="sd__address-input-card  ion-padding-start ion-padding-end"
+          *ngIf="this.token && this.selectedNetwork"
+        >
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
             [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
+            [selectedNetwork]="this.selectedNetwork"
           ></app-address-input-card>
         </div>
         <div class="sd__amount-input-card" *ngIf="this.token">
           <ion-card class="ux-card">
             <app-amount-input-card
               *ngIf="this.balance !== undefined"
+              [title]="'defi_investments.shared.amount_input_card.title' | translate"
               [header]="'defi_investments.shared.amount_input_card.available' | translate"
               [showRange]="false"
               [baseCurrency]="this.token"
               [max]="this.balance"
               [quotePrice]="this.quotePrice"
               [feeToken]="this.nativeToken"
+              [amountSend]="this.amountSend"
+              (phraseAmountInfoClicked)="this.showPhraseAmountInfo()"
             ></app-amount-input-card>
             <app-amount-input-card-skeleton
               *ngIf="this.balance === undefined"
@@ -91,16 +91,18 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
                 [fee]="this.dynamicFee"
                 [quoteFee]="this.quoteFee"
                 [balance]="this.nativeBalance"
-                [description]="'donations.send_donations.description_fee' | translate"
+                [transactionFee]="this.transactionFee"
+                (transactionFeeInfoClicked)="this.showPhrasetransactionFeeInfo()"
               ></app-transaction-fee>
             </div>
           </ion-card>
         </div>
       </form>
-
-      <div class="sd__submit-button ion-padding">
+    </ion-content>
+    <ion-footer class="sd__footer">
+      <div class="sd__footer__submit-button ion-padding">
         <ion-button
-          class="ux_button sd__submit-button__button"
+          class="ux_button sd__footer__submit-button__button"
           appTrackClick
           name="ux_send_continue"
           (click)="this.submitForm()"
@@ -109,7 +111,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
         >
       </div>
-    </ion-content>
+    </ion-footer>
   `,
   styleUrls: ['./send-detail.page.scss'],
 })
@@ -127,9 +129,13 @@ export class SendDetailPage {
   quotePrice: number;
   nativeTokenPrice: number;
   fee: number;
+  amountSend = false;
+  transactionFee = false;
   dynamicFee: Amount = { value: 0, token: undefined };
   quoteFee: Amount = { value: 0, token: 'USD' };
   modalHref: string;
+  isInfoModalOpen = false;
+
   url: string;
   form: FormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
@@ -178,6 +184,42 @@ export class SendDetailPage {
     });
   }
 
+  async showPhraseAmountInfo() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: InfoSendModalComponent,
+        componentProps: {
+          title: this.translate.instant('wallets.shared_wallets.info_send_modal.title_send_amount'),
+          description: this.translate.instant('wallets.shared_wallets.info_send_modal.description'),
+          buttonText: this.translate.instant('wallets.shared_wallets.info_send_modal.button_text'),
+        },
+        cssClass: 'ux-xxs-modal-informative',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
+  }
+
+  async showPhrasetransactionFeeInfo() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: InfoSendModalComponent,
+        componentProps: {
+          title: this.translate.instant('wallets.shared_wallets.info_send_modal.title_transaction_fee'),
+          description: this.translate.instant('wallets.shared_wallets.info_send_modal.description'),
+          buttonText: this.translate.instant('wallets.shared_wallets.info_send_modal.button_text'),
+        },
+        cssClass: 'ux-xxs-modal-informative',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
+  }
+
   private async userWallet(): Promise<string> {
     return await this.storageService.getWalletsAddresses(this.selectedNetwork);
   }
@@ -185,10 +227,11 @@ export class SendDetailPage {
   private tokenAndNetworks() {
     const coin = this.route.snapshot.queryParamMap.get('asset');
     const network = this.route.snapshot.queryParamMap.get('network');
-
     this.token = this.apiWalletService.getCoin(coin, network);
     this.networks = this.apiWalletService.getNetworks(coin);
     this.selectedNetwork = network;
+    this.amountSend = true;
+    this.transactionFee = true;
     this.nativeToken = this.token.native
       ? this.token
       : this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
