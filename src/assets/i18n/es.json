@@ -1591,8 +1591,7 @@
       "average_time": "Tiempo promedio de llegada: 3 min.",
       "receive_address_title": "Dirección",
       "receive_address_copy": "Copiar",
-      "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección de depósito.",
-      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito.",
+      "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección. De lo contrario, podrías perder tu depósito.",
       "toast_success": "Se copió al portapapeles"
     },
     "nft_detail": {
