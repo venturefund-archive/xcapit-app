@@ -13,7 +13,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BalanceCacheService } from '../../shared-wallets/services/balance-cache/balance-cache.service';
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { WalletBackupService } from '../../shared-wallets/wallet-backup/wallet-backup.service';
+import { WalletBackupService } from '../../shared-wallets/services/wallet-backup/wallet-backup.service';
 
 describe('RemoveWalletPage', () => {
   let component: RemoveWalletPage;

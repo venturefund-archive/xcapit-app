@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
-import { WalletBackupService } from '../../wallet-backup/wallet-backup.service';
+import { WalletBackupService } from '../../services/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { defaultSwapsUrls } from 'src/app/modules/swaps/swaps-routing.module';
 
