@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MODULES_CRYPTO } from '../shared-financial-education/constants/crypto';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
+import { ModulesService } from '../shared-financial-education/services/financial-education/modules.service';
 
 @Component({
   selector: 'app-home-financial-education',
   template: `<ion-header>
-      <ion-toolbar color="primary" class="ux_toolbar no-border">
+      <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>
@@ -55,7 +55,7 @@ import { MODULES_FINANCE } from '../shared-financial-education/constants/finance
       <div class="ion-padding"></div>
       <div class="hfe__global_progress_card">
         <ion-text class="ux-font-text-lg">{{ 'financial_education.home.global_progress_title' | translate }}</ion-text>
-        <app-global-progress-card ></app-global-progress-card>
+        <app-global-progress-card></app-global-progress-card>
       </div>
       <div class="hfe__rule_card">
         <ion-text class="ux-font-text-lg">{{ 'financial_education.home.rules_title' | translate }}</ion-text>
@@ -74,11 +74,11 @@ export class HomeFinancialEducationPage {
   });
   modules: any = MODULES_FINANCE;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private modulesService: ModulesService) {}
 
   ionViewWillEnter() {
     this.segmentsForm.valueChanges.subscribe(() => {
-      this.modules = this.segmentsForm.value.tab === 'finance' ? MODULES_FINANCE : MODULES_CRYPTO;
+      this.modules = this.modulesService.getModuleByTab(this.segmentsForm.value.tab);
     });
   }
 }
