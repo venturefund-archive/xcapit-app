@@ -250,7 +250,7 @@ describe('CreatePasswordPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     tick();
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('protectedWallet', true);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', true);
     expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
   }));
 
