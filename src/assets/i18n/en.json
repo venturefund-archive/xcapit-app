@@ -1006,6 +1006,11 @@
       }
     },
     "home": {
+      "statuses":{
+        "to_do":"To do",
+        "complete": "Complete",
+        "in_progress":"In progress"
+      },
       "header": "Education",
       "finance": "Finances",
       "crypto": "Crypto",
