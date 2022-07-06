@@ -8,6 +8,7 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
 import { SubModuleInformationPage } from './sub-module-information.page';
 
@@ -19,6 +20,7 @@ describe('SubModuleInformationPage', () => {
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -31,13 +33,18 @@ describe('SubModuleInformationPage', () => {
         code: 'dVKXJqBs',
       });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
+      storageServiceSpy = jasmine.createSpyObj('StorageService', {
+        getWalletFromStorage: Promise.resolve({
+          addresses: { ERC20: 'testAddress', MATIC: 'testAddressMatic', RSK: 'testAddressRsk' },
+        }),
+      });
       TestBed.configureTestingModule({
         declarations: [SubModuleInformationPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
+          { provide: StorageService, useValue: storageServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -106,4 +113,20 @@ describe('SubModuleInformationPage', () => {
       'GGLKURh6',
     ]);
   });
+
+  it('should not redirect to typeform learn page if the user has no wallet', async () => {
+    storageServiceSpy.getWalletFromStorage.and.resolveTo(null)
+    await component.ngOnInit()
+    fixture.debugElement.query(By.css('ion-button[name="ux_education_learn"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['financial-education/error-no-wallet'])
+  })
+
+  it('should not redirect to typeform test page if the user has no wallet', async () => {
+    storageServiceSpy.getWalletFromStorage.and.resolveTo(null)
+    await component.ngOnInit()
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_education_test"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['financial-education/error-no-wallet'])
+  })
 });

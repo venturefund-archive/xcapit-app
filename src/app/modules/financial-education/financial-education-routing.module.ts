@@ -35,6 +35,9 @@ const routes: Routes = [
         path: 'error-test',
         loadChildren: () => import('./error-test/error-test.module').then( m => m.ErrorTestPageModule) },
       {
+        path: 'error-no-wallet',
+        loadChildren: () => import('./error-no-wallet/error-no-wallet.module').then( m => m.ErrorNoWalletPageModule) },
+      {
         path: 'success-submodules',
         loadChildren: () =>
           import('./success-submodules/success-submodules.module').then(

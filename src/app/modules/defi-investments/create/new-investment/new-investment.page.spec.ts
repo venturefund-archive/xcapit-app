@@ -20,7 +20,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { of } from 'rxjs';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
-import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
+import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 const testVault = {

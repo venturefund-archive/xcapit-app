@@ -1095,6 +1095,12 @@
       "textPrimary": "Lo lograste, ¡así se hace!",
       "textSecondary": "Completaste todos los módulos de educación financiera y cripto. Próximamente acreditaremos tu NFT en tu wallet.",
       "primaryButton": "Finalizar"
+    },
+    "error_no_wallet": {
+      "textPrimary": "¡Alto! Aún no tienes tu wallet",
+      "textSecondary": "Para avanzar con el módulo, necesitas crear tu wallet así puedes reclamar tu premio al finalizarlo.",
+      "namePrimaryAction": "Crear wallet",
+      "nameSecondaryAction": "Volver a educación financiera"
     }
   },
   "financial_planner": {

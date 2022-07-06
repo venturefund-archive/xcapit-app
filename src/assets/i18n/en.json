@@ -1103,6 +1103,12 @@
       "textPrimary": "You did it, that's the way to do it!",
       "textSecondary": "You have completed all financial education and crypto modules. Your NFT will be credited to your wallet soon.",
       "primaryButton": "Finish"
+    },
+    "error_no_wallet": {
+      "textPrimary": "Stop! You don't have your wallet yet",
+      "textSecondary": "To progress through the module, you need to create your wallet so you can claim your prize at the end of the module.",
+      "namePrimaryAction": "Create wallet",
+      "nameSecondaryAction": "Back to financial education"
     }
   },
 
