@@ -7,7 +7,6 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
     <ion-content class="ion-padding failed-mnemonic-content">
       <app-success-content
         [data]="this.data"
-        imageName="../../../../assets/img/wallet-password-change/password-change-error.svg"
         imageAlt="Error Image"
       ></app-success-content>
     </ion-content>
