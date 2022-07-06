@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { MODULES_CRYPTO } from '../shared-financial-education/constants/crypto';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
 
@@ -41,13 +42,15 @@ export class SubModuleInformationPage implements OnInit {
   module: any;
   subModule: any;
   data: any;
-  constructor(private route: ActivatedRoute, private navController: NavController) {}
+  walletExists: any;
+  constructor(private route: ActivatedRoute, private navController: NavController, private storageService: StorageService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getParams();
     this.getData();
     this.getModule();
     this.getSubModule();
+    await this.getUserWalletAddress()
   }
 
   getParams() {
@@ -70,20 +73,31 @@ export class SubModuleInformationPage implements OnInit {
     }
   }
 
+  private async getUserWalletAddress() {
+    this.walletExists = await this.storageService.getWalletFromStorage();
+  }
+
   goToLearningMore() {
-    this.navController.navigateForward([
-      'financial-education/typeform/tab',
-      this.selectedTab,
-      'module',
-      this.module.name,
-      'submodule',
-      this.subModule.name,
-      'code',
-      this.subModule.learning_code,
-    ]);
+    if (this.walletExists == null) {
+      this.navController.navigateForward(['financial-education/error-no-wallet'])
+    } else {
+      this.navController.navigateForward([
+        'financial-education/typeform/tab',
+        this.selectedTab,
+        'module',
+        this.module.name,
+        'submodule',
+        this.subModule.name,
+        'code',
+        this.subModule.learning_code,
+      ]);
+    }
   }
 
   goToStartTest() {
+    if (this.walletExists == null) {
+      this.navController.navigateForward(['financial-education/error-no-wallet'])
+    } else {
     this.navController.navigateForward([
       'financial-education/typeform/tab',
       this.selectedTab,
@@ -94,5 +108,6 @@ export class SubModuleInformationPage implements OnInit {
       'code',
       this.subModule.test_code,
     ]);
+    }
   }
 }

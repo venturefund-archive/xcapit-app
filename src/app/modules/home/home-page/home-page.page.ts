@@ -18,7 +18,7 @@ import { TokenDetailController } from '../../wallets/shared-wallets/models/token
 import { TotalBalanceController } from '../../wallets/shared-wallets/models/balance/total-balance/total-balance.controller';
 import { HttpClient } from '@angular/common/http';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
-import { WalletBackupService } from '../../wallets/shared-wallets/wallet-backup/wallet-backup.service';
+import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({

@@ -11,7 +11,7 @@ import { FakeNavController } from '../../../../../../testing/fakes/nav-controlle
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
-import { WalletBackupService } from '../../wallet-backup/wallet-backup.service';
+import { WalletBackupService } from '../../services/wallet-backup/wallet-backup.service';
 import { defaultSwapsUrls } from 'src/app/modules/swaps/swaps-routing.module';
 
 describe('WalletSubheaderButtonsComponent', () => {

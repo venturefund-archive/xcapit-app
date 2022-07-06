@@ -289,5 +289,15 @@ export const SUCCESS_TYPES = {
     textSecondary:'swaps.swap_in_progress.textSecondary',
     namePrimaryAction:'swaps.swap_in_progress.buttonText',
     urlPrimaryAction:'/tabs/wallets',
+  },
+  error_no_wallet_financial_education: {
+    image: '/assets/img/financial-education/error-no-wallet.svg',
+    urlClose: '/financial-education/home',
+    textPrimary: 'financial_education.error_no_wallet.textPrimary',
+    textSecondary: 'financial_education.error_no_wallet.textSecondary',
+    namePrimaryAction: 'financial_education.error_no_wallet.namePrimaryAction',
+    nameSecondaryAction: 'financial_education.error_no_wallet.nameSecondaryAction',
+    urlPrimaryAction: '/tabs/wallets',
+    urlSecondaryAction: '/financial-education/home',
   }
 };

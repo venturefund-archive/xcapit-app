@@ -16,7 +16,7 @@ import { UpdateNewsService } from './shared/services/update-news/update-news.ser
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
 import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { WalletBackupService } from './modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
+import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;

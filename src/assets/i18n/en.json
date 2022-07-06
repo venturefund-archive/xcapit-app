@@ -1103,6 +1103,12 @@
       "textPrimary": "You did it, that's the way to do it!",
       "textSecondary": "You have completed all financial education and crypto modules. Your NFT will be credited to your wallet soon.",
       "primaryButton": "Finish"
+    },
+    "error_no_wallet": {
+      "textPrimary": "Stop! You don't have your wallet yet",
+      "textSecondary": "To progress through the module, you need to create your wallet so you can claim your prize at the end of the module.",
+      "namePrimaryAction": "Create wallet",
+      "nameSecondaryAction": "Back to financial education"
     }
   },
 
@@ -1976,6 +1982,14 @@
       "provider_label": "Select provider",
       "moonpay_description": "Buy with a credit card",
       "krypton_description": "Buy with bank transfer",
+      "directa24":{
+        "platform_description":"Buy USDC through the platform",
+        "nearest_store_description": "Buy USDC at your nearest store",
+        "nearest_branch_office_description": "Buy USDC at your nearest branch office",
+        "in_app_description": "Buy USDC through the app",
+        "debit_credit_description": "Buy USDC with debit or credit",
+        "transfer_description": "Buy USDC via wire transfer."
+      },
       "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
       "button": "Continue"
     },
@@ -2159,7 +2173,9 @@
       "spain": "Spain",
       "uruguay": "Uruguay",
       "united_states": "USA (United States of America)",
-      "venezuela": "Venezuela"
+      "venezuela": "Venezuela",
+      "ecuador":"Ecuador",
+      "chile":"Chile"
     },
     "shared": {
       "constants": {
