@@ -65,11 +65,11 @@ cache:
   before_script:
     - cd ${SRC_DIR}
     - apt-get update -yqq
-    - apt-get -qq install --no-install-recommends -y xvfb gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps default-jre fonts-liberation xdg-utils
-    - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list
+    - apt-get -qq install -y xvfb
+    - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
     - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
     - apt-get update -yqq
-    - apt-get -qq install --no-install-recommends -y google-chrome-stable
+    - apt-get -qq install -y google-chrome-stable
     - Xvfb :0 -ac -screen 0 1024x768x24 &
     - export DISPLAY=:99
   script:
