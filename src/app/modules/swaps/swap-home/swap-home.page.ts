@@ -159,7 +159,7 @@ export class SwapHomePage {
     fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
   });
   defaultNavBackUrl = 'tabs/wallets';
-  swapInProgressUrl = 'swaps/swap-in-progress'; 
+  swapInProgressUrl = 'swaps/swap-in-progress';
 
   constructor(
     private route: ActivatedRoute,
