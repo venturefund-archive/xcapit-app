@@ -160,7 +160,7 @@ export class SwapHomePage {
     fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
   });
   defaultNavBackUrl = 'tabs/wallets';
-  swapInProgressUrl = 'swaps/swap-in-progress'; 
+  swapInProgressUrl = 'swaps/swap-in-progress';
 
   constructor(
     private route: ActivatedRoute,
@@ -302,13 +302,13 @@ export class SwapHomePage {
       .catch((err) => {
         console.log('Swap NOT OK!');
         console.log(err.message);
-        this.passwordErrorHandlerService.handlePasswordError(err, ()=>{this.showPasswordError()})
+        this.passwordErrorHandlerService.handlePasswordError(err, () => { this.showPasswordError() })
         this.resetMainButton();
       });
   }
 
   private async showPasswordError(){
-    await this.toastService.showErrorToast({message:this.translate.instant('swaps.errors.invalid_password')});
+    await this.toastService.showErrorToast({ message: this.translate.instant('swaps.errors.invalid_password') });
   }
 
   private swapTxs(wallet: Wallet): SwapTransactions {

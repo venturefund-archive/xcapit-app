@@ -31,7 +31,6 @@ import { FakeBlockchainTx } from '../shared-swaps/models/fakes/fake-blockchain-t
 import { NullJSONSwapInfo } from '../shared-swaps/models/json-swap-info/json-swap-info';
 import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-response-data';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
-import { PasswordErrorHandlerService } from '../shared-swaps/services/password-error-handler/password-error-handler.service';
 
 
 describe('SwapHomePage', () => {
@@ -47,12 +46,11 @@ describe('SwapHomePage', () => {
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let intersectedTokensFactorySpy: jasmine.SpyObj<IntersectedTokensFactory>;
   let oneInchFactorySpy: jasmine.SpyObj<OneInchFactory>;
-  let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
+  let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
   let swapTransactionsFactorySpy: jasmine.SpyObj<SwapTransactionsFactory>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
-  let passwordErrorHandlerServiceSpy: jasmine.SpyObj<PasswordErrorHandlerService>;
 
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
@@ -84,7 +82,7 @@ describe('SwapHomePage', () => {
       oneInchFactorySpy = jasmine.createSpyObj('OneInchFactory', {
         create: { swapInfo: () => Promise.resolve(rawSwapInfoData) },
       });
-      fakeModalController = new FakeModalController({}, { data: 'asdf' });
+      fakeModalController = new FakeModalController({}, { data: 'aPasswordString' });
       modalControllerSpy = fakeModalController.createSpy();
 
       intersectedTokensFactorySpy = jasmine.createSpyObj('IntersectedTokensFactory', {
@@ -93,9 +91,7 @@ describe('SwapHomePage', () => {
 
       walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
         create: { oneBy: () => Promise.resolve(new FakeWallet()) },
-
       });
-
 
       swapTransactionsFactorySpy = jasmine.createSpyObj('SwapTransactionsFactory', {
         create: { blockchainTxs: () => [new FakeBlockchainTx()] },
@@ -108,10 +104,6 @@ describe('SwapHomePage', () => {
       toastServiceSpy = jasmine.createSpyObj('ToastService', {
         showErrorToast: Promise.resolve(),
         showWarningToast: Promise.resolve(),
-      });
-
-      passwordErrorHandlerServiceSpy = jasmine.createSpyObj('PasswordErrorHandlerService', {
-        handlePasswordError: Promise.resolve()
       });
 
       TestBed.configureTestingModule({
@@ -135,7 +127,6 @@ describe('SwapHomePage', () => {
           { provide: WalletsFactory, useValue: walletsFactorySpy },
           { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
           { provide: ToastService, useValue: toastServiceSpy },
-          { provide: PasswordErrorHandlerService, useValue:  passwordErrorHandlerServiceSpy }
         ],
       }).compileComponents();
 
@@ -236,21 +227,19 @@ describe('SwapHomePage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.swapInProgressUrl]);
   });
 
-  it('password modal open on click swap button when password is invalid', async () => {
-    const spy = jasmine.createSpyObj('pruebaSpy', {
-      sendTxs: new Error('invalid password')
-    })
-    passwordErrorHandlerServiceSpy.handlePasswordError.and.callThrough()
-    //walletsFactorySpy.create.and.returnValue({
-      //oneBy: ()=> Promise.resolve(spy)
-    //})
-    await component.ionViewDidEnter();
-    fakeModalController.modifyReturns({}, { data: '' });
+  it('password modal open on click swap button when password is invalid', fakeAsync(() => {
+    walletsFactorySpy.create.and.returnValue(
+      { oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'invalid password')) }
+    );
+    component.ionViewDidEnter();
+    tick();
+    fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
     fixture.detectChanges();
 
-    await component.swapThem();
+    component.swapThem();
+    tick(2);
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-    expect(passwordErrorHandlerServiceSpy.handlePasswordError).toHaveBeenCalledTimes(1);
-  });
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
+  }));
 });

@@ -8,7 +8,9 @@ export class PasswordErrorHandlerService {
   constructor() { }
 
   handlePasswordError(error: any , callback: CallableFunction){
-    if (this.isInvalidPasswordError(error)) callback();
+    if (this.isInvalidPasswordError(error)) {
+      callback();
+    }
   }
 
   private isInvalidPasswordError(error) {

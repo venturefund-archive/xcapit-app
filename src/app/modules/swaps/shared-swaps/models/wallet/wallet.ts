@@ -68,7 +68,10 @@ export class FakeWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
   private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
-  constructor(private readonly sendTxsResponse: Promise<any> = Promise.resolve(false)) {}
+  constructor(
+    private readonly sendTxsResponse: Promise<any> = Promise.resolve(false),
+    private msgError: string = ''
+  ) {}
 
   public onNeedPass(): Subscribable {
     return this._onNeedPass;
@@ -80,10 +83,17 @@ export class FakeWallet implements Wallet {
 
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
     await Promise.all([this._onNeedPass.notify(), this._onWalletDecrypted.notify()]);
+    this._checkError();
     return this.sendTxsResponse;
   }
 
   address(): string {
     return '';
+  }
+
+  private _checkError() {
+    if (this.msgError) {
+      throw new Error(this.msgError);
+    }
   }
 }
