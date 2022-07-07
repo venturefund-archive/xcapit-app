@@ -9,7 +9,9 @@ import { HttpClient } from '@angular/common/http';
 
 export class GasStationOf {
 
-  constructor(private aBlockchain: Blockchain) {}
+  constructor(private aBlockchain: Blockchain) {
+    console.log("hi")
+  }
 }
 
 
