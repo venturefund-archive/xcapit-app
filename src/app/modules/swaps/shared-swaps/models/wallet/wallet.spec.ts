@@ -64,6 +64,7 @@ describe('DefaultWallet', () => {
     let fakeWallet: Wallet;
 
     beforeEach(() => {
+      //fakeWallet = new FakeWallet(Promise.reject({message:'invalid password'}));
       fakeWallet = new FakeWallet();
     });
 

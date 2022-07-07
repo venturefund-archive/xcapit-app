@@ -30,6 +30,8 @@ import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transaction
 import { FakeBlockchainTx } from '../shared-swaps/models/fakes/fake-blockchain-tx';
 import { NullJSONSwapInfo } from '../shared-swaps/models/json-swap-info/json-swap-info';
 import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-response-data';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { PasswordErrorHandlerService } from '../shared-swaps/services/password-error-handler/password-error-handler.service';
 
 
 describe('SwapHomePage', () => {
@@ -49,6 +51,9 @@ describe('SwapHomePage', () => {
   let swapTransactionsFactorySpy: jasmine.SpyObj<SwapTransactionsFactory>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let passwordErrorHandlerServiceSpy: jasmine.SpyObj<PasswordErrorHandlerService>;
+
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
   const toToken = rawMATICData;
@@ -88,7 +93,9 @@ describe('SwapHomePage', () => {
 
       walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
         create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+
       });
+
 
       swapTransactionsFactorySpy = jasmine.createSpyObj('SwapTransactionsFactory', {
         create: { blockchainTxs: () => [new FakeBlockchainTx()] },
@@ -98,8 +105,17 @@ describe('SwapHomePage', () => {
         trackEvent: Promise.resolve(true),
       });
 
+      toastServiceSpy = jasmine.createSpyObj('ToastService', {
+        showErrorToast: Promise.resolve(),
+        showWarningToast: Promise.resolve(),
+      });
+
+      passwordErrorHandlerServiceSpy = jasmine.createSpyObj('PasswordErrorHandlerService', {
+        handlePasswordError: Promise.resolve()
+      });
+
       TestBed.configureTestingModule({
-        declarations: [SwapHomePage, FormattedAmountPipe, FakeTrackClickDirective],
+        declarations: [SwapHomePage, FormattedAmountPipe, FakeTrackClickDirective,],
         imports: [
           TranslateModule.forRoot(),
           IonicModule.forRoot(),
@@ -118,6 +134,8 @@ describe('SwapHomePage', () => {
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: WalletsFactory, useValue: walletsFactorySpy },
           { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
+          { provide: ToastService, useValue: toastServiceSpy },
+          { provide: PasswordErrorHandlerService, useValue:  passwordErrorHandlerServiceSpy }
         ],
       }).compileComponents();
 
@@ -218,7 +236,14 @@ describe('SwapHomePage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.swapInProgressUrl]);
   });
 
-  it('password modal open on click swap button', async () => {
+  it('password modal open on click swap button when password is invalid', async () => {
+    const spy = jasmine.createSpyObj('pruebaSpy', {
+      sendTxs: new Error('invalid password')
+    })
+    passwordErrorHandlerServiceSpy.handlePasswordError.and.callThrough()
+    //walletsFactorySpy.create.and.returnValue({
+      //oneBy: ()=> Promise.resolve(spy)
+    //})
     await component.ionViewDidEnter();
     fakeModalController.modifyReturns({}, { data: '' });
     fixture.detectChanges();
@@ -226,5 +251,6 @@ describe('SwapHomePage', () => {
     await component.swapThem();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(passwordErrorHandlerServiceSpy.handlePasswordError).toHaveBeenCalledTimes(1);
   });
 });

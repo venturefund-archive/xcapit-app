@@ -2487,6 +2487,9 @@
       "to_token_title": "Hacia",
       "footer_text": "Solo tomará unos segundos."
     },
+    "errors":{
+      "invalid_password":"La contraseña ingresada no es correcta."
+    },
     "select_token": {
       "header": "Swap",
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
