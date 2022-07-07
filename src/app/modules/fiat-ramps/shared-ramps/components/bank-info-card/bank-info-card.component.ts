@@ -119,7 +119,7 @@ export class BankInfoCardComponent implements OnInit {
 
   private getBankInfo() {
     this.bankInfo = this.allBanks.find(
-      (b) => b.providerId === this.provider.id && b.countryIsoCode === this.country.isoCode
+      (b) => b.providerId === this.provider.id && b.countryIsoCode === this.country.isoCodeAlpha3
     );
   }
 

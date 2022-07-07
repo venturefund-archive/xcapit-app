@@ -98,7 +98,7 @@ export class DirectaPage implements OnInit {
 
   setCountry() {
     this.country = this.countries.find(
-      (country) => country.name.toLowerCase() === this.route.snapshot.paramMap.get('country')
+      (country) => country.isoCodeAlpha3 === this.route.snapshot.queryParamMap.get('country')
     );
   }
 

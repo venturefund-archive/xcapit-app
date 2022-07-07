@@ -47,7 +47,7 @@ export class ProviderCardComponent {
 
   constructor() {}
 
-  sendProviderData(provider) {
+  sendProviderData(provider: FiatRampProvider) {
     this.selectedProvider.emit(provider);
   }
 }

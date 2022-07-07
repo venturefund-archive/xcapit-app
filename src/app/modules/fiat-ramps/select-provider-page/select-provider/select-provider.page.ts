@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
@@ -23,7 +24,7 @@ import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service
           <form [formGroup]="this.form">
             <app-select-provider-card
               (route)="this.receiveRoute($event)"
-              (changedItem)="this.resetForm()"
+              (changedCountry)="this.resetForm()"
               controlNameProvider="provider"
               controlNameSelect="country"
             ></app-select-provider-card>
@@ -82,7 +83,7 @@ export class SelectProviderPage {
     private formBuilder: FormBuilder,
     private trackService: TrackService,
     private browserService: BrowserService,
-    private fiatRampsService: FiatRampsService
+    private fiatRampsService: FiatRampsService,
   ) {}
 
   ionViewWillEnter() {
@@ -106,7 +107,13 @@ export class SelectProviderPage {
   }
 
   goToRoute() {
-    this.navController.navigateForward([this.route, this.form.value.country.name.toLowerCase()]);
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        country: this.form.value.country.isoCodeAlpha3,
+      },
+    };
+
+    this.navController.navigateForward([this.route], navigationExtras);
   }
 
   resetForm() {

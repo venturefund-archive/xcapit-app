@@ -22,7 +22,7 @@ const routes: Routes = [
             loadChildren: () => import('./moonpay/moonpay.module').then((m) => m.MoonpayPageModule),
           },
           {
-            path: 'others/:alias/:country',
+            path: 'others/:alias',
             loadChildren: () => import('./directa/directa.module').then((m) => m.DirectaPageModule),
           },
         ],
