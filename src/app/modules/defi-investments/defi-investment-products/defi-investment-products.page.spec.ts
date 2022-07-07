@@ -261,6 +261,7 @@ describe('DefiInvestmentProductsPage', () => {
   });
 
   it('should navigate to deFi Faqs when go_to_defi_faqs button is clicked', async () => {
+    component.disableFaqsButton = false;
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
