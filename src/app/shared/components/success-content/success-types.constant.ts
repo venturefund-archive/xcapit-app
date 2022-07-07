@@ -147,6 +147,7 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'wallets.send.error_wrong_address.namePrimaryAction',
   },
   success_wallet_password_change: {
+    image: 'assets/img/wallet-password-change/password-change-success.svg',
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.password_change_success.textPrimary',
     textSecondary: 'wallets.password_change_success.textSecondary',
@@ -154,6 +155,7 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/tabs/wallets',
   },
   error_wallet_password_change: {
+    image: 'assets/img/wallet-password-change/password-change-error.svg',
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.password_change_error.textPrimary',
     textSecondary: 'wallets.password_change_success.textSecondary',
