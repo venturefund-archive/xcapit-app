@@ -80,7 +80,7 @@ export class LogOutModalComponent implements OnInit {
   }
 
   async goToWalletFaq() {
-    await this.navController.navigateForward(['/support/wallet']);
+    await this.navController.navigateForward(['/support/faqs/wallet']);
   }
 
   async saveModalChoice() {

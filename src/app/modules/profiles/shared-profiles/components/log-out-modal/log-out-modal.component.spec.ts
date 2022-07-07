@@ -94,7 +94,7 @@ describe('LogOutModalComponent', () => {
   it('should navigate to Wallet FAQs when Wallet FAQs button clicked', async () => {
     await component.goToWalletFaq();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/wallet']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/faqs/wallet']);
   });
 
   it('should call trackEvent on trackService when Wallet FAQs button clicked', () => {

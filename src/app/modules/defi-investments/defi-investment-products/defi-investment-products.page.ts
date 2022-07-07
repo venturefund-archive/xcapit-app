@@ -98,7 +98,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           ></app-defi-investment-product>
         </div>
       </div>
-      <div *ngIf="this.activeInvestments.length || this.availableInvestments.length" class="dp__link">
+      <div *ngIf="this.activeInvestments.length || this.availableInvestments.length && !this.disableFaqsButton" class="dp__link">
         <ion-button
           name="go_to_defi_faqs"
           (click)="this.goToDefiFaqs()"
@@ -124,6 +124,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
   investorCategory: string;
+  disableFaqsButton = true;
   profileForm: FormGroup = this.formBuilder.group({
     profile: ['conservative', []],
   });
