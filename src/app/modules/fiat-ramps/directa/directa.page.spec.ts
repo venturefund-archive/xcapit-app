@@ -82,7 +82,7 @@ describe('DirectaPage', () => {
   });
 
   it('should set country, default currency and provider on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({ country: 'ecuador', alias: 'PX' }, {});
+    fakeActivatedRoute.modifySnapshotParams({ alias: 'PX' }, { country: 'ECU' });
     component.ionViewWillEnter();
     expect(component.country.name).toEqual('Ecuador');
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);

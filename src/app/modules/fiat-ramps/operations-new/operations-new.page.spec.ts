@@ -154,8 +154,8 @@ describe('OperationsNewPage', () => {
       name: 'Argentina',
       value: 'fiat_ramps.countries_list.argentina',
       fiatCode: 'ars',
-      isoCode: 'ARS',
-      directaCode: 'AR',
+      isoCodeAlpha3: 'ARS',
+      directaCode: 'AR'
     });
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);
     expect(component.fiatCurrency).toEqual('ars');

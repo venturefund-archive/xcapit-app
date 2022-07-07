@@ -1,4 +1,4 @@
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, NavigationExtras } from '@angular/router';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -14,46 +14,26 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
+import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 
-const testCoins = [
-  {
-    id: 2,
-    name: 'ETH - Ethereum',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    last: false,
-    value: 'ETH',
-    network: 'ERC20',
-    chainId: 42,
-    moonpayCode: 'eth',
-    rpc: 'http://testrpc.test',
+const testWallet = {
+  assets: {
+    ETH: true,
+    LINK: false,
+    UNI: true,
+    MATIC: true,
   },
-  {
-    id: 6,
-    name: 'RBTC - Smart Bitcoin',
-    logoRoute: 'assets/img/coins/RBTC.png',
-    last: false,
-    value: 'RBTC',
-    network: 'RSK',
-    chainId: 31,
-    rpc: 'http://testrpc.test',
-  },
-  {
-    id: 3,
-    name: 'USDT - Tether',
-    logoRoute: 'assets/img/coins/USDT.svg',
-    last: false,
-    value: 'USDT',
-    network: 'ERC20',
-    chainId: 42,
-    moonpayCode: 'usdt',
-    rpc: 'http://testrpc.test',
-    decimals: 6,
-  },
-];
+  addresses: { 
+    ERC20: 'testERC20Address',
+    MATIC: 'testMaticAddress'
+  }
+};
 
-const formValid={
-  currency: testCoins[0]
-}
+const formValid = {
+  currency: TEST_COINS[0],
+};
 
 describe('MoonpayPage', () => {
   let component: MoonpayPage;
@@ -64,29 +44,26 @@ describe('MoonpayPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<MoonpayPage>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      activatedRouteSpy = jasmine.createSpyObj(
-        'ActivatedRoute',
-        {},
-        {
-          snapshot: { queryParamMap: convertToParamMap({}) },
-        }
-      );
+      fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'COL' });
+      activatedRouteSpy = fakeActivatedRoute.createSpy();
       browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
         getMoonpayLink: of({ url: 'http://testURL.com' }),
       });
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-        getEncryptedWallet: Promise.resolve({ addresses: { ERC20: 'testERC20Address' } }),
+        getEncryptedWallet: Promise.resolve(testWallet),
       });
-      storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        getAssestsSelected: Promise.resolve(testCoins),
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+        getCoins: TEST_COINS,
       });
       TestBed.configureTestingModule({
         declarations: [MoonpayPage, FakeTrackClickDirective],
@@ -98,6 +75,7 @@ describe('MoonpayPage', () => {
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -125,18 +103,16 @@ describe('MoonpayPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(component.form.value.currency).toEqual(testCoins[0]);
+    expect(component.form.value.currency).toEqual(TEST_COINS[0]);
     expect(component.address).toEqual('testERC20Address');
   });
 
   it('should select the currency specified by parameter on init', async () => {
-    (Object.getOwnPropertyDescriptor(activatedRouteSpy, 'snapshot').get as jasmine.Spy).and.returnValue({
-      queryParamMap: convertToParamMap({ asset: 'USDT', network: 'ERC20' }),
-    });
+    fakeActivatedRoute.modifySnapshotParams({}, { country: 'COL', asset: 'MATIC', network: 'MATIC' });
     component.ionViewWillEnter();
     fixture.detectChanges();
-    await fixture.whenStable();
-    expect(component.form.value.currency).toEqual(testCoins[2]);
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(component.form.value.currency).toEqual(TEST_COINS[6]);
   });
 
   it('should filter the currencies selected by the user and leave only those with a valid moonpay code on init', async () => {
@@ -147,12 +123,19 @@ describe('MoonpayPage', () => {
   });
 
   it('should redirect to change currency when currency button is clicked on provider card', async () => {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        country: 'COL',
+      },
+    };
     component.ionViewWillEnter();
     fixture.detectChanges();
-    await Promise.all([fixture.whenStable(),fixture.whenRenderingDone()])
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     component.form.patchValue(formValid);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', undefined);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection', 'moonpay']);
+    fixture.debugElement
+      .query(By.css('app-provider-new-operation-card'))
+      .triggerEventHandler('changeCurrency', undefined);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection', 'moonpay'], navigationExtras);
   });
 });

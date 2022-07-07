@@ -61,6 +61,7 @@ export class MoonpayPage implements OnInit {
   provider: FiatRampProvider;
   providers: FiatRampProvider[] = PROVIDERS;
   countryIsoCodeAlpha3: string;
+  encryptedWallet: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -95,8 +96,8 @@ export class MoonpayPage implements OnInit {
   }
 
   async availableCoins() {
-    const assets = (await this.storageService.getWalletFromStorage()).assets;
-    this.coins = new FiatRampCurrenciesOf(this.provider, this.apiWalletService.getCoins(), assets).value();
+    this.encryptedWallet = await this.walletEncryptionService.getEncryptedWallet();
+    this.coins = new FiatRampCurrenciesOf(this.provider, this.apiWalletService.getCoins(), this.encryptedWallet.assets).value();
   }
 
   subscribeToFormChanges() {
@@ -105,11 +106,8 @@ export class MoonpayPage implements OnInit {
     });
   }
 
-  getAddress(currency: Coin) {
-    this.walletEncryptionService.getEncryptedWallet().then((wallet) => {
-      const network = this.coins.find((coin) => coin.value === currency.value).network;
-      this.address = wallet.addresses[network];
-    });
+  getAddress(value: Coin) {
+    this.address = this.encryptedWallet.addresses[value.network];
   }
 
   async openMoonpay() {
