@@ -998,6 +998,11 @@
       }
     },
     "home": {
+      "statuses":{
+        "to_do":"Por hacer",
+        "complete": "Completo",
+        "in_progress":"En progreso"
+      },
       "header": "Educación",
       "finance": "Finanzas",
       "crypto": "Cripto",
