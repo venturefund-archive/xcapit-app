@@ -10,10 +10,10 @@
     }
 
     &__amount-select {
-      margin-top: 19px;
+      margin-top: 24px;
 
       &__qty-label {
-        margin-bottom: 16px;
+        margin-bottom: 8px;
       }
 
       &__labels {
@@ -66,10 +66,14 @@
           flex-basis: 45%;
         }
       }
+
+      &__usd-disclaimer {
+        color: var(--ion-color-neutral80);
+      }
     }
 
     &__provider {
-      margin-top: 46px;
+      margin-top: 24px;
 
       &__label {
         margin-bottom: 8px;
@@ -77,16 +81,10 @@
 
       &__content {
         display: flex;
-        align-items: center;
 
         &__img {
           display: flex;
-          align-items: center;
           margin-right: 16px;
-
-          img {
-            width: 32px;
-          }
         }
 
         &__provider-name {

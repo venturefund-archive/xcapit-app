@@ -14,7 +14,7 @@ import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.in
             <img [src]="this.selectedCoin.logoRoute" alt="logo" />
           </div>
           <ion-label class="cs__selector__item__label ion-no-margin" color="neutral90">{{ this.selectedCoin.value }}</ion-label>
-          <ion-icon class="cs__selector__item__chevron" color="info" name="chevron-down-outline"></ion-icon>
+          <ion-icon *ngIf="this.enabled" class="cs__selector__item__chevron" color="info" name="chevron-down-outline"></ion-icon>
         </ion-item>
       </div>
     </div>
@@ -23,6 +23,7 @@ import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.in
 })
 export class CoinSelectorComponent implements OnInit {
   @Input() selectedCoin: Coin;
+  @Input() enabled: boolean;
   @Output() changeCurrency: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
@@ -30,6 +31,9 @@ export class CoinSelectorComponent implements OnInit {
   ngOnInit() {}
 
   emitEventChangeCurrency() {
-    this.changeCurrency.emit();
+    if (this.enabled)
+    {
+      this.changeCurrency.emit();    
+    }
   }
 }

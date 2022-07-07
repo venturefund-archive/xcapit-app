@@ -29,7 +29,7 @@ import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service
             ></app-select-provider-card>
           </form>
         </div>
-          <div class="operations-list ion-padding-start ion-padding-end" *ngIf="this.operationsList">
+        <div class="operations-list ion-padding-start ion-padding-end" *ngIf="this.operationsList">
           <app-operations-list [operationsList]="this.operationsList"></app-operations-list>
         </div>
         <div class="moonpay-operations ion-padding-start ion-padding-end">
@@ -106,9 +106,7 @@ export class SelectProviderPage {
   }
 
   goToRoute() {
-    this.route === '/fiat-ramps/new-operation/kripton'
-      ? this.navController.navigateForward([this.route, this.form.value.country.name.toLowerCase()])
-      : this.navController.navigateForward([this.route]);
+    this.navController.navigateForward([this.route, this.form.value.country.name.toLowerCase()]);
   }
 
   resetForm() {

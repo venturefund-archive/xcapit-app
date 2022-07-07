@@ -1,0 +1,16 @@
+:host {
+  .button-next {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  .ux_footer {
+    &__content {
+      &__disclaimer {
+        color: var(--ion-color-neutral80);
+      }
+    }
+  }
+}

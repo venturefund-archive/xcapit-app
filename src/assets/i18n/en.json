@@ -2189,9 +2189,14 @@
       "fixed_footer": {
         "text": "You are interacting with Kriptonmarket"
       },
+      "redirect_footer": {
+        "text": "By clicking “Continue”, you will be redirected to the third-party vendor's site to complete your purchase ticket and pay for the transaction."
+      },
       "provider_new_operation_card": {
         "quantity": "Amount",
-        "provider": "Provider"
+        "provider": "Provider",
+        "to_pay": "You will pay*",
+        "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day."
       },
       "kyc_disclaimer_modal": {
         "title": "Krypton account registration",
