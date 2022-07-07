@@ -12,4 +12,12 @@ export class ModulesService {
   getModules() {
     return this.modules;
   }
+
+  getModuleByTab(tab: string) {
+    if (tab === 'finance') {
+      return MODULES_FINANCE;
+    } else {
+      return MODULES_CRYPTO;
+    }
+  }
 }

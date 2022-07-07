@@ -2,7 +2,7 @@ export const MODULES_FINANCE = [
   {
     id:4,
     name: 'finance_1',
-    open: 'yes',
+    open: true,
     icon: 'assets/ux-icons/introduction-finances.svg',
     title: 'financial_education.home.module_finance.module_1.title',
     progress_title: 'financial_education.home.module_finance.module_1.progress_title',
@@ -32,7 +32,7 @@ export const MODULES_FINANCE = [
         dataToTrack: 'budgets',
         learning_code: 'FNFBi9Lb',
         test_code: 'PesYFNQ5',
-        last: false,
+        last: true,
       },
     ],
   },

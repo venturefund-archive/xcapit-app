@@ -82,7 +82,7 @@ describe('FinanceEducationComponent', () => {
     const imgModuleEl = fixture.debugElement.query(By.css('img[name="module_img"]'));
     const titleModuleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
     const comingSoonEl = fixture.debugElement.query(By.css('ion-label[name="module_coming_soon"]'));
-    const titleSubModuleEl = fixture.debugElement.query(By.css('ion-label[name="sub_module_title"]'));
+    const titleSubModuleEl = fixture.debugElement.query(By.css('ion-label[name="sub_module_title ux-font-text-xxs"]'));
     fixture.detectChanges();
     await fixture.whenStable();
     expect(imgModuleEl.attributes.src).toContain('assets/ux-icons/introduction-finances.svg');
