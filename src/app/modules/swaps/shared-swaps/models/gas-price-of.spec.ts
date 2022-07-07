@@ -7,7 +7,10 @@ import { HttpClient } from '@angular/common/http';
 
 
 
-export class GasStationOf { }
+export class GasStationOf {
+
+  constructor(private aBlockchain: Blockchain) {}
+}
 
 
 
