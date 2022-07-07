@@ -227,7 +227,7 @@ describe('SwapHomePage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.swapInProgressUrl]);
   });
 
-  it('password modal open on click swap button when password is invalid', fakeAsync(() => {
+  it('password modal open on click swap button and password is invalid', fakeAsync(() => {
     walletsFactorySpy.create.and.returnValue(
       { oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'invalid password')) }
     );
