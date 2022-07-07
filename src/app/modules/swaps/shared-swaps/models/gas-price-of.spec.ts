@@ -15,7 +15,7 @@ export class GasStationOf { }
 fdescribe('Gas Station Of', () => {
 
   it('new', () => {
-    expect(new GasStationOf()).toBeTruthy();
+    expect(new GasStationOf(new Blockchain(rawPolygonData))).toBeTruthy();
   });
 });
 
