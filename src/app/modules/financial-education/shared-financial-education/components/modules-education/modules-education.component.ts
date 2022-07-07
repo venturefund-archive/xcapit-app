@@ -69,9 +69,6 @@ export class ModulesEducationComponent implements OnInit {
     if (this.open) {
       this.open = !this.module.open;
       Object.assign(this.module, { open: this.open });
-    } else {
-      this.open = this.module.open;
-      Object.assign(this.module, { open: this.open });
     }
   }
 }
