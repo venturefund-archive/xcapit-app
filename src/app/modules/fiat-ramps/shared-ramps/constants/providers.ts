@@ -43,6 +43,18 @@ export const PROVIDERS: FiatRampProvider[] = [
       'Uruguay',
       'Estados Unidos',
     ],
+    currencies: [
+      { symbol: 'ETH', network: 'ERC20' },
+      { symbol: 'LINK', network: 'ERC20' },
+      { symbol: 'USDT', network: 'ERC20' },
+      { symbol: 'AAVE', network: 'ERC20' },
+      { symbol: 'UNI', network: 'ERC20' },
+      { symbol: 'MANA', network: 'ERC20' },
+      { symbol: 'ENJ', network: 'ERC20' },
+      { symbol: 'MATIC', network: 'MATIC' },
+      { symbol: 'BNB', network: 'BSC_BEP20' },
+      { symbol: 'USDC', network: 'MATIC' },
+    ],
   },
   {
     id: 3,
@@ -54,6 +66,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_mercadopago',
     countries: ['Argentina', 'Chile'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 4,
@@ -65,6 +78,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_Rapipago',
     countries: ['Argentina'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 5,
@@ -76,6 +90,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_Pagofacil',
     countries: ['Argentina'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 6,
@@ -87,6 +102,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_UALA',
     countries: ['Argentina'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 7,
@@ -98,6 +114,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_SPEI',
     countries: ['Mexico'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 8,
@@ -109,6 +126,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_Oxxo',
     countries: ['Mexico'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 9,
@@ -120,6 +138,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_Visa',
     countries: ['Chile', 'Peru', 'Mexico', 'Colombia', 'Ecuador', 'Argentina'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 10,
@@ -131,6 +150,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_Mastercard',
     countries: ['Chile', 'Peru', 'Mexico', 'Colombia', 'Ecuador', 'Argentina'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 11,
@@ -142,6 +162,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_PSE',
     countries: ['Colombia'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 12,
@@ -153,6 +174,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_Efecty',
     countries: ['Colombia'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 13,
@@ -164,6 +186,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_WesternUnion',
     countries: ['Peru'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 14,
@@ -175,6 +198,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_PagoEfectivo',
     countries: ['Peru'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 15,
@@ -186,6 +210,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_BGUAYAQUIL',
     countries: ['Ecuador'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 16,
@@ -197,6 +222,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_BPICHINCHA',
     countries: ['Ecuador'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 17,
@@ -208,5 +234,6 @@ export const PROVIDERS: FiatRampProvider[] = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_BancoSantander',
     countries: ['Chile'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
 ];
