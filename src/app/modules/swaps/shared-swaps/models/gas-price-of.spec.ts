@@ -13,9 +13,7 @@ export class GasStationOf {
     private _aBlockchain: Blockchain,
     private _httpClient: HttpClient | FakeHttpClient,
     private _providers: any = providers
-  ) {
-    console.log("hi")
-  }
+  ) { }
 
   price(): GasPrice {
     return new DefaultGasPriceOf(this._aBlockchain, this._providers);
