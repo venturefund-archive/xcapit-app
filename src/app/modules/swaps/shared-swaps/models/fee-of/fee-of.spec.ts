@@ -6,6 +6,7 @@ import { fakeProviders } from "../fakes/fake-ethers-providers";
 import { rawEthereumData } from "../fixtures/raw-blockchains-data";
 import { GasStationOf } from "../gas-station-of/gas-station-of";
 
+
 export class FeeOf implements Fee {
 
   constructor(private _aGasUnits: BigNumber, private _aGasStation: GasStationOf) { }
