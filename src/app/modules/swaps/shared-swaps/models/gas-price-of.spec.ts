@@ -50,7 +50,7 @@ fdescribe('Gas Station Of', () => {
   });
 
   it('polygon gas price', async () => {
-    const expectedValue = fakeGasPrice;
+    const expectedValue = new BigNumberOf(rawPolygonGasStation.safeLow.maxFee).value();
 
     const gasPriceValue = await gasStation.price().safeLow();
 
