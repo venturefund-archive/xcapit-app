@@ -4,6 +4,7 @@ import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { HttpClient } from '@angular/common/http';
 import { fakeGasPrice, fakeProviders } from './fakes/fake-ethers-providers';
 import { providers } from 'ethers';
+import { GasPrice } from './gas-price/gas-price';
 
 
 export class GasStationOf {
@@ -16,7 +17,7 @@ export class GasStationOf {
     console.log("hi")
   }
 
-  price() {
+  price(): GasPrice {
     return true;
   }
 }
