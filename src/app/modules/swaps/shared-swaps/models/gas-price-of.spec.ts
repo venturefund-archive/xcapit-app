@@ -51,12 +51,11 @@ fdescribe('Gas Station Of', () => {
     expect(gasPriceValue.toNumber()).toEqual(expectedValue.toNumber());
   });
 
-  // it('polygon gas price', async () => {
-  //   const expectedValue = new BigNumberOf(rawPolygonGasStation.safeLow.maxFee).value();
+  it('polygon gas price', async () => {
+    const expectedValue = new BigNumberOf(rawPolygonGasStation.safeLow.maxFee).value();
 
-  //   const gasPriceValue = await gasStation.price().safeLow();
+    const gasPriceValue = await gasStation.price().safeLow();
 
-  //   expect(gasPriceValue.toNumber()).toBeTruthy(expectedValue.toNumber());
-  //   expect(gasPriceValue.toNumber()).toBeTruthy(1234);
-  // });
+    expect(gasPriceValue.toNumber()).toEqual(expectedValue.toNumber());
+  });
 });
