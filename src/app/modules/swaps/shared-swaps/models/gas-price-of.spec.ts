@@ -35,6 +35,6 @@ fdescribe('Gas Station Of', () => {
   });
 
   it('default gas price', async () => {
-
+    expect(await gasStation.price()).toBeTruthy();
   })
 });
