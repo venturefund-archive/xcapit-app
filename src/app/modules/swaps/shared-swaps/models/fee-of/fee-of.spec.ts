@@ -13,7 +13,6 @@ export class FeeOf implements Fee {
 
   value(): Promise<BigNumber> {
     throw new Error('Method not implemented.');
-
   }
 }
 
