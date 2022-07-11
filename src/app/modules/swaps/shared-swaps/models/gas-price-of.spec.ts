@@ -15,6 +15,10 @@ export class GasStationOf {
   ) {
     console.log("hi")
   }
+
+  price() {
+    return true;
+  }
 }
 
 
