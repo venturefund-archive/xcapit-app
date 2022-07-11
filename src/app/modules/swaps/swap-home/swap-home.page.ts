@@ -192,9 +192,6 @@ export class SwapHomePage {
     const fee = new FeeOf(estimatedGas, gasPrice);
     const formattedFee = new FormattedFee(fee);
 
-    console.log('estimated gas:', estimatedGas.toNumber());
-    console.log('gas price:', gasPrice.toNumber());
-    console.log('swap estimated fee:', gasPrice.mul(estimatedGas).toNumber());
     console.log('formatted fee:', await formattedFee.value());
   }
 
