@@ -10,7 +10,7 @@ export class GasStationOf {
   constructor(
     private _aBlockchain: Blockchain,
     private _httpClient: HttpClient | FakeHttpClient,
-    private _providers: any =
+    private _providers: any = providers
   ) {
     console.log("hi")
   }
