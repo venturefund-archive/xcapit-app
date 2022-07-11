@@ -195,7 +195,7 @@ export class SwapHomePage {
     console.log('estimated gas:', estimatedGas.toNumber());
     console.log('gas price:', gasPrice.toNumber());
     console.log('swap estimated fee:', gasPrice.mul(estimatedGas).toNumber());
-    console.log('formatted fee:', );
+    console.log('formatted fee:', await formattedFee.value());
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
