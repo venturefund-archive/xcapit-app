@@ -9,7 +9,7 @@ import { GasStationOf } from '../gas-station-of/gas-station-of';
 
 export class FeeOf implements Fee {
 
-  constructor(private _aGasUnits: BigNumber, private _aGasStation: GasStationOf) {}
+  constructor(private _aGasUnits: BigNumber) {}
 
   value(): Promise<BigNumber> {
     throw new Error('Method not implemented.');
@@ -22,8 +22,7 @@ fdescribe('Fee Of', () => {
 
   beforeEach(() => {
     fee = new FeeOf(
-      BigNumber.from(1000),
-
+      BigNumber.from(1000)
     );
   });
 
