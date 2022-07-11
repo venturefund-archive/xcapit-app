@@ -191,7 +191,10 @@ export class SwapHomePage {
     const formattedFee = new FormattedFee(
       new FeeOf(
         BigNumber.from(this.tplSwapInfo.estimatedGas),
-        gasPrice
+        await (new GasStationOf(
+          this.activeBlockchain,
+          this.httpClient
+        )).price().fast()
       )
     );
 
