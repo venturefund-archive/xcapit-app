@@ -11,7 +11,7 @@ export interface Token {
 
   address(): string;
 
-  json(): any;
+  json(): RawToken;
 }
 
 
