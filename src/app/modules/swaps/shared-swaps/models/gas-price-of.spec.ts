@@ -23,6 +23,7 @@ export class GasStationOf {
 
 fdescribe('Gas Station Of', () => {
 
+  let gasStation: GasStationOf;
   const _gasStationOf = (_aBlockchain: Blockchain): GasStationOf => {
     return new GasStationOf(
       _aBlockchain,
@@ -31,9 +32,11 @@ fdescribe('Gas Station Of', () => {
     );
   }
 
-  it('new', () => {
-    const gasStation = _gasStationOf(new Blockchain(rawPolygonData));
+  beforeEach(() => {
+    gasStation = _gasStationOf(new Blockchain(rawPolygonData));
+  })
 
+  it('new', () => {
     expect(gasStation).toBeTruthy();
   });
 
