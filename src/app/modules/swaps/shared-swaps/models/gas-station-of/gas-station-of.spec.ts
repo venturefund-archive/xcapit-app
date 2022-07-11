@@ -4,6 +4,7 @@ import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { fakeGasPrice, fakeProviders } from '../fakes/fake-ethers-providers';
 import { BigNumberOf } from '../polygon-gas-price/big-number-of';
 import { rawPolygonGasStation } from '../fixtures/raw-polygon-gs-data';
+import { GasStationOf } from './gas-station-of';
 
 
 fdescribe('Gas Station Of', () => {
