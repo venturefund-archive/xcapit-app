@@ -1,6 +1,6 @@
 fdescribe('Fee Of', () => {
 
   it('new', () => {
-    expect(false).toBeTruthy();
+    expect(new FeeOf()).toBeTruthy();
   });
 });
