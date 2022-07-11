@@ -29,4 +29,8 @@ fdescribe('Fee Of', () => {
   it('new', () => {
     expect(fee).toBeTruthy();
   });
+
+  it('value', async () => {
+    expect(await fee.value()).toBeTruthy();
+  });
 });
