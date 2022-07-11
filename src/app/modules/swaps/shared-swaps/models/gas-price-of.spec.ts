@@ -1,5 +1,5 @@
 import { Blockchain } from './blockchain/blockchain';
-import { rawPolygonData } from './fixtures/raw-blockchains-data';
+import { rawEthereumData, rawPolygonData } from './fixtures/raw-blockchains-data';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { HttpClient } from '@angular/common/http';
 import { fakeGasPrice, fakeProviders } from './fakes/fake-ethers-providers';
@@ -38,6 +38,7 @@ fdescribe('Gas Station Of', () => {
   });
 
   it('default gas price', async () => {
+    cosnt gasStation = _gasStationOf(new Blockchain(rawEthereumData))
     const expectedValue = fakeGasPrice;
 
     const gasPriceValue = await gasStation.price().safeLow();
