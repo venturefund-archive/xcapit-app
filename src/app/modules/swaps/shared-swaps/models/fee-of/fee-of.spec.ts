@@ -12,7 +12,7 @@ export class FeeOf implements Fee {
   constructor(private _aGasUnits: BigNumber, private _aGasPriceValue: BigNumber) {}
 
   value(): Promise<BigNumber> {
-    throw new Error('Method not implemented.');
+    return this._aGasPriceValue.mul(this._aGasUnits);
   }
 }
 
