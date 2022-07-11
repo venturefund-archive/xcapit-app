@@ -32,6 +32,7 @@ import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transaction
 import { BlockchainTokens } from '../shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-tokens';
 import { GasStationOf } from '../shared-swaps/models/gas-station-of/gas-station-of';
+import { BigNumber } from 'ethers';
 
 @Component({
   selector: 'app-swap-home',
@@ -182,8 +183,8 @@ export class SwapHomePage {
       this.swap = new Swap(fromTokenAmount, this.fromToken, this.toToken);
     }
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
-    const gasStation = new GasStationOf
-    console.log();
+    const gasStation = new GasStationOf(this.activeBlockchain, this.httpClient);
+    console.log('tx fee: ', (await gasStation.price().fast()).mul(BigNumber));
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
