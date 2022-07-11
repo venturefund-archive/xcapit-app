@@ -10,6 +10,9 @@ import { GasStationOf } from "../gas-station-of/gas-station-of";
 export class FeeOf implements Fee {
 
   constructor(private _aGasUnits: BigNumber, private _aGasStation: GasStationOf) { }
+    value(): Promise<BigNumber> {
+        throw new Error("Method not implemented.");
+    }
 }
 
 
