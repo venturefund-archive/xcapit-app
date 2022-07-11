@@ -1,3 +1,5 @@
+import { Blockchain } from "../blockchain/blockchain";
+
 export class GasStationOf {
 
   constructor(
