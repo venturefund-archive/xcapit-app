@@ -27,6 +27,6 @@ fdescribe('Fee Of', () => {
   });
 
   it('new', () => {
-    expect().toBeTruthy();
+    expect(fee).toBeTruthy();
   });
 });
