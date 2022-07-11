@@ -2,6 +2,7 @@ import { Blockchain } from './blockchain/blockchain';
 import { rawPolygonData } from './fixtures/raw-blockchains-data';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { HttpClient } from '@angular/common/http';
+import { providers } from './fakes/fake-ethers-providers';
 
 
 export class GasStationOf {
@@ -22,7 +23,8 @@ fdescribe('Gas Station Of', () => {
   beforeEach(() => {
     gasStation = new GasStationOf(
       new Blockchain(rawPolygonData),
-      new FakeHttpClient()
+      new FakeHttpClient(),
+      providers
     );
   });
 
