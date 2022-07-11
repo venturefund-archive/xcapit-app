@@ -397,7 +397,7 @@
         }
       },
       "amount_input_card": {
-        "title":"Monto a enviar estimado",
+        "title": "Monto a enviar estimado",
         "available": "Saldo disponible",
         "amount_invested": "Monto total invertido",
         "max_button": "Máx"
@@ -998,10 +998,10 @@
       }
     },
     "home": {
-      "statuses":{
-        "to_do":"Por hacer",
+      "statuses": {
+        "to_do": "Por hacer",
         "complete": "Completo",
-        "in_progress":"En progreso"
+        "in_progress": "En progreso"
       },
       "header": "Educación",
       "finance": "Finanzas",
@@ -1672,7 +1672,7 @@
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"
         },
-        "transaction_summary_card":{
+        "transaction_summary_card": {
           "disclaimer": "Comprueba que los datos ingresados sean correctos. Una vez realizado el envío, no podrás cancelarlo."
         },
         "alert_not_enough_native_token": {
@@ -1711,7 +1711,7 @@
       },
       "address_input_card": {
         "scan_error": "Error al escanear el código QR",
-        "placeholder":"Mantén presionado para pegar",
+        "placeholder": "Mantén presionado para pegar",
         "scan_unauthorized": "No tienes permiso para escanear",
         "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos."
       },
@@ -1763,7 +1763,7 @@
         "item_4": "Guárdala en un lugar seguro.",
         "item_5": "Puedes grabarla en algún elemento para que perdure en el tiempo."
       },
-      "info_send_modal":{
+      "info_send_modal": {
         "title_send_amount": "¿Por qué es “estimado” el monto a enviar?",
         "title_transaction_fee": "¿Por qué es “estimada” la tarifa de transacción?",
         "description": "Por la volatilidad del mercado, la tasa de cambio puede variar ligeramente al momento de realizar la operación.",
@@ -1966,8 +1966,8 @@
       "provider_label": "Selecciona el proveedor",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
-      "directa24":{
-        "platform_description":"Compra USDC a través de la plataforma",
+      "directa24": {
+        "platform_description": "Compra USDC a través de la plataforma",
         "nearest_store_description": "Compra USDC en tu tienda más cercana",
         "nearest_branch_office_description": "Compra USDC en tu sucursal más cercana.",
         "in_app_description": "Compra USDC a través de la app",
@@ -1975,7 +1975,21 @@
         "transfer_description": "Compra USDC a través de transferencia"
       },
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
-      "button": "Continuar"
+      "button": "Continuar",
+      "modal_info": {
+        "subtitle_1": "Medios de pago habilitados:",
+        "subtitle_2": "¿Cuál es el plazo de entrega?",
+        "button": "Entendido",
+        "kripton": {
+          "description_1": "Transferencia bancaria.",
+          "description_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs. aproximadamente."
+        },
+        "moonpay": {
+          "description_1": "Tarjeta de crédito.*",
+          "description_2": "Depende del proveedor externo según el caso.",
+          "disclaimer": "*Por retricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
+        }
+      }
     },
     "information_paxful": {
       "header": "Comprar",
@@ -2166,8 +2180,8 @@
       "uruguay": "Uruguay",
       "united_states": "Estados Unidos (EEUU)",
       "venezuela": "Venezuela",
-      "ecuador":"Ecuador",
-      "chile":"Chile"
+      "ecuador": "Ecuador",
+      "chile": "Chile"
     },
     "shared": {
       "constants": {
@@ -2502,10 +2516,10 @@
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
     },
-    "swap_in_progress":{
-      "textPrimary":"¡Tu orden está en camino!",
-      "textSecondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "buttonText":"Ir a Wallet"
+    "swap_in_progress": {
+      "textPrimary": "¡Tu orden está en camino!",
+      "textSecondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "buttonText": "Ir a Wallet"
     }
   }
 }

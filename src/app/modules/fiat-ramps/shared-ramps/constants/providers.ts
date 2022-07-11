@@ -4,6 +4,7 @@ export const PROVIDERS: FiatRampProvider[] = [
   {
     id: 1,
     alias: 'kripton',
+    showInfo: true,
     name: 'Kripton Market',
     providerName: 'kripton',
     logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
@@ -20,6 +21,7 @@ export const PROVIDERS: FiatRampProvider[] = [
   {
     id: 2,
     alias: 'moonpay',
+    showInfo: true,
     name: 'Moonpay',
     providerName: 'moonpay',
     trackClickEventName: 'ux_buy_moonpay',

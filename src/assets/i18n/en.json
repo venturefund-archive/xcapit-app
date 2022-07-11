@@ -405,7 +405,7 @@
         }
       },
       "amount_input_card": {
-        "title":"Estimated amount to send",
+        "title": "Estimated amount to send",
         "available": "Balance available",
         "amount_invested": "Total amount invested",
         "max_button": "Max"
@@ -1006,10 +1006,10 @@
       }
     },
     "home": {
-      "statuses":{
-        "to_do":"To do",
+      "statuses": {
+        "to_do": "To do",
         "complete": "Complete",
-        "in_progress":"In progress"
+        "in_progress": "In progress"
       },
       "header": "Education",
       "finance": "Finances",
@@ -1086,13 +1086,13 @@
       }
     },
     "error_test": {
-      "textPrimary":"Let's keep improving!",
-      "textSecondary":"Remember that you need to respond satisfactorily to all instances.",
-      "namePrimaryAction":"Repeat module",
-      "nameSecondaryAction":"Go to menu",
-      "nameThirdAction":"Learn more"
+      "textPrimary": "Let's keep improving!",
+      "textSecondary": "Remember that you need to respond satisfactorily to all instances.",
+      "namePrimaryAction": "Repeat module",
+      "nameSecondaryAction": "Go to menu",
+      "nameThirdAction": "Learn more"
     },
-    "success_submodule":{
+    "success_submodule": {
       "textPrimary": "¡Felicitaciones! Completaste: {{submodule}}",
       "textSecondary": "Que nada te detenga, estás cada vez más cerca de convertirte en un experto.",
       "buttonText": "Siguiente módulo",
@@ -1681,7 +1681,7 @@
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
         },
-        "transaction_summary_card":{
+        "transaction_summary_card": {
           "disclaimer": "Check that the data entered are correct. Once the shipment has been sent, you will not be able to cancel it."
         },
         "alert_not_enough_native_token": {
@@ -1729,7 +1729,7 @@
 
       "address_input_card": {
         "scan_error": "Error scanning QR code",
-        "placeholder":"Press and hold to paste",
+        "placeholder": "Press and hold to paste",
         "scan_unauthorized": "You have no permission to scan",
         "disclaimer": "The network you selected is {{network}}. Make sure that the destination wallet uses this same network. Otherwise, you will lose your assets"
       },
@@ -1781,7 +1781,7 @@
         "item_4": "Keep it in a safe place.",
         "item_5": "You can engrave it on some element to make it last over time."
       },
-      "info_send_modal":{
+      "info_send_modal": {
         "title_send_amount": "Why is the amount to be sent estimated?",
         "title_transaction_fee": "Why is the transaction fee estimated?",
         "description": "Due to market volatility, the exchange rate may vary slightly at the time of the transaction.",
@@ -1988,8 +1988,8 @@
       "provider_label": "Select provider",
       "moonpay_description": "Buy with a credit card",
       "krypton_description": "Buy with bank transfer",
-      "directa24":{
-        "platform_description":"Buy USDC through the platform",
+      "directa24": {
+        "platform_description": "Buy USDC through the platform",
         "nearest_store_description": "Buy USDC at your nearest store",
         "nearest_branch_office_description": "Buy USDC at your nearest branch office",
         "in_app_description": "Buy USDC through the app",
@@ -1997,7 +1997,21 @@
         "transfer_description": "Buy USDC via wire transfer."
       },
       "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
-      "button": "Continue"
+      "button": "Continue",
+      "modal_info": {
+        "subtitle_1": "Enabled payment methods:",
+        "subtitle_2": "What is the delivery time?",
+        "button": "Understood",
+        "kripton": {
+          "description_1": "Bank transfer.",
+          "description_2": "Deliveries are made from Monday to Friday from 9:00 a.m. to 6:00 p.m. approximately."
+        },
+        "moonpay": {
+          "description_1": "Credit card*.",
+          "description_2": "Depends on the external provider on a case-by-case basis.",
+          "disclaimer": "*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
+        }
+      }
     },
     "information_paxful": {
       "header": "Buy",
@@ -2180,8 +2194,8 @@
       "uruguay": "Uruguay",
       "united_states": "USA (United States of America)",
       "venezuela": "Venezuela",
-      "ecuador":"Ecuador",
-      "chile":"Chile"
+      "ecuador": "Ecuador",
+      "chile": "Chile"
     },
     "shared": {
       "constants": {
@@ -2355,10 +2369,10 @@
       "fromToken_title": "Select the token you want to swap",
       "toToken_title": "Select the token you want to receive"
     },
-    "swap_in_progress":{
-      "textPrimary":"Your order is on the way!",
-      "textSecondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
-      "buttonText":"Go to Wallet"
+    "swap_in_progress": {
+      "textPrimary": "Your order is on the way!",
+      "textSecondary": "The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "buttonText": "Go to Wallet"
     }
   }
 }
