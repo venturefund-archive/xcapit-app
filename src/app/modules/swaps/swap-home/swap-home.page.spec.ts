@@ -32,7 +32,7 @@ import { NullJSONSwapInfo } from '../shared-swaps/models/json-swap-info/json-swa
 import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-response-data';
 
 
-describe('SwapHomePage', () => {
+fdescribe('SwapHomePage', () => {
 
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
