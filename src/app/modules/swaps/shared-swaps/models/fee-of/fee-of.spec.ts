@@ -1,3 +1,5 @@
+import { BigNumber } from "ethers";
+
 export class FeeOf { }
 
 
