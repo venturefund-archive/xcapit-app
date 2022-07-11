@@ -33,6 +33,6 @@ fdescribe('Fee Of', () => {
   });
 
   it('value', async () => {
-    expect(await fee.value()).toBeTruthy();
+    expect((await fee.value()).toNumber()).toBeTruthy();
   });
 });
