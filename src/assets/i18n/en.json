@@ -1611,8 +1611,7 @@
       "average_time": "Average receive time: 3 min.",
       "receive_address_title": "Address",
       "receive_address_copy": "Copy",
-      "disclaimer_header": "Send only {{currency}} using the network {{network}} to this deposit address.",
-      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit.",
+      "disclaimer_header": "Send only {{currency}} using the {{network}} network to this address. Otherwise, you may lose your deposit.",
       "toast_success": "Copied to the clipboard"
     },
     "nft_detail": {
