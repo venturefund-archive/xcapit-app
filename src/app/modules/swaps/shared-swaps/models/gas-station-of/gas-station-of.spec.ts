@@ -9,6 +9,7 @@ import { BigNumberOf } from '../polygon-gas-price/big-number-of';
 import { rawPolygonGasStation } from '../fixtures/raw-polygon-gs-data';
 import { PolygonGasPrice } from '../polygon-gas-price/polygon-gas-price';
 
+
 export class GasStationOf {
 
   constructor(
