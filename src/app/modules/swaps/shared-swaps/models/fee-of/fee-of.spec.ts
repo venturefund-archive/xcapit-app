@@ -1,5 +1,6 @@
 import { BigNumber } from "ethers";
 import { Blockchain } from "../blockchain/blockchain";
+import { rawEthereumData } from "../fixtures/raw-blockchains-data";
 import { GasStationOf } from "../gas-station-of/gas-station-of";
 
 export class FeeOf {
@@ -11,6 +12,6 @@ export class FeeOf {
 fdescribe('Fee Of', () => {
 
   it('new', () => {
-    expect(new FeeOf(BigNumber.from(1000), new GasStationOf(new Blockchain))).toBeTruthy();
+    expect(new FeeOf(BigNumber.from(1000), new GasStationOf(new Blockchain(rawEthereumData)))).toBeTruthy();
   });
 });
