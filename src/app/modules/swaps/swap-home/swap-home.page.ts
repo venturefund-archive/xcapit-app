@@ -31,6 +31,9 @@ import { IntersectedTokensFactory } from '../shared-swaps/models/intersected-tok
 import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transactions/factory/swap-transactions.factory';
 import { BlockchainTokens } from '../shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-tokens';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
+import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-swap-home',
@@ -158,7 +161,8 @@ export class SwapHomePage {
   });
   defaultNavBackUrl = 'tabs/wallets';
   swapInProgressUrl = 'swaps/swap-in-progress'; 
-
+  actions = [{ id:'view', title: 'ver más'}]
+  actionTypeId = 'SWAP'
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
@@ -171,7 +175,9 @@ export class SwapHomePage {
     private oneInch: OneInchFactory,
     private intersectedTokens: IntersectedTokensFactory,
     private swapTransactions: SwapTransactionsFactory,
-    private trackService: TrackService
+    private trackService: TrackService, 
+    private localNotificationsService: LocalNotificationsService,
+    private translate: TranslateService,
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -292,15 +298,47 @@ export class SwapHomePage {
     wallet.onDecryptedWallet().subscribe(() => this.navController.navigateForward([this.swapInProgressUrl]));
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
-      .then(() => console.log('Swap OK!'))
+      .then(() =>  {
+        console.log('Swap OK!')
+        const notification = this.createNotification('swap_ok') 
+        this.notifyWhenSwap(notification);
+      })
       .catch((err) => {
         console.log('Swap NOT OK!');
         console.log(err.message);
         this.resetMainButton();
+        const notification = this.createNotification('swap_not_ok') 
+        this.notifyWhenSwap(notification);
       });
   }
 
   private swapTxs(wallet: Wallet): SwapTransactions {
     return this.swapTransactions.create(this.swap, wallet, this.dex);
+  }
+
+  private notifyWhenSwap(notification: LocalNotificationSchema[]) {
+    this.localNotificationsService.setActionTypes(this.actionTypeId, this.actions);
+    this.localNotificationsService.addListener(() => { this.navigateToTokenDetail() })
+    this.localNotificationsService.send(notification);
+  }
+
+  private navigateToTokenDetail(){
+    this.navController.navigateForward(['/tabs/wallets']);
+  }
+
+  private createNotification(mode: string): LocalNotificationSchema[] {
+    return [
+      {
+        id: 1,
+        title: this.translate.instant(`swaps.sent_notification.${mode}.title`),
+        body: this.translate.instant(`swaps.sent_notification.${mode}.body`, {
+          fromAmount: this.form.get('fromTokenAmount').value,
+          fromToken: this.swap.fromToken(),
+          toAmount: this.tplSwapInfo.toTokenAmount,
+          toToken: this.swap.toToken()
+        }),
+        actionTypeId: this.actionTypeId
+      },
+    ];
   }
 }

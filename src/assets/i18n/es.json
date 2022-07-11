@@ -2508,6 +2508,17 @@
       "textPrimary":"¡Tu orden está en camino!",
       "textSecondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
       "buttonText":"Ir a Wallet"
+    },
+    "sent_notification":{
+      "swap_ok":{
+        "title":"🚀 ¡Intercambio exitoso! ",
+        "body": "Enviaste {{fromAmount}} {{fromToken}} y recibiste {{toAmount}} {{toToken}} ."
+      },
+      "swap_not_ok":{
+        "title":"❌ Error en el intercambio",
+        "body": "Se produjo un error en el envío de {{fromAmount}} {{fromToken}} y recepción de {{toAmount}} {{toToken}}. Más información aquí. ."
+      }
+     
     }
   }
 }

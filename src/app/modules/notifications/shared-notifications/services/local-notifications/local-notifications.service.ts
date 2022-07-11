@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LocalNotifications, LocalNotificationSchema } from '@capacitor/local-notifications';
+import { Action, ActionType, LocalNotificationActionPerformed, LocalNotifications, LocalNotificationSchema } from '@capacitor/local-notifications';
 
 @Injectable({
   providedIn: 'root',
@@ -18,5 +18,13 @@ export class LocalNotificationsService {
 
   async send(notifications: LocalNotificationSchema[]) {
     if (this.hasPermission) await this.localNotifications.schedule({ notifications });
+  }
+
+  setActionTypes(id: string, actions: Action[]) {
+    this.localNotifications.registerActionTypes({ types: [{ id, actions }] });
+  }
+
+  addListener(callback: CallableFunction) {
+    this.localNotifications.addListener('localNotificationActionPerformed',()=>{callback()})
   }
 }
