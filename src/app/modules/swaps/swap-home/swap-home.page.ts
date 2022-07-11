@@ -186,7 +186,7 @@ export class SwapHomePage {
     }
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
 
-    // TODO: get native token in order to pass it to transactino fee component
+    // TODO: get native token in order to pass it to transaction fee component
     const formattedFee = new FormattedFee(
       new FeeOf(
         BigNumber.from(this.tplSwapInfo.estimatedGas),
