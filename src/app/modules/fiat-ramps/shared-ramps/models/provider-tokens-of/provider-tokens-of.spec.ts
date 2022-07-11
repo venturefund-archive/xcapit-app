@@ -9,21 +9,37 @@ describe('ProviderTokensOf', () => {
   let coinsSpy: jasmine.SpyObj<Coin>[];
 
   beforeEach(() => {
-    providers = new FakeProviders(rawProvidersData, rawProvidersData[0], Promise.resolve([]));
+    providers = new FakeProviders(
+      rawProvidersData,
+      rawProvidersData.find((provider) => provider.alias === 'PX'),
+      Promise.resolve([])
+    );
 
     coinsSpy = [
-      jasmine.createSpyObj('Coin', {
-        value: 'USDC',
-        network: 'MATIC',
-      }),
-      jasmine.createSpyObj('Coin', {
-        value: 'ETH',
-        network: 'ERC20',
-      }),
-      jasmine.createSpyObj('Coin', {
-        value: 'RIF',
-        network: 'RSK',
-      }),
+      jasmine.createSpyObj(
+        'Coin',
+        {},
+        {
+          value: 'USDC',
+          network: 'MATIC',
+        }
+      ),
+      jasmine.createSpyObj(
+        'Coin',
+        {},
+        {
+          value: 'ETH',
+          network: 'ERC20',
+        }
+      ),
+      jasmine.createSpyObj(
+        'Coin',
+        {},
+        {
+          value: 'RIF',
+          network: 'RSK',
+        }
+      ),
     ];
   });
 
