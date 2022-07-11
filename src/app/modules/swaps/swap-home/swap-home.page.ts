@@ -66,6 +66,7 @@ import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-t
               <app-coin-selector
                 *ngIf="this.tplFromToken"
                 [selectedCoin]="this.tplFromToken"
+                enabled="true"
                 (changeCurrency)="this.selectFromToken()"
               ></app-coin-selector>
             </div>
@@ -102,6 +103,7 @@ import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-t
               <app-coin-selector
                 *ngIf="this.tplToToken"
                 [selectedCoin]="this.tplToToken"
+                enabled="true"
                 (changeCurrency)="this.selectToToken()"
               ></app-coin-selector>
             </div>

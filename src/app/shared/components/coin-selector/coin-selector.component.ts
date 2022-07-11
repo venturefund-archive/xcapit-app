@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
 
 @Component({
@@ -21,19 +21,16 @@ import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.in
   `,
   styleUrls: ['./coin-selector.component.scss'],
 })
-export class CoinSelectorComponent implements OnInit {
+export class CoinSelectorComponent {
   @Input() selectedCoin: Coin;
   @Input() enabled: boolean;
   @Output() changeCurrency: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
 
-  ngOnInit() {}
-
   emitEventChangeCurrency() {
-    if (this.enabled)
-    {
-      this.changeCurrency.emit();    
+    if (this.enabled) {
+      this.changeCurrency.emit();
     }
   }
 }
