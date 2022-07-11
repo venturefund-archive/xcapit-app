@@ -1,4 +1,5 @@
 import { BigNumber } from "ethers";
+import { Blockchain } from "../blockchain/blockchain";
 import { GasStationOf } from "../gas-station-of/gas-station-of";
 
 export class FeeOf {
@@ -10,6 +11,6 @@ export class FeeOf {
 fdescribe('Fee Of', () => {
 
   it('new', () => {
-    expect(new FeeOf(BigNumber.from(1000))).toBeTruthy();
+    expect(new FeeOf(BigNumber.from(1000), new GasStationOf(new Blockchain))).toBeTruthy();
   });
 });
