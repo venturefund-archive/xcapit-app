@@ -1,25 +1,32 @@
 import { Blockchain } from './blockchain/blockchain';
 import { rawPolygonData } from './fixtures/raw-blockchains-data';
-import { providers } from './fakes/fake-ethers-providers';
-import { BigNumber, utils } from 'ethers';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { HttpClient } from '@angular/common/http';
 
 
-
 export class GasStationOf {
 
-  constructor(private aBlockchain: Blockchain) {
+  constructor(
+    private _aBlockchain: Blockchain,
+    private _httpClient: HttpClient | FakeHttpClient
+  ) {
     console.log("hi")
   }
 }
 
 
-
-
 fdescribe('Gas Station Of', () => {
 
+  let gasStation: GasStationOf;
+
+  beforeEach(() => {
+    gasStation = new GasStationOf(
+      new Blockchain(rawPolygonData),
+      new FakeHttpClient()
+    );
+  });
+
   it('new', () => {
-    expect(new GasStationOf(new Blockchain(rawPolygonData))).toBeTruthy();
+    expect(gasStation).toBeTruthy();
   });
 });

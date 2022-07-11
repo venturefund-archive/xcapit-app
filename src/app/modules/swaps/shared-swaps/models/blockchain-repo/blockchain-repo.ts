@@ -3,6 +3,7 @@ export type RawBlockchain = {
   derivedPath: string;
   id: string;
   rpc: string;
+  gasPrice?: string
 };
 
 
