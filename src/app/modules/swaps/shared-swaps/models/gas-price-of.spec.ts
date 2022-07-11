@@ -32,13 +32,13 @@ fdescribe('Gas Station Of', () => {
   }
 
   it('new', () => {
-    const gasStation = _gasStationOf(new Blockchain(rawPolygonData))
+    const gasStation = _gasStationOf(new Blockchain(rawPolygonData));
 
     expect(gasStation).toBeTruthy();
   });
 
   it('default gas price', async () => {
-    cosnt gasStation = _gasStationOf(new Blockchain(rawEthereumData))
+    cosnt gasStation = _gasStationOf(new Blockchain(rawEthereumData));
     const expectedValue = fakeGasPrice;
 
     const gasPriceValue = await gasStation.price().safeLow();
