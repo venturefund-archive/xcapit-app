@@ -32,7 +32,7 @@ fdescribe('Gas Station Of', () => {
   }
 
   it('new', () => {
-    const gasStation = _gasStationOf(Blockchain(rawPolygonData))
+    const gasStation = _gasStationOf(new Blockchain(rawPolygonData))
 
     expect(gasStation).toBeTruthy();
   });
