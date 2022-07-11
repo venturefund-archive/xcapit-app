@@ -1,3 +1,6 @@
+export class FeeOf { }
+
+
 fdescribe('Fee Of', () => {
 
   it('new', () => {
