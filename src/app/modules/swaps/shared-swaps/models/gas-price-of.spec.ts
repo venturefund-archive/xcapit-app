@@ -26,7 +26,7 @@ fdescribe('Gas Station Of', () => {
   let gasStation: GasStationOf;
   const _gasStationOf = (_aBlockchain): GasStationOf => {
     return new GasStationOf(
-      new Blockchain(rawPolygonData),
+      _aBlockchain,
       new FakeHttpClient(),
       fakeProviders
     );
