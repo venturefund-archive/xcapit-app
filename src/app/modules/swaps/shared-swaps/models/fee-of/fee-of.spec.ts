@@ -1,6 +1,9 @@
 import { BigNumber } from "ethers";
 
-export class FeeOf { }
+export class FeeOf {
+
+  constructor(private _aGasUnits: BigNumber) { }
+}
 
 
 fdescribe('Fee Of', () => {
