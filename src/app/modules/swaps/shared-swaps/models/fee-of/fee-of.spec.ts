@@ -13,7 +13,20 @@ export class FeeOf {
 
 fdescribe('Fee Of', () => {
 
+  let fee: FeeOf;
+
+  beforeEach(() => {
+    fee = new FeeOf(
+      BigNumber.from(1000),
+      new GasStationOf(
+        new Blockchain(rawEthereumData),
+        new FakeHttpClient(),
+        fakeProviders
+      )
+    );
+  });
+
   it('new', () => {
-    expect(new FeeOf(BigNumber.from(1000), new GasStationOf(new Blockchain(rawEthereumData), new FakeHttpClient(), fakeProviders))).toBeTruthy();
+    expect().toBeTruthy();
   });
 });
