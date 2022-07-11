@@ -33,4 +33,8 @@ fdescribe('Gas Station Of', () => {
   it('new', () => {
     expect(gasStation).toBeTruthy();
   });
+
+  it('default gas price', async () => {
+
+  })
 });
