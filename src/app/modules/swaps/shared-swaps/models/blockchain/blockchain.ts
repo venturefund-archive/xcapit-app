@@ -24,4 +24,8 @@ export class Blockchain {
   json(): RawBlockchain {
     return { ...this._rawData };
   }
+
+  gasPriceClass(): string {
+    return this._rawData.gasPrice;
+  }
 }
