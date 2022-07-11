@@ -32,14 +32,6 @@ fdescribe('Gas Station Of', () => {
     );
   }
 
-  beforeEach(() => {
-    gasStation = new GasStationOf(
-      new Blockchain(rawPolygonData),
-      new FakeHttpClient(),
-      fakeProviders
-    );
-  });
-
   it('new', () => {
     expect(gasStation).toBeTruthy();
   });
