@@ -186,8 +186,9 @@ export class SwapHomePage {
     const gasStation = new GasStationOf(this.activeBlockchain, this.httpClient);
     // console.log('tx fee: ', (await gasStation.price().fast()).mul(BigNumber.from(this.tplSwapInfo.estimatedGas)));
     const estimatedGas = BigNumber.from(this.tplSwapInfo.estimatedGas);
+    const gasPrice = await gasStation.price().fast();
     console.log('estimated gas:', estimatedGas.toNumber());
-    console.log('tx fee:', (await gasStation.price().fast()).toNumber());
+    console.log('tx fee:', gasPrice.toNumber());
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
