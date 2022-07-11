@@ -31,6 +31,7 @@ import { IntersectedTokensFactory } from '../shared-swaps/models/intersected-tok
 import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transactions/factory/swap-transactions.factory';
 import { BlockchainTokens } from '../shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-tokens';
+import { GasStationOf } from '../shared-swaps/models/gas-station-of/gas-station-of';
 
 @Component({
   selector: 'app-swap-home',
@@ -181,6 +182,8 @@ export class SwapHomePage {
       this.swap = new Swap(fromTokenAmount, this.fromToken, this.toToken);
     }
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
+    const gasStation = new GasStationOf
+    console.log();
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
