@@ -24,6 +24,13 @@ export class GasStationOf {
 fdescribe('Gas Station Of', () => {
 
   let gasStation: GasStationOf;
+  const _gasStationOf = (_aBlockchain) => {
+    return new GasStationOf(
+      new Blockchain(rawPolygonData),
+      new FakeHttpClient(),
+      fakeProviders
+    );
+  }
 
   beforeEach(() => {
     gasStation = new GasStationOf(
