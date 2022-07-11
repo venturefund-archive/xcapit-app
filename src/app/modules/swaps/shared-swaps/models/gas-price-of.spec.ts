@@ -37,11 +37,11 @@ fdescribe('Gas Station Of', () => {
     expect(gasStation).toBeTruthy();
   });
 
-  // it('default gas price', async () => {
-  //   const expectedValue = fakeGasPrice;
+  it('default gas price', async () => {
+    const expectedValue = fakeGasPrice;
 
-  //   const gasPriceValue = await gasStation.price().safeLow();
+    const gasPriceValue = await gasStation.price().safeLow();
 
-  //   expect(gasPriceValue.toNumber()).toBeTruthy(expectedValue.toNumber());
-  // })
+    expect(gasPriceValue.toNumber()).toBeTruthy(expectedValue.toNumber());
+  })
 });
