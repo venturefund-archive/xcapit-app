@@ -173,6 +173,8 @@ describe('WithdrawConfirmationPage', () => {
     expect(component.amount).toEqual({ value: 10, token: 'USDC' });
     expect(component.quoteAmount).toEqual({ value: 40000, token: 'USD' });
     expect(component.token).toEqual(usdcCoinSpy);
+    expect(component.withdrawFeeAmount).toEqual({value: 10 * 0.00255, token: 'USDC'});
+    expect(component.withdrawFeeQuoteAmount).toEqual({value: 40000 * 0.00255, token: 'USD'});
     expect(component.fee).toEqual({ value: 10, token: 'MATIC' });
     expect(controllerSpy.createDynamicPrice).toHaveBeenCalledTimes(2);
   });

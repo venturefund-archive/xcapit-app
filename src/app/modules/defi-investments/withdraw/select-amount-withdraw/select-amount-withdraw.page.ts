@@ -55,7 +55,12 @@ import { TwoPiInvestmentFactory } from '../../shared-defi-investments/models/two
         </form>
       </ion-card>
       <div class="ux-font-text-xs saw__legend">
-        <ion-label> {{ 'defi_investments.withdraw.select_amount.legend' | translate }}</ion-label>
+        <ion-label *ngIf="this.investedAmount">
+          {{
+            'defi_investments.withdraw.select_amount.legend' | translate: { token: this.token.value, network: this.token.network }
+          }}</ion-label
+        >
+        <ion-skeleton-text *ngIf="!this.investedAmount" animated class="saw__legend__skeleton"></ion-skeleton-text>
       </div>
       <div class="saw__button">
         <ion-button

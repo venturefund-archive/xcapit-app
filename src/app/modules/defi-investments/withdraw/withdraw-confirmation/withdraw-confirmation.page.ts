@@ -18,6 +18,7 @@ import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
 import { WithdrawConfirmationController } from './withdraw-confirmation.controller';
+import { WithdrawInfoModalComponent } from '../../shared-defi-investments/components/withdraw-info-modal/withdraw-info-modal.component';
 
 @Component({
   selector: 'app-withdraw-confirmation',
@@ -43,7 +44,6 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
                 'defi_investments.withdraw.withdraw.withdraw_amount' | translate
               }}</ion-text>
             </div>
-
             <div class="wp__amount__qty">
               <ion-text class="ux-font-text-base wp__amount__qty__amount"
                 >{{ this.amount.value | formattedAmount }} {{ this.amount.token }}</ion-text
@@ -59,6 +59,22 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
               [quoteFee]="this.quoteFee"
               [balance]="this.nativeTokenBalance"
             ></app-transaction-fee>
+          </div>
+          <div class="wp__withdraw">
+            <div class="wp__withdraw__label">
+              <ion-text class="ux-font-titulo-xs"
+                >{{ 'defi_investments.withdraw.withdraw.withdraw_fee' | translate }}
+                <ion-icon (click)="showWithdrawInfo()" icon="information-circle"></ion-icon>
+              </ion-text>
+            </div>
+            <div class="wp__withdraw__qty">
+              <ion-text class="ux-font-text-base wp__withdraw__qty__amount"
+                >{{ this.withdrawFeeAmount.value | formattedAmount }} {{ this.withdrawFeeAmount.token }}</ion-text
+              >
+              <ion-text class="ux-font-text-base wp__withdraw__qty__quoteAmount"
+                >{{ this.withdrawFeeQuoteAmount.value | formattedAmount }} {{ this.withdrawFeeQuoteAmount.token }}
+              </ion-text>
+            </div>
           </div>
         </div>
       </ion-card>
@@ -98,7 +114,10 @@ export class WithdrawConfirmationPage implements OnInit {
   nativeToken: Coin;
   nativeTokenBalance: number;
   disable: boolean;
-
+  withdrawFeeAmount: Amount = { value: undefined, token: 'MATIC' };
+  withdrawFeeQuoteAmount: Amount = { value: undefined, token: 'USD' };
+  fixedWithdrawCost = 0.00255;
+  isInfoModalOpen = false;
   constructor(
     private route: ActivatedRoute,
     private apiWalletService: ApiWalletService,
@@ -119,6 +138,8 @@ export class WithdrawConfirmationPage implements OnInit {
     this.getAmount();
     this.getQuoteAmount();
     this.getToken();
+    this.getWithdrawFee();
+    this.getWithdrawFeeQuote();
     await this.getNativeTokenBalance();
     await this.getFee();
     this.tokenDynamicPrice();
@@ -133,6 +154,22 @@ export class WithdrawConfirmationPage implements OnInit {
     this.amount = {
       value: this.investmentDataService.amount,
       token: this.investmentDataService.product.token().value,
+    };
+  }
+
+  private getWithdrawFee() {
+    console.log(this.amount);
+    this.withdrawFeeAmount = {
+      value: this.amount.value * this.fixedWithdrawCost,
+      token: this.amount.token,
+    };
+  }
+
+  private getWithdrawFeeQuote() {
+    console.log(this.quoteAmount);
+    this.withdrawFeeQuoteAmount = {
+      value: this.quoteAmount.value * this.fixedWithdrawCost,
+      token: this.quoteAmount.token,
     };
   }
 
@@ -283,6 +320,20 @@ export class WithdrawConfirmationPage implements OnInit {
         })
       ),
     });
+  }
+
+  async showWithdrawInfo() {
+    if (this.isInfoModalOpen === false) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: WithdrawInfoModalComponent,
+        componentProps: {},
+        cssClass: 'ux-modal-withdraw-info',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
   }
 
   ionViewWillLeave() {

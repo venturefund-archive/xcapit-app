@@ -105,6 +105,7 @@
 
         .split-information-item {
           display: flex;
+          flex-direction: column;
         }
       }
     }

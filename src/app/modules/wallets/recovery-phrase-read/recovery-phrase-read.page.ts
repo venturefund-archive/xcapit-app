@@ -50,8 +50,7 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
               appTrackClick
               (click)="this.showPhraseInfoAdvice()"
             >
-              <ion-icon icon="information-circle" *ngIf="!this.protectedWallet"></ion-icon>
-              <ion-icon *ngIf="this.protectedWallet" icon="information-circle"></ion-icon>
+              <ion-icon icon="information-circle"></ion-icon>
             </div>
           </div>
           <div class="rpr__text">
