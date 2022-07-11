@@ -18,11 +18,12 @@ export class FeeOf implements Fee {
 
 fdescribe('Fee Of', () => {
   let fee: FeeOf;
+  const gasStation = new GasStationOf(new Blockchain(rawEthereumData), new FakeHttpClient(), fakeProviders);
 
   beforeEach(() => {
     fee = new FeeOf(
       BigNumber.from(1000),
-      new GasStationOf(new Blockchain(rawEthereumData), new FakeHttpClient(), fakeProviders)
+
     );
   });
 
