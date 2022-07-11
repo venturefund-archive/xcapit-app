@@ -18,7 +18,7 @@ export class GasStationOf {
   }
 
   price(): GasPrice {
-    return new DefaultGasPriceOf;
+    return new DefaultGasPriceOf(this._aBlockchain, this._providers);
   }
 }
 
