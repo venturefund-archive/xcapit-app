@@ -23,7 +23,7 @@ export class GasStationOf {
     if (this._aBlockchain.gasPriceClass()) {
       gasPrice = new PolygonGasPrice(this._httpClient);
     }
-    return ;
+    return gasPrice;
   }
 }
 
