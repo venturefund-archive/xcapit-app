@@ -24,7 +24,7 @@ export class GasStationOf {
 fdescribe('Gas Station Of', () => {
 
   let gasStation: GasStationOf;
-  const _gasStationOf = (_aBlockchain) => {
+  const _gasStationOf = (_aBlockchain): GasStationOf => {
     return new GasStationOf(
       new Blockchain(rawPolygonData),
       new FakeHttpClient(),
