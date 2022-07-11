@@ -6,6 +6,7 @@ import { fakeGasPrice, fakeProviders } from './fakes/fake-ethers-providers';
 import { providers } from 'ethers';
 import { DefaultGasPriceOf, GasPrice } from './gas-price/gas-price';
 import { BigNumberOf } from './polygon-gas-price/big-number-of';
+import { rawPolygonGasStation } from './fixtures/raw-polygon-gs-data';
 
 
 export class GasStationOf {
