@@ -34,6 +34,7 @@ import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-t
 import { GasStationOf } from '../shared-swaps/models/gas-station-of/gas-station-of';
 import { BigNumber } from 'ethers';
 import { FeeOf } from '../shared-swaps/models/fee-of/fee-of';
+import { FormattedFee } from '../../defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
 
 @Component({
   selector: 'app-swap-home',
@@ -189,6 +190,7 @@ export class SwapHomePage {
     const estimatedGas = BigNumber.from(this.tplSwapInfo.estimatedGas);
     const gasPrice = await gasStation.price().fast();
     const fee = new FeeOf(estimatedGas, gasPrice);
+    const formattedFee = new FormattedFee
 
     console.log('estimated gas:', estimatedGas.toNumber());
     console.log('gas price:', gasPrice.toNumber());
