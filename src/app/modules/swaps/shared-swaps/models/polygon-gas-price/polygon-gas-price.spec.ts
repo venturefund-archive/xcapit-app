@@ -1,6 +1,7 @@
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { rawPolygonGasStation } from '../fixtures/raw-polygon-gs-data';
-import { BigNumberOf, PolygonGasPrice } from './polygon-gas-price';
+import { BigNumberOf } from './big-number-of';
+import { PolygonGasPrice } from './polygon-gas-price';
 
 
 fdescribe('Polygon Gas Price', () => {
