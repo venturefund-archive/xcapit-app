@@ -2,7 +2,7 @@ import { Blockchain } from './blockchain/blockchain';
 import { rawPolygonData } from './fixtures/raw-blockchains-data';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { HttpClient } from '@angular/common/http';
-import { fakeProviders } from './fakes/fake-ethers-providers';
+import { fakeGasPrice, fakeProviders } from './fakes/fake-ethers-providers';
 import { providers } from 'ethers';
 
 
@@ -39,6 +39,9 @@ fdescribe('Gas Station Of', () => {
   });
 
   it('default gas price', async () => {
-    expect(await gasStation.price()).toBeTruthy();
+    const gasPriceValue = await gasStation.price().safeLow();
+    const expectedValue = fakeGasPrice
+
+    expect().toBeTruthy();
   })
 });
