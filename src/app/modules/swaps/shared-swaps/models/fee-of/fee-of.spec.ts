@@ -22,7 +22,7 @@ fdescribe('Fee Of', () => {
 
   beforeEach(async () => {
     fee = new FeeOf(
-      BigNumber.from(1000),
+      BigNumber.from(10),
       await gasStation.price().fast()
     );
   });
