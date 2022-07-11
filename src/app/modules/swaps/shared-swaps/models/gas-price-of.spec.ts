@@ -39,8 +39,9 @@ fdescribe('Gas Station Of', () => {
   });
 
   it('default gas price', async () => {
-    const gasPriceValue = await gasStation.price().safeLow();
     const expectedValue = fakeGasPrice;
+
+    const gasPriceValue = await gasStation.price().safeLow();
 
     expect(gasPriceValue.toNumber()).toBeTruthy(expectedValue.toNumber());
   })
