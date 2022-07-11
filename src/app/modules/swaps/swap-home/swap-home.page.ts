@@ -190,7 +190,7 @@ export class SwapHomePage {
     const estimatedGas = BigNumber.from(this.tplSwapInfo.estimatedGas);
     const gasPrice = await gasStation.price().fast();
     const fee = new FeeOf(estimatedGas, gasPrice);
-    const formattedFee = new FormattedFee
+    const formattedFee = new FormattedFee(fee);
 
     console.log('estimated gas:', estimatedGas.toNumber());
     console.log('gas price:', gasPrice.toNumber());
