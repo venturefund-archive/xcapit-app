@@ -1,13 +1,9 @@
 import { Blockchain } from '../blockchain/blockchain';
 import { rawEthereumData, rawPolygonData } from '../fixtures/raw-blockchains-data';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
-import { HttpClient } from '@angular/common/http';
 import { fakeGasPrice, fakeProviders } from '../fakes/fake-ethers-providers';
-import { providers } from 'ethers';
-import { DefaultGasPriceOf, GasPrice } from '../gas-price/gas-price';
 import { BigNumberOf } from '../polygon-gas-price/big-number-of';
 import { rawPolygonGasStation } from '../fixtures/raw-polygon-gs-data';
-import { PolygonGasPrice } from '../polygon-gas-price/polygon-gas-price';
 
 
 fdescribe('Gas Station Of', () => {
