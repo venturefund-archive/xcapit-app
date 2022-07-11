@@ -13,6 +13,6 @@ class JsonRpcProvider {
 }
 
 
-export const providers = {
+export const fakeProviders = {
   JsonRpcProvider
 }

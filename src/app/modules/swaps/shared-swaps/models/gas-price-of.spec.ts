@@ -2,7 +2,7 @@ import { Blockchain } from './blockchain/blockchain';
 import { rawPolygonData } from './fixtures/raw-blockchains-data';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { HttpClient } from '@angular/common/http';
-import { providers as fakeProviders } from './fakes/fake-ethers-providers';
+import { fakeProviders as fakeProviders } from './fakes/fake-ethers-providers';
 import { providers } from 'ethers';
 
 
