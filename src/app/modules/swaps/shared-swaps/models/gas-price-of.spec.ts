@@ -30,7 +30,7 @@ fdescribe('Gas Station Of', () => {
       new FakeHttpClient(),
       fakeProviders
     );
-  }
+  };
 
   beforeEach(() => {
     gasStation = _gasStationOf(new Blockchain(rawPolygonData));
@@ -47,5 +47,14 @@ fdescribe('Gas Station Of', () => {
     const gasPriceValue = await gasStation.price().safeLow();
 
     expect(gasPriceValue.toNumber()).toBeTruthy(expectedValue.toNumber());
-  })
+  });
+
+  it('polygon gas price', async () => {
+    const gasStation = _gasStationOf(new Blockchain(rawEthereumData));
+    const expectedValue = fakeGasPrice;
+
+    const gasPriceValue = await gasStation.price().safeLow();
+
+    expect(gasPriceValue.toNumber()).toBeTruthy(expectedValue.toNumber());
+  });
 });
