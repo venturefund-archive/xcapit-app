@@ -21,7 +21,7 @@ export class BlockchainFee {
 
   async json(): RawAmount {
     return {
-      value: await this._aFee.value(),
+      value: (await this._aFee.value()).toNumber(),
       token: (await this._aNativeTokenOf.value()).symbol()
     };
   }
