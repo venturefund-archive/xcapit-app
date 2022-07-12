@@ -35,7 +35,7 @@ describe('Swap Info Of', () => {
   });
 
   it('multiple access', async () => {
-    // expect(await swapInfo.estimatedGas()).toBeTruthy();
+    expect(await swapInfo.estimatedGas()).toBeTruthy();
     expect((await swapInfo.toTokenAmount()).value()).toBeTruthy();
   });
 });
