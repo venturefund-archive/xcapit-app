@@ -1,13 +1,13 @@
-import { FakeFee } from './fake-fee';
+import { DummyFee } from './fake-fee';
 
 
 fdescribe('FakeFee', () => {
 
-  let fee: FakeFee;
+  let fee: DummyFee;
   const testData = 100;
 
   beforeEach(() => {
-    fee = new FakeFee(testData);
+    fee = new DummyFee(testData);
   });
 
   it('new', () => {

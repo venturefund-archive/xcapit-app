@@ -1,7 +1,7 @@
 import { FormattedFee } from "src/app/modules/defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model";
 import { BlockchainTokens } from "../blockchain-tokens/blockchain-tokens";
 import { Blockchain } from "../blockchain/blockchain";
-import { FakeFee } from "../fakes/fake-fee";
+import { DummyFee } from "../fakes/fake-fee";
 import { rawEthereumData } from "../fixtures/raw-blockchains-data";
 import { rawETHTokenData } from "../fixtures/raw-one-inch-response-data";
 import { rawTokensData } from "../fixtures/raw-tokens-data";
@@ -18,7 +18,7 @@ fdescribe('BlockchainFee', () => {
 
   beforeEach(() => {
     currentFee = new BlockchainFee(
-      new FakeFee(testData),
+      new DummyFee(testData),
       new NativeTokenOf(
         new BlockchainTokens(
           new Blockchain(rawEthereumData),
@@ -32,7 +32,7 @@ fdescribe('BlockchainFee', () => {
   });
 
   it('json', async () => {
-    const expectedValue = await new FormattedFee(new FakeFee(testData)).value();
+    const expectedValue = await new FormattedFee(new DummyFee(testData)).value();
 
     const feeAmount = await currentFee.json();
 
