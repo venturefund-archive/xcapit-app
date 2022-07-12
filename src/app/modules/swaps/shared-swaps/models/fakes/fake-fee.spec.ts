@@ -1,4 +1,4 @@
-export class FakeFee { }
+export class FakeFee implements Fee { }
 
 
 fdescribe('FakeFee', () => {
