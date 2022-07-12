@@ -14,7 +14,7 @@ export class GasStationOf {
     private _providers: any = providers
   ) { }
 
-  price(): GasPrices {
+  prices(): GasPrices {
     let gasPrice: GasPrices = new DefaultGasPricesOf(this._aBlockchain, this._providers);
     if (this._aBlockchain.gasPriceClass()) {
       gasPrice = new PolygonGasPrices(this._httpClient);

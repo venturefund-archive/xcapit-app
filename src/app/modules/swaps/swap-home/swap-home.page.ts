@@ -194,7 +194,7 @@ export class SwapHomePage {
         await (new GasStationOf(
           this.activeBlockchain,
           this.httpClient
-        )).price().fast()
+        )).prices().fast()
       )
     );
 
