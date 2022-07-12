@@ -37,6 +37,7 @@ import { FeeOf } from '../shared-swaps/models/fee-of/fee-of';
 import { FormattedFee } from '../../defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { GasUnits } from '../shared-swaps/models/gas-units/gas-units';
 import { NativeTokenOf } from '../shared-swaps/models/native-token-of/native-token-of';
+import { BlockchainFee } from '../shared-swaps/models/blockchain-fee/blockchain-fee';
 
 @Component({
   selector: 'app-swap-home',
@@ -199,6 +200,8 @@ export class SwapHomePage {
         )).price().fast()
       )
     );
+
+    const currentFee = new BlockchainFee
 
     console.log(`tx fee: ${await formattedFee.value()} ${(await this.nativeToken.value()).symbol()}`);
   }
