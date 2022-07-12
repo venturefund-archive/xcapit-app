@@ -272,10 +272,11 @@ export class SwapHomePage {
     this.dex = this.oneInch.create(this.activeBlockchain, this.httpClient);
   }
 
-  private setTokens() {
-    const nativeToken = new NativeTokenOf
+  private async setTokens() {
+    const blockchainTokens = new BlockchainTokens(this.activeBlockchain, new StandardizedTokens(new TokenRepo(PROD_COINS)));
+    const nativeToken = await new NativeTokenOf(blockchainTokens).value();
     this.tokens = this.intersectedTokens.create(
-      new BlockchainTokens(this.activeBlockchain, new StandardizedTokens(new TokenRepo(PROD_COINS))),
+      blockchainTokens,
       new OneInchTokens(this.dex)
     );
   }
