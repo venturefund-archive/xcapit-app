@@ -27,14 +27,6 @@ fdescribe('NativeTokenOf', () => {
   });
 
   it('value', () => {
-    expect(token.blockchainId()).toEqual(`${rawETHData.chainId}`);
+    expect(token.value()).toBeTruthy();
   });
-
-  // it('address access', () => {
-  //   expect(token.address()).toEqual(rawETHData.contract);
-  // });
-
-  // it('json access', () => {
-  //   expect(token.json()).toEqual(rawETHData);
-  // });
 });
