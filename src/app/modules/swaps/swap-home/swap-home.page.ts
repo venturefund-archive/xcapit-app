@@ -203,7 +203,7 @@ export class SwapHomePage {
 
     // const currentFee = new BlockchainFee(
 
-    );
+    // );
 
     console.log(`tx fee: ${await formattedFee.value()} ${(await this.nativeToken.value()).symbol()}`);
   }
