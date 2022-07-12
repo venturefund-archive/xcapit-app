@@ -273,7 +273,7 @@ export class SwapHomePage {
     this.dex = this.oneInch.create(this.activeBlockchain, this.httpClient);
   }
 
-  private async setTokens() {
+  private setTokens() {
     this.tokens = this.intersectedTokens.create(
       this.blockchainTokens(),
       new OneInchTokens(this.dex)
