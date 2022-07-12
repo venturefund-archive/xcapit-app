@@ -1,7 +1,7 @@
 import { DummyFee } from './fake-fee';
 
 
-fdescribe('FakeFee', () => {
+fdescribe('DummyFee', () => {
 
   let fee: DummyFee;
   const testData = 100;
