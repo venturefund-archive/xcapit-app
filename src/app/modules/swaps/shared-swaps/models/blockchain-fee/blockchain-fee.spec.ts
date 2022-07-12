@@ -33,9 +33,10 @@ fdescribe('BlockchainFee', () => {
   });
 
   it('json', async () => {
+    const expectedValue = await new FormattedFee(new FakeFee(testData)).value();
     const feeAmount = await currentFee.json();
 
-    expect(feeAmount.value).toBeGreaterThan(FormattedFee);
+    expect(feeAmount.value).toBeGreaterThan();
     expect(feeAmount.token).toEqual(rawETHTokenData.symbol);
   });
 });
