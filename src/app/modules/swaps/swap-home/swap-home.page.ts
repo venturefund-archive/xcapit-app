@@ -123,6 +123,15 @@ import { BlockchainFee } from '../shared-swaps/models/blockchain-fee/blockchain-
             </div>
           </div>
         </div>
+        <div>
+          <app-transaction-fee
+            [fee]="this.dynamicFee"
+            [quoteFee]="this.quoteFee"
+            [balance]="this.nativeBalance"
+            [transactionFee]="this.transactionFee"
+            (transactionFeeInfoClicked)="this.showPhrasetransactionFeeInfo()"
+          ></app-transaction-fee>
+        </div>
       </div>
       <div class="sw__swap-button ion-padding">
         <ion-button
