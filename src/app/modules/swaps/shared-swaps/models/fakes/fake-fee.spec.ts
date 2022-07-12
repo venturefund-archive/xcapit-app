@@ -15,6 +15,6 @@ fdescribe('FakeFee', () => {
   });
 
   it('value', async () => {
-    expect((await new FakeFee().value()).eq(100)).toBeTruthy();
+    expect((await new FakeFee().value()).eq(100)).toBeTrue();
   });
 });
