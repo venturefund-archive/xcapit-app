@@ -15,7 +15,7 @@ export class BlockchainFee {
 
   async json(): Promise<RawAmount> {
     return {
-      value: (await new FormattedFee(this._aFee).value()).toNumber(),
+      value: (await new FormattedFee(this._aFee).value()),
       token: (await this._aNativeTokenOf.value()).symbol()
     };
   }
