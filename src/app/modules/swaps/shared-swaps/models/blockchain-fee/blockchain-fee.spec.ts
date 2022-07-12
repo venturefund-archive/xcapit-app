@@ -3,6 +3,7 @@ import { BlockchainTokens } from "../blockchain-tokens/blockchain-tokens";
 import { Blockchain } from "../blockchain/blockchain";
 import { FakeFee } from "../fakes/fake-fee";
 import { rawEthereumData } from "../fixtures/raw-blockchains-data";
+import { rawETHTokenData } from "../fixtures/raw-one-inch-response-data";
 import { rawTokensData } from "../fixtures/raw-tokens-data";
 import { NativeTokenOf } from "../native-token-of/native-token-of";
 import { TokenRepo } from "../token-repo/token-repo";
@@ -52,7 +53,7 @@ fdescribe('BlockchainFee', () => {
     const feeAmount = await currentFee.json();
 
     expect(feeAmount.value).toEqual(100);
-    expect(feeAmount.token).toEqual(rawEthereumData.name);
+    expect(feeAmount.token).toEqual(rawETHTokenData);
   });
 
 });
