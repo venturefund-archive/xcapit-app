@@ -1,4 +1,3 @@
-import { Fee } from "src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface";
 import { BlockchainTokens } from "../blockchain-tokens/blockchain-tokens";
 import { Blockchain } from "../blockchain/blockchain";
 import { FakeFee } from "../fakes/fake-fee";
@@ -9,8 +8,6 @@ import { NativeTokenOf } from "../native-token-of/native-token-of";
 import { TokenRepo } from "../token-repo/token-repo";
 import { DefaultTokens } from "../tokens/tokens";
 import { BlockchainFee } from "./blockchain-fee";
-
-
 
 
 fdescribe('BlockchainFee', () => {
