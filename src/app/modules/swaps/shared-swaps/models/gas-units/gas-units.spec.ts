@@ -24,7 +24,7 @@ fdescribe('GasUnits', () => {
   });
 
   it('value', () => {
-    expect(gasUnits.value().eq(100)).toBeTrue();
+    expect(gasUnits.value().eq(aRawGasUnits)).toBeTrue();
   });
 
 });
