@@ -1797,7 +1797,7 @@
     },
     "asset_detail": {
       "header": "Asset Detail",
-      "wallet_transaction_title": "TRANSACTIONS",
+      "wallet_transaction_title": "Transactions",
       "available":"Balance available"
     },
     "error_wallet_recovery": {
