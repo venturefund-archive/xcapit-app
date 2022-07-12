@@ -11,7 +11,8 @@ export class NativeTokenOf {
 
   constructor(private _aBlockchainTokens: BlockchainTokens) {}
 
-  value() {
+  async value() {
+    (await this._aBlockchainTokens.value()).find(token => token.isNative() === true);
     return true;
   }
 }
