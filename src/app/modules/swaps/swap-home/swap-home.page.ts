@@ -213,7 +213,7 @@ export class SwapHomePage {
     );
 
     // console.log(`tx fee: ${await formattedFee.value()} ${(await this.nativeToken.value()).symbol()}`);
-    console.log(`tx fee: ${await currentFee.json().value} ${(await this.nativeToken.value()).symbol()}`);
+    console.log(`tx fee: ${(await currentFee.json()).value} ${(await currentFee.json()).token}`);
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
