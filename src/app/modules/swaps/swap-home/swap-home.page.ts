@@ -201,9 +201,16 @@ export class SwapHomePage {
       )
     );
 
-    // const currentFee = new BlockchainFee(
-
-    // );
+    const currentFee = new BlockchainFee(
+      new FeeOf(
+        new GasUnits(this.tplSwapInfo.estimatedGas),
+        await (new GasStationOf(
+          this.activeBlockchain,
+          this.httpClient
+        )).price().fast()
+      ),
+      this.nativeToken
+    );
 
     console.log(`tx fee: ${await formattedFee.value()} ${(await this.nativeToken.value()).symbol()}`);
   }
