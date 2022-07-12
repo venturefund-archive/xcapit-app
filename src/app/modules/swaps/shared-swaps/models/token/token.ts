@@ -35,6 +35,10 @@ export class DefaultToken implements Token {
     return `${this._rawData.contract}`.toLocaleLowerCase();
   }
 
+  isNative(): boolean {
+    return this._rawData.native;
+  }
+
   json(): RawToken {
     return this._rawData;
   }
