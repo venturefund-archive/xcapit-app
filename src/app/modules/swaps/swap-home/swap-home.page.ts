@@ -37,7 +37,7 @@ import { FeeOf } from '../shared-swaps/models/fee-of/fee-of';
 import { FormattedFee } from '../../defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { GasUnits } from '../shared-swaps/models/gas-units/gas-units';
 import { NativeTokenOf } from '../shared-swaps/models/native-token-of/native-token-of';
-import { BlockchainFee } from '../shared-swaps/models/blockchain-fee/blockchain-fee';
+import { BlockchainFee, RawAmount } from '../shared-swaps/models/blockchain-fee/blockchain-fee';
 
 @Component({
   selector: 'app-swap-home',
@@ -170,6 +170,7 @@ export class SwapHomePage {
   tplFromToken: RawToken;
   tplToToken: RawToken;
   tplSwapInfo: RawSwapInfo = new NullJSONSwapInfo().value();
+  tplFee: RawAmount
   form: FormGroup = this.formBuilder.group({
     fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
   });
