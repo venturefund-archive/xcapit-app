@@ -48,8 +48,8 @@ fdescribe('BlockchainFee', () => {
     expect(currentFee).toBeTruthy();
   });
 
-  it('json', () => {
-    expect(currentFee.json()).toBeTruthy();
+  it('json', async () => {
+    expect((await currentFee.json()).value).toEqual(100);
   });
 
 });
