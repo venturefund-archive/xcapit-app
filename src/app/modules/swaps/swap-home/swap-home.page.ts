@@ -200,7 +200,7 @@ export class SwapHomePage {
       )
     );
 
-    console.log('formatted fee:', await formattedFee.value());
+    console.log(`tx fee: ${await formattedFee.value()} ${this.nativeToken.symbol()}`);
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
