@@ -4,9 +4,9 @@ import { Fee } from "src/app/modules/defi-investments/shared-defi-investments/in
 
 export class FakeFee implements Fee {
 
-  constructor(private _aTestData: string|number) { }
+  constructor(private _dummyData: string|number) { }
 
   async value(): Promise<BigNumber> {
-    return BigNumber.from(this._aTestData);
+    return BigNumber.from(this._dummyData);
   }
 }
