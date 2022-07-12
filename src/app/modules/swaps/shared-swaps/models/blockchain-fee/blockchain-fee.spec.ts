@@ -32,6 +32,6 @@ fdescribe('BlockchainFee', () => {
 
 
   it('new', () => {
-    expect().toBeTruthy();
+    expect(currentFee).toBeTruthy();
   });
 });
