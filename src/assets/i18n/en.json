@@ -2350,6 +2350,9 @@
       "to_token_title": "To",
       "footer_text": "It will only take a few seconds."
     },
+    "errors":{
+      "invalid_password":"The password entered is not valid."
+    },
     "select_token": {
       "header": "Swap",
       "fromToken_title": "Select the token you want to swap",
