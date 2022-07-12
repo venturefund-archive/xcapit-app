@@ -18,7 +18,6 @@ fdescribe('GasUnits', () => {
     gasUnits = new GasUnits(100);
   });
 
-
   it('new', () => {
     expect(gasUnits).toBeTruthy();
   });
