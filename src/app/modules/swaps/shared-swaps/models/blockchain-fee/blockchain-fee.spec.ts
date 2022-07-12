@@ -39,5 +39,4 @@ fdescribe('BlockchainFee', () => {
     expect(feeAmount.value).toEqual(100);
     expect(feeAmount.token).toEqual(rawETHTokenData.symbol);
   });
-
 });
