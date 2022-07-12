@@ -11,9 +11,7 @@ fdescribe('GasUnits', () => {
   });
 
   it('value', () => {
-    expect(false).toBeTruthy();
+    expect(new GasUnits(100).value()).toBeTruthy();
   });
-
-
 
 });
