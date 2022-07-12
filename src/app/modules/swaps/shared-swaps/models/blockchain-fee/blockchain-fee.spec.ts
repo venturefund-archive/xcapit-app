@@ -12,7 +12,7 @@ export class BlockchainFee {
 
 fdescribe('BlockchainFee', () => {
 
-  let blockchainFee: BlockchainFee;
+  let currentFee: BlockchainFee;
 
   beforeEach(() => {
     new BlockchainTokens(
