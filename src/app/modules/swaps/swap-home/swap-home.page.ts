@@ -201,7 +201,7 @@ export class SwapHomePage {
       )
     );
 
-    const currentFee = new BlockchainFee(
+    // const currentFee = new BlockchainFee(
 
     );
 
