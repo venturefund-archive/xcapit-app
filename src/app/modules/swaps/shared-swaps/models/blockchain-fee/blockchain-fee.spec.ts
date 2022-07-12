@@ -1,7 +1,7 @@
 import { FormattedFee } from "src/app/modules/defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model";
 import { BlockchainTokens } from "../blockchain-tokens/blockchain-tokens";
 import { Blockchain } from "../blockchain/blockchain";
-import { DummyFee } from "../fakes/fake-fee";
+import { DummyFee } from "../dummy-fee/dummy-fee";
 import { rawEthereumData } from "../fixtures/raw-blockchains-data";
 import { rawETHTokenData } from "../fixtures/raw-one-inch-response-data";
 import { rawTokensData } from "../fixtures/raw-tokens-data";
