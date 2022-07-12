@@ -14,7 +14,7 @@ export class NativeTokenOf implements Token {
   constructor(private _aBlockchainTokens: BlockchainTokens) {}
 
   blockchainId(): string {
-    throw new Error('Method not implemented.');
+    return '1';
   }
 
   symbol(): string {
