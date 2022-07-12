@@ -164,7 +164,6 @@ export class LoginPage implements OnInit {
   private async success() {
     this.loginForm.form.reset();
     this.notificationsService.getInstance().init();
-    // this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
       if (this.walletConnectService.uri.value && this.alreadyOnboarded) {

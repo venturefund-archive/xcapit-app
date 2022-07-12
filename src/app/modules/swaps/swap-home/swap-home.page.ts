@@ -323,7 +323,7 @@ export class SwapHomePage {
   }
 
   private navigateToTokenDetail(){
-    this.navController.navigateForward(['/tabs/wallets']);
+    this.navController.navigateForward([this.defaultNavBackUrl]);
   }
 
   private createNotification(mode: string): LocalNotificationSchema[] {
@@ -333,9 +333,9 @@ export class SwapHomePage {
         title: this.translate.instant(`swaps.sent_notification.${mode}.title`),
         body: this.translate.instant(`swaps.sent_notification.${mode}.body`, {
           fromAmount: this.form.get('fromTokenAmount').value,
-          fromToken: this.swap.fromToken(),
+          fromToken: this.swap.fromToken().symbol(),
           toAmount: this.tplSwapInfo.toTokenAmount,
-          toToken: this.swap.toToken()
+          toToken: this.swap.toToken().symbol()
         }),
         actionTypeId: this.actionTypeId
       },
