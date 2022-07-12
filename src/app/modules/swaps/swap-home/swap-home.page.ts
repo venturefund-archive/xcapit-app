@@ -36,6 +36,7 @@ import { BigNumber } from 'ethers';
 import { FeeOf } from '../shared-swaps/models/fee-of/fee-of';
 import { FormattedFee } from '../../defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { GasUnits } from '../shared-swaps/models/gas-units/gas-units';
+import { NativeTokenOf } from '../shared-swaps/models/native-token-of/native-token-of';
 
 @Component({
   selector: 'app-swap-home',
@@ -272,6 +273,7 @@ export class SwapHomePage {
   }
 
   private setTokens() {
+    const nativeToken = new NativeTokenOf
     this.tokens = this.intersectedTokens.create(
       new BlockchainTokens(this.activeBlockchain, new StandardizedTokens(new TokenRepo(PROD_COINS))),
       new OneInchTokens(this.dex)
