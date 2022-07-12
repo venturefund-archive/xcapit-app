@@ -1,6 +1,7 @@
 import { Fee } from "src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface";
 import { BlockchainTokens } from "../blockchain-tokens/blockchain-tokens";
 import { FakeFee } from "../fakes/fake-fee";
+import { NativeTokenOf } from "../native-token-of/native-token-of";
 
 
 export class BlockchainFee {
@@ -12,6 +13,6 @@ export class BlockchainFee {
 fdescribe('BlockchainFee', () => {
 
   it('new', () => {
-    expect(new BlockchainFee(new FakeFee(100), new BlockchainTokens)).toBeTruthy();
+    expect(new BlockchainFee(new FakeFee(100), new NativeTokenOf)).toBeTruthy();
   });
 });
