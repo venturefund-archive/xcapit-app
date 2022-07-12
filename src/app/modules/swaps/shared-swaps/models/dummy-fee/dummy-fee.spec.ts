@@ -1,4 +1,4 @@
-import { DummyFee } from './fake-fee';
+import { DummyFee } from "./dummy-fee";
 
 
 fdescribe('DummyFee', () => {
