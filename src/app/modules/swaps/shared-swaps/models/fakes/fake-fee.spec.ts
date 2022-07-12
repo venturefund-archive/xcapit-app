@@ -10,6 +10,8 @@ export class FakeFee implements Fee {
 
 fdescribe('FakeFee', () => {
 
+  const testData = 100;
+
   it('new', () => {
     expect(new FakeFee()).toBeTruthy();
   });
