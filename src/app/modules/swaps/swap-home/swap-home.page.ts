@@ -198,7 +198,7 @@ export class SwapHomePage {
     }
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
 
-    const currentFee = new BlockchainFee(
+    this.tplFee = await new BlockchainFee(
       new FeeOf(
         new GasUnits(this.tplSwapInfo.estimatedGas),
         await (new GasStationOf(
@@ -207,7 +207,7 @@ export class SwapHomePage {
         )).price().fast()
       ),
       this.nativeToken
-    );
+    ).json();
 
     console.log(`tx fee: ${(await currentFee.json()).value} ${(await currentFee.json()).token}`);
   }
