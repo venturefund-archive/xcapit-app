@@ -22,7 +22,10 @@ fdescribe('NativeTokenOf', () => {
 
   beforeEach(() => {
     result = new NativeTokenOf(
-      new BlockchainTokens(new Blockchain(rawEthereumData), new DefaultTokens(new TokenRepo(rawTokensData)))
+      new BlockchainTokens(
+        new Blockchain(rawEthereumData),
+        new DefaultTokens(new TokenRepo(rawTokensData))
+      )
     );
   });
 
