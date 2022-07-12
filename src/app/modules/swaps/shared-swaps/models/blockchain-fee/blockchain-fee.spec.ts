@@ -1,3 +1,4 @@
+import { FormattedFee } from "src/app/modules/defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model";
 import { BlockchainTokens } from "../blockchain-tokens/blockchain-tokens";
 import { Blockchain } from "../blockchain/blockchain";
 import { FakeFee } from "../fakes/fake-fee";
@@ -34,7 +35,7 @@ fdescribe('BlockchainFee', () => {
   it('json', async () => {
     const feeAmount = await currentFee.json();
 
-    expect(feeAmount.value).toBeGreaterThan(0);
+    expect(feeAmount.value).toBeGreaterThan(FormattedFee);
     expect(feeAmount.token).toEqual(rawETHTokenData.symbol);
   });
 });
