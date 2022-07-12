@@ -35,6 +35,7 @@ export class NativeTokenOf implements Token {
 }
 
 fdescribe('NativeTokenOf', () => {
+
   let token: NativeTokenOf;
 
   beforeEach(() => {
