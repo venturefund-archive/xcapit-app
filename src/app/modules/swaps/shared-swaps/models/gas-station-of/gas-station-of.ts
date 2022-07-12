@@ -3,7 +3,7 @@ import { providers } from "ethers";
 import { FakeHttpClient } from "src/testing/fakes/fake-http.spec";
 import { Blockchain } from "../blockchain/blockchain";
 import { DefaultGasPriceOf, GasPrice } from "../gas-price/gas-price";
-import { PolygonGasPrices } from "../polygon-gas-price/polygon-gas-price";
+import { PolygonGasPrice } from "../polygon-gas-price/polygon-gas-price";
 
 
 export class GasStationOf {
@@ -17,7 +17,7 @@ export class GasStationOf {
   prices(): GasPrice {
     let gasPrice: GasPrice = new DefaultGasPriceOf(this._aBlockchain, this._providers);
     if (this._aBlockchain.gasPriceClass()) {
-      gasPrice = new PolygonGasPrices(this._httpClient);
+      gasPrice = new PolygonGasPrice(this._httpClient);
     }
     return gasPrice;
   }
