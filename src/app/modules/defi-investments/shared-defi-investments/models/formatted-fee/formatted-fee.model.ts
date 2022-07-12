@@ -1,7 +1,7 @@
 import { BigNumber, FixedNumber } from 'ethers';
 import { Fee } from '../../interfaces/fee.interface';
 
-export class FormattedFee implements Fee {
+export class FormattedFee {
 
   constructor(private readonly _aFee: Fee, private readonly _decimals: number = 18) {}
 
