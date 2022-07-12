@@ -12,7 +12,7 @@ export class SwapInfoOf {
   constructor(private _aSwap: Swap, private _inDex: Dex, private _referral: Referral) { }
 
   async estimatedGas(): Promise<GasUnits> {
-    return (await this._rawSwapInfo())['estimatedGas'];
+    return new GasUnits((await this._rawSwapInfo())['estimatedGas']);
   }
 
   async toTokenAmount(): Promise<AmountOf> {
