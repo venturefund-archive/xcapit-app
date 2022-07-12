@@ -127,7 +127,6 @@ import { BlockchainFee } from '../shared-swaps/models/blockchain-fee/blockchain-
           <app-transaction-fee
             [fee]="this.dynamicFee"
             [quoteFee]="this.quoteFee"
-            [balance]="this.nativeBalance"
             [transactionFee]="true"
           ></app-transaction-fee>
         </div>
