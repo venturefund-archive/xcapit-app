@@ -24,6 +24,10 @@ export const rawProvidersData = [
       'Uruguay',
       'Estados Unidos',
     ],
+    currencies: [
+      { symbol: 'ETH', network: 'ERC20' },
+      { symbol: 'LINK', network: 'ERC20' },
+    ],
   },
   {
     id: 1,
@@ -49,6 +53,7 @@ export const rawProvidersData = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_BGUAYAQUIL',
     countries: ['Ecuador'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
     id: 16,
@@ -60,5 +65,6 @@ export const rawProvidersData = [
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_BPICHINCHA',
     countries: ['Ecuador'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
 ];

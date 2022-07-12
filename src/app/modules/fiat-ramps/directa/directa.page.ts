@@ -7,10 +7,11 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
-import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
 import { HttpClient } from '@angular/common/http';
+import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
 
 @Component({
   selector: 'app-directa',
@@ -89,11 +90,8 @@ export class DirectaPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.providerAlias = this.route.snapshot.paramMap.get('alias');
-    this.provider = this.providers
-      .create(new ProviderDataRepo(), this.http)
-      .all()
-      .find((provider) => provider.alias === this.providerAlias && provider.providerName === 'directa24');
+    const providerAlias = this.route.snapshot.paramMap.get('alias');
+    this.provider = this.getProviders().byAlias(providerAlias);
     this.setCountry();
     this.setCurrency();
   }
@@ -105,11 +103,19 @@ export class DirectaPage implements OnInit {
   }
 
   setCurrency() {
-    this.tokens = this.apiWalletService.getCoins();
+    this.tokens = this.providerTokens();
     this.selectedCurrency = this.tokens.find((token) => token.value === 'USDC' && token.network === 'MATIC');
+  }
+
+  providerTokens() {
+    return new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(this.provider.alias);
   }
 
   openD24() {
     return this.navController.navigateForward(['/tabs/wallets']);
+  }
+
+  getProviders(): Providers {
+    return this.providers.create(new ProviderDataRepo(), this.http);
   }
 }

@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { environment } from 'variables.env';
-import { FiatRampProviderCountry } from '../../interfaces/fiat-ramp-provider-country';
-import { ProviderDataRepo } from '../provider-data-repo/provider-data-repo';
-import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface';
+import { FiatRampProviderCountry } from '../../../interfaces/fiat-ramp-provider-country';
+import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interface';
+import { ProviderDataRepo } from '../../provider-data-repo/provider-data-repo';
+import { Providers } from '../providers.interface';
 
-export class Providers {
+export class DefaultProviders implements Providers{
   constructor(
     private readonly dataRepo: ProviderDataRepo,
     private readonly http: HttpClient | FakeHttpClient,
@@ -28,6 +29,10 @@ export class Providers {
     }
 
     return providers;
+  }
+
+  public byAlias(anAlias: string): FiatRampProvider {
+    return this.all().find((provider) => provider.alias === anAlias);
   }
 
   private availableDirectaProviders(aCountry: FiatRampProviderCountry): Observable<any> {

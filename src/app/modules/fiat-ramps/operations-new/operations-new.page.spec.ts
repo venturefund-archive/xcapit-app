@@ -21,6 +21,8 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
 import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
 
 const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
@@ -67,6 +69,8 @@ describe('OperationsNewPage', () => {
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
   let kriptonDynamicPriceFactorySpy: jasmine.SpyObj<KriptonDynamicPriceFactory>;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
 
   beforeEach(
     waitForAsync(() => {
@@ -103,6 +107,15 @@ describe('OperationsNewPage', () => {
         new: { value: () => of(10) },
       });
 
+      providersSpy = jasmine.createSpyObj('Providers', {
+        all: rawProvidersData,
+        byAlias: rawProvidersData.find((provider) => provider.alias === 'kripton'),
+      });
+
+      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+        create: providersSpy,
+      });
+
       TestBed.configureTestingModule({
         declarations: [OperationsNewPage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -116,6 +129,7 @@ describe('OperationsNewPage', () => {
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
           { provide: KriptonDynamicPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
+          { provide: ProvidersFactory, useValue: providersFactorySpy },
         ],
       }).compileComponents();
     })
@@ -125,7 +139,6 @@ describe('OperationsNewPage', () => {
     fixture = TestBed.createComponent(OperationsNewPage);
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    component.providers = rawProvidersData;
     fixture.detectChanges();
   });
 
@@ -136,13 +149,13 @@ describe('OperationsNewPage', () => {
   it('should set country, default currency, provider and price on init', () => {
     component.ionViewWillEnter();
     expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledOnceWith('1');
-    expect(component.providerCurrencies).toEqual(coinsSpy);
+    expect(component.providerTokens).toEqual(coinsSpy);
     expect(component.country).toEqual({
       name: 'Argentina',
       value: 'fiat_ramps.countries_list.argentina',
       fiatCode: 'ars',
       isoCode: 'ARS',
-      directaCode: 'AR'
+      directaCode: 'AR',
     });
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);
     expect(component.fiatCurrency).toEqual('ars');

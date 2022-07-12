@@ -3,9 +3,12 @@ import { NavigationExtras, ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
-import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { FiatRampCurrenciesOf } from '../shared-ramps/models/fiat-ramp-currencies-of/fiat-ramp-currencies-of';
+import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
+import { HttpClient } from '@angular/common/http';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
 
 @Component({
   selector: 'app-provider-token-selection',
@@ -35,19 +38,20 @@ import { FiatRampCurrenciesOf } from '../shared-ramps/models/fiat-ramp-currencie
 })
 export class ProviderTokenSelectionPage implements OnInit {
   coins: Coin[];
-  providers = PROVIDERS;
   provider: FiatRampProvider;
   constructor(
     private navController: NavController,
     private route: ActivatedRoute,
-    private apiWalletService: ApiWalletService
+    private apiWalletService: ApiWalletService,
+    private http: HttpClient,
+    private providersFactory: ProvidersFactory
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
     const providerAlias = this.route.snapshot.paramMap.get('provider');
-    this.provider = this.providers.find((provider) => provider.alias === providerAlias);
+    this.provider = this.providers().byAlias(providerAlias);
     this.availableCoins();
   }
 
@@ -63,9 +67,10 @@ export class ProviderTokenSelectionPage implements OnInit {
   }
 
   async availableCoins() {
-    this.coins =
-      this.provider.alias === 'kripton'
-        ? new FiatRampCurrenciesOf(this.provider, this.apiWalletService.getCoins()).value()
-        : this.apiWalletService.getCoins().filter((coin) => Boolean(coin.moonpayCode));
+    this.coins = new ProviderTokensOf(this.providers(), this.apiWalletService.getCoins()).byAlias(this.provider.alias);
+  }
+
+  providers(): Providers {
+    return this.providersFactory.create(new ProviderDataRepo(), this.http);
   }
 }
