@@ -4,6 +4,6 @@ export class NativeTokenOf { }
 fdescribe('NativeTokenOf', () => {
 
   it('new', () => {
-    expect(false).toBeTruthy();
+    expect(new NativeTokenOf()).toBeTruthy();
   });
 });
