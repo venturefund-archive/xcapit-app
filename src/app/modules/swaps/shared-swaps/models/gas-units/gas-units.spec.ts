@@ -12,8 +12,15 @@ export class GasUnits {
 
 fdescribe('GasUnits', () => {
 
+  let gasUnits: GasUnits;
+
+  beforeEach(() => {
+    gasUnits = new GasUnits(100);
+  });
+
+
   it('new', () => {
-    expect(new GasUnits(100)).toBeTruthy();
+    expect(gasUnits).toBeTruthy();
   });
 
   it('value', () => {
