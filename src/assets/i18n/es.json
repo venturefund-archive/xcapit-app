@@ -1779,7 +1779,8 @@
     },
     "asset_detail": {
       "header": "Detalle de activo",
-      "wallet_transaction_title": "Transacciones"
+      "wallet_transaction_title": "Transacciones",
+      "available":"Saldo disponible"
     },
     "error_wallet_recovery": {
       "title": "Tu frase de recuperación es incorrecta",

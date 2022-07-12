@@ -1797,7 +1797,8 @@
     },
     "asset_detail": {
       "header": "Asset Detail",
-      "wallet_transaction_title": "TRANSACTIONS"
+      "wallet_transaction_title": "TRANSACTIONS",
+      "available":"Balance available"
     },
     "error_wallet_recovery": {
       "title": "Your recovery phrase is incorrect",
