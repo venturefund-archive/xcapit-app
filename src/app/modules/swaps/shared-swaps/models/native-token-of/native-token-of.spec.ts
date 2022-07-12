@@ -5,7 +5,10 @@ import { rawTokensData } from "../fixtures/raw-tokens-data";
 import { TokenRepo } from "../token-repo/token-repo";
 import { DefaultTokens } from "../tokens/tokens";
 
-export class NativeTokenOf { }
+export class NativeTokenOf {
+
+  constructor(private _aBlockchainTokens: BlockchainTokens) { }
+}
 
 
 fdescribe('NativeTokenOf', () => {
