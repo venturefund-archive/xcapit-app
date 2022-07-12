@@ -30,7 +30,7 @@ fdescribe('Gas Station Of', () => {
     const gasStation = _gasStationOf(new Blockchain(rawEthereumData));
     const expectedValue = fakeGasPrice;
 
-    const gasPriceValue = await gasStation.prices().safeLow();
+    const gasPriceValue = await gasStation.price().safeLow();
 
     expect(gasPriceValue.toNumber()).toEqual(expectedValue.toNumber());
   });
@@ -38,7 +38,7 @@ fdescribe('Gas Station Of', () => {
   it('polygon gas price', async () => {
     const expectedValue = new BigNumberOf(rawPolygonGasStation.safeLow.maxFee).value();
 
-    const gasPriceValue = await gasStation.prices().safeLow();
+    const gasPriceValue = await gasStation.price().safeLow();
 
     expect(gasPriceValue.toNumber()).toEqual(expectedValue.toNumber());
   });
