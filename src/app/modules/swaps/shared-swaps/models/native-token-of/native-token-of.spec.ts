@@ -6,6 +6,7 @@ import { TokenRepo } from "../token-repo/token-repo";
 import { Token } from "../token/token";
 import { DefaultTokens } from "../tokens/tokens";
 
+
 export class NativeTokenOf implements Token {
 
   constructor(private _aBlockchainTokens: BlockchainTokens) { }
