@@ -1,7 +1,7 @@
 import { BlockchainTokens } from '../blockchain-tokens/blockchain-tokens';
 import { Blockchain } from '../blockchain/blockchain';
 import { rawEthereumData } from '../fixtures/raw-blockchains-data';
-import { rawETHData, rawTokensData } from '../fixtures/raw-tokens-data';
+import { rawTokensData } from '../fixtures/raw-tokens-data';
 import { TokenRepo } from '../token-repo/token-repo';
 import { Token } from '../token/token';
 import { DefaultTokens } from '../tokens/tokens';
