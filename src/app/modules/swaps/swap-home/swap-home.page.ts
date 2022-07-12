@@ -35,6 +35,7 @@ import { GasStationOf } from '../shared-swaps/models/gas-station-of/gas-station-
 import { BigNumber } from 'ethers';
 import { FeeOf } from '../shared-swaps/models/fee-of/fee-of';
 import { FormattedFee } from '../../defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
+import { GasUnits } from '../shared-swaps/models/gas-units/gas-units';
 
 @Component({
   selector: 'app-swap-home',
@@ -189,7 +190,7 @@ export class SwapHomePage {
     // TODO: get native token in order to pass it to transaction fee component
     const formattedFee = new FormattedFee(
       new FeeOf(
-        BigNumber.from(this.tplSwapInfo.estimatedGas),
+        new GasUnits(this.tplSwapInfo.estimatedGas),
         await (new GasStationOf(
           this.activeBlockchain,
           this.httpClient
