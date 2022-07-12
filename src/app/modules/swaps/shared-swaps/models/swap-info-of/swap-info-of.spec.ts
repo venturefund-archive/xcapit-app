@@ -27,7 +27,7 @@ describe('Swap Info Of', () => {
   });
 
   it('estimatedGas access', async () => {
-    expect(await swapInfo.estimatedGas().value().eq(rawSwapInfoData.estimatedGas)).toBeTrue();
+    expect((await swapInfo.estimatedGas()).value().eq(rawSwapInfoData.estimatedGas)).toBeTrue();
   });
 
   it('fromTokenAmount access', async () => {
