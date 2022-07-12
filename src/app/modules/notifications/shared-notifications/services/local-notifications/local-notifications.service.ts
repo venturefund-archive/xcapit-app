@@ -17,6 +17,8 @@ export class LocalNotificationsService {
   }
 
   async send(notifications: LocalNotificationSchema[]) {
+    this.localNotifications.checkPermissions().then(res => console.log('CHECK PERM', res));
+    console.log(this.hasPermission);
     if (this.hasPermission) await this.localNotifications.schedule({ notifications });
   }
 
