@@ -14,7 +14,7 @@ export class JSONSwapInfo {
   async value(): Promise<RawSwapInfo> {
     return {
       toTokenAmount: (await this._swapInfo.toTokenAmount()).value(),
-      estimatedGas: await (await this._swapInfo.estimatedGas()).value().toNumber();
+      estimatedGas: (await this._swapInfo.estimatedGas()).value().toNumber()
     };
   }
 }
