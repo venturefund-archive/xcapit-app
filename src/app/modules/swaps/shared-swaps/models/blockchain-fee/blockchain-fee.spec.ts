@@ -3,6 +3,7 @@ import { BlockchainTokens } from "../blockchain-tokens/blockchain-tokens";
 import { Blockchain } from "../blockchain/blockchain";
 import { FakeFee } from "../fakes/fake-fee";
 import { rawEthereumData } from "../fixtures/raw-blockchains-data";
+import { rawTokensData } from "../fixtures/raw-tokens-data";
 import { NativeTokenOf } from "../native-token-of/native-token-of";
 import { TokenRepo } from "../token-repo/token-repo";
 import { DefaultTokens } from "../tokens/tokens";
