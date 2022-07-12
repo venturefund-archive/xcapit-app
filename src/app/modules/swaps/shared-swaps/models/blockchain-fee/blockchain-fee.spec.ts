@@ -12,11 +12,12 @@ import { BlockchainFee } from "./blockchain-fee";
 
 fdescribe('BlockchainFee', () => {
 
+  const testData = 100;
   let currentFee: BlockchainFee;
 
   beforeEach(() => {
     currentFee = new BlockchainFee(
-      new FakeFee(100),
+      new FakeFee(testData),
       new NativeTokenOf(
         new BlockchainTokens(
           new Blockchain(rawEthereumData),
