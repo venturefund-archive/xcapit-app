@@ -3,7 +3,7 @@ export class BlockchainFee { }
 
 fdescribe('BlockchainFee', () => {
 
-  it('new', async () => {
+  it('new', () => {
     expect(false).toBeTruthy();
   });
 });
