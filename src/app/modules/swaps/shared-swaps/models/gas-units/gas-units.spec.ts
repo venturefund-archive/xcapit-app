@@ -1,6 +1,10 @@
 export class GasUnits {
 
   constructor(private _aRawGasUnits: string|number) { }
+
+  value() {
+    true;
+  }
 }
 
 
