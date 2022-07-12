@@ -155,6 +155,7 @@ export class SwapHomePage {
   private referral: Referral = new Referral();
   private fromTokenKey = 'fromToken';
   private toTokenKey = 'toToken';
+  private nativeToken: Token;
   loadingBtn: boolean;
   disabledBtn: boolean;
   tplBlockchain: RawBlockchain;
@@ -278,7 +279,6 @@ export class SwapHomePage {
       new OneInchTokens(this.dex)
     );
     const nativeToken = await new NativeTokenOf(this.blockchainTokens()).value();
-    console.log('native token:', nativeToken);
   }
 
   private blockchainTokens(): BlockchainTokens {
