@@ -1,9 +1,11 @@
+import { BigNumber } from "ethers";
+
 export class GasUnits {
 
   constructor(private _aRawGasUnits: string|number) { }
 
   value() {
-    true;
+    return BigNumber;
   }
 }
 
