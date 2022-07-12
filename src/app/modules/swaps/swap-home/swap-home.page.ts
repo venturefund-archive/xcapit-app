@@ -170,7 +170,7 @@ export class SwapHomePage {
   tplFromToken: RawToken;
   tplToToken: RawToken;
   tplSwapInfo: RawSwapInfo = new NullJSONSwapInfo().value();
-  tplFee: RawAmount; // set a Null info, like tplSwapInfo
+  tplFee: RawAmount; // TODO: set a Null info, like tplSwapInfo
   form: FormGroup = this.formBuilder.group({
     fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
   });
@@ -198,6 +198,7 @@ export class SwapHomePage {
     }
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
 
+    // TODO, null case, own house
     this.tplFee = await new BlockchainFee(
       new FeeOf(
         new GasUnits(this.tplSwapInfo.estimatedGas),
