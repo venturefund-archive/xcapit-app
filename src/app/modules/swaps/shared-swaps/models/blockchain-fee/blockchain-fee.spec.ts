@@ -14,7 +14,7 @@ export class BlockchainFee {
   constructor(private _aFee: Fee, private _aNativeTokenOf: NativeTokenOf) { }
 
   async json() {
-    return { value: await this._aFee.value()};
+    return { value: await this._aFee.value(), token: (await this._aNativeTokenOf.value()).symbol() };
   }
 }
 
