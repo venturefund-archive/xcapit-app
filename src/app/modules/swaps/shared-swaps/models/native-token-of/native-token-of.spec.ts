@@ -10,6 +10,10 @@ import { DefaultTokens } from '../tokens/tokens';
 export class NativeTokenOf {
 
   constructor(private _aBlockchainTokens: BlockchainTokens) {}
+
+  value() {
+    return true;
+  }
 }
 
 fdescribe('NativeTokenOf', () => {
