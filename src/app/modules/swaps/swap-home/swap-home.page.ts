@@ -281,8 +281,8 @@ export class SwapHomePage {
     );
   }
 
-  private async setNativeToken() {
-    this.nativeToken = await new NativeTokenOf(this.blockchainTokens());
+  private setNativeToken() {
+    this.nativeToken = new NativeTokenOf(this.blockchainTokens());
   }
 
   private blockchainTokens(): BlockchainTokens {
