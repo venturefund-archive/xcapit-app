@@ -1,15 +1,15 @@
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { rawPolygonGasStation } from '../fixtures/raw-polygon-gs-data';
 import { BigNumberOf } from './big-number-of';
-import { PolygonGasPrice } from './polygon-gas-price';
+import { PolygonGasPrices } from './polygon-gas-price';
 
 
 fdescribe('Polygon Gas Price', () => {
 
-  let gasPrice: PolygonGasPrice;
+  let gasPrice: PolygonGasPrices;
 
   beforeEach(() => {
-    gasPrice = new PolygonGasPrice(new FakeHttpClient(rawPolygonGasStation));
+    gasPrice = new PolygonGasPrices(new FakeHttpClient(rawPolygonGasStation));
   });
 
   it('new', () => {
