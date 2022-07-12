@@ -12,6 +12,10 @@ import { DefaultTokens } from "../tokens/tokens";
 export class BlockchainFee {
 
   constructor(private _aFee: Fee, private _aNativeTokenOf: NativeTokenOf) { }
+
+  json() {
+    return true;
+  }
 }
 
 
