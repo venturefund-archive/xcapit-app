@@ -26,7 +26,7 @@ fdescribe('NativeTokenOf', () => {
     expect(token).toBeTruthy();
   });
 
-  it('blockchain id access', () => {
+  it('value', () => {
     expect(token.blockchainId()).toEqual(`${rawETHData.chainId}`);
   });
 
