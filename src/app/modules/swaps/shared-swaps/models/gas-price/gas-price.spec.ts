@@ -1,7 +1,7 @@
 import { Blockchain } from '../blockchain/blockchain';
 import { fakeGasPrice, fakeProviders } from '../fakes/fake-ethers-providers';
 import { rawEthereumData } from '../fixtures/raw-blockchains-data';
-import { DefaultGasPriceOf, GasPrices } from './gas-price';
+import { DefaultGasPricesOf, GasPrices } from './gas-price';
 
 
 fdescribe('Default Gas Price', () => {
@@ -9,7 +9,7 @@ fdescribe('Default Gas Price', () => {
   let gasPrice: GasPrices;
 
   beforeEach(() => {
-    gasPrice = new DefaultGasPriceOf(new Blockchain(rawEthereumData), fakeProviders);
+    gasPrice = new DefaultGasPricesOf(new Blockchain(rawEthereumData), fakeProviders);
   });
 
   it('new', () => {

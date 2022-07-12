@@ -9,7 +9,7 @@ export interface GasPrices {
 }
 
 
-export class DefaultGasPriceOf implements GasPrices {
+export class DefaultGasPricesOf implements GasPrices {
 
   constructor(private _aBlockchain: Blockchain, private _providers: any = providers) {}
 

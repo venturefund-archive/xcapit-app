@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { providers } from "ethers";
 import { FakeHttpClient } from "src/testing/fakes/fake-http.spec";
 import { Blockchain } from "../blockchain/blockchain";
-import { DefaultGasPriceOf, GasPrices } from "../gas-price/gas-price";
+import { DefaultGasPricesOf, GasPrices } from "../gas-price/gas-price";
 import { PolygonGasPrice } from "../polygon-gas-price/polygon-gas-price";
 
 
@@ -15,7 +15,7 @@ export class GasStationOf {
   ) { }
 
   price(): GasPrices {
-    let gasPrice: GasPrices = new DefaultGasPriceOf(this._aBlockchain, this._providers);
+    let gasPrice: GasPrices = new DefaultGasPricesOf(this._aBlockchain, this._providers);
     if (this._aBlockchain.gasPriceClass()) {
       gasPrice = new PolygonGasPrice(this._httpClient);
     }
