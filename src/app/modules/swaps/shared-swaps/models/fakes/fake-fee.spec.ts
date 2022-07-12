@@ -13,12 +13,17 @@ export class FakeFee implements Fee {
 fdescribe('FakeFee', () => {
 
   const testData = 100;
+  let fee: FakeFee;
+
+  beforeEach(() => {
+    fee = new FakeFee(testData);
+  });
 
   it('new', () => {
-    expect(new FakeFee(testData)).toBeTruthy();
+    expect(fee).toBeTruthy();
   });
 
   it('value', async () => {
-    expect((await new FakeFee(testData).value()).eq(testData)).toBeTrue();
+    expect((await fee.value()).eq(testData)).toBeTrue();
   });
 });
