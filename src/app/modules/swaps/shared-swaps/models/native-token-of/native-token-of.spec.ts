@@ -9,6 +9,8 @@ import { DefaultTokens } from '../tokens/tokens';
 
 export class NativeTokenOf implements Token {
 
+  private _token: Token;
+
   constructor(private _aBlockchainTokens: BlockchainTokens) {}
 
   blockchainId(): string {
