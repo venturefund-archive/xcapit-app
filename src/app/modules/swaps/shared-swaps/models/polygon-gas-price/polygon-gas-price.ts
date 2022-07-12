@@ -21,7 +21,7 @@ export type RawPolygonGS = {
 }
 
 
-export class PolygonGasPrice implements GasPrices {
+export class PolygonGasPrices implements GasPrices {
 
   private readonly _url = 'https://gasstation-mainnet.matic.network/v2';
 
