@@ -125,7 +125,7 @@ import { BlockchainFee, RawAmount } from '../shared-swaps/models/blockchain-fee/
         </div>
         <div>
           <app-transaction-fee
-            [fee]="this.dynamicFee"
+            [fee]="this.tplFee"
             [quoteFee]="this.quoteFee"
             [transactionFee]="true"
           ></app-transaction-fee>
