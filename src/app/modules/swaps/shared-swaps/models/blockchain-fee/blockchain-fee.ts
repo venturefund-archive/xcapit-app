@@ -2,6 +2,7 @@ import { Fee } from "src/app/modules/defi-investments/shared-defi-investments/in
 import { NativeTokenOf } from "../native-token-of/native-token-of";
 import { RawAmount } from "./blockchain-fee.spec";
 
+
 export class BlockchainFee {
 
   constructor(private _aFee: Fee, private _aNativeTokenOf: NativeTokenOf) { }
