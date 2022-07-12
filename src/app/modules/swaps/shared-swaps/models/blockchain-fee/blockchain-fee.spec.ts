@@ -50,6 +50,7 @@ fdescribe('BlockchainFee', () => {
 
   it('json', async () => {
     expect((await currentFee.json()).value).toEqual(100);
+    expect((await currentFee.json()).token).toEqual(rawEthereumData.name);
   });
 
 });
