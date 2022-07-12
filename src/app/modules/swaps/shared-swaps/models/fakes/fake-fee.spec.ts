@@ -3,7 +3,7 @@ import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/in
 
 export class FakeFee implements Fee {
 
-  value(): Promise<BigNumber> {
+  async value(): Promise<BigNumber> {
     throw new Error('Method not implemented.');
   }
 }
