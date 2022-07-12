@@ -1,4 +1,7 @@
-export class GasUnits { }
+export class GasUnits {
+
+  constructor(private _aRawGasUnits: string|number) { }
+}
 
 
 fdescribe('GasUnits', () => {
