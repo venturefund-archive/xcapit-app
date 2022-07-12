@@ -4,12 +4,13 @@ import { Blockchain } from '../blockchain/blockchain';
 import { fakeProviders } from '../fakes/fake-ethers-providers';
 import { rawEthereumData } from '../fixtures/raw-blockchains-data';
 import { GasStationOf } from '../gas-station-of/gas-station-of';
+import { GasUnits } from '../gas-units/gas-units';
 import { FeeOf } from './fee-of';
 
 
 fdescribe('Fee Of', () => {
   let fee: FeeOf;
-  const gasUnits = BigNumber.from(10);
+  const gasUnits = new GasUnits BigNumber.from(10);
   const gasStation = new GasStationOf(new Blockchain(rawEthereumData), new FakeHttpClient(), fakeProviders);
 
   beforeEach(async () => {
