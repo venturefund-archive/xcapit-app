@@ -10,7 +10,7 @@ import { FeeOf } from './fee-of';
 
 fdescribe('Fee Of', () => {
   let fee: FeeOf;
-  const gasUnits = new GasUnits BigNumber.from(10);
+  const gasUnits = new GasUnits(10);
   const gasStation = new GasStationOf(new Blockchain(rawEthereumData), new FakeHttpClient(), fakeProviders);
 
   beforeEach(async () => {
