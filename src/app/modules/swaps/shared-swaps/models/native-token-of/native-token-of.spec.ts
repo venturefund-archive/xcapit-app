@@ -26,7 +26,7 @@ fdescribe('NativeTokenOf', () => {
     expect(token).toBeTruthy();
   });
 
-  it('value', () => {
-    expect(token.value()).toBeTruthy();
+  it('value', async () => {
+    expect(false).toBeTruthy();
   });
 });
