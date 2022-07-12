@@ -6,6 +6,6 @@ export class BlockchainFee { }
 fdescribe('BlockchainFee', () => {
 
   it('new', () => {
-    expect(new BlockchainFee(new FakeFee())).toBeTruthy();
+    expect(new BlockchainFee(new FakeFee(100))).toBeTruthy();
   });
 });
