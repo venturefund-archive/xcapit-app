@@ -201,7 +201,6 @@ export class SwapHomePage {
       this.nativeToken
     );
 
-    // console.log(`tx fee: ${await formattedFee.value()} ${(await this.nativeToken.value()).symbol()}`);
     console.log(`tx fee: ${(await currentFee.json()).value} ${(await currentFee.json()).token}`);
   }
 
