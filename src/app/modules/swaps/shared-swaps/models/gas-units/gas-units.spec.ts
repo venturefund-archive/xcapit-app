@@ -16,7 +16,7 @@ fdescribe('GasUnits', () => {
   let gasUnits: GasUnits;
 
   beforeEach(() => {
-    gasUnits = new GasUnits();
+    gasUnits = new GasUnits(aRawGasUnits);
   });
 
   it('new', () => {
