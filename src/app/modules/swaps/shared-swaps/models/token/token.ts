@@ -12,6 +12,8 @@ export interface Token {
   address(): string;
 
   json(): any;
+
+  isNative(): boolean
 }
 
 
