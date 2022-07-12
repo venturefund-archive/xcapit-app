@@ -6,7 +6,7 @@ import { NativeTokenOf } from "../native-token-of/native-token-of";
 
 export class BlockchainFee {
 
-  constructor(private _aFee: Fee) { }
+  constructor(private _aFee: Fee, private _aNativeTokenOf: NativeTokenOf) { }
 }
 
 
