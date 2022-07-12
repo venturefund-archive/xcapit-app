@@ -52,11 +52,11 @@ fdescribe('NativeTokenOf', () => {
     expect(token.blockchainId()).toEqual(`${rawETHData.chainId}`);
   });
 
-  it('address access', () => {
-    expect(token.address()).toEqual(rawETHData.contract);
-  });
+  // it('address access', () => {
+  //   expect(token.address()).toEqual(rawETHData.contract);
+  // });
 
-  it('json access', () => {
-    expect(token.json()).toEqual(rawETHData);
-  });
+  // it('json access', () => {
+  //   expect(token.json()).toEqual(rawETHData);
+  // });
 });
