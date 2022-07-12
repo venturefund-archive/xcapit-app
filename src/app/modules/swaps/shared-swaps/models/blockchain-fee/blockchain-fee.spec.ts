@@ -40,3 +40,13 @@ fdescribe('BlockchainFee', () => {
     expect(feeAmount.token).toEqual(rawETHTokenData.symbol);
   });
 });
+
+export class NullBlockchainFee { }
+
+
+fdescribe('NullBlockchainFee', () => {
+
+  it('new', () => {
+    expect(false).toBeTruthy();
+  });
+});
