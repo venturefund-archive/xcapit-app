@@ -191,15 +191,15 @@ export class SwapHomePage {
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
 
     // TODO: get native token in order to pass it to transaction fee component
-    const formattedFee = new FormattedFee(
-      new FeeOf(
-        new GasUnits(this.tplSwapInfo.estimatedGas),
-        await (new GasStationOf(
-          this.activeBlockchain,
-          this.httpClient
-        )).price().fast()
-      )
-    );
+    // const formattedFee = new FormattedFee(
+    //   new FeeOf(
+    //     new GasUnits(this.tplSwapInfo.estimatedGas),
+    //     await (new GasStationOf(
+    //       this.activeBlockchain,
+    //       this.httpClient
+    //     )).price().fast()
+    //   )
+    // );
 
     const currentFee = new BlockchainFee(
       new FeeOf(
@@ -212,7 +212,8 @@ export class SwapHomePage {
       this.nativeToken
     );
 
-    console.log(`tx fee: ${await formattedFee.value()} ${(await this.nativeToken.value()).symbol()}`);
+    // console.log(`tx fee: ${await formattedFee.value()} ${(await this.nativeToken.value()).symbol()}`);
+    console.log(`tx fee: ${await currentFee.json().value} ${(await this.nativeToken.value()).symbol()}`);
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
