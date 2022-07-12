@@ -13,7 +13,7 @@ export interface Token {
 
   json(): any;
 
-  isNative()?: boolean;
+  ?isNative(): boolean;
 }
 
 
