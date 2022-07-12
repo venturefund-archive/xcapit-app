@@ -16,7 +16,7 @@ fdescribe('Fee Of', () => {
   beforeEach(async () => {
     fee = new FeeOf(
       gasUnits,
-      await gasStation.prices().fast()
+      await gasStation.price().fast()
     );
   });
 
