@@ -4,6 +4,6 @@ export class FakeFee { }
 fdescribe('FakeFee', () => {
 
   it('new', () => {
-    expect(new FakeFee).toBeTruthy();
+    expect(new FakeFee()).toBeTruthy();
   });
 });
