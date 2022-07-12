@@ -13,7 +13,7 @@ fdescribe('FakeFee', () => {
   const testData = 100;
 
   it('new', () => {
-    expect(new FakeFee()).toBeTruthy();
+    expect(new FakeFee(testData)).toBeTruthy();
   });
 
   it('value', async () => {
