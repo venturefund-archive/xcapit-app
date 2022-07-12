@@ -65,7 +65,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     description: 'fiat_ramps.select_provider.directa24.platform_description',
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_mercadopago',
-    countries: ['Argentina', 'Chile'],
+    countries: ['Chile'],
     currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
@@ -77,7 +77,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     description: 'fiat_ramps.select_provider.directa24.nearest_store_description',
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_Rapipago',
-    countries: ['Argentina'],
+    countries: [],
     currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
@@ -89,7 +89,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     description: 'fiat_ramps.select_provider.directa24.nearest_store_description',
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_Pagofacil',
-    countries: ['Argentina'],
+    countries: [],
     currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
@@ -101,7 +101,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     description: 'fiat_ramps.select_provider.directa24.nearest_store_description',
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_UALA',
-    countries: ['Argentina'],
+    countries: [],
     currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
@@ -137,7 +137,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     description: 'fiat_ramps.select_provider.directa24.debit_credit_description',
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_Visa',
-    countries: ['Chile', 'Peru', 'Mexico', 'Colombia', 'Ecuador', 'Argentina'],
+    countries: ['Chile', 'Peru', 'Mexico', 'Colombia', 'Ecuador'],
     currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
@@ -149,7 +149,7 @@ export const PROVIDERS: FiatRampProvider[] = [
     description: 'fiat_ramps.select_provider.directa24.debit_credit_description',
     newOperationRoute: '/fiat-ramps/new-operation/others',
     trackClickEventName: 'ux_buy_d24_Mastercard',
-    countries: ['Chile', 'Peru', 'Mexico', 'Colombia', 'Ecuador', 'Argentina'],
+    countries: ['Chile', 'Peru', 'Mexico', 'Colombia', 'Ecuador'],
     currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
