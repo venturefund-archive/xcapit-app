@@ -2,14 +2,14 @@ import { BigNumber, providers } from "ethers";
 import { Blockchain } from "../blockchain/blockchain";
 
 
-export interface GasPrices {
+export interface GasPrice {
   safeLow(): Promise<BigNumber>;
   standard(): Promise<BigNumber>;
   fast(): Promise<BigNumber>;
 }
 
 
-export class DefaultGasPricesOf implements GasPrices {
+export class DefaultGasPricesOf implements GasPrice {
 
   constructor(private _aBlockchain: Blockchain, private _providers: any = providers) {}
 

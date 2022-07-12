@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { BigNumber } from 'ethers';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
-import { GasPrices } from '../gas-price/gas-price';
+import { GasPrice } from '../gas-price/gas-price';
 import { BigNumberOf } from './big-number-of';
 
 
@@ -21,7 +21,7 @@ export type RawPolygonGS = {
 }
 
 
-export class PolygonGasPrices implements GasPrices {
+export class PolygonGasPrices implements GasPrice {
 
   private readonly _url = 'https://gasstation-mainnet.matic.network/v2';
 
