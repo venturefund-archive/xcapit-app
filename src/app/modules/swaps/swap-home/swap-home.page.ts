@@ -190,17 +190,6 @@ export class SwapHomePage {
     }
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
 
-    // TODO: get native token in order to pass it to transaction fee component
-    // const formattedFee = new FormattedFee(
-    //   new FeeOf(
-    //     new GasUnits(this.tplSwapInfo.estimatedGas),
-    //     await (new GasStationOf(
-    //       this.activeBlockchain,
-    //       this.httpClient
-    //     )).price().fast()
-    //   )
-    // );
-
     const currentFee = new BlockchainFee(
       new FeeOf(
         new GasUnits(this.tplSwapInfo.estimatedGas),
