@@ -12,10 +12,11 @@ export class GasUnits {
 
 fdescribe('GasUnits', () => {
 
+  const aRawGasUnits = 100;
   let gasUnits: GasUnits;
 
   beforeEach(() => {
-    gasUnits = new GasUnits(100);
+    gasUnits = new GasUnits();
   });
 
   it('new', () => {
