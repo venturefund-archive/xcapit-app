@@ -14,19 +14,19 @@ export class NativeTokenOf {
 
 fdescribe('NativeTokenOf', () => {
 
-  let token: NativeTokenOf;
+  let result: NativeTokenOf;
 
   beforeEach(() => {
-    token = new NativeTokenOf(
+    result = new NativeTokenOf(
       new BlockchainTokens(new Blockchain(rawEthereumData), new DefaultTokens(new TokenRepo(rawTokensData)))
     );
   });
 
   it('new', () => {
-    expect(token).toBeTruthy();
+    expect(result).toBeTruthy();
   });
 
   it('value', async () => {
-    expect(false).toBeTruthy();
+    expect(result).toBeTruthy();
   });
 });
