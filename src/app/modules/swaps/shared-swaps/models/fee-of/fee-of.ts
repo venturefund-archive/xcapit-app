@@ -8,6 +8,6 @@ export class FeeOf implements Fee {
   constructor(private _aGasUnits: GasUnits, private _aGasPriceValue: BigNumber) {}
 
   async value(): Promise<BigNumber> {
-    return this._aGasPriceValue.mul(this._aGasUnits);
+    return this._aGasPriceValue.mul(this._aGasUnits.value());
   }
 }
