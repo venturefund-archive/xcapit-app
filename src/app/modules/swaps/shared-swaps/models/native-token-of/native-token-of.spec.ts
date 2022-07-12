@@ -7,31 +7,9 @@ import { Token } from '../token/token';
 import { DefaultTokens } from '../tokens/tokens';
 
 
-export class NativeTokenOf implements Token {
-
-  private _token: Token;
+export class NativeTokenOf {
 
   constructor(private _aBlockchainTokens: BlockchainTokens) {}
-
-  blockchainId(): string {
-    return '0';
-  }
-
-  symbol(): string {
-    throw new Error('Method not implemented.');
-  }
-
-  decimals(): number {
-    throw new Error('Method not implemented.');
-  }
-
-  address(): string {
-    throw new Error('Method not implemented.');
-  }
-
-  json() {
-    throw new Error('Method not implemented.');
-  }
 }
 
 fdescribe('NativeTokenOf', () => {
