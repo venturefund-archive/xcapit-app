@@ -1,3 +1,5 @@
+import { BigNumber } from "ethers";
+
 export class FakeFee implements Fee {
 
   constructor(private _aTestData: string|number) { }
