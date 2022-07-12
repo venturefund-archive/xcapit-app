@@ -15,14 +15,18 @@ fdescribe('BlockchainFee', () => {
   let currentFee: BlockchainFee;
 
   beforeEach(() => {
-    new BlockchainTokens(
-      new Blockchain(rawEthereumData),
-      new DefaultTokens(new TokenRepo(rawTokensData))
-    )
+    currentFee = new BlockchainFee(
+      new FakeFee(100),
+      new NativeTokenOf(
+        new BlockchainTokens(
+          new Blockchain(rawEthereumData),
+          new DefaultTokens(new TokenRepo(rawTokensData))
+        )
+      ));
   });
 
 
   it('new', () => {
-    expect(new BlockchainFee(new FakeFee(100), new NativeTokenOf(new ))).toBeTruthy();
+    expect().toBeTruthy();
   });
 });
