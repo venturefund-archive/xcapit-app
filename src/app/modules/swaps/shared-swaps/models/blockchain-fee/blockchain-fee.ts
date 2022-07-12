@@ -1,4 +1,5 @@
 import { Fee } from "src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface";
+import { FormattedFee } from "src/app/modules/defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model";
 import { NativeTokenOf } from "../native-token-of/native-token-of";
 
 
@@ -14,7 +15,7 @@ export class BlockchainFee {
 
   async json(): Promise<RawAmount> {
     return {
-      value: (await this._aFee.value()).toNumber(),
+      value: (await new FormattedFee this._aFee.value()).toNumber(),
       token: (await this._aNativeTokenOf.value()).symbol()
     };
   }
