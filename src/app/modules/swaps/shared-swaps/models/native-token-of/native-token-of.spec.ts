@@ -3,18 +3,9 @@ import { Blockchain } from '../blockchain/blockchain';
 import { rawEthereumData } from '../fixtures/raw-blockchains-data';
 import { rawTokensData } from '../fixtures/raw-tokens-data';
 import { TokenRepo } from '../token-repo/token-repo';
-import { Token } from '../token/token';
 import { DefaultTokens } from '../tokens/tokens';
+import { NativeTokenOf } from './native-token-of';
 
-
-export class NativeTokenOf {
-
-  constructor(private _aBlockchainTokens: BlockchainTokens) {}
-
-  async value(): Promise<Token> {
-    return (await this._aBlockchainTokens.value()).find(token => token.isNative() === true);
-  }
-}
 
 fdescribe('NativeTokenOf', () => {
 
