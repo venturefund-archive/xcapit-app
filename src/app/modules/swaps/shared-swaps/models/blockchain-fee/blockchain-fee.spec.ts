@@ -8,25 +8,9 @@ import { rawTokensData } from "../fixtures/raw-tokens-data";
 import { NativeTokenOf } from "../native-token-of/native-token-of";
 import { TokenRepo } from "../token-repo/token-repo";
 import { DefaultTokens } from "../tokens/tokens";
+import { BlockchainFee } from "./blockchain-fee";
 
 
-export type RawAmount = {
-  value: number;
-  token: string;
-}
-
-
-export class BlockchainFee {
-
-  constructor(private _aFee: Fee, private _aNativeTokenOf: NativeTokenOf) { }
-
-  async json(): Promise<RawAmount> {
-    return {
-      value: (await this._aFee.value()).toNumber(),
-      token: (await this._aNativeTokenOf.value()).symbol()
-    };
-  }
-}
 
 
 fdescribe('BlockchainFee', () => {
