@@ -279,6 +279,7 @@ export class SwapHomePage {
       new OneInchTokens(this.dex)
     );
     const nativeToken = await new NativeTokenOf(blockchainTokens).value();
+    console.log('native token:', nativeToken);
   }
 
   private setBlockchain(aBlockchainName: string) {
