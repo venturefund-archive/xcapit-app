@@ -9,11 +9,17 @@ import { TokenRepo } from "../token-repo/token-repo";
 import { DefaultTokens } from "../tokens/tokens";
 
 
+export type RawAmount = {
+  value: number;
+  token: string;
+}
+
+
 export class BlockchainFee {
 
   constructor(private _aFee: Fee, private _aNativeTokenOf: NativeTokenOf) { }
 
-  async json() {
+  async json(): RawAmount {
     return {
       value: await this._aFee.value(),
       token: (await this._aNativeTokenOf.value()).symbol()
