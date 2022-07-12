@@ -14,7 +14,7 @@ export class NativeTokenOf implements Token {
   constructor(private _aBlockchainTokens: BlockchainTokens) {}
 
   blockchainId(): string {
-    return '1';
+    return '0';
   }
 
   symbol(): string {
