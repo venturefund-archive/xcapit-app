@@ -76,8 +76,9 @@ describe('TransactionFeeComponent', () => {
     expect(divEl).toBeFalsy();
   });
 
-  it('should not render skeleton when quoteFee value is available', async () => {
+  it('should not render skeleton when quoteFee value and fee value is available', async () => {
     component.quoteFee.value = 0.017;
+    component.fee.value = 0.017;
     fixture.detectChanges();
     await fixture.whenStable();
     const skeletonEl = fixture.debugElement.query(By.css('.skeleton ion-skeleton-text'));
