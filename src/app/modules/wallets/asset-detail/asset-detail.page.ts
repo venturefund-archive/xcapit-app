@@ -10,6 +10,10 @@ import { finalize } from 'rxjs/operators';
 import { CovalentTransfer } from '../shared-wallets/models/covalent-transfer/covalent-transfer';
 import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-transfers-response/covalent-transfers-response';
 import { NETWORK_COLORS } from '../shared-wallets/constants/network-colors.constant';
+import { ProvidersFactory } from '../../fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
+import { HttpClient } from '@angular/common/http';
+import { ProviderDataRepo } from '../../fiat-ramps/shared-ramps/models/provider-data-repo/provider-data-repo';
+import { ProviderTokensOf } from '../../fiat-ramps/shared-ramps/models/provider-tokens-of/provider-tokens-of';
 
 @Component({
   selector: 'app-asset-detail',
@@ -62,6 +66,7 @@ import { NETWORK_COLORS } from '../shared-wallets/constants/network-colors.const
           <app-wallet-subheader-buttons
             [asset]="this.currency.value"
             [network]="this.currency.network"
+            [enabledToBuy]="this.enabledToBuy"
           ></app-wallet-subheader-buttons>
         </div>
 
@@ -91,12 +96,16 @@ export class AssetDetailPage implements OnInit {
   transfers: CovalentTransfer[] = [];
   usdPrice: { prices: any };
   networkColors = NETWORK_COLORS;
+  enabledToBuy: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private walletService: WalletService,
     private storageService: StorageService,
     private walletTransactionsService: WalletTransactionsService,
-    private apiWalletService: ApiWalletService
+    private apiWalletService: ApiWalletService,
+    private providers: ProvidersFactory,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {}
@@ -140,6 +149,7 @@ export class AssetDetailPage implements OnInit {
 
   private getCurrency() {
     this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
+    this.enabledToBuy = !!new ProviderTokensOf(this.getProviders(), [ this.currency ]).all().length;
   }
 
   private getTransfers() {
@@ -159,4 +169,9 @@ export class AssetDetailPage implements OnInit {
   private getUsdAmount(symbol: string): number {
     return this.usdPrice.prices[this.getCoinForPrice(symbol)];
   }
+
+  private getProviders() {
+    return this.providers.create(new ProviderDataRepo(), this.http);
+  }
+
 }
