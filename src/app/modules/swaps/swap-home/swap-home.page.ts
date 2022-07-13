@@ -192,6 +192,10 @@ export class SwapHomePage {
       this.swap = new Swap(fromTokenAmount, this.fromToken, this.toToken);
     }
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
+    this.setFeeInfo();
+  }
+
+  private async setFeeInfo() {
     const gasPrice = await this.gasStation().price().fast();
     this.tplFee = gasPrice.times(this.tplSwapInfo.estimatedGas).json();
 
