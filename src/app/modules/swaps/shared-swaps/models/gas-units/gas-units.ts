@@ -1,11 +1,12 @@
-import { BigNumber } from "ethers";
+// TODO
+// import { BigNumber } from "ethers";
 
 
-export class GasUnits {
+// export class GasUnits {
 
-  constructor(private _aRawGasUnits: string|number) { }
+//   constructor(private _aRawGasUnits: string|number) { }
 
-  value(): BigNumber {
-    return BigNumber.from(this._aRawGasUnits);
-  }
-}
+//   value(): BigNumber {
+//     return BigNumber.from(this._aRawGasUnits);
+//   }
+// }
