@@ -1,4 +1,4 @@
-import { AmountOf } from "./amount-of";
+import { AmountOf, RawAmount } from "./amount-of";
 import { rawUSDCData } from "../fixtures/raw-tokens-data";
 import { DefaultToken, Token } from "../token/token";
 
@@ -38,7 +38,10 @@ fdescribe('Amount Of', () => {
 });
 
 
-export class NullAmountOf { }
+export class NullAmountOf {
+
+  json(): RawAmount
+}
 
 
 fdescribe('NullAmountOf', () => {
