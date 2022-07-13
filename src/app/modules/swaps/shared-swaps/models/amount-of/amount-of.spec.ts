@@ -50,7 +50,7 @@ fdescribe('NullAmountOf', () => {
   });
 
   it('json', () => {
-    expect(amount.json().value).toEqual(anAmount);
-    expect(amount.json().token).toEqual(usdcToken.symbol());
+    expect(amount.json().value).toEqual(undefined);
+    expect(amount.json().token).toEqual(undefined);
   });
 });
