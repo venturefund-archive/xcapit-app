@@ -1,12 +1,8 @@
+// TODO
 // import { Fee } from "src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface";
 // import { FormattedFee } from "src/app/modules/defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model";
 // import { NativeTokenOf } from "../native-token-of/native-token-of";
 
-
-export type RawAmount = {
-  value: number;
-  token: string;
-}
 
 
 // export class BlockchainFee {
