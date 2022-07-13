@@ -192,7 +192,6 @@ export class SwapHomePage {
       this.swap = new Swap(fromTokenAmount, this.fromToken, this.toToken);
     }
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
-    // this.setFeeInfo();
   }
 
   private async setFeeInfo() {
