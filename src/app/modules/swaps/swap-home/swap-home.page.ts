@@ -198,7 +198,7 @@ export class SwapHomePage {
   }
 
   private setUndefinedFeeInfo() {
-    this.tplFee = new NullAmountOf(undefined, this.activeBlockchain.nativeToken()).json();
+    this.tplFee = new NullAmountOf().json();
   }
 
   private gasPrice(): Promise<AmountOf> {
