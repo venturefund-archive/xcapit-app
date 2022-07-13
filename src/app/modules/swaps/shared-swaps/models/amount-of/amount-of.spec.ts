@@ -43,7 +43,14 @@ export class NullAmountOf { }
 
 fdescribe('NullAmountOf', () => {
 
+  const amount = new NullAmountOf();
+
   it('new', () => {
-    expect(new NullAmountOf()).toBeTruthy();
+    expect(amount).toBeTruthy();
+  });
+
+  it('json', () => {
+    expect(amount.json().value).toEqual(anAmount);
+    expect(amount.json().token).toEqual(usdcToken.symbol());
   });
 });
