@@ -36,3 +36,15 @@ fdescribe('Amount Of', () => {
     expect(amount.json().token).toEqual(usdcToken.symbol());
   });
 });
+
+
+export class NullAmountOf { }
+
+
+fdescribe('NullAmountOf
+', () => {
+
+  it('new', () => {
+    expect(false).toBeTruthy();
+  });
+});
