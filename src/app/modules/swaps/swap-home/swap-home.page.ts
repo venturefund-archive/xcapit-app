@@ -216,13 +216,17 @@ export class SwapHomePage {
     //   ),
     // this.activeBlockchain.nativeToken()
 
-    const gasPrice = await (new GasStationOf(
-          this.activeBlockchain,
-          this.httpClient
-    )).price().fast();
+    const gasPrice = await ().price().fast();
 
     this.tplFee = gasPrice.times(this.tplSwapInfo.estimatedGas).json();
 
+  }
+
+  private gasStation(): GasStationOf {
+    return new GasStationOf(
+      this.activeBlockchain,
+      this.httpClient
+    )
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
