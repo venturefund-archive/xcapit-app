@@ -55,11 +55,6 @@ describe('TransactionFeeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render skeleton when quoteFee value is not available', () => {
-    component.quoteFee.value = undefined;
-    expect(fixture.debugElement.query(By.css('.skeleton ion-skeleton-text'))).toBeTruthy();
-  });
-
   it('should render advice div when you dont have necessary fee', () => {
     component.fee.value = 2;
     component.balance = 1;
@@ -74,6 +69,11 @@ describe('TransactionFeeComponent', () => {
     fixture.detectChanges();
     const divEl = fixture.debugElement.query(By.css('div.tf__fee__qty_and_advice__funds-advice'));
     expect(divEl).toBeFalsy();
+  });
+
+  it('should render skeleton when quoteFee value is not available', () => {
+    component.quoteFee.value = undefined;
+    expect(fixture.debugElement.query(By.css('.skeleton ion-skeleton-text'))).toBeTruthy();
   });
 
   it('should not render skeleton when quoteFee value and fee value is available', async () => {
