@@ -164,7 +164,7 @@ export class SwapHomePage {
   tplFromToken: RawToken;
   tplToToken: RawToken;
   tplSwapInfo: RawSwapInfo = new NullJSONSwapInfo().value();
-  tplFee: RawAmount; // TODO: set a Null info, like tplSwapInfo
+  tplFee: RawAmount;
   form: FormGroup = this.formBuilder.group({
     fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
   });
@@ -197,7 +197,7 @@ export class SwapHomePage {
     this.tplFee = (await this.gasPrice()).times(this.tplSwapInfo.estimatedGas).json();
   }
 
-  private setUndefinedFeeInfo() {
+  private setNullFeeInfo() {
     this.tplFee = new NullAmountOf().json();
   }
 
@@ -222,7 +222,7 @@ export class SwapHomePage {
     this.trackPage();
     this.subscribeToFromTokenAmountChanges();
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
-    this.setUndefinedFeeInfo();
+    this.setNullFeeInfo();
     this.setDex();
     this.setTokens();
     this.setFeeInfo();
@@ -237,7 +237,7 @@ export class SwapHomePage {
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(async (value) => {
-        this.setUndefinedFeeInfo();
+        this.setNullFeeInfo();
         await this.setSwapInfo(value);
         this.setFeeInfo();
       });
