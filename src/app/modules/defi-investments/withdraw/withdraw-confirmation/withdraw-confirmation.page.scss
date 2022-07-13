@@ -81,3 +81,12 @@ ion-toolbar {
     }
   }
 }
+
+.skeleton {
+  margin-top: 11px;
+
+  ion-skeleton-text {
+    height: 18px;
+    border-radius: 8px;
+  }
+}

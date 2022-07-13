@@ -67,13 +67,16 @@ import { WithdrawInfoModalComponent } from '../../shared-defi-investments/compon
                 <ion-icon (click)="showWithdrawInfo()" icon="information-circle"></ion-icon>
               </ion-text>
             </div>
-            <div class="wp__withdraw__qty">
+            <div class="wp__withdraw__qty" *ngIf="this.withdrawFeeAmount.value !== undefined">
               <ion-text class="ux-font-text-base wp__withdraw__qty__amount"
                 >{{ this.withdrawFeeAmount.value | formattedAmount }} {{ this.withdrawFeeAmount.token }}</ion-text
               >
               <ion-text class="ux-font-text-base wp__withdraw__qty__quoteAmount"
-                >{{ this.withdrawFeeQuoteAmount.value | formattedAmount }} {{ this.withdrawFeeQuoteAmount.token }}
+                >{{ this.withdrawFeeQuoteAmount.value | formattedAmount: 10:4 }} {{ this.withdrawFeeQuoteAmount.token }}
               </ion-text>
+            </div>
+            <div *ngIf="this.withdrawFeeAmount.value === undefined" class="skeleton">
+              <ion-skeleton-text style="width:95%" animated> </ion-skeleton-text>
             </div>
           </div>
         </div>
@@ -138,12 +141,12 @@ export class WithdrawConfirmationPage implements OnInit {
     this.getAmount();
     this.getQuoteAmount();
     this.getToken();
-    this.getWithdrawFee();
-    this.getWithdrawFeeQuote();
     await this.getNativeTokenBalance();
     await this.getFee();
     this.tokenDynamicPrice();
     this.nativeDynamicPrice();
+    this.getWithdrawFee();
+    this.getWithdrawFeeQuote();
   }
 
   private getProduct() {
@@ -158,7 +161,6 @@ export class WithdrawConfirmationPage implements OnInit {
   }
 
   private getWithdrawFee() {
-    console.log(this.amount);
     this.withdrawFeeAmount = {
       value: this.amount.value * this.fixedWithdrawCost,
       token: this.amount.token,
@@ -166,7 +168,6 @@ export class WithdrawConfirmationPage implements OnInit {
   }
 
   private getWithdrawFeeQuote() {
-    console.log(this.quoteAmount);
     this.withdrawFeeQuoteAmount = {
       value: this.quoteAmount.value * this.fixedWithdrawCost,
       token: this.quoteAmount.token,

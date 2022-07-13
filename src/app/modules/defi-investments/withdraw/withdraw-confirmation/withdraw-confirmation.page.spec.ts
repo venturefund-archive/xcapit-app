@@ -24,6 +24,7 @@ import { InvestmentDataService } from '../../shared-defi-investments/services/in
 import { WithdrawConfirmationController } from './withdraw-confirmation.controller';
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { By } from '@angular/platform-browser';
 
 describe('WithdrawConfirmationPage', () => {
   let component: WithdrawConfirmationPage;
@@ -229,6 +230,23 @@ describe('WithdrawConfirmationPage', () => {
     component.ionViewWillLeave();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show modal', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
+    el.nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not show modal', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    component.isInfoModalOpen = true
+    const el = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
+    el.nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 
   it('should not show informative modal of fees on withdraw when the native token balance is bigger than the cost of fees', async () => {
