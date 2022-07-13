@@ -7,7 +7,7 @@ import { DynamicPrice } from '../dynamic-price.model';
 export class DynamicPriceFactory {
   public new(
     milliseconds: number,
-    _aCoin: Coin:any,
+    _aCoin: Coin|any,
     _anApiWalletService: ApiWalletService,
   ): DynamicPrice {
     return DynamicPrice.create(milliseconds, _aCoin, _anApiWalletService);
