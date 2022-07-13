@@ -163,8 +163,8 @@ export class SwapHomePage {
   tplBlockchain: RawBlockchain;
   tplFromToken: RawToken;
   tplToToken: RawToken;
-  tplSwapInfo: RawSwapInfo = new NullJSONSwapInfo().value();
   tplFee: RawAmount;
+  tplSwapInfo: RawSwapInfo = new NullJSONSwapInfo().value();
   form: FormGroup = this.formBuilder.group({
     fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
   });
