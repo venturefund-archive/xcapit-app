@@ -60,8 +60,8 @@ import { Amount } from '../../types/amount.type';
   styleUrls: ['./transaction-fee.component.scss'],
 })
 export class TransactionFeeComponent implements OnChanges {
-  private defaultQuoteTokenName = 'USD';
-  private nullQuoteFee = { value: undefined, token: this.defaultQuoteTokenName };
+  private readonly defaultQuoteTokenName = 'USD';
+  private readonly nullQuoteFee = { value: undefined, token: this.defaultQuoteTokenName };
   private destroy$ = new Subject<void>();
   private dynamicPriceSubscription: Subscription;
 
