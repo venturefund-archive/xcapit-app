@@ -32,7 +32,7 @@ import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transaction
 import { BlockchainTokens } from '../shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-tokens';
 import { GasStationOf } from '../shared-swaps/models/gas-station-of/gas-station-of';
-import { AmountOf, RawAmount } from '../shared-swaps/models/amount-of/amount-of';
+import { AmountOf, NullAmountOf, RawAmount } from '../shared-swaps/models/amount-of/amount-of';
 
 @Component({
   selector: 'app-swap-home',
@@ -198,7 +198,7 @@ export class SwapHomePage {
   }
 
   private setUndefinedFeeInfo() {
-    // this.tplFee = new AmountOf(undefined, this.activeBlockchain.nativeToken()).json();
+    this.tplFee = new NullAmountOf(undefined, this.activeBlockchain.nativeToken()).json();
   }
 
   private gasPrice(): Promise<AmountOf> {
