@@ -67,9 +67,6 @@ export class TransactionFeeComponent implements OnChanges {
   isAmountSend: boolean;
   isInfoModalOpen = false;
 
-
-  constructor() {}
-
   ngOnChanges() {}
 
   showPhrasetransactionFeeInfo() {
