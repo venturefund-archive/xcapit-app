@@ -27,7 +27,7 @@ fdescribe('Polygon Gas Price', () => {
   });
 
   it('safeLow', async () => {
-    const expectedResult = new BigNumberOf(rawPolygonGasStation.safeLow.maxFee).value();
+    const expectedResult = _expectedResult(new BigNumberOf(rawPolygonGasStation.safeLow.maxFee));
 
     expect(await gasPrice.safeLow()).toEqual(expectedResult);
   });
