@@ -1,5 +1,5 @@
 import { Blockchain } from "../blockchain/blockchain";
-import { DefaultWallet } from "../wallet/wallet";
+import { Wallet, DefaultWallet } from "../wallet/wallet";
 import { WalletRepo } from "../wallet-repo/wallet-repo";
 
 
@@ -7,7 +7,7 @@ export class Wallets {
 
   constructor(private _dataRepo: WalletRepo) { }
 
-  async oneBy(aBlockchain: Blockchain): Promise<DefaultWallet> {
+  async oneBy(aBlockchain: Blockchain): Promise<Wallet> {
     return new DefaultWallet(await this._rawWalletData(aBlockchain), aBlockchain);
   }
 

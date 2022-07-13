@@ -32,6 +32,7 @@ import { NullJSONSwapInfo } from '../shared-swaps/models/json-swap-info/json-swa
 import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-response-data';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 const testLocalNotification: LocalNotificationSchema = {
   id: 1,
@@ -52,11 +53,13 @@ fdescribe('SwapHomePage', () => {
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let intersectedTokensFactorySpy: jasmine.SpyObj<IntersectedTokensFactory>;
   let oneInchFactorySpy: jasmine.SpyObj<OneInchFactory>;
-  let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
+  let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
   let swapTransactionsFactorySpy: jasmine.SpyObj<SwapTransactionsFactory>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
+  let toastServiceSpy: jasmine.SpyObj<ToastService>;
+
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
   const toToken = rawMATICData;
@@ -87,7 +90,7 @@ fdescribe('SwapHomePage', () => {
       oneInchFactorySpy = jasmine.createSpyObj('OneInchFactory', {
         create: { swapInfo: () => Promise.resolve(rawSwapInfoData) },
       });
-      fakeModalController = new FakeModalController({}, { data: 'asdf' });
+      fakeModalController = new FakeModalController({}, { data: 'aPasswordString' });
       modalControllerSpy = fakeModalController.createSpy();
 
       intersectedTokensFactorySpy = jasmine.createSpyObj('IntersectedTokensFactory', {
@@ -108,10 +111,15 @@ fdescribe('SwapHomePage', () => {
 
       localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
         send: Promise.resolve(),
+
+      });
+      toastServiceSpy = jasmine.createSpyObj('ToastService', {
+        showErrorToast: Promise.resolve(),
+        showWarningToast: Promise.resolve(),
       });
 
       TestBed.configureTestingModule({
-        declarations: [SwapHomePage, FormattedAmountPipe, FakeTrackClickDirective],
+        declarations: [SwapHomePage, FormattedAmountPipe, FakeTrackClickDirective,],
         imports: [
           TranslateModule.forRoot(),
           IonicModule.forRoot(),
@@ -130,7 +138,8 @@ fdescribe('SwapHomePage', () => {
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: WalletsFactory, useValue: walletsFactorySpy },
           { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
-          { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy }
+          { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
+          { provide: ToastService, useValue: toastServiceSpy },
         ],
       }).compileComponents();
 
@@ -232,13 +241,19 @@ fdescribe('SwapHomePage', () => {
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
   });
 
-  it('password modal open on click swap button', async () => {
-    await component.ionViewDidEnter();
-    fakeModalController.modifyReturns({}, { data: '' });
+  it('password modal open on click swap button and password is invalid', fakeAsync(() => {
+    walletsFactorySpy.create.and.returnValue(
+      { oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'invalid password')) }
+    );
+    component.ionViewDidEnter();
+    tick();
+    fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
     fixture.detectChanges();
 
-    await component.swapThem();
+    component.swapThem();
+    tick(2);
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  });
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
+  }));
 });

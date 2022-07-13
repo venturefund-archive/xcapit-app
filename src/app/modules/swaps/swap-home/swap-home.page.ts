@@ -33,6 +33,8 @@ import { BlockchainTokens } from '../shared-swaps/models/blockchain-tokens/block
 import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-tokens';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { PasswordErrorHandlerService } from '../shared-swaps/services/password-error-handler/password-error-handler.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -69,6 +71,7 @@ import { TranslateService } from '@ngx-translate/core';
               <app-coin-selector
                 *ngIf="this.tplFromToken"
                 [selectedCoin]="this.tplFromToken"
+                enabled="true"
                 (changeCurrency)="this.selectFromToken()"
               ></app-coin-selector>
             </div>
@@ -105,6 +108,7 @@ import { TranslateService } from '@ngx-translate/core';
               <app-coin-selector
                 *ngIf="this.tplToToken"
                 [selectedCoin]="this.tplToToken"
+                enabled="true"
                 (changeCurrency)="this.selectToToken()"
               ></app-coin-selector>
             </div>
@@ -163,6 +167,7 @@ export class SwapHomePage {
   swapInProgressUrl = 'swaps/swap-in-progress'; 
   actions = [{ id:'view', title: 'ver más'}]
   actionTypeId = 'SWAP'
+
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
@@ -175,9 +180,11 @@ export class SwapHomePage {
     private oneInch: OneInchFactory,
     private intersectedTokens: IntersectedTokensFactory,
     private swapTransactions: SwapTransactionsFactory,
-    private trackService: TrackService, 
     private localNotificationsService: LocalNotificationsService,
-    private translate: TranslateService,
+    private trackService: TrackService,
+    private passwordErrorHandlerService: PasswordErrorHandlerService,
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -306,10 +313,15 @@ export class SwapHomePage {
       .catch((err) => {
         console.log('Swap NOT OK!');
         console.log(err.message);
+        this.passwordErrorHandlerService.handlePasswordError(err, () => { this.showPasswordError() })
         this.resetMainButton();
         const notification = this.createNotification('swap_not_ok') 
         this.notifyWhenSwap(notification);
       });
+  }
+
+  private async showPasswordError(){
+    await this.toastService.showErrorToast({ message: this.translate.instant('swaps.errors.invalid_password') });
   }
 
   private swapTxs(wallet: Wallet): SwapTransactions {

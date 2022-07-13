@@ -7,5 +7,5 @@ export const REMOTE_CONFIG_DEFAULTS = {
   referralsMenuUrl_referralPromotionCard: 'referrals/closed',
   ff_swap: true,
   ff_homeWalletBackupWarningModal: false,
-  ff_educationCardAvailable: false,
+  ff_educationCardAvailable: true,
 };

@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
@@ -24,6 +25,7 @@ describe('ErrorNoWalletPage', () => {
       TestBed.configureTestingModule({
         declarations: [ErrorNoWalletPage],
         imports: [IonicModule.forRoot()],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();
 
       fixture = TestBed.createComponent(ErrorNoWalletPage);

@@ -14,8 +14,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
     <div class="aic__info">
           <app-backup-information-card
             [text]="
-              'wallets.shared_wallets.address_input_card.disclaimer'
-                | translate
+              'wallets.shared_wallets.address_input_card.disclaimer' | translate
                   : {
                       network: this.selectedNetwork | formattedNetwork
                     }

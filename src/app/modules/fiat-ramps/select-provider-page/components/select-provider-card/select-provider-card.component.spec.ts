@@ -5,10 +5,10 @@ import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory/providers.factory';
-import { Providers } from '../../../shared-ramps/models/providers/providers';
 import { SelectProviderCardComponent } from './select-provider-card.component';
 import { rawProvidersData } from '../../../shared-ramps/fixtures/raw-providers-data';
 import { HttpClient } from '@angular/common/http';
+import { Providers } from '../../../shared-ramps/models/providers/providers.interface';
 
 describe('SelectProviderCardComponent', () => {
   let component: SelectProviderCardComponent;
