@@ -64,7 +64,7 @@ export class TransactionFeeComponent implements OnChanges {
   private readonly nullQuoteFee = { value: undefined, token: this.defaultQuoteTokenName };
   private destroy$ = new Subject<void>();
   private dynamicPriceSubscription: Subscription;
-  this.priceRefreshInterval = 15000;
+  private priceRefreshInterval = 15000;
 
   @Input() fee: Amount = { value: undefined, token: 'MATIC' };
   @Input() quoteFee: Amount = this.nullQuoteFee;
