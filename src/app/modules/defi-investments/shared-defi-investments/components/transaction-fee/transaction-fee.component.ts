@@ -67,7 +67,6 @@ export class TransactionFeeComponent implements OnChanges {
   @Input() transactionFee: boolean;
   @Input() autoPrice: boolean = false;
   @Output() transactionFeeInfoClicked: EventEmitter<void> = new EventEmitter<void>();
-  private tokenPrice: number;
   private destroy$ = new Subject<void>();
 
   isAmountSend: boolean;
