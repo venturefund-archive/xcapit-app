@@ -92,6 +92,10 @@ export class TransactionFeeComponent implements OnChanges {
     console.log(this.quoteFee);
   }
 
+  private setNullQuoteFee() {
+    this.quoteFee = { value: undefined, token: 'USD' };
+  }
+
   private getDynamicPrice(): Observable<number> {
     return this.dynamicPrice
       .new(15000, { value: this.fee.token }, this.apiWalletService)
