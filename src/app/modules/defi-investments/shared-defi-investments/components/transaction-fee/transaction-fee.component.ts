@@ -48,7 +48,7 @@ import { Amount } from '../../types/amount.type';
           </ion-text>
         </div>
       </div>
-      <div *ngIf="this.quoteFee.value === undefined or this.fee.value === undefined" class="skeleton">
+      <div *ngIf="this.fee.value === undefined" class="skeleton">
         <ion-skeleton-text style="width:95%" animated> </ion-skeleton-text>
       </div>
     </div>
