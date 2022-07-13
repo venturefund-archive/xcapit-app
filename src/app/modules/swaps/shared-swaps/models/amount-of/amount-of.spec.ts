@@ -40,7 +40,9 @@ fdescribe('Amount Of', () => {
 
 export class NullAmountOf {
 
-  json(): RawAmount
+  json(): RawAmount {
+    return { value: undefined, token: undefined };
+  }
 }
 
 
