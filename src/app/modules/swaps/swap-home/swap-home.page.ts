@@ -128,7 +128,6 @@ import { AmountOf, NullAmountOf, RawAmount } from '../shared-swaps/models/amount
           <app-transaction-fee
             [autoPrice]="true"
             [fee]="this.tplFee"
-            [quoteFee]="{value: 0, token: 'USD'}"
             [transactionFee]="true"
           ></app-transaction-fee>
         </div>
