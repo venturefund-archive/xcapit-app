@@ -219,6 +219,7 @@ export class SwapHomePage {
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
     this.setDex();
     this.setTokens();
+    this.setFeeInfo();
     await this.setTokensToSwap(
       this.route.snapshot.paramMap.get(this.fromTokenKey),
       this.route.snapshot.paramMap.get(this.toTokenKey)
