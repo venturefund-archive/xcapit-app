@@ -61,11 +61,12 @@ import { Amount } from '../../types/amount.type';
 })
 export class TransactionFeeComponent implements OnChanges {
   private defaultQuoteTokenName = 'USD';
+  private nullQuoteFee = { value: undefined, token: this.defaultQuoteTokenName };
   private destroy$ = new Subject<void>();
   private dynamicPriceSubscription: Subscription;
 
   @Input() fee: Amount = { value: undefined, token: 'MATIC' };
-  @Input() quoteFee: Amount = { value: undefined, token: this.defaultQuoteTokenName };
+  @Input() quoteFee: Amount = this.nullQuoteFee;
   @Input() balance: number;
   @Input() description: string;
   @Input() transactionFee: boolean;
