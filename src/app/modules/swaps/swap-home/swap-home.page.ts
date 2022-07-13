@@ -198,7 +198,6 @@ export class SwapHomePage {
   private async setFeeInfo() {
     const gasPrice = await this.gasStation().price().fast();
     this.tplFee = gasPrice.times(this.tplSwapInfo.estimatedGas).json();
-
   }
 
   private gasStation(): GasStationOf {
