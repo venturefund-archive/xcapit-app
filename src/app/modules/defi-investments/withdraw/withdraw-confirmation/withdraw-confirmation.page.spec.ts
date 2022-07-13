@@ -179,7 +179,7 @@ describe('WithdrawConfirmationPage', () => {
 
   it('should withdraw', async () => {
     await component.ionViewDidEnter();
-    await component.withdraw();
+    await component.wallet();
     await fixture.whenStable();
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/withdraw/success');
@@ -190,7 +190,7 @@ describe('WithdrawConfirmationPage', () => {
       type: 'all',
     });
     await component.ionViewDidEnter();
-    await component.withdraw();
+    await component.wallet();
     await fixture.whenStable();
     expect(investmentSpy.withdrawAll).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/withdraw/success');
@@ -215,7 +215,7 @@ describe('WithdrawConfirmationPage', () => {
   it('should navigate to error page if error', async () => {
     investmentSpy.withdraw.and.rejectWith();
     await component.ionViewDidEnter();
-    await component.withdraw();
+    await component.wallet();
     await fixture.whenStable();
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/withdraw/error', 'usdc_mumbai']);
@@ -243,7 +243,7 @@ describe('WithdrawConfirmationPage', () => {
     providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('1000000000000')));
     fixture.detectChanges();
     await component.ionViewDidEnter();
-    await component.withdraw();
+    await component.wallet();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
