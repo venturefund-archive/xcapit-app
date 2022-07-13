@@ -118,7 +118,7 @@ import { AmountOf, NullAmountOf, RawAmount } from '../shared-swaps/models/amount
             </div>
           </div>
         </div>
-        <div>
+        <div class="sw__swap-card__fee ion-padding-horizontal ion-padding-bottom">
           <app-transaction-fee
             [fee]="this.tplFee"
             [quoteFee]="{value: 0, token: 'USD'}"
