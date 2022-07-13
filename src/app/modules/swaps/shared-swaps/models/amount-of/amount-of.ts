@@ -4,6 +4,12 @@ import { RawAmount } from "../blockchain-fee/blockchain-fee";
 import { Token } from "../token/token";
 
 
+export type RawAmount = {
+  value: number;
+  token: string;
+}
+
+
 export class AmountOf {
 
   constructor(private _aWeiAmount: string, private _aToken: Token) { }
