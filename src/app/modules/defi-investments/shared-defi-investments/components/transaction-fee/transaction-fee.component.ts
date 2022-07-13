@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { Amount } from '../../types/amount.type';
 
@@ -70,7 +71,10 @@ export class TransactionFeeComponent implements OnChanges {
   isAmountSend: boolean;
   isInfoModalOpen = false;
 
-  constructor(private dynamicPrice: DynamicPriceFactory) { }
+  constructor(
+    private dynamicPrice: DynamicPriceFactory,
+    private apiWalletService: ApiWalletService
+  ) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if(this.autoPrice && changes.fee) {
