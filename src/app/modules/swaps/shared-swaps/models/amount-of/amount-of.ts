@@ -28,3 +28,11 @@ export class AmountOf {
     };
   }
 }
+
+
+export class NullAmountOf {
+
+  json(): RawAmount {
+    return { value: undefined, token: undefined };
+  }
+}
