@@ -6,34 +6,33 @@ import { BigNumberOf } from './big-number-of';
 import { PolygonGasPrice } from './polygon-gas-price';
 
 
-// TODO
-// fdescribe('Polygon Gas Price', () => {
+fdescribe('Polygon Gas Price', () => {
 
-//   let gasPrice: PolygonGasPrice;
+  let gasPrice: PolygonGasPrice;
 
-//   beforeEach(() => {
-//     gasPrice = new PolygonGasPrice(new Blockchain(rawPolygonData), new FakeHttpClient(rawPolygonGasStation));
-//   });
+  beforeEach(() => {
+    gasPrice = new PolygonGasPrice(new Blockchain(rawPolygonData), new FakeHttpClient(rawPolygonGasStation));
+  });
 
-//   it('new', () => {
-//     expect(gasPrice).toBeTruthy();
-//   });
+  it('new', () => {
+    expect(gasPrice).toBeTruthy();
+  });
 
-//   it('safeLow', async () => {
-//     const expectedResult = new BigNumberOf(rawPolygonGasStation.safeLow.maxFee).value();
+  it('safeLow', async () => {
+    const expectedResult = new BigNumberOf(rawPolygonGasStation.safeLow.maxFee).value();
 
-//     expect(await gasPrice.safeLow()).toEqual(expectedResult);
-//   });
+    expect(await gasPrice.safeLow()).toEqual(expectedResult);
+  });
 
-//   it('standard', async () => {
-//     const expectedResult = new BigNumberOf(rawPolygonGasStation.standard.maxFee).value();
+  it('standard', async () => {
+    const expectedResult = new BigNumberOf(rawPolygonGasStation.standard.maxFee).value();
 
-//     expect(await gasPrice.standard()).toEqual(expectedResult);
-//   });
+    expect(await gasPrice.standard()).toEqual(expectedResult);
+  });
 
-//   it('fast', async () => {
-//     const expectedResult = new BigNumberOf(rawPolygonGasStation.fast.maxFee).value();
+  it('fast', async () => {
+    const expectedResult = new BigNumberOf(rawPolygonGasStation.fast.maxFee).value();
 
-//     expect(await gasPrice.fast()).toEqual(expectedResult);
-//   });
-// });
+    expect(await gasPrice.fast()).toEqual(expectedResult);
+  });
+});
