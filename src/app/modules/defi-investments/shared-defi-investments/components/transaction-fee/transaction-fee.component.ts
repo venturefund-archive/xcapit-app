@@ -67,7 +67,11 @@ export class TransactionFeeComponent implements OnChanges {
   isAmountSend: boolean;
   isInfoModalOpen = false;
 
-  ngOnChanges() {}
+  ngOnChanges() {
+    if(this.autoPrice) {
+      console.log('calculando precio...');
+    }
+  }
 
   showPhrasetransactionFeeInfo() {
     this.transactionFeeInfoClicked.emit();
