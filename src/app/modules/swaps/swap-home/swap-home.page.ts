@@ -34,6 +34,7 @@ import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-t
 import { GasStationOf } from '../shared-swaps/models/gas-station-of/gas-station-of';
 import { GasUnits } from '../shared-swaps/models/gas-units/gas-units';
 import { RawAmount } from '../shared-swaps/models/blockchain-fee/blockchain-fee';
+import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
 
 @Component({
   selector: 'app-swap-home',
@@ -198,6 +199,10 @@ export class SwapHomePage {
   private async setFeeInfo() {
     const gasPrice = await this.gasStation().price().fast();
     this.tplFee = gasPrice.times(this.tplSwapInfo.estimatedGas).json();
+  }
+
+  private gasPrice(): Promise<AmountOf> {
+    return this.gasStation().price().fast();
   }
 
   private gasStation(): GasStationOf {
