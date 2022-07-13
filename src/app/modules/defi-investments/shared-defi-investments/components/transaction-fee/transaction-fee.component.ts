@@ -92,7 +92,7 @@ export class TransactionFeeComponent implements OnChanges {
   }
 
   private isOkForAutoPrice(feeChanges: any): boolean {
-    return this.autoPrice && feeChanges && this.fee?.token;
+    return !!(this.autoPrice && feeChanges && this.fee?.token);
   }
 
   private setQuoteFee(tokenPrice: number) {
