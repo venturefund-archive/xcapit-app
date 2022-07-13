@@ -44,6 +44,6 @@ export class NullAmountOf { }
 fdescribe('NullAmountOf', () => {
 
   it('new', () => {
-    expect(false).toBeTruthy();
+    expect(new NullAmountOf()).toBeTruthy();
   });
 });
