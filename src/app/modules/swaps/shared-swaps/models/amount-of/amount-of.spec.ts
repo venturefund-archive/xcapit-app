@@ -1,4 +1,4 @@
-import { AmountOf, NullAmountOf, RawAmount } from "./amount-of";
+import { AmountOf, NullAmountOf } from "./amount-of";
 import { rawUSDCData } from "../fixtures/raw-tokens-data";
 import { DefaultToken, Token } from "../token/token";
 
