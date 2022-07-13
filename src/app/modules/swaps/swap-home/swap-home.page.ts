@@ -226,7 +226,7 @@ export class SwapHomePage {
     return new GasStationOf(
       this.activeBlockchain,
       this.httpClient
-    )
+    );
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
