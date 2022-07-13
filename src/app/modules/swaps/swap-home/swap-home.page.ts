@@ -192,7 +192,7 @@ export class SwapHomePage {
       this.swap = new Swap(fromTokenAmount, this.fromToken, this.toToken);
     }
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
-    this.setFeeInfo();
+    // this.setFeeInfo();
   }
 
   private async setFeeInfo() {
@@ -239,7 +239,8 @@ export class SwapHomePage {
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(async (value) => {
-        await this.setSwapInfo(value)
+        await this.setSwapInfo(value);
+        this.setFeeInfo();
       });
   }
 
