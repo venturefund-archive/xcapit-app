@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
@@ -26,6 +27,7 @@ describe('TransactionFeeComponent', () => {
         providers: [
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         ],
       }).compileComponents();
 
