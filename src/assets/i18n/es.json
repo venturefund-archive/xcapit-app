@@ -2497,6 +2497,7 @@
       "loading_button_text": "Intercambiando",
       "from_token_title": "Desde",
       "to_token_title": "Hacia",
+      "fee_title": "Detalles de Transacción",
       "footer_text": "Solo tomará unos segundos."
     },
     "select_token": {
