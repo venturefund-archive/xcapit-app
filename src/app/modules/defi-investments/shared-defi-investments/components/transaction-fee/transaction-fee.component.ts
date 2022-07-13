@@ -70,7 +70,7 @@ export class TransactionFeeComponent implements OnChanges {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnChanges() {}
 
   showPhrasetransactionFeeInfo() {
     this.transactionFeeInfoClicked.emit();
