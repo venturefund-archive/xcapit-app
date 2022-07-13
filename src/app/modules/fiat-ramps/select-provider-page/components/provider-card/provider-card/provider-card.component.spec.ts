@@ -88,6 +88,7 @@ describe('ProviderCardComponent', () => {
 
   it('should call trackEvent on trackService when informative_modal clicked', () => {
     component.provider.showInfo = true;
+    fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'informative_modal');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
