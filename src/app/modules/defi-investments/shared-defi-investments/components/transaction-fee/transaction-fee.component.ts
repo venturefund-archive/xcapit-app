@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { Amount } from '../../types/amount.type';
 
@@ -71,7 +71,7 @@ export class TransactionFeeComponent implements OnChanges {
 
   constructor(private dynamicPrice: DynamicPriceFactory) { }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     if(this.autoPrice) {
       console.log('calculando precio...');
     }
