@@ -74,6 +74,7 @@ export class TransactionFeeComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if(this.autoPrice) {
       console.log('calculando precio...');
+      console.log(changes);
     }
   }
 
