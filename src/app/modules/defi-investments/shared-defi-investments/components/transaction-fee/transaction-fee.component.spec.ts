@@ -76,6 +76,11 @@ describe('TransactionFeeComponent', () => {
     expect(fixture.debugElement.query(By.css('.skeleton ion-skeleton-text'))).toBeTruthy();
   });
 
+  it('should render skeleton when fee value is not available', () => {
+    component.fee.value = undefined;
+    expect(fixture.debugElement.query(By.css('.skeleton ion-skeleton-text'))).toBeTruthy();
+  });
+
   it('should not render skeleton when quoteFee value and fee value is available', async () => {
     component.quoteFee.value = 0.017;
     component.fee.value = 0.017;
