@@ -71,7 +71,6 @@ import { ToastService } from '../../services/toast/toast.service';
         [controlName]="this.controlName"
         [errors]="this.errors"
       ></app-errors-form-item>
-
       <app-errors-form-password-item
         *ngIf="this.showNewPasswordErrors"
         [control]="this.control"

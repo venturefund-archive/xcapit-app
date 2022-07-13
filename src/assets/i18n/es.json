@@ -400,7 +400,8 @@
         "title": "Monto a enviar estimado",
         "available": "Saldo disponible",
         "amount_invested": "Monto total invertido",
-        "max_button": "Máx"
+        "max_button": "Máx",
+        "advice":"Fondos insuficientes"
       },
       "withdraw_card": {
         "title": "Retiro",
@@ -1716,7 +1717,9 @@
         "scan_error": "Error al escanear el código QR",
         "placeholder": "Mantén presionado para pegar",
         "scan_unauthorized": "No tienes permiso para escanear",
-        "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos."
+        "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos.",
+        "text_valid": "Dirección añadida con éxito.",
+        "text_invalid": "La dirección de wallet de destino es incorrecta."
       },
       "wallet_password": {
         "title": "Ingrese la contraseña",

@@ -106,15 +106,16 @@ import { parseUnits } from 'ethers/lib/utils';
                 [fee]="this.dynamicFee"
                 [quoteFee]="this.quoteFee"
                 [balance]="this.balance"
-                [description]="'donations.send_donations.description_fee' | translate"
               ></app-transaction-fee>
             </div>
           </div>
         </form>
       </div>
-      <div class="sd__submit-button">
+    </ion-content>
+    <ion-footer class="sd__footer">
+      <div class="sd__footer__submit-button ion-padding">
         <ion-button
-          class="ux_button sd__submit-button__button"
+          class="ux_button sd__footer__submit-button__button"
           appTrackClick
           name="ux_donations_amount"
           [disabled]="!this.form.valid || !this.quoteFee.value"
@@ -124,7 +125,7 @@ import { parseUnits } from 'ethers/lib/utils';
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
         >
       </div>
-    </ion-content>
+    </ion-footer>
   `,
   styleUrls: ['./send-donation.page.scss'],
 })
@@ -145,6 +146,7 @@ export class SendDonationPage implements OnInit {
   quoteFee: Amount = { value: undefined, token: 'USD' };
   balance: number;
   quotePrice: number;
+  modalHref: string;
   private readonly priceRefreshInterval = 15000;
 
   constructor(
@@ -164,6 +166,7 @@ export class SendDonationPage implements OnInit {
   ngOnInit() {}
 
   async ionViewWillEnter() {
+    this.modalHref = window.location.href;
     await this.walletService.walletExist();
     this.getCause();
     this.setTokens();
@@ -176,7 +179,6 @@ export class SendDonationPage implements OnInit {
 
   getCause() {
     const causeIDParam = this.route.snapshot.queryParamMap.get('cause');
-
     this.cause = this.causes.find((cause) => cause.id === (causeIDParam ? causeIDParam : this.sendDonationData.cause));
     this.sendDonationData.cause = this.cause.id;
   }
@@ -199,6 +201,11 @@ export class SendDonationPage implements OnInit {
   async tokenBalance() {
     const tokenBalance = parseFloat(await this.walletService.balanceOf(await this.userWallet(), this.token.value));
     this.balance = this.token.native ? Math.max(tokenBalance - this.fee, 0) : tokenBalance;
+    this.addLowerThanValidator();
+  }
+  private addLowerThanValidator() {
+    this.form.get('amount').addValidators(CustomValidators.lowerThanEqual(this.balance));
+    this.form.get('amount').updateValueAndValidity(); //para que tome efecto lo de arriba
   }
 
   erc20Provider(): ERC20Provider {
@@ -281,7 +288,7 @@ export class SendDonationPage implements OnInit {
   }
 
   checkAvailableBalance() {
-    if (this.balance === 0) {
+    if (this.balance < this.fee) {
       this.openModalNativeTokenBalance();
     }
   }
@@ -289,8 +296,9 @@ export class SendDonationPage implements OnInit {
   async openModalNativeTokenBalance() {
     const modal = await this.modalController.create({
       component: ToastWithButtonsComponent,
-      cssClass: 'ux-toast-warning',
+      cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
+      id: 'feeModal',
       componentProps: {
         text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
           nativeToken: this.token.value,
@@ -306,7 +314,11 @@ export class SendDonationPage implements OnInit {
         data: this.token,
       },
     });
-    modal.present();
+    await this.modalController.dismiss(null, null, 'feeModal');
+    if (window.location.href === this.modalHref) {
+      await modal.present();
+    }
+    await modal.onDidDismiss();
   }
 
   ionViewWillLeave() {

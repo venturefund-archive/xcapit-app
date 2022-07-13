@@ -347,3 +347,15 @@
     bottom: 1.5%;
   }
 }
+
+.ux-toast-warning-with-margin {
+  --max-height: 110px;
+  --max-width: 95%;
+  --background: var(--ion-color-warninglight);
+
+  &::part(content) {
+    border-radius: 14px;
+    position: absolute;
+    bottom: 15%;
+  }
+}

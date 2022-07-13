@@ -1,5 +1,6 @@
 import { ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { CustomValidatorErrors } from './custom-validator-errors';
+import { isAddress } from 'ethers/lib/utils';
 
 export class CustomValidators {
   static patternValidator(regex: RegExp, error: ValidationErrors, failWhenEmpty = false): ValidatorFn {
@@ -30,6 +31,15 @@ export class CustomValidators {
     };
   }
 
+  static isAddress(error: ValidationErrors = CustomValidatorErrors.isAddress): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+    console.log(isAddress(control.value))
+    return isAddress(control.value) ? null : error
+    };
+  }
+
+  //value: lo que recibo cuando una persona inserta x Valor en un input X, 
+  //error: lo que yo quiero que me muestre, si la persona se equivoca
   static advancedCountWords(value: number, error: ValidationErrors = CustomValidatorErrors.countWordsMatch): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const words = control.value.match(/[a-z0-9]+/g) || [];
@@ -86,6 +96,12 @@ export class CustomValidators {
   static greaterThan(min: number, error: ValidationErrors = CustomValidatorErrors.greaterThanError): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       return control.value !== undefined && (isNaN(control.value) || control.value <= min) ? error : null;
+    };
+  }
+
+  static lowerThanEqual(max: number, error: ValidationErrors = CustomValidatorErrors.lowerThanEqualError): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return control.value !== undefined && (isNaN(control.value) || control.value > max) ? error : null;
     };
   }
 }
