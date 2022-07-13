@@ -119,7 +119,7 @@ import { AmountOf, NullAmountOf, RawAmount } from '../shared-swaps/models/amount
           </div>
         </div>
         <hr />
-        <div class="sw__swap-card__fee ion-padding">
+        <div class="sw__swap-card__fee ion-padding-horizontal ion-padding-top">
           <div class="sw__swap-card__fee__title">
             <ion-text class="ux-font-header-titulo">
               Detalles de Transacción
