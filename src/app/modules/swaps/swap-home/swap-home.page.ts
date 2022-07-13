@@ -237,6 +237,7 @@ export class SwapHomePage {
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(async (value) => {
+        this.setUndefinedFeeInfo();
         await this.setSwapInfo(value);
         this.setFeeInfo();
       });
