@@ -61,6 +61,7 @@ export class TransactionFeeComponent implements OnInit {
   @Input() balance: number;
   @Input() description: string;
   @Input() transactionFee: boolean;
+  @Input() autoPrice: boolean = false;
   @Output() transactionFeeInfoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   isAmountSend: boolean;
