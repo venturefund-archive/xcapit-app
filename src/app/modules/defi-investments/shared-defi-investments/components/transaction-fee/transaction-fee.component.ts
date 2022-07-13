@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { Amount } from '../../types/amount.type';
 
 @Component({
@@ -63,9 +64,12 @@ export class TransactionFeeComponent implements OnChanges {
   @Input() transactionFee: boolean;
   @Input() autoPrice: boolean = false;
   @Output() transactionFeeInfoClicked: EventEmitter<void> = new EventEmitter<void>();
+  private tokenPrice: number;
 
   isAmountSend: boolean;
   isInfoModalOpen = false;
+
+  constructor(private dynamicPrice: DynamicPriceFactory) { }
 
   ngOnChanges() {
     if(this.autoPrice) {
