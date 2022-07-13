@@ -29,7 +29,7 @@ fdescribe('Polygon Gas Price', () => {
   it('safeLow', async () => {
     const expectedResult = _expectedResult(new BigNumberOf(rawPolygonGasStation.safeLow.maxFee));
 
-    expect(await gasPrice.safeLow()).toEqual(expectedResult);
+    expect((await gasPrice.safeLow()).value()).toEqual(expectedResult.value());
   });
 
   it('standard', async () => {
