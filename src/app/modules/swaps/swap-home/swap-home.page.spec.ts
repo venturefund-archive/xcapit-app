@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -34,13 +34,21 @@ import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
-const testLocalNotification: LocalNotificationSchema = {
+const testLocalNotificationOk: LocalNotificationSchema = {
   id: 1,
-  title: `swaps.sent_notification.swap_ok.title`,
-  body: `swaps.sent_notification.swap_ok.body`,
+  title: 'swaps.sent_notification.swap_ok.title',
+  body: 'swaps.sent_notification.swap_ok.body',
+  actionTypeId: 'SWAP'
 };
 
-fdescribe('SwapHomePage', () => {
+const testLocalNotificationNotOk: LocalNotificationSchema = {
+  id: 1,
+  title: 'swaps.sent_notification.swap_not_ok.title',
+  body: 'swaps.sent_notification.swap_not_ok.body',
+  actionTypeId: 'SWAP'
+};
+
+describe('SwapHomePage', () => {
 
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
@@ -73,6 +81,9 @@ fdescribe('SwapHomePage', () => {
     'token-to-select',
     selectTokenkey,
   ];
+  const formValue = {
+    fromTokenAmount: 1
+  }
 
   beforeEach(
     waitForAsync(() => {
@@ -111,6 +122,8 @@ fdescribe('SwapHomePage', () => {
 
       localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
         send: Promise.resolve(),
+        setActionTypes: Promise.resolve(),
+        addListener: Promise.resolve()
 
       });
       toastServiceSpy = jasmine.createSpyObj('ToastService', {
@@ -233,12 +246,11 @@ fdescribe('SwapHomePage', () => {
   it('password modal open on click swap button', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-
+    
     await component.swapThem();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.swapInProgressUrl]);
-    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
   });
 
   it('password modal open on click swap button and password is invalid', fakeAsync(() => {
@@ -250,10 +262,48 @@ fdescribe('SwapHomePage', () => {
     fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
     fixture.detectChanges();
 
+    component.form.patchValue(formValue);
+    fixture.detectChanges();
+    tick(600);
+
     component.swapThem();
     tick(2);
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
   }));
+
+  it('should send success notification when swap is ok', fakeAsync ( () => {
+    component.ionViewDidEnter();
+    fixture.detectChanges();
+    tick();
+
+    component.form.patchValue(formValue);
+    fixture.detectChanges();
+    tick(600);
+  
+    component.swapThem();
+    tick(2);
+ 
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([ testLocalNotificationOk]);
+  }));
+
+  it('should send error notification when swap is not ok', fakeAsync(() => {
+    walletsFactorySpy.create.and.returnValue(
+      { oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'invalid password')) }
+    );
+    component.ionViewDidEnter();
+    tick();
+    component.form.patchValue(formValue);
+    fixture.detectChanges();
+    tick(600);
+    fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
+    fixture.detectChanges();
+
+    component.swapThem();
+    tick(2);
+
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([ testLocalNotificationNotOk]);
+  }));
+
 });

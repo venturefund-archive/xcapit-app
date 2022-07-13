@@ -25,6 +25,9 @@ export class LocalNotificationsService {
   }
 
   addListener(callback: CallableFunction) {
-    this.localNotifications.addListener('localNotificationActionPerformed',()=>{callback()})
+    this.localNotifications.addListener('localNotificationActionPerformed',()=>{
+      console.log('action performance')
+      callback()
+    })
   }
 }

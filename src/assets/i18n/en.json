@@ -2378,6 +2378,9 @@
       "buttonText":"Go to Wallet"
     },
     "sent_notification":{
+      "actions":{
+        "title": "View more"
+      },
       "swap_ok":{
         "title":"🚀 Successful exchange! ",
         "body": "You sent {{fromAmount}} {{fromToken}} and received {{toAmount}} {{toToken}} ."

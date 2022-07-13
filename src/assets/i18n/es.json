@@ -2527,6 +2527,9 @@
       "buttonText":"Ir a Wallet"
     },
     "sent_notification":{
+      "actions":{
+        "title": "Ver más"
+      },
       "swap_ok":{
         "title":"🚀 ¡Intercambio exitoso! ",
         "body": "Enviaste {{fromAmount}} {{fromToken}} y recibiste {{toAmount}} {{toToken}} ."

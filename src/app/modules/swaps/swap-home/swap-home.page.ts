@@ -165,7 +165,7 @@ export class SwapHomePage {
   });
   defaultNavBackUrl = 'tabs/wallets';
   swapInProgressUrl = 'swaps/swap-in-progress'; 
-  actions = [{ id:'view', title: 'ver más'}]
+  actions = [{ id:'view', title: this.translate.instant('swaps.sent_notification.actions.title')}]
   actionTypeId = 'SWAP'
 
   constructor(
@@ -330,6 +330,7 @@ export class SwapHomePage {
 
   private notifyWhenSwap(notification: LocalNotificationSchema[]) {
     this.localNotificationsService.setActionTypes(this.actionTypeId, this.actions);
+    //No esta haciendo el callback probar la notificación y ver si funcionaa
     this.localNotificationsService.addListener(() => { this.navigateToTokenDetail() })
     this.localNotificationsService.send(notification);
   }
