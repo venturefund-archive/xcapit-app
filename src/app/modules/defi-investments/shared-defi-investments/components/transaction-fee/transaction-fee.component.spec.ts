@@ -30,10 +30,10 @@ describe('TransactionFeeComponent', () => {
         getPrices: of({ prices: { USDT: 1, ETH: 1, BTC: 1 } }),
       });
       dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
-
       dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
         new: dynamicPriceSpy,
       });
+
       TestBed.configureTestingModule({
         declarations: [TransactionFeeComponent, FormattedAmountPipe, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
