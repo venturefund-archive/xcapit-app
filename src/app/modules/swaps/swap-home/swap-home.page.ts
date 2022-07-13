@@ -120,6 +120,11 @@ import { AmountOf, NullAmountOf, RawAmount } from '../shared-swaps/models/amount
         </div>
         <hr />
         <div class="sw__swap-card__fee ion-padding-horizontal ion-padding-bottom">
+          <div class="sw__swap-card__fee__title">
+            <ion-text class="ux-font-text-lg">
+              Detalles de Transacción
+            </ion-text>
+          </div>
           <app-transaction-fee
             [fee]="this.tplFee"
             [quoteFee]="{value: 0, token: 'USD'}"
