@@ -1,6 +1,5 @@
 import { BigNumber } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
-import { RawAmount } from "../blockchain-fee/blockchain-fee";
 import { Token } from "../token/token";
 
 
