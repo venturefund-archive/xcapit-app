@@ -26,10 +26,10 @@ describe('TransactionFeeComponent', () => {
     waitForAsync(() => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
+      dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getPrices: of({ prices: { USDT: 1, ETH: 1, BTC: 1 } }),
       });
-      dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
       dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
         new: dynamicPriceSpy,
       });
