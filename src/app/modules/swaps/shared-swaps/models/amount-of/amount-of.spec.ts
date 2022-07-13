@@ -1,4 +1,4 @@
-import { AmountOf, RawAmount } from "./amount-of";
+import { AmountOf, NullAmountOf, RawAmount } from "./amount-of";
 import { rawUSDCData } from "../fixtures/raw-tokens-data";
 import { DefaultToken, Token } from "../token/token";
 
@@ -36,14 +36,6 @@ fdescribe('Amount Of', () => {
     expect(amount.json().token).toEqual(usdcToken.symbol());
   });
 });
-
-
-export class NullAmountOf {
-
-  json(): RawAmount {
-    return { value: undefined, token: undefined };
-  }
-}
 
 
 fdescribe('NullAmountOf', () => {
