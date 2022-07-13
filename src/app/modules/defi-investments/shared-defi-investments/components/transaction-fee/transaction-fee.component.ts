@@ -55,7 +55,7 @@ import { Amount } from '../../types/amount.type';
   `,
   styleUrls: ['./transaction-fee.component.scss'],
 })
-export class TransactionFeeComponent implements OnChange {
+export class TransactionFeeComponent implements OnChanges {
   @Input() fee: Amount = { value: undefined, token: 'MATIC' };
   @Input() quoteFee: Amount = { value: undefined, token: 'USD' };
   @Input() balance: number;
