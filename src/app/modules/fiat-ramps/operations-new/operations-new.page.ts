@@ -22,7 +22,9 @@ import { Subject } from 'rxjs';
 import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
 import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
-import { FiatRampCurrenciesOf } from '../shared-ramps/models/fiat-ramp-currencies-of/fiat-ramp-currencies-of';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
+import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 
 @Component({
   selector: 'app-operations-new',
@@ -103,8 +105,7 @@ import { FiatRampCurrenciesOf } from '../shared-ramps/models/fiat-ramp-currencie
 export class OperationsNewPage implements AfterViewInit {
   anchors: any;
   provider: FiatRampProvider;
-  providers: FiatRampProvider[] = PROVIDERS;
-  providerCurrencies: Coin[];
+  providerTokens: Coin[];
   selectedCurrency: Coin;
   fiatCurrency: string;
   country: FiatRampProviderCountry;
@@ -132,7 +133,8 @@ export class OperationsNewPage implements AfterViewInit {
     private elementRef: ElementRef,
     private browserService: BrowserService,
     private http: HttpClient,
-    private kriptonDynamicPrice: KriptonDynamicPriceFactory
+    private kriptonDynamicPrice: KriptonDynamicPriceFactory,
+    private providers: ProvidersFactory
   ) {}
 
   ngAfterViewInit() {
@@ -155,13 +157,19 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   ionViewWillEnter() {
-    this.provider = this.providers.find((provider) => provider.alias === 'kripton');
+    this.provider = this.getProviders().byAlias('kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
-    this.providerCurrencies = new FiatRampCurrenciesOf(this.provider, this.apiWalletService.getCoins()).value();
+    this.providerTokens = new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(
+      'kripton'
+    );
     this.setCountry();
     this.setCurrency();
     this.dynamicPrice();
     this.subscribeToFormChanges();
+  }
+
+  getProviders() {
+    return this.providers.create(new ProviderDataRepo(), this.http);
   }
 
   subscribeToFormChanges() {
@@ -199,8 +207,8 @@ export class OperationsNewPage implements AfterViewInit {
     const network = this.route.snapshot.queryParamMap.get('network');
     this.selectedCurrency =
       asset && network
-        ? this.providerCurrencies.find((currency) => currency.value === asset && currency.network === network)
-        : this.providerCurrencies[0];
+        ? this.providerTokens.find((currency) => currency.value === asset && currency.network === network)
+        : this.providerTokens[0];
     this.fiatCurrency = this.country.fiatCode ? this.country.fiatCode : 'USD';
   }
 

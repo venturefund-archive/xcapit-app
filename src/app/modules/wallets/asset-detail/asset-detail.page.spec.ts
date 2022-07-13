@@ -16,6 +16,8 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-transfers-response/covalent-transfers-response';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.pipe';
+import { FormattedNetworkPipe } from 'src/app/shared/pipes/formatted-network-name/formatted-network.pipe';
 
 const nativeTransfersResponse = {
   data: {
@@ -81,7 +83,7 @@ describe('AssetDetailPage', () => {
       navControllerSpy = fakeNavController.createSpy();
 
       TestBed.configureTestingModule({
-        declarations: [AssetDetailPage, FormattedAmountPipe],
+        declarations: [AssetDetailPage, FormattedAmountPipe, SplitStringPipe, FormattedNetworkPipe],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule.forRoot(), RouterTestingModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
@@ -131,10 +133,9 @@ describe('AssetDetailPage', () => {
     component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    const amountEl = fixture.debugElement.query(By.css('.wad__asset_amount__original ion-text'));
+    const [amountEl, quoteAmountEl] = fixture.debugElement.queryAll(By.css('.wad__available__amounts ion-text'));
     expect(amountEl.nativeElement.innerHTML).toContain(20);
     expect(amountEl.nativeElement.innerHTML).toContain('ETH');
-    const quoteAmountEl = fixture.debugElement.query(By.css('.wad__asset_amount__usd ion-text'));
     expect(quoteAmountEl.nativeElement.innerHTML).toContain('USD');
     expect(quoteAmountEl.nativeElement.innerHTML).toContain('60000 USD');
   });
@@ -144,10 +145,9 @@ describe('AssetDetailPage', () => {
     component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    const amountEl = fixture.debugElement.query(By.css('.wad__asset_amount__original ion-text'));
+    const [amountEl, quoteAmountEl] = fixture.debugElement.queryAll(By.css('.wad__available__amounts ion-text'));
     expect(amountEl.nativeElement.innerHTML).toContain(20);
     expect(amountEl.nativeElement.innerHTML).toContain('ETH');
-    const quoteAmountEl = fixture.debugElement.query(By.css('.wad__asset_amount__usd ion-text'));
-    expect(quoteAmountEl).toBe(null);
+    expect(quoteAmountEl).toBe(undefined);
   });
 });

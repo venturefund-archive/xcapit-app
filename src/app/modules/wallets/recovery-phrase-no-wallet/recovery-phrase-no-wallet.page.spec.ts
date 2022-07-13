@@ -77,6 +77,6 @@ describe('RecoveryPhraseNoWalletPage', () => {
   it('should navigate to support wallet page when button Go To FAQ clicked', () => {
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Go To FAQ"]'));
     buttonEl.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['support/wallet']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['support/faqs/wallet']);
   });
 });

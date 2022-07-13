@@ -406,7 +406,7 @@
         }
       },
       "amount_input_card": {
-        "title":"Monto a enviar estimado",
+        "title": "Monto a enviar estimado",
         "available": "Saldo disponible",
         "amount_invested": "Monto total invertido",
         "max_button": "Máx"
@@ -988,7 +988,7 @@
       "explanation": {
         "header": "Educación",
         "title": "¿Cómo funciona?",
-        "button": "Comenzar",
+        "button": "Aceptar",
         "item_1": {
           "number": "1.",
           "title": " Completa todos los módulos",
@@ -1007,6 +1007,11 @@
       }
     },
     "home": {
+      "statuses": {
+        "to_do": "Por hacer",
+        "complete": "Completo",
+        "in_progress": "En progreso"
+      },
       "header": "Educación",
       "finance": "Finanzas",
       "crypto": "Cripto",
@@ -1104,6 +1109,12 @@
       "textPrimary": "Lo lograste, ¡así se hace!",
       "textSecondary": "Completaste todos los módulos de educación financiera y cripto. Próximamente acreditaremos tu NFT en tu wallet.",
       "primaryButton": "Finalizar"
+    },
+    "error_no_wallet": {
+      "textPrimary": "¡Alto! Aún no tienes tu wallet",
+      "textSecondary": "Para avanzar con el módulo, necesitas crear tu wallet así puedes reclamar tu premio al finalizarlo.",
+      "namePrimaryAction": "Crear wallet",
+      "nameSecondaryAction": "Volver a educación financiera"
     }
   },
   "financial_planner": {
@@ -1600,8 +1611,7 @@
       "average_time": "Tiempo promedio de llegada: 3 min.",
       "receive_address_title": "Dirección",
       "receive_address_copy": "Copiar",
-      "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección de depósito.",
-      "disclaimer_body": "Enviar otras monedas o tokens y utilizar una red distinta a la seleccionada, puede resultar en la pérdida de tu depósito.",
+      "disclaimer_header": "Envía solo {{currency}} utilizando la red {{network}} a esta dirección. De lo contrario, podrías perder tu depósito.",
       "toast_success": "Se copió al portapapeles"
     },
     "nft_detail": {
@@ -1670,7 +1680,7 @@
           "title": "¡Tu transferencia fue completada exitosamente!",
           "body": "¡Tu transferencia a {{address}} fue completada con exito!"
         },
-        "transaction_summary_card":{
+        "transaction_summary_card": {
           "disclaimer": "Comprueba que los datos ingresados sean correctos. Una vez realizado el envío, no podrás cancelarlo."
         },
         "alert_not_enough_native_token": {
@@ -1709,7 +1719,7 @@
       },
       "address_input_card": {
         "scan_error": "Error al escanear el código QR",
-        "placeholder":"Mantén presionado para pegar",
+        "placeholder": "Mantén presionado para pegar",
         "scan_unauthorized": "No tienes permiso para escanear",
         "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos."
       },
@@ -1761,7 +1771,7 @@
         "item_4": "Guárdala en un lugar seguro.",
         "item_5": "Puedes grabarla en algún elemento para que perdure en el tiempo."
       },
-      "info_send_modal":{
+      "info_send_modal": {
         "title_send_amount": "¿Por qué es “estimado” el monto a enviar?",
         "title_transaction_fee": "¿Por qué es “estimada” la tarifa de transacción?",
         "description": "Por la volatilidad del mercado, la tasa de cambio puede variar ligeramente al momento de realizar la operación.",
@@ -1777,7 +1787,8 @@
     },
     "asset_detail": {
       "header": "Detalle de activo",
-      "wallet_transaction_title": "Transacciones"
+      "wallet_transaction_title": "Transacciones",
+      "available":"Saldo disponible"
     },
     "error_wallet_recovery": {
       "title": "Tu frase de recuperación es incorrecta",
@@ -1964,8 +1975,30 @@
       "provider_label": "Selecciona el proveedor",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
+      "directa24": {
+        "platform_description": "Compra USDC a través de la plataforma",
+        "nearest_store_description": "Compra USDC en tu tienda más cercana",
+        "nearest_branch_office_description": "Compra USDC en tu sucursal más cercana.",
+        "in_app_description": "Compra USDC a través de la app",
+        "debit_credit_description": "Compra USDC con débito o crédito",
+        "transfer_description": "Compra USDC a través de transferencia"
+      },
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
-      "button": "Continuar"
+      "button": "Continuar",
+      "modal_info": {
+        "subtitle_1": "Medios de pago habilitados:",
+        "subtitle_2": "¿Cuál es el plazo de entrega?",
+        "button": "Entendido",
+        "kripton": {
+          "description_1": "Transferencia bancaria.",
+          "description_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs. aproximadamente."
+        },
+        "moonpay": {
+          "description_1": "Tarjeta de crédito.*",
+          "description_2": "Depende del proveedor externo según el caso.",
+          "disclaimer": "*Por retricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
+        }
+      }
     },
     "information_paxful": {
       "header": "Comprar",
@@ -2155,7 +2188,9 @@
       "spain": "España",
       "uruguay": "Uruguay",
       "united_states": "Estados Unidos (EEUU)",
-      "venezuela": "Venezuela"
+      "venezuela": "Venezuela",
+      "ecuador": "Ecuador",
+      "chile": "Chile"
     },
     "shared": {
       "constants": {
@@ -2168,9 +2203,14 @@
       "fixed_footer": {
         "text": "Estas operando con Kriptonmarket"
       },
+      "redirect_footer": {
+        "text": "Al presionar “Continuar”, serás redirigido al sitio del proveedor externo para completar tu ticket de compra y abonar la transacción."
+      },
       "provider_new_operation_card": {
         "quantity": "Cantidad",
-        "provider": "Proveedor"
+        "provider": "Proveedor",
+        "to_pay": "Pagarás*",
+        "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día."
       },
       "kyc_disclaimer_modal": {
         "title": "Registro cuenta Kripton",
@@ -2360,28 +2400,30 @@
       "title": "Operaciones con mi Wallet",
       "question1": "¿Qué costo tienen las transacciones a otra billetera?",
       "answer1": "El costo de transferencia va a depender de la moneda transferida y a través de qué red se esté transfiriendo.<br>Los tokens que se van a poder alojar, recibir y transferir son todos los de la red de Ethereum, Polygon, RSK y BSC (Binance Smart Chain).<br>Polygon y RSK son las redes con menor costo de transacción.",
-      "question2": "¿Por qué aparece un mensaje de “fondo insuficiente” para realizar el pago de comisiones si yo tengo cripto?",
-      "answer2": "Porque el pago de fee de las transacciones se hacen en la moneda nativa de la red.<br>A través de swap de la billetera de Xcapit podrás adquirir los tokens nativos para pagar las fee o comisiones.",
-      "question3": "¿Cuánto tiempo demora en acreditarse una transferencia?",
-      "answer3": "De la misma manera que el costo de la transferencia, el tiempo va a depender de la blockchain de la misma.",
-      "question4": "¿Cómo recibo una transferencia en mi Wallet?",
-      "answer4": "<ol><li>Buscar en la billetera el token que necesitan transferir.</li><li>Copiar la dirección de depósito correspondiente al mismo.</li><li>Enviar la dirección a la persona que te va a transferir.</li></ol>",
-      "question5": "¿Cómo transferir mi dinero?",
-      "answer5": "<ol><li>Debes seleccionar el token que desea transferir.</li><li>Pegar en el campo de dirección, la dirección a la cual quiere enviar los mismos. Para transferir, necesitas la dirección de depósito específica del destinatario para el token que deseas transferir.</li><li>Ingresar el monto que quieres transferir.</li><li>Verificar que los datos sean correctos.</li></ol>",
-      "question6": "¿Podré generar rendimientos con mis Tokens que se encuentren en la Wallet de Xcapit?",
-      "answer6": "Puedes generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit. Estos productos de inversión se encontrarán en la blockchain de Polygon y variará en rendimientos, riesgos y protocolos de inversión. El rendimiento es continuo para las inversiones en USDC, se actualiza cada 30 segundos.",
-      "question7": "¿Qué opciones tengo para invertir dentro de la App de Xcapit?",
-      "answer7": "Actualmente puedes invertir en Productos de inversión descentralizados a través de los tokens USDC y  DAI, todos sobre la Blockchain de Polygon.",
-      "question8": "¿Cómo invierto?",
-      "answer8": "Necesitarás tener USDC, DAI, WETH o MATIC en tu Wallet de Xcapit. Asegúrate de tener algunos MATIC para poder pagar las tarifas de transacción.<br>Ingresa a “Inversiones DeFi” desde la pantalla de inicio de la app, o desde el menú “Inversiones” (ubicado en la parte inferior de la app).",
-      "question9": "¿Qué costo tiene mi inversión?",
-      "answer9": "Deberás pagar al protocolo las tarifas de transacción y las comisiones de inversión.<br>Xcapit no cobra por ofrecer Inversiones DeFi.",
-      "question10": "¿En qué protocolo estoy invirtiendo?",
-      "answer10": "Estás invirtiendo en Vaults de protocolos descentralizados. Tus tokens van a un pool de liquidez, donde una estrategia inteligente determina a qué protocolos de inversión destinarlos, según los rendimientos que están dando. Esto puede dar lugar a que tus tokens estén en diversos protocolos descentralizados, tales como Lending o Farming. ",
-      "question11": "¿Por qué no veo el dinero en mi Wallet cuando lo tengo invertido en un producto DeFi?",
-      "answer11": "Cuando estás invirtiendo en un protocolo descentralizado, tus tokens no están en tu Wallet. Se encuentran en el protocolo, resguardados por un contrato inteligente. Este contrato inteligente sabe qué tokens te pertenecen y qué ganancia mereces por ellos.<br>Si retiras tu inversión, los tokens volverán a tu Wallet y podrás verlos en el balance.",
-      "question12": "¿Por qué no puedo activar mis inversiones?",
-      "answer12": "Es normal que a veces no puedas invertir al primer intento aunque tengas tokens para invertir y para pagar las fees, ya que se suele tener problemas no esperados con la blockchain. Reintentar nuevamente y, si el problema persiste, crea un ticket a soporte indicando tu address pública de la Blockchain en la que deseas invertir así podremos analizar el caso más rápidamente."
+      "question2": "¿Qué costo tienen los retiros del producto de inversión?",
+      "answer2": "La tarifa es de 0,255% del monto que el usuario retira del producto de inversión. Este cobro se hace en la moneda en la cual se está ejecutando dicho producto de inversión.",
+      "question3": "¿Por qué aparece un mensaje de “fondo insuficiente” para realizar el pago de comisiones si yo tengo cripto?",
+      "answer3": "Porque el pago de fee de las transacciones se hacen en la moneda nativa de la red.<br>A través de swap de la billetera de Xcapit podrás adquirir los tokens nativos para pagar las fee o comisiones.",
+      "question4": "¿Cuánto tiempo demora en acreditarse una transferencia?",
+      "answer4": "De la misma manera que el costo de la transferencia, el tiempo va a depender de la blockchain de la misma.",
+      "question5": "¿Cómo recibo una transferencia en mi Wallet?",
+      "answer5": "<ol><li>Buscar en la billetera el token que necesitan transferir.</li><li>Copiar la dirección de depósito correspondiente al mismo.</li><li>Enviar la dirección a la persona que te va a transferir.</li></ol>",
+      "question6": "¿Cómo transferir mi dinero?",
+      "answer6": "<ol><li>Debes seleccionar el token que desea transferir.</li><li>Pegar en el campo de dirección, la dirección a la cual quiere enviar los mismos. Para transferir, necesitas la dirección de depósito específica del destinatario para el token que deseas transferir.</li><li>Ingresar el monto que quieres transferir.</li><li>Verificar que los datos sean correctos.</li></ol>",
+      "question7": "¿Podré generar rendimientos con mis Tokens que se encuentren en la Wallet de Xcapit?",
+      "answer7": "Puedes generar rendimiento con tus criptomonedas alojadas en la Wallet de Xcapit. Estos productos de inversión se encontrarán en la blockchain de Polygon y variará en rendimientos, riesgos y protocolos de inversión. El rendimiento es continuo para las inversiones en USDC, se actualiza cada 30 segundos.",
+      "question8": "¿Qué opciones tengo para invertir dentro de la App de Xcapit?",
+      "answer8": "Actualmente puedes invertir en Productos de inversión descentralizados a través de los tokens USDC y  DAI, todos sobre la Blockchain de Polygon.",
+      "question9": "¿Cómo invierto?",
+      "answer9": "Necesitarás tener USDC, DAI, WBTC o MATIC en tu Wallet de Xcapit. Asegúrate de tener algunos MATIC para poder pagar las tarifas de transacción. Ingresa a “Inversiones DeFi” desde la pantalla de inicio de la app, o desde el menú “Inversiones” (ubicado en la parte inferior de la app).",
+      "question10": "¿Qué costo tiene mi inversión?",
+      "answer10": "Deberás pagar al protocolo las tarifas de transacción y las comisiones de inversión.<br>Xcapit no cobra por ofrecer Inversiones DeFi.",
+      "question11": "¿En qué protocolo estoy invirtiendo?",
+      "answer11": "Estás invirtiendo en Vaults de protocolos descentralizados. Tus tokens van a un pool de liquidez, donde una estrategia inteligente determina a qué protocolos de inversión destinarlos, según los rendimientos que están dando. Esto puede dar lugar a que tus tokens estén en diversos protocolos descentralizados, tales como Lending o Farming. ",
+      "question12": "¿Por qué no veo el dinero en mi Wallet cuando lo tengo invertido en un producto DeFi?",
+      "answer12": "Cuando estás invirtiendo en un protocolo descentralizado, tus tokens no están en tu Wallet. Se encuentran en el protocolo, resguardados por un contrato inteligente. Este contrato inteligente sabe qué tokens te pertenecen y qué ganancia mereces por ellos.<br>Si retiras tu inversión, los tokens volverán a tu Wallet y podrás verlos en el balance.",
+      "question13": "¿Por qué no puedo activar mis inversiones?",
+      "answer13": "Es normal que a veces no puedas invertir al primer intento aunque tengas tokens para invertir y para pagar las fees, ya que se suele tener problemas no esperados con la blockchain. Reintentar nuevamente y, si el problema persiste, crea un ticket a soporte indicando tu address pública de la Blockchain en la que deseas invertir así podremos analizar el caso más rápidamente."
     },
     "support_buy": {
       "header": "Ayuda",
@@ -2480,10 +2522,18 @@
       "to_token_title": "Hacia",
       "footer_text": "Solo tomará unos segundos."
     },
+    "errors":{
+      "invalid_password":"La contraseña ingresada no es correcta."
+    },
     "select_token": {
       "header": "Swap",
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
+    },
+    "swap_in_progress": {
+      "textPrimary": "¡Tu orden está en camino!",
+      "textSecondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "buttonText": "Ir a Wallet"
     }
   }
 }

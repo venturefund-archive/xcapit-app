@@ -40,6 +40,16 @@ const rawOperations: any[] = [
     voucher: false,
   },
 ];
+
+const testForm = {
+  valid: {
+    provider: 'testProvider',
+    country: {
+      name: 'testCountry'
+    } 
+  }
+} 
+
 describe('SelectProviderPage', () => {
   let component: SelectProviderPage;
   let fixture: ComponentFixture<SelectProviderPage>;
@@ -85,6 +95,7 @@ describe('SelectProviderPage', () => {
   });
 
   it('should call trackEvent on trackService when ux_vendor_buy_continue is clicked', () => {
+    component.form.patchValue(testForm.valid)
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_vendor_buy_continue');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
@@ -94,9 +105,11 @@ describe('SelectProviderPage', () => {
   });
 
   it('should navigate to provider url when ux_vendor_buy_continue is clicked', () => {
+    fixture.detectChanges();
+    component.form.patchValue(testForm.valid)
     fixture.debugElement.query(By.css('app-select-provider-card')).triggerEventHandler('route', 'test');
     fixture.debugElement.query(By.css("ion-button[name='ux_vendor_buy_continue']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test', 'testcountry']);
   });
 
   it('should reset form when country is changed', () => {

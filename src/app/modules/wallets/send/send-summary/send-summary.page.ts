@@ -19,7 +19,7 @@ import { InfoSendModalComponent } from '../../shared-wallets/components/info-sen
   template: ` <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref=""></ion-back-button>
+          <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref=""></ion-back-button>
         </ion-buttons>
         <ion-title class="sd__header ion-text-left">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
         <ion-label class="step-counter" slot="end">3 {{ 'shared.step_counter.of' | translate }} 3</ion-label>

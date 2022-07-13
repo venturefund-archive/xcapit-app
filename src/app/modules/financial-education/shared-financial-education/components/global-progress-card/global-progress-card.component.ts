@@ -45,7 +45,8 @@ import { MODULES_FINANCE } from '../../constants/finance';
             <ul class="gpc__card__accordion__list__item__ulist">
               <li *ngFor="let module of this.modules">
                 <ion-text class="ux-font-text-xs">{{ module.progress_title | translate }}</ion-text>
-                <ion-text class="ux-font-text-xxs">{{ module.done ? ' (completo)' : ' (por hacer)' }}</ion-text>
+                <ion-text *ngIf="module.done" class="ux-font-text-xxs"> ({{ 'financial_education.home.statuses.complete'| translate }})</ion-text>
+                <ion-text *ngIf="!module.done" class="ux-font-text-xxs"> ({{ 'financial_education.home.statuses.to_do' | translate }})</ion-text>
               </li>
             </ul>
           </ion-item>
@@ -65,10 +66,12 @@ export class GlobalProgressCardComponent implements OnInit {
   ngOnInit() {
     this.setModules();
     this.calculateProgressPercentage();
+   
   }
 
   setModules() {
     this.modules = [...MODULES_FINANCE, ...MODULES_CRYPTO].filter((mod) => !mod.disabled);
+
   }
 
   calculateProgressPercentage() {

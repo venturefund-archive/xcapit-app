@@ -69,7 +69,7 @@ describe('WalletAdviceComponent', () => {
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_wallet_faqs"'));
     buttonEl.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['support/wallet']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['support/faqs/wallet']);
   });
 
   it('should call appTrackEvent on trackService when ux_create_go_to_home_wallet is clicked', () => {

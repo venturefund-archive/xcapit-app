@@ -32,14 +32,14 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           <ion-item lines="none" slot="header">
             <ion-label>{{ 'defi_investments.defi_investment_products.title_investments' | translate }}</ion-label>
           </ion-item>
-          <ion-text class="dp__gains" *ngIf="this.activeInvestmentsContinuousEarning.length">{{
+          <ion-text class="dp__gains ux-font-text-xs" *ngIf="this.activeInvestmentsContinuousEarning.length">{{
             'defi_investments.defi_investment_products.profits' | translate
           }}</ion-text>
-          <div *ngFor="let investment of this.activeInvestmentsContinuousEarning">
+          <div class="dp__balance_items" *ngFor="let investment of this.activeInvestmentsContinuousEarning">
             <app-investment-balance-item [investmentProduct]="investment.product" [balance]="investment.balance">
             </app-investment-balance-item>
           </div>
-          <ion-text class="dp__weeklygains" *ngIf="this.activeInvestmentsWeaklyEarning.length">{{
+          <ion-text class="dp__weeklygains ux-font-text-xs" *ngIf="this.activeInvestmentsWeaklyEarning.length">{{
             'defi_investments.defi_investment_products.profits_weekly' | translate
           }}</ion-text>
           <div *ngFor="let investment of this.activeInvestmentsWeaklyEarning">
@@ -98,7 +98,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           ></app-defi-investment-product>
         </div>
       </div>
-      <div *ngIf="this.activeInvestments.length || this.availableInvestments.length" class="dp__link">
+      <div *ngIf="this.activeInvestments.length || this.availableInvestments.length && !this.disableFaqsButton" class="dp__link">
         <ion-button
           name="go_to_defi_faqs"
           (click)="this.goToDefiFaqs()"
@@ -124,6 +124,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
   investorCategory: string;
+  disableFaqsButton = true;
   profileForm: FormGroup = this.formBuilder.group({
     profile: ['conservative', []],
   });

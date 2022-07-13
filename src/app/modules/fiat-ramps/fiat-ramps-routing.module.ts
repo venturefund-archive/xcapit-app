@@ -21,6 +21,10 @@ const routes: Routes = [
             canActivate: [HasWallet],
             loadChildren: () => import('./moonpay/moonpay.module').then((m) => m.MoonpayPageModule),
           },
+          {
+            path: 'others/:alias/:country',
+            loadChildren: () => import('./directa/directa.module').then((m) => m.DirectaPageModule),
+          },
         ],
       },
       {

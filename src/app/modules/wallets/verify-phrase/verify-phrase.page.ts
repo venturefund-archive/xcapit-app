@@ -6,7 +6,7 @@ import { RecoveryPhraseCardComponent } from '../shared-wallets/components/recove
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { WalletBackupService } from '../shared-wallets/wallet-backup/wallet-backup.service';
+import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wallet-backup.service';
 @Component({
   selector: 'app-verify-phrase',
   template: `

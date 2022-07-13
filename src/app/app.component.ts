@@ -17,7 +17,7 @@ import { FirebaseRemoteConfig } from './shared/models/firebase-remote-config/fir
 import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { WalletConnectService } from './modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { WalletBackupService } from './modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
+import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 
 @Component({
   selector: 'app-root',

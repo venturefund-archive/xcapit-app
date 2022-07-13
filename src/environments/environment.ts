@@ -23,6 +23,8 @@ export const environment = {
   },
   appUrl: 'https://dummy.xcapit.com/',
   covalentApiUrl: 'https://covalent.url',
+  directa24Url: 'https://directa.url',
+  directa24ApiKey: 'directa.key',
   moonpayPK: 'dummy_publishable_key',
   walletNetwork: 'testnet',
   ethAlchemyApiUrl: 'alchemy.url',

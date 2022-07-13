@@ -36,6 +36,6 @@ export class WalletAdviceComponent implements OnInit {
   ngOnInit() {}
 
   goToWalletTerms(){
-    this.navController.navigateForward(['support/wallet'])
+    this.navController.navigateForward(['support/faqs/wallet'])
   }
 }

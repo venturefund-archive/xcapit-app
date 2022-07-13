@@ -63,7 +63,7 @@ describe('WalletBalanceCardItemComponent', () => {
 
     expect(imgEl.attributes.src).toContain('assets/img/coins/MATIC.png');
     expect(labelList[0].nativeElement.innerHTML).toContain('MATIC');
-    expect(labelList[1].nativeElement.innerHTML).toContain('1 MATIC');
+    expect(labelList[1].nativeElement.innerHTML).toContain('1');
     expect(labelList[3].nativeElement.innerHTML).toContain('20 USD');
     expect(fixture.debugElement.query(By.css('ion-badge')).nativeElement.innerHTML).toContain('POLYGON');
   });
