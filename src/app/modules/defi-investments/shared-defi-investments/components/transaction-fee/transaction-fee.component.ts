@@ -88,7 +88,7 @@ export class TransactionFeeComponent implements OnChanges {
   }
 
   private setQuoteFee(tokenPrice: number) {
-    this.quoteFee =
+    this.quoteFee = { value: tokenPrice * this.fee.value, token: 'USD' };
   }
 
   private getDynamicPrice(): Observable<number> {
