@@ -9,9 +9,13 @@ import { PolygonGasPrice } from './polygon-gas-price';
 fdescribe('Polygon Gas Price', () => {
 
   let gasPrice: PolygonGasPrice;
+  const polygonBlockchain = new Blockchain(rawPolygonData);
+  const _expectedAmount = () => {
+    return new AmountOf(, blockchain.nativeToken());
+  }
 
   beforeEach(() => {
-    gasPrice = new PolygonGasPrice(new Blockchain(rawPolygonData), new FakeHttpClient(rawPolygonGasStation));
+    gasPrice = new PolygonGasPrice(polygonBlockchain, new FakeHttpClient(rawPolygonGasStation));
   });
 
   it('new', () => {
