@@ -10,7 +10,7 @@ import { DefaultToken } from "../token/token";
 import { Blockchain } from "../blockchain/blockchain";
 
 
-fdescribe('Swap Info Of', () => {
+describe('Swap Info Of', () => {
 
   let swapInfo: SwapInfoOf;
 

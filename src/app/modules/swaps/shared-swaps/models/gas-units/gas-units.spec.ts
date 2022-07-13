@@ -1,7 +1,7 @@
 import { GasUnits } from "./gas-units";
 
 
-fdescribe('GasUnits', () => {
+describe('GasUnits', () => {
 
   const aRawGasUnits = 100;
   let gasUnits: GasUnits;

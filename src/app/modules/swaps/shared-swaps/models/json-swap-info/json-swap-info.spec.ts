@@ -37,7 +37,7 @@ describe('JSON Swap Info', () => {
 });
 
 
-fdescribe('Null JSON Swap Info', () => {
+describe('Null JSON Swap Info', () => {
 
   let nullJSONSwapInfo: NullJSONSwapInfo;
 

@@ -8,7 +8,7 @@ import { GasStationOf } from './gas-station-of';
 import { AmountOf } from '../amount-of/amount-of';
 
 
-fdescribe('Gas Station Of', () => {
+describe('Gas Station Of', () => {
 
   let gasStation: GasStationOf;
   const polygonBlockchain = new Blockchain(rawPolygonData);

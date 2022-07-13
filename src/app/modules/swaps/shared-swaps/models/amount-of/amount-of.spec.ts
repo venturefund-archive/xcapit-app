@@ -3,7 +3,7 @@ import { rawUSDCData } from "../fixtures/raw-tokens-data";
 import { DefaultToken, Token } from "../token/token";
 
 
-fdescribe('Amount Of', () => {
+describe('Amount Of', () => {
 
   let amount: AmountOf;
   const usdcToken: Token = new DefaultToken(rawUSDCData);
@@ -38,7 +38,7 @@ fdescribe('Amount Of', () => {
 });
 
 
-fdescribe('NullAmountOf', () => {
+describe('NullAmountOf', () => {
 
   const amount = new NullAmountOf();
 

@@ -7,7 +7,7 @@ import { BigNumberOf } from './big-number-of';
 import { PolygonGasPrice } from './polygon-gas-price';
 
 
-fdescribe('Polygon Gas Price', () => {
+describe('Polygon Gas Price', () => {
 
   let gasPrice: PolygonGasPrice;
   const polygonBlockchain = new Blockchain(rawPolygonData);

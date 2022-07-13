@@ -5,7 +5,7 @@ import { rawEthereumData } from '../fixtures/raw-blockchains-data';
 import { DefaultGasPriceOf, GasPrice } from './gas-price';
 
 
-fdescribe('Default Gas Price', () => {
+describe('Default Gas Price', () => {
 
   let gasPrice: GasPrice;
   const blockchain = new Blockchain(rawEthereumData);

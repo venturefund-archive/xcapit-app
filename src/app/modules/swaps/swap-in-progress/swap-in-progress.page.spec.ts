@@ -15,7 +15,7 @@ const testData = {
   urlPrimaryAction:'/tabs/wallets',
 }
 
-fdescribe('SwapInProgressPage', () => {
+describe('SwapInProgressPage', () => {
   let component: SwapInProgressPage;
   let fixture: ComponentFixture<SwapInProgressPage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;

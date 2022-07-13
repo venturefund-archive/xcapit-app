@@ -17,7 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
 
-fdescribe('SwapSelectTokenPage', () => {
+describe('SwapSelectTokenPage', () => {
   let component: SwapSelectTokenPage;
   let fixture: ComponentFixture<SwapSelectTokenPage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
