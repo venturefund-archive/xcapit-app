@@ -13,7 +13,8 @@ fdescribe('Polygon Gas Price', () => {
   const _expectedAmount = (aBigNumber: BigNumberOf) => {
     return new AmountOf(
       aBigNumber.value().toString(),
-      , polygonBlockchain.nativeToken());
+      polygonBlockchain.nativeToken()
+    );
   }
 
   beforeEach(() => {
