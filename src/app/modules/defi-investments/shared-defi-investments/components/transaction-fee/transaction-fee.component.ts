@@ -80,6 +80,7 @@ export class TransactionFeeComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if(this.autoPrice && changes.fee) {
+      this.getDynamicPrice().subscribe((price: number) => this.tokenPrice = price);
       console.log('calculando precio...');
     }
   }
