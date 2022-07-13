@@ -1,5 +1,6 @@
+import { AmountOf } from '../amount-of/amount-of';
 import { Blockchain } from '../blockchain/blockchain';
-import { fakeGasPrice, fakeProviders } from '../fakes/fake-ethers-providers';
+import { fakeRawGasPrice, fakeProviders } from '../fakes/fake-ethers-providers';
 import { rawEthereumData } from '../fixtures/raw-blockchains-data';
 import { DefaultGasPriceOf, GasPrice } from './gas-price';
 
@@ -7,9 +8,11 @@ import { DefaultGasPriceOf, GasPrice } from './gas-price';
 fdescribe('Default Gas Price', () => {
 
   let gasPrice: GasPrice;
+  const blockchain = new Blockchain(rawEthereumData);
+  const expectedAmount = new AmountOf(fakeRawGasPrice.toString(), blockchain.nativeToken());
 
   beforeEach(() => {
-    gasPrice = new DefaultGasPriceOf(new Blockchain(rawEthereumData), fakeProviders);
+    gasPrice = new DefaultGasPriceOf(blockchain, fakeProviders);
   });
 
   it('new', () => {
@@ -17,14 +20,14 @@ fdescribe('Default Gas Price', () => {
   });
 
   it('safeLow', async () => {
-    expect((await gasPrice.safeLow()).toNumber()).toEqual(fakeGasPrice.toNumber());
+    expect((await gasPrice.safeLow()).value()).toEqual(expectedAmount.value());
   });
 
   it('standard', async () => {
-    expect((await gasPrice.standard()).toNumber()).toEqual(fakeGasPrice.toNumber());
+    expect((await gasPrice.standard()).value()).toEqual(expectedAmount.value());
   });
 
   it('fast', async () => {
-    expect((await gasPrice.fast()).toNumber()).toEqual(fakeGasPrice.toNumber());
+    expect((await gasPrice.fast()).value()).toEqual(expectedAmount.value());
   });
 });

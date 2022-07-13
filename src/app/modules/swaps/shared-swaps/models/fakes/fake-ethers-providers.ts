@@ -1,14 +1,14 @@
 import { BigNumber } from "ethers";
 
 
-export const fakeGasPrice = BigNumber.from('100');
+export const fakeRawGasPrice = BigNumber.from('100');
 
 
 class JsonRpcProvider {
   constructor(aRPCUrl: string) {}
 
   getGasPrice(): Promise<BigNumber> {
-    return Promise.resolve(fakeGasPrice);
+    return Promise.resolve(fakeRawGasPrice);
   }
 }
 

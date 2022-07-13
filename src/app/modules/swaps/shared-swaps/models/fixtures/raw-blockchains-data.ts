@@ -5,7 +5,13 @@ export const rawEthereumData: RawBlockchain = {
   name: 'ERC20',
   derivedPath: "m/44'/60'/0'/0/0",
   id: '1',
-  rpc: 'https://ethereumRpc'
+  rpc: 'https://ethereumRpc',
+  nativeToken: {
+    value: 'ETH',
+    decimals: 18,
+    chainId: 1,
+    contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+  }
 };
 
 export const rawPolygonData: RawBlockchain = {
@@ -13,7 +19,13 @@ export const rawPolygonData: RawBlockchain = {
   derivedPath: "m/44'/966'/0'/0/0",
   id: '137',
   rpc: 'https://polygonRpc',
-  gasPrice: 'PolygonGasPrice'
+  gasPrice: 'PolygonGasPrice',
+  nativeToken: {
+    value: 'MATIC',
+    decimals: 18,
+    chainId: 137,
+    contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+  }
 };
 
 export const rawBlockchainsData: RawBlockchain[] = [rawEthereumData, rawPolygonData];

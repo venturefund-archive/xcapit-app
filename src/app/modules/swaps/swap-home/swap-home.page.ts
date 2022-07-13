@@ -32,12 +32,8 @@ import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transaction
 import { BlockchainTokens } from '../shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-tokens';
 import { GasStationOf } from '../shared-swaps/models/gas-station-of/gas-station-of';
-import { BigNumber } from 'ethers';
-import { FeeOf } from '../shared-swaps/models/fee-of/fee-of';
-import { FormattedFee } from '../../defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { GasUnits } from '../shared-swaps/models/gas-units/gas-units';
-import { NativeTokenOf } from '../shared-swaps/models/native-token-of/native-token-of';
-import { BlockchainFee, RawAmount } from '../shared-swaps/models/blockchain-fee/blockchain-fee';
+import { RawAmount } from '../shared-swaps/models/blockchain-fee/blockchain-fee';
 
 @Component({
   selector: 'app-swap-home',
@@ -163,7 +159,6 @@ export class SwapHomePage {
   private referral: Referral = new Referral();
   private fromTokenKey = 'fromToken';
   private toTokenKey = 'toToken';
-  private nativeToken: NativeTokenOf;
   loadingBtn: boolean;
   disabledBtn: boolean;
   tplBlockchain: RawBlockchain;
@@ -199,18 +194,35 @@ export class SwapHomePage {
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
 
     // TODO, null case, own house
-    this.tplFee = await new BlockchainFee(
-      new FeeOf(
-        new GasUnits(this.tplSwapInfo.estimatedGas),
-        await (new GasStationOf(
+    // this.tplFee = await new BlockchainFee(
+    //   new FeeOf(
+    //     new GasUnits(this.tplSwapInfo.estimatedGas),
+    //     await (new GasStationOf(
+    //       this.activeBlockchain,
+    //       this.httpClient
+    //     )).price().fast()
+    //   ),
+    //   this.nativeToken
+    // ).json();
+
+    // console.log(`tx fee: ${this.tplFee.value} ${this.tplFee.token}`);
+
+    //   new FeeOf(
+    //     new GasUnits(this.tplSwapInfo.estimatedGas),
+    //     await (new GasStationOf(
+    //       this.activeBlockchain,
+    //       this.httpClient
+    //     )).price().fast()
+    //   ),
+    // this.activeBlockchain.nativeToken()
+
+    const gasPrice = await (new GasStationOf(
           this.activeBlockchain,
           this.httpClient
-        )).price().fast()
-      ),
-      this.nativeToken
-    ).json();
+    )).price().fast();
 
-    console.log(`tx fee: ${this.tplFee.value} ${this.tplFee.token}`);
+    this.tplFee = gasPrice.times(this.tplSwapInfo.estimatedGas).json();
+
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
@@ -225,7 +237,6 @@ export class SwapHomePage {
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
     this.setDex();
     this.setTokens();
-    this.setNativeToken();
     await this.setTokensToSwap(
       this.route.snapshot.paramMap.get(this.fromTokenKey),
       this.route.snapshot.paramMap.get(this.toTokenKey)
@@ -289,10 +300,6 @@ export class SwapHomePage {
       this.blockchainTokens(),
       new OneInchTokens(this.dex)
     );
-  }
-
-  private setNativeToken() {
-    this.nativeToken = new NativeTokenOf(this.blockchainTokens());
   }
 
   private blockchainTokens(): BlockchainTokens {

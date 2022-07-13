@@ -25,8 +25,4 @@ describe('Token', () => {
   it('json access', () => {
     expect(token.json()).toEqual(rawETHData);
   });
-
-  it('is native', () => {
-    expect(token.isNative()).toBeTrue();
-  });
 });

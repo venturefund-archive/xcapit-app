@@ -1,12 +1,12 @@
-import { BlockchainTokens } from "../blockchain-tokens/blockchain-tokens";
-import { Token } from "../token/token";
+// import { BlockchainTokens } from "../blockchain-tokens/blockchain-tokens";
+// import { Token } from "../token/token";
 
 
-export class NativeTokenOf {
+// export class NativeTokenOf {
 
-  constructor(private _aBlockchainTokens: BlockchainTokens) {}
+//   constructor(private _aBlockchainTokens: BlockchainTokens) {}
 
-  async value(): Promise<Token> {
-    return (await this._aBlockchainTokens.value()).find(token => token.isNative() === true);
-  }
-}
+//   async value(): Promise<Token> {
+//     return (await this._aBlockchainTokens.value()).find(token => token.isNative() === true);
+//   }
+// }

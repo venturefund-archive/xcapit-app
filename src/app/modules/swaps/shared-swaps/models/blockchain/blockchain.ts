@@ -1,4 +1,5 @@
 import { RawBlockchain } from "../blockchain-repo/blockchain-repo";
+import { DefaultToken, Token } from "../token/token";
 
 
 export class Blockchain {
@@ -27,5 +28,9 @@ export class Blockchain {
 
   gasPriceClass(): string {
     return this._rawData.gasPrice;
+  }
+
+  nativeToken(): Token {
+    return new DefaultToken(this._rawData.nativeToken);
   }
 }

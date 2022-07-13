@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { BigNumber } from 'ethers';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
+import { AmountOf } from '../amount-of/amount-of';
+import { Blockchain } from '../blockchain/blockchain';
 import { GasPrice } from '../gas-price/gas-price';
 import { BigNumberOf } from './big-number-of';
 
@@ -25,18 +26,27 @@ export class PolygonGasPrice implements GasPrice {
 
   private readonly _url = 'https://gasstation-mainnet.matic.network/v2';
 
-  constructor(private _httpClient: HttpClient | FakeHttpClient) { }
+  constructor(private _aBlockchain: Blockchain, private _httpClient: HttpClient | FakeHttpClient) { }
 
-  async safeLow(): Promise<BigNumber> {
-    return this._bigNumberOf((await this._gasData()).safeLow.maxFee).value();
+  async safeLow(): Promise<AmountOf> {
+    return new AmountOf(
+      this._bigNumberOf((await this._gasData()).safeLow.maxFee).value().toString(),
+      this._aBlockchain.nativeToken()
+    );
   }
 
-  async standard(): Promise<BigNumber> {
-    return this._bigNumberOf((await this._gasData()).standard.maxFee).value();
+  async standard(): Promise<AmountOf> {
+    return new AmountOf(
+      this._bigNumberOf((await this._gasData()).standard.maxFee).value().toString(),
+      this._aBlockchain.nativeToken()
+    );
   }
 
-  async fast(): Promise<BigNumber> {
-    return this._bigNumberOf((await this._gasData()).fast.maxFee).value();
+  async fast(): Promise<AmountOf> {
+    return new AmountOf(
+      this._bigNumberOf((await this._gasData()).fast.maxFee).value().toString(),
+      this._aBlockchain.nativeToken()
+    );
   }
 
   private _bigNumberOf(aGweiAmount: number) {

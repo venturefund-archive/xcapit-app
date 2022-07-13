@@ -12,8 +12,6 @@ export interface Token {
   address(): string;
 
   json(): any;
-
-  isNative?(): boolean;
 }
 
 
@@ -35,10 +33,6 @@ export class DefaultToken implements Token {
 
   address(): string {
     return `${this._rawData.contract}`.toLocaleLowerCase();
-  }
-
-  isNative(): boolean {
-    return this._rawData.native;
   }
 
   json(): RawToken {
