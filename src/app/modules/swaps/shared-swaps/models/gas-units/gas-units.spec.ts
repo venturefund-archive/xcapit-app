@@ -1,21 +1,20 @@
-// TODO
-// import { GasUnits } from "./gas-units";
+import { GasUnits } from "./gas-units";
 
 
-// fdescribe('GasUnits', () => {
+fdescribe('GasUnits', () => {
 
-//   const aRawGasUnits = 100;
-//   let gasUnits: GasUnits;
+  const aRawGasUnits = 100;
+  let gasUnits: GasUnits;
 
-//   beforeEach(() => {
-//     gasUnits = new GasUnits(aRawGasUnits);
-//   });
+  beforeEach(() => {
+    gasUnits = new GasUnits(aRawGasUnits);
+  });
 
-//   it('new', () => {
-//     expect(gasUnits).toBeTruthy();
-//   });
+  it('new', () => {
+    expect(gasUnits).toBeTruthy();
+  });
 
-//   it('value', () => {
-//     expect(gasUnits.value().eq(aRawGasUnits)).toBeTrue();
-//   });
-// });
+  it('value', () => {
+    expect(gasUnits.value().eq(aRawGasUnits)).toBeTrue();
+  });
+});
