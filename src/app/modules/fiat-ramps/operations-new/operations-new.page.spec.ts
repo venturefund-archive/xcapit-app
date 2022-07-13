@@ -14,7 +14,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { ReactiveFormsModule } from '@angular/forms';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -90,7 +90,7 @@ describe('OperationsNewPage', () => {
         jasmine.createSpyObj('Coin', {}, { value: 'DAI', network: 'MATIC' }),
       ];
 
-      fakeActivatedRoute = new FakeActivatedRoute({ country: 'argentina' }, {});
+      fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'ARS' });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
 
       browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
@@ -163,13 +163,13 @@ describe('OperationsNewPage', () => {
   });
 
   it('should set currency passed by params on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({ country: 'argentina' }, { network: 'MATIC', asset: 'DAI' });
+    fakeActivatedRoute.modifySnapshotParams({}, { network: 'MATIC', asset: 'DAI', country: 'ARS' });
     component.ionViewWillEnter();
     expect(component.selectedCurrency).toEqual(coinsSpy[1]);
   });
 
   it('should set USD as fiat currency when country has not specific local currency on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({ country: 'guatemala' }, {});
+    fakeActivatedRoute.modifySnapshotParams({}, { country: 'GTM' });
     component.ionViewWillEnter();
     expect(component.fiatCurrency).toEqual('USD');
   });
@@ -245,9 +245,14 @@ describe('OperationsNewPage', () => {
   });
 
   it('should redirect to change currency when currency button is clicked on provider card', async () => {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        country: 'ARS',
+      },
+    };
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', null);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection', 'kripton']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection', 'kripton'], navigationExtras);
   });
 });

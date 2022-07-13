@@ -9,9 +9,12 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
-import { PROVIDERS } from '../shared-ramps/constants/providers';
-import { FiatRampCurrenciesOf } from '../shared-ramps/models/fiat-ramp-currencies-of/fiat-ramp-currencies-of';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-moonpay',
@@ -59,33 +62,33 @@ export class MoonpayPage implements OnInit {
   address: string;
   operationsList: FiatRampOperation[];
   provider: FiatRampProvider;
-  providers: FiatRampProvider[] = PROVIDERS;
   countryIsoCodeAlpha3: string;
   encryptedWallet: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private browserService: BrowserService,
-    private storageService: StorageService,
     private route: ActivatedRoute,
     private walletEncryptionService: WalletEncryptionService,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private apiWalletService: ApiWalletService,
+    private providers: ProvidersFactory,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.provider = this.providers.find((provider) => provider.alias === 'moonpay');
+    this.provider = this.getProviders().byAlias('moonpay');
     this.countryIsoCodeAlpha3 = this.route.snapshot.queryParamMap.get('country');
     this.subscribeToFormChanges();
     this.initAssetsForm();
   }
 
   async initAssetsForm() {
-    await this.availableCoins();
-
+    this.encryptedWallet = await this.walletEncryptionService.getEncryptedWallet();
+    this.coins = this.providerTokens();
     const token = this.route.snapshot.queryParamMap.get('asset');
     const network = this.route.snapshot.queryParamMap.get('network');
     if (token&&network) {
@@ -95,9 +98,12 @@ export class MoonpayPage implements OnInit {
     }
   }
 
-  async availableCoins() {
-    this.encryptedWallet = await this.walletEncryptionService.getEncryptedWallet();
-    this.coins = new FiatRampCurrenciesOf(this.provider, this.apiWalletService.getCoins(), this.encryptedWallet.assets).value();
+  providerTokens() {
+    return new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(this.provider.alias);
+  }
+
+  getProviders(): Providers {
+    return this.providers.create(new ProviderDataRepo(), this.http);
   }
 
   subscribeToFormChanges() {

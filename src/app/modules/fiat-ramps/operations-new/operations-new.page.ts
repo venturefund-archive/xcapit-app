@@ -164,7 +164,7 @@ export class OperationsNewPage implements AfterViewInit {
     this.subscribeToFormChanges();
   }
 
-  async availableCoins() {
+  availableCoins() {
     this.providerTokens = new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(
       'kripton'
     );
@@ -205,7 +205,6 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   async setCurrency() {
-    await this.availableCoins();
     const asset = this.route.snapshot.queryParamMap.get('asset');
     const network = this.route.snapshot.queryParamMap.get('network');
     this.selectedCurrency =
