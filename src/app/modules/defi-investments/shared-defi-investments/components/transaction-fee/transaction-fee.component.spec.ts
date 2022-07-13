@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
@@ -22,7 +23,10 @@ describe('TransactionFeeComponent', () => {
       TestBed.configureTestingModule({
         declarations: [TransactionFeeComponent, FormattedAmountPipe, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [{ provide: ModalController, useValue: modalControllerSpy }],
+        providers: [
+          { provide: ModalController, useValue: modalControllerSpy },
+          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(TransactionFeeComponent);
