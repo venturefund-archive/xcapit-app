@@ -199,6 +199,10 @@ export class SwapHomePage {
     this.tplFee = (await this.gasPrice()).times(this.tplSwapInfo.estimatedGas).json();
   }
 
+  private setUndefinedFeeInfo() {
+    this.tplFee = new AmountOf(undefined, this.activeBlockchain.nativeToken()) .json();
+  }
+
   private gasPrice(): Promise<AmountOf> {
     return this.gasStation().price().fast();
   }
