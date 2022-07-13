@@ -11,7 +11,7 @@ fdescribe('Polygon Gas Price', () => {
   let gasPrice: PolygonGasPrice;
   const polygonBlockchain = new Blockchain(rawPolygonData);
   const _expectedAmount = () => {
-    return new AmountOf(, blockchain.nativeToken());
+    return new AmountOf(, polygonBlockchain.nativeToken());
   }
 
   beforeEach(() => {
