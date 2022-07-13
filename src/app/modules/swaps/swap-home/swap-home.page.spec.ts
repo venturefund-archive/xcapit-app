@@ -30,9 +30,16 @@ import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transaction
 import { FakeBlockchainTx } from '../shared-swaps/models/fakes/fake-blockchain-tx';
 import { NullJSONSwapInfo } from '../shared-swaps/models/json-swap-info/json-swap-info';
 import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-response-data';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
+import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 
+const testLocalNotification: LocalNotificationSchema = {
+  id: 1,
+  title: `swaps.sent_notification.swap_ok.title`,
+  body: `swaps.sent_notification.swap_ok.body`,
+};
 
-describe('SwapHomePage', () => {
+fdescribe('SwapHomePage', () => {
 
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
@@ -49,6 +56,7 @@ describe('SwapHomePage', () => {
   let swapTransactionsFactorySpy: jasmine.SpyObj<SwapTransactionsFactory>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
   const toToken = rawMATICData;
@@ -98,6 +106,10 @@ describe('SwapHomePage', () => {
         trackEvent: Promise.resolve(true),
       });
 
+      localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
+        send: Promise.resolve(),
+      });
+
       TestBed.configureTestingModule({
         declarations: [SwapHomePage, FormattedAmountPipe, FakeTrackClickDirective],
         imports: [
@@ -118,6 +130,7 @@ describe('SwapHomePage', () => {
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: WalletsFactory, useValue: walletsFactorySpy },
           { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
+          { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy }
         ],
       }).compileComponents();
 
@@ -216,6 +229,7 @@ describe('SwapHomePage', () => {
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.swapInProgressUrl]);
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
   });
 
   it('password modal open on click swap button', async () => {
