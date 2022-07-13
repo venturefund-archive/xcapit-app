@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { Amount } from '../../types/amount.type';
 
 @Component({
@@ -55,7 +55,7 @@ import { Amount } from '../../types/amount.type';
   `,
   styleUrls: ['./transaction-fee.component.scss'],
 })
-export class TransactionFeeComponent implements OnInit {
+export class TransactionFeeComponent implements OnChange {
   @Input() fee: Amount = { value: undefined, token: 'MATIC' };
   @Input() quoteFee: Amount = { value: undefined, token: 'USD' };
   @Input() balance: number;
