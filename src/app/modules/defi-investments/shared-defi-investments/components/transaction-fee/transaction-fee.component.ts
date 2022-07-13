@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
@@ -68,6 +68,7 @@ export class TransactionFeeComponent implements OnChanges {
   @Input() autoPrice: boolean = false;
   @Output() transactionFeeInfoClicked: EventEmitter<void> = new EventEmitter<void>();
   private destroy$ = new Subject<void>();
+  private dynamicPriceSubscription: Subscription;
 
   isAmountSend: boolean;
   isInfoModalOpen = false;
