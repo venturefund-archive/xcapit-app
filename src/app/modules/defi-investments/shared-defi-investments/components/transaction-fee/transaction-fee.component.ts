@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Observable } from 'rxjs';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { Amount } from '../../types/amount.type';
 
@@ -75,6 +76,13 @@ export class TransactionFeeComponent implements OnChanges {
     if(this.autoPrice && changes.fee) {
       console.log('calculando precio...');
     }
+  }
+
+  private getDynamicPrice(): Observable<number> {
+    return this.dynamicPriceFactory
+      .new(this.priceRefreshInterval, token, this.apiWalletService)
+      .value()
+      .pipe(takeUntil(this.destroy$));
   }
 
   showPhrasetransactionFeeInfo() {
