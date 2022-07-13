@@ -87,6 +87,7 @@ export class TransactionFeeComponent implements OnChanges {
   }
 
   private setQuoteFee(tokenPrice: number) {
+    console.log('price', tokenPrice);
     this.quoteFee = { value: tokenPrice * this.fee.value, token: 'USD' };
   }
 
