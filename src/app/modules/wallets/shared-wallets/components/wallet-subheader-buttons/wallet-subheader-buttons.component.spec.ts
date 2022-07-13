@@ -188,4 +188,11 @@ describe('WalletSubheaderButtonsComponent', () => {
       expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
     });
   });
+
+  it(`should not render ux_go_to_buy if token is not available for purchase`, () => {
+    component.enabledToBuy = false;
+    fixture.detectChanges();
+    const div = fixture.debugElement.query(By.css('.wsb__card-buttons__buy-card'));
+    expect(div).toBeFalsy();
+  })
 });
