@@ -35,5 +35,4 @@ fdescribe('Amount Of', () => {
     expect(amount.json().value).toEqual(anAmount);
     expect(amount.json().token).toEqual(usdcToken.symbol());
   });
-
 });
