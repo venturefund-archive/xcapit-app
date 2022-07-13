@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
@@ -16,11 +17,18 @@ describe('TransactionFeeComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TransactionFeeComponent>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
+  let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
 
   beforeEach(
     waitForAsync(() => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
+      dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
+
+      dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
+        new: dynamicPriceSpy,
+      });
       TestBed.configureTestingModule({
         declarations: [TransactionFeeComponent, FormattedAmountPipe, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
