@@ -72,7 +72,7 @@ export class TransactionFeeComponent implements OnChanges {
   constructor(private dynamicPrice: DynamicPriceFactory) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(this.autoPrice) {
+    if(this.autoPrice && changes.fee) {
       console.log('calculando precio...');
       console.log(changes);
     }
