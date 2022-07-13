@@ -12,6 +12,7 @@ fdescribe('Polygon Gas Price', () => {
   const polygonBlockchain = new Blockchain(rawPolygonData);
   const _expectedAmount = (aBigNumber: BigNumberOf) => {
     return new AmountOf(
+      aBigNumber.value().toString(),
       , polygonBlockchain.nativeToken());
   }
 
