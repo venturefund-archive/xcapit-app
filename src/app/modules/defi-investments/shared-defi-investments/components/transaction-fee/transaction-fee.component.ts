@@ -104,7 +104,7 @@ export class TransactionFeeComponent implements OnChanges {
   }
 
   private setNullQuoteFee() {
-    this.quoteFee = { value: undefined, token: 'USD' };
+    this.quoteFee = this.nullQuoteFee;
   }
 
   private getDynamicPrice(): Observable<number> {
