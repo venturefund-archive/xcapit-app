@@ -7,7 +7,7 @@ import { WalletEncryptionService } from '../../../wallets/shared-wallets/service
 import { VoidSigner, Wallet } from 'ethers';
 import { Amount } from '../../shared-defi-investments/types/amount.type';
 import { WalletPasswordComponent } from '../../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
-import { ModalController, NavController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../../../shared/services/toast/toast.service';
 import { Subject } from 'rxjs';
@@ -65,7 +65,6 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
       <ion-button
         [appLoading]="this.loading"
         [loadingText]="'defi_investments.withdraw.withdraw.submit_loading' | translate"
-        [disabled]="!this.quoteFee.value"
         appTrackClick
         name="ux_invest_withdraw_confirm"
         expand="block"
@@ -73,7 +72,7 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
         type="submit"
         class="ion-padding-start ion-padding-end ux_button"
         color="secondary"
-        (click)="this.withdraw()"
+        (click)="this.confirm()"
       >
         {{ 'defi_investments.withdraw.withdraw.button' | translate }}
       </ion-button>
@@ -98,6 +97,7 @@ export class WithdrawConfirmationPage implements OnInit {
   nativeToken: Coin;
   nativeTokenBalance: number;
   disable: boolean;
+  userWallet;
 
   constructor(
     private route: ActivatedRoute,
@@ -109,7 +109,9 @@ export class WithdrawConfirmationPage implements OnInit {
     private navController: NavController,
     private walletBalance: WalletBalanceService,
     private investmentDataService: InvestmentDataService,
-    private controller: WithdrawConfirmationController
+    private controller: WithdrawConfirmationController, 
+    private alertController: AlertController
+
   ) {}
 
   ngOnInit() {}
@@ -228,7 +230,8 @@ export class WithdrawConfirmationPage implements OnInit {
     const password = await this.requestPassword();
     if (password) {
       this.loadingEnabled(true);
-      return await this.decryptedWallet(password);
+      this.userWallet = await this.decryptedWallet(password);
+      await this.withdraw();
     }
   }
 
@@ -237,13 +240,11 @@ export class WithdrawConfirmationPage implements OnInit {
   }
 
   async withdraw() {
-    this.loadingEnabled(true);
-    const wallet = await this.wallet();
-    if (wallet) {
+    if (this.userWallet) {
       if (this.checkNativeTokenBalance()) {
         this.disclaimer = true;
         try {
-          const investment = this.controller.investment(this.investmentProduct, wallet, this.apiWalletService);
+          const investment = this.controller.investment(this.investmentProduct, this.userWallet, this.apiWalletService);
           if (this.route.snapshot.paramMap.get('type') === 'all') {
             await (await investment.withdrawAll()).wait();
           } else {
@@ -261,6 +262,31 @@ export class WithdrawConfirmationPage implements OnInit {
       this.loadingEnabled(false);
     }
     this.loadingEnabled(false);
+  }
+  async confirm(){
+    await this.showAlert();
+    this.loadingEnabled(true);
+
+  }
+  async showAlert() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('defi_investments.withdraw.withdraw.header_alert'),
+      message: this.translate.instant('defi_investments.withdraw.withdraw.alert_message'),
+      cssClass: 'ux-alert-confirm',
+      buttons: [
+        {
+          text: this.translate.instant('defi_investments.withdraw.withdraw.alert_cancel'),
+          cssClass: 'secondary-button',
+          handler: (_) => {this.wallet();}
+        },
+        {
+          text: this.translate.instant('defi_investments.withdraw.withdraw.alert_confirmation'),
+          cssClass: 'primary-button',
+        },
+          
+      ],
+    });
+    await alert.present();
   }
 
   async getNativeTokenBalance() {
