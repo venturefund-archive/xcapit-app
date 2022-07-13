@@ -80,7 +80,7 @@ export class TransactionFeeComponent implements OnChanges {
 
   private getDynamicPrice(): Observable<number> {
     return this.dynamicPrice
-      .new(15000, token, this.apiWalletService)
+      .new(15000, { value: this.fee.token }, this.apiWalletService)
       .value()
       .pipe(takeUntil(this.destroy$));
   }
