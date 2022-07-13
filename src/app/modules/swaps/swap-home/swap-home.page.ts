@@ -216,7 +216,7 @@ export class SwapHomePage {
     //   ),
     // this.activeBlockchain.nativeToken()
 
-    const gasPrice = await ().price().fast();
+    const gasPrice = await this.gasStation().price().fast();
 
     this.tplFee = gasPrice.times(this.tplSwapInfo.estimatedGas).json();
 
