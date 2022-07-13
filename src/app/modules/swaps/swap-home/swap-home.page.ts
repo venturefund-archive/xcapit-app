@@ -238,7 +238,9 @@ export class SwapHomePage {
     this.form
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
-      .subscribe(async (value) => await this.setSwapInfo(value));
+      .subscribe(async (value) => {
+        await this.setSwapInfo(value)
+      });
   }
 
   private trackPage() {
