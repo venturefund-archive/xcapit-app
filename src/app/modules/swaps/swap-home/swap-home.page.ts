@@ -192,32 +192,7 @@ export class SwapHomePage {
       this.swap = new Swap(fromTokenAmount, this.fromToken, this.toToken);
     }
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
-
-    // TODO, null case, own house
-    // this.tplFee = await new BlockchainFee(
-    //   new FeeOf(
-    //     new GasUnits(this.tplSwapInfo.estimatedGas),
-    //     await (new GasStationOf(
-    //       this.activeBlockchain,
-    //       this.httpClient
-    //     )).price().fast()
-    //   ),
-    //   this.nativeToken
-    // ).json();
-
-    // console.log(`tx fee: ${this.tplFee.value} ${this.tplFee.token}`);
-
-    //   new FeeOf(
-    //     new GasUnits(this.tplSwapInfo.estimatedGas),
-    //     await (new GasStationOf(
-    //       this.activeBlockchain,
-    //       this.httpClient
-    //     )).price().fast()
-    //   ),
-    // this.activeBlockchain.nativeToken()
-
     const gasPrice = await this.gasStation().price().fast();
-
     this.tplFee = gasPrice.times(this.tplSwapInfo.estimatedGas).json();
 
   }
