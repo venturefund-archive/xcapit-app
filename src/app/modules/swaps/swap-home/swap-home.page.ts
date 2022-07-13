@@ -224,6 +224,7 @@ export class SwapHomePage {
     this.trackPage();
     this.subscribeToFromTokenAmountChanges();
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
+    this.setUndefinedFeeInfo();
     this.setDex();
     this.setTokens();
     this.setFeeInfo();
