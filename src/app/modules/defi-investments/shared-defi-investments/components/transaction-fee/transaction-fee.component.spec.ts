@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
@@ -19,11 +20,15 @@ describe('TransactionFeeComponent', () => {
   let fakeModalController: FakeModalController;
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   beforeEach(
     waitForAsync(() => {
       fakeModalController = new FakeModalController();
       modalControllerSpy = fakeModalController.createSpy();
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+        getPrices: of({ prices: { USDT: 1, ETH: 1, BTC: 1 } }),
+      });
       dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
 
       dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
