@@ -12,6 +12,7 @@ import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/prov
 import { HttpClient } from '@angular/common/http';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 
 @Component({
   selector: 'app-directa',
@@ -84,7 +85,8 @@ export class DirectaPage implements OnInit {
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
-    private http: HttpClient
+    private http: HttpClient,
+    private walletMaintenance: WalletMaintenanceService
   ) {}
 
   ngOnInit() {}
@@ -111,11 +113,16 @@ export class DirectaPage implements OnInit {
     return new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(this.provider.alias);
   }
 
-  openD24() {
+  async openD24() {
+    await this.addBoughtCoinIfUserDoesNotHaveIt();
     return this.navController.navigateForward(['/tabs/wallets']);
   }
 
   getProviders(): Providers {
     return this.providers.create(new ProviderDataRepo(), this.http);
+  }
+
+  addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
+    return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.selectedCurrency);
   }
 }

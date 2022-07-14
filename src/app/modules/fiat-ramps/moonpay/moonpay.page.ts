@@ -3,9 +3,7 @@ import { NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ActivatedRoute, NavigationExtras } from '@angular/router';
-import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
@@ -15,6 +13,7 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
 import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { HttpClient } from '@angular/common/http';
+import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 
 @Component({
   selector: 'app-moonpay',
@@ -63,18 +62,17 @@ export class MoonpayPage implements OnInit {
   operationsList: FiatRampOperation[];
   provider: FiatRampProvider;
   countryIsoCodeAlpha3: string;
-  encryptedWallet: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private browserService: BrowserService,
     private route: ActivatedRoute,
-    private walletEncryptionService: WalletEncryptionService,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
-    private http: HttpClient
+    private http: HttpClient,
+    private walletMaintenance: WalletMaintenanceService
   ) {}
 
   ngOnInit() {}
@@ -86,8 +84,13 @@ export class MoonpayPage implements OnInit {
     this.initAssetsForm();
   }
 
+  ionViewDidLeave() {
+    this.walletMaintenance.wipeDataFromService();
+  }
+
   async initAssetsForm() {
-    this.encryptedWallet = await this.walletEncryptionService.getEncryptedWallet();
+    await this.walletMaintenance.getEncryptedWalletFromStorage();
+
     this.coins = this.providerTokens();
     const token = this.route.snapshot.queryParamMap.get('asset');
     const network = this.route.snapshot.queryParamMap.get('network');
@@ -113,7 +116,7 @@ export class MoonpayPage implements OnInit {
   }
 
   getAddress(value: Coin) {
-    this.address = this.encryptedWallet.addresses[value.network];
+    this.address = this.walletMaintenance.encryptedWallet.addresses[value.network];
   }
 
   async openMoonpay() {
@@ -127,7 +130,8 @@ export class MoonpayPage implements OnInit {
       });
   }
 
-  success(): Promise<boolean> {
+  async success(): Promise<boolean> {
+    await this.addBoughtCoinIfUserDoesNotHaveIt();
     return this.navController.navigateForward(['/tabs/wallets']);
   }  
 
@@ -139,5 +143,9 @@ export class MoonpayPage implements OnInit {
     };
 
     this.navController.navigateForward(['/fiat-ramps/token-selection', this.provider.alias], navigationExtras);
+  }
+
+  addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
+    return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.form.value.currency);
   }
 }

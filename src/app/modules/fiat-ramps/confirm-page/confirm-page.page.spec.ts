@@ -14,6 +14,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
+import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
 
 const storageData = {
   valid: {
@@ -50,8 +53,6 @@ const storageData = {
   },
 };
 
-const provider = rawProvidersData[1];
-
 const operationId = 6;
 
 describe('ConfirmPagePage', () => {
@@ -62,6 +63,8 @@ describe('ConfirmPagePage', () => {
   let fiatRampsServiceSpy: any;
   let navControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ConfirmPagePage>;
+  let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -74,6 +77,13 @@ describe('ConfirmPagePage', () => {
       };
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
         createOperation: of({}),
+      });
+      walletMaintenanceServiceSpy = jasmine.createSpyObj("WalletMaintenanceService", {
+        addCoinIfUserDoesNotHaveIt: Promise.resolve(),
+      });
+
+      apiWalletServiceSpy = jasmine.createSpyObj("ApiWalletService", {
+        getCoin: TEST_COINS[2],
       });
 
       TestBed.configureTestingModule({
@@ -92,6 +102,8 @@ describe('ConfirmPagePage', () => {
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: StorageOperationService, useValue: storageOperationServiceMock },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         ],
       }).compileComponents();
     })
@@ -110,11 +122,15 @@ describe('ConfirmPagePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call createOperation on click confirm button', () => {
+  it('should call createOperation and addCoinIfUserDoesNotHaveIt on click confirm button', async () => {
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_confirm');
     el.nativeElement.click();
     fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledTimes(1);
+    expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(TEST_COINS[2]);
   });
 
   it('should call trackEvent on trackService when ux_buy_kripton_confirm Button clicked', () => {

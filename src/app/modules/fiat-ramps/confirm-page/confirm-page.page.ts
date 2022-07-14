@@ -9,6 +9,7 @@ import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-colors.constant';
+import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 
 @Component({
   selector: 'app-confirm-page',
@@ -76,7 +77,8 @@ export class ConfirmPagePage implements OnInit {
     private storageOperationService: StorageOperationService,
     private apiWalletService: ApiWalletService,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController
+    private navController: NavController,
+    private walletMaintenance: WalletMaintenanceService
   ) {}
 
   ngOnInit() {}
@@ -98,11 +100,16 @@ export class ConfirmPagePage implements OnInit {
     this.fiatRampsService.createOperation(this.operationData).subscribe({
       next: (res) => {
         this.storageOperationService.setOperationId(res.id);
+        this.addBoughtCoinIfUserDoesNotHaveIt();
         this.navController.navigateForward(['fiat-ramps/success-page']);
       },
       complete: () => {
         this.disabledButton = false;
       },
     });
+  }
+  
+  addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
+    return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.token);
   }
 }
