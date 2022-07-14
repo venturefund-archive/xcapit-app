@@ -6,6 +6,7 @@ import { Blockchain } from "../blockchain/blockchain";
 import { fakeProviders } from "../fakes/fake-ethers-providers";
 import { rawPolygonData } from "../fixtures/raw-blockchains-data";
 import { rawPolygonGasStation } from "../fixtures/raw-polygon-gs-data";
+import { GasStationOf } from "./gas-station-of";
 
 
 @Injectable({ providedIn: 'root' })
@@ -16,6 +17,7 @@ export class GasStationOfFactory {
     _httpClient: HttpClient | FakeHttpClient,
     _providers: any = providers
   ) {
+    new GasStationOf
     return true;
   }
 }
