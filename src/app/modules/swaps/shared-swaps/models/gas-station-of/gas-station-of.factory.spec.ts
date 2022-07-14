@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { providers } from "ethers";
 import { FakeHttpClient } from "src/testing/fakes/fake-http.spec";
