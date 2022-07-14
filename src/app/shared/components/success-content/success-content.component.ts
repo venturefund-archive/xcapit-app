@@ -24,7 +24,7 @@ import { TrackService } from '../../services/track/track.service';
         <app-ux-title>{{ this.data?.textPrimary | translate }}</app-ux-title>
       </div>
       <div class="main__secondary-text">
-        <ion-text class="ux-font-text-base">{{ this.data?.textSecondary | translate }}</ion-text>
+        <div class="ux-font-text-base">{{ this.data?.textSecondary | translate }}</div>
       </div>
       <div class="main__ux-success-image" *ngIf="this.data.bottomImage">
         <app-ux-center-img [imagePath]="this.data.image" [imageAlt]="this.imageAlt"></app-ux-center-img>
