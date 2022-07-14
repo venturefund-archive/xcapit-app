@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { AmountOf } from '../amount-of/amount-of';
 import { Blockchain } from '../blockchain/blockchain';
@@ -24,7 +25,7 @@ export type RawPolygonGS = {
 
 export class PolygonGasPrice implements GasPrice {
 
-  private readonly _url = 'https://gasstation-mainnet.matic.network/v2';
+  private readonly _url = environment;
 
   constructor(private _aBlockchain: Blockchain, private _httpClient: HttpClient | FakeHttpClient) { }
 
