@@ -146,8 +146,8 @@ export class DefiInvestmentProductsPage {
     },
   ];
   activeInvestments: DefiInvestment[] = [];
-  activeInvestmentsContinuousEarning: DefiInvestment[] = [];  
-  activeInvestmentsWeaklyEarning: DefiInvestment[] = [];  
+  activeInvestmentsContinuousEarning: DefiInvestment[] = [];
+  activeInvestmentsWeaklyEarning: DefiInvestment[] = [];
   availableInvestments: DefiInvestment[] = [];
   filteredAvailableInvestments: DefiInvestment[] = [];
   haveInvestments = true;
