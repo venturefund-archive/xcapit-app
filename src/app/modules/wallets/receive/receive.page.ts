@@ -83,18 +83,15 @@ import { NavController } from '@ionic/angular';
             </ion-item>
           </div>
           <div class="wr__card-content__disclaimer" *ngIf="this.currency">
-            <ion-text class="ux-font-titulo-xs">
-              {{
-                'wallets.receive.disclaimer_header'
-                  | translate: { currency: this.currency.value, network: this.selectedNetwork }
-              }}
-            </ion-text>
-            <ion-text class="ux-font-text-xs">
-              {{
-                'wallets.receive.disclaimer_body'
-                  | translate: { currency: this.currency.value, network: this.selectedNetwork }
-              }}
-            </ion-text>
+          <app-backup-information-card
+            [text]="
+            'wallets.receive.disclaimer_header'
+                  | translate: { currency: this.currency.value, network: this.selectedNetwork | formattedNetwork
+                    }
+            "
+            [textClass]="'ux-home-backup-card'"
+          >
+          </app-backup-information-card>
           </div>
         </div>
       </div>

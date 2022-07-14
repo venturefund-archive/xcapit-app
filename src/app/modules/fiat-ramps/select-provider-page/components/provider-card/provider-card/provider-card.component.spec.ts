@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { ProviderCardComponent } from './provider-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -8,6 +8,7 @@ import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const providerTest = {
   id: 2,
@@ -17,7 +18,7 @@ const providerTest = {
   description: 'fiat_ramps.select_provider.krypton_description',
   newOperationRoute: '/fiat-ramps/new-operation/kripton',
   countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
-  trackClickEventName: 'ux_buy_moonpay'
+  trackClickEventName: 'ux_buy_moonpay',
 };
 
 describe('ProviderCardComponent', () => {
@@ -26,16 +27,22 @@ describe('ProviderCardComponent', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ProviderCardComponent>;
-
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
       TestBed.configureTestingModule({
         declarations: [ProviderCardComponent, FakeTrackClickDirective],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
+        ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
@@ -43,10 +50,10 @@ describe('ProviderCardComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProviderCardComponent);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     component = fixture.componentInstance;
     component.provider = providerTest;
     fixture.detectChanges();
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
   it('should create', () => {
@@ -55,11 +62,11 @@ describe('ProviderCardComponent', () => {
 
   it('should render properly', () => {
     const imgEl = fixture.debugElement.query(By.css('div.pcc__content__image'));
-    const nameEl = fixture.debugElement.query(By.css('ion-text.pcc__content__body__name'));
-    const cardInfoIconEl = fixture.debugElement.query(By.css('ion-text.pcc__content__body__description'));
+    const nameEl = fixture.debugElement.query(By.css('ion-text.name'));
+    const descriptionEl = fixture.debugElement.query(By.css('ion-text.description'));
     expect(imgEl.nativeElement.innerHTML).toBeTruthy();
     expect(nameEl.nativeElement.innerHTML).toContain(providerTest.name);
-    expect(cardInfoIconEl.nativeElement.innerHTML).toContain(providerTest.description);
+    expect(descriptionEl.nativeElement.innerHTML).toContain(providerTest.description);
   });
 
   it('should emit event when radio button is checked', () => {
@@ -77,5 +84,34 @@ describe('ProviderCardComponent', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when informative_modal clicked', () => {
+    component.provider.showInfo = true;
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'informative_modal');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show informative modal of Moonpay provider when information_modal clicked', async () => {
+    component.provider.showInfo = true;
+    component.provider.name = 'Moonpay';
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="informative_modal"]')).nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show informative modal of Kripton Market provider when information_modal clicked', async () => {
+    component.provider.showInfo = true;
+    component.provider.name = 'Kripton Market';
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="informative_modal"]')).nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });

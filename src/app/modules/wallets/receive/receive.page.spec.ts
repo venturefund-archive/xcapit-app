@@ -18,7 +18,7 @@ import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-d
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-import { WriteOptions } from '@capacitor/clipboard';
+import { FormattedNetworkPipe } from 'src/app/shared/pipes/formatted-network-name/formatted-network.pipe';
 
 const testCurrencies: Coin[] = [
   {
@@ -94,7 +94,7 @@ describe('ReceivePage', () => {
         }),
       };
       TestBed.configureTestingModule({
-        declarations: [ReceivePage, FakeTrackClickDirective],
+        declarations: [ReceivePage, FakeTrackClickDirective,FormattedNetworkPipe],
         imports: [
           IonicModule,
           HttpClientTestingModule,

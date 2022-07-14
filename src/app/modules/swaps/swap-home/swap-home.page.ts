@@ -33,6 +33,9 @@ import { BlockchainTokens } from '../shared-swaps/models/blockchain-tokens/block
 import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-tokens';
 import { GasStationOf } from '../shared-swaps/models/gas-station-of/gas-station-of';
 import { AmountOf, NullAmountOf, RawAmount } from '../shared-swaps/models/amount-of/amount-of';
+import { PasswordErrorHandlerService } from '../shared-swaps/services/password-error-handler/password-error-handler.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-swap-home',
@@ -189,7 +192,10 @@ export class SwapHomePage {
     private oneInch: OneInchFactory,
     private intersectedTokens: IntersectedTokensFactory,
     private swapTransactions: SwapTransactionsFactory,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private passwordErrorHandlerService: PasswordErrorHandlerService,
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -343,8 +349,13 @@ export class SwapHomePage {
       .catch((err) => {
         console.log('Swap NOT OK!');
         console.log(err.message);
+        this.passwordErrorHandlerService.handlePasswordError(err, () => { this.showPasswordError() })
         this.resetMainButton();
       });
+  }
+
+  private async showPasswordError(){
+    await this.toastService.showErrorToast({ message: this.translate.instant('swaps.errors.invalid_password') });
   }
 
   private swapTxs(wallet: Wallet): SwapTransactions {

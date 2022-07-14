@@ -90,16 +90,21 @@
     }
 
     &__gains {
-      padding: 18px;
-      padding-top: 20px;
-      font-family: var(--ux-font-lato);
+      padding-left: 16px;
+      margin-top: 21px;
       color: var(--ion-color-neutral80);
+      font-weight: var(--ux-fweight-bold);
+    }
+
+    &__balance_items {
+      margin-bottom: 16px;
     }
 
     &__weeklygains {
-      padding: 18px;
-      font-family: var(--ux-font-lato);
+      padding-left: 16px;
+      margin-top: 16px;
       color: var(--ion-color-neutral80);
+      font-weight: var(--ux-fweight-bold);
     }
   }
 

@@ -16,6 +16,12 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-transfers-response/covalent-transfers-response';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.pipe';
+import { FormattedNetworkPipe } from 'src/app/shared/pipes/formatted-network-name/formatted-network.pipe';
+import { ProvidersFactory } from '../../fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
+import { Providers } from '../../fiat-ramps/shared-ramps/models/providers/providers.interface';
+import { rawProvidersData } from '../../fiat-ramps/shared-ramps/fixtures/raw-providers-data';
+import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 
 const nativeTransfersResponse = {
   data: {
@@ -57,14 +63,27 @@ describe('AssetDetailPage', () => {
   let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
-  let activatedRouteMock: any;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let fakeNavController: FakeNavController;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
+  let coinsSpy: jasmine.SpyObj<Coin>[];
   beforeEach(
     waitForAsync(() => {
-      activatedRouteMock = { snapshot: { paramMap: { get: () => 'ETH' } } };
+      coinsSpy = [jasmine.createSpyObj('Coin', {}, {
+        value: 'ETH',
+        network: 'ERC20'
+      }),
+      jasmine.createSpyObj('Coin', {}, {
+        value: 'AVAX',
+        network: 'BSC_BEP20'
+      })]
+      fakeActivatedRoute = new FakeActivatedRoute({currency: 'ETH'});
+      activatedRouteSpy = fakeActivatedRoute.createSpy();
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getPrices: of({ prices: { ETH: 3000 } }),
-        getCoins: [nativeAsset],
+        getCoins: coinsSpy,
       });
       walletServiceSpy = jasmine.createSpyObj(
         'WalletService',
@@ -79,9 +98,18 @@ describe('AssetDetailPage', () => {
       });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+      providersSpy = jasmine.createSpyObj('Providers', {
+        all: rawProvidersData,
+        byAlias: rawProvidersData.find((provider) => provider.alias === 'PX'),
+      });
+
+      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+        create: providersSpy,
+      });
+
 
       TestBed.configureTestingModule({
-        declarations: [AssetDetailPage, FormattedAmountPipe],
+        declarations: [AssetDetailPage, FormattedAmountPipe, SplitStringPipe, FormattedNetworkPipe],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule.forRoot(), RouterTestingModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
@@ -89,14 +117,14 @@ describe('AssetDetailPage', () => {
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
           { provide: StorageService, useValue: storageServiceSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteMock },
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
+          { provide: ProvidersFactory, useValue: providersFactorySpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(AssetDetailPage);
       component = fixture.componentInstance;
-      component.coins = [nativeAsset];
       fixture.detectChanges();
     })
   );
@@ -110,8 +138,17 @@ describe('AssetDetailPage', () => {
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.currency).toEqual(nativeAsset);
+    expect(component.currency).toEqual(coinsSpy[0]);
+    expect(component.enabledToBuy).toBeTrue();
   });
+
+  it('should disable purchase when token is not enabled to buy among all providers', async () => {
+    fakeActivatedRoute.modifySnapshotParams({currency: 'AVAX'})
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.enabledToBuy).toBeFalse();
+  })
 
   it('should get transfers on view will enter', async () => {
     component.ionViewWillEnter();
@@ -131,10 +168,9 @@ describe('AssetDetailPage', () => {
     component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    const amountEl = fixture.debugElement.query(By.css('.wad__asset_amount__original ion-text'));
+    const [amountEl, quoteAmountEl] = fixture.debugElement.queryAll(By.css('.wad__available__amounts ion-text'));
     expect(amountEl.nativeElement.innerHTML).toContain(20);
     expect(amountEl.nativeElement.innerHTML).toContain('ETH');
-    const quoteAmountEl = fixture.debugElement.query(By.css('.wad__asset_amount__usd ion-text'));
     expect(quoteAmountEl.nativeElement.innerHTML).toContain('USD');
     expect(quoteAmountEl.nativeElement.innerHTML).toContain('60000 USD');
   });
@@ -144,10 +180,9 @@ describe('AssetDetailPage', () => {
     component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    const amountEl = fixture.debugElement.query(By.css('.wad__asset_amount__original ion-text'));
+    const [amountEl, quoteAmountEl] = fixture.debugElement.queryAll(By.css('.wad__available__amounts ion-text'));
     expect(amountEl.nativeElement.innerHTML).toContain(20);
     expect(amountEl.nativeElement.innerHTML).toContain('ETH');
-    const quoteAmountEl = fixture.debugElement.query(By.css('.wad__asset_amount__usd ion-text'));
-    expect(quoteAmountEl).toBe(null);
+    expect(quoteAmountEl).toBe(undefined);
   });
 });

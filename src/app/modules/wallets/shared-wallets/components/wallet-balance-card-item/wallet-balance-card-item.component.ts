@@ -20,7 +20,7 @@ import { TokenDetail } from '../../models/token-detail/token-detail';
             >
           </ion-label>
           <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold"
-            >{{ this.tokenDetail.balance | formattedAmount }} {{ this.tokenDetail.coin.value }}</ion-label
+            >{{ this.tokenDetail.balance | formattedAmount }}</ion-label
           >
         </div>
         <div class="wbci__content__bottom">

@@ -4,8 +4,7 @@ import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { createWidget } from '@typeform/embed';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { MODULES_CRYPTO } from '../shared-financial-education/constants/crypto';
-import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
+import { ModulesService } from '../shared-financial-education/services/financial-education/modules.service';
 
 @Component({
   selector: 'app-test-typeform',
@@ -27,7 +26,7 @@ import { MODULES_FINANCE } from '../shared-financial-education/constants/finance
 export class TestTypeformPage implements OnInit {
   selectedTab: string;
   module: any;
-  wallet_address:string;
+  wallet_address: string;
   subModule: any;
   data: any;
   code: string;
@@ -37,7 +36,8 @@ export class TestTypeformPage implements OnInit {
     private route: ActivatedRoute,
     private navController: NavController,
     private translate: TranslateService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private modulesService: ModulesService
   ) {}
 
   ngOnInit() {}
@@ -52,19 +52,17 @@ export class TestTypeformPage implements OnInit {
     this.updateTexts();
   }
 
-
   private async getUserWalletAddress() {
     const wallet = await this.storageService.getWalletFromStorage();
     this.wallet_address = wallet.addresses.ERC20;
   }
 
-
   createTypeform() {
     createWidget(this.code, {
       container: document.querySelector('#form'),
-      hidden:{
-        wallet_address:`${this.wallet_address}`,
-        submodule_id:`${this.subModule.id}`,
+      hidden: {
+        wallet_address: `${this.wallet_address}`,
+        submodule_id: `${this.subModule.id}`,
       },
       onSubmit: () => {
         this.redirectToPage();
@@ -80,7 +78,7 @@ export class TestTypeformPage implements OnInit {
   }
 
   getData() {
-    this.data = this.selectedTab === 'finance' ? MODULES_FINANCE : MODULES_CRYPTO;
+    this.data = this.modulesService.getModuleByTab(this.selectedTab);
   }
 
   getModule() {

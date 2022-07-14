@@ -10,4 +10,5 @@ export interface FiatRampProvider {
   currencies?: { symbol: string; network: string }[];
   trackClickEventName: string;
   providerName?: string;
+  showInfo?: boolean;
 }

@@ -11,9 +11,9 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { Providers } from '../shared-ramps/models/providers/providers';
 import { DirectaPage } from './directa.page';
 import { rawProviderCountriesData } from '../shared-ramps/fixtures/raw-provider-countries-data';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
 
 describe('DirectaPage', () => {
   let component: DirectaPage;
@@ -44,6 +44,7 @@ describe('DirectaPage', () => {
 
       providersSpy = jasmine.createSpyObj('Providers', {
         all: rawProvidersData,
+        byAlias: rawProvidersData.find((provider) => provider.alias === 'PX'),
       });
 
       providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
@@ -81,7 +82,7 @@ describe('DirectaPage', () => {
   });
 
   it('should set country, default currency and provider on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({ country: 'ecuador', alias: 'MP' }, {});
+    fakeActivatedRoute.modifySnapshotParams({ country: 'ecuador', alias: 'PX' }, {});
     component.ionViewWillEnter();
     expect(component.country.name).toEqual('Ecuador');
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);
