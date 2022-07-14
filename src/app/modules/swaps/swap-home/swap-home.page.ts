@@ -192,7 +192,7 @@ export class SwapHomePage {
     private oneInch: OneInchFactory,
     private intersectedTokens: IntersectedTokensFactory,
     private swapTransactions: SwapTransactionsFactory,
-    private gasStation: GasStationOfFactory
+    private gasStation: GasStationOfFactory,
     private trackService: TrackService,
     private passwordErrorHandlerService: PasswordErrorHandlerService,
     private toastService: ToastService,
