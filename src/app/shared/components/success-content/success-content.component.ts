@@ -64,6 +64,7 @@ import { TrackService } from '../../services/track/track.service';
             color="info"
             appTrackClick
             fill="clear"
+            [dataToTrack]="{ eventLabel: this.data.trackClickEventNameSecondaryAction }"
             name="Success Action Secondary"
             (click)="this.secondaryAction()"
           >
