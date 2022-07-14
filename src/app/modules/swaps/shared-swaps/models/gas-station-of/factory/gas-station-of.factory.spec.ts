@@ -6,7 +6,7 @@ import { rawPolygonGasStation } from "../../fixtures/raw-polygon-gs-data";
 import { GasStationOfFactory } from "./gas-station-of.factory";
 
 
-fdescribe('GasStationOfFactory', () => {
+describe('GasStationOfFactory', () => {
 
   it('new', () => {
     expect(new GasStationOfFactory()).toBeTruthy();
