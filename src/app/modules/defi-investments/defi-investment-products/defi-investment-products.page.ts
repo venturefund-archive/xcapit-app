@@ -262,7 +262,6 @@ export class DefiInvestmentProductsPage {
   }
 
   async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {
-    console.log('product', product);
     return new TwoPiProduct(await this.twoPiApi.vault(product.id), this.apiWalletService);
   }
 }
