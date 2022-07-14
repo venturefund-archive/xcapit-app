@@ -95,7 +95,7 @@ export class TransactionFeeComponent implements OnChanges {
   }
 
   private setFeeTokenPrice() {
-    this.dynamicPriceSubscription = this.getDynamicPrice()
+    this.dynamicPriceSubscription = this.feeTokenPrice()
       .subscribe((price: number) => this.setQuoteFee(price));
   }
 
@@ -115,7 +115,7 @@ export class TransactionFeeComponent implements OnChanges {
     this.quoteFee = this.nullQuoteFee;
   }
 
-  private getDynamicPrice(): Observable<number> {
+  private feeTokenPrice(): Observable<number> {
     return this.dynamicPrice
       .new(this.priceRefreshInterval, { value: this.fee.token }, this.apiWalletService)
       .value()
