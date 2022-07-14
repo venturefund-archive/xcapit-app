@@ -33,7 +33,7 @@ import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-re
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 
-describe('SwapHomePage', () => {
+fdescribe('SwapHomePage', () => {
 
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
