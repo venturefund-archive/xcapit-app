@@ -218,13 +218,6 @@ export class SwapHomePage {
     return this.gasStation.create(this.activeBlockchain, this.httpClient).price().fast();
   }
 
-  // private gasStation(): GasStationOf {
-  //   return new GasStationOf(
-  //     this.activeBlockchain,
-  //     this.httpClient
-  //   );
-  // }
-
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
     return fromTokenAmount
       ? await new JSONSwapInfo(new SwapInfoOf(this.swap, this.dex, this.referral)).value()
