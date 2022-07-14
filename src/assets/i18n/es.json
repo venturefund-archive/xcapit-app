@@ -2066,6 +2066,7 @@
       "postal_code": "Código postal",
       "address_street": "Dirección (calle)",
       "address_number": "Dirección (Número)",
+      "phone": "Teléfono",
       "address_extra": "Dirección (Piso/Dpto)",
       "cbu": "CBU/CVU",
       "bank": "BANCO",
