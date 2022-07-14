@@ -17,8 +17,7 @@ export class GasStationOfFactory {
     _httpClient: HttpClient | FakeHttpClient,
     _providers: any = providers
   ) {
-    new GasStationOf
-    return true;
+    return new GasStationOf(_aBlockchain, _httpClient, _providers);
   }
 }
 
