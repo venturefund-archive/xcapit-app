@@ -9,7 +9,12 @@ import { rawPolygonGasStation } from "../fixtures/raw-polygon-gs-data";
 @Injectable({ providedIn: 'root' })
 export class GasStationOfFactory {
 
-  create() {
+  create(
+    aBlockchain: Blockchain,
+    httpClient: HttpClient | FakeHttpClient,
+    providers: any = providers
+
+  ) {
     return true;
   }
 }
