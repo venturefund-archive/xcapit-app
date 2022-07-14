@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { FakeHttpClient } from "src/testing/fakes/fake-http.spec";
 import { Blockchain } from "../blockchain/blockchain";
+import { fakeProviders } from "../fakes/fake-ethers-providers";
+import { rawPolygonData } from "../fixtures/raw-blockchains-data";
 
 
 @Injectable({ providedIn: 'root' })
