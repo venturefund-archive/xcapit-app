@@ -21,7 +21,6 @@ export class TwoPiProduct implements InvestmentProduct {
   }
 
   token(): Coin {
-    console.log('vault', this.vault);
     return this.apiWalletService
       .getCoins()
       .find((token) => token.value === new EquivalentTokenOf(this.vault.token).value());
