@@ -49,7 +49,7 @@ describe('SwapHomePage', () => {
   let oneInchFactorySpy: jasmine.SpyObj<OneInchFactory>;
   let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
   let swapTransactionsFactorySpy: jasmine.SpyObj<SwapTransactionsFactory>;
-  let gasStationFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
+  let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
