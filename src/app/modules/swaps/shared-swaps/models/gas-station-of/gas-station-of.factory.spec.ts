@@ -17,6 +17,7 @@ fdescribe('GasStationOfFactory', () => {
   });
 
   it('create', () => {
-    expect(new GasStationOfFactory().create()).toBeTruthy();
+    const gasStation = new GasStationOfFactory().create();
+    expect(gasStation).toBeTruthy();
   });
 });
