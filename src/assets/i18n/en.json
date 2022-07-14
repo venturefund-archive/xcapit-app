@@ -1797,7 +1797,7 @@
     "asset_detail": {
       "header": "Asset Detail",
       "wallet_transaction_title": "Transactions",
-      "available":"Balance available"
+      "available": "Balance available"
     },
     "error_wallet_recovery": {
       "title": "Your recovery phrase is incorrect",
@@ -2088,6 +2088,7 @@
       "postal_code": "Postal code",
       "address_street": "Address (Street)",
       "address_number": "Address (Number)",
+      "phone": "Phone",
       "address_extra": "Address (Floor/Department)",
       "cbu": "CBU/CVU",
       "bank": "BANK",
@@ -2364,8 +2365,8 @@
       "to_token_title": "To",
       "footer_text": "It will only take a few seconds."
     },
-    "errors":{
-      "invalid_password":"The password entered is not valid."
+    "errors": {
+      "invalid_password": "The password entered is not valid."
     },
     "select_token": {
       "header": "Swap",

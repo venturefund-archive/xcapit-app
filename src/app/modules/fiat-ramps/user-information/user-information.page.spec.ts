@@ -31,6 +31,7 @@ const formData = {
     direccion_calle: 'San Martín',
     direccion_nro: '777',
     expuesto_politicamente: false,
+    telefono: '3333444444'
   },
   invalid: {
     nombre: '',
@@ -61,6 +62,7 @@ const formData = {
     direccion_calle: 'San Martín',
     direccion_nro: '777',
     expuesto_politicamente: false,
+    telefono: '3333444444'
   },
 };
 
