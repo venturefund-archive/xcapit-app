@@ -100,6 +100,8 @@ describe('SwapHomePage', () => {
         create: { blockchainTxs: () => [new FakeBlockchainTx()] },
       });
 
+      gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory');
+
       trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
         trackEvent: Promise.resolve(true),
       });
