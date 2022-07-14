@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController, AlertController } from '@ionic/angular';
 import { WithdrawConfirmationPage } from './withdraw-confirmation.page';
 import { ApiWalletService } from '../../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { WalletEncryptionService } from '../../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
@@ -24,6 +24,7 @@ import { InvestmentDataService } from '../../shared-defi-investments/services/in
 import { WithdrawConfirmationController } from './withdraw-confirmation.controller';
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { By } from '@angular/platform-browser';
 
 describe('WithdrawConfirmationPage', () => {
   let component: WithdrawConfirmationPage;
@@ -50,8 +51,12 @@ describe('WithdrawConfirmationPage', () => {
   let investmentDataServiceSpy: jasmine.SpyObj<InvestmentDataService>;
   let controllerSpy: jasmine.SpyObj<WithdrawConfirmationController>;
   let gasFeeOfSpy: jasmine.SpyObj<GasFeeOf>;
+  let alertControllerSpy: jasmine.SpyObj<AlertController>;
+  let alertSpy: jasmine.SpyObj<HTMLIonAlertElement>;
   beforeEach(
     waitForAsync(() => {
+      alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
+      alertControllerSpy = jasmine.createSpyObj('AlertController', { create: Promise.resolve(alertSpy) });
       fakeActivatedRoute = new FakeActivatedRoute({ vault: 'usdc_mumbai' });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       fakeNavController = new FakeNavController();
@@ -153,6 +158,7 @@ describe('WithdrawConfirmationPage', () => {
           { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
           { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
           { provide: WithdrawConfirmationController, useValue: controllerSpy },
+          { provide: AlertController, useValue: alertControllerSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -179,7 +185,7 @@ describe('WithdrawConfirmationPage', () => {
 
   it('should withdraw', async () => {
     await component.ionViewDidEnter();
-    await component.wallet();
+    await component.withdraw();
     await fixture.whenStable();
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/withdraw/success');
@@ -190,7 +196,7 @@ describe('WithdrawConfirmationPage', () => {
       type: 'all',
     });
     await component.ionViewDidEnter();
-    await component.wallet();
+    await component.withdraw();
     await fixture.whenStable();
     expect(investmentSpy.withdrawAll).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/withdraw/success');
@@ -215,7 +221,7 @@ describe('WithdrawConfirmationPage', () => {
   it('should navigate to error page if error', async () => {
     investmentSpy.withdraw.and.rejectWith();
     await component.ionViewDidEnter();
-    await component.wallet();
+    await component.withdraw();
     await fixture.whenStable();
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/withdraw/error', 'usdc_mumbai']);
@@ -243,9 +249,26 @@ describe('WithdrawConfirmationPage', () => {
     providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('1000000000000')));
     fixture.detectChanges();
     await component.ionViewDidEnter();
-    await component.wallet();
+    await component.withdraw();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
+  });
+
+  it('should display alert when confirm button is clicked and fee is still calculating', async () => {
+    await component.ionViewDidEnter();
+    component.quoteFee.value = undefined;
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_withdraw_confirm"]')).nativeElement.click();
+    expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should withdraw and not display alert when confirm button is clicked and fee is calculated', async () => {
+    const spy = spyOn(component, 'withdraw');
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_withdraw_confirm"]')).nativeElement.click();
+    expect(alertControllerSpy.create).not.toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

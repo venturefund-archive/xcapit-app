@@ -65,6 +65,7 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
       <ion-button
         [appLoading]="this.loading"
         [loadingText]="'defi_investments.withdraw.withdraw.submit_loading' | translate"
+        [disabled]="this.loading"
         appTrackClick
         name="ux_invest_withdraw_confirm"
         expand="block"
@@ -97,7 +98,6 @@ export class WithdrawConfirmationPage implements OnInit {
   nativeToken: Coin;
   nativeTokenBalance: number;
   disable: boolean;
-  userWallet;
 
   constructor(
     private route: ActivatedRoute,
@@ -109,9 +109,8 @@ export class WithdrawConfirmationPage implements OnInit {
     private navController: NavController,
     private walletBalance: WalletBalanceService,
     private investmentDataService: InvestmentDataService,
-    private controller: WithdrawConfirmationController, 
+    private controller: WithdrawConfirmationController,
     private alertController: AlertController
-
   ) {}
 
   ngOnInit() {}
@@ -230,8 +229,7 @@ export class WithdrawConfirmationPage implements OnInit {
     const password = await this.requestPassword();
     if (password) {
       this.loadingEnabled(true);
-      this.userWallet = await this.decryptedWallet(password);
-      await this.withdraw();
+      return await this.decryptedWallet(password);
     }
   }
 
@@ -240,11 +238,12 @@ export class WithdrawConfirmationPage implements OnInit {
   }
 
   async withdraw() {
-    if (this.userWallet) {
+    const wallet = await this.wallet();
+    if (wallet) {
       if (this.checkNativeTokenBalance()) {
         this.disclaimer = true;
         try {
-          const investment = this.controller.investment(this.investmentProduct, this.userWallet, this.apiWalletService);
+          const investment = this.controller.investment(this.investmentProduct, wallet, this.apiWalletService);
           if (this.route.snapshot.paramMap.get('type') === 'all') {
             await (await investment.withdrawAll()).wait();
           } else {
@@ -263,27 +262,34 @@ export class WithdrawConfirmationPage implements OnInit {
     }
     this.loadingEnabled(false);
   }
-  async confirm(){
-    await this.showAlert();
-    this.loadingEnabled(true);
 
+  async confirm() {
+    this.loadingEnabled(true);
+    !this.quoteFee.value ? await this.showAlert() : this.withdraw();
   }
+
   async showAlert() {
     const alert = await this.alertController.create({
       header: this.translate.instant('defi_investments.withdraw.withdraw.header_alert'),
       message: this.translate.instant('defi_investments.withdraw.withdraw.alert_message'),
       cssClass: 'ux-alert-confirm',
+      backdropDismiss: false,
       buttons: [
         {
           text: this.translate.instant('defi_investments.withdraw.withdraw.alert_cancel'),
           cssClass: 'secondary-button',
-          handler: (_) => {this.wallet();}
+          handler: (_) => {
+            this.loadingEnabled(false);
+          },
         },
+
         {
           text: this.translate.instant('defi_investments.withdraw.withdraw.alert_confirmation'),
           cssClass: 'primary-button',
+          handler: (_) => {
+            this.withdraw();
+          },
         },
-          
       ],
     });
     await alert.present();

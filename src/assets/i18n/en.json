@@ -440,7 +440,7 @@
         "withdraw_fee": "Withdrawal fee",
         "disclaimer": "It will only take a few seconds",
         "header_alert": "Wait!",
-        "alert": "We are still calculating the transaction fee. Do you want to continue anyway?",
+        "alert_message": "We are still calculating the transaction fee. Do you want to continue anyway?",
         "alert_confirmation": "Confirm",
         "alert_cancel":"Cancel"
       },
