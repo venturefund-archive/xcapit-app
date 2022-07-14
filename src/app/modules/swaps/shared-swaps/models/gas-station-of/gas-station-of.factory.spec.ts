@@ -11,9 +11,9 @@ import { rawPolygonGasStation } from "../fixtures/raw-polygon-gs-data";
 export class GasStationOfFactory {
 
   create(
-    aBlockchain: Blockchain,
-    httpClient: HttpClient | FakeHttpClient,
-    providers: any = providers
+    _aBlockchain: Blockchain,
+    _httpClient: HttpClient | FakeHttpClient,
+    _providers: any = providers
   ) {
     return true;
   }
