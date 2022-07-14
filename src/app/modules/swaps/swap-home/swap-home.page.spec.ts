@@ -103,7 +103,7 @@ fdescribe('SwapHomePage', () => {
       });
 
       gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
-        create: { price: () => { fast: () => new AmountOf(0, new DefaultToken(rawMATICData)) } }
+        create: { price: () => { fast: () => new AmountOf('0', new DefaultToken(rawMATICData)) } }
       });
 
       trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
