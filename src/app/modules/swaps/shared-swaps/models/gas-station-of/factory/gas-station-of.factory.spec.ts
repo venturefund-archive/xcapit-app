@@ -1,3 +1,6 @@
+import { GasStationOfFactory } from "./gas-station-of.factory";
+
+
 fdescribe('GasStationOfFactory', () => {
 
   it('new', () => {
