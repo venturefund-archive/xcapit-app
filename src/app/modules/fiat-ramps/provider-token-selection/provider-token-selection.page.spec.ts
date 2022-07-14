@@ -110,7 +110,7 @@ describe('ProviderTokenSelectionPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
-    fakeActivatedRoute = new FakeActivatedRoute({ provider: 'moonpay' });
+    fakeActivatedRoute = new FakeActivatedRoute({ provider: 'moonpay' }, { country: 'COL' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -163,6 +163,7 @@ describe('ProviderTokenSelectionPage', () => {
       queryParams: {
         asset: 'MATIC',
         network: 'MATIC',
+        country: 'COL',
       },
     };
     component.ionViewWillEnter();
@@ -175,13 +176,14 @@ describe('ProviderTokenSelectionPage', () => {
     );
   });
 
-  it('should navigate to kripton new operation page when itemClicked event is fired', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ provider: 'kripton' });
+  it('should navigate to kripton new operation page when clickedCoin event is fired', async () => {
+    fakeActivatedRoute.modifySnapshotParams({ provider: 'kripton' }, { country: 'ARS' });
 
     const navigationExtras: NavigationExtras = {
       queryParams: {
         asset: 'MATIC',
         network: 'MATIC',
+        country: 'ARS',
       },
     };
     component.ionViewWillEnter();

@@ -64,7 +64,7 @@ export class ProviderCardComponent {
 
   constructor(private modalController: ModalController, private translate: TranslateService) {}
 
-  sendProviderData(provider) {
+  sendProviderData(provider: FiatRampProvider) {
     this.selectedProvider.emit(provider);
   }
 

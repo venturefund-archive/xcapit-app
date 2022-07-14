@@ -56,9 +56,9 @@ const operation: FiatRampOperation = {
 };
 
 const COUNTRIES: FiatRampProviderCountry[] = [
-  { name: 'Costa Rica', value: 'fiat_ramps.countries_list.costa_rica', fiatCode: 'crc'},
-  { name: 'Colombia', value: 'fiat_ramps.countries_list.colombia', fiatCode: 'cop', isoCode: 'COL' },
-  { name: 'Argentina', value: 'fiat_ramps.countries_list.argentina', fiatCode: 'ars', isoCode: 'ARS' },
+  { name: 'Costa Rica', value: 'fiat_ramps.countries_list.costa_rica', fiatCode: 'crc', isoCodeAlpha3: 'CRI' },
+  { name: 'Colombia', value: 'fiat_ramps.countries_list.colombia', fiatCode: 'cop', isoCodeAlpha3: 'COL' },
+  { name: 'Argentina', value: 'fiat_ramps.countries_list.argentina', fiatCode: 'ars', isoCodeAlpha3: 'ARS' },
 ];
 
 const provider = rawProvidersData[1];
