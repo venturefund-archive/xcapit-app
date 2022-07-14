@@ -35,7 +35,7 @@ import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/facto
 import { GasStationOf } from '../shared-swaps/models/gas-station-of/gas-station-of';
 
 
-describe('SwapHomePage', () => {
+fdescribe('SwapHomePage', () => {
 
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
