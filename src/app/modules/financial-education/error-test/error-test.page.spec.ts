@@ -16,7 +16,7 @@ const testData = {
   urlPrimaryAction: '',
   nameSecondaryAction: 'financial_education.error_test.nameSecondaryAction',
   urlSecondaryAction: '/financial-education/home',
-  TrackClickEventNameSecondaryAction:'ux_education_go_to_menu',
+  trackClickEventNameSecondaryAction:'ux_education_go_to_menu',
   nameThirdAction: 'financial_education.error_test.nameThirdAction',
   urlThirdAction: '',
 }
