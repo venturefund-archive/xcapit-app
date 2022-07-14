@@ -131,7 +131,6 @@ import { TranslateService } from '@ngx-translate/core';
           <app-transaction-fee
             [fee]="this.tplFee"
             [autoPrice]="true"
-            [transactionFee]="true"
           ></app-transaction-fee>
         </div>
       </div>
