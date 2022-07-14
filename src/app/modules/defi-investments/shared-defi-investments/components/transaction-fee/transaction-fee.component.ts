@@ -90,9 +90,13 @@ export class TransactionFeeComponent implements OnChanges {
     if(this.isOkForAutoPrice(feeChanges)) {
       this.setNullQuoteFee();
       this.dynamicPricesUnsubscribe();
-      this.dynamicPriceSubscription = this.getDynamicPrice()
-        .subscribe((price: number) => this.setQuoteFee(price));
-    }
+      this.setDynamicPrice();
+          }
+  }
+
+  private setDynamicPrice() {
+    this.dynamicPriceSubscription = this.getDynamicPrice()
+      .subscribe((price: number) => this.setQuoteFee(price));
   }
 
   private dynamicPricesUnsubscribe() {
