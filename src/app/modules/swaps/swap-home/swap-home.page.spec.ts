@@ -34,6 +34,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { GasStationOf } from '../shared-swaps/models/gas-station-of/gas-station-of';
 import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
+import { DefaultToken } from '../shared-swaps/models/token/token';
 
 
 fdescribe('SwapHomePage', () => {
@@ -102,7 +103,7 @@ fdescribe('SwapHomePage', () => {
       });
 
       gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
-        create: { price: () => { fast: () => new AmountOf() } }
+        create: { price: () => { fast: () => new AmountOf(0, new DefaultToken) } }
       });
 
       trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
