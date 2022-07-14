@@ -25,7 +25,7 @@ export type RawPolygonGS = {
 
 export class PolygonGasPrice implements GasPrice {
 
-  private readonly _url = environment;
+  private readonly _url = environment.POLYGON_GAS_STATION.url;
 
   constructor(private _aBlockchain: Blockchain, private _httpClient: HttpClient | FakeHttpClient) { }
 
