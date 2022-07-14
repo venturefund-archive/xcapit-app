@@ -91,7 +91,7 @@ export class TransactionFeeComponent implements OnChanges {
       this.setNullQuoteFee();
       this.dynamicPricesUnsubscribe();
       this.setDynamicPrice();
-          }
+    }
   }
 
   private setDynamicPrice() {
