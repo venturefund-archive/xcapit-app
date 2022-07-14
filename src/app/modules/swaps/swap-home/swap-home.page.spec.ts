@@ -31,6 +31,7 @@ import { FakeBlockchainTx } from '../shared-swaps/models/fakes/fake-blockchain-t
 import { NullJSONSwapInfo } from '../shared-swaps/models/json-swap-info/json-swap-info';
 import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-response-data';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 
 
 describe('SwapHomePage', () => {
@@ -48,6 +49,7 @@ describe('SwapHomePage', () => {
   let oneInchFactorySpy: jasmine.SpyObj<OneInchFactory>;
   let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
   let swapTransactionsFactorySpy: jasmine.SpyObj<SwapTransactionsFactory>;
+  let gasStationFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
