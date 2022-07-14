@@ -128,7 +128,7 @@ describe('SwapHomePage', () => {
           { provide: OneInchFactory, useValue: oneInchFactorySpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: WalletsFactory, useValue: walletsFactorySpy },
-          { provide: GasStationOf, useValue: gasStationOfFactorySpy },
+          { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
           { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
           { provide: ToastService, useValue: toastServiceSpy },
         ],
