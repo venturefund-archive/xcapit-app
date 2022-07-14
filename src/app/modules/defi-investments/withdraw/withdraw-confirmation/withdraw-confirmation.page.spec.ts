@@ -179,6 +179,8 @@ describe('WithdrawConfirmationPage', () => {
     expect(component.amount).toEqual({ value: 10, token: 'USDC' });
     expect(component.quoteAmount).toEqual({ value: 40000, token: 'USD' });
     expect(component.token).toEqual(usdcCoinSpy);
+    expect(component.withdrawFeeAmount).toEqual({value: 10 * 0.00255, token: 'USDC'});
+    expect(component.withdrawFeeQuoteAmount).toEqual({value: 40000 * 0.00255, token: 'USD'});
     expect(component.fee).toEqual({ value: 10, token: 'MATIC' });
     expect(controllerSpy.createDynamicPrice).toHaveBeenCalledTimes(2);
   });
@@ -233,6 +235,23 @@ describe('WithdrawConfirmationPage', () => {
     component.ionViewWillLeave();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show modal', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
+    el.nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not show modal', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    component.isInfoModalOpen = true
+    const el = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
+    el.nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 
   it('should not show informative modal of fees on withdraw when the native token balance is bigger than the cost of fees', async () => {

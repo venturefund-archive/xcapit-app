@@ -1,0 +1,45 @@
+.main {
+  &__close_button {
+    text-align: right;
+    margin-top: 10px;
+    margin-right: 10px;
+
+    ion-button {
+      height: auto;
+    }
+  }
+
+  &__body {
+    &__content {
+      margin: 0 10px 16px;
+      text-align: center;
+
+      &__list {
+        text-align: left;
+
+        &__items {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+      }
+    }
+  }
+
+  &__actions {
+    margin-top: 24px;
+
+    &__button {
+      min-width: 100%;
+    }
+  }
+}
+
+.skeleton {
+  margin-top: 11px;
+
+  ion-skeleton-text {
+    height: 18px;
+    border-radius: 8px;
+  }
+}

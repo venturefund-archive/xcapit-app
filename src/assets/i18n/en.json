@@ -358,6 +358,13 @@
       "weekly_update": "*Weekly update"
     },
     "shared": {
+      "withdraw_info_modal":{
+        "title":"¿Qué es la tarifa de retiro?",
+        "item_1":"Es el costo de realizar una extracción. ",
+        "item_2":"Se calcula sobre el monto que deseas retirar (0,255%), no sobre el total de tu inversión.",
+        "item_3":"Se abona en la misma moneda del producto de inversión (si estás invirtiendo en USDC, pagarás la tarifa de retiro en USDC).",
+        "button_text":"Entendido"
+      },
       "transaction_fees": {
         "label": "Estimated transaction fee",
         "advice": "Insufficient funds"
@@ -393,6 +400,8 @@
         "annual": "% Annual",
         "blockchain": "Blockchain",
         "profile": "Profile",
+        "transaction_fee": "Transaction Fee",
+        "withdrawal_fee": "Withdrawal Fee",
         "investment_info": {
           "USDC": "Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
           "DAI": "Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
@@ -430,7 +439,7 @@
         "header": "Withdraw investment",
         "button": "Continue",
         "label": "Amount to withdraw*",
-        "legend": "*Transaction fees will be charged in MATIC."
+        "legend": "*The transaction fee will be charged in {{network}}. While the withdrawal fee will be in {{token}}."
       },
       "withdraw": {
         "header": "Withdraw investment",
