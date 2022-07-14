@@ -32,6 +32,7 @@ import { NullJSONSwapInfo } from '../shared-swaps/models/json-swap-info/json-swa
 import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-response-data';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { GasStationOf } from '../shared-swaps/models/gas-station-of/gas-station-of';
 
 
 describe('SwapHomePage', () => {
@@ -127,6 +128,7 @@ describe('SwapHomePage', () => {
           { provide: OneInchFactory, useValue: oneInchFactorySpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: WalletsFactory, useValue: walletsFactorySpy },
+          { provide: GasStationOf, useValue: walletsFactorySpy },
           { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
           { provide: ToastService, useValue: toastServiceSpy },
         ],
