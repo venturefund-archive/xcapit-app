@@ -215,15 +215,15 @@ export class SwapHomePage {
   }
 
   private gasPrice(): Promise<AmountOf> {
-    return this.gasStation().price().fast();
+    return this.gasStation.create(this.activeBlockchain, this.httpClient).price().fast();
   }
 
-  private gasStation(): GasStationOf {
-    return new GasStationOf(
-      this.activeBlockchain,
-      this.httpClient
-    );
-  }
+  // private gasStation(): GasStationOf {
+  //   return new GasStationOf(
+  //     this.activeBlockchain,
+  //     this.httpClient
+  //   );
+  // }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
     return fromTokenAmount
