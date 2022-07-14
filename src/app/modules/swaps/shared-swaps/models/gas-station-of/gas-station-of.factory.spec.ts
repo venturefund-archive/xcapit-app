@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Blockchain } from "../blockchain/blockchain";
 
 
 @Injectable({ providedIn: 'root' })
@@ -17,7 +18,11 @@ fdescribe('GasStationOfFactory', () => {
   });
 
   it('create', () => {
-    const gasStation = new GasStationOfFactory().create();
+    const gasStation = new GasStationOfFactory().create(
+      new Blockchain(rawPolygonData),
+      new FakeHttpClient(rawPolygonGasStation),
+      fakeProviders
+    );
 
     expect(gasStation).toBeTruthy();
   });
