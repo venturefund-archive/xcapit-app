@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { providers } from "ethers";
 import { FakeHttpClient } from "src/testing/fakes/fake-http.spec";
 import { Blockchain } from "../blockchain/blockchain";
 import { fakeProviders } from "../fakes/fake-ethers-providers";
@@ -13,7 +14,6 @@ export class GasStationOfFactory {
     aBlockchain: Blockchain,
     httpClient: HttpClient | FakeHttpClient,
     providers: any = providers
-
   ) {
     return true;
   }
