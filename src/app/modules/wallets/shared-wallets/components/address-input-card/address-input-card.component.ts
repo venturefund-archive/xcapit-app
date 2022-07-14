@@ -11,7 +11,6 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
   selector: 'app-address-input-card',
   template: `
     <div class="aic">
-<<<<<<< HEAD
     <div class="aic__info">
           <app-backup-information-card
             [text]="
@@ -24,21 +23,6 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
           >
           </app-backup-information-card>
         </div>
-=======
-      <div class="aic__info">
-        <app-backup-information-card
-          [text]="
-            'wallets.shared_wallets.address_input_card.disclaimer'
-              | translate
-                : {
-                    network: this.selectedNetwork | formattedNetwork
-                  }
-          "
-          [textClass]="'ux-home-backup-card'"
-        >
-        </app-backup-information-card>
-      </div>
->>>>>>> 427369c88 (feat(send-detail): Notifying users when certain errors occur)
       <div class="aic__header">
         <div class="aic__header__title">
           <ion-text class="ux-font-titulo-xs">{{ this.title }}</ion-text>

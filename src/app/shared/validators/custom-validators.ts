@@ -33,13 +33,10 @@ export class CustomValidators {
 
   static isAddress(error: ValidationErrors = CustomValidatorErrors.isAddress): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-    console.log(isAddress(control.value))
     return isAddress(control.value) ? null : error
     };
   }
 
-  //value: lo que recibo cuando una persona inserta x Valor en un input X, 
-  //error: lo que yo quiero que me muestre, si la persona se equivoca
   static advancedCountWords(value: number, error: ValidationErrors = CustomValidatorErrors.countWordsMatch): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const words = control.value.match(/[a-z0-9]+/g) || [];
