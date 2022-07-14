@@ -37,7 +37,7 @@ import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
 
 
-fdescribe('SwapHomePage', () => {
+describe('SwapHomePage', () => {
 
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
