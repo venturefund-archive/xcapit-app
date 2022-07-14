@@ -225,6 +225,7 @@ export class DefiInvestmentProductsPage {
     const investments: DefiInvestment[] = [];
     const walletExist = await this.walletService.walletExist();
     for (const product of this.defiProducts) {
+      console.log(this.defiProducts);
       const investmentProduct = await this.getInvestmentProduct(product);
       const balance = walletExist ? await this.getProductBalance(investmentProduct) : 0;
       investments.push({
