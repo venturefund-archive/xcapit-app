@@ -63,7 +63,6 @@ export class TransactionFeeComponent implements OnChanges {
   private readonly defaultQuoteTokenName = 'USD';
   private readonly nullQuoteFee = { value: undefined, token: this.defaultQuoteTokenName };
   private destroy$ = new Subject<void>();
-  private dynamicPriceSubscription: Subscription;
   private priceRefreshInterval = 15000;
 
   @Input() fee: Amount = { value: undefined, token: 'MATIC' };
@@ -76,6 +75,7 @@ export class TransactionFeeComponent implements OnChanges {
 
   isAmountSend: boolean;
   isInfoModalOpen = false;
+  dynamicPriceSubscription: Subscription;
 
   constructor(
     private dynamicPrice: DynamicPriceFactory,
@@ -96,7 +96,7 @@ export class TransactionFeeComponent implements OnChanges {
   }
 
   private isOkForAutoPrice(feeChanges: any): boolean {
-    return !!(this.autoPrice && feeChanges && this.fee?.token);
+    return !!(this.autoPrice && feeChanges && this.fee.token);
   }
 
   private setQuoteFee(tokenPrice: number) {

@@ -1,3 +1,4 @@
+import { SimpleChange, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -28,7 +29,7 @@ describe('TransactionFeeComponent', () => {
       modalControllerSpy = fakeModalController.createSpy();
       dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getPrices: of({ prices: { USDT: 1, ETH: 1, BTC: 1 } }),
+        getPrices: of({ prices: { USDT: 1, ETH: 1, BTC: 1, MATIC: 1 } }),
       });
       dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
         new: dynamicPriceSpy,
@@ -62,6 +63,36 @@ describe('TransactionFeeComponent', () => {
     fixture.detectChanges();
     const divEl = fixture.debugElement.query(By.css('div.tf__fee__qty_and_advice__funds-advice'));
     expect(divEl).toBeTruthy();
+  });
+
+  it('should get quote price on ngOnChanges if autoprice is true', () => {
+    const change: SimpleChanges = { fee: new SimpleChange(false, true, true)}
+    component.autoPrice = true;
+
+    component.ngOnChanges(change);
+
+    expect(dynamicPriceSpy.value).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not get quote price on ngOnChanges if fee dont has a token', () => {
+    const change: SimpleChanges = { fee: new SimpleChange(false, true, true)}
+    component.autoPrice = true;
+    component.fee.token = undefined;
+
+    component.ngOnChanges(change);
+
+    expect(dynamicPriceSpy.value).toHaveBeenCalledTimes(0);
+  });
+
+  it('should unsubscribe from last dynamic price if a new change is detected', () => {
+    const change: SimpleChanges = { fee: new SimpleChange(false, true, true)}
+    component.autoPrice = true;
+    component.ngOnChanges(change);
+    const dynamicPriceSubscriptionSpy = spyOn(component.dynamicPriceSubscription, 'unsubscribe');
+
+    component.ngOnChanges(change);
+
+    expect(dynamicPriceSubscriptionSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should not render advice div when you dont have necessary fee', () => {
