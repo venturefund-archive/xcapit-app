@@ -36,6 +36,7 @@ import { AmountOf, NullAmountOf, RawAmount } from '../shared-swaps/models/amount
 import { PasswordErrorHandlerService } from '../shared-swaps/services/password-error-handler/password-error-handler.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 
 @Component({
   selector: 'app-swap-home',
@@ -191,6 +192,7 @@ export class SwapHomePage {
     private oneInch: OneInchFactory,
     private intersectedTokens: IntersectedTokensFactory,
     private swapTransactions: SwapTransactionsFactory,
+    private gasStation: GasStationOfFactory
     private trackService: TrackService,
     private passwordErrorHandlerService: PasswordErrorHandlerService,
     private toastService: ToastService,
