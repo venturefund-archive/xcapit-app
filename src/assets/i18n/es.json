@@ -430,7 +430,11 @@
         "submit_loading": "Confirmando",
         "withdraw_amount": "Monto a retirar",
         "withdraw_fee": "Tarifa de retiro",
-        "disclaimer": "Solo tomará unos segundos"
+        "disclaimer": "Solo tomará unos segundos",
+        "header_alert": "¡Espera!",
+        "alert_message": "Aún estamos calculando la tarifa de transacción. ¿Deseas continuar de todas maneras?",
+        "alert_confirmation": "Confirmar",
+        "alert_cancel":"Cancelar"
       },
       "password_modal": {
         "description": "Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",
