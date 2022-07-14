@@ -1,3 +1,5 @@
+import { Blockchain } from "../../blockchain/blockchain";
+import { rawPolygonData } from "../../fixtures/raw-blockchains-data";
 import { GasStationOfFactory } from "./gas-station-of.factory";
 
 
