@@ -8,7 +8,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-defi-investment-product',
   template: `
     <div class="dip">
-      <div class="dip__content">
+      <div class="dip__content" [ngClass]="{ 'dip__content-rounded': !this.showFooter }">
         <div class="dip__content__title_and_image">
           <div class="dip__content__title_and_image__image_container">
             <img [src]="this.token.logoRoute" alt="Product Image" />
@@ -40,7 +40,7 @@ import { NavController } from '@ionic/angular';
           </div>
         </div> -->
       </div>
-      <div class="dip__footer">
+      <div class="dip__footer" *ngIf='this.showFooter'>
         <div class="dip__footer__info">
           <div class="dip__footer__info__label" [ngClass]="{ 'single-row-footer': this.isComing }">
             <ion-text class="ux-font-text-xxs">{{
@@ -79,6 +79,7 @@ export class DefiInvestmentProductComponent implements OnInit {
   @Input() investmentProduct: InvestmentProduct;
   @Input() isComing: boolean;
   @Input() continuousEarning: boolean;
+  @Input() showFooter = true;
   apy: number;
   tvl: number;
   token: Coin;
