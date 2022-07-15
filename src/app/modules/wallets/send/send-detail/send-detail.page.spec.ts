@@ -77,9 +77,9 @@ const coins: Coin[] = [
 
 const formData = {
   valid: {
-    address: 'asdfasdfasdfas',
-    amount: 0.01,
-    quoteAmount: 29,
+    address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
+    amount: 1,
+    quoteAmount: 1,
   },
 };
 
@@ -108,7 +108,7 @@ describe('SendDetailPage', () => {
       getWalletsAddresses: Promise.resolve(['testAddress']),
     });
     walletServiceSpy = jasmine.createSpyObj('WalletService', {
-      balanceOf: Promise.resolve('10'),
+      balanceOf: Promise.resolve('11'),
     });
     fakeActivatedRoute = new FakeActivatedRoute(null, { asset: 'USDT', network: 'ERC20' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
@@ -247,15 +247,17 @@ describe('SendDetailPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync(() => {
-    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
+  it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync( () => {
+    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);   
     component.ionViewDidEnter();
-    tick();
+    tick(550)
     component.form.patchValue(formData.valid);
+    tick(550)
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
+    console.log(el)
     el.nativeElement.click();
-    tick();
+    tick()
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   }));

@@ -140,6 +140,32 @@ describe('AmountInputCardComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should render advice div when you  dont have necessary fee', () => {
+    component.insufficientBalance = true;
+    fixture.detectChanges();
+    const divEl = fixture.debugElement.query(By.css('div.aic__content__funds-advice'));
+    expect(divEl).toBeTruthy();
+  });
+
+  it('should render the div when the balance is insufficient', () => {
+    component.insufficientBalance = true;
+    fixture.detectChanges();
+    const div = fixture.debugElement.query(By.css('div.aic__insufficient-funds'));    
+    const divEl = fixture.debugElement.query(By.css('div.aic__insufficient-funds__amounts'));
+    expect(div).toBeTruthy();
+    expect(divEl).toBeTruthy();
+  });
+
+  it('should render the div when the balance is not insufficient', () => {
+    component.insufficientBalance = false;
+    fixture.detectChanges();
+    const div = fixture.debugElement.query(By.css('div.aic__available'))    
+    const divEl = fixture.debugElement.query(By.css('div.aic__available__amounts'));
+    expect(div).toBeTruthy();
+    expect(divEl).toBeTruthy();
+  });
+
+
   it('should emit event when ux_phrase_information clicked', () => {
     component.amountSend = true;
     fixture.detectChanges();
