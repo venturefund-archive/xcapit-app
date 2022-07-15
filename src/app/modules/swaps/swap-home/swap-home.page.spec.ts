@@ -195,7 +195,7 @@ describe('SwapHomePage', () => {
     tick(501);
     fixture.detectChanges();
 
-    expect(component.tplFee).toEqual(new NullAmountOf().value());
+    expect(component.tplFee).toEqual(new NullAmountOf().json());
   }));
 
 
