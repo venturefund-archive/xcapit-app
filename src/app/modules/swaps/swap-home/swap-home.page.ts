@@ -331,8 +331,7 @@ export class SwapHomePage {
   }
 
   private notifyWhenSwap(notification: LocalNotificationSchema[]) {
-    this.localNotificationsService.setActionTypes(this.actionTypeId, this.actions);
-    //No esta haciendo el callback probar la notificación y ver si funcionaa
+    this.localNotificationsService.registerActionTypes(this.actionTypeId, this.actions);
     this.localNotificationsService.addListener(() => {
       this.navigateToTokenDetail();
     });
@@ -340,7 +339,7 @@ export class SwapHomePage {
   }
 
   private navigateToTokenDetail() {
-    this.navController.navigateForward(['/wallets/recovery/info']);
+    this.navController.navigateForward([this.defaultNavBackUrl]);
   }
 
   private createNotification(mode: string): LocalNotificationSchema[] {

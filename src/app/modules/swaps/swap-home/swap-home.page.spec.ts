@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -122,8 +122,10 @@ describe('SwapHomePage', () => {
 
       localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
         send: Promise.resolve(),
-        setActionTypes: Promise.resolve(),
-        addListener: Promise.resolve()
+        registerActionTypes: Promise.resolve(),
+        addListener: (callback)=> {
+          callback() 
+        }
 
       });
       toastServiceSpy = jasmine.createSpyObj('ToastService', {
