@@ -23,6 +23,7 @@ import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynam
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
@@ -71,6 +72,7 @@ describe('OperationsNewPage', () => {
   let kriptonDynamicPriceFactorySpy: jasmine.SpyObj<KriptonDynamicPriceFactory>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -130,6 +132,7 @@ describe('OperationsNewPage', () => {
           { provide: BrowserService, useValue: browserServiceSpy },
           { provide: KriptonDynamicPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
+          { provide: RemoteConfigService, useValue: remoteConfigSpy },
         ],
       }).compileComponents();
     })
@@ -155,7 +158,7 @@ describe('OperationsNewPage', () => {
       value: 'fiat_ramps.countries_list.argentina',
       fiatCode: 'ars',
       isoCodeAlpha3: 'ARS',
-      directaCode: 'AR'
+      directaCode: 'AR',
     });
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);
     expect(component.fiatCurrency).toEqual('ars');
@@ -253,6 +256,9 @@ describe('OperationsNewPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', null);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection', 'kripton'], navigationExtras);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      ['/fiat-ramps/token-selection', 'kripton'],
+      navigationExtras
+    );
   });
 });

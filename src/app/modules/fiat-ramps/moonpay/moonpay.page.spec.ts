@@ -18,6 +18,10 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 
 const testWallet = {
   assets: {
@@ -26,10 +30,10 @@ const testWallet = {
     UNI: true,
     MATIC: true,
   },
-  addresses: { 
+  addresses: {
     ERC20: 'testERC20Address',
-    MATIC: 'testMaticAddress'
-  }
+    MATIC: 'testMaticAddress',
+  },
 };
 
 const formValid = {
@@ -48,6 +52,9 @@ describe('MoonpayPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<MoonpayPage>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
 
   beforeEach(
     waitForAsync(() => {
@@ -62,12 +69,25 @@ describe('MoonpayPage', () => {
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getCoins: TEST_COINS,
       });
-      walletMaintenanceServiceSpy = jasmine.createSpyObj("WalletMaintenanceService", {
-        getEncryptedWalletFromStorage: Promise.resolve(),
-        addCoinIfUserDoesNotHaveIt: Promise.resolve(),
-        wipeDataFromService: null
-      }, {
-        encryptedWallet: testWallet
+      walletMaintenanceServiceSpy = jasmine.createSpyObj(
+        'WalletMaintenanceService',
+        {
+          getEncryptedWalletFromStorage: Promise.resolve(),
+          addCoinIfUserDoesNotHaveIt: Promise.resolve(),
+          wipeDataFromService: null,
+        },
+        {
+          encryptedWallet: testWallet,
+        }
+      );
+
+      providersSpy = jasmine.createSpyObj('Providers', {
+        all: rawProvidersData,
+        byAlias: rawProvidersData.find((provider) => provider.alias === 'moonpay'),
+      });
+
+      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+        create: providersSpy,
       });
       TestBed.configureTestingModule({
         declarations: [MoonpayPage, FakeTrackClickDirective],
@@ -79,6 +99,8 @@ describe('MoonpayPage', () => {
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+          { provide: RemoteConfigService, useValue: remoteConfigSpy },
+          { provide: ProvidersFactory, useValue: providersFactorySpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -102,16 +124,16 @@ describe('MoonpayPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
   });
 
-  it("should call addCoinIfUserDoesNotHaveIt when transaction completes", async () => {
-    const coin: jasmine.SpyObj<Coin> = jasmine.createSpyObj("Coin", {}, { value: "USDT", network: "ERC20" });
-    component.form.patchValue({currency: coin});
+  it('should call addCoinIfUserDoesNotHaveIt when transaction completes', async () => {
+    const coin: jasmine.SpyObj<Coin> = jasmine.createSpyObj('Coin', {}, { value: 'USDT', network: 'ERC20' });
+    component.form.patchValue({ currency: coin });
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_moonpay_continue"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
     expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coin);
   });
 
-  it("should call wipeDataFromService on ionViewDidLeave", () => {
+  it('should call wipeDataFromService on ionViewDidLeave', () => {
     component.ionViewDidLeave();
     expect(walletMaintenanceServiceSpy.wipeDataFromService).toHaveBeenCalledTimes(1);
   });
@@ -125,11 +147,11 @@ describe('MoonpayPage', () => {
   });
 
   it('should select the currency specified by parameter on init', async () => {
-    fakeActivatedRoute.modifySnapshotParams({}, { country: 'COL', asset: 'MATIC', network: 'MATIC' });
+    fakeActivatedRoute.modifySnapshotParams({}, { country: 'COL', asset: 'ETH', network: 'ERC20' });
     component.ionViewWillEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(component.form.value.currency).toEqual(TEST_COINS[6]);
+    expect(component.form.value.currency).toEqual(TEST_COINS.find((coin) => coin.value === 'ETH'));
   });
 
   it('should redirect to change currency when currency button is clicked on provider card', async () => {
@@ -146,6 +168,9 @@ describe('MoonpayPage', () => {
     fixture.debugElement
       .query(By.css('app-provider-new-operation-card'))
       .triggerEventHandler('changeCurrency', undefined);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection', 'moonpay'], navigationExtras);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      ['/fiat-ramps/token-selection', 'moonpay'],
+      navigationExtras
+    );
   });
 });

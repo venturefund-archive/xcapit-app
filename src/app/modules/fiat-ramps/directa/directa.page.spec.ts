@@ -16,6 +16,7 @@ import { rawProviderCountriesData } from '../shared-ramps/fixtures/raw-provider-
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 describe('DirectaPage', () => {
   let component: DirectaPage;
@@ -29,6 +30,7 @@ describe('DirectaPage', () => {
   let providersSpy: jasmine.SpyObj<Providers>;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -53,7 +55,7 @@ describe('DirectaPage', () => {
       providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
         create: providersSpy,
       });
-      walletMaintenanceServiceSpy = jasmine.createSpyObj("WalletMaintenanceService", {
+      walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
         addCoinIfUserDoesNotHaveIt: Promise.resolve(),
       });
 
@@ -67,6 +69,7 @@ describe('DirectaPage', () => {
           { provide: ProvidersFactory, useValue: providersFactorySpy },
           { provide: HttpClient, useValue: httpClientSpy },
           { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+          { provide: RemoteConfigService, useValue: remoteConfigSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -88,7 +91,7 @@ describe('DirectaPage', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
-    expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coinsSpy[0])
+    expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coinsSpy[0]);
   });
 
   it('should set country, default currency and provider on init', () => {

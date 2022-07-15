@@ -15,6 +15,7 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 const coins: Coin[] = [
   {
@@ -105,6 +106,7 @@ describe('ProviderTokenSelectionPage', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(() => {
     fakeNavController = new FakeNavController();
@@ -137,6 +139,7 @@ describe('ProviderTokenSelectionPage', () => {
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
+        { provide: RemoteConfigService, useValue: remoteConfigSpy },
       ],
     }).compileComponents();
 

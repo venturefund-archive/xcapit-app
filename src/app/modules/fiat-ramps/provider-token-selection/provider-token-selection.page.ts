@@ -8,7 +8,7 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
 import { HttpClient } from '@angular/common/http';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
+import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-provider-token-selection',
@@ -45,7 +45,8 @@ export class ProviderTokenSelectionPage implements OnInit {
     private route: ActivatedRoute,
     private apiWalletService: ApiWalletService,
     private http: HttpClient,
-    private providersFactory: ProvidersFactory
+    private providersFactory: ProvidersFactory,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   ngOnInit() {}
@@ -74,6 +75,6 @@ export class ProviderTokenSelectionPage implements OnInit {
   }
 
   providers(): Providers {
-    return this.providersFactory.create(this.http);
+    return this.providersFactory.create(this.remoteConfig, this.http);
   }
 }
