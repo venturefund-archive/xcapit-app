@@ -164,9 +164,9 @@ export class SwapHomePage {
     fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
   });
   defaultNavBackUrl = 'tabs/wallets';
-  swapInProgressUrl = 'swaps/swap-in-progress'; 
-  actions = [{ id:'view', title: this.translate.instant('swaps.sent_notification.actions.title')}]
-  actionTypeId = 'SWAP'
+  swapInProgressUrl = 'swaps/swap-in-progress';
+  actions = [];
+  actionTypeId = 'SWAP';
 
   constructor(
     private route: ActivatedRoute,
@@ -305,22 +305,24 @@ export class SwapHomePage {
     wallet.onDecryptedWallet().subscribe(() => this.navController.navigateForward([this.swapInProgressUrl]));
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
-      .then(() =>  {
-        console.log('Swap OK!')
-        const notification = this.createNotification('swap_ok') 
+      .then(() => {
+        console.log('Swap OK!');
+        const notification = this.createNotification('swap_ok');
         this.notifyWhenSwap(notification);
       })
       .catch((err) => {
         console.log('Swap NOT OK!');
         console.log(err.message);
-        this.passwordErrorHandlerService.handlePasswordError(err, () => { this.showPasswordError() })
+        this.passwordErrorHandlerService.handlePasswordError(err, () => {
+          this.showPasswordError();
+        });
         this.resetMainButton();
-        const notification = this.createNotification('swap_not_ok') 
+        const notification = this.createNotification('swap_not_ok');
         this.notifyWhenSwap(notification);
       });
   }
 
-  private async showPasswordError(){
+  private async showPasswordError() {
     await this.toastService.showErrorToast({ message: this.translate.instant('swaps.errors.invalid_password') });
   }
 
@@ -331,12 +333,14 @@ export class SwapHomePage {
   private notifyWhenSwap(notification: LocalNotificationSchema[]) {
     this.localNotificationsService.setActionTypes(this.actionTypeId, this.actions);
     //No esta haciendo el callback probar la notificación y ver si funcionaa
-    this.localNotificationsService.addListener(() => { this.navigateToTokenDetail() })
+    this.localNotificationsService.addListener(() => {
+      this.navigateToTokenDetail();
+    });
     this.localNotificationsService.send(notification);
   }
 
-  private navigateToTokenDetail(){
-    this.navController.navigateForward([this.defaultNavBackUrl]);
+  private navigateToTokenDetail() {
+    this.navController.navigateForward(['/wallets/recovery/info']);
   }
 
   private createNotification(mode: string): LocalNotificationSchema[] {
@@ -348,9 +352,9 @@ export class SwapHomePage {
           fromAmount: this.form.get('fromTokenAmount').value,
           fromToken: this.swap.fromToken().symbol(),
           toAmount: this.tplSwapInfo.toTokenAmount,
-          toToken: this.swap.toToken().symbol()
+          toToken: this.swap.toToken().symbol(),
         }),
-        actionTypeId: this.actionTypeId
+        actionTypeId: this.actionTypeId,
       },
     ];
   }
