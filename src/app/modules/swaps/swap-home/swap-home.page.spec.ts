@@ -32,7 +32,7 @@ import { NullJSONSwapInfo } from '../shared-swaps/models/json-swap-info/json-swa
 import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-response-data';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
-import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
+import { AmountOf, NullAmountOf } from '../shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
 
 
@@ -186,6 +186,18 @@ describe('SwapHomePage', () => {
 
     expect(component.tplSwapInfo).toEqual(new NullJSONSwapInfo().value());
   }));
+
+  it('should show null swap fee info on invalid from token amount value', fakeAsync(() => {
+    component.ionViewDidEnter();
+    tick();
+    fixture.detectChanges();
+    component.form.patchValue({ fromTokenAmount: 0 });
+    tick(501);
+    fixture.detectChanges();
+
+    expect(component.tplFee).toEqual(new NullAmountOf().value());
+  }));
+
 
   it('should show swap info on valid from token amount value', fakeAsync(() => {
     component.ionViewDidEnter();
