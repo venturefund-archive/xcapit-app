@@ -6,11 +6,11 @@ import { map, mergeMap } from 'rxjs/operators';
 export class DynamicPrice {
   constructor(
     private readonly _aTimer: Observable<number>,
-    private readonly _aCoin: Coin,
+    private readonly _aCoin: Coin|any,
     private readonly _anApiWalletService: ApiWalletService
   ) {}
 
-  public static create(_milliseconds: number, _aCoin: Coin, _anApiWalletService: ApiWalletService): DynamicPrice {
+  public static create(_milliseconds: number, _aCoin: Coin|any, _anApiWalletService: ApiWalletService): DynamicPrice {
     return new this(timer(0, _milliseconds), _aCoin, _anApiWalletService);
   }
 
