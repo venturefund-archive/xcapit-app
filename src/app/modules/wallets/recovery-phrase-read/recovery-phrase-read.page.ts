@@ -114,12 +114,13 @@ import { LoadingService } from 'src/app/shared/services/loading/loading.service'
             color="{{ this.buttonColor }}"
             expand="block"
             size="large"
+            [disabled]="this.loading"
             [appLoading]="this.loading"
             [loadingText]="'wallets.recovery_phrase_read.loading_text' | translate"
+            [innerHTML]="this.buttonText"
             appTrackClick
             (click)="this.copyPhrase()"
           >
-            {{ 'wallets.recovery_phrase_read.button_text' | translate }}
           </ion-button>
           <ion-button
             *ngIf="!this.protectedWallet"
@@ -186,6 +187,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   setButtonProperties() {
     this.buttonColor = 'primary';
     this.buttonFill = 'outline';
+    this.buttonText = this.translate.instant('wallets.recovery_phrase_read.button_text');
   }
 
   goToVerifyPhrase() {
@@ -211,8 +213,8 @@ export class RecoveryPhraseReadPage implements OnInit {
       () => {
         this.buttonColor = 'secondary';
         this.buttonFill = 'solid';
-        this.buttonText = 'wallets.recovery_phrase_read.button_text_coppied';
-        this.showInfoToast('wallets.recovery_phrase_read.coppied_text');
+        this.buttonText = this.translate.instant('wallets.recovery_phrase_read.button_text_copied');
+        this.showInfoToast('wallets.recovery_phrase_read.copied_text');
       },
       () => {
         this.showErrorToast('wallets.recovery_phrase_read.copy_error_text');
