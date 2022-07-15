@@ -10,8 +10,6 @@ describe('ProvidersFactory', () => {
   });
 
   it('create', () => {
-    expect(
-      new ProvidersFactory().create(new ProviderDataRepo(rawProvidersData), new FakeHttpClient())
-    ).toBeInstanceOf(DefaultProviders);
+    expect(new ProvidersFactory().create(new FakeHttpClient(), rawProvidersData)).toBeInstanceOf(DefaultProviders);
   });
 });

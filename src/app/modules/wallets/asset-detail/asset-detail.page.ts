@@ -46,7 +46,7 @@ import { ProviderTokensOf } from '../../fiat-ramps/shared-ramps/models/provider-
               </div>
             </div>
           </div>
-  
+
           <div class="wad__available text-center">
             <ion-text class="title ux-font-titulo-xs">
               {{ 'wallets.asset_detail.available' | translate }}
@@ -149,7 +149,7 @@ export class AssetDetailPage implements OnInit {
 
   private getCurrency() {
     this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
-    this.enabledToBuy = !!new ProviderTokensOf(this.getProviders(), [ this.currency ]).all().length;
+    this.enabledToBuy = !!new ProviderTokensOf(this.getProviders(), [this.currency]).all().length;
   }
 
   private getTransfers() {
@@ -171,7 +171,6 @@ export class AssetDetailPage implements OnInit {
   }
 
   private getProviders() {
-    return this.providers.create(new ProviderDataRepo(), this.http);
+    return this.providers.create(this.http);
   }
-
 }

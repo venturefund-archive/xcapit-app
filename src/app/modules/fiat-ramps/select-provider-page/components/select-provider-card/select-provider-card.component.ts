@@ -107,6 +107,6 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   providers() {
-    return this.providersFactory.create(new ProviderDataRepo(), this.http);
+    return this.providersFactory.create(this.http);
   }
 }

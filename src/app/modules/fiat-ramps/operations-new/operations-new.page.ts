@@ -171,7 +171,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   getProviders() {
-    return this.providers.create(new ProviderDataRepo(), this.http);
+    return this.providers.create(this.http);
   }
 
   subscribeToFormChanges() {

@@ -74,6 +74,6 @@ export class ProviderTokenSelectionPage implements OnInit {
   }
 
   providers(): Providers {
-    return this.providersFactory.create(new ProviderDataRepo(), this.http);
+    return this.providersFactory.create(this.http);
   }
 }

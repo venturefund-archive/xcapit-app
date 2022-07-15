@@ -119,7 +119,7 @@ export class DirectaPage implements OnInit {
   }
 
   getProviders(): Providers {
-    return this.providers.create(new ProviderDataRepo(), this.http);
+    return this.providers.create(this.http);
   }
 
   addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
