@@ -17,6 +17,9 @@ import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
 
 const storageData = {
   valid: {
@@ -65,6 +68,9 @@ describe('ConfirmPagePage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ConfirmPagePage>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -78,12 +84,21 @@ describe('ConfirmPagePage', () => {
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
         createOperation: of({}),
       });
-      walletMaintenanceServiceSpy = jasmine.createSpyObj("WalletMaintenanceService", {
+      walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
         addCoinIfUserDoesNotHaveIt: Promise.resolve(),
       });
 
-      apiWalletServiceSpy = jasmine.createSpyObj("ApiWalletService", {
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getCoin: TEST_COINS[2],
+      });
+
+      providersSpy = jasmine.createSpyObj('Providers', {
+        all: rawProvidersData,
+        byAlias: rawProvidersData.find((provider) => provider.alias === 'PX'),
+      });
+
+      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+        create: providersSpy,
       });
 
       TestBed.configureTestingModule({
@@ -104,6 +119,8 @@ describe('ConfirmPagePage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: RemoteConfigService, useValue: remoteConfigSpy },
+          { provide: ProvidersFactory, useValue: providersFactorySpy },
         ],
       }).compileComponents();
     })
@@ -115,7 +132,6 @@ describe('ConfirmPagePage', () => {
     fixture.detectChanges();
     storageOperationService = TestBed.inject(StorageOperationService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    component.providers = rawProvidersData;
   });
 
   it('should create', () => {

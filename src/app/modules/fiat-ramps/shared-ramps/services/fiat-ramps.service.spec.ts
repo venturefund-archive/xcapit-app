@@ -3,11 +3,17 @@ import { FiatRampsService } from './fiat-ramps.service';
 import { of } from 'rxjs';
 import { CustomHttpService } from '../../../../shared/services/custom-http/custom-http.service';
 import { rawProvidersData } from '../fixtures/raw-providers-data';
-
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ProvidersFactory } from '../models/providers/factory/providers.factory';
+import { Providers } from '../models/providers/providers.interface';
 
 describe('FiatRampsService', () => {
   let fiatRampsService: FiatRampsService;
-  let customHttpServiceSpy: any;
+  let customHttpServiceSpy: jasmine.SpyObj<CustomHttpService>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
 
   beforeEach(() => {
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
@@ -16,13 +22,25 @@ describe('FiatRampsService', () => {
       put: of({}),
     });
 
+    providersSpy = jasmine.createSpyObj('Providers', {
+      all: rawProvidersData,
+      byAlias: rawProvidersData.find((provider) => provider.alias === 'PX'),
+    });
+
+    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+      create: providersSpy,
+    });
+
     TestBed.configureTestingModule({
-      providers: [{ provide: CustomHttpService, useValue: customHttpServiceSpy }],
+      imports: [HttpClientTestingModule],
+      providers: [
+        { provide: CustomHttpService, useValue: customHttpServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigSpy },
+        { provide: ProvidersFactory, useValue: providersFactorySpy },
+      ],
     });
     fiatRampsService = TestBed.inject(FiatRampsService);
-    fiatRampsService.providers = rawProvidersData;
     fiatRampsService.setProvider(`${rawProvidersData[1].id}`);
-    customHttpServiceSpy = TestBed.inject(CustomHttpService);
   });
 
   it('should be created', () => {

@@ -3,10 +3,13 @@ import { Observable } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
 import { OPERATION_STATUS } from '../constants/operation-status';
-import { PROVIDERS } from '../constants/providers';
 import { FiatRampOperation } from '../interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
 import { OperationStatus } from '../interfaces/operation-status.interface';
+import { Providers } from '../models/providers/providers.interface';
+import { ProvidersFactory } from '../models/providers/factory/providers.factory';
+import { RemoteConfigService } from '../../../../shared/services/remote-config/remote-config.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -14,14 +17,17 @@ import { OperationStatus } from '../interfaces/operation-status.interface';
 export class FiatRampsService {
   entity = 'on_off_ramps/provider';
   private provider = '1';
-
-  providers: FiatRampProvider[] = PROVIDERS;
   operationStatus: OperationStatus[] = OPERATION_STATUS;
 
-  constructor(private http: CustomHttpService) {}
+  constructor(
+    private providersFactory: ProvidersFactory,
+    private customHttp: CustomHttpService,
+    private http: HttpClient,
+    private remoteConfig: RemoteConfigService
+  ) {}
 
   getQuotations(): Observable<any> {
-    return this.http.get(
+    return this.customHttp.get(
       `${environment.apiUrl}/${this.entity}/${this.provider}/quotations`,
       undefined,
       undefined,
@@ -30,11 +36,16 @@ export class FiatRampsService {
   }
 
   getUserWallets(currency): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/apikeys/deposit_address/${currency}`, undefined, undefined, false);
+    return this.customHttp.get(
+      `${environment.apiUrl}/apikeys/deposit_address/${currency}`,
+      undefined,
+      undefined,
+      false
+    );
   }
 
   checkUser(): Observable<any> {
-    return this.http.get(
+    return this.customHttp.get(
       `${environment.apiUrl}/${this.entity}/${this.provider}/check_user`,
       undefined,
       undefined,
@@ -43,7 +54,7 @@ export class FiatRampsService {
   }
 
   createUser(): Observable<any> {
-    return this.http.post(
+    return this.customHttp.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/create_user`,
       undefined,
       undefined,
@@ -52,7 +63,7 @@ export class FiatRampsService {
   }
 
   registerUserInfo(data): Observable<any> {
-    return this.http.post(
+    return this.customHttp.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/save_user_info`,
       data,
       undefined,
@@ -61,7 +72,7 @@ export class FiatRampsService {
   }
 
   registerUserBank(data): Observable<any> {
-    return this.http.post(
+    return this.customHttp.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/save_user_bank`,
       data,
       undefined,
@@ -70,7 +81,7 @@ export class FiatRampsService {
   }
 
   registerUserImages(data): Observable<any> {
-    return this.http.post(
+    return this.customHttp.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/save_user_image`,
       data,
       undefined,
@@ -79,11 +90,11 @@ export class FiatRampsService {
   }
 
   getUserOperations(): Observable<FiatRampOperation[]> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
+    return this.customHttp.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
   }
 
   getUserSingleOperation(operationId): Observable<FiatRampOperation[]> {
-    return this.http.get(
+    return this.customHttp.get(
       `${environment.apiUrl}/${this.entity}/${this.provider}/get_user_operation/${operationId}`,
       undefined,
       undefined,
@@ -92,7 +103,7 @@ export class FiatRampsService {
   }
 
   createOperation(operationData): Observable<any> {
-    return this.http.post(
+    return this.customHttp.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/create_operation`,
       operationData,
       undefined,
@@ -101,7 +112,7 @@ export class FiatRampsService {
   }
 
   confirmOperation(operationId, operationData): Observable<any> {
-    return this.http.post(
+    return this.customHttp.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/confirm_operation/${operationId}`,
       operationData,
       undefined,
@@ -110,11 +121,11 @@ export class FiatRampsService {
   }
 
   getLink(apikeyId: number): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/${this.entity}/paxful/get_link`, { id_apikey: apikeyId });
+    return this.customHttp.post(`${environment.apiUrl}/${this.entity}/paxful/get_link`, { id_apikey: apikeyId });
   }
 
   getMoonpayLink(walletAddress: string, currencyCode: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/on_off_ramps/moonpay/link`, {
+    return this.customHttp.post(`${environment.apiUrl}/on_off_ramps/moonpay/link`, {
       wallet_address: walletAddress,
       currency_code: currencyCode,
       publishable_key: environment.moonpayPK,
@@ -126,11 +137,13 @@ export class FiatRampsService {
   }
 
   userHasOperations(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, true);
+    return this.customHttp.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, true);
   }
 
   getProvider(providerId: number): FiatRampProvider {
-    return this.providers.find((p) => p.id === providerId);
+    return this.providers()
+      .all()
+      .find((p) => p.id === providerId);
   }
 
   getOperationStatus(name: string, providerId?: number): OperationStatus {
@@ -145,5 +158,9 @@ export class FiatRampsService {
     operationStatus.provider = this.getProvider(operationStatus.providerId);
 
     return operationStatus;
+  }
+
+  private providers(): Providers {
+    return this.providersFactory.create(this.remoteConfig, this.http);
   }
 }
