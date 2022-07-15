@@ -46,6 +46,7 @@ export const environment = {
     referralAddress: "0x0",
     fee: 0.5,
   },
+  POLYGON_GAS_STATION: 'https://aGasStarionUrl',
   BLOCKCHAIN_DATA: [
     {
       name: "ERC20",
