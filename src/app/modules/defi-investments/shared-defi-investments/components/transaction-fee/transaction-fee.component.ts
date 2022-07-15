@@ -14,9 +14,8 @@ import { Amount } from '../../types/amount.type';
           {{ 'defi_investments.shared.transaction_fees.label' | translate }}
         </ion-text>
         <ion-button
-          class="tf__fee__label__button"
+          class="tf__fee__label__button ion-no-padding"
           *ngIf="this.transactionFee"
-          class="ion-no-padding"
           slot="icon-only"
           fill="clear"
           appTrackClick
