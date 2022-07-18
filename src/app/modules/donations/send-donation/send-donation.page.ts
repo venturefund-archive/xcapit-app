@@ -205,7 +205,7 @@ export class SendDonationPage implements OnInit {
   }
   private addLowerThanValidator() {
     this.form.get('amount').addValidators(CustomValidators.lowerThanEqual(this.balance));
-    this.form.get('amount').updateValueAndValidity(); //para que tome efecto lo de arriba
+    this.form.get('amount').updateValueAndValidity();
   }
 
   erc20Provider(): ERC20Provider {

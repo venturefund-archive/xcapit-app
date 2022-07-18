@@ -1,6 +1,6 @@
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { AmountInputCardComponent } from './amount-input-card.component';
 import { By } from '@angular/platform-browser';

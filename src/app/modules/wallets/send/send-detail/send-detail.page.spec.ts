@@ -5,7 +5,6 @@ import {
   flush,
   TestBed,
   tick,
-  waitForAsync,
 } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { SendDetailPage } from './send-detail.page';
@@ -16,7 +15,7 @@ import { TrackClickDirectiveTestHelper } from '../../../../../testing/track-clic
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -255,7 +254,6 @@ describe('SendDetailPage', () => {
     tick(550)
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
-    console.log(el)
     el.nativeElement.click();
     tick()
     fixture.detectChanges();

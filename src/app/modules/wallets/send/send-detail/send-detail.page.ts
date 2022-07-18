@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { ModalController, NavController, ToastController } from '@ionic/angular';
