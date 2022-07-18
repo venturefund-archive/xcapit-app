@@ -64,6 +64,18 @@
       }
     }
 
+    &__no_investments {
+      display: grid;
+      text-align: center;
+      margin: 0 62px 16px;
+      justify-items: center;
+      gap: 8px;
+
+      ion-text {
+        font-weight: var(--ux-fweight-bold);
+      }
+    }
+
     &__link {
       margin: 24px 16px;
       display: flex;

@@ -77,6 +77,10 @@
       }
     }
 
+    &__content-rounded {
+      border-radius: 15px;
+    }
+
     &__footer {
       background: var(--ion-color-primary);
       display: flex;
