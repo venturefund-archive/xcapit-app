@@ -967,7 +967,6 @@
       }
     }
   },
-
   "financial_education": {
     "introduction": {
       "financial_freedom": {
@@ -1223,6 +1222,12 @@
           "title_2": "Sobre Proof of integrity",
           "title_3": "Conoce más sobre POI",
           "description": "Ofrecer un programa educativo de criptofinanzas y financiar las tarifas de transacción y depósitos necesarios para unirse a la plataforma Proof of Humanity."
+        },
+        "pulenta": {
+          "title_1": "Buscamos ofrecer una solución concreta a las necesidades que se plantean en las villas y barrios populares.",
+          "title_2": "Sobre Pulenta",
+          "title_3": "Conoce más sobre Pulenta",
+          "description": "Alcanzar de manera trazable, transparente y escalables donaciones cripto a organizaciones que ayudan a personas en estado de emergencia y vulnerabilidad. "
         }
       }
     },
@@ -1254,7 +1259,6 @@
       "namePrimaryAction": "Seguir donando",
       "nameThirdAction": "Volver al home"
     },
-
     "error": {
       "textPrimary": "No se pudo completar tu donación",
       "textSecondary": "Se produjo un error en la blockchain.",
