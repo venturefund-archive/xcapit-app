@@ -37,9 +37,9 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           </div>
           <div class="dp__no_investments" *ngIf="!this.activeInvestments.length && this.allLoaded">
             <img src="assets/img/defi-investments/no-investments.svg" />
-            <ion-text class="ux-font-text-xs" color="neutral80"
-              >{{ 'defi_investments.defi_investment_products.no_investments' | translate }}</ion-text
-            >
+            <ion-text class="ux-font-text-xs" color="neutral80">{{
+              'defi_investments.defi_investment_products.no_investments' | translate
+            }}</ion-text>
           </div>
           <ion-text
             class="dp__gains ux-font-text-xs"
@@ -164,7 +164,7 @@ export class DefiInvestmentProductsPage {
     this.cleanValues();
   }
 
-  cleanValues(){
+  cleanValues() {
     this.allLoaded = false;
     this.profileForm.get('profile').setValue('conservative');
   }
@@ -173,11 +173,11 @@ export class DefiInvestmentProductsPage {
     this.getUser();
     this.profileForm.get('profile').valueChanges.subscribe((value) => this.filterByInvestorCategory(value));
   }
-  
+
   async ionViewDidEnter() {
     this.getAvailableDefiProducts();
     await this.getInvestments();
-    this.filterByInvestorCategory(this.profileForm.value.profile)
+    this.filterByInvestorCategory(this.profileForm.value.profile);
     await this.setBalance();
     this.setFilter(this.investorCategory);
     this.allLoaded = true;
@@ -194,7 +194,9 @@ export class DefiInvestmentProductsPage {
   }
 
   filterByInvestorCategory(category: string) {
-    const investmentsToFilter = this.allDefiProducts.filter((investment) => investment.balance === 0 || investment.balance === null)
+    const investmentsToFilter = this.allDefiProducts.filter(
+      (investment) => investment.balance === 0 || investment.balance === null
+    );
     if (category === 'no_category') {
       this.availableInvestments = investmentsToFilter.filter((investment) => investment.category === 'conservative');
       this.profileForm.patchValue({ profile: 'conservative' });
