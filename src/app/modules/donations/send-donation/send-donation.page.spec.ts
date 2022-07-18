@@ -31,6 +31,23 @@ import { SendDonationDataService } from '../shared-donations/services/send-donat
 import { SendDonationPage } from './send-donation.page';
 import { SpyProperty } from '../../../../testing/spy-property.spec';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
+import { ERC20ContractController } from '../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
+import { FakeContract } from '../../defi-investments/shared-defi-investments/models/fake-contract/fake-contract.model';
+import { BigNumber } from 'ethers';
+import { ERC20Contract } from '../../defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
+
+const coin: Coin = {
+  id: 2,
+  name: 'ETH - Ethereum',
+  logoRoute: 'assets/img/coins/ETH.svg',
+  last: false,
+  value: 'ETH',
+  network: 'ERC20',
+  chainId: 42,
+  rpc: 'testRpc',
+  native: true,
+};
+
 
 describe('SendDonationPage', () => {
   let component: SendDonationPage;
@@ -52,6 +69,8 @@ describe('SendDonationPage', () => {
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
+  let erc20ContractControllerSpy: jasmine.SpyObj<ERC20ContractController>;
+  let erc20ContractSpy: jasmine.SpyObj<ERC20Contract>;
 
   beforeEach(
     waitForAsync(() => {
@@ -104,11 +123,18 @@ describe('SendDonationPage', () => {
         getCoins: coinsSpy,
         getCoin: JSON.parse(JSON.stringify(causeSpy.token)),
         getGasPrice: of({ gas_price: 100000000000 }),
+        getNativeTokenFromNetwork: JSON.parse(JSON.stringify(coin)),
         getPrices: of({ prices: { USDT: 1, ETH: 1, BTC: 1 } }),
       });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+      erc20ContractSpy = jasmine.createSpyObj('ERC20Contract', {
+        value: new FakeContract({ transfer: () => Promise.resolve(BigNumber.from('10')) }),
+      });
 
+      erc20ContractControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
+        new: erc20ContractSpy,
+      });
       erc20ProviderControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
         new: new FakeERC20Provider(null, new FakeProvider('100000000')),
       });
@@ -132,6 +158,7 @@ describe('SendDonationPage', () => {
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: ERC20ProviderController, useValue: erc20ProviderControllerSpy },
+          { provide: ERC20ContractController, useValue: erc20ContractControllerSpy },
           { provide: SendDonationDataService, useValue: sendDonationDataSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
