@@ -17,7 +17,7 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/home"> </ion-back-button>
+          <ion-back-button defaultHref="" (click)="this.back()"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'profiles.user_profile_menu.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -89,8 +89,12 @@ export class UserProfileMenuPage {
     this.existWallet();
   }
 
+  back() {
+    this.navController.navigateForward('/tabs/home');
+  }
+
   private getProfile() {
-    this.apiProfiles.crud.get().subscribe((res) => {
+    this.apiProfiles.crud.get('', false).subscribe((res) => {
       this.profile = res;
     });
   }

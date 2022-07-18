@@ -234,4 +234,11 @@ describe('UserProfileMenuPage', () => {
     fixture.detectChanges();
     expect(menu.length).toBe(3);
   });
+
+  it('should back to home when back button is clicked', async () => {
+    const button = fixture.debugElement.query(By.css('ion-back-button'));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tabs/home');
+  });
 });

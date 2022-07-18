@@ -46,6 +46,6 @@ describe('AvatarProfileComponent', () => {
 
   it('should navigate to Profile Menu when Profile is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="Profile"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/profiles/menu']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/profiles/menu']);
   });
 });
