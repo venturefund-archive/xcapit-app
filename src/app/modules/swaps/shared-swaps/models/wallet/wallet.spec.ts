@@ -3,7 +3,7 @@ import { FakeEthersWallet } from '../fakes/fake-ethers-wallet';
 import { rawEthereumData } from '../fixtures/raw-blockchains-data';
 import { passEncryptedWallet, rawWalletData } from '../fixtures/raw-wallet-data';
 import { DefaultWallet, FakeWallet, Wallet } from './wallet';
-import { providers } from '../fakes/fake-ethers-providers';
+import { fakeProviders } from '../fakes/fake-ethers-providers';
 import { Blockchain } from '../blockchain/blockchain';
 
 describe('DefaultWallet', () => {
@@ -16,7 +16,7 @@ describe('DefaultWallet', () => {
   });
 
   beforeEach(() => {
-    wallet = new DefaultWallet(rawWalletData, blockchain, new FakeEthersWallet(), providers);
+    wallet = new DefaultWallet(rawWalletData, blockchain, new FakeEthersWallet(), fakeProviders);
     testObject = { testMethod: () => Promise.resolve(passEncryptedWallet) };
     spyOn(testObject, 'testMethod').and.callThrough();
   });

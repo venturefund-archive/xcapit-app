@@ -1,4 +1,8 @@
-import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { Amount } from '../../types/amount.type';
 
 @Component({
@@ -27,7 +31,7 @@ import { Amount } from '../../types/amount.type';
         <ion-text class="ux-font-text-xxs">{{ this.description }}</ion-text>
       </div>
 
-      <div class="tf__fee__qty_and_advice" *ngIf="this.quoteFee.value !== undefined">
+      <div class="tf__fee__qty_and_advice" *ngIf="this.quoteFee.value !== undefined && this.fee.value !== undefined">
         <div class="tf__fee__qty_and_advice__qty">
           <ion-text
             class="ux-font-text-base tf__fee__qty__amount"
@@ -47,27 +51,75 @@ import { Amount } from '../../types/amount.type';
           </ion-text>
         </div>
       </div>
-      <div *ngIf="this.quoteFee.value === undefined" class="skeleton">
+      <div *ngIf="this.quoteFee.value === undefined || this.fee.value === undefined" class="skeleton">
         <ion-skeleton-text style="width:95%" animated> </ion-skeleton-text>
       </div>
     </div>
   `,
   styleUrls: ['./transaction-fee.component.scss'],
 })
-export class TransactionFeeComponent implements OnInit {
+export class TransactionFeeComponent implements OnChanges {
+  private readonly defaultQuoteTokenName = 'USD';
+  private readonly nullQuoteFee = { value: undefined, token: this.defaultQuoteTokenName };
+  private destroy$ = new Subject<void>();
+  private priceRefreshInterval = 15000;
+
   @Input() fee: Amount = { value: undefined, token: 'MATIC' };
-  @Input() quoteFee: Amount = { value: undefined, token: 'USD' };
+  @Input() quoteFee: Amount = this.nullQuoteFee;
   @Input() balance: number;
   @Input() description: string;
   @Input() transactionFee: boolean;
+  @Input() autoPrice: boolean;
   @Output() transactionFeeInfoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   isAmountSend: boolean;
   isInfoModalOpen = false;
+  dynamicPriceSubscription: Subscription;
 
-  constructor() {}
+  constructor(
+    private dynamicPrice: DynamicPriceFactory,
+    private apiWalletService: ApiWalletService
+  ) { }
 
-  ngOnInit() {}
+  ngOnChanges(changes: SimpleChanges) {
+    this.setAutoPrice(changes.fee);
+  }
+
+  private setAutoPrice(feeChanges: any) {
+    if(this.isOkForAutoPrice(feeChanges)) {
+      this.setNullQuoteFee();
+      this.priceUnsubscribe();
+      this.setFeeTokenPrice();
+    }
+  }
+
+  private setFeeTokenPrice() {
+    this.dynamicPriceSubscription = this.feeTokenPrice()
+      .subscribe((price: number) => this.setQuoteFee(price));
+  }
+
+  private priceUnsubscribe() {
+    this.dynamicPriceSubscription && this.dynamicPriceSubscription.unsubscribe();
+  }
+
+  private isOkForAutoPrice(feeChanges: any): boolean {
+    return !!(this.autoPrice && feeChanges && this.fee.token);
+  }
+
+  private setQuoteFee(tokenPrice: number) {
+    this.quoteFee = { value: tokenPrice * this.fee.value, token: this.defaultQuoteTokenName };
+  }
+
+  private setNullQuoteFee() {
+    this.quoteFee = this.nullQuoteFee;
+  }
+
+  private feeTokenPrice(): Observable<number> {
+    return this.dynamicPrice
+      .new(this.priceRefreshInterval, { value: this.fee.token }, this.apiWalletService)
+      .value()
+      .pipe(takeUntil(this.destroy$));
+  }
 
   showPhrasetransactionFeeInfo() {
     this.transactionFeeInfoClicked.emit();

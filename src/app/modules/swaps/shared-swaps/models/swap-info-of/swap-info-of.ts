@@ -1,5 +1,6 @@
 import { AmountOf } from "../amount-of/amount-of";
 import { Dex } from "../dex";
+import { GasUnits } from "../gas-units/gas-units";
 import { Referral } from "../referral/referral";
 import { Swap } from "../swap/swap";
 
@@ -10,8 +11,8 @@ export class SwapInfoOf {
 
   constructor(private _aSwap: Swap, private _inDex: Dex, private _referral: Referral) { }
 
-  async estimatedGas(): Promise<number> {
-    return (await this._rawSwapInfo())['estimatedGas'];
+  async estimatedGas(): Promise<GasUnits> {
+    return new GasUnits((await this._rawSwapInfo())['estimatedGas']);
   }
 
   async toTokenAmount(): Promise<AmountOf> {

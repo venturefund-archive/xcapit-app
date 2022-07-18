@@ -32,7 +32,7 @@ describe('JSON Swap Info', () => {
     const jsonInfo = await jsonSwapInfo.value();
 
     expect(jsonInfo.toTokenAmount).toEqual((await swapInfo.toTokenAmount()).value());
-    expect(jsonInfo.estimatedGas).toEqual(await swapInfo.estimatedGas());
+    expect(jsonInfo.estimatedGas).toEqual((await swapInfo.estimatedGas()).value().toNumber());
   });
 });
 

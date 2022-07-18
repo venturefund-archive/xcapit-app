@@ -1,14 +1,14 @@
 import { Coin } from "src/app/modules/wallets/shared-wallets/interfaces/coin.interface";
 
 export type RawToken = {
-  id: number;
-  name: string;
-  logoRoute: string;
-  last: boolean;
+  id?: number;
+  name?: string;
+  logoRoute?: string;
+  last?: boolean;
   value: string;
   network: string;
   chainId: number;
-  rpc: string;
+  rpc?: string;
   contract: string;
   abi?: any;
   decimals: number;
