@@ -4,6 +4,7 @@ import { WalletTransactionCardItemComponent } from './wallet-transaction-card-it
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { NONPROD_SCAN_URLS } from '../../constants/scan-url-nonprod';
 
 const transaction = {
   icon: 'assets/img/wallet-transactions/received.svg',
@@ -50,13 +51,20 @@ describe('WalletTransactionCardItemComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
   it('should format date on init', async () => {
     component.ngOnInit();
+
     await fixture.whenRenderingDone();
+
     expect(component.formattedDate).toBe('03-01-2020');
   });
+
   it ('should open browser on transaction link', () => {
+    const expectedUrl = `${NONPROD_SCAN_URLS[component.network]}tx/${transaction.hash}`;
+
     component.openTransactionUrl();
-    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({url:'https://mumbai.polygonscan.com/tx/0x000000000000000000000000000000000000000000001'})
+
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: expectedUrl })
   })
 });

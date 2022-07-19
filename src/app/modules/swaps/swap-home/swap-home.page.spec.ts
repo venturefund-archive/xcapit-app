@@ -34,6 +34,8 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { LINKS } from 'src/app/config/static-links';
 
 
 describe('SwapHomePage', () => {
@@ -55,6 +57,7 @@ describe('SwapHomePage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
@@ -123,6 +126,8 @@ describe('SwapHomePage', () => {
         showWarningToast: Promise.resolve(),
       });
 
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: true });
+
       TestBed.configureTestingModule({
         declarations: [SwapHomePage, FormattedAmountPipe, FakeTrackClickDirective,],
         imports: [
@@ -145,6 +150,7 @@ describe('SwapHomePage', () => {
           { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
           { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
           { provide: ToastService, useValue: toastServiceSpy },
+          { provide: BrowserService, useValue: browserServiceSpy },
         ],
       }).compileComponents();
 
@@ -264,4 +270,12 @@ describe('SwapHomePage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
   }));
+
+  it('should open browser in app when 1inch ToS is clicked', async () => {
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_1inch_tos"]'));
+
+    buttonEl.nativeElement.click();
+
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: LINKS.oneInchToS });
+  });
 });

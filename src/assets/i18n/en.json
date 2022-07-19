@@ -141,6 +141,12 @@
         "title": "Financial Planner",
         "description": "Optimize the return on your money"
       }
+    },
+    "transaction_fees": {
+      "title": "Why is the transaction fee estimated?",
+      "description": "Due to market volatility, the exchange rate may vary slightly at the time of the transaction.",
+      "button_text": "Understood",
+      "loading_text":"Calculating. Wait a few moments."
     }
   },
   "users": {
@@ -2378,7 +2384,9 @@
       "from_token_title": "From",
       "to_token_title": "To",
       "fee_title": "Transaction details",
-      "footer_text": "It will only take a few seconds."
+      "footer_text": "It will only take a few seconds.",
+      "tos_1": "I have read and agree to ",
+      "tos_button": "1inch's terms and conditions."
     },
     "errors": {
       "invalid_password": "The password entered is not valid."

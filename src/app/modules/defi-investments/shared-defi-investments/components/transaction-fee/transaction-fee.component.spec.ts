@@ -140,4 +140,28 @@ describe('TransactionFeeComponent', () => {
     infoButtonel.nativeElement.click();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should show default fee info modal when transaction_fee fee is clicked & defaultFeeInfo is true', () => {
+    component.defaultFeeInfo = true;
+    fixture.detectChanges();
+    const spy = spyOn(component.transactionFeeInfoClicked, 'emit');
+    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="transaction_fee"]'));
+
+    infoButtonel.nativeElement.click();
+
+    expect(spy).toHaveBeenCalledTimes(0);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show default fee info modal only ones when transaction_fee fee is clicked more than one time & defaultFeeInfo is true', () => {
+    component.defaultFeeInfo = true;
+    fixture.detectChanges();
+    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="transaction_fee"]'));
+
+    infoButtonel.nativeElement.click();
+    infoButtonel.nativeElement.click();
+
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
 });
