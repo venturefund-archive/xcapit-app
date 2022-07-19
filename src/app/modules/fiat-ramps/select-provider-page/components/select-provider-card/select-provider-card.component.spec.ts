@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -14,14 +14,14 @@ describe('SelectProviderCardComponent', () => {
   let component: SelectProviderCardComponent;
   let fixture: ComponentFixture<SelectProviderCardComponent>;
   let formGroupDirectiveMock: FormGroupDirective;
-  let controlContainerMock: FormGroup;
+  let controlContainerMock: UntypedFormGroup;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   beforeEach(
     waitForAsync(() => {
-      controlContainerMock = new FormBuilder().group({
+      controlContainerMock = new UntypedFormBuilder().group({
         country: ['', []],
         provider: ['', []],
       });

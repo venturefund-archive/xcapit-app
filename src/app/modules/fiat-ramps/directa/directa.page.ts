@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -68,7 +68,7 @@ import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/
   styleUrls: ['./directa.page.scss'],
 })
 export class DirectaPage implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     fiatAmount: ['', Validators.required],
   });
   provider: FiatRampProvider;
@@ -80,7 +80,7 @@ export class DirectaPage implements OnInit {
   providerAlias: string;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private navController: NavController,
     private apiWalletService: ApiWalletService,

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormGroupDirective } from '@angular/forms';
+import { UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { Coin } from '../../interfaces/coin.interface';
 
 @Component({
@@ -42,7 +42,7 @@ export class ItemsCoinGroupComponent implements OnInit {
   @Input() coins: Coin[];
   @Input() network: string;
   @Output() changed = new EventEmitter<any>();
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(private formGroup: FormGroupDirective) {}
   allChecked = false;

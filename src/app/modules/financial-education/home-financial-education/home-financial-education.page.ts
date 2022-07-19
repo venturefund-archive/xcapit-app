@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
 import { ModulesService } from '../shared-financial-education/services/financial-education/modules.service';
 
@@ -69,12 +69,12 @@ import { ModulesService } from '../shared-financial-education/services/financial
   styleUrls: ['./home-financial-education.page.scss'],
 })
 export class HomeFinancialEducationPage {
-  segmentsForm: FormGroup = this.formBuilder.group({
+  segmentsForm: UntypedFormGroup = this.formBuilder.group({
     tab: ['finance', [Validators.required]],
   });
   modules: any = MODULES_FINANCE;
 
-  constructor(private formBuilder: FormBuilder, private modulesService: ModulesService) {}
+  constructor(private formBuilder: UntypedFormBuilder, private modulesService: ModulesService) {}
 
   ionViewWillEnter() {
     this.segmentsForm.valueChanges.subscribe(() => {

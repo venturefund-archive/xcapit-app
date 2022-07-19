@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
@@ -69,7 +69,7 @@ import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service
   styleUrls: ['./select-provider.page.scss'],
 })
 export class SelectProviderPage {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     country: ['', [Validators.required]],
     provider: ['', [Validators.required]],
   });
@@ -80,7 +80,7 @@ export class SelectProviderPage {
 
   constructor(
     private navController: NavController,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private trackService: TrackService,
     private browserService: BrowserService,
     private fiatRampsService: FiatRampsService,

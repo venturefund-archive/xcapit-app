@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
@@ -54,7 +54,7 @@ import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/
   styleUrls: ['./moonpay.page.scss'],
 })
 export class MoonpayPage implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     currency: ['', Validators.required],
   });
   coins: Coin[];
@@ -64,7 +64,7 @@ export class MoonpayPage implements OnInit {
   countryIsoCodeAlpha3: string;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private browserService: BrowserService,
     private route: ActivatedRoute,
     private fiatRampsService: FiatRampsService,

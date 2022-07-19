@@ -1,6 +1,6 @@
 import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
 import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
-import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
+import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-amount-input-card',
@@ -118,7 +118,7 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   isAmountSend: boolean;
   isInfoModalOpen = false;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   quoteMax: number;
 
   constructor(private formGroupDirective: FormGroupDirective) {}

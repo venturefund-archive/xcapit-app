@@ -1,6 +1,6 @@
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { AmountInputCardComponent } from './amount-input-card.component';
 import { By } from '@angular/platform-browser';
@@ -41,16 +41,16 @@ describe('AmountInputCardComponent', () => {
   let component: AmountInputCardComponent;
   let fixture: ComponentFixture<AmountInputCardComponent>;
   let formGroupDirectiveSpy: jasmine.SpyObj<FormGroupDirective>;
-  let formGroupMock: FormGroup;
+  let formGroupMock: UntypedFormGroup;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<AmountInputCardComponent>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
 
   beforeEach(
     waitForAsync(() => {
-      formGroupMock = new FormGroup({
-        amount: new FormControl(),
-        quoteAmount: new FormControl(),
+      formGroupMock = new UntypedFormGroup({
+        amount: new UntypedFormControl(),
+        quoteAmount: new UntypedFormControl(),
       });
       formGroupDirectiveSpy = jasmine.createSpyObj(
         'FormGroupDirective',
@@ -152,11 +152,11 @@ describe('AmountInputCardComponent', () => {
   describe('ShowRange enabled', () => {
     beforeEach(
       waitForAsync(() => {
-        formGroupMock = new FormGroup({
-          amount: new FormControl(),
-          quoteAmount: new FormControl(),
-          percentage: new FormControl(),
-          range: new FormControl(),
+        formGroupMock = new UntypedFormGroup({
+          amount: new UntypedFormControl(),
+          quoteAmount: new UntypedFormControl(),
+          percentage: new UntypedFormControl(),
+          range: new UntypedFormControl(),
         });
         new SpyProperty(formGroupDirectiveSpy, 'form').value().and.returnValue(formGroupMock);
         component.showRange = true;

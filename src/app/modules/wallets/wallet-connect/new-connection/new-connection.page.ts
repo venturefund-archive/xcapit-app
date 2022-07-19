@@ -3,7 +3,7 @@ import { WalletConnectService, IPeerMeta } from '../../shared-wallets/services/w
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { environment } from 'src/environments/environment';
 import { supportedProviders } from '../../shared-wallets/constants/supported-providers';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { PlatformService } from '../../../../shared/services/platform/platform.service';
 import { NavController } from '@ionic/angular';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
@@ -135,7 +135,7 @@ export class NewConnectionPage implements OnInit {
   public isNative: boolean;
   public providers: any[] = [];
 
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     wallet: [null, [Validators.required]],
     uri: ['', [Validators.required]],
   });
@@ -143,7 +143,7 @@ export class NewConnectionPage implements OnInit {
   constructor(
     private walletConnectService: WalletConnectService,
     private storageService: StorageService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private platformService: PlatformService,
     private navController: NavController,
     private modalController: ModalController,

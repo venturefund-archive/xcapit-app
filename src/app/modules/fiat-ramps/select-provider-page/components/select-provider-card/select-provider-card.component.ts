@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
+import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { COUNTRIES } from '../../../shared-ramps/constants/countries';
 import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory/providers.factory';
 import { FiatRampProvider } from '../../../shared-ramps/interfaces/fiat-ramp-provider.interface';
@@ -64,7 +64,7 @@ export class SelectProviderCardComponent implements OnInit {
   @Input() controlNameSelect = '';
   @Output() route: EventEmitter<any> = new EventEmitter<any>();
   @Output() changedCountry: EventEmitter<any> = new EventEmitter<any>();
-  form: FormGroup;
+  form: UntypedFormGroup;
   countries = COUNTRIES;
   disabled = true;
   availableProviders: FiatRampProvider[];

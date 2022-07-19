@@ -1,16 +1,16 @@
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { CustomValidators } from './custom-validators';
 import { CustomValidatorErrors } from './custom-validator-errors';
 
-let formBuilder: FormBuilder;
+let formBuilder: UntypedFormBuilder;
 
 describe('CustomValidators', () => {
   beforeEach(() => {
-    formBuilder = new FormBuilder();
+    formBuilder = new UntypedFormBuilder();
   });
 
   it('should validate greater than', () => {
-    const form: FormGroup = formBuilder.group({
+    const form: UntypedFormGroup = formBuilder.group({
       testGreaterThan: ['', [CustomValidators.greaterThan(5)]],
     });
 
@@ -28,7 +28,7 @@ describe('CustomValidators', () => {
   });
 
   it('should validate must be true', () => {
-    const form: FormGroup = formBuilder.group({
+    const form: UntypedFormGroup = formBuilder.group({
       testMustBeTrue: ['', [CustomValidators.mustBeTrue]],
     });
 
@@ -42,7 +42,7 @@ describe('CustomValidators', () => {
   });
 
   it('should validate count words', () => {
-    const form: FormGroup = formBuilder.group({
+    const form: UntypedFormGroup = formBuilder.group({
       testCountWords: ['', [CustomValidators.countWords(12)]],
     });
 
@@ -60,7 +60,7 @@ describe('CustomValidators', () => {
   });
 
   it('should validate password match', () => {
-    const form: FormGroup = formBuilder.group(
+    const form: UntypedFormGroup = formBuilder.group(
       {
         password: ['', []],
         repeat_password: ['', []],
@@ -82,7 +82,7 @@ describe('CustomValidators', () => {
   });
 
   it('should validate that new password is different from old password', () => {
-    const form: FormGroup = formBuilder.group(
+    const form: UntypedFormGroup = formBuilder.group(
       {
         old_password: ['', []],
         password: ['', []],
@@ -104,7 +104,7 @@ describe('CustomValidators', () => {
   });
 
   it('should validate pattern', () => {
-    const form: FormGroup = formBuilder.group({
+    const form: UntypedFormGroup = formBuilder.group({
       testPattern: ['', [CustomValidators.patternValidator(/\d/, CustomValidatorErrors.hasNumber)]],
     });
 
@@ -122,7 +122,7 @@ describe('CustomValidators', () => {
   });
 
   it('should fail empty validate pattern when failWhenEmpty is true',  () => {
-    const form: FormGroup = formBuilder.group({
+    const form: UntypedFormGroup = formBuilder.group({
       testPattern: ['', [CustomValidators.patternValidator(/\d/, CustomValidatorErrors.hasNumber, true)]],
     });
 
@@ -132,7 +132,7 @@ describe('CustomValidators', () => {
   });
 
   it('should validate that form control has no special characters', () => {
-    const form: FormGroup = formBuilder.group({
+    const form: UntypedFormGroup = formBuilder.group({
       testPattern: ['', [CustomValidators.hasNoSpecialCharacters()]],
     });
 
@@ -170,7 +170,7 @@ describe('CustomValidators', () => {
   });
 
   it('should validate advanced word count', () => {
-    const form: FormGroup = formBuilder.group({
+    const form: UntypedFormGroup = formBuilder.group({
       testPattern: ['', [CustomValidators.advancedCountWords(3)]],
     });
 
