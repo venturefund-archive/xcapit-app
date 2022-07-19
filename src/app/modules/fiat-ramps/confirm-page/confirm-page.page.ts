@@ -5,11 +5,12 @@ import {
 } from '../shared-ramps/services/operation/storage-operation.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { NavController } from '@ionic/angular';
-import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-colors.constant';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
 
 @Component({
   selector: 'app-confirm-page',
@@ -32,17 +33,13 @@ import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/
         </div>
       </ion-text>
       <div class="cp__transfer-confirm-card">
-        <app-transfer-confirm-card
-          [token]="this.token"
-          [operationData]="this.operationData"
-          [provider]="this.provider"
-        >
+        <app-transfer-confirm-card [token]="this.token" [operationData]="this.operationData" [provider]="this.provider">
         </app-transfer-confirm-card>
       </div>
       <div class="cp__disclaimer ux-font-text-xxs">
-        {{'fiat_ramps.confirm.disclaimer' | translate}}
-        <br>
-        {{'fiat_ramps.confirm.disclaimer2' | translate}}
+        {{ 'fiat_ramps.confirm.disclaimer' | translate }}
+        <br />
+        {{ 'fiat_ramps.confirm.disclaimer2' | translate }}
       </div>
     </ion-content>
 
@@ -71,14 +68,14 @@ export class ConfirmPagePage implements OnInit {
   disabledButton = false;
   token: Coin;
   networkColors = NETWORK_COLORS;
-  providers = PROVIDERS;
 
   constructor(
     private storageOperationService: StorageOperationService,
     private apiWalletService: ApiWalletService,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
-    private walletMaintenance: WalletMaintenanceService
+    private walletMaintenance: WalletMaintenanceService,
+    private providersFactory: ProvidersFactory
   ) {}
 
   ngOnInit() {}
@@ -92,7 +89,13 @@ export class ConfirmPagePage implements OnInit {
   }
 
   getProvider(providerId: string) {
-    return this.providers.find((provider) => provider.id.toString() === providerId);
+    return this.providers()
+      .all()
+      .find((provider) => provider.id.toString() === providerId);
+  }
+
+  providers(): Providers {
+    return this.providersFactory.create();
   }
 
   async createOperation() {
@@ -108,7 +111,7 @@ export class ConfirmPagePage implements OnInit {
       },
     });
   }
-  
+
   addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
     return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.token);
   }

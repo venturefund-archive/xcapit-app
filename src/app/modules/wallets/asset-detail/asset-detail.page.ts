@@ -11,8 +11,6 @@ import { CovalentTransfer } from '../shared-wallets/models/covalent-transfer/cov
 import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-transfers-response/covalent-transfers-response';
 import { NETWORK_COLORS } from '../shared-wallets/constants/network-colors.constant';
 import { ProvidersFactory } from '../../fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
-import { HttpClient } from '@angular/common/http';
-import { ProviderDataRepo } from '../../fiat-ramps/shared-ramps/models/provider-data-repo/provider-data-repo';
 import { ProviderTokensOf } from '../../fiat-ramps/shared-ramps/models/provider-tokens-of/provider-tokens-of';
 
 @Component({
@@ -46,7 +44,7 @@ import { ProviderTokensOf } from '../../fiat-ramps/shared-ramps/models/provider-
               </div>
             </div>
           </div>
-  
+
           <div class="wad__available text-center">
             <ion-text class="title ux-font-titulo-xs">
               {{ 'wallets.asset_detail.available' | translate }}
@@ -105,7 +103,6 @@ export class AssetDetailPage implements OnInit {
     private walletTransactionsService: WalletTransactionsService,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
-    private http: HttpClient
   ) {}
 
   ngOnInit() {}
@@ -149,7 +146,7 @@ export class AssetDetailPage implements OnInit {
 
   private getCurrency() {
     this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
-    this.enabledToBuy = !!new ProviderTokensOf(this.getProviders(), [ this.currency ]).all().length;
+    this.enabledToBuy = !!new ProviderTokensOf(this.getProviders(), [this.currency]).all().length;
   }
 
   private getTransfers() {
@@ -171,7 +168,6 @@ export class AssetDetailPage implements OnInit {
   }
 
   private getProviders() {
-    return this.providers.create(new ProviderDataRepo(), this.http);
+    return this.providers.create();
   }
-
 }
