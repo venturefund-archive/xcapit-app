@@ -3,9 +3,7 @@ import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
 import { COUNTRIES } from '../../../shared-ramps/constants/countries';
 import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory/providers.factory';
 import { FiatRampProvider } from '../../../shared-ramps/interfaces/fiat-ramp-provider.interface';
-import { HttpClient } from '@angular/common/http';
 import { FiatRampProviderCountry } from '../../../shared-ramps/interfaces/fiat-ramp-provider-country';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-select-provider-card',
@@ -68,12 +66,7 @@ export class SelectProviderCardComponent implements OnInit {
   countries = COUNTRIES;
   disabled = true;
   availableProviders: FiatRampProvider[];
-  constructor(
-    private formGroupDirective: FormGroupDirective,
-    private providersFactory: ProvidersFactory,
-    private http: HttpClient,
-    private remoteConfig: RemoteConfigService
-  ) {}
+  constructor(private formGroupDirective: FormGroupDirective, private providersFactory: ProvidersFactory) {}
 
   ngOnInit() {
     this.countries = this.availableCountries();
@@ -108,6 +101,6 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   providers() {
-    return this.providersFactory.create(this.remoteConfig, this.http);
+    return this.providersFactory.create();
   }
 }

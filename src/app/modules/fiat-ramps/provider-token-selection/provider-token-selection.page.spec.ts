@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TokenSelectionListComponent } from 'src/app/shared/components/token-selection-list/token-selection-list.component';
@@ -15,7 +14,6 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 const coins: Coin[] = [
   {
@@ -106,7 +104,6 @@ describe('ProviderTokenSelectionPage', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
-  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(() => {
     fakeNavController = new FakeNavController();
@@ -133,13 +130,12 @@ describe('ProviderTokenSelectionPage', () => {
 
     TestBed.configureTestingModule({
       declarations: [ProviderTokenSelectionPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
-      imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [IonicModule, TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
-        { provide: RemoteConfigService, useValue: remoteConfigSpy },
       ],
     }).compileComponents();
 

@@ -23,7 +23,6 @@ import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynam
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 @Component({
   selector: 'app-operations-new',
   template: `
@@ -133,7 +132,6 @@ export class OperationsNewPage implements AfterViewInit {
     private http: HttpClient,
     private kriptonDynamicPrice: KriptonDynamicPriceFactory,
     private providers: ProvidersFactory,
-    private remoteConfig: RemoteConfigService
   ) {}
 
   ngAfterViewInit() {
@@ -172,7 +170,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   getProviders() {
-    return this.providers.create(this.remoteConfig, this.http);
+    return this.providers.create();
   }
 
   subscribeToFormChanges() {

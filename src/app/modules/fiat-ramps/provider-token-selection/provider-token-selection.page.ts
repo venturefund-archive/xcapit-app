@@ -5,10 +5,8 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
-import { HttpClient } from '@angular/common/http';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-provider-token-selection',
@@ -44,9 +42,7 @@ export class ProviderTokenSelectionPage implements OnInit {
     private navController: NavController,
     private route: ActivatedRoute,
     private apiWalletService: ApiWalletService,
-    private http: HttpClient,
-    private providersFactory: ProvidersFactory,
-    private remoteConfig: RemoteConfigService
+    private providersFactory: ProvidersFactory
   ) {}
 
   ngOnInit() {}
@@ -75,6 +71,6 @@ export class ProviderTokenSelectionPage implements OnInit {
   }
 
   providers(): Providers {
-    return this.providersFactory.create(this.remoteConfig, this.http);
+    return this.providersFactory.create();
   }
 }

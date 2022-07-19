@@ -10,8 +10,6 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-colors.constant';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
-import { HttpClient } from '@angular/common/http';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 
 @Component({
@@ -77,9 +75,7 @@ export class ConfirmPagePage implements OnInit {
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private walletMaintenance: WalletMaintenanceService,
-    private providersFactory: ProvidersFactory,
-    private remoteConfig: RemoteConfigService,
-    private http: HttpClient
+    private providersFactory: ProvidersFactory
   ) {}
 
   ngOnInit() {}
@@ -99,7 +95,7 @@ export class ConfirmPagePage implements OnInit {
   }
 
   providers(): Providers {
-    return this.providersFactory.create(this.remoteConfig, this.http);
+    return this.providersFactory.create();
   }
 
   async createOperation() {

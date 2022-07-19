@@ -16,7 +16,6 @@ import { rawProviderCountriesData } from '../shared-ramps/fixtures/raw-provider-
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 describe('DirectaPage', () => {
   let component: DirectaPage;
@@ -30,7 +29,6 @@ describe('DirectaPage', () => {
   let providersSpy: jasmine.SpyObj<Providers>;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
-  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -69,7 +67,6 @@ describe('DirectaPage', () => {
           { provide: ProvidersFactory, useValue: providersFactorySpy },
           { provide: HttpClient, useValue: httpClientSpy },
           { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
-          { provide: RemoteConfigService, useValue: remoteConfigSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();

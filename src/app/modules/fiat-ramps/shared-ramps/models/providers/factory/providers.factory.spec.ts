@@ -1,15 +1,21 @@
-import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
 import { ProvidersFactory } from './providers.factory';
 import { DefaultProviders } from '../default/default-providers';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { HttpClient } from '@angular/common/http';
 
 describe('ProvidersFactory', () => {
   let remoteConfig: jasmine.SpyObj<RemoteConfigService>;
+  let httpSpy: jasmine.SpyObj<HttpClient>;
+  let providersFactory: ProvidersFactory;
+
+  beforeEach(() => {
+    providersFactory = new ProvidersFactory(remoteConfig, httpSpy);
+  });
   it('new', () => {
-    expect(new ProvidersFactory()).toBeTruthy();
+    expect(providersFactory).toBeTruthy();
   });
 
   it('create', () => {
-    expect(new ProvidersFactory().create(remoteConfig, new FakeHttpClient())).toBeInstanceOf(DefaultProviders);
+    expect(providersFactory.create()).toBeInstanceOf(DefaultProviders);
   });
 });

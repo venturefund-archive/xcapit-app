@@ -22,7 +22,6 @@ import { ProvidersFactory } from '../../fiat-ramps/shared-ramps/models/providers
 import { Providers } from '../../fiat-ramps/shared-ramps/models/providers/providers.interface';
 import { rawProvidersData } from '../../fiat-ramps/shared-ramps/fixtures/raw-providers-data';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 const nativeTransfersResponse = {
   data: {
@@ -70,7 +69,6 @@ describe('AssetDetailPage', () => {
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
-  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -122,7 +120,7 @@ describe('AssetDetailPage', () => {
 
       TestBed.configureTestingModule({
         declarations: [AssetDetailPage, FormattedAmountPipe, SplitStringPipe, FormattedNetworkPipe],
-        imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule.forRoot(), RouterTestingModule],
+        imports: [TranslateModule.forRoot(), IonicModule.forRoot(), RouterTestingModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },
@@ -131,7 +129,6 @@ describe('AssetDetailPage', () => {
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
-          { provide: RemoteConfigService, useValue: remoteConfigSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();

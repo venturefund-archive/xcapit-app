@@ -9,7 +9,6 @@ import { navControllerMock } from '../../../../testing/spies/nav-controller-mock
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
@@ -17,7 +16,6 @@ import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 
@@ -70,7 +68,6 @@ describe('ConfirmPagePage', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
-  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -109,7 +106,6 @@ describe('ConfirmPagePage', () => {
             { path: 'fiat-ramps/operations-new"', component: DummyComponent },
             { path: 'fiat-ramps/success-page', component: DummyComponent },
           ]),
-          HttpClientTestingModule,
           IonicModule,
           TranslateModule.forRoot(),
         ],
@@ -119,7 +115,6 @@ describe('ConfirmPagePage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: RemoteConfigService, useValue: remoteConfigSpy },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
         ],
       }).compileComponents();

@@ -7,9 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory/providers.factory';
 import { SelectProviderCardComponent } from './select-provider-card.component';
 import { rawProvidersData } from '../../../shared-ramps/fixtures/raw-providers-data';
-import { HttpClient } from '@angular/common/http';
 import { Providers } from '../../../shared-ramps/models/providers/providers.interface';
-import { RemoteConfigService } from '../../../../../shared/services/remote-config/remote-config.service';
 
 describe('SelectProviderCardComponent', () => {
   let component: SelectProviderCardComponent;
@@ -18,8 +16,6 @@ describe('SelectProviderCardComponent', () => {
   let controlContainerMock: FormGroup;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
-  let httpClientSpy: jasmine.SpyObj<HttpClient>;
-  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -47,8 +43,6 @@ describe('SelectProviderCardComponent', () => {
         providers: [
           { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
-          { provide: HttpClient, useValue: httpClientSpy },
-          { provide: RemoteConfigService, useValue: remoteConfigSpy },
         ],
       }).compileComponents();
 

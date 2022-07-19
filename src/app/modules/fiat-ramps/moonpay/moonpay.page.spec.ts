@@ -15,10 +15,8 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
-import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
@@ -52,7 +50,6 @@ describe('MoonpayPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<MoonpayPage>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
-  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
 
@@ -91,7 +88,7 @@ describe('MoonpayPage', () => {
       });
       TestBed.configureTestingModule({
         declarations: [MoonpayPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule, HttpClientTestingModule],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
         providers: [
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
@@ -99,7 +96,6 @@ describe('MoonpayPage', () => {
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
-          { provide: RemoteConfigService, useValue: remoteConfigSpy },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],

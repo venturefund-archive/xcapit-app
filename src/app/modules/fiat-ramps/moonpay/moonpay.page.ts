@@ -11,9 +11,7 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { HttpClient } from '@angular/common/http';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
-import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-moonpay',
@@ -70,9 +68,7 @@ export class MoonpayPage implements OnInit {
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
-    private http: HttpClient,
-    private walletMaintenance: WalletMaintenanceService,
-    private remoteConfig: RemoteConfigService
+    private walletMaintenance: WalletMaintenanceService
   ) {}
 
   ngOnInit() {}
@@ -106,7 +102,7 @@ export class MoonpayPage implements OnInit {
   }
 
   getProviders(): Providers {
-    return this.providers.create(this.remoteConfig, this.http);
+    return this.providers.create();
   }
 
   subscribeToFormChanges() {

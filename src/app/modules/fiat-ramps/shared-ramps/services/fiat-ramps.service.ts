@@ -19,15 +19,10 @@ export class FiatRampsService {
   private provider = '1';
   operationStatus: OperationStatus[] = OPERATION_STATUS;
 
-  constructor(
-    private providersFactory: ProvidersFactory,
-    private customHttp: CustomHttpService,
-    private http: HttpClient,
-    private remoteConfig: RemoteConfigService
-  ) {}
+  constructor(private providersFactory: ProvidersFactory, private http: CustomHttpService) {}
 
   getQuotations(): Observable<any> {
-    return this.customHttp.get(
+    return this.http.get(
       `${environment.apiUrl}/${this.entity}/${this.provider}/quotations`,
       undefined,
       undefined,
@@ -36,7 +31,7 @@ export class FiatRampsService {
   }
 
   getUserWallets(currency): Observable<any> {
-    return this.customHttp.get(
+    return this.http.get(
       `${environment.apiUrl}/apikeys/deposit_address/${currency}`,
       undefined,
       undefined,
@@ -45,7 +40,7 @@ export class FiatRampsService {
   }
 
   checkUser(): Observable<any> {
-    return this.customHttp.get(
+    return this.http.get(
       `${environment.apiUrl}/${this.entity}/${this.provider}/check_user`,
       undefined,
       undefined,
@@ -54,7 +49,7 @@ export class FiatRampsService {
   }
 
   createUser(): Observable<any> {
-    return this.customHttp.post(
+    return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/create_user`,
       undefined,
       undefined,
@@ -63,7 +58,7 @@ export class FiatRampsService {
   }
 
   registerUserInfo(data): Observable<any> {
-    return this.customHttp.post(
+    return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/save_user_info`,
       data,
       undefined,
@@ -72,7 +67,7 @@ export class FiatRampsService {
   }
 
   registerUserBank(data): Observable<any> {
-    return this.customHttp.post(
+    return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/save_user_bank`,
       data,
       undefined,
@@ -81,7 +76,7 @@ export class FiatRampsService {
   }
 
   registerUserImages(data): Observable<any> {
-    return this.customHttp.post(
+    return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/save_user_image`,
       data,
       undefined,
@@ -90,11 +85,11 @@ export class FiatRampsService {
   }
 
   getUserOperations(): Observable<FiatRampOperation[]> {
-    return this.customHttp.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
+    return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
   }
 
   getUserSingleOperation(operationId): Observable<FiatRampOperation[]> {
-    return this.customHttp.get(
+    return this.http.get(
       `${environment.apiUrl}/${this.entity}/${this.provider}/get_user_operation/${operationId}`,
       undefined,
       undefined,
@@ -103,7 +98,7 @@ export class FiatRampsService {
   }
 
   createOperation(operationData): Observable<any> {
-    return this.customHttp.post(
+    return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/create_operation`,
       operationData,
       undefined,
@@ -112,7 +107,7 @@ export class FiatRampsService {
   }
 
   confirmOperation(operationId, operationData): Observable<any> {
-    return this.customHttp.post(
+    return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/confirm_operation/${operationId}`,
       operationData,
       undefined,
@@ -121,11 +116,11 @@ export class FiatRampsService {
   }
 
   getLink(apikeyId: number): Observable<any> {
-    return this.customHttp.post(`${environment.apiUrl}/${this.entity}/paxful/get_link`, { id_apikey: apikeyId });
+    return this.http.post(`${environment.apiUrl}/${this.entity}/paxful/get_link`, { id_apikey: apikeyId });
   }
 
   getMoonpayLink(walletAddress: string, currencyCode: string): Observable<any> {
-    return this.customHttp.post(`${environment.apiUrl}/on_off_ramps/moonpay/link`, {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/moonpay/link`, {
       wallet_address: walletAddress,
       currency_code: currencyCode,
       publishable_key: environment.moonpayPK,
@@ -137,7 +132,7 @@ export class FiatRampsService {
   }
 
   userHasOperations(): Observable<any> {
-    return this.customHttp.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, true);
+    return this.http.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, true);
   }
 
   getProvider(providerId: number): FiatRampProvider {
@@ -161,6 +156,6 @@ export class FiatRampsService {
   }
 
   private providers(): Providers {
-    return this.providersFactory.create(this.remoteConfig, this.http);
+    return this.providersFactory.create();
   }
 }
