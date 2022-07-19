@@ -141,6 +141,12 @@
         "title": "Financial Planner",
         "description": "Optimize the return on your money"
       }
+    },
+    "transaction_fees": {
+      "title": "Why is the transaction fee estimated?",
+      "description": "Due to market volatility, the exchange rate may vary slightly at the time of the transaction.",
+      "button_text": "Understood",
+      "loading_text":"Calculating. Wait a few moments."
     }
   },
   "users": {

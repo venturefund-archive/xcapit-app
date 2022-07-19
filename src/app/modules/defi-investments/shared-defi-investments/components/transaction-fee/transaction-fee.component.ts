@@ -1,6 +1,9 @@
 import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { InfoSendModalComponent } from 'src/app/modules/wallets/shared-wallets/components/info-send-modal/info-send-modal.component';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { Amount } from '../../types/amount.type';
@@ -15,7 +18,7 @@ import { Amount } from '../../types/amount.type';
         </ion-text>
         <ion-button
           class="tf__fee__label__button ion-no-padding"
-          *ngIf="this.transactionFee"
+          *ngIf="this.transactionFee || this.defaultFeeInfo"
           slot="icon-only"
           fill="clear"
           appTrackClick
@@ -52,7 +55,10 @@ import { Amount } from '../../types/amount.type';
         </div>
       </div>
       <div *ngIf="this.quoteFee.value === undefined || this.fee.value === undefined" class="skeleton">
-        <ion-skeleton-text style="width:95%" animated> </ion-skeleton-text>
+        <ion-skeleton-text style="width:100%" animated> </ion-skeleton-text>
+      </div>
+      <div *ngIf="this.quoteFee.value === undefined || this.fee.value === undefined">
+        <ion-text class="ux-font-text-xxs loading-text"> {{ 'shared.transaction_fees.loading_text' | translate }} </ion-text>
       </div>
     </div>
   `,
@@ -70,6 +76,7 @@ export class TransactionFeeComponent implements OnChanges {
   @Input() description: string;
   @Input() transactionFee: boolean;
   @Input() autoPrice: boolean;
+  @Input() defaultFeeInfo: boolean;
   @Output() transactionFeeInfoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   isAmountSend: boolean;
@@ -78,15 +85,35 @@ export class TransactionFeeComponent implements OnChanges {
 
   constructor(
     private dynamicPrice: DynamicPriceFactory,
-    private apiWalletService: ApiWalletService
-  ) { }
+    private apiWalletService: ApiWalletService,
+    private modalController: ModalController,
+    private translate: TranslateService
+  ) {}
+
+  async showDefaultFeeInfo() {
+    if (!this.isInfoModalOpen && this.defaultFeeInfo) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: InfoSendModalComponent,
+        componentProps: {
+          title: this.translate.instant('shared.transaction_fees.title'),
+          description: this.translate.instant('shared.transaction_fees.description'),
+          buttonText: this.translate.instant('shared.transaction_fees.button_text'),
+        },
+        cssClass: 'ux-xxs-modal-informative',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     this.setAutoPrice(changes.fee);
   }
 
   private setAutoPrice(feeChanges: any) {
-    if(this.isOkForAutoPrice(feeChanges)) {
+    if (this.isOkForAutoPrice(feeChanges)) {
       this.setNullQuoteFee();
       this.priceUnsubscribe();
       this.setFeeTokenPrice();
@@ -94,8 +121,7 @@ export class TransactionFeeComponent implements OnChanges {
   }
 
   private setFeeTokenPrice() {
-    this.dynamicPriceSubscription = this.feeTokenPrice()
-      .subscribe((price: number) => this.setQuoteFee(price));
+    this.dynamicPriceSubscription = this.feeTokenPrice().subscribe((price: number) => this.setQuoteFee(price));
   }
 
   private priceUnsubscribe() {
@@ -122,6 +148,10 @@ export class TransactionFeeComponent implements OnChanges {
   }
 
   showPhrasetransactionFeeInfo() {
-    this.transactionFeeInfoClicked.emit();
+    if (!this.defaultFeeInfo) {
+      this.transactionFeeInfoClicked.emit();
+    } else {
+      this.showDefaultFeeInfo();
+    }
   }
 }
