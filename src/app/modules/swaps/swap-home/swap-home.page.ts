@@ -38,6 +38,8 @@ import { PasswordErrorHandlerService } from '../shared-swaps/services/password-e
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { LINKS } from 'src/app/config/static-links';
 
 
 @Component({
@@ -131,11 +133,25 @@ import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/facto
               {{ 'swaps.home.fee_title' | translate }}
             </ion-text>
           </div>
-          <app-transaction-fee
-            [fee]="this.tplFee"
-            [autoPrice]="true"
-          ></app-transaction-fee>
+          <app-transaction-fee [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
         </div>
+      </div>
+      <div class="sw__checkbox ion-padding">
+        <ion-item class="sw__checkbox__last ux-font-text-xs">
+          <ion-checkbox mode="md" slot="start" name="checkbox-condition"></ion-checkbox>
+          <div class="sw__checkbox__text-wrapper">
+            <ion-label>
+              {{ 'swaps.home.tos_1' | translate }}
+            </ion-label>
+            <ion-button
+              name="go_to_1inch_tos"
+              class="ux-link-xs sw__checkbox__text__button"
+              (click)="this.openToS()"
+              appTrackClick fill="clear">
+              {{ 'swaps.home.tos_button' | translate }}
+            </ion-button>
+          </div>
+        </ion-item>
       </div>
       <div class="sw__swap-button ion-padding">
         <ion-button
@@ -201,8 +217,13 @@ export class SwapHomePage {
     private trackService: TrackService,
     private passwordErrorHandlerService: PasswordErrorHandlerService,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private browser: BrowserService
   ) {}
+
+  openToS() {
+    this.browser.open({url: LINKS.oneInchToS});
+  }
 
   private async setSwapInfo(fromTokenAmount: string) {
     if (fromTokenAmount) {
@@ -300,10 +321,7 @@ export class SwapHomePage {
   }
 
   private setTokens() {
-    this.tokens = this.intersectedTokens.create(
-      this.blockchainTokens(),
-      new OneInchTokens(this.dex)
-    );
+    this.tokens = this.intersectedTokens.create(this.blockchainTokens(), new OneInchTokens(this.dex));
   }
 
   private blockchainTokens(): BlockchainTokens {

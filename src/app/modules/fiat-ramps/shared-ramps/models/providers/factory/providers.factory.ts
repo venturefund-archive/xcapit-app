@@ -4,14 +4,12 @@ import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { ProviderDataRepo } from '../../provider-data-repo/provider-data-repo';
 import { environment } from '../../../../../../../environments/environment';
 import { DefaultProviders } from '../default/default-providers';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProvidersFactory {
-  public create(
-    dataRepo: ProviderDataRepo,
-    http: HttpClient | FakeHttpClient,
-    env: any = environment
-  ): DefaultProviders {
-    return new DefaultProviders(dataRepo, http, env);
+  constructor(private remoteConfig: RemoteConfigService, private http: HttpClient) {}
+  public create(env: any = environment): DefaultProviders {
+    return new DefaultProviders(new ProviderDataRepo(this.remoteConfig), this.http, env);
   }
 }

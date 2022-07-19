@@ -22,7 +22,6 @@ import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-pric
 import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 @Component({
   selector: 'app-operations-new',
@@ -132,7 +131,7 @@ export class OperationsNewPage implements AfterViewInit {
     private browserService: BrowserService,
     private http: HttpClient,
     private kriptonDynamicPrice: KriptonDynamicPriceFactory,
-    private providers: ProvidersFactory
+    private providers: ProvidersFactory,
   ) {}
 
   ngAfterViewInit() {
@@ -171,7 +170,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   getProviders() {
-    return this.providers.create(new ProviderDataRepo(), this.http);
+    return this.providers.create();
   }
 
   subscribeToFormChanges() {

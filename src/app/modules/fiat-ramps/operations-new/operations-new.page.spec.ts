@@ -155,7 +155,7 @@ describe('OperationsNewPage', () => {
       value: 'fiat_ramps.countries_list.argentina',
       fiatCode: 'ars',
       isoCodeAlpha3: 'ARS',
-      directaCode: 'AR'
+      directaCode: 'AR',
     });
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);
     expect(component.fiatCurrency).toEqual('ars');
@@ -253,6 +253,9 @@ describe('OperationsNewPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', null);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection', 'kripton'], navigationExtras);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      ['/fiat-ramps/token-selection', 'kripton'],
+      navigationExtras
+    );
   });
 });
