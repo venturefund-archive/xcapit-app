@@ -13,7 +13,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { TransactionFeeComponent } from './transaction-fee.component';
 
-fdescribe('TransactionFeeComponent', () => {
+describe('TransactionFeeComponent', () => {
   let component: TransactionFeeComponent;
   let fixture: ComponentFixture<TransactionFeeComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TransactionFeeComponent>;

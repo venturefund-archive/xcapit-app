@@ -38,7 +38,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { LINKS } from 'src/app/config/static-links';
 
 
-fdescribe('SwapHomePage', () => {
+describe('SwapHomePage', () => {
 
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
