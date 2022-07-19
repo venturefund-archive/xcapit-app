@@ -9,7 +9,7 @@ export const NO_WALLET_TYPES = {
   },
   no_wallet_defi_investments: {
     urlClose: '/tabs/home',
-    urlPage: '/tabs/wallets',
+    urlPage: '/wallets/create-first/disclaimer',
     urlLink: '/tabs/investments',
     img: 'assets/img/wealth_management/no-wallet.svg',
     title: 'wealth_managements.no_wallet.title',
