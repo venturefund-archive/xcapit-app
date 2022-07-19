@@ -2384,7 +2384,9 @@
       "from_token_title": "From",
       "to_token_title": "To",
       "fee_title": "Transaction details",
-      "footer_text": "It will only take a few seconds."
+      "footer_text": "It will only take a few seconds.",
+      "tos_1": "I have read and agree to ",
+      "tos_button": "1inch's terms and conditions."
     },
     "errors": {
       "invalid_password": "The password entered is not valid."
