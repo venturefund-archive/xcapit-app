@@ -94,7 +94,7 @@ export class UserProfileMenuPage {
   }
 
   private getProfile() {
-    this.apiProfiles.crud.get('', false).subscribe((res) => {
+    this.apiProfiles.getUserData().subscribe((res) => {
       this.profile = res;
     });
   }

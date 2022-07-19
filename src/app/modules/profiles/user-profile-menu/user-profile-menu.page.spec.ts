@@ -73,7 +73,6 @@ describe('UserProfileMenuPage', () => {
   let fixture: ComponentFixture<UserProfileMenuPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserProfileMenuPage>;
   let apiProfilesServiceSpy: jasmine.SpyObj<ApiProfilesService>;
-  let crudSpy: jasmine.SpyObj<CRUD>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
@@ -93,16 +92,9 @@ describe('UserProfileMenuPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
 
-      crudSpy = jasmine.createSpyObj('CRUD', {
-        get: of(profile),
-      });
-
       apiProfilesServiceSpy = jasmine.createSpyObj(
         'ApiProfilesService',
-        {},
-        {
-          crud: crudSpy,
-        }
+        {getUserData: of(profile)},
       );
       authServiceSpy = jasmine.createSpyObj(
         'AuthService',
