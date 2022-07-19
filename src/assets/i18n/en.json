@@ -1081,13 +1081,13 @@
       }
     },
     "error_test": {
-      "textPrimary":"Let's keep improving!",
-      "textSecondary":"Remember that you need to respond satisfactorily to all instances.",
-      "namePrimaryAction":"Repeat module",
-      "nameSecondaryAction":"Go to menu",
-      "nameThirdAction":"Learn more"
+      "textPrimary": "Let's keep improving!",
+      "textSecondary": "Remember that you need to respond satisfactorily to all instances.",
+      "namePrimaryAction": "Repeat module",
+      "nameSecondaryAction": "Go to menu",
+      "nameThirdAction": "Learn more"
     },
-    "success_submodule":{
+    "success_submodule": {
       "textPrimary": "¡Felicitaciones! Completaste: {{submodule}}",
       "textSecondary": "Que nada te detenga, estás cada vez más cerca de convertirte en un experto.",
       "buttonText": "Siguiente módulo",
@@ -1105,7 +1105,6 @@
       "primaryButton": "Finish"
     }
   },
-
   "financial_planner": {
     "planner_information": {
       "header": "Planner",
@@ -1232,6 +1231,12 @@
           "title_2": "About Proof of integrity",
           "title_3": "Learn more about POI",
           "description": "Offer a cryptofinance education program and fund the transaction fees and deposits required to join the Proof of Humanity platform."
+        },
+        "pulenta": {
+          "title_1": "We seek to offer a concrete solution to the needs that arise in the slums and popular neighborhoods.",
+          "title_2": "About Pulenta",
+          "title_3": "Learn more about Pulenta",
+          "description": "Achieve traceable, transparent and scalable crypto donations to organizations that help people in a state of emergency and vulnerability."
         }
       }
     },
@@ -1263,7 +1268,6 @@
       "namePrimaryAction": "Continue donating",
       "nameThirdAction": "Back to home"
     },
-
     "error": {
       "textPrimary": "Your donation could not be completed",
       "textSecondary": "An error occurred in the blockchain.",

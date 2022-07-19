@@ -23,9 +23,11 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
               >{{ this.badge | translate }}
             </ion-badge>
           </div>
-          <div class="dc__content__card__information__icon-text">
-            <img class="dc__content__card__image__img" src="assets/img/coins/ether-logo.svg" alt="Product Image" />
-            <ion-text class="ux-font-text-xxs" color="neutral80">{{ 'donations.description_cause.info.receive' | translate }}</ion-text>
+          <div class="dc__content__card__information__icon-text" *ngIf="this.tokenLogo">
+            <img class="dc__content__card__image__img" [src]="this.tokenLogo" alt="Product Image" />
+            <ion-text class="ux-font-text-xxs" color="neutral80">{{
+              'donations.description_cause.info.receive' | translate
+            }}</ion-text>
           </div>
         </div>
       </div>
@@ -57,10 +59,16 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 export class CauseInfoComponent implements OnInit {
   @Input() data;
   badge: string;
+  tokenLogo: string;
   constructor(private browserService: BrowserService) {}
 
   ngOnInit() {
     this.setType();
+    this.setTokenLogo();
+  }
+
+  private setTokenLogo() {
+    this.tokenLogo = `assets/img/coins/donation/${this.data.token.value}.svg`;
   }
 
   setType() {
