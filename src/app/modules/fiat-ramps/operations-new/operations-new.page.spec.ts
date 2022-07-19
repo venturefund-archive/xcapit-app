@@ -258,4 +258,14 @@ describe('OperationsNewPage', () => {
       navigationExtras
     );
   });
+
+  it('should unsubscribe when leave', () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const nextSpy = spyOn(component.destroy$, 'next');
+    const completeSpy = spyOn(component.destroy$, 'complete');
+    component.ionViewWillLeave();
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
 });

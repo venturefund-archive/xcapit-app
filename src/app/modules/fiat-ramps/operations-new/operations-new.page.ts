@@ -108,7 +108,7 @@ export class OperationsNewPage implements AfterViewInit {
   country: FiatRampProviderCountry;
   price: number;
   priceRefreshInterval = 15000;
-  private destroy$ = new Subject<void>();
+  destroy$: Subject<void>;
 
   form: FormGroup = this.formBuilder.group({
     cryptoAmount: ['', [Validators.required]],
@@ -154,6 +154,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   ionViewWillEnter() {
+    this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
     this.availableCoins();
@@ -285,5 +286,10 @@ export class OperationsNewPage implements AfterViewInit {
     };
 
     this.navController.navigateForward(['/fiat-ramps/token-selection', this.provider.alias], navigationExtras);
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
