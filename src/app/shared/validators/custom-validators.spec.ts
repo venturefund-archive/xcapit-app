@@ -27,6 +27,24 @@ describe('CustomValidators', () => {
     expect(form.get('testGreaterThan').hasError('greaterThan')).toBe(false);
   });
 
+  it('should validate Lower Than Equal', () => {
+    const form: FormGroup = formBuilder.group({
+      testLowerThanEqual: ['', [CustomValidators.lowerThanEqual(5)]],
+    });
+
+    form.patchValue({ testLowerThanEqual: 1 });
+    expect(form.valid).toBe(true);
+    expect(form.get('testLowerThanEqual').hasError('lowerThanEqual')).toBe(false);
+
+    form.patchValue({ testLowerThanEqual: 5 });
+    expect(form.valid).toBe(true);
+    expect(form.get('testLowerThanEqual').hasError('lowerThanEqual')).toBe(false);
+
+    form.patchValue({ testLowerThanEqual: 6 });
+    expect(form.valid).toBe(false);
+    expect(form.get('testLowerThanEqual').hasError('lowerThanEqual')).toBe(true);
+  });
+
   it('should validate must be true', () => {
     const form: FormGroup = formBuilder.group({
       testMustBeTrue: ['', [CustomValidators.mustBeTrue]],
@@ -79,6 +97,26 @@ describe('CustomValidators', () => {
     form.patchValue({ repeat_password: 'asd' });
     expect(form.valid).toBe(true);
     expect(form.get('repeat_password').hasError('noPasswordMatch')).toBe(false);
+  });
+
+  it('should validate address when is invalid', () => {
+    const form: FormGroup = formBuilder.group({
+      testIsAddress: ['', [CustomValidators.isAddress()]],
+    });
+    
+    form.patchValue({ testIsAddress: 'asd' });
+    expect(form.valid).toBe(false);
+    expect(form.get('testIsAddress').hasError('isAddress')).toBe(true);
+  });
+
+  it('should validate address is valid', () => {
+    const form: FormGroup = formBuilder.group({
+      testIsAddress: ['', [CustomValidators.isAddress()]],
+    });
+    
+    form.patchValue({ testIsAddress: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC' });
+    expect(form.valid).toBe(true);
+    expect(form.get('testIsAddress').hasError('isAddress')).toBe(false);
   });
 
   it('should validate that new password is different from old password', () => {

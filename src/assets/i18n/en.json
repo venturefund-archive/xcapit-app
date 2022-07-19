@@ -424,7 +424,8 @@
         "title": "Estimated amount to send",
         "available": "Balance available",
         "amount_invested": "Total amount invested",
-        "max_button": "Max"
+        "max_button": "Max",
+        "advice":"Insufficient funds"
       },
       "withdraw_card": {
         "title": "Withdraw",
