@@ -287,9 +287,9 @@ export const SUCCESS_TYPES = {
   swap_in_progress:{
     image:"assets/img/swaps/swap-in-progress.svg",
     urlClose:'/tabs/wallets',
-    textPrimary: 'swaps.swap_in_progress.textPrimary', 
-    textSecondary:'swaps.swap_in_progress.textSecondary',
-    namePrimaryAction:'swaps.swap_in_progress.buttonText',
+    textPrimary: 'swaps.swap_in_progress.text_primary', 
+    textSecondary:'swaps.swap_in_progress.text_secondary',
+    namePrimaryAction:'swaps.swap_in_progress.button_text',
     urlPrimaryAction:'/tabs/wallets',
   },
   error_no_wallet_financial_education: {

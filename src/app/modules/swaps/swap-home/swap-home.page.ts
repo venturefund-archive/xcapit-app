@@ -363,13 +363,10 @@ export class SwapHomePage {
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
       .then(() => {
-        console.log('Swap OK!');
         const notification = this.createNotification('swap_ok');
         this.notifyWhenSwap(notification);
       })
       .catch((err) => {
-        console.log('Swap NOT OK!');
-        console.log(err.message);
         this.passwordErrorHandlerService.handlePasswordError(err, () => {
           this.showPasswordError();
         });

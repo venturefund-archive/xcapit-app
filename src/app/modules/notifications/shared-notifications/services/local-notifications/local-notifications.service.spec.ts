@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LocalNotificationsService } from './local-notifications.service';
 
-fdescribe('LocalNotificationsService', () => {
+describe('LocalNotificationsService', () => {
   let localNotificationsSpy: jasmine.SpyObj<any>;
   let service: LocalNotificationsService;
   beforeEach(() => {

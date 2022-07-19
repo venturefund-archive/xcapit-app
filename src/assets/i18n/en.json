@@ -2398,9 +2398,9 @@
       "toToken_title": "Select the token you want to receive"
     },
     "swap_in_progress":{
-      "textPrimary":"Your order is on the way!",
-      "textSecondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
-      "buttonText":"Go to Wallet"
+      "text_primary":"Your order is on the way!",
+      "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "button_text":"Go to Wallet"
     },
     "sent_notification":{
       "actions":{
