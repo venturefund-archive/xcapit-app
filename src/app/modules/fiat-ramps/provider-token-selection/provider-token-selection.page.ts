@@ -39,6 +39,7 @@ import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/prov
 export class ProviderTokenSelectionPage implements OnInit {
   coins: Coin[];
   provider: FiatRampProvider;
+  country: string;
   constructor(
     private navController: NavController,
     private route: ActivatedRoute,
@@ -51,6 +52,7 @@ export class ProviderTokenSelectionPage implements OnInit {
 
   ionViewWillEnter() {
     const providerAlias = this.route.snapshot.paramMap.get('provider');
+    this.country = this.route.snapshot.queryParamMap.get('country');
     this.provider = this.providers().byAlias(providerAlias);
     this.availableCoins();
   }
@@ -58,6 +60,7 @@ export class ProviderTokenSelectionPage implements OnInit {
   selectCurrency(currency: Coin) {
     const navigationExtras: NavigationExtras = {
       queryParams: {
+        country: this.country,
         asset: currency.value,
         network: currency.network,
       },

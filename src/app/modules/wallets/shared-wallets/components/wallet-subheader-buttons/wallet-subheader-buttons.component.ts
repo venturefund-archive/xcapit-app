@@ -31,16 +31,18 @@ import { defaultSwapsUrls } from 'src/app/modules/swaps/swaps-routing.module';
             icon="ux-arrow-down"
           ></app-icon-button-card>
         </div>
-        <div *appFeatureFlag="'ff_buyCryptoHomeWalletButton'" class="wsb__card-buttons__buy-card card">
-          <app-icon-button-card
-            (click)="this.goToBuy()"
-            appTrackClick
-            class="ux-font-text-lg"
-            name="ux_go_to_buy"
-            [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"
-            icon="ux-currency"
-          ></app-icon-button-card>
-        </div>
+        <ng-template [ngIf]="this.enabledToBuy">
+          <div *appFeatureFlag="'ff_buyCryptoHomeWalletButton'" class="wsb__card-buttons__buy-card card">
+            <app-icon-button-card
+              (click)="this.goToBuy()"
+              appTrackClick
+              class="ux-font-text-lg"
+              name="ux_go_to_buy"
+              [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"
+              icon="ux-currency"
+            ></app-icon-button-card>
+          </div>
+        </ng-template>
         <div *appFeatureFlag="'ff_swap'" class="wsb__card-buttons__swap-card card">
           <app-icon-button-card
             (click)="this.goToSwap()"
@@ -59,6 +61,7 @@ import { defaultSwapsUrls } from 'src/app/modules/swaps/swaps-routing.module';
 export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
   @Input() network: string;
+  @Input() enabledToBuy = true;
 
   constructor(
     private navController: NavController,
@@ -66,7 +69,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
     private storage: IonicStorageService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async goToSend() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {

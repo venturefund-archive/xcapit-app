@@ -9,6 +9,7 @@ export const TEST_ERC20_COINS: Coin[] = [
     value: 'ETH',
     network: 'ERC20',
     chainId: 42,
+    moonpayCode: 'keth',
     rpc: 'http://testrpc.test/',
     native: true,
   },
@@ -32,6 +33,7 @@ export const TEST_ERC20_COINS: Coin[] = [
     value: 'USDT',
     network: 'ERC20',
     chainId: 42,
+    moonpayCode: 'usdt',
     rpc: 'http://testrpc.text/',
     contract: '0x3B00Ef435fA4FcFF5C209a37d1f3dcff37c705aD',
     decimals: 6,
@@ -78,13 +80,14 @@ export const TEST_RSK_COINS: Coin[] = [
 
 export const TEST_MATIC_COINS: Coin[] = [
   {
-    id: 7,
+    id: 6,
     name: 'MATIC - Polygon',
     logoRoute: 'assets/img/coins/MATIC.png',
     last: false,
     value: 'MATIC',
     network: 'MATIC',
     chainId: 80001,
+    moonpayCode: 'matic_polygon',
     rpc: 'http://testrpc.text/',
     decimals: 18,
     native: true,
@@ -93,13 +96,14 @@ export const TEST_MATIC_COINS: Coin[] = [
 
 export const TEST_BSC_BEP20_COINS: Coin[] = [
   {
-    id: 8,
+    id: 7,
     name: 'BNB - Binance Coin',
     logoRoute: 'assets/img/coins/BNB.svg',
     last: true,
     value: 'BNB',
     network: 'BSC_BEP20',
     chainId: 97,
+    moonpayCode: 'bnb_bsc',
     rpc: 'http://testrpc.text/',
     decimals: 18,
     native: true,

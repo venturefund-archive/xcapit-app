@@ -33,6 +33,9 @@ import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-re
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
+import { DefaultToken } from '../shared-swaps/models/token/token';
 
 const testLocalNotificationOk: LocalNotificationSchema = {
   id: 1,
@@ -63,6 +66,7 @@ describe('SwapHomePage', () => {
   let oneInchFactorySpy: jasmine.SpyObj<OneInchFactory>;
   let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
   let swapTransactionsFactorySpy: jasmine.SpyObj<SwapTransactionsFactory>;
+  let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
@@ -83,6 +87,15 @@ describe('SwapHomePage', () => {
   ];
   const formValue = {
     fromTokenAmount: 1
+  }
+
+  const _setTokenAmountArrange = (fromTokenAmount: number) => {
+    component.ionViewDidEnter();
+    tick();
+    fixture.detectChanges();
+    component.form.patchValue({ fromTokenAmount: fromTokenAmount });
+    tick(501);
+    fixture.detectChanges();
   }
 
   beforeEach(
@@ -114,6 +127,10 @@ describe('SwapHomePage', () => {
 
       swapTransactionsFactorySpy = jasmine.createSpyObj('SwapTransactionsFactory', {
         create: { blockchainTxs: () => [new FakeBlockchainTx()] },
+      });
+
+      gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
+        create: { price: () => ({ fast: () => Promise.resolve(new AmountOf('1', new DefaultToken(rawMATICData))) }) }
       });
 
       trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
@@ -152,6 +169,7 @@ describe('SwapHomePage', () => {
           { provide: OneInchFactory, useValue: oneInchFactorySpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: WalletsFactory, useValue: walletsFactorySpy },
+          { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
           { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
           { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
           { provide: ToastService, useValue: toastServiceSpy },
@@ -196,23 +214,27 @@ describe('SwapHomePage', () => {
   });
 
   it('should show null swap info on invalid from token amount value', fakeAsync(() => {
-    component.ionViewDidEnter();
-    tick();
-    fixture.detectChanges();
-    component.form.patchValue({ fromTokenAmount: 0 });
-    tick(501);
-    fixture.detectChanges();
+    _setTokenAmountArrange(0);
 
     expect(component.tplSwapInfo).toEqual(new NullJSONSwapInfo().value());
   }));
 
+  it('should show swap fee info with 0 value on invalid from token amount value', fakeAsync(() => {
+    _setTokenAmountArrange(0);
+
+    expect(component.tplFee.value).toEqual(0);
+    expect(component.tplFee.token).toEqual(rawBlockchain.nativeToken.value);
+  }));
+
+  it('should show swap fee info with value greater than 0 on valid from token amount value', fakeAsync(() => {
+    _setTokenAmountArrange(1);
+
+    expect(component.tplFee.value).toBeGreaterThan(0);
+    expect(component.tplFee.token).toEqual(rawBlockchain.nativeToken.value);
+  }));
+
   it('should show swap info on valid from token amount value', fakeAsync(() => {
-    component.ionViewDidEnter();
-    tick();
-    fixture.detectChanges();
-    component.form.patchValue({ fromTokenAmount: 1 });
-    tick(501);
-    fixture.detectChanges();
+    _setTokenAmountArrange(1);
 
     expect(component.tplSwapInfo.toTokenAmount).toBeGreaterThan(0);
   }));

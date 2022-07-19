@@ -274,19 +274,19 @@ describe('DefiInvestmentProductsPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/defi']);
   });
 
-  it('should render header skeleton when active or available products are not yet loaded yet.', async () => {
-    availableDefiProductsSpy.value.and.returnValue([]);
-    expect(fixture.debugElement.query(By.css('.skeleton'))).toBeTruthy();
-  });
-
-  it('should render defi-product skeleton when active or available products are not loaded yet.', async () => {
-    availableDefiProductsSpy.value.and.returnValue([]);
+  it('should render skeleton if there is not active investements and it is still loading', async () => {
+    component.activeInvestments = [];
+    component.allLoaded = false;
+    fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('app-defi-investment-product-skeleton'))).toBeTruthy();
   });
 
-  it('should render choose investor skeleton when active or available products are not loaded yet.', async () => {
-    availableDefiProductsSpy.value.and.returnValue([]);
-    expect(fixture.debugElement.query(By.css('app-choose-investor-profile-skeleton'))).toBeTruthy();
+  it('should render no investments info if there is not active investements and loading has done', async () => {
+    component.activeInvestments = [];
+    component.allLoaded = true;
+    fixture.detectChanges();
+    const noInvestmentsEl = fixture.debugElement.query(By.css('div.dp__no_investments'));
+    expect(noInvestmentsEl).toBeTruthy();
   });
 
   it('should create available defi products', () => {

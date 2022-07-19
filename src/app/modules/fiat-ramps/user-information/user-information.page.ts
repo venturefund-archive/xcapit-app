@@ -38,7 +38,6 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
 
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
         <div class="ux_content">
-          <!-- Nombre -->
           <app-ux-input
             controlName="nombre"
             type="text"
@@ -47,7 +46,6 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
             [placeholder]="'fiat_ramps.register.first_name' | translate"
           ></app-ux-input>
 
-          <!-- Apellido -->
           <app-ux-input
             controlName="apellido"
             type="text"
@@ -56,7 +54,6 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
             [placeholder]="'fiat_ramps.register.last_name' | translate"
           ></app-ux-input>
 
-          <!-- Nacionalidad -->
           <app-ux-input-select
             [label]="'fiat_ramps.register.nationality' | translate"
             [modalTitle]="'fiat_ramps.register.nationality' | translate"
@@ -65,7 +62,6 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
             [data]="this.countries"
           ></app-ux-input-select>
 
-          <!-- fecha de nacimiento -->
           <app-ux-input
             placeholder="DD-MM-YYYY"
             [label]="'fiat_ramps.register.dob' | translate"
@@ -73,7 +69,6 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
           >
           </app-ux-input>
 
-          <!-- Género -->
           <app-input-select
             [label]="'fiat_ramps.register.gender' | translate"
             [modalTitle]="'fiat_ramps.register.gender' | translate"
@@ -85,7 +80,6 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
             [translated]="true"
           ></app-input-select>
 
-          <!-- Estado civil -->
           <app-input-select
             [label]="'fiat_ramps.register.marital_status' | translate"
             [modalTitle]="'fiat_ramps.register.marital_status' | translate"
@@ -97,7 +91,6 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
             [translated]="true"
           ></app-input-select>
 
-          <!-- Tipo documento -->
           <app-input-select
             [label]="'fiat_ramps.register.doc_type' | translate"
             [modalTitle]="'fiat_ramps.register.doc_type' | translate"
@@ -109,7 +102,6 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
             [translated]="true"
           ></app-input-select>
 
-          <!-- Nro doc -->
           <app-ux-input
             controlName="nro_doc"
             type="text"
@@ -118,7 +110,6 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
             [placeholder]="'fiat_ramps.register.doc_number' | translate"
           ></app-ux-input>
 
-          <!-- Ciudad -->
           <app-ux-input
             controlName="ciudad"
             type="text"
@@ -127,7 +118,6 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
             [placeholder]="'fiat_ramps.register.city' | translate"
           ></app-ux-input>
 
-          <!-- Código postal -->
           <app-ux-input
             controlName="codigo_postal"
             type="text"
@@ -136,7 +126,6 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
             [placeholder]="'fiat_ramps.register.postal_code' | translate"
           ></app-ux-input>
 
-          <!-- dirección calle -->
           <app-ux-input
             controlName="direccion_calle"
             type="text"
@@ -145,13 +134,20 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
             [placeholder]="'fiat_ramps.register.address_street' | translate"
           ></app-ux-input>
 
-          <!-- dirección nro -->
           <app-ux-input
             controlName="direccion_nro"
             type="text"
             inputmode="text"
             [label]="'fiat_ramps.register.address_number' | translate"
             [placeholder]="'fiat_ramps.register.address_number' | translate"
+          ></app-ux-input>
+
+          <app-ux-input
+            controlName="telefono"
+            type="tel"
+            inputmode="tel"
+            [label]="'fiat_ramps.register.phone' | translate"
+            [placeholder]="'fiat_ramps.register.phone' | translate"
           ></app-ux-input>
 
           <ion-item class="rp__checkbox">
@@ -198,6 +194,7 @@ export class UserInformationPage implements OnInit {
     codigo_postal: ['', [Validators.required]],
     direccion_calle: ['', [Validators.required]],
     direccion_nro: ['', [Validators.required]],
+    telefono: ['', [Validators.required]],
     expuesto_politicamente: [false, [Validators.required]],
   });
   genders = GENDERS;

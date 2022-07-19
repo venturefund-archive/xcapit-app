@@ -8,10 +8,6 @@ const routes: Routes = [
     path: '',
     component: MoonpayPage,
   },
-  {
-    path: ':asset',
-    component: MoonpayPage,
-  },
 ];
 
 @NgModule({

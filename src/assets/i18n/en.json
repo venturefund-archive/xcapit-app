@@ -316,6 +316,7 @@
       "recommendations": "You may be interested in",
       "empty_products": "Soon you will be able to find the best investments for your profile.",
       "link_button": "How do DeFi investments work?",
+      "no_investments":"Your investments will appear here. Get started now!",
       "choose_investor_profile": {
         "complete_test": {
           "title": "I want to choose my profile again",
@@ -358,6 +359,13 @@
       "weekly_update": "*Weekly update"
     },
     "shared": {
+      "withdraw_info_modal":{
+        "title":"¿Qué es la tarifa de retiro?",
+        "item_1":"Es el costo de realizar una extracción. ",
+        "item_2":"Se calcula sobre el monto que deseas retirar (0,255%), no sobre el total de tu inversión.",
+        "item_3":"Se abona en la misma moneda del producto de inversión (si estás invirtiendo en USDC, pagarás la tarifa de retiro en USDC).",
+        "button_text":"Entendido"
+      },
       "transaction_fees": {
         "label": "Estimated transaction fee",
         "advice": "Insufficient funds"
@@ -393,6 +401,8 @@
         "annual": "% Annual",
         "blockchain": "Blockchain",
         "profile": "Profile",
+        "transaction_fee": "Transaction Fee",
+        "withdrawal_fee": "Withdrawal Fee",
         "investment_info": {
           "USDC": "Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
           "DAI": "Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
@@ -430,7 +440,7 @@
         "header": "Withdraw investment",
         "button": "Continue",
         "label": "Amount to withdraw*",
-        "legend": "*Transaction fees will be charged in MATIC."
+        "legend": "*The transaction fee will be charged in {{network}}. While the withdrawal fee will be in {{token}}."
       },
       "withdraw": {
         "header": "Withdraw investment",
@@ -438,7 +448,11 @@
         "submit_loading": "Confirming",
         "withdraw_amount": "Amount to withdraw",
         "withdraw_fee": "Withdrawal fee",
-        "disclaimer": "It will only take a few seconds"
+        "disclaimer": "It will only take a few seconds",
+        "header_alert": "Wait!",
+        "alert_message": "We are still calculating the transaction fee. Do you want to continue anyway?",
+        "alert_confirmation": "Confirm",
+        "alert_cancel":"Cancel"
       },
       "password_modal": {
         "description": "To confirm your withdrawal, enter your Xcapit wallet password.",
@@ -1512,9 +1526,9 @@
       "button_text": "Copy",
       "button_continue": "Continue",
       "security_information": "Xcapit will not be able to recover your wallet if you lose your recovery phrase.",
-      "button_text_coppied": "Coppied",
-      "coppied_text": "The recovery phrase was copied to the clipboard",
-      "copy_error_text": "The recovery phrase could not be coppied to the clipboard",
+      "button_text_copied": "Copied",
+      "copied_text": "The recovery phrase was copied to the clipboard",
+      "copy_error_text": "The recovery phrase could not be copied to the clipboard",
       "protected": "Complete backup",
       "not_protected": "No backup copy",
       "loading_text": "Decrypting wallet",
@@ -1797,7 +1811,7 @@
     "asset_detail": {
       "header": "Asset Detail",
       "wallet_transaction_title": "Transactions",
-      "available":"Balance available"
+      "available": "Balance available"
     },
     "error_wallet_recovery": {
       "title": "Your recovery phrase is incorrect",
@@ -2088,6 +2102,7 @@
       "postal_code": "Postal code",
       "address_street": "Address (Street)",
       "address_number": "Address (Number)",
+      "phone": "Phone",
       "address_extra": "Address (Floor/Department)",
       "cbu": "CBU/CVU",
       "bank": "BANK",
@@ -2362,10 +2377,11 @@
       "loading_button_text": "Swapping",
       "from_token_title": "From",
       "to_token_title": "To",
+      "fee_title": "Transaction details",
       "footer_text": "It will only take a few seconds."
     },
-    "errors":{
-      "invalid_password":"The password entered is not valid."
+    "errors": {
+      "invalid_password": "The password entered is not valid."
     },
     "select_token": {
       "header": "Swap",

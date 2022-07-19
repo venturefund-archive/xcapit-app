@@ -5,6 +5,7 @@ import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory
 import { FiatRampProvider } from '../../../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProviderDataRepo } from '../../../shared-ramps/models/provider-data-repo/provider-data-repo';
 import { HttpClient } from '@angular/common/http';
+import { FiatRampProviderCountry } from '../../../shared-ramps/interfaces/fiat-ramp-provider-country';
 
 @Component({
   selector: 'app-select-provider-card',
@@ -62,7 +63,7 @@ export class SelectProviderCardComponent implements OnInit {
   @Input() controlNameProvider = '';
   @Input() controlNameSelect = '';
   @Output() route: EventEmitter<any> = new EventEmitter<any>();
-  @Output() changedItem: EventEmitter<any> = new EventEmitter<any>();
+  @Output() changedCountry: EventEmitter<any> = new EventEmitter<any>();
   form: FormGroup;
   countries = COUNTRIES;
   disabled = true;
@@ -91,11 +92,12 @@ export class SelectProviderCardComponent implements OnInit {
 
   selectedProvider(provider) {
     const params = provider.providerName === 'directa24' ? provider.alias : '';
+    
     this.route.emit(`${provider.newOperationRoute}/${params}`);
   }
 
-  async selectedCountry(country) {
-    this.changedItem.emit();
+  async selectedCountry(country: FiatRampProviderCountry) {
+    this.changedCountry.emit();
     this.availableProviders = await this.providers().availablesBy(country);
     this.disabled = false;
   }

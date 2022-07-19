@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { NavigationExtras } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -45,7 +46,7 @@ const testForm = {
   valid: {
     provider: 'testProvider',
     country: {
-      name: 'testCountry'
+      isoCodeAlpha3: 'ARS'
     } 
   }
 } 
@@ -105,16 +106,21 @@ describe('SelectProviderPage', () => {
   });
 
   it('should navigate to provider url when ux_vendor_buy_continue is clicked', () => {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        country: 'ARS',
+      },
+    };
     fixture.detectChanges();
     component.form.patchValue(testForm.valid)
     fixture.debugElement.query(By.css('app-select-provider-card')).triggerEventHandler('route', 'test');
     fixture.debugElement.query(By.css("ion-button[name='ux_vendor_buy_continue']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test', 'testcountry']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test'], navigationExtras);
   });
 
   it('should reset form when country is changed', () => {
     const spy = spyOn(component.form.get('provider'), 'reset');
-    fixture.debugElement.query(By.css('app-select-provider-card')).triggerEventHandler('changedItem', 'Argentina');
+    fixture.debugElement.query(By.css('app-select-provider-card')).triggerEventHandler('changedCountry', 'Argentina');
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.form.get('provider').value).toEqual('');

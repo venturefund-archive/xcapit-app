@@ -18,6 +18,15 @@
   }
 }
 
+.ux-modal-withdraw-info {
+  --max-height: 412px;
+  --max-width: 85%;
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
 // Modal Informativo
 .ux-modal-informative {
   --max-height: 310px;

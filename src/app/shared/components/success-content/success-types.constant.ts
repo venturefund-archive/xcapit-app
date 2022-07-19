@@ -261,7 +261,7 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '',
     nameSecondaryAction: 'financial_education.error_test.nameSecondaryAction',
     urlSecondaryAction: 'tabs/financial-education',
-    TrackClickEventNameSecondaryAction:'ux_education_go_to_menu',
+    trackClickEventNameSecondaryAction:'ux_education_go_to_menu',
     nameThirdAction: 'financial_education.error_test.nameThirdAction',
     urlThirdAction: ''
   },
@@ -294,12 +294,12 @@ export const SUCCESS_TYPES = {
   },
   error_no_wallet_financial_education: {
     image: '/assets/img/financial-education/error-no-wallet.svg',
-    urlClose: '/financial-education/home',
+    urlClose: '/tabs/financial-education',
     textPrimary: 'financial_education.error_no_wallet.textPrimary',
     textSecondary: 'financial_education.error_no_wallet.textSecondary',
     namePrimaryAction: 'financial_education.error_no_wallet.namePrimaryAction',
     nameSecondaryAction: 'financial_education.error_no_wallet.nameSecondaryAction',
     urlPrimaryAction: '/tabs/wallets',
-    urlSecondaryAction: '/financial-education/home',
+    urlSecondaryAction: '/tabs/financial-education',
   }
 };

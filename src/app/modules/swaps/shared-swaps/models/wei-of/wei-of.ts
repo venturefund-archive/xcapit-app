@@ -5,9 +5,9 @@ import { Token } from "../token/token";
 
 export class WeiOf {
 
-  constructor(private anAmount: number|string, private fromToken: Token) { }
+  constructor(private _anAmount: number|string, private _aToken: Token) { }
 
   value(): BigNumber {
-    return parseUnits(`${this.anAmount}`, this.fromToken.decimals());
+    return parseUnits(`${this._anAmount}`, this._aToken.decimals());
   }
 }

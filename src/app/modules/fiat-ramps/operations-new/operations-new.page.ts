@@ -9,9 +9,8 @@ import {
   StorageOperationService,
 } from '../shared-ramps/services/operation/storage-operation.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
-import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
@@ -25,7 +24,6 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
-
 @Component({
   selector: 'app-operations-new',
   template: `
@@ -159,13 +157,17 @@ export class OperationsNewPage implements AfterViewInit {
   ionViewWillEnter() {
     this.provider = this.getProviders().byAlias('kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
-    this.providerTokens = new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(
-      'kripton'
-    );
+    this.availableCoins();
     this.setCountry();
     this.setCurrency();
     this.dynamicPrice();
     this.subscribeToFormChanges();
+  }
+
+  availableCoins() {
+    this.providerTokens = new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(
+      'kripton'
+    );
   }
 
   getProviders() {
@@ -198,11 +200,11 @@ export class OperationsNewPage implements AfterViewInit {
 
   setCountry() {
     this.country = COUNTRIES.find(
-      (country) => country.name.toLowerCase() === this.route.snapshot.paramMap.get('country')
+      (country) => country.isoCodeAlpha3 === this.route.snapshot.queryParamMap.get('country')
     );
   }
 
-  setCurrency() {
+  async setCurrency() {
     const asset = this.route.snapshot.queryParamMap.get('asset');
     const network = this.route.snapshot.queryParamMap.get('network');
     this.selectedCurrency =
@@ -277,6 +279,12 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   changeCurrency(): void {
-    this.navController.navigateForward(['/fiat-ramps/token-selection', this.provider.alias]);
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        country: this.country.isoCodeAlpha3,
+      },
+    };
+
+    this.navController.navigateForward(['/fiat-ramps/token-selection', this.provider.alias], navigationExtras);
   }
 }

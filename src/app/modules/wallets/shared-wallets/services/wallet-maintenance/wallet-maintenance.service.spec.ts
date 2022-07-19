@@ -8,6 +8,7 @@ import { WalletService } from '../wallet/wallet.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { EthersService } from '../ethers/ethers.service';
 import moment from 'moment';
+import { TEST_COINS } from '../../constants/coins.test';
 
 const testMnemonic = {
   locale: 'en',
@@ -169,7 +170,7 @@ describe('WalletMaintenanceService', () => {
     expect(isUpdated).toBeTrue();
   });
 
-  it('should save wallet and reset values on saveWalletToStorage', async () => {
+  it('should save wallet with update date and reset values on saveWalletToStorage', async () => {
     service.encryptedWallet = { test: 'test' };
     await service.saveWalletToStorage();
     expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith({ test: 'test' });
@@ -211,5 +212,63 @@ describe('WalletMaintenanceService', () => {
     expectedResult.assets.MATIC = true;
     await service.updateWalletNetworks(toggleAssets);
     expect(service.encryptedWallet).toEqual(expectedResult);
+  });
+
+  it('should return true if user has coin on userHasCoin', () => {
+    service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
+    const hasCoin = service.userHasCoin(TEST_COINS[2]);
+    expect(hasCoin).toBeTrue();
+  });
+
+  it('should return false if user has not coin on userHasCoin', () => {
+    service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
+    const hasCoin = service.userHasCoin(TEST_COINS[4]);
+    expect(hasCoin).toBeFalse();
+  });
+
+  it('should not get wallet and not add coin to wallet if wallet is already getted and user has the coin on addCoinIfUserDoesNotHaveIt', async () => {
+    const saveWalletSpy = spyOn(service, 'saveWalletToStorage').and.callThrough();
+    const getWalletSpy = spyOn(service, 'getEncryptedWalletFromStorage').and.callThrough();
+    const toggleAssetsSpy = spyOn(service, 'toggleAssets');
+    service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
+    await service.addCoinIfUserDoesNotHaveIt(TEST_COINS[2]);
+    expect(getWalletSpy).not.toHaveBeenCalled();
+    expect(toggleAssetsSpy).not.toHaveBeenCalledWith([TEST_COINS[2].value]);
+    expect(saveWalletSpy).not.toHaveBeenCalled();
+    expect(service.encryptedWallet).toBeUndefined();
+  });
+
+  it('should get wallet and not add coin to wallet if wallet is undefined and user has the coin on addCoinIfUserDoesNotHaveIt', async () => {
+    const saveWalletSpy = spyOn(service, 'saveWalletToStorage').and.callThrough();
+    const getWalletSpy = spyOn(service, 'getEncryptedWalletFromStorage').and.callThrough();
+    const toggleAssetsSpy = spyOn(service, 'toggleAssets');
+    await service.addCoinIfUserDoesNotHaveIt(TEST_COINS[2]);
+    expect(getWalletSpy).toHaveBeenCalledTimes(1);
+    expect(toggleAssetsSpy).not.toHaveBeenCalledWith([TEST_COINS[2].value]);
+    expect(saveWalletSpy).not.toHaveBeenCalled();
+    expect(service.encryptedWallet).toBeUndefined();
+  });
+
+  it('should not get wallet and add coin to wallet if wallet is already getted and user does not have coin on addCoinIfUserDoesNotHaveIt', async () => {
+    const saveWalletSpy = spyOn(service, 'saveWalletToStorage').and.callThrough();
+    const getWalletSpy = spyOn(service, 'getEncryptedWalletFromStorage').and.callThrough();
+    const toggleAssetsSpy = spyOn(service, 'toggleAssets');
+    service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
+    await service.addCoinIfUserDoesNotHaveIt(TEST_COINS[4]);
+    expect(getWalletSpy).not.toHaveBeenCalled();
+    expect(toggleAssetsSpy).toHaveBeenCalledOnceWith([TEST_COINS[4].value]);
+    expect(saveWalletSpy).toHaveBeenCalledTimes(1);
+    expect(service.encryptedWallet).toBeUndefined();
+  });
+
+  it('should get wallet and add coin to wallet if wallet is undefined and user does not have coin on addCoinIfUserDoesNotHaveIt', async () => {
+    const saveWalletSpy = spyOn(service, 'saveWalletToStorage').and.callThrough();
+    const getWalletSpy = spyOn(service, 'getEncryptedWalletFromStorage').and.callThrough();
+    const toggleAssetsSpy = spyOn(service, 'toggleAssets');
+    await service.addCoinIfUserDoesNotHaveIt(TEST_COINS[4]);
+    expect(getWalletSpy).toHaveBeenCalledTimes(1);
+    expect(toggleAssetsSpy).toHaveBeenCalledOnceWith([TEST_COINS[4].value]);
+    expect(saveWalletSpy).toHaveBeenCalledTimes(1);
+    expect(service.encryptedWallet).toBeUndefined();
   });
 });

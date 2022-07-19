@@ -14,6 +14,8 @@ import { ProvidersFactory } from '../shared-ramps/models/providers/factory/provi
 import { DirectaPage } from './directa.page';
 import { rawProviderCountriesData } from '../shared-ramps/fixtures/raw-provider-countries-data';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('DirectaPage', () => {
   let component: DirectaPage;
@@ -26,6 +28,7 @@ describe('DirectaPage', () => {
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
+  let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -50,6 +53,9 @@ describe('DirectaPage', () => {
       providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
         create: providersSpy,
       });
+      walletMaintenanceServiceSpy = jasmine.createSpyObj("WalletMaintenanceService", {
+        addCoinIfUserDoesNotHaveIt: Promise.resolve(),
+      });
 
       TestBed.configureTestingModule({
         declarations: [DirectaPage],
@@ -60,7 +66,9 @@ describe('DirectaPage', () => {
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
           { provide: HttpClient, useValue: httpClientSpy },
+          { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
       fixture = TestBed.createComponent(DirectaPage);
@@ -74,15 +82,17 @@ describe('DirectaPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should redirect to tabs wallets when Continue is clicked', async () => {
+  it('should redirect to tabs wallets and call addCoinIfUserDoesNotHaveIt when Continue is clicked', async () => {
+    component.ionViewWillEnter();
     fixture.debugElement.query(By.css('ion-button[name="Continue"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
+    expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coinsSpy[0])
   });
 
   it('should set country, default currency and provider on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({ country: 'ecuador', alias: 'PX' }, {});
+    fakeActivatedRoute.modifySnapshotParams({ alias: 'PX' }, { country: 'ECU' });
     component.ionViewWillEnter();
     expect(component.country.name).toEqual('Ecuador');
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);

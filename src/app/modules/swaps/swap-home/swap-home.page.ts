@@ -33,9 +33,12 @@ import { BlockchainTokens } from '../shared-swaps/models/blockchain-tokens/block
 import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-tokens';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { AmountOf, NullAmountOf, RawAmount } from '../shared-swaps/models/amount-of/amount-of';
 import { PasswordErrorHandlerService } from '../shared-swaps/services/password-error-handler/password-error-handler.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+
 
 @Component({
   selector: 'app-swap-home',
@@ -121,6 +124,18 @@ import { TranslateService } from '@ngx-translate/core';
             </div>
           </div>
         </div>
+        <hr />
+        <div class="sw__swap-card__fee ion-padding-horizontal ion-padding-top">
+          <div class="sw__swap-card__fee__title">
+            <ion-text class="ux-font-header-titulo">
+              {{ 'swaps.home.fee_title' | translate }}
+            </ion-text>
+          </div>
+          <app-transaction-fee
+            [fee]="this.tplFee"
+            [autoPrice]="true"
+          ></app-transaction-fee>
+        </div>
       </div>
       <div class="sw__swap-button ion-padding">
         <ion-button
@@ -159,6 +174,7 @@ export class SwapHomePage {
   tplBlockchain: RawBlockchain;
   tplFromToken: RawToken;
   tplToToken: RawToken;
+  tplFee: RawAmount = new NullAmountOf().json();
   tplSwapInfo: RawSwapInfo = new NullJSONSwapInfo().value();
   form: FormGroup = this.formBuilder.group({
     fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
@@ -181,6 +197,7 @@ export class SwapHomePage {
     private intersectedTokens: IntersectedTokensFactory,
     private swapTransactions: SwapTransactionsFactory,
     private localNotificationsService: LocalNotificationsService,
+    private gasStation: GasStationOfFactory,
     private trackService: TrackService,
     private passwordErrorHandlerService: PasswordErrorHandlerService,
     private toastService: ToastService,
@@ -194,6 +211,18 @@ export class SwapHomePage {
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
   }
 
+  private async setFeeInfo() {
+    this.tplFee = (await this.gasPrice()).times(this.tplSwapInfo.estimatedGas).json();
+  }
+
+  private setNullFeeInfo() {
+    this.tplFee = new NullAmountOf().json();
+  }
+
+  private gasPrice(): Promise<AmountOf> {
+    return this.gasStation.create(this.activeBlockchain, this.httpClient).price().fast();
+  }
+
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
     return fromTokenAmount
       ? await new JSONSwapInfo(new SwapInfoOf(this.swap, this.dex, this.referral)).value()
@@ -204,8 +233,10 @@ export class SwapHomePage {
     this.trackPage();
     this.subscribeToFromTokenAmountChanges();
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
+    this.setNullFeeInfo();
     this.setDex();
     this.setTokens();
+    this.setFeeInfo();
     await this.setTokensToSwap(
       this.route.snapshot.paramMap.get(this.fromTokenKey),
       this.route.snapshot.paramMap.get(this.toTokenKey)
@@ -216,7 +247,11 @@ export class SwapHomePage {
     this.form
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
-      .subscribe(async (value) => await this.setSwapInfo(value));
+      .subscribe(async (value) => {
+        this.setNullFeeInfo();
+        await this.setSwapInfo(value);
+        this.setFeeInfo();
+      });
   }
 
   private trackPage() {
@@ -266,9 +301,13 @@ export class SwapHomePage {
 
   private setTokens() {
     this.tokens = this.intersectedTokens.create(
-      new BlockchainTokens(this.activeBlockchain, new StandardizedTokens(new TokenRepo(PROD_COINS))),
+      this.blockchainTokens(),
       new OneInchTokens(this.dex)
     );
+  }
+
+  private blockchainTokens(): BlockchainTokens {
+    return new BlockchainTokens(this.activeBlockchain, new StandardizedTokens(new TokenRepo(PROD_COINS)));
   }
 
   private setBlockchain(aBlockchainName: string) {

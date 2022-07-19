@@ -308,6 +308,7 @@
       "recommendations": "Podrían interesarte",
       "empty_products": "Proximamente podrás encontrar las mejores inversiones para tu perfil",
       "link_button": "¿Cómo funcionan las inversiones DeFi?",
+      "no_investments":"Tus inversiones aparecerán aquí. ¡Comienza ahora mismo!",
       "choose_investor_profile": {
         "complete_test": {
           "title": "Quiero elegir mi perfil nuevamente",
@@ -350,6 +351,13 @@
       "weekly_update": "*Actualización semanal"
     },
     "shared": {
+      "withdraw_info_modal":{
+        "title":"¿Qué es la tarifa de retiro?",
+        "item_1":"Es el costo de realizar una extracción. ",
+        "item_2":"Se calcula sobre el monto que deseas retirar (0,255%), no sobre el total de tu inversión.",
+        "item_3":"Se abona en la misma moneda del producto de inversión (si estás invirtiendo en USDC, pagarás la tarifa de retiro en USDC).",
+        "button_text":"Entendido"
+      },
       "transaction_fees": {
         "label": "Tarifa de transacción estimada",
         "advice": "Fondos insuficientes"
@@ -385,6 +393,8 @@
         "annual": "% Anual",
         "blockchain": "Blockchain",
         "profile": "Perfil",
+        "transaction_fee": "Tarifa de transacción",
+        "withdrawal_fee": "Tarifa de retiro",
         "investment_info": {
           "USDC": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en USDC. \n USDC es una criptomoneda estable. Su valor está atado al dólar, y está respaldada al 100% en dólares estadounidenses.",
           "DAI": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en DAI. \n DAI es una criptomoneda estable, su valor está atado al dólar.  Se respalda al 100% en protocolos cripto.",
@@ -422,7 +432,7 @@
         "header": "Retirar Inversión",
         "button": "Continuar",
         "label": "Monto a retirar*",
-        "legend": "*Se cobrarán tarifas de transacción en MATIC."
+        "legend": "*La tarifa de transacción se cobrará en {{network}}. Mientras que la tarifa de retiro en {{token}}."
       },
       "withdraw": {
         "header": "Retirar Inversión",
@@ -430,7 +440,11 @@
         "submit_loading": "Confirmando",
         "withdraw_amount": "Monto a retirar",
         "withdraw_fee": "Tarifa de retiro",
-        "disclaimer": "Solo tomará unos segundos"
+        "disclaimer": "Solo tomará unos segundos",
+        "header_alert": "¡Espera!",
+        "alert_message": "Aún estamos calculando la tarifa de transacción. ¿Deseas continuar de todas maneras?",
+        "alert_confirmation": "Confirmar",
+        "alert_cancel":"Cancelar"
       },
       "password_modal": {
         "description": "Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",
@@ -1503,8 +1517,8 @@
       "button_text": "Copiar",
       "button_continue": "Continuar",
       "security_information": "Xcapit no podrá recuperar tu wallet si pierdes tu frase de recuperación.",
-      "button_text_coppied": "Copiado",
-      "coppied_text": "Se copió la frase de recuperación al portapapeles",
+      "button_text_copied": "Copiado",
+      "copied_text": "Se copió la frase de recuperación al portapapeles",
       "copy_error_text": "No se puedo copiar la frase de recuperación al portapapeles",
       "protected": "Copia de seguridad completa",
       "not_protected": "Sin copia de seguridad",
@@ -2066,6 +2080,7 @@
       "postal_code": "Código postal",
       "address_street": "Dirección (calle)",
       "address_number": "Dirección (Número)",
+      "phone": "Teléfono",
       "address_extra": "Dirección (Piso/Dpto)",
       "cbu": "CBU/CVU",
       "bank": "BANCO",
@@ -2511,6 +2526,7 @@
       "loading_button_text": "Intercambiando",
       "from_token_title": "Desde",
       "to_token_title": "Hacia",
+      "fee_title": "Detalles de Transacción",
       "footer_text": "Solo tomará unos segundos."
     },
     "errors":{
