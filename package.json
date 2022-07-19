@@ -22,7 +22,7 @@
   },
   "private": true,
   "dependencies": {
-    "@2pi-network/sdk": "^0.1.0-alpha.26",
+    "@2pi-network/sdk": "0.1.0-alpha.26",
     "@angular/common": "^13.3.11",
     "@angular/compiler": "^13.3.11",
     "@angular/core": "^13.3.11",

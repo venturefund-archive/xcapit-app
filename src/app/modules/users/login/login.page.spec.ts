@@ -31,7 +31,6 @@ describe('LoginPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<LoginPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let googleAuthPluginSpy: any;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
   let localNotificationServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
@@ -54,23 +53,21 @@ describe('LoginPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       fakeNavController.modifyReturns({}, {}, {}, {}, {});
-      ionicStorageSpy = jasmine.createSpyObj('IonicStorageService', {
-        get: Promise.resolve(true),
-        set: Promise.resolve()
-      }, {})
+      ionicStorageSpy = jasmine.createSpyObj(
+        'IonicStorageService',
+        {
+          get: Promise.resolve(true),
+          set: Promise.resolve(),
+        },
+        {}
+      );
 
       apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', {
         login: of({}),
-        loginWithGoogle: of({}),
       });
 
       subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', {
         checkStoredLink: Promise.resolve(false),
-      });
-
-      googleAuthPluginSpy = jasmine.createSpyObj('GoogleAuth', {
-        signIn: Promise.resolve({ authentication: { idToken: '' } }),
-        init: null,
       });
 
       storageSpy = jasmine.createSpyObj('Storage', {
@@ -87,9 +84,9 @@ describe('LoginPage', () => {
       updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
       platformServiceSpy = jasmine.createSpyObj('PlatformService', { isWeb: true });
 
-      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
         uri: new BehaviorSubject(null),
-        checkDeeplinkUrl: Promise.resolve(null)
+        checkDeeplinkUrl: Promise.resolve(null),
       });
 
       TestBed.configureTestingModule({
@@ -105,8 +102,8 @@ describe('LoginPage', () => {
           { provide: Storage, useValue: storageSpy },
           { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
           { provide: PlatformService, useValue: platformServiceSpy },
-          { provide: WalletConnectService, useValue: walletConnectServiceSpy},
-          { provide: IonicStorageService, useValue: ionicStorageSpy},
+          { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+          { provide: IonicStorageService, useValue: ionicStorageSpy },
         ],
       }).compileComponents();
     })
@@ -117,7 +114,6 @@ describe('LoginPage', () => {
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     fixture.detectChanges();
-    component.googleAuthPlugin = googleAuthPluginSpy;
   });
 
   it('should create', () => {
@@ -156,52 +152,6 @@ describe('LoginPage', () => {
     expect(component.startUrl()).toEqual(['tutorials/first-steps']);
   });
 
-  it('should call signIn on googleSingUp', async () => {
-    await component.googleSingUp();
-    expect(googleAuthPluginSpy.signIn).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call loginWithGoogle on googleSingUp', async () => {
-    await component.googleSingUp();
-    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
-  });
-
-  it('should set up login with Google', async () => {
-    const spy = spyOn(component.loginForm.form, 'reset');
-    await component.googleSingUp();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
-    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
-    expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
-    expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
-    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not call login with google if user closed login with Google window', async () => {
-    googleAuthPluginSpy.signIn.and.throwError('User closed window');
-    await component.googleSingUp();
-    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
-  });
-
-  it('should not call loginWithGoogle if user closed login with Google window', async () => {
-    googleAuthPluginSpy.signIn.and.throwError('User closed window');
-    await component.googleSingUp();
-    expect(apiUsuariosSpy.loginWithGoogle).toHaveBeenCalledTimes(0);
-  });
-
-  // it('should call trackEvent on trackService when Google Auth button clicked', () => {
-  //   fixture.detectChanges();
-  //   component.loginForm.form.patchValue(formData.valid);
-  //   fixture.detectChanges();
-  //   expect(component.loginForm.form.valid).toBeTruthy();
-  //   const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Google Auth');
-  //   const directive = trackClickDirectiveHelper.getDirective(el);
-  //   const spy = spyOn(directive, 'clickEvent');
-  //   el.nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
-
   it('should call trackEvent on trackService when Login button clicked', () => {
     fixture.detectChanges();
     component.loginForm.form.patchValue(formData.valid);
@@ -233,19 +183,6 @@ describe('LoginPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should init google if web platform', async () => {
-    component.ionViewWillEnter();
-    await fixture.whenStable();
-    expect(googleAuthPluginSpy.init).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not init google if native platform', async () => {
-    platformServiceSpy.isWeb.and.returnValue(false);
-    component.ionViewWillEnter();
-    await fixture.whenStable();
-    expect(googleAuthPluginSpy.init).not.toHaveBeenCalled();
-  });
-
   it('should disable loading button when login fails', () => {
     apiUsuariosSpy.login.and.returnValue(throwError(''));
     fixture.debugElement.query(By.css('app-auth-form')).triggerEventHandler('send', {
@@ -265,11 +202,11 @@ describe('LoginPage', () => {
     fixture.detectChanges();
     component.loginUser({});
     tick();
-    
-    expect(walletConnectServiceSpy.checkDeeplinkUrl).toHaveBeenCalled();
-  }))
 
-  it('should check if wallet is protected on login, and if not protected, set backupWarningWallet for modal', fakeAsync (() => {
+    expect(walletConnectServiceSpy.checkDeeplinkUrl).toHaveBeenCalled();
+  }));
+
+  it('should check if wallet is protected on login, and if not protected, set backupWarningWallet for modal', fakeAsync(() => {
     ionicStorageSpy.get.and.returnValue(Promise.resolve(false));
     fixture.debugElement.query(By.css('app-auth-form')).triggerEventHandler('send', formData.valid);
     tick();
@@ -282,5 +219,5 @@ describe('LoginPage', () => {
     tick();
 
     expect(ionicStorageSpy.set).toHaveBeenCalledTimes(0);
-  }))
+  }));
 });
