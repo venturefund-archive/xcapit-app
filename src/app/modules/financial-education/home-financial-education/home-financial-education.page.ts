@@ -77,7 +77,7 @@ export class HomeFinancialEducationPage {
 
   constructor(private formBuilder: FormBuilder, private modulesService: ModulesService) {}
 
-  async ionViewWillEnter() {
+   ionViewWillEnter() {
     this.segmentsForm.valueChanges.subscribe(() => {
       this.modules = this.modulesService.getModuleByTab(this.segmentsForm.value.tab);
     });
