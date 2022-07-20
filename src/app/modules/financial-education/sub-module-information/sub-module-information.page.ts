@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { ModulesService } from '../shared-financial-education/services/financial-education/modules.service';
+import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
 
 @Component({
   selector: 'app-sub-module-information',
