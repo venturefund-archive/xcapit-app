@@ -132,6 +132,12 @@
         "title": "Planificador financiero",
         "description": "Optimiza el rendimiento de tu dinero"
       }
+    },
+    "transaction_fees": {
+      "title": "¿Por qué es “estimada” la tarifa de transacción?",
+      "description": "Por la volatilidad del mercado, la tasa de cambio puede variar ligeramente al momento de realizar la operación.",
+      "button_text": "Entendido",
+      "loading_text": "Calculando. Aguarda unos instantes."
     }
   },
   "users": {
@@ -308,7 +314,7 @@
       "recommendations": "Podrían interesarte",
       "empty_products": "Proximamente podrás encontrar las mejores inversiones para tu perfil",
       "link_button": "¿Cómo funcionan las inversiones DeFi?",
-      "no_investments":"Tus inversiones aparecerán aquí. ¡Comienza ahora mismo!",
+      "no_investments": "Tus inversiones aparecerán aquí. ¡Comienza ahora mismo!",
       "choose_investor_profile": {
         "complete_test": {
           "title": "Quiero elegir mi perfil nuevamente",
@@ -351,12 +357,12 @@
       "weekly_update": "*Actualización semanal"
     },
     "shared": {
-      "withdraw_info_modal":{
-        "title":"¿Qué es la tarifa de retiro?",
-        "item_1":"Es el costo de realizar una extracción. ",
-        "item_2":"Se calcula sobre el monto que deseas retirar (0,255%), no sobre el total de tu inversión.",
-        "item_3":"Se abona en la misma moneda del producto de inversión (si estás invirtiendo en USDC, pagarás la tarifa de retiro en USDC).",
-        "button_text":"Entendido"
+      "withdraw_info_modal": {
+        "title": "¿Qué es la tarifa de retiro?",
+        "item_1": "Es el costo de realizar una extracción. ",
+        "item_2": "Se calcula sobre el monto que deseas retirar (0,255%), no sobre el total de tu inversión.",
+        "item_3": "Se abona en la misma moneda del producto de inversión (si estás invirtiendo en USDC, pagarás la tarifa de retiro en USDC).",
+        "button_text": "Entendido"
       },
       "transaction_fees": {
         "label": "Tarifa de transacción estimada",
@@ -410,7 +416,8 @@
         "title": "Monto a enviar estimado",
         "available": "Saldo disponible",
         "amount_invested": "Monto total invertido",
-        "max_button": "Máx"
+        "max_button": "Máx",
+        "advice":"Fondos insuficientes"
       },
       "withdraw_card": {
         "title": "Retiro",
@@ -444,7 +451,7 @@
         "header_alert": "¡Espera!",
         "alert_message": "Aún estamos calculando la tarifa de transacción. ¿Deseas continuar de todas maneras?",
         "alert_confirmation": "Confirmar",
-        "alert_cancel":"Cancelar"
+        "alert_cancel": "Cancelar"
       },
       "password_modal": {
         "description": "Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",
@@ -1726,7 +1733,9 @@
         "scan_error": "Error al escanear el código QR",
         "placeholder": "Mantén presionado para pegar",
         "scan_unauthorized": "No tienes permiso para escanear",
-        "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos."
+        "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos.",
+        "text_valid": "Dirección añadida con éxito.",
+        "text_invalid": "La dirección de wallet de destino es incorrecta."
       },
       "wallet_password": {
         "title": "Ingrese la contraseña",
@@ -1793,7 +1802,7 @@
     "asset_detail": {
       "header": "Detalle de activo",
       "wallet_transaction_title": "Transacciones",
-      "available":"Saldo disponible"
+      "available": "Saldo disponible"
     },
     "error_wallet_recovery": {
       "title": "Tu frase de recuperación es incorrecta",
@@ -2526,10 +2535,13 @@
       "loading_button_text": "Intercambiando",
       "from_token_title": "Desde",
       "to_token_title": "Hacia",
-      "footer_text": "Solo tomará unos segundos."
+      "fee_title": "Detalles de Transacción",
+      "footer_text": "Solo tomará unos segundos.",
+      "tos_1": "Leí y estoy de acuerdo con los ",
+      "tos_button": "términos y condiciones de 1inch."
     },
-    "errors":{
-      "invalid_password":"La contraseña ingresada no es correcta."
+    "errors": {
+      "invalid_password": "La contraseña ingresada no es correcta."
     },
     "select_token": {
       "header": "Swap",

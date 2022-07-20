@@ -32,4 +32,8 @@ export class CustomValidatorErrors {
   static twelveWords = { twelveWords: true };
 
   static spaceBetween = { spaceBetween: true };
+
+  static isAddress = {isAddress: true};
+
+  static lowerThanEqualError = {lowerThanEqual: true}
 }

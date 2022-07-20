@@ -9,7 +9,7 @@ import { SwapInProgressPage } from './swap-in-progress.page';
 const testData = {
   image:"assets/img/swaps/swap-in-progress.svg",
   urlClose:'/tabs/wallets',
-  textPrimary: 'swaps.swap_in_progress.textPrimary', 
+  textPrimary: 'swaps.swap_in_progress.textPrimary',
   textSecondary:'swaps.swap_in_progress.textSecondary',
   namePrimaryAction:'swaps.swap_in_progress.buttonText',
   urlPrimaryAction:'/tabs/wallets',

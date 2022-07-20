@@ -1,15 +1,19 @@
-import { PROVIDERS } from '../../constants/providers';
 import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface';
 import { FiatRampProviderCountry } from '../../interfaces/fiat-ramp-provider-country';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 export class ProviderDataRepo {
-  constructor(private readonly providers: FiatRampProvider[] = PROVIDERS) {}
+  constructor(private readonly remoteConfig: RemoteConfigService) {}
 
-  all(): FiatRampProvider[] {
-    return this.providers;
+  public all(): FiatRampProvider[] {
+    return this.providers();
   }
 
-  byCountry(aCountry: FiatRampProviderCountry) {
-    return this.providers.filter((provider) => provider.countries.includes(aCountry.name));
+  public byCountry(aCountry: FiatRampProviderCountry): FiatRampProvider[] {
+    return this.providers().filter((provider) => provider.countries.includes(aCountry.name));
+  }
+
+  private providers(): FiatRampProvider[] {
+    return this.remoteConfig.getObject('onOffRampsProviders');
   }
 }

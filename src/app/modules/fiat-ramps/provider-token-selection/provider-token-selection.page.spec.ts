@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TokenSelectionListComponent } from 'src/app/shared/components/token-selection-list/token-selection-list.component';
@@ -131,7 +130,7 @@ describe('ProviderTokenSelectionPage', () => {
 
     TestBed.configureTestingModule({
       declarations: [ProviderTokenSelectionPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
-      imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [IonicModule, TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },

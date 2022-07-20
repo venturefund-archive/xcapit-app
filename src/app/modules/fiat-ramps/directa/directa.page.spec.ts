@@ -53,7 +53,7 @@ describe('DirectaPage', () => {
       providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
         create: providersSpy,
       });
-      walletMaintenanceServiceSpy = jasmine.createSpyObj("WalletMaintenanceService", {
+      walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
         addCoinIfUserDoesNotHaveIt: Promise.resolve(),
       });
 
@@ -88,7 +88,7 @@ describe('DirectaPage', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
-    expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coinsSpy[0])
+    expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coinsSpy[0]);
   });
 
   it('should set country, default currency and provider on init', () => {

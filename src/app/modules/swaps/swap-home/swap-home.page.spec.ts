@@ -31,6 +31,11 @@ import { FakeBlockchainTx } from '../shared-swaps/models/fakes/fake-blockchain-t
 import { NullJSONSwapInfo } from '../shared-swaps/models/json-swap-info/json-swap-info';
 import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-response-data';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
+import { DefaultToken } from '../shared-swaps/models/token/token';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { LINKS } from 'src/app/config/static-links';
 
 
 describe('SwapHomePage', () => {
@@ -48,9 +53,11 @@ describe('SwapHomePage', () => {
   let oneInchFactorySpy: jasmine.SpyObj<OneInchFactory>;
   let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
   let swapTransactionsFactorySpy: jasmine.SpyObj<SwapTransactionsFactory>;
+  let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
@@ -65,6 +72,15 @@ describe('SwapHomePage', () => {
     'token-to-select',
     selectTokenkey,
   ];
+
+  const _setTokenAmountArrange = (fromTokenAmount: number) => {
+    component.ionViewDidEnter();
+    tick();
+    fixture.detectChanges();
+    component.form.patchValue({ fromTokenAmount: fromTokenAmount });
+    tick(501);
+    fixture.detectChanges();
+  }
 
   beforeEach(
     waitForAsync(() => {
@@ -97,6 +113,10 @@ describe('SwapHomePage', () => {
         create: { blockchainTxs: () => [new FakeBlockchainTx()] },
       });
 
+      gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
+        create: { price: () => ({ fast: () => Promise.resolve(new AmountOf('1', new DefaultToken(rawMATICData))) }) }
+      });
+
       trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
         trackEvent: Promise.resolve(true),
       });
@@ -105,6 +125,8 @@ describe('SwapHomePage', () => {
         showErrorToast: Promise.resolve(),
         showWarningToast: Promise.resolve(),
       });
+
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: true });
 
       TestBed.configureTestingModule({
         declarations: [SwapHomePage, FormattedAmountPipe, FakeTrackClickDirective,],
@@ -125,8 +147,10 @@ describe('SwapHomePage', () => {
           { provide: OneInchFactory, useValue: oneInchFactorySpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: WalletsFactory, useValue: walletsFactorySpy },
+          { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
           { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
           { provide: ToastService, useValue: toastServiceSpy },
+          { provide: BrowserService, useValue: browserServiceSpy },
         ],
       }).compileComponents();
 
@@ -168,23 +192,27 @@ describe('SwapHomePage', () => {
   });
 
   it('should show null swap info on invalid from token amount value', fakeAsync(() => {
-    component.ionViewDidEnter();
-    tick();
-    fixture.detectChanges();
-    component.form.patchValue({ fromTokenAmount: 0 });
-    tick(501);
-    fixture.detectChanges();
+    _setTokenAmountArrange(0);
 
     expect(component.tplSwapInfo).toEqual(new NullJSONSwapInfo().value());
   }));
 
+  it('should show swap fee info with 0 value on invalid from token amount value', fakeAsync(() => {
+    _setTokenAmountArrange(0);
+
+    expect(component.tplFee.value).toEqual(0);
+    expect(component.tplFee.token).toEqual(rawBlockchain.nativeToken.value);
+  }));
+
+  it('should show swap fee info with value greater than 0 on valid from token amount value', fakeAsync(() => {
+    _setTokenAmountArrange(1);
+
+    expect(component.tplFee.value).toBeGreaterThan(0);
+    expect(component.tplFee.token).toEqual(rawBlockchain.nativeToken.value);
+  }));
+
   it('should show swap info on valid from token amount value', fakeAsync(() => {
-    component.ionViewDidEnter();
-    tick();
-    fixture.detectChanges();
-    component.form.patchValue({ fromTokenAmount: 1 });
-    tick(501);
-    fixture.detectChanges();
+    _setTokenAmountArrange(1);
 
     expect(component.tplSwapInfo.toTokenAmount).toBeGreaterThan(0);
   }));
@@ -242,4 +270,12 @@ describe('SwapHomePage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
   }));
+
+  it('should open browser in app when 1inch ToS is clicked', async () => {
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_1inch_tos"]'));
+
+    buttonEl.nativeElement.click();
+
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: LINKS.oneInchToS });
+  });
 });
