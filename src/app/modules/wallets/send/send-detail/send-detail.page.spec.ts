@@ -253,6 +253,7 @@ describe('SendDetailPage', () => {
     component.form.patchValue(formData.valid);
     tick(550)
     fixture.detectChanges();
+    tick();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
     el.nativeElement.click();
     tick()

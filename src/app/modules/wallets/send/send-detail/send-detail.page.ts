@@ -35,7 +35,11 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button appTrackClick name="ux_nav_go_back" defaultHref="/wallets/send/select-currency"></ion-back-button>
+          <ion-back-button
+            appTrackClick
+            name="ux_nav_go_back"
+            defaultHref="/wallets/send/select-currency"
+          ></ion-back-button>
         </ion-buttons>
         <ion-title class="sd__header ion-text-left">{{ 'wallets.send.send_detail.header' | translate }}</ion-title>
         <ion-label class="step-counter" slot="end">2 {{ 'shared.step_counter.of' | translate }} 3</ion-label>
@@ -240,14 +244,15 @@ export class SendDetailPage {
 
   async tokenBalances() {
     const tokenBalance = parseFloat(await this.userBalanceOf(this.token));
+    this.watchFormChanges();
     if (this.token.native) {
       await this.getFee();
+      this.resetFee();
       this.balance = this.nativeBalance = Math.max(tokenBalance - this.fee, 0);
       await this.checkEnoughBalance();
     } else {
       this.balance = tokenBalance;
       this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken));
-      this.watchFormChanges();
       await this.checkEnoughBalance();
     }
     this.addLowerThanValidator();
@@ -298,16 +303,18 @@ export class SendDetailPage {
   }
 
   private async nativeTransferFee(): Promise<void> {
-    this.fee = await new FormattedFee(
-      new NativeFeeOf(
-        new NativeGasOf(this.erc20Provider(), {
-          to: await this.userWallet(),
-          value: this.parseWei(1),
-        }),
-        new FakeProvider(await this.gasPrice())
-      ),
-      this.token.decimals
-    ).value();
+    if (!this.fee) {
+      this.fee = await new FormattedFee(
+        new NativeFeeOf(
+          new NativeGasOf(this.erc20Provider(), {
+            to: await this.userWallet(),
+            value: this.parseWei(1),
+          }),
+          new FakeProvider(await this.gasPrice())
+        ),
+        this.token.decimals
+      ).value();
+    }
   }
 
   private async gasPrice(): Promise<BigNumber> {
