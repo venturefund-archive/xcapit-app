@@ -15,8 +15,8 @@ import { ModalController } from '@ionic/angular';
           >{{ 'defi_investments.shared.withdraw_info_modal.title' | translate }}
         </ion-label>
         <div class="main__body__content__list">
-          <ul  class="ux-font-text-base-primary main__body__content__list__items" >
-            <li  class="main__body__content__list__items__color" *ngFor="let item of this.items">
+          <ul  class="ux-font-text-base main__body__content__list__items" >
+            <li   *ngFor="let item of this.items">
               {{ item.description | translate }}
             </li>
           </ul>
