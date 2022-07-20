@@ -130,25 +130,30 @@
       }
     }
 
-    &__swap-button {
-      display: flex;
-      padding-bottom: 8px;
-
-      &__button {
-        flex-grow: 1;
-      }
-    }
-
     &__footer {
-      display: flex;
-      flex-flow: row;
-      align-content: center;
-      justify-content: center;
-      align-items: center;
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+      border-radius: 8px;
 
-      span {
-        font-size: var(--ux-fsize-12);
-        color: var(--ion-color-neutral80);
+      &__swap-button {
+        display: flex;
+        padding-bottom: 8px;
+
+        &__button {
+          flex-grow: 1;
+        }
+      }
+
+      &__loader {
+        display: flex;
+        flex-flow: row;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+
+        span {
+          font-size: var(--ux-fsize-12);
+          color: var(--ion-color-neutral80);
+        }
       }
     }
   }
