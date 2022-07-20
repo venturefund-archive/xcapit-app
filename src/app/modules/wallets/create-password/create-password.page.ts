@@ -150,7 +150,7 @@ export class CreatePasswordPage implements OnInit {
     private ionicStorageService: IonicStorageService,
     private walletBackupService: WalletBackupService,
     private blockchains: BlockchainsFactory,
-    private xAuthService: XAuthService,
+    private xAuthService: XAuthService
   ) {}
 
   ionViewWillEnter() {

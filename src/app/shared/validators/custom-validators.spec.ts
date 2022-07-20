@@ -28,7 +28,7 @@ describe('CustomValidators', () => {
   });
 
   it('should validate Lower Than Equal', () => {
-    const form: FormGroup = formBuilder.group({
+    const form: UntypedFormGroup = formBuilder.group({
       testLowerThanEqual: ['', [CustomValidators.lowerThanEqual(5)]],
     });
 
@@ -100,20 +100,20 @@ describe('CustomValidators', () => {
   });
 
   it('should validate address when is invalid', () => {
-    const form: FormGroup = formBuilder.group({
+    const form: UntypedFormGroup = formBuilder.group({
       testIsAddress: ['', [CustomValidators.isAddress()]],
     });
-    
+
     form.patchValue({ testIsAddress: 'asd' });
     expect(form.valid).toBe(false);
     expect(form.get('testIsAddress').hasError('isAddress')).toBe(true);
   });
 
   it('should validate address is valid', () => {
-    const form: FormGroup = formBuilder.group({
+    const form: UntypedFormGroup = formBuilder.group({
       testIsAddress: ['', [CustomValidators.isAddress()]],
     });
-    
+
     form.patchValue({ testIsAddress: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC' });
     expect(form.valid).toBe(true);
     expect(form.get('testIsAddress').hasError('isAddress')).toBe(false);
@@ -149,7 +149,7 @@ describe('CustomValidators', () => {
     form.patchValue({ testPattern: 'asd' });
     expect(form.valid).toBe(false);
     expect(form.get('testPattern').hasError('hasNumber')).toBe(true);
-    
+
     form.patchValue({ testPattern: '' });
     expect(form.valid).toBe(true);
     expect(form.get('testPattern').hasError('hasNumber')).toBe(false);
