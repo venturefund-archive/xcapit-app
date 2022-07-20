@@ -20,6 +20,7 @@ import { TokenDetailController } from '../shared-wallets/models/token-detail/tok
 import { TotalBalanceController } from '../shared-wallets/models/balance/total-balance/total-balance.controller';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -55,20 +56,28 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
         </ion-refresher-content>
       </ion-refresher>
       <div class="wt__subheader__value">
-        <div class="wt__title ux-font-num-subtitulo">
+        <div class="title ux-font-num-subtitulo">
           <ion-text>
             {{ 'wallets.home.available_money' | translate }}
           </ion-text>
         </div>
-        <div class="wt__amount ux-font-num-titulo">
+        <div class="wt__spinner-and-amount ux-font-num-titulo">
           <ion-spinner
             color="white"
             name="crescent"
             *ngIf="this.balance === undefined && this.walletExist"
           ></ion-spinner>
-          <ion-text *ngIf="this.balance !== undefined || !this.walletExist">
-            {{ this.balance ?? 0.0 | number: '1.2-2' }} USD
-          </ion-text>
+          <div class="wt__amount-and-eye">
+            <div class="wt__amount-and-eye__amount">
+              <ion-text *ngIf="this.balance !== undefined || !this.walletExist">
+                {{ this.balance ?? 0.0 | number: '1.2-2' | hideText: this.hideFundText }}
+              </ion-text>
+              <ion-text class="ux-font-text-lg" *ngIf="this.balance !== undefined || !this.walletExist">USD</ion-text>
+            </div>
+            <div class="wt__amount-and-eye__eye">
+              <app-eye></app-eye>
+            </div>
+          </div>
         </div>
       </div>
       <div class="wt__subheader" *ngIf="!this.walletExist">
@@ -161,6 +170,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 })
 export class HomeWalletPage implements OnInit {
   walletExist: boolean;
+  hideFundText: boolean;
   protectedWallet: boolean;
   tokenDetails: TokenDetail[] = [];
   userTokens: Coin[];
@@ -188,12 +198,14 @@ export class HomeWalletPage implements OnInit {
     private tokenDetail: TokenDetailController,
     private totalBalance: TotalBalanceController,
     private trackService: TrackService,
-    private ionicStorageService: IonicStorageService
+    private ionicStorageService: IonicStorageService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.subscribeOnHideFunds();
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
@@ -206,6 +218,10 @@ export class HomeWalletPage implements OnInit {
   async ionViewDidEnter() {
     await this.checkWalletExist();
     await this.initialize();
+  }
+
+  subscribeOnHideFunds() {
+    this.localStorageService.hideFunds.subscribe((res) => (this.hideFundText = res));
   }
 
   async initialize(): Promise<void> {

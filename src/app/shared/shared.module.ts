@@ -89,6 +89,7 @@ import { InfoPhraseAdviceModalComponent } from '../modules/wallets/shared-wallet
 import { RuleCardComponent } from '../modules/financial-education/shared-financial-education/components/rule-card/rule-card.component';
 import { CircleProgressComponent } from './components/circle-progress/circle-progress.component';
 import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/components/info-send-modal/info-send-modal.component';
+import { EyeComponent } from './components/eye/eye.component';
 @NgModule({
   declarations: [
     FilterTabComponent,
@@ -165,6 +166,7 @@ import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/compon
     CauseComponent,
     ObjetiveCardComponent,
     CauseInfoComponent,
+    EyeComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -212,6 +214,7 @@ import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/compon
     AmountInputCardComponent,
     AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
+    EyeComponent,
     // Ux
     InfoSendModalComponent,
     RuleCardComponent,
