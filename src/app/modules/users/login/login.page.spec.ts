@@ -13,7 +13,6 @@ import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { Storage } from '@ionic/storage';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
@@ -33,7 +32,6 @@ describe('LoginPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
-  let localNotificationServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   let storageSpy: jasmine.SpyObj<Storage>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
@@ -80,7 +78,6 @@ describe('LoginPage', () => {
         getInstance: nullNotificationServiceSpy,
       });
 
-      localNotificationServiceSpy = jasmine.createSpyObj('LocalNotificationsService', ['init']);
       updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
       platformServiceSpy = jasmine.createSpyObj('PlatformService', { isWeb: true });
 
@@ -98,7 +95,6 @@ describe('LoginPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: SubscriptionsService, useValue: subscriptionsServiceSpy },
           { provide: NotificationsService, useValue: notificationsServiceSpy },
-          { provide: LocalNotificationsService, useValue: localNotificationServiceSpy },
           { provide: Storage, useValue: storageSpy },
           { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
           { provide: PlatformService, useValue: platformServiceSpy },
@@ -128,7 +124,6 @@ describe('LoginPage', () => {
     expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
     expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
-    expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
   }));
 
   it('should not call startUrl when stored link', fakeAsync(() => {

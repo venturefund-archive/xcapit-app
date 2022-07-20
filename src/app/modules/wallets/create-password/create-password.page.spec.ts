@@ -22,6 +22,7 @@ import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wa
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { Wallet } from 'ethers';
+import { XAuthService } from '../../users/shared-users/services/x-auth/x-auth.service';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -82,6 +83,7 @@ describe('CreatePasswordPage', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let xAuthServiceSpy: jasmine.SpyObj<XAuthService>;
 
   beforeEach(() => {
     fakeLoadingService = new FakeLoadingService();
@@ -136,6 +138,9 @@ describe('CreatePasswordPage', () => {
         createdWallets: [walletSpy],
       }
     );
+
+    xAuthServiceSpy = jasmine.createSpyObj('XAuthService', { saveToken: Promise.resolve(true) });
+
     TestBed.configureTestingModule({
       declarations: [CreatePasswordPage, FakeTrackClickDirective],
       imports: [ReactiveFormsModule, IonicModule, TranslateModule.forRoot()],
@@ -151,6 +156,7 @@ describe('CreatePasswordPage', () => {
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: XAuthService, useValue: xAuthServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -274,8 +280,10 @@ describe('CreatePasswordPage', () => {
     tick();
     component.createPasswordForm.patchValue(formData.valid);
     fixture.detectChanges();
+
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
     tick();
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('x-auth', 'anAddress_aSignedMessage');
+
+    expect(xAuthServiceSpy.saveToken).toHaveBeenCalledWith('anAddress_aSignedMessage');
   }));
 });

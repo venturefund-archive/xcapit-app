@@ -3,8 +3,6 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
 import { COUNTRIES } from '../../../shared-ramps/constants/countries';
 import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory/providers.factory';
 import { FiatRampProvider } from '../../../shared-ramps/interfaces/fiat-ramp-provider.interface';
-import { ProviderDataRepo } from '../../../shared-ramps/models/provider-data-repo/provider-data-repo';
-import { HttpClient } from '@angular/common/http';
 import { FiatRampProviderCountry } from '../../../shared-ramps/interfaces/fiat-ramp-provider-country';
 
 @Component({
@@ -68,11 +66,7 @@ export class SelectProviderCardComponent implements OnInit {
   countries = COUNTRIES;
   disabled = true;
   availableProviders: FiatRampProvider[];
-  constructor(
-    private formGroupDirective: FormGroupDirective,
-    private providersFactory: ProvidersFactory,
-    private http: HttpClient
-  ) {}
+  constructor(private formGroupDirective: FormGroupDirective, private providersFactory: ProvidersFactory) {}
 
   ngOnInit() {
     this.countries = this.availableCountries();
@@ -92,7 +86,7 @@ export class SelectProviderCardComponent implements OnInit {
 
   selectedProvider(provider) {
     const params = provider.providerName === 'directa24' ? provider.alias : '';
-    
+
     this.route.emit(`${provider.newOperationRoute}/${params}`);
   }
 
@@ -107,6 +101,6 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   providers() {
-    return this.providersFactory.create(new ProviderDataRepo(), this.http);
+    return this.providersFactory.create();
   }
 }

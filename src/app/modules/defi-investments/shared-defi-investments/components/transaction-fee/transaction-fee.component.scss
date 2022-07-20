@@ -63,4 +63,11 @@
     height: 16px;
     margin-left: 6px;
   }
+
+  .loading-text {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    color: var(--ion-color-neutral80);
+  }
 }

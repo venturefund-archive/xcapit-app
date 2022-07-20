@@ -30,11 +30,28 @@ import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transaction
 import { FakeBlockchainTx } from '../shared-swaps/models/fakes/fake-blockchain-tx';
 import { NullJSONSwapInfo } from '../shared-swaps/models/json-swap-info/json-swap-info';
 import { rawSwapInfoData } from '../shared-swaps/models/fixtures/raw-one-inch-response-data';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
+import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { LINKS } from 'src/app/config/static-links';
 
+const testLocalNotificationOk: LocalNotificationSchema = {
+  id: 1,
+  title: 'swaps.sent_notification.swap_ok.title',
+  body: 'swaps.sent_notification.swap_ok.body',
+  actionTypeId: 'SWAP'
+};
+
+const testLocalNotificationNotOk: LocalNotificationSchema = {
+  id: 1,
+  title: 'swaps.sent_notification.swap_not_ok.title',
+  body: 'swaps.sent_notification.swap_not_ok.body',
+  actionTypeId: 'SWAP'
+};
 
 describe('SwapHomePage', () => {
 
@@ -54,7 +71,9 @@ describe('SwapHomePage', () => {
   let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
@@ -69,6 +88,9 @@ describe('SwapHomePage', () => {
     'token-to-select',
     selectTokenkey,
   ];
+  const formValue = {
+    fromTokenAmount: 1
+  }
 
   const _setTokenAmountArrange = (fromTokenAmount: number) => {
     component.ionViewDidEnter();
@@ -118,10 +140,20 @@ describe('SwapHomePage', () => {
         trackEvent: Promise.resolve(true),
       });
 
+      localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
+        send: Promise.resolve(),
+        registerActionTypes: Promise.resolve(),
+        addListener: (callback)=> {
+          callback() 
+        }
+
+      });
       toastServiceSpy = jasmine.createSpyObj('ToastService', {
         showErrorToast: Promise.resolve(),
         showWarningToast: Promise.resolve(),
       });
+
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: true });
 
       TestBed.configureTestingModule({
         declarations: [SwapHomePage, FormattedAmountPipe, FakeTrackClickDirective,],
@@ -144,7 +176,9 @@ describe('SwapHomePage', () => {
           { provide: WalletsFactory, useValue: walletsFactorySpy },
           { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
           { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
+          { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
           { provide: ToastService, useValue: toastServiceSpy },
+          { provide: BrowserService, useValue: browserServiceSpy },
         ],
       }).compileComponents();
 
@@ -242,7 +276,7 @@ describe('SwapHomePage', () => {
   it('password modal open on click swap button', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-
+    
     await component.swapThem();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -258,10 +292,55 @@ describe('SwapHomePage', () => {
     fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
     fixture.detectChanges();
 
+    component.form.patchValue(formValue);
+    fixture.detectChanges();
+    tick(600);
+
     component.swapThem();
     tick(2);
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
   }));
+
+  it('should send success notification when swap is ok', fakeAsync ( () => {
+    component.ionViewDidEnter();
+    fixture.detectChanges();
+    tick();
+
+    component.form.patchValue(formValue);
+    fixture.detectChanges();
+    tick(600);
+  
+    component.swapThem();
+    tick(2);
+ 
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([ testLocalNotificationOk]);
+  }));
+
+  it('should send error notification when swap is not ok', fakeAsync(() => {
+    walletsFactorySpy.create.and.returnValue(
+      { oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'invalid password')) }
+    );
+    component.ionViewDidEnter();
+    tick();
+    component.form.patchValue(formValue);
+    fixture.detectChanges();
+    tick(600);
+    fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
+    fixture.detectChanges();
+
+    component.swapThem();
+    tick(2);
+
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([ testLocalNotificationNotOk]);
+  }));
+
+  it('should open browser in app when 1inch ToS is clicked', async () => {
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_1inch_tos"]'));
+
+    buttonEl.nativeElement.click();
+
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: LINKS.oneInchToS });
+  });
 });

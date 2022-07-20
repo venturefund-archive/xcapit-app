@@ -54,20 +54,22 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/serv
           ></app-amount-input-card-skeleton>
         </form>
       </ion-card>
-      <div class="ni__footer">
+    </ion-content>
+    <ion-footer class="ni__footer">
+      <div class="ni__footer__submit-button ion-padding">
         <ion-button
           appTrackClick
           name="ux_invest_continue"
           expand="block"
           size="large"
           type="submit"
-          class="ion-padding-start ion-padding-end ux_button"
+          class="ux_button ni__footer__submit-button__button"
           color="secondary"
           (click)="this.saveAmount()"
           [disabled]="!this.form.valid"
         >
           {{ 'defi_investments.new.button' | translate }}
-        </ion-button>
+        </ion-button>       
         <div *appFeatureFlag="'ff_buyCryptoNewInvestmentFooter'">
           <div class="ni__footer__text" *ngIf="this.buyAvailable">
             <span class="ux-font-text-xs text">
@@ -85,7 +87,7 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/serv
           </div>
         </div>
       </div>
-    </ion-content>
+      </ion-footer>
   `,
   styleUrls: ['./new-investment.page.scss'],
 })
@@ -166,6 +168,12 @@ export class NewInvestmentPage implements OnInit {
 
   async setTokenBalance(): Promise<void> {
     this.tokenBalance = await this.walletBalance.balanceOf(this.token);
+    this.addLowerThanValidator();
+  }
+
+  private addLowerThanValidator(){
+    this.form.get('amount').addValidators(CustomValidators.lowerThanEqual(this.tokenBalance));
+    this.form.get('amount').updateValueAndValidity();
   }
 
   saveAmount() {

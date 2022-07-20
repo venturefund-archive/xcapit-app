@@ -45,13 +45,14 @@ export class WalletTransactionCardItemComponent implements OnInit {
   @Input() network: string;
   formattedDate: string;
 
-  constructor(private browserService:BrowserService) {}
+  constructor(private browserService: BrowserService) {}
 
   ngOnInit() {
     this.formattedDate = this.formatDate(this.transaction.date);
   }
-  openTransactionUrl(){ this.browserService.open({url:ScanUrlOf.create(this.transaction.hash, this.network).value()});
-    
+
+  openTransactionUrl() {
+    this.browserService.open({ url: ScanUrlOf.create(this.transaction.hash, this.network).value() });
   }
 
   formatDate(value) {
