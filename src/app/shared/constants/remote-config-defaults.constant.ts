@@ -8,4 +8,6 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_swap: true,
   ff_homeWalletBackupWarningModal: false,
   ff_educationCardAvailable: true,
+  investmentProducts: undefined,
+  onOffRampsProviders: undefined
 };
