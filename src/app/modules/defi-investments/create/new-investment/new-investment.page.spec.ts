@@ -22,6 +22,7 @@ import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/ser
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -77,7 +78,7 @@ describe('NewInvestmentPage', () => {
   let coinsSpy: jasmine.SpyObj<Coin>[];
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
-
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -90,7 +91,9 @@ describe('NewInvestmentPage', () => {
           investment: {},
         }
       );
-
+      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
+        tokenOperationData: {}
+      })
       fakeActivatedRoute = new FakeActivatedRoute({ vault: 'polygon_usdc', mode: 'invest' });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
 
@@ -147,6 +150,7 @@ describe('NewInvestmentPage', () => {
           { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
           { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
           { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -204,6 +208,7 @@ describe('NewInvestmentPage', () => {
     await fixture.whenRenderingDone();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/buy-conditions']);
+    expect(tokenOperationDataServiceSpy.tokenOperationData).not.toBeNull();
   });
 
   it('should navigate to select provider page when go_to_buy button is clicked and conditionsPurchasesAccepted if exist in the storage', async () => {
@@ -219,6 +224,7 @@ describe('NewInvestmentPage', () => {
     await fixture.whenStable();
     expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
+    expect(tokenOperationDataServiceSpy.tokenOperationData).not.toBeNull();
   });
 
   it('should not navigate when user click on backup wallet inside modal', async () => {

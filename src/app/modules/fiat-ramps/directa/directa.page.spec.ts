@@ -16,6 +16,7 @@ import { rawProviderCountriesData } from '../shared-ramps/fixtures/raw-provider-
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 
 describe('DirectaPage', () => {
   let component: DirectaPage;
@@ -29,6 +30,7 @@ describe('DirectaPage', () => {
   let providersSpy: jasmine.SpyObj<Providers>;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -56,6 +58,9 @@ describe('DirectaPage', () => {
       walletMaintenanceServiceSpy = jasmine.createSpyObj("WalletMaintenanceService", {
         addCoinIfUserDoesNotHaveIt: Promise.resolve(),
       });
+      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
+        tokenOperationData: {asset:'USDC', network:'MATIC', country: 'ECU'}
+      })
 
       TestBed.configureTestingModule({
         declarations: [DirectaPage],
@@ -67,6 +72,7 @@ describe('DirectaPage', () => {
           { provide: ProvidersFactory, useValue: providersFactorySpy },
           { provide: HttpClient, useValue: httpClientSpy },
           { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -92,7 +98,7 @@ describe('DirectaPage', () => {
   });
 
   it('should set country, default currency and provider on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({ alias: 'PX' }, { country: 'ECU' });
+    fakeActivatedRoute.modifySnapshotParams({ alias: 'PX' });
     component.ionViewWillEnter();
     expect(component.country.name).toEqual('Ecuador');
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);

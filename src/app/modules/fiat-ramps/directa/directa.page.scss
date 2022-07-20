@@ -1,9 +1,22 @@
 :host {
+  ion-toolbar {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  ion-footer {
+    box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+
+    // .button-next {
+    //   display: flex;
+    //   flex-direction: column;
+    // }
+  }
+
   .button-next {
     display: flex;
     flex-direction: column;
     margin-top: 16px;
-    margin-bottom: 16px;
   }
 
   .ux_footer {

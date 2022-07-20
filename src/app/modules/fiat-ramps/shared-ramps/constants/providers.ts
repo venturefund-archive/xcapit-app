@@ -9,7 +9,6 @@ export const PROVIDERS: FiatRampProvider[] = [
     providerName: 'kripton',
     logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
     description: 'fiat_ramps.select_provider.krypton_description',
-    disclaimer: 'fiat_ramps.shared.constants.providers.kripton.disclaimer',
     newOperationRoute: '/fiat-ramps/new-operation/kripton',
     trackClickEventName: 'ux_buy_kripton',
     countries: ['Argentina', 'Venezuela', 'Uruguay', 'Colombia'],
@@ -28,7 +27,6 @@ export const PROVIDERS: FiatRampProvider[] = [
     logoRoute: 'assets/img/provider-logos/Moonpay.svg',
     description: 'fiat_ramps.select_provider.moonpay_description',
     newOperationRoute: '/fiat-ramps/new-operation/moonpay',
-    disclaimer: 'fiat_ramps.moonpay.disclaimer',
     countries: [
       'Mexico',
       'Guatemala',

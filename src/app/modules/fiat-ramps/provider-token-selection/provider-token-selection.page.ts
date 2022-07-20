@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, ActivatedRoute } from '@angular/router';
+import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
-import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { HttpClient } from '@angular/common/http';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
+import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 
 @Component({
   selector: 'app-provider-token-selection',
@@ -38,39 +38,27 @@ import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/prov
 })
 export class ProviderTokenSelectionPage implements OnInit {
   coins: Coin[];
-  provider: FiatRampProvider;
-  country: string;
   constructor(
     private navController: NavController,
-    private route: ActivatedRoute,
     private apiWalletService: ApiWalletService,
     private http: HttpClient,
-    private providersFactory: ProvidersFactory
+    private providersFactory: ProvidersFactory,
+    private tokenOperationDataService: TokenOperationDataService,
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    const providerAlias = this.route.snapshot.paramMap.get('provider');
-    this.country = this.route.snapshot.queryParamMap.get('country');
-    this.provider = this.providers().byAlias(providerAlias);
     this.availableCoins();
   }
 
   selectCurrency(currency: Coin) {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        country: this.country,
-        asset: currency.value,
-        network: currency.network,
-      },
-    };
-
-    this.navController.navigateForward([`/fiat-ramps/new-operation/${this.provider.alias}`], navigationExtras);
+    this.tokenOperationDataService.tokenOperationData = {asset: currency.value, network: currency.network}
+    this.navController.navigateForward(['fiat-ramps/select-provider']);
   }
 
   async availableCoins() {
-    this.coins = new ProviderTokensOf(this.providers(), this.apiWalletService.getCoins()).byAlias(this.provider.alias);
+    this.coins = new ProviderTokensOf(this.providers(), this.apiWalletService.getCoins()).all();
   }
 
   providers(): Providers {

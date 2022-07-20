@@ -23,6 +23,7 @@ import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynam
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 
 const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
@@ -71,7 +72,7 @@ describe('OperationsNewPage', () => {
   let kriptonDynamicPriceFactorySpy: jasmine.SpyObj<KriptonDynamicPriceFactory>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
-
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = new FakeNavController().createSpy();
@@ -116,6 +117,10 @@ describe('OperationsNewPage', () => {
         create: providersSpy,
       });
 
+      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
+        tokenOperationData: {asset:'DAI', network:'MATIC', country: 'ARS'}
+      })
+      
       TestBed.configureTestingModule({
         declarations: [OperationsNewPage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -129,7 +134,8 @@ describe('OperationsNewPage', () => {
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
           { provide: KriptonDynamicPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
-          { provide: ProvidersFactory, useValue: providersFactorySpy },
+          { provide: ProvidersFactory, useValue: providersFactorySpy },        
+          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },        
         ],
       }).compileComponents();
     })
@@ -139,6 +145,7 @@ describe('OperationsNewPage', () => {
     fixture = TestBed.createComponent(OperationsNewPage);
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    fakeActivatedRoute.modifySnapshotParams({}, { network: 'MATIC', asset: 'MATIC', country: 'ARS' });
     fixture.detectChanges();
   });
 
@@ -157,21 +164,9 @@ describe('OperationsNewPage', () => {
       isoCodeAlpha3: 'ARS',
       directaCode: 'AR'
     });
-    expect(component.selectedCurrency).toEqual(coinsSpy[0]);
+    expect(component.selectedCurrency).toEqual(coinsSpy[1]);
     expect(component.fiatCurrency).toEqual('ars');
     expect(component.price).toEqual(10);
-  });
-
-  it('should set currency passed by params on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({}, { network: 'MATIC', asset: 'DAI', country: 'ARS' });
-    component.ionViewWillEnter();
-    expect(component.selectedCurrency).toEqual(coinsSpy[1]);
-  });
-
-  it('should set USD as fiat currency when country has not specific local currency on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({}, { country: 'GTM' });
-    component.ionViewWillEnter();
-    expect(component.fiatCurrency).toEqual('USD');
   });
 
   it('should open external link when http link is clicked', () => {
@@ -244,15 +239,4 @@ describe('OperationsNewPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should redirect to change currency when currency button is clicked on provider card', async () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        country: 'ARS',
-      },
-    };
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', null);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection', 'kripton'], navigationExtras);
-  });
 });

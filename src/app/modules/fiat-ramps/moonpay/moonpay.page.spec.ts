@@ -18,6 +18,7 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 
 const testWallet = {
   assets: {
@@ -44,17 +45,15 @@ describe('MoonpayPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeActivatedRoute: FakeActivatedRoute;
-  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<MoonpayPage>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
-
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'COL' });
-      activatedRouteSpy = fakeActivatedRoute.createSpy();
       browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
         getMoonpayLink: of({ url: 'http://testURL.com' }),
@@ -69,6 +68,9 @@ describe('MoonpayPage', () => {
       }, {
         encryptedWallet: testWallet
       });
+      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
+        tokenOperationData: {asset:'MATIC', network:'MATIC', country: 'ARS'}
+      })
       TestBed.configureTestingModule({
         declarations: [MoonpayPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule, HttpClientTestingModule],
@@ -76,9 +78,9 @@ describe('MoonpayPage', () => {
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -116,36 +118,11 @@ describe('MoonpayPage', () => {
     expect(walletMaintenanceServiceSpy.wipeDataFromService).toHaveBeenCalledTimes(1);
   });
 
-  it('should select default currency and get user wallet address for the network of the currency selected on init', async () => {
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(component.form.value.currency).toEqual(TEST_COINS[0]);
-    expect(component.address).toEqual('testERC20Address');
-  });
-
   it('should select the currency specified by parameter on init', async () => {
-    fakeActivatedRoute.modifySnapshotParams({}, { country: 'COL', asset: 'MATIC', network: 'MATIC' });
     component.ionViewWillEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(component.form.value.currency).toEqual(TEST_COINS[6]);
   });
 
-  it('should redirect to change currency when currency button is clicked on provider card', async () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        country: 'COL',
-      },
-    };
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    component.form.patchValue(formValid);
-    fixture.detectChanges();
-    fixture.debugElement
-      .query(By.css('app-provider-new-operation-card'))
-      .triggerEventHandler('changeCurrency', undefined);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection', 'moonpay'], navigationExtras);
-  });
 });

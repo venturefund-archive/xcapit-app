@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
-import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
+import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-import { FiatRampOperation } from '../../shared-ramps/interfaces/fiat-ramp-operation.interface';
-import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service';
+import { TokenOperationDataService } from '../../shared-ramps/services/token-operation-data/token-operation-data.service';
 @Component({
   selector: 'app-select-provider',
   template: `
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="tabs/home"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/token-selection"></ion-back-button>
         </ion-buttons>
         <ion-title> {{ 'fiat_ramps.select_provider.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -27,44 +26,28 @@ import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service
               (changedCountry)="this.resetForm()"
               controlNameProvider="provider"
               controlNameSelect="country"
+              [coin]="this.coin"
             ></app-select-provider-card>
           </form>
         </div>
-        <div class="operations-list ion-padding-start ion-padding-end" *ngIf="this.operationsList">
-          <app-operations-list [operationsList]="this.operationsList"></app-operations-list>
-        </div>
-        <div class="moonpay-operations ion-padding-start ion-padding-end">
-          <ion-text class="ux-font-text-xxs">
-            {{ 'fiat_ramps.moonpay.moonpay_operations' | translate }}
-          </ion-text>
-          <ion-button
-            size="small"
-            fill="clear"
-            type="button"
-            appTrackClick
-            name="Go To Moonpay History"
-            (click)="this.goToMoonpay()"
-            class="ux-link-xs ion-no-padding ion-no-margin moonpay-operations__link"
-          >
-            {{ this.txHistoryLink }}
-          </ion-button>
-        </div>
-        <div class="ux_footer ion-padding">
-          <ion-button
-            class="ux_button"
-            appTrackClick
-            name="ux_vendor_buy_continue"
-            color="secondary"
-            size="large"
-            expand="block"
-            (click)="this.goToRoute()"
-            [disabled]="!this.form.valid"
-          >
-            {{ 'fiat_ramps.select_provider.button' | translate }}
-          </ion-button>
-        </div>
       </div>
     </ion-content>
+    <ion-footer class="sp__footer">
+      <div class="ux_footer ion-padding">
+        <ion-button
+          class="ux_button"
+          appTrackClick
+          name="ux_vendor_buy_continue"
+          color="secondary"
+          size="large"
+          expand="block"
+          (click)="this.goToRoute()"
+          [disabled]="!this.form.valid"
+        >
+          {{ 'fiat_ramps.select_provider.button' | translate }}
+        </ion-button>
+      </div>
+    </ion-footer>
   `,
   styleUrls: ['./select-provider.page.scss'],
 })
@@ -73,17 +56,16 @@ export class SelectProviderPage {
     country: ['', [Validators.required]],
     provider: ['', [Validators.required]],
   });
-  route: string;
+  newOperationRoute: string;
   disabled: boolean;
-  operationsList: FiatRampOperation[];
   txHistoryLink: string = LINKS.moonpayTransactionHistory;
-
+  coin: Coin;
   constructor(
     private navController: NavController,
     private formBuilder: FormBuilder,
     private trackService: TrackService,
-    private browserService: BrowserService,
-    private fiatRampsService: FiatRampsService,
+    private apiWalletService: ApiWalletService,
+    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   ionViewWillEnter() {
@@ -92,35 +74,20 @@ export class SelectProviderPage {
       description: window.location.href,
       eventLabel: 'ux_screenview_buy',
     });
-
-    this.getOperations();
-  }
-
-  getOperations() {
-    this.fiatRampsService.getUserOperations().subscribe((data) => {
-      this.operationsList = data;
-    });
+    const { asset, network } = this.tokenOperationDataService.tokenOperationData;
+    this.coin = this.apiWalletService.getCoin(asset, network);
   }
 
   receiveRoute(route: string) {
-    this.route = route;
+    this.newOperationRoute = route;
   }
 
   goToRoute() {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        country: this.form.value.country.isoCodeAlpha3,
-      },
-    };
-
-    this.navController.navigateForward([this.route], navigationExtras);
+    this.tokenOperationDataService.tokenOperationData.country = this.form.value.country.isoCodeAlpha3;
+    this.navController.navigateForward([this.newOperationRoute]);
   }
 
   resetForm() {
     this.form.get('provider').reset();
-  }
-
-  async goToMoonpay() {
-    await this.browserService.open({ url: this.txHistoryLink });
   }
 }
