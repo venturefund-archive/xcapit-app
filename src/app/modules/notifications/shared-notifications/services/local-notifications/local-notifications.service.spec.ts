@@ -7,7 +7,10 @@ describe('LocalNotificationsService', () => {
   beforeEach(() => {
     localNotificationsSpy = jasmine.createSpyObj('LocalNotifications', {
       requestPermissions: Promise.resolve({ display: 'granted' }),
-      addListener: null,
+      addListener: (callback)=> {
+        callback() 
+      },
+      registerActionTypes: Promise.resolve(),
       schedule: Promise.resolve(),
     });
     TestBed.configureTestingModule({});
@@ -36,4 +39,18 @@ describe('LocalNotificationsService', () => {
     await service.send(jasmine.createSpyObj('Notification', {}, { notification: 'test' }));
     expect(localNotificationsSpy.schedule).toHaveBeenCalledTimes(0);
   });
+  
+  it('should call addListener', async () => {
+    const callbackSpy = jasmine.createSpy();
+    await service.init();
+    service.addListener(callbackSpy);
+    expect(localNotificationsSpy.addListener).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call setActionTypes', async () => {
+    await service.init();
+    service.registerActionTypes('1',[]);
+    expect(localNotificationsSpy.registerActionTypes).toHaveBeenCalledTimes(1);
+  });
+
 });

@@ -31,6 +31,8 @@ import { IntersectedTokensFactory } from '../shared-swaps/models/intersected-tok
 import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transactions/factory/swap-transactions.factory';
 import { BlockchainTokens } from '../shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-tokens';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
+import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { AmountOf, NullAmountOf, RawAmount } from '../shared-swaps/models/amount-of/amount-of';
 import { PasswordErrorHandlerService } from '../shared-swaps/services/password-error-handler/password-error-handler.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -38,6 +40,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { LINKS } from 'src/app/config/static-links';
+
 
 @Component({
   selector: 'app-swap-home',
@@ -194,6 +197,8 @@ export class SwapHomePage {
   });
   defaultNavBackUrl = 'tabs/wallets';
   swapInProgressUrl = 'swaps/swap-in-progress';
+  actions = [];
+  actionTypeId = 'SWAP';
 
   constructor(
     private route: ActivatedRoute,
@@ -207,6 +212,7 @@ export class SwapHomePage {
     private oneInch: OneInchFactory,
     private intersectedTokens: IntersectedTokensFactory,
     private swapTransactions: SwapTransactionsFactory,
+    private localNotificationsService: LocalNotificationsService,
     private gasStation: GasStationOfFactory,
     private trackService: TrackService,
     private passwordErrorHandlerService: PasswordErrorHandlerService,
@@ -356,14 +362,17 @@ export class SwapHomePage {
     wallet.onDecryptedWallet().subscribe(() => this.navController.navigateForward([this.swapInProgressUrl]));
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
-      .then(() => console.log('Swap OK!'))
+      .then(() => {
+        const notification = this.createNotification('swap_ok');
+        this.notifyWhenSwap(notification);
+      })
       .catch((err) => {
-        console.log('Swap NOT OK!');
-        console.log(err.message);
         this.passwordErrorHandlerService.handlePasswordError(err, () => {
           this.showPasswordError();
         });
         this.resetMainButton();
+        const notification = this.createNotification('swap_not_ok');
+        this.notifyWhenSwap(notification);
       });
   }
 
@@ -373,5 +382,33 @@ export class SwapHomePage {
 
   private swapTxs(wallet: Wallet): SwapTransactions {
     return this.swapTransactions.create(this.swap, wallet, this.dex);
+  }
+
+  private notifyWhenSwap(notification: LocalNotificationSchema[]) {
+    this.localNotificationsService.registerActionTypes(this.actionTypeId, this.actions);
+    this.localNotificationsService.addListener(() => {
+      this.navigateToTokenDetail();
+    });
+    this.localNotificationsService.send(notification);
+  }
+
+  private navigateToTokenDetail() {
+    this.navController.navigateForward([this.defaultNavBackUrl]);
+  }
+
+  private createNotification(mode: string): LocalNotificationSchema[] {
+    return [
+      {
+        id: 1,
+        title: this.translate.instant(`swaps.sent_notification.${mode}.title`),
+        body: this.translate.instant(`swaps.sent_notification.${mode}.body`, {
+          fromAmount: this.form.get('fromTokenAmount').value,
+          fromToken: this.swap.fromToken().symbol(),
+          toAmount: this.tplSwapInfo.toTokenAmount,
+          toToken: this.swap.toToken().symbol(),
+        }),
+        actionTypeId: this.actionTypeId,
+      },
+    ];
   }
 }

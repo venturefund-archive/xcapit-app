@@ -2548,10 +2548,24 @@
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
     },
-    "swap_in_progress": {
-      "textPrimary": "¡Tu orden está en camino!",
-      "textSecondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "buttonText": "Ir a Wallet"
+    "swap_in_progress":{
+      "text_primary":"¡Tu orden está en camino!",
+      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text":"Ir a Wallet"
+    },
+    "sent_notification":{
+      "actions":{
+        "title": "Ver más"
+      },
+      "swap_ok":{
+        "title":"🚀 ¡Intercambio exitoso! ",
+        "body": "Enviaste {{fromAmount}} {{fromToken}} y recibiste {{toAmount}} {{toToken}} ."
+      },
+      "swap_not_ok":{
+        "title":"❌ Error en el intercambio",
+        "body": "Se produjo un error en el envío de {{fromAmount}} {{fromToken}} y recepción de {{toAmount}} {{toToken}}. Más información aquí. ."
+      }
+     
     }
   }
 }

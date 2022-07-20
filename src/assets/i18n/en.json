@@ -2397,10 +2397,23 @@
       "fromToken_title": "Select the token you want to swap",
       "toToken_title": "Select the token you want to receive"
     },
-    "swap_in_progress": {
-      "textPrimary": "Your order is on the way!",
-      "textSecondary": "The transaction is being processed on the blockchain. We will notify you when the status is updated.",
-      "buttonText": "Go to Wallet"
+    "swap_in_progress":{
+      "text_primary":"Your order is on the way!",
+      "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "button_text":"Go to Wallet"
+    },
+    "sent_notification":{
+      "actions":{
+        "title": "View more"
+      },
+      "swap_ok":{
+        "title":"🚀 Successful exchange! ",
+        "body": "You sent {{fromAmount}} {{fromToken}} and received {{toAmount}} {{toToken}} ."
+      },
+      "swap_not_ok":{
+        "title":"❌ Error in the exchange",
+        "body": "There was an error sending {{fromAmount}} {{fromToken}} and receiving {{toAmount}} {{toToken}}. More information here."
+      }
     }
   }
 }
