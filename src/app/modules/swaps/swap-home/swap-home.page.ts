@@ -153,25 +153,28 @@ import { LINKS } from 'src/app/config/static-links';
           </div>
         </ion-item>
       </div>
-      <div class="sw__swap-button ion-padding">
+    </ion-content>
+
+    <ion-footer class="sw__footer">
+      <div class="sw__footer__swap-button ion-padding">
         <ion-button
           [appLoading]="this.loadingBtn"
           [loadingText]="'swaps.home.loading_button_text' | translate"
           appTrackClick
           name="ux_swaps_swap"
-          class="ux_button sw__swap-button__button"
+          class="ux_button sw__footer__swap-button__button"
           color="secondary"
           [disabled]="this.form.invalid || this.disabledBtn"
           (click)="this.swapThem()"
           >{{ 'swaps.home.button' | translate }}</ion-button
         >
       </div>
-      <div class="sw__footer" *ngIf="this.loadingBtn">
+      <div class="sw__footer__loader" *ngIf="this.loadingBtn">
         <span class="ux-font-text-xs text">
           {{ 'swaps.home.footer_text' | translate }}
         </span>
       </div>
-    </ion-content>
+  </ion-footer>
   `,
   styleUrls: ['./swap-home.page.scss'],
 })
