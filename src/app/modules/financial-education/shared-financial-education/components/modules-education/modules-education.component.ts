@@ -88,9 +88,9 @@ export class ModulesEducationComponent implements OnInit {
       'tabs/financial-education/information/tab',
       this.selectedTab,
       'module',
-      this.module.name,
+      this.module.id,
       'submodule',
-      subModule.name,
+      subModule.id,
     ]);
   }
 
