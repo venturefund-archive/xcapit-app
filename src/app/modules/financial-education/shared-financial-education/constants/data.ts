@@ -45,7 +45,7 @@ export const DATA = {
       coming_soon: true,
       category: 1,
       submodules: [],
-      status: 'to_do',
+      status: 'completed',
     },
     {
       id: 3,
@@ -55,7 +55,7 @@ export const DATA = {
       coming_soon: true,
       category: 1,
       submodules: [],
-      status: 'to_do',
+      status: 'completed',
     },
   ],
   crypto: [
@@ -78,10 +78,10 @@ export const DATA = {
           data_to_track: 'what_is_blockchain',
           screen_view_label: 'ux_education_screenview_intro_block_complete',
           module: 4,
-          status: 'to_do',
+          status: 'completed',
         },
       ],
-      status: 'to_do',
+      status: 'completed',
     },
     {
       id: 5,
