@@ -16,9 +16,9 @@ import { FinancialEducationService } from '../../services/financial-education/fi
             </div>
             <!-- estado del modulo -->
             <div class="ux-font-text-xxs" *ngIf="!this.module.coming_soon">
-              <ion-label *ngIf="this.module.status === 'To Do'" name="module_title"> Por hacer </ion-label>
-              <ion-label *ngIf="this.module.status === 'In Progress'" name="module_title"> En progreso </ion-label>
-              <ion-label *ngIf="this.module.status === 'Completed'" name="module_title"> Completed </ion-label>
+              <ion-label name="module_title">
+                {{ 'financial_education.home.statuses.' + this.module.status | translate }}</ion-label
+              >
             </div>
             <!-- hasta aca -->
             <div class="ux-font-text-xxs" *ngIf="this.module.coming_soon">
