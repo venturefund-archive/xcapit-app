@@ -3,8 +3,6 @@ import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
 import { COUNTRIES } from '../../../shared-ramps/constants/countries';
 import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory/providers.factory';
 import { FiatRampProvider } from '../../../shared-ramps/interfaces/fiat-ramp-provider.interface';
-import { ProviderDataRepo } from '../../../shared-ramps/models/provider-data-repo/provider-data-repo';
-import { HttpClient } from '@angular/common/http';
 import { FiatRampProviderCountry } from '../../../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 
@@ -68,12 +66,8 @@ export class SelectProviderCardComponent implements OnInit {
   form: FormGroup;
   countries = COUNTRIES;
   disabled = true;
-  availableProviders: FiatRampProvider[] = [];
-  constructor(
-    private formGroupDirective: FormGroupDirective,
-    private providersFactory: ProvidersFactory,
-    private http: HttpClient
-  ) {}
+  availableProviders: FiatRampProvider[];
+  constructor(private formGroupDirective: FormGroupDirective, private providersFactory: ProvidersFactory) {}
 
   ngOnInit() {
     this.countries = this.availableCountries();
@@ -107,6 +101,6 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   providers() {
-    return this.providersFactory.create(new ProviderDataRepo(), this.http);
+    return this.providersFactory.create();
   }
 }

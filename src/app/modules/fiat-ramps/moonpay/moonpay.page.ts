@@ -9,9 +9,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
-import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { HttpClient } from '@angular/common/http';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 
@@ -73,7 +71,6 @@ export class MoonpayPage implements OnInit {
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
-    private http: HttpClient,
     private walletMaintenance: WalletMaintenanceService,
     private tokenOperationDataService: TokenOperationDataService
   ) {}
@@ -102,7 +99,7 @@ export class MoonpayPage implements OnInit {
   }
 
   getProviders(): Providers {
-    return this.providers.create(new ProviderDataRepo(), this.http);
+    return this.providers.create();
   }
 
   async openMoonpay() {

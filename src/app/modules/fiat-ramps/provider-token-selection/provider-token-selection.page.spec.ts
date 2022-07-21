@@ -3,14 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NavigationExtras } from '@angular/router';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TokenSelectionListComponent } from 'src/app/shared/components/token-selection-list/token-selection-list.component';
 import { SuitePipe } from 'src/app/shared/pipes/suite/suite.pipe';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { ProviderTokenSelectionPage } from './provider-token-selection.page';
-import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
@@ -133,7 +130,7 @@ describe('ProviderTokenSelectionPage', () => {
 
     TestBed.configureTestingModule({
       declarations: [ProviderTokenSelectionPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
-      imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [IonicModule, TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },

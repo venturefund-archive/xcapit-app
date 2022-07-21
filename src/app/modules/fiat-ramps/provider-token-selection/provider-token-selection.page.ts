@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
-import { HttpClient } from '@angular/common/http';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 
 @Component({
@@ -41,7 +38,6 @@ export class ProviderTokenSelectionPage implements OnInit {
   constructor(
     private navController: NavController,
     private apiWalletService: ApiWalletService,
-    private http: HttpClient,
     private providersFactory: ProvidersFactory,
     private tokenOperationDataService: TokenOperationDataService,
   ) {}
@@ -62,6 +58,6 @@ export class ProviderTokenSelectionPage implements OnInit {
   }
 
   providers(): Providers {
-    return this.providersFactory.create(new ProviderDataRepo(), this.http);
+    return this.providersFactory.create();
   }
 }

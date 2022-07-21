@@ -31,9 +31,16 @@ import { IntersectedTokensFactory } from '../shared-swaps/models/intersected-tok
 import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transactions/factory/swap-transactions.factory';
 import { BlockchainTokens } from '../shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-tokens';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
+import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { AmountOf, NullAmountOf, RawAmount } from '../shared-swaps/models/amount-of/amount-of';
 import { PasswordErrorHandlerService } from '../shared-swaps/services/password-error-handler/password-error-handler.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { LINKS } from 'src/app/config/static-links';
+
 
 @Component({
   selector: 'app-swap-home',
@@ -119,26 +126,55 @@ import { TranslateService } from '@ngx-translate/core';
             </div>
           </div>
         </div>
+        <hr />
+        <div class="sw__swap-card__fee ion-padding-horizontal ion-padding-top">
+          <div class="sw__swap-card__fee__title">
+            <ion-text class="ux-font-header-titulo">
+              {{ 'swaps.home.fee_title' | translate }}
+            </ion-text>
+          </div>
+          <app-transaction-fee [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
+        </div>
       </div>
-      <div class="sw__swap-button ion-padding">
+      <div class="sw__checkbox ion-padding">
+        <ion-item class="sw__checkbox__last ux-font-text-xs">
+          <ion-checkbox mode="md" slot="start" name="checkbox-condition"></ion-checkbox>
+          <div class="sw__checkbox__text-wrapper">
+            <ion-label>
+              {{ 'swaps.home.tos_1' | translate }}
+            </ion-label>
+            <ion-button
+              name="go_to_1inch_tos"
+              class="ux-link-xs sw__checkbox__text__button"
+              (click)="this.openToS()"
+              appTrackClick fill="clear">
+              {{ 'swaps.home.tos_button' | translate }}
+            </ion-button>
+          </div>
+        </ion-item>
+      </div>
+    </ion-content>
+
+    <ion-footer class="sw__footer">
+      <div class="sw__footer__swap-button ion-padding">
         <ion-button
           [appLoading]="this.loadingBtn"
           [loadingText]="'swaps.home.loading_button_text' | translate"
           appTrackClick
           name="ux_swaps_swap"
-          class="ux_button sw__swap-button__button"
+          class="ux_button sw__footer__swap-button__button"
           color="secondary"
           [disabled]="this.form.invalid || this.disabledBtn"
           (click)="this.swapThem()"
           >{{ 'swaps.home.button' | translate }}</ion-button
         >
       </div>
-      <div class="sw__footer" *ngIf="this.loadingBtn">
+      <div class="sw__footer__loader" *ngIf="this.loadingBtn">
         <span class="ux-font-text-xs text">
           {{ 'swaps.home.footer_text' | translate }}
         </span>
       </div>
-    </ion-content>
+  </ion-footer>
   `,
   styleUrls: ['./swap-home.page.scss'],
 })
@@ -157,12 +193,15 @@ export class SwapHomePage {
   tplBlockchain: RawBlockchain;
   tplFromToken: RawToken;
   tplToToken: RawToken;
+  tplFee: RawAmount = new NullAmountOf().json();
   tplSwapInfo: RawSwapInfo = new NullJSONSwapInfo().value();
   form: FormGroup = this.formBuilder.group({
     fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
   });
   defaultNavBackUrl = 'tabs/wallets';
   swapInProgressUrl = 'swaps/swap-in-progress';
+  actions = [];
+  actionTypeId = 'SWAP';
 
   constructor(
     private route: ActivatedRoute,
@@ -176,17 +215,36 @@ export class SwapHomePage {
     private oneInch: OneInchFactory,
     private intersectedTokens: IntersectedTokensFactory,
     private swapTransactions: SwapTransactionsFactory,
+    private localNotificationsService: LocalNotificationsService,
+    private gasStation: GasStationOfFactory,
     private trackService: TrackService,
     private passwordErrorHandlerService: PasswordErrorHandlerService,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private browser: BrowserService
   ) {}
+
+  openToS() {
+    this.browser.open({url: LINKS.oneInchToS});
+  }
 
   private async setSwapInfo(fromTokenAmount: string) {
     if (fromTokenAmount) {
       this.swap = new Swap(fromTokenAmount, this.fromToken, this.toToken);
     }
     this.tplSwapInfo = await this.jsonSwapInfo(fromTokenAmount);
+  }
+
+  private async setFeeInfo() {
+    this.tplFee = (await this.gasPrice()).times(this.tplSwapInfo.estimatedGas).json();
+  }
+
+  private setNullFeeInfo() {
+    this.tplFee = new NullAmountOf().json();
+  }
+
+  private gasPrice(): Promise<AmountOf> {
+    return this.gasStation.create(this.activeBlockchain, this.httpClient).price().fast();
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
@@ -199,8 +257,10 @@ export class SwapHomePage {
     this.trackPage();
     this.subscribeToFromTokenAmountChanges();
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
+    this.setNullFeeInfo();
     this.setDex();
     this.setTokens();
+    this.setFeeInfo();
     await this.setTokensToSwap(
       this.route.snapshot.paramMap.get(this.fromTokenKey),
       this.route.snapshot.paramMap.get(this.toTokenKey)
@@ -211,7 +271,11 @@ export class SwapHomePage {
     this.form
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
-      .subscribe(async (value) => await this.setSwapInfo(value));
+      .subscribe(async (value) => {
+        this.setNullFeeInfo();
+        await this.setSwapInfo(value);
+        this.setFeeInfo();
+      });
   }
 
   private trackPage() {
@@ -260,10 +324,11 @@ export class SwapHomePage {
   }
 
   private setTokens() {
-    this.tokens = this.intersectedTokens.create(
-      new BlockchainTokens(this.activeBlockchain, new StandardizedTokens(new TokenRepo(PROD_COINS))),
-      new OneInchTokens(this.dex)
-    );
+    this.tokens = this.intersectedTokens.create(this.blockchainTokens(), new OneInchTokens(this.dex));
+  }
+
+  private blockchainTokens(): BlockchainTokens {
+    return new BlockchainTokens(this.activeBlockchain, new StandardizedTokens(new TokenRepo(PROD_COINS)));
   }
 
   private setBlockchain(aBlockchainName: string) {
@@ -300,20 +365,53 @@ export class SwapHomePage {
     wallet.onDecryptedWallet().subscribe(() => this.navController.navigateForward([this.swapInProgressUrl]));
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
-      .then(() => console.log('Swap OK!'))
+      .then(() => {
+        const notification = this.createNotification('swap_ok');
+        this.notifyWhenSwap(notification);
+      })
       .catch((err) => {
-        console.log('Swap NOT OK!');
-        console.log(err.message);
-        this.passwordErrorHandlerService.handlePasswordError(err, () => { this.showPasswordError() })
+        this.passwordErrorHandlerService.handlePasswordError(err, () => {
+          this.showPasswordError();
+        });
         this.resetMainButton();
+        const notification = this.createNotification('swap_not_ok');
+        this.notifyWhenSwap(notification);
       });
   }
 
-  private async showPasswordError(){
+  private async showPasswordError() {
     await this.toastService.showErrorToast({ message: this.translate.instant('swaps.errors.invalid_password') });
   }
 
   private swapTxs(wallet: Wallet): SwapTransactions {
     return this.swapTransactions.create(this.swap, wallet, this.dex);
+  }
+
+  private notifyWhenSwap(notification: LocalNotificationSchema[]) {
+    this.localNotificationsService.registerActionTypes(this.actionTypeId, this.actions);
+    this.localNotificationsService.addListener(() => {
+      this.navigateToTokenDetail();
+    });
+    this.localNotificationsService.send(notification);
+  }
+
+  private navigateToTokenDetail() {
+    this.navController.navigateForward([this.defaultNavBackUrl]);
+  }
+
+  private createNotification(mode: string): LocalNotificationSchema[] {
+    return [
+      {
+        id: 1,
+        title: this.translate.instant(`swaps.sent_notification.${mode}.title`),
+        body: this.translate.instant(`swaps.sent_notification.${mode}.body`, {
+          fromAmount: this.form.get('fromTokenAmount').value,
+          fromToken: this.swap.fromToken().symbol(),
+          toAmount: this.tplSwapInfo.toTokenAmount,
+          toToken: this.swap.toToken().symbol(),
+        }),
+        actionTypeId: this.actionTypeId,
+      },
+    ];
   }
 }

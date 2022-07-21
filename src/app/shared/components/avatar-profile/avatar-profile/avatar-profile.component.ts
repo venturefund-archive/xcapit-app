@@ -18,6 +18,6 @@ export class AvatarProfileComponent implements OnInit {
   ngOnInit() {}
 
   goToProfileMenu() {
-    this.navController.navigateForward(['/profiles/menu']);
+    this.navController.navigateBack(['/profiles/menu']);
   }
 }

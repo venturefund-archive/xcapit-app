@@ -1,9 +1,9 @@
-import { providers } from "./fake-ethers-providers";
+import { fakeProviders } from "./fake-ethers-providers";
 
 
 describe('Fake Ethers Providers', () => {
 
   it('new JsonRpcProvider', () => {
-    expect(new providers.JsonRpcProvider('aRPCUrl')).toBeTruthy();
+    expect(new fakeProviders.JsonRpcProvider('aRPCUrl')).toBeTruthy();
   });
 });

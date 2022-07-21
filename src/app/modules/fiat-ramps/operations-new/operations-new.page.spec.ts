@@ -14,7 +14,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { ReactiveFormsModule } from '@angular/forms';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -162,7 +162,7 @@ describe('OperationsNewPage', () => {
       value: 'fiat_ramps.countries_list.argentina',
       fiatCode: 'ars',
       isoCodeAlpha3: 'ARS',
-      directaCode: 'AR'
+      directaCode: 'AR',
     });
     expect(component.selectedCurrency).toEqual(coinsSpy[1]);
     expect(component.fiatCurrency).toEqual('ars');

@@ -5,12 +5,17 @@ import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spe
 import { rawPaymentMethodsResponse } from '../../../fixtures/raw-payment-methods-response';
 import { DefaultProviders } from './default-providers';
 import { rawProviderCoinsData } from '../../../fixtures/raw-provider-coins.data';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
-describe('Providers', () => {
+describe('DefaultProviders', () => {
   let providers: DefaultProviders;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(() => {
-    providers = new DefaultProviders(new ProviderDataRepo(rawProvidersData), new FakeHttpClient(rawPaymentMethodsResponse));
+    remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getObject: rawProvidersData,
+    });
+    providers = new DefaultProviders(new ProviderDataRepo(remoteConfigSpy), new FakeHttpClient(rawPaymentMethodsResponse));
   });
 
   it('new', () => {

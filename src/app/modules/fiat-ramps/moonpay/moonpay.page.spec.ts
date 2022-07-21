@@ -15,10 +15,10 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 
 const testWallet = {
   assets: {
@@ -27,10 +27,10 @@ const testWallet = {
     UNI: true,
     MATIC: true,
   },
-  addresses: { 
+  addresses: {
     ERC20: 'testERC20Address',
-    MATIC: 'testMaticAddress'
-  }
+    MATIC: 'testMaticAddress',
+  },
 };
 
 const formValid = {
@@ -61,19 +61,23 @@ describe('MoonpayPage', () => {
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getCoins: TEST_COINS,
       });
-      walletMaintenanceServiceSpy = jasmine.createSpyObj("WalletMaintenanceService", {
-        getEncryptedWalletFromStorage: Promise.resolve(),
-        addCoinIfUserDoesNotHaveIt: Promise.resolve(),
-        wipeDataFromService: null
-      }, {
-        encryptedWallet: testWallet
-      });
+      walletMaintenanceServiceSpy = jasmine.createSpyObj(
+        'WalletMaintenanceService',
+        {
+          getEncryptedWalletFromStorage: Promise.resolve(),
+          addCoinIfUserDoesNotHaveIt: Promise.resolve(),
+          wipeDataFromService: null,
+        },
+        {
+          encryptedWallet: testWallet,
+        }
+      );
       tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
         tokenOperationData: {asset:'MATIC', network:'MATIC', country: 'ARS'}
       })
       TestBed.configureTestingModule({
         declarations: [MoonpayPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule, HttpClientTestingModule],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
         providers: [
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
@@ -104,16 +108,16 @@ describe('MoonpayPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
   });
 
-  it("should call addCoinIfUserDoesNotHaveIt when transaction completes", async () => {
-    const coin: jasmine.SpyObj<Coin> = jasmine.createSpyObj("Coin", {}, { value: "USDT", network: "ERC20" });
-    component.form.patchValue({currency: coin});
+  it('should call addCoinIfUserDoesNotHaveIt when transaction completes', async () => {
+    const coin: jasmine.SpyObj<Coin> = jasmine.createSpyObj('Coin', {}, { value: 'USDT', network: 'ERC20' });
+    component.form.patchValue({ currency: coin });
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_moonpay_continue"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
     expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coin);
   });
 
-  it("should call wipeDataFromService on ionViewDidLeave", () => {
+  it('should call wipeDataFromService on ionViewDidLeave', () => {
     component.ionViewDidLeave();
     expect(walletMaintenanceServiceSpy.wipeDataFromService).toHaveBeenCalledTimes(1);
   });
@@ -122,7 +126,7 @@ describe('MoonpayPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(component.form.value.currency).toEqual(TEST_COINS[6]);
+    expect(component.form.value.currency).toEqual(TEST_COINS.find((coin) => coin.value === 'ETH'));
   });
 
 });

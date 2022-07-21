@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { Vault } from '@2pi-network/sdk';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -86,8 +86,8 @@ describe('NewInvestmentPage', () => {
         'InvestmentDataService',
         {},
         {
-          amount: 10,
-          quoteAmount: 12,
+          amount: 20,
+          quoteAmount: 20,
           investment: {},
         }
       );
@@ -239,14 +239,17 @@ describe('NewInvestmentPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
   });
 
-  it('should save amount and redirect if form is valid', async () => {
-    await component.ionViewDidEnter();
+  it('should save amount and redirect if form is valid', fakeAsync( () => {
+    walletBalanceServiceSpy.balanceOf.and.resolveTo(30);
+    component.ionViewDidEnter();
+    tick();
     component.form.patchValue({ amount: 20, quoteAmount: 20 });
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    tick(550);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_invest_continue"]')).nativeElement.click();
+    tick();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/new/confirmation', 'invest']);
-  });
+  }));
 
   it('should not save amount nor redirect if form is not valid', async () => {
     await component.ionViewDidEnter();
