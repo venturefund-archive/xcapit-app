@@ -48,7 +48,7 @@ export class TestTypeformPage implements OnInit {
     this.getData();
     this.getModule();
     this.getSubModule();
-    // this.createTypeform();
+    this.createTypeform();
     // this.updateTexts();
   }
 
