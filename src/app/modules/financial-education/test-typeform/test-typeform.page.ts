@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { createWidget } from '@typeform/embed';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
-
+import { DATA } from '../shared-financial-education/constants/data';
 @Component({
   selector: 'app-test-typeform',
   template: `
@@ -83,7 +83,7 @@ export class TestTypeformPage implements OnInit {
   }
 
   getData() {
-    this.data = this.DATA;
+    this.data = DATA;
   }
 
   getModule() {
