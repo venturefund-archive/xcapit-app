@@ -37,7 +37,6 @@ export class TestTypeformPage implements OnInit {
     private navController: NavController,
     private translate: TranslateService,
     private storageService: StorageService,
-    private modulesService: ModulesService
   ) {}
 
   ngOnInit() {}
