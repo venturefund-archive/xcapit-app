@@ -123,9 +123,10 @@ export class TestTypeformPage implements OnInit {
   }
 
   getSubmoduleResult() {
-    this.financialEducationService.getSubmoduleResultOf(this.subModule.id, this.wallet_address).subscribe((res) => {
-      this.submoduleResult = SUBMODULE;
-    });
+    // this.financialEducationService.getSubmoduleResultOf(this.subModule.id, this.wallet_address).subscribe((res) => {
+    //   this.submoduleResult = SUBMODULE;
+    // });
+    this.submoduleResult = SUBMODULE;
   }
 
   redirect() {
