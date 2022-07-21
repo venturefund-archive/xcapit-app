@@ -83,7 +83,7 @@ export class TestTypeformPage implements OnInit {
   }
 
   getData() {
-    this.data = this.modulesService.getModuleByTab(this.selectedTab);
+    this.data = this.DATA;
   }
 
   getModule() {
