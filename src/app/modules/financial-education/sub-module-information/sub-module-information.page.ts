@@ -42,7 +42,7 @@ export class SubModuleInformationPage implements OnInit {
   module: any;
   subModule: any;
   data: any = DATA;
-  walletExists: any;
+  wallet : any;
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
@@ -84,9 +84,10 @@ export class SubModuleInformationPage implements OnInit {
     }
   }
 
-  private async getUserWalletAddress() {
-    this.walletExists = await this.storageService.getWalletFromStorage();
-    this.getEducationDataOf()
+ private async getUserWalletAddress() {
+   this.wallet = await this.storageService.getWalletFromStorage();
+    this.wallet_address = wallet.addresses.ERC20;
+    this.getEducationDataOf(this.wallet_address);
   }
 
   goToLearningMore() {
@@ -107,7 +108,7 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   goToStartTest() {
-    if (this.walletExists == null) {
+    if (!this.wallet) {
       this.navController.navigateForward(['financial-education/error-no-wallet']);
     } else {
       this.navController.navigateForward([
