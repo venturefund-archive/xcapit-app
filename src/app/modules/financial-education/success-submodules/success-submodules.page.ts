@@ -16,15 +16,15 @@ import { DATA } from '../shared-financial-education/constants/data';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <app-success-content *ngIf="this.data" [data]="this.data"> </app-success-content>
+      <app-success-content *ngIf="this.succes_data" [data]="this.succes_data"> </app-success-content>
     </ion-content>`,
   styleUrls: ['./success-submodules.page.scss'],
 })
 export class SuccessSubmodulesPage implements OnInit {
-  data: any;
+  succes_data: any;
   modules;
   subModule;
-
+  data :any;
   constructor(
     private trackService: TrackService,
     private translate: TranslateService,
@@ -34,7 +34,7 @@ export class SuccessSubmodulesPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.data = SUCCESS_TYPES.success_submodules;
+    this.succes_data = SUCCESS_TYPES.success_submodules;
     this.setModules();
     this.setTitle();
     this.event();
@@ -45,18 +45,20 @@ export class SuccessSubmodulesPage implements OnInit {
   }
 
   setTitle() {
-     const category = parseInt(this.route.snapshot.paramMap.get('category'));
+     const category = (this.route.snapshot.paramMap.get('category'));
      const moduleId = parseInt(this.route.snapshot.paramMap.get('module'));
      const submoduleId = parseInt(this.route.snapshot.paramMap.get('submodule'));
 
-    this.category = this.data.find((category) => category = cat)
-    const title =  
+    this.data = category === 'finance' ? this.data.finance : this.data.crypto;
+    
+   
 
-    // const module = this.modules.find((item) => item.id === moduleId);
-    // this.subModule = module.sub_modules && module.sub_modules.find((item) => item.id === submoduleId);
-    // this.data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
-    //   submodule: this.translate.instant(this.subModule.title),
-    // });
+    const module = this.data.find((item) => item.id === moduleId);
+    this.subModule = module.submodules && module.submodules.find((submodule) => submodule.id === submoduleId);
+    console.log(module, submoduleId , this.subModule)
+    this.data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
+      submodule: this.translate.instant(this.subModule.title),
+     });
   }
 
   event() {
