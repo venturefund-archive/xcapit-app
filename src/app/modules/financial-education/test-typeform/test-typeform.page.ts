@@ -84,6 +84,7 @@ export class TestTypeformPage implements OnInit {
 
   getData() {
     const tab = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
+    console.log(tab)
   }
 
   getModule() {
