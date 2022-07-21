@@ -90,7 +90,8 @@ export class MoonpayPage implements OnInit {
   async initAssetsForm() {
     await this.walletMaintenance.getEncryptedWalletFromStorage();
     this.coins = this.providerTokens();
-    const {asset, network} = this.tokenOperationDataService.tokenOperationData;
+    const { asset, network } = this.tokenOperationDataService.tokenOperationData;
+    console.log(this.tokenOperationDataService.tokenOperationData, this.coins);
     this.form.patchValue({ currency: this.coins.find((coin) => coin.value === asset && coin.network === network) });
   }
 

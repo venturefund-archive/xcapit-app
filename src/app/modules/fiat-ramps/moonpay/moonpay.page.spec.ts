@@ -1,4 +1,3 @@
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -18,6 +17,9 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 
 const testWallet = {
@@ -33,10 +35,6 @@ const testWallet = {
   },
 };
 
-const formValid = {
-  currency: TEST_COINS[0],
-};
-
 describe('MoonpayPage', () => {
   let component: MoonpayPage;
   let fixture: ComponentFixture<MoonpayPage>;
@@ -49,6 +47,8 @@ describe('MoonpayPage', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -73,11 +73,17 @@ describe('MoonpayPage', () => {
         }
       );
       tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
-        tokenOperationData: {asset:'MATIC', network:'MATIC', country: 'ARS'}
+        tokenOperationData: {asset:'ETH', network:'ERC20', country: 'ARS'}
       })
+      providersSpy = jasmine.createSpyObj('Providers',{
+        byAlias: rawProvidersData.find((provider) => provider.alias === 'moonpay'),
+      })
+      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+        create: providersSpy,
+      });
       TestBed.configureTestingModule({
         declarations: [MoonpayPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule, HttpClientTestingModule],
         providers: [
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
@@ -85,6 +91,7 @@ describe('MoonpayPage', () => {
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
           { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+          { provide: ProvidersFactory, useValue: providersFactorySpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -126,7 +133,7 @@ describe('MoonpayPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(component.form.value.currency).toEqual(TEST_COINS.find((coin) => coin.value === 'ETH'));
+    expect(component.form.value.currency.value).toEqual(tokenOperationDataServiceSpy.tokenOperationData.asset);
   });
 
 });
