@@ -45,6 +45,7 @@ export class SuccessSubmodulesPage implements OnInit {
   }
 
   setTitle() {
+     const category = parseInt(this.route.snapshot.paramMap.get('category'));
      const moduleId = parseInt(this.route.snapshot.paramMap.get('module'));
      const submoduleId = parseInt(this.route.snapshot.paramMap.get('submodule'));
     // const module = this.modules.find((item) => item.id === moduleId);
