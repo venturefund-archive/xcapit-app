@@ -103,7 +103,7 @@ export class TestTypeformPage implements OnInit {
   }
 
   getParams() {
-    this.selectedCategory = this.route.snapshot.paramMap.get('tab');
+    this.selectedCategory = this.route.snapshot.paramMap.get('category');
     this.module = parseInt(this.route.snapshot.paramMap.get('module'));
     this.subModule = parseInt(this.route.snapshot.paramMap.get('submodule'));
     this.code = this.route.snapshot.paramMap.get('code');
@@ -156,7 +156,7 @@ export class TestTypeformPage implements OnInit {
 
   goBack() {
     this.navController.navigateForward([
-      '/tabs/financial-education/information/tab/',
+      '/tabs/financial-education/information/category/',
       this.selectedCategory,
       'module',
       this.module.id,
