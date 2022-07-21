@@ -66,18 +66,22 @@ export class SubModuleInformationPage implements OnInit {
 
   getData() {
     this.data = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
-    console.log(this.data)
+    console.log(this.data);
   }
 
   getModule() {
-    this.module = this.data.find((module) => module.id === this.module);
-    console.log(this.module)
+    this.module = this.data.find((module) => {
+      module.id === this.module;
+      console.log(this.module.id);
+      console.log(module.id);
+    });
+    console.log(this.module);
   }
 
   getSubModule() {
     for (const subModule of this.module.submodules) {
       if (subModule.id === this.subModule) this.subModule = subModule;
-      console.log(this.subModule)
+      console.log(this.subModule);
     }
   }
 
