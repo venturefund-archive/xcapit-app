@@ -4,7 +4,6 @@ import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { createWidget } from '@typeform/embed';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
 import { DATA } from '../shared-financial-education/constants/data';
 @Component({
   selector: 'app-test-typeform',
@@ -104,15 +103,12 @@ export class TestTypeformPage implements OnInit {
 
   private updateTexts() {
     const moduleName = this.translate.instant(`financial_education.typeform_header.finance_sub_${this.subModule.id}`);
-    console.log(this.code)
-    this.headerText = this.subModule.learning_code
-      ? moduleName
-      : this.translate.instant('financial_education.typeform_header.text');
-    // if (this.code === this.subModule.learning_code) {
-    //   this.headerText = moduleName;
-    // } else {
-    //   const generalText = this.translate.instant('financial_education.typeform_header.text');
-    //   this.headerText = generalText + ' ' + moduleName;
-    // }
+    if (this.code === this.subModule.learning_code) {
+      this.headerText = moduleName;
+    } else {
+      const generalText = this.translate.instant('financial_education.typeform_header.text');
+      this.headerText = generalText + ' ' + moduleName;
+    }
   }
+
 }
