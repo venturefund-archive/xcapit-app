@@ -113,6 +113,9 @@ export class TestTypeformPage implements OnInit {
 
   goBack(){
     this.navController.navigateForward()
+
+
+    /tabs/financial-education/information/tab/finance/module/1/submodule/1
   }
 
 }
