@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { createWidget } from '@typeform/embed';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { DATA } from '../shared-financial-education/constants/data';
+import { SUBMODULE } from '../shared-financial-education/constants/submodule';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 @Component({
   selector: 'app-test-typeform',
@@ -104,7 +105,7 @@ export class TestTypeformPage implements OnInit {
   };
 
   redirect() {
-    
+    const url = this.submoduleResult.status === 'completed' ? 
   }
 
   private updateTexts() {
