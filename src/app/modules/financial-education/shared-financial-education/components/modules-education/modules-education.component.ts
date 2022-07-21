@@ -12,9 +12,11 @@ import { NavController } from '@ionic/angular';
             <div>
               <ion-label name="module_title">{{ this.module.title | translate }}</ion-label>
             </div>
+            <!-- estado del modulo -->
             <div class="ux-font-text-xxs" *ngIf="!this.module.comingSoon">
               <ion-label name="module_title"> Por hacer </ion-label>
             </div>
+            <!-- hasta aca -->
             <div class="ux-font-text-xxs" *ngIf="this.module.comingSoon">
               <ion-label name="module_coming_soon">{{ 'financial_education.home.coming_soon' | translate }}</ion-label>
             </div>
@@ -36,6 +38,11 @@ import { NavController } from '@ionic/angular';
                 }}</ion-label>
                 <ion-icon name="ux-forward"></ion-icon>
               </div>
+              <!-- estado del modulo -->
+              <div class="ux-font-text-xxs" *ngIf="!this.module.comingSoon">
+                <ion-label name="module_title"> Por hacer </ion-label>
+              </div>
+              <!-- hasta aca -->
               <div class="item-content__divider">
                 <div class="list-divider light" *ngIf="!subModule.last"></div>
               </div>
