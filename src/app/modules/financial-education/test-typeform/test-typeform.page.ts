@@ -56,7 +56,7 @@ export class TestTypeformPage implements OnInit {
   }
 
   areCategoriesCompleted() {
-    for (let categorie of this.data) {
+    for (let categorie of this.data[0]) {
       for (let module of categorie) {
         if (!module.coming_soon && module.status === 'completed') {
           this.categoriesCompleted = true;
