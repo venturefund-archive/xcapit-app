@@ -132,12 +132,11 @@ export class TestTypeformPage implements OnInit {
 
   redirect() {
 
-    module/:module/submodule/:submodule
     let url = '';
     if (!this.categoriesCompleted) {
       url =
         this.submoduleResult.status === 'completed'
-          ? `financial-education/success-submodules/module/${}/submodule/${}`
+          ? `financial-education/success-submodules/module/${this.module.id}/submodule/${this.subModule.id}`
           : 'financial-education/error-test/';
     } else {
       url = 'financial-education/final-success-test';
