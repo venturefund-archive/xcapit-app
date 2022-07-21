@@ -105,6 +105,7 @@ export class TestTypeformPage implements OnInit {
   };
 
   redirect() {
+    
     const url = this.submoduleResult.status === 'completed' ? 'financial-education/success-submodules' : 'financial-education/error-test';
   }
 
