@@ -32,8 +32,8 @@ export class TestTypeformPage implements OnInit {
   data: any;
   code: string;
   headerText: string;
-  submoduleResult : any;
-  categoriesCompleted : boolean;
+  submoduleResult: any;
+  categoriesCompleted: boolean;
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
@@ -53,13 +53,12 @@ export class TestTypeformPage implements OnInit {
     this.getSubModule();
     this.createTypeform();
     this.updateTexts();
-
   }
 
   areCategoriesCompleted() {
-    for(let categorie of this.data ){
-      for(let module of categorie){
-        if(!module.coming_soon && module.status === 'completed'){
+    for (let categorie of this.data) {
+      for (let module of categorie) {
+        if (!module.coming_soon && module.status === 'completed') {
           this.categoriesCompleted = true;
         }
       }
@@ -76,7 +75,6 @@ export class TestTypeformPage implements OnInit {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
       this.data = DATA;
     });
-
   }
 
   createTypeform() {
@@ -114,12 +112,24 @@ export class TestTypeformPage implements OnInit {
     }
   }
 
-  getSubmoduleResult(){
-    this.financialEducationService.getSubmoduleResultOf(this.subModule.id, this.wallet_address).subscribe((res)=> {this.submoduleResult = SUBMODULE})
-  };
+  getSubmoduleResult() {
+    this.financialEducationService.getSubmoduleResultOf(this.subModule.id, this.wallet_address).subscribe((res) => {
+      this.submoduleResult = SUBMODULE;
+    });
+  }
 
   redirect() {
-    const url = this.submoduleResult.status === 'completed' ? 'financial-education/success-submodules' : 'financial-education/error-test';
+    let url = '';
+    if (!this.categoriesCompleted) {
+      url =
+        this.submoduleResult.status === 'completed'
+          ? 'financial-education/success-submodules'
+          : 'financial-education/error-test';
+    } else {
+      url = 'financial-education/final-success-test';
+    }
+
+    this.navController.navigateForward(url);
   }
 
   private updateTexts() {
