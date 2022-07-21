@@ -86,6 +86,7 @@ export class SubModuleInformationPage implements OnInit {
 
   private async getUserWalletAddress() {
     this.walletExists = await this.storageService.getWalletFromStorage();
+    this.getEducationDataOf()
   }
 
   goToLearningMore() {
