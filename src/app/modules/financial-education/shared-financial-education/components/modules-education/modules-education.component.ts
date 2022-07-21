@@ -37,8 +37,8 @@ import { FinancialEducationService } from '../../services/financial-education/fi
           >
             <div class="item-content">
               <div class="item-content__body">
+                <ion-icon name="ux-forward"></ion-icon>
                 <div>
-                  <ion-icon name="ux-forward"></ion-icon>
                   <ion-label name="sub_module_title ux-font-text-xxs" color="primary">{{
                     submodule.title | translate
                   }}</ion-label>
