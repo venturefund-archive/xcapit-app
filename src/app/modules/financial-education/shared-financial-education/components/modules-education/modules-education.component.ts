@@ -30,7 +30,7 @@ import { FinancialEducationService } from '../../services/financial-education/fi
             class="ux-font-text-xxs"
             name="item_sub_module"
             appTrackClick
-            [dataToTrack]="{ eventLabel: subModule.dataToTrack }"
+            [dataToTrack]="{ eventLabel: subModule.data_to_track }"
             *ngFor="let subModule of this.module.submodules"
             (click)="this.goToPage(subModule)"
           >
