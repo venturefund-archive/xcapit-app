@@ -33,12 +33,14 @@ import { NavController } from '@ionic/angular';
           >
             <div class="item-content">
               <div class="item-content__body">
-                <ion-label name="sub_module_title ux-font-text-xxs" color="primary">{{
-                  subModule.title | translate
-                }}</ion-label>
-                <!-- estado del modulo -->
-                <div class="ux-font-text-xxs">
-                  <ion-label name="module_state"> Por hacer </ion-label>
+                <div>
+                  <ion-label name="sub_module_title ux-font-text-xxs" color="primary">{{
+                    subModule.title | translate
+                  }}</ion-label>
+                  <!-- estado del modulo -->
+                  <div class="ux-font-text-xxs">
+                    <ion-label name="module_state"> Por hacer </ion-label>
+                  </div>
                 </div>
                 <ion-icon name="ux-forward"></ion-icon>
               </div>
