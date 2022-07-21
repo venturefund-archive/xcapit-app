@@ -2392,6 +2392,18 @@
       "textPrimary": "Your order is on the way!",
       "textSecondary": "The transaction is being processed on the blockchain. We will notify you when the status is updated.",
       "buttonText": "Go to Wallet"
+    },
+    "terms_and_conditions":{
+      "title":"What do you need to know before making a swap?",
+      "condition_1":"The exchange is done through the external provider 1inch.",
+      "condition_2":"The conditions of token exchange depend on the provider.",
+      "condition_3":"Exchanges have associated transaction costs.",
+      "terms":{
+        "i_have_read":"I have read and agree to the",
+        "link_to_terms": "terms and conditions",
+        "of":"of 1inch"
+      },
+      "button":"Start"
     }
   }
 }

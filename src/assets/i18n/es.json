@@ -2541,6 +2541,18 @@
       "textPrimary": "¡Tu orden está en camino!",
       "textSecondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
       "buttonText": "Ir a Wallet"
+    },
+    "terms_and_conditions":{
+      "title":"¿Qué necesitas saber antes de realizar un intercambio?",
+      "condition_1":"El intercambio se realiza a través del proovedor externo “1inch”.",
+      "condition_2":"Las condiciones de intercambio de tokens dependen del proovedor.",
+      "condition_3":"Los intercambios poseen costos de transacción asociados.",
+      "terms":{
+        "i_have_read":"Leí y estoy de acuerdo con los",
+        "link_to_terms": "términos y condiciones",
+        "of":"de 1inch"
+      },
+      "button":"Comenzar"
     }
   }
 }
