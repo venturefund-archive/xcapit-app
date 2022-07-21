@@ -13,6 +13,11 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 })
 export class ErrorTestPage implements OnInit {
   data = SUCCESS_TYPES.error_test_financial_education;
+  category: string;
+  moduleId;
+  submoduleId;
+  code;
+
   constructor(
     private trackService: TrackService,
     private navController: NavController,
@@ -26,34 +31,18 @@ export class ErrorTestPage implements OnInit {
   }
 
   getParams() {
-    const category = this.route.snapshot.paramMap.get('category');
-    const moduleId = parseInt(this.route.snapshot.paramMap.get('module'));
-    const submoduleId = parseInt(this.route.snapshot.paramMap.get('submodule'));
-    const code = this.route.snapshot.paramMap.get('code');
+    this.category = this.route.snapshot.paramMap.get('category');
+    this.moduleId = parseInt(this.route.snapshot.paramMap.get('module'));
+    this.submoduleId = parseInt(this.route.snapshot.paramMap.get('submodule'));
+    this.code = this.route.snapshot.paramMap.get('code');
   }
 
   goToStartTest() {
-    this.navController.navigateForward([
-      'financial-education/typeform/tab',
-      this.selectedTab,
-      'module',
-      this.module.id,
-      'submodule',
-      this.subModule.id,
-      'code',
-      this.subModule.test_code,
-    ]);
+    this.data.urlPrimaryAction = `financial-education/typeform/tab/${this.category}/module/${this.moduleId}/submodule/${this.submoduleId}/code/${this.code}`;
   }
 
   goToLearnMore() {
-    this.navController.navigateForward([
-      '/tabs/financial-education/information/tab/',
-      this.selectedTab,
-      'module',
-      this.module.id,
-      'submodule',
-      this.subModule.id,
-    ]);
+    this.data.urlThirdAction = `financial-education/typeform/tab/${this.category}/module/${this.moduleId}/submodule/${this.submoduleId}`;
   }
 
   trackScreenView() {
