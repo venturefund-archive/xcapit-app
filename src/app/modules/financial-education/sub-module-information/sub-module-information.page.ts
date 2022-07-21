@@ -59,6 +59,12 @@ export class SubModuleInformationPage implements OnInit {
     await this.getUserWalletAddress();
   }
 
+  getEducationDataOf(anAddress: string) {
+    this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
+      this.data = DATA;
+    });
+  }
+
   getParams() {
     this.selectedTab = this.route.snapshot.paramMap.get('tab');
     this.module = parseInt(this.route.snapshot.paramMap.get('module'));
