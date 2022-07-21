@@ -33,7 +33,7 @@ export class TestTypeformPage implements OnInit {
   code: string;
   headerText: string;
   submoduleResult: any;
-  categoriesCompleted: boolean;
+  categoriesCompleted = false;
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
@@ -56,13 +56,20 @@ export class TestTypeformPage implements OnInit {
   }
 
   areCategoriesCompleted() {
-    for (let categorie of this.data) {
-      for (let module of categorie) {
-        if (!module.coming_soon && module.status === 'completed') {
-          this.categoriesCompleted = true;
-        }
+    let financeCompleted = false;
+    let cryptoCompleted = false;
+    for (let module of this.data.finance) {
+      if (!module.coming_soon && module.status === 'completed') {
+        financeCompleted = true;
       }
     }
+    for (let module of this.data.crypto) {
+      if (!module.coming_soon && module.status === 'completed') {
+        cryptoCompleted = true;
+      }
+    }
+
+    this.categoriesCompleted = financeCompleted && cryptoCompleted;
   }
 
   private async getUserWalletAddress() {
@@ -117,7 +124,6 @@ export class TestTypeformPage implements OnInit {
     this.financialEducationService.getSubmoduleResultOf(this.subModule.id, this.wallet_address).subscribe((res) => {
       this.submoduleResult = SUBMODULE;
     });
-
   }
 
   redirect() {
