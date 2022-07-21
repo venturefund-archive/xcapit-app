@@ -37,12 +37,12 @@ import { NavController } from '@ionic/angular';
                   subModule.title | translate
                 }}</ion-label>
                 <ion-icon name="ux-forward"></ion-icon>
+                <!-- estado del modulo -->
+                <div class="ux-font-text-xxs">
+                  <ion-label name="module_title"> Por hacer </ion-label>
+                </div>
+                <!-- hasta aca -->
               </div>
-              <!-- estado del modulo -->
-              <div class="ux-font-text-xxs">
-                <ion-label name="module_title"> Por hacer </ion-label>
-              </div>
-              <!-- hasta aca -->
               <div class="item-content__divider">
                 <div class="list-divider light" *ngIf="!subModule.last"></div>
               </div>
