@@ -53,7 +53,7 @@ export class SubModuleInformationPage implements OnInit {
 
   async ngOnInit() {
     this.getParams();
-    this.getData();
+    this.setDataByTab();
     this.getModule();
     this.getSubModule();
     await this.getUserWalletAddress();
@@ -72,10 +72,11 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   setDataByTab() {
-    this.data = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
+    const tab = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
+    this.getModule(tab);
   }
 
-  getModule() {
+  getModule(ofTab) {
     this.module = this.data.find((module) => module.id === this.module);
   }
 
