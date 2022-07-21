@@ -43,6 +43,7 @@ export class SubModuleInformationPage implements OnInit {
   subModule: any;
   data: any = DATA;
   wallet : any;
+  wallet_address : string;
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
@@ -91,7 +92,7 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   goToLearningMore() {
-    if (this.walletExists == null) {
+    if (!this.wallet) {
       this.navController.navigateForward(['financial-education/error-no-wallet']);
     } else {
       this.navController.navigateForward([
