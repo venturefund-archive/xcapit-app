@@ -33,7 +33,7 @@ export class TestTypeformPage implements OnInit {
   code: string;
   headerText: string;
   submoduleResult : any;
-  categoryCompleted : boolean;
+  categoriesCompleted : boolean;
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
@@ -59,7 +59,9 @@ export class TestTypeformPage implements OnInit {
   areCategoriesCompleted() {
     for(let categorie of this.data ){
       for(let module of categorie){
-        if(module.)
+        if(!module.coming_soon && module.status === 'completed'){
+          this.categoriesCompleted = true;
+        }
       }
     }
   }
