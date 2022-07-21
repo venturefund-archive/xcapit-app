@@ -69,12 +69,12 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   getModule() {
-    this.module = this.data.find((module) => module.name === this.module);
+    this.module = this.data.find((module) => module.id === this.module);
   }
 
   getSubModule() {
     for (const subModule of this.module.submodules) {
-      if (subModule.name === this.subModule) this.subModule = subModule;
+      if (subModule.id === this.subModule) this.subModule = subModule;
     }
   }
 
