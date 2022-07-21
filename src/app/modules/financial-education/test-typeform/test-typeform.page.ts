@@ -131,12 +131,14 @@ export class TestTypeformPage implements OnInit {
   }
 
   redirect() {
+
+    module/:module/submodule/:submodule
     let url = '';
     if (!this.categoriesCompleted) {
       url =
         this.submoduleResult.status === 'completed'
-          ? 'financial-education/success-submodules'
-          : 'financial-education/error-test';
+          ? `financial-education/success-submodules/module/${}/submodule/${}`
+          : 'financial-education/error-test/';
     } else {
       url = 'financial-education/final-success-test';
     }
