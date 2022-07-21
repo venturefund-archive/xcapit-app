@@ -71,7 +71,7 @@ export class SubModuleInformationPage implements OnInit {
     this.subModule = parseInt(this.route.snapshot.paramMap.get('submodule'));
   }
 
-  getData() {
+  setDataByTab() {
     this.data = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
   }
 
