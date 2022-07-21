@@ -90,6 +90,7 @@ export class HomeFinancialEducationPage {
       this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
     });
     this.getUserWalletAddress();
+
   }
 
   private async getUserWalletAddress() {
@@ -100,8 +101,7 @@ export class HomeFinancialEducationPage {
 
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
-      this.data = res;
-      console.log(this.data);
+      this.data = DATA;
     });
   }
 }
