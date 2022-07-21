@@ -70,7 +70,7 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   getModule() {
-    this.module = this.data.find((module) => module.id === '1');
+    this.module = this.data.find((module) => module.id === 1);
   }
 
   getSubModule() {
