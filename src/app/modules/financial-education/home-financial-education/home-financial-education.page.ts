@@ -76,7 +76,7 @@ export class HomeFinancialEducationPage {
     tab: ['finance', [Validators.required]],
   });
   wallet_address: string;
-  data: any ;
+  data: any;
   modules: any = DATA.finance;
 
   constructor(
@@ -90,7 +90,6 @@ export class HomeFinancialEducationPage {
       this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
     });
     this.getUserWalletAddress();
-
   }
 
   private async getUserWalletAddress() {
