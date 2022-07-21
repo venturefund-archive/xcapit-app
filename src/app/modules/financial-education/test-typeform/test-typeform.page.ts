@@ -28,7 +28,7 @@ export class TestTypeformPage implements OnInit {
   module: any;
   wallet_address: string;
   subModule: any;
-  data: any;
+  data = DATA;
   code: string;
   headerText: string;
 
