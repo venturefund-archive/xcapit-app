@@ -72,6 +72,7 @@ export class SubModuleInformationPage implements OnInit {
     this.module = this.data.find((module) => {
       module.id === this.module;
     });
+    console.log(this.module)
   }
 
   getSubModule() {
