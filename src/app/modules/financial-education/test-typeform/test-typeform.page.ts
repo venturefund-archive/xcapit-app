@@ -44,12 +44,12 @@ export class TestTypeformPage implements OnInit {
 
   async ionViewWillEnter() {
     await this.getUserWalletAddress();
-    this.getParams();
+    // this.getParams();
     this.getData();
-    this.getModule();
-    this.getSubModule();
-    this.createTypeform();
-    this.updateTexts();
+    // this.getModule();
+    // this.getSubModule();
+    // this.createTypeform();
+    // this.updateTexts();
   }
 
   private async getUserWalletAddress() {
@@ -83,14 +83,11 @@ export class TestTypeformPage implements OnInit {
   }
 
   getData() {
-    this.data = DATA;
+    this.data = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
   }
 
   getModule() {
-    const tab = this.data.find((tab)=> tab === this.selectedTab);
-    console.log(tab)
-    // this.module = this.data.find((module) => module.id === this.module);
-   
+     this.module = this.data.find((module) => module.id === this.module);
   }
 
   getSubModule() {
