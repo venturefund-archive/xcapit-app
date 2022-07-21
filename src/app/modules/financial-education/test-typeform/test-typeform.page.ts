@@ -117,8 +117,6 @@ export class TestTypeformPage implements OnInit {
     this.financialEducationService.getSubmoduleResultOf(this.subModule.id, this.wallet_address).subscribe((res) => {
       this.submoduleResult = SUBMODULE;
     });
-
-
   }
 
   redirect() {
