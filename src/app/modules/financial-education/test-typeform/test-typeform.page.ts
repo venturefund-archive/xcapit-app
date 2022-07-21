@@ -83,7 +83,7 @@ export class TestTypeformPage implements OnInit {
   }
 
   getData() {
-    const tab = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
+    this.data = this.selectedTab === 'finance' ? DATA.finance : DATA.crypto;
   }
 
   getModule() {
