@@ -5,7 +5,7 @@ import { ErrorTestPage } from './error-test.page';
 
 const routes: Routes = [
   {
-    path: 'tab/:tab/module/:module/submodule/:submodule/code/:code',
+    path: 'category/:category/module/:module/submodule/:submodule/code/:code',
     component: ErrorTestPage,
   },
 ];
