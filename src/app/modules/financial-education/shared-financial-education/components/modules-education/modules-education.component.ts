@@ -31,19 +31,19 @@ import { FinancialEducationService } from '../../services/financial-education/fi
             class="ux-font-text-xxs"
             name="item_sub_module"
             appTrackClick
-            [dataToTrack]="{ eventLabel: subModule.data_to_track }"
-            *ngFor="let subModule of this.module.submodules; let i = index"
-            (click)="this.goToPage(subModule)"
+            [dataToTrack]="{ eventLabel: submodule.data_to_track }"
+            *ngFor="let submodule of this.module.submodules; let i = index"
+            (click)="this.goToPage(submodule)"
           >
             <div class="item-content">
               <div class="item-content__body">
                 <div>
                   <ion-label name="sub_module_title ux-font-text-xxs" color="primary">{{
-                    subModule.title | translate
+                    submodule.title | translate
                   }}</ion-label>
                   <!-- estado del modulo -->
                   <div class="ux-font-text-xxs">
-                    <ion-label name="module_state"> Por hacer </ion-label>
+                    <ion-label name="module_state">{{ 'financial_education.home.statuses.' + this.submodule.status | translate }}</ion-label>
                   </div>
                 </div>
                 <ion-icon name="ux-forward"></ion-icon>
