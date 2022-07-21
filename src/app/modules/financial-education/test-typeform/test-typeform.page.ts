@@ -32,7 +32,7 @@ export class TestTypeformPage implements OnInit {
   data: any;
   code: string;
   headerText: string;
-  submoduleResult = {};
+  submoduleResult : any;
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
@@ -105,7 +105,7 @@ export class TestTypeformPage implements OnInit {
   };
 
   redirect() {
-    const url = this.submoduleResult.status === 'completed' ? 
+    const url = this.submoduleResult.status === 'completed' ? 'financial-education/success-submodules' : 'financial-education/error-test';
   }
 
   private updateTexts() {
