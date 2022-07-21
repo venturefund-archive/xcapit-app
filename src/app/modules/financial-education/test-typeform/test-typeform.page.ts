@@ -44,7 +44,7 @@ export class TestTypeformPage implements OnInit {
 
   async ionViewWillEnter() {
     await this.getUserWalletAddress();
-    // this.getParams();
+    this.getParams();
     this.getData();
     // this.getModule();
     // this.getSubModule();
