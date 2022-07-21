@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DATA } from '../shared-financial-education/constants/data';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
 import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
 
@@ -72,15 +73,15 @@ export class HomeFinancialEducationPage {
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['finance', [Validators.required]],
   });
-  wallet_address : string;
-  modules: any = MODULES_FINANCE;
+  wallet_address: string;
+  data: any = DATA;
+  modules: any;
 
   constructor(private formBuilder: FormBuilder, private modulesService: ModulesService) {}
 
-   ionViewWillEnter() {
+  ionViewWillEnter() {
     this.segmentsForm.valueChanges.subscribe(() => {
-      this.modules = this.modulesService.getModuleByTab(this.segmentsForm.value.tab);
+      this.modules = this.segmentsForm.value.tab === 'FINANCE' ? this.data.finance : this.data.crypto;
     });
   }
-
 }

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { DATA } from '../../constants/data';
 import { FinancialEducationService } from '../../services/financial-education/financial-education.service';
 
 @Component({
@@ -64,7 +65,7 @@ export class ModulesEducationComponent implements OnInit {
   @Input() selectedTab: string;
   open = true;
   wallet_address: string;
-  data: any;
+  data = DATA;
   constructor(
     private navController: NavController,
     private financialEducationService: FinancialEducationService,
