@@ -32,7 +32,7 @@ export const DATA = {
           data_to_track: 'budgets',
           screen_view_label: 'ux_education_screenview_intro_fin_complete',
           module: 1,
-          status: 'to_do',
+          status: 'completed',
         },
       ],
       status: 'to_do',
