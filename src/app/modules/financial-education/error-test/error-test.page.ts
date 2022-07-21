@@ -18,11 +18,7 @@ export class ErrorTestPage implements OnInit {
   submoduleId;
   code;
 
-  constructor(
-    private trackService: TrackService,
-    private navController: NavController,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private trackService: TrackService, private route: ActivatedRoute) {}
 
   ngOnInit() {}
 
