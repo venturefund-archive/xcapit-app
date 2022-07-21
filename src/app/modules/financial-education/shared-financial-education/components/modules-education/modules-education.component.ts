@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { DATA } from '../../constants/data';
 import { FinancialEducationService } from '../../services/financial-education/financial-education.service';
 
 @Component({
@@ -17,7 +16,9 @@ import { FinancialEducationService } from '../../services/financial-education/fi
             </div>
             <!-- estado del modulo -->
             <div class="ux-font-text-xxs" *ngIf="!this.module.coming_soon">
-              <ion-label name="module_title"> Por hacer </ion-label>
+              <ion-label *ngIf="this.module.status === 'To Do'" name="module_title"> Por hacer </ion-label>
+              <ion-label *ngIf="this.module.status === 'In Progress'" name="module_title"> En progreso </ion-label>
+              <ion-label *ngIf="this.module.status === 'Completed'" name="module_title"> Completed </ion-label>
             </div>
             <!-- hasta aca -->
             <div class="ux-font-text-xxs" *ngIf="this.module.coming_soon">
