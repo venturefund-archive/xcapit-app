@@ -64,7 +64,7 @@ import { NavController } from '@ionic/angular';
 })
 export class ModulesEducationComponent implements OnInit {
   @Input() module: any;
-  @Input() selectedTab: string;
+  @Input() selectedCategory: string;
   open = true;
   wallet_address: string;
 
@@ -75,7 +75,7 @@ export class ModulesEducationComponent implements OnInit {
   goToPage(subModule) {
     this.navController.navigateForward([
       'tabs/financial-education/information/tab',
-      this.selectedTab,
+      this.selectedCategory,
       'module',
       this.module.id,
       'submodule',

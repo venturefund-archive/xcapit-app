@@ -25,7 +25,7 @@ import { FinancialEducationService } from '../shared-financial-education/service
   styleUrls: ['./test-typeform.page.scss'],
 })
 export class TestTypeformPage implements OnInit {
-  selectedTab: string;
+  selectedCategory: string;
   module: any;
   wallet_address: string;
   subModule: any;
@@ -103,14 +103,14 @@ export class TestTypeformPage implements OnInit {
   }
 
   getParams() {
-    this.selectedTab = this.route.snapshot.paramMap.get('tab');
+    this.selectedCategory = this.route.snapshot.paramMap.get('tab');
     this.module = parseInt(this.route.snapshot.paramMap.get('module'));
     this.subModule = parseInt(this.route.snapshot.paramMap.get('submodule'));
     this.code = this.route.snapshot.paramMap.get('code');
   }
 
   getData() {
-    this.data = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
+    this.data = this.selectedCategory === 'finance' ? this.data.finance : this.data.crypto;
   }
 
   getModule() {
@@ -135,8 +135,8 @@ export class TestTypeformPage implements OnInit {
     if (!this.categoriesCompleted) {
       url =
         this.submoduleResult.status === 'completed'
-          ? `financial-education/success-submodules/category/${this.selectedTab}/module/${this.module.id}/submodule/${this.subModule.id}`
-          : `financial-education/error-test/category/${this.selectedTab}/module/${this.module.id}/submodule/${this.subModule.id}/code/${this.code}`;
+          ? `financial-education/success-submodules/category/${this.selectedCategory}/module/${this.module.id}/submodule/${this.subModule.id}`
+          : `financial-education/error-test/category/${this.selectedCategory}/module/${this.module.id}/submodule/${this.subModule.id}/code/${this.code}`;
     } else {
       url = 'financial-education/final-success-test';
     }
@@ -157,7 +157,7 @@ export class TestTypeformPage implements OnInit {
   goBack() {
     this.navController.navigateForward([
       '/tabs/financial-education/information/tab/',
-      this.selectedTab,
+      this.selectedCategory,
       'module',
       this.module.id,
       'submodule',

@@ -38,7 +38,7 @@ import { FinancialEducationService } from '../shared-financial-education/service
   styleUrls: ['./sub-module-information.page.scss'],
 })
 export class SubModuleInformationPage implements OnInit {
-  selectedTab: string;
+  selectedCategory: string;
   module: any;
   subModule: any;
   data: any = DATA;
@@ -64,13 +64,13 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   getParams() {
-    this.selectedTab = this.route.snapshot.paramMap.get('tab');
+    this.selectedCategory = this.route.snapshot.paramMap.get('tab');
     this.module = parseInt(this.route.snapshot.paramMap.get('module'));
     this.subModule = parseInt(this.route.snapshot.paramMap.get('submodule'));
   }
 
   setDataByTab() {
-    const category = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
+    const category = this.selectedCategory === 'finance' ? this.data.finance : this.data.crypto;
     this.getModule(category);
   }
 
@@ -97,7 +97,7 @@ export class SubModuleInformationPage implements OnInit {
     } else {
       this.navController.navigateForward([
         'financial-education/typeform/tab',
-        this.selectedTab,
+        this.selectedCategory,
         'module',
         this.module.id,
         'submodule',
@@ -114,7 +114,7 @@ export class SubModuleInformationPage implements OnInit {
     } else {
       this.navController.navigateForward([
         'financial-education/typeform/tab',
-        this.selectedTab,
+        this.selectedCategory,
         'module',
         this.module.id,
         'submodule',
