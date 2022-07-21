@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { FinancialEducationService } from '../../services/financial-education/financial-education.service';
 
 @Component({
   selector: 'app-modules-education',
@@ -62,7 +64,11 @@ export class ModulesEducationComponent implements OnInit {
   @Input() selectedTab: string;
   open = true;
 
-  constructor(private navController: NavController) {}
+  constructor(
+    private navController: NavController,
+    private financialEducationService: FinancialEducationService,
+    private storageService: StorageService
+  ) {}
 
   ngOnInit() {}
 
