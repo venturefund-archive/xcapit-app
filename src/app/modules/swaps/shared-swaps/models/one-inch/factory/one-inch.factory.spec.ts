@@ -10,7 +10,7 @@ describe('One Inch Factory', () => {
   let dexFactory: OneInchFactory;
 
   beforeEach(() => {
-    dexFactory = new OneInchFactory();
+    dexFactory = new OneInchFactory(null);
   });
 
   it('new', () => {

@@ -144,7 +144,7 @@ describe('SwapHomePage', () => {
         send: Promise.resolve(),
         registerActionTypes: Promise.resolve(),
         addListener: (callback)=> {
-          callback() 
+          callback()
         }
 
       });
@@ -276,7 +276,7 @@ describe('SwapHomePage', () => {
   it('password modal open on click swap button', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    
+
     await component.swapThem();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -311,10 +311,10 @@ describe('SwapHomePage', () => {
     component.form.patchValue(formValue);
     fixture.detectChanges();
     tick(600);
-  
+
     component.swapThem();
     tick(2);
- 
+
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([ testLocalNotificationOk]);
   }));
 
