@@ -28,7 +28,7 @@ export class TestTypeformPage implements OnInit {
   module: any;
   wallet_address: string;
   subModule: any;
-  data : any;
+  data: any;
   code: string;
   headerText: string;
 
@@ -36,7 +36,7 @@ export class TestTypeformPage implements OnInit {
     private route: ActivatedRoute,
     private navController: NavController,
     private translate: TranslateService,
-    private storageService: StorageService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {}
@@ -103,13 +103,10 @@ export class TestTypeformPage implements OnInit {
   }
 
   private updateTexts() {
-    const submodule_id = 
     const moduleName = this.translate.instant(`financial_education.typeform_header.finance_sub_${this.subModule.id}`);
-
-    this.headerText = this.subModule.learning_code ? moduleName : this.translate.instant('financial_education.typeform_header.text') + '' + moduleName;
-
-
-
+    this.headerText = this.subModule.learning_code
+      ? moduleName
+      : this.translate.instant('financial_education.typeform_header.text') + '' + moduleName;
     // if (this.code === this.subModule.learning_code) {
     //   this.headerText = moduleName;
     // } else {
