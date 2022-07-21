@@ -1,4 +1,4 @@
-export const MODULES_FINANCE = {
+export const DATA = {
   finance: [
     {
       id: 1,
