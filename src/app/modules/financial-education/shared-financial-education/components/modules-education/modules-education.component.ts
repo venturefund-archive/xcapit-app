@@ -39,7 +39,7 @@ import { NavController } from '@ionic/angular';
                 <ion-icon name="ux-forward"></ion-icon>
               </div>
               <!-- estado del modulo -->
-              <div class="ux-font-text-xxs" *ngIf="!this.module.comingSoon">
+              <div class="ux-font-text-xxs">
                 <ion-label name="module_title"> Por hacer </ion-label>
               </div>
               <!-- hasta aca -->
