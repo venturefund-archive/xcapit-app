@@ -16,13 +16,11 @@ import { FinancialEducationService } from '../../services/financial-education/fi
             </div>
             <div class="ux-font-text-xxs" *ngIf="!this.module.coming_soon">
               <ion-label name="module_title">
-                {{ 'financial_education.home.statuses.' + this.module.status | translate }}</ion-label
+                ({{ 'financial_education.home.statuses.' + this.module.status | translate }})</ion-label
               >
             </div>
             <div class="ux-font-text-xxs" *ngIf="this.module.coming_soon">
-              <ion-label name="module_coming_soon"
-                >({{ 'financial_education.home.coming_soon' | translate }})</ion-label
-              >
+              <ion-label name="module_coming_soon">{{ 'financial_education.home.coming_soon' | translate }}</ion-label>
             </div>
           </div>
         </ion-item>
