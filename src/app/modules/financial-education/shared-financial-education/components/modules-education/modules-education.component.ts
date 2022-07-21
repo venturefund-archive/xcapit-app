@@ -20,7 +20,9 @@ import { FinancialEducationService } from '../../services/financial-education/fi
               >
             </div>
             <div class="ux-font-text-xxs" *ngIf="this.module.coming_soon">
-              <ion-label name="module_coming_soon">{{ 'financial_education.home.coming_soon' | translate }}</ion-label>
+              <ion-label name="module_coming_soon"
+                >({{ 'financial_education.home.coming_soon' | translate }})</ion-label
+              >
             </div>
           </div>
         </ion-item>
@@ -44,9 +46,9 @@ import { FinancialEducationService } from '../../services/financial-education/fi
                     submodule.title | translate
                   }}</ion-label>
                   <div class="ux-font-text-xxs">
-                    <ion-label name="module_state">{{
-                      'financial_education.home.statuses.' + this.submodule.status | translate
-                    }}</ion-label>
+                    <ion-label name="module_state"
+                      >({{ 'financial_education.home.statuses.' + this.submodule.status | translate }})</ion-label
+                    >
                   </div>
                 </div>
                 <ion-icon class="item-content__body__arrow" name="ux-forward"></ion-icon>
