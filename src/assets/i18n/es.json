@@ -1990,12 +1990,12 @@
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
       "directa24": {
-        "platform_description": "Compra USDC a través de la plataforma",
-        "nearest_store_description": "Compra USDC en tu tienda más cercana",
-        "nearest_branch_office_description": "Compra USDC en tu sucursal más cercana.",
-        "in_app_description": "Compra USDC a través de la app",
-        "debit_credit_description": "Compra USDC con débito o crédito",
-        "transfer_description": "Compra USDC a través de transferencia"
+        "platform_description": "Compra a través de la plataforma",
+        "nearest_store_description": "Compra en tu tienda más cercana",
+        "nearest_branch_office_description": "Compra en tu sucursal más cercana.",
+        "in_app_description": "Compra a través de la app",
+        "debit_credit_description": "Compra con débito o crédito",
+        "transfer_description": "Compra a través de transferencia"
       },
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
       "button": "Continuar",
@@ -2205,7 +2205,8 @@
       "united_states": "Estados Unidos (EEUU)",
       "venezuela": "Venezuela",
       "ecuador": "Ecuador",
-      "chile": "Chile"
+      "chile": "Chile",
+      "brasil": "Brasil"
     },
     "shared": {
       "constants": {

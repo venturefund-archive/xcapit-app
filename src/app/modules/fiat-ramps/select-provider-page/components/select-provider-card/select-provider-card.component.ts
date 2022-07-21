@@ -4,6 +4,7 @@ import { COUNTRIES } from '../../../shared-ramps/constants/countries';
 import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory/providers.factory';
 import { FiatRampProvider } from '../../../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { FiatRampProviderCountry } from '../../../shared-ramps/interfaces/fiat-ramp-provider-country';
+import { convertToObject } from 'typescript';
 
 @Component({
   selector: 'app-select-provider-card',
@@ -81,7 +82,7 @@ export class SelectProviderCardComponent implements OnInit {
     this.providers()
       .all()
       .forEach((provider) => providerCountries.push(...provider.countries));
-    return this.countries.filter((country) => providerCountries.includes(country.name));
+    return this.countries.filter((country) => providerCountries.includes(country.name));    
   }
 
   selectedProvider(provider) {
