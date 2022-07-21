@@ -69,6 +69,16 @@ export class SelectProviderPage {
   ) {}
 
   ionViewWillEnter() {
+    this.trackScreenViewEvent();
+    this.getProviders();
+    if (this.kriptonEnabled()) this.getOperations();
+  }
+
+  kriptonEnabled() {
+    return this.providers.find((provider) => provider.alias === 'kripton');
+  }
+
+  trackScreenViewEvent() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
