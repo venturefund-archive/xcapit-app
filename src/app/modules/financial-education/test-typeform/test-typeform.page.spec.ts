@@ -74,7 +74,7 @@ describe('TestTypeformPage', () => {
     await component.ionViewWillEnter();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    component.redirectToPage();
+    // component.redirectToPage();
     expect(component.headerText).toEqual('financial_education.typeform_header.finance_sub_1');
   });
 
@@ -88,7 +88,7 @@ describe('TestTypeformPage', () => {
     await component.ionViewWillEnter();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    component.redirectToPage();
+    // component.redirectToPage();
     fixture.detectChanges();
     expect(component.headerText).toEqual(
       'financial_education.typeform_header.text financial_education.typeform_header.finance_sub_1'
@@ -100,7 +100,7 @@ describe('TestTypeformPage', () => {
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-    component.redirectToPage();
+    // component.redirectToPage();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       'tabs/financial-education/information/tab',
       'finance',
