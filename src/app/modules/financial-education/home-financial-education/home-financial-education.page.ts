@@ -52,7 +52,7 @@ import { ModulesService } from '../shared-financial-education/services/modules/m
           class="hfe__content_card__modules"
           *ngFor="let module of this.modules"
           [module]="module"
-          [selectedTab]="this.segmentsForm.value.tab"
+          [selectedCategory]="this.segmentsForm.value.tab"
         ></app-modules-education>
       </div>
       <div class="ion-padding"></div>
