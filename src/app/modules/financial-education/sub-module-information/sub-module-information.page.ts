@@ -70,13 +70,13 @@ export class SubModuleInformationPage implements OnInit {
 
   getModule() {
     this.module = this.data.find((module) => {
-      console.log(this.module)
       module.id === this.module;
     });
   }
 
   getSubModule() {
     for (const subModule of this.module.submodules) {
+      console.log(subModule)
       if (subModule.id === this.subModule) this.subModule = subModule;
     }
   }
