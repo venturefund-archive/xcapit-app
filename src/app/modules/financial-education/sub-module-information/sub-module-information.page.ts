@@ -66,7 +66,6 @@ export class SubModuleInformationPage implements OnInit {
 
   getData() {
     this.data = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
-    console.log(this.data)
   }
 
   getModule() {
