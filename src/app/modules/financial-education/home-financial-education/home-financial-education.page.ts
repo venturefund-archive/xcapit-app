@@ -76,7 +76,7 @@ export class HomeFinancialEducationPage {
     tab: ['finance', [Validators.required]],
   });
   wallet_address: string;
-  data: any = DATA;
+  data: any ;
   modules: any = DATA.finance;
 
   constructor(
