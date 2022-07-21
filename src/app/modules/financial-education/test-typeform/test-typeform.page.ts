@@ -104,13 +104,17 @@ export class TestTypeformPage implements OnInit {
 
   private updateTexts() {
     const submodule_id = 
-    financial_education.typeform_header
     const moduleName = this.translate.instant(`financial_education.typeform_header.finance_sub_${this.subModule.id}`);
-    if (this.code === this.subModule.learning_code) {
-      this.headerText = moduleName;
-    } else {
-      const generalText = this.translate.instant('financial_education.typeform_header.text');
-      this.headerText = generalText + ' ' + moduleName;
-    }
+
+    this.headerText = this.subModule.learning_code ? moduleName : this.translate.instant('financial_education.typeform_header.text') + '' + moduleName;
+
+
+
+    // if (this.code === this.subModule.learning_code) {
+    //   this.headerText = moduleName;
+    // } else {
+    //   const generalText = this.translate.instant('financial_education.typeform_header.text');
+    //   this.headerText = generalText + ' ' + moduleName;
+    // }
   }
 }
