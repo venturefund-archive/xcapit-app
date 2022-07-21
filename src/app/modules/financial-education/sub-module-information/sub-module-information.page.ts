@@ -61,7 +61,6 @@ export class SubModuleInformationPage implements OnInit {
   getParams() {
     this.selectedTab = this.route.snapshot.paramMap.get('tab');
     this.module = this.route.snapshot.paramMap.get('module');
-    console.log(this.module);
     this.subModule = this.route.snapshot.paramMap.get('submodule');
   }
 
