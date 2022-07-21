@@ -45,13 +45,13 @@ export class SuccessSubmodulesPage implements OnInit {
   }
 
   setTitle() {
-    const moduleId = parseInt(this.route.snapshot.paramMap.get('module'));
-    const submoduleId = parseInt(this.route.snapshot.paramMap.get('submodule'));
-    const module = this.modules.find((item) => item.id === moduleId);
-    this.subModule = module.sub_modules && module.sub_modules.find((item) => item.id === submoduleId);
-    this.data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
-      submodule: this.translate.instant(this.subModule.title),
-    });
+    // const moduleId = parseInt(this.route.snapshot.paramMap.get('module'));
+    // const submoduleId = parseInt(this.route.snapshot.paramMap.get('submodule'));
+    // const module = this.modules.find((item) => item.id === moduleId);
+    // this.subModule = module.sub_modules && module.sub_modules.find((item) => item.id === submoduleId);
+    // this.data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
+    //   submodule: this.translate.instant(this.subModule.title),
+    // });
   }
 
   event() {
