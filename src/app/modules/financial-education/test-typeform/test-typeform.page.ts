@@ -48,7 +48,7 @@ export class TestTypeformPage implements OnInit {
     this.getModule();
     this.getSubModule();
     this.createTypeform();
-    // this.updateTexts();
+    this.updateTexts();
   }
 
   private async getUserWalletAddress() {
