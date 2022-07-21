@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { createWidget } from '@typeform/embed';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { ModulesService } from '../shared-financial-education/services/financial-education/modules.service';
+import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
 
 @Component({
   selector: 'app-test-typeform',
