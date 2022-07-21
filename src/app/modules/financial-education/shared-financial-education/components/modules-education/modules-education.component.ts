@@ -49,7 +49,7 @@ import { FinancialEducationService } from '../../services/financial-education/fi
                     }}</ion-label>
                   </div>
                 </div>
-                <ion-icon name="ux-forward"></ion-icon>
+                <ion-icon name="ux-forward" slot="end"></ion-icon>
               </div>
               <!-- hasta aca -->
               <div class="item-content__divider">
