@@ -32,7 +32,7 @@ import { FinancialEducationService } from '../../services/financial-education/fi
             name="item_sub_module"
             appTrackClick
             [dataToTrack]="{ eventLabel: subModule.data_to_track }"
-            *ngFor="let subModule of this.module.submodules"
+            *ngFor="let subModule of this.module.submodules; let i = index"
             (click)="this.goToPage(subModule)"
           >
             <div class="item-content">
@@ -50,7 +50,7 @@ import { FinancialEducationService } from '../../services/financial-education/fi
               </div>
               <!-- hasta aca -->
               <div class="item-content__divider">
-                <div class="list-divider light" *ngIf="!subModule.last"></div>
+                <div class="list-divider light" *ngIf="this.module.submodules.length != i + 1"></div>
               </div>
             </div>
           </ion-item>
