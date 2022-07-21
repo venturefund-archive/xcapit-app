@@ -58,6 +58,12 @@ export class TestTypeformPage implements OnInit {
     this.getEducationDataOf(this.wallet_address);
   }
 
+  getEducationDataOf(anAddress: string) {
+    this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
+      this.data = DATA;
+    });
+  }
+
   createTypeform() {
     createWidget(this.code, {
       container: document.querySelector('#form'),
@@ -79,7 +85,7 @@ export class TestTypeformPage implements OnInit {
   }
 
   getData() {
-    this.data = this.selectedTab === 'finance' ? DATA.finance : DATA.crypto;
+    this.data = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
   }
 
   getModule() {
