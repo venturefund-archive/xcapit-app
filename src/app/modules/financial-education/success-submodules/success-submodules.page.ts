@@ -16,7 +16,7 @@ import { DATA } from '../shared-financial-education/constants/data';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <app-success-content *ngIf="this.succes_data" [data]="this.succes_data"> </app-success-content>
+      <app-success-content *ngIf="this.success_data" [data]="this.success_data"> </app-success-content>
     </ion-content>`,
   styleUrls: ['./success-submodules.page.scss'],
 })
