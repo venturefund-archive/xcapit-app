@@ -64,7 +64,7 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   getParams() {
-    this.selectedCategory = this.route.snapshot.paramMap.get('tab');
+    this.selectedCategory = this.route.snapshot.paramMap.get('category');
     this.module = parseInt(this.route.snapshot.paramMap.get('module'));
     this.subModule = parseInt(this.route.snapshot.paramMap.get('submodule'));
   }
@@ -96,7 +96,7 @@ export class SubModuleInformationPage implements OnInit {
       this.navController.navigateForward(['financial-education/error-no-wallet']);
     } else {
       this.navController.navigateForward([
-        'financial-education/typeform/tab',
+        'financial-education/typeform/category',
         this.selectedCategory,
         'module',
         this.module.id,
@@ -113,7 +113,7 @@ export class SubModuleInformationPage implements OnInit {
       this.navController.navigateForward(['financial-education/error-no-wallet']);
     } else {
       this.navController.navigateForward([
-        'financial-education/typeform/tab',
+        'financial-education/typeform/category',
         this.selectedCategory,
         'module',
         this.module.id,

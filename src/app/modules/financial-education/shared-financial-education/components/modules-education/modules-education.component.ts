@@ -74,7 +74,7 @@ export class ModulesEducationComponent implements OnInit {
 
   goToPage(subModule) {
     this.navController.navigateForward([
-      'tabs/financial-education/information/tab',
+      'tabs/financial-education/information/category',
       this.selectedCategory,
       'module',
       this.module.id,
