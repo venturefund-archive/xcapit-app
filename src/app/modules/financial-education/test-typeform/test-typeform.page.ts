@@ -87,7 +87,8 @@ export class TestTypeformPage implements OnInit {
   }
 
   getModule() {
-    this.module = this.data.find((module) => module.id === this.module);
+    const tab = this.data.find((tab)=> tab)
+    // this.module = this.data.find((module) => module.id === this.module);
    
   }
 
