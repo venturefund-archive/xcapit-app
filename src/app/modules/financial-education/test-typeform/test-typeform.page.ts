@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { createWidget } from '@typeform/embed';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { DATA } from '../shared-financial-education/constants/data';
+import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 @Component({
   selector: 'app-test-typeform',
   template: `
@@ -35,7 +36,8 @@ export class TestTypeformPage implements OnInit {
     private route: ActivatedRoute,
     private navController: NavController,
     private translate: TranslateService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private financialEducationService: FinancialEducationService
   ) {}
 
   ngOnInit() {}
@@ -89,9 +91,7 @@ export class TestTypeformPage implements OnInit {
     }
   }
 
-  redirect() {
-    
-  }
+  redirect() {}
 
   private updateTexts() {
     const moduleName = this.translate.instant(`financial_education.typeform_header.finance_sub_${this.subModule.id}`);
@@ -103,7 +103,7 @@ export class TestTypeformPage implements OnInit {
     }
   }
 
-  goBack(){
+  goBack() {
     this.navController.navigateForward([
       '/tabs/financial-education/information/tab/',
       this.selectedTab,
@@ -112,7 +112,5 @@ export class TestTypeformPage implements OnInit {
       'submodule',
       this.subModule.id,
     ]);
-
   }
-
 }
