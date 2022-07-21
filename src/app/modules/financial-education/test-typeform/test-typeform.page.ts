@@ -112,7 +112,7 @@ export class TestTypeformPage implements OnInit {
   }
 
   goBack(){
-    this.navController.navigateForward
+    this.navController.navigateForward()
   }
 
 }
