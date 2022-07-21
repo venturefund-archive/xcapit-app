@@ -112,10 +112,15 @@ export class TestTypeformPage implements OnInit {
   }
 
   goBack(){
-    this.navController.navigateForward()
+    this.navController.navigateForward([
+      '/tabs/financial-education/information/tab/',
+      this.selectedTab,
+      'module',
+      this.module.id,
+      'submodule',
+      this.subModule.id,
+    ]);
 
-
-    /tabs/financial-education/information/tab/finance/module/1/submodule/1
   }
 
 }
