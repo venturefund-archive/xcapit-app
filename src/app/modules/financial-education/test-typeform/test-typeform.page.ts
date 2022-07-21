@@ -28,7 +28,7 @@ export class TestTypeformPage implements OnInit {
   module: any;
   wallet_address: string;
   subModule: any;
-  data = DATA;
+  data : any;
   code: string;
   headerText: string;
 
@@ -46,7 +46,7 @@ export class TestTypeformPage implements OnInit {
     await this.getUserWalletAddress();
     this.getParams();
     this.getData();
-    // this.getModule();
+    this.getModule();
     // this.getSubModule();
     // this.createTypeform();
     // this.updateTexts();
@@ -84,11 +84,10 @@ export class TestTypeformPage implements OnInit {
 
   getData() {
     const tab = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
-    console.log(tab)
   }
 
   getModule() {
-    //  this.module = this.data.find((module) => module.id === this.module);
+    this.module = this.data.find((module) => module.id === this.module);
   }
 
   getSubModule() {
