@@ -63,7 +63,7 @@ export class TestTypeformPage implements OnInit {
         submodule_id: `${this.subModule.id}`,
       },
       onSubmit: () => {
-        this.redirectToPage();
+        this.redirect();
       },
     });
   }
