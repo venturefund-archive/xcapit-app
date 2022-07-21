@@ -37,10 +37,14 @@
     &__body {
       display: flex;
       align-items: center;
-      padding: 10px 0 10px 20px;
+      padding: 10px 0 10px 10px;
 
       &__arrow {
         margin-left: auto;
+      }
+
+      &__status {
+        margin-right: 20px;
       }
     }
 
