@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { ModulesService } from 'src/app/modules/financial-education/shared-financial-education/services/modules/modules.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { DATA } from '../shared-financial-education/constants/data';
 
 @Component({
   selector: 'app-success-submodules',
@@ -27,7 +28,6 @@ export class SuccessSubmodulesPage implements OnInit {
   constructor(
     private trackService: TrackService,
     private translate: TranslateService,
-    private modulesService: ModulesService,
     private route: ActivatedRoute
   ) {}
 
@@ -41,7 +41,7 @@ export class SuccessSubmodulesPage implements OnInit {
   }
 
   setModules() {
-    this.modules = this.modulesService.getModules();
+    this.modules = DATA;
   }
 
   setTitle() {
