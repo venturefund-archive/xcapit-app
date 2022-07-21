@@ -94,6 +94,7 @@ export class TestTypeformPage implements OnInit {
         submodule_id: `${this.subModule.id}`,
       },
       onSubmit: () => {
+        console.log('llego onSub')
         this.getEducationDataOf(this.wallet_address);
         this.getSubmoduleResult();
         this.redirect();
@@ -139,7 +140,7 @@ export class TestTypeformPage implements OnInit {
     } else {
       url = 'financial-education/final-success-test';
     }
-
+    console.log('llego a redirect')
     this.navController.navigateForward(url);
   }
 
