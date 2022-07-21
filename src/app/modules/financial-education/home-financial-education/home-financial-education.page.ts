@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
-import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 
 @Component({
   selector: 'app-home-financial-education',
@@ -49,13 +49,16 @@ import { ModulesService } from '../shared-financial-education/services/modules/m
           class="hfe__content_card__modules"
           *ngFor="let module of this.modules"
           [module]="module"
-          [selectedTab]="this.segmentsForm.value.tab"
+          [selectedCategory]="this.segmentsForm.value.tab"
         ></app-modules-education>
       </div>
       <div class="ion-padding"></div>
       <div class="hfe__global_progress_card">
         <ion-text class="ux-font-text-lg">{{ 'financial_education.home.global_progress_title' | translate }}</ion-text>
-        <app-global-progress-card></app-global-progress-card>
+        <app-global-progress-card
+          *ngIf="this.globalProgressData"
+          [modules]="this.globalProgressData"
+        ></app-global-progress-card>
       </div>
       <div class="hfe__rule_card">
         <ion-text class="ux-font-text-lg">{{ 'financial_education.home.rules_title' | translate }}</ion-text>
@@ -72,15 +75,57 @@ export class HomeFinancialEducationPage {
   segmentsForm: FormGroup = this.formBuilder.group({
     tab: ['finance', [Validators.required]],
   });
-  wallet_address : string;
-  modules: any = MODULES_FINANCE;
+  wallet_address: string;
+  data: any;
+  modules: any;
+  globalProgressData: any;
+  constructor(
+    private formBuilder: FormBuilder,
+    private financialEducationService: FinancialEducationService,
+    private storageService: StorageService
+  ) {}
 
-  constructor(private formBuilder: FormBuilder, private modulesService: ModulesService) {}
+  async ionViewWillEnter() {
+    await this.getUserWalletAddress();
 
-   ionViewWillEnter() {
-    this.segmentsForm.valueChanges.subscribe(() => {
-      this.modules = this.modulesService.getModuleByTab(this.segmentsForm.value.tab);
+    this.segmentsForm.valueChanges.subscribe(async () => {
+      this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
+      this.setOpenValueOnModule();
     });
   }
 
+  private async getUserWalletAddress() {
+    const wallet = await this.storageService.getWalletFromStorage();
+    if (wallet) {
+      this.wallet_address = wallet.addresses.ERC20;
+      this.getEducationDataOf(this.wallet_address);
+    }
+  }
+
+  getEducationDataOf(anAddress: string) {
+    this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
+      this.data = data;
+    });
+    this.data.finance = this.assingOpenOn(this.data.finance);
+    this.data.crypto = this.assingOpenOn(this.data.crypto);
+    this.modules = this.data.finance;
+    this.globalProgressData = [...this.data.finance, ...this.data.crypto].filter((mod) => !mod.coming_soon);
+    this.setOpenValueOnModule();
+  }
+
+  assingOpenOn(modules) {
+    return modules.map((module) => ({
+      ...module,
+      open: false,
+    }));
+  }
+
+  setOpenValueOnModule() {
+    let aModule = this.modules.find((module) => {
+      return module.status !== 'completed';
+    });
+    if (aModule) {
+      aModule.open = true;
+    }
+  }
 }

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
+import { DATA } from '../shared-financial-education/constants/data';
+import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 
 @Component({
   selector: 'app-sub-module-information',
@@ -37,61 +38,77 @@ import { ModulesService } from '../shared-financial-education/services/modules/m
   styleUrls: ['./sub-module-information.page.scss'],
 })
 export class SubModuleInformationPage implements OnInit {
-  selectedTab: string;
+  selectedCategory: string;
   module: any;
   subModule: any;
-  data: any;
-  walletExists: any;
+  data: any = DATA;
+  wallet : any;
+  wallet_address : string;
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
     private storageService: StorageService,
-    private modulesService: ModulesService
+    private financialEducationService: FinancialEducationService,
   ) {}
 
-  async ngOnInit() {
+  async ionViewWillEnter(){
     this.getParams();
-    this.getData();
-    this.getModule();
-    this.getSubModule();
     await this.getUserWalletAddress();
+    this.setDataByTab();
+  }
+  
+  ngOnInit() {
   }
 
   getParams() {
-    this.selectedTab = this.route.snapshot.paramMap.get('tab');
-    this.module = this.route.snapshot.paramMap.get('module');
-    this.subModule = this.route.snapshot.paramMap.get('submodule');
-  }
-
-  getData() {
-    this.data = this.modulesService.getModuleByTab(this.selectedTab);
-  }
-
-  getModule() {
-    this.module = this.data.find((module) => module.name === this.module);
-  }
-
-  getSubModule() {
-    for (const subModule of this.module.sub_modules) {
-      if (subModule.name === this.subModule) this.subModule = subModule;
-    }
+    this.selectedCategory = this.route.snapshot.paramMap.get('category');
+    this.module = parseInt(this.route.snapshot.paramMap.get('module'));
+    this.subModule = parseInt(this.route.snapshot.paramMap.get('submodule'));
   }
 
   private async getUserWalletAddress() {
-    this.walletExists = await this.storageService.getWalletFromStorage();
+     this.wallet = await this.storageService.getWalletFromStorage();
+     if(this.wallet){
+      this.wallet_address = this.wallet.addresses.ERC20;
+      this.getEducationDataOf(this.wallet_address);
+     }
+   }
+
+  getEducationDataOf(anAddress: string) {
+    this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
+      this.data = data;
+    });
   }
 
+
+  setDataByTab() {
+    const category = this.selectedCategory === 'finance' ? this.data.finance : this.data.crypto;
+    this.getModule(category);
+  }
+
+  getModule(ofCategory) {
+    this.module = ofCategory.find((module) => module.id === this.module);
+    this.getSubModule(this.module);
+  }
+
+  getSubModule(ofModule) {
+    for (const subModule of ofModule.submodules) {
+      if (subModule.id === this.subModule) this.subModule = subModule;
+    }
+  }
+
+
   goToLearningMore() {
-    if (this.walletExists == null) {
+    if (!this.wallet) {
       this.navController.navigateForward(['financial-education/error-no-wallet']);
     } else {
       this.navController.navigateForward([
-        'financial-education/typeform/tab',
-        this.selectedTab,
+        'financial-education/typeform/category',
+        this.selectedCategory,
         'module',
-        this.module.name,
+        this.module.id,
         'submodule',
-        this.subModule.name,
+        this.subModule.id,
         'code',
         this.subModule.learning_code,
       ]);
@@ -99,16 +116,16 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   goToStartTest() {
-    if (this.walletExists == null) {
+    if (!this.wallet) {
       this.navController.navigateForward(['financial-education/error-no-wallet']);
     } else {
       this.navController.navigateForward([
-        'financial-education/typeform/tab',
-        this.selectedTab,
+        'financial-education/typeform/category',
+        this.selectedCategory,
         'module',
-        this.module.name,
+        this.module.id,
         'submodule',
-        this.subModule.name,
+        this.subModule.id,
         'code',
         this.subModule.test_code,
       ]);

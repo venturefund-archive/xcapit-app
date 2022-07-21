@@ -5,7 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
-          <ion-back-button class="content__back" defaultHref="/donations/home"></ion-back-button>
+          <ion-back-button class="content__back" defaultHref="/tabs/financial-education"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ this.subModule.title | translate }}</ion-title>
       </ion-toolbar>

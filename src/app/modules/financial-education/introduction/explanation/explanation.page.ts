@@ -11,11 +11,12 @@ import { ActivatedRoute } from '@angular/router';
         <ion-buttons slot="start">
           <ion-back-button (click)="this.back()"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'financial_education.introduction.explanation.header' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{
+          'financial_education.introduction.explanation.header' | translate
+        }}</ion-title>
         <ion-buttons class="back-button" slot="end">
           <app-share-education></app-share-education>
         </ion-buttons>
-       
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -27,7 +28,7 @@ import { ActivatedRoute } from '@angular/router';
             </ion-text>
           </div>
           <div class="ep__content__items ">
-            <app-explanation-item  *ngFor="let item of this.items" [item]="item"></app-explanation-item>
+            <app-explanation-item *ngFor="let item of this.items" [item]="item"></app-explanation-item>
           </div>
         </div>
         <div class="ux_footer">
@@ -52,42 +53,47 @@ import { ActivatedRoute } from '@angular/router';
 export class ExplanationPage implements OnInit {
   items = [
     {
-      number:'financial_education.introduction.explanation.item_1.number',
+      number: 'financial_education.introduction.explanation.item_1.number',
       title: 'financial_education.introduction.explanation.item_1.title',
       icon: 'assets/img/financial-education/explanation-items/item_1.svg',
-      description:'financial_education.introduction.explanation.item_1.description'
+      description: 'financial_education.introduction.explanation.item_1.description',
     },
     {
-      number:'financial_education.introduction.explanation.item_2.number',
+      number: 'financial_education.introduction.explanation.item_2.number',
       title: 'financial_education.introduction.explanation.item_2.title',
       icon: 'assets/img/financial-education/explanation-items/item_2.svg',
-      description:'financial_education.introduction.explanation.item_2.description'
-    }, 
+      description: 'financial_education.introduction.explanation.item_2.description',
+    },
     {
-      number:'financial_education.introduction.explanation.item_3.number',
+      number: 'financial_education.introduction.explanation.item_3.number',
       title: 'financial_education.introduction.explanation.item_3.title',
       icon: 'assets/img/financial-education/explanation-items/item_3.svg',
-      description:'financial_education.introduction.explanation.item_3.description'
+      description: 'financial_education.introduction.explanation.item_3.description',
     },
   ];
-  
-  key =  'introductionCompleted';
-  constructor(private trackService : TrackService, private navController: NavController, private storage : IonicStorageService, private route: ActivatedRoute) {}
-  mode : string;
-  ngOnInit(){}
 
-  ionViewWillEnter(){
+  key = 'introductionCompleted';
+  constructor(
+    private trackService: TrackService,
+    private navController: NavController,
+    private storage: IonicStorageService,
+    private route: ActivatedRoute
+  ) {}
+  mode: string;
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.trackService.trackEvent({
-
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: 'ux_education_screenview_intro_2'
+      eventLabel: 'ux_education_screenview_intro_2',
     });
   }
 
-  back(){
-    const url = this.mode === 'rule' ? 'tabs/financial-education' : 'financial-education/introduction/financial-freedom';
+  back() {
+    const url =
+      this.mode === 'rule' ? 'tabs/financial-education' : 'financial-education/introduction/financial-freedom';
     this.navController.navigateBack(url);
   }
 

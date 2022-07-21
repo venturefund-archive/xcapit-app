@@ -10,7 +10,7 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
           tab="home"
           appTrackClick
           name="ux_nav_go_to_home"
-          layout="{{ this.selectedTab === 'home' ? 'icon-start' : 'label-hide' }}"
+          layout="{{ this.selectedCategory === 'home' ? 'icon-start' : 'label-hide' }}"
         >
           <ion-icon src="assets/img/tabs/Home.svg"></ion-icon>
           <ion-label class="label ux-font-text-xxs">{{ 'tabs.home' | translate }}</ion-label>
@@ -21,7 +21,7 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
           appTrackClick
           name="ux_nav_go_to_wallet"
           (click)="this.goToWallet()"
-          layout="{{ this.selectedTab === 'wallets' ? 'icon-start' : 'label-hide' }}"
+          layout="{{ this.selectedCategory === 'wallets' ? 'icon-start' : 'label-hide' }}"
         >
           <ion-icon src="assets/img/tabs/Wallet.svg"></ion-icon>
           <ion-label class="label ux-font-text-xxs">{{ 'tabs.wallet' | translate }}</ion-label>
@@ -33,7 +33,7 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
           (click)="this.goToInvestments()"
           name="ux_nav_go_to_invest"
           class="investments"
-          layout="{{ this.selectedTab === 'investments' ? 'icon-start' : 'label-hide' }}"
+          layout="{{ this.selectedCategory === 'investments' ? 'icon-start' : 'label-hide' }}"
         >
           <ion-icon src="assets/img/tabs/Trending-up.svg"></ion-icon>
           <ion-label class="label ux-font-text-xxs">{{ 'tabs.new_fund' | translate }}</ion-label>
@@ -46,11 +46,11 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
 export class TabsComponent {
   @ViewChild('tabs', { static: true }) tabs: IonTabs;
   activeTab?: HTMLElement;
-  selectedTab: any;
+  selectedCategory: any;
   constructor(private navController: NavController) {}
 
   tabChange() {
-    this.selectedTab = this.tabs.getSelected();
+    this.selectedCategory = this.tabs.getSelected();
     this.activeTab = this.tabs.outlet.activatedView.element;
   }
 

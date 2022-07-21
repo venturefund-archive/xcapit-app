@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { MODULES_CRYPTO } from '../../constants/crypto';
-import { MODULES_FINANCE } from '../../constants/finance';
-
+import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-global-progress-card',
   template: `
@@ -9,6 +6,7 @@ import { MODULES_FINANCE } from '../../constants/finance';
       <ion-accordion class="gpc__card__accordion">
         <ion-item slot="header" class="gpc__card__accordion__item ion-no-padding" lines="none" color="info">
           <app-circle-progress
+            *ngIf="this.allModules"
             [percentage]="this.percentage"
             [doneModules]="this.doneModules"
             [allModules]="this.allModules"
@@ -44,9 +42,10 @@ import { MODULES_FINANCE } from '../../constants/finance';
           <ion-item class="ux-font-text-xxs gpc__card__accordion__list__item">
             <ul class="gpc__card__accordion__list__item__ulist">
               <li *ngFor="let module of this.modules">
-                <ion-text class="ux-font-text-xs">{{ module.progress_title | translate }}</ion-text>
-                <ion-text *ngIf="module.done" class="ux-font-text-xxs"> ({{ 'financial_education.home.statuses.complete'| translate }})</ion-text>
-                <ion-text *ngIf="!module.done" class="ux-font-text-xxs"> ({{ 'financial_education.home.statuses.to_do' | translate }})</ion-text>
+                <ion-text class="ux-font-text-xs">{{ this.module.title | translate }}</ion-text>
+                <ion-text class="ux-font-text-xxs">
+                  ({{ 'financial_education.home.statuses.' + this.module.status | translate }})</ion-text
+                >
               </li>
             </ul>
           </ion-item>
@@ -57,26 +56,20 @@ import { MODULES_FINANCE } from '../../constants/finance';
   styleUrls: ['./global-progress-card.component.scss'],
 })
 export class GlobalProgressCardComponent implements OnInit {
+  @Input() modules: any;
   doneModules: number;
   allModules: number;
   percentage: number;
-  modules;
+
   constructor() {}
 
   ngOnInit() {
-    this.setModules();
     this.calculateProgressPercentage();
-   
-  }
-
-  setModules() {
-    this.modules = [...MODULES_FINANCE, ...MODULES_CRYPTO].filter((mod) => !mod.disabled);
-
   }
 
   calculateProgressPercentage() {
     this.allModules = this.modules.length;
-    this.doneModules = this.modules.filter((mod) => mod.done).length;
+    this.doneModules = this.modules.filter((mod) => mod.status === 'completed').length;
     this.percentage = (this.doneModules / this.allModules) * 100;
   }
 }
