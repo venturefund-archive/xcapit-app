@@ -75,6 +75,11 @@ export class TestTypeformPage implements OnInit {
     this.module = parseInt(this.route.snapshot.paramMap.get('module'));
     this.subModule = parseInt(this.route.snapshot.paramMap.get('submodule'));
     this.code = this.route.snapshot.paramMap.get('code');
+
+    console.log('selected tab', this.selectedTab);
+    console.log('mdoule', this.module);
+    console.log('submodule', this.subModule);
+    console.log('code', this.code);
   }
 
   getData() {
