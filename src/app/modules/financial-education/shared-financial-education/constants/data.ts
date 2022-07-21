@@ -19,7 +19,7 @@ export const DATA = {
           data_to_track: 'how_to_get_started_in_finance',
           screen_view_label: 'ux_education_screenview_intro_fin_complete',
           module: 1,
-          status: 'To Do',
+          status: 'to_do',
         },
         {
           id: 2,
@@ -32,10 +32,10 @@ export const DATA = {
           data_to_track: 'budgets',
           screen_view_label: 'ux_education_screenview_intro_fin_complete',
           module: 1,
-          status: 'To Do',
+          status: 'to_do',
         },
       ],
-      status: 'To Do',
+      status: 'to_do',
     },
     {
       id: 2,
@@ -45,7 +45,7 @@ export const DATA = {
       coming_soon: true,
       category: 1,
       submodules: [],
-      status: 'To Do',
+      status: 'to_do',
     },
     {
       id: 3,
@@ -55,7 +55,7 @@ export const DATA = {
       coming_soon: true,
       category: 1,
       submodules: [],
-      status: 'To Do',
+      status: 'to_do',
     },
   ],
   crypto: [
@@ -78,10 +78,10 @@ export const DATA = {
           data_to_track: 'what_is_blockchain',
           screen_view_label: 'ux_education_screenview_intro_block_complete',
           module: 4,
-          status: 'To Do',
+          status: 'to_do',
         },
       ],
-      status: 'To Do',
+      status: 'to_do',
     },
     {
       id: 5,
@@ -91,7 +91,7 @@ export const DATA = {
       coming_soon: true,
       category: 2,
       submodules: [],
-      status: 'To Do',
+      status: 'to_do',
     },
     {
       id: 6,
@@ -101,7 +101,7 @@ export const DATA = {
       coming_soon: true,
       category: 2,
       submodules: [],
-      status: 'To Do',
+      status: 'to_do',
     },
   ],
 };
