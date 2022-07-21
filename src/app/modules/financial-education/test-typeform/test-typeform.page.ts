@@ -58,7 +58,6 @@ export class TestTypeformPage implements OnInit {
   areCategoriesCompleted() {
     let financeCompleted = false;
     let cryptoCompleted = false;
-    console.log(this.data)
     for (let module of this.data.finance) {
       if (!module.coming_soon && module.status === 'completed') {
         financeCompleted = true;
@@ -80,9 +79,10 @@ export class TestTypeformPage implements OnInit {
   }
 
   getEducationDataOf(anAddress: string) {
-    this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
-      this.data = DATA;
-    });
+    this.data = DATA;
+    // this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
+    //   this.data = DATA;
+    // });
     this.areCategoriesCompleted();
   }
 
