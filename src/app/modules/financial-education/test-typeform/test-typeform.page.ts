@@ -47,7 +47,6 @@ export class TestTypeformPage implements OnInit {
   async ionViewWillEnter() {
     await this.getUserWalletAddress();
     this.getEducationDataOf(this.wallet_address);
-    this.areCategoriesCompleted();
     this.getParams();
     this.getData();
     this.getModule();
@@ -75,6 +74,7 @@ export class TestTypeformPage implements OnInit {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
       this.data = DATA;
     });
+    this.areCategoriesCompleted();
   }
 
   createTypeform() {
@@ -85,6 +85,7 @@ export class TestTypeformPage implements OnInit {
         submodule_id: `${this.subModule.id}`,
       },
       onSubmit: () => {
+        this.getEducationDataOf(this.wallet_address);
         this.getSubmoduleResult();
         this.redirect();
       },
@@ -116,6 +117,8 @@ export class TestTypeformPage implements OnInit {
     this.financialEducationService.getSubmoduleResultOf(this.subModule.id, this.wallet_address).subscribe((res) => {
       this.submoduleResult = SUBMODULE;
     });
+
+
   }
 
   redirect() {
