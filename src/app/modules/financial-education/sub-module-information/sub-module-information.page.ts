@@ -47,7 +47,6 @@ export class SubModuleInformationPage implements OnInit {
     private route: ActivatedRoute,
     private navController: NavController,
     private storageService: StorageService,
-    private modulesService: ModulesService
   ) {}
 
   async ngOnInit() {
