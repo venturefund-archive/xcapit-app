@@ -69,16 +69,10 @@ export class ModulesEducationComponent implements OnInit {
   @Input() selectedTab: string;
   open = true;
   wallet_address: string;
-  // data = DATA;
-  constructor(
-    private navController: NavController,
-    private financialEducationService: FinancialEducationService,
-    private storageService: StorageService
-  ) {}
 
-  ngOnInit() {
-    this.getUserWalletAddress();
-  }
+  constructor(private navController: NavController) {}
+
+  ngOnInit() {}
 
   goToPage(subModule) {
     this.navController.navigateForward([
@@ -97,17 +91,4 @@ export class ModulesEducationComponent implements OnInit {
       Object.assign(this.module, { open: this.open });
     }
   }
-
-  private async getUserWalletAddress() {
-    const wallet = await this.storageService.getWalletFromStorage();
-    this.wallet_address = wallet.addresses.ERC20;
-    // this.getEducationDataOf(this.wallet_address);
-  }
-
-  // getEducationDataOf(anAddress: string) {
-  //   this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
-  //     this.data = res;
-  //     console.log(this.data);
-  //   });
-  // }
 }
