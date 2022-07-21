@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DATA } from '../shared-financial-education/constants/data';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
+import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
 
 @Component({
@@ -77,7 +78,7 @@ export class HomeFinancialEducationPage {
   data: any = DATA;
   modules: any = DATA.finance;
 
-  constructor(private formBuilder: FormBuilder, private modulesService: ModulesService) {}
+  constructor(private formBuilder: FormBuilder, private financialEducationService: FinancialEducationService) {}
 
   ionViewWillEnter() {
     this.segmentsForm.valueChanges.subscribe(() => {
