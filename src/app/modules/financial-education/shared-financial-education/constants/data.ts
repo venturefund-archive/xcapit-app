@@ -35,7 +35,7 @@ export const DATA = {
           status: 'completed',
         },
       ],
-      status: 'to_do',
+      status: 'completed',
     },
     {
       id: 2,
