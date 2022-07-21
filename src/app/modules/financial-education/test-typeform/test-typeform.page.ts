@@ -136,7 +136,7 @@ export class TestTypeformPage implements OnInit {
     if (!this.categoriesCompleted) {
       url =
         this.submoduleResult.status === 'completed'
-          ? `financial-education/success-submodules/module/${this.module.id}/submodule/${this.subModule.id}`
+          ? `financial-education/success-submodules/category/${this.selectedTab}/module/${this.module.id}/submodule/${this.subModule.id}`
           : 'financial-education/error-test/';
     } else {
       url = 'financial-education/final-success-test';
