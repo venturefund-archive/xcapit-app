@@ -28,6 +28,16 @@ export class ErrorTestPage implements OnInit {
 
   ionViewWillEnter() {
     this.trackScreenView();
+    this.getParams();
+    this.setURLs();
+  }
+
+  trackScreenView() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_education_screenview_retry',
+    });
   }
 
   getParams() {
@@ -37,19 +47,8 @@ export class ErrorTestPage implements OnInit {
     this.code = this.route.snapshot.paramMap.get('code');
   }
 
-  goToStartTest() {
+  setURLs() {
     this.data.urlPrimaryAction = `financial-education/typeform/tab/${this.category}/module/${this.moduleId}/submodule/${this.submoduleId}/code/${this.code}`;
-  }
-
-  goToLearnMore() {
     this.data.urlThirdAction = `financial-education/typeform/tab/${this.category}/module/${this.moduleId}/submodule/${this.submoduleId}`;
-  }
-
-  trackScreenView() {
-    this.trackService.trackEvent({
-      eventAction: 'screenview',
-      description: window.location.href,
-      eventLabel: 'ux_education_screenview_retry',
-    });
   }
 }
