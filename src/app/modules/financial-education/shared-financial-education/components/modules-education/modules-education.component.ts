@@ -16,11 +16,11 @@ import { FinancialEducationService } from '../../services/financial-education/fi
               <ion-label name="module_title">{{ this.module.title | translate }}</ion-label>
             </div>
             <!-- estado del modulo -->
-            <div class="ux-font-text-xxs" *ngIf="!this.module.comingSoon">
+            <div class="ux-font-text-xxs" *ngIf="!this.module.coming_soon">
               <ion-label name="module_title"> Por hacer </ion-label>
             </div>
             <!-- hasta aca -->
-            <div class="ux-font-text-xxs" *ngIf="this.module.comingSoon">
+            <div class="ux-font-text-xxs" *ngIf="this.module.coming_soon">
               <ion-label name="module_coming_soon">{{ 'financial_education.home.coming_soon' | translate }}</ion-label>
             </div>
           </div>
@@ -31,7 +31,7 @@ import { FinancialEducationService } from '../../services/financial-education/fi
             name="item_sub_module"
             appTrackClick
             [dataToTrack]="{ eventLabel: subModule.dataToTrack }"
-            *ngFor="let subModule of this.module.sub_modules"
+            *ngFor="let subModule of this.module.submodules"
             (click)="this.goToPage(subModule)"
           >
             <div class="item-content">
@@ -65,7 +65,7 @@ export class ModulesEducationComponent implements OnInit {
   @Input() selectedTab: string;
   open = true;
   wallet_address: string;
-  data = DATA;
+  // data = DATA;
   constructor(
     private navController: NavController,
     private financialEducationService: FinancialEducationService,
@@ -97,13 +97,13 @@ export class ModulesEducationComponent implements OnInit {
   private async getUserWalletAddress() {
     const wallet = await this.storageService.getWalletFromStorage();
     this.wallet_address = wallet.addresses.ERC20;
-    this.getEducationDataOf(this.wallet_address);
+    // this.getEducationDataOf(this.wallet_address);
   }
 
-  getEducationDataOf(anAddress: string) {
-    this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
-      this.data = res;
-      console.log(this.data);
-    });
-  }
+  // getEducationDataOf(anAddress: string) {
+  //   this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
+  //     this.data = res;
+  //     console.log(this.data);
+  //   });
+  // }
 }
