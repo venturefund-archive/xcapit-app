@@ -47,7 +47,7 @@ describe('FinanceEducationComponent', () => {
       component = fixture.componentInstance;
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component.module = moduleSpy;
-      component.selectedTab = 'finance';
+      component.selectedCategory = 'finance';
       fixture.detectChanges();
     })
   );
