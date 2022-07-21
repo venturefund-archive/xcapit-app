@@ -21,7 +21,7 @@ import { DATA } from '../shared-financial-education/constants/data';
   styleUrls: ['./success-submodules.page.scss'],
 })
 export class SuccessSubmodulesPage implements OnInit {
-  succes_data: any;
+  success_data: any;
   modules;
   subModule;
   data :any;
@@ -34,7 +34,7 @@ export class SuccessSubmodulesPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.succes_data = SUCCESS_TYPES.success_submodules;
+    this.success_data = SUCCESS_TYPES.success_submodules;
     this.setModules();
     this.setTitle();
     this.event();
@@ -56,7 +56,7 @@ export class SuccessSubmodulesPage implements OnInit {
     const module = this.data.find((item) => item.id === moduleId);
     this.subModule = module.submodules && module.submodules.find((submodule) => submodule.id === submoduleId);
     console.log(module, submoduleId , this.subModule)
-    this.data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
+    this.success_data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
       submodule: this.translate.instant(this.subModule.title),
      });
   }
