@@ -9,5 +9,5 @@ export const SUBMODULE = {
   data_to_track: 'how_to_get_started_in_finance',
   screen_view_label: 'ux_education_screenview_intro_fin_complete',
   module: 1,
-  status: 'completed',
+  status: 'in_progress',
 };
