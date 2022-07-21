@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { DATA } from '../shared-financial-education/constants/data';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
@@ -78,11 +79,29 @@ export class HomeFinancialEducationPage {
   data: any = DATA;
   modules: any = DATA.finance;
 
-  constructor(private formBuilder: FormBuilder, private financialEducationService: FinancialEducationService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private financialEducationService: FinancialEducationService,
+    private storageService: StorageService
+  ) {}
 
   ionViewWillEnter() {
     this.segmentsForm.valueChanges.subscribe(() => {
       this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
+    });
+    this.getUserWalletAddress();
+  }
+
+  private async getUserWalletAddress() {
+    const wallet = await this.storageService.getWalletFromStorage();
+    this.wallet_address = wallet.addresses.ERC20;
+    this.getEducationDataOf(this.wallet_address);
+  }
+
+  getEducationDataOf(anAddress: string) {
+    this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
+      this.data = res;
+      console.log(this.data);
     });
   }
 }
