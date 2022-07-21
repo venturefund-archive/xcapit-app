@@ -6,7 +6,7 @@ import { rawPaymentMethodsResponse } from '../../../fixtures/raw-payment-methods
 import { DefaultProviders } from './default-providers';
 import { rawProviderCoinsData } from '../../../fixtures/raw-provider-coins.data';
 
-fdescribe('Providers', () => {
+describe('Providers', () => {
   let providers: DefaultProviders;
 
   beforeEach(() => {

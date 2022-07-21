@@ -36,6 +36,7 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
 import { FakeActivatedRoute } from '../../../../../testing/fakes/activated-route.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 
 const coins: Coin[] = [
   {
@@ -102,6 +103,7 @@ describe('SendDetailPage', () => {
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -124,7 +126,9 @@ describe('SendDetailPage', () => {
     navControllerSpy = fakeNavController.createSpy();
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
-
+    tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
+      tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
+    });
     erc20ProviderControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
       new: new FakeERC20Provider(null, new FakeProvider('100000000')),
     });
@@ -167,6 +171,7 @@ describe('SendDetailPage', () => {
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

@@ -58,7 +58,9 @@ describe('DirectaPage', () => {
       walletMaintenanceServiceSpy = jasmine.createSpyObj("WalletMaintenanceService", {
         addCoinIfUserDoesNotHaveIt: Promise.resolve(),
       });
-      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
+      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{
+        clean: Promise.resolve()
+      },{
         tokenOperationData: {asset:'USDC', network:'MATIC', country: 'ECU'}
       })
 

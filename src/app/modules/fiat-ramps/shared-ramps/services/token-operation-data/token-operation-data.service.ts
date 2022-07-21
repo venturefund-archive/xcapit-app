@@ -8,4 +8,8 @@ export class TokenOperationDataService {
 
   tokenOperationData: TokenOperationData;
   constructor() { }
+
+  clean(){
+    this.tokenOperationData = undefined;
+  }
 }

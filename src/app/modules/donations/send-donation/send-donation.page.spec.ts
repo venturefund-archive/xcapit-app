@@ -31,6 +31,7 @@ import { SendDonationDataService } from '../shared-donations/services/send-donat
 import { SendDonationPage } from './send-donation.page';
 import { SpyProperty } from '../../../../testing/spy-property.spec';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
+import { TokenOperationDataService } from '../../fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 
 describe('SendDonationPage', () => {
   let component: SendDonationPage;
@@ -52,7 +53,7 @@ describe('SendDonationPage', () => {
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
-
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   beforeEach(
     waitForAsync(() => {
       formDataSpy = jasmine.createSpyObj(
@@ -63,6 +64,13 @@ describe('SendDonationPage', () => {
             amount: 0.01,
             quoteAmount: 29,
           },
+        }
+      );
+      tokenOperationDataServiceSpy = jasmine.createSpyObj(
+        'TokenOperationDataService',
+        {},
+        {
+          tokenOperationData: { asset: 'MATIC', network: 'MATIC' },
         }
       );
       causeSpy = jasmine.createSpyObj(
@@ -135,6 +143,7 @@ describe('SendDonationPage', () => {
           { provide: SendDonationDataService, useValue: sendDonationDataSpy },
           { provide: ModalController, useValue: modalControllerSpy },
           { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
+          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();

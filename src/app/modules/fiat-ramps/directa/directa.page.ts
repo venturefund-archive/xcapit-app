@@ -92,12 +92,10 @@ export class DirectaPage implements OnInit {
   ) {}
 
   ngOnInit() {}
-
+  
   ionViewWillEnter() {
     const providerAlias = this.route.snapshot.paramMap.get('alias');
-    console.log("PA",providerAlias)
     this.provider = this.getProviders().byAlias(providerAlias);
-    console.log("PROVIDER", this.provider)
     this.setCountry();
     this.setCurrency();
   }
@@ -111,10 +109,7 @@ export class DirectaPage implements OnInit {
   setCurrency() {
     this.tokens = this.providerTokens();
     const {asset, network} = this.tokenOperationDataService.tokenOperationData;
-    console.log(asset,network);
-    console.log("tokens",this.tokens);
     this.selectedCurrency = this.tokens.find((token) => token.value === asset && token.network === network);
-    console.log(this.selectedCurrency);
   }
 
   providerTokens() {

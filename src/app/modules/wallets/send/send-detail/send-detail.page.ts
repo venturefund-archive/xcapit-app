@@ -28,6 +28,7 @@ import { ToastWithButtonsComponent } from 'src/app/modules/defi-investments/shar
 import { TranslateService } from '@ngx-translate/core';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 
 @Component({
   selector: 'app-send-detail',
@@ -156,7 +157,8 @@ export class SendDetailPage {
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalController: ModalController,
     private translate: TranslateService,
-    private storage: IonicStorageService
+    private storage: IonicStorageService,
+    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   async ionViewDidEnter() {
@@ -377,6 +379,10 @@ export class SendDetailPage {
 
   async setUrlToBuyCrypto() {
     const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+    this.tokenOperationDataService.tokenOperationData = {
+      asset: this.nativeToken?.value,
+      network: this.nativeToken?.network,
+    };
     this.url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
     return this.url;
   }
