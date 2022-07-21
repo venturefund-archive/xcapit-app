@@ -36,9 +36,12 @@
 
     &__body {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 10px 0 10px 45px;
+      padding: 10px 0 10px 20px;
+
+      &__arrow {
+        margin-left: auto;
+      }
     }
 
     &__divider {
