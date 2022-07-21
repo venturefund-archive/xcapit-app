@@ -31,7 +31,7 @@ export class TestTypeformPage implements OnInit {
   data: any;
   code: string;
   headerText: string;
-  submoduleResult : []
+  submoduleResult = {};
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
@@ -72,6 +72,7 @@ export class TestTypeformPage implements OnInit {
         submodule_id: `${this.subModule.id}`,
       },
       onSubmit: () => {
+        this.getSubmoduleResult();
         this.redirect();
       },
     });
@@ -98,8 +99,12 @@ export class TestTypeformPage implements OnInit {
     }
   }
 
-  redirect() {
+  getSubmoduleResult(){
+    this.financialEducationService.getSubmoduleResultOf(this.subModule.id, this.wallet_address).subscribe((res)=> {this.submoduleResult = SUBMODULE})
+  };
 
+  redirect() {
+    
   }
 
   private updateTexts() {
