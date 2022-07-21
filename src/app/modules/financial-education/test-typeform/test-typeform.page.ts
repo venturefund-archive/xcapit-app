@@ -11,7 +11,7 @@ import { DATA } from '../shared-financial-education/constants/data';
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
-          <ion-back-button class="content__back" defaultHref="tabs/financial-education"></ion-back-button>
+          <ion-back-button class="content__back" (click)="this.goBack()"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ this.headerText }}</ion-title>
       </ion-toolbar>
@@ -109,6 +109,10 @@ export class TestTypeformPage implements OnInit {
       const generalText = this.translate.instant('financial_education.typeform_header.text');
       this.headerText = generalText + ' ' + moduleName;
     }
+  }
+
+  goBack(){
+    
   }
 
 }
