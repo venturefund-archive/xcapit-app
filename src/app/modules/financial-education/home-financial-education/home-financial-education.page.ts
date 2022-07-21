@@ -75,7 +75,7 @@ export class HomeFinancialEducationPage {
   });
   wallet_address: string;
   data: any = DATA;
-  modules: any;
+  modules: any = DATA.finance;
 
   constructor(private formBuilder: FormBuilder, private modulesService: ModulesService) {}
 
