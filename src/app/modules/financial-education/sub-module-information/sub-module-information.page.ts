@@ -4,7 +4,6 @@ import { NavController } from '@ionic/angular';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { DATA } from '../shared-financial-education/constants/data';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
-import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
 
 @Component({
   selector: 'app-sub-module-information',
@@ -54,8 +53,6 @@ export class SubModuleInformationPage implements OnInit {
   async ngOnInit() {
     this.getParams();
     this.setDataByTab();
-    this.getModule();
-    this.getSubModule();
     await this.getUserWalletAddress();
   }
 
@@ -72,16 +69,17 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   setDataByTab() {
-    const tab = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
-    this.getModule(tab);
+    const category = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
+    this.getModule(category);
   }
 
-  getModule(ofTab) {
-    this.module = this.data.find((module) => module.id === this.module);
+  getModule(ofCategory) {
+    this.module = ofCategory.find((module) => module.id === this.module);
+    this.getSubModule(this.module);
   }
 
-  getSubModule() {
-    for (const subModule of this.module.submodules) {
+  getSubModule(ofModule) {
+    for (const subModule of ofModule.submodules) {
       if (subModule.id === this.subModule) this.subModule = subModule;
     }
   }
