@@ -58,12 +58,13 @@ export class TestTypeformPage implements OnInit {
   areCategoriesCompleted() {
     let financeCompleted = false;
     let cryptoCompleted = false;
+    console.log(this.data)
     for (let module of this.data.finance) {
       if (!module.coming_soon && module.status === 'completed') {
         financeCompleted = true;
       }
     }
-    
+
     for (let module of this.data.crypto) {
       if (!module.coming_soon && module.status === 'completed') {
         cryptoCompleted = true;
