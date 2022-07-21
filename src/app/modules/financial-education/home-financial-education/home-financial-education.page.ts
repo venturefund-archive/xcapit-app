@@ -81,7 +81,7 @@ export class HomeFinancialEducationPage {
 
   ionViewWillEnter() {
     this.segmentsForm.valueChanges.subscribe(() => {
-      this.modules = this.segmentsForm.value.tab === 'FINANCE' ? this.data.finance : this.data.crypto;
+      this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
     });
   }
 }
