@@ -60,8 +60,8 @@ export class SubModuleInformationPage implements OnInit {
 
   getParams() {
     this.selectedTab = this.route.snapshot.paramMap.get('tab');
-    this.module = this.route.snapshot.paramMap.get('module');
-    this.subModule = this.route.snapshot.paramMap.get('submodule');
+    this.module = parseInt(this.route.snapshot.paramMap.get('module'));
+    this.subModule = parseInt(this.route.snapshot.paramMap.get('submodule'));
   }
 
   getData() {
@@ -70,12 +70,12 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   getModule() {
-    this.module = this.data.find((module) => module.id === 1);
+    this.module = this.data.find((module) => module.id === this.module);
   }
 
   getSubModule() {
     for (const subModule of this.module.submodules) {
-      if (subModule.id === 1) this.subModule = subModule;
+      if (subModule.id === this.subModule) this.subModule = subModule;
     }
   }
 
