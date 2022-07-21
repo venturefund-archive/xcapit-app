@@ -31,7 +31,7 @@ export class TestTypeformPage implements OnInit {
   data: any;
   code: string;
   headerText: string;
-
+  submoduleResult : []
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
@@ -98,7 +98,9 @@ export class TestTypeformPage implements OnInit {
     }
   }
 
-  redirect() {}
+  redirect() {
+
+  }
 
   private updateTexts() {
     const moduleName = this.translate.instant(`financial_education.typeform_header.finance_sub_${this.subModule.id}`);
