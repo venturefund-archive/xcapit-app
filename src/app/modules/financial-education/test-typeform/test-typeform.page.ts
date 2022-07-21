@@ -72,8 +72,8 @@ export class TestTypeformPage implements OnInit {
 
   getParams() {
     this.selectedTab = this.route.snapshot.paramMap.get('tab');
-    this.module = this.route.snapshot.paramMap.get('module');
-    this.subModule = this.route.snapshot.paramMap.get('submodule');
+    this.module = parseInt(this.route.snapshot.paramMap.get('module'));
+    this.subModule = parseInt(this.route.snapshot.paramMap.get('submodule'));
     this.code = this.route.snapshot.paramMap.get('code');
   }
 
@@ -82,12 +82,12 @@ export class TestTypeformPage implements OnInit {
   }
 
   getModule() {
-    this.module = this.data.find((module) => module.name === this.module);
+    this.module = this.data.find((module) => module.id === this.module);
   }
 
   getSubModule() {
-    for (const subModule of this.module.sub_modules) {
-      if (subModule.name === this.subModule) this.subModule = subModule;
+    for (const subModule of this.module.submodules) {
+      if (subModule.id === this.subModule) this.subModule = subModule;
     }
   }
 
@@ -97,9 +97,9 @@ export class TestTypeformPage implements OnInit {
       'tabs/financial-education/information/tab',
       this.selectedTab,
       'module',
-      this.module.name,
+      this.module.id,
       'submodule',
-      this.subModule.name,
+      this.subModule.id,
     ]);
   }
 
