@@ -12,7 +12,7 @@ import { NavController } from '@ionic/angular';
             <div>
               <ion-label name="module_title">{{ this.module.title | translate }}</ion-label>
             </div>
-            <div>
+            <div *ngIf="!this.module.comingSoon">
               <ion-label class="ux-font-text-xxs" name="module_title"> Por hacer </ion-label>
             </div>
             <div class="ux-font-text-xxs" *ngIf="this.module.comingSoon">
