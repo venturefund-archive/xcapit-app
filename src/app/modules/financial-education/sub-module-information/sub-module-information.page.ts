@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { DATA } from '../shared-financial-education/constants/data';
 import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
 
 @Component({
@@ -40,7 +41,7 @@ export class SubModuleInformationPage implements OnInit {
   selectedTab: string;
   module: any;
   subModule: any;
-  data: any;
+  data: any = DATA;
   walletExists: any;
   constructor(
     private route: ActivatedRoute,
@@ -64,7 +65,7 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   getData() {
-    this.data = this.modulesService.getModuleByTab(this.selectedTab);
+    this.data = this.selectedTab === 'finance' ? this.data.finance : this.data.crypto;
   }
 
   getModule() {
@@ -89,9 +90,9 @@ export class SubModuleInformationPage implements OnInit {
         'financial-education/typeform/tab',
         this.selectedTab,
         'module',
-        this.module.name,
+        this.module.id,
         'submodule',
-        this.subModule.name,
+        this.subModule.id,
         'code',
         this.subModule.learning_code,
       ]);
