@@ -63,6 +63,7 @@ export class TestTypeformPage implements OnInit {
         financeCompleted = true;
       }
     }
+    
     for (let module of this.data.crypto) {
       if (!module.coming_soon && module.status === 'completed') {
         cryptoCompleted = true;
