@@ -101,6 +101,7 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   goToStartTest() {
+    console.log('codigo test', this.subModule.test_code)
     if (this.walletExists == null) {
       this.navController.navigateForward(['financial-education/error-no-wallet']);
     } else {
