@@ -73,7 +73,7 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   getSubModule() {
-    for (const subModule of this.module.sub_modules) {
+    for (const subModule of this.module.submodules) {
       if (subModule.name === this.subModule) this.subModule = subModule;
     }
   }
@@ -107,9 +107,9 @@ export class SubModuleInformationPage implements OnInit {
         'financial-education/typeform/tab',
         this.selectedTab,
         'module',
-        this.module.name,
+        this.module.id,
         'submodule',
-        this.subModule.name,
+        this.subModule.id,
         'code',
         this.subModule.test_code,
       ]);
