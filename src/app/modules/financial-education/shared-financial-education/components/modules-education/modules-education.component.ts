@@ -8,7 +8,7 @@ import { FinancialEducationService } from '../../services/financial-education/fi
   selector: 'app-modules-education',
   template: `
     <ion-accordion-group [value]="this.module.open" (ionChange)="this.change()">
-      <ion-accordion [value]="true" [disabled]="this.module.disabled" class="accordion-arrow-info">
+      <ion-accordion [value]="true" [disabled]="this.module.coming_soon" class="accordion-arrow-info">
         <ion-item class="ux-font-titulo-xs" slot="header" name="item_module">
           <img class="icon" name="module_img" [src]="this.module.icon" />
           <div>
