@@ -103,7 +103,6 @@ export class HomeFinancialEducationPage {
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
-      this.modules = this.data.finance;
     });
   }
 }
