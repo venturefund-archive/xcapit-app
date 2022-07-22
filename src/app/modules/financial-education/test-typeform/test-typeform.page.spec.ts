@@ -7,8 +7,11 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
+import { rawEducationData } from '../shared-financial-education/fixtures/rawEducationData';
+import { rawSubmoduleResult } from '../shared-financial-education/fixtures/rawSubmoduleResult';
+import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 import { TestTypeformPage } from './test-typeform.page';
+import { of } from 'rxjs';
 
 describe('TestTypeformPage', () => {
   let component: TestTypeformPage;
@@ -19,6 +22,7 @@ describe('TestTypeformPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let financialEducationServiceSpy: jasmine.SpyObj<FinancialEducationService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -29,10 +33,14 @@ describe('TestTypeformPage', () => {
       });
       activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['get']);
       fakeActivatedRoute = new FakeActivatedRoute({
-        tab: 'finance',
-        module: 'finance_1',
-        submodule: 'finance_sub_1',
-        code: 'dVKXJqBs',
+        category: 'finance',
+        module: 1,
+        submodule: 1,
+        code: 'tc_finance_1_submodule_1',
+      });
+      financialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
+        getEducationDataOf: of(rawEducationData),
+        getSubmoduleResultOf: of(rawSubmoduleResult),
       });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       fakeNavController = new FakeNavController();
@@ -44,7 +52,8 @@ describe('TestTypeformPage', () => {
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
-          {provide: StorageService, useValue: storageServiceSpy}
+          { provide: StorageService, useValue: storageServiceSpy },
+          { provide: FinancialEducationService, useValue: financialEducationServiceSpy },
         ],
       }).compileComponents();
 
@@ -60,54 +69,55 @@ describe('TestTypeformPage', () => {
   });
 
   it('should get data on will enter', async () => {
+    rawEducationData.finance[0].status = 'completed';
+    rawEducationData.finance[0].submodules[0].status = 'completed';
     await component.ionViewWillEnter();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    expect(component.data).toEqual(MODULES_FINANCE);
-    expect(component.module).toEqual(MODULES_FINANCE[0]);
-    expect(component.subModule).toEqual(MODULES_FINANCE[0].sub_modules[0]);
-    expect(component.code).toEqual('dVKXJqBs');
+    expect(component.data).toEqual(rawEducationData.finance);
+    expect(component.module).toEqual(rawEducationData.finance[0]);
+    expect(component.subModule).toEqual(rawSubmoduleResult);
+    expect(component.code).toEqual('tc_finance_1_submodule_1');
     expect(component.wallet_address).toEqual('testAddress');
   });
 
   it('should set correct header according to learning_code', async () => {
-    await component.ionViewWillEnter();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    // component.redirectToPage();
-    expect(component.headerText).toEqual('financial_education.typeform_header.finance_sub_1');
-  });
-
-  it('should set correct header according to test_code', async () => {
+    rawEducationData.finance[0].status = 'completed';
+    rawEducationData.finance[0].submodules[0].status = 'completed';
     fakeActivatedRoute.modifySnapshotParams({
-      tab: 'finance',
-      module: 'finance_1',
-      submodule: 'finance_sub_1',
-      code: 'GGLKURh6',
+      category: 'finance',
+      module: 1,
+      submodule: 1,
+      code: 'lc_finance_1_submodule_1',
     });
     await component.ionViewWillEnter();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    // component.redirectToPage();
+    expect(component.headerText).toEqual('financial_education.typeform_header.finance_sub_1');
+  });
+
+  it('should set correct header according to test_code', async () => {
+    rawEducationData.finance[0].status = 'completed';
+    rawEducationData.finance[0].submodules[0].status = 'completed';
+    await component.ionViewWillEnter();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     expect(component.headerText).toEqual(
       'financial_education.typeform_header.text financial_education.typeform_header.finance_sub_1'
     );
   });
 
-  it('should navigate to information page when submit test on typeform', async () => {
+  it('should navigate to error test page when submit test on typeform and status is not completed', async () => {
+    rawEducationData.finance[0].status = 'to_do';
+    rawEducationData.finance[0].submodules[0].status = 'to_do';
     await component.ionViewWillEnter();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-    // component.redirectToPage();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      'tabs/financial-education/information/tab',
-      'finance',
-      'module',
-      'finance_1',
-      'submodule',
-      'finance_sub_1',
-    ]);
+    component.redirect();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      'financial-education/error-test/category/finance/module/1/submodule/1/code/tc_finance_1_submodule_1'
+    );
   });
 });

@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "840751586681",
-    "firebase_url": "https://xcapit-app.firebaseio.com",
-    "project_id": "xcapit-app",
-    "storage_bucket": "xcapit-app.appspot.com"
+    "project_number": "247745125245",
+    "project_id": "nonprod-xcapit-app",
+    "storage_bucket": "nonprod-xcapit-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:840751586681:android:104b3f2a4c212aa4bd63a8",
+        "mobilesdk_app_id": "1:247745125245:android:0c5b3af4dbb18272044a14",
         "android_client_info": {
           "package_name": "com.xcapit.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "840751586681-35nflvl2e8e8tn0mb6uin9bgrptjgkf6.apps.googleusercontent.com",
+          "client_id": "247745125245-ms6lg4cfa74hoq2975s1v41nrpnqr15i.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBsgPSp40Kh1KKsmz1b3-wBQ7VxOrQ3nd0"
+          "current_key": "AIzaSyDUBwKtpZwO6AF7AeQY4v6JW9OjwePNpWo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "840751586681-35nflvl2e8e8tn0mb6uin9bgrptjgkf6.apps.googleusercontent.com",
+              "client_id": "247745125245-ms6lg4cfa74hoq2975s1v41nrpnqr15i.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "840751586681-726sic8vcan7qa9anckr9ju3fgu9edb2.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.xcapit.iosapp"
-              }
             }
           ]
         }

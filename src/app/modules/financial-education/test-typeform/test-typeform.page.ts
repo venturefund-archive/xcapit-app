@@ -56,21 +56,8 @@ export class TestTypeformPage implements OnInit {
   }
 
   areCategoriesCompleted() {
-    let financeCompleted = false;
-    let cryptoCompleted = false;
-    for (let module of this.data.finance) {
-      if (!module.coming_soon && module.status === 'completed') {
-        financeCompleted = true;
-      }
-    }
-
-    for (let module of this.data.crypto) {
-      if (!module.coming_soon && module.status === 'completed') {
-        cryptoCompleted = true;
-      }
-    }
-
-    this.categoriesCompleted = financeCompleted && cryptoCompleted;
+    const allModules = [...this.data.finance, ...this.data.crypto].filter((mod) => !mod.coming_soon);
+    this.categoriesCompleted = allModules.every((mod) => mod.status === 'completed');
   }
 
   private async getUserWalletAddress() {
@@ -79,10 +66,10 @@ export class TestTypeformPage implements OnInit {
   }
 
   getEducationDataOf(anAddress: string) {
-    this.data = DATA;
-    // this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
-    //   this.data = DATA;
-    // });
+    // this.data = DATA;
+    this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
+      this.data = data;
+    });
     this.areCategoriesCompleted();
   }
 
@@ -123,10 +110,10 @@ export class TestTypeformPage implements OnInit {
   }
 
   getSubmoduleResult() {
-    // this.financialEducationService.getSubmoduleResultOf(this.subModule.id, this.wallet_address).subscribe((res) => {
-    //   this.submoduleResult = SUBMODULE;
-    // });
-    this.submoduleResult = SUBMODULE;
+    this.financialEducationService.getSubmoduleResultOf(this.subModule.id, this.wallet_address).subscribe((submoduleResult) => {
+      this.submoduleResult = submoduleResult;
+    });
+    // this.submoduleResult = SUBMODULE;
   }
 
   redirect() {
@@ -134,7 +121,7 @@ export class TestTypeformPage implements OnInit {
     if (this.subModule.test_code === this.code) {
       if (!this.categoriesCompleted) {
         url =
-          this.submoduleResult.status === 'completed'
+          this.submoduleResult?.status === 'completed'
             ? `financial-education/success-submodules/category/${this.selectedCategory}/module/${this.module.id}/submodule/${this.subModule.id}`
             : `financial-education/error-test/category/${this.selectedCategory}/module/${this.module.id}/submodule/${this.subModule.id}/code/${this.code}`;
       } else {
