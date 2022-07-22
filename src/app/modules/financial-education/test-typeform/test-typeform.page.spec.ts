@@ -178,7 +178,7 @@ fdescribe('TestTypeformPage', () => {
     );
   });
 
- fit('should navigate to financial education home page when back button is clicked', async () => {
+ it('should navigate to financial education home page when back button is clicked', async () => {
    await component.ionViewWillEnter();
    fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
     fixture.detectChanges();
