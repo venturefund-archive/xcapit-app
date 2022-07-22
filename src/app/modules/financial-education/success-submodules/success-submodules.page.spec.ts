@@ -55,8 +55,9 @@ fdescribe('SuccessSubmodulesPage', () => {
   });
 
   it('should set data on init', async () => {
-    await component.ionViewWillEnter();
+    await component.ionViewWillEnter();}
     fixture.detectChanges();
+    Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
     expect(component.data).toEqual(SUCCESS_TYPES.success_submodules);
     expect(component.data.textPrimary).toEqual('financial_education.success_submodule.textPrimary');
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledOnceWith({
