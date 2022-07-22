@@ -59,7 +59,7 @@ export class SubModuleInformationPage implements OnInit {
   
   ngOnInit() {
   }
-  
+
   getParams() {
     this.selectedCategory = this.route.snapshot.paramMap.get('category');
     this.module = parseInt(this.route.snapshot.paramMap.get('module'));
@@ -67,7 +67,7 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   private async getUserWalletAddress() {
-    this.wallet = await this.storageService.getWalletFromStorage();
+     this.wallet = await this.storageService.getWalletFromStorage();
      this.wallet_address = this.wallet.addresses.ERC20;
      this.getEducationDataOf(this.wallet_address);
    }
