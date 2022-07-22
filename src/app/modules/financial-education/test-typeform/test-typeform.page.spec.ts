@@ -156,4 +156,24 @@ fdescribe('TestTypeformPage', () => {
       'financial-education/final-success-test'
     );
   });
+
+
+  it('should navigate to information page when submit learning test on typeform', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      category: 'finance',
+      module: 1,
+      submodule: 1,
+      code: 'lc_finance_1_submodule_1',
+    });
+    await component.ionViewWillEnter();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    component.getEducationDataOf('testAddress');
+    component.getSubmoduleResult();
+    component.redirect();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      'financial-education/final-success-test'
+    );
+  });
 });
