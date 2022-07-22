@@ -9,7 +9,6 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
 import { rawEducationData } from '../shared-financial-education/fixtures/rawEducationData';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 import { SubModuleInformationPage } from './sub-module-information.page';
