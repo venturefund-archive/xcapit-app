@@ -34,7 +34,7 @@ fdescribe('SubModuleInformationPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       fakeActivatedRoute = new FakeActivatedRoute({
-        tab: 'finance',
+        category: 'finance',
         module: '1',
         submodule: '1',
         code: 'tc_finance_1_submodule_1',
