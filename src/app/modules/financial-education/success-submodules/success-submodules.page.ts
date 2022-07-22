@@ -45,9 +45,10 @@ export class SuccessSubmodulesPage implements OnInit {
   private async getUserWalletAddress() {
     const wallet = await this.storageService.getWalletFromStorage();
 
-    
-    const wallet_address = wallet.addresses.ERC20;
-    this.getEducationDataOf(wallet_address);
+    if (wallet) {
+      const wallet_address = wallet.addresses.ERC20;
+      this.getEducationDataOf(wallet_address);
+    }
   }
 
   getEducationDataOf(anAddress: string) {
