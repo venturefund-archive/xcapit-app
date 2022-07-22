@@ -58,10 +58,9 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   getEducationDataOf(anAddress: string) {
-    // this.financialEducationService.getEducationDataOf(anAddress).subscribe((res) => {
-    //   this.data = DATA;
-    // });
-    this.data = DATA;
+    this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
+      this.data = data;
+    });
   }
 
   getParams() {
