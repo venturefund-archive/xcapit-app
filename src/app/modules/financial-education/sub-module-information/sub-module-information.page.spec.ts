@@ -120,18 +120,20 @@ fdescribe('SubModuleInformationPage', () => {
   // ya esta
 
  //
-  fit('should navigate to typeform page when button ux_education_test is clicked', () => {
+  fit('should navigate to typeform page when button ux_education_test is clicked', async () => {
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.debugElement.query(By.css('ion-button[name="ux_education_test"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      'financial-education/typeform/tab',
+      'financial-education/typeform/category',
       'finance',
       'module',
       1,
       'submodule',
       1,
       'code',
-      'GGLKURh6',
+      'tc_finance_1_submodule_1',
     ]);
   });
   //
