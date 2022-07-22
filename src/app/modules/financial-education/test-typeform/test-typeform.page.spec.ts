@@ -12,6 +12,7 @@ import { rawSubmoduleResult } from '../shared-financial-education/fixtures/rawSu
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 import { TestTypeformPage } from './test-typeform.page';
 import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 fdescribe('TestTypeformPage', () => {
   let component: TestTypeformPage;
@@ -178,7 +179,7 @@ fdescribe('TestTypeformPage', () => {
   });
 
   it('should navigate to financial education home page when back button is clicked', async () => {
-    const backEl = 
+    const backEl = fixture.debugElement.query(By.css('ion-back-button'));
     await component.ionViewWillEnter();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
@@ -194,4 +195,4 @@ fdescribe('TestTypeformPage', () => {
 
 
 
-ion-back-button
+
