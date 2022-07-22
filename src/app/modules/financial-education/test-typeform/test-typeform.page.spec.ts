@@ -129,6 +129,9 @@ fdescribe('TestTypeformPage', () => {
     rawEducationData.finance[0].status = 'to_do';
     rawEducationData.finance[0].submodules[0].status = 'to_do';
     rawSubmoduleResult.status = 'completed';
+    await component.ionViewWillEnter();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     component.getEducationDataOf('testAddress');
     component.getSubmoduleResult();
     component.redirect();
