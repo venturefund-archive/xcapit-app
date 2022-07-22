@@ -35,9 +35,9 @@ export class SuccessSubmodulesPage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.success_data = SUCCESS_TYPES.success_submodules;
-    this.getUserWalletAddress();
+    await this.getUserWalletAddress();
     this.getEducationDataOf();
     this.setModules();
     this.setTitle();
