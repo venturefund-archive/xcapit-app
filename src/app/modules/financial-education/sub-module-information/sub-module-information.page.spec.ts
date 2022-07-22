@@ -66,7 +66,7 @@ describe('SubModuleInformationPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get data on init', async () => {
+  it('should get finance data on init', async () => {
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
