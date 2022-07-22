@@ -4,8 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-import { MODULES_CRYPTO } from '../shared-financial-education/constants/crypto';
-import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
 import { HomeFinancialEducationPage } from './home-financial-education.page';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
