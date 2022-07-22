@@ -62,6 +62,7 @@ fdescribe('ModulesEducationComponent', () => {
   });
 
   fit('should render properly', async () => {
+    component.module = rawEducationData.finance[1];
     const imgModuleEl = fixture.debugElement.query(By.css('img[name="module_img"]'));
     const titleModuleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
     const comingSoonEl = fixture.debugElement.query(By.css('ion-label[name="module_coming_soon"]'));
