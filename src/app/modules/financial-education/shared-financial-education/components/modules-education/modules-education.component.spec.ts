@@ -70,7 +70,6 @@ fdescribe('ModulesEducationComponent', () => {
     const imgModuleEl = fixture.debugElement.query(By.css('img[name="module_img"]'));
     const titleModuleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
     const comingSoonEl = fixture.debugElement.query(By.css('.coming_soon ion-label'));
-    fixture.detectChanges();
 
     expect(imgModuleEl.attributes.src).toContain('icon_finance_2');
     expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_2');
