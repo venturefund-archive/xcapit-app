@@ -30,6 +30,8 @@ fdescribe('GlobalProgressCardComponent', () => {
   });
 
   fit('should render card_state_0 if progress is 0',async () => {
+    rawEducationData.finance[0].status = 'to_do';
+    rawEducationData.crypto[0].status = 'to_do';
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(
       By.css('.gpc__card__accordion__item__content ion-text.ux-font-text-xxs')
