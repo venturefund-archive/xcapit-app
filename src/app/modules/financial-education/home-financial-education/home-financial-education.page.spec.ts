@@ -13,6 +13,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 import { rawEducationData } from '../shared-financial-education/fixtures/rawEducationData';
+import { of } from 'rxjs';
 
 fdescribe('HomeFinancialEducationPage', () => {
   let component: HomeFinancialEducationPage;
