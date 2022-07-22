@@ -37,7 +37,7 @@ fdescribe('SubModuleInformationPage', () => {
         tab: 'finance',
         module: '1',
         submodule: '1',
-        code: 'dVKXJqBs',
+        code: 'tc_finance_1_submodule_1',
       });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
