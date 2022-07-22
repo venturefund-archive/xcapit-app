@@ -79,6 +79,7 @@ fdescribe('ModulesEducationComponent', () => {
 
   fit('should render coming soon module properly', async () => {
     component.module = rawEducationData.crypto[0];
+    component.ngOnInit();
     fixture.whenStable();
     fixture.whenRenderingDone();
     fixture.detectChanges();
