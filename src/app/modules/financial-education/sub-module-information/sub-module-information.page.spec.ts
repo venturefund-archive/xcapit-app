@@ -74,6 +74,7 @@ fdescribe('SubModuleInformationPage', () => {
     expect(component.subModule).toEqual(MODULES_FINANCE[0].sub_modules[0]);
   });
 
+  //ya esta
   it('should call trackEvent on trackService when ux_education_learn Button clicked', () => {
     component.ionViewWillEnter();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_learn');
@@ -83,8 +84,10 @@ fdescribe('SubModuleInformationPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+  //
 
-  it('should navigate to typeform page when button ux_education_learn is clicked', () => {
+
+  fit('should navigate to typeform page when button ux_education_learn is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_education_learn"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
