@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ItemFormError } from '../../models/item-form-error';
-import { AbstractControl, FormGroupDirective, FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroupDirective, UntypedFormGroup } from '@angular/forms';
 import { CONFIG } from 'src/app/config/app-constants.config';
 
 @Component({
@@ -26,7 +26,7 @@ export class ErrorsFormItemComponent implements OnInit {
   hasError = false;
 
   control: AbstractControl;
-  parentForm: FormGroup;
+  parentForm: UntypedFormGroup;
 
   constructor(private form: FormGroupDirective) {}
 

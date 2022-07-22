@@ -1,12 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
-
 import { ReferralsTosPage } from './referrals-tos.page';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { ElementRef } from '@angular/core';
-import { getAttribute } from '@angular/localize/src/tools/src/translate/translation_files/translation_parsers/translation_utils';
 
 describe('ReferralsTosPage', () => {
   let component: ReferralsTosPage;

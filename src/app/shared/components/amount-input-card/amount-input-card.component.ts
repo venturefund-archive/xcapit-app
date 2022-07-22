@@ -1,6 +1,6 @@
 import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
 import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
-import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
+import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-amount-input-card',
@@ -127,7 +127,7 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   value: number;
   insufficientBalance: boolean
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   quoteMax: number;
   prueba: number;
 

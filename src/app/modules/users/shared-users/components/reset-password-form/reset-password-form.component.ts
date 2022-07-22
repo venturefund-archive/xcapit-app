@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
@@ -71,7 +71,7 @@ export class ResetPasswordFormComponent implements OnInit {
 
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
 
-  form: FormGroup = this.formBuilder.group(
+  form: UntypedFormGroup = this.formBuilder.group(
     {
       email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
       password: [
@@ -92,7 +92,7 @@ export class ResetPasswordFormComponent implements OnInit {
     }
   );
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   ngOnInit() {
     this.initForm();

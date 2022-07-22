@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { UxInputUnderlinedComponent } from './ux-input-underlined.component';
-import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { UxLoadingBlockComponent } from '../ux-loading-block/ux-loading-block.component';
 
 describe('UxInputUnderlinedComponent', () => {
   let component: UxInputUnderlinedComponent;
   let fixture: ComponentFixture<UxInputUnderlinedComponent>;
-  let controlContainerMock: FormGroup;
+  let controlContainerMock: UntypedFormGroup;
   let formGroupDirectiveMock: FormGroupDirective;
 
   beforeEach(() => {
-    controlContainerMock = new FormGroup({
-      testControlName: new FormControl(),
+    controlContainerMock = new UntypedFormGroup({
+      testControlName: new UntypedFormControl(),
     });
     formGroupDirectiveMock = new FormGroupDirective([], []);
     formGroupDirectiveMock.form = controlContainerMock;

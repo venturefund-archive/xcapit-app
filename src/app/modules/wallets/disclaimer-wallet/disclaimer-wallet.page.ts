@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -108,7 +108,7 @@ export class DisclaimerWalletPage implements OnInit {
   mode: string;
   hasAcceptedDisclaimer: boolean;
   links = LINKS;
-  disclaimerForm: FormGroup = this.formBuilder.group({
+  disclaimerForm: UntypedFormGroup = this.formBuilder.group({
     agreePhraseCheckbox: [false, [Validators.requiredTrue]],
   });
   trackClickEventName: string;
@@ -120,7 +120,7 @@ export class DisclaimerWalletPage implements OnInit {
   constructor(
     private elementRef: ElementRef,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalController: ModalController,
     private navController: NavController,
     private translate: TranslateService,

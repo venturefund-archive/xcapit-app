@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { NavController } from '@ionic/angular';
@@ -107,7 +107,7 @@ import { Camera, CameraSource, CameraResultType } from '@capacitor/camera';
   styleUrls: ['./user-images.page.scss'],
 })
 export class UserImagesPage implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     front_document: ['', [Validators.required]],
     back_document: ['', [Validators.required]],
     billing: ['', [Validators.required]],
@@ -115,7 +115,7 @@ export class UserImagesPage implements OnInit {
 
   constructor(
     public submitButtonService: SubmitButtonService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController
   ) {}
