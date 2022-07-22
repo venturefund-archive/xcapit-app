@@ -120,7 +120,7 @@ fdescribe('SubModuleInformationPage', () => {
   // ya esta
 
  //
-  fit('should navigate to typeform page when button ux_education_test is clicked', async () => {
+  it('should navigate to typeform page when button ux_education_test is clicked', async () => {
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.debugElement.query(By.css('ion-button[name="ux_education_test"]')).nativeElement.click();
@@ -135,10 +135,10 @@ fdescribe('SubModuleInformationPage', () => {
       'code',
       'tc_finance_1_submodule_1',
     ]);
-  });
-  //
+  }); 
+  // yasta
 
-  it('should not redirect to typeform learn page if the user has no wallet', async () => {
+  fit('should not redirect to typeform learn page if the user has no wallet', async () => {
     storageServiceSpy.getWalletFromStorage.and.resolveTo(null)
     await component.ngOnInit()
     fixture.debugElement.query(By.css('ion-button[name="ux_education_learn"]')).nativeElement.click();
