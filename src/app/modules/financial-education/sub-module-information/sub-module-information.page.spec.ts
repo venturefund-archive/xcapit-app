@@ -75,6 +75,15 @@ describe('SubModuleInformationPage', () => {
     expect(component.subModule).toEqual(rawEducationData.finance[0].submodules[0]);
   });
 
+  it('should get finance data on init', async () => {
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    expect(component.data).toEqual(rawEducationData);
+    expect(component.module).toEqual(rawEducationData.finance[0]);
+    expect(component.subModule).toEqual(rawEducationData.finance[0].submodules[0]);
+  });
+
   //ya esta
   it('should call trackEvent on trackService when ux_education_learn Button clicked', async () => {
     await component.ionViewWillEnter();
