@@ -13,7 +13,7 @@ import { FinancialEducationService } from '../shared-financial-education/service
 import { TestTypeformPage } from './test-typeform.page';
 import { of } from 'rxjs';
 
-describe('TestTypeformPage', () => {
+fdescribe('TestTypeformPage', () => {
   let component: TestTypeformPage;
   let fixture: ComponentFixture<TestTypeformPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TestTypeformPage>;
