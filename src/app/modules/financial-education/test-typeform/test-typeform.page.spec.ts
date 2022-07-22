@@ -173,7 +173,7 @@ fdescribe('TestTypeformPage', () => {
     component.redirect();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      'financial-education/final-success-test'
+      'tabs/financial-education/information/category/finance/module/1/submodule/1'
     );
   });
 });
