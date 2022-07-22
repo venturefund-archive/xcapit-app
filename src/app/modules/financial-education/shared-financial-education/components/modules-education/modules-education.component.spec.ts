@@ -19,24 +19,7 @@ describe('ModulesEducationComponent', () => {
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      moduleSpy = jasmine.createSpyObj(
-        'module',
-        {},
-        {
-          name: 'finance_1',
-          icon: 'assets/ux-icons/introduction-finances.svg',
-          title: 'financial_education.home.module_finance.module_1.title',
-          comingSoon: true,
-          sub_modules: [
-            {
-              name: 'finance_sub_1',
-              title: 'financial_education.home.module_finance.module_1.sub_modules.sub_module_1',
-              dataToTrack: 'how_to_get_started_in_finance',
-            },
-          ],
-        }
-      );
-
+    
       TestBed.configureTestingModule({
         declarations: [ModulesEducationComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
