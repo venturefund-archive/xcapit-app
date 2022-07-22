@@ -122,8 +122,7 @@ fdescribe('TestTypeformPage', () => {
   });
 
   it('should navigate to success page when submit test on typeform and status is completed', async () => {
-    rawEducationData.finance[0].status = 'to_do';
-    rawEducationData.finance[0].submodules[0].status = 'to_do';
+    
     await component.ionViewWillEnter();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
