@@ -89,7 +89,7 @@ fdescribe('SubModuleInformationPage', () => {
     expect(component.subModule).toEqual(rawEducationData.crypto[0].submodules[0]);
   });
 
-  //ya esta
+
   it('should call trackEvent on trackService when ux_education_learn Button clicked', async () => {
     await component.ionViewWillEnter();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_learn');
@@ -99,9 +99,7 @@ fdescribe('SubModuleInformationPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-  //
 
-  //ya esta
 
   it('should navigate to typeform page when button ux_education_learn is clicked', async () => {
     await component.ionViewWillEnter();
@@ -120,9 +118,7 @@ fdescribe('SubModuleInformationPage', () => {
       'lc_finance_1_submodule_1',
     ]);
   });
- //
 
- // 
   it('should call trackEvent on trackService when ux_education_test Button clicked', async () => {
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -133,9 +129,8 @@ fdescribe('SubModuleInformationPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
-  // ya esta
 
- //
+
   it('should navigate to typeform page when button ux_education_test is clicked', async () => {
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -152,7 +147,6 @@ fdescribe('SubModuleInformationPage', () => {
       'tc_finance_1_submodule_1',
     ]);
   }); 
-  // yasta
 
   it('should not redirect to typeform learn page if the user has no wallet', async () => {
     storageServiceSpy.getWalletFromStorage.and.resolveTo(null)
