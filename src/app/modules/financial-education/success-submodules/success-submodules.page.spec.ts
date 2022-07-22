@@ -34,7 +34,7 @@ fdescribe('SuccessSubmodulesPage', () => {
         }),
       });
       financialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
-        getEducationDataOf: of(rawEducationData),
+        getEducationDataOf: of(rawEducationData.finance),
       });
       TestBed.configureTestingModule({
         declarations: [SuccessSubmodulesPage],
