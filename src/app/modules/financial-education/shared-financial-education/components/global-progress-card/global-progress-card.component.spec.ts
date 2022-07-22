@@ -40,7 +40,7 @@ const allModulesDone = [
   { title: 'falseTest4', done: true, disabled: false },
 ];
 
-fdescribe('GlobalProgressCardComponent', () => {
+describe('GlobalProgressCardComponent', () => {
   let component: GlobalProgressCardComponent;
   let fixture: ComponentFixture<GlobalProgressCardComponent>;
 
