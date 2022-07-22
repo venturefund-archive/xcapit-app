@@ -8,8 +8,6 @@ import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
-import { HttpClient } from '@angular/common/http';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
@@ -85,7 +83,6 @@ export class DirectaPage implements OnInit {
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
-    private http: HttpClient,
     private walletMaintenance: WalletMaintenanceService
   ) {}
 
@@ -119,7 +116,7 @@ export class DirectaPage implements OnInit {
   }
 
   getProviders(): Providers {
-    return this.providers.create(new ProviderDataRepo(), this.http);
+    return this.providers.create();
   }
 
   addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {

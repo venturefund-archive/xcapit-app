@@ -1,5 +1,4 @@
 import { OperationStatus } from "../interfaces/operation-status.interface";
-import { PROVIDERS } from "./providers";
 
 export const OPERATION_STATUS: OperationStatus[] = [
     // Kripton

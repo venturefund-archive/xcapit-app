@@ -10,9 +10,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
-import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { HttpClient } from '@angular/common/http';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 
 @Component({
@@ -27,29 +25,28 @@ import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding-start ion-padding-end">
-    <form [formGroup]="this.form"> 
-    <app-provider-new-operation-card
-            *ngIf="this.form.value.currency"
-            [amountEnabled]="false"
-            [coin]="this.form.value.currency"
-            [provider]="this.provider"
-            (changeCurrency)="this.changeCurrency()"
-    ></app-provider-new-operation-card>
-    </form>
-        <ion-button
-          appTrackClick
-          name="ux_buy_moonpay_continue"
-          expand="block"
-          size="large"
-          type="submit"
-          class="ux_button"
-          color="secondary"
-          (click)="this.openMoonpay()"
-        >
-          {{ 'fiat_ramps.moonpay.button_text' | translate }}
-        </ion-button>
+      <form [formGroup]="this.form">
+        <app-provider-new-operation-card
+          *ngIf="this.form.value.currency"
+          [amountEnabled]="false"
+          [coin]="this.form.value.currency"
+          [provider]="this.provider"
+          (changeCurrency)="this.changeCurrency()"
+        ></app-provider-new-operation-card>
+      </form>
+      <ion-button
+        appTrackClick
+        name="ux_buy_moonpay_continue"
+        expand="block"
+        size="large"
+        type="submit"
+        class="ux_button"
+        color="secondary"
+        (click)="this.openMoonpay()"
+      >
+        {{ 'fiat_ramps.moonpay.button_text' | translate }}
+      </ion-button>
     </ion-content>
-    
   `,
   styleUrls: ['./moonpay.page.scss'],
 })
@@ -71,7 +68,6 @@ export class MoonpayPage implements OnInit {
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
-    private http: HttpClient,
     private walletMaintenance: WalletMaintenanceService
   ) {}
 
@@ -94,7 +90,7 @@ export class MoonpayPage implements OnInit {
     this.coins = this.providerTokens();
     const token = this.route.snapshot.queryParamMap.get('asset');
     const network = this.route.snapshot.queryParamMap.get('network');
-    if (token&&network) {
+    if (token && network) {
       this.form.patchValue({ currency: this.coins.find((coin) => coin.value === token && coin.network === network) });
     } else {
       this.form.patchValue({ currency: this.coins[0] });
@@ -106,7 +102,7 @@ export class MoonpayPage implements OnInit {
   }
 
   getProviders(): Providers {
-    return this.providers.create(new ProviderDataRepo(), this.http);
+    return this.providers.create();
   }
 
   subscribeToFormChanges() {
@@ -133,9 +129,9 @@ export class MoonpayPage implements OnInit {
   async success(): Promise<boolean> {
     await this.addBoughtCoinIfUserDoesNotHaveIt();
     return this.navController.navigateForward(['/tabs/wallets']);
-  }  
+  }
 
-  changeCurrency(): void{
+  changeCurrency(): void {
     const navigationExtras: NavigationExtras = {
       queryParams: {
         country: this.countryIsoCodeAlpha3,

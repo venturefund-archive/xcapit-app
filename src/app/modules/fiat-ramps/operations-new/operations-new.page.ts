@@ -22,7 +22,6 @@ import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-pric
 import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 @Component({
   selector: 'app-operations-new',
@@ -109,7 +108,7 @@ export class OperationsNewPage implements AfterViewInit {
   country: FiatRampProviderCountry;
   price: number;
   priceRefreshInterval = 15000;
-  private destroy$ = new Subject<void>();
+  destroy$: Subject<void>;
 
   form: FormGroup = this.formBuilder.group({
     cryptoAmount: ['', [Validators.required]],
@@ -132,7 +131,7 @@ export class OperationsNewPage implements AfterViewInit {
     private browserService: BrowserService,
     private http: HttpClient,
     private kriptonDynamicPrice: KriptonDynamicPriceFactory,
-    private providers: ProvidersFactory
+    private providers: ProvidersFactory,
   ) {}
 
   ngAfterViewInit() {
@@ -155,6 +154,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   ionViewWillEnter() {
+    this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
     this.availableCoins();
@@ -171,7 +171,7 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   getProviders() {
-    return this.providers.create(new ProviderDataRepo(), this.http);
+    return this.providers.create();
   }
 
   subscribeToFormChanges() {
@@ -286,5 +286,10 @@ export class OperationsNewPage implements AfterViewInit {
     };
 
     this.navController.navigateForward(['/fiat-ramps/token-selection', this.provider.alias], navigationExtras);
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

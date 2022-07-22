@@ -3,10 +3,13 @@ import { Observable } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
 import { OPERATION_STATUS } from '../constants/operation-status';
-import { PROVIDERS } from '../constants/providers';
 import { FiatRampOperation } from '../interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
 import { OperationStatus } from '../interfaces/operation-status.interface';
+import { Providers } from '../models/providers/providers.interface';
+import { ProvidersFactory } from '../models/providers/factory/providers.factory';
+import { RemoteConfigService } from '../../../../shared/services/remote-config/remote-config.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +17,9 @@ import { OperationStatus } from '../interfaces/operation-status.interface';
 export class FiatRampsService {
   entity = 'on_off_ramps/provider';
   private provider = '1';
-
-  providers: FiatRampProvider[] = PROVIDERS;
   operationStatus: OperationStatus[] = OPERATION_STATUS;
 
-  constructor(private http: CustomHttpService) {}
+  constructor(private providersFactory: ProvidersFactory, private http: CustomHttpService) {}
 
   getQuotations(): Observable<any> {
     return this.http.get(
@@ -30,7 +31,12 @@ export class FiatRampsService {
   }
 
   getUserWallets(currency): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/apikeys/deposit_address/${currency}`, undefined, undefined, false);
+    return this.http.get(
+      `${environment.apiUrl}/apikeys/deposit_address/${currency}`,
+      undefined,
+      undefined,
+      false
+    );
   }
 
   checkUser(): Observable<any> {
@@ -130,7 +136,9 @@ export class FiatRampsService {
   }
 
   getProvider(providerId: number): FiatRampProvider {
-    return this.providers.find((p) => p.id === providerId);
+    return this.providers()
+      .all()
+      .find((p) => p.id === providerId);
   }
 
   getOperationStatus(name: string, providerId?: number): OperationStatus {
@@ -145,5 +153,9 @@ export class FiatRampsService {
     operationStatus.provider = this.getProvider(operationStatus.providerId);
 
     return operationStatus;
+  }
+
+  private providers(): Providers {
+    return this.providersFactory.create();
   }
 }

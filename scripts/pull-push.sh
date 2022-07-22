@@ -5,7 +5,7 @@
 
 export CURRENT_BRANCH=$(git symbolic-ref --short -q HEAD)
 
-git pull origin "$CURRENT_BRANCH" 
-git add --all -- ':!src/environments/environment.ts' 
-git commit -m 'Working...' 
+git pull origin "$CURRENT_BRANCH"
+git add --all -- ':!src/environments/environment.ts' ':!variables.env.ts'
+git commit -m 'Working...'
 git push origin "$CURRENT_BRANCH"

@@ -33,4 +33,8 @@ export class ApiProfilesService {
   setLanguage(language: string, loading = true): Observable<any> {
     return this.http.put(`${environment.apiUrl}/${this.entity}/language/`, { language }, undefined, loading);
   }
+
+  getUserData(id?: any): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/${this.entity}/${id || ''}`, undefined, undefined, false);
+  }
 }
