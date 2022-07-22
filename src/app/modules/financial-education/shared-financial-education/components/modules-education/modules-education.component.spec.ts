@@ -61,7 +61,7 @@ fdescribe('ModulesEducationComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  fit('should render properly', async () => {
+  it('should render coming soon module properly', async () => {
     component.module = rawEducationData.finance[1];
     fixture.whenStable();
     fixture.whenRenderingDone();
@@ -74,5 +74,20 @@ fdescribe('ModulesEducationComponent', () => {
     expect(imgModuleEl.attributes.src).toContain('icon_finance_2');
     expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_2');
     expect(comingSoonEl.nativeElement.innerHTML).toContain('financial_education.home.coming_soon');
+  });
+
+
+  fit('should render coming soon module properly', async () => {
+    component.module = rawEducationData.finance[0];
+    fixture.whenStable();
+    fixture.whenRenderingDone();
+    fixture.detectChanges();
+
+    const imgModuleEl = fixture.debugElement.query(By.css('img[name="module_img"]'));
+    const titleModuleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
+    const submoduleTitleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
+    expect(imgModuleEl.attributes.src).toContain('icon_finance_1');
+    expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_1');
+    
   });
 });
