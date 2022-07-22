@@ -7,7 +7,7 @@
     "build:prod:xcapit:android": "node set-capacitor-config.js android && npm run build:prod:xcapit && npx jetify && npx cap sync android && npx cap open android",
     "build:prod:xcapit:ios": "node set-capacitor-config.js ios && npm run build:prod:xcapit && npx cap sync ios && npx cap open ios",
     "build:prod:xcapit": "ng build --configuration production",
-    "build:prod:pwa:xcapit": "ng build --configuration production --serviceWorker=true",
+    "build:prod:pwa:xcapit": "ng build --configuration production --service-worker=true",
     "ng": "ng",
     "start": "ionic serve",
     "build": "ng build",
