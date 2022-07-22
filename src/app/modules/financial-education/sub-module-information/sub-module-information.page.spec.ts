@@ -75,8 +75,8 @@ fdescribe('SubModuleInformationPage', () => {
   });
 
   //ya esta
-  it('should call trackEvent on trackService when ux_education_learn Button clicked', () => {
-    component.ionViewWillEnter();
+  it('should call trackEvent on trackService when ux_education_learn Button clicked', async () => {
+    await component.ionViewWillEnter();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_learn');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -87,8 +87,8 @@ fdescribe('SubModuleInformationPage', () => {
   //
 
 
-  fit('should navigate to typeform page when button ux_education_learn is clicked', () => {
-    component.ionViewWillEnter();
+  fit('should navigate to typeform page when button ux_education_learn is clicked', async () => {
+    await component.ionViewWillEnter();
     fixture.debugElement.query(By.css('ion-button[name="ux_education_learn"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
