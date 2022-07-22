@@ -89,6 +89,6 @@ fdescribe('ModulesEducationComponent', () => {
     
     expect(imgModuleEl.attributes.src).toContain('icon_finance_1');
     expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_1');
-    expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_1_submodule_1');
+    expect(submoduleTitleEl.nativeElement.innerHTML).toContain('title_finance_1_submodule_1');
   });
 });
