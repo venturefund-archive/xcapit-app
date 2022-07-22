@@ -138,9 +138,9 @@ fdescribe('SubModuleInformationPage', () => {
   }); 
   // yasta
 
-  fit('should not redirect to typeform learn page if the user has no wallet', async () => {
+  it('should not redirect to typeform learn page if the user has no wallet', async () => {
     storageServiceSpy.getWalletFromStorage.and.resolveTo(null)
-    await component.ngOnInit()
+    await component.ionViewWillEnter()
     fixture.debugElement.query(By.css('ion-button[name="ux_education_learn"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['financial-education/error-no-wallet'])
@@ -148,7 +148,7 @@ fdescribe('SubModuleInformationPage', () => {
 
   it('should not redirect to typeform test page if the user has no wallet', async () => {
     storageServiceSpy.getWalletFromStorage.and.resolveTo(null)
-    await component.ngOnInit()
+    await component.ionViewWillEnter()
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_education_test"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['financial-education/error-no-wallet'])
