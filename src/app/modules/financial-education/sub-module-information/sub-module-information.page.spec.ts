@@ -68,6 +68,9 @@ fdescribe('SubModuleInformationPage', () => {
   });
 
   it('should get data on init', async () => {
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
     expect(component.data).toEqual(rawEducationData);
     expect(component.module).toEqual(rawEducationData.finance[0]);
     expect(component.subModule).toEqual(rawEducationData.finance[0].submodules[0]);
