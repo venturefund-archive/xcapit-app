@@ -125,7 +125,8 @@ fdescribe('TestTypeformPage', () => {
     );
   });
 
-  it('should navigate to success page when submit test on typeform and status is completed', async () => {
+  fit('should navigate to success page when submit test on typeform and status is completed', async () => {
+    rawSubmoduleResult.status = 'completed';
     component.getEducationDataOf('testAddress');
     component.getSubmoduleResult();
     component.redirect();
