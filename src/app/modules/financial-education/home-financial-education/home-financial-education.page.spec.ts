@@ -71,7 +71,6 @@ fdescribe('HomeFinancialEducationPage', () => {
     component.segmentsForm.patchValue({ tab: 'crypto' });
     fixture.detectChanges();
     await Promise.all([fixture.detectChanges(), fixture.whenRenderingDone()]);
-    
     expect(component.segmentsForm.value.tab).toEqual('crypto');
     expect(component.modules).toEqual(rawEducationData.crypto);
   });
