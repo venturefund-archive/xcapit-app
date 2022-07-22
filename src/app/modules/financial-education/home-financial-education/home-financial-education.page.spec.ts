@@ -118,8 +118,8 @@ fdescribe('HomeFinancialEducationPage', () => {
 
   it('should render app-global-progress-card component properly', async () => {
     component.ionViewWillEnter();
-    fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
     const progressEl = fixture.debugElement.query(By.css('app-global-progress-card'));
     expect(progressEl).toBeTruthy();
   });
