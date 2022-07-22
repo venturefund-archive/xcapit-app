@@ -106,8 +106,8 @@ fdescribe('SubModuleInformationPage', () => {
   });
  //
 
-
-  fit('should call trackEvent on trackService when ux_education_test Button clicked', async () => {
+ // 
+  it('should call trackEvent on trackService when ux_education_test Button clicked', async () => {
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_test');
@@ -117,6 +117,7 @@ fdescribe('SubModuleInformationPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+  // ya esta
 
   it('should navigate to typeform page when button ux_education_test is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_education_test"]')).nativeElement.click();
