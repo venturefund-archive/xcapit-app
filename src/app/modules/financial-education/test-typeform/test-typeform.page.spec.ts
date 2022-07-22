@@ -130,9 +130,7 @@ fdescribe('TestTypeformPage', () => {
     component.getEducationDataOf('testAddress');
     component.getSubmoduleResult();
     component.redirect();
-    // await fixture.whenStable();
-    // await fixture.whenRenderingDone();
-    // fixture.detectChanges();
+    fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
       'financial-education/error-test/category/finance/module/1/submodule/1/code/tc_finance_1_submodule_1'
     );
