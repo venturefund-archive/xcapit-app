@@ -4,41 +4,7 @@ import { By } from '@angular/platform-browser';
 import { GlobalProgressCardComponent } from './global-progress-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-const noModulesDone = [
-  { title: 'falseTest1', done: false, disabled: false },
-  { title: 'falseTest2', done: false, disabled: false },
-  { title: 'falseTest3', done: false, disabled: false },
-  { title: 'falseTest4', done: false, disabled: false },
-];
-
-const oneModulesDone = [
-  { title: 'falseTest1', done: true, disabled: false },
-  { title: 'falseTest2', done: false, disabled: false },
-  { title: 'falseTest3', done: false, disabled: false },
-  { title: 'falseTest4', done: false, disabled: false },
-];
-
-const twoModulesDone = [
-  { title: 'falseTest1', done: true, disabled: false },
-  { title: 'falseTest2', done: true, disabled: false },
-  { title: 'falseTest3', done: false, disabled: false },
-  { title: 'falseTest4', done: false, disabled: false },
-];
-
-const threeModulesDone = [
-  { title: 'falseTest1', done: true, disabled: false },
-  { title: 'falseTest2', done: true, disabled: false },
-  { title: 'falseTest3', done: true, disabled: false },
-  { title: 'falseTest4', done: false, disabled: false },
-];
-
-const allModulesDone = [
-  { title: 'falseTest1', done: true, disabled: false },
-  { title: 'falseTest2', done: true, disabled: false },
-  { title: 'falseTest3', done: true, disabled: false },
-  { title: 'falseTest4', done: true, disabled: false },
-];
+import { rawEducationData } from '../../fixtures/rawEducationData';
 
 fdescribe('GlobalProgressCardComponent', () => {
   let component: GlobalProgressCardComponent;
@@ -63,7 +29,7 @@ fdescribe('GlobalProgressCardComponent', () => {
   });
 
   it('should render card_state_0 if progress is 0', () => {
-    component.modules = noModulesDone;
+    component.modules = rawEducationData.finance[0];
     component.calculateProgressPercentage();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(
