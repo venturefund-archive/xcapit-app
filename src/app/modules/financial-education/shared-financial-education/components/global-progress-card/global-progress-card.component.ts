@@ -1,10 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { MODULES_CRYPTO } from '../../constants/crypto';
-import { DATA } from '../../constants/data';
-import { MODULES_FINANCE } from '../../constants/finance';
-import { FinancialEducationService } from '../../services/financial-education/financial-education.service';
-
 @Component({
   selector: 'app-global-progress-card',
   template: `
