@@ -74,7 +74,7 @@ fdescribe('SubModuleInformationPage', () => {
     expect(component.subModule).toEqual(MODULES_FINANCE[0].sub_modules[0]);
   });
 
-  fit('should call trackEvent on trackService when ux_education_learn Button clicked', () => {
+  it('should call trackEvent on trackService when ux_education_learn Button clicked', () => {
     component.ionViewWillEnter();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_learn');
     const directive = trackClickDirectiveHelper.getDirective(el);
