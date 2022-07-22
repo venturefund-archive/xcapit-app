@@ -84,7 +84,7 @@ export class SubModuleInformationPage implements OnInit {
 
   getSubModule(ofModule) {
     for (const subModule of ofModule.submodules) {
-      console.log(module)
+      console.log(subModule , this.subModule)
       
       if (subModule.id === this.subModule) this.subModule = subModule;
     }
