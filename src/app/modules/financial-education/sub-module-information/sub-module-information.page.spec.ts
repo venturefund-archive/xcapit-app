@@ -75,6 +75,7 @@ fdescribe('SubModuleInformationPage', () => {
   });
 
   fit('should call trackEvent on trackService when ux_education_learn Button clicked', () => {
+    component.ngOnInit();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_learn');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
