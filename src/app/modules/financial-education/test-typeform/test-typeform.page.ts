@@ -135,7 +135,7 @@ export class TestTypeformPage implements OnInit {
 
   private updateTexts() {
     const moduleName = this.translate.instant(
-      `financial_education.typeform_header.${this.selectedCategory}_sub_${this.subModule.id}`
+      `financial_education.typeform_header.${this.selectedCategory}_sub_${this.subModule?.id}`
     );
     if (this.code === this.subModule.learning_code) {
       this.headerText = moduleName;
