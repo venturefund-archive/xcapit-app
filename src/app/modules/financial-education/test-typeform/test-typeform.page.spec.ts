@@ -179,13 +179,9 @@ fdescribe('TestTypeformPage', () => {
   });
 
   it('should navigate to financial education home page when back button is clicked', async () => {
-    const backEl = fixture.debugElement.query(By.css('ion-back-button'));
-    await component.ionViewWillEnter();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    component.getEducationDataOf('testAddress');
-    component.getSubmoduleResult();
-    component.redirect();
+   await component.ionViewWillEnter();
+
+   fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
       'tabs/financial-education/information/category/finance/module/1/submodule/1'
