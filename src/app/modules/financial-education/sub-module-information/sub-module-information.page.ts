@@ -53,8 +53,8 @@ export class SubModuleInformationPage implements OnInit {
 
   async ionViewWillEnter(){
     this.getParams();
-    this.setDataByTab();
     await this.getUserWalletAddress();
+    this.setDataByTab();
   }
 
   ngOnInit() {
@@ -84,8 +84,6 @@ export class SubModuleInformationPage implements OnInit {
 
   getSubModule(ofModule) {
     for (const subModule of ofModule.submodules) {
-      console.log(subModule , this.subModule)
-      
       if (subModule.id === this.subModule) this.subModule = subModule;
     }
   }
