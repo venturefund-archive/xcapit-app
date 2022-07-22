@@ -54,8 +54,8 @@ fdescribe('SuccessSubmodulesPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set data on init', () => {
-    component.ionViewWillEnter();
+  it('should set data on init', async () => {
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(component.data).toEqual(SUCCESS_TYPES.success_submodules);
     expect(component.data.textPrimary).toEqual('financial_education.success_submodule.textPrimary');
