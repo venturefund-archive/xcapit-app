@@ -127,9 +127,9 @@ fdescribe('SubModuleInformationPage', () => {
       'financial-education/typeform/tab',
       'finance',
       'module',
-      'finance_1',
+      1,
       'submodule',
-      'finance_sub_1',
+      1,
       'code',
       'GGLKURh6',
     ]);
