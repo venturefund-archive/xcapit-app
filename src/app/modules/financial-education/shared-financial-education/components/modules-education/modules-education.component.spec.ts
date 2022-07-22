@@ -69,7 +69,7 @@ fdescribe('ModulesEducationComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(imgModuleEl.attributes.src).toContain('icon_finance_1');
-    expect(titleModuleEl.nativeElement.innerHTML).toContain('financial_education.home.module_finance.module_1.title');
+    expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_1');
     expect(comingSoonEl.nativeElement.innerHTML).toContain('financial_education.home.coming_soon');
     expect(titleSubModuleEl.nativeElement.innerHTML).toContain(
       'financial_education.home.module_finance.module_1.sub_modules.sub_module_1'
