@@ -85,7 +85,7 @@ fdescribe('ModulesEducationComponent', () => {
 
     const imgModuleEl = fixture.debugElement.query(By.css('img[name="module_img"]'));
     const titleModuleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
-    const submoduleTitleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
+    const submoduleTitleEl = fixture.debugElement.query(By.css('ion-label[name="sub_module_title"]'));
     expect(imgModuleEl.attributes.src).toContain('icon_finance_1');
     expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_1');
     
