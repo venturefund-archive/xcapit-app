@@ -5,6 +5,7 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
 import { ModulesService } from 'src/app/modules/financial-education/shared-financial-education/services/modules/modules.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { DATA } from '../shared-financial-education/constants/data';
+import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 
 @Component({
   selector: 'app-success-submodules',
@@ -28,13 +29,16 @@ export class SuccessSubmodulesPage implements OnInit {
   constructor(
     private trackService: TrackService,
     private translate: TranslateService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private financialEducationService : FinancialEducationService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
     this.success_data = SUCCESS_TYPES.success_submodules;
+    this.getUserWalletAddress();
+    this.getEducationDataOf();
     this.setModules();
     this.setTitle();
     this.event();
