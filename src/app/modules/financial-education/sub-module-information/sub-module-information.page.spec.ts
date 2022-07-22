@@ -108,6 +108,8 @@ fdescribe('SubModuleInformationPage', () => {
 
 
   fit('should call trackEvent on trackService when ux_education_test Button clicked', () => {
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_test');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
