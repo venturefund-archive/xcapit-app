@@ -58,8 +58,10 @@ fdescribe('HomeFinancialEducationPage', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should initialized in the finance tab with the corresponding data', () => {
+  fit('should initialized in the finance tab with the corresponding data', async () => {
     component.ionViewWillEnter();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(component.segmentsForm.value.tab).toEqual('finance');
     expect(component.modules).toEqual(rawEducationData.finance);
   });
