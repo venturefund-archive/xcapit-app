@@ -10,6 +10,7 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { rawEducationData } from '../shared-financial-education/fixtures/rawEducationData';
 
 fdescribe('SuccessSubmodulesPage', () => {
   let component: SuccessSubmodulesPage;
@@ -27,7 +28,11 @@ fdescribe('SuccessSubmodulesPage', () => {
 
       fakeActivatedRoute = new FakeActivatedRoute({ category: 'finance' , module: 1, submodule: 1  });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
-
+      
+      financialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
+        getEducationDataOf: of(rawEducationData),
+        getSubmoduleResultOf: of(rawSubmoduleResult),
+      });
       TestBed.configureTestingModule({
         declarations: [SuccessSubmodulesPage],
         providers: [
