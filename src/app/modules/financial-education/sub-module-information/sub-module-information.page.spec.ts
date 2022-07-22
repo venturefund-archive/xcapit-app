@@ -92,7 +92,7 @@ fdescribe('SubModuleInformationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_education_learn"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      'financial-education/typeform/category',
+      'tabs/financial-education/typeform/category',
       'finance',
       'module',
       1,
