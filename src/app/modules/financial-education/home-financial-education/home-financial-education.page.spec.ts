@@ -58,7 +58,7 @@ fdescribe('HomeFinancialEducationPage', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should initialized in the finance tab with the corresponding data', async () => {
+  it('should initialized in the finance tab with the corresponding data', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
