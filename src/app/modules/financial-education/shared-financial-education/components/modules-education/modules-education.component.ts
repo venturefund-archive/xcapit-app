@@ -51,7 +51,7 @@ import { NavController } from '@ionic/angular';
               </div>
 
               <div class="item-content__divider">
-                <div class="list-divider light" *ngIf="this.module.submodules.length != i + 1"></div>
+                <div class="list-divider light" *ngIf="this.module.submodules.length !== i + 1"></div>
               </div>
             </div>
           </ion-item>
