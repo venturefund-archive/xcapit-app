@@ -19,7 +19,7 @@ fdescribe('ModulesEducationComponent', () => {
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-    
+
       TestBed.configureTestingModule({
         declarations: [ModulesEducationComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -76,9 +76,7 @@ fdescribe('ModulesEducationComponent', () => {
     expect(comingSoonEl.nativeElement.innerHTML).toContain('financial_education.home.coming_soon');
   });
 
-
   it('should render active module properly', async () => {
-
     component.module = rawEducationData.finance[0];
     fixture.whenStable();
     fixture.whenRenderingDone();
@@ -89,7 +87,6 @@ fdescribe('ModulesEducationComponent', () => {
     const moduleStatusEl = fixture.debugElement.query(By.css('ion-label[name="module_status"]'));
     const submoduleTitleEl = fixture.debugElement.query(By.css('ion-label[name="sub_module_title"]'));
     const submoduleStatusEl = fixture.debugElement.query(By.css('ion-label[name="sub_module_status"]'));
-
 
     expect(imgModuleEl.attributes.src).toContain('icon_finance_1');
     expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_1');
