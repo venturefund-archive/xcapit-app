@@ -24,12 +24,12 @@ export class SuccessSubmodulesPage implements OnInit {
   success_data: any;
   modules;
   subModule;
-  data :any;
+  data: any;
   constructor(
     private trackService: TrackService,
     private translate: TranslateService,
     private route: ActivatedRoute,
-    private financialEducationService : FinancialEducationService,
+    private financialEducationService: FinancialEducationService,
     private storageService: StorageService
   ) {}
 
@@ -55,22 +55,20 @@ export class SuccessSubmodulesPage implements OnInit {
     });
   }
 
-
   setTitle() {
-     const category = (this.route.snapshot.paramMap.get('category'));
-     const moduleId = parseInt(this.route.snapshot.paramMap.get('module'));
-     const submoduleId = parseInt(this.route.snapshot.paramMap.get('submodule'));
+    const category = this.route.snapshot.paramMap.get('category');
+    const moduleId = parseInt(this.route.snapshot.paramMap.get('module'));
+    const submoduleId = parseInt(this.route.snapshot.paramMap.get('submodule'));
 
     this.data = category === 'finance' ? this.data.finance : this.data.crypto;
-    
+
     const module = this.data.find((item) => item.id === moduleId);
-    console.log(module)
+
     this.subModule = module.submodules && module.submodules.find((submodule) => submodule.id === submoduleId);
-    console.log(this.subModule);
+
     this.success_data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
       submodule: this.translate.instant(this.subModule.title),
-     });
-     console.log(this.success_data.textPrimary)
+    });
   }
 
   event() {
