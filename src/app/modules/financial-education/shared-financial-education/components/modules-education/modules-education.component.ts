@@ -38,7 +38,7 @@ import { NavController } from '@ionic/angular';
                   [src]="'assets/img/financial-education/states/' + this.submodule.status + '.svg'"
                 ></ion-icon>
                 <div>
-                  <ion-label name="sub_module_title ux-font-text-xxs" color="primary">{{
+                  <ion-label name="sub_module_title" class="ux-font-text-xxs" color="primary">{{
                     submodule.title | translate
                   }}</ion-label>
                   <div class="ux-font-text-xxs">
