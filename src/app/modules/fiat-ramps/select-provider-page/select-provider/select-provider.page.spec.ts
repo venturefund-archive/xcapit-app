@@ -5,12 +5,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { rawProvidersData } from '../../shared-ramps/fixtures/raw-providers-data';
+import { ProvidersFactory } from '../../shared-ramps/models/providers/factory/providers.factory';
+import { Providers } from '../../shared-ramps/models/providers/providers.interface';
+import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service';
 import { TokenOperationDataService } from '../../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { SelectProviderPage } from './select-provider.page';
 
@@ -68,6 +73,9 @@ describe('SelectProviderPage', () => {
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -80,9 +88,19 @@ describe('SelectProviderPage', () => {
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getCoin: coin,
       });
+      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
+        getUserOperations: of(rawOperations),
+      });
       tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
         tokenOperationData: {}
       })
+      providersSpy = jasmine.createSpyObj('Providers', {
+        all: rawProvidersData,
+      });
+
+      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+        create: providersSpy,
+      });
       TestBed.configureTestingModule({
         declarations: [SelectProviderPage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -93,6 +111,8 @@ describe('SelectProviderPage', () => {
           { provide: BrowserService, useValue: browserServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+          { provide: ProvidersFactory, useValue: providersFactorySpy },
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         ],
       }).compileComponents();
 
@@ -138,5 +158,20 @@ describe('SelectProviderPage', () => {
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show operations when kripton is enabled', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not show kripton operations when kripton is disabled', async () => {
+    providersSpy.all.and.returnValue(rawProvidersData.filter((provider) => provider.alias !== 'kripton'));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(0);
   });
 });

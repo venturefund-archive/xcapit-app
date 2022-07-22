@@ -5,6 +5,10 @@ import { LINKS } from 'src/app/config/static-links';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { FiatRampOperation } from '../../shared-ramps/interfaces/fiat-ramp-operation.interface';
+import { FiatRampProvider } from '../../shared-ramps/interfaces/fiat-ramp-provider.interface';
+import { ProvidersFactory } from '../../shared-ramps/models/providers/factory/providers.factory';
+import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service';
 import { TokenOperationDataService } from '../../shared-ramps/services/token-operation-data/token-operation-data.service';
 @Component({
   selector: 'app-select-provider',
@@ -29,6 +33,9 @@ import { TokenOperationDataService } from '../../shared-ramps/services/token-ope
               [coin]="this.coin"
             ></app-select-provider-card>
           </form>
+        </div>
+        <div class="operations-list ion-padding-start ion-padding-end" *ngIf="this.operationsList">
+          <app-operations-list [operationsList]="this.operationsList"></app-operations-list>
         </div>
       </div>
     </ion-content>
@@ -60,12 +67,17 @@ export class SelectProviderPage {
   disabled: boolean;
   txHistoryLink: string = LINKS.moonpayTransactionHistory;
   coin: Coin;
+  providers: FiatRampProvider[];
+  operationsList: FiatRampOperation[];
+
   constructor(
     private navController: NavController,
     private formBuilder: FormBuilder,
     private trackService: TrackService,
     private apiWalletService: ApiWalletService,
-    private tokenOperationDataService: TokenOperationDataService
+    private tokenOperationDataService: TokenOperationDataService,
+    private providersFactory: ProvidersFactory,
+    private fiatRampsService: FiatRampsService,
   ) {}
 
   ionViewWillEnter() {
@@ -88,6 +100,12 @@ export class SelectProviderPage {
     this.coin = this.apiWalletService.getCoin(asset, network);
   }
 
+  getOperations() {
+    this.fiatRampsService.getUserOperations().subscribe((data) => {
+      this.operationsList = data;
+    });
+  }
+
   receiveRoute(route: string) {
     this.newOperationRoute = route;
   }
@@ -99,5 +117,9 @@ export class SelectProviderPage {
 
   resetForm() {
     this.form.get('provider').reset();
+  }
+
+  getProviders() {
+    this.providers = this.providersFactory.create().all();
   }
 }
