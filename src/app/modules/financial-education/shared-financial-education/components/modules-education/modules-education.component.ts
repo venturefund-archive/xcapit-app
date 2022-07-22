@@ -57,7 +57,6 @@ import { NavController } from '@ionic/angular';
           </ion-item>
         </ion-list>
       </ion-accordion>
-      <div class="list-divider" *ngIf="!this.module.last"></div>
     </ion-accordion-group>
   `,
   styleUrls: ['./modules-education.component.scss'],
@@ -65,8 +64,6 @@ import { NavController } from '@ionic/angular';
 export class ModulesEducationComponent implements OnInit {
   @Input() module: any;
   @Input() selectedCategory: string;
-  open = true;
-  wallet_address: string;
 
   constructor(private navController: NavController) {}
 
