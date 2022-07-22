@@ -63,7 +63,7 @@ fdescribe('SuccessSubmodulesPage', () => {
     fixture.detectChanges();
     Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    expect(component.data).toEqual(SUCCESS_TYPES.success_submodules);
+    expect(component.success_data).toEqual(SUCCESS_TYPES.success_submodules);
     expect(component.data.textPrimary).toEqual('financial_education.success_submodule.textPrimary');
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledOnceWith({
       eventAction: 'screenview',
