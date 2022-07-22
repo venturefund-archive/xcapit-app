@@ -12,7 +12,7 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { rawEducationData } from '../shared-financial-education/fixtures/rawEducationData';
 import { of } from 'rxjs';
 
-fdescribe('SuccessSubmodulesPage', () => {
+describe('SuccessSubmodulesPage', () => {
   let component: SuccessSubmodulesPage;
   let fixture: ComponentFixture<SuccessSubmodulesPage>;
   let fakeActivatedRoute: FakeActivatedRoute;
