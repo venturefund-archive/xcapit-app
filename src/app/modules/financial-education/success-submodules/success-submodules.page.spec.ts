@@ -85,7 +85,7 @@ fdescribe('SuccessSubmodulesPage', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledOnceWith({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: 'dtc_crypto_1_submodule_1',
+      eventLabel: 'dtc_crypto_4_submodule_1',
     });
   });
 });
