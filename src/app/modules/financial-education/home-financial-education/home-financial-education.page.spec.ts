@@ -28,7 +28,7 @@ fdescribe('HomeFinancialEducationPage', () => {
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      inancialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
+      financialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
         getEducationDataOf: of(rawEducationData),
       });
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
