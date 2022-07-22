@@ -76,7 +76,6 @@ fdescribe('SuccessSubmodulesPage', () => {
       category: 'crypto',
       module: 1,
       submodule: 1,
-      code: 'lc_finance_1_submodule_1',
     });
     await component.ionViewWillEnter();
     fixture.detectChanges();
