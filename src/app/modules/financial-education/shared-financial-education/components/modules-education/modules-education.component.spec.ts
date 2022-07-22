@@ -68,7 +68,7 @@ fdescribe('ModulesEducationComponent', () => {
     const titleSubModuleEl = fixture.debugElement.query(By.css('ion-label[name="sub_module_title ux-font-text-xxs"]'));
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(imgModuleEl.attributes.src).toContain('assets/ux-icons/introduction-finances.svg');
+    expect(imgModuleEl.attributes.src).toContain('icon_finance_1');
     expect(titleModuleEl.nativeElement.innerHTML).toContain('financial_education.home.module_finance.module_1.title');
     expect(comingSoonEl.nativeElement.innerHTML).toContain('financial_education.home.coming_soon');
     expect(titleSubModuleEl.nativeElement.innerHTML).toContain(
