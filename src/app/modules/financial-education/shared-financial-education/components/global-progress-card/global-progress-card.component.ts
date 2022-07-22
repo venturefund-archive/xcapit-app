@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { MODULES_CRYPTO } from '../../constants/crypto';
 import { DATA } from '../../constants/data';
@@ -62,30 +62,14 @@ import { FinancialEducationService } from '../../services/financial-education/fi
   styleUrls: ['./global-progress-card.component.scss'],
 })
 export class GlobalProgressCardComponent implements OnInit {
+  @Input() modules: any;
   doneModules: number;
   allModules: number;
   percentage: number;
-  modules;
 
   constructor(private financialEducationService: FinancialEducationService, private storageService: StorageService) {}
 
   ngOnInit() {
-    this.getUserWalletAddress();
-  }
-
-  private async getUserWalletAddress() {
-    const wallet = await this.storageService.getWalletFromStorage();
-
-    if (wallet) {
-      const wallet_address = wallet.addresses.ERC20;
-      this.getEducationDataOf(wallet_address);
-    }
-  }
-
-  getEducationDataOf(anAddress) {
-    this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
-      this.modules = [...data.finance, ...data.crypto].filter((mod) => !mod.coming_soon);
-    });
     this.calculateProgressPercentage();
   }
 
