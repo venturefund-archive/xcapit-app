@@ -67,7 +67,7 @@ export class GlobalProgressCardComponent implements OnInit {
   allModules: number;
   percentage: number;
 
-  constructor(private financialEducationService: FinancialEducationService, private storageService: StorageService) {}
+  constructor() {}
 
   ngOnInit() {
     this.calculateProgressPercentage();
