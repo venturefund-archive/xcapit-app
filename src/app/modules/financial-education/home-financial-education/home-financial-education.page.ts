@@ -73,7 +73,7 @@ import { ModulesService } from '../shared-financial-education/services/modules/m
 })
 export class HomeFinancialEducationPage {
   segmentsForm: FormGroup = this.formBuilder.group({
-    tab: ['finance', [Validators.required]],
+    tab: ['crypto', [Validators.required]],
   });
   wallet_address: string;
   data: any;
