@@ -85,8 +85,10 @@ export class HomeFinancialEducationPage {
     private storageService: StorageService
   ) {}
 
-  ionViewWillEnter() {
-    this.getUserWalletAddress();
+  async ionViewWillEnter() {
+    await this.getUserWalletAddress();
+    this.modules = this.data.finance;
+
     this.segmentsForm.valueChanges.subscribe(() => {
       this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
     });
@@ -103,7 +105,6 @@ export class HomeFinancialEducationPage {
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
-      this.modules = this.data.finance;
     });
   }
 }
