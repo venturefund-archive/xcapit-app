@@ -61,7 +61,7 @@ fdescribe('HomeFinancialEducationPage', () => {
   it('should initialized in the finance tab with the corresponding data', () => {
     component.ionViewWillEnter();
     expect(component.segmentsForm.value.tab).toEqual('finance');
-    expect(component.modules).toEqual(MODULES_FINANCE);
+    expect(component.modules).toEqual(rawEducationData.finance);
   });
 
   it('should set the corresponding data in the crypto tab when tab crypto is clicked', async () => {
