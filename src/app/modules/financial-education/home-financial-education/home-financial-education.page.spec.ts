@@ -70,7 +70,7 @@ fdescribe('HomeFinancialEducationPage', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.segmentsForm.value.tab).toEqual('crypto');
-    expect(component.modules).toEqual(MODULES_CRYPTO);
+    expect(component.modules).toEqual(rawEducationData.crypto);
   });
 
   it('should render app-modules-education component', () => {
