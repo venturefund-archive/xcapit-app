@@ -29,8 +29,10 @@ fdescribe('GlobalProgressCardComponent', () => {
   });
 
   fit('should render card_state_0 if progress is 0',async () => {
-    component.ngOnInit();
     component.modules = [...rawEducationData.finance, ...rawEducationData.crypto].filter((mod) => !mod.coming_soon)
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    component.ngOnInit();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(
