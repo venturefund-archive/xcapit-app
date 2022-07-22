@@ -91,8 +91,8 @@ fdescribe('SubModuleInformationPage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     expect(component.data).toEqual(rawEducationData);
-    expect(component.module).toEqual(rawEducationData.finance[0]);
-    expect(component.subModule).toEqual(rawEducationData.finance[0].submodules[0]);
+    expect(component.module).toEqual(rawEducationData.crypto[0]);
+    expect(component.subModule).toEqual(rawEducationData.crypto[0].submodules[0]);
   });
 
   //ya esta
