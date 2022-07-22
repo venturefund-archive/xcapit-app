@@ -88,7 +88,6 @@ export class HomeFinancialEducationPage {
   async ionViewWillEnter() {
     await this.getUserWalletAddress();
     this.modules = this.data.finance;
-
     this.segmentsForm.valueChanges.subscribe(() => {
       this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
     });
