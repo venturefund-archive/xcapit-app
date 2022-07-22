@@ -61,7 +61,7 @@ fdescribe('ModulesEducationComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should render properly', async () => {
+  fit('should render properly', async () => {
     const imgModuleEl = fixture.debugElement.query(By.css('img[name="module_img"]'));
     const titleModuleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
     const comingSoonEl = fixture.debugElement.query(By.css('ion-label[name="module_coming_soon"]'));
