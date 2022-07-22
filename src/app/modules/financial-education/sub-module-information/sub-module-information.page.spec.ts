@@ -107,7 +107,7 @@ fdescribe('SubModuleInformationPage', () => {
  //
 
 
-  fit('should call trackEvent on trackService when ux_education_test Button clicked', () => {
+  fit('should call trackEvent on trackService when ux_education_test Button clicked', async () => {
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_test');
