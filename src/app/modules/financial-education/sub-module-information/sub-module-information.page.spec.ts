@@ -75,7 +75,12 @@ describe('SubModuleInformationPage', () => {
     expect(component.subModule).toEqual(rawEducationData.finance[0].submodules[0]);
   });
 
-  it('should get finance data on init', async () => {
+  it('should get crypto data on init', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      category: 'crypto',
+      module: 4,
+      submodule: 3,
+    });
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
