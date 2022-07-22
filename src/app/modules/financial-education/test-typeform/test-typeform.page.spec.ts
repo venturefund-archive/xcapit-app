@@ -124,11 +124,12 @@ fdescribe('TestTypeformPage', () => {
   });
 
   it('should navigate to success page when submit test on typeform and status is completed', async () => {
-    await component.ionViewWillEnter();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    fixture.detectChanges();
+    component.getEducationDataOf('testAddress');
+    component.getSubmoduleResult();
     component.redirect();
+    // await fixture.whenStable();
+    // await fixture.whenRenderingDone();
+    // fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
       'financial-education/error-test/category/finance/module/1/submodule/1/code/tc_finance_1_submodule_1'
     );
