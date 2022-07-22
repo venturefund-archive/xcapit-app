@@ -137,7 +137,7 @@ fdescribe('TestTypeformPage', () => {
     component.redirect();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      'financial-education/error-test/category/finance/module/1/submodule/1/code/tc_finance_1_submodule_1'
+      'financial-education/success-submodules/category/finance/module/1/submodule/1'
     );
   });
 });
