@@ -77,7 +77,7 @@ export class HomeFinancialEducationPage {
   });
   wallet_address: string;
   data: any;
-  modules: any = DATA.finance;
+  modules: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -86,10 +86,10 @@ export class HomeFinancialEducationPage {
   ) {}
 
   ionViewWillEnter() {
+    this.getUserWalletAddress();
     this.segmentsForm.valueChanges.subscribe(() => {
       this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
     });
-    this.getUserWalletAddress();
   }
 
   private async getUserWalletAddress() {
@@ -103,6 +103,7 @@ export class HomeFinancialEducationPage {
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
+      this.modules = this.data.finance;
     });
   }
 }
