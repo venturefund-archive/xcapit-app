@@ -67,7 +67,7 @@ fdescribe('SuccessSubmodulesPage', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledOnceWith({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: 'Event test',
+      eventLabel: 'dtc_finance_1_submodule_1',
     });
   });
 });
