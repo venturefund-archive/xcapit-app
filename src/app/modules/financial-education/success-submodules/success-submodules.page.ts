@@ -63,7 +63,6 @@ export class SuccessSubmodulesPage implements OnInit {
 
     this.data = category === 'finance' ? this.data.finance : this.data.crypto;
     
-    console.log(this.data)
     const module = this.data.find((item) => item.id === moduleId);
     this.subModule = module.submodules && module.submodules.find((submodule) => submodule.id === submoduleId);
     this.success_data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
