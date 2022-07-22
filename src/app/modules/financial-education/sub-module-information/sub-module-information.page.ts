@@ -68,8 +68,10 @@ export class SubModuleInformationPage implements OnInit {
 
   private async getUserWalletAddress() {
      this.wallet = await this.storageService.getWalletFromStorage();
-     this.wallet_address = this.wallet.addresses.ERC20;
-     this.getEducationDataOf(this.wallet_address);
+     if(this.wallet){
+      this.wallet_address = this.wallet.addresses.ERC20;
+      this.getEducationDataOf(this.wallet_address);
+     }
    }
 
   getEducationDataOf(anAddress: string) {
