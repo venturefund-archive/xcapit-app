@@ -33,11 +33,9 @@ fdescribe('SubModuleInformationPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       fakeActivatedRoute = new FakeActivatedRoute({
-        fakeActivatedRoute.modifySnapshotParams({
           category: 'finance',
           module: 1,
           submodule: 1,
-        });
       });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
