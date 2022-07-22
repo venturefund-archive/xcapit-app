@@ -26,6 +26,7 @@ export class SuccessSubmodulesPage implements OnInit {
   modules;
   subModule;
   data :any;
+  wallet_address : string; 
   constructor(
     private trackService: TrackService,
     private translate: TranslateService,
@@ -42,6 +43,19 @@ export class SuccessSubmodulesPage implements OnInit {
     this.setModules();
     this.setTitle();
     this.event();
+  }
+
+  private async getUserWalletAddress() {
+    const wallet = await this.storageService.getWalletFromStorage();
+    this.wallet_address = wallet.addresses.ERC20;
+  }
+
+  getEducationDataOf(anAddress: string) {
+    // this.data = DATA;
+    this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
+      this.data = data;
+    });
+    this.areCategoriesCompleted();
   }
 
   setModules() {
