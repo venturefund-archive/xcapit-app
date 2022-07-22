@@ -70,7 +70,7 @@ fdescribe('SubModuleInformationPage', () => {
   it('should get data on init', async () => {
     expect(component.data).toEqual(rawEducationData);
     expect(component.module).toEqual(rawEducationData.finance[0]);
-    expect(component.subModule).toEqual(rawEducationData.finance[0].sub_modules[0]);
+    expect(component.subModule).toEqual(rawEducationData.finance[0].submodules[0]);
   });
 
   //ya esta
