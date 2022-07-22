@@ -58,7 +58,7 @@ import { ModulesService } from '../shared-financial-education/services/modules/m
       <div class="ion-padding"></div>
       <div class="hfe__global_progress_card">
         <ion-text class="ux-font-text-lg">{{ 'financial_education.home.global_progress_title' | translate }}</ion-text>
-        <app-global-progress-card [modules]="this.globalProgressData"></app-global-progress-card>
+        <app-global-progress-card *ngIf="this.globalProgressData" [modules]="this.globalProgressData"></app-global-progress-card>
       </div>
       <div class="hfe__rule_card">
         <ion-text class="ux-font-text-lg">{{ 'financial_education.home.rules_title' | translate }}</ion-text>
@@ -87,7 +87,7 @@ export class HomeFinancialEducationPage {
 
   async ionViewWillEnter() {
     await this.getUserWalletAddress();
-    this.modules = this.data.finance;
+   
     this.segmentsForm.valueChanges.subscribe(() => {
       this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
     });
@@ -104,7 +104,7 @@ export class HomeFinancialEducationPage {
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
-      console.log(this.data)
+      this.modules = this.data.finance;
       this.globalProgressData = [...data.finance, ...data.crypto].filter((mod) => !mod.coming_soon);
     });
   }
