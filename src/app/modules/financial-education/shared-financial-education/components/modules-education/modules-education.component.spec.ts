@@ -66,11 +66,9 @@ fdescribe('ModulesEducationComponent', () => {
     fixture.whenStable();
     fixture.whenRenderingDone();
     fixture.detectChanges();
-
     const imgModuleEl = fixture.debugElement.query(By.css('img[name="module_img"]'));
     const titleModuleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
     const comingSoonEl = fixture.debugElement.query(By.css('.coming_soon ion-label'));
-
     expect(imgModuleEl.attributes.src).toContain('icon_finance_2');
     expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_2');
     expect(comingSoonEl.nativeElement.innerHTML).toContain('financial_education.home.coming_soon');
@@ -81,13 +79,11 @@ fdescribe('ModulesEducationComponent', () => {
     fixture.whenStable();
     fixture.whenRenderingDone();
     fixture.detectChanges();
-
     const imgModuleEl = fixture.debugElement.query(By.css('img[name="module_img"]'));
     const titleModuleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
     const moduleStatusEl = fixture.debugElement.query(By.css('ion-label[name="module_status"]'));
     const submoduleTitleEl = fixture.debugElement.query(By.css('ion-label[name="sub_module_title"]'));
     const submoduleStatusEl = fixture.debugElement.query(By.css('ion-label[name="sub_module_status"]'));
-
     expect(imgModuleEl.attributes.src).toContain('icon_finance_1');
     expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_1');
     expect(submoduleTitleEl.nativeElement.innerHTML).toContain('title_finance_1_submodule_1');
