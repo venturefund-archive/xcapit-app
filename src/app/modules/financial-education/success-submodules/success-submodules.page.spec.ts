@@ -23,7 +23,7 @@ fdescribe('SuccessSubmodulesPage', () => {
         trackEvent: Promise.resolve(true),
       });
 
-      fakeActivatedRoute = new FakeActivatedRoute({ moduleId: 1, submoduleId: 1  });
+      fakeActivatedRoute = new FakeActivatedRoute({ category: 'finance' , module: 1, submodule: 1  });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
 
       TestBed.configureTestingModule({
