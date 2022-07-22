@@ -94,8 +94,8 @@ export class HomeFinancialEducationPage {
 
   private async getUserWalletAddress() {
     const wallet = await this.storageService.getWalletFromStorage();
-    if(this.wallet){
-      this.wallet_address = this.wallet.addresses.ERC20;
+    if(wallet){
+      this.wallet_address = wallet.addresses.ERC20;
       this.getEducationDataOf(this.wallet_address);
      }
   }
