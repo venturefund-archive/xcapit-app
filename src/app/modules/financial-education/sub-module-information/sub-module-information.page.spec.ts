@@ -32,7 +32,11 @@ fdescribe('SubModuleInformationPage', () => {
       });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      fakeActivatedRoute = new FakeActivatedRoute({});
+      fakeActivatedRoute = new FakeActivatedRoute({
+        category: 'finance',
+        module: 1,
+        submodule: 1,
+      });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
         getWalletFromStorage: Promise.resolve({
@@ -55,9 +59,7 @@ fdescribe('SubModuleInformationPage', () => {
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
       fakeActivatedRoute.modifySnapshotParams({
-        category: 'finance',
-        module: 1,
-        submodule: 1,
+        
       });
       fixture.detectChanges();
     })
