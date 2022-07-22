@@ -89,6 +89,7 @@ fdescribe('SubModuleInformationPage', () => {
 
   fit('should navigate to typeform page when button ux_education_learn is clicked', async () => {
     await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_education_learn"]')).nativeElement.click();
     fixture.detectChanges();
