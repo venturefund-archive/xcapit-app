@@ -8,6 +8,7 @@ import { SuccessSubmodulesPage } from './success-submodules.page';
 import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 
 fdescribe('SuccessSubmodulesPage', () => {
   let component: SuccessSubmodulesPage;
@@ -15,8 +16,7 @@ fdescribe('SuccessSubmodulesPage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
-  let moduleServiceSpy: jasmine.SpyObj<ModulesService>;
-
+  let financialEducationServiceSpy: jasmine.SpyObj<FinancialEducationService>;
   beforeEach(
     waitForAsync(() => {
       trackServiceSpy = jasmine.createSpyObj('TrackService', {
