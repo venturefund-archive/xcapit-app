@@ -32,11 +32,7 @@ fdescribe('SubModuleInformationPage', () => {
       });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
-      fakeActivatedRoute = new FakeActivatedRoute({
-        category: 'finance',
-        module: '1',
-        submodule: '1',
-      });
+      fakeActivatedRoute = new FakeActivatedRoute({});
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
         getWalletFromStorage: Promise.resolve({
