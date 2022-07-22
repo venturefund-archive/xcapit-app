@@ -23,7 +23,7 @@ fdescribe('SuccessSubmodulesPage', () => {
         trackEvent: Promise.resolve(true),
       });
 
-      fakeActivatedRoute = new FakeActivatedRoute({ moduleId: 1, submoduleId: 1 });
+      fakeActivatedRoute = new FakeActivatedRoute({ moduleId: 1, submoduleId: 1  });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
 
       TestBed.configureTestingModule({
@@ -31,7 +31,6 @@ fdescribe('SuccessSubmodulesPage', () => {
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: TrackService, useValue: trackServiceSpy },
-          { provide: ModulesService, useValue: moduleServiceSpy },
         ],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
