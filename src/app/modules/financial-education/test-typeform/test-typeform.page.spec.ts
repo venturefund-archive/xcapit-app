@@ -153,7 +153,7 @@ fdescribe('TestTypeformPage', () => {
     component.redirect();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      'financial-education/success-final-test'
+      'financial-education/final-success-test'
     );
   });
 });
