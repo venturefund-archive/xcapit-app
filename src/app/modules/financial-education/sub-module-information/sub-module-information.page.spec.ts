@@ -88,15 +88,16 @@ fdescribe('SubModuleInformationPage', () => {
 
 
   fit('should navigate to typeform page when button ux_education_learn is clicked', () => {
+    component.ionViewWillEnter();
     fixture.debugElement.query(By.css('ion-button[name="ux_education_learn"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      'financial-education/typeform/tab',
+      'financial-education/typeform/category',
       'finance',
       'module',
-      'finance_1',
+      1,
       'submodule',
-      'finance_sub_1',
+      1,
       'code',
       'dVKXJqBs',
     ]);
