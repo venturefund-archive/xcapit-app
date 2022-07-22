@@ -29,8 +29,7 @@ fdescribe('GlobalProgressCardComponent', () => {
   });
 
   fit('should render card_state_0 if progress is 0', () => {
-    component.modules = [...rawEducationData.finance, ...    component.modules = [...rawEducationData.finance, ...data.crypto].filter((mod) => !mod.coming_soon);
-    .crypto].filter((mod) => !mod.coming_soon);
+    component.modules = [...rawEducationData.finance, ...rawEducationData.crypto].filter((mod) => !mod.coming_soon);
     component.calculateProgressPercentage();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(
