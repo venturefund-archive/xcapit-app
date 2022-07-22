@@ -6,6 +6,7 @@ import { ModulesService } from 'src/app/modules/financial-education/shared-finan
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { DATA } from '../shared-financial-education/constants/data';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 
 @Component({
   selector: 'app-success-submodules',
@@ -26,12 +27,12 @@ export class SuccessSubmodulesPage implements OnInit {
   modules;
   subModule;
   data :any;
-  wallet_address : string; 
   constructor(
     private trackService: TrackService,
     private translate: TranslateService,
     private route: ActivatedRoute,
-    private financialEducationService : FinancialEducationService
+    private financialEducationService : FinancialEducationService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {}
@@ -39,15 +40,14 @@ export class SuccessSubmodulesPage implements OnInit {
   async ionViewWillEnter() {
     this.success_data = SUCCESS_TYPES.success_submodules;
     await this.getUserWalletAddress();
-    this.getEducationDataOf();
-    this.setModules();
     this.setTitle();
     this.event();
   }
 
   private async getUserWalletAddress() {
     const wallet = await this.storageService.getWalletFromStorage();
-    this.wallet_address = wallet.addresses.ERC20;
+    const wallet_address = wallet.addresses.ERC20;
+    this.getEducationDataOf(wallet_address);
   }
 
   getEducationDataOf(anAddress: string) {
@@ -55,12 +55,8 @@ export class SuccessSubmodulesPage implements OnInit {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
     });
-    this.areCategoriesCompleted();
   }
 
-  setModules() {
-    this.data = DATA;
-  }
 
   setTitle() {
      const category = (this.route.snapshot.paramMap.get('category'));
