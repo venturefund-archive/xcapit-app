@@ -58,7 +58,7 @@ fdescribe('SuccessSubmodulesPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set data on init', async () => {
+  it('should set finance data on init', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
     Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -68,6 +68,19 @@ fdescribe('SuccessSubmodulesPage', () => {
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'dtc_finance_1_submodule_1',
+    });
+  });
+
+  it('should set crypto data on init', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(component.success_data).toEqual(SUCCESS_TYPES.success_submodules);
+    expect(component.success_data.textPrimary).toEqual('financial_education.success_submodule.textPrimary');
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledOnceWith({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'dtc_crypto_1_submodule_1',
     });
   });
 });
