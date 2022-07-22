@@ -58,7 +58,7 @@ import { ModulesService } from '../shared-financial-education/services/modules/m
       <div class="ion-padding"></div>
       <div class="hfe__global_progress_card">
         <ion-text class="ux-font-text-lg">{{ 'financial_education.home.global_progress_title' | translate }}</ion-text>
-        <app-global-progress-card></app-global-progress-card>
+        <app-global-progress-card [data]="this.globalProgressData"></app-global-progress-card>
       </div>
       <div class="hfe__rule_card">
         <ion-text class="ux-font-text-lg">{{ 'financial_education.home.rules_title' | translate }}</ion-text>
@@ -78,7 +78,7 @@ export class HomeFinancialEducationPage {
   wallet_address: string;
   data: any;
   modules: any;
-
+  globalProgressData: any;
   constructor(
     private formBuilder: FormBuilder,
     private financialEducationService: FinancialEducationService,
@@ -104,6 +104,7 @@ export class HomeFinancialEducationPage {
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
+      this.globalProgressData = [...data.finance, ...data.crypto].filter((mod) => !mod.coming_soon);
     });
   }
 }
