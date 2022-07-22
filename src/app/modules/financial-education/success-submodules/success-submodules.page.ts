@@ -67,7 +67,7 @@ export class SuccessSubmodulesPage implements OnInit {
     const module = this.data.find((item) => item.id === moduleId);
     this.subModule = module.submodules && module.submodules.find((submodule) => submodule.id === submoduleId);
     this.success_data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
-      submodule: this.translate.instant(this.subModule.title),
+      submodule: this.translate.instant(this.subModule?.title),
      });
   }
 
