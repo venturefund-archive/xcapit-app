@@ -10,6 +10,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
+import { rawEducationData } from '../shared-financial-education/fixtures/rawEducationData';
 import { SubModuleInformationPage } from './sub-module-information.page';
 
 fdescribe('SubModuleInformationPage', () => {
@@ -26,7 +27,6 @@ fdescribe('SubModuleInformationPage', () => {
     waitForAsync(() => {
       financialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
         getEducationDataOf: of(rawEducationData),
-        getSubmoduleResultOf: of(rawSubmoduleResult),
       });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
