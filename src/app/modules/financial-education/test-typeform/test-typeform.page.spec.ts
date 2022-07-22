@@ -186,9 +186,9 @@ fdescribe('TestTypeformPage', () => {
       '/tabs/financial-education/information/category/',
       'finance',
       'module',
-      '1',
+      1,
       'submodule',
-      '1'
+      1
     ]
     );
   });
