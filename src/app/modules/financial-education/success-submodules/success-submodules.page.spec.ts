@@ -80,7 +80,7 @@ fdescribe('SuccessSubmodulesPage', () => {
     fakeActivatedRoute.modifySnapshotParams({
       category: 'crypto',
       module: 4,
-      submodule: 1,
+      submodule: 3,
     });
     await component.ionViewWillEnter();
     fixture.detectChanges();
