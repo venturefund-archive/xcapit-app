@@ -9,6 +9,7 @@ import { ModulesService } from '../shared-financial-education/services/modules/m
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 
 fdescribe('SuccessSubmodulesPage', () => {
   let component: SuccessSubmodulesPage;
@@ -16,6 +17,7 @@ fdescribe('SuccessSubmodulesPage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let financialEducationServiceSpy: jasmine.SpyObj<FinancialEducationService>;
   beforeEach(
     waitForAsync(() => {
