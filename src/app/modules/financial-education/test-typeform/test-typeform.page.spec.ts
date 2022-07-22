@@ -120,4 +120,17 @@ fdescribe('TestTypeformPage', () => {
       'financial-education/error-test/category/finance/module/1/submodule/1/code/tc_finance_1_submodule_1'
     );
   });
+
+  it('should navigate to success page when submit test on typeform and status is completed', async () => {
+    rawEducationData.finance[0].status = 'to_do';
+    rawEducationData.finance[0].submodules[0].status = 'to_do';
+    await component.ionViewWillEnter();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    component.redirect();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      'financial-education/error-test/category/finance/module/1/submodule/1/code/tc_finance_1_submodule_1'
+    );
+  });
 });
