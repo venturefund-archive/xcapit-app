@@ -9,7 +9,7 @@ import { ModulesService } from '../shared-financial-education/services/modules/m
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-describe('SuccessSubmodulesPage', () => {
+fdescribe('SuccessSubmodulesPage', () => {
   let component: SuccessSubmodulesPage;
   let fixture: ComponentFixture<SuccessSubmodulesPage>;
   let fakeActivatedRoute: FakeActivatedRoute;
