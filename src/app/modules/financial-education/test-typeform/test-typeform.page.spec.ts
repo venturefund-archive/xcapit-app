@@ -71,6 +71,7 @@ fdescribe('TestTypeformPage', () => {
   it('should get data on will enter', async () => {
     rawEducationData.finance[0].status = 'completed';
     rawEducationData.finance[0].submodules[0].status = 'completed';
+    rawSubmoduleResult.status = 'completed';
     await component.ionViewWillEnter();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
