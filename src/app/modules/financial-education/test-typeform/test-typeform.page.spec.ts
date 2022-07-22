@@ -183,9 +183,13 @@ fdescribe('TestTypeformPage', () => {
    fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      '/tabs/financial-education/information/category/'
+      '/tabs/financial-education/information/category/',
+      'finance',
+      'module',
+      '1',
+      'submodule',
+      '1'
     ]
-      '/tabs/financial-education/information/category/finance/module/1/submodule/1'
     );
   });
 });
