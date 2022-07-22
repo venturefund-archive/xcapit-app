@@ -54,6 +54,11 @@ fdescribe('SubModuleInformationPage', () => {
       fixture = TestBed.createComponent(SubModuleInformationPage);
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       component = fixture.componentInstance;
+      fakeActivatedRoute.modifySnapshotParams({
+        category: 'finance',
+        module: 1,
+        submodule: 1,
+      });
       fixture.detectChanges();
     })
   );
