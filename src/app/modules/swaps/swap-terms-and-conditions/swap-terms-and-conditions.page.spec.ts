@@ -89,7 +89,7 @@ describe('SwapTermsAndConditionsPage', () => {
   });
 
   it('should open browser in app when 1inch ToS is clicked', async () => {
-    const labelEl = fixture.debugElement.query(By.css('ion-label[name="go_to_1inch_tos"]'));
+    const labelEl = fixture.debugElement.query(By.css('ion-button[name="go_to_1inch_tos"]'));
     labelEl.nativeElement.click();
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: LINKS.oneInchToS });
   });

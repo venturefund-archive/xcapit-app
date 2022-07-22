@@ -40,15 +40,29 @@ import { defaultSwapsUrls } from '../swaps-routing.module';
           </ion-text>
         </div>
         <div class="stc__checkbox">
-          <ion-checkbox mode="md" slot="start" name="checkbox-condition" (ionChange)="this.enableButton()">
-          </ion-checkbox>
-          <ion-label class="stc__checkbox__phrase checkbox-link">
-            <ion-label class="ux-font-text-xs">
-              {{ 'swaps.terms_and_conditions.terms.i_have_read' | translate }}</ion-label>
-            <ion-label class="ux-link-xs" name="go_to_1inch_tos" appTrackClick (click)="this.openTOS()">
-              {{ 'swaps.terms_and_conditions.terms.link_to_terms' | translate }}</ion-label>
-            <ion-label class="ux-font-text-xs">&nbsp; {{ 'swaps.terms_and_conditions.terms.of' | translate }}</ion-label>
-          </ion-label>
+          <ion-item class="stc__checkbox__last ux-font-text-xs">
+            <ion-checkbox mode="md" slot="start" name="checkbox-condition" (ionChange)="this.enableButton()">
+            </ion-checkbox>
+            <ion-label class="stc__checkbox__phrase checkbox-link">
+              <ion-label class="ux-font-text-xs">
+                {{ 'swaps.terms_and_conditions.terms.i_have_read' | translate }}</ion-label
+              >
+              <div class= "stc__checkbox__phrase__link">
+                <ion-button
+                  name="go_to_1inch_tos"
+                  class="ux-link-xs stc__checkbox__phrase__link__button"
+                  (click)="this.openTOS()"
+                  appTrackClick
+                  fill="clear"
+                >
+                  {{ 'swaps.terms_and_conditions.terms.link_to_terms' | translate }}
+                </ion-button>
+                <ion-label class="ux-font-text-xs stc__checkbox__phrase__link__label"
+                  >{{ 'swaps.terms_and_conditions.terms.of' | translate }}</ion-label
+                >
+              </div>
+            </ion-label>
+          </ion-item>
         </div>
         <div class="stc__button">
           <ion-button
@@ -66,8 +80,6 @@ import { defaultSwapsUrls } from '../swaps-routing.module';
           </ion-button>
         </div>
       </div>
-
-      <div class="stc__ux_footer"></div>
     </div>
   </ion-content>`,
   styleUrls: ['./swap-terms-and-conditions.page.scss'],
@@ -76,9 +88,11 @@ export class SwapTermsAndConditionsPage implements OnInit {
   acceptTos = false;
   key = 'termsAndConditions1InchSwapAccepted';
   links = LINKS;
-  constructor(private navController: NavController,
+  constructor(
+    private navController: NavController,
     private storage: IonicStorageService,
-    private browserService: BrowserService,) {}
+    private browserService: BrowserService
+  ) {}
 
   ngOnInit() {}
 
