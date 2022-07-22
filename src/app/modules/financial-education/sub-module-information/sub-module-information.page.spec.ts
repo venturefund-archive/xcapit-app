@@ -52,6 +52,7 @@ fdescribe('SubModuleInformationPage', () => {
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: StorageService, useValue: storageServiceSpy },
+          { provide: FinancialEducationService, useValue: financialEducationServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
