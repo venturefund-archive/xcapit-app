@@ -76,6 +76,18 @@ fdescribe('HomeFinancialEducationPage', () => {
     expect(component.modules).toEqual(rawEducationData.crypto);
   });
 
+  it('should set the corresponding data in the finance tab when tab finance is clicked', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.segmentsForm.patchValue({ tab: 'crypto' });
+    fixture.detectChanges();
+    component.segmentsForm.patchValue({ tab: 'finance' });
+    fixture.detectChanges();
+    expect(component.segmentsForm.value.tab).toEqual('finance');
+    expect(component.modules).toEqual(rawEducationData.finance);
+  });
+
   it('should render app-modules-education component', () => {
     component.ionViewWillEnter();
     const componentEl = fixture.debugElement.queryAll(By.css('app-modules-education'));
