@@ -33,6 +33,8 @@ fdescribe('SuccessSubmodulesPage', () => {
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: TrackService, useValue: trackServiceSpy },
+          { provide: StorageService, useValue: storageServiceSpy },
+          { provide: FinancialEducationService, useValue: financialEducationServiceSpy },
         ],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
