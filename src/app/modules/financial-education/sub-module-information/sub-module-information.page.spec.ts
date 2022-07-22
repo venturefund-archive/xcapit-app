@@ -67,11 +67,6 @@ fdescribe('SubModuleInformationPage', () => {
   });
 
   it('should get finance data on init', async () => {
-    fakeActivatedRoute.modifySnapshotParams({
-      category: 'finance',
-      module: 1,
-      submodule: 1,
-    });
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
