@@ -11,7 +11,9 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
 import { rawEducationData } from '../shared-financial-education/fixtures/rawEducationData';
+import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 import { SubModuleInformationPage } from './sub-module-information.page';
+import { of } from 'rxjs';
 
 fdescribe('SubModuleInformationPage', () => {
   let component: SubModuleInformationPage;
@@ -23,6 +25,7 @@ fdescribe('SubModuleInformationPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let financialEducationServiceSpy: jasmine.SpyObj<FinancialEducationService>;
+
   beforeEach(
     waitForAsync(() => {
       financialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
