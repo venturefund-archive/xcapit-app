@@ -30,7 +30,8 @@ fdescribe('GlobalProgressCardComponent', () => {
 
   fit('should render card_state_0 if progress is 0', () => {
     component.modules = [...rawEducationData.finance, ...rawEducationData.crypto].filter((mod) => !mod.coming_soon)
-    component.calculateProgressPercentage();
+    fixture.detectChanges();
+    component.ngOnInit();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(
       By.css('.gpc__card__accordion__item__content ion-text.ux-font-text-xxs')
