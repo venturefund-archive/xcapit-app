@@ -85,8 +85,9 @@ fdescribe('SubModuleInformationPage', () => {
   });
   //
 
+  //ya esta
 
-  fit('should navigate to typeform page when button ux_education_learn is clicked', async () => {
+  it('should navigate to typeform page when button ux_education_learn is clicked', async () => {
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
@@ -103,8 +104,10 @@ fdescribe('SubModuleInformationPage', () => {
       'lc_finance_1_submodule_1',
     ]);
   });
+ //
 
-  it('should call trackEvent on trackService when ux_education_test Button clicked', () => {
+
+  fit('should call trackEvent on trackService when ux_education_test Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_test');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
