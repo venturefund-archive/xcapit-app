@@ -75,7 +75,7 @@ export class SuccessSubmodulesPage implements OnInit {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: this.subModule.screenViewLabel,
+      eventLabel: this.subModule.data_to_track,
     });
   }
 }
