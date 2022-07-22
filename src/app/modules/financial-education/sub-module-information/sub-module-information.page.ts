@@ -51,10 +51,13 @@ export class SubModuleInformationPage implements OnInit {
     private financialEducationService: FinancialEducationService,
   ) {}
 
-  async ngOnInit() {
+  async ionViewWillEnter(){
     this.getParams();
     this.setDataByTab();
     await this.getUserWalletAddress();
+  }
+
+  ngOnInit() {
   }
 
   getEducationDataOf(anAddress: string) {
