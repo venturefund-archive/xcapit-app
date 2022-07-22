@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-circle-progress',
@@ -33,6 +33,6 @@ export class CircleProgressComponent implements OnInit {
   }
 
   setProgress() {
-    this.actualProgress = this.circlePerimeter * ((100 - this.percentage)/100);
+    this.actualProgress = this.circlePerimeter * ((100 - this.percentage) / 100);
   }
 }

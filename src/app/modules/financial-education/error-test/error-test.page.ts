@@ -45,6 +45,6 @@ export class ErrorTestPage implements OnInit {
 
   setURLs() {
     this.data.urlPrimaryAction = `financial-education/typeform/category/${this.category}/module/${this.moduleId}/submodule/${this.submoduleId}/code/${this.code}`;
-    this.data.urlThirdAction = `financial-education/information/category/${this.category}/module/${this.moduleId}/submodule/${this.submoduleId}`;
+    this.data.urlThirdAction = `tabs/financial-education/information/category/${this.category}/module/${this.moduleId}/submodule/${this.submoduleId}`;
   }
 }

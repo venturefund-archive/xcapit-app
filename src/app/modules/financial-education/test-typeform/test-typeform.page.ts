@@ -45,9 +45,9 @@ export class TestTypeformPage implements OnInit {
   ngOnInit() {}
 
   async ionViewWillEnter() {
+    this.getParams();
     await this.getUserWalletAddress();
     this.getEducationDataOf(this.wallet_address);
-    this.getParams();
     this.getData();
     this.getModule();
     this.getSubModule();
@@ -94,7 +94,6 @@ export class TestTypeformPage implements OnInit {
         submodule_id: `${this.subModule.id}`,
       },
       onSubmit: () => {
-        console.log('llego onSub');
         this.getEducationDataOf(this.wallet_address);
         this.getSubmoduleResult();
         this.redirect();
@@ -132,20 +131,25 @@ export class TestTypeformPage implements OnInit {
 
   redirect() {
     let url = '';
-    if (!this.categoriesCompleted) {
-      url =
-        this.submoduleResult.status === 'completed'
-          ? `financial-education/success-submodules/category/${this.selectedCategory}/module/${this.module.id}/submodule/${this.subModule.id}`
-          : `financial-education/error-test/category/${this.selectedCategory}/module/${this.module.id}/submodule/${this.subModule.id}/code/${this.code}`;
+    if (this.subModule.test_code === this.code) {
+      if (!this.categoriesCompleted) {
+        url =
+          this.submoduleResult.status === 'completed'
+            ? `financial-education/success-submodules/category/${this.selectedCategory}/module/${this.module.id}/submodule/${this.subModule.id}`
+            : `financial-education/error-test/category/${this.selectedCategory}/module/${this.module.id}/submodule/${this.subModule.id}/code/${this.code}`;
+      } else {
+        url = 'financial-education/final-success-test';
+      }
     } else {
-      url = 'financial-education/final-success-test';
+      url = `tabs/financial-education/information/category/${this.selectedCategory}/module/${this.module.id}/submodule/${this.subModule.id}`;
     }
-    console.log('llego a redirect');
     this.navController.navigateForward(url);
   }
 
   private updateTexts() {
-    const moduleName = this.translate.instant(`financial_education.typeform_header.finance_sub_${this.subModule.id}`);
+    const moduleName = this.translate.instant(
+      `financial_education.typeform_header.${this.selectedCategory}_sub_${this.subModule.id}`
+    );
     if (this.code === this.subModule.learning_code) {
       this.headerText = moduleName;
     } else {
