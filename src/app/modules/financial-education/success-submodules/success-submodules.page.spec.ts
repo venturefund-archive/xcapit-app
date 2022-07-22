@@ -74,7 +74,7 @@ fdescribe('SuccessSubmodulesPage', () => {
   it('should set crypto data on init', async () => {
     fakeActivatedRoute.modifySnapshotParams({
       category: 'crypto',
-      module: 1,
+      module: 4,
       submodule: 1,
     });
     await component.ionViewWillEnter();
@@ -85,7 +85,7 @@ fdescribe('SuccessSubmodulesPage', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledOnceWith({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: 'dtc_crypto_4_submodule_1',
+      eventLabel: 'dtc_crypto_1_submodule_1',
     });
   });
 });
