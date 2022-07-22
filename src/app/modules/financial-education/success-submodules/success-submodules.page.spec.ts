@@ -23,21 +23,6 @@ fdescribe('SuccessSubmodulesPage', () => {
         trackEvent: Promise.resolve(true),
       });
 
-      moduleServiceSpy = jasmine.createSpyObj('ModulesService', {
-        getModules: [
-          {
-            id: 1,
-            sub_modules: [
-              {
-                id: 1,
-                title: 'Test',
-                screenViewLabel: 'Event test',
-              },
-            ],
-          },
-        ],
-      });
-
       fakeActivatedRoute = new FakeActivatedRoute({ moduleId: 1, submoduleId: 1 });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
 
