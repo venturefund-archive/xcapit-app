@@ -5,12 +5,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TrackService } from '../../../shared/services/track/track.service';
 import { SUCCESS_TYPES } from '../../../shared/components/success-content/success-types.constant';
 import { SuccessSubmodulesPage } from './success-submodules.page';
-import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { rawEducationData } from '../shared-financial-education/fixtures/rawEducationData';
+import { of } from 'rxjs';
 
 fdescribe('SuccessSubmodulesPage', () => {
   let component: SuccessSubmodulesPage;
@@ -26,9 +26,9 @@ fdescribe('SuccessSubmodulesPage', () => {
         trackEvent: Promise.resolve(true),
       });
 
-      fakeActivatedRoute = new FakeActivatedRoute({ category: 'finance' , module: 1, submodule: 1  });
+      fakeActivatedRoute = new FakeActivatedRoute({ category: 'finance', module: 1, submodule: 1 });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
-      
+
       financialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
         getEducationDataOf: of(rawEducationData),
       });
