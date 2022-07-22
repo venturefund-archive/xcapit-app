@@ -72,6 +72,12 @@ fdescribe('SuccessSubmodulesPage', () => {
   });
 
   it('should set crypto data on init', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      category: 'crypto',
+      module: 1,
+      submodule: 1,
+      code: 'lc_finance_1_submodule_1',
+    });
     await component.ionViewWillEnter();
     fixture.detectChanges();
     Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
