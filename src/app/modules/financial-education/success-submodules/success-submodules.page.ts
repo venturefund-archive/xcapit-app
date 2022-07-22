@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
-import { ModulesService } from 'src/app/modules/financial-education/shared-financial-education/services/modules/modules.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-import { DATA } from '../shared-financial-education/constants/data';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 
