@@ -39,7 +39,7 @@ fdescribe('ModulesEducationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to info education page when item is clicked', () => {
+  fit('should navigate to info education page when item is clicked', () => {
     fixture.debugElement.query(By.css('ion-item[name="item_sub_module"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
