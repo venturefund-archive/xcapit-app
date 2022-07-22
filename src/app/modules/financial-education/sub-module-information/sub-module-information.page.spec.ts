@@ -21,7 +21,7 @@ fdescribe('SubModuleInformationPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-
+  let financialEducationServiceSpy: jasmine.SpyObj<FinancialEducationService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
