@@ -28,7 +28,7 @@ fdescribe('GlobalProgressCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render card_state_0 if progress is 0', () => {
+  fit('should render card_state_0 if progress is 0', () => {
     component.modules = rawEducationData.finance[0];
     component.calculateProgressPercentage();
     fixture.detectChanges();
