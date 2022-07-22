@@ -30,9 +30,6 @@ fdescribe('GlobalProgressCardComponent', () => {
   });
 
   fit('should render card_state_0 if progress is 0',async () => {
-    component.ngOnInit();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    fixture.detectChanges();
     const titleEl = fixture.debugElement.query(
       By.css('.gpc__card__accordion__item__content ion-text.ux-font-text-xxs')
     );
