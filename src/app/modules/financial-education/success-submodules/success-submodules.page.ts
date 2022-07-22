@@ -49,7 +49,6 @@ export class SuccessSubmodulesPage implements OnInit {
   }
 
   getEducationDataOf(anAddress: string) {
-    // this.data = DATA;
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
     });
