@@ -77,7 +77,7 @@ fdescribe('ModulesEducationComponent', () => {
   });
 
 
-  fit('should render coming soon module properly', async () => {
+  fit('should render active module properly', async () => {
 
     component.module = rawEducationData.finance[0];
     fixture.whenStable();
