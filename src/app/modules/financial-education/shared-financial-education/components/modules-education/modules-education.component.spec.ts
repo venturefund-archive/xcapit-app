@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { rawEducationData } from '../../fixtures/rawEducationData';
 import { ModulesEducationComponent } from './modules-education.component';
 
 fdescribe('ModulesEducationComponent', () => {
@@ -13,7 +14,6 @@ fdescribe('ModulesEducationComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ModulesEducationComponent>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let moduleSpy: jasmine.SpyObj<any>;
 
   beforeEach(
     waitForAsync(() => {
@@ -29,7 +29,7 @@ fdescribe('ModulesEducationComponent', () => {
       fixture = TestBed.createComponent(ModulesEducationComponent);
       component = fixture.componentInstance;
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      component.module = moduleSpy;
+      component.module = rawEducationData.finance;
       component.selectedCategory = 'finance';
       fixture.detectChanges();
     })
