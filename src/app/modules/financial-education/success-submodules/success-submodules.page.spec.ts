@@ -28,7 +28,11 @@ fdescribe('SuccessSubmodulesPage', () => {
 
       fakeActivatedRoute = new FakeActivatedRoute({ category: 'finance', module: 1, submodule: 1 });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
-
+      storageServiceSpy = jasmine.createSpyObj('StorageService', {
+        getWalletFromStorage: Promise.resolve({
+          addresses: { ERC20: 'testAddress', MATIC: 'testAddressMatic', RSK: 'testAddressRsk' },
+        }),
+      });
       financialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
         getEducationDataOf: of(rawEducationData),
       });
