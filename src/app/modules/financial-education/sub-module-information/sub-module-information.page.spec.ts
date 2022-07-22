@@ -119,7 +119,8 @@ fdescribe('SubModuleInformationPage', () => {
   });
   // ya esta
 
-  it('should navigate to typeform page when button ux_education_test is clicked', () => {
+ //
+  fit('should navigate to typeform page when button ux_education_test is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_education_test"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
@@ -133,6 +134,7 @@ fdescribe('SubModuleInformationPage', () => {
       'GGLKURh6',
     ]);
   });
+  //
 
   it('should not redirect to typeform learn page if the user has no wallet', async () => {
     storageServiceSpy.getWalletFromStorage.and.resolveTo(null)
