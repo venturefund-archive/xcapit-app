@@ -29,8 +29,8 @@ fdescribe('ModulesEducationComponent', () => {
       fixture = TestBed.createComponent(ModulesEducationComponent);
       component = fixture.componentInstance;
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      component.module = rawEducationData.finance[0];
       component.selectedCategory = 'finance';
+      component.module = rawEducationData.finance[0];
       fixture.detectChanges();
     })
   );
