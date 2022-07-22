@@ -125,9 +125,25 @@ fdescribe('TestTypeformPage', () => {
     );
   });
 
-  fit('should navigate to success page when submit test on typeform and status is completed', async () => {
+  it('should navigate to success page when submit test on typeform and status is completed', async () => {
     rawEducationData.finance[0].status = 'to_do';
     rawEducationData.finance[0].submodules[0].status = 'to_do';
+    rawSubmoduleResult.status = 'completed';
+    await component.ionViewWillEnter();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    component.getEducationDataOf('testAddress');
+    component.getSubmoduleResult();
+    component.redirect();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      'financial-education/success-submodules/category/finance/module/1/submodule/1'
+    );
+  });
+
+  fit('should navigate to final success page when submit test on typeform and status is completed', async () => {
+    rawEducationData.finance[0].status = 'completed';
+    rawEducationData.finance[0].submodules[0].status = 'completed';
     rawSubmoduleResult.status = 'completed';
     await component.ionViewWillEnter();
     await fixture.whenStable();
