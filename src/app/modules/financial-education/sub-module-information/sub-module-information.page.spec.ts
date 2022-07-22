@@ -12,7 +12,7 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
 import { SubModuleInformationPage } from './sub-module-information.page';
 
-describe('SubModuleInformationPage', () => {
+fdescribe('SubModuleInformationPage', () => {
   let component: SubModuleInformationPage;
   let fixture: ComponentFixture<SubModuleInformationPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SubModuleInformationPage>;
