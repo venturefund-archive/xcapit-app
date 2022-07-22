@@ -63,14 +63,18 @@ fdescribe('ModulesEducationComponent', () => {
 
   fit('should render properly', async () => {
     component.module = rawEducationData.finance[1];
+    fixture.whenStable();
+    fixture.whenRenderingDone();
+    fixture.detectChanges();
+
     const imgModuleEl = fixture.debugElement.query(By.css('img[name="module_img"]'));
     const titleModuleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
-    const comingSoonEl = fixture.debugElement.query(By.css('ion-label[name="module_coming_soon"]'));
+    const comingSoonEl = fixture.debugElement.query(By.css('.coming_soon ion-label'));
     const titleSubModuleEl = fixture.debugElement.query(By.css('ion-label[name="sub_module_title ux-font-text-xxs"]'));
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(imgModuleEl.attributes.src).toContain('icon_finance_1');
-    expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_1');
+    expect(imgModuleEl.attributes.src).toContain('icon_finance_2');
+    expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_2');
     expect(comingSoonEl.nativeElement.innerHTML).toContain('financial_education.home.coming_soon');
     expect(titleSubModuleEl.nativeElement.innerHTML).toContain(
       'financial_education.home.module_finance.module_1.sub_modules.sub_module_1'
