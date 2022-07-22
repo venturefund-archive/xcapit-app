@@ -184,13 +184,6 @@ fdescribe('TestTypeformPage', () => {
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
       '/tabs/financial-education/information/category/finance/module/1/submodule/1'
-
-      '/tabs/financial-education/information/category/',
-      this.selectedCategory,
-      'module',
-      this.module.id,
-      'submodule',
-      this.subModule.id,
     );
   });
 });
