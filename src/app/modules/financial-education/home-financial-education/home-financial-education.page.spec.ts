@@ -13,7 +13,7 @@ import { FinancialEducationService } from '../shared-financial-education/service
 import { rawEducationData } from '../shared-financial-education/fixtures/rawEducationData';
 import { of } from 'rxjs';
 
-fdescribe('HomeFinancialEducationPage', () => {
+describe('HomeFinancialEducationPage', () => {
   let component: HomeFinancialEducationPage;
   let fixture: ComponentFixture<HomeFinancialEducationPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeFinancialEducationPage>;
