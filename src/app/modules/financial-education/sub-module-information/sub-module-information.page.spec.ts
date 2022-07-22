@@ -24,6 +24,10 @@ fdescribe('SubModuleInformationPage', () => {
   let financialEducationServiceSpy: jasmine.SpyObj<FinancialEducationService>;
   beforeEach(
     waitForAsync(() => {
+      financialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
+        getEducationDataOf: of(rawEducationData),
+        getSubmoduleResultOf: of(rawSubmoduleResult),
+      });
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       fakeActivatedRoute = new FakeActivatedRoute({
