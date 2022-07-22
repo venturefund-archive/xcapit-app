@@ -10,7 +10,9 @@ import { HomeFinancialEducationPage } from './home-financial-education.page';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
+import { rawEducationData } from '../shared-financial-education/fixtures/rawEducationData';
 
 fdescribe('HomeFinancialEducationPage', () => {
   let component: HomeFinancialEducationPage;
@@ -18,15 +20,29 @@ fdescribe('HomeFinancialEducationPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeFinancialEducationPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let financialEducationServiceSpy: jasmine.SpyObj<FinancialEducationService>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+      inancialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
+        getEducationDataOf: of(rawEducationData),
+      });
+      storageServiceSpy = jasmine.createSpyObj('StorageService', {
+        getWalletFromStorage: Promise.resolve({
+          addresses: { ERC20: 'testAddress', MATIC: 'testAddressMatic', RSK: 'testAddressRsk' },
+        }),
+      });
       TestBed.configureTestingModule({
         declarations: [HomeFinancialEducationPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: StorageService, useValue: storageServiceSpy },
+          { provide: FinancialEducationService, useValue: financialEducationServiceSpy },
+        ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
@@ -49,7 +65,7 @@ fdescribe('HomeFinancialEducationPage', () => {
 
   it('should set the corresponding data in the crypto tab when tab crypto is clicked', async () => {
     component.ionViewWillEnter();
-    component.segmentsForm.patchValue({ tab:'crypto' });
+    component.segmentsForm.patchValue({ tab: 'crypto' });
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.segmentsForm.value.tab).toEqual('crypto');
@@ -90,5 +106,4 @@ fdescribe('HomeFinancialEducationPage', () => {
     const progressEl = fixture.debugElement.query(By.css('app-global-progress-card'));
     expect(progressEl).toBeTruthy();
   });
-
 });
