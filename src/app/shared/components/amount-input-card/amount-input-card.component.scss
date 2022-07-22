@@ -3,6 +3,12 @@
     background: var(--ion-color-white);
     border-radius: 8px;
 
+    &__send {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+    }
+
     &__available {
       text-align: center;
 
@@ -16,6 +22,24 @@
 
         ion-text {
           color: var(--ion-color-successdark);
+          margin-bottom: 4px;
+        }
+      }
+    }
+
+    &__insufficient-funds {
+      text-align: center;
+
+      ion-text {
+        color: var(--ion-color-dangerdark);
+      }
+
+      &__amounts {
+        display: grid;
+        justify-content: center;
+
+        ion-text {
+          color: var(--ion-color-dangerdark);
           margin-bottom: 4px;
         }
       }
@@ -44,7 +68,6 @@
       }
 
       &__title {
-        margin-top: 32px;
         margin-bottom: 16px;
       }
 
@@ -92,6 +115,10 @@
           color: var(--ion-color-neutral90);
 
           --padding-start: 16px;
+        }
+
+        ion-input.ng-invalid.ng-dirty {
+          border: 1.5px solid var(--ion-color-dangerdark);
         }
 
         ion-input.has-focus {
@@ -153,6 +180,27 @@
           --placeholder-opacity: 0;
         }
       }
+
+      &__funds-advice {
+        display: flex;
+        width: 100%;
+        padding-top: 6px;
+        align-items: flex-start;
+
+        img {
+          margin-right: 6px;
+        }
+
+        ion-text {
+          color: var(--ion-color-dangerdark) !important;
+        }
+      }
     }
+  }
+
+  ion-icon {
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
   }
 }

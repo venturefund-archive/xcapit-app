@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-explanation',
   template: ` <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="financial-education/introduction/financial-freedom"></ion-back-button>
+          <ion-back-button (click)="this.back()"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'financial_education.introduction.explanation.header' | translate }}</ion-title>
         <ion-buttons class="back-button" slot="end">
@@ -71,20 +72,27 @@ export class ExplanationPage implements OnInit {
   ];
   
   key =  'introductionCompleted';
-  constructor(private trackService : TrackService, private navController: NavController, private storage : IonicStorageService) {}
-
+  constructor(private trackService : TrackService, private navController: NavController, private storage : IonicStorageService, private route: ActivatedRoute) {}
+  mode : string;
   ngOnInit(){}
 
   ionViewWillEnter(){
+    this.mode = this.route.snapshot.paramMap.get('mode');
     this.trackService.trackEvent({
+
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_education_screenview_intro_2'
     });
   }
 
+  back(){
+    const url = this.mode === 'rule' ? 'tabs/financial-education' : 'financial-education/introduction/financial-freedom';
+    this.navController.navigateBack(url);
+  }
+
   navigateToTests() {
     this.storage.set(this.key, true);
-    this.navController.navigateForward('/financial-education/home');
+    this.navController.navigateForward('tabs/financial-education');
   }
 }

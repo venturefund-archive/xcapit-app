@@ -1,12 +1,13 @@
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ExpandableInvestmentInfoComponent } from './expandable-investment-info.component';
 import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.pipe';
 import { InvestmentProduct } from '../../interfaces/investment-product.interface';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const usdc_coin = {
   id: 7,
@@ -50,6 +51,20 @@ const btc_coin = {
   symbol: 'BTCUSDT',
 };
 
+const matic_coin = {
+  id: 16,
+  last: false,
+  logoRoute: 'assets/img/coins/MATIC.png',
+  moonpayCode: 'matic_polygon',
+  name: 'MATIC - Polygon',
+  native: true,
+  network: 'MATIC',
+  rpc: 'http://testrpc.text/',
+  symbol: 'MATICUSDT',
+  value: 'MATIC',
+  decimals: 18
+};
+
 const modeTestsData = [
   {
     mode: {
@@ -79,24 +94,32 @@ describe('ExpandableInvestmentInfoComponent', () => {
   let fixture: ComponentFixture<ExpandableInvestmentInfoComponent>;
   let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
+
   beforeEach(
     waitForAsync(() => {
       investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
         token: usdc_coin,
+        nativeToken: matic_coin,
         tvl: 15800500,
         apy: 12.66,
         type: 'Vault',
         provider: '2PI',
         name: 'mumbai_usdc',
       });
-
+      fakeModalController = new FakeModalController({ data: 'fake_password' });
+      modalControllerSpy = fakeModalController.createSpy();
       remoteConfigSpy = jasmine.createSpyObj('RemoteConfigSpy', {
         getObject: [{ id: 'mumbai_usdc', isComing: false, category: 'conservative' }],
       });
       TestBed.configureTestingModule({
         declarations: [ExpandableInvestmentInfoComponent, SplitStringPipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [{ provide: RemoteConfigService, useValue: remoteConfigSpy }],
+        providers: [
+          { provide: RemoteConfigService, useValue: remoteConfigSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
+        ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
@@ -141,7 +164,7 @@ describe('ExpandableInvestmentInfoComponent', () => {
       );
       const apyEl = fixture.debugElement.query(By.css('ion-badge.ux-font-num-subtitulo'));
       const blockchainBadgeEl = fixture.debugElement.query(By.css('ion-badge.ux-badge'));
-      const [typeEl, depositAssetEl, withdrawAssetEl, providerEl, profileEl] = fixture.debugElement.queryAll(
+      const [typeEl, depositAssetEl, withdrawAssetEl, nativeTokenEl, tokenEl,providerEl, profileEl] = fixture.debugElement.queryAll(
         By.css(
           'ion-label.eif__accordion__content__information-item ion-text.eif__accordion__content__information-item__text'
         )
@@ -149,11 +172,12 @@ describe('ExpandableInvestmentInfoComponent', () => {
       const [depositAssetImgEl, withdrawAssetImgEl] = fixture.debugElement.queryAll(
         By.css('ion-item.split-information-item div.inline-image>img')
       );
+      const informativeIcon = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
       expect(blockchainBadgeEl).toBeTruthy();
       expect(tokenSymbolEl.nativeElement.innerHTML).toEqual('USDC');
       expect(tokenNameEl.nativeElement.innerHTML).toEqual('USD Coin');
       expect(apyEl.nativeElement.innerHTML).toContain('12.66');
-      // expect(tvlEl.nativeElement.innerHTML).toContain('$15,800,500.00');
+      expect(informativeIcon).toBeTruthy();
       expect(typeEl.nativeElement.innerHTML).toContain('Vault');
       expect(depositAssetEl.nativeElement.innerHTML).toContain('USDC');
       expect(depositAssetImgEl.attributes.src).toEqual('assets/img/coins/USDC.png');
@@ -163,5 +187,28 @@ describe('ExpandableInvestmentInfoComponent', () => {
         'defi_investments.shared.expandable_investment_info.profiles.conservative'
       );
       expect(providerEl.nativeElement.innerHTML).toContain('2PI');
+      expect(nativeTokenEl.nativeElement.innerHTML).toContain('MATIC');
+      expect(tokenEl.nativeElement.innerHTML).toContain('USDC');
     });
+
+  it('should show modal', async () => {
+    component.investmentProduct = investmentProductSpy;
+    component.ngOnInit();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
+    const el = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
+    el.nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not show modal', async () => {
+    component.investmentProduct = investmentProductSpy;
+    component.ngOnInit();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
+    component.isInfoModalOpen = true
+    const el = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
+    el.nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  });
 });

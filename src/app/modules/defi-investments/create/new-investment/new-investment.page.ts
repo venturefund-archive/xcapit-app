@@ -16,6 +16,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 @Component({
   selector: 'app-new-investment',
   template: `
@@ -52,29 +54,31 @@ import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/fac
           ></app-amount-input-card-skeleton>
         </form>
       </ion-card>
-      <div class="ni__footer">
+    </ion-content>
+    <ion-footer class="ni__footer">
+      <div class="ni__footer__submit-button ion-padding">
         <ion-button
           appTrackClick
           name="ux_invest_continue"
           expand="block"
           size="large"
           type="submit"
-          class="ion-padding-start ion-padding-end ux_button"
+          class="ux_button ni__footer__submit-button__button"
           color="secondary"
           (click)="this.saveAmount()"
           [disabled]="!this.form.valid"
         >
           {{ 'defi_investments.new.button' | translate }}
-        </ion-button>
+        </ion-button>       
         <div *appFeatureFlag="'ff_buyCryptoNewInvestmentFooter'">
           <div class="ni__footer__text" *ngIf="this.buyAvailable">
             <span class="ux-font-text-xs text">
               {{ 'defi_investments.new.dont_have' | translate }}{{ this.token.value + '?' }}
             </span>
             <ion-button
-              name="go_to_moonpay"
+              name="go_to_buy"
               class="ux-link-xl ni__footer__text__button"
-              (click)="this.goToMoonpay()"
+              (click)="this.goToBuyCrypto()"
               appTrackClick
               fill="clear"
             >
@@ -83,7 +87,7 @@ import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/fac
           </div>
         </div>
       </div>
-    </ion-content>
+      </ion-footer>
   `,
   styleUrls: ['./new-investment.page.scss'],
 })
@@ -114,7 +118,9 @@ export class NewInvestmentPage implements OnInit {
     private investmentDataService: InvestmentDataService,
     private navController: NavController,
     private walletBalance: WalletBalanceService,
-    private dynamicPriceFactory: DynamicPriceFactory
+    private dynamicPriceFactory: DynamicPriceFactory,
+    private storage: IonicStorageService,
+    private walletBackupService: WalletBackupService
   ) {}
 
   ngOnInit() {}
@@ -148,8 +154,12 @@ export class NewInvestmentPage implements OnInit {
     this.buyAvailable = coin[0].hasOwnProperty('moonpayCode');
   }
 
-  goToMoonpay() {
-    this.navController.navigateForward(['fiat-ramps/new-operation/moonpay']);
+  async goToBuyCrypto() {
+    if ((await this.walletBackupService.presentModal()) === 'skip') {
+      const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+      const url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
+      this.navController.navigateForward([url]);
+    }
   }
 
   getToken() {
@@ -158,6 +168,12 @@ export class NewInvestmentPage implements OnInit {
 
   async setTokenBalance(): Promise<void> {
     this.tokenBalance = await this.walletBalance.balanceOf(this.token);
+    this.addLowerThanValidator();
+  }
+
+  private addLowerThanValidator(){
+    this.form.get('amount').addValidators(CustomValidators.lowerThanEqual(this.tokenBalance));
+    this.form.get('amount').updateValueAndValidity();
   }
 
   saveAmount() {

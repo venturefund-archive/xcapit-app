@@ -13,7 +13,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { SwiperModule } from 'swiper/angular';
-import { WalletBackupService } from '../shared-wallets/wallet-backup/wallet-backup.service';
+import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wallet-backup.service';
 
 const phraseTrue = [
   {order:1,value:'test'},

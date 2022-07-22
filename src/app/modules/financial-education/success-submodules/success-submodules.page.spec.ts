@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TrackService } from '../../../shared/services/track/track.service';
 import { SUCCESS_TYPES } from '../../../shared/components/success-content/success-types.constant';
 import { SuccessSubmodulesPage } from './success-submodules.page';
-import { ModulesService } from 'src/app/shared/services/financial-education/modules.service';
+import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 

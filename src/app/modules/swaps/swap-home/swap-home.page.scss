@@ -1,0 +1,160 @@
+:host {
+  .sw {
+    hr {
+      margin: 0;
+      border-top: 1px solid var(--ion-color-neutral50);
+    }
+
+    &__swap-card {
+      margin: 16px 16px 0;
+      background: var(--ion-color-white);
+      border: 1px solid var(--ion-color-neutral50);
+      box-shadow: 0 2px 8px rgb(var(--ion-color-info-rgb) 5%);
+      border-radius: 8px;
+
+      &__networks {
+        --nsc-title-font-size: var(--ux-fsize-18);
+        --nsc-title-font-family: var(--ux-font-worksans);
+      }
+
+      &__icon_area {
+        display: flex;
+        flex-flow: row;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+
+        hr {
+          flex-grow: 1;
+          border-top: 1px solid var(--ion-color-neutral10);
+        }
+
+        &__content {
+          display: flex;
+          flex-flow: row;
+          align-content: center;
+          justify-content: center;
+          align-items: center;
+          margin: 0 3px;
+          box-shadow: 0 1px 11px rgb(0 0 0 / 8%);
+          border-radius: 50px;
+          border: 1px solid var(--ion-color-neutral50);
+          width: 36px;
+          height: 36px;
+
+          &__icon {
+            padding-top: 4px;
+            font-size: 18px;
+          }
+        }
+      }
+
+      &__from,
+      &__to {
+        &__title {
+          margin-bottom: 10px;
+        }
+
+        &__detail {
+          display: flex;
+          flex-flow: row;
+          align-content: center;
+          justify-content: space-between;
+          align-items: flex-end;
+
+          &__token {
+            width: 45%;
+          }
+
+          &__amount {
+            width: 55%;
+            margin-left: 5px;
+
+            &__input {
+              border-radius: 4px;
+              border: 1px solid var(--ion-color-neutral80);
+              background-color: var(--ion-color-neutral10);
+              color: var(--ion-color-neutral90);
+
+              --padding-start: 14px;
+              --padding-top: 12px;
+              --padding-end: 14px;
+              --padding-bottom: 12px;
+            }
+
+            &__value {
+              padding-bottom: 10px;
+              text-align: right;
+            }
+          }
+        }
+      }
+    }
+
+    &__checkbox {
+      ion-checkbox {
+        margin-right: 14px;
+      }
+
+      &__text-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      &__text {
+        margin-top: 24.5px;
+        margin-left: 10px;
+
+        span {
+          color: var(--ion-color-neutral80);
+        }
+
+        flex-direction: column;
+        gap: 22px;
+
+        &__button {
+          height: auto;
+          margin-left: -8px;
+
+          --padding-start: 8px !important;
+        }
+      }
+
+      &__last {
+        --border-color: transparent;
+        --background-hover: transparent;
+        --background-activated: transparent;
+        --padding-start: 5px;
+
+        color: var(--ion-color-neutral80);
+      }
+    }
+
+    &__footer {
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+      border-radius: 8px;
+
+      &__swap-button {
+        display: flex;
+        padding-bottom: 8px;
+
+        &__button {
+          flex-grow: 1;
+        }
+      }
+
+      &__loader {
+        display: flex;
+        flex-flow: row;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+
+        span {
+          font-size: var(--ux-fsize-12);
+          color: var(--ion-color-neutral80);
+        }
+      }
+    }
+  }
+}

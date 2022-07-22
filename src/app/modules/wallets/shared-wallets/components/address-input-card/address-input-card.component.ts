@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
-import { ControlContainer, FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
+import { AbstractControl, ControlContainer, FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { ScanQrModalComponent } from '../../../../../shared/components/scan-qr-modal/scan-qr-modal.component';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
@@ -10,22 +10,24 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 @Component({
   selector: 'app-address-input-card',
   template: `
-    <div class="aic ion-padding">
+    <div class="aic">
+    <div class="aic__info">
+          <app-backup-information-card
+            [text]="
+              'wallets.shared_wallets.address_input_card.disclaimer' | translate
+                  : {
+                      network: this.selectedNetwork | formattedNetwork
+                    }
+            "
+            [textClass]="'ux-home-backup-card'"
+          >
+          </app-backup-information-card>
+        </div>
       <div class="aic__header">
         <div class="aic__header__title">
           <ion-text class="ux-font-titulo-xs">{{ this.title }}</ion-text>
         </div>
         <div class="aic__header__buttons">
-          <ion-button
-            name="Paste Address"
-            appTrackClick
-            fill="clear"
-            size="small"
-            color="neutral80"
-            (click)="this.pasteClipboardData()"
-          >
-            <ion-icon name="ux-paste"></ion-icon>
-          </ion-button>
           <ion-button
             *ngIf="this.enableQR && !this.isPWA"
             name="Scan QR"
@@ -40,16 +42,32 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
         </div>
       </div>
       <div class="aic__content">
-        <app-ux-input-underlined
-          [labelLeft]="this.helpText"
-          debounce="1000"
-          controlName="address"
+        <app-ux-input
+          class="ion-no-padding"
+          [placeholder]="'wallets.shared_wallets.address_input_card.placeholder' | translate"
+          [pasteType]="'ux-paste'"
+          [controlName]="'address'"
+          debounce="500"
           type="text"
           id="address-input"
-        ></app-ux-input-underlined>
+        ></app-ux-input>
+        <div *ngIf="this.hideHelpText">
+          <div class="aic__content__validator" *ngIf="!this.status">
+            <img src="assets/img/defi-investments/shared/transaction-fee/exclamation.svg" />
+            <ion-label class="ux-font-text-xxs" color="dangerdark">{{ this.validatorText | translate }}</ion-label>
+          </div>
+          <div class="aic__content__validator" *ngIf="this.status">
+            <ion-icon name="ux-checked-circle-outline" color="successdark"> </ion-icon>
+            <ion-label class="ux-font-text-xxs" color="successdark">{{ this.validatorText | translate }}</ion-label>
+          </div>
+        </div>
+        <ion-label *ngIf="!this.hideHelpText" class="aic__content__helpText ux-font-text-xxs">
+          {{ this.helpText }}
+        </ion-label>
       </div>
     </div>
   `,
+
   viewProviders: [
     {
       provide: ControlContainer,
@@ -62,12 +80,17 @@ export class AddressInputCardComponent implements OnInit {
   @Input() title: string;
   @Input() helpText: string;
   @Input() enableQR = true;
+  @Input() selectedNetwork: string;
   isPWA = true;
   form: FormGroup;
+  control: AbstractControl;
+  address: string;
+  hideHelpText = false;
+  status: boolean;
+  validatorText: string;
 
   constructor(
     private clipboardService: ClipboardService,
-    private formBuilder: FormBuilder,
     private modalController: ModalController,
     private toastService: ToastService,
     private translate: TranslateService,
@@ -78,18 +101,17 @@ export class AddressInputCardComponent implements OnInit {
   ngOnInit() {
     this.form = this.formGroupDirective.form;
     this.checkIsWebPlatform();
+    this.form.get('address').statusChanges.subscribe((valid) => {
+      this.status = valid === 'VALID';
+      this.validatorText = this.status
+        ? 'wallets.shared_wallets.address_input_card.text_valid'
+        : 'wallets.shared_wallets.address_input_card.text_invalid';
+      this.hideHelpText = true;
+    });
   }
 
   checkIsWebPlatform() {
     this.isPWA = this.platformService.isWeb();
-  }
-
-  pasteClipboardData() {
-    this.clipboardService.read().then((result) => {
-      if (result.type === 'text/plain') {
-        this.form.patchValue({ address: result.value });
-      }
-    });
   }
 
   async scanQR() {

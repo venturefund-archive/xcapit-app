@@ -28,46 +28,40 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
     <ion-content>
       <div class="header-background"></div>
       <div class="dp">
-        <div class="dp__active-card" *ngIf="this.activeInvestments.length">
+        <div class="dp__active-card">
           <ion-item lines="none" slot="header">
             <ion-label>{{ 'defi_investments.defi_investment_products.title_investments' | translate }}</ion-label>
           </ion-item>
-          <ion-text class="dp__gains" *ngIf="this.activeInvestmentsContinuousEarning.length">{{
-            'defi_investments.defi_investment_products.profits' | translate
-          }}</ion-text>
-          <div *ngFor="let investment of this.activeInvestmentsContinuousEarning">
+          <div *ngIf="!this.activeInvestments.length && !this.allLoaded">
+            <app-defi-investment-product-skeleton></app-defi-investment-product-skeleton>
+          </div>
+          <div class="dp__no_investments" *ngIf="!this.activeInvestments.length && this.allLoaded">
+            <img src="assets/img/defi-investments/no-investments.svg" />
+            <ion-text class="ux-font-text-xs" color="neutral80">{{
+              'defi_investments.defi_investment_products.no_investments' | translate
+            }}</ion-text>
+          </div>
+          <ion-text
+            class="dp__gains ux-font-text-xs"
+            *ngIf="this.activeInvestments.length && this.activeInvestmentsContinuousEarning.length"
+            >{{ 'defi_investments.defi_investment_products.profits' | translate }}</ion-text
+          >
+          <div class="dp__balance_items" *ngFor="let investment of this.activeInvestmentsContinuousEarning">
             <app-investment-balance-item [investmentProduct]="investment.product" [balance]="investment.balance">
             </app-investment-balance-item>
           </div>
-          <ion-text class="dp__weeklygains" *ngIf="this.activeInvestmentsWeaklyEarning.length">{{
-            'defi_investments.defi_investment_products.profits_weekly' | translate
-          }}</ion-text>
+          <ion-text
+            class="dp__weeklygains ux-font-text-xs"
+            *ngIf="this.activeInvestments.length && this.activeInvestmentsWeaklyEarning.length"
+            >{{ 'defi_investments.defi_investment_products.profits_weekly' | translate }}</ion-text
+          >
           <div *ngFor="let investment of this.activeInvestmentsWeaklyEarning">
             <app-investment-balance-item [investmentProduct]="investment.product" [balance]="investment.balance">
             </app-investment-balance-item>
           </div>
         </div>
-        <div
-          class="dp__available-card-skeleton"
-          *ngIf="!this.activeInvestments.length && !this.availableInvestments.length"
-        >
-          <ion-skeleton-text
-            class="skeleton"
-            style="width:55%"
-            *ngIf="!this.activeInvestments.length && !this.availableInvestments.length"
-            slot="header"
-            animated
-          ></ion-skeleton-text>
-          <div>
-            <app-defi-investment-product-skeleton *ngFor="let i of [1, 2, 3]"></app-defi-investment-product-skeleton>
-          </div>
-        </div>
-        <div class="dp__available-card" *ngIf="this.availableInvestments.length">
-          <ion-item
-            *ngIf="this.activeInvestments.length || this.availableInvestments.length"
-            lines="none"
-            slot="header"
-          >
+        <div class="dp__available-card">
+          <ion-item lines="none" slot="header">
             <ion-label
               >{{
                 (!this.activeInvestments.length
@@ -80,7 +74,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           <form [formGroup]="this.profileForm">
             <app-filter-tab [items]="this.items" controlName="profile"></app-filter-tab>
           </form>
-          <div *ngIf="!this.filteredAvailableInvestments.length" class="dp__empty">
+          <div *ngIf="!this.availableInvestments.length" class="dp__empty">
             <div class="dp__empty__image text-center">
               <img src="assets/img/defi-investments/empty-products.svg" />
             </div>
@@ -91,14 +85,15 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
             </div>
           </div>
           <app-defi-investment-product
-            *ngFor="let investment of this.filteredAvailableInvestments"
+            *ngFor="let investment of this.availableInvestments"
             [investmentProduct]="investment.product"
             [isComing]="investment.isComing"
             [continuousEarning]="investment.continuousEarning"
+            [showFooter]="investment.balance !== null"
           ></app-defi-investment-product>
         </div>
       </div>
-      <div *ngIf="this.activeInvestments.length || this.availableInvestments.length" class="dp__link">
+      <div *ngIf="!this.disableFaqsButton" class="dp__link">
         <ion-button
           name="go_to_defi_faqs"
           (click)="this.goToDefiFaqs()"
@@ -110,12 +105,8 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           {{ 'defi_investments.defi_investment_products.link_button' | translate }}
         </ion-button>
       </div>
-      <div *ngIf="!this.activeInvestments.length && !this.availableInvestments.length">
-        <app-choose-investor-profile-skeleton></app-choose-investor-profile-skeleton>
-      </div>
       <app-choose-investor-profile-card
         [hasDoneInvestorTest]="this.hasDoneInvestorTest"
-        *ngIf="this.activeInvestments.length || this.availableInvestments.length"
       ></app-choose-investor-profile-card>
     </ion-content>
   `,
@@ -123,7 +114,9 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 })
 export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
+  allDefiProducts: DefiInvestment[] = [];
   investorCategory: string;
+  disableFaqsButton = false;
   profileForm: FormGroup = this.formBuilder.group({
     profile: ['conservative', []],
   });
@@ -145,11 +138,11 @@ export class DefiInvestmentProductsPage {
     },
   ];
   activeInvestments: DefiInvestment[] = [];
-  activeInvestmentsContinuousEarning: DefiInvestment[] = [];  
-  activeInvestmentsWeaklyEarning: DefiInvestment[] = [];  
+  activeInvestmentsContinuousEarning: DefiInvestment[] = [];
+  activeInvestmentsWeaklyEarning: DefiInvestment[] = [];
   availableInvestments: DefiInvestment[] = [];
   filteredAvailableInvestments: DefiInvestment[] = [];
-  haveInvestments = true;
+  allLoaded = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -168,6 +161,12 @@ export class DefiInvestmentProductsPage {
 
   ionViewDidLeave() {
     this.emptyArrays();
+    this.cleanValues();
+  }
+
+  cleanValues() {
+    this.allLoaded = false;
+    this.profileForm.get('profile').setValue('conservative');
   }
 
   ionViewWillEnter() {
@@ -178,6 +177,10 @@ export class DefiInvestmentProductsPage {
   async ionViewDidEnter() {
     this.getAvailableDefiProducts();
     await this.getInvestments();
+    this.filterByInvestorCategory(this.profileForm.value.profile);
+    await this.setBalance();
+    this.setFilter(this.investorCategory);
+    this.allLoaded = true;
   }
 
   getUser() {
@@ -191,25 +194,26 @@ export class DefiInvestmentProductsPage {
   }
 
   filterByInvestorCategory(category: string) {
+    const investmentsToFilter = this.allDefiProducts.filter(
+      (investment) => investment.balance === 0 || investment.balance === null
+    );
     if (category === 'no_category') {
-      this.filteredAvailableInvestments = this.availableInvestments.filter(
-        (investment) => investment.category === 'conservative'
-      );
+      this.availableInvestments = investmentsToFilter.filter((investment) => investment.category === 'conservative');
       this.profileForm.patchValue({ profile: 'conservative' });
     }
-    this.filteredAvailableInvestments = this.availableInvestments.filter(
-      (investment) => investment.category === category
-    );
+    this.availableInvestments = investmentsToFilter.filter((investment) => investment.category === category);
   }
 
   setFilter(investorProfile: string) {
     this.profileForm.patchValue({ profile: investorProfile.replace('wealth_managements.profiles.', '') });
-    this.filterByInvestorCategory(this.profileForm.value.profile);
   }
 
   emptyArrays() {
     this.availableInvestments = [];
     this.activeInvestments = [];
+    this.allDefiProducts = [];
+    this.activeInvestmentsContinuousEarning = [];
+    this.activeInvestmentsWeaklyEarning = [];
   }
 
   private getAvailableDefiProducts(): void {
@@ -220,21 +224,36 @@ export class DefiInvestmentProductsPage {
     return new AvailableDefiProducts(this.remoteConfig);
   }
 
-  async getInvestments(): Promise<void> {
-    const investments: DefiInvestment[] = [];
-    const walletExist = await this.walletService.walletExist();
+  async getInvestments() {
+    const investmentsProducts = [];
     for (const product of this.defiProducts) {
-      const investmentProduct = await this.getInvestmentProduct(product);
-      const balance = walletExist ? await this.getProductBalance(investmentProduct) : 0;
-      investments.push({
-        product: investmentProduct,
-        balance: balance,
+      const anInvestmentProduct = await this.getInvestmentProduct(product);
+      investmentsProducts.push({
+        product: anInvestmentProduct,
+        balance: null,
         isComing: product.isComing,
         continuousEarning: product.continuousEarning,
         category: product.category,
       });
     }
-    this.filterUserInvestments(investments);
+    this.allDefiProducts = this.availableInvestments = investmentsProducts;
+  }
+
+  async setBalance() {
+    const walletExist = await this.walletService.walletExist();
+    const investments = [];
+    for (const dp of this.allDefiProducts) {
+      const balance = walletExist ? await this.getProductBalance(dp.product) : 0;
+      investments.push({
+        product: dp.product,
+        balance: balance,
+        isComing: dp.isComing,
+        continuousEarning: dp.continuousEarning,
+        category: dp.category,
+      });
+    }
+    this.allDefiProducts = investments;
+    this.filterUserInvestments();
   }
 
   async getProductBalance(investmentProduct: InvestmentProduct): Promise<number> {
@@ -248,16 +267,16 @@ export class DefiInvestmentProductsPage {
     return TwoPiInvestment.create(investmentProduct, new VoidSigner(address), this.apiWalletService);
   }
 
-  filterUserInvestments(investments: DefiInvestment[]): void {
-    this.activeInvestments = investments.filter((investment) => investment.balance > 0);
+  filterUserInvestments(): void {
+    this.activeInvestments = this.allDefiProducts.filter((investment) => investment.balance > 0);
     this.activeInvestmentsContinuousEarning = this.activeInvestments.filter(
       (investment) => investment.continuousEarning === true
     );
     this.activeInvestmentsWeaklyEarning = this.activeInvestments.filter(
       (investment) => investment.continuousEarning === false
     );
-    this.availableInvestments = investments.filter((investment) => investment.balance === 0);
-    this.setFilter(this.investorCategory);
+    this.availableInvestments = this.allDefiProducts.filter((investment) => investment.balance === 0);
+    this.filterByInvestorCategory(this.profileForm.value.profile);
   }
 
   async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {

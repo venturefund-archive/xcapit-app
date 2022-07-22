@@ -40,6 +40,8 @@ import { DefiInvestmentsModule } from './modules/defi-investments/defi-investmen
 import { FinancialPlannerModule } from './modules/financial-planner/financial-planner.module';
 import { DonationsModule } from './modules/donations/donations.module';
 import { FinancialEducationModule } from './modules/financial-education/financial-education.module';
+import { SwapsModule } from './modules/swaps/swaps.module';
+import { XAuthTokenInterceptorService } from './modules/users/shared-users/services/x-auth-token-interceptor/x-auth-token-interceptor.service';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -78,6 +80,7 @@ registerLocaleData(localeEn, 'en');
     SupportModule,
     WealthManagementsModule,
     DefiInvestmentsModule,
+    SwapsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
@@ -103,6 +106,11 @@ registerLocaleData(localeEn, 'en');
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RefreshTokenInterceptorService,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: XAuthTokenInterceptorService,
       multi: true,
     },
     FileOpener,

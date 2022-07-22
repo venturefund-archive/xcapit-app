@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { ApiProfilesService } from './api-profiles.service';
 import { CrudService } from 'src/app/shared/services/crud/crud.service';
 import { CustomHttpService } from '../../../../../shared/services/custom-http/custom-http.service';
@@ -37,6 +36,11 @@ describe('ApiProfilesService', () => {
 
   it('should call CustomHttpService get when profileValid', () => {
     service.profileValid();
+    expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call CustomHttpService get when getUserData', () => {
+    service.getUserData();
     expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
   });
 

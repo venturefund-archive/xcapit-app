@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
-import { NavController } from '@ionic/angular';
 import { Coin } from '../../../../../wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interface';
 
@@ -13,6 +12,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
           *ngIf="coin"
           [selectedCoin]="coin"
           (changeCurrency)="this.emitChangeCurrency()"
+          [enabled]="this.coinSelectorEnabled"
         ></app-coin-selector>
       </div>
       <div *ngIf="this.amountEnabled" class="pnoc__amount-select">
@@ -39,18 +39,32 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
           </div>
         </div>
       </div>
+
+      <div *ngIf="this.provider.alias !== 'kripton' && this.provider.alias !== 'moonpay'">
+        <app-fiat-input
+        label="fiat_ramps.shared.provider_new_operation_card.to_pay"
+        disclaimer="fiat_ramps.shared.provider_new_operation_card.usd_disclaimer"
+        >
+        </app-fiat-input>
+      </div>
+
       <div class="pnoc__provider">
         <div class="pnoc__provider__label">
           <ion-text class="ux-font-titulo-xs">{{
             'fiat_ramps.shared.provider_new_operation_card.provider' | translate
           }}</ion-text>
         </div>
-        <div class="pnoc__provider__content">
+        <div class="pnoc__provider__content ux-card ion-padding">
           <div class="pnoc__provider__content__img">
             <img [src]="this.provider.logoRoute" />
           </div>
-          <div class="pnoc__provider__content__provider-name">
-            <ion-text class="pnoc__provider__content__text__name ux-font-text-base">{{ this.provider.name }}</ion-text>
+          <div class="pnoc__provider__content__body">
+            <div class="pnoc__provider__content__body__provider-name">
+              <ion-text class="pnoc__provider__content__body__text__name ux-font-text-lg">{{ this.provider.name }}</ion-text>
+            </div>
+            <div class="ux-font-text-xxs">
+              <ion-text class="pnoc__provider__content__body__description">{{ this.provider?.description | translate }}</ion-text>
+            </div>
           </div>
         </div>
         <div class="pnoc__provider__description">
@@ -74,6 +88,7 @@ export class ProviderNewOperationCardComponent implements OnInit {
   @Input() amountEnabled = true;
   @Input() fiatCurrency = 'USD';
   @Input() provider: FiatRampProvider;
+  @Input() coinSelectorEnabled = true;
   @Output() changeCurrency = new EventEmitter<void>();
 
   form: FormGroup;

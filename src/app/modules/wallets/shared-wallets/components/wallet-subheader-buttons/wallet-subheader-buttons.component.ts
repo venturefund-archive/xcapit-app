@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
-import { WalletBackupService } from '../../wallet-backup/wallet-backup.service';
+import { WalletBackupService } from '../../services/wallet-backup/wallet-backup.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { defaultSwapsUrls } from 'src/app/modules/swaps/swaps-routing.module';
+
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -28,16 +31,18 @@ import { WalletBackupService } from '../../wallet-backup/wallet-backup.service';
             icon="ux-arrow-down"
           ></app-icon-button-card>
         </div>
-        <div *appFeatureFlag="'ff_buyCryptoHomeWalletButton'" class="wsb__card-buttons__buy-card card">
-          <app-icon-button-card
-            (click)="this.goToBuy()"
-            appTrackClick
-            class="ux-font-text-lg"
-            name="ux_go_to_buy"
-            [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"
-            icon="ux-currency"
-          ></app-icon-button-card>
-        </div>
+        <ng-template [ngIf]="this.enabledToBuy">
+          <div *appFeatureFlag="'ff_buyCryptoHomeWalletButton'" class="wsb__card-buttons__buy-card card">
+            <app-icon-button-card
+              (click)="this.goToBuy()"
+              appTrackClick
+              class="ux-font-text-lg"
+              name="ux_go_to_buy"
+              [text]="'wallets.home.subheader_buttons_component.buy_card' | translate"
+              icon="ux-currency"
+            ></app-icon-button-card>
+          </div>
+        </ng-template>
         <div *appFeatureFlag="'ff_swap'" class="wsb__card-buttons__swap-card card">
           <app-icon-button-card
             (click)="this.goToSwap()"
@@ -56,13 +61,15 @@ import { WalletBackupService } from '../../wallet-backup/wallet-backup.service';
 export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
   @Input() network: string;
+  @Input() enabledToBuy = true;
 
   constructor(
     private navController: NavController,
-    private walletBackupService: WalletBackupService
+    private walletBackupService: WalletBackupService,
+    private storage: IonicStorageService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async goToSend() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
@@ -98,13 +105,15 @@ export class WalletSubheaderButtonsComponent implements OnInit {
 
   async goToBuy() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
-      this.navController.navigateForward(['fiat-ramps/select-provider']);
+      const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+      const url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
+      this.navController.navigateForward([url]);
     }
   }
 
   async goToSwap() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
-      this.navController.navigateForward(['']);
+      this.navController.navigateForward(defaultSwapsUrls.swapHome);
     }
   }
 }

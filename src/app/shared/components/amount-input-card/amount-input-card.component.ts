@@ -1,21 +1,40 @@
 import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
 import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-amount-input-card',
   template: `
-    <div class="aic ion-padding">
-      <div class="aic__available text-center">
-        <ion-text class="ux-font-titulo-xs">
-          {{ this.header }}
-        </ion-text>
-        <div class="aic__available__amounts">
-          <ion-text class="ux-font-text-xl"> {{ this.max | formattedAmount }} {{ this.baseCurrency.value }}</ion-text>
-          <ion-text class="ux-font-text-xxs">
-            ≈ {{ this.quoteMax | formattedAmount : 10 : 2 }} {{ this.quoteCurrency }}
+    <div class="aic ion-padding">      
+        <div [ngClass]="this.insufficientBalance ? 'aic__insufficient-funds' : 'aic__available'" class=" text-center">
+          <ion-text class="ux-font-titulo-xs">
+            {{ this.header }}
           </ion-text>
-        </div>
+          <div [ngClass]="this.insufficientBalance ? 'aic__insufficient-funds__amounts' : 'aic__available__amounts'">
+            <ion-text class="ux-font-text-xl" color="neutral80">
+              {{ this.max | formattedAmount }} {{ this.baseCurrency.value }}</ion-text
+            >
+            <ion-text class="ux-font-text-xxs" color="neutral80">
+              ≈ {{ this.quoteMax | formattedAmount: 10:2 }} {{ this.quoteCurrency }}
+            </ion-text>
+          </div>
+        </div>      
+      <div class="aic__send">
+        <ion-text class="ux-font-titulo-xs">
+          {{ this.title }}
+        </ion-text>
+        <ion-button
+          *ngIf="this.amountSend"
+          class="ion-no-padding"
+          slot="icon-only"
+          fill="clear"
+          appTrackClick
+          name="ux_phrase_information"
+          size="small"
+          (click)="this.showPhraseAmountInfo()"
+        >
+          <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
+        </ion-button>
       </div>
       <div class="aic__content">
         <div class="aic__content__title">
@@ -49,6 +68,7 @@ import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
               formControlName="amount"
               type="number"
               inputmode="numeric"
+              debounce="500"
             >
             </ion-input>
             <ion-button
@@ -60,18 +80,20 @@ import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms'
               >{{ 'defi_investments.shared.amount_input_card.max_button' | translate }}</ion-button
             >
           </div>
-          <ion-text class="aic__content__equal ux-fweight-medium ">=</ion-text>
+          <ion-text class="aic__content__equal ux-fweight-medium">=</ion-text>
           <ion-input
             appNumberInput
             class="aic__content__inputs__quoteAmount"
             formControlName="quoteAmount"
             type="number"
             inputmode="numeric"
+            debounce="500"
           ></ion-input>
         </div>
-        <div *ngIf="this.disclaimer" class="aic__content__disclaimer">
-          <ion-text class="ux-font-text-xs" style="white-space: pre-wrap;"
-            >{{ 'defi_investments.shared.amount_input_card.disclaimer' | translate }} {{ this.feeToken.value }}.
+        <div class="aic__content__funds-advice info " *ngIf="this.insufficientBalance">
+          <img src="assets/img/defi-investments/shared/amount-input-card/exclamation.svg" />
+          <ion-text class="ux-font-text-xxs">
+            {{ 'defi_investments.shared.amount_input_card.advice' | translate }}
           </ion-text>
         </div>
       </div>
@@ -91,12 +113,23 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   @Input() quotePrice: number;
   @Input() label: string;
   @Input() header: string;
+  @Input() title: string;
   @Input() disclaimer = true;
   @Input() max: number;
   @Input() showRange: boolean;
   @Input() feeToken: Coin;
+  @Input() amountSend: boolean;
+
+  @Output() phraseAmountInfoClicked: EventEmitter<void> = new EventEmitter<void>();
+
+  isAmountSend: boolean;
+  isInfoModalOpen = false;
+  value: number;
+  insufficientBalance: boolean
+
   form: FormGroup;
   quoteMax: number;
+  prueba: number;
 
   constructor(private formGroupDirective: FormGroupDirective) {}
 
@@ -127,16 +160,25 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
     this.form.patchValue(maxValues, this.defaultPatchValueOptions());
   }
 
+  showPhraseAmountInfo() {
+    this.phraseAmountInfoClicked.emit();
+  }
+
   private subscribeToFormChanges(): void {
     this.form = this.formGroupDirective.form;
-    this.form.get('amount').valueChanges.subscribe((value) => this.amountChange(value));
+    this.form.get('amount').valueChanges.subscribe((value) => {
+      this.amountChange(value)
+      this.value = value;     
+      this.insufficientBalance = this.value > this.max
+    });
     this.form.get('quoteAmount').valueChanges.subscribe((value) => this.quoteAmountChange(value));
     if (this.showRange) this.form.get('percentage').valueChanges.subscribe((value) => this.percentageChange(value));
     if (this.showRange) this.form.get('range').valueChanges.subscribe((value) => this.rangeChange(value));
+
   }
 
   private amountChange(value: number): void {
-    if (value > this.max) {
+    if (value > this.max && this.showRange) {
       this.setMaxFormValues();
       return;
     }
@@ -149,7 +191,7 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   }
 
   private quoteAmountChange(value: number): void {
-    if (value > this.max * this.quotePrice) {
+    if (value > this.max * this.quotePrice && this.showRange) {
       this.setMaxFormValues();
       return;
     }

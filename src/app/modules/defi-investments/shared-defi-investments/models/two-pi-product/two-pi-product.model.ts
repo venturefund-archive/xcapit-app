@@ -26,6 +26,10 @@ export class TwoPiProduct implements InvestmentProduct {
       .find((token) => token.value === new EquivalentTokenOf(this.vault.token).value());
   }
 
+  nativeToken(): Coin {
+    return this.apiWalletService.getNativeTokenFromNetwork(this.token().network);
+  }
+
   apy(): number {
     return this.vault.apy * 100;
   }

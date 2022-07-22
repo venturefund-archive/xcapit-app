@@ -28,7 +28,7 @@ export class ButtonSpinnerDirective implements OnChanges, AfterViewInit {
 
   private loadingFinished() {
     this.restoreOriginal();
-    this.disabled = false;
+    this.disabled = this.disabled ? true : false;
   }
 
   private loadingStarted() {

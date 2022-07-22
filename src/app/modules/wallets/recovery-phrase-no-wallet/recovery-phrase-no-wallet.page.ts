@@ -84,6 +84,6 @@ export class RecoveryPhraseNoWalletPage implements OnInit {
   }
 
   goToFAQ() {
-    this.navController.navigateForward(['support/wallet']);
+    this.navController.navigateForward(['support/faqs/wallet']);
   }
 }

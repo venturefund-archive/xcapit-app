@@ -11,6 +11,8 @@ log.txt
 *.sublime-workspace
 .vscode/
 npm-debug.log*
+.\#*
+flycheck_*.el
 
 .idea/
 .ionic/
@@ -33,8 +35,11 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 
-#variables.env.ts
+variables.env.ts
 variables.env
 docker-compose.yml
 android/app/google-services.json
 ios/App/App/GoogleService-Info.plist
+
+# customs
+development_notes.*

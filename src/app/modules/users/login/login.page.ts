@@ -12,7 +12,7 @@ import { UpdateNewsService } from 'src/app/shared/services/update-news/update-ne
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { WalletBackupService } from '../../wallets/shared-wallets/wallet-backup/wallet-backup.service';
+import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 
 @Component({
   selector: 'app-login',
@@ -164,7 +164,6 @@ export class LoginPage implements OnInit {
   private async success() {
     this.loginForm.form.reset();
     this.notificationsService.getInstance().init();
-    this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
       if (this.walletConnectService.uri.value && this.alreadyOnboarded) {

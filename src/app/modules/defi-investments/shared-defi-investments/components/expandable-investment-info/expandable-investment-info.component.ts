@@ -1,11 +1,12 @@
 import { InvestmentProduct } from './../../interfaces/investment-product.interface';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { NETWORK_COLORS } from 'src/app/modules/wallets/shared-wallets/constants/network-colors.constant';
 import { DefiProduct } from '../../interfaces/defi-product.interface';
 import { AvailableDefiProducts } from '../../models/available-defi-products/available-defi-products.model';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { ModalController } from '@ionic/angular';
+import { WithdrawInfoModalComponent } from '../withdraw-info-modal/withdraw-info-modal.component';
 
 @Component({
   selector: 'app-expandable-investment-info',
@@ -55,16 +56,6 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
               {{ this.infoText | translate }}
             </ion-text>
           </div>
-          <!-- <ion-item>
-            <ion-label class="eif__accordion__content__information-item">
-              <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs ">
-                {{ 'defi_investments.shared.expandable_investment_info.TVL' | translate }}
-              </ion-text>
-              <ion-text class="eif__accordion__content__information-item__text ux-font-text-base">
-                {{ '$' }}{{ this.tvl | number: '1.2-2' }}
-              </ion-text>
-            </ion-label>
-          </ion-item> -->
           <ion-item>
             <ion-label class="eif__accordion__content__information-item">
               <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs ">
@@ -109,6 +100,31 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
               }}</ion-badge>
             </ion-label>
           </ion-item>
+          <ion-item class="split-information-item">
+            <ion-label class="eif__accordion__content__information-item">
+              <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs ">
+                {{ 'defi_investments.shared.expandable_investment_info.transaction_fee' | translate }}
+              </ion-text>
+              <div class="inline-image">
+                <img [src]="this.nativeToken.logoRoute" />
+                <ion-text class="eif__accordion__content__information-item__text ux-font-text-base ">
+                  {{ this.nativeToken.value }}
+                </ion-text>
+              </div>
+            </ion-label>
+            <ion-label class="eif__accordion__content__information-item">
+              <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs">
+                {{ 'defi_investments.shared.expandable_investment_info.withdrawal_fee' | translate }}
+                <ion-icon (click)="showWithdrawInfo()" icon="information-circle"></ion-icon>
+              </ion-text>
+              <div class="inline-image">
+                <img [src]="this.token.logoRoute" />
+                <ion-text class="eif__accordion__content__information-item__text ux-font-text-base">
+                  {{ this.token.value }}
+                </ion-text>
+              </div>
+            </ion-label>
+          </ion-item>
           <ion-item>
             <ion-label class="eif__accordion__content__information-item">
               <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs ">
@@ -139,6 +155,7 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
   @Input() investmentProduct: InvestmentProduct;
   @Input() fbPrefix: string;
   token: Coin;
+  nativeToken: Coin;
   tvl: number;
   apy: number;
   provider: string;
@@ -149,12 +166,17 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
   networkColors = NETWORK_COLORS;
   defiProducts: DefiProduct[];
   profile: string;
+  isInfoModalOpen = false;
   trackClickName = 'display_product_info';
 
-  constructor(private remoteConfig: RemoteConfigService) {}
+  constructor(
+    private remoteConfig: RemoteConfigService,
+    private modalController: ModalController
+  ) {}
 
   ngOnInit() {
     this.token = this.investmentProduct.token();
+    this.nativeToken = this.investmentProduct.nativeToken();
     this.tvl = this.investmentProduct.tvl();
     this.apy = this.investmentProduct.apy();
     this.provider = this.investmentProduct.provider();
@@ -181,5 +203,19 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
 
   private setInvestmentInfo() {
     this.infoText = `defi_investments.shared.expandable_investment_info.investment_info.${this.token.value}`;
+  }
+
+  async showWithdrawInfo() {
+    if (this.isInfoModalOpen === false) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: WithdrawInfoModalComponent,
+        componentProps: {},
+        cssClass: 'ux-modal-withdraw-info',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
   }
 }

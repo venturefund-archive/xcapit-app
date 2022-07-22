@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TokenSelectionListComponent } from 'src/app/shared/components/token-selection-list/token-selection-list.component';
@@ -13,6 +12,8 @@ import { ProviderTokenSelectionPage } from './provider-token-selection.page';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
 
 const coins: Coin[] = [
   {
@@ -101,12 +102,14 @@ describe('ProviderTokenSelectionPage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
 
   beforeEach(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
-    fakeActivatedRoute = new FakeActivatedRoute({ provider: 'moonpay' });
+    fakeActivatedRoute = new FakeActivatedRoute({ provider: 'moonpay' }, { country: 'COL' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -115,19 +118,29 @@ describe('ProviderTokenSelectionPage', () => {
         jasmine.createSpyObj('Coin', {}, { value: 'DAI', network: 'MATIC' }),
       ],
     });
+
+    providersSpy = jasmine.createSpyObj('Providers', {
+      all: rawProvidersData,
+      byAlias: rawProvidersData.find((provider) => provider.alias === 'kripton'),
+    });
+
+    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+      create: providersSpy,
+    });
+
     TestBed.configureTestingModule({
       declarations: [ProviderTokenSelectionPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
-      imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [IonicModule, TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: ProvidersFactory, useValue: providersFactorySpy },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProviderTokenSelectionPage);
     component = fixture.componentInstance;
-    component.providers = rawProvidersData;
     fixture.detectChanges();
   });
 
@@ -144,10 +157,12 @@ describe('ProviderTokenSelectionPage', () => {
   });
 
   it('should navigate to moonpay page when itemClicked event is fired', async () => {
+    providersSpy.byAlias.and.returnValue(rawProvidersData.find((provider) => provider.alias === 'moonpay'));
     const navigationExtras: NavigationExtras = {
       queryParams: {
         asset: 'MATIC',
         network: 'MATIC',
+        country: 'COL',
       },
     };
     component.ionViewWillEnter();
@@ -160,13 +175,14 @@ describe('ProviderTokenSelectionPage', () => {
     );
   });
 
-  it('should navigate to kripton new operation page when itemClicked event is fired', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ provider: 'kripton' });
+  it('should navigate to kripton new operation page when clickedCoin event is fired', async () => {
+    fakeActivatedRoute.modifySnapshotParams({ provider: 'kripton' }, { country: 'ARS' });
 
     const navigationExtras: NavigationExtras = {
       queryParams: {
         asset: 'MATIC',
         network: 'MATIC',
+        country: 'ARS',
       },
     };
     component.ionViewWillEnter();

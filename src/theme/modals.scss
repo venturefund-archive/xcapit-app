@@ -18,6 +18,15 @@
   }
 }
 
+.ux-modal-withdraw-info {
+  --max-height: 412px;
+  --max-width: 85%;
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
 // Modal Informativo
 .ux-modal-informative {
   --max-height: 310px;
@@ -25,6 +34,17 @@
 
   &::part(content) {
     border-radius: 16px;
+  }
+}
+
+// Modal informativo extra small
+.ux-xxs-modal-informative {
+  --max-height: 268px;
+  --max-width: 296px;
+  --background: #fff;
+
+  &::part(content) {
+    border-radius: 8px;
   }
 }
 
@@ -54,6 +74,28 @@
 .ux-md-modal-informative {
   --max-height: 459px;
   --max-width: 296px;
+  --background: #fff;
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
+// Modal informativo providers
+.ux-md-modal-informative-provider {
+  --max-height: 408px;
+  --max-width: 328px;
+  --background: #fff;
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
+// Modal informativo providers
+.ux-sm-modal-informative-provider {
+  --max-height: 349px;
+  --max-width: 328px;
   --background: #fff;
 
   &::part(content) {
@@ -312,5 +354,17 @@
     border-radius: 14px;
     position: absolute;
     bottom: 1.5%;
+  }
+}
+
+.ux-toast-warning-with-margin {
+  --max-height: 110px;
+  --max-width: 95%;
+  --background: var(--ion-color-warninglight);
+
+  &::part(content) {
+    border-radius: 14px;
+    position: absolute;
+    bottom: 15%;
   }
 }

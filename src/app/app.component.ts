@@ -17,7 +17,8 @@ import { FirebaseRemoteConfig } from './shared/models/firebase-remote-config/fir
 import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { WalletConnectService } from './modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { WalletBackupService } from './modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
+import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { LocalNotificationsService } from './modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -50,7 +51,8 @@ export class AppComponent implements OnInit {
     private firebaseService: FirebaseService,
     private zone: NgZone,
     private walletConnectService: WalletConnectService,
-    private walletBackupService: WalletBackupService
+    private walletBackupService: WalletBackupService,
+    private localNotificationsService: LocalNotificationsService
   ) {}
 
   ngOnInit() {
@@ -76,6 +78,7 @@ export class AppComponent implements OnInit {
       this.languageService.setInitialAppLanguage();
       this.setLanguageSubscribe();
       this.checkDeeplinking();
+      this.localNotificationsService.init();
     });
   }
 

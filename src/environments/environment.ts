@@ -23,6 +23,8 @@ export const environment = {
   },
   appUrl: 'https://dummy.xcapit.com/',
   covalentApiUrl: 'https://covalent.url',
+  directa24Url: 'https://directa.url',
+  directa24ApiKey: 'directa.key',
   moonpayPK: 'dummy_publishable_key',
   walletNetwork: 'testnet',
   ethAlchemyApiUrl: 'alchemy.url',
@@ -38,5 +40,37 @@ export const environment = {
     MATIC: "m/44'/80001'/0'/0/0",
     BSC_BEP20: "m/44'/60'/0'/0/0",
   },
-  IPFS_GATEWAY: 'https://gateway.pinata.cloud/ipfs'
+  IPFS_GATEWAY: 'https://gateway.pinata.cloud/ipfs',
+  ONE_INCH_DEFAULTS: {
+    slippage: 1,
+    referralAddress: "0x0",
+    fee: 0.5,
+  },
+  POLYGON_GAS_STATION: 'https://aGasStarionUrl',
+  BLOCKCHAIN_DATA: [
+    {
+      name: "ERC20",
+      derivedPath: "m/44'/60'/0'/0/0",
+      id: "42",
+      rpc: "alchemy.url",
+    },
+    {
+      name: "RSK",
+      derivedPath: "m/44'/37310'/0'/0/0",
+      id: "31",
+      rpc: "https://rsk.node",
+    },
+    {
+      name: "MATIC",
+      derivedPath: "m/44'/80001'/0'/0/0",
+      id: "80001",
+      rpc: "https://matic.url",
+    },
+    {
+      name: "BSC_BEP20",
+      derivedPath: "m/44'/60'/0'/0/0",
+      id: "97",
+      rpc: "https://bsc.url",
+    },
+  ],
 };

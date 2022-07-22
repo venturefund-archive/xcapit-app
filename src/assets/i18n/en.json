@@ -141,6 +141,12 @@
         "title": "Financial Planner",
         "description": "Optimize the return on your money"
       }
+    },
+    "transaction_fees": {
+      "title": "Why is the transaction fee estimated?",
+      "description": "Due to market volatility, the exchange rate may vary slightly at the time of the transaction.",
+      "button_text": "Understood",
+      "loading_text":"Calculating. Wait a few moments."
     }
   },
   "users": {
@@ -311,11 +317,12 @@
       "header": "DeFi investments",
       "title": "Start investing",
       "title_investments": "My investments",
-      "profits": "Profits",
+      "profits": "Continuous profits",
       "profits_weekly": "Weekly profits",
       "recommendations": "You may be interested in",
       "empty_products": "Soon you will be able to find the best investments for your profile.",
       "link_button": "How do DeFi investments work?",
+      "no_investments":"Your investments will appear here. Get started now!",
       "choose_investor_profile": {
         "complete_test": {
           "title": "I want to choose my profile again",
@@ -358,8 +365,15 @@
       "weekly_update": "*Weekly update"
     },
     "shared": {
+      "withdraw_info_modal":{
+        "title":"¿Qué es la tarifa de retiro?",
+        "item_1":"Es el costo de realizar una extracción. ",
+        "item_2":"Se calcula sobre el monto que deseas retirar (0,255%), no sobre el total de tu inversión.",
+        "item_3":"Se abona en la misma moneda del producto de inversión (si estás invirtiendo en USDC, pagarás la tarifa de retiro en USDC).",
+        "button_text":"Entendido"
+      },
       "transaction_fees": {
-        "label": "Transaction fee",
+        "label": "Estimated transaction fee",
         "advice": "Insufficient funds"
       },
       "filter_tab": {
@@ -393,6 +407,8 @@
         "annual": "% Annual",
         "blockchain": "Blockchain",
         "profile": "Profile",
+        "transaction_fee": "Transaction Fee",
+        "withdrawal_fee": "Withdrawal Fee",
         "investment_info": {
           "USDC": "Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
           "DAI": "Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
@@ -405,10 +421,11 @@
         }
       },
       "amount_input_card": {
+        "title": "Estimated amount to send",
         "available": "Balance available",
         "amount_invested": "Total amount invested",
-        "disclaimer": "The exchange rate is defined by the blockchain and amounts may vary, depending on when you make the transaction. \nPlease note that transaction fees will be charged in",
-        "max_button": "Max"
+        "max_button": "Max",
+        "advice":"Insufficient funds"
       },
       "withdraw_card": {
         "title": "Withdraw",
@@ -430,7 +447,7 @@
         "header": "Withdraw investment",
         "button": "Continue",
         "label": "Amount to withdraw*",
-        "legend": "*Transaction fees will be charged in MATIC."
+        "legend": "*The transaction fee will be charged in {{network}}. While the withdrawal fee will be in {{token}}."
       },
       "withdraw": {
         "header": "Withdraw investment",
@@ -438,7 +455,11 @@
         "submit_loading": "Confirming",
         "withdraw_amount": "Amount to withdraw",
         "withdraw_fee": "Withdrawal fee",
-        "disclaimer": "It will only take a few seconds"
+        "disclaimer": "It will only take a few seconds",
+        "header_alert": "Wait!",
+        "alert_message": "We are still calculating the transaction fee. Do you want to continue anyway?",
+        "alert_confirmation": "Confirm",
+        "alert_cancel":"Cancel"
       },
       "password_modal": {
         "description": "To confirm your withdrawal, enter your Xcapit wallet password.",
@@ -987,7 +1008,7 @@
       "explanation": {
         "header": "Education",
         "title": "How does it work?",
-        "button": "Start",
+        "button": "Accept",
         "item_1": {
           "number": "1.",
           "title": " Complete all modules",
@@ -1006,6 +1027,11 @@
       }
     },
     "home": {
+      "statuses": {
+        "to_do": "To do",
+        "complete": "Complete",
+        "in_progress": "In progress"
+      },
       "header": "Education",
       "finance": "Finances",
       "crypto": "Crypto",
@@ -1103,6 +1129,12 @@
       "textPrimary": "You did it, that's the way to do it!",
       "textSecondary": "You have completed all financial education and crypto modules. Your NFT will be credited to your wallet soon.",
       "primaryButton": "Finish"
+    },
+    "error_no_wallet": {
+      "textPrimary": "Stop! You don't have your wallet yet",
+      "textSecondary": "To progress through the module, you need to create your wallet so you can claim your prize at the end of the module.",
+      "namePrimaryAction": "Create wallet",
+      "nameSecondaryAction": "Back to financial education"
     }
   },
   "financial_planner": {
@@ -1247,7 +1279,6 @@
       "network": "Network",
       "label": "Amount to donate",
       "disclaimer": "The network you selected is {{network}}. Make sure that the target wallet uses this same network. Otherwise, you will lose your assets.",
-      "description_fee": "*This amount is an estimate and may vary depending on the time of the transaction.",
       "summary": {
         "title": "Transaction data",
         "destination_address": "Destination address",
@@ -1506,9 +1537,9 @@
       "button_text": "Copy",
       "button_continue": "Continue",
       "security_information": "Xcapit will not be able to recover your wallet if you lose your recovery phrase.",
-      "button_text_coppied": "Coppied",
-      "coppied_text": "The recovery phrase was copied to the clipboard",
-      "copy_error_text": "The recovery phrase could not be coppied to the clipboard",
+      "button_text_copied": "Copied",
+      "copied_text": "The recovery phrase was copied to the clipboard",
+      "copy_error_text": "The recovery phrase could not be copied to the clipboard",
       "protected": "Complete backup",
       "not_protected": "No backup copy",
       "loading_text": "Decrypting wallet",
@@ -1605,8 +1636,7 @@
       "average_time": "Average receive time: 3 min.",
       "receive_address_title": "Address",
       "receive_address_copy": "Copy",
-      "disclaimer_header": "Send only {{currency}} using the network {{network}} to this deposit address.",
-      "disclaimer_body": "Sending other currencies or tokens and using a network different to the one selected, may result in losing your deposit.",
+      "disclaimer_header": "Send only {{currency}} using the {{network}} network to this address. Otherwise, you may lose your deposit.",
       "toast_success": "Copied to the clipboard"
     },
     "nft_detail": {
@@ -1647,11 +1677,10 @@
       },
       "send_detail": {
         "header": "Send",
-        "title": "Transfer data",
+        "title": "Shipment data",
         "network_select": {
           "title": "Transfer data",
-          "network": "Network",
-          "disclaimer": "Make sure the destination wallet uses the same network as {{network}} at this shipping address.\nSending other coins or tokens to an address other than {{network}} may result in the loss of your deposit.\n Currently only tokens can be sent through its native network, we are working to add more and new networks."
+          "network": "Network"
         },
         "continue_button": "Continue",
         "address_input": {
@@ -1665,16 +1694,19 @@
       },
       "send_summary": {
         "header": "Send",
-        "title": "Transfer data",
-        "amounts_title": "Amount to send",
+        "title": "Sending data",
+        "amounts_title": "Estimated amount to send",
         "send_button": "Send",
         "wrong_password": "Wrong password",
         "loader": "Sending",
         "destination_address": "Destination address",
-        "fee": "Transaction fee",
+        "fee": "Estimated transaction fee",
         "sent_notification": {
           "title": "¡Your transfer was completed successfully!",
           "body": "¡Your transfer to {{address}} was completed successfully!"
+        },
+        "transaction_summary_card": {
+          "disclaimer": "Check that the data entered are correct. Once the shipment has been sent, you will not be able to cancel it."
         },
         "alert_not_enough_native_token": {
           "title": "Transaction error",
@@ -1721,7 +1753,9 @@
 
       "address_input_card": {
         "scan_error": "Error scanning QR code",
-        "scan_unauthorized": "You have no permission to scan"
+        "placeholder": "Press and hold to paste",
+        "scan_unauthorized": "You have no permission to scan",
+        "disclaimer": "The network you selected is {{network}}. Make sure that the destination wallet uses this same network. Otherwise, you will lose your assets"
       },
       "wallet_password": {
         "title": "Enter your password",
@@ -1771,6 +1805,12 @@
         "item_4": "Keep it in a safe place.",
         "item_5": "You can engrave it on some element to make it last over time."
       },
+      "info_send_modal": {
+        "title_send_amount": "Why is the amount to be sent estimated?",
+        "title_transaction_fee": "Why is the transaction fee estimated?",
+        "description": "Due to market volatility, the exchange rate may vary slightly at the time of the transaction.",
+        "button_text": "Understood"
+      },
       "warning_backup_info": {
         "title": "Attention!",
         "title2": "You have not yet protected your wallet",
@@ -1781,7 +1821,8 @@
     },
     "asset_detail": {
       "header": "Asset Detail",
-      "wallet_transaction_title": "TRANSACTIONS"
+      "wallet_transaction_title": "Transactions",
+      "available": "Balance available"
     },
     "error_wallet_recovery": {
       "title": "Your recovery phrase is incorrect",
@@ -1942,6 +1983,14 @@
     "wallet": "Wallet"
   },
   "fiat_ramps": {
+    "buy_conditions": {
+      "title": "What do you need to know before you buy?",
+      "condition_1": "Purchases are made through a third party provider. Xcapit does not sell cryptocurrencies.",
+      "condition_2": "The conditions of sale and delivery of tokens depend on each provider.",
+      "condition_3": "The provider may ask you for verification or KYC information. Xcapit does not (and will not) ask for personal or validation data.",
+      "label_check": "I agree to the terms and conditions of purchase.",
+      "button": "Continue"
+    },
     "operations_list": {
       "title": "My operations",
       "operation": "Buy",
@@ -1964,8 +2013,30 @@
       "provider_label": "Select provider",
       "moonpay_description": "Buy with a credit card",
       "krypton_description": "Buy with bank transfer",
+      "directa24": {
+        "platform_description": "Buy USDC through the platform",
+        "nearest_store_description": "Buy USDC at your nearest store",
+        "nearest_branch_office_description": "Buy USDC at your nearest branch office",
+        "in_app_description": "Buy USDC through the app",
+        "debit_credit_description": "Buy USDC with debit or credit",
+        "transfer_description": "Buy USDC via wire transfer."
+      },
       "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
-      "button": "Continue"
+      "button": "Continue",
+      "modal_info": {
+        "subtitle_1": "Enabled payment methods:",
+        "subtitle_2": "What is the delivery time?",
+        "button": "Understood",
+        "kripton": {
+          "description_1": "Bank transfer.",
+          "description_2": "Deliveries are made from Monday to Friday from 9:00 a.m. to 6:00 p.m. approximately."
+        },
+        "moonpay": {
+          "description_1": "Credit card*.",
+          "description_2": "Depends on the external provider on a case-by-case basis.",
+          "disclaimer": "*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
+        }
+      }
     },
     "information_paxful": {
       "header": "Buy",
@@ -2042,6 +2113,7 @@
       "postal_code": "Postal code",
       "address_street": "Address (Street)",
       "address_number": "Address (Number)",
+      "phone": "Phone",
       "address_extra": "Address (Floor/Department)",
       "cbu": "CBU/CVU",
       "bank": "BANK",
@@ -2072,7 +2144,7 @@
       }
     },
     "confirm": {
-      "header": "Confirm operation",
+      "header": "Confirm purchase",
       "title": "Check that the data is correct",
       "provider": "Provider",
       "type": "Operation type",
@@ -2147,7 +2219,9 @@
       "spain": "Spain",
       "uruguay": "Uruguay",
       "united_states": "USA (United States of America)",
-      "venezuela": "Venezuela"
+      "venezuela": "Venezuela",
+      "ecuador": "Ecuador",
+      "chile": "Chile"
     },
     "shared": {
       "constants": {
@@ -2160,9 +2234,14 @@
       "fixed_footer": {
         "text": "You are interacting with Kriptonmarket"
       },
+      "redirect_footer": {
+        "text": "By clicking “Continue”, you will be redirected to the third-party vendor's site to complete your purchase ticket and pay for the transaction."
+      },
       "provider_new_operation_card": {
         "quantity": "Amount",
-        "provider": "Provider"
+        "provider": "Provider",
+        "to_pay": "You will pay*",
+        "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day."
       },
       "kyc_disclaimer_modal": {
         "title": "Krypton account registration",
@@ -2300,6 +2379,45 @@
       "subtitle": "Create your wallet to start investing.",
       "button": "Create Wallet",
       "link": "Back to investments"
+    }
+  },
+  "swaps": {
+    "home": {
+      "header": "Swap",
+      "button": "Swap",
+      "loading_button_text": "Swapping",
+      "from_token_title": "From",
+      "to_token_title": "To",
+      "fee_title": "Transaction details",
+      "footer_text": "It will only take a few seconds.",
+      "tos_1": "I have read and agree to ",
+      "tos_button": "1inch's terms and conditions."
+    },
+    "errors": {
+      "invalid_password": "The password entered is not valid."
+    },
+    "select_token": {
+      "header": "Swap",
+      "fromToken_title": "Select the token you want to swap",
+      "toToken_title": "Select the token you want to receive"
+    },
+    "swap_in_progress":{
+      "text_primary":"Your order is on the way!",
+      "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "button_text":"Go to Wallet"
+    },
+    "sent_notification":{
+      "actions":{
+        "title": "View more"
+      },
+      "swap_ok":{
+        "title":"🚀 Successful exchange! ",
+        "body": "You sent {{fromAmount}} {{fromToken}} and received {{toAmount}} {{toToken}} ."
+      },
+      "swap_not_ok":{
+        "title":"❌ Error in the exchange",
+        "body": "There was an error sending {{fromAmount}} {{fromToken}} and receiving {{toAmount}} {{toToken}}. More information here."
+      }
     }
   }
 }

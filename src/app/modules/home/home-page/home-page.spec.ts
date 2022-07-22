@@ -26,7 +26,8 @@ import { FakeBalance } from '../../wallets/shared-wallets/models/balance/fake-ba
 import { FakePrices } from '../../wallets/shared-wallets/models/prices/fake-prices/fake-prices';
 import { FakeBalances } from '../../wallets/shared-wallets/models/balances/fake-balances/fake-balances';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
-import { WalletBackupService } from '../../wallets/shared-wallets/wallet-backup/wallet-backup.service';
+import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 const dataTest = {
   category: 'purchases',
@@ -57,6 +58,7 @@ describe('HomePage', () => {
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -111,6 +113,10 @@ describe('HomePage', () => {
         presentModal: Promise.resolve('skip'),
       });
 
+      ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+        get: null,
+      });
+
       TestBed.configureTestingModule({
         declarations: [HomePage, FakeFeatureFlagDirective],
         imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot()],
@@ -128,6 +134,7 @@ describe('HomePage', () => {
           { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
           { provide: AppStorageService, useValue: appStorageServiceSpy },
           { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+          { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -167,16 +174,29 @@ describe('HomePage', () => {
     expect(balanceCacheServiceSpy.updateTotal).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to moonpay page when Buy Cripto Card is clicked and wallet exist', async () => {
+  it('should navigate to buy conditions page when Buy Cripto Card is clicked, wallet exist and conditionsPurchasesAccepted is not set on storage ', async () => {
     fakeWalletService.modifyReturns(true, null);
     component.ionViewDidEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', 'true');
     fixture.detectChanges();
+    await fixture.whenRenderingDone();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/fiat-ramps/select-provider']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/buy-conditions']);
+  });
+
+  it('should navigate to select provider page when Buy Cripto Card is clicked, wallet exist and conditionsPurchasesAccepted is set on storage ', async () => {
+    fakeWalletService.modifyReturns(true, null);
+    ionicStorageServiceSpy.get.and.returnValue(Promise.resolve('true'));
+    component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-buy-crypto-card')).triggerEventHandler('clicked', 'true');
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
   });
 
   it('should not navigate when closing backup modal without skipping', async () => {
@@ -261,7 +281,7 @@ describe('HomePage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/financial-planner/result-objetive']);
   });
 
-  it('should show Buy Crypto Card if user has wallet', async() => {
+  it('should show Buy Crypto Card if user has wallet', async () => {
     fakeWalletService.modifyReturns(true, null);
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();
@@ -270,7 +290,7 @@ describe('HomePage', () => {
     expect(cardEl).toBeTruthy();
   });
 
-  it('should not show Buy Crypto Card if user has not created wallet', async() => {
+  it('should not show Buy Crypto Card if user has not created wallet', async () => {
     fakeWalletService.modifyReturns(false, null);
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();
@@ -279,7 +299,7 @@ describe('HomePage', () => {
     expect(cardEl).toBeFalsy();
   });
 
-  it('should not show Donations Card if user has not created wallet', async() => {
+  it('should not show Donations Card if user has not created wallet', async () => {
     fakeWalletService.modifyReturns(false, null);
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();

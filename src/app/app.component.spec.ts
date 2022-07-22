@@ -16,7 +16,8 @@ import { UpdateNewsService } from './shared/services/update-news/update-news.ser
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
 import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { WalletBackupService } from './modules/wallets/shared-wallets/wallet-backup/wallet-backup.service';
+import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { LocalNotificationsService } from './modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -38,6 +39,7 @@ describe('AppComponent', () => {
   let firebaseServiceSpy: jasmine.SpyObj<FirebaseService>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+  let localNotificationServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -56,12 +58,12 @@ describe('AppComponent', () => {
       updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
       remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', { initialize: Promise.resolve() });
       firebaseServiceSpy = jasmine.createSpyObj('FirebaseService', { init: null, getApp: {} });
-
-      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { 
+      localNotificationServiceSpy = jasmine.createSpyObj('LocalNotificationsService', ['init']);
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
         retrieveWalletConnect: Promise.resolve(null),
         setUri: null,
         checkDeeplinkUrl: null,
-        checkConnection: Promise.resolve()
+        checkConnection: Promise.resolve(),
       });
 
       walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
@@ -85,8 +87,9 @@ describe('AppComponent', () => {
           { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
           { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
           { provide: FirebaseService, useValue: firebaseServiceSpy },
-          { provide: WalletConnectService, useValue: walletConnectServiceSpy},
+          { provide: WalletConnectService, useValue: walletConnectServiceSpy },
           { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+          { provide: LocalNotificationsService, useValue: localNotificationServiceSpy },
         ],
         imports: [TranslateModule.forRoot()],
       }).compileComponents();
@@ -114,7 +117,7 @@ describe('AppComponent', () => {
     expect(firebaseServiceSpy.init).toHaveBeenCalledTimes(1);
     expect(statusBarSpy.setBackgroundColor).not.toHaveBeenCalled();
     expect(walletBackupServiceSpy.getBackupWarningWallet).toHaveBeenCalledTimes(1);
-    // expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
+    expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
   });
 
   it('should call set background if android platform', async () => {

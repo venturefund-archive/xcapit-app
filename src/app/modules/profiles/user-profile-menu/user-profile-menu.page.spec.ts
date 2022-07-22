@@ -73,7 +73,6 @@ describe('UserProfileMenuPage', () => {
   let fixture: ComponentFixture<UserProfileMenuPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserProfileMenuPage>;
   let apiProfilesServiceSpy: jasmine.SpyObj<ApiProfilesService>;
-  let crudSpy: jasmine.SpyObj<CRUD>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
@@ -93,16 +92,9 @@ describe('UserProfileMenuPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
 
-      crudSpy = jasmine.createSpyObj('CRUD', {
-        get: of(profile),
-      });
-
       apiProfilesServiceSpy = jasmine.createSpyObj(
         'ApiProfilesService',
-        {},
-        {
-          crud: crudSpy,
-        }
+        {getUserData: of(profile)},
       );
       authServiceSpy = jasmine.createSpyObj(
         'AuthService',
@@ -233,5 +225,12 @@ describe('UserProfileMenuPage', () => {
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
     expect(menu.length).toBe(3);
+  });
+
+  it('should back to home when back button is clicked', async () => {
+    const button = fixture.debugElement.query(By.css('ion-back-button'));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tabs/home');
   });
 });

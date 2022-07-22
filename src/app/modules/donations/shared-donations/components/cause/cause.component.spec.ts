@@ -6,6 +6,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { CauseComponent } from './cause.component';
+import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
 const testCause = {
   id: 'water',
@@ -26,7 +27,7 @@ describe('CauseComponent', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [CauseComponent],
+        declarations: [CauseComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [{ provide: NavController, useValue: navControllerSpy }],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],

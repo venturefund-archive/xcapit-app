@@ -5,15 +5,17 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { ConfirmPagePage } from './confirm-page.page';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { of } from 'rxjs';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
+import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 
 const storageData = {
   valid: {
@@ -50,48 +52,62 @@ const storageData = {
   },
 };
 
-const provider = rawProvidersData[1];
-
 const operationId = 6;
 
 describe('ConfirmPagePage', () => {
   let component: ConfirmPagePage;
   let fixture: ComponentFixture<ConfirmPagePage>;
-  let storageOperationServiceMock: any;
-  let storageOperationService: any;
-  let fiatRampsServiceSpy: any;
-  let navControllerSpy: any;
+  let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ConfirmPagePage>;
+  let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
 
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-      storageOperationServiceMock = {
-        data: of(storageData.valid.data),
-        valid: storageData.valid.valid,
-        clear: () => of({}),
-        setOperationId: () => of(operationId),
-      };
+      navControllerSpy = new FakeNavController().createSpy();
+      storageOperationServiceSpy = jasmine.createSpyObj(
+        'StorageOperationService',
+        {
+          setOperationId: null,
+        },
+        {
+          data: of(storageData.valid.data),
+        }
+      );
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-        createOperation: of({}),
+        createOperation: of({ id: operationId }),
+      });
+      walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
+        addCoinIfUserDoesNotHaveIt: Promise.resolve(),
+      });
+
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+        getCoin: TEST_COINS[2],
+      });
+
+      providersSpy = jasmine.createSpyObj('Providers', {
+        all: rawProvidersData,
+      });
+
+      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+        create: providersSpy,
       });
 
       TestBed.configureTestingModule({
         declarations: [ConfirmPagePage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [
-          RouterTestingModule.withRoutes([
-            { path: 'fiat-ramps/operations-new"', component: DummyComponent },
-            { path: 'fiat-ramps/success-page', component: DummyComponent },
-          ]),
-          HttpClientTestingModule,
-          IonicModule,
-          TranslateModule.forRoot(),
-        ],
+        imports: [IonicModule, TranslateModule.forRoot()],
         providers: [
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-          { provide: StorageOperationService, useValue: storageOperationServiceMock },
+          { provide: StorageOperationService, useValue: storageOperationServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: ProvidersFactory, useValue: providersFactorySpy },
         ],
       }).compileComponents();
     })
@@ -101,20 +117,23 @@ describe('ConfirmPagePage', () => {
     fixture = TestBed.createComponent(ConfirmPagePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    storageOperationService = TestBed.inject(StorageOperationService);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    component.providers = rawProvidersData;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call createOperation on click confirm button', () => {
+  it('should call createOperation and addCoinIfUserDoesNotHaveIt on click confirm button', async () => {
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_confirm');
     el.nativeElement.click();
     fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledTimes(1);
+    expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(TEST_COINS[2]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/success-page', 6]);
   });
 
   it('should call trackEvent on trackService when ux_buy_kripton_confirm Button clicked', () => {

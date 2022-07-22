@@ -4,12 +4,13 @@ import { Vault } from '@2pi-network/sdk';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TwoPiProduct } from './two-pi-product.model';
 
-const coins = [{ value: 'USDC' } as Coin];
-
+const coins = [{ value: 'USDC' } as Coin, { value: 'MATIC' } as Coin];
+const nativeCoin = coins[1];
 const testVaultUSDC = {
   apy: 0.12392847454895217,
   identifier: 'polygon_usdc',
   token: 'USDC',
+  nativeToken: 'MATIC',
   tvl: '15800500',
   tokenDecimals: '6',
   pid: 2,
@@ -21,7 +22,10 @@ describe('TwoPiProduct', () => {
   let twoPiProduct: InvestmentProduct;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   beforeEach(() => {
-    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getCoins: coins });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: coins,
+      getNativeTokenFromNetwork: nativeCoin,
+    });
     twoPiProduct = new TwoPiProduct(testVaultUSDC, apiWalletServiceSpy);
   });
 
@@ -35,6 +39,10 @@ describe('TwoPiProduct', () => {
 
   it('should return token when token method is called', () => {
     expect(twoPiProduct.token()).toEqual(coins[0]);
+  });
+
+  it('should return native token when nativeToken method is called', () => {
+    expect(twoPiProduct.nativeToken()).toEqual(nativeCoin);
   });
 
   it('should return apy when apy method is called', () => {

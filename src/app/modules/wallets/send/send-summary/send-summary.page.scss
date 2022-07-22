@@ -1,9 +1,18 @@
 :host {
+  ion-toolbar {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  .step-counter {
+    margin-right: 13px;
+  }
+
   .ss {
     --background: var(--ion-color-neutral10);
 
     &__transaction-summary-card {
-      margin-top: 24px;
+      margin-top: 0;
     }
 
     &__send_button {

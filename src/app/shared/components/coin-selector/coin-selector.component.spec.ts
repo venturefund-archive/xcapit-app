@@ -23,6 +23,7 @@ describe('CoinSelectorComponent', () => {
     fixture = TestBed.createComponent(CoinSelectorComponent);
     component = fixture.componentInstance;
     component.selectedCoin = TEST_COINS[0];
+    component.enabled = true;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
@@ -35,6 +36,13 @@ describe('CoinSelectorComponent', () => {
     const spy = spyOn(component.changeCurrency, 'emit');
     fixture.debugElement.query(By.css('.cs')).nativeElement.click();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call changeCurrency event on click if selector is disabled', () => {
+    component.enabled = false;
+    const spy = spyOn(component.changeCurrency, 'emit');
+    fixture.debugElement.query(By.css('.cs')).nativeElement.click();
+    expect(spy).toHaveBeenCalledTimes(0);
   });
 
   it('should call trackEvent on trackService when Continue Button clicked', async () => {

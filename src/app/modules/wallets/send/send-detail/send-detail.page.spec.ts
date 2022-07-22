@@ -5,7 +5,6 @@ import {
   flush,
   TestBed,
   tick,
-  waitForAsync,
 } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { SendDetailPage } from './send-detail.page';
@@ -16,7 +15,7 @@ import { TrackClickDirectiveTestHelper } from '../../../../../testing/track-clic
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -35,6 +34,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { FakeActivatedRoute } from '../../../../../testing/fakes/activated-route.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 const coins: Coin[] = [
   {
@@ -76,9 +76,9 @@ const coins: Coin[] = [
 
 const formData = {
   valid: {
-    address: 'asdfasdfasdfas',
-    amount: 0.01,
-    quoteAmount: 29,
+    address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
+    amount: 1,
+    quoteAmount: 1,
   },
 };
 
@@ -100,13 +100,14 @@ describe('SendDetailPage', () => {
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getWalletsAddresses: Promise.resolve(['testAddress']),
     });
     walletServiceSpy = jasmine.createSpyObj('WalletService', {
-      balanceOf: Promise.resolve('10'),
+      balanceOf: Promise.resolve('11'),
     });
     fakeActivatedRoute = new FakeActivatedRoute(null, { asset: 'USDT', network: 'ERC20' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
@@ -141,6 +142,10 @@ describe('SendDetailPage', () => {
       new: dynamicPriceSpy,
     });
 
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(true),
+    });
+
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, FakeTrackClickDirective],
       imports: [
@@ -160,6 +165,7 @@ describe('SendDetailPage', () => {
         { provide: ERC20ContractController, useValue: erc20ContractControllerSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: ModalController, useValue: modalControllerSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -240,15 +246,17 @@ describe('SendDetailPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync(() => {
-    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
+  it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync( () => {
+    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);   
     component.ionViewDidEnter();
-    tick();
+    tick(550)
     component.form.patchValue(formData.valid);
+    tick(550)
     fixture.detectChanges();
+    tick();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
     el.nativeElement.click();
-    tick();
+    tick()
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   }));
@@ -318,5 +326,66 @@ describe('SendDetailPage', () => {
     component.fee = 1;
     component.checkEnoughBalance();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is false',async ()=>{
+    component.amountSend = true 
+    component.isInfoModalOpen = false
+    await component.ionViewDidEnter()
+    await fixture.whenRenderingDone()
+    await fixture.whenStable()
+    fixture.detectChanges()
+    fixture.debugElement.query(By.css('app-amount-input-card')).triggerEventHandler('phraseAmountInfoClicked', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  })
+
+  it('should not open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is true ', async()=>{
+    component.amountSend = true 
+    component.isInfoModalOpen = true
+    await component.ionViewDidEnter()
+    await fixture.whenRenderingDone()
+    await fixture.whenStable()
+    fixture.detectChanges()
+    fixture.debugElement.query(By.css('app-amount-input-card')).triggerEventHandler('phraseAmountInfoClicked', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  })
+
+  it('should open modal when transactionFeeInfoClicked event is emited and isInfoModalOpen is false',async()=>{    
+    component.amountSend = true 
+    component.isInfoModalOpen = false
+    await component.ionViewDidEnter()
+    await fixture.whenRenderingDone()
+    await fixture.whenStable()
+    fixture.detectChanges()
+    fixture.debugElement.query(By.css('app-transaction-fee')).triggerEventHandler('transactionFeeInfoClicked', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  })
+
+  
+  it('should not open modal when transactionFeeInfoClicked event is emited and isInfoModalOpen is true ', async()=>{    
+    component.amountSend = true 
+    component.isInfoModalOpen = true
+    await component.ionViewDidEnter()
+    await fixture.whenRenderingDone()
+    await fixture.whenStable()
+    fixture.detectChanges()
+    fixture.debugElement.query(By.css('app-transaction-fee')).triggerEventHandler('transactionFeeInfoClicked', null);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  })
+  it('should set "fiat-ramps/buy-conditions" in the variable url if not exist conditionsPurchasesAccepted in the storage', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(false);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(component.url).toEqual('fiat-ramps/buy-conditions');
+  });
+
+  it('should set "fiat-ramps/select-provider" in the variable url if exist conditionsPurchasesAccepted in the storage', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(component.url).toEqual('fiat-ramps/select-provider');
   });
 });

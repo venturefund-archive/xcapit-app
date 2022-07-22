@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { createWidget } from '@typeform/embed';
-import { MODULES_CRYPTO } from '../shared-financial-education/constants/crypto';
-import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
 
 @Component({
   selector: 'app-test-typeform',
@@ -12,7 +12,7 @@ import { MODULES_FINANCE } from '../shared-financial-education/constants/finance
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar no-border">
         <ion-buttons slot="start">
-          <ion-back-button class="content__back" defaultHref="/financial-education/home"></ion-back-button>
+          <ion-back-button class="content__back" defaultHref="tabs/financial-education"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ this.headerText }}</ion-title>
       </ion-toolbar>
@@ -26,6 +26,7 @@ import { MODULES_FINANCE } from '../shared-financial-education/constants/finance
 export class TestTypeformPage implements OnInit {
   selectedTab: string;
   module: any;
+  wallet_address: string;
   subModule: any;
   data: any;
   code: string;
@@ -34,23 +35,35 @@ export class TestTypeformPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private storageService: StorageService,
+    private modulesService: ModulesService
   ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
+    await this.getUserWalletAddress();
     this.getParams();
-    this.createTypeform();
     this.getData();
     this.getModule();
     this.getSubModule();
+    this.createTypeform();
     this.updateTexts();
+  }
+
+  private async getUserWalletAddress() {
+    const wallet = await this.storageService.getWalletFromStorage();
+    this.wallet_address = wallet.addresses.ERC20;
   }
 
   createTypeform() {
     createWidget(this.code, {
       container: document.querySelector('#form'),
+      hidden: {
+        wallet_address: `${this.wallet_address}`,
+        submodule_id: `${this.subModule.id}`,
+      },
       onSubmit: () => {
         this.redirectToPage();
       },
@@ -65,7 +78,7 @@ export class TestTypeformPage implements OnInit {
   }
 
   getData() {
-    this.data = this.selectedTab === 'finance' ? MODULES_FINANCE : MODULES_CRYPTO;
+    this.data = this.modulesService.getModuleByTab(this.selectedTab);
   }
 
   getModule() {
@@ -81,7 +94,7 @@ export class TestTypeformPage implements OnInit {
   redirectToPage() {
     this.updateTexts();
     this.navController.navigateForward([
-      'financial-education/information/tab',
+      'tabs/financial-education/information/tab',
       this.selectedTab,
       'module',
       this.module.name,

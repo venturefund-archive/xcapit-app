@@ -4,8 +4,8 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-modules-education',
   template: `
-    <ion-accordion-group [value]="this.module.open">
-      <ion-accordion [value]="this.module.open" [disabled]="this.module.disabled" class="accordion-arrow-info">
+    <ion-accordion-group [value]="this.module.open" (ionChange)="this.change()">
+      <ion-accordion [value]="true" [disabled]="this.module.disabled" class="accordion-arrow-info">
         <ion-item class="ux-font-titulo-xs" slot="header" name="item_module">
           <img class="icon" name="module_img" [src]="this.module.icon" />
           <div>
@@ -28,7 +28,9 @@ import { NavController } from '@ionic/angular';
           >
             <div class="item-content">
               <div class="item-content__body">
-                <ion-label name="sub_module_title">{{ subModule.title | translate }}</ion-label>
+                <ion-label name="sub_module_title ux-font-text-xxs" color="primary">{{
+                  subModule.title | translate
+                }}</ion-label>
                 <ion-icon name="ux-forward"></ion-icon>
               </div>
               <div class="item-content__divider">
@@ -46,6 +48,7 @@ import { NavController } from '@ionic/angular';
 export class ModulesEducationComponent implements OnInit {
   @Input() module: any;
   @Input() selectedTab: string;
+  open = true;
 
   constructor(private navController: NavController) {}
 
@@ -53,12 +56,19 @@ export class ModulesEducationComponent implements OnInit {
 
   goToPage(subModule) {
     this.navController.navigateForward([
-      'financial-education/information/tab',
+      'tabs/financial-education/information/tab',
       this.selectedTab,
       'module',
       this.module.name,
       'submodule',
       subModule.name,
     ]);
+  }
+
+  change() {
+    if (this.open) {
+      this.open = !this.module.open;
+      Object.assign(this.module, { open: this.open });
+    }
   }
 }

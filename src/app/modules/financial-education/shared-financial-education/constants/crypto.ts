@@ -2,7 +2,7 @@ export const MODULES_CRYPTO = [
   {
     id: 1,
     name: 'crypto_1',
-    open: 'yes',
+    open: true,
     icon: 'assets/ux-icons/clip.svg',
     title: 'financial_education.home.module_crypto.module_1.title',
     progress_title: 'financial_education.home.module_crypto.module_1.progress_title',

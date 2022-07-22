@@ -47,12 +47,10 @@ import { TrackService } from '../../services/track/track.service';
         </div>
         <div class="main__actions__third" *ngIf="this.data.nameThirdAction">
           <ion-button
-            color="info"
-            class="ux_button"
+            class="ux-button-outlined"
             appTrackClick
             name="Success Action Third"
             [dataToTrack]="{ eventLabel: this.data.trackClickEventNameThirdAction }"
-            fill="outline"
             (click)="this.thirdAction()"
           >
             {{ this.data?.nameThirdAction | translate }}
@@ -64,6 +62,7 @@ import { TrackService } from '../../services/track/track.service';
             color="info"
             appTrackClick
             fill="clear"
+            [dataToTrack]="{ eventLabel: this.data.trackClickEventNameSecondaryAction }"
             name="Success Action Secondary"
             (click)="this.secondaryAction()"
           >

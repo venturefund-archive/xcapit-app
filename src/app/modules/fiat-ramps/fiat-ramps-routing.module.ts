@@ -21,6 +21,10 @@ const routes: Routes = [
             canActivate: [HasWallet],
             loadChildren: () => import('./moonpay/moonpay.module').then((m) => m.MoonpayPageModule),
           },
+          {
+            path: 'others/:alias',
+            loadChildren: () => import('./directa/directa.module').then((m) => m.DirectaPageModule),
+          },
         ],
       },
       {
@@ -76,6 +80,10 @@ const routes: Routes = [
           import('./provider-token-selection/provider-token-selection.module').then(
             (m) => m.ProviderTokenSelectionPageModule
           ),
+      },
+      {
+        path: 'buy-conditions',
+        loadChildren: () => import('./buy-conditions/buy-conditions.module').then((m) => m.BuyConditionsPageModule),
       },
     ],
   },
