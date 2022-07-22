@@ -67,7 +67,7 @@ fdescribe('HomeFinancialEducationPage', () => {
   fit('should set the corresponding data in the crypto tab when tab crypto is clicked', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    await Promise.all([fixture.detectChanges(), fixture.whenRenderingDone()]);
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     component.segmentsForm.patchValue({ tab: 'crypto' });
     fixture.detectChanges();
     expect(component.segmentsForm.value.tab).toEqual('crypto');
