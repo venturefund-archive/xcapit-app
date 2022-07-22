@@ -15,7 +15,7 @@ import { FinancialEducationService } from '../shared-financial-education/service
 import { SubModuleInformationPage } from './sub-module-information.page';
 import { of } from 'rxjs';
 
-describe('SubModuleInformationPage', () => {
+fdescribe('SubModuleInformationPage', () => {
   let component: SubModuleInformationPage;
   let fixture: ComponentFixture<SubModuleInformationPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SubModuleInformationPage>;
