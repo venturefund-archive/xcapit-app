@@ -59,6 +59,12 @@ export class SubModuleInformationPage implements OnInit {
   
   ngOnInit() {
   }
+  
+  getParams() {
+    this.selectedCategory = this.route.snapshot.paramMap.get('category');
+    this.module = parseInt(this.route.snapshot.paramMap.get('module'));
+    this.subModule = parseInt(this.route.snapshot.paramMap.get('submodule'));
+  }
 
   private async getUserWalletAddress() {
     this.wallet = await this.storageService.getWalletFromStorage();
@@ -72,11 +78,6 @@ export class SubModuleInformationPage implements OnInit {
     });
   }
 
-  getParams() {
-    this.selectedCategory = this.route.snapshot.paramMap.get('category');
-    this.module = parseInt(this.route.snapshot.paramMap.get('module'));
-    this.subModule = parseInt(this.route.snapshot.paramMap.get('submodule'));
-  }
 
   setDataByTab() {
     const category = this.selectedCategory === 'finance' ? this.data.finance : this.data.crypto;
