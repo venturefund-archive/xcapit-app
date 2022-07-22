@@ -12,7 +12,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 
 
-describe('HomeFinancialEducationPage', () => {
+fdescribe('HomeFinancialEducationPage', () => {
   let component: HomeFinancialEducationPage;
   let fixture: ComponentFixture<HomeFinancialEducationPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeFinancialEducationPage>;
