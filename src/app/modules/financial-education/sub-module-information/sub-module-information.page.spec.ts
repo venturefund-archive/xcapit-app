@@ -101,7 +101,7 @@ fdescribe('SubModuleInformationPage', () => {
       'submodule',
       1,
       'code',
-      'tc_finance_1_submodule_1',
+      'lc_finance_1_submodule_1',
     ]);
   });
 
