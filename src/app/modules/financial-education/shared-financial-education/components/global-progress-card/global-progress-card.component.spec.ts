@@ -34,7 +34,6 @@ fdescribe('GlobalProgressCardComponent', () => {
     rawEducationData.finance[0].status = 'to_do';
     rawEducationData.crypto[0].status = 'completed';
     await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
-    fixture.detectChanges();
     const titleEl = fixture.debugElement.query(
       By.css('.gpc__card__accordion__item__content ion-text.ux-font-text-xxs')
     );
