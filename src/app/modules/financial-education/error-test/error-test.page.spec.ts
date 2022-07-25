@@ -69,4 +69,14 @@ fdescribe('ErrorTestPage', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
+
+  it('should set correct url on urlPrimaryAction and urlThirdAction variables', () => {
+    component.ionViewWillEnter();
+    expect(component.data.urlPrimaryAction).toEqual(
+      'financial-education/typeform/category/finance/module/1/submodule/1/code/tc_finance_1_submodule_1'
+    );
+    expect(component.data.urlThirdAction).toEqual(
+      'tabs/financial-education/information/category/finance/module/1/submodule/1'
+    );
+  });
 });
