@@ -120,9 +120,10 @@ export class HomeFinancialEducationPage {
   }
 
   setFirstModuleOpen(){
-    const m = this.modules.find((module)=>{
+   let m = this.modules.find((module)=>{
       return module.status !== 'completed';
     })
+    m.open = true;
     console.log(m)
   }
 }
