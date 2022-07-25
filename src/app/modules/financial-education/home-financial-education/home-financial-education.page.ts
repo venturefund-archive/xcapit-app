@@ -108,7 +108,7 @@ export class HomeFinancialEducationPage {
       this.data.finance = this.setModulesOpen(this.data.finance);
       this.data.crypto = this.setModulesOpen(this.data.crypto);
       this.modules = this.data.finance;
-      console.log(this.modules);
+      this.setFirstModuleOpen();
       this.globalProgressData = [...data.finance, ...data.crypto].filter((mod) => !mod.coming_soon);
     });
   }
@@ -117,5 +117,12 @@ export class HomeFinancialEducationPage {
     return modules.map((module)=> ({
       ...module, open : false
     }));
+  }
+
+  setFirstModuleOpen(){
+    const m = this.modules.find((module)=>{
+      return module.status !== 'completed';
+    })
+    console.log(m)
   }
 }
