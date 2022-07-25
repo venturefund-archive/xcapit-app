@@ -14,7 +14,7 @@ import { TestTypeformPage } from './test-typeform.page';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
-describe('TestTypeformPage', () => {
+fdescribe('TestTypeformPage', () => {
   let component: TestTypeformPage;
   let fixture: ComponentFixture<TestTypeformPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TestTypeformPage>;
@@ -32,18 +32,17 @@ describe('TestTypeformPage', () => {
           addresses: { ERC20: 'testAddress', MATIC: 'testAddressMatic', RSK: 'testAddressRsk' },
         }),
       });
-      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['get']);
       fakeActivatedRoute = new FakeActivatedRoute({
         category: 'finance',
         module: 1,
         submodule: 1,
         code: 'tc_finance_1_submodule_1',
       });
+      activatedRouteSpy = fakeActivatedRoute.createSpy();
       financialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
         getEducationDataOf: of(rawEducationData),
         getSubmoduleResultOf: of(rawSubmoduleResult),
       });
-      activatedRouteSpy = fakeActivatedRoute.createSpy();
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
