@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { DATA } from '../shared-financial-education/constants/data';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 
 @Component({
@@ -41,7 +40,7 @@ export class SubModuleInformationPage implements OnInit {
   selectedCategory: string;
   module: any;
   subModule: any;
-  data: any = DATA;
+  data: any;
   wallet : any;
   wallet_address : string;
   constructor(
@@ -54,7 +53,7 @@ export class SubModuleInformationPage implements OnInit {
   async ionViewWillEnter(){
     this.getParams();
     await this.getUserWalletAddress();
-    this.setDataByTab();
+
   }
   
   ngOnInit() {
@@ -77,6 +76,7 @@ export class SubModuleInformationPage implements OnInit {
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
+      this.setDataByTab();
     });
   }
 

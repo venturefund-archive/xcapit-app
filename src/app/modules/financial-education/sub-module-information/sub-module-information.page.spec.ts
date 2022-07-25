@@ -152,6 +152,7 @@ describe('SubModuleInformationPage', () => {
     storageServiceSpy.getWalletFromStorage.and.resolveTo(null)
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_education_learn"]')).nativeElement.click();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['financial-education/error-no-wallet'])
@@ -161,7 +162,6 @@ describe('SubModuleInformationPage', () => {
     storageServiceSpy.getWalletFromStorage.and.resolveTo(null)
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_education_test"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['financial-education/error-no-wallet'])
   })

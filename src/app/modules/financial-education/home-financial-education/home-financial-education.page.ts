@@ -105,7 +105,11 @@ export class HomeFinancialEducationPage {
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
+      this.processData();
     });
+  }
+
+  processData(){
     this.data.finance = this.assingOpenOn(this.data.finance);
     this.data.crypto = this.assingOpenOn(this.data.crypto);
     this.modules = this.data.finance;
@@ -121,7 +125,7 @@ export class HomeFinancialEducationPage {
   }
 
   setOpenValueOnModule() {
-    let aModule = this.modules.find((module) => {
+    const aModule = this.modules.find((module) => {
       return module.status !== 'completed';
     });
     if (aModule) {
