@@ -68,10 +68,8 @@ export class GlobalProgressCardComponent implements OnInit {
   }
 
   calculateProgressPercentage() {
-    console.log(this.modules);
     this.allModules = this.modules.length;
     this.doneModules = this.modules.filter((mod) => mod.status === 'completed').length;
     this.percentage = (this.doneModules / this.allModules) * 100;
-    console.log(this.percentage);
   }
 }
