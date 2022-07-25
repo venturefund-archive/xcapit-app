@@ -113,7 +113,7 @@ export class HomeFinancialEducationPage {
     });
   }
 
-  setModulesOpen(modules){
+   assingOpenValueOn(modules){
     return modules.map((module)=> ({
       ...module, open : false
     }));
@@ -124,6 +124,5 @@ export class HomeFinancialEducationPage {
       return module.status !== 'completed';
     })
     m.open = true;
-    console.log(m)
   }
 }
