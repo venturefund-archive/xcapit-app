@@ -5,7 +5,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-modules-education',
   template: `
     <ion-accordion-group [value]="this.opened">
-      <ion-accordion [value]="" [disabled]="this.module.coming_soon" class="accordion-arrow-info">
+      <ion-accordion [value]="this.opened" [disabled]="this.module.coming_soon" class="accordion-arrow-info">
         <ion-item class="ux-font-titulo-xs" slot="header" name="item_module">
           <img class="icon" name="module_img" [src]="this.module.icon" />
           <div>
@@ -64,7 +64,7 @@ import { NavController } from '@ionic/angular';
 export class ModulesEducationComponent implements OnInit {
   @Input() module: any;
   @Input() selectedCategory: string;
-
+  opened = true;
   constructor(private navController: NavController) {}
 
   ngOnInit() {}
