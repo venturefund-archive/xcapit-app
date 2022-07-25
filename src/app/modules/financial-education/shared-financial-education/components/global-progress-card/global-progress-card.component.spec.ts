@@ -24,13 +24,13 @@ fdescribe('GlobalProgressCardComponent', () => {
       component.modules = [rawEducationData.finance[0]];
       fixture.detectChanges();
     })
-  );
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should render card_state_0 if progress is 0', async () => {
+    );
+    
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+    
+    it('should render card_state_0 if progress is 0', async () => {
     rawEducationData.finance[0].status = 'to_do';
     rawEducationData.crypto[0].status = 'to_do';
     await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
