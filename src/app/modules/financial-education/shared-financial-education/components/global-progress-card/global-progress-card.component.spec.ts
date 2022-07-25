@@ -89,6 +89,6 @@ fdescribe('GlobalProgressCardComponent', () => {
   it('should render the list of modules', () => {
     component.ngOnInit();
     fixture.detectChanges();
-    expect(component.modules.length).toEqual(2);
+    expect(component.modules.length).toEqual(4);
   });
 });
