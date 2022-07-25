@@ -298,7 +298,7 @@ describe('SwapHomePage', () => {
     component.swapThem();
     tick(2);
 
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
   }));
 
