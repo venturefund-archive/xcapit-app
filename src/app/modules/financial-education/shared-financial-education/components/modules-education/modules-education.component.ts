@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-modules-education',
   template: `
-    <ion-accordion-group [value]="this.opened">
+    <ion-accordion-group [value]="this.module.open">
       <ion-accordion [value]="true" [disabled]="this.module.coming_soon" class="accordion-arrow-info">
         <ion-item class="ux-font-titulo-xs" slot="header" name="item_module">
           <img class="icon" name="module_img" [src]="this.module.icon" />
