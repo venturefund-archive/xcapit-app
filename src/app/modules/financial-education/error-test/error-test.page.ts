@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 

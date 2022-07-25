@@ -6,31 +6,33 @@ import { FinalSuccessTestPage } from './final-success-test.page';
 import { By } from '@angular/platform-browser';
 
 const testData = {
-  image:"assets/img/financial-education/test.svg",
-    textPrimary: 'financial_education.final_success_test.textPrimary', 
-    textSecondary:'financial_education.final_success_test.textSecondary',
-    namePrimaryAction: 'financial_education.final_success_test.primaryButton',
-    urlPrimaryAction:'/financial-education/home',
-    trackClickEventNamePrimaryAction: 'ux_education_finalize'
-}
+  image: 'assets/img/financial-education/test.svg',
+  textPrimary: 'financial_education.final_success_test.textPrimary',
+  textSecondary: 'financial_education.final_success_test.textSecondary',
+  namePrimaryAction: 'financial_education.final_success_test.primaryButton',
+  urlPrimaryAction: '/financial-education/home',
+  trackClickEventNamePrimaryAction: 'ux_education_finalize',
+};
 
 describe('FinalSuccessTestPage', () => {
   let component: FinalSuccessTestPage;
   let fixture: ComponentFixture<FinalSuccessTestPage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
-  beforeEach(waitForAsync(() => {
-    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{ trackEvent: Promise.resolve(true),})
-    TestBed.configureTestingModule({
-      declarations: [ FinalSuccessTestPage ],
-      imports: [IonicModule.forRoot()],
-      providers:[{ provide: TrackService, useValue: trackServiceSpy}],
-      schemas:[CUSTOM_ELEMENTS_SCHEMA]
+  beforeEach(
+    waitForAsync(() => {
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', { trackEvent: Promise.resolve(true) });
+      TestBed.configureTestingModule({
+        declarations: [FinalSuccessTestPage],
+        imports: [IonicModule.forRoot()],
+        providers: [{ provide: TrackService, useValue: trackServiceSpy }],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
-    fixture = TestBed.createComponent(FinalSuccessTestPage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+      fixture = TestBed.createComponent(FinalSuccessTestPage);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -41,7 +43,6 @@ describe('FinalSuccessTestPage', () => {
     const appErrorContentEl = fixture.debugElement.query(By.css('app-success-content'));
     expect(appErrorContentEl).toBeTruthy();
   });
-
 
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
@@ -55,5 +56,4 @@ describe('FinalSuccessTestPage', () => {
     fixture.detectChanges();
     expect(componentEl).toBeTruthy();
   });
-  
 });

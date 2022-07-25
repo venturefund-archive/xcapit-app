@@ -86,6 +86,7 @@ describe('HomeFinancialEducationPage', () => {
     expect(component.modules).toEqual(rawEducationData.finance);
   });
 
+
   it('should render app-modules-education component', () => {
     component.ionViewWillEnter();
     const componentEl = fixture.debugElement.queryAll(By.css('app-modules-education'));
@@ -122,5 +123,14 @@ describe('HomeFinancialEducationPage', () => {
     fixture.detectChanges();
     const progressEl = fixture.debugElement.query(By.css('app-global-progress-card'));
     expect(progressEl).toBeTruthy();
+  });
+
+  it('should set open value on a module that isnt completed', async () => {
+    rawEducationData.finance[0].status = 'to_do';
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    expect(rawEducationData.finance[0]['open']).toEqual(true);
   });
 });

@@ -4,8 +4,6 @@ import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { createWidget } from '@typeform/embed';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { DATA } from '../shared-financial-education/constants/data';
-import { SUBMODULE } from '../shared-financial-education/constants/submodule';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 @Component({
   selector: 'app-test-typeform',
@@ -47,7 +45,7 @@ export class TestTypeformPage implements OnInit {
   async ionViewWillEnter() {
     this.getParams();
     await this.getUserWalletAddress();
-    
+
     this.getData();
     this.getModule();
     this.getSubModule();
@@ -62,7 +60,7 @@ export class TestTypeformPage implements OnInit {
 
   private async getUserWalletAddress() {
     const wallet = await this.storageService.getWalletFromStorage();
-    if(wallet){
+    if (wallet) {
       this.wallet_address = wallet.addresses.ERC20;
       this.getEducationDataOf(this.wallet_address);
     }
@@ -113,9 +111,11 @@ export class TestTypeformPage implements OnInit {
   }
 
   getSubmoduleResult() {
-    this.financialEducationService.getSubmoduleResultOf(this.subModule.id, this.wallet_address).subscribe((submoduleResult) => {
-      this.submoduleResult = submoduleResult;
-    });
+    this.financialEducationService
+      .getSubmoduleResultOf(this.subModule.id, this.wallet_address)
+      .subscribe((submoduleResult) => {
+        this.submoduleResult = submoduleResult;
+      });
     // this.submoduleResult = SUBMODULE;
   }
 
@@ -137,7 +137,6 @@ export class TestTypeformPage implements OnInit {
   }
 
   private updateTexts() {
-    console.log(this.subModule)
     const moduleName = this.translate.instant(
       `financial_education.typeform_header.${this.selectedCategory}_sub_${this.subModule?.id}`
     );

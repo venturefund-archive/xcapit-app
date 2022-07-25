@@ -63,8 +63,8 @@ describe('ModulesEducationComponent', () => {
 
   it('should render coming soon module properly', async () => {
     component.module = rawEducationData.finance[1];
-    fixture.whenStable();
-    fixture.whenRenderingDone();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     const imgModuleEl = fixture.debugElement.query(By.css('img[name="module_img"]'));
     const titleModuleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
@@ -75,18 +75,18 @@ describe('ModulesEducationComponent', () => {
   });
 
   it('should render active module properly', async () => {
-    component.module = rawEducationData.finance[0];
-    fixture.whenStable();
-    fixture.whenRenderingDone();
+    component.module = rawEducationData.crypto[0];
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     const imgModuleEl = fixture.debugElement.query(By.css('img[name="module_img"]'));
     const titleModuleEl = fixture.debugElement.query(By.css('ion-label[name="module_title"]'));
     const moduleStatusEl = fixture.debugElement.query(By.css('ion-label[name="module_status"]'));
     const submoduleTitleEl = fixture.debugElement.query(By.css('ion-label[name="sub_module_title"]'));
     const submoduleStatusEl = fixture.debugElement.query(By.css('ion-label[name="sub_module_status"]'));
-    expect(imgModuleEl.attributes.src).toContain('icon_finance_1');
-    expect(titleModuleEl.nativeElement.innerHTML).toContain('title_finance_1');
-    expect(submoduleTitleEl.nativeElement.innerHTML).toContain('title_finance_1_submodule_1');
+    expect(imgModuleEl.attributes.src).toContain('icon_crypto_1');
+    expect(titleModuleEl.nativeElement.innerHTML).toContain('title_crypto_1');
+    expect(submoduleTitleEl.nativeElement.innerHTML).toContain('title_crypto_1_submodule_1');
     expect(moduleStatusEl.nativeElement.innerHTML).toContain('completed');
     expect(submoduleStatusEl.nativeElement.innerHTML).toContain('completed');
   });

@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
-
 import { FinancialEducationService } from './financial-education.service';
 
 describe('FinancialEducationService', () => {
