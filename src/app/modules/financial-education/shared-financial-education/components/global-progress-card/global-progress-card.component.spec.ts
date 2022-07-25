@@ -28,7 +28,7 @@ describe('GlobalProgressCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should render card_state_0 if progress is 0',async () => {
+  it('should render card_state_0 if progress is 0',async () => {
     rawEducationData.finance[0].status = 'to_do';
     rawEducationData.crypto[0].status = 'to_do';
     component.modules = [...rawEducationData.finance, ...rawEducationData.crypto].filter((mod) => !mod.coming_soon)
