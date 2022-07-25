@@ -31,6 +31,10 @@ fdescribe('GlobalProgressCardComponent', () => {
   });
 
   it('should render card_state_0 if progress is 0', async () => {
+    rawEducationProgressData[0].status = 'to_do';
+    rawEducationProgressData[1].status = 'to_do';
+    rawEducationProgressData[2].status = 'to_do';
+    rawEducationProgressData[3].status = 'to_do';
     component.calculateProgressPercentage();
     await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
     fixture.detectChanges();
