@@ -32,7 +32,7 @@ fdescribe('GlobalProgressCardComponent', () => {
 
   it('should render card_state_0 if progress is 0', async () => {
     rawEducationData.finance[0].status = 'to_do';
-    rawEducationData.crypto[0].status = 'to_do';
+    rawEducationData.crypto[0].status = 'completed';
     fixture.detectChanges();
     await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
     fixture.detectChanges();
