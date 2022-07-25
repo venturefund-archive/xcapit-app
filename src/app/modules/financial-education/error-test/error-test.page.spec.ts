@@ -32,8 +32,8 @@ fdescribe('ErrorTestPage', () => {
   beforeEach(
     waitForAsync(() => {
       trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', { trackEvent: Promise.resolve(true) });
-      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['get']);
       activatedRouteSpy = fakeActivatedRoute.createSpy();
+      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['get']);
       TestBed.configureTestingModule({
         declarations: [ErrorTestPage],
         imports: [IonicModule.forRoot()],
