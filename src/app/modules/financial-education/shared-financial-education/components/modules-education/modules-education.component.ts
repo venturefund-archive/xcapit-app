@@ -83,8 +83,7 @@ export class ModulesEducationComponent implements OnInit {
   }
 
   change() {
-      
-      this.module.opened = !this.module.opened
+      this.module.opened = !this.module.opened;
   }
 
 }
