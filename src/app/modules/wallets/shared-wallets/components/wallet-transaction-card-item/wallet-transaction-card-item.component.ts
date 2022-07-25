@@ -28,9 +28,15 @@ import { ScanUrlOf } from '../../models/scan-url-of/scan-url-of';
                 </ion-text>
               </div>
             </div>
-            <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold">
-              {{ this.transaction.amount | formattedAmount }} {{ this.transaction.symbol }}
-            </ion-label>
+            <div class="wtci__content__top__column">
+              <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold">
+                {{ this.transaction.amount | formattedAmount }} {{ this.transaction.symbol }}
+              </ion-label>
+              <div class="ux-font-num-subtitulo wtci__content__top__column__badge">
+                <ion-badge  [ngClass]="{'confirmed': this.transaction.successful, 'declined': !this.transaction.successful}">
+                  {{ (this.transaction.successful ? 'wallets.transactions.confirmed' : 'wallets.transactions.declined' ) | translate }}</ion-badge>
+              </div>
+            </div>
           </div>
         </div>
       </div>

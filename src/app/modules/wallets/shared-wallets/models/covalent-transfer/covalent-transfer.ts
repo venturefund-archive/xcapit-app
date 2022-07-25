@@ -9,6 +9,7 @@ export class CovalentTransfer {
   quoteCurrency: string;
   hash: string; 
   date: string;
+  successful: boolean;
 
   constructor(transfer: any, quoteCurrency: string) {
     this.from = transfer.from_address;

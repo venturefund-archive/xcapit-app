@@ -13,11 +13,11 @@ export class CovalentTransfersResponse {
   }
 
   value(): CovalentTransfer[] {
-    return this.response.data.items
+    const result = this.response.data.items
       .map((item: any) =>
         item.transfers
           ? item.transfers.map(
-              (transfer: any) => new CovalentNoNativeTransfer(transfer, this.response.data.quote_currency)
+              (transfer: any) => new CovalentNoNativeTransfer(transfer, this.response.data.quote_currency, item.successful)
             )
           : new CovalentNativeTransfer(
               item,
@@ -27,5 +27,7 @@ export class CovalentTransfersResponse {
             )
       )
       .flat();
+      console.log(result)
+      return result
   }
 }
