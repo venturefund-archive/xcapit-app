@@ -51,6 +51,7 @@ import { ModulesService } from '../shared-financial-education/services/modules/m
         <app-modules-education
           class="hfe__content_card__modules"
           *ngFor="let module of this.modules"
+          [opened]=""
           [module]="module"
           [selectedCategory]="this.segmentsForm.value.tab"
         ></app-modules-education>
@@ -104,6 +105,7 @@ export class HomeFinancialEducationPage {
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
+      
       this.modules = this.data.finance;
       this.globalProgressData = [...data.finance, ...data.crypto].filter((mod) => !mod.coming_soon);
     });
