@@ -64,10 +64,12 @@ import { NavController } from '@ionic/angular';
 export class ModulesEducationComponent implements OnInit {
   @Input() module: any;
   @Input() selectedCategory: string;
-  opened : boolean
+  opened : boolean;
   constructor(private navController: NavController) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    Object.assign(this.module, { opened: true });
+  }
 
   goToPage(subModule) {
     this.navController.navigateForward([
@@ -81,10 +83,8 @@ export class ModulesEducationComponent implements OnInit {
   }
 
   change() {
-    if (this.opened) {
-      this.opened = !this.module.opened;
-      Object.assign(this.module, { opened: this.opened });
-    }
+      
+      this.module.opened = !this.module.opened
   }
 
 }
