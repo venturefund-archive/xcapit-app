@@ -14,7 +14,7 @@ import { TestTypeformPage } from './test-typeform.page';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
-fdescribe('TestTypeformPage', () => {
+describe('TestTypeformPage', () => {
   let component: TestTypeformPage;
   let fixture: ComponentFixture<TestTypeformPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TestTypeformPage>;
