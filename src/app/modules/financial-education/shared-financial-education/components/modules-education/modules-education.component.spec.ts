@@ -8,7 +8,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { rawEducationData } from '../../fixtures/rawEducationData';
 import { ModulesEducationComponent } from './modules-education.component';
 
-describe('ModulesEducationComponent', () => {
+fdescribe('ModulesEducationComponent', () => {
   let component: ModulesEducationComponent;
   let fixture: ComponentFixture<ModulesEducationComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ModulesEducationComponent>;
