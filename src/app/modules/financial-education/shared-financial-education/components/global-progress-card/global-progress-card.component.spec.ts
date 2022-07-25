@@ -30,7 +30,7 @@ fdescribe('GlobalProgressCardComponent', () => {
   });
 
   it('should render card_state_0 if progress is 0', async () => {
-    component.modules = [...rawEducationData.finance, ...rawEducationData.crypto].filter((mod) => !mod.coming_soon);
+    component.modules = [rawEducationData.finance[0]];
     rawEducationData.finance[0].status = 'to_do';
     rawEducationData.crypto[0].status = 'to_do';
     await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
