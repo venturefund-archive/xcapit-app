@@ -18,16 +18,16 @@ import { ModalController } from '@ionic/angular';
           <div class="main__body__content__title">
             <ion-text class="ux-font-text-xl">{{ this.title }} </ion-text>
           </div>
-          <div class="main__body__content__subtitle">
-            <ion-text class="ux-font-header-titulo">{{ this.subtitle1 }} </ion-text>
+          <div class="ux-font-header-titulo main__body__content__subtitle">
+            <ion-text>{{ this.subtitle1 }} </ion-text>
           </div>
           <div class="main__body__content__description">
             <ion-text class="ux-font-text-base">
               {{ this.description1 }}
             </ion-text>
           </div>
-          <div class="main__body__content__subtitle">
-            <ion-text class="ux-font-header-titulo">{{ this.subtitle2 }} </ion-text>
+          <div class="ux-font-header-titulo main__body__content__subtitle">
+            <ion-text>{{ this.subtitle2 }} </ion-text>
           </div>
           <div class="main__body__content__description">
             <ion-text class="ux-font-text-base">
