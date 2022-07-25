@@ -90,6 +90,7 @@ export class HomeFinancialEducationPage {
    
     this.segmentsForm.valueChanges.subscribe(() => {
       this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
+      this.setFirstModuleOpen();
     });
   }
 
