@@ -115,7 +115,7 @@ export class HomeFinancialEducationPage {
 
   setModulesOpen(modules){
     return modules.map((module)=> ({
-      ...module, open : true
+      ...module, open : false
     }));
   }
 }
