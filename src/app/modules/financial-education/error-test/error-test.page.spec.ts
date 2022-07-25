@@ -21,7 +21,7 @@ const testData = {
   urlThirdAction: '',
 }
 
-describe('ErrorTestPage', () => {
+fdescribe('ErrorTestPage', () => {
   let component: ErrorTestPage;
   let fixture: ComponentFixture<ErrorTestPage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
