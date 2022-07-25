@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { rawEducationData } from '../../fixtures/rawEducationData';
 
-describe('GlobalProgressCardComponent', () => {
+fdescribe('GlobalProgressCardComponent', () => {
   let component: GlobalProgressCardComponent;
   let fixture: ComponentFixture<GlobalProgressCardComponent>;
 
