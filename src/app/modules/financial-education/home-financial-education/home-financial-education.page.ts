@@ -105,15 +105,17 @@ export class HomeFinancialEducationPage {
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
-      Object.assign(this.data.finance, { opened: false });
-      Object.assign(this.data.crypto, { opened: false });
+      this.data.finance = this.setModulesOpen(this.data.finance);
+      this.data.crypto = this.setModulesOpen(this.data.crypto);
       this.modules = this.data.finance;
       console.log(this.modules);
       this.globalProgressData = [...data.finance, ...data.crypto].filter((mod) => !mod.coming_soon);
     });
   }
 
-  setModulesOpen(){
-    
+  setModulesOpen(modules){
+    return modules.map((module)=> ({
+      ...module, open : true
+    }));
   }
 }
