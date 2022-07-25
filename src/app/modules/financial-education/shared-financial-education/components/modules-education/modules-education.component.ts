@@ -4,8 +4,8 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-modules-education',
   template: `
-    <ion-accordion-group [value]="this.opened" (ionChange)="this.change()">
-      <ion-accordion [value]="this.opened" [disabled]="this.module.coming_soon" class="accordion-arrow-info">
+    <ion-accordion-group [value]="this.module.opened" (ionChange)="this.change()">
+      <ion-accordion [value]="true" [disabled]="this.module.coming_soon" class="accordion-arrow-info">
         <ion-item class="ux-font-titulo-xs" slot="header" name="item_module">
           <img class="icon" name="module_img" [src]="this.module.icon" />
           <div>
@@ -69,10 +69,6 @@ export class ModulesEducationComponent implements OnInit {
 
   ngOnInit() {}
 
-  change(){
-    this.opened = !this.opened;
-  }
-
   goToPage(subModule) {
     this.navController.navigateForward([
       'tabs/financial-education/information/category',
@@ -82,6 +78,13 @@ export class ModulesEducationComponent implements OnInit {
       'submodule',
       subModule.id,
     ]);
+  }
+
+  change() {
+    if (this.opened) {
+      this.opened = !this.module.open;
+      Object.assign(this.module, { open: this.opened });
+    }
   }
 
 }
