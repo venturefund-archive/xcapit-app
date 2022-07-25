@@ -4,10 +4,9 @@ import { By } from '@angular/platform-browser';
 import { GlobalProgressCardComponent } from './global-progress-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { rawEducationData } from '../../fixtures/rawEducationData';
 import { rawEducationProgressData } from '../../fixtures/rawEducationProgressData';
 
-fdescribe('GlobalProgressCardComponent', () => {
+describe('GlobalProgressCardComponent', () => {
   let component: GlobalProgressCardComponent;
   let fixture: ComponentFixture<GlobalProgressCardComponent>;
 
