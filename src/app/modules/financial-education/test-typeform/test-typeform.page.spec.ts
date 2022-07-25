@@ -52,7 +52,6 @@ describe('TestTypeformPage', () => {
         providers: [
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: NavController, useValue: navControllerSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: StorageService, useValue: storageServiceSpy },
           { provide: FinancialEducationService, useValue: financialEducationServiceSpy },
         ],

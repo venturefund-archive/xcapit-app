@@ -5,7 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 
 import { ErrorTestPage } from './error-test.page';
-
+import { ActivatedRoute } from '@angular/router';
+import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 
 const testData = {
   image: '/assets/img/financial-education/test.svg',
@@ -16,29 +17,38 @@ const testData = {
   urlPrimaryAction: '',
   nameSecondaryAction: 'financial_education.error_test.nameSecondaryAction',
   urlSecondaryAction: '/financial-education/home',
-  trackClickEventNameSecondaryAction:'ux_education_go_to_menu',
+  trackClickEventNameSecondaryAction: 'ux_education_go_to_menu',
   nameThirdAction: 'financial_education.error_test.nameThirdAction',
   urlThirdAction: '',
-}
+};
 
 fdescribe('ErrorTestPage', () => {
   let component: ErrorTestPage;
   let fixture: ComponentFixture<ErrorTestPage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
 
-  beforeEach(waitForAsync(() => {
-    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{ trackEvent: Promise.resolve(true),})
-    TestBed.configureTestingModule({
-      declarations: [ ErrorTestPage ],
-      imports: [IonicModule.forRoot()],
-      providers:[{ provide: TrackService, useValue: trackServiceSpy}],
-      schemas:[CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', { trackEvent: Promise.resolve(true) });
+      activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', ['get']);
+      activatedRouteSpy = fakeActivatedRoute.createSpy();
+      TestBed.configureTestingModule({
+        declarations: [ErrorTestPage],
+        imports: [IonicModule.forRoot()],
+        providers: [
+          { provide: TrackService, useValue: trackServiceSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(ErrorTestPage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+      fixture = TestBed.createComponent(ErrorTestPage);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
