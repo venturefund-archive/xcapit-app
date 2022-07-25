@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { DATA } from '../shared-financial-education/constants/data';
 import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
+import { rawEducationData } from '../shared-financial-education/fixtures/rawEducationData';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 import { ModulesService } from '../shared-financial-education/services/modules/modules.service';
 
@@ -104,7 +105,7 @@ export class HomeFinancialEducationPage {
 
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
-      this.data = data;
+      this.data = rawEducationData;
       this.data.finance = this.setModulesOpen(this.data.finance);
       this.data.crypto = this.setModulesOpen(this.data.crypto);
       this.modules = this.data.finance;
