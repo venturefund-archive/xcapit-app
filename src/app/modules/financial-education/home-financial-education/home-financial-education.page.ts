@@ -112,4 +112,8 @@ export class HomeFinancialEducationPage {
       this.globalProgressData = [...data.finance, ...data.crypto].filter((mod) => !mod.coming_soon);
     });
   }
+
+  setModulesOpen(){
+    
+  }
 }
