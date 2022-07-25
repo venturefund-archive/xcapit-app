@@ -64,7 +64,7 @@ import { NavController } from '@ionic/angular';
 export class ModulesEducationComponent implements OnInit {
   @Input() module: any;
   @Input() selectedCategory: string;
-  opened : boolean;
+  opened = false;
   constructor(private navController: NavController) {}
 
   ngOnInit() {}
