@@ -53,7 +53,7 @@ fdescribe('GlobalProgressCardComponent', () => {
 
   it('should render card_state_50 if progress is 50', () => {
     rawEducationData.finance[0].status = 'to_do';
-    rawEducationData.crypto[0].status = 'complete';
+    rawEducationData.crypto[0].status = 'completed';
     component.calculateProgressPercentage();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(
@@ -73,8 +73,8 @@ fdescribe('GlobalProgressCardComponent', () => {
   // });
 
   it('should render card_state_100 if progress is 100', () => {
-    rawEducationData.finance[0].status = 'complete';
-    rawEducationData.crypto[0].status = 'complete';
+    rawEducationData.finance[0].status = 'completed';
+    rawEducationData.crypto[0].status = 'completed';
     component.calculateProgressPercentage();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(
