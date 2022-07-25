@@ -21,16 +21,16 @@ fdescribe('GlobalProgressCardComponent', () => {
 
       fixture = TestBed.createComponent(GlobalProgressCardComponent);
       component = fixture.componentInstance;
-      component.modules = [rawEducationData.finance[0]];
+      component.modules = [...rawEducationData.finance, ...rawEducationData.crypto].filter((mod) => !mod.coming_soon);
       fixture.detectChanges();
     })
-    );
-    
-    it('should create', () => {
-      expect(component).toBeTruthy();
-    });
-    
-    it('should render card_state_0 if progress is 0', async () => {
+  );
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should render card_state_0 if progress is 0', async () => {
     rawEducationData.finance[0].status = 'to_do';
     rawEducationData.crypto[0].status = 'to_do';
     await Promise.all([fixture.whenRenderingDone(), fixture.whenStable()]);
