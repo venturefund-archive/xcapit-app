@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-modules-education',
   template: `
-    <ion-accordion-group [value]="this.opened" (ionChange)="this.">
+    <ion-accordion-group [value]="this.opened" (ionChange)="this.change()">
       <ion-accordion [value]="this.opened" [disabled]="this.module.coming_soon" class="accordion-arrow-info">
         <ion-item class="ux-font-titulo-xs" slot="header" name="item_module">
           <img class="icon" name="module_img" [src]="this.module.icon" />
@@ -68,6 +68,10 @@ export class ModulesEducationComponent implements OnInit {
   constructor(private navController: NavController) {}
 
   ngOnInit() {}
+
+  change(){
+    this.opened = !this.opened;
+  }
 
   goToPage(subModule) {
     this.navController.navigateForward([
