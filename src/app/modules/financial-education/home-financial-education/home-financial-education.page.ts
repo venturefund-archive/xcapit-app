@@ -105,8 +105,10 @@ export class HomeFinancialEducationPage {
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
-      
+      Object.assign(this.data.finance, { opened: false });
+      Object.assign(this.data.crypto, { opened: false });
       this.modules = this.data.finance;
+      console.log(this.modules);
       this.globalProgressData = [...data.finance, ...data.crypto].filter((mod) => !mod.coming_soon);
     });
   }
