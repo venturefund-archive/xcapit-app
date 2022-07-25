@@ -51,7 +51,6 @@ import { ModulesService } from '../shared-financial-education/services/modules/m
         <app-modules-education
           class="hfe__content_card__modules"
           *ngFor="let module of this.modules"
-          [opened]=""
           [module]="module"
           [selectedCategory]="this.segmentsForm.value.tab"
         ></app-modules-education>
