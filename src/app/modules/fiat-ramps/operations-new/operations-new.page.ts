@@ -131,7 +131,7 @@ export class OperationsNewPage implements AfterViewInit {
     private browserService: BrowserService,
     private http: HttpClient,
     private kriptonDynamicPrice: KriptonDynamicPriceFactory,
-    private providers: ProvidersFactory,
+    private providers: ProvidersFactory
   ) {}
 
   ngAfterViewInit() {
@@ -187,11 +187,18 @@ export class OperationsNewPage implements AfterViewInit {
     this.form.patchValue({ cryptoAmount: value / this.price }, { emitEvent: false, onlySelf: true });
   }
 
+  updateAmounts(): void {
+    this.form.patchValue({ fiatAmount: this.form.value.cryptoAmount * this.price });
+  }
+
   private dynamicPrice() {
     this.createKriptonDynamicPrice()
       .value()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((price: number) => (this.price = price));
+      .subscribe((price: number) => {
+        this.price = price;
+        if (this.form.value.fiatAmount) this.updateAmounts();
+      });
   }
 
   createKriptonDynamicPrice(): KriptonDynamicPrice {
