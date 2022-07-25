@@ -42,6 +42,9 @@ fdescribe('GlobalProgressCardComponent', () => {
 
   it('should render card_state_25 if progress is 25', () => {
     rawEducationProgressData[0].status = 'completed';
+    rawEducationProgressData[1].status = 'to_do';
+    rawEducationProgressData[2].status = 'to_do';
+    rawEducationProgressData[3].status = 'to_do';
     component.calculateProgressPercentage();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(
@@ -53,6 +56,8 @@ fdescribe('GlobalProgressCardComponent', () => {
   it('should render card_state_50 if progress is 50', () => {
     rawEducationProgressData[0].status = 'completed';
     rawEducationProgressData[1].status = 'completed';
+    rawEducationProgressData[2].status = 'to_do';
+    rawEducationProgressData[3].status = 'to_do';
     component.calculateProgressPercentage();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(
@@ -65,6 +70,7 @@ fdescribe('GlobalProgressCardComponent', () => {
     rawEducationProgressData[0].status = 'completed';
     rawEducationProgressData[1].status = 'completed';
     rawEducationProgressData[2].status = 'completed';
+    rawEducationProgressData[3].status = 'to_do';
     component.calculateProgressPercentage();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(
