@@ -68,7 +68,7 @@ export class ModulesEducationComponent implements OnInit {
   constructor(private navController: NavController) {}
 
   ngOnInit() {
-    Object.assign(this.module, { opened: true });
+    Object.assign(this.module, { this.opened });
   }
 
   goToPage(subModule) {
@@ -84,6 +84,7 @@ export class ModulesEducationComponent implements OnInit {
 
   change() {
       this.module.opened = !this.module.opened;
+
   }
 
 }
