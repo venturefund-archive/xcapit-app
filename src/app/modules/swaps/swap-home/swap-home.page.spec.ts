@@ -273,14 +273,13 @@ describe('SwapHomePage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(urlToSelectSwapToken('toToken'));
   });
 
-  it('password modal open on click swap button', async () => {
+  it('password modal and success modal open on click swap button and password is valid', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     
     await component.swapThem();
 
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.swapInProgressUrl]);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
   });
 
   it('password modal open on click swap button and password is invalid', fakeAsync(() => {
@@ -299,7 +298,7 @@ describe('SwapHomePage', () => {
     component.swapThem();
     tick(2);
 
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
   }));
 

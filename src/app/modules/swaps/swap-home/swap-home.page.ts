@@ -40,7 +40,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { LINKS } from 'src/app/config/static-links';
-
+import { SwapInProgressModalComponent } from '../../wallets/shared-wallets/components/swap-in-progress-modal/swap-in-progress-modal.component';
 
 @Component({
   selector: 'app-swap-home',
@@ -147,7 +147,9 @@ import { LINKS } from 'src/app/config/static-links';
               name="go_to_1inch_tos"
               class="ux-link-xs sw__checkbox__text__button"
               (click)="this.openToS()"
-              appTrackClick fill="clear">
+              appTrackClick
+              fill="clear"
+            >
               {{ 'swaps.home.tos_button' | translate }}
             </ion-button>
           </div>
@@ -174,7 +176,7 @@ import { LINKS } from 'src/app/config/static-links';
           {{ 'swaps.home.footer_text' | translate }}
         </span>
       </div>
-  </ion-footer>
+    </ion-footer>
   `,
   styleUrls: ['./swap-home.page.scss'],
 })
@@ -225,7 +227,7 @@ export class SwapHomePage {
   ) {}
 
   openToS() {
-    this.browser.open({url: LINKS.oneInchToS});
+    this.browser.open({ url: LINKS.oneInchToS });
   }
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -362,7 +364,7 @@ export class SwapHomePage {
     this.disableMainButton();
     const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());
-    wallet.onDecryptedWallet().subscribe(() => this.navController.navigateForward([this.swapInProgressUrl]));
+    wallet.onDecryptedWallet().subscribe(() => this.showSwapInProgressModal());
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
       .then(() => {
@@ -413,5 +415,17 @@ export class SwapHomePage {
         actionTypeId: this.actionTypeId,
       },
     ];
+  }
+
+  async showSwapInProgressModal(): Promise<string> {
+    const modal = await this.modalController.create({
+      component: SwapInProgressModalComponent,
+      componentProps: {},
+      cssClass: 'ux-lg-modal-informative',
+      backdropDismiss: false,
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    return data;
   }
 }
