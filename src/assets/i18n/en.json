@@ -1029,7 +1029,7 @@
     "home": {
       "statuses": {
         "to_do": "To do",
-        "complete": "Complete",
+        "completed": "Completed",
         "in_progress": "In progress"
       },
       "header": "Education",
@@ -1123,7 +1123,7 @@
       "text": "Test of",
       "finance_sub_1": "Finances",
       "finance_sub_2": "Budget",
-      "crypto_sub_1": "Blockchain"
+      "crypto_sub_3": "Blockchain"
     },
     "final_success_test": {
       "textPrimary": "You did it, that's the way to do it!",

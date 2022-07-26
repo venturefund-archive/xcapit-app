@@ -1020,7 +1020,7 @@
     "home": {
       "statuses": {
         "to_do": "Por hacer",
-        "complete": "Completo",
+        "completed": "Completo",
         "in_progress": "En progreso"
       },
       "header": "Educación",
@@ -1114,7 +1114,7 @@
       "text": "Test de",
       "finance_sub_1": "Finanzas",
       "finance_sub_2": "Presupuesto",
-      "crypto_sub_1": "Blockchain"
+      "crypto_sub_3": "Blockchain"
     },
     "final_success_test": {
       "textPrimary": "Lo lograste, ¡así se hace!",

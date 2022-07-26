@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
-import { ModulesService } from 'src/app/modules/financial-education/shared-financial-education/services/modules/modules.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 
 @Component({
   selector: 'app-success-submodules',
@@ -15,41 +16,59 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <app-success-content *ngIf="this.data" [data]="this.data"> </app-success-content>
+      <app-success-content *ngIf="this.success_data" [data]="this.success_data"> </app-success-content>
     </ion-content>`,
   styleUrls: ['./success-submodules.page.scss'],
 })
 export class SuccessSubmodulesPage implements OnInit {
-  data: any;
+  success_data: any;
   modules;
   subModule;
-
+  data: any;
   constructor(
     private trackService: TrackService,
     private translate: TranslateService,
-    private modulesService: ModulesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private financialEducationService: FinancialEducationService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
-    this.data = SUCCESS_TYPES.success_submodules;
-    this.setModules();
+  async ionViewWillEnter() {
+    this.success_data = SUCCESS_TYPES.success_submodules;
+    await this.getUserWalletAddress();
     this.setTitle();
     this.event();
   }
 
-  setModules() {
-    this.modules = this.modulesService.getModules();
+  private async getUserWalletAddress() {
+    const wallet = await this.storageService.getWalletFromStorage();
+
+    if (wallet) {
+      const wallet_address = wallet.addresses.ERC20;
+      this.getEducationDataOf(wallet_address);
+    }
+  }
+
+  getEducationDataOf(anAddress: string) {
+    this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
+      this.data = data;
+    });
   }
 
   setTitle() {
-    const moduleId = parseInt(this.route.snapshot.paramMap.get('moduleId'));
-    const submoduleId = parseInt(this.route.snapshot.paramMap.get('submoduleId'));
-    const module = this.modules.find((item) => item.id === moduleId);
-    this.subModule = module.sub_modules && module.sub_modules.find((item) => item.id === submoduleId);
-    this.data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
+    const category = this.route.snapshot.paramMap.get('category');
+    const moduleId = parseInt(this.route.snapshot.paramMap.get('module'));
+    const submoduleId = parseInt(this.route.snapshot.paramMap.get('submodule'));
+
+    this.data = category === 'finance' ? this.data.finance : this.data.crypto;
+
+    const module = this.data.find((item) => item.id === moduleId);
+
+    this.subModule = module.submodules && module.submodules.find((submodule) => submodule.id === submoduleId);
+
+    this.success_data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
       submodule: this.translate.instant(this.subModule.title),
     });
   }
@@ -58,7 +77,7 @@ export class SuccessSubmodulesPage implements OnInit {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: this.subModule.screenViewLabel,
+      eventLabel: this.subModule.data_to_track,
     });
   }
 }
