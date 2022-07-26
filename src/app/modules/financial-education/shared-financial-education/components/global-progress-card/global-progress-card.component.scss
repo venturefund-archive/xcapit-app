@@ -1,61 +1,72 @@
-:host ::ng-deep {
+:host {
   .ion-accordion-toggle-icon {
     margin: auto;
   }
-}
 
-.gpc {
-  position: relative;
+  ion-button {
+    margin-top: 0;
+  }
 
-  &__card {
-    margin: 8px 16px 0;
+  .non-bottom-radius {
+    border-radius: 8px 8px 0 0 !important;
+  }
 
-    &__accordion {
+  .gpc {
+    position: relative;
+
+    &__button {
+      margin: 0 16px;
       background-color: var(--ion-color-info);
-      border-radius: 8px;
+      border-radius: 0 0 8px 8px;
 
-      &__item {
-        --inner-padding-start: 16.5px;
-        --inner-padding-bottom: 8px;
-        --inner-padding-top: 8px;
-
-        &__content {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-
-          &__nft-text {
-            display: flex;
-            justify-content: center;
-          }
-
-          ion-text {
-            color: white;
-          }
-
-          &__nft {
-            position: relative;
-            z-index: 2;
-          }
-        }
+      &__nft-text {
+        display: flex;
+        justify-content: center;
       }
+    }
 
-      &__list {
+    &__card {
+      margin: 8px 16px 0;
+
+      &__accordion {
         background-color: var(--ion-color-info);
+        border-radius: 8px;
 
         &__item {
-          --background: var(--ion-color-info);
+          --inner-padding-start: 16.5px;
+          --inner-padding-bottom: 8px;
+          --inner-padding-top: 8px;
 
-          &__ulist {
-            border-top: 1px solid var(--ion-color-neutral50);
-            margin-top: 0;
-            margin-left: 72px;
-            padding-top: 8px;
-            padding-left: 12px;
-            color: white;
+          &__content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
 
-            li ion-text {
+            ion-text {
               color: white;
+            }
+          }
+        }
+
+
+
+        &__list {
+          background-color: var(--ion-color-info);
+
+          &__item {
+            --background: var(--ion-color-info);
+
+            &__ulist {
+              border-top: 1px solid var(--ion-color-neutral50);
+              margin-top: 0;
+              margin-left: 72px;
+              padding-top: 8px;
+              padding-left: 12px;
+              color: white;
+
+              li ion-text {
+                color: white;
+              }
             }
           }
         }
