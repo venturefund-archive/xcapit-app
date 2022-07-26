@@ -9,9 +9,11 @@ import { GasStationOf } from "../gas-station-of";
 @Injectable({ providedIn: 'root' })
 export class GasStationOfFactory {
 
+  constructor(private httpClient: HttpClient) { }
+
   create(
     _aBlockchain: Blockchain,
-    _httpClient: HttpClient | FakeHttpClient,
+    _httpClient: HttpClient | FakeHttpClient = this.httpClient,
     _providers: any = providers
   ): GasStationOf {
     return new GasStationOf(_aBlockchain, _httpClient, _providers);

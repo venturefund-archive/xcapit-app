@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -217,7 +216,6 @@ export class SwapHomePage {
     private formBuilder: UntypedFormBuilder,
     private modalController: ModalController,
     private appStorageService: AppStorageService,
-    private httpClient: HttpClient,
     private wallets: WalletsFactory,
     private blockchains: BlockchainsFactory,
     private oneInch: OneInchFactory,
@@ -252,7 +250,7 @@ export class SwapHomePage {
   }
 
   private gasPrice(): Promise<AmountOf> {
-    return this.gasStation.create(this.activeBlockchain, this.httpClient).price().fast();
+    return this.gasStation.create(this.activeBlockchain).price().fast();
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
@@ -328,7 +326,7 @@ export class SwapHomePage {
   }
 
   private setDex() {
-    this.dex = this.oneInch.create(this.activeBlockchain, this.httpClient);
+    this.dex = this.oneInch.create(this.activeBlockchain);
   }
 
   private setTokens() {
