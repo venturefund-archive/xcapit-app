@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { NavController } from '@ionic/angular';
@@ -82,7 +82,7 @@ import { BrowserService } from '../../../shared/services/browser/browser.service
   styleUrls: ['./operations-new-paxful.page.scss'],
 })
 export class OperationsNewPaxfulPage implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     wallet: ['', [Validators.required]],
   });
   walletAddressSelect: any[];
@@ -90,7 +90,7 @@ export class OperationsNewPaxfulPage implements OnInit {
 
   constructor(
     public submitButtonService: SubmitButtonService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private browserService: BrowserService

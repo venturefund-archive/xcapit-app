@@ -62,7 +62,7 @@
             align-items: center;
 
             img {
-              align-self: end;
+              align-self: flex-end;
               width: 25px;
             }
           }
@@ -124,7 +124,7 @@
       }
 
       img {
-        width: fill-available;
+        width: 100%;
       }
     }
 

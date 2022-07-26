@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
-import { AbstractControl, ControlContainer, FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
+import { AbstractControl,ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { ScanQrModalComponent } from '../../../../../shared/components/scan-qr-modal/scan-qr-modal.component';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
@@ -67,7 +67,6 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
       </div>
     </div>
   `,
-
   viewProviders: [
     {
       provide: ControlContainer,
@@ -82,7 +81,7 @@ export class AddressInputCardComponent implements OnInit {
   @Input() enableQR = true;
   @Input() selectedNetwork: string;
   isPWA = true;
-  form: FormGroup;
+  form: UntypedFormGroup;
   control: AbstractControl;
   address: string;
   hideHelpText = false;

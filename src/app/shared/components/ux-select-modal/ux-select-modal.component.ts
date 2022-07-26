@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-ux-select-modal',
@@ -43,7 +43,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./ux-select-modal.component.scss'],
 })
 export class UxSelectModalComponent implements OnInit {
-  constructor(private modalController: ModalController, private formBuilder: FormBuilder) {}
+  constructor(private modalController: ModalController, private formBuilder: UntypedFormBuilder) {}
 
   title = '';
   data = [];
@@ -51,7 +51,7 @@ export class UxSelectModalComponent implements OnInit {
   valueName = '';
   rawData = false;
   selected: any;
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     radio: ['', []],
   });
 

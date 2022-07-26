@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
@@ -100,14 +100,14 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
   styleUrls: ['./new-objetive.page.scss'],
 })
 export class NewObjetivePage implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     income: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     expenses: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
   disabled: boolean;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private objetiveData: ObjetiveDataService,
     private navController: NavController,
     private toastService: ToastService,
