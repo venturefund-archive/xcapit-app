@@ -168,7 +168,6 @@ import { SwapInProgressModalComponent } from '../../wallets/shared-wallets/compo
             >
               {{ 'swaps.home.tos_button' | translate }}
             </ion-button>
-          </div>
         </ion-item>
       </div>
     </ion-content>
