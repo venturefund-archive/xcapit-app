@@ -13,7 +13,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { ReactiveFormsModule } from '@angular/forms';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -235,21 +235,6 @@ describe('OperationsNewPage', () => {
     component.ionViewWillEnter();
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should redirect to change currency when currency button is clicked on provider card', async () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        country: 'ARS',
-      },
-    };
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', null);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['/fiat-ramps/token-selection', 'kripton'],
-      navigationExtras
-    );
   });
 
   it('should update fiat amount when price changes', fakeAsync(() => {

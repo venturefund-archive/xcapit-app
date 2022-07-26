@@ -129,7 +129,6 @@ export class SendDetailPage {
   private nativeToken: Token;
   tplNativeToken: RawToken;
   tplBlockchain: RawBlockchain;
-
   destroy$ = new Subject<void>();
   private priceRefreshInterval = 15000;
   alertType = UX_ALERT_TYPES.warning;
@@ -374,8 +373,8 @@ export class SendDetailPage {
   async setUrlToBuyCrypto() {
     const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
     this.tokenOperationDataService.tokenOperationData = {
-      asset: this.nativeToken?.value,
-      network: this.nativeToken?.network,
+      asset: this.tplNativeToken?.value,
+      network: this.tplNativeToken?.network,
     };
     this.url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
     return this.url;
