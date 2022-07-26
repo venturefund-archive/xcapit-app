@@ -17,7 +17,7 @@ export class CovalentTransfersResponse {
       .map((item: any) =>
         item.transfers
           ? item.transfers.map(
-              (transfer: any) => new CovalentNoNativeTransfer(transfer, this.response.data.quote_currency)
+              (transfer: any) => new CovalentNoNativeTransfer(transfer, this.response.data.quote_currency, item.successful)
             )
           : new CovalentNativeTransfer(
               item,

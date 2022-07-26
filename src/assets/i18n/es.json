@@ -1655,7 +1655,9 @@
       "header": "Historico transacciones",
       "OUT": "Enviado",
       "IN": "Recibido",
-      "swap": "Swap"
+      "swap": "Swap",
+      "confirmed": "Confirmado",
+      "declined": "Rechazado"
     },
     "send": {
       "scan_qr": {
@@ -2581,8 +2583,7 @@
       "swap_not_ok":{
         "title":"❌ Error en el intercambio",
         "body": "Se produjo un error en el envío de {{fromAmount}} {{fromToken}} y recepción de {{toAmount}} {{toToken}}. Más información aquí. ."
-      }
-     
+      }     
     }
   }
 }

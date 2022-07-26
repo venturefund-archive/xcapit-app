@@ -5,6 +5,7 @@ const transfer = {
   to_address: 'testAddress',
   value: '10000000000000000',
   value_quote: 30,
+  successful: true,
 };
 
 describe('CovalentNativeTransfer', () => {
@@ -17,5 +18,6 @@ describe('CovalentNativeTransfer', () => {
     expect(nativeTransfer.quoteCurrency).toBe('USD');
     expect(nativeTransfer.icon).toBe('assets/img/wallet-transactions/received.svg');
     expect(nativeTransfer.amount).toBe(0.01);
+    expect(nativeTransfer.successful).toBeTrue();
   });
 });
