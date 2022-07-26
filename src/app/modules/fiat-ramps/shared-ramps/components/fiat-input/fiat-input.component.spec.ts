@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,12 +9,12 @@ import { FiatInputComponent } from './fiat-input.component';
 describe('FiatInputComponent', () => {
   let component: FiatInputComponent;
   let fixture: ComponentFixture<FiatInputComponent>;
-  let controlContainerMock: FormGroup;
+  let controlContainerMock: UntypedFormGroup;
   let formGroupDirectiveMock: FormGroupDirective;
 
   beforeEach(waitForAsync(() => {
-    controlContainerMock = new FormGroup({
-      fiatAmount: new FormControl(),
+    controlContainerMock = new UntypedFormGroup({
+      fiatAmount: new UntypedFormControl(),
     });
     formGroupDirectiveMock = new FormGroupDirective([], []);
     formGroupDirectiveMock.form = controlContainerMock;

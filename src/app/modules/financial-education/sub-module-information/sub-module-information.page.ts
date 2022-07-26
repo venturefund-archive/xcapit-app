@@ -8,7 +8,7 @@ import { FinancialEducationService } from '../shared-financial-education/service
   selector: 'app-sub-module-information',
   template: ` <ion-content>
     <div>
-      <app-sub-module-info [subModule]="this.subModule"></app-sub-module-info>
+      <app-sub-module-info *ngIf="this.subModule" [subModule]="this.subModule"></app-sub-module-info>
     </div>
     <div class="ion-padding">
       <div>

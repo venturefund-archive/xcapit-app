@@ -81,5 +81,4 @@ export class ModulesEducationComponent implements OnInit {
     ]);
   }
 
-
 }

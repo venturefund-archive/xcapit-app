@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { debounceTime } from 'rxjs/operators';
@@ -136,23 +136,31 @@ import { LINKS } from 'src/app/config/static-links';
           <app-transaction-fee [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
         </div>
       </div>
-      <div class="sw__checkbox ion-padding">
-        <ion-item class="sw__checkbox__last ux-font-text-xs">
-          <ion-checkbox mode="md" slot="start" name="checkbox-condition"></ion-checkbox>
-          <div class="sw__checkbox__text-wrapper">
-            <ion-label>
-              {{ 'swaps.home.tos_1' | translate }}
+     <div class="sw__checkbox">
+          <ion-item class="sw__checkbox__last ux-font-text-xs">
+            <ion-checkbox mode="md" slot="start" name="checkbox-condition">
+            </ion-checkbox>
+            <ion-label class="sw__checkbox__phrase checkbox-link">
+              <ion-label class="sw__checkbox__phrase__tos">
+                    {{ 'swaps.home.tos_1' | translate }}</ion-label
+              >
+              <div class= "sw__checkbox__phrase__link">
+                <ion-button
+                  name="go_to_1inch_tos"
+                  class="ux-link-xs stc__checkbox__phrase__link__button"
+                  (click)="this.openToS()"
+                  appTrackClick
+                  fill="clear"
+                >
+                     {{ 'swaps.home.tos_button' | translate }}
+                </ion-button>
+                <ion-label class="ux-font-text-xs sw__checkbox__phrase__link__label"
+                  > {{ 'swaps.home.tos_2' | translate }}</ion-label
+                >
+              </div>
             </ion-label>
-            <ion-button
-              name="go_to_1inch_tos"
-              class="ux-link-xs sw__checkbox__text__button"
-              (click)="this.openToS()"
-              appTrackClick fill="clear">
-              {{ 'swaps.home.tos_button' | translate }}
-            </ion-button>
-          </div>
-        </ion-item>
-      </div>
+          </ion-item>
+        </div> 
     </ion-content>
 
     <ion-footer class="sw__footer">
@@ -195,7 +203,7 @@ export class SwapHomePage {
   tplToToken: RawToken;
   tplFee: RawAmount = new NullAmountOf().json();
   tplSwapInfo: RawSwapInfo = new NullJSONSwapInfo().value();
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
   });
   defaultNavBackUrl = 'tabs/wallets';
@@ -206,7 +214,7 @@ export class SwapHomePage {
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalController: ModalController,
     private appStorageService: AppStorageService,
     private httpClient: HttpClient,

@@ -32,11 +32,14 @@ const routes: Routes = [
       {
         path: 'swap-in-progress',
         loadChildren: () => import('./swap-in-progress/swap-in-progress.module').then( m => m.SwapInProgressPageModule)
-      }
+      },
+      {
+        path: 'swap-terms-and-conditions',
+        loadChildren: () => import('./swap-terms-and-conditions/swap-terms-and-conditions.module').then( m => m.SwapTermsAndConditionsPageModule)
+      },
     ],
   },
-
-
+ 
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { ControlContainer, FormGroupDirective, AbstractControl, FormGroup } from '@angular/forms';
+import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from '../../services/clipboard/clipboard.service';
 import { ToastService } from '../../services/toast/toast.service';

@@ -104,7 +104,7 @@ export class ConfirmPagePage implements OnInit {
       next: (res) => {
         this.storageOperationService.setOperationId(res.id);
         this.addBoughtCoinIfUserDoesNotHaveIt();
-        this.navController.navigateForward(['fiat-ramps/success-page']);
+        this.navController.navigateForward(['fiat-ramps/success-page', res.id]);
       },
       complete: () => {
         this.disabledButton = false;

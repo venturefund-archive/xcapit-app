@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 
@@ -72,7 +72,7 @@ import { FinancialEducationService } from '../shared-financial-education/service
   styleUrls: ['./home-financial-education.page.scss'],
 })
 export class HomeFinancialEducationPage {
-  segmentsForm: FormGroup = this.formBuilder.group({
+  segmentsForm: UntypedFormGroup = this.formBuilder.group({
     tab: ['finance', [Validators.required]],
   });
   wallet_address: string;
@@ -80,14 +80,13 @@ export class HomeFinancialEducationPage {
   modules: any;
   globalProgressData: any;
   constructor(
-    private formBuilder: FormBuilder,
     private financialEducationService: FinancialEducationService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   async ionViewWillEnter() {
     await this.getUserWalletAddress();
-
     this.segmentsForm.valueChanges.subscribe(async () => {
       this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
       this.setOpenValueOnModule();

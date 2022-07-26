@@ -1,6 +1,6 @@
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { Component, AfterViewInit, ElementRef } from '@angular/core';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
@@ -110,7 +110,7 @@ export class OperationsNewPage implements AfterViewInit {
   priceRefreshInterval = 15000;
   destroy$: Subject<void>;
 
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     cryptoAmount: ['', [Validators.required]],
     fiatAmount: ['', [Validators.required]],
     thirdPartyKYC: [false, [Validators.required]],
@@ -120,7 +120,7 @@ export class OperationsNewPage implements AfterViewInit {
 
   constructor(
     public submitButtonService: SubmitButtonService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private storageOperationService: StorageOperationService,
@@ -131,7 +131,7 @@ export class OperationsNewPage implements AfterViewInit {
     private browserService: BrowserService,
     private http: HttpClient,
     private kriptonDynamicPrice: KriptonDynamicPriceFactory,
-    private providers: ProvidersFactory,
+    private providers: ProvidersFactory
   ) {}
 
   ngAfterViewInit() {
@@ -187,11 +187,18 @@ export class OperationsNewPage implements AfterViewInit {
     this.form.patchValue({ cryptoAmount: value / this.price }, { emitEvent: false, onlySelf: true });
   }
 
+  updateAmounts(): void {
+    this.form.patchValue({ fiatAmount: this.form.value.cryptoAmount * this.price });
+  }
+
   private dynamicPrice() {
     this.createKriptonDynamicPrice()
       .value()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((price: number) => (this.price = price));
+      .subscribe((price: number) => {
+        this.price = price;
+        if (this.form.value.fiatAmount) this.updateAmounts();
+      });
   }
 
   createKriptonDynamicPrice(): KriptonDynamicPrice {

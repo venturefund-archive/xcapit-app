@@ -32,6 +32,7 @@ export class TestTypeformPage implements OnInit {
   headerText: string;
   submoduleResult: any;
   categoriesCompleted = false;
+
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
@@ -45,12 +46,6 @@ export class TestTypeformPage implements OnInit {
   async ionViewWillEnter() {
     this.getParams();
     await this.getUserWalletAddress();
-
-    this.getData();
-    this.getModule();
-    this.getSubModule();
-    this.createTypeform();
-    this.updateTexts();
   }
 
   areCategoriesCompleted() {
@@ -67,11 +62,15 @@ export class TestTypeformPage implements OnInit {
   }
 
   getEducationDataOf(anAddress: string) {
-    // this.data = DATA;
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
+      this.areCategoriesCompleted();
+      this.getData();
+      this.getModule();
+      this.getSubModule();
+      this.createTypeform();
+      this.updateTexts();
     });
-    this.areCategoriesCompleted();
   }
 
   createTypeform() {
@@ -98,7 +97,7 @@ export class TestTypeformPage implements OnInit {
 
   getData() {
     this.data = this.selectedCategory === 'finance' ? this.data.finance : this.data.crypto;
-  }
+   }
 
   getModule() {
     this.module = this.data.find((module) => module.id === this.module);
@@ -116,7 +115,6 @@ export class TestTypeformPage implements OnInit {
       .subscribe((submoduleResult) => {
         this.submoduleResult = submoduleResult;
       });
-    // this.submoduleResult = SUBMODULE;
   }
 
   redirect() {

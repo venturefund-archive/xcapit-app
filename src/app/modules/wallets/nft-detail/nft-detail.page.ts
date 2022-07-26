@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Navigation, Router } from '@angular/router';
 import { NFT, NullNFT } from '../shared-wallets/models/nft/nft.class';
 import { UrlImageOf } from '../shared-wallets/models/nft/url-image-of.class';
@@ -80,13 +80,13 @@ export class NftDetailPage {
   nft: NFT = new NullNFT();
   nftTemplateData: any = {};
   nav: Navigation;
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     contractAddress: [''],
     tokenID: [''],
     blockchain: [''],
   });
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  constructor(private formBuilder: UntypedFormBuilder, private router: Router) {
     this.nav = this.router.getCurrentNavigation();
   }
 

@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -19,13 +19,13 @@ describe('InputSelectComponent', () => {
   let modalControllerSpy: any;
 
   let abstractControlMock: any;
-  let controlContainerMock: FormGroup;
+  let controlContainerMock: UntypedFormGroup;
   let formGroupDirectiveMock: FormGroupDirective;
 
   beforeEach(
     waitForAsync(() => {
-      controlContainerMock = new FormGroup({
-        testControl: new FormControl(),
+      controlContainerMock = new UntypedFormGroup({
+        testControl: new UntypedFormControl(),
       });
       formGroupDirectiveMock = new FormGroupDirective([], []);
       formGroupDirectiveMock.form = controlContainerMock;
