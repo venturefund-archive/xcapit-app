@@ -30,10 +30,6 @@ const routes: Routes = [
           loadChildren: () => import('./swap-select-token/swap-select-token.module').then( m => m.SwapSelectTokenPageModule)
       },
       {
-        path: 'swap-in-progress',
-        loadChildren: () => import('./swap-in-progress/swap-in-progress.module').then( m => m.SwapInProgressPageModule)
-      },
-      {
         path: 'swap-terms-and-conditions',
         loadChildren: () => import('./swap-terms-and-conditions/swap-terms-and-conditions.module').then( m => m.SwapTermsAndConditionsPageModule)
       },

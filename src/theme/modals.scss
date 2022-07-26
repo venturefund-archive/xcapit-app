@@ -70,6 +70,17 @@
   }
 }
 
+// Modal informativo large
+.ux-lg-modal-informative {
+  --max-height: 575.05px;
+  --max-width: 328px;
+  --background: #fff;
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
 // Modal informativo medium
 .ux-md-modal-informative {
   --max-height: 459px;

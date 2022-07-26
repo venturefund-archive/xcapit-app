@@ -2569,9 +2569,11 @@
       "button":"Comenzar"
     },
     "swap_in_progress":{
+      "text_title": "Intercambio",
+      "text_badge": "En progreso",
       "text_primary":"¡Tu orden está en camino!",
       "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "button_text":"Ir a Wallet"
+      "button_text":"Ir a wallet"
     },
     "sent_notification":{
       "actions":{

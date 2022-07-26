@@ -39,7 +39,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { LINKS } from 'src/app/config/static-links';
-
+import { SwapInProgressModalComponent } from '../../wallets/shared-wallets/components/swap-in-progress-modal/swap-in-progress-modal.component';
 
 @Component({
   selector: 'app-swap-home',
@@ -135,7 +135,7 @@ import { LINKS } from 'src/app/config/static-links';
           <app-transaction-fee [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
         </div>
       </div>
-     <div class="sw__checkbox">
+    <div class="sw__checkbox">
           <ion-item class="sw__checkbox__last ux-font-text-xs">
             <ion-checkbox mode="md" slot="start" name="checkbox-condition">
             </ion-checkbox>
@@ -151,15 +151,24 @@ import { LINKS } from 'src/app/config/static-links';
                   appTrackClick
                   fill="clear"
                 >
-                     {{ 'swaps.home.tos_button' | translate }}
+                    {{ 'swaps.home.tos_button' | translate }}
                 </ion-button>
                 <ion-label class="ux-font-text-xs sw__checkbox__phrase__link__label"
                   > {{ 'swaps.home.tos_2' | translate }}</ion-label
                 >
               </div>
             </ion-label>
-          </ion-item>
-        </div> 
+            <ion-button
+              name="go_to_1inch_tos"
+              class="ux-link-xs sw__checkbox__text__button"
+              (click)="this.openToS()"
+              appTrackClick
+              fill="clear"
+            >
+              {{ 'swaps.home.tos_button' | translate }}
+            </ion-button>
+        </ion-item>
+      </div>
     </ion-content>
 
     <ion-footer class="sw__footer">
@@ -181,7 +190,7 @@ import { LINKS } from 'src/app/config/static-links';
           {{ 'swaps.home.footer_text' | translate }}
         </span>
       </div>
-  </ion-footer>
+    </ion-footer>
   `,
   styleUrls: ['./swap-home.page.scss'],
 })
@@ -231,7 +240,7 @@ export class SwapHomePage {
   ) {}
 
   openToS() {
-    this.browser.open({url: LINKS.oneInchToS});
+    this.browser.open({ url: LINKS.oneInchToS });
   }
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -368,7 +377,7 @@ export class SwapHomePage {
     this.disableMainButton();
     const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());
-    wallet.onDecryptedWallet().subscribe(() => this.navController.navigateForward([this.swapInProgressUrl]));
+    wallet.onDecryptedWallet().subscribe(() => this.showSwapInProgressModal());
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
       .then(() => {
@@ -419,5 +428,15 @@ export class SwapHomePage {
         actionTypeId: this.actionTypeId,
       },
     ];
+  }
+
+  async showSwapInProgressModal() {
+    const modal = await this.modalController.create({
+      component: SwapInProgressModalComponent,
+      componentProps: {},
+      cssClass: 'ux-lg-modal-informative',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 }
