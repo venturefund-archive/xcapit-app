@@ -81,7 +81,7 @@ export class SelectProviderCardComponent implements OnInit {
     this.providers()
       .all()
       .forEach((provider) => providerCountries.push(...provider.countries));
-    return this.countries.filter((country) => providerCountries.includes(country.name));
+    return this.countries.filter((country) => providerCountries.includes(country.name));    
   }
 
   selectedProvider(provider) {
