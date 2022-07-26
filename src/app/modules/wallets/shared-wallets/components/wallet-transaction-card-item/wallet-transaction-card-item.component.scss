@@ -42,6 +42,28 @@
             max-width: auto;
           }
         }
+
+        &__column {
+          text-align: right;
+
+          &__badge {
+            ion-badge {
+              border-radius: 4px;
+              height: 21px;
+              margin-top: 2px;
+            }
+
+            .declined {
+              background-color: var(--ion-color-dangerlight);
+              color: var(--ion-color-dangerdark);
+            }
+
+            .confirmed {
+              background-color: var(--ion-color-successlight);
+              color: var(--ion-color-successdark);
+            }
+          }
+        }
       }
 
       &__bottom {

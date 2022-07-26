@@ -1,11 +1,4 @@
-import {
-  ComponentFixture,
-  discardPeriodicTasks,
-  fakeAsync,
-  flush,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { SendDetailPage } from './send-detail.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -35,6 +28,14 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
 import { FakeActivatedRoute } from '../../../../../testing/fakes/activated-route.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
+import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
+import { rawETHData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 const coins: Coin[] = [
   {
@@ -101,6 +102,8 @@ describe('SendDetailPage', () => {
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -109,18 +112,18 @@ describe('SendDetailPage', () => {
     walletServiceSpy = jasmine.createSpyObj('WalletService', {
       balanceOf: Promise.resolve('11'),
     });
+
     fakeActivatedRoute = new FakeActivatedRoute(null, { asset: 'USDT', network: 'ERC20' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
+
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: coins,
       getCoin: JSON.parse(JSON.stringify(coins[2])),
-      getNativeTokenFromNetwork: JSON.parse(JSON.stringify(coins[1])),
-      getNetworks: ['ERC20'],
-      getGasPrice: of({ gas_price: 100000000000 }),
       getPrices: of({ prices: { USDT: 1, ETH: 1, BTC: 1 } }),
     });
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
+
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
 
@@ -146,6 +149,18 @@ describe('SendDetailPage', () => {
       get: Promise.resolve(true),
     });
 
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: new Blockchains(new BlockchainRepo(rawBlockchainsData)),
+    });
+
+    gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
+      create: {
+        price: () => ({
+          standard: () => Promise.resolve(new AmountOf('100000000000', new DefaultToken(rawETHData))),
+        }),
+      },
+    });
+
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, FakeTrackClickDirective],
       imports: [
@@ -166,6 +181,8 @@ describe('SendDetailPage', () => {
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -183,25 +200,21 @@ describe('SendDetailPage', () => {
   it('should find currency and networks on ionViewDidEnter', fakeAsync(() => {
     component.ionViewDidEnter();
     tick();
-    fixture.detectChanges();
-    expect(component.networks).toEqual([coins[2].network]);
-    expect(component.selectedNetwork).toEqual(coins[2].network);
-    expect(component.nativeToken).toEqual(coins[1]);
+
+    expect(component.tplBlockchain.name).toEqual(coins[2].network);
+    expect(component.tplNativeToken.value).toEqual(coins[1].value);
     expect(component.token).toEqual(coins[2]);
-    discardPeriodicTasks();
-    flush();
   }));
 
   it('should get native fee on ionViewDidEnter when token is native', fakeAsync(() => {
     apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
     component.form.patchValue({ amount: 1 });
+
     component.ionViewDidEnter();
     tick();
-    fixture.detectChanges();
+
     expect(component.token).toEqual(coins[1]);
     expect(component.fee).toEqual(10);
-    discardPeriodicTasks();
-    flush();
   }));
 
   it('should calculate fee when user enters valid address and amount and token isnt native', fakeAsync(() => {
@@ -209,7 +222,7 @@ describe('SendDetailPage', () => {
     tick();
     component.form.patchValue(formData.valid);
     tick();
-    fixture.detectChanges();
+
     expect(component.fee).toEqual(0.000001);
   }));
 
@@ -219,21 +232,10 @@ describe('SendDetailPage', () => {
     component.form.patchValue({ address: '' });
     tick();
     fixture.detectChanges();
+
     expect(component.dynamicFee.value).toEqual(0.0);
     expect(component.quoteFee.value).toEqual(0.0);
   }));
-
-  it('should change selected network on event emited', () => {
-    component.networks = ['ERC20', 'BTC'];
-    component.selectedNetwork = 'ERC20';
-    component.nativeToken = coins[1];
-    fixture.detectChanges();
-    expect(component.selectedNetwork).toBe('ERC20');
-    const networkCard = fixture.debugElement.query(By.css('app-network-select-card'));
-    networkCard.triggerEventHandler('networkChanged', 'BTC');
-    fixture.detectChanges();
-    expect(component.selectedNetwork).toBe('BTC');
-  });
 
   it('should call trackEvent on trackService when ux_send_continue Button clicked', async () => {
     await fixture.whenRenderingDone();
@@ -241,64 +243,44 @@ describe('SendDetailPage', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
+
     el.nativeElement.click();
-    fixture.detectChanges();
+
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync( () => {
-    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);   
+  it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync(() => {
+    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
     component.ionViewDidEnter();
-    tick(550)
+    tick();
     component.form.patchValue(formData.valid);
-    tick(550)
-    fixture.detectChanges();
     tick();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
+
     el.nativeElement.click();
-    tick()
-    fixture.detectChanges();
+    tick();
+
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   }));
 
   it('should show card if native token balance is zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams(null, { asset: 'ETH', network: 'ERC20' });
+    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
     walletServiceSpy.balanceOf.and.resolveTo('0');
-    await component.ionViewDidEnter();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
-    expect(alertCard).toBeDefined();
-  });
 
-  it('should show card if native token balance is zero when sending not native token', async () => {
-    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'USDT', network: 'ERC20' });
-    walletServiceSpy.balanceOf.and.resolveTo('0');
     await component.ionViewDidEnter();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
-    expect(alertCard).toBeDefined();
+
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams(null, { asset: 'ETH', network: 'ERC20' });
-    walletServiceSpy.balanceOf.and.resolveTo('1');
-    await component.ionViewDidEnter();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
-    expect(alertCard).toBeDefined();
-  });
+    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
+    walletServiceSpy.balanceOf.and.resolveTo('10000');
 
-  it('should not show card if native token balance is greater than zero when sending not native token', async () => {
-    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'USDT', network: 'ERC20' });
-    walletServiceSpy.balanceOf.and.resolveTo('1');
     await component.ionViewDidEnter();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    const alertCard = fixture.debugElement.query(By.css('app-ux-alert-message'));
-    expect(alertCard).toBeDefined();
+
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 
   it('should let user change currency on selected currency click', async () => {
@@ -307,85 +289,69 @@ describe('SendDetailPage', () => {
     await component.ionViewDidEnter();
     await fixture.whenStable();
     fixture.detectChanges();
+
     fixture.debugElement
       .query(By.css('.sd__network-select-card__selected-coin > app-coin-selector'))
       .triggerEventHandler('changeCurrency', {});
+
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/wallets/send/select-currency']);
   });
 
   it('should unsubscribe when leave', () => {
     const nextSpy = spyOn(component.destroy$, 'next');
     const completeSpy = spyOn(component.destroy$, 'complete');
+
     component.ionViewWillLeave();
+
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should show toast when native balance is less than fee', () => {
+  it('should show toast when native balance is less than fee', async () => {
+    await component.ionViewDidEnter();
     component.nativeBalance = 0.5;
     component.fee = 1;
+
     component.checkEnoughBalance();
+
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is false',async ()=>{
-    component.amountSend = true 
-    component.isInfoModalOpen = false
-    await component.ionViewDidEnter()
-    await fixture.whenRenderingDone()
-    await fixture.whenStable()
-    fixture.detectChanges()
+  it('should open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is false', async () => {
+    component.isInfoModalOpen = false;
+    await component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
     fixture.debugElement.query(By.css('app-amount-input-card')).triggerEventHandler('phraseAmountInfoClicked', null);
-    fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  })
 
-  it('should not open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is true ', async()=>{
-    component.amountSend = true 
-    component.isInfoModalOpen = true
-    await component.ionViewDidEnter()
-    await fixture.whenRenderingDone()
-    await fixture.whenStable()
-    fixture.detectChanges()
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not open modal when phraseAmountInfoClicked event is emited and isInfoModalOpen is true ', async () => {
+    component.isInfoModalOpen = true;
+    await component.ionViewDidEnter();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
     fixture.debugElement.query(By.css('app-amount-input-card')).triggerEventHandler('phraseAmountInfoClicked', null);
-    fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
-  })
 
-  it('should open modal when transactionFeeInfoClicked event is emited and isInfoModalOpen is false',async()=>{    
-    component.amountSend = true 
-    component.isInfoModalOpen = false
-    await component.ionViewDidEnter()
-    await fixture.whenRenderingDone()
-    await fixture.whenStable()
-    fixture.detectChanges()
-    fixture.debugElement.query(By.css('app-transaction-fee')).triggerEventHandler('transactionFeeInfoClicked', null);
-    fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
-  })
-
-  
-  it('should not open modal when transactionFeeInfoClicked event is emited and isInfoModalOpen is true ', async()=>{    
-    component.amountSend = true 
-    component.isInfoModalOpen = true
-    await component.ionViewDidEnter()
-    await fixture.whenRenderingDone()
-    await fixture.whenStable()
-    fixture.detectChanges()
-    fixture.debugElement.query(By.css('app-transaction-fee')).triggerEventHandler('transactionFeeInfoClicked', null);
-    fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
-  })
+  });
+
   it('should set "fiat-ramps/buy-conditions" in the variable url if not exist conditionsPurchasesAccepted in the storage', async () => {
     ionicStorageServiceSpy.get.and.resolveTo(false);
+
     await component.ionViewDidEnter();
-    fixture.detectChanges();
+
     expect(component.url).toEqual('fiat-ramps/buy-conditions');
   });
 
   it('should set "fiat-ramps/select-provider" in the variable url if exist conditionsPurchasesAccepted in the storage', async () => {
     await component.ionViewDidEnter();
-    fixture.detectChanges();
+
     expect(component.url).toEqual('fiat-ramps/select-provider');
   });
 });
