@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -167,7 +167,7 @@ export class HomeWalletPage implements OnInit {
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
   @ViewChild(IonContent, { static: true }) content: IonContent;
-  segmentsForm: FormGroup = this.formBuilder.group({
+  segmentsForm: UntypedFormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
   });
   totalBalanceModel: TotalBalance;
@@ -177,7 +177,7 @@ export class HomeWalletPage implements OnInit {
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
     private navController: NavController,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private refreshTimeoutService: RefreshTimeoutService,
     private walletBalance: WalletBalanceService,
     private storageService: StorageService,

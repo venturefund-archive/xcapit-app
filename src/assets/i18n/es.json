@@ -1655,7 +1655,9 @@
       "header": "Historico transacciones",
       "OUT": "Enviado",
       "IN": "Recibido",
-      "swap": "Swap"
+      "swap": "Swap",
+      "confirmed": "Confirmado",
+      "declined": "Rechazado"
     },
     "send": {
       "scan_qr": {
@@ -2544,7 +2546,8 @@
       "fee_title": "Detalles de Transacción",
       "footer_text": "Solo tomará unos segundos.",
       "tos_1": "Leí y estoy de acuerdo con los ",
-      "tos_button": "términos y condiciones de 1inch."
+      "tos_button": "términos y condiciones",
+      "tos_2": "de 1inch"
     },
     "errors": {
       "invalid_password": "La contraseña ingresada no es correcta."
@@ -2553,6 +2556,18 @@
       "header": "Swap",
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
+    },
+    "terms_and_conditions":{
+      "title":"¿Qué necesitas saber antes de realizar un intercambio?",
+      "condition_1":"El intercambio se realiza a través del proovedor externo “1inch”.",
+      "condition_2":"Las condiciones de intercambio de tokens dependen del proovedor.",
+      "condition_3":"Los intercambios poseen costos de transacción asociados.",
+      "terms":{
+        "i_have_read":"Leí y estoy de acuerdo con los",
+        "link_to_terms": "términos y condiciones",
+        "of":"de 1inch"
+      },
+      "button":"Comenzar"
     },
     "swap_in_progress":{
       "text_primary":"¡Tu orden está en camino!",
@@ -2570,8 +2585,7 @@
       "swap_not_ok":{
         "title":"❌ Error en el intercambio",
         "body": "Se produjo un error en el envío de {{fromAmount}} {{fromToken}} y recepción de {{toAmount}} {{toToken}}. Más información aquí. ."
-      }
-     
+      }     
     }
   }
 }

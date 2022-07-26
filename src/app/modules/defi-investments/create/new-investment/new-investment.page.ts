@@ -4,7 +4,7 @@ import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TwoPiProduct } from '../../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ActivatedRoute } from '@angular/router';
@@ -95,7 +95,7 @@ import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ram
 export class NewInvestmentPage implements OnInit {
   destroy$ = new Subject<void>();
   private priceRefreshInterval = 15000;
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
@@ -111,7 +111,7 @@ export class NewInvestmentPage implements OnInit {
   buyAvailable: boolean;
   @ViewChild(AmountInputCardComponent) amountInputCard: AmountInputCardComponent;
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     public submitButtonService: SubmitButtonService,
     private apiWalletService: ApiWalletService,

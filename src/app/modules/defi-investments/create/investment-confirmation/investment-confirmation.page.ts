@@ -1,7 +1,7 @@
 import { IonicStorageService } from './../../../../shared/services/ionic-storage/ionic-storage.service';
 import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import {
   Investment,
   TwoPiInvestment,
@@ -161,7 +161,7 @@ export class InvestmentConfirmationPage {
     private toastService: ToastService,
     private apiWalletService: ApiWalletService,
     private walletBalance: WalletBalanceService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private browserService: BrowserService,
     private storage: IonicStorageService,
     private route: ActivatedRoute,

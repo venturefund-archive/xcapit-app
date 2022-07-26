@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
@@ -103,7 +103,7 @@ import { ObjetiveDataService } from '../shared-financial-planner/services/objeti
   styleUrls: ['./objetive-info.page.scss'],
 })
 export class ObjetiveInfoPage implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
     category: ['other', Validators.required],
     necessaryAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
@@ -142,7 +142,7 @@ export class ObjetiveInfoPage implements OnInit {
   ];
   constructor(
     private appStorage: AppStorageService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private objetiveData: ObjetiveDataService,
     private appStorageService: AppStorageService,
     private navController: NavController

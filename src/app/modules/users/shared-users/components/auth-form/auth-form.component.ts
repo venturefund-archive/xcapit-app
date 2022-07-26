@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { CONFIG } from 'src/app/config/app-constants.config';
@@ -73,7 +73,7 @@ export class AuthFormComponent implements OnInit {
 
   passwordErrors: ItemFormError[] = CONFIG.fieldErrors.password;
 
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
     password: [
       '',
@@ -90,7 +90,7 @@ export class AuthFormComponent implements OnInit {
     tos: [false, [Validators.required, CustomValidators.mustBeTrue]],
   });
 
-  constructor(private formBuilder: FormBuilder, private toastService: ToastService) {}
+  constructor(private formBuilder: UntypedFormBuilder, private toastService: ToastService) {}
 
   ngOnInit() {
     this.initForm();

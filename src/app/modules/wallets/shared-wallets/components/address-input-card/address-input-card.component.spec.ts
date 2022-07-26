@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { AddressInputCardComponent } from './address-input-card.component';
 import { By } from '@angular/platform-browser';
-import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { ClipboardService } from '../../../../../shared/services/clipboard/clipboard.service';
 import { ToastService } from '../../../../../shared/services/toast/toast.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -19,7 +19,7 @@ describe('AddressInputCardComponent', () => {
   let modalControllerSpy: any;
   let toastServiceMock: any;
   let toastService: ToastService;
-  let controlContainerMock: FormGroup;
+  let controlContainerMock: UntypedFormGroup;
   let formGroupDirectiveMock: FormGroupDirective;
   let fakeModalController: FakeModalController;
   let platformServiceSpy: any;
@@ -30,8 +30,8 @@ describe('AddressInputCardComponent', () => {
 
     platformServiceSpy = jasmine.createSpyObj('PlatformService', ['isWeb']);
     platformServiceSpy.isWeb.and.returnValue(false);
-    controlContainerMock = new FormGroup({
-      address: new FormControl(''),
+    controlContainerMock = new UntypedFormGroup({
+      address: new UntypedFormControl(''),
     });
     formGroupDirectiveMock = new FormGroupDirective([], []);
     formGroupDirectiveMock.form = controlContainerMock;

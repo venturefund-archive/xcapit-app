@@ -125,10 +125,18 @@ describe('WalletSubheaderButtonsComponent', () => {
     );
   });
 
-  it('should navigate to swap when ux_go_to_swap button is clicked', async () => {
+  it('should navigate to swap T&C when ux_go_to_swap button is clicked and termsAndConditions1InchSwapAccepted is not set on storage', async () => {
     fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_swap']")).nativeElement.click();
     await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['swaps/swap-terms-and-conditions']);
+  });
 
+  it('should navigate to swap page when ux_go_to_swap button is clicked and termsAndConditions1InchSwapAccepted is set on storage', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(true);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_swap']")).nativeElement.click();
+    await fixture.whenStable();
+    
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(defaultSwapsUrls.swapHome);
   });
 

@@ -92,41 +92,45 @@
     }
 
     &__checkbox {
-      ion-checkbox {
-        margin-right: 14px;
-      }
+      display: flex;
+      align-items: center;
+      padding: 8px;
 
-      &__text-wrapper {
+      &__phrase {
         display: flex;
         flex-wrap: wrap;
+
+        &__link {
+          display: flex;
+          align-items: center;
+          margin-left: -15px;
+          height: 18px;
+
+          &__button {
+            height: auto;
+            margin-left: -8px;
+
+            --padding-start: 8px !important;
+          }
+
+          &__label {
+            margin-left: -8px;
+          }
+        }
       }
 
-      &__text {
-        margin-top: 24.5px;
-        margin-left: 10px;
-
-        span {
-          color: var(--ion-color-neutral80);
-        }
-
-        flex-direction: column;
-        gap: 22px;
-
-        &__button {
-          height: auto;
-          margin-left: -8px;
-
-          --padding-start: 8px !important;
-        }
+      ion-checkbox {
+        margin-right: 16px;
+        margin-left: 3px;
       }
 
       &__last {
         --border-color: transparent;
         --background-hover: transparent;
         --background-activated: transparent;
-        --padding-start: 5px;
+        --padding-start: 8px;
 
-        color: var(--ion-color-neutral80);
+        color: var(--ion-color-neutral90);
       }
     }
 
