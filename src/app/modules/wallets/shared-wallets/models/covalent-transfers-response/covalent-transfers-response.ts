@@ -13,7 +13,7 @@ export class CovalentTransfersResponse {
   }
 
   value(): CovalentTransfer[] {
-    const result = this.response.data.items
+    return this.response.data.items
       .map((item: any) =>
         item.transfers
           ? item.transfers.map(
@@ -27,7 +27,5 @@ export class CovalentTransfersResponse {
             )
       )
       .flat();
-      console.log(result)
-      return result
   }
 }

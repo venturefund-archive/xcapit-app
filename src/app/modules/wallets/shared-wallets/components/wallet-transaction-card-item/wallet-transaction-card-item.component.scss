@@ -54,13 +54,13 @@
             }
 
             .declined {
-              background-color: #f9e7e7;
-              color: #9d0606;
+              background-color: var(--ion-color-dangerlight);
+              color: var(--ion-color-dangerdark);
             }
 
             .confirmed {
-              background-color: #dcefe4;
-              color: #13532e;
+              background-color: var(--ion-color-successlight);
+              color: var(--ion-color-successdark);
             }
           }
         }

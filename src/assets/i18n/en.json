@@ -1665,8 +1665,8 @@
       "OUT": "Sent",
       "IN": "Received",
       "swap": "Swap",
-      "confirmed": "confirmed",
-      "declined": "declined"
+      "confirmed": "Confirmed",
+      "declined": "Declined"
     },
     "send": {
       "scan_qr": {
