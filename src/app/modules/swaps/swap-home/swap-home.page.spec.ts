@@ -273,14 +273,13 @@ describe('SwapHomePage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(urlToSelectSwapToken('toToken'));
   });
 
-  it('password modal and success modal open on click swap button and password is valid', async () => {
-    await component.ionViewDidEnter();
-    fixture.detectChanges();
-    
-    await component.swapThem();
+  it('password modal and success modal open on click swap button and password is valid', fakeAsync(() => {
+    _setTokenAmountArrange(1);
+    component.swapThem();
+    tick(2);
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
-  });
+  }));
 
   it('password modal open on click swap button and password is invalid', fakeAsync(() => {
     walletsFactorySpy.create.and.returnValue(
@@ -288,7 +287,6 @@ describe('SwapHomePage', () => {
     );
     component.ionViewDidEnter();
     tick();
-    fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
     fixture.detectChanges();
 
     component.form.patchValue(formValue);
