@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -119,7 +119,7 @@ export class FiscalDataPage implements OnInit {
     pais: ['', [Validators.required, Validators.maxLength(150)]],
   };
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   condicionesIva = Object.values(IvaConditions);
 
@@ -132,7 +132,7 @@ export class FiscalDataPage implements OnInit {
   };
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private apiProfiles: ApiProfilesService,
     private navController: NavController,
     private translate: TranslateService

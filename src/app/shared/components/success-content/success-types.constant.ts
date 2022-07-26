@@ -249,7 +249,7 @@ export const SUCCESS_TYPES = {
     textPrimary: 'fiat_ramps.fiat_success.textPrimary', 
     textSecondary:'fiat_ramps.fiat_success.textSecondary',
     namePrimaryAction:'fiat_ramps.fiat_success.buttonText',
-    urlPrimaryAction:'/tabs/home',
+    urlPrimaryAction:'/fiat-ramps/operation-detail/provider/1/operation/',
     trackClickEventNamePrimaryAction: 'ux_buy_kripton_details'
   },
   error_test_financial_education:{

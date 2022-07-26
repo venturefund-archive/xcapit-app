@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
@@ -95,7 +95,7 @@ import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemoni
 export class RecoveryWalletPage implements OnInit {
   validPhrase: string;
   isInfoModalOpen = false;
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     phrase: ['', [
       Validators.required, 
       CustomValidators.advancedCountWords(12, CustomValidatorErrors.twelveWords),
@@ -106,7 +106,7 @@ export class RecoveryWalletPage implements OnInit {
 
   constructor(
     private clipboardService: ClipboardService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private walletMnemonicService: WalletMnemonicService,
     private navController: NavController,
     private modalController: ModalController

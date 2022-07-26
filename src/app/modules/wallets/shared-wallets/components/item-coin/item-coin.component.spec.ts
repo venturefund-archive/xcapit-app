@@ -4,7 +4,7 @@ import { ItemCoinComponent } from './item-coin.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { NONPROD_COINS } from '../../constants/coins.nonprod';
 
 const testCoin = {
@@ -21,12 +21,12 @@ describe('ItemCoinComponent', () => {
   let component: ItemCoinComponent;
   let fixture: ComponentFixture<ItemCoinComponent>;
   let formGroupDirectiveMock: any;
-  let controlContainerMock: FormGroup;
+  let controlContainerMock: UntypedFormGroup;
 
   beforeEach(
     waitForAsync(() => {
-      controlContainerMock = new FormBuilder().group({
-        ETH: new FormBuilder().group({
+      controlContainerMock = new UntypedFormBuilder().group({
+        ETH: new UntypedFormBuilder().group({
           ETH: [false],
           LINK: [false],
           USDT: [false],

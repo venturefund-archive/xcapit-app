@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AbstractControl, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -31,7 +31,7 @@ describe('ErrorsFormPasswordItemComponent', () => {
     fixture = TestBed.createComponent(ErrorsFormPasswordItemComponent);
     component = fixture.componentInstance;
     component.errors = [...errors]
-    component.control =  new FormControl('',[Validators.minLength(6)])
+    component.control =  new UntypedFormControl('',[Validators.minLength(6)])
     fixture.detectChanges();
   }));
 

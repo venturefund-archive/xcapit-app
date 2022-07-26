@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { NavController, ModalController } from '@ionic/angular';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
@@ -46,7 +46,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 export class SkipBackupModalComponent implements OnInit {
   skipBackUpForm = this.formBuilder.group({ agreeSkipBackUp: [false, [Validators.requiredTrue]] });
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalController: ModalController,
     private navController: NavController,
     private ionicStorageService: IonicStorageService

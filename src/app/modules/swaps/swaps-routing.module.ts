@@ -29,10 +29,13 @@ const routes: Routes = [
         path: 'select-currency',
           loadChildren: () => import('./swap-select-token/swap-select-token.module').then( m => m.SwapSelectTokenPageModule)
       },
+      {
+        path: 'swap-terms-and-conditions',
+        loadChildren: () => import('./swap-terms-and-conditions/swap-terms-and-conditions.module').then( m => m.SwapTermsAndConditionsPageModule)
+      },
     ],
   },
-
-
+ 
 ];
 
 @NgModule({

@@ -71,7 +71,7 @@ describe('NftCardComponent', () => {
   });
 
   it('should navigate when goToDetail is called', async () => {
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
@@ -84,7 +84,7 @@ describe('NftCardComponent', () => {
 
   it('should render properly the base page when the nft status is delivered but the wallet dont have nft', async () => {
     nftServiceSpy.xcapitNFTs.and.resolveTo([]);
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
@@ -92,16 +92,13 @@ describe('NftCardComponent', () => {
     expect(fixture.debugElement.query(By.css('.cnc__base'))).toBeTruthy();
   });
 
-  it('should render properly the skeleton when NFTData are not chargued yet', async () => {
-    nftServiceSpy.xcapitNFTs.and.resolveTo([]);
-    component.ngOnInit();
+  it('should render properly the skeleton when NFTData are not loaded yet', async () => {
     fixture.detectChanges();
-
     expect(fixture.debugElement.query(By.css('app-nft-card-skeleton'))).toBeTruthy();
   });
 
   it('should render properly the NFT', async () => {
-    component.ngOnInit();
+    await component.ngOnInit();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
