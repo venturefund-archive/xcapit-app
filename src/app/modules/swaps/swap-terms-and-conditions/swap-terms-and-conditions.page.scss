@@ -1,0 +1,84 @@
+:host {
+  .stc {
+    &__close-button {
+      position: absolute;
+      top: 16px;
+      right: 40px;
+      padding: 0;
+      margin: 0;
+      width: 24px;
+      height: 24px;
+
+      &__icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    &__img {
+      display: flex;
+      justify-content: center;
+      margin: 65px 0 25px;
+    }
+
+    &__title {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    &__items {
+      &__item {
+        margin-bottom: 8px;
+
+        ion-text {
+          color: var(--ion-color-neutral90);
+        }
+
+        display: flex;
+        align-items: center;
+
+        img {
+          margin: 0 16px 0 0;
+        }
+      }
+    }
+
+    &__checkbox {
+      display: flex;
+      align-items: center;
+      margin: 36px 0;
+
+      &__phrase {
+        display: flex;
+        flex-wrap: wrap;
+
+        &__link {
+          display: flex;
+          align-items: center;
+
+          &__button {
+            height: auto;
+            margin-left: -8px;
+
+            --padding-start: 8px !important;
+          }
+
+          &__label {
+            margin-left: -8px;
+          }
+        }
+      }
+
+      ion-checkbox {
+        margin-right: 16px;
+      }
+
+      &__last {
+        --border-color: transparent;
+        --background-hover: transparent;
+        --background-activated: transparent;
+        --padding-start: 5px;
+      }
+    }
+  }
+}

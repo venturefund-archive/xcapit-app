@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { VoidSigner } from 'ethers';
@@ -88,7 +88,7 @@ export class SelectAmountWithdrawPage implements OnInit {
   quotePrice: number;
   investedAmount: number;
   feeToken: Coin;
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     percentage: [0],
     range: [''],
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
@@ -101,7 +101,7 @@ export class SelectAmountWithdrawPage implements OnInit {
   @ViewChild(AmountInputCardComponent) amountInputCard: AmountInputCardComponent;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private apiWalletService: ApiWalletService,
     private twoPiApi: TwoPiApi,

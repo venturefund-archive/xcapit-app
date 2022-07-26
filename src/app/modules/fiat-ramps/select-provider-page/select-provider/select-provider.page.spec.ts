@@ -12,6 +12,9 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { rawProvidersData } from '../../shared-ramps/fixtures/raw-providers-data';
+import { ProvidersFactory } from '../../shared-ramps/models/providers/factory/providers.factory';
+import { Providers } from '../../shared-ramps/models/providers/providers.interface';
 import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service';
 import { SelectProviderPage } from './select-provider.page';
 
@@ -46,10 +49,10 @@ const testForm = {
   valid: {
     provider: 'testProvider',
     country: {
-      isoCodeAlpha3: 'ARS'
-    } 
-  }
-} 
+      isoCodeAlpha3: 'ARS',
+    },
+  },
+};
 
 describe('SelectProviderPage', () => {
   let component: SelectProviderPage;
@@ -60,6 +63,8 @@ describe('SelectProviderPage', () => {
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
 
   beforeEach(
     waitForAsync(() => {
@@ -72,6 +77,14 @@ describe('SelectProviderPage', () => {
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
         getUserOperations: of(rawOperations),
       });
+
+      providersSpy = jasmine.createSpyObj('Providers', {
+        all: rawProvidersData,
+      });
+
+      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+        create: providersSpy,
+      });
       TestBed.configureTestingModule({
         declarations: [SelectProviderPage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -81,6 +94,7 @@ describe('SelectProviderPage', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: TrackService, useValue: trackServiceSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
+          { provide: ProvidersFactory, useValue: providersFactorySpy },
         ],
       }).compileComponents();
 
@@ -96,7 +110,7 @@ describe('SelectProviderPage', () => {
   });
 
   it('should call trackEvent on trackService when ux_vendor_buy_continue is clicked', () => {
-    component.form.patchValue(testForm.valid)
+    component.form.patchValue(testForm.valid);
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_vendor_buy_continue');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
@@ -112,7 +126,7 @@ describe('SelectProviderPage', () => {
       },
     };
     fixture.detectChanges();
-    component.form.patchValue(testForm.valid)
+    component.form.patchValue(testForm.valid);
     fixture.debugElement.query(By.css('app-select-provider-card')).triggerEventHandler('route', 'test');
     fixture.debugElement.query(By.css("ion-button[name='ux_vendor_buy_continue']")).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test'], navigationExtras);
@@ -131,12 +145,19 @@ describe('SelectProviderPage', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should get and show operations on ionViewWillEnter', async () => {
+  it('should show operations when kripton is enabled', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(1);
-    expect(component.operationsList.length).toEqual(2);
+  });
+
+  it('should not show kripton operations when kripton is disabled', async () => {
+    providersSpy.all.and.returnValue(rawProvidersData.filter((provider) => provider.alias !== 'kripton'));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(0);
   });
 
   it('should go to Moonpay web when Go To Moonpay History clicked', () => {

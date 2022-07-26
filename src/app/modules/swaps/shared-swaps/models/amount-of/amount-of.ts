@@ -17,6 +17,10 @@ export class AmountOf {
     return parseFloat(formatUnits(this._aWeiAmount, this._aToken.decimals()));
   }
 
+  weiValue(): string {
+    return this._aWeiAmount;
+  }
+
   times(aMultiplier: number): AmountOf {
     return new AmountOf(BigNumber.from(this._aWeiAmount).mul(aMultiplier).toString(), this._aToken);
   }

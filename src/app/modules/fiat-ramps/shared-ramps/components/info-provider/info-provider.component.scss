@@ -27,18 +27,8 @@
 
       &__content {
         display: flex;
-        flex-direction: column;
         text-align: center;
-
-        &__img {
-          img {
-            width: 48px;
-          }
-        }
-
-        &__title {
-          color: var(--ion-color-primary) !important;
-        }
+        flex-direction: column;
 
         &__subtitle {
           text-align: left;
@@ -50,6 +40,12 @@
           text-align: left;
           padding: 0 10px;
           color: var(--ion-color-primary) !important;
+        }
+
+        &__img {
+          img {
+            width: 48px;
+          }
         }
 
         &__disclaimer {

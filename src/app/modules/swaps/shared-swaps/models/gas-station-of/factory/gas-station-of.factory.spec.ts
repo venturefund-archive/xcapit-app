@@ -9,11 +9,11 @@ import { GasStationOfFactory } from "./gas-station-of.factory";
 describe('GasStationOfFactory', () => {
 
   it('new', () => {
-    expect(new GasStationOfFactory()).toBeTruthy();
+    expect(new GasStationOfFactory(null)).toBeTruthy();
   });
 
   it('create', () => {
-    const gasStation = new GasStationOfFactory().create(
+    const gasStation = new GasStationOfFactory(null).create(
       new Blockchain(rawPolygonData),
       new FakeHttpClient(rawPolygonGasStation),
       fakeProviders

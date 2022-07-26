@@ -1,11 +1,18 @@
-import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
 import { TransactionRequest } from '@ethersproject/abstract-provider';
+import { GasStationOf } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/gas-station-of';
+
 
 export class NetworkConfig {
-  constructor(private readonly network: string, private readonly apiWalletService: ApiWalletService) {}
+  constructor(
+    private readonly network: string,
+    private readonly _gasStation: GasStationOf
+  ) {}
 
   async value(): Promise<TransactionRequest> {
-    const gasPrice = (await this.apiWalletService.getGasPrice().toPromise()).gas_price;
-    return this.network !== 'MATIC' ? {} : { gasPrice };
+    return this.network !== 'MATIC' ? {} : { gasPrice: await this._gasPrice() };
+  }
+
+  private async _gasPrice() {
+    return (await this._gasStation.price().standard()).weiValue();
   }
 }

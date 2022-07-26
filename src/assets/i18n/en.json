@@ -2390,8 +2390,9 @@
       "to_token_title": "To",
       "fee_title": "Transaction details",
       "footer_text": "It will only take a few seconds.",
-      "tos_1": "I have read and agree to ",
-      "tos_button": "1inch's terms and conditions."
+      "tos_1": "I have read and agree to the",
+      "tos_button": "terms and conditions.",
+      "tos_2": "of 1inch"
     },
     "errors": {
       "invalid_password": "The password entered is not valid."
@@ -2400,6 +2401,18 @@
       "header": "Swap",
       "fromToken_title": "Select the token you want to swap",
       "toToken_title": "Select the token you want to receive"
+    },
+    "terms_and_conditions":{
+      "title":"What do you need to know before making a swap?",
+      "condition_1":"The exchange is done through the external provider 1inch.",
+      "condition_2":"The conditions of token exchange depend on the provider.",
+      "condition_3":"Exchanges have associated transaction costs.",
+      "terms":{
+        "i_have_read":"I have read and agree to the",
+        "link_to_terms": "terms and conditions",
+        "of":"of 1inch"
+      },
+      "button":"Start"
     },
     "swap_in_progress":{
       "text_primary":"Your order is on the way!",

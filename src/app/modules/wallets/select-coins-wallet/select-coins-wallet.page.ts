@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ActivatedRoute } from '@angular/router';
@@ -86,7 +86,7 @@ export class SelectCoinsWalletPage implements OnInit {
   mode: string;
   userCoinsLoaded: boolean;
   txInProgress: boolean;
-  form: FormGroup;
+  form: UntypedFormGroup;
   allSelected = false;
   loading = false;
   trackClickEventName: string;
@@ -100,7 +100,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private navController: NavController,
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
@@ -143,7 +143,7 @@ export class SelectCoinsWalletPage implements OnInit {
     return this.apiWalletService.getCoinsFromNetwork(network);
   }
 
-  createSuiteFormGroup(suite: Coin[]): FormGroup {
+  createSuiteFormGroup(suite: Coin[]): UntypedFormGroup {
     const formGroup = {};
     suite.forEach((c) => {
       formGroup[c.value] = [false];

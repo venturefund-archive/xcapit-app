@@ -8,7 +8,9 @@ import { OneInch } from "../one-inch";
 @Injectable({ providedIn: 'root' })
 export class OneInchFactory {
 
-  create(aBlockchain: Blockchain, httpClient: HttpClient | FakeHttpClient) {
-    return new OneInch(aBlockchain, httpClient);
+  constructor(private httpClient: HttpClient) { }
+
+  create(_aBlockchain: Blockchain, _httpClient: HttpClient | FakeHttpClient = this.httpClient) {
+    return new OneInch(_aBlockchain, _httpClient);
   }
 }

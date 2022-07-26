@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
@@ -44,7 +44,7 @@ export class PasswordChangeFormComponent {
   @Output()
   send = new EventEmitter<any>();
 
-  form: FormGroup = this.formBuilder.group(
+  form: UntypedFormGroup = this.formBuilder.group(
     {
       actual_password: ['', [Validators.required]],
       password: [
@@ -69,7 +69,7 @@ export class PasswordChangeFormComponent {
 
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   handleSubmit() {
     if (this.form.valid) {

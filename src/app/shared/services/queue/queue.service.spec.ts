@@ -25,12 +25,11 @@ describe('QueueService', () => {
     expect(true).toBeTrue();
   });
 
-  it('should subscribe to result', (done: DoneFn) => {
+  it('should subscribe to result', () => {
     service.create('testQ', 1);
     const result = [];
     service.results('testQ').subscribe((res) => {
       result.push(res);
-      done();
     });
     service.enqueue('testQ', of(1));
     service.enqueue('testQ', of(2));
