@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { ApiProfilesService } from '../shared-profiles/services/api-profiles/api-profiles.service';
 import { NavController } from '@ionic/angular';
 
@@ -75,10 +75,10 @@ export class PersonalDataPage implements OnInit {
     cellphone: ['', [Validators.minLength(7), Validators.maxLength(24), Validators.pattern('[0-9()-+][^.a-zA-Z]*$')]],
   };
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private apiProfiles: ApiProfilesService,
     private navController: NavController
   ) {}

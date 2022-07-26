@@ -988,7 +988,6 @@
       }
     }
   },
-
   "financial_education": {
     "introduction": {
       "financial_freedom": {
@@ -1255,6 +1254,12 @@
           "title_2": "Sobre Proof of integrity",
           "title_3": "Conoce más sobre POI",
           "description": "Ofrecer un programa educativo de criptofinanzas y financiar las tarifas de transacción y depósitos necesarios para unirse a la plataforma Proof of Humanity."
+        },
+        "pulenta": {
+          "title_1": "Buscamos ofrecer una solución concreta a las necesidades que se plantean en las villas y barrios populares.",
+          "title_2": "Sobre Pulenta",
+          "title_3": "Conoce más sobre Pulenta",
+          "description": "Alcanzar de manera trazable, transparente y escalables donaciones cripto a organizaciones que ayudan a personas en estado de emergencia y vulnerabilidad. "
         }
       }
     },
@@ -1285,7 +1290,6 @@
       "namePrimaryAction": "Seguir donando",
       "nameThirdAction": "Volver al home"
     },
-
     "error": {
       "textPrimary": "No se pudo completar tu donación",
       "textSecondary": "Se produjo un error en la blockchain.",
@@ -2539,7 +2543,8 @@
       "fee_title": "Detalles de Transacción",
       "footer_text": "Solo tomará unos segundos.",
       "tos_1": "Leí y estoy de acuerdo con los ",
-      "tos_button": "términos y condiciones de 1inch."
+      "tos_button": "términos y condiciones",
+      "tos_2": "de 1inch"
     },
     "errors": {
       "invalid_password": "La contraseña ingresada no es correcta."
@@ -2548,6 +2553,18 @@
       "header": "Swap",
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
+    },
+    "terms_and_conditions":{
+      "title":"¿Qué necesitas saber antes de realizar un intercambio?",
+      "condition_1":"El intercambio se realiza a través del proovedor externo “1inch”.",
+      "condition_2":"Las condiciones de intercambio de tokens dependen del proovedor.",
+      "condition_3":"Los intercambios poseen costos de transacción asociados.",
+      "terms":{
+        "i_have_read":"Leí y estoy de acuerdo con los",
+        "link_to_terms": "términos y condiciones",
+        "of":"de 1inch"
+      },
+      "button":"Comenzar"
     },
     "swap_in_progress":{
       "text_primary":"¡Tu orden está en camino!",

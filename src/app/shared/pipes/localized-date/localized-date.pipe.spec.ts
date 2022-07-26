@@ -12,7 +12,7 @@ describe('LocalizedDatePipe', () => {
     @Component({
       template: `
         Fecha: {{ this.date | localizedDate }}
-      `
+      `,
     })
     class TestComponent {
       date = '2019-08-08T15:25:16.489000Z';
@@ -28,16 +28,12 @@ describe('LocalizedDatePipe', () => {
       registerLocaleData(localeEs);
       registerLocaleData(localeEn);
       translateServiceMock = {
-        currentLang: 'es'
+        currentLang: 'es',
       };
       TestBed.configureTestingModule({
         declarations: [TestComponent, LocalizedDatePipe],
         imports: [TranslateModule.forRoot()],
-        providers: [
-          LocalizedDatePipe,
-          DatePipe,
-          { provide: TranslateService, useValue: translateServiceMock }
-        ]
+        providers: [LocalizedDatePipe, DatePipe, { provide: TranslateService, useValue: translateServiceMock }],
       });
       fixture = TestBed.createComponent(TestComponent);
       component = fixture.componentInstance;
@@ -59,7 +55,7 @@ describe('LocalizedDatePipe', () => {
     it('shoud return date in spanish', () => {
       translateService.currentLang = 'es';
       fixture.detectChanges();
-      expect(el.textContent).toContain('Fecha: 8 ago. 2019');
+      expect(el.textContent).toContain('Fecha: 8 ago 2019');
     });
 
     // Isolated pipe test
@@ -68,9 +64,9 @@ describe('LocalizedDatePipe', () => {
       expect(pipe.transform('2019-08-08T15:25:16.489000Z')).toBe('Aug 8, 2019');
     });
 
-    it('shoud return 8 ago. 2019', () => {
+    it('shoud return 8 ago 2019', () => {
       translateService.currentLang = 'es';
-      expect(pipe.transform('2019-08-08T15:25:16.489000Z')).toBe('8 ago. 2019');
+      expect(pipe.transform('2019-08-08T15:25:16.489000Z')).toBe('8 ago 2019');
     });
   });
 });

@@ -20,6 +20,7 @@ const testCause = {
     { logo: 'twitter', link: 'https://twitter.com/ACNURamericas', text: 'twitter.com/ACNURamericas' },
     { logo: 'mail', link: 'https://argbu@unhcr.org', text: 'argbu@unhcr.org' },
   ],
+  token: { value: 'USDC', network: 'MATIC' },
 };
 
 describe('CauseInfoComponent', () => {

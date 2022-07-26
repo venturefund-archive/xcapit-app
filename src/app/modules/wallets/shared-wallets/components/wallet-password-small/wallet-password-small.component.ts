@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { WalletEncryptionService } from '../../services/wallet-encryption/wallet-encryption.service';
 import { WalletMnemonicService } from '../../services/wallet-mnemonic/wallet-mnemonic.service';
@@ -62,12 +62,12 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./wallet-password-small.component.scss'],
 })
 export class WalletPasswordSmallComponent implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     password: ['', [Validators.required]],
   });
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalController: ModalController,
     private walletEncryptionService: WalletEncryptionService,
     private walletMnemonicService: WalletMnemonicService,
