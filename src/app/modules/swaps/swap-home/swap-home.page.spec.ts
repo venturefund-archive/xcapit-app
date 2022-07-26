@@ -144,7 +144,7 @@ describe('SwapHomePage', () => {
         send: Promise.resolve(),
         registerActionTypes: Promise.resolve(),
         addListener: (callback)=> {
-          callback() 
+          callback()
         }
 
       });
@@ -308,10 +308,10 @@ describe('SwapHomePage', () => {
     component.form.patchValue(formValue);
     fixture.detectChanges();
     tick(600);
-  
+
     component.swapThem();
     tick(2);
- 
+
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([ testLocalNotificationOk]);
   }));
 

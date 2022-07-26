@@ -1664,7 +1664,9 @@
       "header": "Transactions history",
       "OUT": "Sent",
       "IN": "Received",
-      "swap": "Swap"
+      "swap": "Swap",
+      "confirmed": "Confirmed",
+      "declined": "Declined"
     },
     "send": {
       "scan_qr": {

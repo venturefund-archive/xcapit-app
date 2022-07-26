@@ -10,5 +10,6 @@ export class CovalentNativeTransfer extends CovalentTransfer {
       this.type === 'IN' ? 'assets/img/wallet-transactions/received.svg' : 'assets/img/wallet-transactions/sended.svg';
     this.amount = parseFloat(ethers.utils.formatEther(transfer.value));
     this.quoteAmount = transfer.value_quote;
+    this.successful = transfer.successful;
   }
 }
