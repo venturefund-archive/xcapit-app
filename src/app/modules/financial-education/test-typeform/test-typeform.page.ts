@@ -46,11 +46,7 @@ export class TestTypeformPage implements OnInit {
     this.getParams();
     await this.getUserWalletAddress();
 
-    this.getData();
-    this.getModule();
-    this.getSubModule();
-    this.createTypeform();
-    this.updateTexts();
+   
   }
 
   areCategoriesCompleted() {
@@ -67,11 +63,15 @@ export class TestTypeformPage implements OnInit {
   }
 
   getEducationDataOf(anAddress: string) {
-    // this.data = DATA;
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
+      this.areCategoriesCompleted();
+      this.getData();
+      this.getModule();
+      this.getSubModule();
+      this.createTypeform();
+      this.updateTexts();
     });
-    this.areCategoriesCompleted();
   }
 
   createTypeform() {

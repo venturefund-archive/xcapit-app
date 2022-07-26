@@ -12,7 +12,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes), SharedFinancialEducationModule
+    RouterModule.forChild(routes), SharedFinancialEducationModule
   ],
   declarations: [FinancialFreedomPage]
 })

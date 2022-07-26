@@ -113,11 +113,7 @@ describe('TestTypeformPage', () => {
     rawEducationData.finance[0].submodules[0].status = 'to_do';
     rawSubmoduleResult.status = 'to_do';
     await component.ionViewWillEnter();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
     fixture.detectChanges();
-    component.getEducationDataOf('testAddress');
-    component.getSubmoduleResult();
     component.redirect();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
       'financial-education/error-test/category/finance/module/1/submodule/1/code/tc_finance_1_submodule_1'
@@ -129,9 +125,6 @@ describe('TestTypeformPage', () => {
     rawEducationData.finance[0].submodules[0].status = 'to_do';
     rawSubmoduleResult.status = 'completed';
     await component.ionViewWillEnter();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    component.getEducationDataOf('testAddress');
     component.getSubmoduleResult();
     component.redirect();
     fixture.detectChanges();
@@ -145,9 +138,6 @@ describe('TestTypeformPage', () => {
     rawEducationData.finance[0].submodules[0].status = 'completed';
     rawSubmoduleResult.status = 'completed';
     await component.ionViewWillEnter();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    component.getEducationDataOf('testAddress');
     component.getSubmoduleResult();
     component.redirect();
     fixture.detectChanges();
@@ -155,7 +145,6 @@ describe('TestTypeformPage', () => {
       'financial-education/final-success-test'
     );
   });
-
 
   it('should navigate to information page when submit learning test on typeform', async () => {
     fakeActivatedRoute.modifySnapshotParams({
@@ -165,10 +154,6 @@ describe('TestTypeformPage', () => {
       code: 'lc_finance_1_submodule_1',
     });
     await component.ionViewWillEnter();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    component.getEducationDataOf('testAddress');
-    component.getSubmoduleResult();
     component.redirect();
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(

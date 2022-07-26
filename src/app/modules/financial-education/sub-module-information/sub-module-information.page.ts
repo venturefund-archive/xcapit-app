@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { DATA } from '../shared-financial-education/constants/data';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
 
 @Component({
   selector: 'app-sub-module-information',
   template: ` <ion-content>
     <div>
-      <app-sub-module-info [subModule]="this.subModule"></app-sub-module-info>
+      <app-sub-module-info *ngIf="this.subModule" [subModule]="this.subModule"></app-sub-module-info>
     </div>
     <div class="ion-padding">
       <div>
@@ -41,24 +40,22 @@ export class SubModuleInformationPage implements OnInit {
   selectedCategory: string;
   module: any;
   subModule: any;
-  data: any = DATA;
-  wallet : any;
-  wallet_address : string;
+  data: any;
+  wallet: any;
+  wallet_address: string;
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
     private storageService: StorageService,
-    private financialEducationService: FinancialEducationService,
+    private financialEducationService: FinancialEducationService
   ) {}
 
-  async ionViewWillEnter(){
+  async ionViewWillEnter() {
     this.getParams();
     await this.getUserWalletAddress();
-    this.setDataByTab();
   }
-  
-  ngOnInit() {
-  }
+
+  ngOnInit() {}
 
   getParams() {
     this.selectedCategory = this.route.snapshot.paramMap.get('category');
@@ -67,19 +64,19 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   private async getUserWalletAddress() {
-     this.wallet = await this.storageService.getWalletFromStorage();
-     if(this.wallet){
+    this.wallet = await this.storageService.getWalletFromStorage();
+    if (this.wallet) {
       this.wallet_address = this.wallet.addresses.ERC20;
       this.getEducationDataOf(this.wallet_address);
-     }
-   }
+    }
+  }
 
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
+      this.setDataByTab();
     });
   }
-
 
   setDataByTab() {
     const category = this.selectedCategory === 'finance' ? this.data.finance : this.data.crypto;
@@ -96,7 +93,6 @@ export class SubModuleInformationPage implements OnInit {
       if (subModule.id === this.subModule) this.subModule = subModule;
     }
   }
-
 
   goToLearningMore() {
     if (!this.wallet) {

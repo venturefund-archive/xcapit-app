@@ -105,12 +105,16 @@ export class HomeFinancialEducationPage {
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
+      this.processData();
+      this.setOpenValueOnModule();
     });
+  }
+
+  processData(){
     this.data.finance = this.assingOpenOn(this.data.finance);
     this.data.crypto = this.assingOpenOn(this.data.crypto);
     this.modules = this.data.finance;
     this.globalProgressData = [...this.data.finance, ...this.data.crypto].filter((mod) => !mod.coming_soon);
-    this.setOpenValueOnModule();
   }
 
   assingOpenOn(modules) {

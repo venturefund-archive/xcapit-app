@@ -15,7 +15,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), SharedDefiInvestmentsModule],
+  imports: [RouterModule.forChild(routes), SharedDefiInvestmentsModule],
   declarations: [WithdrawConfirmationPage],
 })
 export class WithdrawConfirmationPageModule {}

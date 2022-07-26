@@ -15,7 +15,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), SharedFinancialEducationModule],
+  imports: [RouterModule.forChild(routes), SharedFinancialEducationModule],
   declarations: [ExplanationPage],
 })
 export class ExplanationPageModule {}
