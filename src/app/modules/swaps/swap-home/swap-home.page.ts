@@ -417,7 +417,7 @@ export class SwapHomePage {
     ];
   }
 
-  async showSwapInProgressModal(): Promise<string> {
+  async showSwapInProgressModal() {
     const modal = await this.modalController.create({
       component: SwapInProgressModalComponent,
       componentProps: {},
@@ -425,7 +425,5 @@ export class SwapHomePage {
       backdropDismiss: false,
     });
     await modal.present();
-    const { data } = await modal.onWillDismiss();
-    return data;
   }
 }
