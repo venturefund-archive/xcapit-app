@@ -10,7 +10,14 @@ import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interf
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
 import { LogOutModalComponent } from '../shared-profiles/components/log-out-modal/log-out-modal.component';
-
+import { RemoveAccountModalComponent } from '../shared-profiles/components/remove-account-modal/remove-account-modal.component';
+import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tickets.service';
+import { TICKET_CATEGORIES } from '../../tickets/shared-tickets/constants/ticket-categories';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { Storage } from '@ionic/storage';
 @Component({
   selector: 'app-user-profile-menu',
   template: `
@@ -55,15 +62,28 @@ import { LogOutModalComponent } from '../shared-profiles/components/log-out-moda
         </div>
       </div>
       <ion-button
-        class="menu-item ux-font-text-xs"
+        class="ux-font-text-xs"
         name="Log Out"
         color="primary"
         fill="clear"
         appTrackClick
-        (click)="this.logout()"
+        (click)="this.handleLogout()"
         >{{ 'app.main_menu.logout' | translate }}
         <ion-icon color="primary" slot="start" name="ux-logout-icon"></ion-icon>
       </ion-button>
+      <div class="remove-account">
+        <ion-button
+          [disabled]="this.disable"
+          class="ux-font-text-xs"
+          name="delete_account"
+          color="dangerdark"
+          fill="clear"
+          appTrackClick
+          (click)="this.showDeleteAccountModal()"
+          >{{ 'profiles.user_profile_menu.delete_account_button' | translate }}
+          <ion-icon color="dangerdark" slot="start" name="ux-trash"></ion-icon>
+        </ion-button>
+      </div>
     </ion-content>
   `,
   styleUrls: ['./user-profile-menu.page.scss'],
@@ -72,6 +92,7 @@ export class UserProfileMenuPage {
   profile: any;
   disable = false;
   itemMenu: MenuCategory[] = ITEM_MENU;
+  ticketCategories = TICKET_CATEGORIES;
 
   constructor(
     private apiProfiles: ApiProfilesService,
@@ -81,7 +102,13 @@ export class UserProfileMenuPage {
     private translate: TranslateService,
     private language: LanguageService,
     private walletService: WalletService,
-    private logOutModalService: LogOutModalService
+    private logOutModalService: LogOutModalService,
+    private apiTicketsService: ApiTicketsService,
+    private storageService: StorageService,
+    private ionicStorageService: IonicStorageService,
+    private walletBackupService: WalletBackupService,
+    private walletConnectService: WalletConnectService,
+    private storage: Storage
   ) {}
 
   ionViewWillEnter() {
@@ -99,12 +126,11 @@ export class UserProfileMenuPage {
     });
   }
 
-  async logout() {
+  async handleLogout() {
     if ((await this.walletService.walletExist()) && (await this.logOutModalService.isShowModalTo(this.profile.email))) {
       await this.showLogOutModal();
     } else {
-      await this.authService.logout();
-      await this.navController.navigateRoot('users/login');
+      this.logout();
     }
   }
 
@@ -118,6 +144,11 @@ export class UserProfileMenuPage {
     });
 
     await modal.present();
+  }
+
+  async logout() {
+    await this.authService.logout();
+    await this.navController.navigateRoot('users/login');
   }
 
   async changeLanguage() {
@@ -147,5 +178,41 @@ export class UserProfileMenuPage {
       const item = this.itemMenu.find((item) => item.id === 'wallet');
       item.showCategory = res;
     });
+  }
+
+  async showDeleteAccountModal() {
+    this.disable = true;
+    const modal = await this.modalController.create({
+      component: RemoveAccountModalComponent,
+      cssClass: 'remove-account-modal',
+    });
+
+    await modal.present();
+    const confirmDeleteAccount = (await modal.onDidDismiss()).data;
+    if (confirmDeleteAccount) {
+      this.deleteAccount();
+      await this.cleanStorage();
+      await this.logout();
+    }
+    this.disable = false;
+  }
+
+  async cleanStorage() {
+    this.storageService.removeWalletFromStorage();
+    this.ionicStorageService.set('protectedWallet', false);
+    this.walletBackupService.enableModal();
+    await this.walletConnectService.killSession();
+    this.storage.set('FINISHED_ONBOARDING', false);
+  }
+
+  deleteAccount() {
+    const category = TICKET_CATEGORIES.find((category) => category.name === 'Mi cuenta/Registro');
+    const data = {
+      email: this.profile.email,
+      category_code: category.name,
+      subject: this.translate.instant(category.value),
+      message: this.translate.instant('profiles.user_profile_menu.delete_account_message'),
+    };
+    this.apiTicketsService.crud.create(data).subscribe();
   }
 }
