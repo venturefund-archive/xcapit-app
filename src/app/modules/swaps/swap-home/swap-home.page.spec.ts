@@ -38,6 +38,7 @@ import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { LINKS } from 'src/app/config/static-links';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 
 const testLocalNotificationOk: LocalNotificationSchema = {
   id: 1,
@@ -74,6 +75,7 @@ describe('SwapHomePage', () => {
   let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let platformServiceSpy: any;
 
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
@@ -108,6 +110,8 @@ describe('SwapHomePage', () => {
         fromToken: fromToken.contract,
         toToken: toToken.contract,
       });
+      platformServiceSpy = jasmine.createSpyObj('PlatformService', ['isWeb']);
+      platformServiceSpy.isWeb.and.returnValue(false);
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
@@ -179,6 +183,7 @@ describe('SwapHomePage', () => {
           { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
           { provide: ToastService, useValue: toastServiceSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
+          { provide: PlatformService, useValue: platformServiceSpy },
         ],
       }).compileComponents();
 

@@ -40,6 +40,7 @@ import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/facto
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { LINKS } from 'src/app/config/static-links';
 import { SwapInProgressModalComponent } from '../../wallets/shared-wallets/components/swap-in-progress-modal/swap-in-progress-modal.component';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-swap-home',
@@ -236,7 +237,8 @@ export class SwapHomePage {
     private passwordErrorHandlerService: PasswordErrorHandlerService,
     private toastService: ToastService,
     private translate: TranslateService,
-    private browser: BrowserService
+    private browser: BrowserService,
+    private platformService: PlatformService,
   ) {}
 
   openToS() {
@@ -403,11 +405,13 @@ export class SwapHomePage {
   }
 
   private notifyWhenSwap(notification: LocalNotificationSchema[]) {
-    this.localNotificationsService.registerActionTypes(this.actionTypeId, this.actions);
-    this.localNotificationsService.addListener(() => {
-      this.navigateToTokenDetail();
-    });
-    this.localNotificationsService.send(notification);
+    if (!this.platformService.isWeb()) {
+      this.localNotificationsService.registerActionTypes(this.actionTypeId, this.actions);
+      this.localNotificationsService.addListener(() => {
+        this.navigateToTokenDetail();
+      });
+      this.localNotificationsService.send(notification);
+    }
   }
 
   private navigateToTokenDetail() {
