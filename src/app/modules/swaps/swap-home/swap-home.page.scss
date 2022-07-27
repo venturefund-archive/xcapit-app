@@ -95,43 +95,7 @@
       display: flex;
       align-items: center;
       padding: 8px;
-
-      &__phrase {
-        display: flex;
-        flex-wrap: wrap;
-
-        &__link {
-          display: flex;
-          align-items: center;
-          margin-left: -15px;
-          height: 18px;
-
-          &__button {
-            height: auto;
-            margin-left: -8px;
-
-            --padding-start: 8px !important;
-          }
-
-          &__label {
-            margin-left: -8px;
-          }
-        }
-      }
-
-      ion-checkbox {
-        margin-right: 16px;
-        margin-left: 3px;
-      }
-
-      &__last {
-        --border-color: transparent;
-        --background-hover: transparent;
-        --background-activated: transparent;
-        --padding-start: 8px;
-
-        color: var(--ion-color-neutral90);
-      }
+      margin-left: 4px;
     }
 
     &__footer {
