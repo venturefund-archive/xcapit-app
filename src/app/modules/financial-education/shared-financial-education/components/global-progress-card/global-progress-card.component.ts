@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-global-progress-card',
   template: `
     <div class="gpc">
       <ion-accordion-group class="gpc__card">
-        <ion-accordion class="gpc__card__accordion" [ngClass]="{'non-bottom-radius': this.percentage === 100 }" >
+        <ion-accordion class="gpc__card__accordion" [ngClass]="{ 'non-bottom-radius': this.percentage === 100 }">
           <ion-item slot="header" class="gpc__card__accordion__item ion-no-padding" lines="none" color="info">
             <app-circle-progress
               *ngIf="this.allModules"
@@ -59,17 +58,10 @@ import { NavController } from '@ionic/angular';
         </ion-accordion>
       </ion-accordion-group>
     </div>
-    <div class="gpc__button" *ngIf="this.percentage === 100">
-        <ion-text class="gpc__button__nft-text ux-font-text-xs" *ngIf="this.percentage === 100 && !this.mintedNFT"> Generando NFT </ion-text>
-        <ion-button
-          color="white"
-          fill="clear"
-          class="gpc__button__nft-text ux-link-xs"
-          *ngIf="this.percentage === 100 && this.mintedNFT"
-          (click)="this.blablabla()"
-        >
-          Ver mi NFT
-        </ion-button>
+    <div class="gpc__text" *ngIf="this.percentage === 100">
+      <ion-text class="gpc__text__generating-text ux-font-text-xs" *ngIf="this.percentage === 100"
+        >{{ 'financial_education.home.global_progress.generating_nft' | translate }}
+      </ion-text>
     </div>
   `,
   styleUrls: ['./global-progress-card.component.scss'],
@@ -79,8 +71,7 @@ export class GlobalProgressCardComponent implements OnInit {
   doneModules: number;
   allModules: number;
   percentage: number;
-  mintedNFT = true;
-  constructor(private navController: NavController) {}
+  constructor() {}
 
   ngOnInit() {
     this.calculateProgressPercentage();
@@ -89,15 +80,6 @@ export class GlobalProgressCardComponent implements OnInit {
   calculateProgressPercentage() {
     this.allModules = this.modules.length;
     this.doneModules = this.modules.filter((mod) => mod.status === 'completed').length;
-    // this.percentage = (this.doneModules / this.allModules) * 100;
-    this.percentage = 100;
-  }
-
-  goToWallet() {
-    this.navController.navigateForward('tabs/wallets');
-  }
-
-  blablabla() {
-    console.log('me clickeo');
+    this.percentage = (this.doneModules / this.allModules) * 100;
   }
 }

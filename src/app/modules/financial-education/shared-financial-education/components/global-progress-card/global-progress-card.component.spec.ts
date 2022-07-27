@@ -9,21 +9,18 @@ import { rawEducationProgressData } from '../../fixtures/rawEducationProgressDat
 describe('GlobalProgressCardComponent', () => {
   let component: GlobalProgressCardComponent;
   let fixture: ComponentFixture<GlobalProgressCardComponent>;
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [GlobalProgressCardComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+    }).compileComponents();
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [GlobalProgressCardComponent],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      }).compileComponents();
-
-      fixture = TestBed.createComponent(GlobalProgressCardComponent);
-      component = fixture.componentInstance;
-      component.modules = rawEducationProgressData;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(GlobalProgressCardComponent);
+    component = fixture.componentInstance;
+    component.modules = rawEducationProgressData;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -98,6 +95,16 @@ describe('GlobalProgressCardComponent', () => {
   it('should render the list of modules', () => {
     component.ngOnInit();
     fixture.detectChanges();
+    expect(component.modules.length).toEqual(4);
+  });
+
+  it('should render generating_nft text when percentage 100', () => {
+    component.ngOnInit();
+    component.percentage = 100;
+    fixture.detectChanges();
+    const textEl = fixture.debugElement.query(
+      By.css('.gpc__text ion-text')
+    );
     expect(component.modules.length).toEqual(4);
   });
 });
