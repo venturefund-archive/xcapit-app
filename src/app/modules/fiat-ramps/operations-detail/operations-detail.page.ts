@@ -6,11 +6,13 @@ import { Filesystem } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
-import { OperationDataInterface } from '../shared-ramps/services/operation/storage-operation.service';
+import { OperationDataInterface, StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { OperationStatus } from '../shared-ramps/interfaces/operation-status.interface';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 
 @Component({
   selector: 'app-operations-detail',
@@ -42,8 +44,8 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
       <div class="dp__card-container">
         <app-transfer-confirm-card
           [operationStatus]="this.operationStatus"
-          [token]="this.coin"
-          [operationData]="this.operation"
+          [token]="this.token"
+          [operationData]="this.operationData"
           [provider]="this.provider"
         ></app-transfer-confirm-card>
       </div>
@@ -88,6 +90,7 @@ export class OperationsDetailPage implements OnInit {
   operation: OperationDataInterface;
   operationStatus: OperationStatus;
   coin: Coin;
+  token: Coin;
   voucher = null;
   cotizacion = 0;
   hasVoucher = false;
@@ -96,25 +99,56 @@ export class OperationsDetailPage implements OnInit {
   filesystemPlugin = Filesystem;
   cameraPlugin = Camera;
 
+  operationData: OperationDataInterface;
+  provider2: any = null;
+
   constructor(
     private route: ActivatedRoute,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private apiWalletSertvice: ApiWalletService,
     private browserService: BrowserService,
+
+    private storageOperationService: StorageOperationService,
+    private apiWalletService: ApiWalletService,
+    private providersFactory: ProvidersFactory
+
   ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
     const providerId = this.route.snapshot.paramMap.get('provider_id');
     this.getProvider(parseInt(providerId));
     this.getUserOperation(operationId);
+    
+
+
+    await this.getOperationData()
+    console.log('Nuevo fetch operationData', this.operationData)
+  }
+
+  async getOperationData() {
+    this.storageOperationService.data.subscribe((data) => {
+      this.operationData = data;
+      this.token = this.apiWalletService.getCoin(this.operationData.currency_out, this.operationData.network);
+      this.provider2 = this.getProvider2(this.operationData.provider);
+    });
   }
 
   private getProvider(providerId: number) {
     this.provider = this.fiatRampsService.getProvider(providerId);
+  }
+
+  getProvider2(providerId: string) {
+    return this.providers()
+      .all()
+      .find((provider) => provider.id.toString() === providerId);
+  }
+
+  providers(): Providers {
+    return this.providersFactory.create();
   }
 
   private async getUserOperation(operationId: string) {
@@ -125,6 +159,7 @@ export class OperationsDetailPage implements OnInit {
         this.mapOperationData(data[0]);
         this.getOperationStatus(data[0].status);
         this.verifyVoucher();
+        console.log('userSingleOperation: ', data)
       },
       error: (e) => {
         this.navigateBackToOperations();
@@ -134,10 +169,12 @@ export class OperationsDetailPage implements OnInit {
 
   private getOperationCoin(currencyName: string) {
     this.coin = this.apiWalletSertvice.getCoin(currencyName);
+    console.log('coin: ', this.coin)
   }
 
   private mapOperationData(data: FiatRampOperation) {
     if (data.operation_type === 'cash-in') {
+      console.log('operation (before asign): ', data)
       this.operation = {
         type: data.operation_type,
         amount_in: data.amount_in.toString(),
@@ -153,6 +190,7 @@ export class OperationsDetailPage implements OnInit {
         network: this.coin.network,
       };
     }
+    console.log('operation (after asign): ', this.operation)
   }
 
   private getOperationStatus(status: string) {
@@ -208,4 +246,20 @@ export class OperationsDetailPage implements OnInit {
       url: 'https://kriptonmarket.com/terms-and-conditions',
     });
   }
+
+  // NGONINIT this.dynamicPrice();
+
+  // private dynamicPrice() {
+  //   this.createKriptonDynamicPrice()
+  //     .value()
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe((price: number) => {
+  //       this.price = price;
+  //       if (this.form.value.fiatAmount) this.updateAmounts();
+  //     });
+  // }
+
+  // createKriptonDynamicPrice(): KriptonDynamicPrice {
+  //   return this.kriptonDynamicPrice.new(this.priceRefreshInterval, this.fiatCurrency, this.selectedCurrency, this.http);
+  // }
 }

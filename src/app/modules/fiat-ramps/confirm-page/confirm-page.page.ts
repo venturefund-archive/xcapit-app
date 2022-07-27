@@ -86,6 +86,7 @@ export class ConfirmPagePage implements OnInit {
       this.token = this.apiWalletService.getCoin(this.operationData.currency_out, this.operationData.network);
       this.provider = this.getProvider(this.operationData.provider);
     });
+    console.log(this.operationData);
   }
 
   getProvider(providerId: string) {

@@ -197,6 +197,7 @@ export class OperationsNewPage implements AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
         this.price = price;
+        console.log('price after calculation: ', this.price)
         if (this.form.value.fiatAmount) this.updateAmounts();
       });
   }
