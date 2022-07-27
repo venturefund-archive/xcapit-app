@@ -59,7 +59,7 @@ describe('SwapTermsAndConditionsPage', () => {
     expect(navControllerSpy.back).toHaveBeenCalledTimes(1);
   });
 
-  it('should activated ux_swap_terms_and_conditions button when checkbox is checked', async () => {
+  it('should activated button when checkbox is checked', async () => {
     component.acceptTos = true;
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css("ion-button[name='ux_swap_terms_and_conditions']"));

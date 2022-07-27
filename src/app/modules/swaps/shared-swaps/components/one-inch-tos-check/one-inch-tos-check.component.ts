@@ -55,6 +55,7 @@ export class TermsAndConditionsCheckComponent implements OnInit {
     this.toggledCheckbox.emit(checkboxState.detail.checked);
     await this.storage.set(this.key, checkboxState.detail.checked);
   }
+
   openTOS(): void {
     this.browserService.open({ url: this.links.oneInchToS });
   }
