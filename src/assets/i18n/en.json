@@ -513,6 +513,8 @@
       "language": "Language",
       "logout": "Log Out",
       "category_walletconnect": "WalletConnect",
+      "delete_account_button": "Delete account",
+      "delete_account_message": "I request the deletion of my account and associated data.",
       "profile_footer": {
         "investor_profile_button": "Investor profile"
       },
@@ -561,6 +563,16 @@
       "submit_button": "Finalize configuration",
       "country_placeholder": "Select a country",
       "cuit_placeholder": "Ej: 23000000009"
+    },
+    "shared": {
+      "remove_account_modal": {
+        "title": "Delete account",
+        "text": "We will start with the process of deleting the data associated with the account.\n Remember that you will always be able to recover your wallet with the seed phrase",
+        "more_info": "For more information, visit",
+        "more_info_link": "Wallet frecuent questions",
+        "remove_account_button": "Delete account",
+        "cancel_button": "Cancel"
+      }
     }
   },
   "tutorials": {

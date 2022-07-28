@@ -36,8 +36,6 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
-import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { LINKS } from 'src/app/config/static-links';
 
 const testLocalNotificationOk: LocalNotificationSchema = {
   id: 1,
@@ -72,7 +70,6 @@ describe('SwapHomePage', () => {
   let fakeModalController: FakeModalController;
   let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
-  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
@@ -152,8 +149,6 @@ describe('SwapHomePage', () => {
         showWarningToast: Promise.resolve(),
       });
 
-      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: true });
-
       TestBed.configureTestingModule({
         declarations: [SwapHomePage, FormattedAmountPipe, FakeTrackClickDirective,],
         imports: [
@@ -177,7 +172,6 @@ describe('SwapHomePage', () => {
           { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
           { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
           { provide: ToastService, useValue: toastServiceSpy },
-          { provide: BrowserService, useValue: browserServiceSpy },
         ],
       }).compileComponents();
 
@@ -331,12 +325,4 @@ describe('SwapHomePage', () => {
 
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([ testLocalNotificationNotOk]);
   }));
-
-  it('should open browser in app when 1inch ToS is clicked', async () => {
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_1inch_tos"]'));
-
-    buttonEl.nativeElement.click();
-
-    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: LINKS.oneInchToS });
-  });
 });
