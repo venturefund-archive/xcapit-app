@@ -22,13 +22,13 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
         <ion-icon name="close"></ion-icon>
       </ion-button>
     </div>
-    <ion-content class="sm__content ion-padding-start ion-padding-end ion-padding-bottom">
+     <ion-content class="sm__content ion-padding-start ion-padding-end ion-padding-bottom">
       <form [formGroup]="this.form">
         <app-ux-radio-group>
           <ion-list>
-            <ion-radio-group (ionChange)="this.select($event)" formControlName="radio">
-              <div class="container" *ngFor="let item of this.data; let last = last">
-                <ion-item class="sm__content__item">
+            <ion-radio-group formControlName="radio">
+             <div class="container" *ngFor="let item of this.data; let last = last">
+                <ion-item class="sm__content__item" (click)="select(item)">
                   <ion-label class="sm__content__radio_label">{{
                     this.translated ? (item[this.key] | translate) : item[this.key]
                   }}</ion-label>
@@ -40,7 +40,7 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
           </ion-list>
         </app-ux-radio-group>
       </form>
-    </ion-content>
+    </ion-content> 
   `,
   styleUrls: ['./select-modal-new.component.scss'],
 })
@@ -66,8 +66,8 @@ export class SelectModalNewComponent implements OnInit {
     });
   }
 
-  select(event: any) {
-    this.modalController.dismiss(event.detail.value, 'selected');
+  select(item: any) {
+    this.modalController.dismiss(item, 'selected');
   }
 
   close() {
