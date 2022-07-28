@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TabsComponent } from './tabs/tabs.component';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
+import { HasWallet } from 'src/app/shared/guards/has-wallet/has-wallet';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
       },
       {
         path: 'financial-education',
+        canActivate: [HasWallet],
         loadChildren: () =>
           import('../financial-education/home-financial-education/home-financial-education.module').then(
             (m) => m.HomeFinancialEducationPageModule

@@ -87,7 +87,6 @@ export class HomeFinancialEducationPage {
 
   async ionViewWillEnter() {
     await this.getUserWalletAddress();
-
     this.segmentsForm.valueChanges.subscribe(async () => {
       this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
       this.setOpenValueOnModule();
@@ -96,10 +95,8 @@ export class HomeFinancialEducationPage {
 
   private async getUserWalletAddress() {
     const wallet = await this.storageService.getWalletFromStorage();
-    if (wallet) {
-      this.wallet_address = wallet.addresses.ERC20;
-      this.getEducationDataOf(this.wallet_address);
-    }
+    this.wallet_address = wallet.addresses.ERC20;
+    this.getEducationDataOf(this.wallet_address);
   }
 
   getEducationDataOf(anAddress: string) {
@@ -110,7 +107,7 @@ export class HomeFinancialEducationPage {
     });
   }
 
-  processData(){
+  processData() {
     this.data.finance = this.assingOpenOn(this.data.finance);
     this.data.crypto = this.assingOpenOn(this.data.crypto);
     this.modules = this.data.finance;

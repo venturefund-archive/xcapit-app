@@ -45,8 +45,6 @@ export class TestTypeformPage implements OnInit {
   async ionViewWillEnter() {
     this.getParams();
     await this.getUserWalletAddress();
-
-   
   }
 
   areCategoriesCompleted() {
@@ -56,10 +54,8 @@ export class TestTypeformPage implements OnInit {
 
   private async getUserWalletAddress() {
     const wallet = await this.storageService.getWalletFromStorage();
-    if (wallet) {
-      this.wallet_address = wallet.addresses.ERC20;
-      this.getEducationDataOf(this.wallet_address);
-    }
+    this.wallet_address = wallet.addresses.ERC20;
+    this.getEducationDataOf(this.wallet_address);
   }
 
   getEducationDataOf(anAddress: string) {

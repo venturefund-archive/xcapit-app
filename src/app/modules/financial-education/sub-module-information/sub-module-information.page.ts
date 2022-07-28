@@ -65,10 +65,8 @@ export class SubModuleInformationPage implements OnInit {
 
   private async getUserWalletAddress() {
     this.wallet = await this.storageService.getWalletFromStorage();
-    if (this.wallet) {
-      this.wallet_address = this.wallet.addresses.ERC20;
-      this.getEducationDataOf(this.wallet_address);
-    }
+    this.wallet_address = this.wallet.addresses.ERC20;
+    this.getEducationDataOf(this.wallet_address);
   }
 
   getEducationDataOf(anAddress: string) {
@@ -95,36 +93,28 @@ export class SubModuleInformationPage implements OnInit {
   }
 
   goToLearningMore() {
-    if (!this.wallet) {
-      this.navController.navigateForward(['financial-education/error-no-wallet']);
-    } else {
-      this.navController.navigateForward([
-        'financial-education/typeform/category',
-        this.selectedCategory,
-        'module',
-        this.module.id,
-        'submodule',
-        this.subModule.id,
-        'code',
-        this.subModule.learning_code,
-      ]);
-    }
+    this.navController.navigateForward([
+      'financial-education/typeform/category',
+      this.selectedCategory,
+      'module',
+      this.module.id,
+      'submodule',
+      this.subModule.id,
+      'code',
+      this.subModule.learning_code,
+    ]);
   }
 
   goToStartTest() {
-    if (!this.wallet) {
-      this.navController.navigateForward(['financial-education/error-no-wallet']);
-    } else {
-      this.navController.navigateForward([
-        'financial-education/typeform/category',
-        this.selectedCategory,
-        'module',
-        this.module.id,
-        'submodule',
-        this.subModule.id,
-        'code',
-        this.subModule.test_code,
-      ]);
-    }
+    this.navController.navigateForward([
+      'financial-education/typeform/category',
+      this.selectedCategory,
+      'module',
+      this.module.id,
+      'submodule',
+      this.subModule.id,
+      'code',
+      this.subModule.test_code,
+    ]);
   }
 }

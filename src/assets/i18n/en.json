@@ -1057,7 +1057,8 @@
         "card_state_25": "You have {{doneModules}} complete modules, don't stop.",
         "card_state_50": "You have {{doneModules}} complete modules, you are almost there.",
         "card_state_75": "You have {{doneModules}} complete modules, last effort.",
-        "card_state_100": "Congratulations! You have completed all the modules."
+        "card_state_100": "Congratulations! You have completed all the modules.",
+        "generating_nft":"Generating NFT"
       },
       "module_finance": {
         "module_1": {
