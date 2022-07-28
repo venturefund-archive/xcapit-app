@@ -21,6 +21,7 @@ import { InvestmentProduct } from '../shared-defi-investments/interfaces/investm
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -109,7 +110,7 @@ describe('InvestmentDetailPage', () => {
       remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ test: 'test' }] });
 
       TestBed.configureTestingModule({
-        declarations: [InvestmentDetailPage, FakeTrackClickDirective],
+        declarations: [InvestmentDetailPage, FakeTrackClickDirective, FormattedAmountPipe],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule],
         providers: [
           { provide: TwoPiApi, useValue: twoPiApiSpy },
@@ -155,7 +156,7 @@ describe('InvestmentDetailPage', () => {
       By.css('div.invested-balance__content__balance ion-text.invested-balance__content__balance__text')
     );
     expect(balanceEl.nativeElement.innerHTML).toContain(50.0);
-    expect(referenceBalanceEl.nativeElement.innerHTML).toEqual(' 50.00 USD ');
+    expect(referenceBalanceEl.nativeElement.innerHTML).toEqual(' 50 USD ');
   });
 
   it('should redirect user to defi/no-wallet-to-invest if user has no wallet on add_mount button click', async () => {
