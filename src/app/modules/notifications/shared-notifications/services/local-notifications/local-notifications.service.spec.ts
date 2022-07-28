@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { LocalNotificationsService } from './local-notifications.service';
 
 describe('LocalNotificationsService', () => {
   let localNotificationsSpy: jasmine.SpyObj<any>;
   let service: LocalNotificationsService;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   beforeEach(() => {
     localNotificationsSpy = jasmine.createSpyObj('LocalNotifications', {
       requestPermissions: Promise.resolve({ display: 'granted' }),
@@ -13,9 +15,16 @@ describe('LocalNotificationsService', () => {
       registerActionTypes: Promise.resolve(),
       schedule: Promise.resolve(),
     });
-    TestBed.configureTestingModule({});
+    platformServiceSpy = jasmine.createSpyObj('PlatformService', {
+      isWeb: false,
+    });
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: PlatformService, useValue: platformServiceSpy },
+      ],
+    });
     service = TestBed.inject(LocalNotificationsService);
-    service.localNotifications = localNotificationsSpy;
+    service.localNotifications = localNotificationsSpy;    
   });
 
   it('should be created', () => {
@@ -52,5 +61,4 @@ describe('LocalNotificationsService', () => {
     service.registerActionTypes('1',[]);
     expect(localNotificationsSpy.registerActionTypes).toHaveBeenCalledTimes(1);
   });
-
 });

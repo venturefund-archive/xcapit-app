@@ -75,7 +75,6 @@ describe('SwapHomePage', () => {
   let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
-  let platformServiceSpy: any;
 
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
@@ -110,8 +109,6 @@ describe('SwapHomePage', () => {
         fromToken: fromToken.contract,
         toToken: toToken.contract,
       });
-      platformServiceSpy = jasmine.createSpyObj('PlatformService', ['isWeb']);
-      platformServiceSpy.isWeb.and.returnValue(false);
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
@@ -183,7 +180,6 @@ describe('SwapHomePage', () => {
           { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
           { provide: ToastService, useValue: toastServiceSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
-          { provide: PlatformService, useValue: platformServiceSpy },
         ],
       }).compileComponents();
 

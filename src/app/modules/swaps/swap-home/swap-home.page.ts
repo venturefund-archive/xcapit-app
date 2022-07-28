@@ -238,7 +238,6 @@ export class SwapHomePage {
     private toastService: ToastService,
     private translate: TranslateService,
     private browser: BrowserService,
-    private platformService: PlatformService,
   ) {}
 
   openToS() {
@@ -404,14 +403,12 @@ export class SwapHomePage {
     return this.swapTransactions.create(this.swap, wallet, this.dex);
   }
 
-  private notifyWhenSwap(notification: LocalNotificationSchema[]) {
-    if (!this.platformService.isWeb()) {
+  private notifyWhenSwap(notification: LocalNotificationSchema[]) {   
       this.localNotificationsService.registerActionTypes(this.actionTypeId, this.actions);
       this.localNotificationsService.addListener(() => {
         this.navigateToTokenDetail();
       });
-      this.localNotificationsService.send(notification);
-    }
+      this.localNotificationsService.send(notification);    
   }
 
   private navigateToTokenDetail() {

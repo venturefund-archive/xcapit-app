@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, LocalNotifications, LocalNotificationSchema } from '@capacitor/local-notifications';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ export class LocalNotificationsService {
   localNotifications = LocalNotifications;
   private hasPermission = false;
 
-  constructor() {}
+  constructor(private platformService: PlatformService,) {}
 
   init(): void {
     this.localNotifications.requestPermissions().then((result) => {
@@ -21,7 +22,9 @@ export class LocalNotificationsService {
   }
 
   registerActionTypes(id: string, actions: Action[]) {
-    this.localNotifications.registerActionTypes({ types: [{ id, actions }] });
+    if (!this.platformService.isWeb()) {
+      this.localNotifications.registerActionTypes({ types: [{ id, actions }] });
+    }
   }
 
   addListener(callback: CallableFunction) {
