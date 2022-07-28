@@ -52,7 +52,6 @@ const testLocalNotificationNotOk: LocalNotificationSchema = {
 };
 
 describe('SwapHomePage', () => {
-
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
