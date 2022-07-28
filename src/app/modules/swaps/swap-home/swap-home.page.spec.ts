@@ -38,7 +38,6 @@ import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { LINKS } from 'src/app/config/static-links';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 
 const testLocalNotificationOk: LocalNotificationSchema = {
   id: 1,
@@ -55,7 +54,6 @@ const testLocalNotificationNotOk: LocalNotificationSchema = {
 };
 
 describe('SwapHomePage', () => {
-
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;

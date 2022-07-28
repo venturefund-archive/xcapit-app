@@ -136,38 +136,35 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
           <app-transaction-fee [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
         </div>
       </div>
-    <div class="sw__checkbox">
-          <ion-item class="sw__checkbox__last ux-font-text-xs">
-            <ion-checkbox mode="md" slot="start" name="checkbox-condition">
-            </ion-checkbox>
-            <ion-label class="sw__checkbox__phrase checkbox-link">
-              <ion-label class="sw__checkbox__phrase__tos">
-                    {{ 'swaps.home.tos_1' | translate }}</ion-label
+      <div class="sw__checkbox">
+        <ion-item class="sw__checkbox__last ux-font-text-xs">
+          <ion-checkbox mode="md" slot="start" name="checkbox-condition"> </ion-checkbox>
+          <ion-label class="sw__checkbox__phrase checkbox-link">
+            <ion-label class="sw__checkbox__phrase__tos"> {{ 'swaps.home.tos_1' | translate }}</ion-label>
+            <div class="sw__checkbox__phrase__link">
+              <ion-button
+                name="go_to_1inch_tos"
+                class="ux-link-xs stc__checkbox__phrase__link__button"
+                (click)="this.openToS()"
+                appTrackClick
+                fill="clear"
               >
-              <div class= "sw__checkbox__phrase__link">
-                <ion-button
-                  name="go_to_1inch_tos"
-                  class="ux-link-xs stc__checkbox__phrase__link__button"
-                  (click)="this.openToS()"
-                  appTrackClick
-                  fill="clear"
-                >
-                    {{ 'swaps.home.tos_button' | translate }}
-                </ion-button>
-                <ion-label class="ux-font-text-xs sw__checkbox__phrase__link__label"
-                  > {{ 'swaps.home.tos_2' | translate }}</ion-label
-                >
-              </div>
-            </ion-label>
-            <ion-button
-              name="go_to_1inch_tos"
-              class="ux-link-xs sw__checkbox__text__button"
-              (click)="this.openToS()"
-              appTrackClick
-              fill="clear"
-            >
-              {{ 'swaps.home.tos_button' | translate }}
-            </ion-button>
+                {{ 'swaps.home.tos_button' | translate }}
+              </ion-button>
+              <ion-label class="ux-font-text-xs sw__checkbox__phrase__link__label">
+                {{ 'swaps.home.tos_2' | translate }}</ion-label
+              >
+            </div>
+          </ion-label>
+          <ion-button
+            name="go_to_1inch_tos"
+            class="ux-link-xs sw__checkbox__text__button"
+            (click)="this.openToS()"
+            appTrackClick
+            fill="clear"
+          >
+            {{ 'swaps.home.tos_button' | translate }}
+          </ion-button>
         </ion-item>
       </div>
     </ion-content>
@@ -237,7 +234,7 @@ export class SwapHomePage {
     private passwordErrorHandlerService: PasswordErrorHandlerService,
     private toastService: ToastService,
     private translate: TranslateService,
-    private browser: BrowserService,
+    private browser: BrowserService
   ) {}
 
   openToS() {
@@ -403,12 +400,12 @@ export class SwapHomePage {
     return this.swapTransactions.create(this.swap, wallet, this.dex);
   }
 
-  private notifyWhenSwap(notification: LocalNotificationSchema[]) {   
-      this.localNotificationsService.registerActionTypes(this.actionTypeId, this.actions);
-      this.localNotificationsService.addListener(() => {
-        this.navigateToTokenDetail();
-      });
-      this.localNotificationsService.send(notification);    
+  private notifyWhenSwap(notification: LocalNotificationSchema[]) {
+    this.localNotificationsService.registerActionTypes(this.actionTypeId, this.actions);
+    this.localNotificationsService.addListener(() => {
+      this.navigateToTokenDetail();
+    });
+    this.localNotificationsService.send(notification);
   }
 
   private navigateToTokenDetail() {

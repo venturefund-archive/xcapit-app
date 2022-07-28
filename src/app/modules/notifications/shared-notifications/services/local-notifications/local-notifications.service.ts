@@ -9,10 +9,10 @@ export class LocalNotificationsService {
   localNotifications = LocalNotifications;
   private hasPermission = false;
 
-  constructor(private platformService: PlatformService,) {}
+  constructor(private platformService: PlatformService) {}
 
-  init(): void {
-    this.localNotifications.requestPermissions().then((result) => {
+  async init(): Promise<any> {
+    return this.localNotifications.requestPermissions().then((result) => {
       this.hasPermission = result.display == 'granted';
     });
   }
@@ -22,14 +22,14 @@ export class LocalNotificationsService {
   }
 
   registerActionTypes(id: string, actions: Action[]) {
-    if (!this.platformService.isWeb()) {
+    if (this.platformService.isNative()) {
       this.localNotifications.registerActionTypes({ types: [{ id, actions }] });
     }
   }
 
   addListener(callback: CallableFunction) {
-    this.localNotifications.addListener('localNotificationActionPerformed',()=>{
-      callback()
-    })
+    this.localNotifications.addListener('localNotificationActionPerformed', () => {
+      callback();
+    });
   }
 }
