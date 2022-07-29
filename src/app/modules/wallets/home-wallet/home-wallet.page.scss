@@ -7,6 +7,7 @@
 
   .title {
     color: white;
+    font-weight: var(--ux-fweight-semibold);
   }
 
   .wt {
@@ -17,6 +18,26 @@
     overflow: hidden;
     background: var(--ion-color-white);
     margin: 16px;
+
+    &__amount-and-eye {
+      display: contents;
+
+      &__amount {
+        ion-text:first-child {
+          margin-right: -10px;
+          color: var(--ion-color-white);
+        }
+
+        ion-text:last-child {
+          margin-right: 10px;
+          color: var(--ion-color-white);
+        }
+      }
+
+      &__eye {
+        margin-bottom: 5px;
+      }
+    }
 
     &__segments {
       margin: 6px 8px 0;
@@ -46,17 +67,12 @@
       }
     }
 
-    &__title {
-      color: white;
-      font-weight: var(--ux-fweight-semibold);
-    }
-
-    &__amount {
+    &__spinner-and-amount {
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      margin-top: 8px;
+      margin-top: 0;
       margin-bottom: 25px;
     }
 
