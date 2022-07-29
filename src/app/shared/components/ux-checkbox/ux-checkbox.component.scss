@@ -3,6 +3,10 @@
     width: fit-content;
     margin-top: 10px;
 
+    &.ppt {
+      margin-top: 0;
+    }
+
     &__item {
       --padding-start: 2px;
       --border-color: transparent;

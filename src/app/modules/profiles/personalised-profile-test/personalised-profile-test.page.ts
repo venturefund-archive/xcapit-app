@@ -15,42 +15,42 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
     </ion-header>
     <ion-content class="ppt ion-padding">
       <form [formGroup]="this.to_do_in_app_form">
-        <div class="ppt__question ux-font-text-lg">
+        <div class="ppt__question-one ux-font-text-lg">
           <ion-text>{{ 'profiles.personalised_profile_test.question_1' | translate }}</ion-text>
         </div>
-        <div class="ppt_answers">
+        <div class="ppt__answers">
           <ion-item lines="none" *ngFor="let answer of this.toDoInApp">
-            <div class="item">
-              <app-ux-checkbox class="medium" [controlName]="answer.controlName" slot="start"></app-ux-checkbox>
+            <div class="ppt__answers__item">
+              <app-ux-checkbox divClass="ppt" class="ppt__answers__item__checkbox medium" [controlName]="answer.controlName" slot="start"></app-ux-checkbox>
             </div>
-            <div class="text">
-              <app-ux-text class="ip_text">
+            <div class="ppt__answers__text">
+              <ion-text class="ux-font-text-base">
                 {{ answer.text | translate }}
-              </app-ux-text>
+              </ion-text>
             </div>
           </ion-item>
         </div>
       </form>
       <form [formGroup]="this.crypto_experience_form">
-        <div class="ppt__question ux-font-text-lg">
+        <div class="ppt__question-two ux-font-text-lg">
           <ion-text>{{ 'profiles.personalised_profile_test.question_2' | translate }}</ion-text>
         </div>
         <app-ux-radio-group>
-          <ion-list>
             <ion-radio-group formControlName="radio_option">
-              <div class="container" *ngFor="let answer of this.cryptoExperience">
-                <ion-item>
-                  <ion-label>{{ answer.text | translate }}</ion-label>
+              <div class="ppt__answers-two" *ngFor="let answer of this.cryptoExperience">
+                <ion-item class="ppt__answers-two__item">
+                  <div class="ppt__answers-two__item__text">
+                    <ion-text class="ux-font-text-base">{{ answer.text | translate }}</ion-text> 
+                  </div>
                   <ion-radio mode="md" slot="start" [value]="answer.value"></ion-radio>
                 </ion-item>
               </div>
             </ion-radio-group>
-          </ion-list>
         </app-ux-radio-group>
       </form>
     </ion-content>
     <ion-footer class="ppt__footer">
-      <div class="ppt__footer__submit-button ion-padding">
+      <div class="ppt__footer__submit-button">
         <ion-button
           class="ux_button ppt__footer__submit-button__button"
           appTrackClick
@@ -62,9 +62,9 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
           >{{ 'profiles.personalised_profile_test.button_primary' | translate }}</ion-button
         >
       </div>
-      <div class="ppt__footer__submit-button ion-padding">
+      <div class="ppt__footer__other-time-button">
         <ion-button
-          class="ux-button-outlined ppt__footer__submit-button__button"
+          class="ux-button-outlined ppt__footer__other-time-button__button"
           appTrackClick
           name="ux_donations_amount"
           expand="block"
