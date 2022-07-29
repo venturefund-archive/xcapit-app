@@ -561,6 +561,24 @@
       "submit_button": "Finalize configuration",
       "country_placeholder": "Select a country",
       "cuit_placeholder": "Ej: 23000000009"
+    },
+    "personalised_profile_test":{
+      "question_1":"1. What do you want to do inside Xcapit? Choose all the options you consider",
+      "question_2":"2. What is your experience level with cryptos?",
+      "to_do_in_app":{
+        "option_a":"Diversify my investments or save in a stable currency",
+        "option_b":"Receive collections and make payments",
+        "option_c":"Connect to dapps",
+        "option_d":"Connecting to NFTs or P2E gaming platforms",
+        "option_e":"Other"        
+      },
+      "crypto_experience": {
+        "option_a": "I am starting to explore crypto",
+        "option_b": "I bought cryptos and used several platforms, but I have only been using them for a short time",
+        "option_c": "I have been using it for quite some time, but I still do not consider myself an expert"
+      },
+      "button_primary":"Submit",
+      "button_secondary":"Do it at another time"
     }
   },
   "tutorials": {
