@@ -7,7 +7,6 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { UpdateNewsService } from 'src/app/shared/services/update-news/update-news.service';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
@@ -61,24 +60,6 @@ import { WalletBackupService } from '../../wallets/shared-wallets/services/walle
           </ion-button>
         </div>
       </app-auth-form>
-      <!-- div class="ion-text-center">
-        <ion-text class="ux-font-text-xs">- {{ 'usuarios.login.or_text' | translate }} -</ion-text>
-      </div>
-
-      <ion-button
-        appTrackClick
-        name="Google Auth"
-        expand="block"
-        fill="clear"
-        size="large"
-        type="button"
-        class="ux_button google-auth color"
-        [disabled]="this.submitButtonService.isDisabled | async"
-        (click)="this.googleSingUp()"
-      >
-        <img slot="start" [src]="'../../../assets/img/usuarios/login/google-logo.svg'" alt="Google-Logo" />
-        <span class="google-auth__button__text ux-font-worksans">{{ 'usuarios.login.google_auth' | translate }}</span>
-      </ion-button -->
       <div class="auth-link-reset-password main__reset_password">
         <ion-button
           class="main__reset_password__button ux-link-xs"
@@ -99,7 +80,6 @@ import { WalletBackupService } from '../../wallets/shared-wallets/services/walle
 })
 export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
-  googleAuthPlugin = GoogleAuth;
   alreadyOnboarded: boolean;
   loading: boolean;
 
@@ -122,35 +102,18 @@ export class LoginPage implements OnInit {
 
   ionViewWillEnter() {
     this.getFinishedOnboard();
-    this.initGoogleAuth();
   }
 
   private getFinishedOnboard() {
     this.storage.get('FINISHED_ONBOARDING').then((res) => (this.alreadyOnboarded = res));
   }
 
-  private initGoogleAuth() {
-    if (this.platformService.isWeb()) this.googleAuthPlugin.init();
-  }
-
-  async googleSingUp() {
-    let googleUser;
-
-    try {
-      googleUser = await this.googleAuthPlugin.signIn();
-    } catch (e) {
-      return;
-    }
-
-    this.apiUsuarios.loginWithGoogle(googleUser.authentication.idToken).subscribe(() => this.success());
-  }
-
   async checkWalletProtected() {
     this.ionicStorageService.get('protectedWallet').then((protectedWallet) => {
       if (!protectedWallet) {
-        this.walletBackupService.enableModal()
+        this.walletBackupService.enableModal();
       }
-    });  
+    });
   }
 
   loginUser(data: any) {
@@ -164,7 +127,6 @@ export class LoginPage implements OnInit {
   private async success() {
     this.loginForm.form.reset();
     this.notificationsService.getInstance().init();
-    this.localNotificationsService.init();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
       if (this.walletConnectService.uri.value && this.alreadyOnboarded) {
@@ -173,7 +135,7 @@ export class LoginPage implements OnInit {
         await this.navigateTo(this.startUrl());
       }
     }
-    await this.checkWalletProtected()
+    await this.checkWalletProtected();
     this.loading = false;
     await this.updateNewsService.showModal();
   }

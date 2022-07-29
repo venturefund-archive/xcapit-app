@@ -132,6 +132,12 @@
         "title": "Planificador financiero",
         "description": "Optimiza el rendimiento de tu dinero"
       }
+    },
+    "transaction_fees": {
+      "title": "¿Por qué es “estimada” la tarifa de transacción?",
+      "description": "Por la volatilidad del mercado, la tasa de cambio puede variar ligeramente al momento de realizar la operación.",
+      "button_text": "Entendido",
+      "loading_text": "Calculando. Aguarda unos instantes."
     }
   },
   "users": {
@@ -308,6 +314,7 @@
       "recommendations": "Podrían interesarte",
       "empty_products": "Proximamente podrás encontrar las mejores inversiones para tu perfil",
       "link_button": "¿Cómo funcionan las inversiones DeFi?",
+      "no_investments": "Tus inversiones aparecerán aquí. ¡Comienza ahora mismo!",
       "choose_investor_profile": {
         "complete_test": {
           "title": "Quiero elegir mi perfil nuevamente",
@@ -350,6 +357,13 @@
       "weekly_update": "*Actualización semanal"
     },
     "shared": {
+      "withdraw_info_modal": {
+        "title": "¿Qué es la tarifa de retiro?",
+        "item_1": "Es el costo de realizar una extracción. ",
+        "item_2": "Se calcula sobre el monto que deseas retirar (0,255%), no sobre el total de tu inversión.",
+        "item_3": "Se abona en la misma moneda del producto de inversión (si estás invirtiendo en USDC, pagarás la tarifa de retiro en USDC).",
+        "button_text": "Entendido"
+      },
       "transaction_fees": {
         "label": "Tarifa de transacción estimada",
         "advice": "Fondos insuficientes"
@@ -385,6 +399,8 @@
         "annual": "% Anual",
         "blockchain": "Blockchain",
         "profile": "Perfil",
+        "transaction_fee": "Tarifa de transacción",
+        "withdrawal_fee": "Tarifa de retiro",
         "investment_info": {
           "USDC": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en USDC. \n USDC es una criptomoneda estable. Su valor está atado al dólar, y está respaldada al 100% en dólares estadounidenses.",
           "DAI": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en DAI. \n DAI es una criptomoneda estable, su valor está atado al dólar.  Se respalda al 100% en protocolos cripto.",
@@ -400,7 +416,8 @@
         "title": "Monto a enviar estimado",
         "available": "Saldo disponible",
         "amount_invested": "Monto total invertido",
-        "max_button": "Máx"
+        "max_button": "Máx",
+        "advice":"Fondos insuficientes"
       },
       "withdraw_card": {
         "title": "Retiro",
@@ -422,7 +439,7 @@
         "header": "Retirar Inversión",
         "button": "Continuar",
         "label": "Monto a retirar*",
-        "legend": "*Se cobrarán tarifas de transacción en MATIC."
+        "legend": "*La tarifa de transacción se cobrará en {{network}}. Mientras que la tarifa de retiro en {{token}}."
       },
       "withdraw": {
         "header": "Retirar Inversión",
@@ -430,7 +447,11 @@
         "submit_loading": "Confirmando",
         "withdraw_amount": "Monto a retirar",
         "withdraw_fee": "Tarifa de retiro",
-        "disclaimer": "Solo tomará unos segundos"
+        "disclaimer": "Solo tomará unos segundos",
+        "header_alert": "¡Espera!",
+        "alert_message": "Aún estamos calculando la tarifa de transacción. ¿Deseas continuar de todas maneras?",
+        "alert_confirmation": "Confirmar",
+        "alert_cancel": "Cancelar"
       },
       "password_modal": {
         "description": "Para confirmar tu retiro, ingresa la contraseña de tu wallet Xcapit.",
@@ -484,6 +505,8 @@
       "language": "Idioma",
       "logout": "Cerrar Sesión",
       "category_walletconnect": "WalletConnect",
+      "delete_account_button": "Eliminar cuenta",
+      "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma",
       "profile_footer": {
         "investor_profile_button": "Perfil de inversor"
       },
@@ -531,6 +554,16 @@
       "submit_button": "Finalizar configuración",
       "country_placeholder": "Elije un país",
       "cuit_placeholder": "Ej: 23000000009"
+    },
+    "shared": {
+      "remove_account_modal": {
+        "title": "Eliminar cuenta",
+        "text": "Iniciaremos con el proceso de eliminación de datos asociados a la cuenta.\n Recuerda que siempre vas a poder recuperar tu wallet con la frase semilla",
+        "more_info": "Para más información visita las",
+        "more_info_link": "Preguntas frecuentes sobre la Wallet",
+        "remove_account_button": "Eliminar cuenta",
+        "cancel_button": "Cancelar"
+      }
     }
   },
   "tutorials": {
@@ -967,7 +1000,6 @@
       }
     }
   },
-
   "financial_education": {
     "introduction": {
       "financial_freedom": {
@@ -1000,7 +1032,7 @@
     "home": {
       "statuses": {
         "to_do": "Por hacer",
-        "complete": "Completo",
+        "completed": "Completo",
         "in_progress": "En progreso"
       },
       "header": "Educación",
@@ -1016,7 +1048,8 @@
         "card_state_25": "Tienes {{doneModules}} módulos completos, no te detengas.",
         "card_state_50": "Tienes {{doneModules}} módulos completos, falta poco.",
         "card_state_75": "Tienes {{doneModules}} módulos completos, un ultimo esfuerzo.",
-        "card_state_100": "¡Felicitaciones! Completaste todos los módulos."
+        "card_state_100": "¡Felicitaciones! Completaste todos los módulos.",
+        "generating_nft": "Generando NFT"
       },
       "module_finance": {
         "module_1": {
@@ -1094,7 +1127,7 @@
       "text": "Test de",
       "finance_sub_1": "Finanzas",
       "finance_sub_2": "Presupuesto",
-      "crypto_sub_1": "Blockchain"
+      "crypto_sub_3": "Blockchain"
     },
     "final_success_test": {
       "textPrimary": "Lo lograste, ¡así se hace!",
@@ -1234,6 +1267,12 @@
           "title_2": "Sobre Proof of integrity",
           "title_3": "Conoce más sobre POI",
           "description": "Ofrecer un programa educativo de criptofinanzas y financiar las tarifas de transacción y depósitos necesarios para unirse a la plataforma Proof of Humanity."
+        },
+        "pulenta": {
+          "title_1": "Buscamos ofrecer una solución concreta a las necesidades que se plantean en las villas y barrios populares.",
+          "title_2": "Sobre Pulenta",
+          "title_3": "Conoce más sobre Pulenta",
+          "description": "Alcanzar de manera trazable, transparente y escalables donaciones cripto a organizaciones que ayudan a personas en estado de emergencia y vulnerabilidad. "
         }
       }
     },
@@ -1264,7 +1303,6 @@
       "namePrimaryAction": "Seguir donando",
       "nameThirdAction": "Volver al home"
     },
-
     "error": {
       "textPrimary": "No se pudo completar tu donación",
       "textSecondary": "Se produjo un error en la blockchain.",
@@ -1503,8 +1541,8 @@
       "button_text": "Copiar",
       "button_continue": "Continuar",
       "security_information": "Xcapit no podrá recuperar tu wallet si pierdes tu frase de recuperación.",
-      "button_text_coppied": "Copiado",
-      "coppied_text": "Se copió la frase de recuperación al portapapeles",
+      "button_text_copied": "Copiado",
+      "copied_text": "Se copió la frase de recuperación al portapapeles",
       "copy_error_text": "No se puedo copiar la frase de recuperación al portapapeles",
       "protected": "Copia de seguridad completa",
       "not_protected": "Sin copia de seguridad",
@@ -1630,7 +1668,9 @@
       "header": "Historico transacciones",
       "OUT": "Enviado",
       "IN": "Recibido",
-      "swap": "Swap"
+      "swap": "Swap",
+      "confirmed": "Confirmado",
+      "declined": "Rechazado"
     },
     "send": {
       "scan_qr": {
@@ -1712,7 +1752,9 @@
         "scan_error": "Error al escanear el código QR",
         "placeholder": "Mantén presionado para pegar",
         "scan_unauthorized": "No tienes permiso para escanear",
-        "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos."
+        "disclaimer": "La red que seleccionaste es {{network}}. Asegúrate de que la billetera de destino use esta misma red. De lo contrario, perderás tus activos.",
+        "text_valid": "Dirección añadida con éxito.",
+        "text_invalid": "La dirección de wallet de destino es incorrecta."
       },
       "wallet_password": {
         "title": "Ingrese la contraseña",
@@ -1779,7 +1821,7 @@
     "asset_detail": {
       "header": "Detalle de activo",
       "wallet_transaction_title": "Transacciones",
-      "available":"Saldo disponible"
+      "available": "Saldo disponible"
     },
     "error_wallet_recovery": {
       "title": "Tu frase de recuperación es incorrecta",
@@ -1967,12 +2009,12 @@
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
       "directa24": {
-        "platform_description": "Compra USDC a través de la plataforma",
-        "nearest_store_description": "Compra USDC en tu tienda más cercana",
-        "nearest_branch_office_description": "Compra USDC en tu sucursal más cercana.",
-        "in_app_description": "Compra USDC a través de la app",
-        "debit_credit_description": "Compra USDC con débito o crédito",
-        "transfer_description": "Compra USDC a través de transferencia"
+        "platform_description": "Compra a través de la plataforma",
+        "nearest_store_description": "Compra en tu tienda más cercana",
+        "nearest_branch_office_description": "Compra en tu sucursal más cercana.",
+        "in_app_description": "Compra a través de la app",
+        "debit_credit_description": "Compra con débito o crédito",
+        "transfer_description": "Compra a través de transferencia"
       },
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
       "button": "Continuar",
@@ -2182,7 +2224,8 @@
       "united_states": "Estados Unidos (EEUU)",
       "venezuela": "Venezuela",
       "ecuador": "Ecuador",
-      "chile": "Chile"
+      "chile": "Chile",
+      "brasil": "Brasil"
     },
     "shared": {
       "constants": {
@@ -2512,20 +2555,51 @@
       "loading_button_text": "Intercambiando",
       "from_token_title": "Desde",
       "to_token_title": "Hacia",
-      "footer_text": "Solo tomará unos segundos."
+      "fee_title": "Detalles de Transacción",
+      "footer_text": "Solo tomará unos segundos.",
+      "tos_1": "Leí y estoy de acuerdo con los ",
+      "tos_button": "términos y condiciones",
+      "tos_2": "de 1inch"
     },
-    "errors":{
-      "invalid_password":"La contraseña ingresada no es correcta."
+    "errors": {
+      "invalid_password": "La contraseña ingresada no es correcta."
     },
     "select_token": {
       "header": "Swap",
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
     },
-    "swap_in_progress": {
-      "textPrimary": "¡Tu orden está en camino!",
-      "textSecondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "buttonText": "Ir a Wallet"
+    "terms_and_conditions":{
+      "title":"¿Qué necesitas saber antes de realizar un intercambio?",
+      "condition_1":"El intercambio se realiza a través del proovedor externo “1inch”.",
+      "condition_2":"Las condiciones de intercambio de tokens dependen del proovedor.",
+      "condition_3":"Los intercambios poseen costos de transacción asociados.",
+      "terms":{
+        "i_have_read":"Leí y estoy de acuerdo con los",
+        "link_to_terms": "términos y condiciones",
+        "of":"de 1inch"
+      },
+      "button":"Comenzar"
+    },
+    "swap_in_progress":{
+      "text_title": "Intercambio",
+      "text_badge": "En progreso",
+      "text_primary":"¡Tu orden está en camino!",
+      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text":"Ir a wallet"
+    },
+    "sent_notification":{
+      "actions":{
+        "title": "Ver más"
+      },
+      "swap_ok":{
+        "title":"🚀 ¡Intercambio exitoso! ",
+        "body": "Enviaste {{fromAmount}} {{fromToken}} y recibiste {{toAmount}} {{toToken}} ."
+      },
+      "swap_not_ok":{
+        "title":"❌ Error en el intercambio",
+        "body": "Se produjo un error en el envío de {{fromAmount}} {{fromToken}} y recepción de {{toAmount}} {{toToken}}. Más información aquí. ."
+      }     
     }
   }
 }

@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FiatRampOperation } from '../../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service';
+import { ProvidersFactory } from '../../shared-ramps/models/providers/factory/providers.factory';
+import { FiatRampProvider } from '../../shared-ramps/interfaces/fiat-ramp-provider.interface';
 @Component({
   selector: 'app-select-provider',
   template: `
@@ -23,7 +26,7 @@ import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service
           <form [formGroup]="this.form">
             <app-select-provider-card
               (route)="this.receiveRoute($event)"
-              (changedItem)="this.resetForm()"
+              (changedCountry)="this.resetForm()"
               controlNameProvider="provider"
               controlNameSelect="country"
             ></app-select-provider-card>
@@ -68,7 +71,7 @@ import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service
   styleUrls: ['./select-provider.page.scss'],
 })
 export class SelectProviderPage {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     country: ['', [Validators.required]],
     provider: ['', [Validators.required]],
   });
@@ -76,23 +79,33 @@ export class SelectProviderPage {
   disabled: boolean;
   operationsList: FiatRampOperation[];
   txHistoryLink: string = LINKS.moonpayTransactionHistory;
+  providers: FiatRampProvider[];
 
   constructor(
     private navController: NavController,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private trackService: TrackService,
     private browserService: BrowserService,
-    private fiatRampsService: FiatRampsService
+    private fiatRampsService: FiatRampsService,
+    private providersFactory: ProvidersFactory
   ) {}
 
   ionViewWillEnter() {
+    this.trackScreenViewEvent();
+    this.getProviders();
+    if (this.kriptonEnabled()) this.getOperations();
+  }
+
+  kriptonEnabled() {
+    return this.providers.find((provider) => provider.alias === 'kripton');
+  }
+
+  trackScreenViewEvent() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_screenview_buy',
     });
-
-    this.getOperations();
   }
 
   getOperations() {
@@ -106,7 +119,13 @@ export class SelectProviderPage {
   }
 
   goToRoute() {
-    this.navController.navigateForward([this.route, this.form.value.country.name.toLowerCase()]);
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        country: this.form.value.country.isoCodeAlpha3,
+      },
+    };
+
+    this.navController.navigateForward([this.route], navigationExtras);
   }
 
   resetForm() {
@@ -115,5 +134,9 @@ export class SelectProviderPage {
 
   async goToMoonpay() {
     await this.browserService.open({ url: this.txHistoryLink });
+  }
+
+  getProviders() {
+    this.providers = this.providersFactory.create().all();
   }
 }

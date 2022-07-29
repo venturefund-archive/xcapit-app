@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
@@ -94,7 +94,7 @@ import { WalletEncryptionService } from '../../shared-wallets/services/wallet-en
 export class WalletPasswordChangePage implements OnInit {
   loading = false;
   disable = false;
-  changePasswordForm: FormGroup = this.formBuilder.group(
+  changePasswordForm: UntypedFormGroup = this.formBuilder.group(
     {
       old_password: ['', [Validators.required]],
       password: [
@@ -120,7 +120,7 @@ export class WalletPasswordChangePage implements OnInit {
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public submitButtonService: SubmitButtonService,
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService

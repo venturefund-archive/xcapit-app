@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
@@ -59,7 +59,7 @@ export class InvestorTestQuestionPage {
   question: Question;
   currentQuestionNumber: number;
   mode: string;
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     answer: ['', [Validators.required]],
   });
 
@@ -112,7 +112,7 @@ export class InvestorTestQuestionPage {
     private route: ActivatedRoute,
     public investorTestService: InvestorTestService,
     public submitButtonService: SubmitButtonService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   ionViewWillEnter() {

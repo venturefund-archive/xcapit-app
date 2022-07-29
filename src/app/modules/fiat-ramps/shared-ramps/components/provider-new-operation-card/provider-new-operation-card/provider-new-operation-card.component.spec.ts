@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ProviderNewOperationCardComponent } from './provider-new-operation-card.component';
@@ -13,14 +13,14 @@ describe('ProviderNewOperationCardComponent', () => {
   let component: ProviderNewOperationCardComponent;
   let fixture: ComponentFixture<ProviderNewOperationCardComponent>;
   let formGroupDirectiveMock: FormGroupDirective;
-  let controlContainerMock: FormGroup;
+  let controlContainerMock: UntypedFormGroup;
   let coinSpy: jasmine.SpyObj<Coin>;
 
   beforeEach(
     waitForAsync(() => {
       coinSpy = jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' });
 
-      controlContainerMock = new FormBuilder().group({
+      controlContainerMock = new UntypedFormBuilder().group({
         country: ['', []],
         provider: ['', []],
       });

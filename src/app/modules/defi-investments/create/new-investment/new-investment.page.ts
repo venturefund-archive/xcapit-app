@@ -4,7 +4,7 @@ import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TwoPiProduct } from '../../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ActivatedRoute } from '@angular/router';
@@ -54,20 +54,22 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/serv
           ></app-amount-input-card-skeleton>
         </form>
       </ion-card>
-      <div class="ni__footer">
+    </ion-content>
+    <ion-footer class="ni__footer">
+      <div class="ni__footer__submit-button ion-padding">
         <ion-button
           appTrackClick
           name="ux_invest_continue"
           expand="block"
           size="large"
           type="submit"
-          class="ion-padding-start ion-padding-end ux_button"
+          class="ux_button ni__footer__submit-button__button"
           color="secondary"
           (click)="this.saveAmount()"
           [disabled]="!this.form.valid"
         >
           {{ 'defi_investments.new.button' | translate }}
-        </ion-button>
+        </ion-button>       
         <div *appFeatureFlag="'ff_buyCryptoNewInvestmentFooter'">
           <div class="ni__footer__text" *ngIf="this.buyAvailable">
             <span class="ux-font-text-xs text">
@@ -85,14 +87,14 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/serv
           </div>
         </div>
       </div>
-    </ion-content>
+      </ion-footer>
   `,
   styleUrls: ['./new-investment.page.scss'],
 })
 export class NewInvestmentPage implements OnInit {
   destroy$ = new Subject<void>();
   private priceRefreshInterval = 15000;
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
@@ -108,7 +110,7 @@ export class NewInvestmentPage implements OnInit {
   buyAvailable: boolean;
   @ViewChild(AmountInputCardComponent) amountInputCard: AmountInputCardComponent;
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     public submitButtonService: SubmitButtonService,
     private apiWalletService: ApiWalletService,
@@ -166,6 +168,12 @@ export class NewInvestmentPage implements OnInit {
 
   async setTokenBalance(): Promise<void> {
     this.tokenBalance = await this.walletBalance.balanceOf(this.token);
+    this.addLowerThanValidator();
+  }
+
+  private addLowerThanValidator(){
+    this.form.get('amount').addValidators(CustomValidators.lowerThanEqual(this.tokenBalance));
+    this.form.get('amount').updateValueAndValidity();
   }
 
   saveAmount() {

@@ -100,6 +100,6 @@ describe('TabsComponent', () => {
 
   it('should change tab', () => {
     fixture.debugElement.query(By.css('ion-tabs')).triggerEventHandler('ionTabsDidChange', null);
-    expect(component.selectedTab).toEqual('test');
+    expect(component.selectedCategory).toEqual('test');
   });
 });

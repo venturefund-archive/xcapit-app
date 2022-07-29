@@ -22,6 +22,7 @@ import { WalletAdviceComponent } from './components/wallet-advice/wallet-advice.
 import { SkipBackupModalComponent } from './components/skip-backup-modal/skip-backup-modal.component';
 import { InfoPhraseModalComponent } from './components/info-phrase-modal/info-phrase-modal.component';
 import { WarningBackupModalComponent } from './components/warning-backup-modal/warning-backup-modal.component';
+import { SwapInProgressModalComponent } from './components/swap-in-progress-modal/swap-in-progress-modal.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { WarningBackupModalComponent } from './components/warning-backup-modal/w
     InformativeCardComponent,
     SkipBackupModalComponent,
     InfoPhraseModalComponent,
-    WarningBackupModalComponent
+    WarningBackupModalComponent,
+    SwapInProgressModalComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -72,7 +74,8 @@ import { WarningBackupModalComponent } from './components/warning-backup-modal/w
     InformativeCardComponent,
     SkipBackupModalComponent,
     InfoPhraseModalComponent,
-    WarningBackupModalComponent
+    WarningBackupModalComponent,
+    SwapInProgressModalComponent
   ],
 })
 export class SharedWalletsModule {}

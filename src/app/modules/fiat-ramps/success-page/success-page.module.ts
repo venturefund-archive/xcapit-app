@@ -6,7 +6,7 @@ import { SharedRampsModule } from '../shared-ramps/shared-ramps.module';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':operationId',
     component: SuccessPagePage
   }
 ];

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController, AlertController } from '@ionic/angular';
 import { WithdrawConfirmationPage } from './withdraw-confirmation.page';
 import { ApiWalletService } from '../../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { WalletEncryptionService } from '../../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
@@ -24,6 +24,7 @@ import { InvestmentDataService } from '../../shared-defi-investments/services/in
 import { WithdrawConfirmationController } from './withdraw-confirmation.controller';
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { By } from '@angular/platform-browser';
 
 describe('WithdrawConfirmationPage', () => {
   let component: WithdrawConfirmationPage;
@@ -50,8 +51,12 @@ describe('WithdrawConfirmationPage', () => {
   let investmentDataServiceSpy: jasmine.SpyObj<InvestmentDataService>;
   let controllerSpy: jasmine.SpyObj<WithdrawConfirmationController>;
   let gasFeeOfSpy: jasmine.SpyObj<GasFeeOf>;
+  let alertControllerSpy: jasmine.SpyObj<AlertController>;
+  let alertSpy: jasmine.SpyObj<HTMLIonAlertElement>;
   beforeEach(
     waitForAsync(() => {
+      alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
+      alertControllerSpy = jasmine.createSpyObj('AlertController', { create: Promise.resolve(alertSpy) });
       fakeActivatedRoute = new FakeActivatedRoute({ vault: 'usdc_mumbai' });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       fakeNavController = new FakeNavController();
@@ -153,6 +158,7 @@ describe('WithdrawConfirmationPage', () => {
           { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
           { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
           { provide: WithdrawConfirmationController, useValue: controllerSpy },
+          { provide: AlertController, useValue: alertControllerSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -173,6 +179,8 @@ describe('WithdrawConfirmationPage', () => {
     expect(component.amount).toEqual({ value: 10, token: 'USDC' });
     expect(component.quoteAmount).toEqual({ value: 40000, token: 'USD' });
     expect(component.token).toEqual(usdcCoinSpy);
+    expect(component.withdrawFeeAmount).toEqual({value: 10 * 0.00255, token: 'USDC'});
+    expect(component.withdrawFeeQuoteAmount).toEqual({value: 40000 * 0.00255, token: 'USD'});
     expect(component.fee).toEqual({ value: 10, token: 'MATIC' });
     expect(controllerSpy.createDynamicPrice).toHaveBeenCalledTimes(2);
   });
@@ -229,6 +237,23 @@ describe('WithdrawConfirmationPage', () => {
     expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 
+  it('should show modal', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
+    el.nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not show modal', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    component.isInfoModalOpen = true
+    const el = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
+    el.nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
+  });
+
   it('should not show informative modal of fees on withdraw when the native token balance is bigger than the cost of fees', async () => {
     providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('100000')));
     await component.ionViewDidEnter();
@@ -247,5 +272,22 @@ describe('WithdrawConfirmationPage', () => {
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
+  });
+
+  it('should display alert when confirm button is clicked and fee is still calculating', async () => {
+    await component.ionViewDidEnter();
+    component.quoteFee.value = undefined;
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_withdraw_confirm"]')).nativeElement.click();
+    expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should withdraw and not display alert when confirm button is clicked and fee is calculated', async () => {
+    const spy = spyOn(component, 'withdraw');
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_withdraw_confirm"]')).nativeElement.click();
+    expect(alertControllerSpy.create).not.toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

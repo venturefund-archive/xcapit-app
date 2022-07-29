@@ -33,10 +33,10 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
             </ion-text>
             <div class="invested-balance__content__balance">
               <ion-text class="invested-balance__content__balance__text ux-font-text-base">
-                {{ this.balance | number: '1.2-8' }} {{ this.token?.value }}
+                {{ this.balance | formattedAmount }} {{ this.token?.value }}
               </ion-text>
               <ion-text class="invested-balance__content__balance__text ux-font-text-base">
-                {{ this.referenceBalance | number: '1.2-2' }}{{ ' USD' }}
+                {{ this.referenceBalance | formattedAmount: 10:2 }}{{ ' USD' }}
               </ion-text>
             </div>
           </ion-label>

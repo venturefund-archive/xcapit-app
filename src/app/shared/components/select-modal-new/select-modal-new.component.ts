@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-select-modal-new',
@@ -22,13 +22,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
         <ion-icon name="close"></ion-icon>
       </ion-button>
     </div>
-    <ion-content class="sm__content ion-padding-start ion-padding-end ion-padding-bottom">
+     <ion-content class="sm__content ion-padding-start ion-padding-end ion-padding-bottom">
       <form [formGroup]="this.form">
         <app-ux-radio-group>
           <ion-list>
-            <ion-radio-group (ionChange)="this.select($event)" formControlName="radio">
-              <div class="container" *ngFor="let item of this.data; let last = last">
-                <ion-item class="sm__content__item">
+            <ion-radio-group formControlName="radio">
+             <div class="container" *ngFor="let item of this.data; let last = last">
+                <ion-item class="sm__content__item" (click)="select(item)">
                   <ion-label class="sm__content__radio_label">{{
                     this.translated ? (item[this.key] | translate) : item[this.key]
                   }}</ion-label>
@@ -40,19 +40,19 @@ import { FormBuilder, FormGroup } from '@angular/forms';
           </ion-list>
         </app-ux-radio-group>
       </form>
-    </ion-content>
+    </ion-content> 
   `,
   styleUrls: ['./select-modal-new.component.scss'],
 })
 export class SelectModalNewComponent implements OnInit {
-  constructor(private modalController: ModalController, private formBuilder: FormBuilder) {}
+  constructor(private modalController: ModalController, private formBuilder: UntypedFormBuilder) {}
   title = '';
   data = [];
   key = '';
   valueKey = '';
   translated = false;
   selected: any;
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     radio: ['', []],
   });
 
@@ -66,8 +66,8 @@ export class SelectModalNewComponent implements OnInit {
     });
   }
 
-  select(event: any) {
-    this.modalController.dismiss(event.detail.value, 'selected');
+  select(item: any) {
+    this.modalController.dismiss(item, 'selected');
   }
 
   close() {

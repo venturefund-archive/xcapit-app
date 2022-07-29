@@ -249,7 +249,7 @@ export const SUCCESS_TYPES = {
     textPrimary: 'fiat_ramps.fiat_success.textPrimary', 
     textSecondary:'fiat_ramps.fiat_success.textSecondary',
     namePrimaryAction:'fiat_ramps.fiat_success.buttonText',
-    urlPrimaryAction:'/tabs/home',
+    urlPrimaryAction:'/fiat-ramps/operation-detail/provider/1/operation/',
     trackClickEventNamePrimaryAction: 'ux_buy_kripton_details'
   },
   error_test_financial_education:{
@@ -261,7 +261,7 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '',
     nameSecondaryAction: 'financial_education.error_test.nameSecondaryAction',
     urlSecondaryAction: 'tabs/financial-education',
-    TrackClickEventNameSecondaryAction:'ux_education_go_to_menu',
+    trackClickEventNameSecondaryAction:'ux_education_go_to_menu',
     nameThirdAction: 'financial_education.error_test.nameThirdAction',
     urlThirdAction: ''
   },
@@ -286,20 +286,23 @@ export const SUCCESS_TYPES = {
   },
   swap_in_progress:{
     image:"assets/img/swaps/swap-in-progress.svg",
+    icon:"assets/img/swaps/swap-icon.svg",
     urlClose:'/tabs/wallets',
-    textPrimary: 'swaps.swap_in_progress.textPrimary', 
-    textSecondary:'swaps.swap_in_progress.textSecondary',
-    namePrimaryAction:'swaps.swap_in_progress.buttonText',
+    textPrimary: 'swaps.swap_in_progress.text_primary', 
+    textSecondary:'swaps.swap_in_progress.text_secondary',
+    namePrimaryAction:'swaps.swap_in_progress.button_text',
     urlPrimaryAction:'/tabs/wallets',
+    titlePrimary: 'swaps.swap_in_progress.text_title',
+    textBadge: 'swaps.swap_in_progress.text_badge'
   },
   error_no_wallet_financial_education: {
     image: '/assets/img/financial-education/error-no-wallet.svg',
-    urlClose: '/financial-education/home',
+    urlClose: '/tabs/financial-education',
     textPrimary: 'financial_education.error_no_wallet.textPrimary',
     textSecondary: 'financial_education.error_no_wallet.textSecondary',
     namePrimaryAction: 'financial_education.error_no_wallet.namePrimaryAction',
     nameSecondaryAction: 'financial_education.error_no_wallet.nameSecondaryAction',
     urlPrimaryAction: '/tabs/wallets',
-    urlSecondaryAction: '/financial-education/home',
+    urlSecondaryAction: '/tabs/financial-education',
   }
 };

@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
+import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { COUNTRIES } from '../../../shared-ramps/constants/countries';
 import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory/providers.factory';
 import { FiatRampProvider } from '../../../shared-ramps/interfaces/fiat-ramp-provider.interface';
-import { ProviderDataRepo } from '../../../shared-ramps/models/provider-data-repo/provider-data-repo';
-import { HttpClient } from '@angular/common/http';
+import { FiatRampProviderCountry } from '../../../shared-ramps/interfaces/fiat-ramp-provider-country';
 
 @Component({
   selector: 'app-select-provider-card',
@@ -62,16 +61,12 @@ export class SelectProviderCardComponent implements OnInit {
   @Input() controlNameProvider = '';
   @Input() controlNameSelect = '';
   @Output() route: EventEmitter<any> = new EventEmitter<any>();
-  @Output() changedItem: EventEmitter<any> = new EventEmitter<any>();
-  form: FormGroup;
+  @Output() changedCountry: EventEmitter<any> = new EventEmitter<any>();
+  form: UntypedFormGroup;
   countries = COUNTRIES;
   disabled = true;
   availableProviders: FiatRampProvider[];
-  constructor(
-    private formGroupDirective: FormGroupDirective,
-    private providersFactory: ProvidersFactory,
-    private http: HttpClient
-  ) {}
+  constructor(private formGroupDirective: FormGroupDirective, private providersFactory: ProvidersFactory) {}
 
   ngOnInit() {
     this.countries = this.availableCountries();
@@ -86,16 +81,17 @@ export class SelectProviderCardComponent implements OnInit {
     this.providers()
       .all()
       .forEach((provider) => providerCountries.push(...provider.countries));
-    return this.countries.filter((country) => providerCountries.includes(country.name));
+    return this.countries.filter((country) => providerCountries.includes(country.name));    
   }
 
   selectedProvider(provider) {
     const params = provider.providerName === 'directa24' ? provider.alias : '';
+
     this.route.emit(`${provider.newOperationRoute}/${params}`);
   }
 
-  async selectedCountry(country) {
-    this.changedItem.emit();
+  async selectedCountry(country: FiatRampProviderCountry) {
+    this.changedCountry.emit();
     this.availableProviders = await this.providers().availablesBy(country);
     this.disabled = false;
   }
@@ -105,6 +101,6 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   providers() {
-    return this.providersFactory.create(new ProviderDataRepo(), this.http);
+    return this.providersFactory.create();
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
@@ -105,7 +105,7 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
   styleUrls: ['./information-paxful.page.scss'],
 })
 export class InformationPaxfulPage implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     responsibilityAccepted: [false, [Validators.requiredTrue]],
     providerAccepted: [false, [Validators.requiredTrue]],
     rateAccepted: [false, [Validators.requiredTrue]],
@@ -113,7 +113,7 @@ export class InformationPaxfulPage implements OnInit {
   });
   constructor(
     public submitButtonService: SubmitButtonService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private navController: NavController,
     private modalController: ModalController,
     private translate: TranslateService

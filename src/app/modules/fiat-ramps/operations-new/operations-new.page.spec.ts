@@ -1,20 +1,20 @@
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 
 import { OperationsNewPage } from './operations-new.page';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -23,6 +23,7 @@ import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynam
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
 
 const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
@@ -33,21 +34,6 @@ const validForm = {
   thirdPartyKYC: true,
   thirdPartyTransaction: true,
   acceptTOSAndPrivacyPolicy: true,
-};
-
-const cleanForm = {
-  country: jasmine.any(String),
-  type: jasmine.any(String),
-  pair: '',
-  amount_in: '',
-  price_out: '',
-  currency_in: '',
-  currency_out: '',
-  wallet: '',
-  network: '',
-  amount_out: null,
-  price_in: null,
-  provider: null,
 };
 
 const userNew = {
@@ -68,77 +54,84 @@ describe('OperationsNewPage', () => {
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
+  let kriptonDynamicPriceSpy: jasmine.SpyObj<KriptonDynamicPrice>;
   let kriptonDynamicPriceFactorySpy: jasmine.SpyObj<KriptonDynamicPriceFactory>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
+  let priceSubject: Subject<number>;
 
-  beforeEach(
-    waitForAsync(() => {
-      navControllerSpy = new FakeNavController().createSpy();
-      storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
-        updateData: null,
-      });
-      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-        getUserWallets: of({}),
-        checkUser: of({}),
-        createUser: of({}),
-        setProvider: null,
-      });
+  beforeEach(waitForAsync(() => {
+    navControllerSpy = new FakeNavController().createSpy();
+    storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
+      updateData: null,
+    });
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      getUserWallets: of({}),
+      checkUser: of({}),
+      createUser: of({}),
+      setProvider: null,
+    });
 
-      coinsSpy = [
-        jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' }),
-        jasmine.createSpyObj('Coin', {}, { value: 'DAI', network: 'MATIC' }),
-      ];
+    coinsSpy = [
+      jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' }),
+      jasmine.createSpyObj('Coin', {}, { value: 'DAI', network: 'MATIC' }),
+    ];
 
-      fakeActivatedRoute = new FakeActivatedRoute({ country: 'argentina' }, {});
-      activatedRouteSpy = fakeActivatedRoute.createSpy();
+    fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'ARS' });
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
 
-      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
+    browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
 
-      walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-        getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x00000000000000' } }),
-      });
+    walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
+      getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x00000000000000' } }),
+    });
 
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getCoins: coinsSpy,
-      });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: coinsSpy,
+    });
 
-      kriptonDynamicPriceFactorySpy = jasmine.createSpyObj('KriptonDynamicPriceFactorySpy', {
-        new: { value: () => of(10) },
-      });
+    priceSubject = new Subject<number>();
 
-      providersSpy = jasmine.createSpyObj('Providers', {
-        all: rawProvidersData,
-        byAlias: rawProvidersData.find((provider) => provider.alias === 'kripton'),
-      });
+    kriptonDynamicPriceSpy = jasmine.createSpyObj('KriptonDynamicPrice', {
+      value: priceSubject,
+    });
 
-      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
-        create: providersSpy,
-      });
+    kriptonDynamicPriceFactorySpy = jasmine.createSpyObj('KriptonDynamicPriceFactory', {
+      new: kriptonDynamicPriceSpy,
+    });
 
-      TestBed.configureTestingModule({
-        declarations: [OperationsNewPage, FakeTrackClickDirective],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
-        providers: [
-          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-          { provide: StorageOperationService, useValue: storageOperationServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
-          { provide: BrowserService, useValue: browserServiceSpy },
-          { provide: KriptonDynamicPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
-          { provide: ProvidersFactory, useValue: providersFactorySpy },
-        ],
-      }).compileComponents();
-    })
-  );
+    providersSpy = jasmine.createSpyObj('Providers', {
+      all: rawProvidersData,
+      byAlias: rawProvidersData.find((provider) => provider.alias === 'kripton'),
+    });
+
+    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+      create: providersSpy,
+    });
+
+    TestBed.configureTestingModule({
+      declarations: [OperationsNewPage, FakeTrackClickDirective],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      providers: [
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        { provide: StorageOperationService, useValue: storageOperationServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: BrowserService, useValue: browserServiceSpy },
+        { provide: KriptonDynamicPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
+        { provide: ProvidersFactory, useValue: providersFactorySpy },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OperationsNewPage);
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    component.price = 10;
     fixture.detectChanges();
   });
 
@@ -154,7 +147,7 @@ describe('OperationsNewPage', () => {
       name: 'Argentina',
       value: 'fiat_ramps.countries_list.argentina',
       fiatCode: 'ars',
-      isoCode: 'ARS',
+      isoCodeAlpha3: 'ARS',
       directaCode: 'AR',
     });
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);
@@ -163,13 +156,13 @@ describe('OperationsNewPage', () => {
   });
 
   it('should set currency passed by params on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({ country: 'argentina' }, { network: 'MATIC', asset: 'DAI' });
+    fakeActivatedRoute.modifySnapshotParams({}, { network: 'MATIC', asset: 'DAI', country: 'ARS' });
     component.ionViewWillEnter();
     expect(component.selectedCurrency).toEqual(coinsSpy[1]);
   });
 
   it('should set USD as fiat currency when country has not specific local currency on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({ country: 'guatemala' }, {});
+    fakeActivatedRoute.modifySnapshotParams({}, { country: 'GTM' });
     component.ionViewWillEnter();
     expect(component.fiatCurrency).toEqual('USD');
   });
@@ -245,9 +238,38 @@ describe('OperationsNewPage', () => {
   });
 
   it('should redirect to change currency when currency button is clicked on provider card', async () => {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        country: 'ARS',
+      },
+    };
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', null);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/token-selection', 'kripton']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      ['/fiat-ramps/token-selection', 'kripton'],
+      navigationExtras
+    );
   });
+
+  it('should unsubscribe when leave', () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const nextSpy = spyOn(component.destroy$, 'next');
+    const completeSpy = spyOn(component.destroy$, 'complete');
+    component.ionViewWillLeave();
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should update fiat amount when price changes', fakeAsync(() => {
+    component.price = 10;
+    component.ionViewWillEnter();
+    component.form.patchValue({ cryptoAmount: 1 });
+    fixture.detectChanges();
+    expect(component.form.value.fiatAmount).toEqual(10);
+    priceSubject.next(35);
+    fixture.detectChanges();
+    expect(component.form.value.fiatAmount).toEqual(35);
+  }));
 });

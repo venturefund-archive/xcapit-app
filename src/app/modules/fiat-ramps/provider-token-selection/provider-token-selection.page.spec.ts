@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TokenSelectionListComponent } from 'src/app/shared/components/token-selection-list/token-selection-list.component';
@@ -110,7 +109,7 @@ describe('ProviderTokenSelectionPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
-    fakeActivatedRoute = new FakeActivatedRoute({ provider: 'moonpay' });
+    fakeActivatedRoute = new FakeActivatedRoute({ provider: 'moonpay' }, { country: 'COL' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -131,7 +130,7 @@ describe('ProviderTokenSelectionPage', () => {
 
     TestBed.configureTestingModule({
       declarations: [ProviderTokenSelectionPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
-      imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [IonicModule, TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
@@ -163,6 +162,7 @@ describe('ProviderTokenSelectionPage', () => {
       queryParams: {
         asset: 'MATIC',
         network: 'MATIC',
+        country: 'COL',
       },
     };
     component.ionViewWillEnter();
@@ -175,13 +175,14 @@ describe('ProviderTokenSelectionPage', () => {
     );
   });
 
-  it('should navigate to kripton new operation page when itemClicked event is fired', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ provider: 'kripton' });
+  it('should navigate to kripton new operation page when clickedCoin event is fired', async () => {
+    fakeActivatedRoute.modifySnapshotParams({ provider: 'kripton' }, { country: 'ARS' });
 
     const navigationExtras: NavigationExtras = {
       queryParams: {
         asset: 'MATIC',
         network: 'MATIC',
+        country: 'ARS',
       },
     };
     component.ionViewWillEnter();

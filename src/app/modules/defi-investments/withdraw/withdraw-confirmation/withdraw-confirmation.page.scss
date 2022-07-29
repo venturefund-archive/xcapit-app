@@ -28,9 +28,9 @@ ion-toolbar {
     color: var(--ion-color-white);
   }
 
+  &__withdraw,
   &__amount {
-    padding-bottom: 12px;
-    border-bottom: 1px solid #eee;
+    padding-bottom: 11px;
 
     &__label {
       margin-bottom: 4px;
@@ -46,9 +46,16 @@ ion-toolbar {
     }
   }
 
+  &__withdraw {
+    padding-top: 11px;
+  }
+
+  &__amount {
+    border-bottom: 1px solid #eee;
+  }
+
   &__fee {
-    padding-top: 12px;
-    padding-bottom: 16px;
+    border-bottom: 1px solid #eee;
 
     &__label {
       margin-bottom: 4px;
@@ -72,5 +79,14 @@ ion-toolbar {
     ion-text {
       color: var(--ion-color-neutral80);
     }
+  }
+}
+
+.skeleton {
+  margin-top: 11px;
+
+  ion-skeleton-text {
+    height: 18px;
+    border-radius: 8px;
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CAUSES } from '../shared-donations/constants/causes';
@@ -9,7 +9,7 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
-import { BigNumber } from 'ethers';
+import { BigNumber, VoidSigner } from 'ethers';
 import { ERC20Provider } from '../../defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
 import { FormattedFee } from '../../defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { NativeFeeOf } from '../../defi-investments/shared-defi-investments/models/native-fee-of/native-fee-of.model';
@@ -23,6 +23,9 @@ import { ToastWithButtonsComponent } from '../../defi-investments/shared-defi-in
 import { TranslateService } from '@ngx-translate/core';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { parseUnits } from 'ethers/lib/utils';
+import { GasFeeOf } from '../../../shared/models/gas-fee-of/gas-fee-of.model';
+import { ERC20Contract } from '../../defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
+import { ERC20ContractController } from '../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
 
 @Component({
   selector: 'app-send-donation',
@@ -106,15 +109,16 @@ import { parseUnits } from 'ethers/lib/utils';
                 [fee]="this.dynamicFee"
                 [quoteFee]="this.quoteFee"
                 [balance]="this.balance"
-                [description]="'donations.send_donations.description_fee' | translate"
               ></app-transaction-fee>
             </div>
           </div>
         </form>
       </div>
-      <div class="sd__submit-button">
+    </ion-content>
+    <ion-footer class="sd__footer">
+      <div class="sd__footer__submit-button ion-padding">
         <ion-button
-          class="ux_button sd__submit-button__button"
+          class="ux_button sd__footer__submit-button__button"
           appTrackClick
           name="ux_donations_amount"
           [disabled]="!this.form.valid || !this.quoteFee.value"
@@ -124,13 +128,13 @@ import { parseUnits } from 'ethers/lib/utils';
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
         >
       </div>
-    </ion-content>
+    </ion-footer>
   `,
   styleUrls: ['./send-donation.page.scss'],
 })
 export class SendDonationPage implements OnInit {
-  form: FormGroup = this.formBuilder.group({
-    amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
+  form: UntypedFormGroup = this.formBuilder.group({
+    amount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
 
@@ -141,21 +145,24 @@ export class SendDonationPage implements OnInit {
   token: Coin;
   fee: number;
   causes = CAUSES;
-  dynamicFee: Amount = { value: undefined, token: 'ETH' };
-  quoteFee: Amount = { value: undefined, token: 'USD' };
+  dynamicFee: Amount = { value: 0, token: undefined };
+  quoteFee: Amount = { value: 0, token: 'USD' };
   balance: number;
   quotePrice: number;
+  nativeToken: Coin;
+  modalHref: string;
   private readonly priceRefreshInterval = 15000;
 
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private sendDonationData: SendDonationDataService,
     private walletService: WalletService,
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
     private erc20ProviderController: ERC20ProviderController,
+    private erc20ContractController: ERC20ContractController,
     private modalController: ModalController,
     private translate: TranslateService,
     private dynamicPriceFactory: DynamicPriceFactory
@@ -164,10 +171,11 @@ export class SendDonationPage implements OnInit {
   ngOnInit() {}
 
   async ionViewWillEnter() {
+    this.modalHref = window.location.href;
     await this.walletService.walletExist();
     this.getCause();
-    this.setTokens();
     this.setNetwork();
+    this.setTokens();
     this.dynamicPrice();
     await this.getFee();
     await this.tokenBalance();
@@ -176,7 +184,6 @@ export class SendDonationPage implements OnInit {
 
   getCause() {
     const causeIDParam = this.route.snapshot.queryParamMap.get('cause');
-
     this.cause = this.causes.find((cause) => cause.id === (causeIDParam ? causeIDParam : this.sendDonationData.cause));
     this.sendDonationData.cause = this.cause.id;
   }
@@ -190,6 +197,10 @@ export class SendDonationPage implements OnInit {
     this.token = this.apiWalletService
       .getCoins()
       .find((coin: Coin) => coin.value === this.cause.token.value && coin.network === this.cause.token.network);
+    this.nativeToken = this.token.native
+      ? this.token
+      : this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
+    this.dynamicFee.token = this.nativeToken.value;
   }
 
   private async userWallet(): Promise<string> {
@@ -199,6 +210,11 @@ export class SendDonationPage implements OnInit {
   async tokenBalance() {
     const tokenBalance = parseFloat(await this.walletService.balanceOf(await this.userWallet(), this.token.value));
     this.balance = this.token.native ? Math.max(tokenBalance - this.fee, 0) : tokenBalance;
+    this.addLowerThanValidator();
+  }
+  private addLowerThanValidator() {
+    this.form.get('amount').addValidators(CustomValidators.lowerThanEqual(this.balance));
+    this.form.get('amount').updateValueAndValidity();
   }
 
   erc20Provider(): ERC20Provider {
@@ -214,13 +230,30 @@ export class SendDonationPage implements OnInit {
 
   private async getFee(): Promise<void> {
     this.loadingFee();
-    await this.nativeTransferFee();
+    this.token.native ? await this.nativeTransferFee() : await this.nonNativeTransferFee();
+    this.dynamicFee = { value: this.fee, token: this.nativeToken.value };
     this.getQuoteFee();
     this.checkAvailableBalance();
   }
 
   private loadingFee(): void {
     this.dynamicFee.value = this.quoteFee.value = undefined;
+  }
+
+  async erc20Contract(): Promise<ERC20Contract> {
+    return this.erc20ContractController.new(this.erc20Provider(), new VoidSigner(await this.userWallet()));
+  }
+
+  private async nonNativeTransferFee(): Promise<void> {
+    this.fee = await new FormattedFee(
+      new NativeFeeOf(
+        new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
+          this.cause.address,
+          this.parseWei(this.form.value.amount),
+        ]),
+        new FakeProvider(await this.gasPrice())
+      )
+    ).value();
   }
 
   private async nativeTransferFee(): Promise<void> {
@@ -234,7 +267,6 @@ export class SendDonationPage implements OnInit {
       ),
       this.token.decimals
     ).value();
-    this.dynamicFee.value = this.fee;
   }
 
   parseWei(amount: number) {
@@ -281,7 +313,7 @@ export class SendDonationPage implements OnInit {
   }
 
   checkAvailableBalance() {
-    if (this.balance === 0) {
+    if (this.balance < this.fee) {
       this.openModalNativeTokenBalance();
     }
   }
@@ -289,8 +321,9 @@ export class SendDonationPage implements OnInit {
   async openModalNativeTokenBalance() {
     const modal = await this.modalController.create({
       component: ToastWithButtonsComponent,
-      cssClass: 'ux-toast-warning',
+      cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
+      id: 'feeModal',
       componentProps: {
         text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
           nativeToken: this.token.value,
@@ -306,7 +339,11 @@ export class SendDonationPage implements OnInit {
         data: this.token,
       },
     });
-    modal.present();
+    await this.modalController.dismiss(null, null, 'feeModal');
+    if (window.location.href === this.modalHref) {
+      await modal.present();
+    }
+    await modal.onDidDismiss();
   }
 
   ionViewWillLeave() {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.component';
@@ -51,7 +51,7 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
   ],
 })
 export class InputSelectComponent implements OnInit {
-  isOpen: boolean = false;
+  isOpen = false;
   control: AbstractControl;
   @Input() label = '';
   @Input() modalTitle = '';
@@ -85,6 +85,7 @@ export class InputSelectComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal generic-modal',
       swipeToClose: false,
     });
+    
     await modal.present();
 
     const data = await modal.onDidDismiss();

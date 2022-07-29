@@ -1,6 +1,6 @@
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { Component, AfterViewInit, ElementRef } from '@angular/core';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
@@ -9,9 +9,8 @@ import {
   StorageOperationService,
 } from '../shared-ramps/services/operation/storage-operation.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
-import { PROVIDERS } from '../shared-ramps/constants/providers';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
@@ -23,9 +22,7 @@ import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-pric
 import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
-
 @Component({
   selector: 'app-operations-new',
   template: `
@@ -111,9 +108,9 @@ export class OperationsNewPage implements AfterViewInit {
   country: FiatRampProviderCountry;
   price: number;
   priceRefreshInterval = 15000;
-  private destroy$ = new Subject<void>();
+  destroy$: Subject<void>;
 
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     cryptoAmount: ['', [Validators.required]],
     fiatAmount: ['', [Validators.required]],
     thirdPartyKYC: [false, [Validators.required]],
@@ -123,7 +120,7 @@ export class OperationsNewPage implements AfterViewInit {
 
   constructor(
     public submitButtonService: SubmitButtonService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private storageOperationService: StorageOperationService,
@@ -157,19 +154,24 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   ionViewWillEnter() {
+    this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
-    this.providerTokens = new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(
-      'kripton'
-    );
+    this.availableCoins();
     this.setCountry();
     this.setCurrency();
     this.dynamicPrice();
     this.subscribeToFormChanges();
   }
 
+  availableCoins() {
+    this.providerTokens = new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(
+      'kripton'
+    );
+  }
+
   getProviders() {
-    return this.providers.create(new ProviderDataRepo(), this.http);
+    return this.providers.create();
   }
 
   subscribeToFormChanges() {
@@ -185,11 +187,18 @@ export class OperationsNewPage implements AfterViewInit {
     this.form.patchValue({ cryptoAmount: value / this.price }, { emitEvent: false, onlySelf: true });
   }
 
+  updateAmounts(): void {
+    this.form.patchValue({ fiatAmount: this.form.value.cryptoAmount * this.price });
+  }
+
   private dynamicPrice() {
     this.createKriptonDynamicPrice()
       .value()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((price: number) => (this.price = price));
+      .subscribe((price: number) => {
+        this.price = price;
+        if (this.form.value.fiatAmount) this.updateAmounts();
+      });
   }
 
   createKriptonDynamicPrice(): KriptonDynamicPrice {
@@ -198,11 +207,11 @@ export class OperationsNewPage implements AfterViewInit {
 
   setCountry() {
     this.country = COUNTRIES.find(
-      (country) => country.name.toLowerCase() === this.route.snapshot.paramMap.get('country')
+      (country) => country.isoCodeAlpha3 === this.route.snapshot.queryParamMap.get('country')
     );
   }
 
-  setCurrency() {
+  async setCurrency() {
     const asset = this.route.snapshot.queryParamMap.get('asset');
     const network = this.route.snapshot.queryParamMap.get('network');
     this.selectedCurrency =
@@ -277,6 +286,17 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   changeCurrency(): void {
-    this.navController.navigateForward(['/fiat-ramps/token-selection', this.provider.alias]);
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        country: this.country.isoCodeAlpha3,
+      },
+    };
+
+    this.navController.navigateForward(['/fiat-ramps/token-selection', this.provider.alias], navigationExtras);
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

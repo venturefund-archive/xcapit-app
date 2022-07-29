@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
@@ -9,12 +8,13 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { ActivatedRoute } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wallet-backup.service';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { XAuthService } from '../../users/shared-users/services/x-auth/x-auth.service';
 
 @Component({
   selector: 'app-create-password',
@@ -107,7 +107,7 @@ import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/
 export class CreatePasswordPage implements OnInit {
   mode: string;
   loading: boolean;
-  createPasswordForm: FormGroup = this.formBuilder.group(
+  createPasswordForm: UntypedFormGroup = this.formBuilder.group(
     {
       password: [
         '',
@@ -140,17 +140,17 @@ export class CreatePasswordPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService,
     private loadingService: LoadingService,
     private apiWalletService: ApiWalletService,
     private walletService: WalletService,
-    private translate: TranslateService,
     private walletMnemonicService: WalletMnemonicService,
     private ionicStorageService: IonicStorageService,
     private walletBackupService: WalletBackupService,
-    private blockchains: BlockchainsFactory
+    private blockchains: BlockchainsFactory,
+    private xAuthService: XAuthService
   ) {}
 
   ionViewWillEnter() {
@@ -189,13 +189,15 @@ export class CreatePasswordPage implements OnInit {
     const blockchain = this.blockchains.create().oneByName('ERC20');
     const wallet = this.walletService.createdWallets.find((w) => w.mnemonic.path === blockchain.derivedPath());
     const signedMsg = await wallet.signMessage(wallet.address);
-    const authToken = `${wallet.address}_${signedMsg}`;
-    return this.ionicStorageService.set('x-auth', authToken);
+    this.xAuthService.saveToken(`${wallet.address}_${signedMsg}`);
   }
 
   private setWalletAsProtectedIfImporting(): Promise<void[]> {
     if (this.mode === 'import') {
-      return Promise.all([this.ionicStorageService.set('protectedWallet', true), this.walletBackupService.disableModal()]);
+      return Promise.all([
+        this.ionicStorageService.set('protectedWallet', true),
+        this.walletBackupService.disableModal(),
+      ]);
     }
   }
 

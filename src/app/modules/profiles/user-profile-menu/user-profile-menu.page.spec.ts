@@ -16,7 +16,12 @@ import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interf
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
-import { CRUD } from 'src/app/shared/services/crud/crud';
+import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tickets.service';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
+import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { Storage } from '@ionic/storage';
+import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 
 const itemMenu: MenuCategory[] = [
   {
@@ -73,7 +78,6 @@ describe('UserProfileMenuPage', () => {
   let fixture: ComponentFixture<UserProfileMenuPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserProfileMenuPage>;
   let apiProfilesServiceSpy: jasmine.SpyObj<ApiProfilesService>;
-  let crudSpy: jasmine.SpyObj<CRUD>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
@@ -83,6 +87,12 @@ describe('UserProfileMenuPage', () => {
   let fakeWalletService: FakeWalletService;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let logOutModalServiceSpy: jasmine.SpyObj<LogOutModalService>;
+  let apiTicketsServiceSpy: jasmine.SpyObj<ApiTicketsService>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
+  let storageSpy: jasmine.SpyObj<Storage>;
+  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -93,17 +103,7 @@ describe('UserProfileMenuPage', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
 
-      crudSpy = jasmine.createSpyObj('CRUD', {
-        get: of(profile),
-      });
-
-      apiProfilesServiceSpy = jasmine.createSpyObj(
-        'ApiProfilesService',
-        {},
-        {
-          crud: crudSpy,
-        }
-      );
+      apiProfilesServiceSpy = jasmine.createSpyObj('ApiProfilesService', { getUserData: of(profile) });
       authServiceSpy = jasmine.createSpyObj(
         'AuthService',
         {
@@ -120,11 +120,40 @@ describe('UserProfileMenuPage', () => {
         setInitialAppLanguage: null,
         getLanguages: [],
         setLanguage: null,
-        getSelectedLanguage: Promise.resolve('es')
+        getSelectedLanguage: Promise.resolve('es'),
       });
 
       fakeWalletService = new FakeWalletService(true, {});
       walletServiceSpy = fakeWalletService.createSpy();
+
+      apiTicketsServiceSpy = jasmine.createSpyObj(
+        'ApiTicketsService',
+        {},
+        {
+          crud: jasmine.createSpyObj('CRUD', {
+            create: of(),
+          }),
+        }
+      );
+
+      walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
+        enableModal: Promise.resolve(),
+      });
+
+      storageServiceSpy = jasmine.createSpyObj('StorageService', {
+        removeWalletFromStorage: Promise.resolve(),
+      });
+      ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+        set: Promise.resolve(),
+      });
+
+      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
+        killSession: Promise.resolve(),
+      });
+
+      storageSpy = jasmine.createSpyObj('Storage', {
+        set: Promise.resolve(),
+      });
 
       TestBed.configureTestingModule({
         declarations: [UserProfileMenuPage, FakeTrackClickDirective],
@@ -137,6 +166,12 @@ describe('UserProfileMenuPage', () => {
           { provide: LanguageService, useValue: languageServiceSpy },
           { provide: WalletService, useValue: walletServiceSpy },
           { provide: LogOutModalService, useValue: logOutModalServiceSpy },
+          { provide: ApiTicketsService, useValue: apiTicketsServiceSpy },
+          { provide: StorageService, useValue: storageServiceSpy },
+          { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+          { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+          { provide: Storage, useValue: storageSpy },
+          { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -195,14 +230,14 @@ describe('UserProfileMenuPage', () => {
 
   it('should show modal if user has wallet and modal list is empty when Log Out button is clicked', async () => {
     component.profile = profile;
-    await component.logout();
+    await component.handleLogout();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should show modal if user has wallet and is not in modal list when Log Out button is clicked', async () => {
     component.profile = profile;
-    await component.logout();
+    await component.handleLogout();
     await fixture.whenStable();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
@@ -227,11 +262,44 @@ describe('UserProfileMenuPage', () => {
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
   });
 
+  it('should show modal, delete storage data and logout when delete account button is clicked and user confirms it', async () => {
+    component.profile = profile;
+    fakeModalController.modifyReturns({}, { data: true });
+    const button = fixture.debugElement.query(By.css('ion-button[name="delete_account"]'));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(storageServiceSpy.removeWalletFromStorage).toHaveBeenCalledTimes(1);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', false);
+    expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
+    expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
+    expect(storageSpy.set).toHaveBeenCalledOnceWith('FINISHED_ONBOARDING', false);
+    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
+  });
+
+  it('should show modal but not delete anything when delete account button is clicked and user cancels it', async () => {
+    component.profile = profile;
+    fakeModalController.modifyReturns({}, { data: false });
+    const button = fixture.debugElement.query(By.css('ion-button[name="delete_account"]'));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(spyOn(component, 'deleteAccount')).toHaveBeenCalledTimes(0);
+    expect(spyOn(component, 'cleanStorage')).toHaveBeenCalledTimes(0);
+    expect(spyOn(component, 'logout')).toHaveBeenCalledTimes(0);
+  });
+
   it('should render app-card-category-menu component', () => {
     component.itemMenu = itemMenu;
     fixture.detectChanges();
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
     expect(menu.length).toBe(3);
+  });
+
+  it('should back to home when back button is clicked', async () => {
+    const button = fixture.debugElement.query(By.css('ion-back-button'));
+    button.nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tabs/home');
   });
 });

@@ -6,7 +6,7 @@ import { SuccessSubmodulesPage } from './success-submodules.page';
 
 const routes: Routes = [
   {
-    path: 'module/:moduleId/submodule/:submoduleId',
+    path: 'category/:category/module/:module/submodule/:submodule',
     component: SuccessSubmodulesPage,
   },
 ];

@@ -1,27 +1,25 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory/providers.factory';
 import { SelectProviderCardComponent } from './select-provider-card.component';
 import { rawProvidersData } from '../../../shared-ramps/fixtures/raw-providers-data';
-import { HttpClient } from '@angular/common/http';
 import { Providers } from '../../../shared-ramps/models/providers/providers.interface';
 
 describe('SelectProviderCardComponent', () => {
   let component: SelectProviderCardComponent;
   let fixture: ComponentFixture<SelectProviderCardComponent>;
   let formGroupDirectiveMock: FormGroupDirective;
-  let controlContainerMock: FormGroup;
+  let controlContainerMock: UntypedFormGroup;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
-  let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   beforeEach(
     waitForAsync(() => {
-      controlContainerMock = new FormBuilder().group({
+      controlContainerMock = new UntypedFormBuilder().group({
         country: ['', []],
         provider: ['', []],
       });
@@ -45,7 +43,6 @@ describe('SelectProviderCardComponent', () => {
         providers: [
           { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
-          { provide: HttpClient, useValue: httpClientSpy },
         ],
       }).compileComponents();
 

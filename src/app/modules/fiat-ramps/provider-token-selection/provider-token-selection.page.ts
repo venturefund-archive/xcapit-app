@@ -5,10 +5,8 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
-import { HttpClient } from '@angular/common/http';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
 
 @Component({
   selector: 'app-provider-token-selection',
@@ -39,11 +37,11 @@ import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/prov
 export class ProviderTokenSelectionPage implements OnInit {
   coins: Coin[];
   provider: FiatRampProvider;
+  country: string;
   constructor(
     private navController: NavController,
     private route: ActivatedRoute,
     private apiWalletService: ApiWalletService,
-    private http: HttpClient,
     private providersFactory: ProvidersFactory
   ) {}
 
@@ -51,6 +49,7 @@ export class ProviderTokenSelectionPage implements OnInit {
 
   ionViewWillEnter() {
     const providerAlias = this.route.snapshot.paramMap.get('provider');
+    this.country = this.route.snapshot.queryParamMap.get('country');
     this.provider = this.providers().byAlias(providerAlias);
     this.availableCoins();
   }
@@ -58,6 +57,7 @@ export class ProviderTokenSelectionPage implements OnInit {
   selectCurrency(currency: Coin) {
     const navigationExtras: NavigationExtras = {
       queryParams: {
+        country: this.country,
         asset: currency.value,
         network: currency.network,
       },
@@ -71,6 +71,6 @@ export class ProviderTokenSelectionPage implements OnInit {
   }
 
   providers(): Providers {
-    return this.providersFactory.create(new ProviderDataRepo(), this.http);
+    return this.providersFactory.create();
   }
 }

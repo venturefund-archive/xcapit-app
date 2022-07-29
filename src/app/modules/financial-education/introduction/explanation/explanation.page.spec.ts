@@ -10,7 +10,6 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-
 import { ExplanationPage } from './explanation.page';
 
 describe('ExplanationPage', () => {
@@ -23,29 +22,35 @@ describe('ExplanationPage', () => {
   let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
-  beforeEach(waitForAsync(() => {
+  beforeEach(
+    waitForAsync(() => {
+      fakeActivatedRoute = new FakeActivatedRoute({ mode: 'rule' });
+      activatedRouteSpy = fakeActivatedRoute.createSpy();
 
-    fakeActivatedRoute = new FakeActivatedRoute({ mode: 'rule' });
-    activatedRouteSpy = fakeActivatedRoute.createSpy();
+      storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+        set: Promise.resolve(),
+      });
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', { trackEvent: Promise.resolve(true) });
+      TestBed.configureTestingModule({
+        declarations: [ExplanationPage, FakeTrackClickDirective],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+        providers: [
+          { provide: TrackService, useValue: trackServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: IonicStorageService, useValue: storageServiceSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      }).compileComponents();
 
-    storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
-      set: Promise.resolve(),
-    });
-    fakeNavController = new FakeNavController();
-    navControllerSpy = fakeNavController.createSpy();
-    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{ trackEvent: Promise.resolve(true),})
-    TestBed.configureTestingModule({
-      declarations: [ ExplanationPage, FakeTrackClickDirective ],
-      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      providers:[{ provide: TrackService, useValue: trackServiceSpy},{ provide: NavController, useValue: navControllerSpy }, { provide: IonicStorageService, useValue: storageServiceSpy }, {provide: ActivatedRoute, useValue: activatedRouteSpy}],
-      schemas:[CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(ExplanationPage);
-    component = fixture.componentInstance;
-    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    fixture.detectChanges();
-  }));
+      fixture = TestBed.createComponent(ExplanationPage);
+      component = fixture.componentInstance;
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+      fixture.detectChanges();
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -62,7 +67,7 @@ describe('ExplanationPage', () => {
     backButtonEl.nativeElement.click();
 
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('tabs/financial-education');
-  })
+  });
 
   it('should navigate back to financial freedom page when mode is empty', () => {
     fakeActivatedRoute.modifySnapshotParams({ mode: '' });
@@ -71,8 +76,10 @@ describe('ExplanationPage', () => {
     const backButtonEl = fixture.debugElement.query(By.css('ion-back-button'));
     backButtonEl.nativeElement.click();
 
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('financial-education/introduction/financial-freedom');
-  })
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(
+      'financial-education/introduction/financial-freedom'
+    );
+  });
 
   it('should call appTrackEvent on trackService when ux_education_screenview_intro_2 is clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_education_screenview_intro_2');
@@ -89,19 +96,18 @@ describe('ExplanationPage', () => {
     fixture.debugElement.query(By.css('.ep__button ion-button')).nativeElement.click();
 
     fixture.detectChanges();
-    
+
     expect(storageServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('tabs/financial-education');
   });
 
   it('should render app-explanation-item component', async () => {
-    await fixture.whenRenderingDone()
-    await fixture.whenStable()
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
     const componentEl = fixture.debugElement.queryAll(By.css('app-explanation-item'));
     fixture.detectChanges();
     expect(componentEl).toBeTruthy();
   });
-
 
   it('should render app-share-education component', async () => {
     await fixture.whenRenderingDone();
@@ -110,5 +116,4 @@ describe('ExplanationPage', () => {
     fixture.detectChanges();
     expect(componentEl).toBeTruthy();
   });
-
 });

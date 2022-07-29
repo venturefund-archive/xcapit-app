@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -8,10 +8,9 @@ import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { ProviderDataRepo } from '../shared-ramps/models/provider-data-repo/provider-data-repo';
-import { HttpClient } from '@angular/common/http';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 
 @Component({
   selector: 'app-directa',
@@ -67,7 +66,7 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
   styleUrls: ['./directa.page.scss'],
 })
 export class DirectaPage implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     fiatAmount: ['', Validators.required],
   });
   provider: FiatRampProvider;
@@ -79,12 +78,12 @@ export class DirectaPage implements OnInit {
   providerAlias: string;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
-    private http: HttpClient
+    private walletMaintenance: WalletMaintenanceService
   ) {}
 
   ngOnInit() {}
@@ -98,7 +97,7 @@ export class DirectaPage implements OnInit {
 
   setCountry() {
     this.country = this.countries.find(
-      (country) => country.name.toLowerCase() === this.route.snapshot.paramMap.get('country')
+      (country) => country.isoCodeAlpha3 === this.route.snapshot.queryParamMap.get('country')
     );
   }
 
@@ -111,11 +110,16 @@ export class DirectaPage implements OnInit {
     return new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(this.provider.alias);
   }
 
-  openD24() {
+  async openD24() {
+    await this.addBoughtCoinIfUserDoesNotHaveIt();
     return this.navController.navigateForward(['/tabs/wallets']);
   }
 
   getProviders(): Providers {
-    return this.providers.create(new ProviderDataRepo(), this.http);
+    return this.providers.create();
+  }
+
+  addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
+    return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.selectedCurrency);
   }
 }

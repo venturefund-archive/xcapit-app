@@ -5,7 +5,7 @@ import { SharedFinancialEducationModule } from '../shared-financial-education/sh
 
 const routes: Routes = [
   {
-    path: 'tab/:tab/module/:module/submodule/:submodule/code/:code',
+    path: 'category/:category/module/:module/submodule/:submodule/code/:code',
     component: TestTypeformPage,
   },
 ];

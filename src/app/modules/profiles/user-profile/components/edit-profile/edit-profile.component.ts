@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { CONFIG } from 'src/app/config/app-constants.config';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { ApiProfilesService } from '../../../shared-profiles/services/api-profiles/api-profiles.service';
 import { of, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -112,12 +112,12 @@ export class EditProfileComponent implements OnInit {
     direccion: ['', [Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ0-9 '-,]*$")]],
   };
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   @ViewChild('formElement') formElement: any;
   @Input()
   data: any;
 
-  constructor(private apiProfiles: ApiProfilesService, private formBuilder: FormBuilder) {}
+  constructor(private apiProfiles: ApiProfilesService, private formBuilder: UntypedFormBuilder) {}
 
   ngOnInit() {
     this.setForm();

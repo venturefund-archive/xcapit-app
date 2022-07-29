@@ -1,6 +1,6 @@
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { AmountInputCardComponent } from './amount-input-card.component';
 import { By } from '@angular/platform-browser';
@@ -41,16 +41,16 @@ describe('AmountInputCardComponent', () => {
   let component: AmountInputCardComponent;
   let fixture: ComponentFixture<AmountInputCardComponent>;
   let formGroupDirectiveSpy: jasmine.SpyObj<FormGroupDirective>;
-  let formGroupMock: FormGroup;
+  let formGroupMock: UntypedFormGroup;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<AmountInputCardComponent>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
 
   beforeEach(
     waitForAsync(() => {
-      formGroupMock = new FormGroup({
-        amount: new FormControl(),
-        quoteAmount: new FormControl(),
+      formGroupMock = new UntypedFormGroup({
+        amount: new UntypedFormControl(),
+        quoteAmount: new UntypedFormControl(),
       });
       formGroupDirectiveSpy = jasmine.createSpyObj(
         'FormGroupDirective',
@@ -140,6 +140,32 @@ describe('AmountInputCardComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('should render advice div when you  dont have necessary fee', () => {
+    component.insufficientBalance = true;
+    fixture.detectChanges();
+    const divEl = fixture.debugElement.query(By.css('div.aic__content__funds-advice'));
+    expect(divEl).toBeTruthy();
+  });
+
+  it('should render the div when the balance is insufficient', () => {
+    component.insufficientBalance = true;
+    fixture.detectChanges();
+    const div = fixture.debugElement.query(By.css('div.aic__insufficient-funds'));
+    const divEl = fixture.debugElement.query(By.css('div.aic__insufficient-funds__amounts'));
+    expect(div).toBeTruthy();
+    expect(divEl).toBeTruthy();
+  });
+
+  it('should render the div when the balance is not insufficient', () => {
+    component.insufficientBalance = false;
+    fixture.detectChanges();
+    const div = fixture.debugElement.query(By.css('div.aic__available'))
+    const divEl = fixture.debugElement.query(By.css('div.aic__available__amounts'));
+    expect(div).toBeTruthy();
+    expect(divEl).toBeTruthy();
+  });
+
+
   it('should emit event when ux_phrase_information clicked', () => {
     component.amountSend = true;
     fixture.detectChanges();
@@ -152,11 +178,11 @@ describe('AmountInputCardComponent', () => {
   describe('ShowRange enabled', () => {
     beforeEach(
       waitForAsync(() => {
-        formGroupMock = new FormGroup({
-          amount: new FormControl(),
-          quoteAmount: new FormControl(),
-          percentage: new FormControl(),
-          range: new FormControl(),
+        formGroupMock = new UntypedFormGroup({
+          amount: new UntypedFormControl(),
+          quoteAmount: new UntypedFormControl(),
+          percentage: new UntypedFormControl(),
+          range: new UntypedFormControl(),
         });
         new SpyProperty(formGroupDirectiveSpy, 'form').value().and.returnValue(formGroupMock);
         component.showRange = true;

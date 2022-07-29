@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { SharedSwapsModule } from '../shared-swaps/shared-swaps.module';
-import { SwapInProgressPage } from './swap-in-progress.page';
+import { SwapTermsAndConditionsPage } from './swap-terms-and-conditions.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: SwapInProgressPage
+    component: SwapTermsAndConditionsPage
   }
 ];
 
 @NgModule({
   imports: [SharedSwapsModule, RouterModule.forChild(routes)],
-  exports: [SwapInProgressPage],
-  declarations: [SwapInProgressPage]
+  exports: [SwapTermsAndConditionsPage],
+  declarations: [SwapTermsAndConditionsPage]
 })
-export class SwapInProgressPageModule {}
+export class SwapTermsAndConditionsPageModule {}

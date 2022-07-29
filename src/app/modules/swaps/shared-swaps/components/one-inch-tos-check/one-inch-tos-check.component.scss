@@ -1,0 +1,40 @@
+:host {
+  .tacc {
+    &__checkbox {
+      display: flex;
+      align-items: center;
+
+      &__phrase {
+        display: flex;
+        flex-wrap: wrap;
+
+        &__link {
+          display: flex;
+          align-items: center;
+
+          &__button {
+            height: auto;
+            margin-left: -8px;
+
+            --padding-start: 8px !important;
+          }
+
+          &__label {
+            margin-left: -8px;
+          }
+        }
+      }
+
+      ion-checkbox {
+        margin-right: 16px;
+      }
+
+      &__last {
+        --border-color: transparent;
+        --background-hover: transparent;
+        --background-activated: transparent;
+        --padding-start: 5px;
+      }
+    }
+  }
+}

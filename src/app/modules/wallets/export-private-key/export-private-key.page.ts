@@ -3,7 +3,7 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
 import { WalletPasswordComponent } from '../shared-wallets/components/wallet-password/wallet-password.component';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { ModalController, NavController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ClipboardService } from '../../../shared/services/clipboard/clipboard.service';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -72,7 +72,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class ExportPrivateKeyPage implements OnInit {
   keys: { privateKey: string; address: string };
   networks: { name: string; value: string }[];
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     network: ['', Validators.required],
   });
   private password: string;
@@ -81,7 +81,7 @@ export class ExportPrivateKeyPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private walletEncryptionService: WalletEncryptionService,
     private modalController: ModalController,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private clipboardService: ClipboardService,
     private toastService: ToastService,
     private translate: TranslateService,

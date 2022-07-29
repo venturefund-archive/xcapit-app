@@ -80,6 +80,10 @@ export class WalletMaintenanceService {
 
   async saveWalletToStorage(): Promise<void> {
     await this.storageService.saveWalletToStorage(this.encryptedWallet);
+    this.wipeDataFromService();
+  }
+
+  wipeDataFromService() {
     this._wallet = undefined;
     this.encryptedWallet = undefined;
     this.newNetworks = undefined;
@@ -90,5 +94,22 @@ export class WalletMaintenanceService {
     await this.getEncryptedWalletFromStorage();
     const coins = this.apiWalletService.getCoins();
     return coins.filter((coin) => !!this.encryptedWallet.assets[coin.value]);
+  }
+  
+  userHasCoin(coin: Coin): boolean {
+    return this.encryptedWallet.assets[coin.value];
+  }
+
+  async addCoinIfUserDoesNotHaveIt(coin: Coin): Promise<void> {
+    if (!this.encryptedWallet) {
+      await this.getEncryptedWalletFromStorage();
+    }
+
+    if (!this.userHasCoin(coin)) {
+      this.toggleAssets([coin.value]);
+      await this.saveWalletToStorage();
+    } else {
+      this.wipeDataFromService();
+    }
   }
 }

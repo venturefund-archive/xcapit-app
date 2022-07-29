@@ -18,6 +18,15 @@
   }
 }
 
+.ux-modal-withdraw-info {
+  --max-height: 412px;
+  --max-width: 85%;
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
 // Modal Informativo
 .ux-modal-informative {
   --max-height: 310px;
@@ -54,6 +63,17 @@
 .ux-hug-modal-informative {
   --max-height: 653.96px;
   --max-width: 296px;
+  --background: #fff;
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
+// Modal informativo large
+.ux-lg-modal-informative {
+  --max-height: 575.05px;
+  --max-width: 328px;
   --background: #fff;
 
   &::part(content) {
@@ -310,6 +330,18 @@
   box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
 }
 
+.remove-account-modal {
+  --height: 334px;
+  --width: 328px;
+  --background: var(--ion-color-neutral10);
+  --border-radius: 8px;
+  --border-width: 0.5px;
+  --border-style: solid;
+  --border-color: var(--ion-color-neutral50);
+
+  box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
+}
+
 .update-app-modal {
   --height: 266px;
   --width: 328px;
@@ -345,5 +377,17 @@
     border-radius: 14px;
     position: absolute;
     bottom: 1.5%;
+  }
+}
+
+.ux-toast-warning-with-margin {
+  --max-height: 110px;
+  --max-width: 95%;
+  --background: var(--ion-color-warninglight);
+
+  &::part(content) {
+    border-radius: 14px;
+    position: absolute;
+    bottom: 15%;
   }
 }

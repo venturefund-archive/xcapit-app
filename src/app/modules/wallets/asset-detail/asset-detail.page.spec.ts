@@ -69,17 +69,28 @@ describe('AssetDetailPage', () => {
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
+
   beforeEach(
     waitForAsync(() => {
-      coinsSpy = [jasmine.createSpyObj('Coin', {}, {
-        value: 'ETH',
-        network: 'ERC20'
-      }),
-      jasmine.createSpyObj('Coin', {}, {
-        value: 'AVAX',
-        network: 'BSC_BEP20'
-      })]
-      fakeActivatedRoute = new FakeActivatedRoute({currency: 'ETH'});
+      coinsSpy = [
+        jasmine.createSpyObj(
+          'Coin',
+          {},
+          {
+            value: 'ETH',
+            network: 'ERC20',
+          }
+        ),
+        jasmine.createSpyObj(
+          'Coin',
+          {},
+          {
+            value: 'AVAX',
+            network: 'BSC_BEP20',
+          }
+        ),
+      ];
+      fakeActivatedRoute = new FakeActivatedRoute({ currency: 'ETH' });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getPrices: of({ prices: { ETH: 3000 } }),
@@ -107,10 +118,9 @@ describe('AssetDetailPage', () => {
         create: providersSpy,
       });
 
-
       TestBed.configureTestingModule({
         declarations: [AssetDetailPage, FormattedAmountPipe, SplitStringPipe, FormattedNetworkPipe],
-        imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule.forRoot(), RouterTestingModule],
+        imports: [TranslateModule.forRoot(), IonicModule.forRoot(), RouterTestingModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
           { provide: WalletService, useValue: walletServiceSpy },
@@ -143,12 +153,12 @@ describe('AssetDetailPage', () => {
   });
 
   it('should disable purchase when token is not enabled to buy among all providers', async () => {
-    fakeActivatedRoute.modifySnapshotParams({currency: 'AVAX'})
+    fakeActivatedRoute.modifySnapshotParams({ currency: 'AVAX' });
     component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
     expect(component.enabledToBuy).toBeFalse();
-  })
+  });
 
   it('should get transfers on view will enter', async () => {
     component.ionViewWillEnter();

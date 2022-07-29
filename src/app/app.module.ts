@@ -41,82 +41,87 @@ import { FinancialPlannerModule } from './modules/financial-planner/financial-pl
 import { DonationsModule } from './modules/donations/donations.module';
 import { FinancialEducationModule } from './modules/financial-education/financial-education.module';
 import { SwapsModule } from './modules/swaps/swaps.module';
+import { XAuthTokenInterceptorService } from './modules/users/shared-users/services/x-auth-token-interceptor/x-auth-token-interceptor.service';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    IonicModule.forRoot({
-      mode: 'ios',
-      backButtonText: '',
-      backButtonIcon: 'ux-back',
-    }),
-    IonicStorageModule.forRoot({
-      name: '__xcapitdb',
-      driverOrder: ['sqlite', 'indexeddb', 'websql'],
-    }),
-    AppRoutingModule,
-    UsersModule,
-    TutorialsModule,
-    ProfilesModule,
-    FinancialEducationModule,
-    FinancialPlannerModule,
-    DonationsModule,
-    SubscriptionsModule,
-    ReferralsModule,
-    TabsModule,
-    NotificationsModule,
-    WalletsModule,
-    TicketsModule,
-    FiatRampsModule,
-    WalletsModule,
-    HomeModule,
-    SupportModule,
-    WealthManagementsModule,
-    DefiInvestmentsModule,
-    SwapsModule,
-    JwtModule.forRoot({
-      jwtOptionsProvider: {
-        provide: JWT_OPTIONS,
-        useFactory: jwtOptionsFactory,
-        deps: [AppStorageService],
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        IonicModule.forRoot({
+            mode: 'ios',
+            backButtonText: '',
+            backButtonIcon: 'ux-back',
+        }),
+        IonicStorageModule.forRoot({
+            name: '__xcapitdb',
+            driverOrder: ['sqlite', 'indexeddb', 'websql'],
+        }),
+        AppRoutingModule,
+        UsersModule,
+        TutorialsModule,
+        ProfilesModule,
+        FinancialEducationModule,
+        FinancialPlannerModule,
+        DonationsModule,
+        SubscriptionsModule,
+        ReferralsModule,
+        TabsModule,
+        NotificationsModule,
+        WalletsModule,
+        TicketsModule,
+        FiatRampsModule,
+        WalletsModule,
+        HomeModule,
+        SupportModule,
+        WealthManagementsModule,
+        DefiInvestmentsModule,
+        SwapsModule,
+        JwtModule.forRoot({
+            jwtOptionsProvider: {
+                provide: JWT_OPTIONS,
+                useFactory: jwtOptionsFactory,
+                deps: [AppStorageService],
+            },
+        }),
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: httpLoaderFactory,
+                deps: [HttpClient],
+            },
+        }),
+        TrackClickModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+        }),
+        WildcardRoutingModule, // always to last!
+    ],
+    providers: [
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: RefreshTokenInterceptorService,
+            multi: true,
+        },
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: XAuthTokenInterceptorService,
+        multi: true,
       },
-    }),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: httpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
-    TrackClickModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-    }),
-    WildcardRoutingModule, // always to last!
-  ],
-  providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: RefreshTokenInterceptorService,
-      multi: true,
-    },
-    FileOpener,
-    updateServiceProvider,
-    trackServiceProvider,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: AppInitializerFactory,
-      deps: [TranslateService],
-      multi: true,
-    },
-  ],
-  bootstrap: [AppComponent],
+        FileOpener,
+        updateServiceProvider,
+        trackServiceProvider,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: AppInitializerFactory,
+            deps: [TranslateService],
+            multi: true,
+        },
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
