@@ -28,6 +28,8 @@ import { TokenDetailController } from '../shared-wallets/models/token-detail/tok
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -51,6 +53,7 @@ describe('HomeWalletPage', () => {
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -59,6 +62,13 @@ describe('HomeWalletPage', () => {
       totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
       tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
       covalentBalancesControllerSpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+      localStorageServiceSpy = jasmine.createSpyObj(
+        'LocalStorageService',
+        {
+          toggleHideFunds: undefined,
+        },
+        { hideFunds: of(false) }
+      );
       tokenDetailSpy = jasmine.createSpyObj(
         'TokenDetail',
         { cached: Promise.resolve({ balance: 10, price: 2 }), fetch: Promise.resolve(), cache: Promise.resolve() },
@@ -114,7 +124,7 @@ describe('HomeWalletPage', () => {
       });
 
       TestBed.configureTestingModule({
-        declarations: [HomeWalletPage, FakeTrackClickDirective],
+        declarations: [HomeWalletPage, FakeTrackClickDirective, HideTextPipe],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
@@ -130,6 +140,7 @@ describe('HomeWalletPage', () => {
           { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
           { provide: TrackService, useValue: trackServiceSpy },
           { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+          { provide: LocalStorageService, useValue: localStorageServiceSpy }
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -251,19 +262,27 @@ describe('HomeWalletPage', () => {
   });
 
   it('should show 0.0 balance when no wallet nor cache is present', async () => {
+    walletServiceSpy.walletExist.and.resolveTo(false);
     balanceCacheServiceSpy.total.and.resolveTo(undefined);
     await component.ionViewDidEnter();
-    component.walletExist = false;
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    const balanceEl = fixture.debugElement.query(By.css('div.wt__amount > ion-text'));
-    expect(balanceEl.nativeElement.innerHTML).toContain('0.00 USD');
+    const balanceEl = fixture.debugElement.query(By.css('div.wt__amount-and-eye__amount > ion-text'));
+    expect(balanceEl.nativeElement.innerHTML).toContain('0.00');
   });
 
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render app-eye component', async () => {
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    const componentEl = fixture.debugElement.queryAll(By.css('app-eye'));
+    fixture.detectChanges();
+    expect(componentEl).toBeTruthy();
   });
 
   it('should call appTrackEvent on trackService when Tokens Tab was clicked', () => {

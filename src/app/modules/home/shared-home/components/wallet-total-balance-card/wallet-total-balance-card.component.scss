@@ -87,4 +87,14 @@
   .walletArrow {
     color: var(--ion-color-info);
   }
+
+  .eye {
+    --wbc-color: var(--ion-color-primary);
+
+    margin-top: 24px;
+    margin-left: 10px;
+    font-size: 19px;
+    position: relative;
+    z-index: 2;
+  }
 }
