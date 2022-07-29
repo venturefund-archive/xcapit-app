@@ -55,103 +55,101 @@ describe('HomeWalletPage', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
 
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
-      tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
-      covalentBalancesControllerSpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
-      localStorageServiceSpy = jasmine.createSpyObj(
-        'LocalStorageService',
-        {
-          toggleHideFunds: undefined,
-        },
-        { hideFunds: of(false) }
-      );
-      tokenDetailSpy = jasmine.createSpyObj(
-        'TokenDetail',
-        { cached: Promise.resolve({ balance: 10, price: 2 }), fetch: Promise.resolve(), cache: Promise.resolve() },
-        {
-          price: 20,
-          balance: 1,
-          quoteSymbol: 'USD',
-          coin: coinSpy,
-        }
-      );
-      tokenDetailControllerSpy = jasmine.createSpyObj('TokenDetailSpy', { new: tokenDetailSpy });
-      coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
+    tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
+    covalentBalancesControllerSpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+    localStorageServiceSpy = jasmine.createSpyObj(
+      'LocalStorageService',
+      {
+        toggleHideFunds: undefined,
+      },
+      { hideFunds: of(false) }
+    );
+    tokenDetailSpy = jasmine.createSpyObj(
+      'TokenDetail',
+      { cached: Promise.resolve({ balance: 10, price: 2 }), fetch: Promise.resolve(), cache: Promise.resolve() },
+      {
+        price: 20,
+        balance: 1,
+        quoteSymbol: 'USD',
+        coin: coinSpy,
+      }
+    );
+    tokenDetailControllerSpy = jasmine.createSpyObj('TokenDetailSpy', { new: tokenDetailSpy });
+    coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
 
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        createNFTRequest: of({}),
-        getNetworks: ['ERC20'],
-      });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      createNFTRequest: of({}),
+      getNetworks: ['ERC20'],
+    });
 
-      fakeWalletService = new FakeWalletService(true);
-      walletServiceSpy = fakeWalletService.createSpy();
+    fakeWalletService = new FakeWalletService(true);
+    walletServiceSpy = fakeWalletService.createSpy();
 
-      walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', {
-        getUsdTotalBalance: Promise.resolve(5120),
-        balanceOf: Promise.resolve(20),
-        priceOf: Promise.resolve(10),
-      });
+    walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', {
+      getUsdTotalBalance: Promise.resolve(5120),
+      balanceOf: Promise.resolve(20),
+      priceOf: Promise.resolve(10),
+    });
 
-      refreshTimeoutServiceSpy = jasmine.createSpyObj('RefreshTimeoutService', {
-        isAvailable: true,
-        lock: of(),
-      });
+    refreshTimeoutServiceSpy = jasmine.createSpyObj('RefreshTimeoutService', {
+      isAvailable: true,
+      lock: of(),
+    });
 
-      storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        getAssestsSelected: Promise.resolve([coinSpy, coinSpy]),
-        getWalletsAddresses: Promise.resolve('0x00001'),
-      });
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      getAssestsSelected: Promise.resolve([coinSpy, coinSpy]),
+      getWalletsAddresses: Promise.resolve('0x00001'),
+    });
 
-      balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
-        coin: Promise.resolve({ balance: 20, price: 5, expiration_date: 1234 }),
-        updateCoin: Promise.resolve(),
-        total: Promise.resolve(5000),
-        updateTotal: Promise.resolve(),
-      });
+    balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
+      coin: Promise.resolve({ balance: 20, price: 5, expiration_date: 1234 }),
+      updateCoin: Promise.resolve(),
+      total: Promise.resolve(5000),
+      updateTotal: Promise.resolve(),
+    });
 
-      contentSpy = jasmine.createSpyObj('IonContent', { scrollToTop: Promise.resolve() });
+    contentSpy = jasmine.createSpyObj('IonContent', { scrollToTop: Promise.resolve() });
 
-      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
-        trackEvent: Promise.resolve(true),
-      });
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
 
-      ionicStorageServiceSpy = jasmine.createSpyObj('StorageService', {
-        get: Promise.resolve(false),
-      });
+    ionicStorageServiceSpy = jasmine.createSpyObj('StorageService', {
+      get: Promise.resolve(false),
+    });
 
-      TestBed.configureTestingModule({
-        declarations: [HomeWalletPage, FakeTrackClickDirective, HideTextPipe],
-        imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: WalletService, useValue: walletServiceSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
-          { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
-          { provide: StorageService, useValue: storageServiceSpy },
-          { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
-          { provide: CovalentBalancesController, useValue: covalentBalancesControllerSpy },
-          { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
-          { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
-          { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
-          { provide: TrackService, useValue: trackServiceSpy },
-          { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
-          { provide: LocalStorageService, useValue: localStorageServiceSpy }
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    TestBed.configureTestingModule({
+      declarations: [HomeWalletPage, FakeTrackClickDirective, HideTextPipe],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: WalletService, useValue: walletServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
+        { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
+        { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
+        { provide: CovalentBalancesController, useValue: covalentBalancesControllerSpy },
+        { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
+        { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
+        { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: LocalStorageService, useValue: localStorageServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(HomeWalletPage);
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      component = fixture.componentInstance;
-      component.content = contentSpy;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(HomeWalletPage);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    component = fixture.componentInstance;
+    component.content = contentSpy;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

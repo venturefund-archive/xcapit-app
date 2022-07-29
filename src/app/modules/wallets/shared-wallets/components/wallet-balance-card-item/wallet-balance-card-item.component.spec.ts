@@ -19,45 +19,46 @@ describe('WalletBalanceCardItemComponent', () => {
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let coinSpy: jasmine.SpyObj<Coin>;
   let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
-  
-  beforeEach(
-    waitForAsync(() => {
-      localStorageServiceSpy = jasmine.createSpyObj(
-        'LocalStorageService',
-        {
-          toggleHideFunds: undefined,
-        },
-        { hideFunds: of(false) }
-      );
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      coinSpy = jasmine.createSpyObj(
-        'Coin',
-        {},
-        { value: 'MATIC', logoRoute: 'assets/img/coins/MATIC.png', network: 'MATIC' }
-      );
-      tokenDetailSpy = jasmine.createSpyObj(
-        'TokenDetail',
-        {},
-        {
-          price: 20,
-          balance: 1,
-          quoteSymbol: 'USD',
-          coin: coinSpy,
-        }
-      );
-      TestBed.configureTestingModule({
-        declarations: [WalletBalanceCardItemComponent, FormattedNetworkPipe, FormattedAmountPipe, HideTextPipe],
-        imports: [IonicModule],
-        providers: [{ provide: NavController, useValue: navControllerSpy }, { provide: LocalStorageService, useValue: localStorageServiceSpy },],
-      }).compileComponents();
 
-      fixture = TestBed.createComponent(WalletBalanceCardItemComponent);
-      component = fixture.componentInstance;
-      component.tokenDetail = tokenDetailSpy;
-      fixture.detectChanges();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    localStorageServiceSpy = jasmine.createSpyObj(
+      'LocalStorageService',
+      {
+        toggleHideFunds: undefined,
+      },
+      { hideFunds: of(false) }
+    );
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    coinSpy = jasmine.createSpyObj(
+      'Coin',
+      {},
+      { value: 'MATIC', logoRoute: 'assets/img/coins/MATIC.png', network: 'MATIC' }
+    );
+    tokenDetailSpy = jasmine.createSpyObj(
+      'TokenDetail',
+      {},
+      {
+        price: 20,
+        balance: 1,
+        quoteSymbol: 'USD',
+        coin: coinSpy,
+      }
+    );
+    TestBed.configureTestingModule({
+      declarations: [WalletBalanceCardItemComponent, FormattedNetworkPipe, FormattedAmountPipe, HideTextPipe],
+      imports: [IonicModule],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: LocalStorageService, useValue: localStorageServiceSpy },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(WalletBalanceCardItemComponent);
+    component = fixture.componentInstance;
+    component.tokenDetail = tokenDetailSpy;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

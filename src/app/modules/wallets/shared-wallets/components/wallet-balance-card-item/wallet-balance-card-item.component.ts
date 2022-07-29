@@ -4,7 +4,6 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
 import { NETWORK_COLORS } from '../../constants/network-colors.constant';
 import { TokenDetail } from '../../models/token-detail/token-detail';
 
-
 @Component({
   selector: 'app-wallet-balance-card-item',
   template: `
@@ -20,16 +19,18 @@ import { TokenDetail } from '../../models/token-detail/token-detail';
               >{{ this.tokenDetail.coin.network | formattedNetwork | uppercase }}</ion-badge
             >
           </ion-label>
-          <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold"
-            >{{ this.tokenDetail.balance | formattedAmount | hideText: this.hideFundText }}</ion-label
-          >
+          <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold">{{
+            this.tokenDetail.balance | formattedAmount | hideText: this.hideFundText
+          }}</ion-label>
         </div>
         <div class="wbci__content__bottom">
           <ion-label color="neutral50" class="ux-font-lato ux-fsize-12 ux-fweight-regular"
             >{{ this.tokenDetail.coin.name }}
           </ion-label>
           <ion-label color="neutral50" class="ux-font-lato ux-fsize-12 ux-fweight-regular">
-            {{ this.tokenDetail.price * this.tokenDetail.balance | formattedAmount: 10 : 2 | hideText: this.hideFundText}}
+            {{
+              this.tokenDetail.price * this.tokenDetail.balance | formattedAmount: 10:2 | hideText: this.hideFundText
+            }}
             {{ this.tokenDetail.quoteSymbol }}
           </ion-label>
         </div>
@@ -44,8 +45,8 @@ export class WalletBalanceCardItemComponent implements OnInit {
   @Input() tokenDetail: TokenDetail;
   @Input() last: boolean;
   networkColors = NETWORK_COLORS;
-  
-  constructor(private navController: NavController, private localStorageService : LocalStorageService) {}
+
+  constructor(private navController: NavController, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.subscribeOnHideFunds();
@@ -56,7 +57,6 @@ export class WalletBalanceCardItemComponent implements OnInit {
   }
 
   goToAssetDetail() {
-    
     this.navController.navigateForward(['wallets/asset-detail/', this.tokenDetail.coin.value]);
   }
 }
