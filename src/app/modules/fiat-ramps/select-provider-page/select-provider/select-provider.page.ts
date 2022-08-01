@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
-import { LINKS } from 'src/app/config/static-links';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
@@ -65,7 +64,6 @@ export class SelectProviderPage {
   });
   newOperationRoute: string;
   disabled: boolean;
-  txHistoryLink: string = LINKS.moonpayTransactionHistory;
   coin: Coin;
   providers: FiatRampProvider[];
   operationsList: FiatRampOperation[];

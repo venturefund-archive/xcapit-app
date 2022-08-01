@@ -107,13 +107,15 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   async goToBuy() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
       const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
-      if (this.asset) this.tokenOperationDataService.tokenOperationData = { asset: this.asset, network: this.network };
       if (!conditionsPurchasesAccepted) {
         return this.navController.navigateForward(['fiat-ramps/buy-conditions']);
       } else {
-        this.asset === undefined
-          ? this.navController.navigateForward(['fiat-ramps/token-selection'])
-          : this.navController.navigateForward(['fiat-ramps/select-provider']);
+        if (this.asset) {
+          this.tokenOperationDataService.tokenOperationData = { asset: this.asset, network: this.network };
+          this.navController.navigateForward(['fiat-ramps/select-provider']);
+        } else {
+          this.navController.navigateForward(['fiat-ramps/token-selection']);
+        }
       }
     }
   }
@@ -121,8 +123,10 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   async goToSwap() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
       const termsAndConditions1InchSwapAccepted = await this.storage.get('termsAndConditions1InchSwapAccepted');
-      const url = !termsAndConditions1InchSwapAccepted ? ['swaps/swap-terms-and-conditions'] : defaultSwapsUrls.swapHome;
+      const url = !termsAndConditions1InchSwapAccepted
+        ? ['swaps/swap-terms-and-conditions']
+        : defaultSwapsUrls.swapHome;
       this.navController.navigateForward(url);
     }
-  } 
+  }
 }
