@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { SkipProfileTestComponent } from '../shared-profiles/components/skip-profile-test/skip-profile-test.component';
 
@@ -23,7 +23,12 @@ import { SkipProfileTestComponent } from '../shared-profiles/components/skip-pro
         <div class="ppt__answers">
           <ion-item lines="none" *ngFor="let answer of this.toDoInApp">
             <div class="ppt__answers__item">
-              <app-ux-checkbox divClass="ppt" class="ppt__answers__item__checkbox medium" [controlName]="answer.controlName" slot="start"></app-ux-checkbox>
+              <app-ux-checkbox
+                divClass="ppt"
+                class="ppt__answers__item__checkbox medium"
+                [controlName]="answer.controlName"
+                slot="start"
+              ></app-ux-checkbox>
             </div>
             <div class="ppt__answers__text">
               <ion-text class="ux-font-text-base">
@@ -38,16 +43,16 @@ import { SkipProfileTestComponent } from '../shared-profiles/components/skip-pro
           <ion-text>{{ 'profiles.personalised_profile_test.question_2' | translate }}</ion-text>
         </div>
         <app-ux-radio-group>
-            <ion-radio-group formControlName="radio_option">
-              <div class="ppt__answers-two" *ngFor="let answer of this.cryptoExperience">
-                <ion-item class="ppt__answers-two__item">
-                  <div class="ppt__answers-two__item__text">
-                    <ion-text class="ux-font-text-base">{{ answer.text | translate }}</ion-text> 
-                  </div>
-                  <ion-radio mode="md" slot="start" [value]="answer.value"></ion-radio>
-                </ion-item>
-              </div>
-            </ion-radio-group>
+          <ion-radio-group formControlName="radio_option">
+            <div class="ppt__answers-two" *ngFor="let answer of this.cryptoExperience">
+              <ion-item class="ppt__answers-two__item">
+                <div class="ppt__answers-two__item__text">
+                  <ion-text class="ux-font-text-base">{{ answer.text | translate }}</ion-text>
+                </div>
+                <ion-radio mode="md" slot="start" [value]="answer.value"></ion-radio>
+              </ion-item>
+            </div>
+          </ion-radio-group>
         </app-ux-radio-group>
       </form>
     </ion-content>
@@ -81,13 +86,13 @@ import { SkipProfileTestComponent } from '../shared-profiles/components/skip-pro
 export class PersonalisedProfileTestPage implements OnInit {
   isModalPasswordOpen: boolean;
   isInfoModalOpen = false;
-
+  eventPrefix = 'ux_user_';
   to_do_in_app_form = this.formBuilder.group({
-    option_a: false,
-    option_b: false,
-    option_c: false,
-    option_d: false,
-    option_e: false,
+    investor: false,
+    remote: false,
+    web3: false,
+    gamer: false,
+    other: false,
   });
 
   crypto_experience_form = this.formBuilder.group({
@@ -96,68 +101,88 @@ export class PersonalisedProfileTestPage implements OnInit {
 
   cryptoExperience = [
     {
-      text: 'profiles.personalised_profile_test.crypto_experience.option_a',
-      value: 'option_a',
+      text: 'profiles.personalised_profile_test.crypto_experience.beginner',
+      value: 'beginner',
     },
     {
-      text: 'profiles.personalised_profile_test.crypto_experience.option_b',
-      value: 'option_b',
+      text: 'profiles.personalised_profile_test.crypto_experience.intermediate',
+      value: 'intermediate',
     },
     {
-      text: 'profiles.personalised_profile_test.crypto_experience.option_c',
-      value: 'option_c',
+      text: 'profiles.personalised_profile_test.crypto_experience.advanced',
+      value: 'advanced',
     },
   ];
 
   toDoInApp = [
     {
-      controlName: 'option_a',
-      text: 'profiles.personalised_profile_test.to_do_in_app.option_a',
+      controlName: 'investor',
+      text: 'profiles.personalised_profile_test.to_do_in_app.investor',
     },
     {
-      controlName: 'option_b',
-      text: 'profiles.personalised_profile_test.to_do_in_app.option_b',
+      controlName: 'remote',
+      text: 'profiles.personalised_profile_test.to_do_in_app.remote',
     },
     {
-      controlName: 'option_c',
-      text: 'profiles.personalised_profile_test.to_do_in_app.option_c',
+      controlName: 'web3',
+      text: 'profiles.personalised_profile_test.to_do_in_app.web3',
     },
     {
-      controlName: 'option_d',
-      text: 'profiles.personalised_profile_test.to_do_in_app.option_d',
+      controlName: 'gamer',
+      text: 'profiles.personalised_profile_test.to_do_in_app.gamer',
     },
     {
-      controlName: 'option_e',
-      text: 'profiles.personalised_profile_test.to_do_in_app.option_e',
+      controlName: 'other',
+      text: 'profiles.personalised_profile_test.to_do_in_app.other',
     },
   ];
 
-  constructor(private formBuilder: UntypedFormBuilder, 
+  constructor(
+    private formBuilder: UntypedFormBuilder,
     private trackService: TrackService,
-    private modalController: ModalController,) {}
+    private modalController: ModalController,
+    private navController: NavController
+  ) {}
 
   ngOnInit() {}
 
   submitTest() {
     this.sendToDoInAppEvent();
     this.sendCryptoExperienceEvent();
+    this.navController.navigateRoot(['tabs/home']);
   }
 
   sendEvent(eventLabel: string) {
     this.trackService.trackEvent({
       eventAction: 'test_submit',
       description: window.location.href,
-      eventLabel,
+      eventLabel: this.eventPrefix + eventLabel,
     });
   }
+
   sendToDoInAppEvent() {
-    // TODO: Set correct event
-    this.sendEvent('evento');
+    const formValue = this.to_do_in_app_form.value;
+    let event = 'other';
+    if (formValue.web3) {
+      event = 'web3';
+    } else {
+      if (formValue.gamer) {
+        event = 'gamer';
+      } else {
+        if (formValue.remote) {
+          event = 'remote';
+        } else {
+          if (formValue.investor) {
+            event = 'investor';
+          }
+        }
+      }
+    }
+    return this.sendEvent(event);
   }
 
   sendCryptoExperienceEvent() {
-    // TODO: Set correct event
-    this.sendEvent('evento');
+    return this.sendEvent(this.crypto_experience_form.value.radio_option);
   }
 
   skipTest() {
@@ -188,6 +213,5 @@ export class PersonalisedProfileTestPage implements OnInit {
       await modal.present();
       this.isInfoModalOpen = false;
     }
+  }
 }
-}
-

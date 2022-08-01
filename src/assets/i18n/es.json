@@ -557,16 +557,16 @@
       "question_1":"1. ¿Qué deseas hacer dentro de Xcapit? Elige todas las opciones que consideres",
       "question_2":"2. ¿Cuál es tu nivel de experiencia con criptos?",
       "to_do_in_app": {
-        "option_a": "Diversificar mis inversiones o ahorrar en moneda estable",
-        "option_b": "Recibir cobranzas y realizar pagos",
-        "option_c": "Conectarme a dapps",
-        "option_d": "Conectarme a plataformas de NFTs o juegos P2E",
-        "option_e": "Otro"
+        "investor": "Diversificar mis inversiones o ahorrar en moneda estable",
+        "remote": "Recibir cobranzas y realizar pagos",
+        "web3": "Conectarme a dapps",
+        "gamer": "Conectarme a plataformas de NFTs o juegos P2E",
+        "other": "Otro"
       },
       "crypto_experience": {
-        "option_a": "Estoy comenzando a explorar cripto",
-        "option_b": "Compré criptos y utilicé varias plataformas, pero llevo poco tiempo",
-        "option_c": "Utilizo hace bastante tiempo, pero aún no me considero un experto"
+        "beginner": "Estoy comenzando a explorar cripto",
+        "intermediate": "Compré criptos y utilicé varias plataformas, pero llevo poco tiempo",
+        "advanced": "Utilizo hace bastante tiempo, pero aún no me considero un experto"
       },
       "button_primary":"Enviar",
       "button_secondary":"Hacerlo en otro momento"
