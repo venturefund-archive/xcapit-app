@@ -18,6 +18,7 @@ import { LocalNotificationsService } from '../../../notifications/shared-notific
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { FakeNavController } from '../../../../../testing/fakes/nav-controller.fake.spec';
 import { BigNumber, constants } from 'ethers';
+import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 
 const testLocalNotification: LocalNotificationSchema = {
   id: 1,
@@ -192,7 +193,7 @@ describe('SendSummaryPage', () => {
   it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
     component.summaryData = summaryData;
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
-    walletTransactionsServiceSpy.send.and.rejectWith({ message: 'invalid password' });
+    walletTransactionsServiceSpy.send.and.rejectWith({ message: new PasswordErrorMsgs().invalid() });
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(

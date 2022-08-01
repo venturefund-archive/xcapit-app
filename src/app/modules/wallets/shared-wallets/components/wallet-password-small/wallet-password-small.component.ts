@@ -5,6 +5,7 @@ import { WalletEncryptionService } from '../../services/wallet-encryption/wallet
 import { WalletMnemonicService } from '../../services/wallet-mnemonic/wallet-mnemonic.service';
 import { LoadingService } from '../../../../../shared/services/loading/loading.service';
 import { TranslateService } from '@ngx-translate/core';
+import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 
 @Component({
   selector: 'app-wallet-password-small',
@@ -88,7 +89,7 @@ export class WalletPasswordSmallComponent implements OnInit {
           this.modalController.dismiss();
         })
         .catch((error) => {
-          if (error.message === 'invalid password') {
+          if (new PasswordErrorMsgs().isInvalidError(error)) {
             this.showAlert();
           }
         })

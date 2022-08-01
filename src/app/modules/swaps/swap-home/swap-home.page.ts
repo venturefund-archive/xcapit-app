@@ -38,6 +38,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { SwapInProgressModalComponent } from '../../wallets/shared-wallets/components/swap-in-progress-modal/swap-in-progress-modal.component';
+import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-error-msgs';
 
 @Component({
   selector: 'app-swap-home',
@@ -134,8 +135,7 @@ import { SwapInProgressModalComponent } from '../../wallets/shared-wallets/compo
         </div>
       </div>
       <div class="sw__checkbox ion-padding">
-        <app-terms-and-conditions-check disabled="true">
-        </app-terms-and-conditions-check>
+        <app-terms-and-conditions-check disabled="true"> </app-terms-and-conditions-check>
       </div>
     </ion-content>
 
@@ -203,7 +203,7 @@ export class SwapHomePage {
     private trackService: TrackService,
     private passwordErrorHandlerService: PasswordErrorHandlerService,
     private toastService: ToastService,
-    private translate: TranslateService,
+    private translate: TranslateService
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -344,17 +344,21 @@ export class SwapHomePage {
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
       .then(() => {
-        const notification = this.createNotification('swap_ok');
-        this.notifyWhenSwap(notification);
+        this.notifyWhenSwap(this.createNotification('swap_ok'));
       })
-      .catch((err) => {
-        this.passwordErrorHandlerService.handlePasswordError(err, () => {
-          this.showPasswordError();
-        });
+      .catch((err: Error) => {
+        this.handleError(err);
         this.resetMainButton();
-        const notification = this.createNotification('swap_not_ok');
-        this.notifyWhenSwap(notification);
       });
+  }
+
+  private handleError(err: Error) {
+    this.passwordErrorHandlerService.handlePasswordError(err, () => {
+      this.showPasswordError();
+    });
+    if (!new PasswordErrorMsgs().isAPassError(err)) {
+      this.notifyWhenSwap(this.createNotification('swap_not_ok'));
+    }
   }
 
   private async showPasswordError() {

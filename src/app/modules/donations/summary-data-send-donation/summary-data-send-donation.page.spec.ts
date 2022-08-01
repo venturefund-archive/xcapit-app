@@ -14,6 +14,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 import { WalletTransactionsService } from '../../wallets/shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { SendDonationDataService } from '../shared-donations/services/send-donation-data.service';
 import { SummaryDataSendDonationPage } from './summary-data-send-donation.page';
@@ -140,7 +141,7 @@ describe('SummaryDataSendDonationPage', () => {
 
   it('should navigate to error page when modal is closed and password is incorrect', async () => {
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
-    walletTransactionsServiceSpy.send.and.rejectWith({ message: 'invalid password' });
+    walletTransactionsServiceSpy.send.and.rejectWith({ message: new PasswordErrorMsgs().invalid() });
     fixture.debugElement.query(By.css('ion-button[name="ux_donations_send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(

@@ -36,19 +36,21 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
+import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-error-msgs';
+
 
 const testLocalNotificationOk: LocalNotificationSchema = {
   id: 1,
   title: 'swaps.sent_notification.swap_ok.title',
   body: 'swaps.sent_notification.swap_ok.body',
-  actionTypeId: 'SWAP'
+  actionTypeId: 'SWAP',
 };
 
 const testLocalNotificationNotOk: LocalNotificationSchema = {
   id: 1,
   title: 'swaps.sent_notification.swap_not_ok.title',
   body: 'swaps.sent_notification.swap_not_ok.body',
-  actionTypeId: 'SWAP'
+  actionTypeId: 'SWAP',
 };
 
 describe('SwapHomePage', () => {
@@ -85,8 +87,8 @@ describe('SwapHomePage', () => {
     selectTokenkey,
   ];
   const formValue = {
-    fromTokenAmount: 1
-  }
+    fromTokenAmount: 1,
+  };
 
   const _setTokenAmountArrange = (fromTokenAmount: number) => {
     component.ionViewDidEnter();
@@ -95,92 +97,95 @@ describe('SwapHomePage', () => {
     component.form.patchValue({ fromTokenAmount: fromTokenAmount });
     tick(501);
     fixture.detectChanges();
-  }
+  };
 
-  beforeEach(
-    waitForAsync(() => {
-      fakeActivatedRoute = new FakeActivatedRoute({
-        blockchain: rawBlockchain.name,
-        fromToken: fromToken.contract,
-        toToken: toToken.contract,
-      });
-      activatedRouteSpy = fakeActivatedRoute.createSpy();
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
-        create: new Blockchains(new BlockchainRepo(rawBlockchainsData)),
-      });
-      oneInchFactorySpy = jasmine.createSpyObj('OneInchFactory', {
-        create: { swapInfo: () => Promise.resolve(rawSwapInfoData) },
-      });
-      fakeModalController = new FakeModalController({}, { data: 'aPasswordString' });
-      modalControllerSpy = fakeModalController.createSpy();
+  const _setWalletToInvalidPassword = () => {
+    walletsFactorySpy.create.and.returnValue({
+      oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), new PasswordErrorMsgs().invalid())),
+    });
+  };
 
-      intersectedTokensFactorySpy = jasmine.createSpyObj('IntersectedTokensFactory', {
-        create: new DefaultTokens(new TokenRepo(rawTokensData)),
-      });
+  beforeEach(waitForAsync(() => {
+    fakeActivatedRoute = new FakeActivatedRoute({
+      blockchain: rawBlockchain.name,
+      fromToken: fromToken.contract,
+      toToken: toToken.contract,
+    });
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: new Blockchains(new BlockchainRepo(rawBlockchainsData)),
+    });
+    oneInchFactorySpy = jasmine.createSpyObj('OneInchFactory', {
+      create: { swapInfo: () => Promise.resolve(rawSwapInfoData) },
+    });
+    fakeModalController = new FakeModalController({}, { data: 'aPasswordString' });
+    modalControllerSpy = fakeModalController.createSpy();
 
-      walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
-        create: { oneBy: () => Promise.resolve(new FakeWallet()) },
-      });
+    intersectedTokensFactorySpy = jasmine.createSpyObj('IntersectedTokensFactory', {
+      create: new DefaultTokens(new TokenRepo(rawTokensData)),
+    });
 
-      swapTransactionsFactorySpy = jasmine.createSpyObj('SwapTransactionsFactory', {
-        create: { blockchainTxs: () => [new FakeBlockchainTx()] },
-      });
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+    });
 
-      gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
-        create: { price: () => ({ fast: () => Promise.resolve(new AmountOf('1', new DefaultToken(rawMATICData))) }) }
-      });
+    swapTransactionsFactorySpy = jasmine.createSpyObj('SwapTransactionsFactory', {
+      create: { blockchainTxs: () => [new FakeBlockchainTx()] },
+    });
 
-      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
-        trackEvent: Promise.resolve(true),
-      });
+    gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
+      create: { price: () => ({ fast: () => Promise.resolve(new AmountOf('1', new DefaultToken(rawMATICData))) }) },
+    });
 
-      localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
-        send: Promise.resolve(),
-        registerActionTypes: Promise.resolve(),
-        addListener: (callback)=> {
-          callback()
-        }
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
 
-      });
-      toastServiceSpy = jasmine.createSpyObj('ToastService', {
-        showErrorToast: Promise.resolve(),
-        showWarningToast: Promise.resolve(),
-      });
+    localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
+      send: Promise.resolve(),
+      registerActionTypes: Promise.resolve(),
+      addListener: (callback) => {
+        callback();
+      },
+    });
+    toastServiceSpy = jasmine.createSpyObj('ToastService', {
+      showErrorToast: Promise.resolve(),
+      showWarningToast: Promise.resolve(),
+    });
 
-      TestBed.configureTestingModule({
-        declarations: [SwapHomePage, FormattedAmountPipe, FakeTrackClickDirective,],
-        imports: [
-          TranslateModule.forRoot(),
-          IonicModule.forRoot(),
-          RouterTestingModule,
-          ReactiveFormsModule,
-          HttpClientTestingModule,
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [
-          { provide: TrackService, useValue: trackServiceSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
-          { provide: IntersectedTokensFactory, useValue: intersectedTokensFactorySpy },
-          { provide: OneInchFactory, useValue: oneInchFactorySpy },
-          { provide: ModalController, useValue: modalControllerSpy },
-          { provide: WalletsFactory, useValue: walletsFactorySpy },
-          { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
-          { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
-          { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
-          { provide: ToastService, useValue: toastServiceSpy },
-        ],
-      }).compileComponents();
+    TestBed.configureTestingModule({
+      declarations: [SwapHomePage, FormattedAmountPipe, FakeTrackClickDirective],
+      imports: [
+        TranslateModule.forRoot(),
+        IonicModule.forRoot(),
+        RouterTestingModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [
+        { provide: TrackService, useValue: trackServiceSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: IntersectedTokensFactory, useValue: intersectedTokensFactorySpy },
+        { provide: OneInchFactory, useValue: oneInchFactorySpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: WalletsFactory, useValue: walletsFactorySpy },
+        { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
+        { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
+        { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
+        { provide: ToastService, useValue: toastServiceSpy },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(SwapHomePage);
-      component = fixture.componentInstance;
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(SwapHomePage);
+    component = fixture.componentInstance;
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -275,16 +280,8 @@ describe('SwapHomePage', () => {
   }));
 
   it('password modal open on click swap button and password is invalid', fakeAsync(() => {
-    walletsFactorySpy.create.and.returnValue(
-      { oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'invalid password')) }
-    );
-    component.ionViewDidEnter();
-    tick();
-    fixture.detectChanges();
-
-    component.form.patchValue(formValue);
-    fixture.detectChanges();
-    tick(600);
+    _setWalletToInvalidPassword();
+    _setTokenAmountArrange(1);
 
     component.swapThem();
     tick(2);
@@ -293,36 +290,47 @@ describe('SwapHomePage', () => {
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
   }));
 
-  it('should send success notification when swap is ok', fakeAsync ( () => {
-    component.ionViewDidEnter();
-    fixture.detectChanges();
-    tick();
-
-    component.form.patchValue(formValue);
-    fixture.detectChanges();
-    tick(600);
-
+  it('should send success notification when swap is ok', fakeAsync(() => {
+    _setTokenAmountArrange(1);
     component.swapThem();
     tick(2);
 
-    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([ testLocalNotificationOk]);
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotificationOk]);
   }));
 
   it('should send error notification when swap is not ok', fakeAsync(() => {
-    walletsFactorySpy.create.and.returnValue(
-      { oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'invalid password')) }
-    );
-    component.ionViewDidEnter();
-    tick();
-    component.form.patchValue(formValue);
-    fixture.detectChanges();
-    tick(600);
     fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
+    walletsFactorySpy.create.and.returnValue({
+      oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'a random error')),
+    });
+    _setTokenAmountArrange(1);
     fixture.detectChanges();
 
     component.swapThem();
     tick(2);
 
-    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([ testLocalNotificationNotOk]);
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotificationNotOk]);
+  }));
+
+  it('should dont send notificaion on invalid password', fakeAsync(() => {
+    _setWalletToInvalidPassword();
+    _setTokenAmountArrange(1);
+    fixture.detectChanges();
+
+    component.swapThem();
+    tick(2);
+
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledTimes(0);
+  }));
+
+  it('should do nothing on close modal password/empty password', fakeAsync(() => {
+    fakeModalController.modifyReturns({}, { data: '' });
+    _setTokenAmountArrange(1);
+    fixture.detectChanges();
+
+    component.swapThem();
+    tick(2);
+
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledTimes(0);
   }));
 });
