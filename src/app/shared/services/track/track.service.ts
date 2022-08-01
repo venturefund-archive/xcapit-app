@@ -23,5 +23,5 @@ export abstract class TrackService {
   abstract trackLogin(userId?: string): void;
   abstract trackSignUp(userId?: string): void;
   abstract trackView(data: DataToTrackView): void;
-  abstract trackEvent(data: DataToTrackEvent): void;
+  abstract trackEvent(data: DataToTrackEvent, customParams?: any): void;
 }

@@ -34,7 +34,7 @@ export class NativeFirebaseLogsService implements TrackService {
 
   trackView(data: DataToTrackView): void {}
 
-  trackEvent(data: DataToTrackEvent): void {
+  trackEvent(data: DataToTrackEvent, customParams: any={}): void {
     if (data.eventLabel.startsWith('ux_'))
       this.firebaseAnalytics.logEvent({
         name: data.eventLabel,
@@ -43,6 +43,7 @@ export class NativeFirebaseLogsService implements TrackService {
           action: data.eventAction,
           value: data.eventValue,
           category: data.eventCategory,
+          ...customParams
         },
       });
   }
