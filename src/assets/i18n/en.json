@@ -579,6 +579,14 @@
       },
       "button_primary":"Submit",
       "button_secondary":"Do it at another time"
+    },
+    "shared_profiles":{
+      "skip_profile_test": {
+        "title":"Wait!",
+        "description":"Your progress will not be maintained if you leave the form.",
+        "button_back":"Back",
+        "button_out":"Exit"
+      }
     }
   },
   "tutorials": {

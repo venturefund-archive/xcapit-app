@@ -570,6 +570,14 @@
       },
       "button_primary":"Enviar",
       "button_secondary":"Hacerlo en otro momento"
+    },
+    "shared_profiles":{
+      "skip_profile_test": {
+        "title":"¡Espera!",
+        "description":"No se mantendrán tus avances si abandonas el formulario.",
+        "button_back":"Atrás",
+        "button_out":"Salir"
+      }
     }
   },
   "tutorials": {

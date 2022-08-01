@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { SkipProfileTestComponent } from '../shared-profiles/components/skip-profile-test/skip-profile-test.component';
 
 @Component({
   selector: 'app-personalised-profile-test',
@@ -77,6 +79,9 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
   styleUrls: ['./personalised-profile-test.page.scss'],
 })
 export class PersonalisedProfileTestPage implements OnInit {
+  isModalPasswordOpen: boolean;
+  isInfoModalOpen = false;
+
   to_do_in_app_form = this.formBuilder.group({
     option_a: false,
     option_b: false,
@@ -127,7 +132,9 @@ export class PersonalisedProfileTestPage implements OnInit {
     },
   ];
 
-  constructor(private formBuilder: UntypedFormBuilder, private trackService: TrackService) {}
+  constructor(private formBuilder: UntypedFormBuilder, 
+    private trackService: TrackService,
+    private modalController: ModalController,) {}
 
   ngOnInit() {}
 
@@ -155,7 +162,7 @@ export class PersonalisedProfileTestPage implements OnInit {
 
   skipTest() {
     if (this.crypto_experience_form.valid || this.isToDoInAppFormValid()) {
-      // TODO: Open modal
+      this.showSkipProfileTest();
     }
   }
 
@@ -168,4 +175,19 @@ export class PersonalisedProfileTestPage implements OnInit {
       .map((option) => option.value)
       .some((value) => value);
   }
+
+  async showSkipProfileTest() {
+    if (this.isInfoModalOpen === false) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: SkipProfileTestComponent,
+        componentProps: {},
+        cssClass: 'ux-modal-skip-profile-test',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
 }
+}
+
