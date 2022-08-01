@@ -12,6 +12,7 @@ import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract
 import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { WalletPasswordComponent } from '../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
+import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 
 @Component({
   selector: 'app-summary-data-send-donation',
@@ -167,17 +168,13 @@ export class SummaryDataSendDonationPage implements OnInit {
   }
 
   private async handleSendError(error) {
-    if (this.isInvalidPasswordError(error)) {
+    if (new PasswordErrorMsgs().isInvalidError(error)) {
       await this.handleInvalidPassword();
     } else if (this.isNotEnoughBalanceError(error)) {
       await this.handleNotEnoughBalance();
     } else {
       throw error;
     }
-  }
-
-  private isInvalidPasswordError(error) {
-    return error.message === 'invalid password';
   }
 
   private isNotEnoughBalanceError(error) {

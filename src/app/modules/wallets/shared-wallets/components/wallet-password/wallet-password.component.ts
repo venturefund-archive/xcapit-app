@@ -67,7 +67,7 @@ export class WalletPasswordComponent implements OnInit {
   });
 
   get trackClickEventName(): string {
-    if (this.state) 
+    if (this.state)
       return `ux_${this.state}_confirm_password`;
 
     return 'Confirm Password';

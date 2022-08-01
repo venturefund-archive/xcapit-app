@@ -28,6 +28,7 @@ import {
 } from '../shared-wallets/constants/coins.test';
 import { SELECT_COINS_FORM_DATA } from './form-data.spec';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 
 const modeTestsData = [
   {
@@ -383,7 +384,7 @@ describe('SelectCoinsWalletPage', () => {
 
               it('should show toast if password is incorrect on form submit', fakeAsync(() => {
                 const spy = spyOn(component, 'showInvalidPasswordToast');
-                walletMaintenanceServiceSpy.updateWalletNetworks.and.throwError('invalid password');
+                walletMaintenanceServiceSpy.updateWalletNetworks.and.throwError(new PasswordErrorMsgs().invalid());
                 fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
                 fixture.detectChanges();
                 tick();

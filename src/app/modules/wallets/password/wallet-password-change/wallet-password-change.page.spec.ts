@@ -10,6 +10,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { WalletEncryptionService } from '../../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 
 const formData = {
   valid: {
@@ -162,7 +163,7 @@ describe('WalletPasswordChangePage', () => {
   });
 
   it('should show error message if old password is incorrect', async () => {
-    walletEncryptionServiceSpy.changePassword.and.rejectWith(new Error('invalid password'));
+    walletEncryptionServiceSpy.changePassword.and.rejectWith(new Error(new PasswordErrorMsgs().invalid()));
     component.changePasswordForm.patchValue(formData.valid);
     await component.handleSubmit();
     await fixture.whenStable();
