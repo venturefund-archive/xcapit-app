@@ -34,17 +34,29 @@ export class NativeFirebaseLogsService implements TrackService {
 
   trackView(data: DataToTrackView): void {}
 
-  trackEvent(data: DataToTrackEvent, customParams: any={}): void {
+  trackEvent(data: DataToTrackEvent): void {
+    const copy = Object.assign({}, data)
     if (data.eventLabel.startsWith('ux_'))
-      this.firebaseAnalytics.logEvent({
+    this.firebaseAnalytics.logEvent({
         name: data.eventLabel,
         params: {
-          name: data.eventLabel,
-          action: data.eventAction,
-          value: data.eventValue,
-          category: data.eventCategory,
-          ...customParams
+          name: this.pop(copy, 'eventLabel'),
+          action: this.pop(copy, 'eventAction'),
+          value:  this.pop(copy, 'eventValue'),
+          category: this.pop(copy, 'eventCategory'),
+          ...copy
         },
       });
+  }
+
+  pop(obj: any, key: string, defaultValue: any = null) {
+    let value;
+    if (obj.hasOwnProperty(key)) {
+      value = obj[key];
+      delete obj[key];
+    } else {
+      value = defaultValue;
+    }
+    return value;
   }
 }
