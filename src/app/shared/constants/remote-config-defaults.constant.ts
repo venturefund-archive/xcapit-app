@@ -9,5 +9,6 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_homeWalletBackupWarningModal: false,
   ff_educationCardAvailable: false,
   investmentProducts: undefined,
-  onOffRampsProviders: undefined
+  onOffRampsProviders: undefined,
+  ff_newLogin: true,
 };

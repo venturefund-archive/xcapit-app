@@ -1,0 +1,60 @@
+:host {
+  .ob {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 80px 16px 0;
+    background-image: url('../../../../assets/img/on-boarding/bg.svg');
+    background-color: #0d0a2c;
+    background-size: cover;
+    background-repeat: no-repeat;
+    justify-content: space-between;
+
+    &__swiper {
+      min-height: 290px;
+
+      &__slide {
+        height: 290px;
+        display: flex;
+        flex-direction: column;
+
+        &__img {
+          width: 84px;
+        }
+
+        &__title,
+        &__description {
+          color: var(--ion-color-white);
+        }
+
+        &__title {
+          margin-top: 16px;
+        }
+
+        &__description {
+          margin-top: 24px;
+        }
+      }
+    }
+
+    &__arrows {
+      &_initial {
+        justify-content: flex-end;
+      }
+
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+    }
+
+    &__actions {
+      display: flex;
+      flex-direction: column;
+
+      &__secondary {
+        text-decoration: none;
+        margin-top: 8px;
+      }
+    }
+  }
+}
