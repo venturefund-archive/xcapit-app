@@ -89,6 +89,7 @@ export class PersonalisedProfileTestPage implements OnInit {
   toDoEventToSend: string;
   cryptoEventToSend: string;
   key = 'profileTestCompleted';
+  successProfileTestUrl = '/profiles/success-profile-test'
   to_do_in_app_form = this.formBuilder.group({
     investor: false,
     remote: false,
@@ -153,7 +154,7 @@ export class PersonalisedProfileTestPage implements OnInit {
     this.sendToDoInAppEvent();
     this.sendCryptoExperienceEvent();
     this.appStorageService.set(this.key, true);
-    this.navController.navigateRoot(['/profiles/success-profile-test']);
+    this.navController.navigateRoot([this.successProfileTestUrl]);
   }
 
   sendEvent(eventLabel: string) {

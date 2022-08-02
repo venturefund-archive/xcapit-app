@@ -163,6 +163,6 @@ describe('PersonalisedProfileTestPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Submit test"]')).nativeElement.click();
     fixture.detectChanges();
     expect(appStorageServiceSpy.set).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/profiles/success-profile-test']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith([component.successProfileTestUrl]);
   });
 });

@@ -40,13 +40,15 @@ import { ModalController, NavController } from '@ionic/angular';
   styleUrls: ['./skip-profile-test.component.scss'],
 })
 export class SkipProfileTestComponent implements OnInit {
-  constructor(private modalController: ModalController, private navController: NavController) {}
+  homeWalletUrl = '/tabs/wallets'
+  constructor(private modalController: ModalController, 
+  private navController: NavController) {}
 
   ngOnInit() {}
 
   handleSubmit() {
     this.close();
-    this.navController.navigateRoot(['/tabs/wallets']);
+    this.navController.navigateRoot([this.homeWalletUrl]);
   }
 
   close() {

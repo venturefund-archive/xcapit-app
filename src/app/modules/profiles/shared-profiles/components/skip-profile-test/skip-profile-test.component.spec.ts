@@ -42,7 +42,7 @@ describe('SkipProfileTestComponent', () => {
     fixture.debugElement.query(By.css('ion-button[name="out_skip_test"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/wallets']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith([component.homeWalletUrl]);
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
