@@ -165,18 +165,12 @@ export class PersonalisedProfileTestPage implements OnInit {
     let event = 'other';
     if (formValue.web3) {
       event = 'web3';
-    } else {
-      if (formValue.gamer) {
-        event = 'gamer';
-      } else {
-        if (formValue.remote) {
-          event = 'remote';
-        } else {
-          if (formValue.investor) {
-            event = 'investor';
-          }
-        }
-      }
+    } else if (formValue.gamer) {
+      event = 'gamer';
+    } else if (formValue.remote) {
+      event = 'remote';
+    } else if (formValue.investor) {
+      event = 'investor';
     }
     return this.sendEvent(event);
   }
