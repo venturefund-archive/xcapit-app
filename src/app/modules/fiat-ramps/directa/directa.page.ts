@@ -11,6 +11,7 @@ import { ProvidersFactory } from '../shared-ramps/models/providers/factory/provi
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
+import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 
 @Component({
   selector: 'app-directa',
@@ -38,30 +39,30 @@ import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/
             [coinSelectorEnabled]="false"
           ></app-provider-new-operation-card>
         </div>
-
-        <div class="ux_footer">
-          <div class="ux_footer__content">
-            <ion-text class="ux-font-text-xs ux_footer__content__disclaimer"
-              >{{ 'fiat_ramps.shared.redirect_footer.text' | translate }}
-            </ion-text>
-          </div>
-          <div class="button-next">
-            <ion-button
-              class="ux_button"
-              appTrackClick
-              name="Continue"
-              type="submit"
-              color="secondary"
-              size="large"
-              [disabled]="!this.form.valid"
-              (click)="this.openD24()"
-            >
-              {{ 'fiat_ramps.new_operation.next_button' | translate }}
-            </ion-button>
-          </div>
-        </div>
       </form>
     </ion-content>
+    <ion-footer>
+      <div class="ux_footer ion-padding">
+        <div class="ux_footer__content">
+          <ion-text class="ux-font-text-xs ux_footer__content__disclaimer"
+            >{{ 'fiat_ramps.shared.redirect_footer.text' | translate }}
+          </ion-text>
+        </div>
+        <div class="button-next">
+          <ion-button
+            class="ux_button"
+            appTrackClick
+            name="Continue"
+            color="secondary"
+            size="large"
+            [disabled]="!this.form.valid"
+            (click)="this.openD24()"
+          >
+            {{ 'fiat_ramps.new_operation.next_button' | translate }}
+          </ion-button>
+        </div>
+      </div>
+    </ion-footer>
   `,
   styleUrls: ['./directa.page.scss'],
 })
@@ -83,7 +84,8 @@ export class DirectaPage implements OnInit {
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
-    private walletMaintenance: WalletMaintenanceService
+    private walletMaintenance: WalletMaintenanceService,
+    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   ngOnInit() {}
@@ -97,13 +99,14 @@ export class DirectaPage implements OnInit {
 
   setCountry() {
     this.country = this.countries.find(
-      (country) => country.isoCodeAlpha3 === this.route.snapshot.queryParamMap.get('country')
+      (country) => country.isoCodeAlpha3 === this.tokenOperationDataService.tokenOperationData.country
     );
   }
 
   setCurrency() {
     this.tokens = this.providerTokens();
-    this.selectedCurrency = this.tokens.find((token) => token.value === 'USDC' && token.network === 'MATIC');
+    const { asset, network } = this.tokenOperationDataService.tokenOperationData;
+    this.selectedCurrency = this.tokens.find((token) => token.value === asset && token.network === network);
   }
 
   providerTokens() {

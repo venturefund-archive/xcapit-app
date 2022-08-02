@@ -1,4 +1,9 @@
 :host {
+  ion-toolbar {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
   .operations-list {
     margin-bottom: 24px;
   }
@@ -13,6 +18,12 @@
     &__link {
       color: var(--ion-color-neutral80);
       height: 16.42px;
+    }
+  }
+
+  .sp {
+    &__footer {
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
     }
   }
 }

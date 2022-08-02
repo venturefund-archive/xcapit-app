@@ -6,8 +6,6 @@
 
   .spc {
     &__select {
-      margin-bottom: 12px;
-
       &__label-provider {
         margin-bottom: 8px;
       }
@@ -15,6 +13,19 @@
       &__placeholder {
         font-size: 12px;
       }
+    }
+
+    &__providers {
+      margin-top: 24px;
+    }
+
+    &__no_providers {
+      display: grid;
+      flex-direction: column;
+      text-align: center;
+      justify-items: center;
+      gap: 4px;
+      margin-top: 36px;
     }
   }
 

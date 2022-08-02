@@ -10,7 +10,6 @@ import {
 } from '../shared-ramps/services/operation/storage-operation.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
@@ -23,6 +22,7 @@ import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynam
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
+import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 @Component({
   selector: 'app-operations-new',
   template: `
@@ -38,14 +38,14 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
     </ion-header>
 
     <ion-content class="ion-padding">
-      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
+      <form [formGroup]="this.form" class="ux_main">
         <div class="ux_content aon">
           <app-provider-new-operation-card
             *ngIf="this.selectedCurrency && this.fiatCurrency"
             [coin]="this.selectedCurrency"
             [fiatCurrency]="this.fiatCurrency"
             [provider]="this.provider"
-            (changeCurrency)="this.changeCurrency()"
+            [coinSelectorEnabled]="false"
           ></app-provider-new-operation-card>
 
           <div class="aon__disclaimer">
@@ -78,24 +78,25 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
             </ion-item>
           </div>
         </div>
-
-        <div class="ux_footer">
-          <div class="button-next">
-            <ion-button
-              class="ux_button"
-              appTrackClick
-              name="ux_buy_kripton_continue"
-              type="submit"
-              color="secondary"
-              size="large"
-              [disabled]="!this.form.valid"
-            >
-              {{ 'fiat_ramps.new_operation.next_button' | translate }}
-            </ion-button>
-          </div>
-        </div>
       </form>
     </ion-content>
+    <ion-footer>
+      <div class="ux_footer ion-padding">
+        <div class="button-next">
+          <ion-button
+            class="ux_button"
+            appTrackClick
+            (click)="this.handleSubmit()"
+            name="ux_buy_kripton_continue"
+            color="secondary"
+            size="large"
+            [disabled]="!this.form.valid"
+          >
+            {{ 'fiat_ramps.new_operation.next_button' | translate }}
+          </ion-button>
+        </div>
+      </div>
+    </ion-footer>
   `,
   styleUrls: ['./operations-new.page.scss'],
 })
@@ -113,9 +114,9 @@ export class OperationsNewPage implements AfterViewInit {
   form: UntypedFormGroup = this.formBuilder.group({
     cryptoAmount: ['', [Validators.required]],
     fiatAmount: ['', [Validators.required]],
-    thirdPartyKYC: [false, [Validators.required]],
-    thirdPartyTransaction: [false, [Validators.required]],
-    acceptTOSAndPrivacyPolicy: [false, [Validators.required]],
+    thirdPartyKYC: [false, [Validators.requiredTrue]],
+    thirdPartyTransaction: [false, [Validators.requiredTrue]],
+    acceptTOSAndPrivacyPolicy: [false, [Validators.requiredTrue]],
   });
 
   constructor(
@@ -126,12 +127,12 @@ export class OperationsNewPage implements AfterViewInit {
     private storageOperationService: StorageOperationService,
     private walletEncryptionService: WalletEncryptionService,
     private apiWalletService: ApiWalletService,
-    private route: ActivatedRoute,
     private elementRef: ElementRef,
     private browserService: BrowserService,
     private http: HttpClient,
     private kriptonDynamicPrice: KriptonDynamicPriceFactory,
-    private providers: ProvidersFactory
+    private providers: ProvidersFactory,
+    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   ngAfterViewInit() {
@@ -207,17 +208,15 @@ export class OperationsNewPage implements AfterViewInit {
 
   setCountry() {
     this.country = COUNTRIES.find(
-      (country) => country.isoCodeAlpha3 === this.route.snapshot.queryParamMap.get('country')
+      (country) => country.isoCodeAlpha3 === this.tokenOperationDataService.tokenOperationData.country
     );
   }
 
   async setCurrency() {
-    const asset = this.route.snapshot.queryParamMap.get('asset');
-    const network = this.route.snapshot.queryParamMap.get('network');
-    this.selectedCurrency =
-      asset && network
-        ? this.providerTokens.find((currency) => currency.value === asset && currency.network === network)
-        : this.providerTokens[0];
+    const { asset, network } = this.tokenOperationDataService.tokenOperationData;
+    this.selectedCurrency = this.providerTokens.find(
+      (currency) => currency.value === asset && currency.network === network
+    );
     this.fiatCurrency = this.country.fiatCode ? this.country.fiatCode : 'USD';
   }
 
@@ -283,20 +282,5 @@ export class OperationsNewPage implements AfterViewInit {
   redirectByStatus(userStatus) {
     const url = this.getUrlByStatus(userStatus.registration_status);
     this.navController.navigateForward(url);
-  }
-
-  changeCurrency(): void {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        country: this.country.isoCodeAlpha3,
-      },
-    };
-
-    this.navController.navigateForward(['/fiat-ramps/token-selection', this.provider.alias], navigationExtras);
-  }
-
-  ionViewWillLeave() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

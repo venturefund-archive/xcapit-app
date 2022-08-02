@@ -1,9 +1,8 @@
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
-
 import { OperationsNewPage } from './operations-new.page';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
@@ -14,7 +13,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { ReactiveFormsModule } from '@angular/forms';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
@@ -23,6 +22,7 @@ import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynam
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
 
 const links =
@@ -59,78 +59,90 @@ describe('OperationsNewPage', () => {
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
   let priceSubject: Subject<number>;
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+  beforeEach(
+    waitForAsync(() => {
+      navControllerSpy = new FakeNavController().createSpy();
+      storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
+        updateData: null,
+      });
+      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+        getUserWallets: of({}),
+        checkUser: of({}),
+        createUser: of({}),
+        setProvider: null,
+      });
 
-  beforeEach(waitForAsync(() => {
-    navControllerSpy = new FakeNavController().createSpy();
-    storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
-      updateData: null,
-    });
-    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      getUserWallets: of({}),
-      checkUser: of({}),
-      createUser: of({}),
-      setProvider: null,
-    });
+      coinsSpy = [
+        jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' }),
+        jasmine.createSpyObj('Coin', {}, { value: 'DAI', network: 'MATIC' }),
+      ];
 
-    coinsSpy = [
-      jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' }),
-      jasmine.createSpyObj('Coin', {}, { value: 'DAI', network: 'MATIC' }),
-    ];
+      fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'ARS' });
+      activatedRouteSpy = fakeActivatedRoute.createSpy();
 
-    fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'ARS' });
-    activatedRouteSpy = fakeActivatedRoute.createSpy();
+      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
 
-    browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
+      walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
+        getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x00000000000000' } }),
+      });
 
-    walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-      getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x00000000000000' } }),
-    });
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+        getCoins: coinsSpy,
+      });
 
-    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getCoins: coinsSpy,
-    });
+      priceSubject = new Subject<number>();
 
-    priceSubject = new Subject<number>();
+      kriptonDynamicPriceSpy = jasmine.createSpyObj('KriptonDynamicPrice', {
+        value: priceSubject,
+      });
 
-    kriptonDynamicPriceSpy = jasmine.createSpyObj('KriptonDynamicPrice', {
-      value: priceSubject,
-    });
+      kriptonDynamicPriceFactorySpy = jasmine.createSpyObj('KriptonDynamicPriceFactory', {
+        new: kriptonDynamicPriceSpy,
+      });
 
-    kriptonDynamicPriceFactorySpy = jasmine.createSpyObj('KriptonDynamicPriceFactory', {
-      new: kriptonDynamicPriceSpy,
-    });
+      providersSpy = jasmine.createSpyObj('Providers', {
+        all: rawProvidersData,
+        byAlias: rawProvidersData.find((provider) => provider.alias === 'kripton'),
+      });
 
-    providersSpy = jasmine.createSpyObj('Providers', {
-      all: rawProvidersData,
-      byAlias: rawProvidersData.find((provider) => provider.alias === 'kripton'),
-    });
+      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+        create: providersSpy,
+      });
 
-    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
-      create: providersSpy,
-    });
+      tokenOperationDataServiceSpy = jasmine.createSpyObj(
+        'TokenOperationDataService',
+        {},
+        {
+          tokenOperationData: { asset: 'DAI', network: 'MATIC', country: 'ARS' },
+        }
+      );
 
-    TestBed.configureTestingModule({
-      declarations: [OperationsNewPage, FakeTrackClickDirective],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
-      providers: [
-        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-        { provide: StorageOperationService, useValue: storageOperationServiceSpy },
-        { provide: NavController, useValue: navControllerSpy },
-        { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
-        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy },
-        { provide: BrowserService, useValue: browserServiceSpy },
-        { provide: KriptonDynamicPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
-        { provide: ProvidersFactory, useValue: providersFactorySpy },
-      ],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [OperationsNewPage, FakeTrackClickDirective],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
+        providers: [
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+          { provide: StorageOperationService, useValue: storageOperationServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: ActivatedRoute, useValue: activatedRouteSpy },
+          { provide: BrowserService, useValue: browserServiceSpy },
+          { provide: KriptonDynamicPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
+          { provide: ProvidersFactory, useValue: providersFactorySpy },
+          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OperationsNewPage);
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    fakeActivatedRoute.modifySnapshotParams({}, { network: 'MATIC', asset: 'MATIC', country: 'ARS' });
     component.price = 10;
     fixture.detectChanges();
   });
@@ -150,21 +162,9 @@ describe('OperationsNewPage', () => {
       isoCodeAlpha3: 'ARS',
       directaCode: 'AR',
     });
-    expect(component.selectedCurrency).toEqual(coinsSpy[0]);
+    expect(component.selectedCurrency).toEqual(coinsSpy[1]);
     expect(component.fiatCurrency).toEqual('ars');
     expect(component.price).toEqual(10);
-  });
-
-  it('should set currency passed by params on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({}, { network: 'MATIC', asset: 'DAI', country: 'ARS' });
-    component.ionViewWillEnter();
-    expect(component.selectedCurrency).toEqual(coinsSpy[1]);
-  });
-
-  it('should set USD as fiat currency when country has not specific local currency on init', () => {
-    fakeActivatedRoute.modifySnapshotParams({}, { country: 'GTM' });
-    component.ionViewWillEnter();
-    expect(component.fiatCurrency).toEqual('USD');
   });
 
   it('should open external link when http link is clicked', () => {
@@ -235,31 +235,6 @@ describe('OperationsNewPage', () => {
     component.ionViewWillEnter();
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should redirect to change currency when currency button is clicked on provider card', async () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        country: 'ARS',
-      },
-    };
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', null);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['/fiat-ramps/token-selection', 'kripton'],
-      navigationExtras
-    );
-  });
-
-  it('should unsubscribe when leave', () => {
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    const nextSpy = spyOn(component.destroy$, 'next');
-    const completeSpy = spyOn(component.destroy$, 'complete');
-    component.ionViewWillLeave();
-    expect(nextSpy).toHaveBeenCalledTimes(1);
-    expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should update fiat amount when price changes', fakeAsync(() => {

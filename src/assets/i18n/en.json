@@ -2026,6 +2026,7 @@
       "select_label": "Country in which you are going to operate",
       "select_placeholder": "Select your country",
       "provider_label": "Select provider",
+      "no_provider":"At the moment it is not possible to purchase {{coinName}} in your country.",
       "moonpay_description": "Buy with a credit card",
       "krypton_description": "Buy with bank transfer",
       "directa24": {
@@ -2102,9 +2103,9 @@
     },
     "new_operation": {
       "header": "Buy crypto",
-      "thirdPartyKYC": "I understand that KYC information is not requested or stored by Xcapit and that Krypton has a different data privacy policy than Xcapit.",
-      "thirdPartyTransaction": "I understand that by continuing to purchase I will be purchasing through a third party vendor (Kripton Market) subject to their own terms and conditions, for which Xcapit is not responsible.",
-      "privacyPolicyAndTOS": "I have read and accept the: <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.",
+      "thirdPartyKYC": "I understand that Xcapit does not store KYC information.",
+      "thirdPartyTransaction": "I understand that the terms and conditions of the third party provider (Kripton Market) are independent of Xcapit.",
+      "privacyPolicyAndTOS": "I accept the <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and the <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Kripton Market's privacy policy</a>.",
       "next_button": "Next"
     },
     "register": {
@@ -2212,7 +2213,8 @@
       },
       "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
       "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
-      "button_text": "Continue"
+      "button_text": "Continue",
+      "footer_description": "By clicking ”Continue”, you will be redirected to the external provider's site."
     },
     "token_selection": {
       "header": "Buy crypto",

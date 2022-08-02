@@ -8,6 +8,33 @@ import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory
 import { SelectProviderCardComponent } from './select-provider-card.component';
 import { rawProvidersData } from '../../../shared-ramps/fixtures/raw-providers-data';
 import { Providers } from '../../../shared-ramps/models/providers/providers.interface';
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
+
+const maticCoin: Coin = {
+  id: 8,
+  name: 'MATIC - Polygon',
+  logoRoute: 'assets/img/coins/MATIC.png',
+  value: 'MATIC',
+  network: 'MATIC',
+  native: true,
+  symbol: 'MATICUSDT',
+  last: false,
+  chainId: 1,
+  rpc: '',
+};
+
+const usdcCoin: Coin = {
+  id: 2,
+  name: 'USDC - Polygon',
+  logoRoute: 'usdcLogo',
+  value: 'USDC',
+  network: 'MATIC',
+  native: false,
+  symbol: 'USDCUSDT',
+  last: false,
+  chainId: 1,
+  rpc: '',
+};
 
 describe('SelectProviderCardComponent', () => {
   let component: SelectProviderCardComponent;
@@ -26,7 +53,13 @@ describe('SelectProviderCardComponent', () => {
 
       providersSpy = jasmine.createSpyObj('Providers', {
         all: rawProvidersData,
-        availablesBy: Promise.resolve(rawProvidersData.filter((provider) => provider.countries.includes('Ecuador'))),
+        availablesBy: Promise.resolve(
+          rawProvidersData.filter(
+            (provider) =>
+              provider.countries.includes('Ecuador') &&
+              provider.currencies.some((curr) => curr.symbol === usdcCoin.value && curr.network === usdcCoin.network)
+          )
+        ),
       });
 
       providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
@@ -56,27 +89,59 @@ describe('SelectProviderCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit event when radio button is checked', () => {
-    component.disabled = true;
+  it('should emit event when radio button is checked', async() => {
+    component.coin = usdcCoin;
+    component.ngOnInit();
+    fixture.detectChanges();
+    component.form.patchValue({ country: 'Ecuador' });
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
     const spy = spyOn(component.route, 'emit');
     fixture.debugElement.query(By.css('app-provider-card')).triggerEventHandler('selectedProvider', 'test');
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should show all disabled provider on init', () => {
-    const providerCards = fixture.debugElement.queryAll(By.css('app-provider-card'));
-    expect(providerCards.length).toEqual(4);
-    expect(component.disabled).toBeTrue();
-    expect(component.form.value.country).toEqual('');
+  it('should show nothing if is disabled and there is not a country selected', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+    const providersEl = fixture.debugElement.query(By.css('div.spc__select__label-provider'));
+    const noProvidersEl = fixture.debugElement.query(By.css('div.spc__no_providers'));
+    expect(component.disabled).toBeTruthy();
+    expect(providersEl).toBeNull();
+    expect(noProvidersEl).toBeNull();
   });
 
-  it('should filter providers by country and show them enabled', async () => {
+  it('should filter providers by country and coin and show availables providers', async () => {
+    component.coin = usdcCoin;
+    component.ngOnInit();
+    fixture.detectChanges();
     component.form.patchValue({ country: 'Ecuador' });
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     const providerCards = fixture.debugElement.queryAll(By.css('app-provider-card'));
     expect(providerCards.length).toEqual(2);
     expect(component.disabled).toEqual(false);
+  });
+
+  it('should filter providers by country and coin and show non providers', async () => {
+    component.coin = maticCoin;
+    providersSpy.availablesBy.and.resolveTo(
+      rawProvidersData.filter(
+        (provider) =>
+          provider.countries.includes('Ecuador') &&
+          provider.currencies.some((curr) => curr.symbol === maticCoin.value && curr.network === maticCoin.network)
+      )
+    );
+    component.ngOnInit();
+    fixture.detectChanges();
+    component.form.patchValue({ country: 'Ecuador' });
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const providerCards = fixture.debugElement.queryAll(By.css('app-provider-card'));
+    const noProvidersEl = fixture.debugElement.query(By.css('div.spc__no_providers'));
+    expect(providerCards.length).toEqual(0);
+    expect(component.disabled).toBeFalsy();
+    expect(noProvidersEl).toBeTruthy();
   });
 });

@@ -34,6 +34,7 @@ import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/ser
 import { ActivatedRoute } from '@angular/router';
 import { ToastWithButtonsComponent } from '../../shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
+import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -163,7 +164,8 @@ export class InvestmentConfirmationPage {
     private formBuilder: UntypedFormBuilder,
     private browserService: BrowserService,
     private storage: IonicStorageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   async ionViewDidEnter() {
@@ -173,9 +175,9 @@ export class InvestmentConfirmationPage {
     await this.getInvestmentInfo();
     this.dynamicPrice();
     this.checkTwoPiAgreement();
-    await this.setUrlToBuyCrypto();
     await this.walletService.walletExist();
     await this.getNativeTokenBalance();
+    await this.setUrlToBuyCrypto();
     await this.checkNativeTokenBalance();
   }
 
@@ -336,6 +338,10 @@ export class InvestmentConfirmationPage {
 
   async setUrlToBuyCrypto() {
     const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+    this.tokenOperationDataService.tokenOperationData = {
+      asset: this.nativeToken?.value,
+      network: this.nativeToken?.network,
+    };
     this.url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
     return this.url;
   }
