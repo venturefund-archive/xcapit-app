@@ -8,6 +8,14 @@ export const SUCCESS_TYPES = {
     urlSecondaryAction: '/tabs/home',
     nameSecondaryAction: 'profiles.success_profile.nameSecondaryAction',
   },
+  success_profile_test: {
+    image: '/assets/img/profiles/success-profile-test.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'profiles.success_profile_test.text_primary',
+    textSecondary: 'profiles.success_profile_test.text_secondary',
+    urlPrimaryAction: '/tabs/wallets',
+    namePrimaryAction: 'profiles.success_profile_test.name_primary_action',
+  },
   apikeys_new: {
     urlClose: '/tabs/home',
     textPrimary: 'apikeys.success_apikeys.textPrimary',

@@ -523,6 +523,11 @@
       "namePrimaryAction": "Comenzar a vincular con Binance",
       "nameSecondaryAction": "Omitir por ahora"
     },
+    "success_profile_test": {
+      "text_primary":"¡Muchas gracias Xcapiter!",
+      "text_secondary":"Tu opinión nos ayuda a seguir mejorando día a día tu experiencia.",
+      "name_primary_action":"Ir a mi wallet"
+    },
     "personal_data": {
       "header": "Configurar cuenta",
       "personal_data_title": "Datos personales",

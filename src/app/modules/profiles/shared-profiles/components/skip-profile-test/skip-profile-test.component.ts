@@ -20,7 +20,7 @@ import { ModalController, NavController } from '@ionic/angular';
       <ion-button
         class="ux-link-xl main__actions__button main__actions__button-back"
         fill="clear"
-        name="CancelSkip"
+        name="cancel_skip_test"
         (click)="close()"
       >
         {{ 'profiles.shared_profiles.skip_profile_test.button_back' | translate }}
@@ -28,7 +28,7 @@ import { ModalController, NavController } from '@ionic/angular';
       <ion-button
         class="ux-link-xl main__actions__button"
         fill="clear"
-        name="ux_create_skip_warning"
+        name="out_skip_test"
         appTrackClick
         type="submit"
         (click)="this.handleSubmit()"
@@ -46,7 +46,7 @@ export class SkipProfileTestComponent implements OnInit {
 
   handleSubmit() {
     this.close();
-    this.navController.navigateForward(['/tabs/wallets']);
+    this.navController.navigateRoot(['/tabs/wallets']);
   }
 
   close() {

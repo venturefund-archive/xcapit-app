@@ -531,6 +531,11 @@
       "namePrimaryAction": "Link to Binance",
       "nameSecondaryAction": "Skip for now"
     },
+    "success_profile_test": {
+      "text_primary":"Thanks a lot Xcapiter!",
+      "text_secondary":"Your opinion helps us to improve your experience day by day.",
+      "name_primary_action":"Go to my wallet"
+    },
     "personal_data": {
       "header": "Configure account",
       "personal_data_title": "Personal data",

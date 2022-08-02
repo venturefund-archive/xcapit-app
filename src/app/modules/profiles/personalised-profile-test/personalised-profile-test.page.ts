@@ -10,7 +10,7 @@ import { SkipProfileTestComponent } from '../shared-profiles/components/skip-pro
     <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="" name="back"></ion-back-button>
+          <ion-back-button defaultHref="/tabs/wallets" name="back"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'wealth_managements.investor_test.header' | translate }}</ion-title>
       </ion-toolbar>
@@ -149,7 +149,7 @@ export class PersonalisedProfileTestPage implements OnInit {
   submitTest() {
     this.sendToDoInAppEvent();
     this.sendCryptoExperienceEvent();
-    this.navController.navigateRoot(['tabs/home']);
+    this.navController.navigateRoot(['/profiles/success-profile-test']);
   }
 
   sendEvent(eventLabel: string) {
@@ -184,6 +184,7 @@ export class PersonalisedProfileTestPage implements OnInit {
       this.showSkipProfileTest();
     }
   }
+
 
   bothFormsValid() {
     return this.crypto_experience_form.valid && this.isToDoInAppFormValid();

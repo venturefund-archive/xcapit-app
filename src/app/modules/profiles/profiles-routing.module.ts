@@ -35,8 +35,14 @@ const routes: Routes = [
         path: 'profile-test',
         loadChildren: () => import('./personalised-profile-test/personalised-profile-test.module').then( m => m.PersonalisedProfileTestPageModule)
       },
+      {
+        path: 'success-profile-test',
+        loadChildren: () => import('./success-profile-test/success-profile-test.module').then( m => m.SuccessProfileTestPageModule)
+      },
     ],
   },
+
+
  
 
 ];
