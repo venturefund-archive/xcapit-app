@@ -121,8 +121,7 @@ export class TransactionSummaryCardComponent implements OnInit {
   }
 
   switchToNumber() {
-    console.log(typeof this.summaryData.amount);
-    this.amount = parseFloat((this.summaryData.amount).toString());
+    this.amount = parseFloat(this.summaryData.amount.toString());
     this.referenceAmount = parseFloat(this.summaryData.referenceAmount);
     this.fee = parseFloat(this.summaryData.fee);
     this.referenceFee = parseFloat(this.summaryData.referenceFee);
