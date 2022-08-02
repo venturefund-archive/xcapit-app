@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
-import { NavController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
 import { LoadingService } from './shared/services/loading/loading.service';
@@ -9,7 +9,6 @@ import { AuthService } from './modules/users/shared-users/services/auth/auth.ser
 import { TrackService } from './shared/services/track/track.service';
 import { UpdateService } from './shared/services/update/update.service';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
-import { FakeNavController } from '../testing/fakes/nav-controller.fake.spec';
 import { PlatformService } from './shared/services/platform/platform.service';
 import { of } from 'rxjs';
 import { UpdateNewsService } from './shared/services/update-news/update-news.service';
@@ -30,8 +29,6 @@ describe('AppComponent', () => {
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let updateServiceSpy: jasmine.SpyObj<UpdateService>;
   let submitButtonServiceSpy: jasmine.SpyObj<SubmitButtonService>;
-  let fakeNavController: FakeNavController;
-  let navControllerSpy: jasmine.SpyObj<NavController>;
   let statusBarSpy: jasmine.SpyObj<any>;
   let translateSpy: jasmine.SpyObj<TranslateService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
@@ -43,8 +40,6 @@ describe('AppComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
       platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
       submitButtonServiceSpy = jasmine.createSpyObj('SubmitButtonService', ['enabled', 'disabled']);
       trackServiceSpy = jasmine.createSpyObj('FirebaseLogsService', ['trackView', 'startTracker']);
@@ -82,7 +77,6 @@ describe('AppComponent', () => {
           { provide: AuthService, useValue: authServiceSpy },
           { provide: UpdateService, useValue: updateServiceSpy },
           { provide: SubmitButtonService, useValue: submitButtonServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
           { provide: TranslateService, useValue: translateSpy },
           { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
           { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
@@ -125,12 +119,6 @@ describe('AppComponent', () => {
     component.ngOnInit();
     await fixture.whenStable();
     expect(statusBarSpy.setBackgroundColor).toHaveBeenCalledOnceWith({ color: '#1c2d5e' });
-  });
-
-  it('should logout', async () => {
-    await component.logout();
-    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['users/login']);
   });
 
   it('should set html lang in the correct language on init', async () => {

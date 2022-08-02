@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
 import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from '../../services/clipboard/clipboard.service';
@@ -8,7 +8,21 @@ import { ToastService } from '../../services/toast/toast.service';
   selector: 'app-ux-input',
   template: `
     <div class="ux_input_container">
-      <ion-label class="ux-font-input-label">{{ this.label }}</ion-label>
+      <div class="ux_input_container__label">
+        <ion-label class="ux-font-input-label">{{ this.label }} </ion-label>
+        <ion-button
+          *ngIf="this.infoIcon"
+          class="ion-no-padding"
+          slot="icon-only"
+          fill="clear"
+          appTrackClick
+          name="ux_phrase_information"
+          size="small"
+          (click)="this.emitInfoClicked()"
+        >
+          <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
+        </ion-button>
+      </div>
       <ion-item class="ux_input_container__item ux-font-text-xs">
         <img class="ux_input_container__item__image" [src]="this.leftIcon" />
         <ion-input
@@ -99,6 +113,8 @@ export class UxInputComponent implements OnInit {
   @Input() leftIcon = '';
   @Input() showNewPasswordErrors = false;
   @Input() pasteType = false;
+  @Input() infoIcon = false;
+  @Output() infoIconClicked: EventEmitter<void> = new EventEmitter<void>();
 
   typeSetted: string;
   passwordType: boolean;
@@ -148,5 +164,9 @@ export class UxInputComponent implements OnInit {
     setTimeout(() => {
       nativeEl.setSelectionRange(inputSelection, inputSelection);
     }, 1);
+  }
+
+  emitInfoClicked(): void {
+    this.infoIconClicked.emit();
   }
 }

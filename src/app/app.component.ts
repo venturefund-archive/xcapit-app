@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, NgZone } from '@angular/core';
-import { Platform, NavController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { LanguageService } from './shared/services/language/language.service';
@@ -37,7 +37,6 @@ export class AppComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private platform: Platform,
-    private navController: NavController,
     private submitButtonService: SubmitButtonService,
     private loadingService: LoadingService,
     private languageService: LanguageService,
@@ -52,7 +51,7 @@ export class AppComponent implements OnInit {
     private zone: NgZone,
     private walletConnectService: WalletConnectService,
     private walletBackupService: WalletBackupService,
-    private localNotificationsService: LocalNotificationsService
+    private localNotificationsService: LocalNotificationsService,
   ) {}
 
   ngOnInit() {
@@ -127,12 +126,7 @@ export class AppComponent implements OnInit {
     this.el.nativeElement.parentElement.parentElement.attributes.setNamedItem(lang);
   }
 
-  async logout() {
-    await this.authService.logout();
-    await this.navController.navigateForward(['users/login']);
-  }
-
-  setLanguageSubscribe() {
+    setLanguageSubscribe() {
     this.onLangChange = this.translate.onLangChange.subscribe(() => {
       this.updateLanguage();
     });
