@@ -505,6 +505,8 @@
       "language": "Idioma",
       "logout": "Cerrar Sesión",
       "category_walletconnect": "WalletConnect",
+      "delete_account_button": "Eliminar cuenta",
+      "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma",
       "profile_footer": {
         "investor_profile_button": "Perfil de inversor"
       },
@@ -582,6 +584,15 @@
         "description":"No se mantendrán tus avances si abandonas el formulario.",
         "button_back":"Atrás",
         "button_out":"Salir"
+      },
+    "shared": {
+      "remove_account_modal": {
+        "title": "Eliminar cuenta",
+        "text": "Iniciaremos con el proceso de eliminación de datos asociados a la cuenta.\n Recuerda que siempre vas a poder recuperar tu wallet con la frase semilla",
+        "more_info": "Para más información visita las",
+        "more_info_link": "Preguntas frecuentes sobre la Wallet",
+        "remove_account_button": "Eliminar cuenta",
+        "cancel_button": "Cancelar"
       }
     }
   },
@@ -1051,7 +1062,7 @@
     "home": {
       "statuses": {
         "to_do": "Por hacer",
-        "complete": "Completo",
+        "completed": "Completo",
         "in_progress": "En progreso"
       },
       "header": "Educación",
@@ -1067,7 +1078,8 @@
         "card_state_25": "Tienes {{doneModules}} módulos completos, no te detengas.",
         "card_state_50": "Tienes {{doneModules}} módulos completos, falta poco.",
         "card_state_75": "Tienes {{doneModules}} módulos completos, un ultimo esfuerzo.",
-        "card_state_100": "¡Felicitaciones! Completaste todos los módulos."
+        "card_state_100": "¡Felicitaciones! Completaste todos los módulos.",
+        "generating_nft": "Generando NFT"
       },
       "module_finance": {
         "module_1": {
@@ -1145,7 +1157,7 @@
       "text": "Test de",
       "finance_sub_1": "Finanzas",
       "finance_sub_2": "Presupuesto",
-      "crypto_sub_1": "Blockchain"
+      "crypto_sub_3": "Blockchain"
     },
     "final_success_test": {
       "textPrimary": "Lo lograste, ¡así se hace!",
@@ -1686,7 +1698,9 @@
       "header": "Historico transacciones",
       "OUT": "Enviado",
       "IN": "Recibido",
-      "swap": "Swap"
+      "swap": "Swap",
+      "confirmed": "Confirmado",
+      "declined": "Rechazado"
     },
     "send": {
       "scan_qr": {
@@ -2022,15 +2036,16 @@
       "select_label": "Pais en el que vas a operar",
       "select_placeholder": "Selecciona tu país",
       "provider_label": "Selecciona el proveedor",
+      "no_provider":"Por el momento no es posible adquirir {{coinName}} en tu país.",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
       "directa24": {
-        "platform_description": "Compra USDC a través de la plataforma",
-        "nearest_store_description": "Compra USDC en tu tienda más cercana",
-        "nearest_branch_office_description": "Compra USDC en tu sucursal más cercana.",
-        "in_app_description": "Compra USDC a través de la app",
-        "debit_credit_description": "Compra USDC con débito o crédito",
-        "transfer_description": "Compra USDC a través de transferencia"
+        "platform_description": "Compra a través de la plataforma",
+        "nearest_store_description": "Compra en tu tienda más cercana",
+        "nearest_branch_office_description": "Compra en tu sucursal más cercana.",
+        "in_app_description": "Compra a través de la app",
+        "debit_credit_description": "Compra con débito o crédito",
+        "transfer_description": "Compra a través de transferencia"
       },
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
       "button": "Continuar",
@@ -2098,9 +2113,9 @@
     },
     "new_operation": {
       "header": "Comprar cripto",
-      "thirdPartyKYC": "Entiendo que la información KYC no es solicitada ni almacenada por Xcapit y que Kripton tiene una política de privacidad de datos distinta a la de Xcapit.",
-      "thirdPartyTransaction": "Entiendo que al continuar la compra lo haré a través de un proveedor externo (Kripton Market) sujeto a términos y condiciones propios, de los cuales Xcapit no es responsable.",
-      "privacyPolicyAndTOS": "He leído y acepto los: <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Términos y condiciones</a> y la <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Política de privacidad de Kripton Market</a>",
+      "thirdPartyKYC": "Entiendo que Xcapit no almacena la información KYC.",
+      "thirdPartyTransaction": "Entiendo que los términos y condiciones del proveedor externo (Kripton Market) son independientes de Xcapit.",
+      "privacyPolicyAndTOS": "Acepto los <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y la <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>política de privacidad de Kripton Market</a>",
       "next_button": "Continuar"
     },
     "register": {
@@ -2216,7 +2231,8 @@
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
       "information": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
       "button_text": "Continuar",
-      "moonpay_operations": "Las compras de Moonpay visualizalas en la web"
+      "moonpay_operations": "Las compras de Moonpay visualizalas en la web",
+      "footer_description": "Al presionar “Continuar”, serás redirigido al sitio del proveedor externo."
     },
     "token_selection": {
       "header": "Comprar cripto",
@@ -2240,7 +2256,8 @@
       "united_states": "Estados Unidos (EEUU)",
       "venezuela": "Venezuela",
       "ecuador": "Ecuador",
-      "chile": "Chile"
+      "chile": "Chile",
+      "brasil": "Brasil"
     },
     "shared": {
       "constants": {
@@ -2596,10 +2613,12 @@
       },
       "button": "Comenzar"
     },
-    "swap_in_progress": {
-      "text_primary": "¡Tu orden está en camino!",
-      "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "button_text": "Ir a Wallet"
+    "swap_in_progress":{
+      "text_title": "Intercambio",
+      "text_badge": "En progreso",
+      "text_primary":"¡Tu orden está en camino!",
+      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text":"Ir a wallet"
     },
     "sent_notification": {
       "actions": {
@@ -2615,4 +2634,5 @@
       }
     }
   }
+}
 }

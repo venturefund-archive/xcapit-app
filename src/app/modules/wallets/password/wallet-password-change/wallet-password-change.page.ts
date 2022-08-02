@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { CONFIG } from 'src/app/config/app-constants.config';
+import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
@@ -142,7 +143,7 @@ export class WalletPasswordChangePage implements OnInit {
       .changePassword(this.changePasswordForm.value.old_password, this.changePasswordForm.value.password)
       .then(() => this.navController.navigateForward(['/wallets/password-change/success']))
       .catch((error) => {
-        if (error.message === 'invalid password') {
+        if (new PasswordErrorMsgs().isInvalidError(error)) {
           this.showIncorrectPasswordError();
         } else {
           this.navController.navigateForward(['/wallets/password-change/error']);

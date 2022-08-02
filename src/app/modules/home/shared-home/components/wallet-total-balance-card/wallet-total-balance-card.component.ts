@@ -27,10 +27,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
               {{ 'home.home_page.want_my_wallet.description' | translate }}
             </div>
           </div>
-          <a class="wbc__content_balance__body__eye-button" (click)="this.hideText()">
-            <ion-icon class="eye-button" [hidden]="!this.hideFundText" name="eye-off-outline"></ion-icon>
-            <ion-icon class="eye-button" [hidden]="this.hideFundText" name="eye-outline"></ion-icon>
-          </a>
+          <app-eye class="eye"></app-eye>
         </div>
       </div>
       <div

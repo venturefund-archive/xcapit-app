@@ -22,6 +22,10 @@ describe('Amount Of', () => {
     expect(amount.value()).toEqual(anAmount);
   });
 
+  it('wei access', () => {
+    expect(amount.weiValue()).toEqual(aWeiAmount);
+  });
+
   it('mul', () => {
     const aNewWeiAmount = (parseFloat(aWeiAmount) * 2).toString();
     const expectedResult: AmountOf = new AmountOf(aNewWeiAmount, usdcToken);

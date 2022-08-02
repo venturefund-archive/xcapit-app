@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -38,9 +37,8 @@ import { PasswordErrorHandlerService } from '../shared-swaps/services/password-e
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
-import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { LINKS } from 'src/app/config/static-links';
-
+import { SwapInProgressModalComponent } from '../../wallets/shared-wallets/components/swap-in-progress-modal/swap-in-progress-modal.component';
+import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-error-msgs';
 
 @Component({
   selector: 'app-swap-home',
@@ -136,31 +134,9 @@ import { LINKS } from 'src/app/config/static-links';
           <app-transaction-fee [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
         </div>
       </div>
-     <div class="sw__checkbox">
-          <ion-item class="sw__checkbox__last ux-font-text-xs">
-            <ion-checkbox mode="md" slot="start" name="checkbox-condition">
-            </ion-checkbox>
-            <ion-label class="sw__checkbox__phrase checkbox-link">
-              <ion-label class="sw__checkbox__phrase__tos">
-                    {{ 'swaps.home.tos_1' | translate }}</ion-label
-              >
-              <div class= "sw__checkbox__phrase__link">
-                <ion-button
-                  name="go_to_1inch_tos"
-                  class="ux-link-xs stc__checkbox__phrase__link__button"
-                  (click)="this.openToS()"
-                  appTrackClick
-                  fill="clear"
-                >
-                     {{ 'swaps.home.tos_button' | translate }}
-                </ion-button>
-                <ion-label class="ux-font-text-xs sw__checkbox__phrase__link__label"
-                  > {{ 'swaps.home.tos_2' | translate }}</ion-label
-                >
-              </div>
-            </ion-label>
-          </ion-item>
-        </div> 
+      <div class="sw__checkbox ion-padding">
+        <app-terms-and-conditions-check disabled="true"> </app-terms-and-conditions-check>
+      </div>
     </ion-content>
 
     <ion-footer class="sw__footer">
@@ -182,7 +158,7 @@ import { LINKS } from 'src/app/config/static-links';
           {{ 'swaps.home.footer_text' | translate }}
         </span>
       </div>
-  </ion-footer>
+    </ion-footer>
   `,
   styleUrls: ['./swap-home.page.scss'],
 })
@@ -217,7 +193,6 @@ export class SwapHomePage {
     private formBuilder: UntypedFormBuilder,
     private modalController: ModalController,
     private appStorageService: AppStorageService,
-    private httpClient: HttpClient,
     private wallets: WalletsFactory,
     private blockchains: BlockchainsFactory,
     private oneInch: OneInchFactory,
@@ -228,13 +203,8 @@ export class SwapHomePage {
     private trackService: TrackService,
     private passwordErrorHandlerService: PasswordErrorHandlerService,
     private toastService: ToastService,
-    private translate: TranslateService,
-    private browser: BrowserService
+    private translate: TranslateService
   ) {}
-
-  openToS() {
-    this.browser.open({url: LINKS.oneInchToS});
-  }
 
   private async setSwapInfo(fromTokenAmount: string) {
     if (fromTokenAmount) {
@@ -252,7 +222,7 @@ export class SwapHomePage {
   }
 
   private gasPrice(): Promise<AmountOf> {
-    return this.gasStation.create(this.activeBlockchain, this.httpClient).price().fast();
+    return this.gasStation.create(this.activeBlockchain).price().fast();
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
@@ -328,7 +298,7 @@ export class SwapHomePage {
   }
 
   private setDex() {
-    this.dex = this.oneInch.create(this.activeBlockchain, this.httpClient);
+    this.dex = this.oneInch.create(this.activeBlockchain);
   }
 
   private setTokens() {
@@ -370,21 +340,25 @@ export class SwapHomePage {
     this.disableMainButton();
     const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());
-    wallet.onDecryptedWallet().subscribe(() => this.navController.navigateForward([this.swapInProgressUrl]));
+    wallet.onDecryptedWallet().subscribe(() => this.showSwapInProgressModal());
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
       .then(() => {
-        const notification = this.createNotification('swap_ok');
-        this.notifyWhenSwap(notification);
+        this.notifyWhenSwap(this.createNotification('swap_ok'));
       })
-      .catch((err) => {
-        this.passwordErrorHandlerService.handlePasswordError(err, () => {
-          this.showPasswordError();
-        });
+      .catch((err: Error) => {
+        this.handleError(err);
         this.resetMainButton();
-        const notification = this.createNotification('swap_not_ok');
-        this.notifyWhenSwap(notification);
       });
+  }
+
+  private handleError(err: Error) {
+    this.passwordErrorHandlerService.handlePasswordError(err, () => {
+      this.showPasswordError();
+    });
+    if (!new PasswordErrorMsgs().isAPassError(err)) {
+      this.notifyWhenSwap(this.createNotification('swap_not_ok'));
+    }
   }
 
   private async showPasswordError() {
@@ -421,5 +395,15 @@ export class SwapHomePage {
         actionTypeId: this.actionTypeId,
       },
     ];
+  }
+
+  async showSwapInProgressModal() {
+    const modal = await this.modalController.create({
+      component: SwapInProgressModalComponent,
+      componentProps: {},
+      cssClass: 'ux-lg-modal-informative',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 }

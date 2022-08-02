@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { WalletMaintenanceService } from '../shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { WalletPasswordComponent } from '../shared-wallets/components/wallet-password/wallet-password.component';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -211,7 +212,7 @@ export class SelectCoinsWalletPage implements OnInit {
       try {
         await this.walletMaintenanceService.updateWalletNetworks(changedAssets);
       } catch (error) {
-        if (error.message.startsWith('invalid password')) {
+        if (new PasswordErrorMsgs().isInvalidError(error)) {
           await this.loadingService.dismiss();
           this.showInvalidPasswordToast();
           return;

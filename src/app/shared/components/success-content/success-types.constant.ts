@@ -294,11 +294,14 @@ export const SUCCESS_TYPES = {
   },
   swap_in_progress:{
     image:"assets/img/swaps/swap-in-progress.svg",
+    icon:"assets/img/swaps/swap-icon.svg",
     urlClose:'/tabs/wallets',
     textPrimary: 'swaps.swap_in_progress.text_primary', 
     textSecondary:'swaps.swap_in_progress.text_secondary',
     namePrimaryAction:'swaps.swap_in_progress.button_text',
     urlPrimaryAction:'/tabs/wallets',
+    titlePrimary: 'swaps.swap_in_progress.text_title',
+    textBadge: 'swaps.swap_in_progress.text_badge'
   },
   error_no_wallet_financial_education: {
     image: '/assets/img/financial-education/error-no-wallet.svg',

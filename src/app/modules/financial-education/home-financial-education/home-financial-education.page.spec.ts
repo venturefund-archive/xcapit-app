@@ -4,13 +4,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-import { MODULES_CRYPTO } from '../shared-financial-education/constants/crypto';
-import { MODULES_FINANCE } from '../shared-financial-education/constants/finance';
 import { HomeFinancialEducationPage } from './home-financial-education.page';
 import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
+import { rawEducationData } from '../shared-financial-education/fixtures/rawEducationData';
+import { of } from 'rxjs';
 
 describe('HomeFinancialEducationPage', () => {
   let component: HomeFinancialEducationPage;
@@ -18,15 +19,29 @@ describe('HomeFinancialEducationPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<HomeFinancialEducationPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let financialEducationServiceSpy: jasmine.SpyObj<FinancialEducationService>;
 
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
+      financialEducationServiceSpy = jasmine.createSpyObj('FinancialEducationService', {
+        getEducationDataOf: of(rawEducationData),
+      });
+      storageServiceSpy = jasmine.createSpyObj('StorageService', {
+        getWalletFromStorage: Promise.resolve({
+          addresses: { ERC20: 'testAddress', MATIC: 'testAddressMatic', RSK: 'testAddressRsk' },
+        }),
+      });
       TestBed.configureTestingModule({
         declarations: [HomeFinancialEducationPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
+          { provide: StorageService, useValue: storageServiceSpy },
+          { provide: FinancialEducationService, useValue: financialEducationServiceSpy },
+        ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
 
@@ -41,20 +56,36 @@ describe('HomeFinancialEducationPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialized in the finance tab with the corresponding data', () => {
+  it('should initialized in the finance tab with the corresponding data', async () => {
     component.ionViewWillEnter();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(component.segmentsForm.value.tab).toEqual('finance');
-    expect(component.modules).toEqual(MODULES_FINANCE);
+    expect(component.modules).toEqual(rawEducationData.finance);
   });
 
   it('should set the corresponding data in the crypto tab when tab crypto is clicked', async () => {
     component.ionViewWillEnter();
-    component.segmentsForm.patchValue({ tab:'crypto' });
     fixture.detectChanges();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.segmentsForm.patchValue({ tab: 'crypto' });
+    fixture.detectChanges();
     expect(component.segmentsForm.value.tab).toEqual('crypto');
-    expect(component.modules).toEqual(MODULES_CRYPTO);
+    expect(component.modules).toEqual(rawEducationData.crypto);
   });
+
+  it('should set the corresponding data in the finance tab when tab finance is clicked', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    component.segmentsForm.patchValue({ tab: 'crypto' });
+    fixture.detectChanges();
+    component.segmentsForm.patchValue({ tab: 'finance' });
+    fixture.detectChanges();
+    expect(component.segmentsForm.value.tab).toEqual('finance');
+    expect(component.modules).toEqual(rawEducationData.finance);
+  });
+
 
   it('should render app-modules-education component', () => {
     component.ionViewWillEnter();
@@ -86,9 +117,20 @@ describe('HomeFinancialEducationPage', () => {
     expect(ruleEl).toBeTruthy();
   });
 
-  it('should render app-global-progress-card component properly', () => {
+  it('should render app-global-progress-card component properly', async () => {
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
     const progressEl = fixture.debugElement.query(By.css('app-global-progress-card'));
     expect(progressEl).toBeTruthy();
   });
 
+  it('should set open value on a module that isnt completed', async () => {
+    rawEducationData.finance[0].status = 'to_do';
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    expect(rawEducationData.finance[0]['open']).toEqual(true);
+  });
 });

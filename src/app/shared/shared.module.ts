@@ -89,6 +89,7 @@ import { InfoPhraseAdviceModalComponent } from '../modules/wallets/shared-wallet
 import { RuleCardComponent } from '../modules/financial-education/shared-financial-education/components/rule-card/rule-card.component';
 import { CircleProgressComponent } from './components/circle-progress/circle-progress.component';
 import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/components/info-send-modal/info-send-modal.component';
+import { EyeComponent } from './components/eye/eye.component';
 import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/components/skip-profile-test/skip-profile-test.component';
 @NgModule({
     declarations: [
@@ -112,6 +113,7 @@ import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/co
         AmountInputCardComponent,
         AmountInputCardSkeletonComponent,
         ReferralsComingComponent,
+        EyeComponent,
         // Ux
         SkipProfileTestComponent,
         InfoSendModalComponent,
@@ -213,6 +215,7 @@ import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/co
         AmountInputCardComponent,
         AmountInputCardSkeletonComponent,
         ReferralsComingComponent,
+        EyeComponent,
         // Ux
         SkipProfileTestComponent,
         InfoSendModalComponent,
@@ -281,3 +284,5 @@ import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/co
     ]
 })
 export class SharedModule {}
+
+

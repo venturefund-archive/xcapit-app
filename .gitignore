@@ -44,3 +44,4 @@ ios/App/App/GoogleService-Info.plist
 
 # customs
 development_notes.*
+.dir-locals.el

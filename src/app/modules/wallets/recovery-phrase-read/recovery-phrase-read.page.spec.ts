@@ -16,6 +16,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { WalletMnemonicService } from '../shared-wallets/services/wallet-mnemonic/wallet-mnemonic.service';
+import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -24,6 +25,7 @@ const testMnemonic: Mnemonic = {
 };
 
 describe('RecoveryPhraseReadPage', () => {
+  const invalidPasswordError = new Error(new PasswordErrorMsgs().invalid());
   let component: RecoveryPhraseReadPage;
   let fixture: ComponentFixture<RecoveryPhraseReadPage>;
   let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;
@@ -139,7 +141,7 @@ describe('RecoveryPhraseReadPage', () => {
   it('should not reveal phrase, not copy to clipboard, show toast on Copy Button click and wrong password', async () => {
     storageSpy.get.and.returnValue(Promise.resolve(true));
     fakeModalController.modifyReturns({}, { data: 'testPass' });
-    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(new Error('invalid password'));
+    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(invalidPasswordError);
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -169,7 +171,7 @@ describe('RecoveryPhraseReadPage', () => {
   it('should show error toast when password is incorrect', async () => {
     fakeModalController.modifyReturns({}, { data: 'testPass' });
     storageSpy.get.and.returnValue(Promise.resolve(true));
-    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(new Error('invalid password'));
+    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(invalidPasswordError);
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -182,7 +184,7 @@ describe('RecoveryPhraseReadPage', () => {
     storageSpy.get.and.returnValue(Promise.resolve(true));
     clipboardServiceSpy.write.and.rejectWith();
     fakeModalController.modifyReturns({}, { data: 'testPass' });
-    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(new Error('invalid password'));
+    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(invalidPasswordError);
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();

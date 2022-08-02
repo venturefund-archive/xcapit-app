@@ -93,7 +93,7 @@ describe('ShareEducationComponent', () => {
   });
 
   it('should copy on clipboard and show toast when share fail', async () => {
-    shareServiceSpy.share.and.rejectWith({message: ''});
+    shareServiceSpy.share.and.rejectWith({ message: '' });
     fixture.detectChanges();
     fixture.debugElement.query(By.css('div.se')).nativeElement.click();
     await fixture.whenStable();
@@ -110,7 +110,7 @@ describe('ShareEducationComponent', () => {
   });
 
   it('should not copy on clipboard when user cancels sharing', async () => {
-    shareServiceSpy.share.and.rejectWith({message: 'Error: Share canceled'});
+    shareServiceSpy.share.and.rejectWith({ message: 'Error: Share canceled' });
     fixture.detectChanges();
     fixture.debugElement.query(By.css('div.se')).nativeElement.click();
     await fixture.whenStable();

@@ -68,7 +68,10 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 export class BuyConditionsPage implements OnInit {
   acceptTos = false;
   key = 'conditionsPurchasesAccepted';
-  constructor(private navController: NavController, private storage: IonicStorageService) {}
+  constructor(
+    private navController: NavController,
+    private storage: IonicStorageService,
+  ) {}
 
   ngOnInit() {}
 

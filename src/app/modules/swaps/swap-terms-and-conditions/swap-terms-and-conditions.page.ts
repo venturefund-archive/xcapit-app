@@ -1,8 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { LINKS } from 'src/app/config/static-links';
-import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { defaultSwapsUrls } from '../swaps-routing.module';
 
 @Component({
@@ -40,29 +37,8 @@ import { defaultSwapsUrls } from '../swaps-routing.module';
           </ion-text>
         </div>
         <div class="stc__checkbox">
-          <ion-item class="stc__checkbox__last ux-font-text-xs">
-            <ion-checkbox mode="md" slot="start" name="checkbox-condition" (ionChange)="this.enableButton()">
-            </ion-checkbox>
-            <ion-label class="stc__checkbox__phrase checkbox-link">
-              <ion-label class="ux-font-text-xs">
-                {{ 'swaps.terms_and_conditions.terms.i_have_read' | translate }}</ion-label
-              >
-              <div class= "stc__checkbox__phrase__link">
-                <ion-button
-                  name="go_to_1inch_tos"
-                  class="ux-link-xs stc__checkbox__phrase__link__button"
-                  (click)="this.openTOS()"
-                  appTrackClick
-                  fill="clear"
-                >
-                  {{ 'swaps.terms_and_conditions.terms.link_to_terms' | translate }}
-                </ion-button>
-                <ion-label class="ux-font-text-xs stc__checkbox__phrase__link__label"
-                  >{{ 'swaps.terms_and_conditions.terms.of' | translate }}</ion-label
-                >
-              </div>
-            </ion-label>
-          </ion-item>
+          <app-terms-and-conditions-check (toggledCheckbox)="this.onToggleCheckbox($event)">
+          </app-terms-and-conditions-check>
         </div>
         <div class="stc__button">
           <ion-button
@@ -84,32 +60,22 @@ import { defaultSwapsUrls } from '../swaps-routing.module';
   </ion-content>`,
   styleUrls: ['./swap-terms-and-conditions.page.scss'],
 })
-export class SwapTermsAndConditionsPage implements OnInit {
+export class SwapTermsAndConditionsPage {
   acceptTos = false;
-  key = 'termsAndConditions1InchSwapAccepted';
-  links = LINKS;
+
   constructor(
     private navController: NavController,
-    private storage: IonicStorageService,
-    private browserService: BrowserService
   ) {}
 
-  ngOnInit() {}
-
-  enableButton() {
-    return (this.acceptTos = !this.acceptTos);
+  onToggleCheckbox(acceptTos: boolean) {
+    this.acceptTos = acceptTos;
   }
 
   goToSelectProvider() {
-    this.storage.set(this.key, true);
-    this.navController.navigateForward(defaultSwapsUrls.swapHome);
+    this.navController.navigateForward(defaultSwapsUrls.swapHome, { replaceUrl: true });
   }
 
   close() {
     this.navController.back();
-  }
-
-  openTOS(): void {
-    this.browserService.open({ url: this.links.oneInchToS });
   }
 }

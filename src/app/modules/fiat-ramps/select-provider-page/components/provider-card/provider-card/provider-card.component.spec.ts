@@ -100,6 +100,7 @@ describe('ProviderCardComponent', () => {
   it('should show informative modal of Moonpay provider when information_modal clicked', async () => {
     component.provider.showInfo = true;
     component.provider.name = 'Moonpay';
+    component.provider.providerName = 'moonpay';
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="informative_modal"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
@@ -109,9 +110,21 @@ describe('ProviderCardComponent', () => {
   it('should show informative modal of Kripton Market provider when information_modal clicked', async () => {
     component.provider.showInfo = true;
     component.provider.name = 'Kripton Market';
+    component.provider.providerName = 'kripton';
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="informative_modal"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not show informative modal of Moonpay provider when information_modal clicked', async () => {
+    component.provider.showInfo = true;
+    component.provider.name = 'Moonpay';
+    component.provider.providerName = 'moonpay';
+    component.isInfoModalOpen = true;
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="informative_modal"]')).nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 });
