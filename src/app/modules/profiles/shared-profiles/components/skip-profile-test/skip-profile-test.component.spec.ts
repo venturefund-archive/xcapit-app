@@ -7,7 +7,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 import { SkipProfileTestComponent } from './skip-profile-test.component';
 
-fdescribe('SkipProfileTestComponent', () => {
+describe('SkipProfileTestComponent', () => {
   let component: SkipProfileTestComponent;
   let fixture: ComponentFixture<SkipProfileTestComponent>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;

@@ -15,7 +15,7 @@ const testData = {
   namePrimaryAction: 'profiles.success_profile_test.name_primary_action',
 }
 
-fdescribe('SuccessProfileTestPage', () => {
+describe('SuccessProfileTestPage', () => {
   let component: SuccessProfileTestPage;
   let fixture: ComponentFixture<SuccessProfileTestPage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;

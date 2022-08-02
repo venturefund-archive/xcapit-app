@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
+import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { SkipProfileTestComponent } from '../shared-profiles/components/skip-profile-test/skip-profile-test.component';
 
@@ -60,8 +61,7 @@ import { SkipProfileTestComponent } from '../shared-profiles/components/skip-pro
       <div class="ppt__footer__submit-button">
         <ion-button
           class="ux_button ppt__footer__submit-button__button"
-          appTrackClick
-          name="ux_donations_amount"
+          name="Submit test"
           color="secondary"
           [disabled]="!this.bothFormsValid()"
           expand="block"
@@ -72,8 +72,7 @@ import { SkipProfileTestComponent } from '../shared-profiles/components/skip-pro
       <div class="ppt__footer__other-time-button">
         <ion-button
           class="ux-button-outlined ppt__footer__other-time-button__button"
-          appTrackClick
-          name="ux_donations_amount"
+          name="Skip test"
           expand="block"
           (click)="this.skipTest()"
           >{{ 'profiles.personalised_profile_test.button_secondary' | translate }}</ion-button
@@ -87,6 +86,9 @@ export class PersonalisedProfileTestPage implements OnInit {
   isModalPasswordOpen: boolean;
   isInfoModalOpen = false;
   eventPrefix = 'ux_user_';
+  toDoEventToSend: string;
+  cryptoEventToSend: string;
+  key = 'profileTestCompleted';
   to_do_in_app_form = this.formBuilder.group({
     investor: false,
     remote: false,
@@ -141,7 +143,8 @@ export class PersonalisedProfileTestPage implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private trackService: TrackService,
     private modalController: ModalController,
-    private navController: NavController
+    private navController: NavController,
+    private appStorageService: AppStorageService
   ) {}
 
   ngOnInit() {}
@@ -149,6 +152,7 @@ export class PersonalisedProfileTestPage implements OnInit {
   submitTest() {
     this.sendToDoInAppEvent();
     this.sendCryptoExperienceEvent();
+    this.appStorageService.set(this.key, true);
     this.navController.navigateRoot(['/profiles/success-profile-test']);
   }
 
@@ -156,7 +160,7 @@ export class PersonalisedProfileTestPage implements OnInit {
     this.trackService.trackEvent({
       eventAction: 'test_submit',
       description: window.location.href,
-      eventLabel: this.eventPrefix + eventLabel,
+      eventLabel,
     });
   }
 
@@ -172,11 +176,13 @@ export class PersonalisedProfileTestPage implements OnInit {
     } else if (formValue.investor) {
       event = 'investor';
     }
-    return this.sendEvent(event);
+    this.toDoEventToSend = this.eventPrefix + event;
+    return this.sendEvent(this.toDoEventToSend);
   }
 
   sendCryptoExperienceEvent() {
-    return this.sendEvent(this.crypto_experience_form.value.radio_option);
+    this.cryptoEventToSend = this.eventPrefix + this.crypto_experience_form.value.radio_option;
+    return this.sendEvent(this.cryptoEventToSend);
   }
 
   skipTest() {
@@ -184,7 +190,6 @@ export class PersonalisedProfileTestPage implements OnInit {
       this.showSkipProfileTest();
     }
   }
-
 
   bothFormsValid() {
     return this.crypto_experience_form.valid && this.isToDoInAppFormValid();
