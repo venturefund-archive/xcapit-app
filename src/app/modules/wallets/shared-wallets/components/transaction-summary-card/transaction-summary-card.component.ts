@@ -45,7 +45,7 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
         </div>
         <div class="tsc__amount__content">
           <ion-text class="ux-font-text-base"
-            >{{ this.summaryData.amount | formattedAmount }} {{ this.summaryData.currency.value }}</ion-text
+            >{{ this.amount | formattedAmount }} {{ this.summaryData.currency.value }}</ion-text
           >
           <ion-text class="ux-font-text-base">{{ this.referenceAmount | formattedAmount: 10:2 }} USD</ion-text>
         </div>
@@ -110,6 +110,7 @@ export class TransactionSummaryCardComponent implements OnInit {
   referenceAmount: number;
   fee: number;
   referenceFee: number;
+  amount: number;
   isAmountSend: boolean;
   isInfoModalOpen = false;
   constructor(private apiWalletService: ApiWalletService) {}
@@ -120,6 +121,8 @@ export class TransactionSummaryCardComponent implements OnInit {
   }
 
   switchToNumber() {
+    console.log(typeof this.summaryData.amount);
+    this.amount = parseFloat((this.summaryData.amount).toString());
     this.referenceAmount = parseFloat(this.summaryData.referenceAmount);
     this.fee = parseFloat(this.summaryData.fee);
     this.referenceFee = parseFloat(this.summaryData.referenceFee);
