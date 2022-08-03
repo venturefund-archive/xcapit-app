@@ -36,6 +36,8 @@ import { defaultSwapsUrls } from '../swaps-routing.module';
             >{{ 'swaps.terms_and_conditions.condition_3' | translate }}
           </ion-text>
         </div>
+      </div>
+      <div class="stc__items">
         <div class="stc__checkbox">
           <app-terms-and-conditions-check (toggledCheckbox)="this.onToggleCheckbox($event)">
           </app-terms-and-conditions-check>
@@ -63,9 +65,7 @@ import { defaultSwapsUrls } from '../swaps-routing.module';
 export class SwapTermsAndConditionsPage {
   acceptTos = false;
 
-  constructor(
-    private navController: NavController,
-  ) {}
+  constructor(private navController: NavController) {}
 
   onToggleCheckbox(acceptTos: boolean) {
     this.acceptTos = acceptTos;

@@ -43,10 +43,14 @@
       }
     }
 
+    &__items:last-child {
+      margin-top: auto;
+    }
+
     &__checkbox {
       display: flex;
       align-items: center;
-      margin: 36px 0;
+      margin-bottom: 24px;
     }
   }
 }
