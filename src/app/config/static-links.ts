@@ -8,7 +8,8 @@ export const LINKS = {
   moonpayTransactionHistory: 'https://buy.moonpay.com/trade_history',
   xcapitTermsAndConditions: 'https://xcapit.com/terms-and-conditions/',
   xcapitPrivacyPolicy: 'https://xcapit.com/privacy-policy/',
-  referralsTermsAndConditions:'https://xcapit.com/financial-freedom-tyc/',
-  discordCommunity:'https://discord.gg/pHjXPvpwJG',
-  oneInchToS: 'https://docs.1inch.io/docs/aggregation-protocol/api/legal/'
+  referralsTermsAndConditions: 'https://xcapit.com/financial-freedom-tyc/',
+  discordCommunity: 'https://discord.gg/pHjXPvpwJG',
+  oneInchToS: 'https://docs.1inch.io/docs/aggregation-protocol/api/legal/',
+  twoPiPage: 'https://dashboard.2pi.network/',
 };

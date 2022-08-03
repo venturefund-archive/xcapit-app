@@ -393,19 +393,23 @@
       "expandable_investment_info": {
         "TVL": "Total de Valor Bloqueado",
         "protocol_type": "Tipo de protocolo",
-        "deposit_asset": "Depositas",
-        "receive_asset": "Obtienes",
-        "platform": "Plataforma",
+        "receive_asset": "Depositas y obtienes",
+        "2pi_dashboard": "2PI Dashboard",
+        "information": "Más información",
         "annual": "% Anual",
-        "blockchain": "Blockchain",
+        "blockchain": "Operas en la red",
         "profile": "Perfil",
         "transaction_fee": "Tarifa de transacción",
         "withdrawal_fee": "Tarifa de retiro",
+        "title": "Nos aliamos a 2pi para ofrecerte ",
+        "how_works": "¿Cómo funciona?",
+
         "investment_info": {
-          "USDC": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en USDC. \n USDC es una criptomoneda estable. Su valor está atado al dólar, y está respaldada al 100% en dólares estadounidenses.",
-          "DAI": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en DAI. \n DAI es una criptomoneda estable, su valor está atado al dólar.  Se respalda al 100% en protocolos cripto.",
-          "WBTC": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses continuos en WBTC. Sin límites de inversión."
+          "USDC": "<ul><li>Tus tokens se distribuirán en varios protocolos descentralizados.</li><li>Obtendrás intereses continuos en USDC.</li><li>Sin limites de inversión</li></ul>",
+          "DAI": "<ul><li>Tus tokens se distribuirán en varios protocolos descentralizados.</li><li> Obtendrás intereses semanales en DAI.</li><li>Sin límites de inversión.</li></ul>",
+          "WBTC": "<ul><li>Tus tokens se distribuirán en varios protocolos descentralizados.</li><li> Obtendrás intereses continuos en WBTC.</li><li>Sin límites de inversión</li></ul>"
         },
+
         "profiles": {
           "conservative": "Conservador",
           "medium": "Moderado",
@@ -417,7 +421,7 @@
         "available": "Saldo disponible",
         "amount_invested": "Monto total invertido",
         "max_button": "Máx",
-        "advice":"Fondos insuficientes"
+        "advice": "Fondos insuficientes"
       },
       "withdraw_card": {
         "title": "Retiro",
@@ -2569,37 +2573,37 @@
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
     },
-    "terms_and_conditions":{
-      "title":"¿Qué necesitas saber antes de realizar un intercambio?",
-      "condition_1":"El intercambio se realiza a través del proovedor externo “1inch”.",
-      "condition_2":"Las condiciones de intercambio de tokens dependen del proovedor.",
-      "condition_3":"Los intercambios poseen costos de transacción asociados.",
-      "terms":{
-        "i_have_read":"Leí y estoy de acuerdo con los",
+    "terms_and_conditions": {
+      "title": "¿Qué necesitas saber antes de realizar un intercambio?",
+      "condition_1": "El intercambio se realiza a través del proovedor externo “1inch”.",
+      "condition_2": "Las condiciones de intercambio de tokens dependen del proovedor.",
+      "condition_3": "Los intercambios poseen costos de transacción asociados.",
+      "terms": {
+        "i_have_read": "Leí y estoy de acuerdo con los",
         "link_to_terms": "términos y condiciones",
-        "of":"de 1inch"
+        "of": "de 1inch"
       },
-      "button":"Comenzar"
+      "button": "Comenzar"
     },
-    "swap_in_progress":{
+    "swap_in_progress": {
       "text_title": "Intercambio",
       "text_badge": "En progreso",
-      "text_primary":"¡Tu orden está en camino!",
-      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "button_text":"Ir a wallet"
+      "text_primary": "¡Tu orden está en camino!",
+      "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text": "Ir a wallet"
     },
-    "sent_notification":{
-      "actions":{
+    "sent_notification": {
+      "actions": {
         "title": "Ver más"
       },
-      "swap_ok":{
-        "title":"🚀 ¡Intercambio exitoso! ",
+      "swap_ok": {
+        "title": "🚀 ¡Intercambio exitoso! ",
         "body": "Enviaste {{fromAmount}} {{fromToken}} y recibiste {{toAmount}} {{toToken}} ."
       },
-      "swap_not_ok":{
-        "title":"❌ Error en el intercambio",
+      "swap_not_ok": {
+        "title": "❌ Error en el intercambio",
         "body": "Se produjo un error en el envío de {{fromAmount}} {{fromToken}} y recepción de {{toAmount}} {{toToken}}. Más información aquí. ."
-      }     
+      }
     }
   }
 }

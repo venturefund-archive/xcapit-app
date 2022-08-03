@@ -9,9 +9,10 @@ import { InvestmentProduct } from '../../interfaces/investment-product.interface
   template: `
     <div (click)="this.goToDetail()" class="ibi" name="go_to_invest_detail">
       <div class="ibi__image">
-        <div>
-          <img class="ibi__image__img" [src]="this.token?.logoRoute" alt="Product Image" />
-        </div>
+        <app-coin-logos
+          [nativeTokenLogo]="this.nativeToken?.logoRoute"
+          [tokenLogo]="this.token?.logoRoute"
+        ></app-coin-logos>
       </div>
       <div class="ibi__content">
         <div class="ibi__content__group">
@@ -40,11 +41,13 @@ export class InvestmentBalanceItemComponent implements OnInit {
   @Input() balance: number;
   referenceBalance: number;
   token: Coin;
+  nativeToken: Coin;
   @Input() investmentProduct: InvestmentProduct;
   apy: number;
   async ngOnInit() {
     this.apy = this.investmentProduct.apy();
     this.token = this.investmentProduct.token();
+    this.nativeToken = this.investmentProduct.nativeToken();
     this.getPrice();
   }
 

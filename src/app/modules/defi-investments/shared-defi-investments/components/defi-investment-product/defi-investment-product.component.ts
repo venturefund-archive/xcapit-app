@@ -11,7 +11,10 @@ import { NavController } from '@ionic/angular';
       <div class="dip__content" [ngClass]="{ 'dip__content-rounded': !this.showFooter }">
         <div class="dip__content__title_and_image">
           <div class="dip__content__title_and_image__image_container">
-            <img [src]="this.token.logoRoute" alt="Product Image" />
+            <app-coin-logos
+              [nativeTokenLogo]="this.nativeToken?.logoRoute"
+              [tokenLogo]="this.token?.logoRoute"
+            ></app-coin-logos>
           </div>
           <div class="dip__title_container">
             <ion-text class="ux-font-text-lg">{{ this.token.value }}</ion-text>
@@ -40,7 +43,7 @@ import { NavController } from '@ionic/angular';
           </div>
         </div> -->
       </div>
-      <div class="dip__footer" *ngIf='this.showFooter'>
+      <div class="dip__footer" *ngIf="this.showFooter">
         <div class="dip__footer__info">
           <div class="dip__footer__info__label" [ngClass]="{ 'single-row-footer': this.isComing }">
             <ion-text class="ux-font-text-xxs">{{
@@ -57,7 +60,7 @@ import { NavController } from '@ionic/angular';
             appTrackClick
             (click)="this.invest()"
             name="Invest"
-            [dataToTrack]='{eventLabel: this.trackClickName}' 
+            [dataToTrack]="{ eventLabel: this.trackClickName }"
             type="button"
             class="ux-font-button"
           >
@@ -83,6 +86,7 @@ export class DefiInvestmentProductComponent implements OnInit {
   apy: number;
   tvl: number;
   token: Coin;
+  nativeToken: Coin;
   secondFooterLabel: string;
   trackClickName: string;
 
@@ -92,10 +96,10 @@ export class DefiInvestmentProductComponent implements OnInit {
     this.apy = this.investmentProduct.apy();
     this.tvl = this.investmentProduct.tvl();
     this.token = this.investmentProduct.token();
-    this.secondFooterLabel =
-      this.continuousEarning
-        ? 'defi_investments.shared.defi_investment_product.continuous_earnings'
-        : 'defi_investments.shared.defi_investment_product.weekly_earnings';
+    this.nativeToken = this.investmentProduct.nativeToken();
+    this.secondFooterLabel = this.continuousEarning
+      ? 'defi_investments.shared.defi_investment_product.continuous_earnings'
+      : 'defi_investments.shared.defi_investment_product.weekly_earnings';
     this.trackClickName = `ux_invest_${this.token.value.toLowerCase()}`;
   }
 
