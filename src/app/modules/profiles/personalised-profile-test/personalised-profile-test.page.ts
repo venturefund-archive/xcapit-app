@@ -97,7 +97,7 @@ export class PersonalisedProfileTestPage implements OnInit {
     gamer: false,
     other: false,
   });
-
+  todoInAppProfiles = { web3: 'web3', remote: 'remote', gamer: 'gamer', investor: 'investor', other: 'other' };
   crypto_experience_form = this.formBuilder.group({
     radio_option: ['', Validators.required],
   });
@@ -119,23 +119,23 @@ export class PersonalisedProfileTestPage implements OnInit {
 
   toDoInApp = [
     {
-      controlName: 'investor',
+      controlName: this.todoInAppProfiles.investor,
       text: 'profiles.personalised_profile_test.to_do_in_app.investor',
     },
     {
-      controlName: 'remote',
+      controlName: this.todoInAppProfiles.remote,
       text: 'profiles.personalised_profile_test.to_do_in_app.remote',
     },
     {
-      controlName: 'web3',
+      controlName: this.todoInAppProfiles.web3,
       text: 'profiles.personalised_profile_test.to_do_in_app.web3',
     },
     {
-      controlName: 'gamer',
+      controlName: this.todoInAppProfiles.gamer,
       text: 'profiles.personalised_profile_test.to_do_in_app.gamer',
     },
     {
-      controlName: 'other',
+      controlName: this.todoInAppProfiles.other,
       text: 'profiles.personalised_profile_test.to_do_in_app.other',
     },
   ];
@@ -167,15 +167,15 @@ export class PersonalisedProfileTestPage implements OnInit {
 
   sendToDoInAppEvent() {
     const formValue = this.to_do_in_app_form.value;
-    let event = 'other';
+    let event = this.todoInAppProfiles.other;
     if (formValue.web3) {
-      event = 'web3';
+      event = this.todoInAppProfiles.web3;
     } else if (formValue.gamer) {
-      event = 'gamer';
+      event = this.todoInAppProfiles.gamer;
     } else if (formValue.remote) {
-      event = 'remote';
+      event = this.todoInAppProfiles.remote;
     } else if (formValue.investor) {
-      event = 'investor';
+      event = this.todoInAppProfiles.investor;
     }
     this.toDoEventToSend = this.eventPrefix + event;
     return this.sendEvent(this.toDoEventToSend);
