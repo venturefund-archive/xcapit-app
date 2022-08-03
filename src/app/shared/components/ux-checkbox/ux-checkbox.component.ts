@@ -4,7 +4,7 @@ import { ControlContainer, FormGroupDirective, AbstractControl } from '@angular/
 @Component({
   selector: 'app-ux-checkbox',
   template: `
-    <div class="ux_checkbox_container">
+    <div class="ux_checkbox_container {{this.divClass}}">
       <ion-item class="ux-font-text-xs ux_checkbox_container__item">
         <ion-label *ngIf="this.label" class="ux_checkbox_container__item__label {{ this.class }}">
           {{ this.label }}
@@ -28,6 +28,7 @@ export class UxCheckboxComponent implements OnInit {
   @Input() controlName: string;
   @Input() class: string;
   @Input() style: string;
+  @Input() divClass: string; 
   @ViewChild('inputRegister', { read: ElementRef, static: true })
   input: ElementRef;
 

@@ -533,6 +533,11 @@
       "namePrimaryAction": "Link to Binance",
       "nameSecondaryAction": "Skip for now"
     },
+    "success_profile_test": {
+      "text_primary":"Thanks a lot Xcapiter!",
+      "text_secondary":"Your opinion helps us to improve your experience day by day.",
+      "name_primary_action":"Go to my wallet"
+    },
     "personal_data": {
       "header": "Configure account",
       "personal_data_title": "Personal data",
@@ -564,6 +569,31 @@
       "country_placeholder": "Select a country",
       "cuit_placeholder": "Ej: 23000000009"
     },
+    "personalised_profile_test":{
+      "question_1":"1. What do you want to do inside Xcapit? Choose all the options you consider",
+      "question_2":"2. What is your experience level with cryptos?",
+      "to_do_in_app":{
+        "investor":"Diversify my investments or save in a stable currency",
+        "remote":"Receive collections and make payments",
+        "web3":"Connect to dapps",
+        "gamer":"Connecting to NFTs or P2E gaming platforms",
+        "other":"Other"        
+      },
+      "crypto_experience": {
+        "beginner": "I am starting to explore crypto",
+        "intermediate": "I bought cryptos and used several platforms, but I have only been using them for a short time",
+        "advanced": "I have been using it for quite some time, but I still do not consider myself an expert"
+      },
+      "button_primary":"Submit",
+      "button_secondary":"Do it at another time"
+    },
+    "shared_profiles":{
+      "skip_profile_test": {
+        "title":"Wait!",
+        "description":"Your progress will not be maintained if you leave the form.",
+        "button_back":"Back",
+        "button_out":"Exit"
+      },
     "shared": {
       "remove_account_modal": {
         "title": "Delete account",
@@ -572,6 +602,7 @@
         "more_info_link": "Wallet frecuent questions",
         "remove_account_button": "Delete account",
         "cancel_button": "Cancel"
+      }
       }
     }
   },

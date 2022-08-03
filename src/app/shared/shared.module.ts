@@ -90,6 +90,7 @@ import { RuleCardComponent } from '../modules/financial-education/shared-financi
 import { CircleProgressComponent } from './components/circle-progress/circle-progress.component';
 import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/components/info-send-modal/info-send-modal.component';
 import { EyeComponent } from './components/eye/eye.component';
+import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/components/skip-profile-test/skip-profile-test.component';
 @NgModule({
     declarations: [
         FilterTabComponent,
@@ -114,6 +115,7 @@ import { EyeComponent } from './components/eye/eye.component';
         ReferralsComingComponent,
         EyeComponent,
         // Ux
+        SkipProfileTestComponent,
         InfoSendModalComponent,
         CircleProgressComponent,
         RuleCardComponent,
@@ -215,6 +217,7 @@ import { EyeComponent } from './components/eye/eye.component';
         ReferralsComingComponent,
         EyeComponent,
         // Ux
+        SkipProfileTestComponent,
         InfoSendModalComponent,
         RuleCardComponent,
         InfoPhraseAdviceModalComponent,
