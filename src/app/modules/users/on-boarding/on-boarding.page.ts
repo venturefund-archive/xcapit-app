@@ -31,7 +31,7 @@ SwiperCore.use([Virtual]);
       <div class="ob__actions">
         <ion-button
           (click)="goToCreateWallet()"
-          name="Create"
+          name="Create wallet"
           expand="block"
           size="large"
           class="ux_button"
@@ -41,7 +41,7 @@ SwiperCore.use([Virtual]);
         </ion-button>
         <ion-button
           (click)="goToImportWallet()"
-          name="Import"
+          name="Import wallet"
           expand="block"
           size="large"
           class="ob__actions__secondary ux-link-xl"
@@ -56,7 +56,6 @@ SwiperCore.use([Virtual]);
 })
 export class OnBoardingPage implements OnInit {
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
-
   slideOpts: SwiperOptions = {
     speed: 200,
     spaceBetween: 16,
@@ -83,10 +82,10 @@ export class OnBoardingPage implements OnInit {
   }
 
   goToCreateWallet() {
-    this.navController.navigateRoot(['/wallets/create-first/disclaimer']);
+    this.navController.navigateForward(['/wallets/create-first/disclaimer']);
   }
 
   goToImportWallet() {
-    this.navController.navigateRoot(['/wallets/create-first/disclaimer/import']);
+    this.navController.navigateForward(['/wallets/create-first/disclaimer/import']);
   }
 }
