@@ -36,17 +36,17 @@ describe('KycDisclaimerModalComponent', () => {
   });
 
   it('should dismiss modal when close button is clicked', () => {
-    fixture.debugElement.query(By.css('ion-button[name="Close KYC Modal"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_exit"]')).nativeElement.click();
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
   it('should dismiss modal when Begin button is clicked', () => {
-    fixture.debugElement.query(By.css('ion-button[name="Begin KYC Flow"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_register"]')).nativeElement.click();
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Close KYC Modal button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Close KYC Modal');
+  it('should call trackEvent on trackService when ux_buy_kripton_exit button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_exit');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -54,8 +54,8 @@ describe('KycDisclaimerModalComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Begin KYC Flow button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Begin KYC Flow');
+  it('should call trackEvent on trackService when ux_buy_kripton_register button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_register');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
