@@ -49,7 +49,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
       </div>
       <ion-button
         appTrackClick
-        name="add_amount"
+        name="ux_invest_add_amount"
         expand="block"
         size="large"
         class="ion-padding-start ion-padding-end ux_button id__add-amount"
@@ -60,7 +60,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
       </ion-button>
       <ion-button
         appTrackClick
-        name="finalize_invest"
+        name="ux_invest_withdraw"
         expand="block"
         fill="clear"
         size="small"
