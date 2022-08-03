@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { SwiperModule } from 'swiper/angular';
 import { OnBoardingPage } from './on-boarding.page';
@@ -12,15 +13,22 @@ describe('OnBoardingPage', () => {
   let fixture: ComponentFixture<OnBoardingPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
     TestBed.configureTestingModule({
       declarations: [OnBoardingPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), SwiperModule],
-      providers: [{ provide: NavController, useValue: navControllerSpy }],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OnBoardingPage);
@@ -37,7 +45,6 @@ describe('OnBoardingPage', () => {
     expect(component.swiper.swiperRef.activeIndex).toEqual(1);
   });
 
-
   it('should advance and back on swiper', () => {
     fixture.debugElement.query(By.css('ion-icon[name="arrow-forward"]')).nativeElement.click();
     fixture.detectChanges();
@@ -53,5 +60,10 @@ describe('OnBoardingPage', () => {
   it('should navigate to Import wallet page when button is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="Import wallet"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/create-first/disclaimer/import']);
+  });
+
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

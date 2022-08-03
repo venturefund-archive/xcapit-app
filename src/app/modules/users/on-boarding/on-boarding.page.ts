@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import SwiperCore, { SwiperOptions, Virtual } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 SwiperCore.use([Virtual]);
@@ -64,10 +65,18 @@ export class OnBoardingPage implements OnInit {
   };
   isBeginning = true;
   isEnd = false;
-  constructor(private navController: NavController) {}
+  constructor(private navController: NavController, private trackService: TrackService) {}
 
   ngOnInit() {}
 
+  ionViewWillEnter(){
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_onboarding_screenview'
+    });
+  }
+  
   onSlideChange() {
     this.isBeginning = this.swiper.swiperRef.isBeginning;
     this.isEnd = this.swiper.swiperRef.isEnd;
