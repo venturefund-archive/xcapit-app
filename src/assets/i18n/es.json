@@ -536,9 +536,9 @@
       "nameSecondaryAction": "Omitir por ahora"
     },
     "success_profile_test": {
-      "text_primary":"¡Muchas gracias Xcapiter!",
-      "text_secondary":"Tu opinión nos ayuda a seguir mejorando día a día tu experiencia.",
-      "name_primary_action":"Ir a mi wallet"
+      "text_primary": "¡Muchas gracias Xcapiter!",
+      "text_secondary": "Tu opinión nos ayuda a seguir mejorando día a día tu experiencia.",
+      "name_primary_action": "Ir a mi wallet"
     },
     "personal_data": {
       "header": "Configurar cuenta",
@@ -571,8 +571,8 @@
       "cuit_placeholder": "Ej: 23000000009"
     },
     "personalised_profile_test": {
-      "question_1":"1. ¿Qué deseas hacer dentro de Xcapit? Elige todas las opciones que consideres",
-      "question_2":"2. ¿Cuál es tu nivel de experiencia con criptos?",
+      "question_1": "1. ¿Qué deseas hacer dentro de Xcapit? Elige todas las opciones que consideres",
+      "question_2": "2. ¿Cuál es tu nivel de experiencia con criptos?",
       "to_do_in_app": {
         "investor": "Diversificar mis inversiones o ahorrar en moneda estable",
         "remote": "Recibir cobranzas y realizar pagos",
@@ -585,24 +585,25 @@
         "intermediate": "Compré criptos y utilicé varias plataformas, pero llevo poco tiempo",
         "advanced": "Utilizo hace bastante tiempo, pero aún no me considero un experto"
       },
-      "button_primary":"Enviar",
-      "button_secondary":"Hacerlo en otro momento"
+      "button_primary": "Enviar",
+      "button_secondary": "Hacerlo en otro momento"
     },
-    "shared_profiles":{
+    "shared_profiles": {
       "skip_profile_test": {
-        "title":"¡Espera!",
-        "description":"No se mantendrán tus avances si abandonas el formulario.",
-        "button_back":"Atrás",
-        "button_out":"Salir"
+        "title": "¡Espera!",
+        "description": "No se mantendrán tus avances si abandonas el formulario.",
+        "button_back": "Atrás",
+        "button_out": "Salir"
       },
-    "shared": {
-      "remove_account_modal": {
-        "title": "Eliminar cuenta",
-        "text": "Iniciaremos con el proceso de eliminación de datos asociados a la cuenta.\n Recuerda que siempre vas a poder recuperar tu wallet con la frase semilla",
-        "more_info": "Para más información visita las",
-        "more_info_link": "Preguntas frecuentes sobre la Wallet",
-        "remove_account_button": "Eliminar cuenta",
-        "cancel_button": "Cancelar"
+      "shared": {
+        "remove_account_modal": {
+          "title": "Eliminar cuenta",
+          "text": "Iniciaremos con el proceso de eliminación de datos asociados a la cuenta.\n Recuerda que siempre vas a poder recuperar tu wallet con la frase semilla",
+          "more_info": "Para más información visita las",
+          "more_info_link": "Preguntas frecuentes sobre la Wallet",
+          "remove_account_button": "Eliminar cuenta",
+          "cancel_button": "Cancelar"
+        }
       }
     }
   },
@@ -2046,7 +2047,7 @@
       "select_label": "Pais en el que vas a operar",
       "select_placeholder": "Selecciona tu país",
       "provider_label": "Selecciona el proveedor",
-      "no_provider":"Por el momento no es posible adquirir {{coinName}} en tu país.",
+      "no_provider": "Por el momento no es posible adquirir {{coinName}} en tu país.",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
       "directa24": {
@@ -2644,5 +2645,4 @@
       }
     }
   }
-}
 }
