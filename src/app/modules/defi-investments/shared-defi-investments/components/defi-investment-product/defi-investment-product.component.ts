@@ -11,10 +11,10 @@ import { NavController } from '@ionic/angular';
       <div class="dip__content" [ngClass]="{ 'dip__content-rounded': !this.showFooter }">
         <div class="dip__content__title_and_image">
           <div class="dip__content__title_and_image__image_container">
-            <app-coin-logos
-              [nativeTokenLogo]="this.nativeToken?.logoRoute"
+            <app-token-with-blockchain-logo
+              [blockchainLogo]="this.nativeToken?.logoRoute"
               [tokenLogo]="this.token?.logoRoute"
-            ></app-coin-logos>
+            ></app-token-with-blockchain-logo>
           </div>
           <div class="dip__title_container">
             <ion-text class="ux-font-text-lg">{{ this.token.value }}</ion-text>

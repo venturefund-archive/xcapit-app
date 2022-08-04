@@ -12,7 +12,7 @@ import { ToastWithButtonsComponent } from './toast-with-buttons.component';
 const dataTest = {
   id: 16,
   name: 'MATIC - Polygon',
-  logoRoute: 'assets/img/coins/MATIC.png',
+  logoRoute: 'assets/img/coins/MATIC.svg',
   value: 'MATIC',
   network: 'MATIC',
   chainId: 80001,

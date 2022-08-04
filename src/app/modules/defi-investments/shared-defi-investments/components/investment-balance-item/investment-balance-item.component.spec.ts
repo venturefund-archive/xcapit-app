@@ -25,7 +25,7 @@ describe('InvestmentBalanceItemComponent', () => {
   const matic_coin = {
     id: 16,
     last: false,
-    logoRoute: 'assets/img/coins/MATIC.png',
+    logoRoute: 'assets/img/coins/MATIC.svg',
     moonpayCode: 'matic_polygon',
     name: 'MATIC - Polygon',
     native: true,
@@ -102,8 +102,8 @@ describe('InvestmentBalanceItemComponent', () => {
     expect(convertedBalanceEl.nativeElement.innerHTML).toContain(50);
   });
 
-  it('should render app-coin-logos properly', () => {
-    const compEl = fixture.debugElement.query(By.css('app-coin-logos'));
+  it('should render app-token-with-blockchain-logo properly', () => {
+    const compEl = fixture.debugElement.query(By.css('app-token-with-blockchain-logo'));
     expect(compEl).toBeTruthy();
   });
 

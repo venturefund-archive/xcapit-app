@@ -12,20 +12,6 @@ import { TwoPiProduct } from '../../models/two-pi-product/two-pi-product.model';
 import { Coin } from '../../../../wallets/shared-wallets/interfaces/coin.interface';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-const matic_coin = {
-  id: 16,
-  last: false,
-  logoRoute: 'assets/img/coins/MATIC.png',
-  moonpayCode: 'matic_polygon',
-  name: 'MATIC - Polygon',
-  native: true,
-  network: 'MATIC',
-  rpc: 'http://testrpc.text/',
-  symbol: 'MATICUSDT',
-  value: 'MATIC',
-  decimals: 18,
-};
-
 describe('DefiInvestmentProductComponent', () => {
   let component: DefiInvestmentProductComponent;
   let fixture: ComponentFixture<DefiInvestmentProductComponent>;
@@ -35,7 +21,11 @@ describe('DefiInvestmentProductComponent', () => {
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let twoPiProductSpy: jasmine.SpyObj<TwoPiProduct>;
   let coinSpy: jasmine.SpyObj<Coin>;
+  let nativeTokenSpy: jasmine.SpyObj<Coin>;
   beforeEach(waitForAsync(() => {
+    nativeTokenSpy = jasmine.createSpyObj('nativeToken',{}, {
+      logoRoute: 'assets/img/coins/MATIC.svg',
+    })
     coinSpy = jasmine.createSpyObj(
       'Coin',
       {},
@@ -52,7 +42,7 @@ describe('DefiInvestmentProductComponent', () => {
     });
     twoPiProductSpy = jasmine.createSpyObj('TwoPiProduct', {
       token: coinSpy,
-      nativeToken: matic_coin,
+      nativeToken: nativeTokenSpy,
       tvl: 1301621.68,
       apy: 22.78,
       type: 'Vault',
@@ -80,8 +70,8 @@ describe('DefiInvestmentProductComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render app-coin-logos properly', () => {
-    const compEl = fixture.debugElement.query(By.css('app-coin-logos'));
+  it('should render app-token-with-blockchain-logo properly', () => {
+    const compEl = fixture.debugElement.query(By.css('app-token-with-blockchain-logo'));
     expect(compEl).toBeTruthy();
   });
 

@@ -9,10 +9,10 @@ import { InvestmentProduct } from '../../interfaces/investment-product.interface
   template: `
     <div (click)="this.goToDetail()" class="ibi" name="go_to_invest_detail">
       <div class="ibi__image">
-        <app-coin-logos
-          [nativeTokenLogo]="this.nativeToken?.logoRoute"
+        <app-token-with-blockchain-logo
+          [blockchainLogo]="this.nativeToken?.logoRoute"
           [tokenLogo]="this.token?.logoRoute"
-        ></app-coin-logos>
+        ></app-token-with-blockchain-logo>
       </div>
       <div class="ibi__content">
         <div class="ibi__content__group">

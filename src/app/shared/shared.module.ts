@@ -90,7 +90,8 @@ import { RuleCardComponent } from '../modules/financial-education/shared-financi
 import { CircleProgressComponent } from './components/circle-progress/circle-progress.component';
 import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/components/info-send-modal/info-send-modal.component';
 import { EyeComponent } from './components/eye/eye.component';
-import { CoinLogosComponent } from './components/coin-logos/coin-logos.component';
+import { TokenWithBlockchainLogoComponent } from './components/token-with-blockchain-logo/token-with-blockchain-logo.component';
+
 @NgModule({
   declarations: [
     FilterTabComponent,
@@ -114,7 +115,7 @@ import { CoinLogosComponent } from './components/coin-logos/coin-logos.component
     AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
     EyeComponent,
-    CoinLogosComponent,
+    TokenWithBlockchainLogoComponent,
     // Ux
     InfoSendModalComponent,
     CircleProgressComponent,
@@ -216,7 +217,7 @@ import { CoinLogosComponent } from './components/coin-logos/coin-logos.component
     AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
     EyeComponent,
-    CoinLogosComponent,
+    TokenWithBlockchainLogoComponent,
     // Ux
     InfoSendModalComponent,
     RuleCardComponent,

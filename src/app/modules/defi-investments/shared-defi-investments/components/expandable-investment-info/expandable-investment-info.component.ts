@@ -23,10 +23,10 @@ import { LINKS } from 'src/app/config/static-links';
       >
         <ion-item slot="header" class="eif__accordion__header">
           <div class="eif__accordion__header__content">
-            <app-coin-logos
-              [nativeTokenLogo]="this.nativeToken.logoRoute"
+            <app-token-with-blockchain-logo
+              [blockchainLogo]="this.nativeToken.logoRoute"
               [tokenLogo]="this.token.logoRoute"
-            ></app-coin-logos>
+            ></app-token-with-blockchain-logo>
             <div class="eif__accordion__header__content__text">
               <ion-label>
                 <ion-text
@@ -84,17 +84,6 @@ import { LINKS } from 'src/app/config/static-links';
             </ion-label>
           </ion-item>
           <ion-item class="split-information-item">
-            <!-- <ion-label class="eif__accordion__content__information-item">
-              <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs ">
-                {{ 'defi_investments.shared.expandable_investment_info.deposit_asset' | translate }}
-              </ion-text>
-              <div class="inline-image">
-                <img [src]="this.token.logoRoute" />
-                <ion-text class="eif__accordion__content__information-item__text ux-font-text-base ">
-                  {{ this.token.value }}
-                </ion-text>
-              </div>
-            </ion-label> -->
             <ion-label class="eif__accordion__content__information-item">
               <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs">
                 {{ 'defi_investments.shared.expandable_investment_info.receive_asset' | translate }}

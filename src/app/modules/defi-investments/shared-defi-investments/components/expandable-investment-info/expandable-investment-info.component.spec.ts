@@ -56,7 +56,7 @@ const btc_coin = {
 const matic_coin = {
   id: 16,
   last: false,
-  logoRoute: 'assets/img/coins/MATIC.png',
+  logoRoute: 'assets/img/coins/MATIC.svg',
   moonpayCode: 'matic_polygon',
   name: 'MATIC - Polygon',
   native: true,
@@ -182,7 +182,7 @@ describe('ExpandableInvestmentInfoComponent', () => {
         By.css('ion-item.split-information-item div.inline-image img')
       );
       const informativeIcon = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
-      const compEl = fixture.debugElement.query(By.css('app-coin-logos'));
+      const compEl = fixture.debugElement.query(By.css('app-token-with-blockchain-logo'));
       const defiInfoButtonEl = fixture.debugElement.query(
         By.css('.eif__accordion__content__information-item__button ion-button')
       );
