@@ -38,7 +38,6 @@ export class SuccessSubmodulesPage implements OnInit {
   async ionViewWillEnter() {
     this.success_data = SUCCESS_TYPES.success_submodules;
     await this.getUserWalletAddress();
-    this.setTitle();
     this.event();
   }
 
@@ -51,6 +50,7 @@ export class SuccessSubmodulesPage implements OnInit {
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
+      this.setTitle();
     });
   }
 

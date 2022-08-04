@@ -59,6 +59,7 @@ export class TestTypeformPage implements OnInit {
   }
 
   getEducationDataOf(anAddress: string) {
+    console.log('geteducation data of se ejecuta')
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
       this.areCategoriesCompleted();
@@ -78,9 +79,8 @@ export class TestTypeformPage implements OnInit {
         submodule_id: `${this.subModule.id}`,
       },
       onSubmit: () => {
-        this.getEducationDataOf(this.wallet_address);
         this.getSubmoduleResult();
-        this.redirect();
+        
       },
     });
   }
@@ -101,18 +101,20 @@ export class TestTypeformPage implements OnInit {
   }
 
   getSubModule() {
+    console.log(this.module)
     for (const subModule of this.module.submodules) {
       if (subModule.id === this.subModule) this.subModule = subModule;
     }
   }
 
   getSubmoduleResult() {
-    this.financialEducationService
-      .getSubmoduleResultOf(this.subModule.id, this.wallet_address)
-      .subscribe((submoduleResult) => {
-        this.submoduleResult = submoduleResult;
-      });
-    // this.submoduleResult = SUBMODULE;
+      this.financialEducationService
+        .getSubmoduleResultOf(this.subModule.id, this.wallet_address)
+        .subscribe((submoduleResult) => {
+          this.submoduleResult = submoduleResult;
+          console.log(this.submoduleResult)
+          this.redirect();
+        });
   }
 
   redirect() {
