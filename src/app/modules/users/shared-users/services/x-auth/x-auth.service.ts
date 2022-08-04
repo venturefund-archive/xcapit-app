@@ -9,11 +9,11 @@ export class XAuthService {
 
   constructor(private storage: IonicStorageService) {}
 
-  async token(): Promise<string | null> {
-    return await this.storage.get(this.key);
+  token(): Promise<string | null> {
+    return this.storage.get(this.key);
   }
 
-  async saveToken(token: string): Promise<void> {
+  saveToken(token: string): Promise<void> {
     return this.storage.set(this.key, token);
   }
 

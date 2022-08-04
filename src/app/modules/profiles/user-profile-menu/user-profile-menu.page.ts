@@ -18,6 +18,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { Storage } from '@ionic/storage';
+import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
+
 @Component({
   selector: 'app-user-profile-menu',
   template: `
@@ -128,13 +130,13 @@ export class UserProfileMenuPage {
 
   async handleLogout() {
     if ((await this.walletService.walletExist()) && (await this.logOutModalService.isShowModalTo(this.profile.email))) {
-      await this.showLogOutModal();
+      this.showLogOutModal();
     } else {
       this.logout();
     }
   }
 
-  async showLogOutModal() {
+  async showLogOutModal(): Promise<void> {
     const modal = await this.modalController.create({
       component: LogOutModalComponent,
       componentProps: {
@@ -144,9 +146,13 @@ export class UserProfileMenuPage {
     });
 
     await modal.present();
+    if ((await modal.onDidDismiss()).data) {
+      this.logout();
+    }
   }
 
   async logout() {
+    await new LoggedIn(this.ionicStorageService).save(false);
     await this.authService.logout();
     await this.navController.navigateRoot('users/login');
   }

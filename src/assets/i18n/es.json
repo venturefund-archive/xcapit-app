@@ -148,14 +148,20 @@
       "register_link": "Volver al registro",
       "ok_text": "Email Verificado correctamente!"
     },
+    "login_new": {
+      "title": "Ingresar",
+      "password_label": "Contraseña",
+      "login_button_text": "Ingresar",
+      "reset_password_link": "Olvidé mi contraseña",
+      "help_link": "Ayuda",
+      "invalid_password_text": "La contraseña ingresada no es correcta. Por favor intente nuevamente."
+    },
     "login": {
       "password_label": "Contraseña",
       "register_link": "¿No tienes cuenta? Crea una",
       "reset_password_link": "Olvidé mi contraseña",
       "login_button_text": "Ingresar",
       "title": "Ingresar",
-      "google_auth": "Continuar con Google",
-      "or_text": "o",
       "loading": "Ingresando"
     },
     "register": {

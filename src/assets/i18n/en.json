@@ -146,7 +146,7 @@
       "title": "Why is the transaction fee estimated?",
       "description": "Due to market volatility, the exchange rate may vary slightly at the time of the transaction.",
       "button_text": "Understood",
-      "loading_text":"Calculating. Wait a few moments."
+      "loading_text": "Calculating. Wait a few moments."
     }
   },
   "users": {
@@ -157,14 +157,20 @@
       "register_link": "Back to register",
       "ok_text": "Email verified successfully!"
     },
+    "login_new": {
+      "title": "Login",
+      "password_label": "Password",
+      "login_button_text": "Login",
+      "reset_password_link": "I forgot my password",
+      "help_link": "Help",
+      "invalid_password_text": "The password entered is incorrect. Please try again."
+    },
     "login": {
       "password_label": "Password",
       "register_link": "Do not have an account? Create one",
       "reset_password_link": "I forgot my password",
       "login_button_text": "Login",
       "title": "Login",
-      "google_auth": "Sign in with Google",
-      "or_text": "or",
       "loading": "Loading"
     },
     "register": {
@@ -322,7 +328,7 @@
       "recommendations": "You may be interested in",
       "empty_products": "Soon you will be able to find the best investments for your profile.",
       "link_button": "How do DeFi investments work?",
-      "no_investments":"Your investments will appear here. Get started now!",
+      "no_investments": "Your investments will appear here. Get started now!",
       "choose_investor_profile": {
         "complete_test": {
           "title": "I want to choose my profile again",
@@ -365,12 +371,12 @@
       "weekly_update": "*Weekly update"
     },
     "shared": {
-      "withdraw_info_modal":{
-        "title":"¿Qué es la tarifa de retiro?",
-        "item_1":"Es el costo de realizar una extracción. ",
-        "item_2":"Se calcula sobre el monto que deseas retirar (0,255%), no sobre el total de tu inversión.",
-        "item_3":"Se abona en la misma moneda del producto de inversión (si estás invirtiendo en USDC, pagarás la tarifa de retiro en USDC).",
-        "button_text":"Entendido"
+      "withdraw_info_modal": {
+        "title": "¿Qué es la tarifa de retiro?",
+        "item_1": "Es el costo de realizar una extracción. ",
+        "item_2": "Se calcula sobre el monto que deseas retirar (0,255%), no sobre el total de tu inversión.",
+        "item_3": "Se abona en la misma moneda del producto de inversión (si estás invirtiendo en USDC, pagarás la tarifa de retiro en USDC).",
+        "button_text": "Entendido"
       },
       "transaction_fees": {
         "label": "Estimated transaction fee",
@@ -425,7 +431,7 @@
         "available": "Balance available",
         "amount_invested": "Total amount invested",
         "max_button": "Max",
-        "advice":"Insufficient funds"
+        "advice": "Insufficient funds"
       },
       "withdraw_card": {
         "title": "Withdraw",
@@ -459,7 +465,7 @@
         "header_alert": "Wait!",
         "alert_message": "We are still calculating the transaction fee. Do you want to continue anyway?",
         "alert_confirmation": "Confirm",
-        "alert_cancel":"Cancel"
+        "alert_cancel": "Cancel"
       },
       "password_modal": {
         "description": "To confirm your withdrawal, enter your Xcapit wallet password.",
@@ -1089,7 +1095,7 @@
         "card_state_50": "You have {{doneModules}} complete modules, you are almost there.",
         "card_state_75": "You have {{doneModules}} complete modules, last effort.",
         "card_state_100": "Congratulations! You have completed all the modules.",
-        "generating_nft":"Generating NFT"
+        "generating_nft": "Generating NFT"
       },
       "module_finance": {
         "module_1": {
@@ -2451,35 +2457,35 @@
       "fromToken_title": "Select the token you want to swap",
       "toToken_title": "Select the token you want to receive"
     },
-    "terms_and_conditions":{
-      "title":"What do you need to know before making a swap?",
-      "condition_1":"The exchange is done through the external provider 1inch.",
-      "condition_2":"The conditions of token exchange depend on the provider.",
-      "condition_3":"Exchanges have associated transaction costs.",
-      "terms":{
-        "i_have_read":"I have read and agree to the",
+    "terms_and_conditions": {
+      "title": "What do you need to know before making a swap?",
+      "condition_1": "The exchange is done through the external provider 1inch.",
+      "condition_2": "The conditions of token exchange depend on the provider.",
+      "condition_3": "Exchanges have associated transaction costs.",
+      "terms": {
+        "i_have_read": "I have read and agree to the",
         "link_to_terms": "terms and conditions",
-        "of":"of 1inch"
+        "of": "of 1inch"
       },
-      "button":"Start"
+      "button": "Start"
     },
-    "swap_in_progress":{
+    "swap_in_progress": {
       "text_title": "Swap",
       "text_badge": "In progress",
-      "text_primary":"Your order is on the way!",
-      "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
-      "button_text":"Go to wallet"
+      "text_primary": "Your order is on the way!",
+      "text_secondary": "The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "button_text": "Go to wallet"
     },
-    "sent_notification":{
-      "actions":{
+    "sent_notification": {
+      "actions": {
         "title": "View more"
       },
-      "swap_ok":{
-        "title":"🚀 Successful exchange! ",
+      "swap_ok": {
+        "title": "🚀 Successful exchange! ",
         "body": "You sent {{fromAmount}} {{fromToken}} and received {{toAmount}} {{toToken}} ."
       },
-      "swap_not_ok":{
-        "title":"❌ Error in the exchange",
+      "swap_not_ok": {
+        "title": "❌ Error in the exchange",
         "body": "There was an error sending {{fromAmount}} {{fromToken}} and receiving {{toAmount}} {{toToken}}. More information here."
       }
     }
