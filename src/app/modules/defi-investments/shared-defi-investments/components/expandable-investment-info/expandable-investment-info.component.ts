@@ -7,6 +7,9 @@ import { AvailableDefiProducts } from '../../models/available-defi-products/avai
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { ModalController } from '@ionic/angular';
 import { WithdrawInfoModalComponent } from '../withdraw-info-modal/withdraw-info-modal.component';
+import { TranslateService } from '@ngx-translate/core';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { LINKS } from 'src/app/config/static-links';
 
 @Component({
   selector: 'app-expandable-investment-info',
@@ -20,9 +23,10 @@ import { WithdrawInfoModalComponent } from '../withdraw-info-modal/withdraw-info
       >
         <ion-item slot="header" class="eif__accordion__header">
           <div class="eif__accordion__header__content">
-            <div class="eif__accordion__header__content__img">
-              <img [src]="this.token.logoRoute" />
-            </div>
+            <app-token-with-blockchain-logo
+              [blockchainLogo]="this.nativeToken.logoRoute"
+              [tokenLogo]="this.token.logoRoute"
+            ></app-token-with-blockchain-logo>
             <div class="eif__accordion__header__content__text">
               <ion-label>
                 <ion-text
@@ -51,11 +55,24 @@ import { WithdrawInfoModalComponent } from '../withdraw-info-modal/withdraw-info
           ></ion-icon>
         </ion-item>
         <ion-list lines="none" slot="content" class="eif__accordion__content">
-          <div class="eif__accordion__content__product_description">
-            <ion-text class="eif__accordion__content__information-item__text ux-font-text-base">
-              {{ this.infoText | translate }}
-            </ion-text>
+          <div class="eif__accordion__content__title">
+            <ion-text class="ux-font-header-titulo"
+              >{{ 'defi_investments.shared.expandable_investment_info.title' | translate }}
+              {{ this.token.value }}</ion-text
+            >
           </div>
+          <ion-item>
+            <ion-label class="eif__accordion__content__information-item">
+              <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs ">
+                {{ 'defi_investments.shared.expandable_investment_info.how_works' | translate }}
+              </ion-text>
+              <ion-text
+                class="eif__accordion__content__information-item__info ux-font-text-base"
+                [innerHTML]="this.infoText"
+              ></ion-text>
+            </ion-label>
+          </ion-item>
+
           <ion-item>
             <ion-label class="eif__accordion__content__information-item">
               <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs ">
@@ -67,17 +84,6 @@ import { WithdrawInfoModalComponent } from '../withdraw-info-modal/withdraw-info
             </ion-label>
           </ion-item>
           <ion-item class="split-information-item">
-            <ion-label class="eif__accordion__content__information-item">
-              <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs ">
-                {{ 'defi_investments.shared.expandable_investment_info.deposit_asset' | translate }}
-              </ion-text>
-              <div class="inline-image">
-                <img [src]="this.token.logoRoute" />
-                <ion-text class="eif__accordion__content__information-item__text ux-font-text-base ">
-                  {{ this.token.value }}
-                </ion-text>
-              </div>
-            </ion-label>
             <ion-label class="eif__accordion__content__information-item">
               <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs">
                 {{ 'defi_investments.shared.expandable_investment_info.receive_asset' | translate }}
@@ -128,11 +134,20 @@ import { WithdrawInfoModalComponent } from '../withdraw-info-modal/withdraw-info
           <ion-item>
             <ion-label class="eif__accordion__content__information-item">
               <ion-text class="eif__accordion__content__information-item__label ux-font-titulo-xs ">
-                {{ 'defi_investments.shared.expandable_investment_info.platform' | translate }}
+                {{ 'defi_investments.shared.expandable_investment_info.information' | translate }}
               </ion-text>
-              <ion-text class="eif__accordion__content__information-item__text ux-font-text-base">
-                {{ this.provider }}
-              </ion-text>
+              <div class="eif__accordion__content__information-item__button">
+                <ion-button
+                  name="go_to_defi_faqs"
+                  (click)="this.goTo2pi()"
+                  class="ux-link-xs"
+                  appTrackClick
+                  fill="clear"
+                  size="small"
+                >
+                  {{ 'defi_investments.shared.expandable_investment_info.2pi_dashboard' | translate }}
+                </ion-button>
+              </div>
             </ion-label>
           </ion-item>
           <ion-item>
@@ -158,6 +173,7 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
   nativeToken: Coin;
   tvl: number;
   apy: number;
+  title: string;
   provider: string;
   type: string;
   mode: string;
@@ -166,12 +182,15 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
   networkColors = NETWORK_COLORS;
   defiProducts: DefiProduct[];
   profile: string;
+  url = LINKS.twoPiPage;
   isInfoModalOpen = false;
   trackClickName = 'display_product_info';
 
   constructor(
     private remoteConfig: RemoteConfigService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private translate: TranslateService,
+    private browserService: BrowserService
   ) {}
 
   ngOnInit() {
@@ -196,13 +215,20 @@ export class ExpandableInvestmentInfoComponent implements OnInit {
     return new AvailableDefiProducts(this.remoteConfig);
   }
 
+  goTo2pi() {
+    this.browserService.open({ url: this.url });
+  }
+
   setProductProfile() {
     const category = this.defiProducts.find((product) => product.id === this.name).category;
     this.profile = `defi_investments.shared.expandable_investment_info.profiles.${category}`;
   }
 
   private setInvestmentInfo() {
-    this.infoText = `defi_investments.shared.expandable_investment_info.investment_info.${this.token.value}`;
+    this.title = 'defi_investments.shared.expandable_investment_info.title ' + this.token.value;
+    this.infoText = this.translate.instant(
+      `defi_investments.shared.expandable_investment_info.investment_info.${this.token.value}`
+    );
   }
 
   async showWithdrawInfo() {

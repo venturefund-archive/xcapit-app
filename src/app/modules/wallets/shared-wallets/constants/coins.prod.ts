@@ -220,7 +220,7 @@ export const PROD_COINS: Coin[] = [
   {
     id: 17,
     name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.png',
+    logoRoute: 'assets/img/coins/MATIC.svg',
     last: false,
     value: 'MATIC',
     network: 'MATIC',

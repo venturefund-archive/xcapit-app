@@ -30,7 +30,7 @@ const coins: Coin[] = [
   {
     id: 16,
     name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.png',
+    logoRoute: 'assets/img/coins/MATIC.svg',
     last: false,
     value: 'MATIC',
     network: 'MATIC',
@@ -69,7 +69,7 @@ const expectedCoins: Coin[] = [
   {
     id: 16,
     name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.png',
+    logoRoute: 'assets/img/coins/MATIC.svg',
     last: false,
     value: 'MATIC',
     network: 'MATIC',
@@ -83,7 +83,7 @@ const expectedCoins: Coin[] = [
 const coinClicked = {
   id: 1,
   name: 'MATIC - MATIC',
-  logoRoute: 'assets/img/coins/MATIC.png',
+  logoRoute: 'assets/img/coins/MATIC.svg',
   last: false,
   value: 'MATIC',
   network: 'MATIC',

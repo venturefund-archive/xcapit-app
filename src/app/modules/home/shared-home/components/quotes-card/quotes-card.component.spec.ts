@@ -84,7 +84,7 @@ const coins = [
   {
     id: 8,
     name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.png',
+    logoRoute: 'assets/img/coins/MATIC.svg',
     value: 'MATIC',
     network: 'MATIC',
     native: true,

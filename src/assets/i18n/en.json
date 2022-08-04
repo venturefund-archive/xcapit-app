@@ -407,18 +407,20 @@
       "expandable_investment_info": {
         "TVL": "Total Value Locked",
         "protocol_type": "Protocol type",
-        "deposit_asset": "Deposit",
-        "receive_asset": "Obtain",
-        "platform": "Platform",
+        "receive_asset": "Deposit and Obtain",
+        "2pi_dashboard": "2PI Dashboard",
+        "information": "More information",
         "annual": "% Annual",
-        "blockchain": "Blockchain",
+        "blockchain": "You operate in the network",
         "profile": "Profile",
         "transaction_fee": "Transaction Fee",
         "withdrawal_fee": "Withdrawal Fee",
+        "title": "We have partnered with 2pi to offer you ",
+        "how_works": "How does it work?",
         "investment_info": {
-          "USDC": "Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
-          "DAI": "Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
-          "WBTC": "Your tokens will be distributed in various decentralized protocols. You will earn continuous interest in WBTC. No investment limits."
+          "USDC": "<ul><li>Your tokens will be distributed in several decentralized protocols.</li><li>You will earn continuous interest in USDC.</li><li>No investment limits</li></ul>",
+          "DAI": "<ul><li>Your tokens will be distributed in several decentralized protocols.</li><li>You will earn weekly interest in DAI</li><li>No investment limits.</li></ul>",
+          "WBTC": "<ul><li>Your tokens will be distributed in several decentralized protocols.</li><li>You will earn continuous interest in WBTC.</li><li>No investment limits.</li></ul>"
         },
         "profiles": {
           "conservative": "Conservative",

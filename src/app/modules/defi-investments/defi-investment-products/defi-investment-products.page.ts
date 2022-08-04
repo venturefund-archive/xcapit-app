@@ -116,7 +116,7 @@ export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
   allDefiProducts: DefiInvestment[] = [];
   investorCategory: string;
-  disableFaqsButton = false;
+  disableFaqsButton = true;
   profileForm: UntypedFormGroup = this.formBuilder.group({
     profile: ['conservative', []],
   });
