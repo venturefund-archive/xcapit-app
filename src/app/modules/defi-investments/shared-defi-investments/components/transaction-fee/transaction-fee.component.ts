@@ -16,18 +16,14 @@ import { Amount } from '../../types/amount.type';
         <ion-text class="ux-font-titulo-xs">
           {{ 'defi_investments.shared.transaction_fees.label' | translate }}
         </ion-text>
-        <ion-button
-          class="tf__fee__label__button ion-no-padding"
-          *ngIf="this.transactionFee || this.defaultFeeInfo"
-          slot="icon-only"
-          fill="clear"
+        <ion-icon
           appTrackClick
-          name="transaction_fee"
-          size="small"
+          [dataToTrack]="{eventLabel:'transaction_fee'}"
+          *ngIf="this.transactionFee || this.defaultFeeInfo"
+          name="information-circle"
           (click)="this.showPhrasetransactionFeeInfo()"
-        >
-          <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
-        </ion-button>
+          color="info"
+        ></ion-icon>
       </div>
 
       <div class="tf__fee__label" *ngIf="this.description">
@@ -57,8 +53,10 @@ import { Amount } from '../../types/amount.type';
       <div *ngIf="this.quoteFee.value === undefined || this.fee.value === undefined" class="skeleton">
         <ion-skeleton-text style="width:100%" animated> </ion-skeleton-text>
       </div>
-      <div *ngIf="this.quoteFee.value === undefined || this.fee.value === undefined">
-        <ion-text class="ux-font-text-xxs loading-text"> {{ 'shared.transaction_fees.loading_text' | translate }} </ion-text>
+      <div *ngIf="this.loadingEnabled && (this.quoteFee.value === undefined || this.fee.value === undefined)">
+        <ion-text class="ux-font-text-xxs loading-text">
+          {{ 'shared.transaction_fees.loading_text' | translate }}
+        </ion-text>
       </div>
     </div>
   `,
@@ -77,6 +75,7 @@ export class TransactionFeeComponent implements OnChanges {
   @Input() transactionFee: boolean;
   @Input() autoPrice: boolean;
   @Input() defaultFeeInfo: boolean;
+  @Input() loadingEnabled = true;
   @Output() transactionFeeInfoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   isAmountSend: boolean;
