@@ -87,8 +87,9 @@ export class HomeFinancialEducationPage {
 
   async ionViewWillEnter() {
     await this.getUserWalletAddress();
+    console.log(this.segmentsForm.value.tab);
     this.segmentsForm.valueChanges.subscribe(async () => {
-      this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
+      this.setTabData();
       this.setOpenValueOnModule();
     });
   }
@@ -110,8 +111,12 @@ export class HomeFinancialEducationPage {
   processData() {
     this.data.finance = this.assingOpenOn(this.data.finance);
     this.data.crypto = this.assingOpenOn(this.data.crypto);
-    this.modules = this.data.finance;
+    this.setTabData();
     this.globalProgressData = [...this.data.finance, ...this.data.crypto].filter((mod) => !mod.coming_soon);
+  }
+
+  setTabData() {
+    this.modules = this.segmentsForm.value.tab === 'finance' ? this.data.finance : this.data.crypto;
   }
 
   assingOpenOn(modules) {
