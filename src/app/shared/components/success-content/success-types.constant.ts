@@ -124,6 +124,8 @@ export const SUCCESS_TYPES = {
   success_wallet_recovery: {
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.success_wallet_recovery.title',
+    image:'assets/img/wallets/success_celebration.svg',
+    textSecondary:'wallets.success_wallet_recovery.subtitle',
     urlPrimaryAction: '/tabs/wallets',
     namePrimaryAction: 'wallets.success_wallet_recovery.button',
     trackClickEventNamePrimaryAction: 'ux_import_go_to_home',

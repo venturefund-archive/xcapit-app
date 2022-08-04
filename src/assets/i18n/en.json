@@ -1845,7 +1845,8 @@
       "button": "Try again"
     },
     "success_wallet_recovery": {
-      "title": "Brilliant! We import your wallet with your recovery phrase",
+      "title": "Congratulations!",
+      "subtitle": "You imported your wallet successfully.",
       "button": "Go to wallet"
     },
     "wallet_connect": {
