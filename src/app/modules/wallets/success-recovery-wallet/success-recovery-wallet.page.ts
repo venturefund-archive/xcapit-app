@@ -10,7 +10,6 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
         imageAlt="Success Image"
       ></app-success-content>
     </ion-content>
-    <div class="main__secondary-text">
     
   `,
   styleUrls: ['./success-recovery-wallet.page.scss'],
