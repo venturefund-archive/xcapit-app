@@ -28,6 +28,7 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
 import { FakeActivatedRoute } from '../../../../../testing/fakes/activated-route.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
@@ -102,6 +103,7 @@ describe('SendDetailPage', () => {
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
 
@@ -126,7 +128,9 @@ describe('SendDetailPage', () => {
 
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
-
+    tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
+      tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
+    });
     erc20ProviderControllerSpy = jasmine.createSpyObj('ERC20ProviderController', {
       new: new FakeERC20Provider(null, new FakeProvider('100000000')),
     });
@@ -181,6 +185,7 @@ describe('SendDetailPage', () => {
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
       ],

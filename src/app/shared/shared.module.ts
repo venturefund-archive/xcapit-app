@@ -91,6 +91,7 @@ import { CircleProgressComponent } from './components/circle-progress/circle-pro
 import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/components/info-send-modal/info-send-modal.component';
 import { EyeComponent } from './components/eye/eye.component';
 import { TokenWithBlockchainLogoComponent } from './components/token-with-blockchain-logo/token-with-blockchain-logo.component';
+import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/components/skip-profile-test/skip-profile-test.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { TokenWithBlockchainLogoComponent } from './components/token-with-blockc
     ReferralsComingComponent,
     EyeComponent,
     TokenWithBlockchainLogoComponent,
+    SkipProfileTestComponent,
     // Ux
     InfoSendModalComponent,
     CircleProgressComponent,
@@ -218,6 +220,7 @@ import { TokenWithBlockchainLogoComponent } from './components/token-with-blockc
     ReferralsComingComponent,
     EyeComponent,
     TokenWithBlockchainLogoComponent,
+    SkipProfileTestComponent,
     // Ux
     InfoSendModalComponent,
     RuleCardComponent,

@@ -529,6 +529,11 @@
       "namePrimaryAction": "Comenzar a vincular con Binance",
       "nameSecondaryAction": "Omitir por ahora"
     },
+    "success_profile_test": {
+      "text_primary":"¡Muchas gracias Xcapiter!",
+      "text_secondary":"Tu opinión nos ayuda a seguir mejorando día a día tu experiencia.",
+      "name_primary_action":"Ir a mi wallet"
+    },
     "personal_data": {
       "header": "Configurar cuenta",
       "personal_data_title": "Datos personales",
@@ -559,6 +564,31 @@
       "country_placeholder": "Elije un país",
       "cuit_placeholder": "Ej: 23000000009"
     },
+    "personalised_profile_test": {
+      "question_1":"1. ¿Qué deseas hacer dentro de Xcapit? Elige todas las opciones que consideres",
+      "question_2":"2. ¿Cuál es tu nivel de experiencia con criptos?",
+      "to_do_in_app": {
+        "investor": "Diversificar mis inversiones o ahorrar en moneda estable",
+        "remote": "Recibir cobranzas y realizar pagos",
+        "web3": "Conectarme a dapps",
+        "gamer": "Conectarme a plataformas de NFTs o juegos P2E",
+        "other": "Otro"
+      },
+      "crypto_experience": {
+        "beginner": "Estoy comenzando a explorar cripto",
+        "intermediate": "Compré criptos y utilicé varias plataformas, pero llevo poco tiempo",
+        "advanced": "Utilizo hace bastante tiempo, pero aún no me considero un experto"
+      },
+      "button_primary":"Enviar",
+      "button_secondary":"Hacerlo en otro momento"
+    },
+    "shared_profiles":{
+      "skip_profile_test": {
+        "title":"¡Espera!",
+        "description":"No se mantendrán tus avances si abandonas el formulario.",
+        "button_back":"Atrás",
+        "button_out":"Salir"
+      },
     "shared": {
       "remove_account_modal": {
         "title": "Eliminar cuenta",
@@ -2010,6 +2040,7 @@
       "select_label": "Pais en el que vas a operar",
       "select_placeholder": "Selecciona tu país",
       "provider_label": "Selecciona el proveedor",
+      "no_provider":"Por el momento no es posible adquirir {{coinName}} en tu país.",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
       "directa24": {
@@ -2086,9 +2117,9 @@
     },
     "new_operation": {
       "header": "Comprar cripto",
-      "thirdPartyKYC": "Entiendo que la información KYC no es solicitada ni almacenada por Xcapit y que Kripton tiene una política de privacidad de datos distinta a la de Xcapit.",
-      "thirdPartyTransaction": "Entiendo que al continuar la compra lo haré a través de un proveedor externo (Kripton Market) sujeto a términos y condiciones propios, de los cuales Xcapit no es responsable.",
-      "privacyPolicyAndTOS": "He leído y acepto los: <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Términos y condiciones</a> y la <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Política de privacidad de Kripton Market</a>",
+      "thirdPartyKYC": "Entiendo que Xcapit no almacena la información KYC.",
+      "thirdPartyTransaction": "Entiendo que los términos y condiciones del proveedor externo (Kripton Market) son independientes de Xcapit.",
+      "privacyPolicyAndTOS": "Acepto los <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y la <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>política de privacidad de Kripton Market</a>",
       "next_button": "Continuar"
     },
     "register": {
@@ -2204,7 +2235,8 @@
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
       "information": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
       "button_text": "Continuar",
-      "moonpay_operations": "Las compras de Moonpay visualizalas en la web"
+      "moonpay_operations": "Las compras de Moonpay visualizalas en la web",
+      "footer_description": "Al presionar “Continuar”, serás redirigido al sitio del proveedor externo."
     },
     "token_selection": {
       "header": "Comprar cripto",
@@ -2606,4 +2638,5 @@
       }
     }
   }
+}
 }

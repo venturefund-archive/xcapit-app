@@ -6,7 +6,11 @@ import { ModalController } from '@ionic/angular';
   template: `
     <div class="kdm">
       <div class="kdm__close">
-        <ion-button fill="clear" appTrackClick name="Close KYC Modal" (click)="this.close()">
+        <ion-button 
+          fill="clear" 
+          appTrackClick 
+          name="ux_buy_kripton_exit" 
+          (click)="this.close()">
           <ion-icon class="kdm__close__icon" name="ux-close" color="neutral80"></ion-icon>
         </ion-button>
       </div>
@@ -30,7 +34,7 @@ import { ModalController } from '@ionic/angular';
           <ion-button
             appTrackClick
             (click)="this.close()"
-            name="Begin KYC Flow"
+            name="ux_buy_kripton_register"
             class="ux_button"
             type="button"
             color="secondary"

@@ -208,7 +208,7 @@ describe('AmountInputCardComponent', () => {
 
     it('should calculate all inputs when quoteAmount changes', async () => {
       component.form.patchValue({ quoteAmount: 100 });
-      expect(component.form.value).toEqual({ percentage: 5, range: 5, amount: 10, quoteAmount: 100 });
+      expect(component.form.value).toEqual({ percentage: 5, range: 5, amount: '10', quoteAmount: 100 });
     });
 
     it('should calculate all inputs when range changes', async () => {

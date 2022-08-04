@@ -25,6 +25,7 @@ import { ToastWithButtonsComponent } from 'src/app/modules/defi-investments/shar
 import { TranslateService } from '@ngx-translate/core';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { RawBlockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
@@ -128,7 +129,6 @@ export class SendDetailPage {
   private nativeToken: Token;
   tplNativeToken: RawToken;
   tplBlockchain: RawBlockchain;
-
   destroy$ = new Subject<void>();
   private priceRefreshInterval = 15000;
   alertType = UX_ALERT_TYPES.warning;
@@ -165,6 +165,7 @@ export class SendDetailPage {
     private modalController: ModalController,
     private translate: TranslateService,
     private storage: IonicStorageService,
+    private tokenOperationDataService: TokenOperationDataService,
     private blockchains: BlockchainsFactory,
     private gasStation: GasStationOfFactory
   ) {}
@@ -371,6 +372,10 @@ export class SendDetailPage {
 
   async setUrlToBuyCrypto() {
     const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+    this.tokenOperationDataService.tokenOperationData = {
+      asset: this.tplNativeToken?.value,
+      network: this.tplNativeToken?.network,
+    };
     this.url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
     return this.url;
   }

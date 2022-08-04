@@ -66,7 +66,7 @@ import { TwoPiInvestmentFactory } from '../../shared-defi-investments/models/two
         <ion-button
           *ngIf="this.investedAmount"
           appTrackClick
-          name="ux_invest_withdraw"
+          name="ux_invest_continue"
           expand="block"
           size="large"
           type="submit"

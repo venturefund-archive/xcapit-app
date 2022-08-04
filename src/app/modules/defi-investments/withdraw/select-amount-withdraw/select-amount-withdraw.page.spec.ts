@@ -147,7 +147,7 @@ describe('SelectAmountWithdrawPage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     component.form.patchValue(formData.valid);
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_invest_withdraw');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_invest_continue');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spyClickEvent = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -178,7 +178,7 @@ describe('SelectAmountWithdrawPage', () => {
     component.form.patchValue({ amount: 20, quoteAmount: 20 });
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_invest_withdraw"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_continue"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/withdraw/confirmation', 'polygon_usdc']);
   });
 
@@ -187,7 +187,7 @@ describe('SelectAmountWithdrawPage', () => {
     component.form.patchValue({ range: 100, amount: 20, quoteAmount: 20 });
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_invest_withdraw"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_continue"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       '/defi/withdraw/confirmation',
       'polygon_usdc',
@@ -199,7 +199,7 @@ describe('SelectAmountWithdrawPage', () => {
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_invest_withdraw"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_continue"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).not.toHaveBeenCalled();
   });
 });
