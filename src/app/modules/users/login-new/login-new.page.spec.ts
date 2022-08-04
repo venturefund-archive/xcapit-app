@@ -38,7 +38,7 @@ describe('LoginNewPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: ToastService, useValue: toastServiceSpy },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginNewPage);
@@ -73,5 +73,4 @@ describe('LoginNewPage', () => {
     fixture.debugElement.query(By.css('app-ux-input[controlName="password"]')).nativeElement.click();
     expect(toastServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   });
-
 });

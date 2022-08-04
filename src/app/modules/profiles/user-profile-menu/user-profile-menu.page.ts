@@ -19,6 +19,7 @@ import { WalletBackupService } from '../../wallets/shared-wallets/services/walle
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { Storage } from '@ionic/storage';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
+
 @Component({
   selector: 'app-user-profile-menu',
   template: `
@@ -145,7 +146,7 @@ export class UserProfileMenuPage {
     });
 
     await modal.present();
-    if((await modal.onDidDismiss()).data) {
+    if ((await modal.onDidDismiss()).data) {
       this.logout();
     }
   }

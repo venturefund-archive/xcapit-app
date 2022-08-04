@@ -75,7 +75,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LoginNewPage {
   form: UntypedFormGroup = this.formBuilder.group({
-    password: ['', [Validators.required]],
+    password: ['', []],
   });
   constructor(
     private toastService: ToastService,
