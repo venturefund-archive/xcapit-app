@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { createWidget } from '@typeform/embed';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
-import { debounceTime, delay } from 'rxjs/operators';
 @Component({
   selector: 'app-test-typeform',
   template: `
