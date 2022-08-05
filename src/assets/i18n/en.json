@@ -463,6 +463,7 @@
         "submit_loading": "Confirming",
         "withdraw_amount": "Amount to withdraw",
         "withdraw_fee": "Withdrawal fee",
+        "receive_aprox": "Receive approximately",
         "disclaimer": "It will only take a few seconds",
         "header_alert": "Wait!",
         "alert_message": "We are still calculating the transaction fee. Do you want to continue anyway?",

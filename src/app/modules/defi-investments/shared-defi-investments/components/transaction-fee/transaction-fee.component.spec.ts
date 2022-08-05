@@ -124,7 +124,7 @@ describe('TransactionFeeComponent', () => {
   it('should call clickEvent on trackService when transaction_fee clicked', () => {
     component.transactionFee = true;
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'transaction_fee');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-icon', 'information-circle');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -136,7 +136,7 @@ describe('TransactionFeeComponent', () => {
     component.transactionFee = true;
     fixture.detectChanges();
     const spy = spyOn(component.transactionFeeInfoClicked, 'emit');
-    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="transaction_fee"]'));
+    const infoButtonel = fixture.debugElement.query(By.css('ion-icon[name="information-circle"]'));
     infoButtonel.nativeElement.click();
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -145,7 +145,7 @@ describe('TransactionFeeComponent', () => {
     component.defaultFeeInfo = true;
     fixture.detectChanges();
     const spy = spyOn(component.transactionFeeInfoClicked, 'emit');
-    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="transaction_fee"]'));
+    const infoButtonel = fixture.debugElement.query(By.css('ion-icon[name="information-circle"]'));
 
     infoButtonel.nativeElement.click();
 
@@ -156,7 +156,7 @@ describe('TransactionFeeComponent', () => {
   it('should show default fee info modal only ones when transaction_fee fee is clicked more than one time & defaultFeeInfo is true', () => {
     component.defaultFeeInfo = true;
     fixture.detectChanges();
-    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="transaction_fee"]'));
+    const infoButtonel = fixture.debugElement.query(By.css('ion-icon[name="information-circle"]'));
 
     infoButtonel.nativeElement.click();
     infoButtonel.nativeElement.click();
