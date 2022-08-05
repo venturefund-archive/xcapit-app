@@ -1870,7 +1870,8 @@
       "button": "Volver a intentarlo"
     },
     "success_wallet_recovery": {
-      "title": "¡Genial! Importamos tu wallet con tu frase de recuperación",
+      "title": "¡Felicitaciones!",
+      "subtitle": "Importaste tu wallet exitosamente.",
       "button": "Ir a wallet"
     },
     "wallet_connect": {
