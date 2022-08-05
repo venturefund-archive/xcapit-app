@@ -2071,7 +2071,7 @@
         "moonpay": {
           "description_1": "Tarjeta de crédito.*",
           "description_2": "Depende del proveedor externo según el caso.",
-          "disclaimer": "*Por retricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
+          "disclaimer": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
         }
       }
     },
