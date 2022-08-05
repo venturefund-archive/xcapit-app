@@ -37,13 +37,11 @@ export class SuccessSubmodulesPage implements OnInit {
 
   async ionViewWillEnter() {
     this.success_data = SUCCESS_TYPES.success_submodules;
-    await this.getUserWalletAddress();
+    this.getEducationDataOf(await this.userWalletAddress());
   }
   
-  private async getUserWalletAddress() {
-    const wallet = await this.storageService.getWalletFromStorage();
-    const wallet_address = wallet.addresses.ERC20;
-    this.getEducationDataOf(wallet_address);
+  private async userWalletAddress() : Promise<string>  {
+    return (await this.storageService.getWalletFromStorage()).addresses.ERC20;
   }
   
   getEducationDataOf(anAddress: string) {
