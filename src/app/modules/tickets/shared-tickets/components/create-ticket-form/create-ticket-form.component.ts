@@ -9,15 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
   template: `
     <div class="main">
       <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
-        <app-ux-input
-          *ngIf="this.emailInput"
-          controlName="email"
-          type="text"
-          inputmode="text"
-          [label]="'tickets.create_ticket_form.label_email' | translate"
-          [placeholder]="'tickets.create_ticket_form.placeholder_email' | translate"
-          [readonly]="!this.canModifyEmail"
-        ></app-ux-input>
         <app-input-select
           *ngIf="!this.category"
           [label]="'tickets.create_ticket_form.label_subject' | translate"
@@ -25,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
           [placeholder]="'tickets.create_ticket_form.placeholder_subject' | translate"
           controlName="subject"
           [data]="this.ticketCategories"
+          selectorStyle="white"
           key="value"
           valueKey="value"
           [translated]="true"
@@ -36,41 +28,34 @@ import { TranslateService } from '@ngx-translate/core';
           [placeholder]="'tickets.create_ticket_form.placeholder_subject' | translate"
           controlName="subject"
           [data]="this.filteredTicketCategories"
+          selectorStyle="white"
           key="value"
           valueKey="value"
           [translated]="true"
           disabled="true"
         ></app-input-select>
+        <app-ux-input
+          *ngIf="this.emailInput"
+          controlName="email"
+          type="text"
+          inputmode="text"
+          [label]="'tickets.create_ticket_form.label_email' | translate"
+          [placeholder]="'tickets.create_ticket_form.placeholder_email' | translate"
+          [readonly]="!this.canModifyEmail"
+        ></app-ux-input>
         <app-ux-textarea
           controlName="message"
           inputmode="text"
           [label]="'tickets.create_ticket_form.label_message' | translate"
           [placeholder]="'tickets.create_ticket_form.placeholder_message' | translate"
         ></app-ux-textarea>
-        <ion-button
-          appTrackClick
-          class="button ux_button"
-          name="Submit"
-          size="medium"
-          type="submit"
-          color="secondary"
-          [disabled]="this.submitButtonService.isDisabled | async"
-        >
-          {{ 'tickets.create_ticket_form.submit_button' | translate }}
-        </ion-button>
+        <div>
+          <ion-text>{{ 'tickets.create_ticket_form.obligatory' | translate }}</ion-text>
+        </div>
+        <div>
+          <!-- DISCLAIMER -->
+        </div>
       </form>
-      <ion-button
-        *ngIf="this.isValidationEmail"
-        appTrackClick
-        class="button ux_button"
-        name="Cancel"
-        size="medium"
-        type="button"
-        color="secondary"
-        fill="clear"
-      >
-        {{ 'tickets.create_ticket_form.cancel_button' | translate }}
-      </ion-button>
     </div>
   `,
   styleUrls: ['./create-ticket-form.component.scss'],

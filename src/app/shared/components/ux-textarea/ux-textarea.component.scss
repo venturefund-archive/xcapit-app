@@ -3,8 +3,9 @@
     padding-top: 16px;
 
     &__item {
+      margin-top: 8px;
       height: 100%;
-      border: 1.5px solid var(--ion-color-neutral80);
+      border: 1px solid var(--ion-color-neutral80);
       border-radius: 7px;
 
       --background: #0000000a;

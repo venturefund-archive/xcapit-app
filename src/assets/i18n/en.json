@@ -279,15 +279,7 @@
   "tickets": {
     "create": {
       "title": "Open a ticket",
-      "text": "Fill the details of your ticket. A member of the team will contact you soon.",
-      "label_email": "EMAIL",
-      "placeholder_email": "example@email.com",
-      "label_subject": "SUBJECT",
-      "placeholder_subject": "Subject",
-      "label_message": "DESCRIPTION",
-      "placeholder_message": "Write the details of your ticket here.",
-      "submit_button": "Send",
-      "cancel_button": "Go back to login"
+      "text": "Fill the details of your ticket. A member of the team will contact you soon."
     },
     "createSuccess": {
       "textPrimary": "Thank you for your patience!",
@@ -296,7 +288,9 @@
     },
     "create_support_ticket": {
       "header": "Support",
-      "info": "Enter your comments to help you. A member of the team will contact you."
+      "title": "We're here to help you!",
+      "info": "A member of our team will contact you shortly.",
+      "submit_button": "Send query"
     },
     "create_support_ticket_success": {
       "textPrimary": "¡Thank you for your patience!",
@@ -304,13 +298,12 @@
       "namePrimaryAction": "Back to start"
     },
     "create_ticket_form": {
-      "label_email": "EMAIL",
-      "placeholder_email": "example@email.com",
-      "label_subject": "Choose a category",
+      "label_subject": "Choose a category for your query*",
       "placeholder_subject": "Choose a category",
-      "label_message": "DESCRIPTION",
-      "placeholder_message": "Write your comment or query here",
-      "submit_button": "Send"
+      "label_email": "Enter your email*",
+      "placeholder_email": "example@email.com",
+      "label_message": "What can we help you with?*",
+      "placeholder_message": "Write your comment or query here"
     },
     "categories": {
       "my_account": "My account/Registration",

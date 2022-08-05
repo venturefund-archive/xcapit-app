@@ -21,38 +21,35 @@ import { NavController } from '@ionic/angular';
     </ion-header>
 
     <ion-content class="ion-padding">
-      <ion-label class="ux-font-text-xs">{{ 'tickets.create_support_ticket.info' | translate }}</ion-label>
+      <div class="title">
+        <ion-text class="ux-font-text-lg">{{ 'tickets.create_support_ticket.title' | translate }}</ion-text>
+      </div>
+      <div class="info">
+        <ion-text class="ux-font-text-base" color="neutral90">{{ 'tickets.create_support_ticket.info' | translate }}</ion-text>
+      </div>
       <div class="form_component">
-        <app-create-ticket-form
-          *ngIf="this.userEmail"
-          [userEmail]="this.userEmail"
-          (send)="this.handleSubmit($event)"
-        ></app-create-ticket-form>
+        <app-create-ticket-form [emailInput]="true" (send)="this.handleSubmit($event)"></app-create-ticket-form>
       </div>
     </ion-content>
+    <ion-footer class="footer">
+      <div class="footer__submit-button">
+        <ion-button appTrackClick class="footer__submit-button__button ux_button" name="Submit" size="medium" type="submit" color="secondary">
+          {{ 'tickets.create_support_ticket.submit_button' | translate }}
+        </ion-button>
+      </div>
+    </ion-footer>
   `,
   styleUrls: ['./create-support-ticket.page.scss'],
 })
 export class CreateSupportTicketPage implements OnInit {
-  userEmail: any;
-  constructor(
-    private apiTickets: ApiTicketsService,
-    private apiUsuarios: ApiUsuariosService,
-    private navController: NavController
-  ) {}
+  constructor(private apiTickets: ApiTicketsService, private navController: NavController) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
-    this.getUserEmail();
-  }
+  ionViewWillEnter() {}
 
   handleSubmit(data: any) {
     this.apiTickets.crud.create(data).subscribe(() => this.success());
-  }
-
-  getUserEmail() {
-    this.apiUsuarios.getUser().subscribe((data: any) => (this.userEmail = data.email));
   }
 
   success() {
