@@ -1167,10 +1167,10 @@
       "nameThirdAction": "Learn more"
     },
     "success_submodule": {
-      "textPrimary": "¡Felicitaciones! Completaste: {{submodule}}",
-      "textSecondary": "Que nada te detenga, estás cada vez más cerca de convertirte en un experto.",
-      "buttonText": "Siguiente módulo",
-      "buttonText2": "Ir al menú"
+      "textPrimary": "Congratulations! You have completed: {{submodule}}",
+      "textSecondary": "Let nothing stop you, you are getting closer and closer to becoming an expert.",
+      "buttonText": "Next module",
+      "buttonText2": "Go to menu"
     },
     "typeform_header": {
       "text": "Test of",

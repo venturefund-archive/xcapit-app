@@ -281,7 +281,7 @@ export const SUCCESS_TYPES = {
     textSecondary:'financial_education.success_submodule.textSecondary',
     namePrimaryAction:'financial_education.success_submodule.buttonText',
     nameThirdAction:"financial_education.success_submodule.buttonText2",
-    urlPrimaryAction:'',
+    urlPrimaryAction:'/tabs/financial-education',
     urlThirdAction:'tabs/financial-education',
     trackClickEventNamePrimaryAction: 'ux_education_next_module',
     trackClickEventNameThirdAction: 'ux_education_go_to_menu'

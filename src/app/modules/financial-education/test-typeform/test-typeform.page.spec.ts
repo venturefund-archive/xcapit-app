@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -120,18 +120,18 @@ describe('TestTypeformPage', () => {
     );
   });
 
-  it('should navigate to success page when submit test on typeform and status is completed', async () => {
+  it('should navigate to success page when submit test on typeform and status is completed', fakeAsync( () => {
     rawEducationData.finance[0].status = 'to_do';
     rawEducationData.finance[0].submodules[0].status = 'to_do';
     rawSubmoduleResult.status = 'completed';
-    await component.ionViewWillEnter();
+    component.ionViewWillEnter();
     component.getSubmoduleResult();
-    component.redirect();
+    tick(3000);
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
       'financial-education/success-submodules/category/finance/module/1/submodule/1'
     );
-  });
+  }));
 
   it('should navigate to final success page when submit test on typeform and status is completed', async () => {
     rawEducationData.finance[0].status = 'completed';

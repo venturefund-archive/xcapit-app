@@ -37,20 +37,18 @@ export class SuccessSubmodulesPage implements OnInit {
 
   async ionViewWillEnter() {
     this.success_data = SUCCESS_TYPES.success_submodules;
-    await this.getUserWalletAddress();
-    this.setTitle();
-    this.event();
+    this.getEducationDataOf(await this.userWalletAddress());
   }
-
-  private async getUserWalletAddress() {
-    const wallet = await this.storageService.getWalletFromStorage();
-    const wallet_address = wallet.addresses.ERC20;
-    this.getEducationDataOf(wallet_address);
+  
+  private async userWalletAddress() : Promise<string>  {
+    return (await this.storageService.getWalletFromStorage()).addresses.ERC20;
   }
-
+  
   getEducationDataOf(anAddress: string) {
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
+      this.setTitle();
+      this.event();
     });
   }
 
@@ -68,6 +66,7 @@ export class SuccessSubmodulesPage implements OnInit {
     this.success_data.textPrimary = this.translate.instant('financial_education.success_submodule.textPrimary', {
       submodule: this.translate.instant(this.subModule.title),
     });
+
   }
 
   event() {

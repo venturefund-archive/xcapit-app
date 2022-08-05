@@ -78,9 +78,7 @@ export class TestTypeformPage implements OnInit {
         submodule_id: `${this.subModule.id}`,
       },
       onSubmit: () => {
-        this.getEducationDataOf(this.wallet_address);
         this.getSubmoduleResult();
-        this.redirect();
       },
     });
   }
@@ -107,12 +105,14 @@ export class TestTypeformPage implements OnInit {
   }
 
   getSubmoduleResult() {
-    this.financialEducationService
-      .getSubmoduleResultOf(this.subModule.id, this.wallet_address)
-      .subscribe((submoduleResult) => {
-        this.submoduleResult = submoduleResult;
-      });
-    // this.submoduleResult = SUBMODULE;
+    new Promise((resolve) => setTimeout(resolve, 2000)).then(() => {
+      this.financialEducationService
+        .getSubmoduleResultOf(this.subModule.id, this.wallet_address)
+        .subscribe((submoduleResult) => {
+          this.submoduleResult = submoduleResult;
+          this.redirect();
+        });
+    });
   }
 
   redirect() {
