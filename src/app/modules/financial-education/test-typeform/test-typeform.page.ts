@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { createWidget } from '@typeform/embed';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { FinancialEducationService } from '../shared-financial-education/services/financial-education/financial-education.service';
+import { debounceTime, delay } from 'rxjs/operators';
 @Component({
   selector: 'app-test-typeform',
   template: `
@@ -59,7 +60,6 @@ export class TestTypeformPage implements OnInit {
   }
 
   getEducationDataOf(anAddress: string) {
-    console.log('geteducation data of se ejecuta')
     this.financialEducationService.getEducationDataOf(anAddress).subscribe((data) => {
       this.data = data;
       this.areCategoriesCompleted();
@@ -80,7 +80,6 @@ export class TestTypeformPage implements OnInit {
       },
       onSubmit: () => {
         this.getSubmoduleResult();
-        
       },
     });
   }
@@ -101,20 +100,20 @@ export class TestTypeformPage implements OnInit {
   }
 
   getSubModule() {
-    console.log(this.module)
     for (const subModule of this.module.submodules) {
       if (subModule.id === this.subModule) this.subModule = subModule;
     }
   }
 
   getSubmoduleResult() {
+    new Promise((resolve) => setTimeout(resolve, 2000)).then(() => {
       this.financialEducationService
         .getSubmoduleResultOf(this.subModule.id, this.wallet_address)
         .subscribe((submoduleResult) => {
           this.submoduleResult = submoduleResult;
-          console.log(this.submoduleResult)
           this.redirect();
         });
+    });
   }
 
   redirect() {
