@@ -146,7 +146,7 @@
       "title": "Why is the transaction fee estimated?",
       "description": "Due to market volatility, the exchange rate may vary slightly at the time of the transaction.",
       "button_text": "Understood",
-      "loading_text":"Calculating. Wait a few moments."
+      "loading_text": "Calculating. Wait a few moments."
     }
   },
   "users": {
@@ -157,14 +157,20 @@
       "register_link": "Back to register",
       "ok_text": "Email verified successfully!"
     },
+    "login_new": {
+      "title": "Login",
+      "password_label": "Password",
+      "login_button_text": "Login",
+      "reset_password_link": "I forgot my password",
+      "help_link": "Help",
+      "invalid_password_text": "The password entered is incorrect. Please try again."
+    },
     "login": {
       "password_label": "Password",
       "register_link": "Do not have an account? Create one",
       "reset_password_link": "I forgot my password",
       "login_button_text": "Login",
       "title": "Login",
-      "google_auth": "Sign in with Google",
-      "or_text": "or",
       "loading": "Loading"
     },
     "register": {
@@ -332,7 +338,7 @@
       "recommendations": "You may be interested in",
       "empty_products": "Soon you will be able to find the best investments for your profile.",
       "link_button": "How do DeFi investments work?",
-      "no_investments":"Your investments will appear here. Get started now!",
+      "no_investments": "Your investments will appear here. Get started now!",
       "choose_investor_profile": {
         "complete_test": {
           "title": "I want to choose my profile again",
@@ -375,12 +381,12 @@
       "weekly_update": "*Weekly update"
     },
     "shared": {
-      "withdraw_info_modal":{
-        "title":"¿Qué es la tarifa de retiro?",
-        "item_1":"Es el costo de realizar una extracción. ",
-        "item_2":"Se calcula sobre el monto que deseas retirar (0,255%), no sobre el total de tu inversión.",
-        "item_3":"Se abona en la misma moneda del producto de inversión (si estás invirtiendo en USDC, pagarás la tarifa de retiro en USDC).",
-        "button_text":"Entendido"
+      "withdraw_info_modal": {
+        "title": "¿Qué es la tarifa de retiro?",
+        "item_1": "Es el costo de realizar una extracción. ",
+        "item_2": "Se calcula sobre el monto que deseas retirar (0,255%), no sobre el total de tu inversión.",
+        "item_3": "Se abona en la misma moneda del producto de inversión (si estás invirtiendo en USDC, pagarás la tarifa de retiro en USDC).",
+        "button_text": "Entendido"
       },
       "transaction_fees": {
         "label": "Estimated transaction fee",
@@ -411,18 +417,20 @@
       "expandable_investment_info": {
         "TVL": "Total Value Locked",
         "protocol_type": "Protocol type",
-        "deposit_asset": "Deposit",
-        "receive_asset": "Obtain",
-        "platform": "Platform",
+        "receive_asset": "Deposit and Obtain",
+        "2pi_dashboard": "2PI Dashboard",
+        "information": "More information",
         "annual": "% Annual",
-        "blockchain": "Blockchain",
+        "blockchain": "You operate in the network",
         "profile": "Profile",
         "transaction_fee": "Transaction Fee",
         "withdrawal_fee": "Withdrawal Fee",
+        "title": "We have partnered with 2pi to offer you ",
+        "how_works": "How does it work?",
         "investment_info": {
-          "USDC": "Your tokens will be distributed in several decentralized protocols. You will earn interest in USDC. \n USDC is a stable cryptocurrency.  Its value is tied to the US dollar, and it is 100% backed by US dollars.",
-          "DAI": "Your tokens will be distributed in several decentralized protocols.You will earn interest in DAI. \n DAI is a stable cryptocurrency, its value is tied to the dollar.  It is 100% backed by crypto protocols.",
-          "WBTC": "Your tokens will be distributed in various decentralized protocols. You will earn continuous interest in WBTC. No investment limits."
+          "USDC": "<ul><li>Your tokens will be distributed in several decentralized protocols.</li><li>You will earn continuous interest in USDC.</li><li>No investment limits</li></ul>",
+          "DAI": "<ul><li>Your tokens will be distributed in several decentralized protocols.</li><li>You will earn weekly interest in DAI</li><li>No investment limits.</li></ul>",
+          "WBTC": "<ul><li>Your tokens will be distributed in several decentralized protocols.</li><li>You will earn continuous interest in WBTC.</li><li>No investment limits.</li></ul>"
         },
         "profiles": {
           "conservative": "Conservative",
@@ -435,7 +443,7 @@
         "available": "Balance available",
         "amount_invested": "Total amount invested",
         "max_button": "Max",
-        "advice":"Insufficient funds"
+        "advice": "Insufficient funds"
       },
       "withdraw_card": {
         "title": "Withdraw",
@@ -469,7 +477,7 @@
         "header_alert": "Wait!",
         "alert_message": "We are still calculating the transaction fee. Do you want to continue anyway?",
         "alert_confirmation": "Confirm",
-        "alert_cancel":"Cancel"
+        "alert_cancel": "Cancel"
       },
       "password_modal": {
         "description": "To confirm your withdrawal, enter your Xcapit wallet password.",
@@ -543,6 +551,11 @@
       "namePrimaryAction": "Link to Binance",
       "nameSecondaryAction": "Skip for now"
     },
+    "success_profile_test": {
+      "text_primary":"Thanks a lot Xcapiter!",
+      "text_secondary":"Your opinion helps us to improve your experience day by day.",
+      "name_primary_action":"Go to my wallet"
+    },
     "personal_data": {
       "header": "Configure account",
       "personal_data_title": "Personal data",
@@ -574,6 +587,31 @@
       "country_placeholder": "Select a country",
       "cuit_placeholder": "Ej: 23000000009"
     },
+    "personalised_profile_test":{
+      "question_1":"1. What do you want to do inside Xcapit? Choose all the options you consider",
+      "question_2":"2. What is your experience level with cryptos?",
+      "to_do_in_app":{
+        "investor":"Diversify my investments or save in a stable currency",
+        "remote":"Receive collections and make payments",
+        "web3":"Connect to dapps",
+        "gamer":"Connecting to NFTs or P2E gaming platforms",
+        "other":"Other"        
+      },
+      "crypto_experience": {
+        "beginner": "I am starting to explore crypto",
+        "intermediate": "I bought cryptos and used several platforms, but I have only been using them for a short time",
+        "advanced": "I have been using it for quite some time, but I still do not consider myself an expert"
+      },
+      "button_primary":"Submit",
+      "button_secondary":"Do it at another time"
+    },
+    "shared_profiles":{
+      "skip_profile_test": {
+        "title":"Wait!",
+        "description":"Your progress will not be maintained if you leave the form.",
+        "button_back":"Back",
+        "button_out":"Exit"
+      },
     "shared": {
       "remove_account_modal": {
         "title": "Delete account",
@@ -582,6 +620,7 @@
         "more_info_link": "Wallet frecuent questions",
         "remove_account_button": "Delete account",
         "cancel_button": "Cancel"
+      }
       }
     }
   },
@@ -1068,7 +1107,7 @@
         "card_state_50": "You have {{doneModules}} complete modules, you are almost there.",
         "card_state_75": "You have {{doneModules}} complete modules, last effort.",
         "card_state_100": "Congratulations! You have completed all the modules.",
-        "generating_nft":"Generating NFT"
+        "generating_nft": "Generating NFT"
       },
       "module_finance": {
         "module_1": {
@@ -2036,6 +2075,7 @@
       "select_label": "Country in which you are going to operate",
       "select_placeholder": "Select your country",
       "provider_label": "Select provider",
+      "no_provider":"At the moment it is not possible to purchase {{coinName}} in your country.",
       "moonpay_description": "Buy with a credit card",
       "krypton_description": "Buy with bank transfer",
       "directa24": {
@@ -2112,9 +2152,9 @@
     },
     "new_operation": {
       "header": "Buy crypto",
-      "thirdPartyKYC": "I understand that KYC information is not requested or stored by Xcapit and that Krypton has a different data privacy policy than Xcapit.",
-      "thirdPartyTransaction": "I understand that by continuing to purchase I will be purchasing through a third party vendor (Kripton Market) subject to their own terms and conditions, for which Xcapit is not responsible.",
-      "privacyPolicyAndTOS": "I have read and accept the: <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.",
+      "thirdPartyKYC": "I understand that Xcapit does not store KYC information.",
+      "thirdPartyTransaction": "I understand that the terms and conditions of the third party provider (Kripton Market) are independent of Xcapit.",
+      "privacyPolicyAndTOS": "I accept the <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>terms and conditions</a> and the <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Kripton Market's privacy policy</a>.",
       "next_button": "Next"
     },
     "register": {
@@ -2222,7 +2262,8 @@
       },
       "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
       "information": "*For current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
-      "button_text": "Continue"
+      "button_text": "Continue",
+      "footer_description": "By clicking ”Continue”, you will be redirected to the external provider's site."
     },
     "token_selection": {
       "header": "Buy crypto",
@@ -2428,35 +2469,35 @@
       "fromToken_title": "Select the token you want to swap",
       "toToken_title": "Select the token you want to receive"
     },
-    "terms_and_conditions":{
-      "title":"What do you need to know before making a swap?",
-      "condition_1":"The exchange is done through the external provider 1inch.",
-      "condition_2":"The conditions of token exchange depend on the provider.",
-      "condition_3":"Exchanges have associated transaction costs.",
-      "terms":{
-        "i_have_read":"I have read and agree to the",
+    "terms_and_conditions": {
+      "title": "What do you need to know before making a swap?",
+      "condition_1": "The exchange is done through the external provider 1inch.",
+      "condition_2": "The conditions of token exchange depend on the provider.",
+      "condition_3": "Exchanges have associated transaction costs.",
+      "terms": {
+        "i_have_read": "I have read and agree to the",
         "link_to_terms": "terms and conditions",
-        "of":"of 1inch"
+        "of": "of 1inch"
       },
-      "button":"Start"
+      "button": "Start"
     },
-    "swap_in_progress":{
+    "swap_in_progress": {
       "text_title": "Swap",
       "text_badge": "In progress",
-      "text_primary":"Your order is on the way!",
-      "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
-      "button_text":"Go to wallet"
+      "text_primary": "Your order is on the way!",
+      "text_secondary": "The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "button_text": "Go to wallet"
     },
-    "sent_notification":{
-      "actions":{
+    "sent_notification": {
+      "actions": {
         "title": "View more"
       },
-      "swap_ok":{
-        "title":"🚀 Successful exchange! ",
+      "swap_ok": {
+        "title": "🚀 Successful exchange! ",
         "body": "You sent {{fromAmount}} {{fromToken}} and received {{toAmount}} {{toToken}} ."
       },
-      "swap_not_ok":{
-        "title":"❌ Error in the exchange",
+      "swap_not_ok": {
+        "title": "❌ Error in the exchange",
         "body": "There was an error sending {{fromAmount}} {{fromToken}} and receiving {{toAmount}} {{toToken}}. More information here."
       }
     }

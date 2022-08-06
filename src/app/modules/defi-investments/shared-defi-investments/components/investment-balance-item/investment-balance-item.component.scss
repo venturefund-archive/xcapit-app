@@ -11,20 +11,14 @@
   background-size: cover !important;
 
   &__image {
-    margin-right: 10px;
     justify-content: center;
     width: fit-content;
-
-    &__img {
-      margin: 2px;
-      width: 32px;
-      height: 32px;
-    }
   }
 
   &__content {
     width: 100%;
     justify-content: space-between;
+    margin-left: 8px;
 
     &__group {
       align-items: center;

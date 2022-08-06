@@ -148,14 +148,20 @@
       "register_link": "Volver al registro",
       "ok_text": "Email Verificado correctamente!"
     },
+    "login_new": {
+      "title": "Ingresar",
+      "password_label": "Contraseña",
+      "login_button_text": "Ingresar",
+      "reset_password_link": "Olvidé mi contraseña",
+      "help_link": "Ayuda",
+      "invalid_password_text": "La contraseña ingresada no es correcta. Por favor intente nuevamente."
+    },
     "login": {
       "password_label": "Contraseña",
       "register_link": "¿No tienes cuenta? Crea una",
       "reset_password_link": "Olvidé mi contraseña",
       "login_button_text": "Ingresar",
       "title": "Ingresar",
-      "google_auth": "Continuar con Google",
-      "or_text": "o",
       "loading": "Ingresando"
     },
     "register": {
@@ -403,19 +409,23 @@
       "expandable_investment_info": {
         "TVL": "Total de Valor Bloqueado",
         "protocol_type": "Tipo de protocolo",
-        "deposit_asset": "Depositas",
-        "receive_asset": "Obtienes",
-        "platform": "Plataforma",
+        "receive_asset": "Depositas y obtienes",
+        "2pi_dashboard": "2PI Dashboard",
+        "information": "Más información",
         "annual": "% Anual",
-        "blockchain": "Blockchain",
+        "blockchain": "Operas en la red",
         "profile": "Perfil",
         "transaction_fee": "Tarifa de transacción",
         "withdrawal_fee": "Tarifa de retiro",
+        "title": "Nos aliamos a 2pi para ofrecerte ",
+        "how_works": "¿Cómo funciona?",
+
         "investment_info": {
-          "USDC": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en USDC. \n USDC es una criptomoneda estable. Su valor está atado al dólar, y está respaldada al 100% en dólares estadounidenses.",
-          "DAI": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses en DAI. \n DAI es una criptomoneda estable, su valor está atado al dólar.  Se respalda al 100% en protocolos cripto.",
-          "WBTC": "Tus tokens se distribuirán en varios protocolos descentralizados. Obtendrás intereses continuos en WBTC. Sin límites de inversión."
+          "USDC": "<ul><li>Tus tokens se distribuirán en varios protocolos descentralizados.</li><li>Obtendrás intereses continuos en USDC.</li><li>Sin limites de inversión</li></ul>",
+          "DAI": "<ul><li>Tus tokens se distribuirán en varios protocolos descentralizados.</li><li> Obtendrás intereses semanales en DAI.</li><li>Sin límites de inversión.</li></ul>",
+          "WBTC": "<ul><li>Tus tokens se distribuirán en varios protocolos descentralizados.</li><li> Obtendrás intereses continuos en WBTC.</li><li>Sin límites de inversión</li></ul>"
         },
+
         "profiles": {
           "conservative": "Conservador",
           "medium": "Moderado",
@@ -427,7 +437,7 @@
         "available": "Saldo disponible",
         "amount_invested": "Monto total invertido",
         "max_button": "Máx",
-        "advice":"Fondos insuficientes"
+        "advice": "Fondos insuficientes"
       },
       "withdraw_card": {
         "title": "Retiro",
@@ -535,6 +545,11 @@
       "namePrimaryAction": "Comenzar a vincular con Binance",
       "nameSecondaryAction": "Omitir por ahora"
     },
+    "success_profile_test": {
+      "text_primary": "¡Muchas gracias Xcapiter!",
+      "text_secondary": "Tu opinión nos ayuda a seguir mejorando día a día tu experiencia.",
+      "name_primary_action": "Ir a mi wallet"
+    },
     "personal_data": {
       "header": "Configurar cuenta",
       "personal_data_title": "Datos personales",
@@ -565,14 +580,40 @@
       "country_placeholder": "Elije un país",
       "cuit_placeholder": "Ej: 23000000009"
     },
-    "shared": {
-      "remove_account_modal": {
-        "title": "Eliminar cuenta",
-        "text": "Iniciaremos con el proceso de eliminación de datos asociados a la cuenta.\n Recuerda que siempre vas a poder recuperar tu wallet con la frase semilla",
-        "more_info": "Para más información visita las",
-        "more_info_link": "Preguntas frecuentes sobre la Wallet",
-        "remove_account_button": "Eliminar cuenta",
-        "cancel_button": "Cancelar"
+    "personalised_profile_test": {
+      "question_1": "1. ¿Qué deseas hacer dentro de Xcapit? Elige todas las opciones que consideres",
+      "question_2": "2. ¿Cuál es tu nivel de experiencia con criptos?",
+      "to_do_in_app": {
+        "investor": "Diversificar mis inversiones o ahorrar en moneda estable",
+        "remote": "Recibir cobranzas y realizar pagos",
+        "web3": "Conectarme a dapps",
+        "gamer": "Conectarme a plataformas de NFTs o juegos P2E",
+        "other": "Otro"
+      },
+      "crypto_experience": {
+        "beginner": "Estoy comenzando a explorar cripto",
+        "intermediate": "Compré criptos y utilicé varias plataformas, pero llevo poco tiempo",
+        "advanced": "Utilizo hace bastante tiempo, pero aún no me considero un experto"
+      },
+      "button_primary": "Enviar",
+      "button_secondary": "Hacerlo en otro momento"
+    },
+    "shared_profiles": {
+      "skip_profile_test": {
+        "title": "¡Espera!",
+        "description": "No se mantendrán tus avances si abandonas el formulario.",
+        "button_back": "Atrás",
+        "button_out": "Salir"
+      },
+      "shared": {
+        "remove_account_modal": {
+          "title": "Eliminar cuenta",
+          "text": "Iniciaremos con el proceso de eliminación de datos asociados a la cuenta.\n Recuerda que siempre vas a poder recuperar tu wallet con la frase semilla",
+          "more_info": "Para más información visita las",
+          "more_info_link": "Preguntas frecuentes sobre la Wallet",
+          "remove_account_button": "Eliminar cuenta",
+          "cancel_button": "Cancelar"
+        }
       }
     }
   },
@@ -2016,6 +2057,7 @@
       "select_label": "Pais en el que vas a operar",
       "select_placeholder": "Selecciona tu país",
       "provider_label": "Selecciona el proveedor",
+      "no_provider": "Por el momento no es posible adquirir {{coinName}} en tu país.",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
       "directa24": {
@@ -2092,9 +2134,9 @@
     },
     "new_operation": {
       "header": "Comprar cripto",
-      "thirdPartyKYC": "Entiendo que la información KYC no es solicitada ni almacenada por Xcapit y que Kripton tiene una política de privacidad de datos distinta a la de Xcapit.",
-      "thirdPartyTransaction": "Entiendo que al continuar la compra lo haré a través de un proveedor externo (Kripton Market) sujeto a términos y condiciones propios, de los cuales Xcapit no es responsable.",
-      "privacyPolicyAndTOS": "He leído y acepto los: <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Términos y condiciones</a> y la <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Política de privacidad de Kripton Market</a>",
+      "thirdPartyKYC": "Entiendo que Xcapit no almacena la información KYC.",
+      "thirdPartyTransaction": "Entiendo que los términos y condiciones del proveedor externo (Kripton Market) son independientes de Xcapit.",
+      "privacyPolicyAndTOS": "Acepto los <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>términos y condiciones</a> y la <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>política de privacidad de Kripton Market</a>",
       "next_button": "Continuar"
     },
     "register": {
@@ -2210,7 +2252,8 @@
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
       "information": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
       "button_text": "Continuar",
-      "moonpay_operations": "Las compras de Moonpay visualizalas en la web"
+      "moonpay_operations": "Las compras de Moonpay visualizalas en la web",
+      "footer_description": "Al presionar “Continuar”, serás redirigido al sitio del proveedor externo."
     },
     "token_selection": {
       "header": "Comprar cripto",
@@ -2579,37 +2622,37 @@
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
     },
-    "terms_and_conditions":{
-      "title":"¿Qué necesitas saber antes de realizar un intercambio?",
-      "condition_1":"El intercambio se realiza a través del proovedor externo “1inch”.",
-      "condition_2":"Las condiciones de intercambio de tokens dependen del proovedor.",
-      "condition_3":"Los intercambios poseen costos de transacción asociados.",
-      "terms":{
-        "i_have_read":"Leí y estoy de acuerdo con los",
+    "terms_and_conditions": {
+      "title": "¿Qué necesitas saber antes de realizar un intercambio?",
+      "condition_1": "El intercambio se realiza a través del proovedor externo “1inch”.",
+      "condition_2": "Las condiciones de intercambio de tokens dependen del proovedor.",
+      "condition_3": "Los intercambios poseen costos de transacción asociados.",
+      "terms": {
+        "i_have_read": "Leí y estoy de acuerdo con los",
         "link_to_terms": "términos y condiciones",
-        "of":"de 1inch"
+        "of": "de 1inch"
       },
-      "button":"Comenzar"
+      "button": "Comenzar"
     },
-    "swap_in_progress":{
+    "swap_in_progress": {
       "text_title": "Intercambio",
       "text_badge": "En progreso",
-      "text_primary":"¡Tu orden está en camino!",
-      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "button_text":"Ir a wallet"
+      "text_primary": "¡Tu orden está en camino!",
+      "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text": "Ir a wallet"
     },
-    "sent_notification":{
-      "actions":{
+    "sent_notification": {
+      "actions": {
         "title": "Ver más"
       },
-      "swap_ok":{
-        "title":"🚀 ¡Intercambio exitoso! ",
+      "swap_ok": {
+        "title": "🚀 ¡Intercambio exitoso! ",
         "body": "Enviaste {{fromAmount}} {{fromToken}} y recibiste {{toAmount}} {{toToken}} ."
       },
-      "swap_not_ok":{
-        "title":"❌ Error en el intercambio",
+      "swap_not_ok": {
+        "title": "❌ Error en el intercambio",
         "body": "Se produjo un error en el envío de {{fromAmount}} {{fromToken}} y recepción de {{toAmount}} {{toToken}}. Más información aquí. ."
-      }     
+      }
     }
   }
 }

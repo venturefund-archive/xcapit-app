@@ -24,13 +24,15 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
               appTrackClick
               name="informative_modal"
               size="small"
-              (click)="this.showProviderInfo(this.provider?.name)"
+              (click)="this.showProviderInfo()"
             >
               <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
             </ion-button>
           </div>
           <div class="pcc__content__body__description">
-            <ion-text class="ux-font-text-xxs description">{{ this.provider?.description | translate }}</ion-text>
+            <ion-text class="ux-font-text-xxs description" color="neutral80">{{
+              this.provider?.description | translate
+            }}</ion-text>
           </div>
         </div>
         <div class="pcc__content__radio">
@@ -68,48 +70,37 @@ export class ProviderCardComponent {
     this.selectedProvider.emit(provider);
   }
 
-  async showProviderInfo(provider: string) {
-    if (provider === 'Kripton Market') {
-      if (!this.isInfoModalOpen) {
-        this.isInfoModalOpen = true;
-        const modal = await this.modalController.create({
-          component: InfoProviderComponent,
-          componentProps: {
-            image: this.provider?.logoRoute,
-            title: this.provider?.name,
-            subtitle1: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_1'),
-            subtitle2: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_2'),
-            description1: this.translate.instant('fiat_ramps.select_provider.modal_info.kripton.description_1'),
-            description2: this.translate.instant('fiat_ramps.select_provider.modal_info.kripton.description_2'),
-            buttonText: this.translate.instant('fiat_ramps.select_provider.modal_info.button'),
-          },
-          cssClass: 'ux-sm-modal-informative-provider',
-          backdropDismiss: false,
-        });
-        await modal.present();
-        this.isInfoModalOpen = false;
-      }
-    } else if (provider === 'Moonpay') {
-      if (!this.isInfoModalOpen) {
-        this.isInfoModalOpen = true;
-        const modal = await this.modalController.create({
-          component: InfoProviderComponent,
-          componentProps: {
-            image: this.provider?.logoRoute,
-            title: this.provider?.name,
-            subtitle1: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_1'),
-            subtitle2: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_2'),
-            description1: this.translate.instant('fiat_ramps.select_provider.modal_info.moonpay.description_1'),
-            description2: this.translate.instant('fiat_ramps.select_provider.modal_info.moonpay.description_2'),
-            disclaimer: this.translate.instant('fiat_ramps.select_provider.modal_info.moonpay.disclaimer'),
-            buttonText: this.translate.instant('fiat_ramps.select_provider.modal_info.button'),
-          },
-          cssClass: 'ux-md-modal-informative-provider',
-          backdropDismiss: false,
-        });
-        await modal.present();
-        this.isInfoModalOpen = false;
-      }
+  async createInfoModal() {
+    const modal = await this.modalController.create({
+      component: InfoProviderComponent,
+      componentProps: {
+        image: this.provider?.logoRoute,
+        title: this.provider?.name,
+        subtitle1: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_1'),
+        subtitle2: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_2'),
+        description1: this.translate.instant(
+          `fiat_ramps.select_provider.modal_info.${this.provider.providerName}.description_1`
+        ),
+        description2: this.translate.instant(
+          `fiat_ramps.select_provider.modal_info.${this.provider.providerName}.description_2`
+        ),
+        disclaimer:
+          this.provider.providerName === 'moonpay'
+            ? this.translate.instant('fiat_ramps.select_provider.modal_info.moonpay.disclaimer')
+            : '',
+        buttonText: this.translate.instant('fiat_ramps.select_provider.modal_info.button'),
+      },
+      cssClass: this.provider.providerName === 'moonpay' ? 'ux-md-modal-informative-provider' :'ux-sm-modal-informative-provider',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
+
+  async showProviderInfo() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      await this.createInfoModal();
+      this.isInfoModalOpen = false;
     }
   }
 }

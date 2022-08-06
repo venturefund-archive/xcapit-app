@@ -10,6 +10,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { DefiInvestmentProductComponent } from './defi-investment-product.component';
 import { TwoPiProduct } from '../../models/two-pi-product/two-pi-product.model';
 import { Coin } from '../../../../wallets/shared-wallets/interfaces/coin.interface';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('DefiInvestmentProductComponent', () => {
   let component: DefiInvestmentProductComponent;
@@ -20,53 +21,58 @@ describe('DefiInvestmentProductComponent', () => {
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let twoPiProductSpy: jasmine.SpyObj<TwoPiProduct>;
   let coinSpy: jasmine.SpyObj<Coin>;
-  beforeEach(
-    waitForAsync(() => {
-      coinSpy = jasmine.createSpyObj(
-        'Coin',
-        {},
-        {
-          name: 'USDC - USD Coin',
-          logoRoute: 'assets/img/coins/USDC.png',
-          value: 'USDC',
-        }
-      );
-      fakeNavController = new FakeNavController({});
-      navControllerSpy = fakeNavController.createSpy();
-      walletServiceSpy = jasmine.createSpyObj('WalletService', {
-        walletExist: Promise.resolve(true),
-      });
-      twoPiProductSpy = jasmine.createSpyObj('TwoPiProduct', {
-        token: coinSpy,
-        tvl: 1301621.68,
-        apy: 22.78,
-        type: 'Vault',
-        provider: '2PI',
-        name: 'polygon_usdc',
-      });
-      TestBed.configureTestingModule({
-        declarations: [
-          DefiInvestmentProductComponent,
-          FakeTrackClickDirective,
-          SplitStringPipe,
-        ],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: WalletService, useValue: walletServiceSpy },
-        ],
-      }).compileComponents();
-
-      fixture = TestBed.createComponent(DefiInvestmentProductComponent);
-      component = fixture.componentInstance;
-      component.investmentProduct = twoPiProductSpy;
-      fixture.detectChanges();
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  let nativeTokenSpy: jasmine.SpyObj<Coin>;
+  beforeEach(waitForAsync(() => {
+    nativeTokenSpy = jasmine.createSpyObj('nativeToken',{}, {
+      logoRoute: 'assets/img/coins/MATIC.svg',
     })
-  );
+    coinSpy = jasmine.createSpyObj(
+      'Coin',
+      {},
+      {
+        name: 'USDC - USD Coin',
+        logoRoute: 'assets/img/coins/USDC.png',
+        value: 'USDC',
+      }
+    );
+    fakeNavController = new FakeNavController({});
+    navControllerSpy = fakeNavController.createSpy();
+    walletServiceSpy = jasmine.createSpyObj('WalletService', {
+      walletExist: Promise.resolve(true),
+    });
+    twoPiProductSpy = jasmine.createSpyObj('TwoPiProduct', {
+      token: coinSpy,
+      nativeToken: nativeTokenSpy,
+      tvl: 1301621.68,
+      apy: 22.78,
+      type: 'Vault',
+      provider: '2PI',
+      name: 'polygon_usdc',
+    });
+    TestBed.configureTestingModule({
+      declarations: [DefiInvestmentProductComponent, FakeTrackClickDirective, SplitStringPipe],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: WalletService, useValue: walletServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(DefiInvestmentProductComponent);
+    component = fixture.componentInstance;
+    component.investmentProduct = twoPiProductSpy;
+    fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render app-token-with-blockchain-logo properly', () => {
+    const compEl = fixture.debugElement.query(By.css('app-token-with-blockchain-logo'));
+    expect(compEl).toBeTruthy();
   });
 
   it('should render properly tvl and apy of vaults', async () => {
@@ -77,9 +83,7 @@ describe('DefiInvestmentProductComponent', () => {
     //   By.css('div.dip__content__liquidity__liq > ion-text')
     // );
     // expect(liquidityEl.nativeElement.innerHTML).toContain('1,301,621.68 USD');
-    const performanceEl = fixture.debugElement.query(
-      By.css('ion-badge.dip__footer__badge')
-    );
+    const performanceEl = fixture.debugElement.query(By.css('ion-badge.dip__footer__badge'));
     expect(performanceEl.nativeElement.innerHTML).toContain('22.78');
   });
 
@@ -96,9 +100,7 @@ describe('DefiInvestmentProductComponent', () => {
     walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
     fixture.debugElement.query(By.css('ion-button[name="Invest"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      '/defi/no-wallet-to-invest',
-    ]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/no-wallet-to-invest']);
   });
 
   it('should redirect user to new investment page when Invest button is clicked if user has wallet', async () => {
@@ -106,7 +108,8 @@ describe('DefiInvestmentProductComponent', () => {
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       '/defi/new/insert-amount',
-      'polygon_usdc', 'invest'
+      'polygon_usdc',
+      'invest',
     ]);
   });
 });

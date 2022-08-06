@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { AuthService } from 'src/app/modules/users/shared-users/services/auth/auth.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
@@ -20,7 +19,6 @@ describe('LogOutModalComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<LogOutModalComponent>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
   let logOutModalSpy: jasmine.SpyObj<LogOutModalService>;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
@@ -33,10 +31,6 @@ describe('LogOutModalComponent', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
 
-      authServiceSpy = jasmine.createSpyObj('AuthService', {
-        logout: Promise.resolve(),
-      });
-
       logOutModalSpy = jasmine.createSpyObj('LogOutModalService', {
         addUserToNotShowModal: Promise.resolve(),
       });
@@ -45,7 +39,6 @@ describe('LogOutModalComponent', () => {
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
-          { provide: AuthService, useValue: authServiceSpy },
           { provide: LogOutModalService, useValue: logOutModalSpy },
           { provide: ModalController, useValue: modalControllerSpy },
         ],
@@ -66,9 +59,8 @@ describe('LogOutModalComponent', () => {
   it('should log out when Log Out button clicked', async () => {
     fixture.debugElement.query(By.css('ion-button[name="Log Out"]')).nativeElement.click();
     await fixture.whenStable();
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledOnceWith(true);
     expect(logOutModalSpy.addUserToNotShowModal).toHaveBeenCalledTimes(0);
-    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/users/login']);
   });
 
   it('should log out and remember that user checked do not show this again when Log Out button clicked', async () => {
@@ -77,9 +69,8 @@ describe('LogOutModalComponent', () => {
     fixture.detectChanges();
     await component.logout();
     await fixture.whenStable();
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledOnceWith(true);
     expect(logOutModalSpy.addUserToNotShowModal).toHaveBeenCalledOnceWith('testUser2');
-    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/users/login']);
   });
 
   it('should call trackEvent on trackService when Log Out button clicked', () => {

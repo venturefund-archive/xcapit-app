@@ -15,6 +15,9 @@ import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wa
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { XAuthService } from '../../users/shared-users/services/x-auth/x-auth.service';
+import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
+import { Password } from '../../swaps/shared-swaps/models/password/password';
+import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 
 @Component({
   selector: 'app-create-password',
@@ -176,7 +179,9 @@ export class CreatePasswordPage implements OnInit {
         .then(() => this.walletEncryptionService.getEncryptedWallet())
         .then((encryptedWallet) => this.formattedWallets(encryptedWallet))
         .then((wallets) => this.apiWalletService.saveWalletAddresses(wallets).toPromise())
-        .then(() => this.createToken())
+        .then(() => this.createXAuthToken())
+        .then(() => this.createLoginToken())
+        .then(() => this.loginUser())
         .then(() => this.setWalletAsProtectedIfImporting())
         .then(() => (this.loading = false))
         .then(() => this.navigateByMode());
@@ -185,7 +190,15 @@ export class CreatePasswordPage implements OnInit {
     }
   }
 
-  private async createToken(): Promise<void> {
+  private async loginUser(): Promise<void> {
+    new LoggedIn(this.ionicStorageService).save(true);
+  }
+
+  private async createLoginToken(): Promise<void> {
+    new LoginToken(new Password(this.createPasswordForm.value.password), this.ionicStorageService).save();
+  }
+
+  private async createXAuthToken(): Promise<void> {
     const blockchain = this.blockchains.create().oneByName('ERC20');
     const wallet = this.walletService.createdWallets.find((w) => w.mnemonic.path === blockchain.derivedPath());
     const signedMsg = await wallet.signMessage(wallet.address);

@@ -3,17 +3,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TokenSelectionListComponent } from 'src/app/shared/components/token-selection-list/token-selection-list.component';
 import { SuitePipe } from 'src/app/shared/pipes/suite/suite.pipe';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { ProviderTokenSelectionPage } from './provider-token-selection.page';
-import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 
 const coins: Coin[] = [
   {
@@ -31,7 +30,7 @@ const coins: Coin[] = [
   {
     id: 16,
     name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.png',
+    logoRoute: 'assets/img/coins/MATIC.svg',
     last: false,
     value: 'MATIC',
     network: 'MATIC',
@@ -70,7 +69,7 @@ const expectedCoins: Coin[] = [
   {
     id: 16,
     name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.png',
+    logoRoute: 'assets/img/coins/MATIC.svg',
     last: false,
     value: 'MATIC',
     network: 'MATIC',
@@ -84,7 +83,7 @@ const expectedCoins: Coin[] = [
 const coinClicked = {
   id: 1,
   name: 'MATIC - MATIC',
-  logoRoute: 'assets/img/coins/MATIC.png',
+  logoRoute: 'assets/img/coins/MATIC.svg',
   last: false,
   value: 'MATIC',
   network: 'MATIC',
@@ -99,18 +98,15 @@ describe('ProviderTokenSelectionPage', () => {
   let fixture: ComponentFixture<ProviderTokenSelectionPage>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let fakeActivatedRoute: FakeActivatedRoute;
-  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>
 
   beforeEach(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
-    fakeActivatedRoute = new FakeActivatedRoute({ provider: 'moonpay' }, { country: 'COL' });
-    activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: [
@@ -118,6 +114,10 @@ describe('ProviderTokenSelectionPage', () => {
         jasmine.createSpyObj('Coin', {}, { value: 'DAI', network: 'MATIC' }),
       ],
     });
+
+    tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
+      tokenOperationData: {}
+    })
 
     providersSpy = jasmine.createSpyObj('Providers', {
       all: rawProvidersData,
@@ -133,9 +133,9 @@ describe('ProviderTokenSelectionPage', () => {
       imports: [IonicModule, TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
+        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
       ],
     }).compileComponents();
 
@@ -156,42 +156,13 @@ describe('ProviderTokenSelectionPage', () => {
     expect(list).toBeTruthy();
   });
 
-  it('should navigate to moonpay page when itemClicked event is fired', async () => {
-    providersSpy.byAlias.and.returnValue(rawProvidersData.find((provider) => provider.alias === 'moonpay'));
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        asset: 'MATIC',
-        network: 'MATIC',
-        country: 'COL',
-      },
-    };
+  it('should navigate to provider selection page when clickedCoin event is fired', async () => {
     component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', coinClicked);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['/fiat-ramps/new-operation/moonpay'],
-      navigationExtras
-    );
-  });
-
-  it('should navigate to kripton new operation page when clickedCoin event is fired', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ provider: 'kripton' }, { country: 'ARS' });
-
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        asset: 'MATIC',
-        network: 'MATIC',
-        country: 'ARS',
-      },
-    };
-    component.ionViewWillEnter();
-    await fixture.whenRenderingDone();
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', coinClicked);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['/fiat-ramps/new-operation/kripton'],
-      navigationExtras
+      ['fiat-ramps/select-provider']
     );
   });
 });

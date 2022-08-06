@@ -11,6 +11,7 @@ import { TwoPiProduct } from '../../models/two-pi-product/two-pi-product.model';
 import { Coin } from '../../../../wallets/shared-wallets/interfaces/coin.interface';
 import { FormattedAmount } from '../../../../../shared/models/formatted-amount/formatted-amount';
 import { FormattedAmountPipe } from '../../../../../shared/pipes/formatted-amount/formatted-amount.pipe';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('InvestmentBalanceItemComponent', () => {
   let component: InvestmentBalanceItemComponent;
@@ -20,47 +21,62 @@ describe('InvestmentBalanceItemComponent', () => {
   let fakeNavController: FakeNavController;
   let twoPiProductSpy: TwoPiProduct;
   let coinSpy: jasmine.SpyObj<Coin>;
-  beforeEach(
-    waitForAsync(() => {
-      coinSpy = jasmine.createSpyObj(
-        'Coin',
-        {},
-        {
-          name: 'USDC - USD Coin',
-          logoRoute: 'assets/img/coins/USDC.png',
-          value: 'USDC',
-        }
-      );
-      fakeNavController = new FakeNavController({});
-      navControllerSpy = fakeNavController.createSpy();
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
-        getPrices: of({ prices: { USDC: 1 } }),
-        getCoins: [coinSpy],
-      });
-      twoPiProductSpy = jasmine.createSpyObj('TwoPiProduct', {
-        token: coinSpy,
-        tvl: 1301621.68,
-        apy: 22.78,
-        type: 'Vault',
-        provider: '2PI',
-        name: 'polygon_usdc',
-      });
-      TestBed.configureTestingModule({
-        declarations: [InvestmentBalanceItemComponent, SplitStringPipe, FormattedAmountPipe],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-        ],
-      }).compileComponents();
 
-      fixture = TestBed.createComponent(InvestmentBalanceItemComponent);
-      component = fixture.componentInstance;
-      component.investmentProduct = twoPiProductSpy;
-      component.balance = 50;
-      fixture.detectChanges();
-    })
-  );
+  const matic_coin = {
+    id: 16,
+    last: false,
+    logoRoute: 'assets/img/coins/MATIC.svg',
+    moonpayCode: 'matic_polygon',
+    name: 'MATIC - Polygon',
+    native: true,
+    network: 'MATIC',
+    rpc: 'http://testrpc.text/',
+    symbol: 'MATICUSDT',
+    value: 'MATIC',
+    decimals: 18,
+  };
+
+  beforeEach(waitForAsync(() => {
+    coinSpy = jasmine.createSpyObj(
+      'Coin',
+      {},
+      {
+        name: 'USDC - USD Coin',
+        logoRoute: 'assets/img/coins/USDC.png',
+        value: 'USDC',
+      }
+    );
+    fakeNavController = new FakeNavController({});
+    navControllerSpy = fakeNavController.createSpy();
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
+      getPrices: of({ prices: { USDC: 1 } }),
+      getCoins: [coinSpy],
+    });
+    twoPiProductSpy = jasmine.createSpyObj('TwoPiProduct', {
+      token: coinSpy,
+      nativeToken: matic_coin,
+      tvl: 1301621.68,
+      apy: 22.78,
+      type: 'Vault',
+      provider: '2PI',
+      name: 'polygon_usdc',
+    });
+    TestBed.configureTestingModule({
+      declarations: [InvestmentBalanceItemComponent, SplitStringPipe, FormattedAmountPipe],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(InvestmentBalanceItemComponent);
+    component = fixture.componentInstance;
+    component.investmentProduct = twoPiProductSpy;
+    component.balance = 50;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -86,9 +102,9 @@ describe('InvestmentBalanceItemComponent', () => {
     expect(convertedBalanceEl.nativeElement.innerHTML).toContain(50);
   });
 
-  it('should render image properly', () => {
-    const imageEl = fixture.debugElement.query(By.css('.ibi__image .ibi__image__img'));
-    expect(imageEl.attributes.src).toContain('assets/img/coins/USDC.png');
+  it('should render app-token-with-blockchain-logo properly', () => {
+    const compEl = fixture.debugElement.query(By.css('app-token-with-blockchain-logo'));
+    expect(compEl).toBeTruthy();
   });
 
   it('should navigate to investment detail when go_to_invest_detail div is clicked', async () => {

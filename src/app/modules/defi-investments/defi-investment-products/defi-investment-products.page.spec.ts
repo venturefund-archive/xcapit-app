@@ -54,109 +54,107 @@ describe('DefiInvestmentProductsPage', () => {
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
-  beforeEach(
-    waitForAsync(() => {
-      twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
-        vault: Promise.resolve({
-          apy: 0.227843965358873,
-          balances: [],
-          contract_address: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
-          deposits: [],
-          identifier: 'polygon_usdc',
-          pid: 1,
-          token: 'USDC',
-          token_address: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
-          tvl: 1301621680000,
-        } as Vault),
-      });
+  beforeEach(waitForAsync(() => {
+    twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
+      vault: Promise.resolve({
+        apy: 0.227843965358873,
+        balances: [],
+        contract_address: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
+        deposits: [],
+        identifier: 'polygon_usdc',
+        pid: 1,
+        token: 'USDC',
+        token_address: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
+        tvl: 1301621680000,
+      } as Vault),
+    });
 
-      testUserSpy = jasmine.createSpyObj(
-        'testUser',
-        {},
-        {
-          profile: {
-            investor_category: 'wealth_managements.profiles.no_category',
-          },
-        }
-      );
-
-      testUserWithTestSpy = jasmine.createSpyObj(
-        'testUser',
-        {},
-        {
-          profile: {
-            investor_category: 'wealth_managements.profiles.conservative',
-          },
-        }
-      );
-
-      testAggressiveUserSpy = jasmine.createSpyObj(
-        'testUser',
-        {},
-        {
-          profile: {
-            investor_category: 'wealth_managements.profiles.risky',
-          },
-        }
-      );
-
-      fakeNavController = new FakeNavController({});
-      navControllerSpy = fakeNavController.createSpy();
-
-      apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', { getUser: of(testUserWithTestSpy) });
-
-      walletServiceSpy = jasmine.createSpyObj('WalletServiceSpy', {
-        walletExist: Promise.resolve(true),
-      });
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
-        getCoins: testCoins,
-      });
-      walletEncryptionServiceSpy = jasmine.createSpyObj(
-        'WalletEncryptionServiceSpy',
-        {
-          getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x0000001' } }),
+    testUserSpy = jasmine.createSpyObj(
+      'testUser',
+      {},
+      {
+        profile: {
+          investor_category: 'wealth_managements.profiles.no_category',
         },
-        {
-          addresses: { MATIC: '0x0000001' },
-        }
-      );
+      }
+    );
 
-      investmentSpy = jasmine.createSpyObj('TwoPiInvestment', {
-        balance: Promise.resolve(50),
-      });
+    testUserWithTestSpy = jasmine.createSpyObj(
+      'testUser',
+      {},
+      {
+        profile: {
+          investor_category: 'wealth_managements.profiles.conservative',
+        },
+      }
+    );
 
-      investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
-        token: testCoins[0],
-        contractAddress: '0x00001',
-      });
+    testAggressiveUserSpy = jasmine.createSpyObj(
+      'testUser',
+      {},
+      {
+        profile: {
+          investor_category: 'wealth_managements.profiles.risky',
+        },
+      }
+    );
 
-      availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
-        value: [{ id: 'mumbai_usdc', isComing: false, category: 'conservative', continuousEarning: true }],
-      });
+    fakeNavController = new FakeNavController({});
+    navControllerSpy = fakeNavController.createSpy();
 
-      remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ test: 'test' }] });
+    apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', { getUser: of(testUserWithTestSpy) });
 
-      TestBed.configureTestingModule({
-        declarations: [DefiInvestmentProductsPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule, ReactiveFormsModule],
-        providers: [
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
-          { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
-          { provide: WalletService, useValue: walletServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: TwoPiApi, useValue: twoPiApiSpy },
-          { provide: RemoteConfigService, useValue: remoteConfigSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    walletServiceSpy = jasmine.createSpyObj('WalletServiceSpy', {
+      walletExist: Promise.resolve(true),
+    });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
+      getCoins: testCoins,
+    });
+    walletEncryptionServiceSpy = jasmine.createSpyObj(
+      'WalletEncryptionServiceSpy',
+      {
+        getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x0000001' } }),
+      },
+      {
+        addresses: { MATIC: '0x0000001' },
+      }
+    );
 
-      fixture = TestBed.createComponent(DefiInvestmentProductsPage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    })
-  );
+    investmentSpy = jasmine.createSpyObj('TwoPiInvestment', {
+      balance: Promise.resolve(50),
+    });
+
+    investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
+      token: testCoins[0],
+      contractAddress: '0x00001',
+    });
+
+    availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
+      value: [{ id: 'mumbai_usdc', isComing: false, category: 'conservative', continuousEarning: true }],
+    });
+
+    remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ test: 'test' }] });
+
+    TestBed.configureTestingModule({
+      declarations: [DefiInvestmentProductsPage, FakeTrackClickDirective],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule, ReactiveFormsModule],
+      providers: [
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
+        { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+        { provide: WalletService, useValue: walletServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: TwoPiApi, useValue: twoPiApiSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(DefiInvestmentProductsPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -249,6 +247,7 @@ describe('DefiInvestmentProductsPage', () => {
   it('should call trackEvent on trackService when go_to_defi_faqs Button clicked', async () => {
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
+    component.disableFaqsButton = false;
     component.ionViewWillEnter();
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();

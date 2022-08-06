@@ -1,4 +1,9 @@
 :host {
+  ion-toolbar {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
   .mnp {
     margin: 16px 0 24px;
     padding: 16px;
@@ -45,10 +50,19 @@
         }
       }
     }
+  }
 
-    &__disclaimer {
-      margin-top: 8px;
-      margin-bottom: 15px;
+  ion-footer {
+    box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+
+    ion-button {
+      display: flex;
+      flex-direction: column;
+      margin-top: 16px;
+    }
+
+    .ux_footer__content ion-text {
+      color: var(--ion-color-neutral80);
     }
   }
 }

@@ -13,6 +13,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { WalletBackupService } from '../../services/wallet-backup/wallet-backup.service';
 import { defaultSwapsUrls } from 'src/app/modules/swaps/swaps-routing.module';
+import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
@@ -23,7 +24,7 @@ describe('WalletSubheaderButtonsComponent', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
-
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -39,6 +40,9 @@ describe('WalletSubheaderButtonsComponent', () => {
         presentModal: Promise.resolve('skip'),
       });
 
+      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
+        tokenOperationData: {}
+      })
       TestBed.configureTestingModule({
         declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective, FakeFeatureFlagDirective],
         imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
@@ -47,6 +51,7 @@ describe('WalletSubheaderButtonsComponent', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
           { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -141,8 +146,18 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/buy-conditions']);
   });
 
-  it('should navigate to select-provider page when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is set on storage', async () => {
+  it('should navigate to token selection page when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is set on storage and there is not asset', async () => {
     ionicStorageServiceSpy.get.and.resolveTo(true);
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_buy']")).nativeElement.click();
+    await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/token-selection']);
+  });
+  
+  it('should navigate to select provider page when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is set on storage and there is asset', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo(true);
+    component.asset = 'USDT';
+    component.network = 'ERC20';
     fixture.detectChanges();
     fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_buy']")).nativeElement.click();
     await fixture.whenStable();
@@ -202,5 +217,5 @@ describe('WalletSubheaderButtonsComponent', () => {
     fixture.detectChanges();
     const div = fixture.debugElement.query(By.css('.wsb__card-buttons__buy-card'));
     expect(div).toBeFalsy();
-  })
+  });
 });

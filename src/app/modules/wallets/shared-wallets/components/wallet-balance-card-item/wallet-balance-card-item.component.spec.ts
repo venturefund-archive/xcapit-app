@@ -33,7 +33,7 @@ describe('WalletBalanceCardItemComponent', () => {
     coinSpy = jasmine.createSpyObj(
       'Coin',
       {},
-      { value: 'MATIC', logoRoute: 'assets/img/coins/MATIC.png', network: 'MATIC' }
+      { value: 'MATIC', logoRoute: 'assets/img/coins/MATIC.svg', network: 'MATIC' }
     );
     tokenDetailSpy = jasmine.createSpyObj(
       'TokenDetail',
@@ -73,7 +73,7 @@ describe('WalletBalanceCardItemComponent', () => {
     const imgEl = fixture.debugElement.query(By.css('img.wbci__img'));
     const labelList = fixture.debugElement.queryAll(By.css('ion-label'));
 
-    expect(imgEl.attributes.src).toContain('assets/img/coins/MATIC.png');
+    expect(imgEl.attributes.src).toContain('assets/img/coins/MATIC.svg');
     expect(labelList[0].nativeElement.innerHTML).toContain('MATIC');
     expect(labelList[1].nativeElement.innerHTML).toContain('1');
     expect(labelList[3].nativeElement.innerHTML).toContain('20 USD');

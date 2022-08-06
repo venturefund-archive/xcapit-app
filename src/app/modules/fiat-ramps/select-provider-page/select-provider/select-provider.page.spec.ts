@@ -3,10 +3,10 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NavigationExtras } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
@@ -16,6 +16,7 @@ import { rawProvidersData } from '../../shared-ramps/fixtures/raw-providers-data
 import { ProvidersFactory } from '../../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../../shared-ramps/models/providers/providers.interface';
 import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service';
+import { TokenOperationDataService } from '../../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { SelectProviderPage } from './select-provider.page';
 
 const rawOperations: any[] = [
@@ -44,7 +45,15 @@ const rawOperations: any[] = [
     voucher: false,
   },
 ];
-
+const coin = {
+  id: 8,
+  name: 'MATIC - Polygon',
+  logoRoute: 'assets/img/coins/MATIC.png',
+  value: 'MATIC',
+  network: 'MATIC',
+  native: true,
+  symbol: 'MATICUSDT',
+};
 const testForm = {
   valid: {
     provider: 'testProvider',
@@ -61,10 +70,12 @@ describe('SelectProviderPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
-  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -74,10 +85,15 @@ describe('SelectProviderPage', () => {
       trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
         trackEvent: Promise.resolve(true),
       });
+      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+        getCoin: coin,
+      });
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
         getUserOperations: of(rawOperations),
       });
-
+      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
+        tokenOperationData: {}
+      })
       providersSpy = jasmine.createSpyObj('Providers', {
         all: rawProvidersData,
       });
@@ -90,11 +106,13 @@ describe('SelectProviderPage', () => {
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule, ReactiveFormsModule],
         providers: [
-          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: TrackService, useValue: trackServiceSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
+          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         ],
       }).compileComponents();
 
@@ -120,16 +138,13 @@ describe('SelectProviderPage', () => {
   });
 
   it('should navigate to provider url when ux_vendor_buy_continue is clicked', () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        country: 'ARS',
-      },
-    };
+    component.ionViewWillEnter();
     fixture.detectChanges();
     component.form.patchValue(testForm.valid);
     fixture.debugElement.query(By.css('app-select-provider-card')).triggerEventHandler('route', 'test');
     fixture.debugElement.query(By.css("ion-button[name='ux_vendor_buy_continue']")).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test'], navigationExtras);
+    expect(tokenOperationDataServiceSpy.tokenOperationData).not.toBeNull();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test']);
   });
 
   it('should reset form when country is changed', () => {
@@ -158,19 +173,5 @@ describe('SelectProviderPage', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(0);
-  });
-
-  it('should go to Moonpay web when Go To Moonpay History clicked', () => {
-    fixture.debugElement.query(By.css('ion-button[name="Go To Moonpay History"]')).nativeElement.click();
-    expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call trackEvent when Go To Moonpay History clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Go To Moonpay History');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spy = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

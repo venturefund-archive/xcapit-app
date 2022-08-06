@@ -187,6 +187,16 @@
   }
 }
 
+.ux-modal-skip-profile-test {
+  --max-height: 192px;
+  --max-width: 90%;
+
+  &::part(content) {
+    background-color: var(--ion-color-white);
+    border-radius: 8px;
+  }
+}
+
 // Portfolio Modal swippeable
 .generic-modal {
   &::part(content) {
