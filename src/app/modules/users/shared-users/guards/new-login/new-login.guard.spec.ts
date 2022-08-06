@@ -32,13 +32,13 @@ describe('NewLogin', () => {
     expect(newLogin).toBeTruthy();
   });
 
-  it('should navigate to on boarding if feature flag is enabled', async () => {
+  it('should navigate to new login if feature flag is enabled', async () => {
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
     await newLogin.canActivate();
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['users/login-new']);
   });
 
-  it('should not navigate to on boarding if feature flag is enabled', async () => {
+  it('should not navigate to new login if feature flag is enabled', async () => {
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
     await newLogin.canActivate();
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(0);
