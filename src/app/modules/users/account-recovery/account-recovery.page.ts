@@ -59,12 +59,14 @@ export class AccountRecoveryPage implements OnInit {
       description: 'users.account_recovery.item_1.description',
       icon: 'assets/ux-icons/ux-wallet-infolight.svg',
       route: '/wallets/create-first/disclaimer',
+      dataToTrack:'ux_go_to_create'
     },
     {
       title: 'users.account_recovery.item_2.title',
       description: 'users.account_recovery.item_2.description',
       icon: 'assets/ux-icons/ux-import-wallet-infolight.svg',
       route: '/wallets/create-first/disclaimer/import',
+      dataToTrack:'ux_go_to_import'
     },
   ];
 

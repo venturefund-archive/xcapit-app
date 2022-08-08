@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-help-item-card',
-  template: `<div class="hic" appTrackClick name="ux_go_to_item"(click)="this.goToItem() ">
+  template: `<div class="hic" appTrackClick name="go_to_item" [dataToTrack]="{ eventLabel: this.item.dataToTrack }" (click)="this.goToItem() ">
   <div class="hic__content ux-card">
     <div class="hic__content__icon">
       <img [src]="this.item.icon" />

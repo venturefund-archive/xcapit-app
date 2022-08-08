@@ -27,7 +27,7 @@ describe('HelpItemCardComponent', () => {
 
     fixture = TestBed.createComponent(HelpItemCardComponent);
     component = fixture.componentInstance;
-    component.item = {title:'testTitle', description: 'testDescription', icon:'assets/ux-icons/ux-wallet-infolight.svg',  route: '/wallets/create-first/disclaimer'}
+    component.item = {title:'testTitle', description: 'testDescription', icon:'assets/ux-icons/ux-wallet-infolight.svg',  route: '/wallets/create-first/disclaimer', dataToTrack:'ux_go_to_create'}
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
@@ -47,7 +47,7 @@ describe('HelpItemCardComponent', () => {
   });
 
   it('should call trackEvent on trackService when Select clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('div','ux_go_to_item');
+    const el = trackClickDirectiveHelper.getByElementByName('div','go_to_item');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
