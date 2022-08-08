@@ -6,6 +6,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { BuyConditionsPage } from './buy-conditions.page';
 
 describe('BuyConditionsPage', () => {
@@ -15,29 +16,32 @@ describe('BuyConditionsPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
 
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
-        set: Promise.resolve(),
-      });
-      TestBed.configureTestingModule({
-        declarations: [BuyConditionsPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: IonicStorageService, useValue: storageServiceSpy },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      set: Promise.resolve(),
+    });
+    tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
+      tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
+    });
+    TestBed.configureTestingModule({
+      declarations: [BuyConditionsPage, FakeTrackClickDirective],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: IonicStorageService, useValue: storageServiceSpy },
+        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(BuyConditionsPage);
-      component = fixture.componentInstance;
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(BuyConditionsPage);
+    component = fixture.componentInstance;
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -52,11 +56,19 @@ describe('BuyConditionsPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate and set storage when buy_conditions button is clicked', () => {
+  it('should navigate to select-provider and set storage when buy_conditions button is clicked and there is token data', () => {
     fixture.debugElement.query(By.css('ion-button[name="buy_conditions"]')).nativeElement.click();
     fixture.detectChanges();
     expect(storageServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
+  });
+
+  it('should navigate to token-selection and set storage when buy_conditions button is clicked and there is not token data', () => {
+    tokenOperationDataServiceSpy.tokenOperationData = undefined;
+    fixture.debugElement.query(By.css('ion-button[name="buy_conditions"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(storageServiceSpy.set).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/token-selection']);
   });
 
   it('should navigate to back when Close Success button is clicked', () => {
