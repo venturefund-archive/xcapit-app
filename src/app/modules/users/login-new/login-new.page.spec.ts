@@ -73,4 +73,10 @@ describe('LoginNewPage', () => {
     fixture.debugElement.query(By.css('app-ux-input[controlName="password"]')).nativeElement.click();
     expect(toastServiceSpy.dismiss).toHaveBeenCalledTimes(1);
   });
+
+  it('should access to faqs when help button is clicked', async () => {
+    fixture.debugElement.query(By.css('ion-button[name="Access Faq"]')).nativeElement.click();
+
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/support/options');
+  });
 });
