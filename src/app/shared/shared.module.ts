@@ -92,6 +92,9 @@ import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/compon
 import { EyeComponent } from './components/eye/eye.component';
 import { TokenWithBlockchainLogoComponent } from './components/token-with-blockchain-logo/token-with-blockchain-logo.component';
 import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/components/skip-profile-test/skip-profile-test.component';
+import { InformationAlertComponent } from '../modules/users/shared-users/components/information-alert/information-alert.component';
+import { HelpItemCardComponent } from '../modules/users/shared-users/components/help-item-card/help-item-card.component';
+
 
 @NgModule({
   declarations: [
@@ -119,6 +122,8 @@ import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/co
     TokenWithBlockchainLogoComponent,
     SkipProfileTestComponent,
     // Ux
+    HelpItemCardComponent,
+    InformationAlertComponent, 
     InfoSendModalComponent,
     CircleProgressComponent,
     RuleCardComponent,
@@ -222,6 +227,8 @@ import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/co
     TokenWithBlockchainLogoComponent,
     SkipProfileTestComponent,
     // Ux
+    HelpItemCardComponent,
+    InformationAlertComponent,
     InfoSendModalComponent,
     RuleCardComponent,
     InfoPhraseAdviceModalComponent,
