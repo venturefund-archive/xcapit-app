@@ -26,7 +26,7 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
 
 const links =
-  "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
+  "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
 
 const validForm = {
   cryptoAmount: 10,
