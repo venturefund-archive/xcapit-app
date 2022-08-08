@@ -72,7 +72,7 @@ describe('TransactionFeeComponent', () => {
     component.quoteFee.value = 0.0017;
     fixture.detectChanges();
 
-    expect(_divAdvice).toBeTruthy();
+    expect(_divAdvice()).toBeTruthy();
   });
 
   it('should get quote price on ngOnChanges if autoprice is true', () => {
