@@ -38,13 +38,13 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
               >{{ 'fiat_ramps.buy_conditions.condition_3' | translate }}
             </ion-text>
           </div>
-        </div>
-        <div class="bc__ux_footer">
           <div class="bc__checkbox">
-            <ion-checkbox mode="md" slot="start" name="checkbox-condition" (ionChange)="this.enableButton()">
+            <ion-checkbox mode="md" slot="start" name="checkbox-condition" (ionChange)="this.updateState($event)">
             </ion-checkbox>
             <ion-label class="ux-font-text-xs"> {{ 'fiat_ramps.buy_conditions.label_check' | translate }}</ion-label>
           </div>
+        </div>
+        <div class="bc__ux_footer">
           <div class="bc__button">
             <ion-button
               [disabled]="!this.acceptTos"
@@ -77,18 +77,23 @@ export class BuyConditionsPage implements OnInit {
 
   ngOnInit() {}
 
-  enableButton() {
-    return (this.acceptTos = !this.acceptTos);
+  updateState(state: any) {
+    if (state.detail.checked) {
+      this.acceptTos = state.detail.checked;
+      this.storage.set(this.key, state.detail.checked);
+    } else {
+      this.acceptTos = state.detail.checked;
+      this.storage.set(this.key, state.detail.checked);
+    }
   }
 
   goToSelectProvider() {
-    this.storage.set(this.key, true);
     this.tokenOperationDataService.tokenOperationData
       ? this.navController.navigateForward(['fiat-ramps/select-provider'])
       : this.navController.navigateForward(['fiat-ramps/token-selection']);
   }
 
   close() {
-    this.navController.back();
+    this.navController.navigateBack('tabs/wallets');
   }
 }
