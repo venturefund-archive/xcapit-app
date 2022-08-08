@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges, OnDestroy } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -62,10 +62,9 @@ import { Amount } from '../../types/amount.type';
   `,
   styleUrls: ['./transaction-fee.component.scss'],
 })
-export class TransactionFeeComponent implements OnChanges {
+export class TransactionFeeComponent implements OnChanges, OnDestroy {
   private readonly defaultQuoteTokenName = 'USD';
   private readonly nullQuoteFee = { value: undefined, token: this.defaultQuoteTokenName };
-  private destroy$ = new Subject<void>();
   private priceRefreshInterval = 15000;
 
   @Input() fee: Amount = { value: undefined, token: 'MATIC' };
@@ -80,6 +79,7 @@ export class TransactionFeeComponent implements OnChanges {
 
   isAmountSend: boolean;
   isInfoModalOpen = false;
+  destroy$ = new Subject<void>();
   dynamicPriceSubscription: Subscription;
 
   constructor(
@@ -105,6 +105,11 @@ export class TransactionFeeComponent implements OnChanges {
       await modal.present();
       this.isInfoModalOpen = false;
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngOnChanges(changes: SimpleChanges) {
