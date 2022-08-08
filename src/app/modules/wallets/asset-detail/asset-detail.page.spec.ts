@@ -61,15 +61,6 @@ const nativeAsset: Coin = {
   rpc: 'http://testrpc.test',
 };
 
-const testCoins = [
-  {
-    name: 'USDC - USD Coin',
-    value: 'USDC',
-    network: 'MATIC',
-    decimals: 6,
-  },
-];
-
 describe('AssetDetailPage', () => {
   let component: AssetDetailPage;
   let fixture: ComponentFixture<AssetDetailPage>;

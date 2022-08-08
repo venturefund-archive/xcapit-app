@@ -17,7 +17,6 @@ import { AvailableDefiProducts } from '../../defi-investments/shared-defi-invest
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { DefiProduct } from '../../defi-investments/shared-defi-investments/interfaces/defi-product.interface';
 import { NavController } from '@ionic/angular';
-import { DefiInvestment } from '../../defi-investments/shared-defi-investments/interfaces/defi-investment.interface';
 import { TwoPiProduct } from '../../defi-investments/shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { InvestmentProduct } from '../../defi-investments/shared-defi-investments/interfaces/investment-product.interface';
 import { TwoPiInvestment } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
@@ -64,7 +63,7 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
               appTrackClick
               (click)="this.goToInvest()"
             >
-              Invertir
+            {{ 'wallets.asset_detail.invest_button' | translate }}
             </ion-button>
           </div>
 
