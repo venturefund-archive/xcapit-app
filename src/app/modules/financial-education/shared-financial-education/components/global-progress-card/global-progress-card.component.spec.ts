@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { GlobalProgressCardComponent } from './global-progress-card.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { rawEducationProgressData } from '../../fixtures/rawEducationProgressData';
 
 describe('GlobalProgressCardComponent', () => {
@@ -106,5 +106,17 @@ describe('GlobalProgressCardComponent', () => {
       By.css('.gpc__text ion-text')
     );
     expect(component.modules.length).toEqual(4);
+  });
+
+
+  it('should update modules on ngOnChange', () => {
+    const change: SimpleChanges = { modules: new SimpleChange(null, rawEducationProgressData, true)}
+    component.modules = null;
+    spyOn(component, 'calculateProgressPercentage').and.callThrough();
+
+    component.ngOnChanges(change);
+
+    expect(component.modules).not.toBeNull();
+    expect(component.calculateProgressPercentage).toHaveBeenCalled();
   });
 });

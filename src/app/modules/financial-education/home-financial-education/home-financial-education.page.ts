@@ -87,7 +87,6 @@ export class HomeFinancialEducationPage {
 
   async ionViewWillEnter() {
     await this.getUserWalletAddress();
-    console.log(this.segmentsForm.value.tab);
     this.segmentsForm.valueChanges.subscribe(async () => {
       this.setTabData();
       this.setOpenValueOnModule();

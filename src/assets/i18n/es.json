@@ -240,6 +240,16 @@
         "description": "Accede a beneficios exclusivos que sólo nuestros productos de inversión ofrecen."
       },
       "help_link": "Ayuda"
+    },
+    "on_boarding":{
+      "title_1":"Te estábamos esperando",
+      "title_2":"Invertir nunca fue tan fácil",
+      "title_3":"¡Aprende jugando!",
+      "description_1":"Con la Wallet de Xcapit, tú tienes el control. En todo momento sabrás donde está tu dinero y cuántas ganancias obtienes.",
+      "description_2":"¡Invierte en DeFi! Transacciones rápidas, libres y sin intermediarios.",
+      "description_3":"La educación financiera que querías. Recibirás incentivos por tu aprendizaje y avance.",
+      "primary_action": "Crear wallet",
+      "secondary_action": "Importar wallet"
     }
   },
   "tickets": {
@@ -475,6 +485,7 @@
         "submit_loading": "Confirmando",
         "withdraw_amount": "Monto a retirar",
         "withdraw_fee": "Tarifa de retiro",
+        "receive_aprox": "Recibirás aproximadamente",
         "disclaimer": "Solo tomará unos segundos",
         "header_alert": "¡Espera!",
         "alert_message": "Aún estamos calculando la tarifa de transacción. ¿Deseas continuar de todas maneras?",
@@ -1880,7 +1891,8 @@
     "asset_detail": {
       "header": "Detalle de activo",
       "wallet_transaction_title": "Transacciones",
-      "available": "Saldo disponible"
+      "available": "Saldo disponible",
+      "invest_button": "Invertir"
     },
     "error_wallet_recovery": {
       "title": "Tu frase de recuperación es incorrecta",
@@ -2090,7 +2102,7 @@
         "moonpay": {
           "description_1": "Tarjeta de crédito.*",
           "description_2": "Depende del proveedor externo según el caso.",
-          "disclaimer": "*Por retricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
+          "disclaimer": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
         }
       }
     },

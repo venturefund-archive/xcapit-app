@@ -86,9 +86,6 @@ describe('SwapHomePage', () => {
     'token-to-select',
     selectTokenkey,
   ];
-  const formValue = {
-    fromTokenAmount: 1,
-  };
 
   const _setTokenAmountArrange = (fromTokenAmount: number) => {
     component.ionViewDidEnter();
@@ -146,7 +143,7 @@ describe('SwapHomePage', () => {
     localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
       send: Promise.resolve(),
       registerActionTypes: Promise.resolve(),
-      addListener: (callback) => {
+      addListener: (callback: CallableFunction) => {
         callback();
       },
     });

@@ -1,3 +1,7 @@
+ion-content {
+  --background: var(--ion-color-neutral10);
+}
+
 ion-card {
   margin-bottom: 8px;
   box-shadow: none;
@@ -28,10 +32,10 @@ ion-toolbar {
     color: var(--ion-color-white);
   }
 
+  &__fee,
   &__withdraw,
-  &__amount {
-    padding-bottom: 11px;
-
+  &__amount,
+  &__receive {
     &__label {
       margin-bottom: 4px;
     }
@@ -46,27 +50,32 @@ ion-toolbar {
     }
   }
 
-  &__withdraw {
+  &__withdraw,
+  &__amount,
+  &__receive {
+    padding-bottom: 11px;
+  }
+
+  &__withdraw,
+  &__receive {
     padding-top: 11px;
   }
 
-  &__amount {
+  &__fee,
+  &__amount,
+  &__withdraw {
     border-bottom: 1px solid #eee;
   }
 
-  &__fee {
-    border-bottom: 1px solid #eee;
-
+  &__withdraw {
     &__label {
-      margin-bottom: 4px;
-    }
-
-    &__qty {
       display: flex;
-      justify-content: space-between;
+      align-items: center;
 
-      ion-text {
-        color: var(--ion-color-neutral90);
+      ion-icon {
+        width: 16px;
+        height: 16px;
+        margin-left: 6px;
       }
     }
   }
@@ -75,6 +84,14 @@ ion-toolbar {
     align-items: center;
     justify-content: center;
     display: flex;
+
+    ion-text {
+      color: var(--ion-color-neutral80);
+    }
+  }
+
+  &__loading {
+    text-align: center;
 
     ion-text {
       color: var(--ion-color-neutral80);

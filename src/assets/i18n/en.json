@@ -249,6 +249,16 @@
         "description": "Access exclusive benefits that only our investment products offer."
       },
       "help_link": "Help"
+    },
+    "on_boarding":{
+      "title_1":"We were waiting for you",
+      "title_2":"Investing has never been easier",
+      "title_3":"Learn by playing!",
+      "description_1":"With Xcapit Wallet, you are in control. At all times you will know where your money is and how much you are earning.",
+      "description_2":"Invest in DeFi! Fast, free transactions without intermediaries.",
+      "description_3":"The financial education you wanted. You will receive incentives for your learning and progress.",
+      "primary_action": "Create wallet",
+      "secondary_action": "Import wallet"
     }
   },
   "tickets": {
@@ -481,6 +491,7 @@
         "submit_loading": "Confirming",
         "withdraw_amount": "Amount to withdraw",
         "withdraw_fee": "Withdrawal fee",
+        "receive_aprox": "Receive approximately",
         "disclaimer": "It will only take a few seconds",
         "header_alert": "Wait!",
         "alert_message": "We are still calculating the transaction fee. Do you want to continue anyway?",
@@ -1184,10 +1195,10 @@
       "nameThirdAction": "Learn more"
     },
     "success_submodule": {
-      "textPrimary": "¡Felicitaciones! Completaste: {{submodule}}",
-      "textSecondary": "Que nada te detenga, estás cada vez más cerca de convertirte en un experto.",
-      "buttonText": "Siguiente módulo",
-      "buttonText2": "Ir al menú"
+      "textPrimary": "Congratulations! You have completed: {{submodule}}",
+      "textSecondary": "Let nothing stop you, you are getting closer and closer to becoming an expert.",
+      "buttonText": "Next module",
+      "buttonText2": "Go to menu"
     },
     "typeform_header": {
       "text": "Test of",
@@ -1894,7 +1905,8 @@
     "asset_detail": {
       "header": "Asset Detail",
       "wallet_transaction_title": "Transactions",
-      "available": "Balance available"
+      "available": "Balance available",
+      "invest_button": "Invest"
     },
     "error_wallet_recovery": {
       "title": "Your recovery phrase is incorrect",

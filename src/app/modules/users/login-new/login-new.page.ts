@@ -64,7 +64,7 @@ import { TranslateService } from '@ngx-translate/core';
     </ion-content>
     <ion-footer>
       <div class="ul__footer__help-button">
-        <ion-button class="ux-link-xs underline" (click)="this.goToHelp()" fill="clear" size="small">
+        <ion-button class="ux-link-xs underline" name="Access Faq" (click)="this.goToHelp()" fill="clear" size="small">
           <ion-icon slot="start" name="ux-lifeguard"></ion-icon>
           {{ 'users.login_new.help_link' | translate }}</ion-button
         >
@@ -110,6 +110,6 @@ export class LoginNewPage {
   }
 
   goToHelp(): void {
-    console.warn('Go to reset password not implemented yet');
+    this.navController.navigateForward('/support/options')
   }
 }

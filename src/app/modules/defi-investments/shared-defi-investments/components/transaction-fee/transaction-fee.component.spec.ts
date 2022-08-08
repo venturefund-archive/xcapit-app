@@ -1,4 +1,4 @@
-import { SimpleChange, SimpleChanges } from '@angular/core';
+import { DebugElement, SimpleChange, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -22,6 +22,16 @@ describe('TransactionFeeComponent', () => {
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+
+  const _infoCircleBtn = (): DebugElement => {
+    return fixture.debugElement.query(By.css('ion-icon[name="information-circle"]'));
+  }
+
+  const _skeletonText = (): DebugElement => fixture.debugElement.query(By.css('.skeleton ion-skeleton-text'));
+
+  const _divAdvice = (): DebugElement => {
+    return fixture.debugElement.query(By.css('div.tf__fee__qty_and_advice__funds-advice'));
+  }
 
   beforeEach(
     waitForAsync(() => {
@@ -61,8 +71,8 @@ describe('TransactionFeeComponent', () => {
     component.balance = 1;
     component.quoteFee.value = 0.0017;
     fixture.detectChanges();
-    const divEl = fixture.debugElement.query(By.css('div.tf__fee__qty_and_advice__funds-advice'));
-    expect(divEl).toBeTruthy();
+
+    expect(_divAdvice()).toBeTruthy();
   });
 
   it('should get quote price on ngOnChanges if autoprice is true', () => {
@@ -98,37 +108,42 @@ describe('TransactionFeeComponent', () => {
   it('should not render advice div when you dont have necessary fee', () => {
     component.fee.value = 0.0017;
     fixture.detectChanges();
-    const divEl = fixture.debugElement.query(By.css('div.tf__fee__qty_and_advice__funds-advice'));
-    expect(divEl).toBeFalsy();
+
+    expect(_divAdvice()).toBeFalsy();
   });
 
   it('should render skeleton when quoteFee value is not available', () => {
     component.quoteFee.value = undefined;
-    expect(fixture.debugElement.query(By.css('.skeleton ion-skeleton-text'))).toBeTruthy();
+
+    expect(_skeletonText()).toBeTruthy();
   });
 
   it('should render skeleton when fee value is not available', () => {
     component.fee.value = undefined;
-    expect(fixture.debugElement.query(By.css('.skeleton ion-skeleton-text'))).toBeTruthy();
+
+    expect(_skeletonText()).toBeTruthy();
   });
 
   it('should not render skeleton when quoteFee value and fee value is available', async () => {
     component.quoteFee.value = 0.017;
     component.fee.value = 0.017;
+
     fixture.detectChanges();
     await fixture.whenStable();
-    const skeletonEl = fixture.debugElement.query(By.css('.skeleton ion-skeleton-text'));
-    expect(skeletonEl).toBeFalsy();
+
+    expect(_skeletonText()).toBeFalsy();
   });
 
   it('should call clickEvent on trackService when transaction_fee clicked', () => {
     component.transactionFee = true;
     fixture.detectChanges();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'transaction_fee');
+    const el = _infoCircleBtn();
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
+
     el.nativeElement.click();
     fixture.detectChanges();
+
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
@@ -136,8 +151,9 @@ describe('TransactionFeeComponent', () => {
     component.transactionFee = true;
     fixture.detectChanges();
     const spy = spyOn(component.transactionFeeInfoClicked, 'emit');
-    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="transaction_fee"]'));
-    infoButtonel.nativeElement.click();
+
+    _infoCircleBtn().nativeElement.click();
+
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
@@ -145,9 +161,8 @@ describe('TransactionFeeComponent', () => {
     component.defaultFeeInfo = true;
     fixture.detectChanges();
     const spy = spyOn(component.transactionFeeInfoClicked, 'emit');
-    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="transaction_fee"]'));
 
-    infoButtonel.nativeElement.click();
+    _infoCircleBtn().nativeElement.click();
 
     expect(spy).toHaveBeenCalledTimes(0);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -156,7 +171,7 @@ describe('TransactionFeeComponent', () => {
   it('should show default fee info modal only ones when transaction_fee fee is clicked more than one time & defaultFeeInfo is true', () => {
     component.defaultFeeInfo = true;
     fixture.detectChanges();
-    const infoButtonel = fixture.debugElement.query(By.css('ion-button[name="transaction_fee"]'));
+    const infoButtonel = _infoCircleBtn();
 
     infoButtonel.nativeElement.click();
     infoButtonel.nativeElement.click();
@@ -164,4 +179,13 @@ describe('TransactionFeeComponent', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
+  it('should unsubscribe when the component is destroyed', () => {
+    const nextSpy = spyOn(component.destroy$, 'next');
+    const completeSpy = spyOn(component.destroy$, 'complete');
+
+    component.ngOnDestroy();
+
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
 });

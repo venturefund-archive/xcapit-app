@@ -57,27 +57,52 @@ import { WithdrawInfoModalComponent } from '../../shared-defi-investments/compon
             <app-transaction-fee
               [fee]="this.fee"
               [quoteFee]="this.quoteFee"
+              [loadingEnabled]="false"
               [balance]="this.nativeTokenBalance"
+              [defaultFeeInfo]="true"
             ></app-transaction-fee>
           </div>
           <div class="wp__withdraw">
             <div class="wp__withdraw__label">
               <ion-text class="ux-font-titulo-xs"
                 >{{ 'defi_investments.withdraw.withdraw.withdraw_fee' | translate }}
-                <ion-icon (click)="showWithdrawInfo()" icon="information-circle"></ion-icon>
               </ion-text>
+              <ion-icon (click)="showWithdrawInfo()" icon="information-circle"></ion-icon>
             </div>
-            <div class="wp__withdraw__qty" *ngIf="this.withdrawFeeAmount.value !== undefined">
+            <div class="wp__withdraw__qty" *ngIf="this.withdrawFee.value !== undefined">
               <ion-text class="ux-font-text-base wp__withdraw__qty__amount"
-                >{{ this.withdrawFeeAmount.value | formattedAmount }} {{ this.withdrawFeeAmount.token }}</ion-text
+                >{{ this.withdrawFee.value | formattedAmount }} {{ this.withdrawFee.token }}</ion-text
               >
               <ion-text class="ux-font-text-base wp__withdraw__qty__quoteAmount"
-                >{{ this.withdrawFeeQuoteAmount.value | formattedAmount: 10:4 }} {{ this.withdrawFeeQuoteAmount.token }}
+                >{{ this.withdrawFeeQuote.value | formattedAmount: 10:2 }} {{ this.withdrawFeeQuote.token }}
               </ion-text>
             </div>
-            <div *ngIf="this.withdrawFeeAmount.value === undefined" class="skeleton">
-              <ion-skeleton-text style="width:95%" animated> </ion-skeleton-text>
+            <div *ngIf="this.withdrawFee.value === undefined" class="skeleton">
+              <ion-skeleton-text animated> </ion-skeleton-text>
             </div>
+          </div>
+          <div class="wp__receive">
+            <div class="wp__receive__label">
+              <ion-text class="ux-font-titulo-xs"
+                >{{ 'defi_investments.withdraw.withdraw.receive_aprox' | translate }}
+              </ion-text>
+            </div>
+            <div class="wp__receive__qty" *ngIf="this.receiveAprox.value !== undefined">
+              <ion-text class="ux-font-text-base wp__receive__qty__amount"
+                >{{ this.receiveAprox.value | formattedAmount }} {{ this.receiveAprox.token }}</ion-text
+              >
+              <ion-text class="ux-font-text-base wp__receive__qty__quoteAmount"
+                >{{ this.receiveAproxQuote.value | formattedAmount: 10:2 }} {{ this.receiveAproxQuote.token }}
+              </ion-text>
+            </div>
+            <div *ngIf="this.receiveAprox.value === undefined" class="skeleton">
+              <ion-skeleton-text  animated> </ion-skeleton-text>
+            </div>
+          </div>
+          <div class="wp__loading" *ngIf="this.quoteFee.value === undefined || this.fee.value === undefined">
+            <ion-text class="ux-font-text-xxs ">
+              {{ 'shared.transaction_fees.loading_text' | translate }}
+            </ion-text>
           </div>
         </div>
       </ion-card>
@@ -117,10 +142,12 @@ export class WithdrawConfirmationPage implements OnInit {
   nativeToken: Coin;
   nativeTokenBalance: number;
   disable: boolean;
-  withdrawFeeAmount: Amount = { value: undefined, token: 'MATIC' };
-  withdrawFeeQuoteAmount: Amount = { value: undefined, token: 'USD' };
+  withdrawFee: Amount = { value: undefined, token: 'MATIC' };
+  withdrawFeeQuote: Amount = { value: undefined, token: 'USD' };
   fixedWithdrawCost = 0.00255;
   isInfoModalOpen = false;
+  receiveAprox: Amount = { value: undefined, token: 'MATIC' };
+  receiveAproxQuote: Amount = { value: undefined, token: 'USD' };
   constructor(
     private route: ActivatedRoute,
     private apiWalletService: ApiWalletService,
@@ -148,6 +175,22 @@ export class WithdrawConfirmationPage implements OnInit {
     this.nativeDynamicPrice();
     this.getWithdrawFee();
     this.getWithdrawFeeQuote();
+    this.getReceive();
+    this.getReceiveQuote();
+  }
+
+  private getReceive() {
+    this.receiveAprox = {
+      value: this.amount.value - this.withdrawFee.value,
+      token: this.amount.token,
+    };
+  }
+
+  private getReceiveQuote() {
+    this.receiveAproxQuote = {
+      value: this.quoteAmount.value - this.withdrawFeeQuote.value,
+      token: this.quoteAmount.token,
+    };
   }
 
   private getProduct() {
@@ -162,14 +205,14 @@ export class WithdrawConfirmationPage implements OnInit {
   }
 
   private getWithdrawFee() {
-    this.withdrawFeeAmount = {
+    this.withdrawFee = {
       value: this.amount.value * this.fixedWithdrawCost,
       token: this.amount.token,
     };
   }
 
   private getWithdrawFeeQuote() {
-    this.withdrawFeeQuoteAmount = {
+    this.withdrawFeeQuote = {
       value: this.quoteAmount.value * this.fixedWithdrawCost,
       token: this.quoteAmount.token,
     };
@@ -190,7 +233,7 @@ export class WithdrawConfirmationPage implements OnInit {
   private async getFee() {
     const fee = this.controller.createFormattedFee(
       new NativeFeeOf(
-        new TotalFeeOf([await this.withdrawFee()]),
+        new TotalFeeOf([await this.withdrawFeeAmount()]),
         this.controller.createErc20Provider(this.token).value()
       )
     );
@@ -201,7 +244,7 @@ export class WithdrawConfirmationPage implements OnInit {
     return this.apiWalletService.getCoinsFromNetwork(this.token.network).find((coin) => coin.native);
   }
 
-  private async withdrawFee(): Promise<Fee> {
+  private async withdrawFeeAmount(): Promise<Fee> {
     const address = (await this.walletEncryptionService.getEncryptedWallet()).addresses[this.token.network];
     const signer = new VoidSigner(address);
     const erc20Provider = this.controller.createErc20Provider(this.token);

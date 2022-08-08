@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 @Component({
   selector: 'app-global-progress-card',
   template: `
@@ -66,7 +66,7 @@ import { Component, Input, OnInit } from '@angular/core';
   `,
   styleUrls: ['./global-progress-card.component.scss'],
 })
-export class GlobalProgressCardComponent implements OnInit {
+export class GlobalProgressCardComponent implements OnInit, OnChanges {
   @Input() modules: any;
   doneModules: number;
   allModules: number;
@@ -76,8 +76,13 @@ export class GlobalProgressCardComponent implements OnInit {
   ngOnInit() {
     this.calculateProgressPercentage();
   }
+  
+  ngOnChanges(changes: SimpleChanges){
+    this.calculateProgressPercentage(changes.modules.currentValue)
+  }
 
-  calculateProgressPercentage() {
+  calculateProgressPercentage(moduleChange?) {
+    if(moduleChange) this.modules = moduleChange
     this.allModules = this.modules.length;
     this.doneModules = this.modules.filter((mod) => mod.status === 'completed').length;
     this.percentage = (this.doneModules / this.allModules) * 100;
