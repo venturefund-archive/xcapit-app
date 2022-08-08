@@ -1,0 +1,26 @@
+:host {
+  .ia {
+    &__information {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid var(--ion-color-info);
+      border-radius: 6px;
+
+      &__text {
+        display: flex;
+
+        ion-text {
+          color: var(--ion-color-info);
+        }
+      }
+
+      &__icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+      }
+    }
+  }
+}

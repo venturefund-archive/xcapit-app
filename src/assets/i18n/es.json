@@ -222,6 +222,24 @@
       "actual_password": "Contraseña actual",
       "new_password": "Nueva contraseña",
       "repeat_new_password": "Confirmar nueva contraseña"
+    },
+    "account_recovery": {
+      "header":"Recuperar cuenta",
+      "alert": "Sin tu frase de recuperación, no podemos ayudarte a recuperar tu wallet.",
+      "link": {
+        "label": "Xcapit en ningún momento puede (ni podrá) acceder y/o administrar la información de tu wallet. ",
+        "privacy_policy": "Politica de privacidad."
+      },
+      "title":"¿Qué puedo hacer ahora?",
+      "item_1": {
+        "title":"Crear nueva wallet",
+        "description": "Recuerda realizar una copia de seguridad para no perder acceso a tu dinero."
+      },
+      "item_2": {
+        "title":"Importar una wallet",
+        "description": "Accede a beneficios exclusivos que sólo nuestros productos de inversión ofrecen."
+      },
+      "help_link": "Ayuda"
     }
   },
   "tickets": {
