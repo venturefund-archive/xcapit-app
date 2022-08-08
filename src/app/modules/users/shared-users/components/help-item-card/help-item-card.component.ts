@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-help-item-card',
-  template: `<div class="hic" (click)="this.goToItem()">
+  template: `<div class="hic" appTrackClick name="ux_go_to_item"(click)="this.goToItem() ">
   <div class="hic__content ux-card">
     <div class="hic__content__icon">
       <img [src]="this.item.icon" />
@@ -21,7 +21,7 @@ import { NavController } from '@ionic/angular';
       </div>
     </div>
     <div class="hic__button ion-no-padding">
-        <ion-button appTrackClick name="Select" fill="clear" size="medium" slot="end">
+        <ion-button name="Select" fill="clear" size="medium" slot="end">
           <ion-icon slot="end" name="chevron-forward-outline" class="chevron"></ion-icon>
         </ion-button>
     </div>

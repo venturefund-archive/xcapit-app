@@ -43,7 +43,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
     </ion-content>
     <ion-footer>
       <div class="ar__footer__help-button">
-        <ion-button appTrackClick name="ux_go_to_help" class="ar__footer__help-button__link" (click)="this.goToHelp()" fill="clear" size="small">
+        <ion-button appTrackClick name="ux_go_to_help" class="ar__footer__help-button__link ux-link-xl" (click)="this.goToHelp()" fill="clear" size="small">
           <ion-icon slot="start" name="ux-lifeguard"></ion-icon>
           {{ 'users.account_recovery.help_link' | translate }}</ion-button
         >

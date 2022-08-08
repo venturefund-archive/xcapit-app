@@ -47,7 +47,7 @@ describe('HelpItemCardComponent', () => {
   });
 
   it('should call trackEvent on trackService when Select clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Select');
+    const el = trackClickDirectiveHelper.getByElementByName('div','ux_go_to_item');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

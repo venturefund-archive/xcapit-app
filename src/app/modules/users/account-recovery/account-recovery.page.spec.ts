@@ -28,7 +28,7 @@ describe('AccountRecoveryPage', () => {
     });
 
     TestBed.configureTestingModule({
-      declarations: [AccountRecoveryPage, FakeTrackClickDirective ],
+      declarations: [AccountRecoveryPage, FakeTrackClickDirective],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: BrowserService, useValue: browserServiceSpy },
@@ -47,17 +47,15 @@ describe('AccountRecoveryPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render app-information-alert component', async () => {
-    const componentEl = fixture.debugElement.query(By.css('div.ar__content__alert app-information-alert'));
-
-    expect(componentEl).toBeTruthy();
-  });
-
   it('should open browser in app when go_to_privacy_policy is clicked', async () => {
     const labelEl = fixture.debugElement.query(By.css('ion-button[name="go_to_privacy_policy"]'));
+    const directive = trackClickDirectiveHelper.getDirective(labelEl);
+    const spy = spyOn(directive, 'clickEvent');
 
     labelEl.nativeElement.click();
+    fixture.detectChanges();
 
+    expect(spy).toHaveBeenCalledTimes(1);
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: LINKS.xcapitPrivacyPolicy });
   });
 
@@ -73,9 +71,11 @@ describe('AccountRecoveryPage', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_go_to_help');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
+
     el.nativeElement.click();
     fixture.detectChanges();
+
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/support/options')
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/support/options');
   });
 });
