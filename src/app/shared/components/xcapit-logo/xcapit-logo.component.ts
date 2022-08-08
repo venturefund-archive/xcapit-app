@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
     <div class="ion-text-center" *ngIf="!whiteLogo">
       <img src="../../assets/img/new-logo-xcapit.svg" alt="Xcapit" />
     </div>
-    <div class="ion-text-center" *ngIf="whiteLogo">
+    <div class="ion-text-center {{ divClass }}" *ngIf="whiteLogo">
       <img src="../../assets/img/logo-xcapit.svg" alt="Xcapit" />
     </div>
   `,
@@ -14,6 +14,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class XcapitLogoComponent implements OnInit {
   @Input() whiteLogo = true;
+  @Input() divClass: string;
 
   constructor() {}
 

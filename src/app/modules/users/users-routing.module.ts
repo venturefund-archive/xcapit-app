@@ -8,6 +8,11 @@ const routes: Routes = [
     path: 'users',
     children: [
       {
+        path: 'on-boarding',
+        canActivate: [NoAuthGuard],
+        loadChildren: () => import('./on-boarding/on-boarding.module').then((m) => m.OnBoardingPageModule),
+      },
+      {
         path: 'register',
         canActivate: [NoAuthGuard],
         loadChildren: () => import('./register/register.module').then((m) => m.RegisterPageModule),
