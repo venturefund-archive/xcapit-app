@@ -80,10 +80,10 @@ export class MoonpayPage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.provider = this.getProviders().byAlias('moonpay');
     this.countryIsoCodeAlpha3 = this.tokenOperationDataService.tokenOperationData.country;
-    this.initAssetsForm();
+    await this.initAssetsForm();
   }
 
   ionViewDidLeave() {
@@ -130,7 +130,6 @@ export class MoonpayPage implements OnInit {
       component: CoinSelectorModalComponent,
       cssClass: 'ux-modal-skip-backup',   
     });
-    await modal.present() 
-
+    await modal.present()
   }
 }

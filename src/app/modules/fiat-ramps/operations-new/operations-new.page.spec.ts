@@ -2,7 +2,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { OperationsNewPage } from './operations-new.page';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
@@ -24,6 +24,7 @@ import { ProvidersFactory } from '../shared-ramps/models/providers/factory/provi
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
@@ -60,6 +61,8 @@ describe('OperationsNewPage', () => {
   let providersSpy: jasmine.SpyObj<Providers>;
   let priceSubject: Subject<number>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = new FakeNavController().createSpy();
@@ -118,6 +121,9 @@ describe('OperationsNewPage', () => {
         }
       );
 
+      fakeModalController = new FakeModalController({});
+      modalControllerSpy = fakeModalController.createSpy();
+
       TestBed.configureTestingModule({
         declarations: [OperationsNewPage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -133,6 +139,7 @@ describe('OperationsNewPage', () => {
           { provide: KriptonDynamicPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
           { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+          { provide: ModalController, useValue: modalControllerSpy },
         ],
       }).compileComponents();
     })
@@ -247,4 +254,11 @@ describe('OperationsNewPage', () => {
     fixture.detectChanges();
     expect(component.form.value.fiatAmount).toEqual(35);
   }));
+
+  it('should show modal',   () => {    
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', undefined);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
 });

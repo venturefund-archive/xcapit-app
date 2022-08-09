@@ -11,6 +11,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { SpyProperty } from 'src/testing/spy-property.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { rawProvidersData } from '../../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../../shared-ramps/models/providers/factory/providers.factory';
@@ -182,10 +183,10 @@ describe('SelectProviderPage', () => {
   });
 
   it('should country be setted if tokenOperationData has country data', () => {
-    tokenOperationDataServiceSpy.tokenOperationData = {asset: 'MATIC', network: 'MATIC', country: 'MEX'};
-
+    new SpyProperty(tokenOperationDataServiceSpy, 'tokenOperationData').value().and.returnValue({asset: 'MATIC', network: 'MATIC', country: 'MEX'});
+    fixture.detectChanges()
     component.ionViewDidEnter();
 
-    expect(component.form.get('country').value).toEqual('MEX');
+    expect(component.form.get('country').value.isoCodeAlpha3).toEqual('MEX');
   });
 });
