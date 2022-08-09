@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TokenSelectionListComponent } from 'src/app/shared/components/token-selection-list/token-selection-list.component';
 import { SuitePipe } from 'src/app/shared/pipes/suite/suite.pipe';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
@@ -14,72 +13,6 @@ import { ProvidersFactory } from '../shared-ramps/models/providers/factory/provi
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 
-const coins: Coin[] = [
-  {
-    id: 1,
-    name: 'ETH - Ethereum',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    last: false,
-    value: 'ETH',
-    network: 'ERC20',
-    chainId: 42,
-    moonpayCode: 'keth',
-    native: true,
-    rpc: '',
-  },
-  {
-    id: 16,
-    name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.svg',
-    last: false,
-    value: 'MATIC',
-    network: 'MATIC',
-    chainId: 80001,
-    moonpayCode: 'matic_polygon',
-    decimals: 18,
-    native: true,
-    rpc: '',
-  },
-  {
-    id: 19,
-    name: 'CAKE - Pancake Swap',
-    logoRoute: 'assets/img/coins/PANCAKE.png',
-    last: false,
-    value: 'CAKE',
-    network: 'BSC_BEP20',
-    chainId: 97,
-    rpc: ``,
-    decimals: 18,
-    symbol: 'CAKEUSDT',
-  },
-];
-const expectedCoins: Coin[] = [
-  {
-    id: 1,
-    name: 'ETH - Ethereum',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    last: false,
-    value: 'ETH',
-    network: 'ERC20',
-    chainId: 42,
-    moonpayCode: 'keth',
-    native: true,
-    rpc: '',
-  },
-  {
-    id: 16,
-    name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.svg',
-    last: false,
-    value: 'MATIC',
-    network: 'MATIC',
-    chainId: 80001,
-    moonpayCode: 'matic_polygon',
-    decimals: 18,
-    native: true,
-    rpc: '',
-  },
-];
 const coinClicked = {
   id: 1,
   name: 'MATIC - MATIC',

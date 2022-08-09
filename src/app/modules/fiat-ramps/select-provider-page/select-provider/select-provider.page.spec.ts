@@ -174,4 +174,18 @@ describe('SelectProviderPage', () => {
     await fixture.whenStable();
     expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(0);
   });
+
+  it('should country be undefined if tokenOperationData has not country data',  () => {
+    component.ionViewDidEnter();
+
+    expect(component.form.get('country').value).toEqual('');
+  });
+
+  it('should country be setted if tokenOperationData has country data', () => {
+    tokenOperationDataServiceSpy.tokenOperationData = {asset: 'MATIC', network: 'MATIC', country: 'MEX'};
+
+    component.ionViewDidEnter();
+
+    expect(component.form.get('country').value).toEqual('MEX');
+  });
 });

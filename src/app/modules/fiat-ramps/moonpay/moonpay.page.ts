@@ -129,7 +129,6 @@ export class MoonpayPage implements OnInit {
     const modal = await this.modalController.create({
       component: CoinSelectorModalComponent,
       cssClass: 'ux-modal-skip-backup',   
-
     });
     await modal.present() 
 
