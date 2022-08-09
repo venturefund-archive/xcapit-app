@@ -141,6 +141,11 @@
     }
   },
   "users": {
+    "login_password_info":{
+      "title":"¿Cuál es la contraseña que debes ingresar?",
+      "subtitle":"La que utilizas para aprobar tus transacciones. Es la misma que generaste al crear o importar tu wallet.",
+      "button":"Entendido"
+    },
     "email_validation": {
       "error_title": "No pudimos verificar el Email!",
       "error_text": "Intenta enviar nuevamente el email de validación.",

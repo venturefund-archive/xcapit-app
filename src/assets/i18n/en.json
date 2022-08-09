@@ -150,6 +150,11 @@
     }
   },
   "users": {
+    "login_password_info":{
+      "title":"What is the password you must enter?",
+      "subtitle":"The one you use to approve your transactions. It is the same one you generated when creating or importing your wallet.",
+      "button":"Understood"
+    },
     "email_validation": {
       "error_title": "We could not verify the Email!",
       "error_text": "Try sending the validation email again.",
@@ -260,6 +265,7 @@
       "primary_action": "Create wallet",
       "secondary_action": "Import wallet"
     }
+
   },
   "tickets": {
     "create": {
