@@ -49,11 +49,17 @@ import { TranslateService } from '@ngx-translate/core';
           [label]="'tickets.create_ticket_form.label_message' | translate"
           [placeholder]="'tickets.create_ticket_form.placeholder_message' | translate"
         ></app-ux-textarea>
-        <div>
-          <ion-text>{{ 'tickets.create_ticket_form.obligatory' | translate }}</ion-text>
+        <div class="required-fields">
+          <ion-text class="ux-font-text-xs">{{ 'tickets.create_ticket_form.required' | translate }}</ion-text>
         </div>
-        <div>
-          <!-- DISCLAIMER -->
+        <div class="disclaimer">
+          <div class="icon">
+            <ion-icon name="ux-tray"></ion-icon>
+          </div>
+          <div class="text">
+            <ion-text class="ux-font-text-xs">{{ 'tickets.create_ticket_form.disclaimer_text' | translate }}</ion-text>
+            <ion-button class="ux-link-xs" fill="clear" size="small" color="info">{{ 'tickets.create_ticket_form.disclaimer_link' | translate }}</ion-button>
+          </div>
         </div>
       </form>
     </div>

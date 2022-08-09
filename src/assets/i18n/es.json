@@ -293,7 +293,10 @@
       "label_email": "Ingresa tu email*",
       "placeholder_email": "ejemplo@email.com",
       "label_message": "¿En qué podemos ayudarte?*",
-      "placeholder_message": "Escribe tu consulta aquí."
+      "placeholder_message": "Escribe tu consulta aquí.",
+      "required": "*Campos obligatorios",
+      "disclaimer_text": "Xcapit utilizará tu email únicamente para comunicarse contigo y resolver tus consultas. Obtén más información sobre el uso de datos en",
+      "disclaimer_link": "Política de privacidad."
     },
     "categories": {
       "my_account": "Mi cuenta/Registro",

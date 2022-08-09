@@ -14,4 +14,41 @@
     height: 100%;
     width: 100%;
   }
+
+  .required-fields {
+    margin-top: 8px;
+
+    ion-text {
+      color: var(--ion-color-neutral80);
+    }
+  }
+
+  .disclaimer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 16px;
+    padding-bottom: 40.5px;
+
+    .text {
+      ion-text {
+        color: var(--ion-color-neutral80);
+      }
+
+      ion-button {
+        margin: 0;
+        height: 18px;
+        width: fit-content;
+
+        --padding-start: 0;
+        --padding-end: 0;
+      }
+    }
+
+    .icon {
+      font-size: 16px;
+      margin-left: 4px;
+      margin-right: 12px;
+    }
+  }
 }
