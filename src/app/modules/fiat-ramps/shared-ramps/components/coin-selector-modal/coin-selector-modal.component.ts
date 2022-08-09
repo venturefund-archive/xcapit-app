@@ -19,6 +19,7 @@ import { ModalController, NavController } from '@ionic/angular';
   <div class="main__actions">
     <ion-button
       class="ux-link-xl main__actions__button"
+      name="Submit"
       fill="clear"
       type="submit"
       (click)="this.handleSubmit()"
