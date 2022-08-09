@@ -34,7 +34,6 @@ describe('LoginPasswordInfoComponent', () => {
   });
 
   it('should render properly', async () => {
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
 
     const closeButtonEl =  fixture.debugElement.query(By.css('.lmi__footer ion-button'));

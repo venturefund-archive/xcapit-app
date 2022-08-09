@@ -88,7 +88,6 @@ describe('LoginNewPage', () => {
 
 
   it('should show informative password modal when info button is clicked', async () => {
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('infoIconClicked', undefined);
     fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
