@@ -1,14 +1,14 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { TICKET_CATEGORIES } from 'src/app/modules/tickets/shared-tickets/constants/ticket-categories';
 import { TranslateService } from '@ngx-translate/core';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-create-ticket-form',
   template: `
     <div class="main">
-      <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()" class="ux_main">
+      <form [formGroup]="this.form" class="ux_main">
         <app-input-select
           *ngIf="!this.category"
           [label]="'tickets.create_ticket_form.label_subject' | translate"
@@ -67,12 +67,8 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./create-ticket-form.component.scss'],
 })
 export class CreateTicketFormComponent implements OnInit {
-  form: UntypedFormGroup = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
-    subject: ['', [Validators.required]],
-    message: ['', [Validators.required, Validators.maxLength(2000)]],
-  });
   isValidationEmail = false;
+  @Input() form: UntypedFormGroup;
   @Input() canModifyEmail = false;
   @Input() emailInput = false;
   @Input() userEmail = '';
@@ -84,11 +80,7 @@ export class CreateTicketFormComponent implements OnInit {
   ticketCategories = TICKET_CATEGORIES;
   filteredTicketCategories: typeof TICKET_CATEGORIES;
 
-  constructor(
-    public submitButtonService: SubmitButtonService,
-    private formBuilder: UntypedFormBuilder,
-    private translate: TranslateService
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     this.form.patchValue({ email: this.userEmail });
@@ -97,20 +89,5 @@ export class CreateTicketFormComponent implements OnInit {
       this.filteredTicketCategories = filteredCategories;
       this.form.patchValue({ subject: filteredCategories[0] });
     }
-  }
-  handleSubmit() {
-    if (this.form.valid) {
-      const parsedValues = this.getParsedValues(this.form.value);
-      this.send.emit(parsedValues);
-    } else {
-      this.form.markAllAsTouched();
-    }
-  }
-
-  getParsedValues(formValues) {
-    const valuesCopy = Object.assign({}, formValues);
-    valuesCopy.category_code = valuesCopy.subject.name;
-    valuesCopy.subject = this.translate.instant(valuesCopy.subject.value);
-    return valuesCopy;
   }
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
-import { ApiUsuariosService } from '../../users/shared-users/services/api-usuarios/api-usuarios.service';
 import { NavController } from '@ionic/angular';
+import { FormBuilder, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-ticket-suport',
@@ -25,15 +26,25 @@ import { NavController } from '@ionic/angular';
         <ion-text class="ux-font-text-lg">{{ 'tickets.create_support_ticket.title' | translate }}</ion-text>
       </div>
       <div class="info">
-        <ion-text class="ux-font-text-base" color="neutral90">{{ 'tickets.create_support_ticket.info' | translate }}</ion-text>
+        <ion-text class="ux-font-text-base" color="neutral90">{{
+          'tickets.create_support_ticket.info' | translate
+        }}</ion-text>
       </div>
       <div class="form_component">
-        <app-create-ticket-form [emailInput]="true" (send)="this.handleSubmit($event)"></app-create-ticket-form>
+        <app-create-ticket-form [form]="this.form" [emailInput]="true" [canModifyEmail]="true"></app-create-ticket-form>
       </div>
     </ion-content>
     <ion-footer class="footer">
       <div class="footer__submit-button">
-        <ion-button appTrackClick class="footer__submit-button__button ux_button" name="Submit" size="medium" type="submit" color="secondary">
+        <ion-button
+          appTrackClick
+          class="footer__submit-button__button ux_button"
+          name="Submit"
+          size="medium"
+          (click)="this.handleSubmit()"
+          color="secondary"
+          [disabled]="!this.form.valid"
+        >
           {{ 'tickets.create_support_ticket.submit_button' | translate }}
         </ion-button>
       </div>
@@ -42,19 +53,42 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./create-support-ticket.page.scss'],
 })
 export class CreateSupportTicketPage implements OnInit {
-  constructor(private apiTickets: ApiTicketsService, private navController: NavController) {}
+  form = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    subject: ['', [Validators.required]],
+    message: ['', [Validators.required, Validators.maxLength(2000)]],
+  });
+
+  constructor(
+    private apiTickets: ApiTicketsService,
+    private navController: NavController,
+    private formBuilder: FormBuilder,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {}
 
-  handleSubmit(data: any) {
-    this.apiTickets.crud.create(data).subscribe(() => this.success());
+  handleSubmit() {
+    if (this.form.valid) {
+      const parsedValues = this.getParsedValues(this.form.value);
+      this.apiTickets.crud.create(parsedValues).subscribe(() => this.success());
+    } else {
+      this.form.markAllAsTouched();
+    }    
   }
 
   success() {
     this.navController.navigateForward(['tickets/create/success'], {
       replaceUrl: true,
     });
+  }
+
+  getParsedValues(formValues) {
+    const valuesCopy = Object.assign({}, formValues);
+    valuesCopy.category_code = valuesCopy.subject.name;
+    valuesCopy.subject = this.translate.instant(valuesCopy.subject.value);
+    return valuesCopy;
   }
 }
