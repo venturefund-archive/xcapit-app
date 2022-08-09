@@ -245,7 +245,6 @@ export class AssetDetailPage implements OnInit {
 
   getButtonName(){
     this.buttonName = `ux_go_to_invest_${this.currency.value.toLowerCase()}`;
-    console.log(this.buttonName);
   }
 
   private getTransfers() {
