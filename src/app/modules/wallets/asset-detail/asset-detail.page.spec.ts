@@ -274,7 +274,7 @@ describe('AssetDetailPage', () => {
     fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_go_to_invest_asset_detail"'));
+    const buttonEl = fixture.debugElement.query(By.css('.wad__title_and_image ion-button'));
     buttonEl.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/investment-detail/', 'polygon_usdc']);
   });
@@ -284,7 +284,7 @@ describe('AssetDetailPage', () => {
     fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_go_to_invest_asset_detail"'));
+    const buttonEl = fixture.debugElement.query(By.css('.wad__title_and_image ion-button'));
     buttonEl.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       '/defi/new/insert-amount',

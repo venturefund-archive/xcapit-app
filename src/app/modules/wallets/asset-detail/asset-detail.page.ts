@@ -59,7 +59,7 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
               class="wad__invest-button"
               color="secondary"
               slot="end"
-              name="ux_go_to_invest_asset_detail"
+              [dataToTrack]="{ eventLabel: this.buttonName }"
               appTrackClick
               (click)="this.goToInvest()"
             >
@@ -109,6 +109,7 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
   styleUrls: ['./asset-detail.page.scss'],
 })
 export class AssetDetailPage implements OnInit {
+  buttonName : string;
   currency: Coin;
   coins: Coin[];
   walletAddress: string = null;
@@ -143,6 +144,7 @@ export class AssetDetailPage implements OnInit {
     await this.walletService.walletExist();
     this.coins = this.apiWalletService.getCoins();
     this.getCurrency();
+    this.getButtonName();
     this.getBalanceStructure(this.currency);
     this.getTransfers();
     this.getUsdPrice();
@@ -150,6 +152,7 @@ export class AssetDetailPage implements OnInit {
     await this.getInvestments();
     await this.findProductToInvest();
   }
+  
 
   private getAvailableDefiProducts(): void {
     this.defiProducts = this.createAvailableDefiProducts().value();
@@ -238,6 +241,11 @@ export class AssetDetailPage implements OnInit {
   private getCurrency() {
     this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
     this.enabledToBuy = !!new ProviderTokensOf(this.getProviders(), [this.currency]).all().length;
+  }
+
+  getButtonName(){
+    this.buttonName = `ux_go_to_invest_${this.currency.value.toLowerCase()}`;
+    console.log(this.buttonName);
   }
 
   private getTransfers() {
