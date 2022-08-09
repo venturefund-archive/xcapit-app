@@ -1,7 +1,7 @@
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { Component, AfterViewInit, ElementRef } from '@angular/core';
 import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import {
@@ -23,6 +23,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
 @Component({
   selector: 'app-operations-new',
   template: `
@@ -45,7 +46,8 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
             [coin]="this.selectedCurrency"
             [fiatCurrency]="this.fiatCurrency"
             [provider]="this.provider"
-            [coinSelectorEnabled]="false"
+            [coinSelectorEnabled]="true"
+            (changeCurrency)="this.openModal($event)"
           ></app-provider-new-operation-card>
 
           <div class="aon__disclaimer">
@@ -132,7 +134,8 @@ export class OperationsNewPage implements AfterViewInit {
     private http: HttpClient,
     private kriptonDynamicPrice: KriptonDynamicPriceFactory,
     private providers: ProvidersFactory,
-    private tokenOperationDataService: TokenOperationDataService
+    private tokenOperationDataService: TokenOperationDataService,
+    private modalController: ModalController
   ) {}
 
   ngAfterViewInit() {
@@ -282,5 +285,13 @@ export class OperationsNewPage implements AfterViewInit {
   redirectByStatus(userStatus) {
     const url = this.getUrlByStatus(userStatus.registration_status);
     this.navController.navigateForward(url);
+  }
+
+  async openModal(event){
+    const modal = await this.modalController.create({
+      component: CoinSelectorModalComponent,
+      cssClass: 'ux-modal-skip-backup',
+    });
+    await modal.present()
   }
 }
