@@ -8,6 +8,8 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { LoginNewPage } from './login-new.page';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -18,6 +20,7 @@ describe('LoginNewPage', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<LoginNewPage>;
 
   beforeEach(waitForAsync(() => {
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
@@ -31,7 +34,7 @@ describe('LoginNewPage', () => {
       set: Promise.resolve(),
     });
     TestBed.configureTestingModule({
-      declarations: [LoginNewPage],
+      declarations: [LoginNewPage,  FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
       providers: [
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
@@ -44,6 +47,7 @@ describe('LoginNewPage', () => {
     fixture = TestBed.createComponent(LoginNewPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 
   it('should create', () => {
@@ -78,5 +82,17 @@ describe('LoginNewPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Access Faq"]')).nativeElement.click();
 
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/support/options');
+  });
+
+  it('should call trackEvent on trackService when forget_password clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'forget_password');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+
+    el.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/users/recovery-info');
   });
 });

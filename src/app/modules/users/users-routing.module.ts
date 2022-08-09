@@ -68,8 +68,13 @@ const routes: Routes = [
         path: 'account-recovery',
         loadChildren: () => import('./account-recovery/account-recovery.module').then( m => m.AccountRecoveryPageModule)
       },
+      {
+        path: 'recovery-info',
+        loadChildren: () => import('./account-recovery-info/account-recovery-info.module').then( m => m.AccountRecoveryInfoPageModule)
+      },    
     ],
   },
+ 
 
 
 ];

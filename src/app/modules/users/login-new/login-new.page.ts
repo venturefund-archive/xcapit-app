@@ -49,6 +49,8 @@ import { TranslateService } from '@ngx-translate/core';
           </div>
           <div class="ul__reset-password-button">
             <ion-button
+              appTrackClick
+              name= "forget_password"
               class="ux-link-xs"
               fill="clear"
               size="small"
@@ -106,7 +108,7 @@ export class LoginNewPage {
   }
 
   goToResetPassword(): void {
-    console.warn('Go to reset password not implemented yet');
+    this.navController.navigateForward('/users/recovery-info')
   }
 
   goToHelp(): void {
