@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -8,6 +8,8 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { LoginNewPage } from './login-new.page';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -18,8 +20,11 @@ describe('LoginNewPage', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
   beforeEach(waitForAsync(() => {
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showErrorToast: Promise.resolve(),
       dismiss: Promise.resolve(),
@@ -37,6 +42,7 @@ describe('LoginNewPage', () => {
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: ToastService, useValue: toastServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -78,5 +84,13 @@ describe('LoginNewPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="Access Faq"]')).nativeElement.click();
 
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/support/options');
+  });
+
+
+  it('should show informative password modal when info button is clicked', async () => {
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('infoIconClicked', undefined);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });
