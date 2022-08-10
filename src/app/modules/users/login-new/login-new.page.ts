@@ -1,16 +1,13 @@
 import { Component } from '@angular/core';
-import { ItemFormError } from '../../../shared/models/item-form-error';
-import { CONFIG } from '../../../config/app-constants.config';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { CustomValidators } from '../../../shared/validators/custom-validators';
-import { CustomValidatorErrors } from '../../../shared/validators/custom-validator-errors';
 import { LoginToken } from '../shared-users/models/login-token/login-token';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { LoggedIn } from '../shared-users/models/logged-in/logged-in';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { LoginPasswordInfoComponent } from '../shared-users/components/login-password-info/login-password-info.component';
 
 @Component({
   selector: 'app-login-new',
@@ -84,7 +81,8 @@ export class LoginNewPage {
     private formBuilder: UntypedFormBuilder,
     private storage: IonicStorageService,
     private navController: NavController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private modalController: ModalController
   ) {}
 
   dismissToast() {
@@ -103,8 +101,19 @@ export class LoginNewPage {
     }
   }
 
-  showPasswordInfoModal(): void {
-    console.warn('Show password info modal not implemented yet');
+  async showPasswordInfoModal() {
+    const modal = await this.modalController.create({
+          component: LoginPasswordInfoComponent,
+          showBackdrop: false,
+          cssClass:'ux-modal-password-info',
+          componentProps: {
+            title: 'users.login_password_info.title',
+            subtitle: 'users.login_password_info.subtitle',
+            image: 'assets/img/usuarios/login_password_info/info.svg',
+            button: 'users.login_password_info.button'
+           },
+        });
+        modal.present();
   }
 
   goToResetPassword(): void {

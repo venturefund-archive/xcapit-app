@@ -57,6 +57,10 @@ describe('BuyConditionsPage', () => {
   });
 
   it('should navigate to select-provider and set storage when buy_conditions button is clicked and there is token data', () => {
+    fixture.debugElement
+      .query(By.css("ion-checkbox[name='checkbox-condition']"))
+      .triggerEventHandler('ionChange', { detail: { checked: true } });
+
     fixture.debugElement.query(By.css('ion-button[name="buy_conditions"]')).nativeElement.click();
     fixture.detectChanges();
     expect(storageServiceSpy.set).toHaveBeenCalledTimes(1);
@@ -64,6 +68,9 @@ describe('BuyConditionsPage', () => {
   });
 
   it('should navigate to token-selection and set storage when buy_conditions button is clicked and there is not token data', () => {
+    fixture.debugElement
+      .query(By.css("ion-checkbox[name='checkbox-condition']"))
+      .triggerEventHandler('ionChange', { detail: { checked: true } });
     tokenOperationDataServiceSpy.tokenOperationData = undefined;
     fixture.debugElement.query(By.css('ion-button[name="buy_conditions"]')).nativeElement.click();
     fixture.detectChanges();
@@ -71,16 +78,16 @@ describe('BuyConditionsPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/token-selection']);
   });
 
-  it('should navigate to back when Close Success button is clicked', () => {
+  it('should navigate to tabs/wallets when Close Success button is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="Close Success"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(navControllerSpy.back).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('tabs/wallets');
   });
 
   it('should activated button when checkbox is checked', async () => {
     fixture.debugElement
       .query(By.css("ion-checkbox[name='checkbox-condition']"))
-      .triggerEventHandler('ionChange', { target: {} });
+      .triggerEventHandler('ionChange', { detail: { checked: true } });
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
@@ -89,6 +96,9 @@ describe('BuyConditionsPage', () => {
   });
 
   it('should disabled button when checkbox is not checked', () => {
+    fixture.debugElement
+      .query(By.css("ion-checkbox[name='checkbox-condition']"))
+      .triggerEventHandler('ionChange', { detail: { checked: false } });
     const buttonEl = fixture.debugElement.query(By.css("ion-button[name='buy_conditions']"));
     expect(buttonEl.attributes['ng-reflect-disabled']).toBe('true');
   });

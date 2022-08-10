@@ -150,6 +150,11 @@
     }
   },
   "users": {
+    "login_password_info":{
+      "title":"What is the password you must enter?",
+      "subtitle":"The one you use to approve your transactions. It is the same one you generated when creating or importing your wallet.",
+      "button":"Understood"
+    },
     "email_validation": {
       "error_title": "We could not verify the Email!",
       "error_text": "Try sending the validation email again.",
@@ -269,6 +274,7 @@
       "button_primary":"Recover wallet",
       "button_secondary":"I don't have my recovery phrase"
     }
+
   },
   "tickets": {
     "create": {
