@@ -41,7 +41,6 @@ export class CreateEmailValidationTicketPage implements OnInit {
   canModifyEmail = true;
   userEmail = '';
   constructor(
-    private apiTicketsService: ApiTicketsService,
     private navController: NavController,
     private route: ActivatedRoute
   ) {}
@@ -56,10 +55,6 @@ export class CreateEmailValidationTicketPage implements OnInit {
   }
 
   handleSubmit(data: any) {
-    this.apiTicketsService.crud.create(data).subscribe(
-      () => this.success(),
-      () => {}
-    );
   }
 
   async success() {
