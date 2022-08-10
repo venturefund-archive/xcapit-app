@@ -82,6 +82,7 @@ import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-erro
               <form [formGroup]="this.form">
                 <ion-input
                   appNumberInput
+                  [disabled]="this.sameTokens"
                   class="sw__swap-card__from__detail__amount__input"
                   formControlName="fromTokenAmount"
                   type="number"
@@ -186,7 +187,7 @@ export class SwapHomePage {
   swapInProgressUrl = 'swaps/swap-in-progress';
   actions = [];
   actionTypeId = 'SWAP';
-
+  sameTokens = false;
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
@@ -295,6 +296,18 @@ export class SwapHomePage {
     this.tplFromToken = this.fromToken.json();
     this.toToken = await new TokenByAddress(toTokenAddress, this.tokens).value();
     this.tplToToken = this.toToken.json();
+    this.checkTokens();
+  }
+
+  private async checkTokens(){
+    if(this.tplFromToken.value === this.tplToToken.value){
+      await this.toastService.showWarningToast({
+        message: this.translate.instant('swaps.home.warning_same_tokens')
+      });
+      this.sameTokens = true;
+    }else{
+      this.sameTokens = false;
+    }
   }
 
   private setDex() {
