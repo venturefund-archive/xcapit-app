@@ -47,7 +47,7 @@ import { LoginPasswordInfoComponent } from '../shared-users/components/login-pas
           <div class="ul__reset-password-button">
             <ion-button
               appTrackClick
-              name= "ux_recover_password"
+              name="ux_recover_password"
               class="ux-link-xs"
               fill="clear"
               size="small"
