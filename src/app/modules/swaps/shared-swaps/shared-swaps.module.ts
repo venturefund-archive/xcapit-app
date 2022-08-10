@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { TermsAndConditionsCheckComponent } from './components/one-inch-tos-check/one-inch-tos-check.component';
+import { OneInchTosCheckComponent } from './components/one-inch-tos-check/one-inch-tos-check.component';
 
 
 @NgModule({
-  declarations: [TermsAndConditionsCheckComponent],
+  declarations: [OneInchTosCheckComponent],
   imports: [SharedModule],
-  exports: [SharedModule, TermsAndConditionsCheckComponent]
+  exports: [SharedModule, OneInchTosCheckComponent]
 })
 export class SharedSwapsModule { }
