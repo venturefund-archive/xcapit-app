@@ -12,6 +12,11 @@
           flex-grow: 1;
         }
       }
+
+      &__text {
+        display: flex;
+        flex-direction: column;
+      }
     }
 
     &__text {
