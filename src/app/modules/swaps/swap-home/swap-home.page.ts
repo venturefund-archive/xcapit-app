@@ -135,7 +135,7 @@ import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-erro
         </div>
       </div>
       <div class="sw__checkbox ion-padding">
-        <app-terms-and-conditions-check disabled="true"> </app-terms-and-conditions-check>
+        <app-one-inch-tos-check disabled="true"> </app-one-inch-tos-check>
       </div>
     </ion-content>
 

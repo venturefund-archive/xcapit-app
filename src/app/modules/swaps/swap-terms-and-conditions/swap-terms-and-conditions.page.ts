@@ -39,8 +39,8 @@ import { defaultSwapsUrls } from '../swaps-routing.module';
       </div>
       <div class="stc__items">
         <div class="stc__checkbox">
-          <app-terms-and-conditions-check (toggledCheckbox)="this.onToggleCheckbox($event)">
-          </app-terms-and-conditions-check>
+          <app-one-inch-tos-check (toggledCheckbox)="this.onToggleCheckbox($event)" [cancelTos]="this.cancelTos" [showCheck]="true">
+          </app-one-inch-tos-check>
         </div>
         <div class="stc__button">
           <ion-button
@@ -64,7 +64,7 @@ import { defaultSwapsUrls } from '../swaps-routing.module';
 })
 export class SwapTermsAndConditionsPage {
   acceptTos = false;
-
+  cancelTos = false;
   constructor(private navController: NavController) {}
 
   onToggleCheckbox(acceptTos: boolean) {
@@ -76,6 +76,7 @@ export class SwapTermsAndConditionsPage {
   }
 
   close() {
+    this.cancelTos = true;
     this.navController.back();
   }
 }
