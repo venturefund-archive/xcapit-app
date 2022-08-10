@@ -85,13 +85,19 @@ describe('LoginNewPage', () => {
   });
 
   it('should access to faqs when help button is clicked', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="Access Faq"]')).nativeElement.click();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_login_help');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
 
+    el.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(spy).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/support/options');
   });
 
   it('should call trackEvent on trackService when forget_password clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'forget_password');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_recover_password');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
 

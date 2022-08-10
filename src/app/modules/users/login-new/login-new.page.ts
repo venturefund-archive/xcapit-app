@@ -47,7 +47,7 @@ import { LoginPasswordInfoComponent } from '../shared-users/components/login-pas
           <div class="ul__reset-password-button">
             <ion-button
               appTrackClick
-              name= "forget_password"
+              name= "ux_recover_password"
               class="ux-link-xs"
               fill="clear"
               size="small"
@@ -63,7 +63,7 @@ import { LoginPasswordInfoComponent } from '../shared-users/components/login-pas
     </ion-content>
     <ion-footer>
       <div class="ul__footer__help-button">
-        <ion-button class="ux-link-xs underline" name="Access Faq" (click)="this.goToHelp()" fill="clear" size="small">
+        <ion-button class="ux-link-xs underline" name="ux_login_help" appTrackClick (click)="this.goToHelp()" fill="clear" size="small">
           <ion-icon slot="start" name="ux-lifeguard"></ion-icon>
           {{ 'users.login_new.help_link' | translate }}</ion-button
         >
