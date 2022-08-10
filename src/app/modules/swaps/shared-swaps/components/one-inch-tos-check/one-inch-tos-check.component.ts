@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
-  selector: 'app-terms-and-conditions-check',
+  selector: 'app-one-inch-tos-check',
   template: `<div class="tacc__checkbox">
     <ion-item class="tacc__checkbox__last ux-font-text-xs">
       <ion-checkbox
@@ -13,6 +13,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
         name="checkbox-condition"
         [disabled]="this.disabled"
         [checked]="this.acceptTos"
+        *ngIf="this.showCheck"
         (ionChange)="this.updateState($event)"
       >
       </ion-checkbox>
@@ -37,8 +38,10 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
   </div>`,
   styleUrls: ['./one-inch-tos-check.component.scss'],
 })
-export class TermsAndConditionsCheckComponent implements OnInit {
+export class OneInchTosCheckComponent implements OnInit, OnChanges {
   @Input() disabled: boolean;
+  @Input() cancelTos: boolean;
+  @Input() showCheck: boolean;
   @Output() toggledCheckbox: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   links = LINKS;
@@ -49,6 +52,16 @@ export class TermsAndConditionsCheckComponent implements OnInit {
 
   async ngOnInit() {
     this.acceptTos = !!(await this.storage.get(this.key));
+  }
+
+  async ngOnChanges(changes: SimpleChanges) {
+    this._cancelTos(changes.cancelTos);
+  }
+
+  private _cancelTos(cancelTos: any) {
+    if (cancelTos) {
+      this.storage.set(this.key, !this.cancelTos);
+    }
   }
 
   async updateState(checkboxState: any) {
