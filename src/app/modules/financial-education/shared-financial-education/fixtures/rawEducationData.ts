@@ -3,7 +3,7 @@ export const rawEducationData = {
     {
       id: 1,
       order: 1,
-      icon: 'icon_finance_1',
+      icon: 'assets/test_image.svg',
       title: 'title_finance_1',
       coming_soon: false,
       category: 1,
@@ -40,7 +40,7 @@ export const rawEducationData = {
     {
       id: 2,
       order: 2,
-      icon: 'icon_finance_2',
+      icon: 'assets/test_image.svg',
       title: 'title_finance_2',
       coming_soon: true,
       category: 1,
@@ -62,7 +62,7 @@ export const rawEducationData = {
     {
       id: 4,
       order: 1,
-      icon: 'icon_crypto_1',
+      icon: 'assets/test_image.svg',
       title: 'title_crypto_1',
       coming_soon: false,
       category: 2,
@@ -86,7 +86,7 @@ export const rawEducationData = {
     {
       id: 5,
       order: 2,
-      icon: 'icon_crypto_2',
+      icon: 'test_image',
       title: 'title_crypto_2',
       coming_soon: true,
       category: 2,

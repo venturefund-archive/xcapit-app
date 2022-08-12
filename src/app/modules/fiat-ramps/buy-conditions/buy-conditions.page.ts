@@ -78,13 +78,8 @@ export class BuyConditionsPage implements OnInit {
   ngOnInit() {}
 
   updateState(state: any) {
-    if (state.detail.checked) {
-      this.acceptTos = state.detail.checked;
-      this.storage.set(this.key, state.detail.checked);
-    } else {
-      this.acceptTos = state.detail.checked;
-      this.storage.set(this.key, state.detail.checked);
-    }
+    this.acceptTos = state.detail.checked;
+    this.storage.set(this.key, state.detail.checked);
   }
 
   goToSelectProvider() {

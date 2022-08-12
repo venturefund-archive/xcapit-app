@@ -16,7 +16,7 @@ describe('ExplanationItemComponent', () => {
         {
           number: 'testNumber',
           title: 'testTitle',
-          icon: 'assets/img/testIcon',
+          icon: 'assets/test_image.svg',
           description: 'testDescription',
         }
       );
@@ -41,7 +41,7 @@ describe('ExplanationItemComponent', () => {
     const iconEl = fixture.debugElement.query(By.css('.ei__item img'));
     const descriptionEl = fixture.debugElement.query(By.css('.ei__item ion-text'));
 
-    expect(iconEl.attributes.src).toContain('assets/img/testIcon');
+    expect(iconEl.attributes.src).toContain('assets/test_image.svg');
     expect(titleEl.nativeElement.innerHTML).toContain('testTitle');
     expect(numberEl.nativeElement.innerHTML).toContain('testNumber');
     expect(descriptionEl.nativeElement.innerHTML).toContain('testDescription');
