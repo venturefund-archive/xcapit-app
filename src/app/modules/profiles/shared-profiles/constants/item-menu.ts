@@ -24,7 +24,7 @@ export const ITEM_MENU: MenuCategory[] = [
       {
         name: 'Support',
         text: 'profiles.user_profile_menu.support_help',
-        route: 'tickets/create-support-ticket',
+        route: '/tickets/new-create-support-ticket',
         type: 'link',
         buttonName: 'ux_go_to_contact_support'
       },

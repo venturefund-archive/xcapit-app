@@ -22,6 +22,7 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { Storage } from '@ionic/storage';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 const itemMenu: MenuCategory[] = [
   {
@@ -38,8 +39,9 @@ const itemMenu: MenuCategory[] = [
       {
         name: 'Support',
         text: 'profiles.user_profile_menu.support_help',
-        route: 'tickets/create-support-ticket',
+        route: '/tickets/new-create-support-ticket',
         type: 'link',
+        buttonName: 'ux_go_to_contact_support',
       },
     ],
   },
@@ -69,6 +71,12 @@ const itemMenu: MenuCategory[] = [
       },
     ],
   },
+  { 
+    id: 'wallet', 
+    showCategory: false,
+    category_title: '',
+    icon: ''
+  },
 ];
 
 const profile = { email: 'test@mail.com' };
@@ -94,6 +102,7 @@ describe('UserProfileMenuPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let storageSpy: jasmine.SpyObj<Storage>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(waitForAsync(() => {
     logOutModalServiceSpy = jasmine.createSpyObj('LogOutModalService', {
@@ -292,7 +301,7 @@ describe('UserProfileMenuPage', () => {
     fixture.detectChanges();
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
-    expect(menu.length).toBe(3);
+    expect(menu.length).toBe(4);
   });
 
   it('should back to home when back button is clicked', async () => {

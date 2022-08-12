@@ -1,49 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
 @Component({
   selector: 'app-create-ticket',
   template: `
-    <ion-content class="ion-padding-horizontal ion-padding-bottom">
-      <div class="header">
-        <div class="close_button">
-          <ion-button fill="clear" appTrackClick name="Close" (click)="this.close()">
-            <ion-icon class="main__close_button__icon" name="ux-close" color="neutral80"></ion-icon>
-          </ion-button>
-        </div>
-        <div class="header__title">
-          <ion-text class="ux-font-text-lg">
-            {{ 'tickets.create.title' | translate }}
-          </ion-text>
-        </div>
-        <div class="header__text">
-          <ion-text class="ux-font-text-xs">
-            {{ 'tickets.create.text' | translate }}
-          </ion-text>
-        </div>
-      </div>
-      <div class="form_component">
-        <app-create-ticket-form
-          *ngIf="this.userEmail"
-          [userEmail]="this.userEmail"
-          [emailInput]="true"
-          [canModifyEmail]="this.canModifyEmail"
-          category="Mi cuenta/Registro"
-          (send)="this.handleSubmit($event)"
-        ></app-create-ticket-form>
-      </div>
-    </ion-content>
+    <div class="form_component">
+      <app-create-ticket-form
+        *ngIf="this.userEmail"
+        [userEmail]="this.userEmail"
+        [emailInput]="true"
+        [canModifyEmail]="this.canModifyEmail"
+        category="Mi cuenta/Registro"
+        (success)="this.success()"
+      ></app-create-ticket-form>
+    </div>
   `,
   styleUrls: ['./create-email-validation-ticket.page.scss'],
 })
 export class CreateEmailValidationTicketPage implements OnInit {
   canModifyEmail = true;
   userEmail = '';
-  constructor(
-    private navController: NavController,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private navController: NavController, private route: ActivatedRoute) {}
 
   ngOnInit() {}
 
@@ -54,14 +31,7 @@ export class CreateEmailValidationTicketPage implements OnInit {
     }
   }
 
-  handleSubmit(data: any) {
-  }
-
   async success() {
-    await this.navController.navigateForward(['/tickets/create/success', true]);
-  }
-
-  close() {
-    this.navController.navigateBack(['/users/login']);
+    await this.navController.navigateForward(['/tickets/success', true]);
   }
 }

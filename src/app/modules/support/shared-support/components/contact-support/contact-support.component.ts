@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-contact-support',
@@ -27,10 +28,17 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./contact-support.component.scss'],
 })
 export class ContactSupportComponent implements OnInit {
-  constructor(private navController: NavController) {}
+  constructor(
+    private navController: NavController,
+    private remoteConfigService: RemoteConfigService,
+    ) {}
 
   ngOnInit() {}
   goToWriteTicket() {
-    this.navController.navigateForward(['/tickets/create-support-ticket']);
+    let route = '/tickets/create-support-ticket'
+    if (this.remoteConfigService.getFeatureFlag('ff_newLogin')) {
+      route = '/tickets/new-create-support-ticket';
+    } 
+    this.navController.navigateForward(route);
   }
 }

@@ -146,15 +146,12 @@ export class CreateTicketFormComponent implements OnInit {
   }
 
   handleSubmit() {
-    if (this.form.valid) {
-      const parsedValues = this.getParsedValues(this.form.value);
-      this.apiTicketsService.crud.create(parsedValues).subscribe(
-        (data) => this.success.emit(data),
-        (error) => this.error.emit(error),
-      );
-    } else {
-      this.form.markAllAsTouched();
-    }
+    console.log('Entra a handlesubmit')
+    const parsedValues = this.getParsedValues(this.form.value);
+    this.apiTicketsService.crud.create(parsedValues).subscribe(
+      (data) => this.success.emit(data),
+      (error) => this.error.emit(error),
+    );
   }
 
   getParsedValues(formValues) {
