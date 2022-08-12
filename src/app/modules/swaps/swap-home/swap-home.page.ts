@@ -300,7 +300,7 @@ export class SwapHomePage {
   }
 
   private async checkTokens(){
-    if(this.tplFromToken.value === this.tplToToken.value){
+    if(this.fromToken.address() === this.toToken.address()){
       await this.toastService.showWarningToast({
         message: this.translate.instant('swaps.home.warning_same_tokens')
       });
