@@ -81,11 +81,10 @@ import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-erro
             <div class="sw__swap-card__from__detail__amount">
               <form [formGroup]="this.form">
                 <ion-input
-                  appNumberInput
                   class="sw__swap-card__from__detail__amount__input"
                   formControlName="fromTokenAmount"
                   type="number"
-                  inputmode="numeric"
+                  inputmode="decimal"
                 ></ion-input>
               </form>
             </div>

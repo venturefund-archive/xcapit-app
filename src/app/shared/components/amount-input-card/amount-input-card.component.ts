@@ -63,11 +63,10 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
         <div class="aic__content__inputs">
           <div class="aic__content__inputs__amount_with_max">
             <ion-input
-              appNumberInput
               class="aic__content__inputs__amount_with_max__amount"
               formControlName="amount"
               type="number"
-              inputmode="numeric"
+              inputmode="decimal"
               debounce="500"
             >
             </ion-input>
@@ -82,11 +81,10 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
           </div>
           <ion-text class="aic__content__equal ux-fweight-medium">=</ion-text>
           <ion-input
-            appNumberInput
             class="aic__content__inputs__quoteAmount"
             formControlName="quoteAmount"
             type="number"
-            inputmode="numeric"
+            inputmode="decimal"
             debounce="500"
           ></ion-input>
         </div>

@@ -31,19 +31,19 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
         </div>
         <div class="pnoc__amount-select__inputs">
           <div class="pnoc__amount-select__inputs__amount">
-            <ion-input appNumberInput formControlName="cryptoAmount" type="number" inputmode="numeric"> </ion-input>
+            <ion-input formControlName="cryptoAmount" type="number" inputmode="decimal"> </ion-input>
           </div>
           <ion-text class="pnoc__amount-select__inputs__equal ux-fweight-medium ">=</ion-text>
           <div class="pnoc__amount-select__inputs__quoteAmount">
-            <ion-input appNumberInput formControlName="fiatAmount" type="number" inputmode="numeric"></ion-input>
+            <ion-input formControlName="fiatAmount" type="number" inputmode="decimal"></ion-input>
           </div>
         </div>
       </div>
 
       <div *ngIf="this.provider.alias !== 'kripton' && this.provider.alias !== 'moonpay'">
         <app-fiat-input
-        label="fiat_ramps.shared.provider_new_operation_card.to_pay"
-        disclaimer="fiat_ramps.shared.provider_new_operation_card.usd_disclaimer"
+          label="fiat_ramps.shared.provider_new_operation_card.to_pay"
+          disclaimer="fiat_ramps.shared.provider_new_operation_card.usd_disclaimer"
         >
         </app-fiat-input>
       </div>
@@ -60,10 +60,14 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
           </div>
           <div class="pnoc__provider__content__body">
             <div class="pnoc__provider__content__body__provider-name">
-              <ion-text class="pnoc__provider__content__body__text__name ux-font-text-lg">{{ this.provider.name }}</ion-text>
+              <ion-text class="pnoc__provider__content__body__text__name ux-font-text-lg">{{
+                this.provider.name
+              }}</ion-text>
             </div>
             <div class="ux-font-text-xxs">
-              <ion-text class="pnoc__provider__content__body__description">{{ this.provider?.description | translate }}</ion-text>
+              <ion-text class="pnoc__provider__content__body__description">{{
+                this.provider?.description | translate
+              }}</ion-text>
             </div>
           </div>
         </div>
