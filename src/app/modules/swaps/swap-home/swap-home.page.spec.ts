@@ -38,7 +38,6 @@ import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
 import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-error-msgs';
 
-
 const testLocalNotificationOk: LocalNotificationSchema = {
   id: 1,
   title: 'swaps.sent_notification.swap_ok.title',
@@ -233,6 +232,19 @@ describe('SwapHomePage', () => {
     expect(component.tplFee.value).toBeGreaterThan(0);
     expect(component.tplFee.token).toEqual(rawBlockchain.nativeToken.value);
   }));
+
+  it('should show warning toast and disable amount input if fromToken and toToken equals each other', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      fromToken: rawUSDCData.contract,
+      toToken: rawUSDCData.contract,
+    });
+
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+
+    expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
+    expect(component.sameTokens).toBeTrue();
+  });
 
   it('should show swap info on valid from token amount value', fakeAsync(() => {
     _setTokenAmountArrange(1);

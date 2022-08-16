@@ -2638,7 +2638,8 @@
       "footer_text": "Solo tomará unos segundos.",
       "tos_1": "Leí y estoy de acuerdo con los ",
       "tos_button": "términos y condiciones",
-      "tos_2": "de 1inch"
+      "tos_2": "de 1inch",
+      "warning_same_tokens": "El token de origen no puede ser igual al token de destino."
     },
     "errors": {
       "invalid_password": "La contraseña ingresada no es correcta."

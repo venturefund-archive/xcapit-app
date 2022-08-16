@@ -2486,7 +2486,8 @@
       "footer_text": "It will only take a few seconds.",
       "tos_1": "I have read and agree to the",
       "tos_button": "terms and conditions.",
-      "tos_2": "of 1inch"
+      "tos_2": "of 1inch",
+      "warning_same_tokens": "The source token cannot be equal to the destination token."
     },
     "errors": {
       "invalid_password": "The password entered is not valid."
