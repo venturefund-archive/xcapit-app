@@ -61,7 +61,7 @@ describe('OneInchTosCheckComponent', () => {
     spyOn(component.toggledCheckbox, 'emit');
 
     fixture.debugElement.query(By.css("ion-checkbox[name='checkbox-condition']"))
-      .triggerEventHandler('ionChange',  { detail: { checked: true} });
+      .triggerEventHandler('ionChange',  { detail: { checked: true}, target: { checked: true} });
 
     expect(storageServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(component.toggledCheckbox.emit).toHaveBeenCalledTimes(1);

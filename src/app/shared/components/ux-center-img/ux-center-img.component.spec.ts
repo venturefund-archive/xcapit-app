@@ -12,7 +12,7 @@ import { IonicModule } from '@ionic/angular';
   `,
 })
 class TestComponent {
-  data = { image: 'assets/img/non-default.svg' };
+  data = { image: 'assets/test_image.svg' };
 }
 
 describe('UxCenterImgComponent', () => {
@@ -47,6 +47,6 @@ describe('UxCenterImgComponent', () => {
 
   it('should render non default image in div', () => {
     const imageEl = fixture.debugElement.query(By.css('img'));
-    expect(imageEl.nativeElement.src).toContain('assets/img/non-default.svg');
+    expect(imageEl.nativeElement.src).toContain('assets/test_image.svg');
   });
 });
