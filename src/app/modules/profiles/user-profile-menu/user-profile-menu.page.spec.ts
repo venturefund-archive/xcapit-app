@@ -73,7 +73,7 @@ const itemMenu: MenuCategory[] = [
 
 const profile = { email: 'test@mail.com' };
 
-fdescribe('UserProfileMenuPage', () => {
+describe('UserProfileMenuPage', () => {
   const anERC20Address = '0x0123456789101112131415';
   let component: UserProfileMenuPage;
   let fixture: ComponentFixture<UserProfileMenuPage>;
