@@ -287,6 +287,17 @@
       "textSecondary": "Quédate atento, recibirás la respuesta en tu mail",
       "namePrimaryAction": "Volver al inicio"
     },
+    "create_support_ticket_success_new_login": {
+      "textPrimary": "¡Consulta enviada exitosamente!",
+      "textSecondary": "Nuestro equipo ya se encuentra trabajando sobre tu caso. Te estaremos respondiendo a  la brevedad al email {{email}}",
+      "has_wallet": {
+        "namePrimaryAction": "Ir a mi Wallet",
+        "nameSecondaryAction": "Crear otra consulta"
+      },
+      "no_wallet": {
+        "namePrimaryAction": "Hacer otra consulta"
+      }
+    },
     "create_ticket_form": {
       "label_subject": "Elige una categoría de consulta*",
       "placeholder_subject": "Seleccione una categoría",

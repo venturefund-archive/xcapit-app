@@ -297,6 +297,17 @@
       "textSecondary": "Stay tuned, you will receive the answer in your mail",
       "namePrimaryAction": "Back to start"
     },
+    "create_support_ticket_success_new_login": {
+      "textPrimary": "Query sent successfully!",
+      "textSecondary": "Our team is already working on your case. We will get back to you as soon as possible at {{email}}",
+      "has_wallet": {
+        "namePrimaryAction": "Go to my Wallet",
+        "nameSecondaryAction": "Create another query"
+      },
+      "no_wallet": {
+        "namePrimaryAction": "Make another query"
+      }
+    },
     "create_ticket_form": {
       "label_subject": "Choose a category for your query*",
       "placeholder_subject": "Choose a category",

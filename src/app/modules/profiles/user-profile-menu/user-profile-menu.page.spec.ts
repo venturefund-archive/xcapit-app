@@ -214,8 +214,9 @@ describe('UserProfileMenuPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get data of users when ionViewWillEnter is called', () => {
+  it('should get data of users when ionViewWillEnter is called', async () => {
     component.ionViewWillEnter();
+    await fixture.whenStable();
     expect(component.profile).toEqual(profile);
   });
 
@@ -314,5 +315,21 @@ describe('UserProfileMenuPage', () => {
   it('should set username on enter', async () => {
     await component.ionViewWillEnter();
     expect(component.username).toEqual('Xcapiter 0x012');
+  });
+
+  it('should update route to support page when clicking ux_go_to_contact_support if feature flag is false', () => {
+    component.itemMenu = JSON.parse(JSON.stringify(itemMenu));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.itemMenu[0].items[1].route).toEqual('/tickets/create-support-ticket');
+  });
+
+  it('should not update route to support page when clicking ux_go_to_contact_support if feature flag is true', () => {
+    component.itemMenu = JSON.parse(JSON.stringify(itemMenu));
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.itemMenu[0].items[1].route).toEqual('/tickets/new-create-support-ticket');
   });
 });
