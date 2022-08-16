@@ -391,7 +391,7 @@ export class SwapHomePage {
   }
 
   private navigateToTokenDetail() {
-    this.navController.navigateForward([this.defaultNavBackUrl]);
+    this.navController.navigateForward([`wallets/asset-detail/${this.toToken.symbol()}`]);
   }
 
   private createNotification(mode: string): LocalNotificationSchema[] {
