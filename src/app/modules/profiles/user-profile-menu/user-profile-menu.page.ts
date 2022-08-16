@@ -32,8 +32,8 @@ import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="user-profile-card" *ngIf="this.profile">
-        <app-user-profile-card [profile]="this.profile"></app-user-profile-card>
+      <div class="user-profile-card" *ngIf="this.profile && this.username">
+        <app-user-profile-card [profile]="this.profile" [username]="this.username"></app-user-profile-card>
       </div>
       <div class="referrals-promotion">
         <app-referral-promotion-card></app-referral-promotion-card>
@@ -93,6 +93,7 @@ import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 export class UserProfileMenuPage {
   profile: any;
   disable = false;
+  username: string;
   itemMenu: MenuCategory[] = ITEM_MENU;
   ticketCategories = TICKET_CATEGORIES;
 
@@ -183,7 +184,12 @@ export class UserProfileMenuPage {
     this.walletService.walletExist().then((res) => {
       const item = this.itemMenu.find((item) => item.id === 'wallet');
       item.showCategory = res;
+      this.setUsername();
     });
+  }
+
+  setUsername() {
+    this.username = `Xcapiter ${this.walletService.addresses['ERC20'].substring(0, 5)}`;
   }
 
   async showDeleteAccountModal() {

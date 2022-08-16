@@ -10,7 +10,7 @@ import { NavController } from '@ionic/angular';
           <img src="assets/img/user-profile/avatar-user.svg" />
         </div>
         <div class="user-mail">
-          <ion-text class="ux-font-header-titulo">{{ this.profile.email }}</ion-text>
+          <ion-text class="ux-font-header-titulo">{{ this.username }}</ion-text>
         </div>
       </div>
       <div class="footer">
@@ -32,6 +32,7 @@ import { NavController } from '@ionic/angular';
 })
 export class UserProfileCardComponent implements OnInit {
   @Input() profile: any;
+  @Input() username: string;
 
   get hasDoneInvestorTest(): boolean {
     return this.profile.investor_category !== 'wealth_managements.profiles.no_category';

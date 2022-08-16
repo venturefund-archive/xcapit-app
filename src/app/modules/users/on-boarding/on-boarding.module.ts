@@ -12,7 +12,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [SwiperModule,SharedUsersModule, RouterModule.forChild(routes)],
+  imports: [SwiperModule, SharedUsersModule, RouterModule.forChild(routes)],
   declarations: [OnBoardingPage],
 })
 export class OnBoardingPageModule {}

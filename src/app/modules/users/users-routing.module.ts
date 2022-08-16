@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NoAuthGuard } from './shared-users/guards/no-auth/no-auth.guard';
 import { AuthGuard } from './shared-users/guards/auth/auth.guard';
+import { NoAuthNewGuard } from './shared-users/guards/no-auth-new/no-auth-new.guard';
 
 const routes: Routes = [
   {
@@ -9,7 +10,7 @@ const routes: Routes = [
     children: [
       {
         path: 'on-boarding',
-        canActivate: [NoAuthGuard],
+        canActivate: [NoAuthNewGuard],
         loadChildren: () => import('./on-boarding/on-boarding.module').then((m) => m.OnBoardingPageModule),
       },
       {
@@ -66,12 +67,11 @@ const routes: Routes = [
       },
       {
         path: 'account-recovery',
-        loadChildren: () => import('./account-recovery/account-recovery.module').then( m => m.AccountRecoveryPageModule)
+        loadChildren: () =>
+          import('./account-recovery/account-recovery.module').then((m) => m.AccountRecoveryPageModule),
       },
     ],
   },
-
-
 ];
 
 @NgModule({
