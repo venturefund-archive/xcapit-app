@@ -2327,6 +2327,11 @@
       "brasil": "Brazil"
     },
     "shared": {
+      "coin_selector_modal":{
+        "title":"Attention!",
+        "description":"You will have to select again the supplier for the token you wish to purchase.",
+        "button": "Understood"
+      },
       "constants": {
         "providers": {
           "kripton": {

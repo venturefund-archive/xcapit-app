@@ -2316,6 +2316,11 @@
       "brasil": "Brasil"
     },
     "shared": {
+      "coin_selector_modal":{
+        "title":"¡Atención!",
+        "description":"Deberás seleccionar nuevamente el proveedor para el token que desees comprar.",
+        "button": "Entendido"
+      },
       "constants": {
         "providers": {
           "kripton": {

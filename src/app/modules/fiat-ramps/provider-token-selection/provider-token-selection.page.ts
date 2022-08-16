@@ -39,7 +39,7 @@ export class ProviderTokenSelectionPage implements OnInit {
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providersFactory: ProvidersFactory,
-    private tokenOperationDataService: TokenOperationDataService,
+    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   ngOnInit() {}
@@ -49,7 +49,11 @@ export class ProviderTokenSelectionPage implements OnInit {
   }
 
   selectCurrency(currency: Coin) {
-    this.tokenOperationDataService.tokenOperationData = {asset: currency.value, network: currency.network}
+    this.tokenOperationDataService.tokenOperationData = {
+      asset: currency.value,
+      network: currency.network,
+      country: this.tokenOperationDataService?.tokenOperationData?.country,
+    };
     this.navController.navigateForward(['fiat-ramps/select-provider']);
   }
 
