@@ -264,6 +264,15 @@
       "description_3":"The financial education you wanted. You will receive incentives for your learning and progress.",
       "primary_action": "Create wallet",
       "secondary_action": "Import wallet"
+    },
+    "account_recovery_info": {
+      "header":"Account recovery",
+      "title": "Re-establish access to your wallet using your recovery phrase",
+      "item_1": "You will need to import your wallet with your recovery phrase, and create a new password.",
+      "item_2": "You will have to accept the terms and conditions and privacy policy again.",
+      "item_3": "You will retain your progress in the financial literacy module, objective in the planner, and your investor profile.",
+      "button_primary":"Recover wallet",
+      "button_secondary":"I don't have my recovery phrase"
     }
 
   },

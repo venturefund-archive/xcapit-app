@@ -255,6 +255,15 @@
       "description_3":"La educación financiera que querías. Recibirás incentivos por tu aprendizaje y avance.",
       "primary_action": "Crear wallet",
       "secondary_action": "Importar wallet"
+    },
+    "account_recovery_info": {
+      "header":"Recuperar cuenta",
+      "title": "Reestablece el acceso de tu wallet usando tu frase de recuperación",
+      "item_1": "Tendrás que importar tu wallet con tu frase de recuperación, y crear una nueva contraseña.",
+      "item_2": "Deberás aceptar nuevamente los términos y condiciones y política de privacidad.",
+      "item_3": "Conservarás tu avance en el módulo de educación financiera, objetivo en el planificador, y tu perfil de inversor.",
+      "button_primary":"Recuperar wallet",
+      "button_secondary":"No tengo mi frase de recuperación"
     }
   },
   "tickets": {
