@@ -178,8 +178,11 @@ export class CreatePasswordPage implements OnInit {
         .encryptWallet(this.createPasswordForm.value.password)
         .then(() => this.walletEncryptionService.getEncryptedWallet())
         .then((encryptedWallet) => this.formattedWallets(encryptedWallet))
+        .then(async (wallets) => {
+          await this.createXAuthToken();
+          return wallets;
+        })
         .then((wallets) => this.apiWalletService.saveWalletAddresses(wallets).toPromise())
-        .then(() => this.createXAuthToken())
         .then(() => this.createLoginToken())
         .then(() => this.loginUser())
         .then(() => this.setWalletAsProtectedIfImporting())
@@ -191,18 +194,18 @@ export class CreatePasswordPage implements OnInit {
   }
 
   private async loginUser(): Promise<void> {
-    new LoggedIn(this.ionicStorageService).save(true);
+    return new LoggedIn(this.ionicStorageService).save(true);
   }
 
   private async createLoginToken(): Promise<void> {
-    new LoginToken(new Password(this.createPasswordForm.value.password), this.ionicStorageService).save();
+    return new LoginToken(new Password(this.createPasswordForm.value.password), this.ionicStorageService).save();
   }
 
   private async createXAuthToken(): Promise<void> {
     const blockchain = this.blockchains.create().oneByName('ERC20');
     const wallet = this.walletService.createdWallets.find((w) => w.mnemonic.path === blockchain.derivedPath());
     const signedMsg = await wallet.signMessage(wallet.address);
-    this.xAuthService.saveToken(`${wallet.address}_${signedMsg}`);
+    return this.xAuthService.saveToken(`${wallet.address}_${signedMsg}`);
   }
 
   private setWalletAsProtectedIfImporting(): Promise<void[]> {
