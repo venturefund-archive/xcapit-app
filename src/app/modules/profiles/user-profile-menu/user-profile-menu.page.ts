@@ -130,11 +130,27 @@ export class UserProfileMenuPage {
   }
 
   async handleLogout() {
-    if ((await this.walletService.walletExist()) && (await this.logOutModalService.isShowModalTo(this.profile.email))) {
+    if (await this.showModal()) {
       this.showLogOutModal();
     } else {
       this.logout();
     }
+  }
+
+  private walletExist() {
+    return this.walletService.walletExist();
+  }
+
+  private profileExists() {
+    return !!this.profile;
+  }
+
+  private async showModal() {
+    return (
+      (await this.walletExist()) &&
+      this.profileExists() &&
+      (await this.logOutModalService.isShowModalTo(this.profile.email))
+    );
   }
 
   async showLogOutModal(): Promise<void> {
