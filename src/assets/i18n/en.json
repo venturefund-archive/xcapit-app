@@ -415,11 +415,11 @@
     },
     "shared": {
       "withdraw_info_modal": {
-        "title": "¿Qué es la tarifa de retiro?",
-        "item_1": "Es el costo de realizar una extracción. ",
-        "item_2": "Se calcula sobre el monto que deseas retirar (0,255%), no sobre el total de tu inversión.",
-        "item_3": "Se abona en la misma moneda del producto de inversión (si estás invirtiendo en USDC, pagarás la tarifa de retiro en USDC).",
-        "button_text": "Entendido"
+        "title": "What is the withdrawal fee?",
+        "item_1": "It is the cost of performing an extraction. ",
+        "item_2": "It is calculated on the amount you wish to withdraw (0.255%), not on the total of your investment.",
+        "item_3": "It is paid in the same currency of the investment product (if you are investing in USDC, you will pay the withdrawal fee in USDC).",
+        "button_text": "Understood"
       },
       "transaction_fees": {
         "label": "Estimated transaction fee",
