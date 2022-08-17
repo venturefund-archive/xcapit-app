@@ -11,7 +11,7 @@ import { of } from 'rxjs';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
-import { ReactiveFormsModule } from '@angular/forms';
+import { COMPOSITION_BUFFER_MODE, ReactiveFormsModule } from '@angular/forms';
 import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
 import { WalletBalanceService } from '../shared-wallets/services/wallet-balance/wallet-balance.service';
 import { RefreshTimeoutService } from 'src/app/shared/services/refresh-timeout/refresh-timeout.service';
@@ -30,6 +30,23 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { GraphqlService } from '../shared-wallets/services/graphql/graphql.service';
+import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
+import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
+import { Vault } from '@2pi-network/sdk';
+import exp from 'constants';
+
+const dataTest = {
+  data: {
+    flows: [
+      {
+        balance: '12777395',
+        balanceUSD: '12.77640743514045',
+      },
+    ],
+  },
+};
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -54,6 +71,10 @@ describe('HomeWalletPage', () => {
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
+  let graphqlServiceSpy: jasmine.SpyObj<GraphqlService>;
+  let twoPiProductFactorySpy: jasmine.SpyObj<TwoPiProductFactory>;
+  let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -103,6 +124,9 @@ describe('HomeWalletPage', () => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getAssestsSelected: Promise.resolve([coinSpy, coinSpy]),
       getWalletsAddresses: Promise.resolve('0x00001'),
+      getWalletFromStorage: Promise.resolve({
+        addresses: { MATIC: 'testAddressMatic' },
+      }),
     });
 
     balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
@@ -120,6 +144,34 @@ describe('HomeWalletPage', () => {
 
     ionicStorageServiceSpy = jasmine.createSpyObj('StorageService', {
       get: Promise.resolve(false),
+    });
+
+    remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getObject: [{ test: 'test' }],
+    });
+
+    graphqlServiceSpy = jasmine.createSpyObj('GraphqlService', {
+      getInvestedBalance: of(dataTest),
+    });
+
+    twoPiProductFactorySpy = jasmine.createSpyObj('TwoPiProductFactory', {
+      create: {
+        id: () => 1,
+      },
+    });
+
+    twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
+      vault: Promise.resolve({
+        apy: 0.227843965358873,
+        balances: [],
+        contract_address: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
+        deposits: [],
+        identifier: 'polygon_usdc',
+        pid: 1,
+        token: 'USDC',
+        token_address: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
+        tvl: 1301621680000,
+      } as Vault),
     });
 
     TestBed.configureTestingModule({
@@ -140,6 +192,10 @@ describe('HomeWalletPage', () => {
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: LocalStorageService, useValue: localStorageServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigSpy },
+        { provide: GraphqlService, useValue: graphqlServiceSpy },
+        { provide: TwoPiProductFactory, useValue: twoPiProductFactorySpy },
+        { provide: TwoPiApi, useValue: twoPiApiSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -318,5 +374,16 @@ describe('HomeWalletPage', () => {
     const card = fixture.debugElement.query(By.css('app-backup-information-card'));
     card.triggerEventHandler('cardClicked', null);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/recovery/read');
+  });
+
+  it('should render total invested correctly', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    const totalInvestedEl = fixture.debugElement.query(By.css('ion-text.wt__total-invested__text'));
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    expect(graphqlServiceSpy.getInvestedBalance).toHaveBeenCalledTimes(1);
+    expect(component.totalInvested).toEqual(12.77640743514045);
+    expect(totalInvestedEl.nativeElement.innerHTML).toContain('12.78 USD');
   });
 });
