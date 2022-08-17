@@ -232,7 +232,7 @@ export class HomeWalletPage implements OnInit {
 
   ngOnInit() {}
 
-  async ionViewWillEnter() {
+  ionViewWillEnter() {
     this.subscribeOnHideFunds();
     this.trackService.trackEvent({
       eventAction: 'screenview',
