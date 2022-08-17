@@ -103,6 +103,8 @@ export class VerifyPhrasePage implements OnInit {
     slidesPerView: 2,
     centeredSlides: true,
   };
+  profileTestComplete: boolean;
+  key = 'profileTestCompleted';
 
   constructor(
     private navController: NavController,
@@ -117,6 +119,11 @@ export class VerifyPhrasePage implements OnInit {
     this.mnemonic = this.walletMnemonicService.getMnemonic();
     this.phrase = this.mnemonic.phrase.split(' ');
     this.selectWordsToVerify();
+    this.getProfileStatus();
+  }
+
+  getProfileStatus() {
+    this.ionicStorageService.get(this.key).then((value: boolean) => (this.profileTestComplete = value));
   }
 
   selectWordsToVerify() {
@@ -198,11 +205,17 @@ export class VerifyPhrasePage implements OnInit {
       this.ionicStorageService
         .set('protectedWallet', true)
         .then(() => this.walletBackupService.disableModal())
-        .then(() => this.navController.navigateForward(['/tabs/wallets']))
+        .then(() => this.navigateToPage())
         .finally(() => (this.loading = false));
     } else {
       this.navController.navigateForward(['/wallets/failed-mnemonic']);
     }
+  }
+
+  navigateToPage(){
+    this.profileTestComplete
+        ? this.navController.navigateForward(['/tabs/wallets'])
+        : this.navController.navigateForward(['/profiles/profile-test']);
   }
 
   getActiveIndex() {

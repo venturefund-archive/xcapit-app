@@ -45,6 +45,9 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 })
 export class SkipBackupModalComponent implements OnInit {
   skipBackUpForm = this.formBuilder.group({ agreeSkipBackUp: [false, [Validators.requiredTrue]] });
+  profileTestComplete: boolean;
+  key = 'profileTestCompleted';
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private modalController: ModalController,
@@ -52,14 +55,27 @@ export class SkipBackupModalComponent implements OnInit {
     private ionicStorageService: IonicStorageService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getProfileStatus();
+  }
 
   handleSubmit() {
     if (this.skipBackUpForm.valid) {
       this.close();
-      this.navController.navigateForward(['/tabs/wallets']);
+      this.navigateToPage();
       this.ionicStorageService.set('protectedWallet', false);
     }
+  }
+
+  navigateToPage(){ 
+    this.profileTestComplete
+        ? this.navController.navigateForward(['/tabs/wallets'])
+        : this.navController.navigateForward(['/profiles/profile-test']);
+    
+  }
+
+  getProfileStatus() {
+    this.ionicStorageService.get(this.key).then((value: boolean) => (this.profileTestComplete = value));
   }
 
   close() {

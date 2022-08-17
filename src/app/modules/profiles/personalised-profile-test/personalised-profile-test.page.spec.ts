@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
@@ -18,7 +18,8 @@ describe('PersonalisedProfileTestPage', () => {
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
-  let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController({});
     navControllerSpy = fakeNavController.createSpy();
@@ -27,7 +28,7 @@ describe('PersonalisedProfileTestPage', () => {
     });
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
-    appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', {
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
     });
     TestBed.configureTestingModule({
@@ -38,7 +39,7 @@ describe('PersonalisedProfileTestPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
-        { provide: AppStorageService, useValue: appStorageServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
     }).compileComponents();
 
@@ -162,7 +163,7 @@ describe('PersonalisedProfileTestPage', () => {
     component.crypto_experience_form.patchValue({ radio_option: 'beginner' });
     fixture.debugElement.query(By.css('ion-button[name="Submit test"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(appStorageServiceSpy.set).toHaveBeenCalledTimes(1);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith([component.successProfileTestUrl]);
   });
 });
