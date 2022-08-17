@@ -12,7 +12,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CRUD } from 'src/app/shared/services/crud/crud';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
-fdescribe('CreateTicketFormComponent', () => {
+describe('CreateTicketFormComponent', () => {
   let component: CreateTicketFormComponent;
   let fixture: ComponentFixture<CreateTicketFormComponent>;
   let apiTicketServiceSpy: jasmine.SpyObj<ApiTicketsService>;

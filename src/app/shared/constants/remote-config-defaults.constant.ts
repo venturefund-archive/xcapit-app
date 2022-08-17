@@ -10,5 +10,5 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_educationCardAvailable: false,
   investmentProducts: undefined,
   onOffRampsProviders: undefined,
-  ff_newLogin: false,
+  ff_newLogin: true,
 };

@@ -158,7 +158,7 @@ export class CreateTicketFormComponent implements OnInit {
   handleSubmit() {
     const parsedValues = this.getParsedValues(this.form.value);
     this.apiTicketsService.crud.create(parsedValues).subscribe(
-      (data) => this.success.emit(data),
+      (data) => this.success.emit(this.form.value),
       (error) => this.error.emit(error)
     );
   }

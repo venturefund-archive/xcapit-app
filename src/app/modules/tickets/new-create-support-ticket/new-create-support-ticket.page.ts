@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
@@ -10,7 +11,7 @@ import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
       <app-create-ticket-form
         [emailInput]="true"
         [canModifyEmail]="true"
-        (success)="this.success()"
+        (success)="this.success($event)"
       ></app-create-ticket-form>
     </ion-content>
   `,
@@ -29,11 +30,17 @@ export class NewCreateSupportTicketPage implements OnInit {
     });
   }
 
-  async success() {
+  async success(formValues: any) {
     let route = '/tickets/new-success';
     if (this.isLoggedIn) {
       route = '/tickets/new-success-wallet';
     }
-    await this.navController.navigateForward([route], { replaceUrl: true });
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        email: formValues.email
+      },
+      replaceUrl: true
+    }
+    await this.navController.navigateForward([route], navigationExtras);
   }
 }
