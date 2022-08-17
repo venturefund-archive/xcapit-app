@@ -8,6 +8,8 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { LoginNewPage } from './login-new.page';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 
@@ -20,6 +22,7 @@ describe('LoginNewPage', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<LoginNewPage>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   beforeEach(waitForAsync(() => {
@@ -36,7 +39,7 @@ describe('LoginNewPage', () => {
       set: Promise.resolve(),
     });
     TestBed.configureTestingModule({
-      declarations: [LoginNewPage],
+      declarations: [LoginNewPage,  FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
       providers: [
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
@@ -50,6 +53,7 @@ describe('LoginNewPage', () => {
     fixture = TestBed.createComponent(LoginNewPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 
   it('should create', () => {
@@ -81,11 +85,28 @@ describe('LoginNewPage', () => {
   });
 
   it('should access to faqs when help button is clicked', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="Access Faq"]')).nativeElement.click();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_login_help');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
 
+    el.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(spy).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/support/options');
   });
 
+  it('should call trackEvent on trackService when forget_password clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_recover_password');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+
+    el.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/users/recovery-info');
+  });  
 
   it('should show informative password modal when info button is clicked', async () => {
     fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('infoIconClicked', undefined);

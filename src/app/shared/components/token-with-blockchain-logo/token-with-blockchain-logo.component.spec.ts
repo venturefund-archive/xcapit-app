@@ -16,8 +16,8 @@ describe('TokenWithBlockchainLogoComponent', () => {
 
     fixture = TestBed.createComponent(TokenWithBlockchainLogoComponent);
     component = fixture.componentInstance;
-    component.tokenLogo = 'src/assets/test_image.svg';
-    component.blockchainLogo = 'src/assets/test_image.svg';
+    component.tokenLogo = 'assets/test_image.svg';
+    component.blockchainLogo = 'assets/test_image.svg';
     fixture.detectChanges();
   }));
 
@@ -27,7 +27,7 @@ describe('TokenWithBlockchainLogoComponent', () => {
 
   it('should render images properly', () => {
     const [tokenLogoEl, blockchainLogoEl] = fixture.debugElement.queryAll(By.css('.twbl__img img'));
-    expect(tokenLogoEl.nativeElement.src).toContain('src/assets/test_image.svg');
-    expect(blockchainLogoEl.nativeElement.src).toContain('src/assets/test_image.svg');
+    expect(tokenLogoEl.nativeElement.src).toContain('assets/test_image.svg');
+    expect(blockchainLogoEl.nativeElement.src).toContain('assets/test_image.svg');
   });
 });

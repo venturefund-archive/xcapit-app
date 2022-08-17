@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
@@ -12,6 +12,7 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
 
 @Component({
   selector: 'app-moonpay',
@@ -31,7 +32,8 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
           [amountEnabled]="false"
           [coin]="this.form.value.currency"
           [provider]="this.provider"
-          [coinSelectorEnabled]="false"
+          [coinSelectorEnabled]="true"
+          (changeCurrency)="this.openModal($event)"
         ></app-provider-new-operation-card>
       </form>
     </ion-content>
@@ -72,15 +74,16 @@ export class MoonpayPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
     private walletMaintenance: WalletMaintenanceService,
-    private tokenOperationDataService: TokenOperationDataService
+    private tokenOperationDataService: TokenOperationDataService,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.provider = this.getProviders().byAlias('moonpay');
     this.countryIsoCodeAlpha3 = this.tokenOperationDataService.tokenOperationData.country;
-    this.initAssetsForm();
+    await this.initAssetsForm();
   }
 
   ionViewDidLeave() {
@@ -120,5 +123,13 @@ export class MoonpayPage implements OnInit {
 
   addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
     return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.form.value.currency);
+  }
+
+  async openModal(event){
+    const modal = await this.modalController.create({
+      component: CoinSelectorModalComponent,
+      cssClass: 'ux-modal-skip-backup',   
+    });
+    await modal.present()
   }
 }

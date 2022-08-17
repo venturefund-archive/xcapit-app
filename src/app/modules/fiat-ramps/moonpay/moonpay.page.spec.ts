@@ -1,6 +1,6 @@
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { of } from 'rxjs';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
@@ -21,6 +21,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const testWallet = {
   assets: {
@@ -49,6 +50,8 @@ describe('MoonpayPage', () => {
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
   beforeEach(
     waitForAsync(() => {
       fakeNavController = new FakeNavController();
@@ -81,6 +84,8 @@ describe('MoonpayPage', () => {
       providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
         create: providersSpy,
       });
+      fakeModalController = new FakeModalController({});
+      modalControllerSpy = fakeModalController.createSpy();
       TestBed.configureTestingModule({
         declarations: [MoonpayPage, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule, HttpClientTestingModule],
@@ -92,6 +97,7 @@ describe('MoonpayPage', () => {
           { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
           { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
+          { provide: ModalController, useValue: modalControllerSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -136,4 +142,11 @@ describe('MoonpayPage', () => {
     expect(component.form.value.currency.value).toEqual(tokenOperationDataServiceSpy.tokenOperationData.asset);
   });
 
+  it('should show modal',  async () => {    
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', undefined);
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
 });

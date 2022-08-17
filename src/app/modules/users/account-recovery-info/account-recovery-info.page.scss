@@ -1,0 +1,49 @@
+:host {
+  .ari {
+    &__title {
+      margin-bottom: 16px;
+      margin-top: 8px;
+    }
+
+    &__items {
+      &__item {
+        margin-bottom: 16px;
+
+        ion-text {
+          color: var(--ion-color-neutral90);
+        }
+
+        display: flex;
+        align-items: center;
+
+        img {
+          margin: 0 16px 0 0;
+        }
+      }
+    }
+
+    &__footer {
+      &__import {
+        display: flex;
+        padding: 12px 16px 6px;
+
+        &__button {
+          flex-grow: 1;
+        }
+      }
+
+      &__no-phrase {
+        display: flex;
+        padding: 0 16px 20px;
+
+        ion-button {
+          border: none;
+        }
+
+        &__button {
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+}

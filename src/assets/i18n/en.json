@@ -264,6 +264,15 @@
       "description_3":"The financial education you wanted. You will receive incentives for your learning and progress.",
       "primary_action": "Create wallet",
       "secondary_action": "Import wallet"
+    },
+    "account_recovery_info": {
+      "header":"Account recovery",
+      "title": "Re-establish access to your wallet using your recovery phrase",
+      "item_1": "You will need to import your wallet with your recovery phrase, and create a new password.",
+      "item_2": "You will have to accept the terms and conditions and privacy policy again.",
+      "item_3": "You will retain your progress in the financial literacy module, objective in the planner, and your investor profile.",
+      "button_primary":"Recover wallet",
+      "button_secondary":"I don't have my recovery phrase"
     }
 
   },
@@ -2318,6 +2327,11 @@
       "brasil": "Brazil"
     },
     "shared": {
+      "coin_selector_modal":{
+        "title":"Attention!",
+        "description":"You will have to select again the supplier for the token you wish to purchase.",
+        "button": "Understood"
+      },
       "constants": {
         "providers": {
           "kripton": {
@@ -2486,7 +2500,8 @@
       "footer_text": "It will only take a few seconds.",
       "tos_1": "I have read and agree to the",
       "tos_button": "terms and conditions.",
-      "tos_2": "of 1inch"
+      "tos_2": "of 1inch",
+      "warning_same_tokens": "The source token cannot be equal to the destination token."
     },
     "errors": {
       "invalid_password": "The password entered is not valid."

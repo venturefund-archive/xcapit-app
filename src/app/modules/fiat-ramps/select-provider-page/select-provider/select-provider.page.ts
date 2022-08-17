@@ -8,6 +8,7 @@ import { FiatRampOperation } from '../../shared-ramps/interfaces/fiat-ramp-opera
 import { FiatRampProvider } from '../../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from '../../shared-ramps/models/providers/factory/providers.factory';
 import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service';
+import { COUNTRIES } from '../../shared-ramps/constants/countries';
 import { TokenOperationDataService } from '../../shared-ramps/services/token-operation-data/token-operation-data.service';
 @Component({
   selector: 'app-select-provider',
@@ -67,7 +68,7 @@ export class SelectProviderPage {
   coin: Coin;
   providers: FiatRampProvider[];
   operationsList: FiatRampOperation[];
-
+  countries = COUNTRIES;
   constructor(
     private navController: NavController,
     private formBuilder: UntypedFormBuilder,
@@ -75,13 +76,24 @@ export class SelectProviderPage {
     private apiWalletService: ApiWalletService,
     private tokenOperationDataService: TokenOperationDataService,
     private providersFactory: ProvidersFactory,
-    private fiatRampsService: FiatRampsService,
+    private fiatRampsService: FiatRampsService
   ) {}
 
   ionViewWillEnter() {
     this.trackScreenViewEvent();
     this.getProviders();
     if (this.kriptonEnabled()) this.getOperations();
+  }
+  ionViewDidEnter() {
+    this.checkSelectedCountry();
+  }
+  checkSelectedCountry() {
+    if (this.tokenOperationDataService.tokenOperationData.country)
+      this.form
+        .get('country')
+        .setValue(
+          this.countries.find((country) => country.isoCodeAlpha3 === this.tokenOperationDataService.tokenOperationData.country)
+        );
   }
 
   kriptonEnabled() {

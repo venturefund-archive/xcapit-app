@@ -255,6 +255,15 @@
       "description_3":"La educación financiera que querías. Recibirás incentivos por tu aprendizaje y avance.",
       "primary_action": "Crear wallet",
       "secondary_action": "Importar wallet"
+    },
+    "account_recovery_info": {
+      "header":"Recuperar cuenta",
+      "title": "Reestablece el acceso de tu wallet usando tu frase de recuperación",
+      "item_1": "Tendrás que importar tu wallet con tu frase de recuperación, y crear una nueva contraseña.",
+      "item_2": "Deberás aceptar nuevamente los términos y condiciones y política de privacidad.",
+      "item_3": "Conservarás tu avance en el módulo de educación financiera, objetivo en el planificador, y tu perfil de inversor.",
+      "button_primary":"Recuperar wallet",
+      "button_secondary":"No tengo mi frase de recuperación"
     }
   },
   "tickets": {
@@ -2307,6 +2316,11 @@
       "brasil": "Brasil"
     },
     "shared": {
+      "coin_selector_modal":{
+        "title":"¡Atención!",
+        "description":"Deberás seleccionar nuevamente el proveedor para el token que desees comprar.",
+        "button": "Entendido"
+      },
       "constants": {
         "providers": {
           "kripton": {
@@ -2638,7 +2652,8 @@
       "footer_text": "Solo tomará unos segundos.",
       "tos_1": "Leí y estoy de acuerdo con los ",
       "tos_button": "términos y condiciones",
-      "tos_2": "de 1inch"
+      "tos_2": "de 1inch",
+      "warning_same_tokens": "El token de origen no puede ser igual al token de destino."
     },
     "errors": {
       "invalid_password": "La contraseña ingresada no es correcta."
