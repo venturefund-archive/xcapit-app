@@ -2,10 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-import { FakeWalletService } from 'src/testing/fakes/wallet-service.fake.spec';
-import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
-
 import { NewCreateSupportTicketPage } from './new-create-support-ticket.page';
 
 describe('NewCreateSupportTicketPage', () => {
@@ -13,20 +11,21 @@ describe('NewCreateSupportTicketPage', () => {
   let fixture: ComponentFixture<NewCreateSupportTicketPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let walletServiceSpy: jasmine.SpyObj<WalletService>;
-  let fakeWalletService: FakeWalletService;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController({});
     navControllerSpy = fakeNavController.createSpy();
-    fakeWalletService = new FakeWalletService(true);
-    walletServiceSpy = fakeWalletService.createSpy();
+
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(true),
+    });
     TestBed.configureTestingModule({
       declarations: [ NewCreateSupportTicketPage ],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(),],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
-        { provide: WalletService, useValue: walletServiceSpy}
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ]
     }).compileComponents();
 
@@ -50,7 +49,7 @@ describe('NewCreateSupportTicketPage', () => {
   });
 
   it('should navigate to ticket creation success when Submit button is clicked and ticket is created and wallet does not exist', async() => {
-    fakeWalletService.modifyReturns(false, null);
+    ionicStorageServiceSpy.get.and.returnValue(Promise.resolve(false));
     component.ionViewWillEnter();
     await fixture.whenStable();
     await fixture.whenRenderingDone();

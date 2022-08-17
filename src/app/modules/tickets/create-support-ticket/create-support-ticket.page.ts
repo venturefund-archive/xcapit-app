@@ -6,9 +6,9 @@ import { ApiUsuariosService } from '../../users/shared-users/services/api-usuari
 @Component({
   selector: 'app-create-ticket-support',
   template: `
-    <div class="form_component">
+    <ion-content class="form_component">
       <app-create-ticket-form *ngIf="this.userEmail" [userEmail]="this.userEmail" (success)="this.success()"></app-create-ticket-form>
-    </div>
+    </ion-content>
   `,
   styleUrls: ['./create-support-ticket.page.scss'],
 })

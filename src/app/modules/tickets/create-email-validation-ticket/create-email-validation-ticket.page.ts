@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-create-ticket',
   template: `
-    <div class="form_component">
+    <ion-content class="form_component">
       <app-create-ticket-form
         *ngIf="this.userEmail"
         [userEmail]="this.userEmail"
@@ -13,7 +13,7 @@ import { NavController } from '@ionic/angular';
         category="Mi cuenta/Registro"
         (success)="this.success()"
       ></app-create-ticket-form>
-    </div>
+    </ion-content>
   `,
   styleUrls: ['./create-email-validation-ticket.page.scss'],
 })

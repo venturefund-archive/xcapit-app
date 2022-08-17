@@ -111,6 +111,9 @@ describe('UserProfileMenuPage', () => {
     });
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: false
+    });
 
     apiProfilesServiceSpy = jasmine.createSpyObj('ApiProfilesService', { getUserData: of(profile) });
     authServiceSpy = jasmine.createSpyObj(
@@ -181,6 +184,7 @@ describe('UserProfileMenuPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: Storage, useValue: storageSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

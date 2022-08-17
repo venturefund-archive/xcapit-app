@@ -4,6 +4,8 @@ import { TICKET_CATEGORIES } from 'src/app/modules/tickets/shared-tickets/consta
 import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ApiTicketsService } from '../../services/api-tickets.service';
+import { LINKS } from 'src/app/config/static-links';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-create-ticket-form',
@@ -84,16 +86,22 @@ import { ApiTicketsService } from '../../services/api-tickets.service';
               <ion-text class="ux-font-text-xs">{{
                 'tickets.create_ticket_form.disclaimer_text' | translate
               }}</ion-text>
-              <ion-button class="ux-link-xs" fill="clear" size="small" color="info">{{
-                'tickets.create_ticket_form.disclaimer_link' | translate
-              }}</ion-button>
+              <ion-button
+                class="ux-link-xs"
+                fill="clear"
+                size="small"
+                color="info"
+                name="Privacy Policies"
+                (click)="this.goToPrivacyPolicies()"
+                >{{ 'tickets.create_ticket_form.disclaimer_link' | translate }}</ion-button
+              >
             </div>
           </div>
         </form>
       </div>
     </ion-content>
 
-    <ion-footer class="footer">
+    <ion-footer slot="fixed" class="footer">
       <div class="footer__submit-button">
         <ion-button
           appTrackClick
@@ -112,12 +120,13 @@ import { ApiTicketsService } from '../../services/api-tickets.service';
   styleUrls: ['./create-ticket-form.component.scss'],
 })
 export class CreateTicketFormComponent implements OnInit {
+  links = LINKS;
   isValidationEmail = false;
   form: UntypedFormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     subject: ['', [Validators.required]],
     message: ['', [Validators.required, Validators.maxLength(2000)]],
-  });;
+  });
   @Input() canModifyEmail = false;
   @Input() emailInput = false;
   @Input() userEmail = '';
@@ -134,6 +143,7 @@ export class CreateTicketFormComponent implements OnInit {
     private translate: TranslateService,
     private apiTicketsService: ApiTicketsService,
     private formBuilder: FormBuilder,
+    private browserService: BrowserService
   ) {}
 
   ngOnInit() {
@@ -146,11 +156,10 @@ export class CreateTicketFormComponent implements OnInit {
   }
 
   handleSubmit() {
-    console.log('Entra a handlesubmit')
     const parsedValues = this.getParsedValues(this.form.value);
     this.apiTicketsService.crud.create(parsedValues).subscribe(
       (data) => this.success.emit(data),
-      (error) => this.error.emit(error),
+      (error) => this.error.emit(error)
     );
   }
 
@@ -159,5 +168,9 @@ export class CreateTicketFormComponent implements OnInit {
     valuesCopy.category_code = valuesCopy.subject.name;
     valuesCopy.subject = this.translate.instant(valuesCopy.subject.value);
     return valuesCopy;
+  }
+
+  goToPrivacyPolicies() {
+    this.browserService.open({ url: this.links.xcapitPrivacyPolicy });
   }
 }

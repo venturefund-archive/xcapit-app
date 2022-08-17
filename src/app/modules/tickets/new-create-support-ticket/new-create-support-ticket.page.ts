@@ -1,38 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 
 @Component({
   selector: 'app-new-create-support-ticket',
   template: `
-    <div class="form_component">
-      <app-create-ticket-form 
+    <ion-content class="form_component">
+      <app-create-ticket-form
         [emailInput]="true"
         [canModifyEmail]="true"
         (success)="this.success()"
       ></app-create-ticket-form>
-    </div>
+    </ion-content>
   `,
   styleUrls: ['./new-create-support-ticket.page.scss'],
 })
 export class NewCreateSupportTicketPage implements OnInit {
-  walletExists: boolean;
+  isLoggedIn: boolean;
 
-  constructor(
-    private navController: NavController,
-    private walletService: WalletService
-    ) { }
+  constructor(private navController: NavController, private storage: IonicStorageService) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-  this.walletService.walletExist().then((res) => { this.walletExists = res })
+    new LoggedIn(this.storage).value().then((res) => {
+      this.isLoggedIn = res;
+    });
   }
 
   async success() {
-    let route = '/tickets/new-success'
-    if (this.walletExists) {
-      route = '/tickets/new-success-wallet'
+    let route = '/tickets/new-success';
+    if (this.isLoggedIn) {
+      route = '/tickets/new-success-wallet';
     }
     await this.navController.navigateForward([route], { replaceUrl: true });
   }
