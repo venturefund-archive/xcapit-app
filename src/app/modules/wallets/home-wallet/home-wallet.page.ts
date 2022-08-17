@@ -271,10 +271,10 @@ export class HomeWalletPage implements OnInit {
 
   calculatedTotalBalanceInvested() {
     this.totalInvested = 0;
-    for (let pid of this.pids) {
+    for (const pid of this.pids) {
       this.graphql.getInvestedBalance(this.address, pid).subscribe(({ data }) => {
         if (data.flows[0]) {
-          let balance = parseFloat(data.flows[0].balanceUSD);
+          const balance = parseFloat(data.flows[0].balanceUSD);
           this.totalInvested += balance;
         }
       });
