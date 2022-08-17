@@ -21,17 +21,17 @@ import { ModalController } from '@ionic/angular';
             </li>
           </ul>
         </div>
-        <div class="main__actions">
-          <ion-button
-            class="ux_button main__actions__button ion-no-margin"
-            name="Understood"
-            color="secondary"
-            size="large"
-            (click)="this.close()"
-          >
-            {{ 'defi_investments.shared.withdraw_info_modal.button_text' | translate }}
-          </ion-button>
-        </div>
+      </div>
+      <div class="main__actions">
+        <ion-button
+          class="ux_button main__actions__button ion-no-margin"
+          name="Understood"
+          color="secondary"
+          size="large"
+          (click)="this.close()"
+        >
+          {{ 'defi_investments.shared.withdraw_info_modal.button_text' | translate }}
+        </ion-button>
       </div>
     </div>
   `,
