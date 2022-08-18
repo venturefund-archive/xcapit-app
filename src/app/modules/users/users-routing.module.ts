@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { NoAuthGuard } from './shared-users/guards/no-auth/no-auth.guard';
 import { AuthGuard } from './shared-users/guards/auth/auth.guard';
 import { NoAuthNewGuard } from './shared-users/guards/no-auth-new/no-auth-new.guard';
+import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 
 const routes: Routes = [
   {
@@ -72,8 +73,9 @@ const routes: Routes = [
       },
       {
         path: 'recovery-info',
-        loadChildren: () => import('./account-recovery-info/account-recovery-info.module').then( m => m.AccountRecoveryInfoPageModule)
-      },    
+        loadChildren: () =>
+          import('./account-recovery-info/account-recovery-info.module').then((m) => m.AccountRecoveryInfoPageModule),
+      },
     ],
   },
 ];

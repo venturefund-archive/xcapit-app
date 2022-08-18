@@ -63,7 +63,14 @@ import { LoginPasswordInfoComponent } from '../shared-users/components/login-pas
     </ion-content>
     <ion-footer>
       <div class="ul__footer__help-button">
-        <ion-button class="ux-link-xs underline" name="ux_login_help" appTrackClick (click)="this.goToHelp()" fill="clear" size="small">
+        <ion-button
+          class="ux-link-xs underline"
+          name="ux_login_help"
+          appTrackClick
+          (click)="this.goToHelp()"
+          fill="clear"
+          size="small"
+        >
           <ion-icon slot="start" name="ux-lifeguard"></ion-icon>
           {{ 'users.login_new.help_link' | translate }}</ion-button
         >
@@ -103,24 +110,24 @@ export class LoginNewPage {
 
   async showPasswordInfoModal() {
     const modal = await this.modalController.create({
-          component: LoginPasswordInfoComponent,
-          showBackdrop: false,
-          cssClass:'ux-modal-password-info',
-          componentProps: {
-            title: 'users.login_password_info.title',
-            subtitle: 'users.login_password_info.subtitle',
-            image: 'assets/img/usuarios/login_password_info/info.svg',
-            button: 'users.login_password_info.button'
-           },
-        });
-        modal.present();
+      component: LoginPasswordInfoComponent,
+      showBackdrop: false,
+      cssClass: 'ux-modal-password-info',
+      componentProps: {
+        title: 'users.login_password_info.title',
+        subtitle: 'users.login_password_info.subtitle',
+        image: 'assets/img/usuarios/login_password_info/info.svg',
+        button: 'users.login_password_info.button',
+      },
+    });
+    modal.present();
   }
 
   goToResetPassword(): void {
-    this.navController.navigateForward('/users/recovery-info')
+    this.navController.navigateForward('/users/recovery-info');
   }
 
   goToHelp(): void {
-    this.navController.navigateForward('/support/options')
+    this.navController.navigateForward('/support/options');
   }
 }
