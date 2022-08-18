@@ -7,7 +7,12 @@ import { ApiUsuariosService } from '../../users/shared-users/services/api-usuari
   selector: 'app-create-ticket-support',
   template: `
     <ion-content class="form_component">
-      <app-create-ticket-form *ngIf="this.userEmail" [userEmail]="this.userEmail" (success)="this.success()"></app-create-ticket-form>
+      <app-create-ticket-form
+        *ngIf="this.userEmail"
+        [userEmail]="this.userEmail"
+        (success)="this.success()"
+        (ionBackButton)="this.goBackToLogin()"
+      ></app-create-ticket-form>
     </ion-content>
   `,
   styleUrls: ['./create-support-ticket.page.scss'],
@@ -16,10 +21,7 @@ export class CreateSupportTicketPage implements OnInit {
   isLoggedIn: boolean;
   userEmail: string;
 
-  constructor(
-    private navController: NavController,
-    private apiUsuarios: ApiUsuariosService,
-    ) {}
+  constructor(private navController: NavController, private apiUsuarios: ApiUsuariosService) {}
 
   ngOnInit() {}
 
@@ -39,5 +41,7 @@ export class CreateSupportTicketPage implements OnInit {
     this.navController.navigateForward(['tickets/success'], navigationExtras);
   }
 
-  
+  async goBackToLogin() {
+    await this.navController.navigateBack(['/tabs/home']);
+  }
 }

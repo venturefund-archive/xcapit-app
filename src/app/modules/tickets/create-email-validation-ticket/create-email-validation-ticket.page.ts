@@ -12,6 +12,7 @@ import { NavController } from '@ionic/angular';
         [canModifyEmail]="this.canModifyEmail"
         category="Mi cuenta/Registro"
         (success)="this.success()"
+        (ionBackButton)="this.goBackToLogin()"
       ></app-create-ticket-form>
     </ion-content>
   `,
@@ -33,5 +34,9 @@ export class CreateEmailValidationTicketPage implements OnInit {
 
   async success() {
     await this.navController.navigateForward(['/tickets/success', true]);
+  }
+
+  async goBackToLogin() {
+    await this.navController.navigateBack(['/users/login']);
   }
 }

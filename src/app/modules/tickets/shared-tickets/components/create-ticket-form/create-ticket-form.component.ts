@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { TICKET_CATEGORIES } from 'src/app/modules/tickets/shared-tickets/constants/ticket-categories';
 import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
@@ -13,7 +12,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+          <ion-back-button (click)="this.goBack()"></ion-back-button>
         </ion-buttons>
         <div>
           <ion-title class="fd__header-title ion-text-center">{{
@@ -134,7 +133,10 @@ export class CreateTicketFormComponent implements OnInit {
 
   @Output()
   success = new EventEmitter<any>();
+  @Output()
   error = new EventEmitter<any>();
+  @Output()
+  ionBackButton = new EventEmitter<void>();
 
   ticketCategories = TICKET_CATEGORIES;
   filteredTicketCategories: typeof TICKET_CATEGORIES;
@@ -172,5 +174,9 @@ export class CreateTicketFormComponent implements OnInit {
 
   goToPrivacyPolicies() {
     this.browserService.open({ url: this.links.xcapitPrivacyPolicy });
+  }
+
+  goBack() {
+    this.ionBackButton.emit();
   }
 }

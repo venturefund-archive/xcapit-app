@@ -322,7 +322,6 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'tickets.create_support_ticket_success_new_login.has_wallet.namePrimaryAction',
     nameSecondaryAction: 'tickets.create_support_ticket_success_new_login.has_wallet.nameSecondaryAction',
     urlPrimaryAction:'/tabs/wallets',
-    urlSecondaryAction: '/tickets/new-create-support-ticket',
     urlClose: '/profiles/menu'
   },
   create_ticket_no_wallet: {
@@ -330,7 +329,6 @@ export const SUCCESS_TYPES = {
     textPrimary: 'tickets.create_support_ticket_success_new_login.textPrimary', 
     textSecondary:'tickets.create_support_ticket_success_new_login.textSecondary',
     namePrimaryAction: 'tickets.create_support_ticket_success_new_login.no_wallet.namePrimaryAction',
-    urlPrimaryAction: '/tickets/new-create-support-ticket',
     urlClose: '/support/options'
   }
 };

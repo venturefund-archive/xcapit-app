@@ -12,8 +12,7 @@ export class CrudService {
 
   getEndpoints(entity: string): CRUD {
     return {
-      // create: (data: any) => this.http.post(`${environment.apiUrl}/${entity}/`, data),
-      create: (data) => {console.log(data); return of({})},
+      create: (data: any) => this.http.post(`${environment.apiUrl}/${entity}/`, data),
       get: (id?: any) => this.http.get(`${environment.apiUrl}/${entity}/${id || ''}`),
       update: (data: any, id?: any) => this.http.put(`${environment.apiUrl}/${entity}/${data.id || id || ''}`, data),
       delete: (id: any) => this.http.delete(`${environment.apiUrl}/${entity}/${id}`),

@@ -12,6 +12,7 @@ import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
         [emailInput]="true"
         [canModifyEmail]="true"
         (success)="this.success($event)"
+        (ionBackButton)="this.goBackToLogin()"
       ></app-create-ticket-form>
     </ion-content>
   `,
@@ -42,5 +43,9 @@ export class NewCreateSupportTicketPage implements OnInit {
       replaceUrl: true
     }
     await this.navController.navigateForward([route], navigationExtras);
+  }
+
+  async goBackToLogin() {
+    await this.navController.navigateBack(['/support/options']);
   }
 }

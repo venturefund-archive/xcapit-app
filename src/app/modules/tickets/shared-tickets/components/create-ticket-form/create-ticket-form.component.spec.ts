@@ -123,4 +123,10 @@ describe('CreateTicketFormComponent', () => {
     fixture.debugElement.query(By.css('ion-button[name="Privacy Policies"]')).nativeElement.click();
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: "https://xcapit/privacy" });
   });
+
+  it('should emit event on ion-back-button click', () => {
+    const spy = spyOn(component.ionBackButton, 'emit');
+    fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });
