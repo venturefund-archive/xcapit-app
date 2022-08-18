@@ -1544,7 +1544,7 @@
   "wallets": {
     "receive_select_currency": {
       "header": "Receive",
-      "title": "Select the currency you want to send"
+      "title": "Select the currency you want to receive"
     },
     "remove_success": {
       "title": "Your wallet was removed",
