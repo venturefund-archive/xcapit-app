@@ -40,6 +40,7 @@ describe('VerifyPhrasePage', () => {
   let fakeNavController: FakeNavController;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+  
 
   beforeEach(
     waitForAsync(() => {
@@ -114,6 +115,7 @@ describe('VerifyPhrasePage', () => {
   });
 
   it('should navigate to /tabs/wallets, set protectedWallet into storage and clear mnemonic from service if the phrase is valid', async () => {
+    component.ionViewWillEnter()
     component.wordsToVerify = phraseTrue;
     component.allWordsSelected = true;
     component.phrase = testMnemonic.phrase.split(' ');
@@ -121,6 +123,7 @@ describe('VerifyPhrasePage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_protect_finalize"]')).nativeElement.click();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
+
     expect(storageSpy.set).toHaveBeenCalledOnceWith('protectedWallet', true);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/tabs/wallets']);
     expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
@@ -148,6 +151,20 @@ describe('VerifyPhrasePage', () => {
   it('should clear password and mnemonic on leave', async () => {
     component.ionViewWillLeave();
     expect(walletMnemonicServiceSpy.clearMnemonic).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate /profiles/profile-test when the phrase is valid', async () => {
+    storageSpy.get.and.resolveTo()
+    component.ionViewWillEnter()
+    component.wordsToVerify = phraseTrue;
+    component.allWordsSelected = true;
+    component.phrase = testMnemonic.phrase.split(' ');
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_protect_finalize"]')).nativeElement.click();
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
+    
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/profiles/profile-test']);    
   });
 
 });

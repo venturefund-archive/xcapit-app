@@ -24,6 +24,7 @@ describe('SkipBackupModalComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
+      
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
@@ -32,7 +33,8 @@ describe('SkipBackupModalComponent', () => {
       fakeModalController = new FakeModalController(null, {});
       modalControllerSpy = fakeModalController.createSpy();
       ionicStorageServiceSpy = jasmine.createSpyObj('StorageService', {
-       set: Promise.resolve(false),
+        set: Promise.resolve(false),
+        get: Promise.resolve(),
       });
       TestBed.configureTestingModule({
         declarations: [SkipBackupModalComponent, FakeTrackClickDirective],
@@ -62,7 +64,7 @@ describe('SkipBackupModalComponent', () => {
     expect(buttonEl.nativeNode.disabled).toBeTruthy();
   });
 
-  it('should navigate and close modal when form is valid and skip button is clicked', async () => {
+  it('should navigate to profile test and close modal when form is valid and skip button is clicked', async () => {
     component.skipBackUpForm.patchValue({
       agreeSkipBackUp: true,
     });
@@ -71,7 +73,8 @@ describe('SkipBackupModalComponent', () => {
     await fixture.whenRenderingDone();
     fixture.debugElement.query(By.css('ion-button[name="ux_create_skip_warning"]')).nativeElement.click();
 
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
+    
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/profiles/profile-test']);
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
@@ -115,5 +118,19 @@ describe('SkipBackupModalComponent', () => {
     fixture.detectChanges();
     
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledTimes(1);
+  });
+
+  it('should change primary url when profile test is completed', async() => {
+    ionicStorageServiceSpy.get.and.resolveTo(true);
+    component.skipBackUpForm.patchValue({
+      agreeSkipBackUp: true,
+    });
+    component.ngOnInit();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.debugElement.query(By.css('ion-button[name="ux_create_skip_warning"]')).nativeElement.click();
+
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets'])
   });
 });

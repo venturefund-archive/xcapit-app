@@ -1917,7 +1917,7 @@
     "success_wallet_recovery": {
       "title": "¡Felicitaciones!",
       "subtitle": "Importaste tu wallet exitosamente.",
-      "button": "Ir a wallet"
+      "button": "Personalizar wallet"
     },
     "wallet_connect": {
       "header": "WalletConnect",

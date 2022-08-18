@@ -1932,7 +1932,7 @@
     "success_wallet_recovery": {
       "title": "Congratulations!",
       "subtitle": "You imported your wallet successfully.",
-      "button": "Go to wallet"
+      "button": "Personalize wallet"
     },
     "wallet_connect": {
       "header": "WalletConnect",

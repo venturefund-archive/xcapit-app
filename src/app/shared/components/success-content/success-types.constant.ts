@@ -134,7 +134,7 @@ export const SUCCESS_TYPES = {
     textPrimary: 'wallets.success_wallet_recovery.title',
     image:'assets/img/wallets/success_celebration.svg',
     textSecondary:'wallets.success_wallet_recovery.subtitle',
-    urlPrimaryAction: '/tabs/wallets',
+    urlPrimaryAction: '/profiles/profile-test',
     namePrimaryAction: 'wallets.success_wallet_recovery.button',
     trackClickEventNamePrimaryAction: 'ux_import_go_to_home',
   },
