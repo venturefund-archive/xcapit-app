@@ -34,6 +34,7 @@ import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/am
 import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
 import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 
 @Component({
   selector: 'app-send-detail',
@@ -57,7 +58,11 @@ import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/t
           <ion-text class="ux-font-text-lg">{{ 'wallets.send.send_detail.network_select.title' | translate }}</ion-text>
         </div>
         <div class="sd__network-select-card__selected-coin">
-          <app-coin-selector [selectedCoin]="this.token" [enabled]="true" (changeCurrency)="this.changeCurrency()"></app-coin-selector>
+          <app-coin-selector
+            [selectedCoin]="this.token"
+            [enabled]="true"
+            (changeCurrency)="this.changeCurrency()"
+          ></app-coin-selector>
         </div>
         <div class="sd__network-select-card__networks">
           <app-network-select-card
@@ -68,10 +73,7 @@ import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/t
         </div>
       </div>
       <form [formGroup]="this.form">
-        <div
-          class="sd__address-input-card  ion-padding-start ion-padding-end"
-          *ngIf="this.token && this.tplBlockchain"
-        >
+        <div class="sd__address-input-card  ion-padding-start ion-padding-end" *ngIf="this.token && this.tplBlockchain">
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
             [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
@@ -257,7 +259,7 @@ export class SendDetailPage {
     this.form.get('amount').updateValueAndValidity();
   }
 
-  private async userBalanceOf(_aToken: Coin|RawToken) {
+  private async userBalanceOf(_aToken: Coin | RawToken) {
     return this.walletService.balanceOf(await this.userWallet(), _aToken.value);
   }
 
@@ -301,26 +303,23 @@ export class SendDetailPage {
   }
 
   private async estimatedGas(): Promise<number> {
-    return this.token.native ? (await (await this.estimatedNativeGas()).value()).toNumber()
+    return this.token.native
+      ? (await (await this.estimatedNativeGas()).value()).toNumber()
       : (await (await this.estimatedNonNativeGas()).value()).toNumber();
   }
 
   private async estimatedNativeGas(): Promise<Fee> {
     return new NativeGasOf(this.erc20Provider(), {
       to: await this.userWallet(),
-      value: this.parseWei(1),
+      value: new WeiOf(this.form.value.amount || 1, this.token).value(),
     });
   }
 
   private async estimatedNonNativeGas(): Promise<Fee> {
     return new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
       this.form.value.address,
-      this.parseWei(this.form.value.amount),
+      new WeiOf(this.form.value.amount, this.token).value(),
     ]);
-  }
-
-  parseWei(amount: number) {
-    return parseUnits(amount.toFixed(this.token.decimals), this.token.decimals);
   }
 
   async submitForm() {
@@ -352,7 +351,7 @@ export class SendDetailPage {
     this.navController.navigateBack(['/wallets/send/select-currency']);
   }
 
-  private getDynamicPriceOf(token: Coin|RawToken): Observable<number> {
+  private getDynamicPriceOf(token: Coin | RawToken): Observable<number> {
     return this.dynamicPriceFactory
       .new(this.priceRefreshInterval, token, this.apiWalletService)
       .value()
