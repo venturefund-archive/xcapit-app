@@ -1644,6 +1644,7 @@
     },
     "home": {
       "available_money": "Available money in wallet",
+      "invested": "Invested",
       "tab_assets": "Assets",
       "tab_nfts": "NFTs",
       "wallet_recovery": "Import an existing wallet",

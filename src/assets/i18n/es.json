@@ -1636,6 +1636,7 @@
     },
     "home": {
       "available_money": "Tus activos",
+      "invested": "Invertidos",
       "tab_assets": "Monedas",
       "tab_nfts": "NFTs",
       "wallet_recovery": "Importar una wallet existente",
