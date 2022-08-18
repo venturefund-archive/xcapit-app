@@ -70,7 +70,7 @@ import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ram
           [disabled]="!this.form.valid"
         >
           {{ 'defi_investments.new.button' | translate }}
-        </ion-button>       
+        </ion-button>
         <div *appFeatureFlag="'ff_buyCryptoNewInvestmentFooter'">
           <div class="ni__footer__text" *ngIf="this.buyAvailable">
             <span class="ux-font-text-xs text">
@@ -88,7 +88,7 @@ import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ram
           </div>
         </div>
       </div>
-      </ion-footer>
+    </ion-footer>
   `,
   styleUrls: ['./new-investment.page.scss'],
 })
@@ -174,14 +174,14 @@ export class NewInvestmentPage implements OnInit {
     this.addLowerThanValidator();
   }
 
-  private addLowerThanValidator(){
+  private addLowerThanValidator() {
     this.form.get('amount').addValidators(CustomValidators.lowerThanEqual(this.tokenBalance));
     this.form.get('amount').updateValueAndValidity();
   }
 
   saveAmount() {
     if (this.form.valid) {
-      this.investmentDataService.amount = this.form.value.amount;
+      this.investmentDataService.amount = parseFloat(this.form.value.amount);
       this.investmentDataService.quoteAmount = parseFloat(this.form.value.quoteAmount);
       this.investmentDataService.product = this.investmentProduct;
       this.navController.navigateForward(['/defi/new/confirmation', this.mode]);
