@@ -42,7 +42,7 @@ import { NavController } from '@ionic/angular';
                     submodule.title | translate
                   }}</ion-label>
                   <div class="ux-font-text-xxs">
-                    <ion-label name="sub_module_status"
+                    <ion-label name="sub_module_status" color="primary"
                       >({{ 'financial_education.home.statuses.' + this.submodule.status | translate }})</ion-label
                     >
                   </div>
