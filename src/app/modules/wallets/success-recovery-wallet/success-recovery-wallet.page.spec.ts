@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { async } from '@firebase/util';
 import { IonicModule } from '@ionic/angular';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
