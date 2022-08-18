@@ -12,7 +12,6 @@ export class NoWallet implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
     return this.walletExist().then((exists) => {
-      console.log('exists', exists);
       if (exists) this.redirect(route.data.noWalletFallbackUrl);
       return !exists;
     });
