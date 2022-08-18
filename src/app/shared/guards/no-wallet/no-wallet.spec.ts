@@ -19,7 +19,7 @@ describe('NoWallet', () => {
     fakeNavController = new FakeNavController({});
     navControllerSpy = fakeNavController.createSpy();
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      getWalletFromStorage: Promise.resolve({}),
+      getWalletFromStorage: Promise.resolve(null),
     });
     routeSpy = jasmine.createSpyObj('ActivatedRouteSnapshot', {}, { data: {} });
     routeSpyWithFallback = jasmine.createSpyObj(
