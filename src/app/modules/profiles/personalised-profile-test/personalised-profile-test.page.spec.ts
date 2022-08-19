@@ -139,14 +139,7 @@ describe('PersonalisedProfileTestPage', () => {
     });
   });
 
-  it('should not show warning modal on Skip test button clicked if there is not info in forms', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="Skip test"]')).nativeElement.click();
-    fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
-  });
-
-  it('should show warning modal on Skip test button clicked if there is info in forms', async () => {
-    component.crypto_experience_form.patchValue({ radio_option: 'beginner' });
+  it('should show warning modal on Skip test button clicked', async () => {
     fixture.debugElement.query(By.css('ion-button[name="Skip test"]')).nativeElement.click();
     fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);

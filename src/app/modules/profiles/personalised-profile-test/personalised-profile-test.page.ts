@@ -74,7 +74,7 @@ import { SkipProfileTestComponent } from '../shared-profiles/components/skip-pro
           class="ux-button-outlined ppt__footer__other-time-button__button"
           name="Skip test"
           expand="block"
-          (click)="this.skipTest()"
+          (click)="this.showSkipProfileTest()"
           >{{ 'profiles.personalised_profile_test.button_secondary' | translate }}</ion-button
         >
       </div>
@@ -184,12 +184,6 @@ export class PersonalisedProfileTestPage implements OnInit {
   sendCryptoExperienceEvent() {
     this.cryptoEventToSend = this.eventPrefix + this.crypto_experience_form.value.radio_option;
     return this.sendEvent(this.cryptoEventToSend);
-  }
-
-  skipTest() {
-    if (this.crypto_experience_form.valid || this.isToDoInAppFormValid()) {
-      this.showSkipProfileTest();
-    }
   }
 
   bothFormsValid() {
