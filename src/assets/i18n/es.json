@@ -637,16 +637,16 @@
         "description": "No se mantendrán tus avances si abandonas el formulario.",
         "button_back": "Atrás",
         "button_out": "Salir"
-      },
-      "shared": {
-        "remove_account_modal": {
-          "title": "Eliminar cuenta",
-          "text": "Iniciaremos con el proceso de eliminación de datos asociados a la cuenta.\n Recuerda que siempre vas a poder recuperar tu wallet con la frase semilla",
-          "more_info": "Para más información visita las",
-          "more_info_link": "Preguntas frecuentes sobre la Wallet",
-          "remove_account_button": "Eliminar cuenta",
-          "cancel_button": "Cancelar"
-        }
+      }
+    },
+    "shared": {
+      "remove_account_modal": {
+        "title": "Eliminar cuenta",
+        "text": "Iniciaremos con el proceso de eliminación de datos asociados a la cuenta.\n Recuerda que siempre vas a poder recuperar tu wallet con la frase semilla",
+        "more_info": "Para más información visita las",
+        "more_info_link": "Preguntas frecuentes sobre la Wallet",
+        "remove_account_button": "Eliminar cuenta",
+        "cancel_button": "Cancelar"
       }
     }
   },
