@@ -64,7 +64,7 @@ import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ram
           expand="block"
           size="large"
           type="submit"
-          class="ux_button ni__footer__submit-button__button"
+          class="ux_button ni__footer__submit-button__button ion-no-margin"
           color="secondary"
           (click)="this.saveAmount()"
           [disabled]="!this.form.valid"
@@ -76,7 +76,7 @@ import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ram
             <span class="ux-font-text-xs text">
               {{ 'defi_investments.new.dont_have' | translate }}{{ this.token.value + '?' }}
             </span>
-            <ion-button
+            <ion-label
               name="go_to_buy"
               class="ux-link-xl ni__footer__text__button"
               (click)="this.goToBuyCrypto()"
@@ -84,7 +84,7 @@ import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ram
               fill="clear"
             >
               {{ 'defi_investments.new.buy_button' | translate }}
-            </ion-button>
+            </ion-label>
           </div>
         </div>
       </div>
