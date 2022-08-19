@@ -72,10 +72,11 @@ import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-erro
           <div class="sw__swap-card__from__detail">
             <div class="sw__swap-card__from__detail__token">
               <app-coin-selector
-                *ngIf="this.tplFromToken"
-                [selectedCoin]="this.tplFromToken"
-                enabled="true"
-                (changeCurrency)="this.selectFromToken()"
+              *ngIf="this.tplFromToken"
+              [selectedCoin]="this.tplFromToken"
+              enabled="true"
+              isRightOpen="true"
+              (changeCurrency)="this.selectFromToken()"
               ></app-coin-selector>
             </div>
             <div class="sw__swap-card__from__detail__amount">
@@ -113,25 +114,26 @@ import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-erro
                 *ngIf="this.tplToToken"
                 [selectedCoin]="this.tplToToken"
                 enabled="true"
+                isRightOpen="true"
                 (changeCurrency)="this.selectToToken()"
-              ></app-coin-selector>
-            </div>
-            <div class="sw__swap-card__to__detail__amount">
-              <div class="sw__swap-card__to__detail__amount__value">
-                <ion-text class="ux-font-text-lg">
-                  {{ this.tplSwapInfo.toTokenAmount | formattedAmount }}
-                </ion-text>
+                ></app-coin-selector>
+              </div>
+              <div class="sw__swap-card__to__detail__amount">
+                <div class="sw__swap-card__to__detail__amount__value">
+                  <ion-text class="ux-font-text-lg">
+                    {{ this.tplSwapInfo.toTokenAmount | formattedAmount }}
+                  </ion-text>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <hr />
-        <div class="sw__swap-card__fee ion-padding-horizontal ion-padding-top">
-          <div class="sw__swap-card__fee__title">
-            <ion-text class="ux-font-header-titulo">
-              {{ 'swaps.home.fee_title' | translate }}
-            </ion-text>
-          </div>
+          <hr />
+          <div class="sw__swap-card__fee ion-padding-horizontal ion-padding-top">
+            <div class="sw__swap-card__fee__title">
+              <ion-text class="ux-font-header-titulo">
+                {{ 'swaps.home.fee_title' | translate }}
+              </ion-text>
+            </div>
           <app-transaction-fee [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
         </div>
       </div>
@@ -139,11 +141,11 @@ import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-erro
         <app-one-inch-tos-check disabled="true"> </app-one-inch-tos-check>
       </div>
     </ion-content>
-
+    
     <ion-footer class="sw__footer">
       <div class="sw__footer__swap-button ion-padding">
         <ion-button
-          [appLoading]="this.loadingBtn"
+        [appLoading]="this.loadingBtn"
           [loadingText]="'swaps.home.loading_button_text' | translate"
           appTrackClick
           name="ux_swaps_swap"

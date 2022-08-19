@@ -2493,7 +2493,7 @@
   "swaps": {
     "home": {
       "header": "Swap",
-      "button": "Swap",
+      "button": "Continue",
       "loading_button_text": "Swapping",
       "from_token_title": "From",
       "to_token_title": "To",
