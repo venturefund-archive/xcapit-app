@@ -11,7 +11,7 @@ import { NavController } from '@ionic/angular';
         [emailInput]="true"
         [canModifyEmail]="this.canModifyEmail"
         category="Mi cuenta/Registro"
-        (success)="this.success()"
+        (successTicketCreation)="this.success()"
         (ionBackButton)="this.goBackToLogin()"
       ></app-create-ticket-form>
     </ion-content>

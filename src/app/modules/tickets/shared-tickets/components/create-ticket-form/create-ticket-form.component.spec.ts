@@ -73,7 +73,7 @@ describe('CreateTicketFormComponent', () => {
   });
 
   it('should emit parsed form data to parent when Submit button is clicked and the form is valid', async () => {
-    const spy = spyOn(component.success, 'emit');
+    const spy = spyOn(component.successTicketCreation, 'emit');
     component.form.patchValue({
       email: 'test@test.com',
       message: 'test message',
@@ -93,7 +93,7 @@ describe('CreateTicketFormComponent', () => {
 
   it('should emit parsed form error to parent when Submit button is clicked and the form is valid', async () => {
     crudSpy.create.and.returnValue(throwError('Error'));
-    const spy = spyOn(component.error, 'emit');
+    const spy = spyOn(component.errorTicketCreation, 'emit');
     component.form.patchValue({
       email: 'test@test.com',
       message: 'test message',

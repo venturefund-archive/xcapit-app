@@ -83,7 +83,7 @@ describe('CreateSupportTicketPage', () => {
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('success');
+    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('successTicketCreation');
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tickets/success'], { replaceUrl: true });
   });

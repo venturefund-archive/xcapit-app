@@ -48,7 +48,7 @@ describe('CreateEmailValidationTicketPage', () => {
   it('should navigate to ticket creation success when Submit button is clicked and ticket is created', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('success');
+    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('successTicketCreation');
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/success', true]);
   });
@@ -56,7 +56,7 @@ describe('CreateEmailValidationTicketPage', () => {
   it('should not navigate to ticket creation success when Submit button is clicked and ticket fails to create', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('send');
+    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('errorTicketCreation');
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
   });

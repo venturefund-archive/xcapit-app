@@ -132,9 +132,9 @@ export class CreateTicketFormComponent implements OnInit {
   @Input() category: string;
 
   @Output()
-  success = new EventEmitter<any>();
+  successTicketCreation = new EventEmitter<any>();
   @Output()
-  error = new EventEmitter<any>();
+  errorTicketCreation = new EventEmitter<any>();
   @Output()
   ionBackButton = new EventEmitter<void>();
 
@@ -160,8 +160,8 @@ export class CreateTicketFormComponent implements OnInit {
   handleSubmit() {
     const parsedValues = this.getParsedValues(this.form.value);
     this.apiTicketsService.crud.create(parsedValues).subscribe(
-      (data) => this.success.emit(this.form.value),
-      (error) => this.error.emit(error)
+      (data) => this.successTicketCreation.emit(this.form.value),
+      (error) => this.errorTicketCreation.emit(error)
     );
   }
 

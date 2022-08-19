@@ -11,8 +11,8 @@ import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
       <app-create-ticket-form
         [emailInput]="true"
         [canModifyEmail]="true"
-        (success)="this.success($event)"
-        (ionBackButton)="this.goBackToLogin()"
+        (successTicketCreation)="this.success($event)"
+        (ionBackButton)="this.goBackToFAQs()"
       ></app-create-ticket-form>
     </ion-content>
   `,
@@ -45,7 +45,7 @@ export class NewCreateSupportTicketPage implements OnInit {
     await this.navController.navigateForward([route], navigationExtras);
   }
 
-  async goBackToLogin() {
+  async goBackToFAQs() {
     await this.navController.navigateBack(['/support/options']);
   }
 }

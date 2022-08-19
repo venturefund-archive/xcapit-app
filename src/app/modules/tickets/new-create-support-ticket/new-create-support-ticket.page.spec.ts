@@ -59,7 +59,7 @@ describe('NewCreateSupportTicketPage', () => {
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('success', validFrom);
+    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('successTicketCreation', validFrom);
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
       ['/tickets/new-success-wallet'],
@@ -73,7 +73,7 @@ describe('NewCreateSupportTicketPage', () => {
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('success', validFrom);
+    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('successTicketCreation', validFrom);
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/new-success'], navigationExtras);
   });

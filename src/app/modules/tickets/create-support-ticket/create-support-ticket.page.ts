@@ -10,8 +10,8 @@ import { ApiUsuariosService } from '../../users/shared-users/services/api-usuari
       <app-create-ticket-form
         *ngIf="this.userEmail"
         [userEmail]="this.userEmail"
-        (success)="this.success()"
-        (ionBackButton)="this.goBackToLogin()"
+        (successTicketCreation)="this.success()"
+        (ionBackButton)="this.goBackToHome()"
       ></app-create-ticket-form>
     </ion-content>
   `,
@@ -41,7 +41,7 @@ export class CreateSupportTicketPage implements OnInit {
     this.navController.navigateForward(['tickets/success'], navigationExtras);
   }
 
-  async goBackToLogin() {
+  async goBackToHome() {
     await this.navController.navigateBack(['/tabs/home']);
   }
 }
