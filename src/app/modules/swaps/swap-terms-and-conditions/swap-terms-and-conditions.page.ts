@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { defaultSwapsUrls } from '../swaps-routing.module';
 
 @Component({
@@ -39,7 +40,7 @@ import { defaultSwapsUrls } from '../swaps-routing.module';
       </div>
       <div class="stc__items">
         <div class="stc__checkbox">
-          <app-one-inch-tos-check (toggledCheckbox)="this.onToggleCheckbox($event)" [cancelTos]="this.cancelTos" [showCheck]="true">
+          <app-one-inch-tos-check (toggledCheckbox)="this.onToggleCheckbox($event)" [showCheck]="true">
           </app-one-inch-tos-check>
         </div>
         <div class="stc__button">
@@ -64,19 +65,20 @@ import { defaultSwapsUrls } from '../swaps-routing.module';
 })
 export class SwapTermsAndConditionsPage {
   acceptTos = false;
-  cancelTos = false;
-  constructor(private navController: NavController) {}
+  key = 'termsAndConditions1InchSwapAccepted';
+  constructor(private navController: NavController,
+    private storage: IonicStorageService) {}
 
   onToggleCheckbox(acceptTos: boolean) {
     this.acceptTos = acceptTos;
   }
 
-  goToSelectProvider() {
+  async goToSelectProvider() {
+    await this.storage.set(this.key, this.acceptTos);
     this.navController.navigateForward(defaultSwapsUrls.swapHome, { replaceUrl: true });
   }
 
   close() {
-    this.cancelTos = true;
     this.navController.back();
   }
 }

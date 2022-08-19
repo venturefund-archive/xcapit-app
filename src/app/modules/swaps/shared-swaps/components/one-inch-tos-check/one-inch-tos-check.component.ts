@@ -1,12 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-one-inch-tos-check',
   template: `<div class="tacc__checkbox">
-    <ion-item class="tacc__checkbox__last ux-font-text-xs">
+    <ion-item class="tacc__checkbox__last ux-font-text-xs" [ngClass]="{'tacc__checkbox__last__grey':!this.showCheck}">
       <ion-checkbox
         mode="md"
         slot="start"
@@ -38,9 +37,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
   </div>`,
   styleUrls: ['./one-inch-tos-check.component.scss'],
 })
-export class OneInchTosCheckComponent implements OnInit, OnChanges {
+export class OneInchTosCheckComponent implements OnInit {
   @Input() disabled: boolean;
-  @Input() cancelTos: boolean;
   @Input() showCheck: boolean;
   @Output() toggledCheckbox: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -48,25 +46,13 @@ export class OneInchTosCheckComponent implements OnInit, OnChanges {
   acceptTos = false;
   key = 'termsAndConditions1InchSwapAccepted';
 
-  constructor(private storage: IonicStorageService, private browserService: BrowserService) {}
+  constructor(private browserService: BrowserService) {}
 
-  async ngOnInit() {
-    this.acceptTos = !!(await this.storage.get(this.key));
-  }
-
-  async ngOnChanges(changes: SimpleChanges) {
-    this._cancelTos(changes.cancelTos);
-  }
-
-  private _cancelTos(cancelTos: any) {
-    if (cancelTos) {
-      this.storage.set(this.key, !this.cancelTos);
-    }
+  ngOnInit() {
   }
 
   async updateState(checkboxState: any) {
     this.toggledCheckbox.emit(checkboxState.detail.checked);
-    await this.storage.set(this.key, checkboxState.detail.checked);
   }
 
   openTOS(): void {
