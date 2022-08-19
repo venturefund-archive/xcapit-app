@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
@@ -37,7 +37,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
   </div>`,
   styleUrls: ['./one-inch-tos-check.component.scss'],
 })
-export class OneInchTosCheckComponent implements OnInit {
+export class OneInchTosCheckComponent {
   @Input() disabled: boolean;
   @Input() showCheck: boolean;
   @Output() toggledCheckbox: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -48,8 +48,6 @@ export class OneInchTosCheckComponent implements OnInit {
 
   constructor(private browserService: BrowserService) {}
 
-  ngOnInit() {
-  }
 
   async updateState(checkboxState: any) {
     this.toggledCheckbox.emit(checkboxState.detail.checked);
