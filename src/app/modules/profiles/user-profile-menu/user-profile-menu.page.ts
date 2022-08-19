@@ -113,7 +113,7 @@ export class UserProfileMenuPage {
     private walletBackupService: WalletBackupService,
     private walletConnectService: WalletConnectService,
     private storage: Storage,
-    private remoteConfigService: RemoteConfigService,
+    private remoteConfigService: RemoteConfigService
   ) {}
 
   ionViewWillEnter() {
@@ -124,7 +124,9 @@ export class UserProfileMenuPage {
 
   checkNewLoginFeatureFlag() {
     if (!this.remoteConfigService.getFeatureFlag('ff_newLogin')) {
-      const category = this.itemMenu.find((category) => category.category_title === 'profiles.user_profile_menu.category_help');
+      const category = this.itemMenu.find(
+        (category) => category.category_title === 'profiles.user_profile_menu.category_help'
+      );
       const item = category.items.find((item) => item.buttonName === 'ux_go_to_contact_support');
       item.route = '/tickets/create-support-ticket';
     }

@@ -1,4 +1,3 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -18,29 +17,27 @@ describe('ContactSupportComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ContactSupportComponent>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
-  beforeEach(
-    waitForAsync(() => {
-      remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
-        getFeatureFlag: false
-      });
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
+  beforeEach(waitForAsync(() => {
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: false,
+    });
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
 
-      TestBed.configureTestingModule({
-        declarations: [ContactSupportComponent, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
-        ],
-      }).compileComponents();
+    TestBed.configureTestingModule({
+      declarations: [ContactSupportComponent, FakeTrackClickDirective],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(ContactSupportComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    })
-  );
+    fixture = TestBed.createComponent(ContactSupportComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

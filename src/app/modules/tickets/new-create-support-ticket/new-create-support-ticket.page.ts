@@ -38,10 +38,10 @@ export class NewCreateSupportTicketPage implements OnInit {
     }
     const navigationExtras: NavigationExtras = {
       queryParams: {
-        email: formValues.email
+        email: formValues.email,
       },
-      replaceUrl: true
-    }
+      replaceUrl: true,
+    };
     await this.navController.navigateForward([route], navigationExtras);
   }
 

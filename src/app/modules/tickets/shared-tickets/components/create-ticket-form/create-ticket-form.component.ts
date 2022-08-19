@@ -12,7 +12,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button (click)="this.goBack()"></ion-back-button>
+          <ion-back-button (click)="this.goBack()" defaultHref=""></ion-back-button>
         </ion-buttons>
         <div>
           <ion-title class="fd__header-title ion-text-center">{{

@@ -16,10 +16,10 @@ const validFrom = {
 
 const navigationExtras: NavigationExtras = {
   queryParams: {
-    email: 'test@test.com'
+    email: 'test@test.com',
   },
-  replaceUrl: true
-}
+  replaceUrl: true,
+};
 
 describe('NewCreateSupportTicketPage', () => {
   let component: NewCreateSupportTicketPage;
@@ -75,9 +75,7 @@ describe('NewCreateSupportTicketPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('success', validFrom);
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/new-success'],
-    navigationExtras
-    );
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/new-success'], navigationExtras);
   });
 
   it('should navigate back to FAQs', () => {

@@ -71,11 +71,11 @@ const itemMenu: MenuCategory[] = [
       },
     ],
   },
-  { 
-    id: 'wallet', 
+  {
+    id: 'wallet',
     showCategory: false,
     category_title: '',
-    icon: ''
+    icon: '',
   },
 ];
 
@@ -112,7 +112,7 @@ describe('UserProfileMenuPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
-      getFeatureFlag: false
+      getFeatureFlag: false,
     });
 
     apiProfilesServiceSpy = jasmine.createSpyObj('ApiProfilesService', { getUserData: of(profile) });

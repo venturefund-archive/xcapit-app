@@ -118,10 +118,10 @@ describe('CreateTicketFormComponent', () => {
   });
 
   it('should open browser in app for privacy policies link', () => {
-    const linksSpy = jasmine.createSpyObj('links', {}, { xcapitPrivacyPolicy: "https://xcapit/privacy" });
+    const linksSpy = jasmine.createSpyObj('links', {}, { xcapitPrivacyPolicy: 'https://xcapit/privacy' });
     component.links = linksSpy;
     fixture.debugElement.query(By.css('ion-button[name="Privacy Policies"]')).nativeElement.click();
-    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: "https://xcapit/privacy" });
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'https://xcapit/privacy' });
   });
 
   it('should emit event on ion-back-button click', () => {

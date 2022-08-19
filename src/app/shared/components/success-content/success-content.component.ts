@@ -24,7 +24,7 @@ import { TrackService } from '../../services/track/track.service';
         <app-ux-title>{{ this.data?.textPrimary | translate }}</app-ux-title>
       </div>
       <div class="main__secondary-text ux-font-text-base">
-        <ion-text class="ux-font-text-base">{{ this.data?.textSecondary | translate}}</ion-text>
+        <ion-text class="ux-font-text-base">{{ this.data?.textSecondary | translate }}</ion-text>
       </div>
       <div class="main__ux-success-image" *ngIf="this.data.bottomImage">
         <app-ux-center-img [imagePath]="this.data.image" [imageAlt]="this.imageAlt"></app-ux-center-img>
@@ -88,17 +88,17 @@ export class SuccessContentComponent implements OnInit {
   constructor(private navController: NavController, private trackService: TrackService) {}
 
   ngOnInit() {
-    if(this.data.hasToTrackScreenview){
+    if (this.data.hasToTrackScreenview) {
       this.trackService.trackEvent({
         eventAction: 'screenview',
         description: window.location.href,
-        eventLabel: this.data.screenviewEventLabel
+        eventLabel: this.data.screenviewEventLabel,
       });
     }
   }
 
   close() {
-    this.navController.navigateForward([this.data.urlClose]);
+    this.navController.navigateRoot([this.data.urlClose], { animationDirection: 'forward' });
   }
 
   primaryAction() {

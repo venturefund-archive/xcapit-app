@@ -85,7 +85,7 @@ export class InputSelectComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal generic-modal',
       swipeToClose: false,
     });
-    
+
     await modal.present();
 
     const data = await modal.onDidDismiss();

@@ -32,38 +32,36 @@ describe('CreateSupportTicketPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CreateSupportTicketPage>;
   let navControllerSpy: any;
 
-  beforeEach(
-    waitForAsync(() => {
-      apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', ['getUser']);
-      apiUsuariosServiceSpy.getUser.and.returnValue(of({email: email}));
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-      TestBed.configureTestingModule({
-        declarations: [DummyComponent, CreateSupportTicketPage, FakeTrackClickDirective],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [
-          HttpClientTestingModule,
-          TranslateModule.forRoot(),
-          RouterTestingModule.withRoutes([
-            {
-              path: 'tickets/success',
-              component: DummyComponent,
-            },
-          ]),
-          ReactiveFormsModule,
-          IonicModule,
-        ],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    apiUsuariosServiceSpy = jasmine.createSpyObj('ApiUsuariosService', ['getUser']);
+    apiUsuariosServiceSpy.getUser.and.returnValue(of({ email: email }));
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+    TestBed.configureTestingModule({
+      declarations: [DummyComponent, CreateSupportTicketPage, FakeTrackClickDirective],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+        RouterTestingModule.withRoutes([
+          {
+            path: 'tickets/success',
+            component: DummyComponent,
+          },
+        ]),
+        ReactiveFormsModule,
+        IonicModule,
+      ],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ApiUsuariosService, useValue: apiUsuariosServiceSpy },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(CreateSupportTicketPage);
-      component = fixture.componentInstance;
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(CreateSupportTicketPage);
+    component = fixture.componentInstance;
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -80,14 +78,14 @@ describe('CreateSupportTicketPage', () => {
     expect(apiUsuariosServiceSpy.getUser).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to ticket creation success when Submit button is clicked and ticket is created', async() => {
+  it('should navigate to ticket creation success when Submit button is clicked and ticket is created', async () => {
     component.ionViewWillEnter();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('success');
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tickets/success'], {replaceUrl: true});
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['tickets/success'], { replaceUrl: true });
   });
 
   it('should navigate back to home', () => {

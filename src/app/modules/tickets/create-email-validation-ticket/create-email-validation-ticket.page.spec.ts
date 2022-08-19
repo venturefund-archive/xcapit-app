@@ -20,28 +20,26 @@ describe('CreateEmailValidationTicketPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
 
-  beforeEach(
-    waitForAsync(() => {
-      activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['params']);
-      activatedRouteMock.snapshot = { paramMap: convertToParamMap({ email: 'test@test.com' }) };
-      fakeNavController = new FakeNavController({}, {});
-      navControllerSpy = fakeNavController.createSpy();
-      TestBed.configureTestingModule({
-        declarations: [DummyComponent, CreateEmailValidationTicketPage, FakeTrackClickDirective],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteMock },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['params']);
+    activatedRouteMock.snapshot = { paramMap: convertToParamMap({ email: 'test@test.com' }) };
+    fakeNavController = new FakeNavController({}, {});
+    navControllerSpy = fakeNavController.createSpy();
+    TestBed.configureTestingModule({
+      declarations: [DummyComponent, CreateEmailValidationTicketPage, FakeTrackClickDirective],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(CreateEmailValidationTicketPage);
-      component = fixture.componentInstance;
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(CreateEmailValidationTicketPage);
+    component = fixture.componentInstance;
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

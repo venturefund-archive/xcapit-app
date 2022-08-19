@@ -28,17 +28,14 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
   styleUrls: ['./contact-support.component.scss'],
 })
 export class ContactSupportComponent implements OnInit {
-  constructor(
-    private navController: NavController,
-    private remoteConfigService: RemoteConfigService,
-    ) {}
+  constructor(private navController: NavController, private remoteConfigService: RemoteConfigService) {}
 
   ngOnInit() {}
   goToWriteTicket() {
-    let route = '/tickets/create-support-ticket'
+    let route = '/tickets/create-support-ticket';
     if (this.remoteConfigService.getFeatureFlag('ff_newLogin')) {
       route = '/tickets/new-create-support-ticket';
-    } 
+    }
     this.navController.navigateForward(route);
   }
 }

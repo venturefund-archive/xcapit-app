@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { CustomHttpService } from '../custom-http/custom-http.service';
 import { CRUD } from './crud';
 import { environment } from 'src/environments/environment';
-import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
