@@ -18,6 +18,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
       </ion-checkbox>
       <ion-label class="tacc__checkbox__phrase checkbox-link">
         <ion-label class="ux-font-text-xs"> {{ 'swaps.terms_and_conditions.terms.i_have_read' | translate }}</ion-label>
+        <div></div>
         <div class="tacc__checkbox__phrase__link">
           <ion-button
             name="go_to_1inch_tos"
