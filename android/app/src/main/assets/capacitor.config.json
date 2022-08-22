@@ -25,9 +25,8 @@
 		"SplashScreen": {
 			"splashFullScreen": true,
 			"splashImmersive": true,
-			"launchAutoHide": true,
+			"launchAutoHide": false,
 			"launchShowDuration": 2000,
-			"androidScaleType": "CENTER_INSIDE",
 			"backgroundColor": "#1c2d5e"
 		}
 	}

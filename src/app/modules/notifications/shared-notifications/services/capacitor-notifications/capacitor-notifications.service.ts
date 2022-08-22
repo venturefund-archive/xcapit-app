@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Notification } from '../notifications/notifications.interface';
 import { ApiDevicesService } from '../api-devices/api-devices.service';
 import { PlatformService } from '../../../../../shared/services/platform/platform.service';
-import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
+import { ActionPerformed, PushNotifications, PushNotificationSchema, RegistrationError, Token } from '@capacitor/push-notifications';
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +42,7 @@ export class CapacitorNotificationsService implements Notification {
   }
 
   private addErrorListener() {
-    this.pushNotifications.addListener('registrationError', (error: any) => {
+    this.pushNotifications.addListener('registrationError', (error: RegistrationError) => {
       console.log('REGISTRATION NOTIFICATION ERROR ' + JSON.stringify(error));
     });
   }
