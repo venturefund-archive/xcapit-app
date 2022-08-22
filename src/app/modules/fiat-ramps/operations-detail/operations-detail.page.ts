@@ -11,6 +11,7 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { OperationStatus } from '../shared-ramps/interfaces/operation-status.interface';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
@@ -26,7 +27,6 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
         </ion-title>
       </ion-toolbar>
     </ion-header>
-
     <ion-content class="ion-padding dp" *ngIf="this.operation">
       <div class="dp__card-container">
         <div *ngIf="!this.hasVoucher">
@@ -67,7 +67,9 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
           </ion-text>
         </div>
       </div>
-      <div class="dp__upload-voucher">
+    </ion-content>
+    <ion-footer class="dp__footer">
+      <div class="ux_footer ion-padding">
         <div *ngIf="this.hasVoucher; then sendPictureElement; else addPhotoElement"></div>
         <ng-template #addPhotoElement>
           <ion-button 
@@ -82,12 +84,18 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
           </ion-button>
         </ng-template>
         <ng-template #sendPictureElement>
-          <ion-button name="ux_upload_photo" class="ux_button ion-no-margin" color="secondary" expand="block" (click)="this.sendPicture()">
+          <ion-button
+            name="ux_upload_photo"
+            class="ux_button ion-no-margin"
+            color="secondary"
+            expand="block"
+            (click)="this.sendPicture()"
+          >
             {{ 'fiat_ramps.operation_detail.send_voucher' | translate }}
           </ion-button>
         </ng-template>
       </div>
-    </ion-content>
+    </ion-footer>
   `,
   styleUrls: ['./operations-detail.page.scss'],
 })
@@ -110,6 +118,7 @@ export class OperationsDetailPage implements OnInit {
     private navController: NavController,
     private apiWalletSertvice: ApiWalletService,
     private browserService: BrowserService,
+    private platformService: PlatformService,
     private trackService: TrackService
   ) {}
 
@@ -176,6 +185,7 @@ export class OperationsDetailPage implements OnInit {
   }
 
   async addPhoto() {
+    if (this.platformService.isNative()) {
     const filePermissions = await this.filesystemPlugin.requestPermissions();
     const cameraPermissions = await this.cameraPlugin.requestPermissions();
 
@@ -187,6 +197,7 @@ export class OperationsDetailPage implements OnInit {
 
     this.voucher = photo;
     this.hasVoucher = true;
+  }
   }
 
   async sendPicture() {
@@ -210,6 +221,7 @@ export class OperationsDetailPage implements OnInit {
   removePhoto() {
     this.voucher = undefined;
     this.hasVoucher = false;
+
   }
 
 

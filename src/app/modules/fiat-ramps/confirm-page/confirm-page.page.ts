@@ -101,7 +101,7 @@ export class ConfirmPagePage implements OnInit {
     return this.providersFactory.create();
   }
 
-  async createOperation() {
+  async createOperation() {  
     this.disabledButton = true;
     this.fiatRampsService.createOperation(this.operationData).subscribe({
       next: (res) => {
