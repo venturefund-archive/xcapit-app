@@ -1760,7 +1760,7 @@
     "transactions": {
       "header": "Transactions history",
       "OUT": "Send",
-      "IN": "reception",
+      "IN": "Reception",
       "swap": "Swap",
       "confirmed": "Confirmed",
       "declined": "Declined"
