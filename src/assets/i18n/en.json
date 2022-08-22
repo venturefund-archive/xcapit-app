@@ -2435,7 +2435,9 @@
       "title_wallet_connect": "WalletConnect",
       "description_wallet_connect": "Connect wallet and interact with dapp.",
       "title_nft": "NFT",
-      "description_nft": "View, transfer and receive."
+      "description_nft": "View, transfer and receive.",
+      "title_wallet_swap": "Swap",
+      "description_wallet_swap": "Possible errors, rates and more."      
     },
     "contact_support": {
       "title": "Write to support"

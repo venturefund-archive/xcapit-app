@@ -2072,9 +2072,9 @@
   "fiat_ramps": {
     "buy_conditions": {
       "title": "¿Qué necesitas saber antes de comprar?",
-      "condition_1": "Las compras se realizan a través de un proovedor externo. Xcapit no vende criptomonedas.",
+      "condition_1": "Las compras se realizan a través de un proveedor externo. Xcapit no vende criptomonedas.",
       "condition_2": "Las condiciones de venta y entrega de tokens dependen de cada proveedor.",
-      "condition_3": "El proovedor puede solicitarte información de verificación o KYC. Xcapit no pide (ni pedirá) datos personales ni de validación.",
+      "condition_3": "El proveedor puede solicitarte información de verificación o KYC. Xcapit no pide (ni pedirá) datos personales ni de validación.",
       "label_check": "Estoy de acuerdo con los términos y condiciones de compra.",
       "button": "Continuar"
     },
@@ -2283,7 +2283,7 @@
       "provider": {
         "label": "Proveedor",
         "name": "Moonpay",
-        "description": "Proovedor de terceros"
+        "description": "Proveedor de terceros"
       },
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
       "information": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
@@ -2479,7 +2479,9 @@
       "title_wallet_connect": "WalletConnect",
       "description_wallet_connect": "Conectar wallet e interactuar con dapp.",
       "title_nft": "NFT",
-      "description_nft": "Visualizar, transferir y recibir."
+      "description_nft": "Visualizar, transferir y recibir.",
+      "title_wallet_swap": "Intercambiar",
+      "description_wallet_swap": "Posibles errores, tarifas y más."      
     },
     "contact_support": {
       "title": "Escribir a soporte"
@@ -2591,6 +2593,14 @@
       "answer6": "No, una vez conectada la Wallet de Xcapit con la Dapp, podrás moverte en cualquier pantalla de la app sin perder la conexión. Cuando solicites una transacción desde la Dapp, la app de Xcapit la reconocerá automáticamente.<br>Sin embargo, si cierras la app de Xcapit, perderás la conexión con la Dapp.",
       "question7": "¿Puedo transferir un NFT con WalletConnect?",
       "answer7": "Sí. Podrás visualizar tu NFT en la plataforma de OpenSea y transferirlo o venderlo en la misma. Para ello entra a <a class='ux-link-xl' href='https://opensea.io/'> Opensea.io </a> y conecta tu wallet de Xcapit mediante WalletConnect, pega el código o escanea el QR y listo! (asegurarse de conectarse mediante la red de Polygon para ver los NFT que Xcapit te brindó)."
+    },
+    "support_wallet_swap": {
+      "header": "Ayuda",
+      "title": "Intercambiar",
+      "question1": "¿Por qué la tarifa de transacción es variable?",
+      "answer1": "La misma puede variar ligeramente por la volatilidad del mercado. Posee un tiempo de validez, luego caduca y se actualiza. Ocurre por diferentes motivos:<ul><li>Porque se modificó el tipo de cambio entre el momento en que se ingresaron los datos y cuando se desea confirmar la operación. Por lo que deberá volver a confirmarla para finalizar.</li><li>No posees suficientes criptos (MATIC, ETH, etc) para abonar las comisiones.</li><li>Las criptos que estás intentando intercambiar son altamente volátiles o hay poca liquidez en el grupo.</li></ul>",
+      "question2": "¿Porqué debo confirmar aceptar los términos de 1inch si estoy operando con Xcapit?",
+      "answer2": "Debido a que Xcapit no posee un swap propio, sino que provee el servicio a través de 1inch."
     }
   },
   "wealth_managements": {
@@ -2666,8 +2676,8 @@
     },
     "terms_and_conditions": {
       "title": "¿Qué necesitas saber antes de realizar un intercambio?",
-      "condition_1": "El intercambio se realiza a través del proovedor externo “1inch”.",
-      "condition_2": "Las condiciones de intercambio de tokens dependen del proovedor.",
+      "condition_1": "El intercambio se realiza a través del proveedor externo “1inch”.",
+      "condition_2": "Las condiciones de intercambio de tokens dependen del proveedor.",
       "condition_3": "Los intercambios poseen costos de transacción asociados.",
       "terms": {
         "i_have_read": "Leí y estoy de acuerdo con los",
