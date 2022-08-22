@@ -4,13 +4,13 @@ import {
   StorageOperationService,
 } from '../shared-ramps/services/operation/storage-operation.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { NavController } from '@ionic/angular';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-colors.constant';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-confirm-page',
@@ -75,7 +75,7 @@ export class ConfirmPagePage implements OnInit {
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private walletMaintenance: WalletMaintenanceService,
-    private providersFactory: ProvidersFactory
+    private providersFactory: ProvidersFactory,
   ) {}
 
   ngOnInit() {}
@@ -98,7 +98,7 @@ export class ConfirmPagePage implements OnInit {
     return this.providersFactory.create();
   }
 
-  async createOperation() {
+  async createOperation() {  
     this.disabledButton = true;
     this.fiatRampsService.createOperation(this.operationData).subscribe({
       next: (res) => {
