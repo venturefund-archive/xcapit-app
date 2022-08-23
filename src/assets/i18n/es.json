@@ -121,16 +121,16 @@
       "of": "de"
     },
     "update_news": {
-      "title": "¡Tenemos novedades!",
+      "title": "¡Buenas noticias!",
       "first": {
-        "badge": "Comunidad",
-        "title": "Discord",
-        "description": "Únete y se parte de nuestra comunidad"
+        "badge": "Nueva función",
+        "title": "Intercambios o Swap",
+        "description": "¡No te quedes afuera de lo mejor! Ahora puedes intercambiar monedas de manera rápida, fácil y segura."
       },
       "second": {
         "badge": "Nueva función",
-        "title": "Planificador financiero",
-        "description": "Optimiza el rendimiento de tu dinero"
+        "title": "Educación financiera",
+        "description": "Lleva tus conocimientos criptos al siguiente nivel y conviértete en un experto en el tema."
       }
     },
     "transaction_fees": {
