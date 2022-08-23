@@ -1603,8 +1603,7 @@
       "recovery_phrase_checkbox": "I understand that if this application is moved to another device or removed, my funds can only be recovered with the recovery phrase.",
       "terms_of_use_checkbox": "I have read, understand and accept the <a class='ux-link-xs' href='https://xcapit.com/terms-and-conditions/'>Terms of Use</a> y <a class='ux-link-xs' href='https://xcapit.com/privacy-policy/'>Privacy Policy.</a>",
       "terms_of_use_button": "See terms of use",
-      "submit_button": "Confirm and accept",
-      "error_did_not_accept": "You need to check all the options to continue."
+      "submit_button": "Confirm and accept"
     },
     "recovery_phrase_information": {
       "header": "Recovery phrase",
