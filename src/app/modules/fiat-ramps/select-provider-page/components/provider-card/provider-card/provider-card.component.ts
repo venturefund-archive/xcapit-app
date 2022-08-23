@@ -77,20 +77,32 @@ export class ProviderCardComponent {
         image: this.provider?.logoRoute,
         title: this.provider?.name,
         subtitle1: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_1'),
-        subtitle2: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_2'),
+        subtitle2:
+          this.provider.providerName === 'kripton'
+            ? this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_3')
+            : '',
+        subtitle3: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_2'),
+
         description1: this.translate.instant(
           `fiat_ramps.select_provider.modal_info.${this.provider.providerName}.description_1`
         ),
-        description2: this.translate.instant(
+        description2:
+          this.provider.providerName === 'kripton'
+            ? this.translate.instant(
+                `fiat_ramps.select_provider.modal_info.${this.provider.providerName}.description_3`
+              )
+            : '',
+        description3: this.translate.instant(
           `fiat_ramps.select_provider.modal_info.${this.provider.providerName}.description_2`
         ),
+
         disclaimer:
           this.provider.providerName === 'moonpay'
             ? this.translate.instant('fiat_ramps.select_provider.modal_info.moonpay.disclaimer')
             : '',
         buttonText: this.translate.instant('fiat_ramps.select_provider.modal_info.button'),
       },
-      cssClass: this.provider.providerName === 'moonpay' ? 'ux-md-modal-informative-provider' :'ux-sm-modal-informative-provider',
+      cssClass: 'modal',
       backdropDismiss: false,
     });
     await modal.present();
