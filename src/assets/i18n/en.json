@@ -2497,6 +2497,7 @@
       "loading_button_text": "Swapping",
       "from_token_title": "From",
       "to_token_title": "To",
+      "available":"Available ",
       "fee_title": "Transaction details",
       "footer_text": "It will only take a few seconds.",
       "tos_1": "I have read and agree to the",

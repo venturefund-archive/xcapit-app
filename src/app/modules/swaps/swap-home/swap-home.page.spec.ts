@@ -37,6 +37,8 @@ import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/facto
 import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
 import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-error-msgs';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 
 const testLocalNotificationOk: LocalNotificationSchema = {
   id: 1,
@@ -71,6 +73,8 @@ describe('SwapHomePage', () => {
   let fakeModalController: FakeModalController;
   let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let walletBalanceSpy: jasmine.SpyObj<WalletBalanceService>;
 
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
@@ -106,6 +110,13 @@ describe('SwapHomePage', () => {
       blockchain: rawBlockchain.name,
       fromToken: fromToken.contract,
       toToken: toToken.contract,
+    });
+
+    walletBalanceSpy = jasmine.createSpyObj('WalletBalanceService', {
+      balanceOf: Promise.resolve(0),
+    });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoin: rawUSDCData,
     });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     fakeNavController = new FakeNavController();
@@ -174,6 +185,8 @@ describe('SwapHomePage', () => {
         { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
         { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
         { provide: ToastService, useValue: toastServiceSpy },
+        { provide: WalletBalanceService, useValue: walletBalanceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
       ],
     }).compileComponents();
 
@@ -244,6 +257,32 @@ describe('SwapHomePage', () => {
 
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
     expect(component.sameTokens).toBeTrue();
+  });
+
+  it('should show available amount', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      fromToken: rawUSDCData.contract,
+      toToken: rawMATICData.contract,
+    });
+
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+
+    expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(1);
+    expect(walletBalanceSpy.balanceOf).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show and render available amount properly', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      fromToken: rawUSDCData.contract,
+      toToken: rawMATICData.contract,
+    });
+
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+
+    const availableEl = fixture.debugElement.query(By.css('.sw__swap-card__from__detail__available ion-text '));
+    expect(availableEl.nativeElement.innerHTML).toContain('swaps.home.available 0');
   });
 
   it('should show swap info on valid from token amount value', fakeAsync(() => {

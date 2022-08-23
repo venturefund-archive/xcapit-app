@@ -39,6 +39,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { SwapInProgressModalComponent } from '../../wallets/shared-wallets/components/swap-in-progress-modal/swap-in-progress-modal.component';
 import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-error-msgs';
+import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 
 @Component({
   selector: 'app-swap-home',
@@ -72,11 +75,11 @@ import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-erro
           <div class="sw__swap-card__from__detail">
             <div class="sw__swap-card__from__detail__token">
               <app-coin-selector
-              *ngIf="this.tplFromToken"
-              [selectedCoin]="this.tplFromToken"
-              enabled="true"
-              isRightOpen="true"
-              (changeCurrency)="this.selectFromToken()"
+                *ngIf="this.tplFromToken"
+                [selectedCoin]="this.tplFromToken"
+                enabled="true"
+                isRightOpen="true"
+                (changeCurrency)="this.selectFromToken()"
               ></app-coin-selector>
             </div>
             <div class="sw__swap-card__from__detail__amount">
@@ -90,6 +93,11 @@ import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-erro
                   inputmode="numeric"
                 ></ion-input>
               </form>
+              <div class="sw__swap-card__from__detail__available">
+                <ion-text class="ux-font-text-xxs" color="neutral80">
+                  {{ 'swaps.home.available' | translate }} {{this.balance | formattedAmount }}</ion-text
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -116,24 +124,24 @@ import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-erro
                 enabled="true"
                 isRightOpen="true"
                 (changeCurrency)="this.selectToToken()"
-                ></app-coin-selector>
-              </div>
-              <div class="sw__swap-card__to__detail__amount">
-                <div class="sw__swap-card__to__detail__amount__value">
-                  <ion-text class="ux-font-text-lg">
-                    {{ this.tplSwapInfo.toTokenAmount | formattedAmount }}
-                  </ion-text>
-                </div>
+              ></app-coin-selector>
+            </div>
+            <div class="sw__swap-card__to__detail__amount">
+              <div class="sw__swap-card__to__detail__amount__value">
+                <ion-text class="ux-font-text-lg">
+                  {{ this.tplSwapInfo.toTokenAmount | formattedAmount }}
+                </ion-text>
               </div>
             </div>
           </div>
-          <hr />
-          <div class="sw__swap-card__fee ion-padding-horizontal ion-padding-top">
-            <div class="sw__swap-card__fee__title">
-              <ion-text class="ux-font-header-titulo">
-                {{ 'swaps.home.fee_title' | translate }}
-              </ion-text>
-            </div>
+        </div>
+        <hr />
+        <div class="sw__swap-card__fee ion-padding-horizontal ion-padding-top">
+          <div class="sw__swap-card__fee__title">
+            <ion-text class="ux-font-header-titulo">
+              {{ 'swaps.home.fee_title' | translate }}
+            </ion-text>
+          </div>
           <app-transaction-fee [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
         </div>
       </div>
@@ -141,11 +149,11 @@ import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-erro
         <app-one-inch-tos-check disabled="true"> </app-one-inch-tos-check>
       </div>
     </ion-content>
-    
+
     <ion-footer class="sw__footer">
       <div class="sw__footer__swap-button ion-padding">
         <ion-button
-        [appLoading]="this.loadingBtn"
+          [appLoading]="this.loadingBtn"
           [loadingText]="'swaps.home.loading_button_text' | translate"
           appTrackClick
           name="ux_swaps_swap"
@@ -175,6 +183,8 @@ export class SwapHomePage {
   private referral: Referral = new Referral();
   private fromTokenKey = 'fromToken';
   private toTokenKey = 'toToken';
+  token: Coin;
+  balance= 0;
   loadingBtn: boolean;
   disabledBtn: boolean;
   tplBlockchain: RawBlockchain;
@@ -191,6 +201,8 @@ export class SwapHomePage {
   actionTypeId = 'SWAP';
   sameTokens = false;
   constructor(
+    private apiWalletService: ApiWalletService,
+    private walletBalance: WalletBalanceService,
     private route: ActivatedRoute,
     private navController: NavController,
     private formBuilder: UntypedFormBuilder,
@@ -248,6 +260,11 @@ export class SwapHomePage {
     );
   }
 
+  async balanceAvailableOf(aCoin: string) {
+    this.token = this.apiWalletService.getCoin(aCoin);
+    this.balance = await this.walletBalance.balanceOf(this.token);
+  }
+
   private subscribeToFromTokenAmountChanges() {
     this.form
       .get('fromTokenAmount')
@@ -298,16 +315,17 @@ export class SwapHomePage {
     this.tplFromToken = this.fromToken.json();
     this.toToken = await new TokenByAddress(toTokenAddress, this.tokens).value();
     this.tplToToken = this.toToken.json();
+    await this.balanceAvailableOf(this.fromToken.symbol());
     this.checkTokens();
   }
 
-  private async checkTokens(){
-    if(this.fromToken.address() === this.toToken.address()){
+  private async checkTokens() {
+    if (this.fromToken.address() === this.toToken.address()) {
       await this.toastService.showWarningToast({
-        message: this.translate.instant('swaps.home.warning_same_tokens')
+        message: this.translate.instant('swaps.home.warning_same_tokens'),
       });
       this.sameTokens = true;
-    }else{
+    } else {
       this.sameTokens = false;
     }
   }
