@@ -1,65 +1,50 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { WalletTransactionCardItemComponent } from './wallet-transaction-card-item.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
-import { NONPROD_SCAN_URLS } from '../../constants/scan-url-nonprod';
-import { EnvService } from 'src/app/shared/services/env/env.service';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { NativeTransfer } from '../../models/transfer/native-transfer/native-transfer';
+import { rawTransfer } from '../../fixtures/covalent-transfers.fixture';
+import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { By } from '@angular/platform-browser';
-
-const transaction = {
-  icon: 'assets/img/wallet-transactions/received.svg',
-  type: 'IN',
-  asset: 'ETH',
-  from: '0x00000000000000000000000000',
-  to: '0x00000000000000000000000001',
-  value: '0.2',
-  hash: '0x000000000000000000000000000000000000000000001',
-  date: '2020-01-03T03:00:00Z',
-  blockNumber: '0x00000001',
-  erc721: false,
-  rawContract: false,
-  swap: {
-    currencyIn: '',
-    currencyOut: '',
-    amountIn: null,
-    amountOut: null,
-  },
-};
+import { EnvService } from '../../../../../shared/services/env/env.service';
 
 describe('WalletTransactionCardItemComponent', () => {
   let component: WalletTransactionCardItemComponent;
   let fixture: ComponentFixture<WalletTransactionCardItemComponent>;
-  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
   let envServiceSpy: jasmine.SpyObj<EnvService>;
-  beforeEach(
-    waitForAsync(() => {
-      browserServiceSpy = jasmine.createSpyObj('BrowserService', {open:Promise.resolve()})
-      
-    envServiceSpy = jasmine.createSpyObj('EnvService', {
-      byKey: '0xtestd24address',
-    });
-      TestBed.configureTestingModule({
-        declarations: [WalletTransactionCardItemComponent, FormattedAmountPipe],
-        imports: [IonicModule, TranslateModule.forRoot()],
-        providers: [{ provide: EnvService, useValue: envServiceSpy },{provide:BrowserService, useValue:browserServiceSpy}]
-      }).compileComponents();
 
-      fixture = TestBed.createComponent(WalletTransactionCardItemComponent);
-      component = fixture.componentInstance;
-      component.transaction = transaction;
-      component.network = 'MATIC';
-      fixture.detectChanges();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    envServiceSpy = jasmine.createSpyObj('EnvService', {
+      byKey: '0x72fdeb93a64a0eb2b789a9ed87e65bff967928c3',
+    });
+
+    TestBed.configureTestingModule({
+      declarations: [WalletTransactionCardItemComponent, FormattedAmountPipe],
+      imports: [IonicModule, TranslateModule.forRoot()],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: EnvService, useValue: envServiceSpy },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(WalletTransactionCardItemComponent);
+    component = fixture.componentInstance;
+    component.transfer = new NativeTransfer(rawTransfer, rawMATICData, '');
+    component.network = 'MATIC';
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should set buy text and icon when transaction have directa24 address', () => {
-    component.transaction.from = '0xtestd24address';
     component.ngOnInit();
     fixture.detectChanges();
     const typeEl = fixture.debugElement.query(By.css('div.wtci__content__top__type_date_hash__type_date  .type'));
@@ -68,20 +53,16 @@ describe('WalletTransactionCardItemComponent', () => {
     expect(iconEl.nativeElement.src).toContain('assets/img/wallet-transactions/buy.svg');
   });
 
-
   it('should format date on init', async () => {
     component.ngOnInit();
 
     await fixture.whenRenderingDone();
 
-    expect(component.formattedDate).toBe('03-01-2020');
+    expect(component.formattedDate).toBe('19-08-2022');
   });
 
-  it ('should open browser on transaction link', () => {
-    const expectedUrl = `${NONPROD_SCAN_URLS[component.network]}tx/${transaction.hash}`;
-
-    component.openTransactionUrl();
-
-    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: expectedUrl })
-  })
+  it('should open browser on transaction link', () => {
+    component.openTransactionDetails();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/transaction-details']);
+  });
 });

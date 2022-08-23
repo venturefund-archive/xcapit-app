@@ -2081,6 +2081,18 @@
       "copy_button": "Copy private key",
       "success_toast": "Your private key was successfully copied to the clipboard.",
       "error_toast": "The password you entered is incorrect"
+    },
+    "transaction_details": {
+      "header": "Operation detail",
+      "title_status": "Status",
+      "declined": "Rejected",
+      "confirmed": "Confirmed",
+      "link": "View in explorer",
+      "title_wallet": "Target wallet",
+      "title_fee": "Transaction fee",
+      "title_date": "Date",
+      "OUT": "Sent",
+      "IN": "Received"
     }
   },
   "tabs": {
@@ -2446,7 +2458,7 @@
       "title_nft": "NFT",
       "description_nft": "View, transfer and receive.",
       "title_wallet_swap": "Swap",
-      "description_wallet_swap": "Possible errors, rates and more."      
+      "description_wallet_swap": "Possible errors, rates and more."
     },
     "contact_support": {
       "title": "Write to support"
