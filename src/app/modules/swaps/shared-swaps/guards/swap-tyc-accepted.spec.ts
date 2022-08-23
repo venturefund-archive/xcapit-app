@@ -37,7 +37,7 @@ describe('SwapTYCAccepted', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['swaps/swap-terms-and-conditions']);
   });
 
-  it('should let it continue to financial education', async () => {
+  it('should let it continue to swap', async () => {
     ionicStorageServiceSpy.get.and.returnValue(Promise.resolve(true));
 
     expect(await swapTYCAccepted.canActivate()).toBeTrue();
