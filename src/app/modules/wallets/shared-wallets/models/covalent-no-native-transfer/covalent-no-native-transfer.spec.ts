@@ -8,11 +8,12 @@ const transfer = {
   delta: '100000000000000000000',
   delta_quote: 25000,
   transfer_type: 'OUT',
+  successful: true,
 };
 
 describe('CovalentNoNativeTransfer', () => {
   it('should create', () => {
-    const nativeTransfer: CovalentNoNativeTransfer = new CovalentNoNativeTransfer(transfer, 'USD');
+    const nativeTransfer: CovalentNoNativeTransfer = new CovalentNoNativeTransfer(transfer, 'USD', true);
     expect(nativeTransfer.from).toBe('testFromAddress');
     expect(nativeTransfer.to).toBe('testToAddress');
     expect(nativeTransfer.type).toBe('OUT');
@@ -20,5 +21,6 @@ describe('CovalentNoNativeTransfer', () => {
     expect(nativeTransfer.quoteCurrency).toBe('USD');
     expect(nativeTransfer.icon).toBe('assets/img/wallet-transactions/sended.svg');
     expect(nativeTransfer.amount).toBe(100);
+    expect(nativeTransfer.successful).toBeTrue();
   });
 });

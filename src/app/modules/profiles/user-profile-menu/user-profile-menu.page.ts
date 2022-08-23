@@ -18,6 +18,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { Storage } from '@ionic/storage';
+import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
+
 @Component({
   selector: 'app-user-profile-menu',
   template: `
@@ -30,8 +32,8 @@ import { Storage } from '@ionic/storage';
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="user-profile-card" *ngIf="this.profile">
-        <app-user-profile-card [profile]="this.profile"></app-user-profile-card>
+      <div class="user-profile-card" *ngIf="this.profile && this.username">
+        <app-user-profile-card [profile]="this.profile" [username]="this.username"></app-user-profile-card>
       </div>
       <div class="referrals-promotion">
         <app-referral-promotion-card></app-referral-promotion-card>
@@ -91,6 +93,7 @@ import { Storage } from '@ionic/storage';
 export class UserProfileMenuPage {
   profile: any;
   disable = false;
+  username: string;
   itemMenu: MenuCategory[] = ITEM_MENU;
   ticketCategories = TICKET_CATEGORIES;
 
@@ -127,14 +130,30 @@ export class UserProfileMenuPage {
   }
 
   async handleLogout() {
-    if ((await this.walletService.walletExist()) && (await this.logOutModalService.isShowModalTo(this.profile.email))) {
-      await this.showLogOutModal();
+    if (await this.showModal()) {
+      this.showLogOutModal();
     } else {
       this.logout();
     }
   }
 
-  async showLogOutModal() {
+  private walletExist() {
+    return this.walletService.walletExist();
+  }
+
+  private profileExists() {
+    return !!this.profile;
+  }
+
+  private async showModal() {
+    return (
+      (await this.walletExist()) &&
+      this.profileExists() &&
+      (await this.logOutModalService.isShowModalTo(this.profile.email))
+    );
+  }
+
+  async showLogOutModal(): Promise<void> {
     const modal = await this.modalController.create({
       component: LogOutModalComponent,
       componentProps: {
@@ -144,9 +163,13 @@ export class UserProfileMenuPage {
     });
 
     await modal.present();
+    if ((await modal.onDidDismiss()).data) {
+      this.logout();
+    }
   }
 
   async logout() {
+    await new LoggedIn(this.ionicStorageService).save(false);
     await this.authService.logout();
     await this.navController.navigateRoot('users/login');
   }
@@ -177,7 +200,12 @@ export class UserProfileMenuPage {
     this.walletService.walletExist().then((res) => {
       const item = this.itemMenu.find((item) => item.id === 'wallet');
       item.showCategory = res;
+      this.setUsername();
     });
+  }
+
+  setUsername() {
+    this.username = `Xcapiter ${this.walletService.addresses['ERC20'].substring(0, 5)}`;
   }
 
   async showDeleteAccountModal() {

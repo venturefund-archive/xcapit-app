@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -62,18 +62,18 @@ export class WalletPasswordComponent implements OnInit {
   inputLabel = this.translate.instant('wallets.shared_wallets.wallet_password.input_label');
   description = '';
 
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     password: ['', [Validators.required]],
   });
 
   get trackClickEventName(): string {
-    if (this.state) 
+    if (this.state)
       return `ux_${this.state}_confirm_password`;
 
     return 'Confirm Password';
   }
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalController: ModalController,
     private translate: TranslateService
   ) {}

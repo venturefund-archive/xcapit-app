@@ -30,6 +30,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { ActivatedRoute } from '@angular/router';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 
 describe('InvestmentConfirmationPage', () => {
   let component: InvestmentConfirmationPage;
@@ -58,6 +59,7 @@ describe('InvestmentConfirmationPage', () => {
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -116,7 +118,9 @@ describe('InvestmentConfirmationPage', () => {
         getCoinsFromNetwork: [{ native: true, value: 'MATIC' }],
       });
       walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', { balanceOf: Promise.resolve('51') });
-
+      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
+        tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
+      });
       storageSpy = jasmine.createSpyObj('IonicStorageService', {
         set: Promise.resolve(),
         get: Promise.resolve(true),
@@ -144,6 +148,7 @@ describe('InvestmentConfirmationPage', () => {
           { provide: IonicStorageService, useValue: storageSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
+          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();

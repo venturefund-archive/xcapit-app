@@ -13,6 +13,7 @@ import { FakeNavController } from '../../../../../../testing/fakes/nav-controlle
 import { WalletEncryptionService } from '../../services/wallet-encryption/wallet-encryption.service';
 import { WalletMnemonicService } from '../../services/wallet-mnemonic/wallet-mnemonic.service';
 import { Mnemonic } from '@ethersproject/hdnode';
+import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 
 const testMnemonic: Mnemonic = { locale: 'en', path: '', phrase: 'test mnemonic phrase' };
 
@@ -79,7 +80,7 @@ describe('WalletPasswordSmallComponent', () => {
   });
 
   it('should show error when user password is incorrect', async () => {
-    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(new Error('invalid password'));
+    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(new Error(new PasswordErrorMsgs().invalid()));
     component.form.patchValue({ password: 'testPassword' });
     const buttonEl = fixture.debugElement.query(By.css("ion-button[name='Confirm Password']"));
     buttonEl.nativeElement.click();

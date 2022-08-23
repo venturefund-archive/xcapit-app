@@ -21,6 +21,7 @@ import { InvestmentProduct } from '../shared-defi-investments/interfaces/investm
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -52,84 +53,82 @@ describe('InvestmentDetailPage', () => {
   let availableDefiProductsSpy: jasmine.SpyObj<AvailableDefiProducts>;
   let coinSpy: jasmine.SpyObj<Coin>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
-  beforeEach(
-    waitForAsync(() => {
-      fakeActivatedRoute = new FakeActivatedRoute({ vault: 'polygon_usdc' });
-      activatedRouteSpy = fakeActivatedRoute.createSpy();
-      fakeNavController = new FakeNavController({});
-      navControllerSpy = fakeNavController.createSpy();
-      walletServiceSpy = jasmine.createSpyObj('WalletService', {
-        walletExist: Promise.resolve(true),
-      });
+  beforeEach(waitForAsync(() => {
+    fakeActivatedRoute = new FakeActivatedRoute({ vault: 'polygon_usdc' });
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
+    fakeNavController = new FakeNavController({});
+    navControllerSpy = fakeNavController.createSpy();
+    walletServiceSpy = jasmine.createSpyObj('WalletService', {
+      walletExist: Promise.resolve(true),
+    });
 
-      twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
-        vault: Promise.resolve(testVault),
-      });
+    twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
+      vault: Promise.resolve(testVault),
+    });
 
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getPrices: of({ prices: { USDC: 1 } }),
-        getCoins: [coinSpy],
-      });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getPrices: of({ prices: { USDC: 1 } }),
+      getCoins: [coinSpy],
+    });
 
-      walletEncryptionServiceSpy = jasmine.createSpyObj(
-        'WalletEncryptionServiceSpy',
-        {
-          getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x0000001' } }),
-        },
-        {
-          addresses: { MATIC: '0x0000001' },
-        }
-      );
+    walletEncryptionServiceSpy = jasmine.createSpyObj(
+      'WalletEncryptionServiceSpy',
+      {
+        getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x0000001' } }),
+      },
+      {
+        addresses: { MATIC: '0x0000001' },
+      }
+    );
 
-      investmentSpy = jasmine.createSpyObj('TwoPiInvestment', {
-        balance: Promise.resolve(50),
-      });
+    investmentSpy = jasmine.createSpyObj('TwoPiInvestment', {
+      balance: Promise.resolve(50),
+    });
 
-      coinSpy = jasmine.createSpyObj(
-        {},
-        {
-          name: 'USDC - USD Coin',
-          value: 'USDC',
-          network: 'MATIC',
-          decimals: 6,
-        }
-      );
+    coinSpy = jasmine.createSpyObj(
+      {},
+      {
+        name: 'USDC - USD Coin',
+        value: 'USDC',
+        network: 'MATIC',
+        decimals: 6,
+      }
+    );
 
-      investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
-        id: 3,
-        token: coinSpy,
-        contractAddress: '0x00001',
-        name: 'polygon_usdc',
-      });
+    investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
+      id: 3,
+      token: coinSpy,
+      contractAddress: '0x00001',
+      name: 'polygon_usdc',
+    });
 
-      availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
-        value: [{ id: 'polygon_usdc', isComing: false, continuousEarning: true }],
-      });
+    availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
+      value: [{ id: 'polygon_usdc', isComing: false, continuousEarning: true }],
+    });
 
-      remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ test: 'test' }] });
+    remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ test: 'test' }] });
 
-      TestBed.configureTestingModule({
-        declarations: [InvestmentDetailPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule],
-        providers: [
-          { provide: TwoPiApi, useValue: twoPiApiSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: WalletService, useValue: walletServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
-          { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
-          { provide: RemoteConfigService, useValue: remoteConfigSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    TestBed.configureTestingModule({
+      declarations: [InvestmentDetailPage, FakeTrackClickDirective, FormattedAmountPipe],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule],
+      providers: [
+        { provide: TwoPiApi, useValue: twoPiApiSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: WalletService, useValue: walletServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(InvestmentDetailPage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      createInvestmentProductSpy = spyOn(component, 'createInvestmentProduct').and.resolveTo(investmentProductSpy);
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    })
-  );
+    fixture = TestBed.createComponent(InvestmentDetailPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    createInvestmentProductSpy = spyOn(component, 'createInvestmentProduct').and.resolveTo(investmentProductSpy);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -155,24 +154,24 @@ describe('InvestmentDetailPage', () => {
       By.css('div.invested-balance__content__balance ion-text.invested-balance__content__balance__text')
     );
     expect(balanceEl.nativeElement.innerHTML).toContain(50.0);
-    expect(referenceBalanceEl.nativeElement.innerHTML).toEqual(' 50.00 USD ');
+    expect(referenceBalanceEl.nativeElement.innerHTML).toEqual(' 50 USD ');
   });
 
-  it('should redirect user to defi/no-wallet-to-invest if user has no wallet on add_mount button click', async () => {
+  it('should redirect user to defi/no-wallet-to-invest if user has no wallet on ux_invest_add_amount button click', async () => {
     component.investmentProduct = investmentProductSpy;
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
-    fixture.debugElement.query(By.css('ion-button[name="add_amount"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_add_amount"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/no-wallet-to-invest']);
   });
 
-  it('should redirect user to new investment page when add_mount button is clicked if user has wallet', async () => {
+  it('should redirect user to new investment page when ux_invest_add_amount button is clicked if user has wallet', async () => {
     component.investmentProduct = investmentProductSpy;
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    fixture.debugElement.query(By.css('ion-button[name="add_amount"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_invest_add_amount"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       '/defi/new/insert-amount',
@@ -181,12 +180,12 @@ describe('InvestmentDetailPage', () => {
     ]);
   });
 
-  it('should call trackEvent when add_amount button is clicked', async () => {
+  it('should call trackEvent when ux_invest_add_amount button is clicked', async () => {
     spyOn(component, 'addAmount');
     component.investmentProduct = investmentProductSpy;
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'add_amount');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_invest_add_amount');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -194,11 +193,11 @@ describe('InvestmentDetailPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent when finalize_invest button is clicked', async () => {
+  it('should call trackEvent when ux_invest_withdraw button is clicked', async () => {
     component.investmentProduct = investmentProductSpy;
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'finalize_invest');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_invest_withdraw');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

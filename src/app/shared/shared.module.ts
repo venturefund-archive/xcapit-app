@@ -27,12 +27,10 @@ import { UxListInvertedComponent } from './components/ux-list-inverted/ux-list-i
 import { UxCheckboxComponent } from './components/ux-checkbox/ux-checkbox.component';
 import { UxTextareaComponent } from './components/ux-textarea/ux-textarea.component';
 import { UxDateRangeComponent } from './components/ux-date-range/ux-date-range.component';
-import { UxDatetimeComponent } from './components/ux-datetime/ux-datetime.component';
 import { NeedHelpComponent } from './components/need-help/need-help.component';
 import { HideReferralPipe } from './pipes/hide-referral/hide-referral.pipe';
 import { ToastAlertComponent } from './components/new-toasts/toast-alert/toast-alert.component';
 import { IconButtonCardComponent } from './components/icon-button-card/icon-button-card.component';
-import { SliderNewsCardComponent } from './components/slider-news/slider-news.component';
 import { UxListCardComponent } from './components/ux-list-card/ux-list-card.component';
 import { UxSegmentComponent } from './components/ux-segment/ux-segment.component';
 import { ScanQrModalComponent } from './components/scan-qr-modal/scan-qr-modal.component';
@@ -89,6 +87,12 @@ import { InfoPhraseAdviceModalComponent } from '../modules/wallets/shared-wallet
 import { RuleCardComponent } from '../modules/financial-education/shared-financial-education/components/rule-card/rule-card.component';
 import { CircleProgressComponent } from './components/circle-progress/circle-progress.component';
 import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/components/info-send-modal/info-send-modal.component';
+import { EyeComponent } from './components/eye/eye.component';
+import { TokenWithBlockchainLogoComponent } from './components/token-with-blockchain-logo/token-with-blockchain-logo.component';
+import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/components/skip-profile-test/skip-profile-test.component';
+import { InformationAlertComponent } from '../modules/users/shared-users/components/information-alert/information-alert.component';
+import { HelpItemCardComponent } from '../modules/users/shared-users/components/help-item-card/help-item-card.component';
+
 @NgModule({
   declarations: [
     FilterTabComponent,
@@ -111,7 +115,12 @@ import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/compon
     AmountInputCardComponent,
     AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
+    EyeComponent,
+    TokenWithBlockchainLogoComponent,
+    SkipProfileTestComponent,
     // Ux
+    HelpItemCardComponent,
+    InformationAlertComponent,
     InfoSendModalComponent,
     CircleProgressComponent,
     RuleCardComponent,
@@ -138,9 +147,7 @@ import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/compon
     UxCheckboxComponent,
     UxDateRangeComponent,
     UxTextareaComponent,
-    UxDatetimeComponent,
     IconButtonCardComponent,
-    SliderNewsCardComponent,
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,
@@ -180,7 +187,6 @@ import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/compon
     ButtonSpinnerDirective,
     FeatureFlagDirective,
   ],
-  entryComponents: [UxSelectModalComponent],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
     CircleProgressComponent,
@@ -212,7 +218,12 @@ import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/compon
     AmountInputCardComponent,
     AmountInputCardSkeletonComponent,
     ReferralsComingComponent,
+    EyeComponent,
+    TokenWithBlockchainLogoComponent,
+    SkipProfileTestComponent,
     // Ux
+    HelpItemCardComponent,
+    InformationAlertComponent,
     InfoSendModalComponent,
     RuleCardComponent,
     InfoPhraseAdviceModalComponent,
@@ -238,9 +249,7 @@ import { InfoSendModalComponent } from '../modules/wallets/shared-wallets/compon
     UxCheckboxComponent,
     UxDateRangeComponent,
     UxTextareaComponent,
-    UxDatetimeComponent,
     IconButtonCardComponent,
-    SliderNewsCardComponent,
     UxSegmentComponent,
     UxInputUnderlinedComponent,
     UxStepProgressBarComponent,

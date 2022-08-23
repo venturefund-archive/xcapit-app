@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -83,7 +83,7 @@ const testCoins = [
   {
     id: 8,
     name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.png',
+    logoRoute: 'assets/img/coins/MATIC.svg',
     last: true,
     value: 'MATIC',
     network: 'MATIC',
@@ -109,23 +109,23 @@ describe('ItemsCoinGroupComponent', () => {
   let component: ItemsCoinGroupComponent;
   let fixture: ComponentFixture<ItemsCoinGroupComponent>;
   let formGroupDirectiveMock: any;
-  let controlContainerMock: FormGroup;
+  let controlContainerMock: UntypedFormGroup;
 
   beforeEach(
     waitForAsync(() => {
-      controlContainerMock = new FormBuilder().group({
-        ETH: new FormBuilder().group({
+      controlContainerMock = new UntypedFormBuilder().group({
+        ETH: new UntypedFormBuilder().group({
           ETH: [false],
           LINK: [false],
           USDT: [false],
           AAVE: [false],
           UNI: [false],
         }),
-        RSK: new FormBuilder().group({
+        RSK: new UntypedFormBuilder().group({
           RBTC: [false],
           RIF: [false],
         }),
-        POLYGON: new FormBuilder().group({
+        POLYGON: new UntypedFormBuilder().group({
           MATIC: [false],
         }),
       });

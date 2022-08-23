@@ -67,9 +67,7 @@ describe('SelectModalNewComponent', () => {
   });
 
   it('should close modal and emit event on dismiss', async () => {
-    const targetEl = fixture.debugElement.query(By.css('ion-radio-group')).nativeElement;
-    const customEvent = new CustomEvent('ionChange', { detail: { value: data[0] } });
-    targetEl.dispatchEvent(customEvent);
+    fixture.debugElement.query(By.css('ion-item.sm__content__item')).nativeElement.click();
     fixture.detectChanges();
     expect(spyModalController.dismiss).toHaveBeenCalledOnceWith(data[0], 'selected');
   });

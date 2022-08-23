@@ -186,7 +186,7 @@ describe('HomePage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/buy-conditions']);
   });
 
-  it('should navigate to select provider page when Buy Cripto Card is clicked, wallet exist and conditionsPurchasesAccepted is set on storage ', async () => {
+  it('should navigate to token selection page when Buy Cripto Card is clicked, wallet exist and conditionsPurchasesAccepted is set on storage ', async () => {
     fakeWalletService.modifyReturns(true, null);
     ionicStorageServiceSpy.get.and.returnValue(Promise.resolve('true'));
     component.ionViewDidEnter();
@@ -196,7 +196,7 @@ describe('HomePage', () => {
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/token-selection']);
   });
 
   it('should not navigate when closing backup modal without skipping', async () => {

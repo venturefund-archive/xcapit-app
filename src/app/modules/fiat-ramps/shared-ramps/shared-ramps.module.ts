@@ -10,6 +10,7 @@ import { ProviderNewOperationCardComponent } from './components/provider-new-ope
 import { KycDisclaimerModalComponent } from './components/kyc-disclaimer-modal/kyc-disclaimer-modal.component';
 import { FiatInputComponent } from './components/fiat-input/fiat-input.component';
 import { InfoProviderComponent } from './components/info-provider/info-provider.component';
+import { CoinSelectorModalComponent } from './components/coin-selector-modal/coin-selector-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { InfoProviderComponent } from './components/info-provider/info-provider.
     OperationsListItemComponent,
     FiatInputComponent,
     InfoProviderComponent,
+    CoinSelectorModalComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -36,7 +38,8 @@ import { InfoProviderComponent } from './components/info-provider/info-provider.
     OperationsListAccordionComponent,
     OperationsListItemComponent,
     FiatInputComponent,
-    InfoProviderComponent
+    InfoProviderComponent,
+    CoinSelectorModalComponent
   ],
 })
 export class SharedRampsModule {}

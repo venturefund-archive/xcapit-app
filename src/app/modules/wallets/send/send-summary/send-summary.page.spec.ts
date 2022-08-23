@@ -18,6 +18,8 @@ import { LocalNotificationsService } from '../../../notifications/shared-notific
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { FakeNavController } from '../../../../../testing/fakes/nav-controller.fake.spec';
 import { BigNumber, constants } from 'ethers';
+import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 const testLocalNotification: LocalNotificationSchema = {
   id: 1,
@@ -30,7 +32,7 @@ const summaryData: SummaryData = {
   currency: {
     id: 1,
     name: 'BTC - Bitcoin',
-    logoRoute: '../../assets/img/coins/BTC.svg',
+    logoRoute: 'assets/img/coins/BTC.svg',
     last: false,
     value: 'BTC',
     network: '',
@@ -61,25 +63,6 @@ const summaryDataInvalidAddress: SummaryData = {
   balance: 2,
 };
 
-const summaryDataNotEnoughBalance: SummaryData = {
-  network: 'ERC20',
-  currency: {
-    id: 2,
-    name: 'USDT - Tether USDT',
-    logoRoute: '../../assets/img/coins/BTC.svg',
-    last: false,
-    value: 'USDT',
-    network: '',
-    chainId: 42,
-    rpc: '',
-  },
-  address: constants.AddressZero,
-  amount: 1,
-  referenceAmount: '50000',
-  balanceNativeToken: 2,
-  balance: 0.5,
-};
-
 describe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
@@ -96,6 +79,7 @@ describe('SendSummaryPage', () => {
   let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   let alertControllerSpy: jasmine.SpyObj<AlertController>;
   let alertSpy: jasmine.SpyObj<HTMLIonAlertElement>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(() => {
     alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
@@ -121,6 +105,10 @@ describe('SendSummaryPage', () => {
       dismiss: Promise.resolve(),
     });
 
+    trackServiceSpy = jasmine.createSpyObj('TrackService', {
+      trackEvent: Promise.resolve(),
+    });
+
     TestBed.configureTestingModule({
       declarations: [SendSummaryPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
@@ -133,6 +121,7 @@ describe('SendSummaryPage', () => {
         { provide: LoadingService, useValue: loadingServiceSpy },
         { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
         { provide: AlertController, useValue: alertControllerSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -187,12 +176,13 @@ describe('SendSummaryPage', () => {
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
     component.summaryData = summaryData;
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
-    walletTransactionsServiceSpy.send.and.rejectWith({ message: 'invalid password' });
+    walletTransactionsServiceSpy.send.and.rejectWith({ message: new PasswordErrorMsgs().invalid() });
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(

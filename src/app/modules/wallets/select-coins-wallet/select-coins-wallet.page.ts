@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { WalletMaintenanceService } from '../shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { WalletPasswordComponent } from '../shared-wallets/components/wallet-password/wallet-password.component';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -86,7 +87,7 @@ export class SelectCoinsWalletPage implements OnInit {
   mode: string;
   userCoinsLoaded: boolean;
   txInProgress: boolean;
-  form: FormGroup;
+  form: UntypedFormGroup;
   allSelected = false;
   loading = false;
   trackClickEventName: string;
@@ -100,7 +101,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private navController: NavController,
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
@@ -143,7 +144,7 @@ export class SelectCoinsWalletPage implements OnInit {
     return this.apiWalletService.getCoinsFromNetwork(network);
   }
 
-  createSuiteFormGroup(suite: Coin[]): FormGroup {
+  createSuiteFormGroup(suite: Coin[]): UntypedFormGroup {
     const formGroup = {};
     suite.forEach((c) => {
       formGroup[c.value] = [false];
@@ -211,7 +212,7 @@ export class SelectCoinsWalletPage implements OnInit {
       try {
         await this.walletMaintenanceService.updateWalletNetworks(changedAssets);
       } catch (error) {
-        if (error.message.startsWith('invalid password')) {
+        if (new PasswordErrorMsgs().isInvalidError(error)) {
           await this.loadingService.dismiss();
           this.showInvalidPasswordToast();
           return;

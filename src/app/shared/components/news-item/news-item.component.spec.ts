@@ -8,26 +8,24 @@ describe('NewsItemComponent', () => {
   let component: NewsItemComponent;
   let fixture: ComponentFixture<NewsItemComponent>;
   let testItem: News;
-  beforeEach(
-    waitForAsync(() => {
-      testItem = {
-        badge: 'testBadge',
-        title: 'testTitle',
-        description: 'testDescription',
-        url: '/test/url',
-        isOpenByBrowser:false
-      };
-      TestBed.configureTestingModule({
-        declarations: [NewsItemComponent],
-        imports: [IonicModule.forRoot()],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    testItem = {
+      badge: 'testBadge',
+      title: 'testTitle',
+      description: 'testDescription',
+      url: ['/test/url'],
+      isOpenByBrowser: false,
+    };
+    TestBed.configureTestingModule({
+      declarations: [NewsItemComponent],
+      imports: [IonicModule.forRoot()],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(NewsItemComponent);
-      component = fixture.componentInstance;
-      component.item = testItem;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(NewsItemComponent);
+    component = fixture.componentInstance;
+    component.item = testItem;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

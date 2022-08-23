@@ -1,24 +1,24 @@
 import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.interface';
 import { Component, Input, OnInit, OnChanges, Output, EventEmitter } from '@angular/core';
-import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
+import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-amount-input-card',
   template: `
-    <div class="aic ion-padding">      
-        <div [ngClass]="this.insufficientBalance ? 'aic__insufficient-funds' : 'aic__available'" class=" text-center">
-          <ion-text class="ux-font-titulo-xs">
-            {{ this.header }}
+    <div class="aic ion-padding">
+      <div [ngClass]="this.insufficientBalance ? 'aic__insufficient-funds' : 'aic__available'" class=" text-center">
+        <ion-text class="ux-font-titulo-xs">
+          {{ this.header }}
+        </ion-text>
+        <div [ngClass]="this.insufficientBalance ? 'aic__insufficient-funds__amounts' : 'aic__available__amounts'">
+          <ion-text class="ux-font-text-xl" color="neutral80">
+            {{ this.max | formattedAmount }} {{ this.baseCurrency.value }}</ion-text
+          >
+          <ion-text class="ux-font-text-xxs" color="neutral80">
+            ≈ {{ this.quoteMax | formattedAmount: 10:2 }} {{ this.quoteCurrency }}
           </ion-text>
-          <div [ngClass]="this.insufficientBalance ? 'aic__insufficient-funds__amounts' : 'aic__available__amounts'">
-            <ion-text class="ux-font-text-xl" color="neutral80">
-              {{ this.max | formattedAmount }} {{ this.baseCurrency.value }}</ion-text
-            >
-            <ion-text class="ux-font-text-xxs" color="neutral80">
-              ≈ {{ this.quoteMax | formattedAmount: 10:2 }} {{ this.quoteCurrency }}
-            </ion-text>
-          </div>
-        </div>      
+        </div>
+      </div>
       <div class="aic__send">
         <ion-text class="ux-font-titulo-xs">
           {{ this.title }}
@@ -125,9 +125,9 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   isAmountSend: boolean;
   isInfoModalOpen = false;
   value: number;
-  insufficientBalance: boolean
+  insufficientBalance: boolean;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   quoteMax: number;
   prueba: number;
 
@@ -167,14 +167,13 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   private subscribeToFormChanges(): void {
     this.form = this.formGroupDirective.form;
     this.form.get('amount').valueChanges.subscribe((value) => {
-      this.amountChange(value)
-      this.value = value;     
-      this.insufficientBalance = this.value > this.max
+      this.amountChange(value);
+      this.value = value;
+      this.insufficientBalance = this.value > this.max;
     });
     this.form.get('quoteAmount').valueChanges.subscribe((value) => this.quoteAmountChange(value));
     if (this.showRange) this.form.get('percentage').valueChanges.subscribe((value) => this.percentageChange(value));
     if (this.showRange) this.form.get('range').valueChanges.subscribe((value) => this.rangeChange(value));
-
   }
 
   private amountChange(value: number): void {
@@ -196,7 +195,7 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
       return;
     }
     const newValues = {
-      amount: value / this.quotePrice,
+      amount: this.parseAmount(value / this.quotePrice),
       percentage: Math.round(((value / this.quotePrice) * 100) / this.max),
       range: ((value / this.quotePrice) * 100) / this.max,
     };

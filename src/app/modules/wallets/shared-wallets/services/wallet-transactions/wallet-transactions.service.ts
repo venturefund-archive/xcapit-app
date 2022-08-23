@@ -26,6 +26,9 @@ import { FakeProvider } from 'src/app/shared/models/provider/fake-provider.spec'
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 import { GasFeeOfFactory } from '../../../../../shared/models/gas-fee-of/factory/gas-fee-of.factory';
 import { NativeGasOfFactory } from '../../../../../shared/models/native-gas-of/factory/native-gas-of.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { GasStationOf } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/gas-station-of';
 
 @Injectable({
   providedIn: 'root',
@@ -43,8 +46,14 @@ export class WalletTransactionsService {
     private erc20ContractController: ERC20ContractController,
     private erc20TokenController: ERC20TokenController,
     private gasFeeOfFactory: GasFeeOfFactory,
-    private nativeGasOfFactory: NativeGasOfFactory
+    private nativeGasOfFactory: NativeGasOfFactory,
+    private blockchains: BlockchainsFactory,
+    private gasStation: GasStationOfFactory
   ) {}
+
+  private _gasStation(aBlockchainName: string): GasStationOf {
+    return this.gasStation.create(this.blockchains.create().oneByName(aBlockchainName));
+  }
 
   async send(password: string, amount: number, to: string, coin: Coin): Promise<TransactionResponse> {
     const from = await this.storageService.getWalletsAddresses(coin.network);
@@ -56,7 +65,7 @@ export class WalletTransactionsService {
       coin,
       this.apiWalletService,
       wallet,
-      new NetworkConfig(coin.network, this.apiWalletService)
+      new NetworkConfig(coin.network, this._gasStation(coin.network))
     ).value();
     return tx.send();
   }
@@ -277,11 +286,8 @@ export class WalletTransactionsService {
     });
   }
 
-  private async gasPrice(): Promise<BigNumber> {
-    return await this.apiWalletService
-      .getGasPrice()
-      .toPromise()
-      .then((res) => res.gas_price);
+  private async gasPrice(aBlockchainName: string): Promise<BigNumber> {
+    return BigNumber.from((await this._gasStation(aBlockchainName).price().standard()).weiValue());
   }
 
   async sendEstimatedFee(from: string, to: string, amount: number, coin: Coin): Promise<BigNumber> {
@@ -291,7 +297,7 @@ export class WalletTransactionsService {
           to,
           new WeiOf(amount, coin).value(),
         ]);
-    return new NativeFeeOf(gas, new FakeProvider(await this.gasPrice())).value();
+    return new NativeFeeOf(gas, new FakeProvider(await this.gasPrice(coin.network))).value();
   }
 
   private balanceOfNativeCoin(address: string, coin: Coin): Promise<BigNumber> {

@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,14 +12,14 @@ describe('FilterTabComponent', () => {
   let component: FilterTabComponent;
   let fixture: ComponentFixture<FilterTabComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<FilterTabComponent>;
-  let controlContainerMock: FormGroup;
+  let controlContainerMock: UntypedFormGroup;
   let formGroupDirectiveMock: FormGroupDirective;
   let elementRefSpy: jasmine.SpyObj<ElementRef>;
 
   beforeEach(
     waitForAsync(() => {
-      controlContainerMock = new FormGroup({
-        testControl: new FormControl(),
+      controlContainerMock = new UntypedFormGroup({
+        testControl: new UntypedFormControl(),
       });
       formGroupDirectiveMock = new FormGroupDirective([], []);
       formGroupDirectiveMock.form = controlContainerMock;

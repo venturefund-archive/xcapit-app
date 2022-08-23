@@ -1,0 +1,38 @@
+export const rawEducationProgressData = [
+  {
+    id: 1,
+    order: 1,
+    icon: 'icon_finance_1',
+    title: 'title_finance_1',
+    coming_soon: false,
+    status: 'to_do',
+    submodules: [],
+  },
+  {
+    id: 2,
+    order: 2,
+    icon: 'icon_finance_2',
+    title: 'title_finance_2',
+    coming_soon: false,
+    status: 'to_do',
+    submodules: [],
+  },
+  {
+    id: 3,
+    order: 3,
+    icon: 'icon_finance_3',
+    title: 'title_finance_3',
+    coming_soon: false,
+    status: 'to_do',
+    submodules: [],
+  },
+  {
+    id: 4,
+    order: 4,
+    icon: 'icon_finance_4',
+    title: 'title_finance_4',
+    coming_soon: false,
+    status: 'to_do',
+    submodules: [],
+  },
+];

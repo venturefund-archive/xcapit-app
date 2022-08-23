@@ -82,8 +82,9 @@ export class FakeWallet implements Wallet {
   }
 
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
-    await Promise.all([this._onNeedPass.notify(), this._onWalletDecrypted.notify()]);
+    await this._onNeedPass.notify();
     this._checkError();
+    await this._onWalletDecrypted.notify();
     return this.sendTxsResponse;
   }
 

@@ -1,6 +1,6 @@
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { AmountInputCardComponent } from './amount-input-card.component';
 import { By } from '@angular/platform-browser';
@@ -41,16 +41,16 @@ describe('AmountInputCardComponent', () => {
   let component: AmountInputCardComponent;
   let fixture: ComponentFixture<AmountInputCardComponent>;
   let formGroupDirectiveSpy: jasmine.SpyObj<FormGroupDirective>;
-  let formGroupMock: FormGroup;
+  let formGroupMock: UntypedFormGroup;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<AmountInputCardComponent>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
 
   beforeEach(
     waitForAsync(() => {
-      formGroupMock = new FormGroup({
-        amount: new FormControl(),
-        quoteAmount: new FormControl(),
+      formGroupMock = new UntypedFormGroup({
+        amount: new UntypedFormControl(),
+        quoteAmount: new UntypedFormControl(),
       });
       formGroupDirectiveSpy = jasmine.createSpyObj(
         'FormGroupDirective',
@@ -150,7 +150,7 @@ describe('AmountInputCardComponent', () => {
   it('should render the div when the balance is insufficient', () => {
     component.insufficientBalance = true;
     fixture.detectChanges();
-    const div = fixture.debugElement.query(By.css('div.aic__insufficient-funds'));    
+    const div = fixture.debugElement.query(By.css('div.aic__insufficient-funds'));
     const divEl = fixture.debugElement.query(By.css('div.aic__insufficient-funds__amounts'));
     expect(div).toBeTruthy();
     expect(divEl).toBeTruthy();
@@ -159,7 +159,7 @@ describe('AmountInputCardComponent', () => {
   it('should render the div when the balance is not insufficient', () => {
     component.insufficientBalance = false;
     fixture.detectChanges();
-    const div = fixture.debugElement.query(By.css('div.aic__available'))    
+    const div = fixture.debugElement.query(By.css('div.aic__available'))
     const divEl = fixture.debugElement.query(By.css('div.aic__available__amounts'));
     expect(div).toBeTruthy();
     expect(divEl).toBeTruthy();
@@ -178,11 +178,11 @@ describe('AmountInputCardComponent', () => {
   describe('ShowRange enabled', () => {
     beforeEach(
       waitForAsync(() => {
-        formGroupMock = new FormGroup({
-          amount: new FormControl(),
-          quoteAmount: new FormControl(),
-          percentage: new FormControl(),
-          range: new FormControl(),
+        formGroupMock = new UntypedFormGroup({
+          amount: new UntypedFormControl(),
+          quoteAmount: new UntypedFormControl(),
+          percentage: new UntypedFormControl(),
+          range: new UntypedFormControl(),
         });
         new SpyProperty(formGroupDirectiveSpy, 'form').value().and.returnValue(formGroupMock);
         component.showRange = true;
@@ -208,7 +208,7 @@ describe('AmountInputCardComponent', () => {
 
     it('should calculate all inputs when quoteAmount changes', async () => {
       component.form.patchValue({ quoteAmount: 100 });
-      expect(component.form.value).toEqual({ percentage: 5, range: 5, amount: 10, quoteAmount: 100 });
+      expect(component.form.value).toEqual({ percentage: 5, range: 5, amount: '10', quoteAmount: 100 });
     });
 
     it('should calculate all inputs when range changes', async () => {

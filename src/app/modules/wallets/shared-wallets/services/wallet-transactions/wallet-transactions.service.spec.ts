@@ -22,6 +22,15 @@ import { NativeGasOfFactory } from 'src/app/shared/models/native-gas-of/factory/
 import { GasFeeOfFactory } from 'src/app/shared/models/gas-fee-of/factory/gas-fee-of.factory';
 import { NativeGasOf } from '../../../../../shared/models/native-gas-of/native-gas-of';
 import { GasFeeOf } from 'src/app/shared/models/gas-fee-of/gas-fee-of.model';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
+import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
+import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 
 const ETH: Coin = {
   id: 1,
@@ -166,6 +175,8 @@ describe('WalletTransactionsService', () => {
   let nativeGasOfFactorySpy: jasmine.SpyObj<NativeGasOfFactory>;
   let nativeGasOfSpy: jasmine.SpyObj<NativeGasOf>;
   let modifyGetBalanceReturn: (balance: string) => void;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
 
   beforeEach(() => {
     modifyGetBalanceReturn = (balance: string): void => {
@@ -174,7 +185,6 @@ describe('WalletTransactionsService', () => {
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getNativeTokenFromNetwork: ETH,
-      getGasPrice: of({ gas_price: BigNumber.from('100000000000') }),
     });
     fakeTokenSend = FakeTokenSend;
 
@@ -226,6 +236,14 @@ describe('WalletTransactionsService', () => {
       new: gasFeeOfSpy,
     });
 
+    gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
+      create: { price: () => ({ standard: () => Promise.resolve(new AmountOf('100000000000', new DefaultToken(rawMATICData))) }) }
+    });
+
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: new Blockchains(new BlockchainRepo(rawBlockchainsData)),
+    });
+
     TestBed.configureTestingModule({
       providers: [
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
@@ -238,6 +256,8 @@ describe('WalletTransactionsService', () => {
         { provide: ERC20TokenController, useValue: erc20TokenControllerSpy },
         { provide: GasFeeOfFactory, useValue: gasFeeOfFactorySpy },
         { provide: NativeGasOfFactory, useValue: nativeGasOfFactorySpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
       ],
     });
     service = TestBed.inject(WalletTransactionsService);
@@ -282,7 +302,7 @@ describe('WalletTransactionsService', () => {
   });
 
   it('should not send if password was invalid', async () => {
-    walletEncryptionServiceSpy.getDecryptedWalletForCurrency.and.throwError('invalid password');
+    walletEncryptionServiceSpy.getDecryptedWalletForCurrency.and.throwError(new PasswordErrorMsgs().invalid());
     await expectAsync(service.send('wrongPassword', 20, 'testAddress', ETH)).toBeRejected();
     expect(connectedWalletSpy.sendTransaction).not.toHaveBeenCalled();
   });
@@ -316,12 +336,13 @@ describe('WalletTransactionsService', () => {
 
   it('should return true if balance is enough to afford transaction with non-native-token', async () => {
     erc20ProviderControllerSpy.new.and.returnValue(new FakeERC20Provider(null, new FakeProvider('1000', '1000')));
-    apiWalletServiceSpy.getGasPrice.and.returnValue(of({ gas_price: BigNumber.from('1') }));
+
     expect(await service.canAffordSendTx('testAddress', 0.000001, USDT)).toBeTrue();
   });
 
   it('should return false if canAffordSendTx fails', async () => {
     spyOn(service, 'sendEstimatedFee').and.rejectWith();
+
     expect(await service.canAffordSendTx('testAddress', 1, ETH)).toBeFalse();
   });
 });

@@ -27,8 +27,23 @@
 
       &__content {
         display: flex;
-        flex-direction: column;
         text-align: center;
+        flex-direction: column;
+
+        &__subtitle {
+          text-align: left;
+          margin: 16px 16px 5px;
+          color: var(--ion-color-primary) !important;
+        }
+
+        &__description {
+          text-align: left;
+          padding: 0 16px;
+
+          ion-text {
+            color: var(--ion-color-primary) !important;
+          }
+        }
 
         &__img {
           img {
@@ -36,25 +51,9 @@
           }
         }
 
-        &__title {
-          color: var(--ion-color-primary) !important;
-        }
-
-        &__subtitle {
-          text-align: left;
-          margin: 16px 10px 5px;
-          color: var(--ion-color-primary) !important;
-        }
-
-        &__description {
-          text-align: left;
-          padding: 0 10px;
-          color: var(--ion-color-primary) !important;
-        }
-
         &__disclaimer {
           text-align: left;
-          padding: 15px 10px 0;
+          padding: 15px 16px 0;
           color: var(--ion-color-neutral80) !important;
         }
       }

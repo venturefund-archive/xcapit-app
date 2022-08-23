@@ -2,28 +2,21 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { InvestorTestCardsComponent } from './investor-test-cards.component';
 
-
 describe('InvestorTestCardsComponent', () => {
-
   let component: InvestorTestCardsComponent;
   let fixture: ComponentFixture<InvestorTestCardsComponent>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
-    storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
-      get: null,
-    });
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getFeatureFlag: false });
     TestBed.configureTestingModule({
       declarations: [InvestorTestCardsComponent, FakeTrackClickDirective],
@@ -32,10 +25,6 @@ describe('InvestorTestCardsComponent', () => {
         {
           provide: NavController,
           useValue: navControllerSpy,
-        },
-        {
-          provide: IonicStorageService,
-          useValue: storageServiceSpy,
         },
         {
           provide: RemoteConfigService,
@@ -97,19 +86,8 @@ describe('InvestorTestCardsComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wealth-management/investor-test-options']);
   });
 
-  it('should navigate to education tests page when testAvailable is true and user did not make introduction', async () => {
+  it('should navigate to financial education when financial education is available', async () => {
     component.testAvailable = true;
-    const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_education_go"]'));
-    clickeableDiv.nativeElement.click();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      'financial-education/introduction/financial-freedom',
-    ]);
-  });
-
-  it('should not navigate to education tests page when testAvailable is true and user make introduction', async () => {
-    component.testAvailable = true;
-    storageServiceSpy.get.and.resolveTo(true);
     const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_education_go"]'));
     clickeableDiv.nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);

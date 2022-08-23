@@ -11,7 +11,7 @@ import { TwoPiProduct } from '../shared-defi-investments/models/two-pi-product/t
 import { VoidSigner } from 'ethers';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { ApiUsuariosService } from '../../users/shared-users/services/api-usuarios/api-usuarios.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
@@ -116,8 +116,8 @@ export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
   allDefiProducts: DefiInvestment[] = [];
   investorCategory: string;
-  disableFaqsButton = false;
-  profileForm: FormGroup = this.formBuilder.group({
+  disableFaqsButton = true;
+  profileForm: UntypedFormGroup = this.formBuilder.group({
     profile: ['conservative', []],
   });
   items = [
@@ -145,7 +145,7 @@ export class DefiInvestmentProductsPage {
   allLoaded = false;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private apiWalletService: ApiWalletService,
     private apiUsuariosService: ApiUsuariosService,
     private twoPiApi: TwoPiApi,

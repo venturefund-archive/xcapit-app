@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UxInputComponent } from './ux-input.component';
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,8 +25,8 @@ describe('UxInputComponent', () => {
         write: Promise.resolve(),
         read: Promise.resolve({ value: 'test', type: 'text/plain' }),
       });
-      controlContainerMock = new FormGroup({
-        testControl: new FormControl(),
+      controlContainerMock = new UntypedFormGroup({
+        testControl: new UntypedFormControl(),
       });
       formGroupDirectiveMock = new FormGroupDirective([], []);
       formGroupDirectiveMock.form = controlContainerMock;

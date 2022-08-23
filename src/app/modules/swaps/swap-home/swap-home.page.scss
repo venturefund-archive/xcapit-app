@@ -1,5 +1,7 @@
 :host {
   .sw {
+    --background: var(--ion-color-neutral10);
+
     hr {
       margin: 0;
       border-top: 1px solid var(--ion-color-neutral50);
@@ -92,42 +94,10 @@
     }
 
     &__checkbox {
-      ion-checkbox {
-        margin-right: 14px;
-      }
-
-      &__text-wrapper {
-        display: flex;
-        flex-wrap: wrap;
-      }
-
-      &__text {
-        margin-top: 24.5px;
-        margin-left: 10px;
-
-        span {
-          color: var(--ion-color-neutral80);
-        }
-
-        flex-direction: column;
-        gap: 22px;
-
-        &__button {
-          height: auto;
-          margin-left: -8px;
-
-          --padding-start: 8px !important;
-        }
-      }
-
-      &__last {
-        --border-color: transparent;
-        --background-hover: transparent;
-        --background-activated: transparent;
-        --padding-start: 5px;
-
-        color: var(--ion-color-neutral80);
-      }
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      margin-left: 4px;
     }
 
     &__footer {

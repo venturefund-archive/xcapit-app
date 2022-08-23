@@ -7,6 +7,7 @@ import { environment } from '../../../../../../environments/environment';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { FakeEthersService } from 'src/testing/fakes/ethers.fake.spec';
 import { EthersService } from '../ethers/ethers.service';
+import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 
 const storageWallet = {
   alias: '0xa8d720DBC2bea006e8450a6c0456e169d2fD7954',
@@ -197,14 +198,15 @@ describe('WalletEncryptionService', () => {
   });
 
   it('should not change password and throw error if oldPassword is wrong on changePassword', async () => {
+    const invalidPasswordErrorMsg = new PasswordErrorMsgs().invalid();
     const wallet = JSON.parse(JSON.stringify(storageWallet));
     storageSpy.getWalletFromStorage.and.returnValue(Promise.resolve(wallet));
-    fakeEthers.throwError('invalid password');
+    fakeEthers.throwError(invalidPasswordErrorMsg);
 
     try {
       await service.changePassword('TestPass1', 'TestPassword2');
     } catch (error) {
-      expect(error.message).toEqual('invalid password');
+      expect(error.message).toEqual(invalidPasswordErrorMsg);
     }
   });
 });

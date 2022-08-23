@@ -4,7 +4,7 @@ import { TwoPiApi } from '../../shared-defi-investments/models/two-pi-api/two-pi
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TwoPiProduct } from '../../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { ActivatedRoute } from '@angular/router';
@@ -18,6 +18,7 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
 import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 @Component({
   selector: 'app-new-investment',
   template: `
@@ -63,19 +64,19 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/serv
           expand="block"
           size="large"
           type="submit"
-          class="ux_button ni__footer__submit-button__button"
+          class="ux_button ni__footer__submit-button__button ion-no-margin"
           color="secondary"
           (click)="this.saveAmount()"
           [disabled]="!this.form.valid"
         >
           {{ 'defi_investments.new.button' | translate }}
-        </ion-button>       
+        </ion-button>
         <div *appFeatureFlag="'ff_buyCryptoNewInvestmentFooter'">
           <div class="ni__footer__text" *ngIf="this.buyAvailable">
             <span class="ux-font-text-xs text">
               {{ 'defi_investments.new.dont_have' | translate }}{{ this.token.value + '?' }}
             </span>
-            <ion-button
+            <ion-label
               name="go_to_buy"
               class="ux-link-xl ni__footer__text__button"
               (click)="this.goToBuyCrypto()"
@@ -83,18 +84,18 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/serv
               fill="clear"
             >
               {{ 'defi_investments.new.buy_button' | translate }}
-            </ion-button>
+            </ion-label>
           </div>
         </div>
       </div>
-      </ion-footer>
+    </ion-footer>
   `,
   styleUrls: ['./new-investment.page.scss'],
 })
 export class NewInvestmentPage implements OnInit {
   destroy$ = new Subject<void>();
   private priceRefreshInterval = 15000;
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
@@ -110,7 +111,7 @@ export class NewInvestmentPage implements OnInit {
   buyAvailable: boolean;
   @ViewChild(AmountInputCardComponent) amountInputCard: AmountInputCardComponent;
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     public submitButtonService: SubmitButtonService,
     private apiWalletService: ApiWalletService,
@@ -120,7 +121,8 @@ export class NewInvestmentPage implements OnInit {
     private walletBalance: WalletBalanceService,
     private dynamicPriceFactory: DynamicPriceFactory,
     private storage: IonicStorageService,
-    private walletBackupService: WalletBackupService
+    private walletBackupService: WalletBackupService,
+    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   ngOnInit() {}
@@ -157,7 +159,8 @@ export class NewInvestmentPage implements OnInit {
   async goToBuyCrypto() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
       const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
-      const url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
+      const url = conditionsPurchasesAccepted ? 'fiat-ramps/select-provider' : 'fiat-ramps/buy-conditions';
+      this.tokenOperationDataService.tokenOperationData = { asset: this.token.value, network: this.token.network };
       this.navController.navigateForward([url]);
     }
   }
@@ -171,14 +174,14 @@ export class NewInvestmentPage implements OnInit {
     this.addLowerThanValidator();
   }
 
-  private addLowerThanValidator(){
+  private addLowerThanValidator() {
     this.form.get('amount').addValidators(CustomValidators.lowerThanEqual(this.tokenBalance));
     this.form.get('amount').updateValueAndValidity();
   }
 
   saveAmount() {
     if (this.form.valid) {
-      this.investmentDataService.amount = this.form.value.amount;
+      this.investmentDataService.amount = parseFloat(this.form.value.amount);
       this.investmentDataService.quoteAmount = parseFloat(this.form.value.quoteAmount);
       this.investmentDataService.product = this.investmentProduct;
       this.navController.navigateForward(['/defi/new/confirmation', this.mode]);

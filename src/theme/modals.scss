@@ -41,7 +41,7 @@
 .ux-xxs-modal-informative {
   --max-height: 268px;
   --max-width: 296px;
-  --background: #fff;
+  --background: var(--ion-color-white);
 
   &::part(content) {
     border-radius: 8px;
@@ -52,7 +52,7 @@
 .ux-sm-modal-informative {
   --max-height: 380px;
   --max-width: 296px;
-  --background: #fff;
+  --background: var(--ion-color-white);
 
   &::part(content) {
     border-radius: 8px;
@@ -63,7 +63,29 @@
 .ux-hug-modal-informative {
   --max-height: 653.96px;
   --max-width: 296px;
-  --background: #fff;
+  --background: var(--ion-color-white);
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
+// Modal informativo login
+.ux-modal-password-info {
+  --max-height: 507.97px;
+  --max-width: 296px;
+  --background: var(--ion-color-white);
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
+// Modal informativo large
+.ux-lg-modal-informative {
+  --max-height: 575.05px;
+  --max-width: 328px;
+  --background: var(--ion-color-white);
 
   &::part(content) {
     border-radius: 8px;
@@ -74,7 +96,7 @@
 .ux-md-modal-informative {
   --max-height: 459px;
   --max-width: 296px;
-  --background: #fff;
+  --background: var(--ion-color-white);
 
   &::part(content) {
     border-radius: 8px;
@@ -85,7 +107,7 @@
 .ux-md-modal-informative-provider {
   --max-height: 408px;
   --max-width: 328px;
-  --background: #fff;
+  --background: var(--ion-color-white);
 
   &::part(content) {
     border-radius: 8px;
@@ -96,7 +118,7 @@
 .ux-sm-modal-informative-provider {
   --max-height: 349px;
   --max-width: 328px;
-  --background: #fff;
+  --background: var(--ion-color-white);
 
   &::part(content) {
     border-radius: 8px;
@@ -168,6 +190,16 @@
 // Modal skip backup
 .ux-modal-skip-backup {
   --max-height: 216px;
+  --max-width: 90%;
+
+  &::part(content) {
+    background-color: var(--ion-color-white);
+    border-radius: 8px;
+  }
+}
+
+.ux-modal-skip-profile-test {
+  --max-height: 192px;
   --max-width: 90%;
 
   &::part(content) {

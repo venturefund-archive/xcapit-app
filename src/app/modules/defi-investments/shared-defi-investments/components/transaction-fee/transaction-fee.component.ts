@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges, OnDestroy } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -16,18 +16,14 @@ import { Amount } from '../../types/amount.type';
         <ion-text class="ux-font-titulo-xs">
           {{ 'defi_investments.shared.transaction_fees.label' | translate }}
         </ion-text>
-        <ion-button
-          class="tf__fee__label__button ion-no-padding"
-          *ngIf="this.transactionFee || this.defaultFeeInfo"
-          slot="icon-only"
-          fill="clear"
+        <ion-icon
           appTrackClick
-          name="transaction_fee"
-          size="small"
+          [dataToTrack]="{eventLabel:'transaction_fee'}"
+          *ngIf="this.transactionFee || this.defaultFeeInfo"
+          name="information-circle"
           (click)="this.showPhrasetransactionFeeInfo()"
-        >
-          <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
-        </ion-button>
+          color="info"
+        ></ion-icon>
       </div>
 
       <div class="tf__fee__label" *ngIf="this.description">
@@ -57,17 +53,18 @@ import { Amount } from '../../types/amount.type';
       <div *ngIf="this.quoteFee.value === undefined || this.fee.value === undefined" class="skeleton">
         <ion-skeleton-text style="width:100%" animated> </ion-skeleton-text>
       </div>
-      <div *ngIf="this.quoteFee.value === undefined || this.fee.value === undefined">
-        <ion-text class="ux-font-text-xxs loading-text"> {{ 'shared.transaction_fees.loading_text' | translate }} </ion-text>
+      <div *ngIf="this.loadingEnabled && (this.quoteFee.value === undefined || this.fee.value === undefined)">
+        <ion-text class="ux-font-text-xxs loading-text">
+          {{ 'shared.transaction_fees.loading_text' | translate }}
+        </ion-text>
       </div>
     </div>
   `,
   styleUrls: ['./transaction-fee.component.scss'],
 })
-export class TransactionFeeComponent implements OnChanges {
+export class TransactionFeeComponent implements OnChanges, OnDestroy {
   private readonly defaultQuoteTokenName = 'USD';
   private readonly nullQuoteFee = { value: undefined, token: this.defaultQuoteTokenName };
-  private destroy$ = new Subject<void>();
   private priceRefreshInterval = 15000;
 
   @Input() fee: Amount = { value: undefined, token: 'MATIC' };
@@ -77,10 +74,12 @@ export class TransactionFeeComponent implements OnChanges {
   @Input() transactionFee: boolean;
   @Input() autoPrice: boolean;
   @Input() defaultFeeInfo: boolean;
+  @Input() loadingEnabled = true;
   @Output() transactionFeeInfoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   isAmountSend: boolean;
   isInfoModalOpen = false;
+  destroy$ = new Subject<void>();
   dynamicPriceSubscription: Subscription;
 
   constructor(
@@ -106,6 +105,11 @@ export class TransactionFeeComponent implements OnChanges {
       await modal.present();
       this.isInfoModalOpen = false;
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngOnChanges(changes: SimpleChanges) {

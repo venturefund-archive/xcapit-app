@@ -53,121 +53,119 @@ describe('WithdrawConfirmationPage', () => {
   let gasFeeOfSpy: jasmine.SpyObj<GasFeeOf>;
   let alertControllerSpy: jasmine.SpyObj<AlertController>;
   let alertSpy: jasmine.SpyObj<HTMLIonAlertElement>;
-  beforeEach(
-    waitForAsync(() => {
-      alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
-      alertControllerSpy = jasmine.createSpyObj('AlertController', { create: Promise.resolve(alertSpy) });
-      fakeActivatedRoute = new FakeActivatedRoute({ vault: 'usdc_mumbai' });
-      activatedRouteSpy = fakeActivatedRoute.createSpy();
-      fakeNavController = new FakeNavController();
-      fakeModalController = new FakeModalController({ data: 'fake_password' });
-      navControllerSpy = fakeNavController.createSpy();
-      modalControllerSpy = fakeModalController.createSpy();
-      dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(4000) });
-      gasFeeOfSpy = jasmine.createSpyObj('GasFeeOf', { value: of(4000) });
-      erc20ProviderSpy = jasmine.createSpyObj('ERC20Provider', {
-        value: {},
-        coin: { contract: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38', abi: [] },
-      });
+  beforeEach(waitForAsync(() => {
+    alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
+    alertControllerSpy = jasmine.createSpyObj('AlertController', { create: Promise.resolve(alertSpy) });
+    fakeActivatedRoute = new FakeActivatedRoute({ vault: 'usdc_mumbai' });
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
+    fakeNavController = new FakeNavController();
+    fakeModalController = new FakeModalController({ data: 'fake_password' });
+    navControllerSpy = fakeNavController.createSpy();
+    modalControllerSpy = fakeModalController.createSpy();
+    dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(4000) });
+    gasFeeOfSpy = jasmine.createSpyObj('GasFeeOf', { value: of(4000) });
+    erc20ProviderSpy = jasmine.createSpyObj('ERC20Provider', {
+      value: {},
+      coin: { contract: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38', abi: [] },
+    });
 
-      investmentSpy = jasmine.createSpyObj('Investment', {
-        balance: Promise.resolve({ wait: () => Promise.resolve() }),
-        withdraw: Promise.resolve({ wait: () => Promise.resolve() }),
-        withdrawAll: Promise.resolve({ wait: () => Promise.resolve() }),
-        amountToShare: Promise.resolve(BigNumber.from(10)),
-      });
+    investmentSpy = jasmine.createSpyObj('Investment', {
+      balance: Promise.resolve({ wait: () => Promise.resolve() }),
+      withdraw: Promise.resolve({ wait: () => Promise.resolve() }),
+      withdrawAll: Promise.resolve({ wait: () => Promise.resolve() }),
+      amountToShare: Promise.resolve(BigNumber.from(10)),
+    });
 
-      twoPiContractSpy = jasmine.createSpyObj('TwoPiContract', {
-        value: {},
-      });
+    twoPiContractSpy = jasmine.createSpyObj('TwoPiContract', {
+      value: {},
+    });
 
-      controllerSpy = jasmine.createSpyObj('Controller', {
-        createDynamicPrice: dynamicPriceSpy,
-        createGasFeeOf: gasFeeOfSpy,
-        createErc20Provider: erc20ProviderSpy,
-        withdrawFeeContract: twoPiContractSpy,
-        investment: investmentSpy,
-        createFormattedFee: { value: () => Promise.resolve(10) },
-      });
+    controllerSpy = jasmine.createSpyObj('Controller', {
+      createDynamicPrice: dynamicPriceSpy,
+      createGasFeeOf: gasFeeOfSpy,
+      createErc20Provider: erc20ProviderSpy,
+      withdrawFeeContract: twoPiContractSpy,
+      investment: investmentSpy,
+      createFormattedFee: { value: () => Promise.resolve(10) },
+    });
 
-      providerSpy = jasmine.createSpyObj(
-        'Provider',
-        { getGasPrice: Promise.resolve(BigNumber.from('10')) },
-        {
-          _isProvider: true,
-        }
-      );
-      usdcCoinSpy = jasmine.createSpyObj('Coin', {}, { native: false, value: 'USDC', network: 'MATIC' });
+    providerSpy = jasmine.createSpyObj(
+      'Provider',
+      { getGasPrice: Promise.resolve(BigNumber.from('10')) },
+      {
+        _isProvider: true,
+      }
+    );
+    usdcCoinSpy = jasmine.createSpyObj('Coin', {}, { native: false, value: 'USDC', network: 'MATIC' });
 
-      investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
-        id: 3,
-        token: usdcCoinSpy,
-        contractAddress: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
-        name: 'usdc',
-        value: 'USDC',
-      });
+    investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
+      id: 3,
+      token: usdcCoinSpy,
+      contractAddress: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
+      name: 'usdc',
+      value: 'USDC',
+    });
 
-      investmentDataServiceSpy = jasmine.createSpyObj(
-        'InvestmentDataService',
-        {},
-        {
-          amount: 10,
-          quoteAmount: 12,
-          product: investmentProductSpy,
-          investment: {},
-        }
-      );
+    investmentDataServiceSpy = jasmine.createSpyObj(
+      'InvestmentDataService',
+      {},
+      {
+        amount: 10,
+        quoteAmount: 12,
+        product: investmentProductSpy,
+        investment: {},
+      }
+    );
 
-      nativeCoinSpy = jasmine.createSpyObj('Coin', {}, { native: true, value: 'MATIC', network: 'MATIC' });
+    nativeCoinSpy = jasmine.createSpyObj('Coin', {}, { native: true, value: 'MATIC', network: 'MATIC' });
 
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getCoinsFromNetwork: [usdcCoinSpy, nativeCoinSpy],
-        getCoins: [usdcCoinSpy, nativeCoinSpy],
-      });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoinsFromNetwork: [usdcCoinSpy, nativeCoinSpy],
+      getCoins: [usdcCoinSpy, nativeCoinSpy],
+    });
 
-      walletSpy = jasmine.createSpyObj(
-        'Wallet',
-        {},
-        {
-          address: '0x000001',
-        }
-      );
+    walletSpy = jasmine.createSpyObj(
+      'Wallet',
+      {},
+      {
+        address: '0x000001',
+      }
+    );
 
-      walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-        getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x00000001' } }),
-        getDecryptedWalletForCurrency: Promise.resolve(walletSpy),
-      });
+    walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
+      getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x00000001' } }),
+      getDecryptedWalletForCurrency: Promise.resolve(walletSpy),
+    });
 
-      toastServiceSpy = jasmine.createSpyObj('ToastService', {
-        showErrorToast: Promise.resolve(),
-        showWarningToast: Promise.resolve(),
-      });
+    toastServiceSpy = jasmine.createSpyObj('ToastService', {
+      showErrorToast: Promise.resolve(),
+      showWarningToast: Promise.resolve(),
+    });
 
-      walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', { balanceOf: Promise.resolve('51') });
+    walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', { balanceOf: Promise.resolve('51') });
 
-      TestBed.configureTestingModule({
-        declarations: [WithdrawConfirmationPage, FormattedAmountPipe],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
-          { provide: ModalController, useValue: modalControllerSpy },
-          { provide: ToastService, useValue: toastServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
-          { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
-          { provide: WithdrawConfirmationController, useValue: controllerSpy },
-          { provide: AlertController, useValue: alertControllerSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    TestBed.configureTestingModule({
+      declarations: [WithdrawConfirmationPage, FormattedAmountPipe],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: ToastService, useValue: toastServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
+        { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
+        { provide: WithdrawConfirmationController, useValue: controllerSpy },
+        { provide: AlertController, useValue: alertControllerSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(WithdrawConfirmationPage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(WithdrawConfirmationPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -179,9 +177,17 @@ describe('WithdrawConfirmationPage', () => {
     expect(component.amount).toEqual({ value: 10, token: 'USDC' });
     expect(component.quoteAmount).toEqual({ value: 40000, token: 'USD' });
     expect(component.token).toEqual(usdcCoinSpy);
-    expect(component.withdrawFeeAmount).toEqual({value: 10 * 0.00255, token: 'USDC'});
-    expect(component.withdrawFeeQuoteAmount).toEqual({value: 40000 * 0.00255, token: 'USD'});
+    expect(component.withdrawFee).toEqual({ value: 10 * 0.00255, token: 'USDC' });
+    expect(component.withdrawFeeQuote).toEqual({ value: 40000 * 0.00255, token: 'USD' });
     expect(component.fee).toEqual({ value: 10, token: 'MATIC' });
+    expect(component.receiveAprox).toEqual({
+      value: component.amount.value - component.withdrawFee.value,
+      token: component.amount.token,
+    });
+    expect(component.receiveAproxQuote).toEqual({
+      value: component.quoteAmount.value - component.withdrawFeeQuote.value,
+      token: component.quoteAmount.token,
+    });
     expect(controllerSpy.createDynamicPrice).toHaveBeenCalledTimes(2);
   });
 
@@ -248,7 +254,7 @@ describe('WithdrawConfirmationPage', () => {
   it('should not show modal', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    component.isInfoModalOpen = true
+    component.isInfoModalOpen = true;
     const el = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
     el.nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);

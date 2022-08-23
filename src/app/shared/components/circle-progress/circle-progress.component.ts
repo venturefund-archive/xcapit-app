@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-circle-progress',
@@ -19,7 +19,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   `,
   styleUrls: ['./circle-progress.component.scss'],
 })
-export class CircleProgressComponent implements OnInit {
+export class CircleProgressComponent implements OnInit, OnChanges {
   @Input() doneModules: number;
   @Input() allModules: number;
   @Input() percentage: number;
@@ -32,7 +32,12 @@ export class CircleProgressComponent implements OnInit {
     this.setProgress();
   }
 
-  setProgress() {
-    this.actualProgress = this.circlePerimeter * ((100 - this.percentage)/100);
+  ngOnChanges(changes: SimpleChanges): void {
+    this.setProgress(changes.percentage.currentValue);
+  }
+
+  setProgress(percentageChange?) {
+    if (percentageChange) this.percentage = percentageChange;
+    this.actualProgress = this.circlePerimeter * ((100 - this.percentage) / 100);
   }
 }

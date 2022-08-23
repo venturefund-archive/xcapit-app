@@ -7,6 +7,7 @@ export const COUNTRIES: FiatRampProviderCountry[] = [
   { name: 'Costa Rica', isoCodeAlpha3: 'CRI', value: 'fiat_ramps.countries_list.costa_rica', fiatCode: 'crc'},
   { name: 'Colombia', isoCodeAlpha3: 'COL', value: 'fiat_ramps.countries_list.colombia', fiatCode: 'cop',  directaCode: 'CO'},
   { name: 'Argentina', isoCodeAlpha3: 'ARS', value: 'fiat_ramps.countries_list.argentina', fiatCode: 'ars',  directaCode: 'AR'},
+  { name: 'Brasil', isoCodeAlpha3: 'BRA', value: 'fiat_ramps.countries_list.brasil', directaCode: 'BR'},
   { name: 'El Salvador', isoCodeAlpha3: 'SLV', value: 'fiat_ramps.countries_list.el_salvador' },
   { name: 'Guyana', isoCodeAlpha3: 'GUY', value: 'fiat_ramps.countries_list.guyana' },
   { name: 'Paraguay', isoCodeAlpha3: 'PRY', value: 'fiat_ramps.countries_list.paraguay' },

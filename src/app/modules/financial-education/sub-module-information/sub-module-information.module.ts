@@ -6,7 +6,7 @@ import { SubModuleInfoComponent } from '../shared-financial-education/components
 
 const routes: Routes = [
   {
-    path: 'tab/:tab/module/:module/submodule/:submodule',
+    path: 'category/:category/module/:module/submodule/:submodule',
     component: SubModuleInformationPage,
   },
 ];

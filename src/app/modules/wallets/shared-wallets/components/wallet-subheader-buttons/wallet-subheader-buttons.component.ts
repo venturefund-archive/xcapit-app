@@ -4,7 +4,7 @@ import { NavigationExtras } from '@angular/router';
 import { WalletBackupService } from '../../services/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { defaultSwapsUrls } from 'src/app/modules/swaps/swaps-routing.module';
-
+import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -66,10 +66,11 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   constructor(
     private navController: NavController,
     private walletBackupService: WalletBackupService,
-    private storage: IonicStorageService
+    private storage: IonicStorageService,
+    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   async goToSend() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
@@ -106,8 +107,16 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   async goToBuy() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
       const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
-      const url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
-      this.navController.navigateForward([url]);
+      if (!conditionsPurchasesAccepted) {
+        return this.navController.navigateForward(['fiat-ramps/buy-conditions']);
+      } else {
+        if (this.asset) {
+          this.tokenOperationDataService.tokenOperationData = { asset: this.asset, network: this.network };
+          this.navController.navigateForward(['fiat-ramps/select-provider']);
+        } else {
+          this.navController.navigateForward(['fiat-ramps/token-selection']);
+        }
+      }
     }
   }
 

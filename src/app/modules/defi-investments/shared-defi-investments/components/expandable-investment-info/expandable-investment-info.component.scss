@@ -7,14 +7,8 @@
           align-items: center;
           padding: 16px;
 
-          &__img {
-            padding: 8px 0;
-            margin-right: 12px;
-
-            img {
-              width: 32px;
-              height: 32px;
-            }
+          app-token-with-blockchain-logo {
+            margin-right: 14px;
           }
 
           &__text {
@@ -71,6 +65,14 @@
           }
         }
 
+        &__title {
+          margin: 0 16px;
+
+          ion-text {
+            color: var(--ion-color-primary);
+          }
+        }
+
         &__product_description {
           padding: 16px;
         }
@@ -81,6 +83,27 @@
 
           ion-badge {
             width: 64px;
+          }
+
+          &__button {
+            ion-button {
+              margin: 0;
+            }
+
+            ion-button::part(native) {
+              padding-left: 0;
+            }
+          }
+
+          &__info {
+            margin-bottom: -12px;
+            margin-top: -12px;
+            margin-left: -12px;
+            color: var(--ion-color-neutral90);
+
+            .ul::part(native) {
+              margin: 0;
+            }
           }
 
           &__label {

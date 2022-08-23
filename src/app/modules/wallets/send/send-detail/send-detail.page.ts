@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
-import { ModalController, NavController, ToastController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalController, NavController } from '@ionic/angular';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
 import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-alert-types';
@@ -10,14 +10,11 @@ import { WalletService } from '../../shared-wallets/services/wallet/wallet.servi
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
 import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
-import { NativeFeeOf } from 'src/app/modules/defi-investments/shared-defi-investments/models/native-fee-of/native-fee-of.model';
-import { FormattedFee } from 'src/app/modules/defi-investments/shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
-import { VoidSigner, BigNumber } from 'ethers';
+import { VoidSigner } from 'ethers';
 import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
 import { ERC20ContractController } from '../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
-import { FakeProvider } from '../../../../shared/models/provider/fake-provider.spec';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
 import { parseUnits } from 'ethers/lib/utils';
 import { Subject, Observable } from 'rxjs';
@@ -28,6 +25,16 @@ import { ToastWithButtonsComponent } from 'src/app/modules/defi-investments/shar
 import { TranslateService } from '@ngx-translate/core';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
+import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
+import { RawBlockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
+import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
+import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
+import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 
 @Component({
   selector: 'app-send-detail',
@@ -46,30 +53,31 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd">
-      <div class="sd__network-select-card ion-padding" *ngIf="this.networks">
+      <div class="sd__network-select-card ion-padding" *ngIf="this.tplBlockchain">
         <div class="sd__network-select-card__title">
           <ion-text class="ux-font-text-lg">{{ 'wallets.send.send_detail.network_select.title' | translate }}</ion-text>
         </div>
         <div class="sd__network-select-card__selected-coin">
-          <app-coin-selector [selectedCoin]="this.token" (changeCurrency)="this.changeCurrency()"></app-coin-selector>
+          <app-coin-selector
+            [selectedCoin]="this.token"
+            [enabled]="true"
+            (changeCurrency)="this.changeCurrency()"
+          ></app-coin-selector>
         </div>
         <div class="sd__network-select-card__networks">
           <app-network-select-card
-            (networkChanged)="this.selectedNetworkChanged($event)"
             [title]="'wallets.send.send_detail.network_select.network' | translate"
-            [networks]="this.networks"
+            [networks]="[this.tplBlockchain.name]"
+            [selectedNetwork]="this.tplBlockchain.name"
           ></app-network-select-card>
         </div>
       </div>
       <form [formGroup]="this.form">
-        <div
-          class="sd__address-input-card  ion-padding-start ion-padding-end"
-          *ngIf="this.token && this.selectedNetwork"
-        >
+        <div class="sd__address-input-card  ion-padding-start ion-padding-end" *ngIf="this.token && this.tplBlockchain">
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
             [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
-            [selectedNetwork]="this.selectedNetwork"
+            [selectedNetwork]="this.tplBlockchain.name"
           ></app-address-input-card>
         </div>
         <div class="sd__amount-input-card" *ngIf="this.token">
@@ -82,8 +90,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
               [baseCurrency]="this.token"
               [max]="this.balance"
               [quotePrice]="this.quotePrice"
-              [feeToken]="this.nativeToken"
-              [amountSend]="this.amountSend"
+              [feeToken]="this.tplNativeToken"
+              [amountSend]="true"
               (phraseAmountInfoClicked)="this.showPhraseAmountInfo()"
             ></app-amount-input-card>
             <app-amount-input-card-skeleton
@@ -95,8 +103,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
                 [fee]="this.dynamicFee"
                 [quoteFee]="this.quoteFee"
                 [balance]="this.nativeBalance"
-                [transactionFee]="this.transactionFee"
-                (transactionFeeInfoClicked)="this.showPhrasetransactionFeeInfo()"
+                [defaultFeeInfo]="true"
               ></app-transaction-fee>
             </div>
           </ion-card>
@@ -110,7 +117,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           appTrackClick
           name="ux_send_continue"
           (click)="this.submitForm()"
-          [disabled]="!this.form.valid || !this.selectedNetwork || !this.quoteFee.value"
+          [disabled]="!this.form.valid || !this.tplBlockchain || !this.quoteFee.value"
           color="secondary"
           >{{ 'wallets.send.send_detail.continue_button' | translate }}</ion-button
         >
@@ -120,28 +127,27 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
   styleUrls: ['./send-detail.page.scss'],
 })
 export class SendDetailPage {
+  private activeBlockchain: Blockchain;
+  private nativeToken: Token;
+  tplNativeToken: RawToken;
+  tplBlockchain: RawBlockchain;
   destroy$ = new Subject<void>();
   private priceRefreshInterval = 15000;
   alertType = UX_ALERT_TYPES.warning;
   token: Coin;
-  nativeToken: Coin;
-  networks: string[];
-  selectedNetwork: string;
   balance: number;
   nativeBalance: number;
   amount: number;
   quotePrice: number;
   nativeTokenPrice: number;
   fee: number;
-  amountSend = false;
-  transactionFee = false;
   dynamicFee: Amount = { value: 0, token: undefined };
   quoteFee: Amount = { value: 0, token: 'USD' };
   modalHref: string;
   isInfoModalOpen = false;
 
   url: string;
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     address: ['', [Validators.required, CustomValidators.isAddress()]],
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
@@ -150,7 +156,7 @@ export class SendDetailPage {
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private transactionDataService: TransactionDataService,
     private walletService: WalletService,
     private storageService: StorageService,
@@ -160,15 +166,28 @@ export class SendDetailPage {
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalController: ModalController,
     private translate: TranslateService,
-    private storage: IonicStorageService
+    private storage: IonicStorageService,
+    private tokenOperationDataService: TokenOperationDataService,
+    private blockchains: BlockchainsFactory,
+    private gasStation: GasStationOfFactory
   ) {}
 
   async ionViewDidEnter() {
     this.modalHref = window.location.href;
-    this.tokenAndNetworks();
+    this.setBlockchain(this.route.snapshot.queryParamMap.get('network'));
+    this.setTokens();
     this.getPrices();
     this.setUrlToBuyCrypto();
     await this.tokenBalances();
+  }
+
+  private gasPrice(): Promise<AmountOf> {
+    return this.gasStation.create(this.activeBlockchain).price().standard();
+  }
+
+  private setBlockchain(aBlockchainName: string) {
+    this.activeBlockchain = this.blockchains.create().oneByName(aBlockchainName);
+    this.tplBlockchain = this.activeBlockchain.json();
   }
 
   private getPrices(): void {
@@ -177,13 +196,13 @@ export class SendDetailPage {
   }
 
   private setNativePrice(): void {
-    this.getDynamicPriceOf(this.nativeToken).subscribe((price: number) => {
+    this.getDynamicPriceOf(this.nativeToken.json()).subscribe((price: number) => {
       this.nativeTokenPrice = price;
     });
   }
 
   private setQuotePrice(): void {
-    this.getDynamicPriceOf(this.token.native ? this.nativeToken : this.token).subscribe((price: number) => {
+    this.getDynamicPriceOf(this.token.native ? this.nativeToken.json() : this.token).subscribe((price: number) => {
       this.quotePrice = price;
     });
   }
@@ -206,55 +225,32 @@ export class SendDetailPage {
     }
   }
 
-  async showPhrasetransactionFeeInfo() {
-    if (!this.isInfoModalOpen) {
-      this.isInfoModalOpen = true;
-      const modal = await this.modalController.create({
-        component: InfoSendModalComponent,
-        componentProps: {
-          title: this.translate.instant('wallets.shared_wallets.info_send_modal.title_transaction_fee'),
-          description: this.translate.instant('wallets.shared_wallets.info_send_modal.description'),
-          buttonText: this.translate.instant('wallets.shared_wallets.info_send_modal.button_text'),
-        },
-        cssClass: 'ux-xxs-modal-informative',
-        backdropDismiss: false,
-      });
-      await modal.present();
-      this.isInfoModalOpen = false;
-    }
-  }
-
   private async userWallet(): Promise<string> {
-    return await this.storageService.getWalletsAddresses(this.selectedNetwork);
+    return await this.storageService.getWalletsAddresses(this.activeBlockchain.name());
   }
 
-  private tokenAndNetworks() {
-    const coin = this.route.snapshot.queryParamMap.get('asset');
-    const network = this.route.snapshot.queryParamMap.get('network');
-    this.token = this.apiWalletService.getCoin(coin, network);
-    this.networks = this.apiWalletService.getNetworks(coin);
-    this.selectedNetwork = network;
-    this.amountSend = true;
-    this.transactionFee = true;
-    this.nativeToken = this.token.native
-      ? this.token
-      : this.apiWalletService.getNativeTokenFromNetwork(this.selectedNetwork);
-    this.dynamicFee.token = this.nativeToken.value;
+  private setTokens() {
+    this.token = this.apiWalletService.getCoin(
+      this.route.snapshot.queryParamMap.get('asset'),
+      this.activeBlockchain.name()
+    );
+    this.nativeToken = this.activeBlockchain.nativeToken();
+    this.tplNativeToken = this.nativeToken.json();
+    this.dynamicFee.token = this.nativeToken.symbol();
   }
 
   async tokenBalances() {
     const tokenBalance = parseFloat(await this.userBalanceOf(this.token));
     this.watchFormChanges();
     if (this.token.native) {
-      await this.getFee();
+      await this.setAllFeeData();
       this.resetFee();
       this.balance = this.nativeBalance = Math.max(tokenBalance - this.fee, 0);
-      await this.checkEnoughBalance();
     } else {
       this.balance = tokenBalance;
-      this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken));
-      await this.checkEnoughBalance();
+      this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
     }
+    await this.checkEnoughBalance();
     this.addLowerThanValidator();
   }
 
@@ -263,14 +259,14 @@ export class SendDetailPage {
     this.form.get('amount').updateValueAndValidity();
   }
 
-  private async userBalanceOf(_aToken: Coin) {
+  private async userBalanceOf(_aToken: Coin | RawToken) {
     return this.walletService.balanceOf(await this.userWallet(), _aToken.value);
   }
 
   private watchFormChanges() {
     this.form.valueChanges.subscribe(async () => {
       if (this.form.valid) {
-        await this.getFee();
+        await this.setAllFeeData();
       } else this.resetFee();
     });
   }
@@ -279,10 +275,10 @@ export class SendDetailPage {
     this.dynamicFee.value = this.quoteFee.value = undefined;
   }
 
-  private async getFee(): Promise<void> {
+  private async setAllFeeData(): Promise<void> {
     this.loadingFee();
-    this.token.native ? await this.nativeTransferFee() : await this.nonNativeTransferFee();
-    this.dynamicFee = { value: this.fee, token: this.nativeToken.value };
+    await this.setFee();
+    this.dynamicFee = { value: this.fee, token: this.nativeToken.symbol() };
     this.getQuoteFee();
   }
 
@@ -302,42 +298,28 @@ export class SendDetailPage {
     return this.erc20ProviderController.new(this.token);
   }
 
-  private async nativeTransferFee(): Promise<void> {
-    if (!this.fee) {
-      this.fee = await new FormattedFee(
-        new NativeFeeOf(
-          new NativeGasOf(this.erc20Provider(), {
-            to: await this.userWallet(),
-            value: this.parseWei(1),
-          }),
-          new FakeProvider(await this.gasPrice())
-        ),
-        this.token.decimals
-      ).value();
-    }
+  private async setFee(): Promise<void> {
+    this.fee = (await this.gasPrice()).times(await this.estimatedGas()).value();
   }
 
-  private async gasPrice(): Promise<BigNumber> {
-    return await this.apiWalletService
-      .getGasPrice()
-      .toPromise()
-      .then((res) => res.gas_price);
+  private async estimatedGas(): Promise<number> {
+    return this.token.native
+      ? (await (await this.estimatedNativeGas()).value()).toNumber()
+      : (await (await this.estimatedNonNativeGas()).value()).toNumber();
   }
 
-  private async nonNativeTransferFee(): Promise<void> {
-    this.fee = await new FormattedFee(
-      new NativeFeeOf(
-        new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
-          this.form.value.address,
-          this.parseWei(this.form.value.amount),
-        ]),
-        new FakeProvider(await this.gasPrice())
-      )
-    ).value();
+  private async estimatedNativeGas(): Promise<Fee> {
+    return new NativeGasOf(this.erc20Provider(), {
+      to: await this.userWallet(),
+      value: new WeiOf(this.form.value.amount || 1, this.token).value(),
+    });
   }
 
-  parseWei(amount: number) {
-    return parseUnits(amount.toFixed(this.token.decimals), this.token.decimals);
+  private async estimatedNonNativeGas(): Promise<Fee> {
+    return new GasFeeOf((await this.erc20Contract()).value(), 'transfer', [
+      this.form.value.address,
+      new WeiOf(this.form.value.amount, this.token).value(),
+    ]);
   }
 
   async submitForm() {
@@ -353,7 +335,7 @@ export class SendDetailPage {
 
   private async saveTransactionData() {
     this.transactionDataService.transactionData = {
-      network: this.selectedNetwork,
+      network: this.activeBlockchain.name(),
       currency: this.token,
       address: this.form.value.address,
       amount: this.form.value.amount,
@@ -369,11 +351,7 @@ export class SendDetailPage {
     this.navController.navigateBack(['/wallets/send/select-currency']);
   }
 
-  selectedNetworkChanged(network) {
-    this.selectedNetwork = network;
-  }
-
-  private getDynamicPriceOf(token: Coin): Observable<number> {
+  private getDynamicPriceOf(token: Coin | RawToken): Observable<number> {
     return this.dynamicPriceFactory
       .new(this.priceRefreshInterval, token, this.apiWalletService)
       .value()
@@ -386,11 +364,17 @@ export class SendDetailPage {
   }
 
   async checkEnoughBalance() {
-    if (this.nativeBalance < this.fee) this.openModalBalance();
+    if (this.nativeBalance < this.fee) {
+      this.openModalBalance();
+    }
   }
 
   async setUrlToBuyCrypto() {
     const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+    this.tokenOperationDataService.tokenOperationData = {
+      asset: this.tplNativeToken?.value,
+      network: this.tplNativeToken?.network,
+    };
     this.url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
     return this.url;
   }
@@ -403,17 +387,17 @@ export class SendDetailPage {
       id: 'feeModal',
       componentProps: {
         text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
-          nativeToken: this.nativeToken?.value,
+          nativeToken: this.nativeToken.symbol(),
         }),
         firstButtonName: this.translate.instant('defi_investments.confirmation.buy_button', {
-          nativeToken: this.nativeToken?.value,
+          nativeToken: this.nativeToken.symbol(),
         }),
         secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
-          nativeToken: this.nativeToken?.value,
+          nativeToken: this.nativeToken.symbol(),
         }),
         firstLink: this.url,
         secondLink: '/wallets/receive/detail',
-        data: this.nativeToken,
+        data: this.nativeToken.json(),
       },
     });
     await this.modalController.dismiss(null, null, 'feeModal');

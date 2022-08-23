@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { debounceTime } from 'rxjs/operators';
@@ -38,9 +37,8 @@ import { PasswordErrorHandlerService } from '../shared-swaps/services/password-e
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
-import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { LINKS } from 'src/app/config/static-links';
-
+import { SwapInProgressModalComponent } from '../../wallets/shared-wallets/components/swap-in-progress-modal/swap-in-progress-modal.component';
+import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-error-msgs';
 
 @Component({
   selector: 'app-swap-home',
@@ -74,16 +72,18 @@ import { LINKS } from 'src/app/config/static-links';
           <div class="sw__swap-card__from__detail">
             <div class="sw__swap-card__from__detail__token">
               <app-coin-selector
-                *ngIf="this.tplFromToken"
-                [selectedCoin]="this.tplFromToken"
-                enabled="true"
-                (changeCurrency)="this.selectFromToken()"
+              *ngIf="this.tplFromToken"
+              [selectedCoin]="this.tplFromToken"
+              enabled="true"
+              isRightOpen="true"
+              (changeCurrency)="this.selectFromToken()"
               ></app-coin-selector>
             </div>
             <div class="sw__swap-card__from__detail__amount">
               <form [formGroup]="this.form">
                 <ion-input
                   appNumberInput
+                  [disabled]="this.sameTokens"
                   class="sw__swap-card__from__detail__amount__input"
                   formControlName="fromTokenAmount"
                   type="number"
@@ -114,51 +114,38 @@ import { LINKS } from 'src/app/config/static-links';
                 *ngIf="this.tplToToken"
                 [selectedCoin]="this.tplToToken"
                 enabled="true"
+                isRightOpen="true"
                 (changeCurrency)="this.selectToToken()"
-              ></app-coin-selector>
-            </div>
-            <div class="sw__swap-card__to__detail__amount">
-              <div class="sw__swap-card__to__detail__amount__value">
-                <ion-text class="ux-font-text-lg">
-                  {{ this.tplSwapInfo.toTokenAmount | formattedAmount }}
-                </ion-text>
+                ></app-coin-selector>
+              </div>
+              <div class="sw__swap-card__to__detail__amount">
+                <div class="sw__swap-card__to__detail__amount__value">
+                  <ion-text class="ux-font-text-lg">
+                    {{ this.tplSwapInfo.toTokenAmount | formattedAmount }}
+                  </ion-text>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <hr />
-        <div class="sw__swap-card__fee ion-padding-horizontal ion-padding-top">
-          <div class="sw__swap-card__fee__title">
-            <ion-text class="ux-font-header-titulo">
-              {{ 'swaps.home.fee_title' | translate }}
-            </ion-text>
-          </div>
+          <hr />
+          <div class="sw__swap-card__fee ion-padding-horizontal ion-padding-top">
+            <div class="sw__swap-card__fee__title">
+              <ion-text class="ux-font-header-titulo">
+                {{ 'swaps.home.fee_title' | translate }}
+              </ion-text>
+            </div>
           <app-transaction-fee [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
         </div>
       </div>
       <div class="sw__checkbox ion-padding">
-        <ion-item class="sw__checkbox__last ux-font-text-xs">
-          <ion-checkbox mode="md" slot="start" name="checkbox-condition"></ion-checkbox>
-          <div class="sw__checkbox__text-wrapper">
-            <ion-label>
-              {{ 'swaps.home.tos_1' | translate }}
-            </ion-label>
-            <ion-button
-              name="go_to_1inch_tos"
-              class="ux-link-xs sw__checkbox__text__button"
-              (click)="this.openToS()"
-              appTrackClick fill="clear">
-              {{ 'swaps.home.tos_button' | translate }}
-            </ion-button>
-          </div>
-        </ion-item>
+        <app-one-inch-tos-check disabled="true"> </app-one-inch-tos-check>
       </div>
     </ion-content>
-
+    
     <ion-footer class="sw__footer">
       <div class="sw__footer__swap-button ion-padding">
         <ion-button
-          [appLoading]="this.loadingBtn"
+        [appLoading]="this.loadingBtn"
           [loadingText]="'swaps.home.loading_button_text' | translate"
           appTrackClick
           name="ux_swaps_swap"
@@ -174,7 +161,7 @@ import { LINKS } from 'src/app/config/static-links';
           {{ 'swaps.home.footer_text' | translate }}
         </span>
       </div>
-  </ion-footer>
+    </ion-footer>
   `,
   styleUrls: ['./swap-home.page.scss'],
 })
@@ -195,21 +182,20 @@ export class SwapHomePage {
   tplToToken: RawToken;
   tplFee: RawAmount = new NullAmountOf().json();
   tplSwapInfo: RawSwapInfo = new NullJSONSwapInfo().value();
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
   });
   defaultNavBackUrl = 'tabs/wallets';
   swapInProgressUrl = 'swaps/swap-in-progress';
   actions = [];
   actionTypeId = 'SWAP';
-
+  sameTokens = false;
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalController: ModalController,
     private appStorageService: AppStorageService,
-    private httpClient: HttpClient,
     private wallets: WalletsFactory,
     private blockchains: BlockchainsFactory,
     private oneInch: OneInchFactory,
@@ -220,13 +206,8 @@ export class SwapHomePage {
     private trackService: TrackService,
     private passwordErrorHandlerService: PasswordErrorHandlerService,
     private toastService: ToastService,
-    private translate: TranslateService,
-    private browser: BrowserService
+    private translate: TranslateService
   ) {}
-
-  openToS() {
-    this.browser.open({url: LINKS.oneInchToS});
-  }
 
   private async setSwapInfo(fromTokenAmount: string) {
     if (fromTokenAmount) {
@@ -244,7 +225,7 @@ export class SwapHomePage {
   }
 
   private gasPrice(): Promise<AmountOf> {
-    return this.gasStation.create(this.activeBlockchain, this.httpClient).price().fast();
+    return this.gasStation.create(this.activeBlockchain).price().fast();
   }
 
   private async jsonSwapInfo(fromTokenAmount: string): Promise<RawSwapInfo> {
@@ -317,10 +298,22 @@ export class SwapHomePage {
     this.tplFromToken = this.fromToken.json();
     this.toToken = await new TokenByAddress(toTokenAddress, this.tokens).value();
     this.tplToToken = this.toToken.json();
+    this.checkTokens();
+  }
+
+  private async checkTokens(){
+    if(this.fromToken.address() === this.toToken.address()){
+      await this.toastService.showWarningToast({
+        message: this.translate.instant('swaps.home.warning_same_tokens')
+      });
+      this.sameTokens = true;
+    }else{
+      this.sameTokens = false;
+    }
   }
 
   private setDex() {
-    this.dex = this.oneInch.create(this.activeBlockchain, this.httpClient);
+    this.dex = this.oneInch.create(this.activeBlockchain);
   }
 
   private setTokens() {
@@ -362,21 +355,25 @@ export class SwapHomePage {
     this.disableMainButton();
     const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());
-    wallet.onDecryptedWallet().subscribe(() => this.navController.navigateForward([this.swapInProgressUrl]));
+    wallet.onDecryptedWallet().subscribe(() => this.showSwapInProgressModal());
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
       .then(() => {
-        const notification = this.createNotification('swap_ok');
-        this.notifyWhenSwap(notification);
+        this.notifyWhenSwap(this.createNotification('swap_ok'));
       })
-      .catch((err) => {
-        this.passwordErrorHandlerService.handlePasswordError(err, () => {
-          this.showPasswordError();
-        });
+      .catch((err: Error) => {
+        this.handleError(err);
         this.resetMainButton();
-        const notification = this.createNotification('swap_not_ok');
-        this.notifyWhenSwap(notification);
       });
+  }
+
+  private handleError(err: Error) {
+    this.passwordErrorHandlerService.handlePasswordError(err, () => {
+      this.showPasswordError();
+    });
+    if (!new PasswordErrorMsgs().isAPassError(err)) {
+      this.notifyWhenSwap(this.createNotification('swap_not_ok'));
+    }
   }
 
   private async showPasswordError() {
@@ -396,7 +393,7 @@ export class SwapHomePage {
   }
 
   private navigateToTokenDetail() {
-    this.navController.navigateForward([this.defaultNavBackUrl]);
+    this.navController.navigateForward([`wallets/asset-detail/${this.toToken.symbol()}`]);
   }
 
   private createNotification(mode: string): LocalNotificationSchema[] {
@@ -413,5 +410,15 @@ export class SwapHomePage {
         actionTypeId: this.actionTypeId,
       },
     ];
+  }
+
+  async showSwapInProgressModal() {
+    const modal = await this.modalController.create({
+      component: SwapInProgressModalComponent,
+      componentProps: {},
+      cssClass: 'ux-lg-modal-informative',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 }

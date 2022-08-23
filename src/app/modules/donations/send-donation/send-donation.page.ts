@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { CAUSES } from '../shared-donations/constants/causes';
@@ -23,6 +23,7 @@ import { ToastWithButtonsComponent } from '../../defi-investments/shared-defi-in
 import { TranslateService } from '@ngx-translate/core';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { parseUnits } from 'ethers/lib/utils';
+import { TokenOperationDataService } from '../../fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 import { GasFeeOf } from '../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { ERC20Contract } from '../../defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { ERC20ContractController } from '../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
@@ -133,7 +134,7 @@ import { ERC20ContractController } from '../../defi-investments/shared-defi-inve
   styleUrls: ['./send-donation.page.scss'],
 })
 export class SendDonationPage implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     amount: [0, [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
@@ -156,7 +157,7 @@ export class SendDonationPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private navController: NavController,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private sendDonationData: SendDonationDataService,
     private walletService: WalletService,
     private storageService: StorageService,
@@ -165,7 +166,8 @@ export class SendDonationPage implements OnInit {
     private erc20ContractController: ERC20ContractController,
     private modalController: ModalController,
     private translate: TranslateService,
-    private dynamicPriceFactory: DynamicPriceFactory
+    private dynamicPriceFactory: DynamicPriceFactory,
+    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   ngOnInit() {}
@@ -314,6 +316,7 @@ export class SendDonationPage implements OnInit {
 
   checkAvailableBalance() {
     if (this.balance < this.fee) {
+      this.tokenOperationDataService.tokenOperationData = { asset: this.token.value, network: this.token.network };
       this.openModalNativeTokenBalance();
     }
   }

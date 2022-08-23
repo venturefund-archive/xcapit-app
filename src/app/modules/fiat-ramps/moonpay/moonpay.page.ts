@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
@@ -12,6 +11,8 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
+import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
 
 @Component({
   selector: 'app-moonpay',
@@ -24,34 +25,39 @@ import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/
         <ion-title class="ion-text-center">{{ 'fiat_ramps.moonpay.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding-start ion-padding-end">
+    <ion-content class="ion-padding">
       <form [formGroup]="this.form">
         <app-provider-new-operation-card
           *ngIf="this.form.value.currency"
           [amountEnabled]="false"
           [coin]="this.form.value.currency"
           [provider]="this.provider"
-          (changeCurrency)="this.changeCurrency()"
+          [coinSelectorEnabled]="true"
+          (changeCurrency)="this.openModal($event)"
         ></app-provider-new-operation-card>
       </form>
+    </ion-content>
+    <ion-footer class="ion-padding ux_footer">
+      <div class="ux_footer__content">
+        <ion-text class="ux-font-text-xs">{{ 'fiat_ramps.moonpay.footer_description' | translate }} </ion-text>
+      </div>
       <ion-button
         appTrackClick
         name="ux_buy_moonpay_continue"
         expand="block"
         size="large"
-        type="submit"
         class="ux_button"
         color="secondary"
         (click)="this.openMoonpay()"
       >
         {{ 'fiat_ramps.moonpay.button_text' | translate }}
       </ion-button>
-    </ion-content>
+    </ion-footer>
   `,
   styleUrls: ['./moonpay.page.scss'],
 })
 export class MoonpayPage implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     currency: ['', Validators.required],
   });
   coins: Coin[];
@@ -61,23 +67,23 @@ export class MoonpayPage implements OnInit {
   countryIsoCodeAlpha3: string;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private browserService: BrowserService,
-    private route: ActivatedRoute,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
-    private walletMaintenance: WalletMaintenanceService
+    private walletMaintenance: WalletMaintenanceService,
+    private tokenOperationDataService: TokenOperationDataService,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.provider = this.getProviders().byAlias('moonpay');
-    this.countryIsoCodeAlpha3 = this.route.snapshot.queryParamMap.get('country');
-    this.subscribeToFormChanges();
-    this.initAssetsForm();
+    this.countryIsoCodeAlpha3 = this.tokenOperationDataService.tokenOperationData.country;
+    await this.initAssetsForm();
   }
 
   ionViewDidLeave() {
@@ -86,15 +92,9 @@ export class MoonpayPage implements OnInit {
 
   async initAssetsForm() {
     await this.walletMaintenance.getEncryptedWalletFromStorage();
-
     this.coins = this.providerTokens();
-    const token = this.route.snapshot.queryParamMap.get('asset');
-    const network = this.route.snapshot.queryParamMap.get('network');
-    if (token && network) {
-      this.form.patchValue({ currency: this.coins.find((coin) => coin.value === token && coin.network === network) });
-    } else {
-      this.form.patchValue({ currency: this.coins[0] });
-    }
+    const { asset, network } = this.tokenOperationDataService.tokenOperationData;
+    this.form.patchValue({ currency: this.coins.find((coin) => coin.value === asset && coin.network === network) });
   }
 
   providerTokens() {
@@ -103,16 +103,6 @@ export class MoonpayPage implements OnInit {
 
   getProviders(): Providers {
     return this.providers.create();
-  }
-
-  subscribeToFormChanges() {
-    this.form.get('currency').valueChanges.subscribe((value) => {
-      this.getAddress(value);
-    });
-  }
-
-  getAddress(value: Coin) {
-    this.address = this.walletMaintenance.encryptedWallet.addresses[value.network];
   }
 
   async openMoonpay() {
@@ -131,17 +121,15 @@ export class MoonpayPage implements OnInit {
     return this.navController.navigateForward(['/tabs/wallets']);
   }
 
-  changeCurrency(): void {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        country: this.countryIsoCodeAlpha3,
-      },
-    };
-
-    this.navController.navigateForward(['/fiat-ramps/token-selection', this.provider.alias], navigationExtras);
-  }
-
   addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
     return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.form.value.currency);
+  }
+
+  async openModal(event){
+    const modal = await this.modalController.create({
+      component: CoinSelectorModalComponent,
+      cssClass: 'ux-modal-skip-backup',   
+    });
+    await modal.present()
   }
 }

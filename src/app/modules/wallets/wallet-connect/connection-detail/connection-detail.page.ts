@@ -152,11 +152,16 @@ export class ConnectionDetailPage implements OnInit {
     try {
       await this.walletConnectService.approveSession();
       this.connectionStatus = true;
-      this.trackService.trackEvent({
+      this.trackService.trackEvent(
+        {
         eventAction: 'screenview',
-        description: window.location.href,
-        eventLabel: 'ux_wc_screenview_connected'
-      });
+        eventCategory: window.location.href,
+        eventLabel: 'ux_wc_screenview_connected', 
+        provider: this.peerMeta?.name,
+        provider_url: this.peerMeta?.url,
+        provider_description: this.peerMeta?.description.substring(0,100)
+        },
+      );
     } catch (error) {
       const alert = await this.alertController.create({
         header: this.translate.instant('wallets.wallet_connect.connection_detail.errors.header'),

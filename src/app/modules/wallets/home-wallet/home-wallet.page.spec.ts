@@ -28,6 +28,24 @@ import { TokenDetailController } from '../shared-wallets/models/token-detail/tok
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
+import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { GraphqlService } from '../shared-wallets/services/graphql/graphql.service';
+import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
+import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
+import { Vault } from '@2pi-network/sdk';
+
+const dataTest = {
+  data: {
+    flows: [
+      {
+        balance: '12777395',
+        balanceUSD: '12.77640743514045',
+      },
+    ],
+  },
+};
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -51,96 +69,142 @@ describe('HomeWalletPage', () => {
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
+  let graphqlServiceSpy: jasmine.SpyObj<GraphqlService>;
+  let twoPiProductFactorySpy: jasmine.SpyObj<TwoPiProductFactory>;
+  let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
 
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
-      tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
-      covalentBalancesControllerSpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
-      tokenDetailSpy = jasmine.createSpyObj(
-        'TokenDetail',
-        { cached: Promise.resolve({ balance: 10, price: 2 }), fetch: Promise.resolve(), cache: Promise.resolve() },
-        {
-          price: 20,
-          balance: 1,
-          quoteSymbol: 'USD',
-          coin: coinSpy,
-        }
-      );
-      tokenDetailControllerSpy = jasmine.createSpyObj('TokenDetailSpy', { new: tokenDetailSpy });
-      coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
+    tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
+    covalentBalancesControllerSpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+    localStorageServiceSpy = jasmine.createSpyObj(
+      'LocalStorageService',
+      {
+        toggleHideFunds: undefined,
+      },
+      { hideFunds: of(false) }
+    );
+    tokenDetailSpy = jasmine.createSpyObj(
+      'TokenDetail',
+      { cached: Promise.resolve({ balance: 10, price: 2 }), fetch: Promise.resolve(), cache: Promise.resolve() },
+      {
+        price: 20,
+        balance: 1,
+        quoteSymbol: 'USD',
+        coin: coinSpy,
+      }
+    );
+    tokenDetailControllerSpy = jasmine.createSpyObj('TokenDetailSpy', { new: tokenDetailSpy });
+    coinSpy = jasmine.createSpyObj('Coin', {}, { logoRoute: '', value: 'ETH', name: 'Ethereum', network: 'ERC20' });
 
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        createNFTRequest: of({}),
-        getNetworks: ['ERC20'],
-      });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      createNFTRequest: of({}),
+      getNetworks: ['ERC20'],
+    });
 
-      fakeWalletService = new FakeWalletService(true);
-      walletServiceSpy = fakeWalletService.createSpy();
+    fakeWalletService = new FakeWalletService(true);
+    walletServiceSpy = fakeWalletService.createSpy();
 
-      walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', {
-        getUsdTotalBalance: Promise.resolve(5120),
-        balanceOf: Promise.resolve(20),
-        priceOf: Promise.resolve(10),
-      });
+    walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', {
+      getUsdTotalBalance: Promise.resolve(5120),
+      balanceOf: Promise.resolve(20),
+      priceOf: Promise.resolve(10),
+    });
 
-      refreshTimeoutServiceSpy = jasmine.createSpyObj('RefreshTimeoutService', {
-        isAvailable: true,
-        lock: of(),
-      });
+    refreshTimeoutServiceSpy = jasmine.createSpyObj('RefreshTimeoutService', {
+      isAvailable: true,
+      lock: of(),
+    });
 
-      storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        getAssestsSelected: Promise.resolve([coinSpy, coinSpy]),
-        getWalletsAddresses: Promise.resolve('0x00001'),
-      });
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      getAssestsSelected: Promise.resolve([coinSpy, coinSpy]),
+      getWalletsAddresses: Promise.resolve('0x00001'),
+      getWalletFromStorage: Promise.resolve({
+        addresses: { MATIC: 'testAddressMatic' },
+      }),
+    });
 
-      balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
-        coin: Promise.resolve({ balance: 20, price: 5, expiration_date: 1234 }),
-        updateCoin: Promise.resolve(),
-        total: Promise.resolve(5000),
-        updateTotal: Promise.resolve(),
-      });
+    balanceCacheServiceSpy = jasmine.createSpyObj('BalanceCacheService', {
+      coin: Promise.resolve({ balance: 20, price: 5, expiration_date: 1234 }),
+      updateCoin: Promise.resolve(),
+      total: Promise.resolve(5000),
+      updateTotal: Promise.resolve(),
+    });
 
-      contentSpy = jasmine.createSpyObj('IonContent', { scrollToTop: Promise.resolve() });
+    contentSpy = jasmine.createSpyObj('IonContent', { scrollToTop: Promise.resolve() });
 
-      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
-        trackEvent: Promise.resolve(true),
-      });
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
 
-      ionicStorageServiceSpy = jasmine.createSpyObj('StorageService', {
-        get: Promise.resolve(false),
-      });
+    ionicStorageServiceSpy = jasmine.createSpyObj('StorageService', {
+      get: Promise.resolve(false),
+    });
 
-      TestBed.configureTestingModule({
-        declarations: [HomeWalletPage, FakeTrackClickDirective],
-        imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: WalletService, useValue: walletServiceSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
-          { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
-          { provide: StorageService, useValue: storageServiceSpy },
-          { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
-          { provide: CovalentBalancesController, useValue: covalentBalancesControllerSpy },
-          { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
-          { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
-          { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
-          { provide: TrackService, useValue: trackServiceSpy },
-          { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getObject: [{ test: 'test' }],
+    });
 
-      fixture = TestBed.createComponent(HomeWalletPage);
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      component = fixture.componentInstance;
-      component.content = contentSpy;
-      fixture.detectChanges();
-    })
-  );
+    graphqlServiceSpy = jasmine.createSpyObj('GraphqlService', {
+      getInvestedBalance: of(dataTest),
+    });
+
+    twoPiProductFactorySpy = jasmine.createSpyObj('TwoPiProductFactory', {
+      create: {
+        id: () => 1,
+      },
+    });
+
+    twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
+      vault: Promise.resolve({
+        apy: 0.227843965358873,
+        balances: [],
+        contract_address: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38',
+        deposits: [],
+        identifier: 'polygon_usdc',
+        pid: 1,
+        token: 'USDC',
+        token_address: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
+        tvl: 1301621680000,
+      } as Vault),
+    });
+
+    TestBed.configureTestingModule({
+      declarations: [HomeWalletPage, FakeTrackClickDirective, HideTextPipe],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: WalletService, useValue: walletServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: WalletBalanceService, useValue: walletBalanceServiceSpy },
+        { provide: RefreshTimeoutService, useValue: refreshTimeoutServiceSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
+        { provide: BalanceCacheService, useValue: balanceCacheServiceSpy },
+        { provide: CovalentBalancesController, useValue: covalentBalancesControllerSpy },
+        { provide: TokenPricesController, useValue: tokenPricesControllerSpy },
+        { provide: TotalBalanceController, useValue: totalBalanceControllerSpy },
+        { provide: TokenDetailController, useValue: tokenDetailControllerSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: LocalStorageService, useValue: localStorageServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigSpy },
+        { provide: GraphqlService, useValue: graphqlServiceSpy },
+        { provide: TwoPiProductFactory, useValue: twoPiProductFactorySpy },
+        { provide: TwoPiApi, useValue: twoPiApiSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(HomeWalletPage);
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    component = fixture.componentInstance;
+    component.content = contentSpy;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -251,19 +315,27 @@ describe('HomeWalletPage', () => {
   });
 
   it('should show 0.0 balance when no wallet nor cache is present', async () => {
+    walletServiceSpy.walletExist.and.resolveTo(false);
     balanceCacheServiceSpy.total.and.resolveTo(undefined);
     await component.ionViewDidEnter();
-    component.walletExist = false;
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
-    const balanceEl = fixture.debugElement.query(By.css('div.wt__amount > ion-text'));
-    expect(balanceEl.nativeElement.innerHTML).toContain('0.00 USD');
+    const balanceEl = fixture.debugElement.query(By.css('div.wt__amount-and-eye__amount > ion-text'));
+    expect(balanceEl.nativeElement.innerHTML).toContain('0.00');
   });
 
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render app-eye component', async () => {
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    const componentEl = fixture.debugElement.queryAll(By.css('app-eye'));
+    fixture.detectChanges();
+    expect(componentEl).toBeTruthy();
   });
 
   it('should call appTrackEvent on trackService when Tokens Tab was clicked', () => {
@@ -301,5 +373,16 @@ describe('HomeWalletPage', () => {
     const card = fixture.debugElement.query(By.css('app-backup-information-card'));
     card.triggerEventHandler('cardClicked', null);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/recovery/read');
+  });
+
+  it('should render total invested correctly', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    const totalInvestedEl = fixture.debugElement.query(By.css('ion-text.wt__total-invested__text'));
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    expect(graphqlServiceSpy.getInvestedBalance).toHaveBeenCalledTimes(1);
+    expect(component.totalInvested).toEqual(12.77640743514045);
+    expect(totalInvestedEl.nativeElement.innerHTML).toContain('12.78 USD');
   });
 });

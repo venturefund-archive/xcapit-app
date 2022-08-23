@@ -4,15 +4,20 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-modules-education',
   template: `
-    <ion-accordion-group [value]="this.module.open" (ionChange)="this.change()">
-      <ion-accordion [value]="true" [disabled]="this.module.disabled" class="accordion-arrow-info">
+    <ion-accordion-group [value]="this.module.open">
+      <ion-accordion [value]="true" [disabled]="this.module.coming_soon" class="accordion-arrow-info">
         <ion-item class="ux-font-titulo-xs" slot="header" name="item_module">
           <img class="icon" name="module_img" [src]="this.module.icon" />
           <div>
             <div>
               <ion-label name="module_title">{{ this.module.title | translate }}</ion-label>
             </div>
-            <div class="ux-font-text-xxs" *ngIf="this.module.comingSoon">
+            <div class="ux-font-text-xxs" *ngIf="!this.module.coming_soon">
+              <ion-label name="module_status">
+                ({{ 'financial_education.home.statuses.' + this.module.status | translate }})</ion-label
+              >
+            </div>
+            <div class="coming_soon ux-font-text-xxs" *ngIf="this.module.coming_soon">
               <ion-label name="module_coming_soon">{{ 'financial_education.home.coming_soon' | translate }}</ion-label>
             </div>
           </div>
@@ -22,53 +27,59 @@ import { NavController } from '@ionic/angular';
             class="ux-font-text-xxs"
             name="item_sub_module"
             appTrackClick
-            [dataToTrack]="{ eventLabel: subModule.dataToTrack }"
-            *ngFor="let subModule of this.module.sub_modules"
-            (click)="this.goToPage(subModule)"
+            [dataToTrack]="{ eventLabel: submodule.data_to_track }"
+            *ngFor="let submodule of this.module.submodules; let i = index"
+            (click)="this.goToPage(submodule)"
           >
             <div class="item-content">
               <div class="item-content__body">
-                <ion-label name="sub_module_title ux-font-text-xxs" color="primary">{{
-                  subModule.title | translate
-                }}</ion-label>
-                <ion-icon name="ux-forward"></ion-icon>
+                <ion-icon
+                  class="item-content__body__status"
+                  [src]="'assets/img/financial-education/states/' + this.submodule.status + '.svg'"
+                ></ion-icon>
+                <div>
+                  <ion-label name="sub_module_title" class="ux-font-text-xxs" color="primary">{{
+                    submodule.title | translate
+                  }}</ion-label>
+                  <div class="ux-font-text-xxs">
+                    <ion-label name="sub_module_status" color="primary"
+                      >({{ 'financial_education.home.statuses.' + this.submodule.status | translate }})</ion-label
+                    >
+                  </div>
+                </div>
+                <ion-icon class="item-content__body__arrow" name="ux-forward"></ion-icon>
               </div>
+
               <div class="item-content__divider">
-                <div class="list-divider light" *ngIf="!subModule.last"></div>
+                <div class="list-divider light" *ngIf="this.module.submodules.length !== i + 1"></div>
               </div>
             </div>
           </ion-item>
         </ion-list>
       </ion-accordion>
-      <div class="list-divider" *ngIf="!this.module.last"></div>
     </ion-accordion-group>
   `,
   styleUrls: ['./modules-education.component.scss'],
 })
 export class ModulesEducationComponent implements OnInit {
   @Input() module: any;
-  @Input() selectedTab: string;
-  open = true;
-
+  @Input() selectedCategory: string;
+  @Input() opened : boolean;
   constructor(private navController: NavController) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   goToPage(subModule) {
     this.navController.navigateForward([
-      'tabs/financial-education/information/tab',
-      this.selectedTab,
+      'tabs/financial-education/information/category',
+      this.selectedCategory,
       'module',
-      this.module.name,
+      this.module.id,
       'submodule',
-      subModule.name,
+      subModule.id,
     ]);
   }
 
-  change() {
-    if (this.open) {
-      this.open = !this.module.open;
-      Object.assign(this.module, { open: this.open });
-    }
-  }
+
 }

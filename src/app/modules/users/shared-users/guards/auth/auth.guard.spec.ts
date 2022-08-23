@@ -2,19 +2,29 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuthGuard } from './auth.guard';
 import { AuthService } from '../../services/auth/auth.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
   let authServiceMock: any;
   let authService: any;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   beforeEach(() => {
     authServiceMock = {
       checkToken: () => Promise.resolve(true),
       checkRefreshToken: () => Promise.resolve(true),
       sesionExpired: () => null,
     };
+
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: Promise.resolve(),
+    });
     TestBed.configureTestingModule({
-      providers: [AuthGuard, { provide: AuthService, useValue: authServiceMock }],
+      providers: [
+        AuthGuard,
+        { provide: AuthService, useValue: authServiceMock },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
+      ],
     });
   });
 
@@ -40,7 +50,7 @@ describe('AuthGuard', () => {
     checkRefreshTokenSpy.and.returnValue(Promise.resolve(false));
     await expectAsync(authGuard.canActivate()).toBeResolvedTo(false);
   });
-
+  
   it('should call sesionExpired on authService when checkToken is false', async () => {
     const checkTokenSpy = spyOn(authService, 'checkToken');
     const checkRefreshTokenSpy = spyOn(authService, 'checkRefreshToken');
@@ -49,5 +59,10 @@ describe('AuthGuard', () => {
     checkRefreshTokenSpy.and.returnValue(Promise.resolve(false));
     await authGuard.canActivate();
     expect(sesionExpiredSpy).toHaveBeenCalledTimes(1);
+  });
+  
+  it('should skip token verification if feature flag is enabled', async() => {
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
+    await expectAsync(authGuard.canActivate()).toBeResolvedTo(true);
   });
 });

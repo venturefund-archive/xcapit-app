@@ -5,16 +5,25 @@ import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spe
 import { rawPaymentMethodsResponse } from '../../../fixtures/raw-payment-methods-response';
 import { DefaultProviders } from './default-providers';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 
 describe('DefaultProviders', () => {
   let providers: DefaultProviders;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
-
+  let coinsSpy: jasmine.SpyObj<Coin[]>;
   beforeEach(() => {
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', {
       getObject: rawProvidersData,
     });
-    providers = new DefaultProviders(new ProviderDataRepo(remoteConfigSpy), new FakeHttpClient(rawPaymentMethodsResponse));
+    coinsSpy = [
+      jasmine.createSpyObj('Coin', {}, { name: 'USDC', value: 'USDC', network: 'MATIC' }),
+      jasmine.createSpyObj('Coin', {}, { name: 'ETH', value: 'ETH', network: 'ERC20' }),
+    ];
+
+    providers = new DefaultProviders(
+      new ProviderDataRepo(remoteConfigSpy),
+      new FakeHttpClient(rawPaymentMethodsResponse)
+    );
   });
 
   it('new', () => {
@@ -28,13 +37,13 @@ describe('DefaultProviders', () => {
   it('availablesBy when country have directaCode', async () => {
     const country = rawProviderCountriesData.find((country) => country.name === 'Ecuador');
     const expectedProviders = rawProvidersData.filter((provider) => provider.alias === 'GB');
-    expect(await providers.availablesBy(country)).toEqual(expectedProviders);
+    expect(await providers.availablesBy(country, coinsSpy[0])).toEqual(expectedProviders);
   });
 
   it('availablesBy when country doesnt have directaCode', async () => {
     const country = rawProviderCountriesData.find((country) => country.name === 'Honduras');
     const expectedProviders = rawProvidersData.filter((provider) => provider.countries.includes('Honduras'));
-    expect(await providers.availablesBy(country)).toEqual(expectedProviders);
+    expect(await providers.availablesBy(country, coinsSpy[1])).toEqual(expectedProviders);
   });
 
   it('byAlias', () => {

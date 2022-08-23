@@ -74,6 +74,7 @@ const itemMenu: MenuCategory[] = [
 const profile = { email: 'test@mail.com' };
 
 describe('UserProfileMenuPage', () => {
+  const anERC20Address = '0x0123456789101112131415';
   let component: UserProfileMenuPage;
   let fixture: ComponentFixture<UserProfileMenuPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserProfileMenuPage>;
@@ -94,94 +95,92 @@ describe('UserProfileMenuPage', () => {
   let storageSpy: jasmine.SpyObj<Storage>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
 
-  beforeEach(
-    waitForAsync(() => {
-      logOutModalServiceSpy = jasmine.createSpyObj('LogOutModalService', {
-        isShowModalTo: Promise.resolve(true),
-        addUserToNotShowModal: Promise.resolve(),
-      });
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
+  beforeEach(waitForAsync(() => {
+    logOutModalServiceSpy = jasmine.createSpyObj('LogOutModalService', {
+      isShowModalTo: Promise.resolve(true),
+      addUserToNotShowModal: Promise.resolve(),
+    });
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
 
-      apiProfilesServiceSpy = jasmine.createSpyObj('ApiProfilesService', { getUserData: of(profile) });
-      authServiceSpy = jasmine.createSpyObj(
-        'AuthService',
-        {
-          logout: null,
-        },
-        {
-          isLoggedIn: new ReplaySubject<boolean>(1),
-        }
-      );
-      fakeModalController = new FakeModalController();
-      modalControllerSpy = fakeModalController.createSpy();
+    apiProfilesServiceSpy = jasmine.createSpyObj('ApiProfilesService', { getUserData: of(profile) });
+    authServiceSpy = jasmine.createSpyObj(
+      'AuthService',
+      {
+        logout: null,
+      },
+      {
+        isLoggedIn: new ReplaySubject<boolean>(1),
+      }
+    );
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
 
-      languageServiceSpy = jasmine.createSpyObj('LanguageService', {
-        setInitialAppLanguage: null,
-        getLanguages: [],
-        setLanguage: null,
-        getSelectedLanguage: Promise.resolve('es'),
-      });
+    languageServiceSpy = jasmine.createSpyObj('LanguageService', {
+      setInitialAppLanguage: null,
+      getLanguages: [],
+      setLanguage: null,
+      getSelectedLanguage: Promise.resolve('es'),
+    });
 
-      fakeWalletService = new FakeWalletService(true, {});
-      walletServiceSpy = fakeWalletService.createSpy();
+    fakeWalletService = new FakeWalletService(true, {}, { ERC20: anERC20Address });
+    walletServiceSpy = fakeWalletService.createSpy();
 
-      apiTicketsServiceSpy = jasmine.createSpyObj(
-        'ApiTicketsService',
-        {},
-        {
-          crud: jasmine.createSpyObj('CRUD', {
-            create: of(),
-          }),
-        }
-      );
+    apiTicketsServiceSpy = jasmine.createSpyObj(
+      'ApiTicketsService',
+      {},
+      {
+        crud: jasmine.createSpyObj('CRUD', {
+          create: of(),
+        }),
+      }
+    );
 
-      walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
-        enableModal: Promise.resolve(),
-      });
+    walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
+      enableModal: Promise.resolve(),
+    });
 
-      storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        removeWalletFromStorage: Promise.resolve(),
-      });
-      ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
-        set: Promise.resolve(),
-      });
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      removeWalletFromStorage: Promise.resolve(),
+    });
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      set: Promise.resolve(),
+    });
 
-      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
-        killSession: Promise.resolve(),
-      });
+    walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
+      killSession: Promise.resolve(),
+    });
 
-      storageSpy = jasmine.createSpyObj('Storage', {
-        set: Promise.resolve(),
-      });
+    storageSpy = jasmine.createSpyObj('Storage', {
+      set: Promise.resolve(),
+    });
 
-      TestBed.configureTestingModule({
-        declarations: [UserProfileMenuPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [
-          { provide: ApiProfilesService, useValue: apiProfilesServiceSpy },
-          { provide: AuthService, useValue: authServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ModalController, useValue: modalControllerSpy },
-          { provide: LanguageService, useValue: languageServiceSpy },
-          { provide: WalletService, useValue: walletServiceSpy },
-          { provide: LogOutModalService, useValue: logOutModalServiceSpy },
-          { provide: ApiTicketsService, useValue: apiTicketsServiceSpy },
-          { provide: StorageService, useValue: storageServiceSpy },
-          { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
-          { provide: WalletConnectService, useValue: walletConnectServiceSpy },
-          { provide: Storage, useValue: storageSpy },
-          { provide: WalletBackupService, useValue: walletBackupServiceSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    TestBed.configureTestingModule({
+      declarations: [UserProfileMenuPage, FakeTrackClickDirective],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: ApiProfilesService, useValue: apiProfilesServiceSpy },
+        { provide: AuthService, useValue: authServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: LanguageService, useValue: languageServiceSpy },
+        { provide: WalletService, useValue: walletServiceSpy },
+        { provide: LogOutModalService, useValue: logOutModalServiceSpy },
+        { provide: ApiTicketsService, useValue: apiTicketsServiceSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+        { provide: Storage, useValue: storageSpy },
+        { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(UserProfileMenuPage);
-      component = fixture.componentInstance;
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(UserProfileMenuPage);
+    component = fixture.componentInstance;
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -301,5 +300,10 @@ describe('UserProfileMenuPage', () => {
     button.nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/tabs/home');
+  });
+
+  it('should set username on enter', async () => {
+    await component.ionViewWillEnter();
+    expect(component.username).toEqual('Xcapiter 0x012');
   });
 });

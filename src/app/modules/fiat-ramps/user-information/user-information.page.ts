@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { Countries } from '../enums/countries.enum';
@@ -178,7 +178,7 @@ import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disc
   styleUrls: ['./user-information.page.scss'],
 })
 export class UserInformationPage implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     nombre: ['', [Validators.required, Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ '-]*$")]],
     apellido: ['', [Validators.required, Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ '-]*$")]],
     nacionalidad: ['', [Validators.required]],
@@ -206,7 +206,7 @@ export class UserInformationPage implements OnInit {
 
   constructor(
     public submitButtonService: SubmitButtonService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private modalController: ModalController
@@ -220,6 +220,7 @@ export class UserInformationPage implements OnInit {
     const modal = await this.modalController.create({
       component: KycDisclaimerModalComponent,
       cssClass: 'kyc-disclaimer-modal',
+      backdropDismiss: false
     });
     await modal.present();
   }

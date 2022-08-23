@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { TICKET_CATEGORIES } from 'src/app/modules/tickets/shared-tickets/constants/ticket-categories';
 import { TranslateService } from '@ngx-translate/core';
@@ -76,7 +76,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./create-ticket-form.component.scss'],
 })
 export class CreateTicketFormComponent implements OnInit {
-  form: FormGroup = this.formBuilder.group({
+  form: UntypedFormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     subject: ['', [Validators.required]],
     message: ['', [Validators.required, Validators.maxLength(2000)]],
@@ -95,7 +95,7 @@ export class CreateTicketFormComponent implements OnInit {
 
   constructor(
     public submitButtonService: SubmitButtonService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private translate: TranslateService
   ) {}
 

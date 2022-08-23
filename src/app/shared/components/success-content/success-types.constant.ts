@@ -8,6 +8,14 @@ export const SUCCESS_TYPES = {
     urlSecondaryAction: '/tabs/home',
     nameSecondaryAction: 'profiles.success_profile.nameSecondaryAction',
   },
+  success_profile_test: {
+    image: '/assets/img/profiles/success-profile-test.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'profiles.success_profile_test.text_primary',
+    textSecondary: 'profiles.success_profile_test.text_secondary',
+    urlPrimaryAction: '/tabs/wallets',
+    namePrimaryAction: 'profiles.success_profile_test.name_primary_action',
+  },
   apikeys_new: {
     urlClose: '/tabs/home',
     textPrimary: 'apikeys.success_apikeys.textPrimary',
@@ -124,7 +132,9 @@ export const SUCCESS_TYPES = {
   success_wallet_recovery: {
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.success_wallet_recovery.title',
-    urlPrimaryAction: '/tabs/wallets',
+    image:'assets/img/wallets/success_celebration.svg',
+    textSecondary:'wallets.success_wallet_recovery.subtitle',
+    urlPrimaryAction: '/profiles/profile-test',
     namePrimaryAction: 'wallets.success_wallet_recovery.button',
     trackClickEventNamePrimaryAction: 'ux_import_go_to_home',
   },
@@ -271,7 +281,7 @@ export const SUCCESS_TYPES = {
     textSecondary:'financial_education.success_submodule.textSecondary',
     namePrimaryAction:'financial_education.success_submodule.buttonText',
     nameThirdAction:"financial_education.success_submodule.buttonText2",
-    urlPrimaryAction:'',
+    urlPrimaryAction:'/tabs/financial-education',
     urlThirdAction:'tabs/financial-education',
     trackClickEventNamePrimaryAction: 'ux_education_next_module',
     trackClickEventNameThirdAction: 'ux_education_go_to_menu'
@@ -286,11 +296,14 @@ export const SUCCESS_TYPES = {
   },
   swap_in_progress:{
     image:"assets/img/swaps/swap-in-progress.svg",
+    icon:"assets/img/swaps/swap-icon.svg",
     urlClose:'/tabs/wallets',
     textPrimary: 'swaps.swap_in_progress.text_primary', 
     textSecondary:'swaps.swap_in_progress.text_secondary',
     namePrimaryAction:'swaps.swap_in_progress.button_text',
     urlPrimaryAction:'/tabs/wallets',
+    titlePrimary: 'swaps.swap_in_progress.text_title',
+    textBadge: 'swaps.swap_in_progress.text_badge'
   },
   error_no_wallet_financial_education: {
     image: '/assets/img/financial-education/error-no-wallet.svg',

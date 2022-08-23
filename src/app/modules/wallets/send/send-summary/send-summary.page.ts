@@ -13,6 +13,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { isAddress } from 'ethers/lib/utils';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
+import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
+import { TrackService } from '../../../../shared/services/track/track.service';
 
 @Component({
   selector: 'app-send-summary',
@@ -74,7 +76,8 @@ export class SendSummaryPage implements OnInit {
     private route: ActivatedRoute,
     private localNotificationsService: LocalNotificationsService,
     private translate: TranslateService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private trackService: TrackService
   ) {}
 
   ngOnInit() {}
@@ -239,21 +242,22 @@ export class SendSummaryPage implements OnInit {
     response
       .wait()
       .then((transaction: TransactionReceipt) => this.createNotification(transaction))
-      .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification));
+      .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification))
+      .then(() => this.trackService.trackEvent({
+        eventAction: 'async_tx',
+        description: window.location.href,
+        eventLabel: 'ux_send_notification_success'
+      }))
   }
 
   private async handleSendError(error) {
-    if (this.isInvalidPasswordError(error)) {
+    if (new PasswordErrorMsgs().isInvalidError(error)) {
       await this.handleInvalidPassword();
     } else if (this.isNotEnoughBalanceError(error)) {
       await this.handleNotEnoughBalance();
     } else {
       throw error;
     }
-  }
-
-  private isInvalidPasswordError(error) {
-    return error.message === 'invalid password';
   }
 
   private isNotEnoughBalanceError(error) {

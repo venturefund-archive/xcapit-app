@@ -7,21 +7,21 @@ import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/
   providedIn: 'root',
 })
 export class HasWallet implements CanActivate {
+  private defaultFallbackUrl = '/wallets/no-wallet';
   constructor(private navController: NavController, private storageService: StorageService) {}
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const fallbackUrl: string = route.data.hasWalletFallbackUrl ?? '/wallets/no-wallet';
-    const walletExist = await this.walletExist();
-    if (!walletExist) await this.redirect(fallbackUrl);
-
-    return !!walletExist;
+    return this.walletExist().then((exists) => {
+      if (!exists) this.redirect(route.data.hasWalletFallbackUrl);
+      return exists;
+    });
   }
 
   walletExist(): Promise<boolean> {
-    return this.storageService.getWalletFromStorage();
+    return this.storageService.getWalletFromStorage().then((wallet) => !!wallet);
   }
 
   redirect(fallbackUrl: string) {
-    return this.navController.navigateForward([fallbackUrl]);
+    return this.navController.navigateForward([fallbackUrl ?? this.defaultFallbackUrl]);
   }
 }

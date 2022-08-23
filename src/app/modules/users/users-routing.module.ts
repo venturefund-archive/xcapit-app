@@ -2,11 +2,18 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NoAuthGuard } from './shared-users/guards/no-auth/no-auth.guard';
 import { AuthGuard } from './shared-users/guards/auth/auth.guard';
+import { NoAuthNewGuard } from './shared-users/guards/no-auth-new/no-auth-new.guard';
+import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 
 const routes: Routes = [
   {
     path: 'users',
     children: [
+      {
+        path: 'on-boarding',
+        canActivate: [NoAuthNewGuard],
+        loadChildren: () => import('./on-boarding/on-boarding.module').then((m) => m.OnBoardingPageModule),
+      },
       {
         path: 'register',
         canActivate: [NoAuthGuard],
@@ -54,6 +61,20 @@ const routes: Routes = [
         path: 'password-change',
         canActivate: [AuthGuard],
         loadChildren: () => import('./password-change/password-change.module').then((m) => m.PasswordChangePageModule),
+      },
+      {
+        path: 'login-new',
+        loadChildren: () => import('./login-new/login-new.module').then((m) => m.LoginNewPageModule),
+      },
+      {
+        path: 'account-recovery',
+        loadChildren: () =>
+          import('./account-recovery/account-recovery.module').then((m) => m.AccountRecoveryPageModule),
+      },
+      {
+        path: 'recovery-info',
+        loadChildren: () =>
+          import('./account-recovery-info/account-recovery-info.module').then((m) => m.AccountRecoveryInfoPageModule),
       },
     ],
   },

@@ -7,9 +7,22 @@
 
       &__submit-button {
         display: flex;
+        flex-direction: column;
+        padding-bottom: 24px;
 
         &__button {
           flex-grow: 1;
+        }
+      }
+
+      &__text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 16px;
+
+        &__button {
+          margin-left: 8px;
         }
       }
     }

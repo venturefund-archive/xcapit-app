@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -39,6 +40,7 @@ describe('WalletTotalBalanceCardComponent', () => {
           { provide: NavController, useValue: navControllerSpy },
           { provide: LocalStorageService, useValue: localStorageServiceSpy },
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();
 
       fixture = TestBed.createComponent(WalletTotalBalanceCardComponent);
@@ -87,18 +89,12 @@ describe('WalletTotalBalanceCardComponent', () => {
     expect(subtitleEl.nativeElement.innerHTML).toContain('home.home_page.want_my_wallet.subtitle');
   });
 
-  it('should hide balance when eye button is clicked', async () => {
+
+  it('should render eye component', async () => {
     component.walletExist = true;
     fixture.detectChanges();
-    await fixture.whenStable();
-    const eyeEl = fixture.debugElement.query(By.css('a.wbc__content_balance__body__eye-button'));
-    eyeEl.nativeElement.click();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    expect(localStorageServiceSpy.toggleHideFunds).toHaveBeenCalled();
-    component.hideFundText = true;
-    fixture.detectChanges();
-    const divEl = fixture.debugElement.query(By.css('div.wbc__content_balance__body__balance'));
-    expect(divEl.nativeElement.innerHTML).toContain('****');
+    const componentEl = fixture.debugElement.query(By.css('app-eye'));
+    expect(componentEl).toBeTruthy();
   });
+
 });

@@ -9,7 +9,9 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
         <ion-buttons slot="start">
           <ion-back-button defaultHref="tabs/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ 'financial_education.introduction.financial_freedom.header' | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{
+          'financial_education.introduction.financial_freedom.header' | translate
+        }}</ion-title>
         <ion-buttons class="back-button" slot="end">
           <app-share-education></app-share-education>
         </ion-buttons>
@@ -52,19 +54,19 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
   styleUrls: ['./financial-freedom.page.scss'],
 })
 export class FinancialFreedomPage implements OnInit {
-  constructor(private navController : NavController, private trackService : TrackService) {}
+  constructor(private navController: NavController, private trackService: TrackService) {}
 
   ngOnInit() {}
 
   navigateExplanation() {
-    this.navController.navigateForward('financial-education/introduction/explanation')
+    this.navController.navigateForward('financial-education/introduction/explanation');
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: 'ux_education_screenview_intro_1'
+      eventLabel: 'ux_education_screenview_intro_1',
     });
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ControlContainer, FormGroup, FormGroupDirective } from '@angular/forms';
+import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { Coin } from '../../../../../wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interface';
 
@@ -91,7 +91,7 @@ export class ProviderNewOperationCardComponent implements OnInit {
   @Input() coinSelectorEnabled = true;
   @Output() changeCurrency = new EventEmitter<void>();
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   constructor(private formGroupDirective: FormGroupDirective) {}
 
   ngOnInit() {

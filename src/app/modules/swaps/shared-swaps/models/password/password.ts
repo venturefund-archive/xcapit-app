@@ -1,3 +1,5 @@
+import { PasswordErrorMsgs } from "./password-error-msgs";
+
 export class Password {
 
   constructor(private _aString: string) { }
@@ -9,7 +11,7 @@ export class Password {
 
   private _validate() {
     if (this._aString === '' || !this._aString) {
-      throw Error('Empty Password');
+      throw Error(new PasswordErrorMsgs().empty());
     }
   }
 }

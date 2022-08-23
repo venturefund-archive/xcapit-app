@@ -2,6 +2,18 @@
   font-family: var(--ux-font-gilroy);
 
   .wad {
+    &__invest-button {
+      width: 85px;
+      height: 44px;
+      margin-left: auto;
+      font-family: var(--ux-font-worksans);
+      font-weight: var(--ux-fweight-semibold);
+      font-size: var(--ux-fsize-16);
+
+      --background-activated: transparent !important;
+      --ion-color-shade: transparent !important;
+    }
+
     &__card {
       margin: 0;
     }
@@ -24,9 +36,8 @@
     }
 
     &__title_and_image {
-      margin-top: 19px;
-      margin-left: 16px;
-      display: inline-flex;
+      margin: 19px 16px 0;
+      display: flex;
       align-items: center;
 
       &__image_container {

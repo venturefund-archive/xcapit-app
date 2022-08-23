@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { CONFIG } from 'src/app/config/app-constants.config';
+import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 import { ItemFormError } from 'src/app/shared/models/item-form-error';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validator-errors';
@@ -94,7 +95,7 @@ import { WalletEncryptionService } from '../../shared-wallets/services/wallet-en
 export class WalletPasswordChangePage implements OnInit {
   loading = false;
   disable = false;
-  changePasswordForm: FormGroup = this.formBuilder.group(
+  changePasswordForm: UntypedFormGroup = this.formBuilder.group(
     {
       old_password: ['', [Validators.required]],
       password: [
@@ -120,7 +121,7 @@ export class WalletPasswordChangePage implements OnInit {
   repeatPasswordErrors: ItemFormError[] = [...CONFIG.fieldErrors.repeatPassword, ...CONFIG.fieldErrors.password];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public submitButtonService: SubmitButtonService,
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService
@@ -142,7 +143,7 @@ export class WalletPasswordChangePage implements OnInit {
       .changePassword(this.changePasswordForm.value.old_password, this.changePasswordForm.value.password)
       .then(() => this.navController.navigateForward(['/wallets/password-change/success']))
       .catch((error) => {
-        if (error.message === 'invalid password') {
+        if (new PasswordErrorMsgs().isInvalidError(error)) {
           this.showIncorrectPasswordError();
         } else {
           this.navController.navigateForward(['/wallets/password-change/error']);
