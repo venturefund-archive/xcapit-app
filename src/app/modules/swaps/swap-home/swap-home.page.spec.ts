@@ -38,7 +38,6 @@ import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
 import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-error-msgs';
 
-
 const testLocalNotificationOk: LocalNotificationSchema = {
   id: 1,
   title: 'swaps.sent_notification.swap_ok.title',

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { WalletPasswordComponent } from '../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
@@ -83,7 +83,7 @@ import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-erro
                 <ion-input
                   class="sw__swap-card__from__detail__amount__input"
                   formControlName="fromTokenAmount"
-                  type="number"
+                  type="text"
                   inputmode="decimal"
                 ></ion-input>
               </form>
@@ -179,7 +179,10 @@ export class SwapHomePage {
   tplFee: RawAmount = new NullAmountOf().json();
   tplSwapInfo: RawSwapInfo = new NullJSONSwapInfo().value();
   form: UntypedFormGroup = this.formBuilder.group({
-    fromTokenAmount: ['0', [Validators.required, CustomValidators.greaterThan(0)]],
+    fromTokenAmount: [
+      '0',
+      [Validators.required, CustomValidators.greaterThan(0), Validators.pattern(/^[0-9]+(([\,\.]?[0-9]+)*)?$/)],
+    ],
   });
   defaultNavBackUrl = 'tabs/wallets';
   swapInProgressUrl = 'swaps/swap-in-progress';
@@ -247,7 +250,10 @@ export class SwapHomePage {
   private subscribeToFromTokenAmountChanges() {
     this.form
       .get('fromTokenAmount')
-      .valueChanges.pipe(debounceTime(500))
+      .valueChanges.pipe(
+        debounceTime(500),
+        map((val) => (val ? parseFloat(val) : val))
+      )
       .subscribe(async (value) => {
         this.setNullFeeInfo();
         await this.setSwapInfo(value);

@@ -33,15 +33,18 @@ export class CustomValidators {
 
   static isAddress(error: ValidationErrors = CustomValidatorErrors.isAddress): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-    return isAddress(control.value) ? null : error
+      return isAddress(control.value) ? null : error;
     };
   }
 
-  static advancedCountWords(value: number, error: ValidationErrors = CustomValidatorErrors.countWordsMatch): ValidatorFn {
+  static advancedCountWords(
+    value: number,
+    error: ValidationErrors = CustomValidatorErrors.countWordsMatch
+  ): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const words = control.value.match(/[a-z0-9]+/g) || [];
-      const hasUppercase = /[A-Z]+/g.test(control.value)
-      return hasUppercase ||  words.length !== value ? error : null;
+      const hasUppercase = /[A-Z]+/g.test(control.value);
+      return hasUppercase || words.length !== value ? error : null;
     };
   }
 
@@ -60,7 +63,7 @@ export class CustomValidators {
 
       if (oldPassword === newPassword) {
         control.get('password').setErrors(CustomValidatorErrors.newPasswordMatchesOld);
-        return CustomValidatorErrors.newPasswordMatchesOld
+        return CustomValidatorErrors.newPasswordMatchesOld;
       }
 
       return null;
@@ -92,7 +95,8 @@ export class CustomValidators {
 
   static greaterThan(min: number, error: ValidationErrors = CustomValidatorErrors.greaterThanError): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return control.value !== undefined && (isNaN(control.value) || control.value <= min) ? error : null;
+      const value = control.value ? parseFloat(control.value.toString()) : control.value;
+      return value !== undefined && (isNaN(value) || value <= min) ? error : null;
     };
   }
 
