@@ -114,7 +114,7 @@ export class OperationsNewPage implements AfterViewInit {
   destroy$: Subject<void>;
 
   form: UntypedFormGroup = this.formBuilder.group({
-    cryptoAmount: ['', [Validators.required]],
+    cryptoAmount: ['25', [Validators.required]],
     fiatAmount: ['', [Validators.required]],
     thirdPartyKYC: [false, [Validators.requiredTrue]],
     thirdPartyTransaction: [false, [Validators.requiredTrue]],
