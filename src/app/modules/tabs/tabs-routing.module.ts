@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TabsComponent } from './tabs/tabs.component';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { HasWallet } from 'src/app/shared/guards/has-wallet/has-wallet';
+import { IntroductionCompletedGuard } from '../financial-education/shared-financial-education/guards/introduction-completed';
 
 const routes: Routes = [
   {
@@ -27,7 +28,7 @@ const routes: Routes = [
       },
       {
         path: 'financial-education',
-        canActivate: [HasWallet],
+        canActivate: [HasWallet, IntroductionCompletedGuard],
         loadChildren: () =>
           import('../financial-education/home-financial-education/home-financial-education.module').then(
             (m) => m.HomeFinancialEducationPageModule

@@ -130,16 +130,16 @@
       "of": "of"
     },
     "update_news": {
-      "title": "We have news!",
+      "title": "Good news!",
       "first": {
-        "badge": "Community",
-        "title": "Discord",
-        "description": "Join and be part of our community"
+        "badge": "New feature",
+        "title": "Swap",
+        "description": "Don't miss out on the best! Now you can exchange coins quickly, easily and securely."
       },
       "second": {
         "badge": "New feature",
-        "title": "Financial Planner",
-        "description": "Optimize the return on your money"
+        "title": "Financial education",
+        "description": "Take your crypto knowledge to the next level and become a crypto expert."
       }
     },
     "transaction_fees": {

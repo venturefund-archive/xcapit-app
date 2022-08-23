@@ -68,9 +68,8 @@ export class InvestorTestCardsComponent implements OnInit {
   testAvailable: boolean;
   constructor(
     private navController: NavController,
-    private storage: IonicStorageService,
-    private remoteConfigService: RemoteConfigService,
-  ) { }
+    private remoteConfigService: RemoteConfigService
+  ) {}
 
   ngOnInit() {
     this.testAvailable = this.remoteConfigService.getFeatureFlag('ff_educationCardAvailable');
@@ -83,10 +82,6 @@ export class InvestorTestCardsComponent implements OnInit {
   }
 
   async goToEducation() {
-    if (this.testAvailable) {
-      const introductionCompleted = await this.storage.get('introductionCompleted');
-      const url = !introductionCompleted ? 'financial-education/introduction/financial-freedom' : 'tabs/financial-education';
-      this.navController.navigateForward([url]);
-    }
+    if (this.testAvailable) this.navController.navigateForward(['tabs/financial-education']);
   }
 }

@@ -122,11 +122,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
 
   async goToSwap() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
-      const termsAndConditions1InchSwapAccepted = await this.storage.get('termsAndConditions1InchSwapAccepted');
-      const url = !termsAndConditions1InchSwapAccepted
-        ? ['swaps/swap-terms-and-conditions']
-        : defaultSwapsUrls.swapHome;
-      this.navController.navigateForward(url);
+      this.navController.navigateForward(defaultSwapsUrls.swapHome);
     }
   }
 }
