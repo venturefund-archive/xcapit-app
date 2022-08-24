@@ -2078,9 +2078,9 @@
   "fiat_ramps": {
     "buy_conditions": {
       "title": "¿Qué necesitas saber antes de comprar?",
-      "condition_1": "Las compras se realizan a través de un proovedor externo. Xcapit no vende criptomonedas.",
+      "condition_1": "Las compras se realizan a través de un proveedor externo. Xcapit no vende criptomonedas.",
       "condition_2": "Las condiciones de venta y entrega de tokens dependen de cada proveedor.",
-      "condition_3": "El proovedor puede solicitarte información de verificación o KYC. Xcapit no pide (ni pedirá) datos personales ni de validación.",
+      "condition_3": "El proveedor puede solicitarte información de verificación o KYC. Xcapit no pide (ni pedirá) datos personales ni de validación.",
       "label_check": "Estoy de acuerdo con los términos y condiciones de compra.",
       "button": "Continuar"
     },
@@ -2291,7 +2291,7 @@
       "provider": {
         "label": "Proveedor",
         "name": "Moonpay",
-        "description": "Proovedor de terceros"
+        "description": "Proveedor de terceros"
       },
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
       "information": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
@@ -2674,8 +2674,8 @@
     },
     "terms_and_conditions": {
       "title": "¿Qué necesitas saber antes de realizar un intercambio?",
-      "condition_1": "El intercambio se realiza a través del proovedor externo “1inch”.",
-      "condition_2": "Las condiciones de intercambio de tokens dependen del proovedor.",
+      "condition_1": "El intercambio se realiza a través del proveedor externo “1inch”.",
+      "condition_2": "Las condiciones de intercambio de tokens dependen del proveedor.",
       "condition_3": "Los intercambios poseen costos de transacción asociados.",
       "terms": {
         "i_have_read": "Leí y estoy de acuerdo con los",
