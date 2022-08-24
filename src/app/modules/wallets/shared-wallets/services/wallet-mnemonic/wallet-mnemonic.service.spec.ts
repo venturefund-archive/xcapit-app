@@ -18,13 +18,19 @@ const testMnemonic = {
 describe('WalletMnemonicService', () => {
   let service: WalletMnemonicService;
   let fakeWallet: jasmine.SpyObj<Wallet>;
+  let utilsSpy: jasmine.SpyObj<any>;
 
   beforeEach(() => {
+    utilsSpy = jasmine.createSpyObj('utils', {
+      mnemonicToSeed: '0x00323467',
+      arrayify: Uint8Array.from([0, 50, 52, 103])
+    });
     fakeWallet = jasmine.createSpyObj('Wallet', {
       _mnemonic: testMnemonic.wallet,
     });
     TestBed.configureTestingModule({});
     service = TestBed.inject(WalletMnemonicService);
+    service.utils = utilsSpy;
   });
 
   it('should be created', () => {
@@ -66,4 +72,12 @@ describe('WalletMnemonicService', () => {
     service.mnemonic = undefined;
     expect(service.getMnemonic).toThrowError(TypeError, "Cannot read properties of undefined (reading 'mnemonic')");
   });
+
+  it('should return seed on getSeed', () => {
+    service.mnemonic = testMnemonic.constant;
+    const seed = service.getSeed();
+    expect(seed).toBeInstanceOf(Uint8Array);
+    expect(utilsSpy.mnemonicToSeed).toHaveBeenCalledOnceWith(testMnemonic.constant.phrase);
+    expect(utilsSpy.arrayify).toHaveBeenCalledOnceWith('0x00323467');
+  })
 });

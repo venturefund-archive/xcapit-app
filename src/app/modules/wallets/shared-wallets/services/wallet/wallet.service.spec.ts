@@ -6,6 +6,8 @@ import { WalletService } from './wallet.service';
 import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 import { NONPROD_COINS } from '../../constants/coins.nonprod';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
+import { environment } from 'src/environments/environment';
+import { Keypair } from '@solana/web3.js';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -20,18 +22,25 @@ const testCoins = {
 };
 
 const testWallet: Wallet = { address: 'testAddress' } as Wallet;
+const testWalletSolana: Keypair = { _keypair: { secretKey: 'testPrivate', publicKey: 'testPublic' }} as unknown as Keypair;
 
 describe('WalletService', () => {
   let service: WalletService;
   let walletMnemonicService: WalletMnemonicService;
-  let walletMnemonicServiceMock;
+  let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
   let blockchainProviderServiceMock;
   let blockchainProviderService: BlockchainProviderService;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   beforeEach(() => {
-    walletMnemonicServiceMock = {
-      mnemonic: testMnemonic,
-    };
+    walletMnemonicServiceSpy = jasmine.createSpyObj(
+      'WalletMnemonicService',
+      {
+        getSeed: Uint8Array.from([0, 50, 52, 103]),
+      },
+      {
+        mnemonic: testMnemonic,
+      }
+    );
     blockchainProviderServiceMock = {
       getFormattedBalanceOf: (address: string, asset: string) => Promise.resolve('20'),
     };
@@ -40,7 +49,7 @@ describe('WalletService', () => {
     });
     TestBed.configureTestingModule({
       providers: [
-        { provide: WalletMnemonicService, useValue: walletMnemonicServiceMock },
+        { provide: WalletMnemonicService, useValue: walletMnemonicServiceSpy },
         { provide: BlockchainProviderService, useValue: blockchainProviderServiceMock },
         { provide: StorageService, useValue: storageServiceSpy },
       ],
@@ -67,7 +76,9 @@ describe('WalletService', () => {
     it(`should return ${data.returnValue} on mnemonicExist and mnemonic ${
       data.returnValue ? '' : 'not'
     } exists`, () => {
-      walletMnemonicServiceMock.mnemonic = data.mnemonic;
+      (Object.getOwnPropertyDescriptor(walletMnemonicServiceSpy, 'mnemonic').get as jasmine.Spy).and.returnValue(
+        data.mnemonic
+      );
       expect(service.mnemonicExists()).toBe(data.returnValue);
     });
   });
@@ -99,7 +110,7 @@ describe('WalletService', () => {
     const en = 'en';
     spyOn(service, 'mnemonicExists').and.returnValue(true);
     spyOn(service, 'selectedCoins').and.returnValue(true);
-    walletMnemonicService.mnemonic = testMnemonic;
+    (Object.getOwnPropertyDescriptor(walletMnemonicServiceSpy, 'mnemonic').get as jasmine.Spy).and.returnValue(testMnemonic);
     service.coins = testCoins.valid;
     const spy = spyOn(Wallet, 'fromMnemonic').and.returnValue(testWallet);
     service.create();
@@ -136,5 +147,30 @@ describe('WalletService', () => {
     const response = service.balanceOf('testAddress', 'testCoin');
     expect(spy).toHaveBeenCalledWith('testAddress', 'testCoin');
     await expectAsync(response).toBeResolvedTo('20');
+  });
+
+  it('should create solana keypair if derivation path matches solana on createForDerivedPath', () => {
+    spyOn(Keypair, 'fromSeed').and.returnValue(testWalletSolana);
+    const wallet: any = service.createForDerivedPath(environment.derivedPaths.SOLANA);
+    expect(wallet.publicKey).toEqual(testWalletSolana.publicKey);
+  });
+
+  it('should create ethers wallet if derivation path is not solana on createForDerivedPath', () => {
+    spyOn(Wallet, 'fromMnemonic').and.returnValue(testWallet);
+    const wallet: any = service.createForDerivedPath(environment.derivedPaths.ERC20);
+    expect(wallet.address).toEqual(testWallet.address);
+  });
+
+  it('should create solana wallet on create', () => {
+    const en = 'en';
+    spyOn(service, 'mnemonicExists').and.returnValue(true);
+    spyOn(service, 'selectedCoins').and.returnValue(true);
+    (Object.getOwnPropertyDescriptor(walletMnemonicServiceSpy, 'mnemonic').get as jasmine.Spy).and.returnValue(testMnemonic);
+    service.coins = testCoins.valid;
+    const fromMnemonicSpy = spyOn(Wallet, 'fromMnemonic').and.returnValue(testWallet);
+    const fromSeedSpy = spyOn(Keypair, 'fromSeed').and.returnValue(testWalletSolana);
+    service.create();
+    expect(fromMnemonicSpy).toHaveBeenCalledTimes(4);
+    expect(fromSeedSpy).toHaveBeenCalledTimes(1);
   });
 });

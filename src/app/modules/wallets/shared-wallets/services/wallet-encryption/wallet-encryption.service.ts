@@ -29,6 +29,7 @@ export class WalletEncryptionService {
     const derivedPaths = environment.derivedPaths;
 
     wallets.forEach((wallet) => {
+      // TODO: Fix this mess
       if (wallet.mnemonic.path === derivedPaths.ERC20) {
         this.ethWallet = wallet;
         this.walletsAddresses['BSC_BEP20'] = wallet.address.toLowerCase();
