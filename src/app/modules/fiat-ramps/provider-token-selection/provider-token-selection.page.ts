@@ -26,7 +26,7 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
       <div class="sc__list" *ngIf="this.coins">
         <app-token-selection-list
           [userCoins]="this.coins"
-          state="buy_moonpay"
+          state="buy"
           (clickedCoin)="this.selectCurrency($event)"
         ></app-token-selection-list>
       </div>
