@@ -277,11 +277,11 @@ describe('SwapHomePage', () => {
       fromToken: rawUSDCData.contract,
       toToken: rawMATICData.contract,
     });
-
+    const availableEl = fixture.debugElement.query(By.css('.sw__swap-card__from__detail__available ion-text '));
+    
     await component.ionViewDidEnter();
     fixture.detectChanges();
 
-    const availableEl = fixture.debugElement.query(By.css('.sw__swap-card__from__detail__available ion-text '));
     expect(availableEl.nativeElement.innerHTML).toContain('swaps.home.available 0');
   });
 

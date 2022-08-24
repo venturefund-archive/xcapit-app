@@ -183,7 +183,6 @@ export class SwapHomePage {
   private referral: Referral = new Referral();
   private fromTokenKey = 'fromToken';
   private toTokenKey = 'toToken';
-  token: Coin;
   balance= 0;
   loadingBtn: boolean;
   disabledBtn: boolean;
@@ -261,8 +260,8 @@ export class SwapHomePage {
   }
 
   async balanceAvailableOf(aCoin: string) {
-    this.token = this.apiWalletService.getCoin(aCoin);
-    this.balance = await this.walletBalance.balanceOf(this.token);
+    const aToken =  this.apiWalletService.getCoin(aCoin);
+    this.balance = await this.walletBalance.balanceOf(aToken);
   }
 
   private subscribeToFromTokenAmountChanges() {
