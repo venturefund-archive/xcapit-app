@@ -113,7 +113,7 @@ describe('SwapHomePage', () => {
     });
 
     walletBalanceSpy = jasmine.createSpyObj('WalletBalanceService', {
-      balanceOf: Promise.resolve(0),
+      balanceOf: Promise.resolve(10),
     });
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoin: rawUSDCData,
@@ -258,31 +258,20 @@ describe('SwapHomePage', () => {
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
     expect(component.sameTokens).toBeTrue();
   });
-
-  it('should show available amount', async () => {
-    fakeActivatedRoute.modifySnapshotParams({
-      fromToken: rawUSDCData.contract,
-      toToken: rawMATICData.contract,
-    });
-
-    await component.ionViewDidEnter();
-    fixture.detectChanges();
-
-    expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(1);
-    expect(walletBalanceSpy.balanceOf).toHaveBeenCalledTimes(1);
-  });
-
+  
   it('should show and render available amount properly', async () => {
     fakeActivatedRoute.modifySnapshotParams({
       fromToken: rawUSDCData.contract,
       toToken: rawMATICData.contract,
     });
-    const availableEl = fixture.debugElement.query(By.css('.sw__swap-card__from__detail__available ion-text '));
     
     await component.ionViewDidEnter();
     fixture.detectChanges();
-
-    expect(availableEl.nativeElement.innerHTML).toContain('swaps.home.available 0');
+    
+    const availableEl = fixture.debugElement.query(By.css('.sw__swap-card__from__detail__available ion-text '));
+    expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(1);
+    expect(walletBalanceSpy.balanceOf).toHaveBeenCalledTimes(1);
+    expect(availableEl.nativeElement.innerHTML).toContain('swaps.home.available 10');
   });
 
   it('should show swap info on valid from token amount value', fakeAsync(() => {

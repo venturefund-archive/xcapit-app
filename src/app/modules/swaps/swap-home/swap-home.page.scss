@@ -51,6 +51,7 @@
         }
       }
 
+      &__from,
       &__to {
         &__title {
           margin-bottom: 10px;
@@ -92,42 +93,11 @@
       }
 
       &__from {
-        &__title {
-          margin-bottom: 10px;
-        }
-
         &__detail {
-          display: flex;
-          flex-flow: row;
-          align-content: center;
-          justify-content: space-between;
           align-items: flex-start;
 
-          &__token {
-            width: 45%;
-          }
-
           &__amount {
-            width: 55%;
-            margin-left: 5px;
             margin-top: 29px;
-
-            &__input {
-              border-radius: 4px;
-              border: 1px solid var(--ion-color-neutral80);
-              background-color: var(--ion-color-neutral10);
-              color: var(--ion-color-neutral90);
-
-              --padding-start: 14px;
-              --padding-top: 12px;
-              --padding-end: 14px;
-              --padding-bottom: 12px;
-            }
-
-            &__value {
-              padding-bottom: 10px;
-              text-align: right;
-            }
           }
         }
       }
