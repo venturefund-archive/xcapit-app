@@ -42,33 +42,31 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           </ion-label>
         </ion-item>
       </ion-card>
+      <div class="id__buttons">
+        <div class="id__buttons__add-amount">
+          <app-icon-button-card
+            appTrackClick
+            name="ux_invest_add_amount"
+            [text]="'defi_investments.invest_detail.button' | translate"
+            icon="ux-up-arrow"
+            (click)="this.addAmount()"
+          ></app-icon-button-card>
+        </div>
+        <div class="id__buttons__withdraw">
+          <app-icon-button-card
+            appTrackClick
+            name="ux_invest_withdraw"
+            [text]="'defi_investments.invest_detail.button_link' | translate"
+            icon="ux-down-arrow"
+            (click)="this.goToWithdraw()"
+          ></app-icon-button-card>
+        </div>
+      </div>
       <div class="id__weekly-profit-disclaimer ion-padding-horizontal" *ngIf="this.disclaimer">
         <ion-label class=" ux-font-text-xs" color="neutral80">
           {{ this.updateEarningText | translate }}
         </ion-label>
       </div>
-      <ion-button
-        appTrackClick
-        name="ux_invest_add_amount"
-        expand="block"
-        size="large"
-        class="ion-padding-start ion-padding-end ux_button id__add-amount"
-        color="secondary"
-        (click)="this.addAmount()"
-      >
-        {{ 'defi_investments.invest_detail.button' | translate }}
-      </ion-button>
-      <ion-button
-        appTrackClick
-        name="ux_invest_withdraw"
-        expand="block"
-        fill="clear"
-        size="small"
-        class="link ux-link-xl ion-padding-start ion-padding-end id__finish-btn"
-        (click)="this.goToWithdraw()"
-      >
-        {{ 'defi_investments.invest_detail.button_link' | translate }}
-      </ion-button>
     </ion-content>`,
   styleUrls: ['./investment-detail.page.scss'],
 })
@@ -149,11 +147,12 @@ export class InvestmentDetailPage implements OnInit {
     const product = this.createAvailableDefiProducts()
       .value()
       .find((product) => product.id === this.investmentProduct.name());
-    if (product){
+    if (product) {
       this.disclaimer = true;
-      this.updateEarningText = product.continuousEarning ? 'defi_investments.invest_detail.continuous_update' : 'defi_investments.invest_detail.weekly_update'
-      
-    } 
+      this.updateEarningText = product.continuousEarning
+        ? 'defi_investments.invest_detail.continuous_update'
+        : 'defi_investments.invest_detail.weekly_update';
+    }
   }
 
   createAvailableDefiProducts(): AvailableDefiProducts {
