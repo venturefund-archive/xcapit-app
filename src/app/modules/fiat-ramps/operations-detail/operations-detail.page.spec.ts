@@ -68,7 +68,7 @@ const photo = {
   type: 'jpeg',
 };
 
-fdescribe('OperationsDetailPage', () => {
+describe('OperationsDetailPage', () => {
   let component: OperationsDetailPage;
   let fixture: ComponentFixture<OperationsDetailPage>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
