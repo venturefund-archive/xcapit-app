@@ -18,30 +18,28 @@ describe('UxInputComponent', () => {
   let toastServiceSpy: any;
   let formGroupDirectiveMock: any;
   let controlContainerMock: any;
-  beforeEach(
-    waitForAsync(() => {
-      toastServiceSpy = jasmine.createSpyObj('ToastService', { showInfoToast: Promise.resolve() });
-      clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', {
-        write: Promise.resolve(),
-        read: Promise.resolve({ value: 'test', type: 'text/plain' }),
-      });
-      controlContainerMock = new UntypedFormGroup({
-        testControl: new UntypedFormControl(),
-      });
-      formGroupDirectiveMock = new FormGroupDirective([], []);
-      formGroupDirectiveMock.form = controlContainerMock;
-      TestBed.configureTestingModule({
-        declarations: [UxInputComponent, FakeTrackClickDirective],
-        imports: [TranslateModule.forRoot()],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [
-          { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
-          { provide: ClipboardService, useValue: clipboardServiceSpy },
-          { provide: ToastService, useValue: toastServiceSpy },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    toastServiceSpy = jasmine.createSpyObj('ToastService', { showInfoToast: Promise.resolve() });
+    clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', {
+      write: Promise.resolve(),
+      read: Promise.resolve({ value: 'test', type: 'text/plain' }),
+    });
+    controlContainerMock = new UntypedFormGroup({
+      testControl: new UntypedFormControl(),
+    });
+    formGroupDirectiveMock = new FormGroupDirective([], []);
+    formGroupDirectiveMock.form = controlContainerMock;
+    TestBed.configureTestingModule({
+      declarations: [UxInputComponent, FakeTrackClickDirective],
+      imports: [TranslateModule.forRoot()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [
+        { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
+        { provide: ClipboardService, useValue: clipboardServiceSpy },
+        { provide: ToastService, useValue: toastServiceSpy },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UxInputComponent);

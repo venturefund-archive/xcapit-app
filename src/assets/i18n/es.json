@@ -269,15 +269,7 @@
   "tickets": {
     "create": {
       "title": "Enviar una solicitud",
-      "text": "Ingrese los detalles de su solicitud. Un integrante del equipo se pondrá en contacto a la brevedad.",
-      "label_email": "CORREO ELECTRÓNICO",
-      "placeholder_email": "ejemplo@email.com",
-      "label_subject": "ASUNTO",
-      "placeholder_subject": "Asunto",
-      "label_message": "¿CUÁL ES TU CONSULTA?",
-      "placeholder_message": "Escriba su consulta aquí.",
-      "submit_button": "Enviar",
-      "cancel_button": "Volver a inicio de sesión"
+      "text": "Ingrese los detalles de su solicitud. Un integrante del equipo se pondrá en contacto a la brevedad."
     },
     "createSuccess": {
       "textPrimary": "¡Gracias por comunicarte con nosotros!",
@@ -286,22 +278,36 @@
     },
     "create_support_ticket": {
       "header": "Soporte",
-      "info": "Ingresa tus comentarios para poder ayudarte. Un integrante del equipo se pondrá en contacto contigo."
+      "title": "¡Estamos para ayudarte!",
+      "info": "Nuestro equipo se pondrá en contacto contigo a la brevedad.",
+      "submit_button": "Enviar consulta"
     },
     "create_support_ticket_success": {
       "textPrimary": "¡Gracias por comunicarte con nosotros!",
       "textSecondary": "Quédate atento, recibirás la respuesta en tu mail",
       "namePrimaryAction": "Volver al inicio"
     },
+    "create_support_ticket_success_new_login": {
+      "textPrimary": "¡Consulta enviada exitosamente!",
+      "textSecondary": "Nuestro equipo ya se encuentra trabajando sobre tu caso. Te estaremos respondiendo a  la brevedad al email {{email}}",
+      "has_wallet": {
+        "namePrimaryAction": "Ir a mi Wallet",
+        "nameSecondaryAction": "Crear otra consulta"
+      },
+      "no_wallet": {
+        "namePrimaryAction": "Hacer otra consulta"
+      }
+    },
     "create_ticket_form": {
-      "label_email": "CORREO ELECTRÓNICO",
-      "placeholder_email": "ejemplo@email.com",
-      "label_subject": "Elige una categoría de consulta",
+      "label_subject": "Elige una categoría de consulta*",
       "placeholder_subject": "Seleccione una categoría",
-      "label_message": "Escribe tu consulta",
-      "placeholder_message": "Escriba su consulta aquí.",
-      "submit_button": "Enviar",
-      "cancel_button": "Volver a inicio de sesión"
+      "label_email": "Ingresa tu email*",
+      "placeholder_email": "ejemplo@email.com",
+      "label_message": "¿En qué podemos ayudarte?*",
+      "placeholder_message": "Escribe tu consulta aquí.",
+      "required": "*Campos obligatorios",
+      "disclaimer_text": "Xcapit utilizará tu email únicamente para comunicarse contigo y resolver tus consultas. Obtén más información sobre el uso de datos en",
+      "disclaimer_link": "Política de privacidad."
     },
     "categories": {
       "my_account": "Mi cuenta/Registro",

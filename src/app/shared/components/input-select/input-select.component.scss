@@ -1,6 +1,8 @@
 :host {
   .white {
     ion-item {
+      margin-top: 8px;
+
       --padding-start: 5px;
     }
 
@@ -12,7 +14,12 @@
       padding-top: 16px;
 
       &__label {
-        margin-left: 12px;
+        margin-left: 10px;
+        font-weight: 600;
+        color: var(--ion-color-primary);
+        font-size: 15px;
+        line-height: 18px;
+        font-family: var(--ux-font-lato);
       }
 
       &__item {
@@ -21,16 +28,20 @@
         padding-left: 0;
         height: 100%;
         border: 1px solid var(--ion-color-neutral80);
-        border-radius: 12px;
+        border-radius: 8px;
 
         --background: var(--ion-color-white);
         --inner-border-width: 0;
         --highlight-background: none;
 
-        font-weight: 400;
-        color: var(--ion-color-primary);
-        font-size: 14px;
-        font-family: var(--ux-font-lato);
+        &__placeholder {
+          margin-left: 10px;
+          font-weight: 400;
+          color: var(--ion-color-primary);
+          font-size: 15px;
+          line-height: 18px;
+          font-family: var(--ux-font-lato);
+        }
 
         &.item-has-focus {
           border: 1.5px solid var(--ion-color-secondary);
@@ -39,9 +50,9 @@
         }
 
         &__arrow_icon {
-          width: 10px;
-          margin-right: 10px;
-          color: var(--ion-color-neutral90);
+          width: 16px;
+          margin-right: 4px;
+          color: var(--ion-color-info);
         }
 
         &__logo {

@@ -5,18 +5,19 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { By } from '@angular/platform-browser';
-import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
 import { NavController } from '@ionic/angular';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { TrackService } from '../../services/track/track.service';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 describe('SuccessContentComponent', () => {
   let component: SuccessContentComponent;
   let fixture: ComponentFixture<SuccessContentComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SuccessContentComponent>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
-  let navControllerSpy: any;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
   let closeSuccessButton: any;
   let actionPrimaryButton: any;
   let actionSecondaryButton: any;
@@ -42,7 +43,8 @@ describe('SuccessContentComponent', () => {
   let testDataSpy: jasmine.SpyObj<any>;
   beforeEach(
     waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       testDataSpy = jasmine.createSpyObj('TestData', {}, testData);
       trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
         trackEvent: Promise.resolve(true),
@@ -122,7 +124,7 @@ describe('SuccessContentComponent', () => {
 
     it('should router navigate when Close Success is clicked', () => {
       closeSuccessButton.nativeElement.click();
-      expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.data.urlClose]);
+      expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith([component.data.urlClose], { animationDirection: 'forward' });
     });
 
     it('should router navigate when Success Action Primary is clicked', () => {
@@ -163,6 +165,4 @@ describe('SuccessContentComponent', () => {
     const imageEl = fixture.debugElement.query(By.css('.main__ux-success-image'));
     expect(imageEl).toBeTruthy();
   });
-
-  
 });

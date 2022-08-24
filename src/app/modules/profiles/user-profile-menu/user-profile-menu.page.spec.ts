@@ -22,6 +22,7 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { Storage } from '@ionic/storage';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 const itemMenu: MenuCategory[] = [
   {
@@ -38,8 +39,9 @@ const itemMenu: MenuCategory[] = [
       {
         name: 'Support',
         text: 'profiles.user_profile_menu.support_help',
-        route: 'tickets/create-support-ticket',
+        route: '/tickets/new-create-support-ticket',
         type: 'link',
+        buttonName: 'ux_go_to_contact_support',
       },
     ],
   },
@@ -69,6 +71,12 @@ const itemMenu: MenuCategory[] = [
       },
     ],
   },
+  {
+    id: 'wallet',
+    showCategory: false,
+    category_title: '',
+    icon: '',
+  },
 ];
 
 const profile = { email: 'test@mail.com' };
@@ -94,6 +102,7 @@ describe('UserProfileMenuPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let storageSpy: jasmine.SpyObj<Storage>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(waitForAsync(() => {
     logOutModalServiceSpy = jasmine.createSpyObj('LogOutModalService', {
@@ -102,6 +111,9 @@ describe('UserProfileMenuPage', () => {
     });
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: false,
+    });
 
     apiProfilesServiceSpy = jasmine.createSpyObj('ApiProfilesService', { getUserData: of(profile) });
     authServiceSpy = jasmine.createSpyObj(
@@ -172,6 +184,7 @@ describe('UserProfileMenuPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: Storage, useValue: storageSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -205,8 +218,9 @@ describe('UserProfileMenuPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get data of users when ionViewWillEnter is called', () => {
+  it('should get data of users when ionViewWillEnter is called', async () => {
     component.ionViewWillEnter();
+    await fixture.whenStable();
     expect(component.profile).toEqual(profile);
   });
 
@@ -292,7 +306,7 @@ describe('UserProfileMenuPage', () => {
     fixture.detectChanges();
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
-    expect(menu.length).toBe(3);
+    expect(menu.length).toBe(4);
   });
 
   it('should back to home when back button is clicked', async () => {
@@ -305,5 +319,21 @@ describe('UserProfileMenuPage', () => {
   it('should set username on enter', async () => {
     await component.ionViewWillEnter();
     expect(component.username).toEqual('Xcapiter 0x012');
+  });
+
+  it('should update route to support page when clicking ux_go_to_contact_support if feature flag is false', () => {
+    component.itemMenu = JSON.parse(JSON.stringify(itemMenu));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.itemMenu[0].items[1].route).toEqual('/tickets/create-support-ticket');
+  });
+
+  it('should not update route to support page when clicking ux_go_to_contact_support if feature flag is true', () => {
+    component.itemMenu = JSON.parse(JSON.stringify(itemMenu));
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.itemMenu[0].items[1].route).toEqual('/tickets/new-create-support-ticket');
   });
 });

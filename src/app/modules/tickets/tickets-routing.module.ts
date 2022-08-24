@@ -15,7 +15,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'create/success',
+        path: 'success',
         loadChildren: () =>
           import('./create-ticket-success/create-ticket-success.module').then((m) => m.CreateTicketSuccessPageModule),
       },
@@ -23,6 +23,23 @@ const routes: Routes = [
         path: 'create-support-ticket',
         loadChildren: () =>
           import('./create-support-ticket/create-support-ticket.module').then((m) => m.CreateSupportTicketPageModule),
+      },
+      {
+        path: 'new-create-support-ticket',
+        loadChildren: () =>
+          import('./new-create-support-ticket/new-create-support-ticket.module').then(
+            (m) => m.NewCreateSupportTicketPageModule
+          ),
+      },
+      {
+        path: 'new-success-wallet',
+        loadChildren: () =>
+          import('./new-success-wallet/new-success-wallet.module').then((m) => m.NewSuccessWalletPageModule),
+      },
+      {
+        path: 'new-success',
+        loadChildren: () =>
+          import('./new-success-no-wallet/new-success-no-wallet.module').then((m) => m.NewSuccessNoWalletPageModule),
       },
     ],
   },
