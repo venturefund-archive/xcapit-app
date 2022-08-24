@@ -10,6 +10,7 @@ import { DOC_TYPES } from '../constants/doc_types';
 import { NavController, ModalController } from '@ionic/angular';
 import * as moment from 'moment';
 import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disclaimer-modal/kyc-disclaimer-modal.component';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-user-information',
@@ -209,11 +210,16 @@ export class UserInformationPage implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private trackService: TrackService
   ) {}
 
   ngOnInit() {
     this.showModal();
+  }
+
+  ionViewWillEnter() {
+    this.trackScreenViewEvent();
   }
 
   async showModal(): Promise<void> {
@@ -246,5 +252,13 @@ export class UserInformationPage implements OnInit {
     valuesCopy.estado_civil = valuesCopy.estado_civil.name;
     valuesCopy.tipo_doc = valuesCopy.tipo_doc.name;
     return valuesCopy;
+  }
+
+  trackScreenViewEvent() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_buy_kripton_screenview_personal_details',
+    });
   }
 }
