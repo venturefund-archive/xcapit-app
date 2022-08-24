@@ -2115,10 +2115,12 @@
       "modal_info": {
         "subtitle_1": "Medios de pago habilitados:",
         "subtitle_2": "¿Cuál es el plazo de entrega?",
+        "subtitle_3": "Monto mínimo de compra:",
         "button": "Entendido",
         "kripton": {
           "description_1": "Transferencia bancaria.",
-          "description_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs. aproximadamente."
+          "description_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs. aproximadamente.",
+          "description_3": "25 USD por compra."
         },
         "moonpay": {
           "description_1": "Tarjeta de crédito.*",
