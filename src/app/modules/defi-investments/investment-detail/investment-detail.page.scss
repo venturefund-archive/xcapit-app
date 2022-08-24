@@ -20,6 +20,7 @@
           width: 100%;
           display: flex;
           justify-content: space-between;
+          padding-bottom: 18px;
 
           &__text {
             color: var(--ion-color-neutral90);
@@ -32,19 +33,26 @@
       margin-top: 8px;
     }
 
-    &__add-amount {
-      margin-top: 24px;
-      margin-bottom: 0;
-    }
+    &__buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: -28px;
 
-    &__finish-btn {
-      margin-top: 20.5px;
-    }
-  }
+      &__withdraw {
+        margin-left: 15px;
+      }
 
-  .link {
-    text-decoration: none;
-    font-weight: var(--ux-fweight-semibold);
+      &__add-amount {
+        margin-right: 15px;
+      }
+
+      &__withdraw,
+      &__add-amount {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
+    }
   }
 
   ion-item::part(native) {

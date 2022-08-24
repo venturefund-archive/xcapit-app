@@ -403,8 +403,8 @@
     },
     "invest_detail": {
       "header": "Mi inversión",
-      "button": "Añadir monto",
-      "button_link": "Realizar retiro",
+      "button": "Añadir",
+      "button_link": "Retirar",
       "invested_amount": "Balance*",
       "daily_earnings_disclaimer": "*Tu balance se actualiza a diario.",
       "continuous_update": "*Actualización continua",
