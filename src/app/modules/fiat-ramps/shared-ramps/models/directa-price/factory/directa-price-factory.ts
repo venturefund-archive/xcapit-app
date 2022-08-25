@@ -11,9 +11,8 @@ export class DirectaPriceFactory {
     miliseconds: number,
     fiatCurrency: string,
     cryptoCurrency: Coin,
-    http: HttpClient | FakeHttpClient,
     fiatRamps: FiatRampsService
   ): DirectaPrice {
-    return DirectaPrice.create(miliseconds, fiatCurrency, cryptoCurrency, http, fiatRamps);
+    return DirectaPrice.create(miliseconds, fiatCurrency, cryptoCurrency, fiatRamps);
   }
 }
