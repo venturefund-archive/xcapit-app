@@ -22,17 +22,17 @@ export class DirectaPrice {
     _httpClient: HttpClient | FakeHttpClient,
     _fiatRamps: FiatRampsService
   ): DirectaPrice {
-    return new this(timer(0, _milliseconds),_fiatCurrency, _cryptoCurrency, _httpClient, _fiatRamps);
+    return new this(timer(0, _milliseconds), _fiatCurrency, _cryptoCurrency, _httpClient, _fiatRamps);
   }
 
   private price(): Observable<any> {
-    return this._fiatRamps.getDirectaExchangeRate(this._fiatCurrency, this._cryptoCurrency.value, 1)
+    return this._fiatRamps.getDirectaExchangeRate(this._fiatCurrency, this._cryptoCurrency.value, 1);
   }
 
   public value(): Observable<number> {
     return this._timer.pipe(
       mergeMap(() => this.price()),
-      map((res) =>res)
+      map((res) => res.fx_rate)
     );
   }
 }
