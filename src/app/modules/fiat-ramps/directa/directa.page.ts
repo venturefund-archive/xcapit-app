@@ -103,6 +103,7 @@ export class DirectaPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.destroy$ = new Subject<void>();
     const providerAlias = this.route.snapshot.paramMap.get('alias');
     this.provider = this.getProviders().byAlias(providerAlias);
     this.setCountry();
