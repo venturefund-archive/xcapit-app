@@ -94,7 +94,9 @@ describe('CreatePasswordPage', () => {
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     fakeActivatedRoute.modifySnapshotParams({ mode: 'import' });
     walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {
-      newMnemonic: () => testMnemonic,
+      newMnemonic: testMnemonic,
+    },
+    {
       mnemonic: testMnemonic,
     });
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
@@ -132,10 +134,10 @@ describe('CreatePasswordPage', () => {
       'WalletService',
       {
         create: Promise.resolve({}),
+        createForDerivedPath: walletSpy
       },
       {
         coins: [],
-        createdWallets: [walletSpy],
       }
     );
 

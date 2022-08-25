@@ -8,6 +8,8 @@ import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { FakeEthersService } from 'src/testing/fakes/ethers.fake.spec';
 import { EthersService } from '../ethers/ethers.service';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
+import { Wallet } from 'ethers';
+import { Keypair } from '@solana/web3.js';
 
 const storageWallet = {
   alias: '0xa8d720DBC2bea006e8450a6c0456e169d2fD7954',
@@ -53,14 +55,6 @@ const modifiedPasswordWallet = {
   },
 };
 
-const wallet = {
-  address: 'testAddress',
-  mnemonic: {
-    path: "m/44'/60'/0'/0/0",
-  },
-  encrypt: jasmine.createSpy().and.returnValue(Promise.resolve(storageWallet)),
-};
-
 const testCoins: Coin[] = [
   {
     id: 1,
@@ -100,25 +94,37 @@ const testCoinsStructure = {
   RBTC: true,
 };
 
-describe('WalletEncryptionService', () => {
+fdescribe('WalletEncryptionService', () => {
   let service: WalletEncryptionService;
   let storageSpy: any;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let fakeEthers: FakeEthersService;
   let ethersServiceSpy: jasmine.SpyObj<EthersService>;
+  let ethersWalletSpy: jasmine.SpyObj<Wallet>;
+  let solanaWalletSpy: jasmine.SpyObj<Keypair>;
 
   beforeEach(() => {
     fakeEthers = new FakeEthersService();
     ethersServiceSpy = fakeEthers.createSpy();
-
+    // TODO: Finish making spies
+    ethersWalletSpy = jasmine.createSpyObj('Wallet', {
+      encrypt: Promise.resolve(storageWallet),
+    },
+    {
+      address: 'testAddress',
+      mnemonic: {
+        path: "m/44'/60'/0'/0/0",
+      }
+    });
     storageSpy = jasmine.createSpyObj('StorageService', ['saveWalletToStorage', 'getWalletFromStorage']);
     jasmine.setDefaultSpyStrategy((and) => and.callThrough());
     walletServiceSpy = jasmine.createSpyObj(
       'WalletService',
-      {},
       {
-        createdWallets: [wallet],
+        createForDerivedPath: ethersWalletSpy
+      },
+      {
         coins: testCoins,
       }
     );
