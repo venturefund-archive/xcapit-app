@@ -12,19 +12,19 @@ import { Component, OnInit } from '@angular/core';
                 <app-ux-loading-block minSize="30px"></app-ux-loading-block>
               </div>
               <div class="container">
-                <app-item-quote
+                <app-item-investment-history
                   *ngFor="let quote of this.firstQuotes; let last = last"
                   [quotation]="quote"
-                ></app-item-quote>
+                ></app-item-investment-history>
               </div>
               <ion-accordion-group>
                 <ion-accordion toggleIcon="" class="accordion" value="quotes">
                   <div slot="content" class="container">
-                    <app-item-quote
+                    <app-item-investment-history
                       *ngFor="let quote of this.remainingQuotes; let last = last"
                       [quotation]="quote"
                       [last]="last"
-                    ></app-item-quote>
+                    ></app-item-investment-history>
                   </div>
                 </ion-accordion>
               </ion-accordion-group>
@@ -63,9 +63,13 @@ import { Component, OnInit } from '@angular/core';
 export class InvestmentHistoryComponent implements OnInit {
   openedAccordion;
   waitingQuotes;
-  firstQuotes;
+  firstQuotes = [
+    { type: 'earning', date: '12-12-12', amount: '50 USD' },
+    { type: 'earning', date: '12-12-12', amount: '50 USD' },
+    { type: 'earning', date: '12-12-12', amount: '50 USD' },
+  ];
   remainingQuotes;
-  
+
   constructor() {}
 
   ngOnInit() {}
