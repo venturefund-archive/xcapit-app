@@ -84,7 +84,7 @@ export class DirectaPage implements OnInit {
   country: FiatRampProviderCountry;
   providerAlias: string;
   price: number;
-  miliseconds = 2000;
+  milliseconds = 2000;
   destroy$: Subject<void>;
 
   constructor(
@@ -169,7 +169,7 @@ export class DirectaPage implements OnInit {
 
   createDirectaPrice(): DirectaPrice {
     return this.directaPrice.new(
-      this.miliseconds,
+      this.milliseconds,
       this.fiatCurrency,
       this.selectedCurrency,
       this.fiatRampsService
