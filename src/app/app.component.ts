@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, NgZone } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { LanguageService } from './shared/services/language/language.service';
@@ -52,6 +52,7 @@ export class AppComponent implements OnInit {
     private walletConnectService: WalletConnectService,
     private walletBackupService: WalletBackupService,
     private localNotificationsService: LocalNotificationsService,
+    private navController : NavController
   ) {}
 
   ngOnInit() {
@@ -97,6 +98,17 @@ export class AppComponent implements OnInit {
               this.walletConnectService.checkDeeplinkUrl();
             }
           }
+        });
+      });
+    }
+  }
+
+  checkDynamicLinks(){
+    if (this.platformService.isNative()) {
+      App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+        this.zone.run(async () => {
+          const dynamicLinkURL = event.url.split('app.xcapit.com/').pop();
+          if (dynamicLinkURL) this.navController.navigateForward(dynamicLinkURL);
         });
       });
     }

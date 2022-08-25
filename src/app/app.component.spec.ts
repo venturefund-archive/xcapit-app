@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
 import { LoadingService } from './shared/services/loading/loading.service';
@@ -17,8 +17,9 @@ import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { LocalNotificationsService } from './modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
-describe('AppComponent', () => {
+fdescribe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let component: AppComponent;
@@ -37,6 +38,9 @@ describe('AppComponent', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   let localNotificationServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
+
 
   beforeEach(
     waitForAsync(() => {
@@ -53,6 +57,8 @@ describe('AppComponent', () => {
       updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
       remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', { initialize: Promise.resolve() });
       firebaseServiceSpy = jasmine.createSpyObj('FirebaseService', { init: null, getApp: {} });
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
       localNotificationServiceSpy = jasmine.createSpyObj('LocalNotificationsService', ['init']);
       walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
         retrieveWalletConnect: Promise.resolve(null),
@@ -84,6 +90,7 @@ describe('AppComponent', () => {
           { provide: WalletConnectService, useValue: walletConnectServiceSpy },
           { provide: WalletBackupService, useValue: walletBackupServiceSpy },
           { provide: LocalNotificationsService, useValue: localNotificationServiceSpy },
+          { provide: NavController, useValue: navControllerSpy },
         ],
         imports: [TranslateModule.forRoot()],
       }).compileComponents();
