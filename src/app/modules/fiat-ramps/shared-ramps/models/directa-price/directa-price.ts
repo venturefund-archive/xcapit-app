@@ -11,7 +11,6 @@ export class DirectaPrice {
     private readonly _timer: Observable<number>,
     private readonly _fiatCurrency: string,
     private readonly _cryptoCurrency: Coin,
-    private readonly _httpClient: HttpClient | FakeHttpClient,
     private readonly _fiatRamps: FiatRampsService
   ) {}
 
@@ -19,10 +18,9 @@ export class DirectaPrice {
     _milliseconds: number,
     _fiatCurrency: string,
     _cryptoCurrency: Coin,
-    _httpClient: HttpClient | FakeHttpClient,
     _fiatRamps: FiatRampsService
   ): DirectaPrice {
-    return new this(timer(0, _milliseconds), _fiatCurrency, _cryptoCurrency, _httpClient, _fiatRamps);
+    return new this(timer(0, _milliseconds), _fiatCurrency, _cryptoCurrency, _fiatRamps);
   }
 
   private price(): Observable<any> {
