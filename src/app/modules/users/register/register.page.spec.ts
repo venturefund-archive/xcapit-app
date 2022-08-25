@@ -72,7 +72,7 @@ describe('RegisterPage', () => {
   it('should open browser when openTOS is called', () => {
     component.openTOS();
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({
-      url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html',
+      url: 'https://www.xcapit.com/terminos-y-condiciones',
     });
   });
 
