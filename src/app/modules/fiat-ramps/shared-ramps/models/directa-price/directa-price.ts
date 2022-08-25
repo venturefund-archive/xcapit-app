@@ -26,7 +26,7 @@ export class DirectaPrice {
   }
 
   private price(): Observable<any> {
-    return this._fiatRamps.getDirectaExchangeRate(this._fiatCurrency, this._cryptoCurrency, 1)
+    return this._fiatRamps.getDirectaExchangeRate(this._fiatCurrency, this._cryptoCurrency.value, 1)
   }
 
   public value(): Observable<number> {
