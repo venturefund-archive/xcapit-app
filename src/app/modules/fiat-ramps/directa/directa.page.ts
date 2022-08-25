@@ -157,22 +157,22 @@ export class DirectaPage implements OnInit {
     this.form.patchValue({ cryptoAmount: value / this.price }, { emitEvent: false, onlySelf: true });
   }
 
+  updateAmounts(): void {
+    this.form.patchValue({ fiatAmount: this.form.value.cryptoAmount * this.price });
+  }
+
   private cryptoPrice() {
     this.createDirectaPrice()
       .value()
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
         this.price = price;
+        if (this.form.value.fiatAmount) this.updateAmounts();
       });
   }
 
   createDirectaPrice(): DirectaPrice {
-    return this.directaPrice.new(
-      this.milliseconds,
-      this.fiatCurrency,
-      this.selectedCurrency,
-      this.fiatRampsService
-    );
+    return this.directaPrice.new(this.milliseconds, this.fiatCurrency, this.selectedCurrency, this.fiatRampsService);
   }
 
   ionViewWillLeave() {
