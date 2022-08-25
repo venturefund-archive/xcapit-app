@@ -96,7 +96,6 @@ export class DirectaPage implements OnInit {
     private walletMaintenance: WalletMaintenanceService,
     private tokenOperationDataService: TokenOperationDataService,
     private directaPrice: DirectaPriceFactory,
-    private http: HttpClient,
     private fiatRampsService: FiatRampsService
   ) {}
 
@@ -173,7 +172,6 @@ export class DirectaPage implements OnInit {
       this.miliseconds,
       this.fiatCurrency,
       this.selectedCurrency,
-      this.http,
       this.fiatRampsService
     );
   }
