@@ -159,7 +159,7 @@ export class DirectaPage implements OnInit {
     this.createDirectaPrice()
       .value()
       .subscribe((price: number) => {
-        console.log(price)
+        this.price = price;
       });
   }
 
