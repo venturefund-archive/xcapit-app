@@ -14,8 +14,9 @@ import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price';
 import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/directa-price-factory';
-import { HttpClient } from '@angular/common/http';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-directa',
@@ -82,6 +83,8 @@ export class DirectaPage implements OnInit {
   country: FiatRampProviderCountry;
   providerAlias: string;
   price: number;
+  milliseconds = 2000;
+  destroy$: Subject<void>;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -92,13 +95,13 @@ export class DirectaPage implements OnInit {
     private walletMaintenance: WalletMaintenanceService,
     private tokenOperationDataService: TokenOperationDataService,
     private directaPrice: DirectaPriceFactory,
-    private http: HttpClient,
     private fiatRampsService: FiatRampsService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.destroy$ = new Subject<void>();
     const providerAlias = this.route.snapshot.paramMap.get('alias');
     this.provider = this.getProviders().byAlias(providerAlias);
     this.setCountry();
@@ -154,15 +157,26 @@ export class DirectaPage implements OnInit {
     this.form.patchValue({ cryptoAmount: value / this.price }, { emitEvent: false, onlySelf: true });
   }
 
-  private cryptoPrice() {
-    // this.createDirectaPrice()
-    //   .price()
-    //   .subscribe((price: number) => {
-    //     console.log(price)
-    //   });
+  updateAmounts(): void {
+    this.form.patchValue({ fiatAmount: this.form.value.cryptoAmount * this.price });
   }
 
-  // createDirectaPrice(): DirectaPrice {
-  //   // return this.directaPrice.new(this.fiatCurrency, this.selectedCurrency, this.http, this.fiatRampsService);
-  // }
+  private cryptoPrice() {
+    this.createDirectaPrice()
+      .value()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((price: number) => {
+        this.price = price;
+        if (this.form.value.fiatAmount) this.updateAmounts();
+      });
+  }
+
+  createDirectaPrice(): DirectaPrice {
+    return this.directaPrice.new(this.milliseconds, this.fiatCurrency, this.selectedCurrency, this.fiatRampsService);
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

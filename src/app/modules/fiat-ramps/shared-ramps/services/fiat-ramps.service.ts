@@ -132,7 +132,7 @@ export class FiatRampsService {
         },
       }),
     };
-    return this.http.get(`${environment.apiUrl}/on_off_ramps/directa/crypto_exchange_rate`, params);
+    return this.http.get(`${environment.apiUrl}/on_off_ramps/directa/crypto_exchange_rate`, params, undefined, false);
   }
 
   setProvider(provider: string) {
