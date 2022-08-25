@@ -62,6 +62,14 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           ></app-icon-button-card>
         </div>
       </div>
+      <div class="id__investment-history ion-padding">
+        <div>
+          <ion-text class="ux-font-header-titulo">Historial</ion-text>
+        </div>
+        <div class="quotes-card">
+          <app-investment-history></app-investment-history>
+        </div>
+      </div>
       <div class="id__weekly-profit-disclaimer ion-padding-horizontal" *ngIf="this.disclaimer">
         <ion-label class=" ux-font-text-xs" color="neutral80">
           {{ this.updateEarningText | translate }}
