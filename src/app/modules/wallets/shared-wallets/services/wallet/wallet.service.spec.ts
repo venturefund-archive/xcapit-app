@@ -112,9 +112,11 @@ describe('WalletService', () => {
     spyOn(service, 'selectedCoins').and.returnValue(true);
     (Object.getOwnPropertyDescriptor(walletMnemonicServiceSpy, 'mnemonic').get as jasmine.Spy).and.returnValue(testMnemonic);
     service.coins = testCoins.valid;
-    const spy = spyOn(Wallet, 'fromMnemonic').and.returnValue(testWallet);
+    const ethersSpy = spyOn(Wallet, 'fromMnemonic').and.returnValue(testWallet);
+    const solanaSpy = spyOn(Keypair, 'fromSeed').and.returnValue(testWalletSolana);
     service.create();
-    expect(spy).toHaveBeenCalledWith('test mnemonic phrase', "m/44'/60'/0'/0/0", ethers.wordlists[en]);
+    expect(ethersSpy).toHaveBeenCalledWith('test mnemonic phrase', "m/44'/60'/0'/0/0", ethers.wordlists[en]);
+    expect(solanaSpy).toHaveBeenCalledTimes(1);
   });
 
   [

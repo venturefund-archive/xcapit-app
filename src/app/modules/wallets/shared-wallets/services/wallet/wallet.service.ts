@@ -40,7 +40,8 @@ export class WalletService {
   createForDerivedPath(derivedPath: string): ethers.Wallet | Keypair {
     if (derivedPath === environment.derivedPaths.SOLANA) {
       return this.createWalletUsingSolana();
-    } 
+    }
+
     return this.createWalletUsingEthers(derivedPath);
   }
 

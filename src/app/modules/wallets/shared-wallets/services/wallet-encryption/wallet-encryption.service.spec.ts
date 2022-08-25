@@ -8,7 +8,7 @@ import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { FakeEthersService } from 'src/testing/fakes/ethers.fake.spec';
 import { EthersService } from '../ethers/ethers.service';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
-import { Wallet } from 'ethers';
+import { ethers, Wallet } from 'ethers';
 import { Keypair } from '@solana/web3.js';
 
 const storageWallet = {
@@ -36,7 +36,7 @@ const storageWallet = {
 const modifiedPasswordWallet = {
   alias: '0xa8d720DBC2bea006e8450a6c0456e169d2fD7954',
   wallet:
-  '{"address":"a8d720dbc2bea006e8450a6c0456e169d2fd7954","id":"172d5b6d-79d2-478d-8afa-e91fa1039c69","version":3,"Crypto":{"cipher":"aes-128-ctr","cipherparams":{"iv":"ddcda5cf1d921ef05e9c63ee1b5cd633"},"ciphertext":"acad69b6ccc3b29937f72cb488f2dab23ff0a8c1e908a4a911f481663e45b9ff","kdf":"scrypt","kdfparams":{"salt":"a452c84af6af7d0221e5c93bbaeaf0a1738646fdb94c4bc51acd74b9e701d973","n":131072,"dklen":32,"p":1,"r":8},"mac":"676ccdb738d6be29072d5fa5834ba1955e9bf810520dda26efc0afb03db333c5"},"x-ethers":{"client":"ethers.js","gethFilename":"UTC--2022-01-14T12-04-03.0Z--a8d720dbc2bea006e8450a6c0456e169d2fd7954","mnemonicCounter":"6915834b58f4c8486abeadbebfcdf8ef","mnemonicCiphertext":"2670a5bbab9a30ada4d420fe6fd979a4","path":"m/44\'/60\'/0\'/0/0","locale":"en","version":"0.1"}}',
+    '{"address":"a8d720dbc2bea006e8450a6c0456e169d2fd7954","id":"172d5b6d-79d2-478d-8afa-e91fa1039c69","version":3,"Crypto":{"cipher":"aes-128-ctr","cipherparams":{"iv":"ddcda5cf1d921ef05e9c63ee1b5cd633"},"ciphertext":"acad69b6ccc3b29937f72cb488f2dab23ff0a8c1e908a4a911f481663e45b9ff","kdf":"scrypt","kdfparams":{"salt":"a452c84af6af7d0221e5c93bbaeaf0a1738646fdb94c4bc51acd74b9e701d973","n":131072,"dklen":32,"p":1,"r":8},"mac":"676ccdb738d6be29072d5fa5834ba1955e9bf810520dda26efc0afb03db333c5"},"x-ethers":{"client":"ethers.js","gethFilename":"UTC--2022-01-14T12-04-03.0Z--a8d720dbc2bea006e8450a6c0456e169d2fd7954","mnemonicCounter":"6915834b58f4c8486abeadbebfcdf8ef","mnemonicCiphertext":"2670a5bbab9a30ada4d420fe6fd979a4","path":"m/44\'/60\'/0\'/0/0","locale":"en","version":"0.1"}}',
   createdAt: '2021-09-07T14:51:41Z',
   updatedAt: '2021-09-07T14:51:41Z',
   addresses: {
@@ -54,6 +54,22 @@ const modifiedPasswordWallet = {
     RIF: true,
   },
 };
+
+const walletSaved = {
+  alias: jasmine.any(String),
+  wallet: jasmine.any(String),
+  createdAt: jasmine.any(String),
+  updatedAt: jasmine.any(String),
+  addresses: {
+    ERC20: jasmine.any(String),
+    RSK: jasmine.any(String),
+    SOLANA: jasmine.any(String),
+    BSC_BEP20: jasmine.any(String),
+    MATIC: jasmine.any(String),
+  },
+  network: 'testnet',
+  assets: jasmine.any(Object),
+}
 
 const testCoins: Coin[] = [
   {
@@ -94,35 +110,39 @@ const testCoinsStructure = {
   RBTC: true,
 };
 
-fdescribe('WalletEncryptionService', () => {
+const testMnemonic = {
+  phrase: 'test mnemonic',
+  path: "m/44'/60'/0'/0/0",
+  locale: 'en-EN'
+};
+
+describe('WalletEncryptionService', () => {
   let service: WalletEncryptionService;
   let storageSpy: any;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let fakeEthers: FakeEthersService;
   let ethersServiceSpy: jasmine.SpyObj<EthersService>;
-  let ethersWalletSpy: jasmine.SpyObj<Wallet>;
-  let solanaWalletSpy: jasmine.SpyObj<Keypair>;
+  let ethersWalletMock: Wallet;
+  let solanaWalletMock: Keypair;
 
   beforeEach(() => {
     fakeEthers = new FakeEthersService();
     ethersServiceSpy = fakeEthers.createSpy();
-    // TODO: Finish making spies
-    ethersWalletSpy = jasmine.createSpyObj('Wallet', {
-      encrypt: Promise.resolve(storageWallet),
-    },
-    {
-      address: 'testAddress',
-      mnemonic: {
-        path: "m/44'/60'/0'/0/0",
-      }
+    ethersWalletMock = ethers.Wallet.createRandom();
+    spyOn(ethersWalletMock, 'encrypt').and.resolveTo(storageWallet.wallet);
+    spyOnProperty(ethersWalletMock, 'mnemonic', 'get').and.returnValue(testMnemonic);
+    solanaWalletMock = Keypair.generate();
+    spyOnProperty(solanaWalletMock, 'publicKey', 'get').and.returnValue({ toString: () => 'testString' });
+    storageSpy = jasmine.createSpyObj('StorageService', {
+      saveWalletToStorage: Promise.resolve(),
+      getWalletFromStorage: Promise.resolve(ethersWalletMock),
     });
-    storageSpy = jasmine.createSpyObj('StorageService', ['saveWalletToStorage', 'getWalletFromStorage']);
     jasmine.setDefaultSpyStrategy((and) => and.callThrough());
     walletServiceSpy = jasmine.createSpyObj(
       'WalletService',
       {
-        createForDerivedPath: ethersWalletSpy
+        createForDerivedPath: ethersWalletMock,
       },
       {
         coins: testCoins,
@@ -147,10 +167,16 @@ fdescribe('WalletEncryptionService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should encrypt ETH wallet from array', async () => {
+  it('should encrypt ETH wallet from array and save all network adresses', async () => {
+    walletServiceSpy.createForDerivedPath.and.callFake((derivedPath) => {
+      if (derivedPath === environment.derivedPaths.SOLANA) {
+        return solanaWalletMock;
+      }
+      return ethersWalletMock;
+    });
     const res = await service.encryptWallet('testPassword');
     expect(res).toEqual(true);
-    expect(storageSpy.saveWalletToStorage).toHaveBeenCalled();
+    expect(storageSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(walletSaved);
   });
 
   it('should return true if wallet exist when encryptedWalletExist', async () => {

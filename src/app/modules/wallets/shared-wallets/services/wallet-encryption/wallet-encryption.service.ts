@@ -36,7 +36,7 @@ export class WalletEncryptionService {
         }
         this.walletsAddresses[network] = wallet.address.toLowerCase();
       } else {
-        this.walletsAddresses[network] = wallet.publicKey.toString().toLowerCase();
+        this.walletsAddresses[network] = wallet.publicKey.toString();
       }
     }
 
