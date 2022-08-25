@@ -294,4 +294,9 @@ export class OperationsNewPage implements AfterViewInit {
     });
     await modal.present()
   }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
