@@ -161,10 +161,10 @@ export class DirectaPage implements OnInit {
   private cryptoPrice() {
     this.createDirectaPrice()
       .value()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((price: number) => {
-        this.price = price;
-      });
+      // .pipe(takeUntil(this.destroy$))
+      // .subscribe((price: number) => {
+        // this.price = price;
+      // });
   }
 
   createDirectaPrice(): DirectaPrice {
