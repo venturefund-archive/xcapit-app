@@ -159,7 +159,7 @@ describe('OperationsNewPage', () => {
   });
 
   it('should set country, default currency, provider and price on init', () => {
-    component.ionViewDidEnter();
+    component.ionViewWillEnter();
     expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledOnceWith('1');
     expect(component.providerTokens).toEqual(coinsSpy);
     expect(component.country).toEqual({
@@ -185,7 +185,7 @@ describe('OperationsNewPage', () => {
   });
 
   it('should save operation and create user when valid form is submitted and user doesnt exists', async () => {
-    component.ionViewDidEnter();
+    component.ionViewWillEnter();
     component.form.patchValue(validForm);
     fixture.detectChanges();
     await fixture.whenStable();
@@ -198,7 +198,7 @@ describe('OperationsNewPage', () => {
 
   it('should redirect user when valid form is submitted and user already exists', async () => {
     fiatRampsServiceSpy.checkUser.and.returnValue(of(userNew));
-    component.ionViewDidEnter();
+    component.ionViewWillEnter();
     component.form.patchValue(validForm);
     fixture.detectChanges();
     await fixture.whenStable();
@@ -239,14 +239,14 @@ describe('OperationsNewPage', () => {
 
   it('should show form validation errors when form submitted is not valid', () => {
     const spy = spyOn(component.form, 'markAsTouched').and.callThrough();
-    component.ionViewDidEnter();
+    component.ionViewWillEnter();
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should update fiat amount when price changes', fakeAsync(() => {
     component.fiatPrice = 10;
-    component.ionViewDidEnter();
+    component.ionViewWillEnter();
     component.form.patchValue({ cryptoAmount: 1 });
     fixture.detectChanges();
     expect(component.form.value.fiatAmount).toEqual(10);
@@ -256,7 +256,7 @@ describe('OperationsNewPage', () => {
   }));
 
   it('should show modal',   () => {    
-    component.ionViewDidEnter();
+    component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', undefined);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);

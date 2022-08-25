@@ -161,7 +161,7 @@ export class OperationsNewPage implements AfterViewInit {
     });
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('kripton');
     this.fiatRampsService.setProvider(this.provider.id.toString());
@@ -169,7 +169,6 @@ export class OperationsNewPage implements AfterViewInit {
     this.setCountry();
     this.setCurrency();
     this.dynamicPrice();
-    this.usdDynamicPrice();
     this.subscribeToFormChanges();
   }
 
@@ -223,6 +222,7 @@ export class OperationsNewPage implements AfterViewInit {
       .subscribe((price: number) => {
         this.fiatPrice = price;
         if (this.form.value.fiatAmount) this.updateAmounts();
+        this.usdDynamicPrice()
       });
   }
 
@@ -234,6 +234,7 @@ export class OperationsNewPage implements AfterViewInit {
         this.minimumCryptoAmount = this.mininumUSDAmount / price;
         this.minimumFiatAmount = this.minimumCryptoAmount * this.fiatPrice;
         this.addGreaterThanValidator(this.minimumCryptoAmount);
+        console.log(this.minimumCryptoAmount, this.fiatPrice, this.minimumFiatAmount );
       });
   }
 
