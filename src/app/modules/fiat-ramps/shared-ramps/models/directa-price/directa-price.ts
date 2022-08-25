@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { timer } from 'rxjs/internal/observable/timer';
 import { map, mergeMap } from 'rxjs/operators';
@@ -28,9 +29,10 @@ export class DirectaPrice {
   }
 
   public value(): Observable<number> {
-    return this._timer.pipe(
-      mergeMap(() => this.price()),
-      map((res) => res.fx_rate)
+    this._timer.subscribe( (res)=> console.log('res', res)
+    //   mergeMap(() => this.price()),
+    //   map((res) => res.fx_rate)
     );
+    return of(1);
   }
 }
