@@ -29,9 +29,9 @@ export class DirectaPrice {
   }
 
   public value(): Observable<number> {
-    this._timer.subscribe( (res)=> console.log('res', res)
-    //   mergeMap(() => this.price()),
-    //   map((res) => res.fx_rate)
+    this._timer.pipe(
+      mergeMap(() => this.price()),
+      map((res) => res.fx_rate)
     );
     return of(1);
   }
