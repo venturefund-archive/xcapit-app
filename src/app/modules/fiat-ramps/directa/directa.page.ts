@@ -16,6 +16,8 @@ import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price
 import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/directa-price-factory';
 import { HttpClient } from '@angular/common/http';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-directa',
@@ -83,6 +85,7 @@ export class DirectaPage implements OnInit {
   providerAlias: string;
   price: number;
   miliseconds: 2000;
+  destroy$: Subject<void>;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -158,12 +161,24 @@ export class DirectaPage implements OnInit {
   private cryptoPrice() {
     this.createDirectaPrice()
       .value()
+      .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
         this.price = price;
       });
   }
 
   createDirectaPrice(): DirectaPrice {
-    return this.directaPrice.new(this.miliseconds, this.fiatCurrency, this.selectedCurrency, this.http, this.fiatRampsService);
+    return this.directaPrice.new(
+      this.miliseconds,
+      this.fiatCurrency,
+      this.selectedCurrency,
+      this.http,
+      this.fiatRampsService
+    );
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
