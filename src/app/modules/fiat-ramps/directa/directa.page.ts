@@ -82,6 +82,7 @@ export class DirectaPage implements OnInit {
   country: FiatRampProviderCountry;
   providerAlias: string;
   price: number;
+  miliseconds: 15000;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -155,14 +156,14 @@ export class DirectaPage implements OnInit {
   }
 
   private cryptoPrice() {
-    // this.createDirectaPrice()
-    //   .price()
-    //   .subscribe((price: number) => {
-    //     console.log(price)
-    //   });
+    this.createDirectaPrice()
+      .price()
+      .subscribe((price: number) => {
+        console.log(price)
+      });
   }
 
-  // createDirectaPrice(): DirectaPrice {
-  //   // return this.directaPrice.new(this.fiatCurrency, this.selectedCurrency, this.http, this.fiatRampsService);
-  // }
+  createDirectaPrice(): DirectaPrice {
+    return this.directaPrice.new(this.miliseconds, this.fiatCurrency, this.selectedCurrency, this.http, this.fiatRampsService);
+  }
 }
