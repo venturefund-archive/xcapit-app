@@ -9,18 +9,14 @@ describe('UxTextareaComponent', () => {
   let component: UxTextareaComponent;
   let fixture: ComponentFixture<UxTextareaComponent>;
   let formGroupDirectiveMock: any;
-  beforeEach(
-    waitForAsync(() => {
-      formGroupDirectiveMock = { control: { get: () => null } };
-      TestBed.configureTestingModule({
-        declarations: [UxTextareaComponent],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [
-          { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    formGroupDirectiveMock = { control: { get: () => null } };
+    TestBed.configureTestingModule({
+      declarations: [UxTextareaComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [{ provide: FormGroupDirective, useValue: formGroupDirectiveMock }],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UxTextareaComponent);

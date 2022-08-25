@@ -118,8 +118,8 @@ export class OperationsNewPage implements AfterViewInit {
   minimumCryptoAmount: number;
   mininumUSDAmount = 25;
   form: UntypedFormGroup = this.formBuilder.group({
-    cryptoAmount: [0, [Validators.required]],
-    fiatAmount: [0, [Validators.required]],
+    cryptoAmount: ['25', [Validators.required]],
+    fiatAmount: ['', [Validators.required]],
     thirdPartyKYC: [false, [Validators.requiredTrue]],
     thirdPartyTransaction: [false, [Validators.requiredTrue]],
     acceptTOSAndPrivacyPolicy: [false, [Validators.requiredTrue]],

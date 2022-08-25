@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HasWallet } from 'src/app/shared/guards/has-wallet/has-wallet';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
+import { SwapTYCAccepted } from './shared-swaps/guards/swap-tyc-accepted';
 
 
 export const defaultSwapsUrls = {
@@ -22,6 +23,7 @@ const routes: Routes = [
     canActivate: [AuthGuard, HasWallet],
     children: [
       {
+        canActivate: [SwapTYCAccepted],
         path: 'home',
         loadChildren: () => import('./swap-home/swap-home.module').then((m) => m.SwapHomePageModule),
       },

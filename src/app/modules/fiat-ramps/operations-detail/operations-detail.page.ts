@@ -18,7 +18,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
+          <ion-back-button (click)="this.navigateBackToOperations()"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.operation_detail.header' | translate }}

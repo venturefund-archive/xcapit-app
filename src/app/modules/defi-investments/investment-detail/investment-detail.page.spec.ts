@@ -162,7 +162,7 @@ describe('InvestmentDetailPage', () => {
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
-    fixture.debugElement.query(By.css('ion-button[name="ux_invest_add_amount"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('app-icon-button-card[name="ux_invest_add_amount"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/no-wallet-to-invest']);
   });
@@ -171,7 +171,7 @@ describe('InvestmentDetailPage', () => {
     component.investmentProduct = investmentProductSpy;
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    fixture.debugElement.query(By.css('ion-button[name="ux_invest_add_amount"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('app-icon-button-card[name="ux_invest_add_amount"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       '/defi/new/insert-amount',
@@ -185,7 +185,7 @@ describe('InvestmentDetailPage', () => {
     component.investmentProduct = investmentProductSpy;
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_invest_add_amount');
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_invest_add_amount');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -197,7 +197,7 @@ describe('InvestmentDetailPage', () => {
     component.investmentProduct = investmentProductSpy;
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_invest_withdraw');
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_invest_withdraw');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();

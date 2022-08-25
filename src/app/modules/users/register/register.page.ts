@@ -175,7 +175,7 @@ export class RegisterPage implements OnInit {
 
   async openTOS() {
     await this.browserService.open({
-      url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html',
+      url: 'https://www.xcapit.com/terminos-y-condiciones',
     });
   }
 

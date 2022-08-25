@@ -88,17 +88,17 @@ export class SuccessContentComponent implements OnInit {
   constructor(private navController: NavController, private trackService: TrackService) {}
 
   ngOnInit() {
-    if(this.data.hasToTrackScreenview){
+    if (this.data.hasToTrackScreenview) {
       this.trackService.trackEvent({
         eventAction: 'screenview',
         description: window.location.href,
-        eventLabel: this.data.screenviewEventLabel
+        eventLabel: this.data.screenviewEventLabel,
       });
     }
   }
 
   close() {
-    this.navController.navigateForward([this.data.urlClose]);
+    this.navController.navigateRoot([this.data.urlClose], { animationDirection: 'forward' });
   }
 
   primaryAction() {

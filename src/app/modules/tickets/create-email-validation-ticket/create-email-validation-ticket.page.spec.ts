@@ -5,83 +5,58 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { of, throwError } from 'rxjs';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
-import { ApiTicketsService } from '../shared-tickets/services/api-tickets.service';
 import { CreateEmailValidationTicketPage } from './create-email-validation-ticket.page';
 import { TrackClickDirectiveTestHelper } from '../../../../testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { By } from '@angular/platform-browser';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
-const formData = {
-  valid: {
-    email: 'example@email.com',
-    subject: { name: 'Otros', value: 'tickets.categories.others' },
-    message: 'Message',
-  },
-};
-
 describe('CreateEmailValidationTicketPage', () => {
   let component: CreateEmailValidationTicketPage;
   let fixture: ComponentFixture<CreateEmailValidationTicketPage>;
-  let apiTicketsMock: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<CreateEmailValidationTicketPage>;
   let activatedRouteMock: any;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
 
-  beforeEach(
-    waitForAsync(() => {
-      apiTicketsMock = {
-        crud: jasmine.createSpyObj('CRUD', ['create']),
-      };
+  beforeEach(waitForAsync(() => {
+    activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['params']);
+    activatedRouteMock.snapshot = { paramMap: convertToParamMap({ email: 'test@test.com' }) };
+    fakeNavController = new FakeNavController({}, {});
+    navControllerSpy = fakeNavController.createSpy();
+    TestBed.configureTestingModule({
+      declarations: [DummyComponent, CreateEmailValidationTicketPage, FakeTrackClickDirective],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+      ],
+    }).compileComponents();
 
-      activatedRouteMock = jasmine.createSpyObj('ActivatedRoute', ['params']);
-      activatedRouteMock.snapshot = { paramMap: convertToParamMap({ email: 'test@test.com' }) };
-      fakeNavController = new FakeNavController({}, {});
-      navControllerSpy = fakeNavController.createSpy();
-      TestBed.configureTestingModule({
-        declarations: [DummyComponent, CreateEmailValidationTicketPage, FakeTrackClickDirective],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteMock },
-          { provide: ApiTicketsService, useValue: apiTicketsMock },
-        ],
-      }).compileComponents();
-
-      fixture = TestBed.createComponent(CreateEmailValidationTicketPage);
-      component = fixture.componentInstance;
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(CreateEmailValidationTicketPage);
+    component = fixture.componentInstance;
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate back to login when Close button is clicked', () => {
-    fixture.debugElement.query(By.css('ion-button[name="Close"]')).nativeElement.click();
-    fixture.detectChanges();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/users/login']);
-  });
   it('should navigate to ticket creation success when Submit button is clicked and ticket is created', () => {
-    apiTicketsMock.crud.create.and.returnValue(of({}));
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('send', formData);
+    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('successTicketCreation');
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/create/success', true]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/success', true]);
   });
 
   it('should not navigate to ticket creation success when Submit button is clicked and ticket fails to create', () => {
-    apiTicketsMock.crud.create.and.returnValue(throwError('error'));
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('send', formData);
+    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('errorTicketCreation');
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
   });
@@ -98,5 +73,12 @@ describe('CreateEmailValidationTicketPage', () => {
     };
     component.ionViewWillEnter();
     expect(component.canModifyEmail).toBeTrue();
+  });
+
+  it('should navigate back to login', () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('ionBackButton');
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/users/login']);
   });
 });
