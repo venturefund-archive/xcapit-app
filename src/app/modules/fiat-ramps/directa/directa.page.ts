@@ -84,7 +84,7 @@ export class DirectaPage implements OnInit {
   country: FiatRampProviderCountry;
   providerAlias: string;
   price: number;
-  miliseconds: 2000;
+  miliseconds = 2000;
   destroy$: Subject<void>;
 
   constructor(
