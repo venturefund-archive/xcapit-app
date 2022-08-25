@@ -28,8 +28,8 @@ export class DirectaPrice {
   }
 
   public value(): Observable<number> {
-    console.log(this._timer)
-;    return this._timer.pipe(
+    console.log(this._timer);
+    return this._timer.pipe(
       mergeMap(() => this.price()),
       map((res) => res.fx_rate)
     );
