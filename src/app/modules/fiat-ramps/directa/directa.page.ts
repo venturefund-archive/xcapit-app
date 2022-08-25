@@ -12,6 +12,10 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price';
+import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/directa-price-factory';
+import { HttpClient } from '@angular/common/http';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 
 @Component({
   selector: 'app-directa',
@@ -35,7 +39,6 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
             [coin]="this.selectedCurrency"
             [fiatCurrency]="this.fiatCurrency"
             [provider]="this.provider"
-            [amountEnabled]="false"
             [coinSelectorEnabled]="false"
           ></app-provider-new-operation-card>
         </div>
@@ -68,6 +71,7 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 })
 export class DirectaPage implements OnInit {
   form: UntypedFormGroup = this.formBuilder.group({
+    cryptoAmount: ['', Validators.required],
     fiatAmount: ['', Validators.required],
   });
   provider: FiatRampProvider;
@@ -77,6 +81,7 @@ export class DirectaPage implements OnInit {
   fiatCurrency = 'USD';
   country: FiatRampProviderCountry;
   providerAlias: string;
+  price: number;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -85,7 +90,10 @@ export class DirectaPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
     private walletMaintenance: WalletMaintenanceService,
-    private tokenOperationDataService: TokenOperationDataService
+    private tokenOperationDataService: TokenOperationDataService,
+    private directaPrice: DirectaPriceFactory,
+    private http: HttpClient,
+    private fiatRampsService: FiatRampsService
   ) {}
 
   ngOnInit() {}
@@ -94,13 +102,20 @@ export class DirectaPage implements OnInit {
     const providerAlias = this.route.snapshot.paramMap.get('alias');
     this.provider = this.getProviders().byAlias(providerAlias);
     this.setCountry();
+    this.setFiatCurrency();
     this.setCurrency();
+    this.cryptoPrice();
+    this.subscribeToFormChanges();
   }
 
   setCountry() {
     this.country = this.countries.find(
       (country) => country.isoCodeAlpha3 === this.tokenOperationDataService.tokenOperationData.country
     );
+  }
+
+  setFiatCurrency() {
+    this.fiatCurrency = this.country.isoCurrencyCodeDirecta;
   }
 
   setCurrency() {
@@ -125,4 +140,29 @@ export class DirectaPage implements OnInit {
   addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
     return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.selectedCurrency);
   }
+
+  subscribeToFormChanges() {
+    this.form.get('cryptoAmount').valueChanges.subscribe((value) => this.cryptoAmountChange(value));
+    this.form.get('fiatAmount').valueChanges.subscribe((value) => this.fiatAmountChange(value));
+  }
+
+  private cryptoAmountChange(value: number) {
+    this.form.patchValue({ fiatAmount: value * this.price }, { emitEvent: false, onlySelf: true });
+  }
+
+  private fiatAmountChange(value: number) {
+    this.form.patchValue({ cryptoAmount: value / this.price }, { emitEvent: false, onlySelf: true });
+  }
+
+  private cryptoPrice() {
+    // this.createDirectaPrice()
+    //   .price()
+    //   .subscribe((price: number) => {
+    //     console.log(price)
+    //   });
+  }
+
+  // createDirectaPrice(): DirectaPrice {
+  //   // return this.directaPrice.new(this.fiatCurrency, this.selectedCurrency, this.http, this.fiatRampsService);
+  // }
 }

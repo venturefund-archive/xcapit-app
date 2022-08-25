@@ -39,15 +39,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
           </div>
         </div>
       </div>
-
-      <div *ngIf="this.provider.alias !== 'kripton' && this.provider.alias !== 'moonpay'">
-        <app-fiat-input
-        label="fiat_ramps.shared.provider_new_operation_card.to_pay"
-        disclaimer="fiat_ramps.shared.provider_new_operation_card.usd_disclaimer"
-        >
-        </app-fiat-input>
-      </div>
-
+      
       <div class="pnoc__provider">
         <div class="pnoc__provider__label">
           <ion-text class="ux-font-titulo-xs">{{
