@@ -14,7 +14,6 @@ import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price';
 import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/directa-price-factory';
-import { HttpClient } from '@angular/common/http';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -161,10 +160,10 @@ export class DirectaPage implements OnInit {
   private cryptoPrice() {
     this.createDirectaPrice()
       .value()
-      // .pipe(takeUntil(this.destroy$))
-      // .subscribe((price: number) => {
-        // this.price = price;
-      // });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((price: number) => {
+        this.price = price;
+      });
   }
 
   createDirectaPrice(): DirectaPrice {
