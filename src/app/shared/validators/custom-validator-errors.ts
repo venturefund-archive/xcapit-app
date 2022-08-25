@@ -29,6 +29,8 @@ export class CustomValidatorErrors {
 
   static greaterThanError = { greaterThan: true };
 
+  static greaterOrEqualThanError = { greaterOrEqualThan: true };
+
   static twelveWords = { twelveWords: true };
 
   static spaceBetween = { spaceBetween: true };

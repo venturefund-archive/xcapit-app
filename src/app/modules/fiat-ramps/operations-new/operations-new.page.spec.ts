@@ -150,7 +150,7 @@ describe('OperationsNewPage', () => {
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     fakeActivatedRoute.modifySnapshotParams({}, { network: 'MATIC', asset: 'MATIC', country: 'ARS' });
-    component.price = 10;
+    component.fiatPrice = 10;
     fixture.detectChanges();
   });
 
@@ -159,7 +159,7 @@ describe('OperationsNewPage', () => {
   });
 
   it('should set country, default currency, provider and price on init', () => {
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledOnceWith('1');
     expect(component.providerTokens).toEqual(coinsSpy);
     expect(component.country).toEqual({
@@ -171,7 +171,7 @@ describe('OperationsNewPage', () => {
     });
     expect(component.selectedCurrency).toEqual(coinsSpy[1]);
     expect(component.fiatCurrency).toEqual('ars');
-    expect(component.price).toEqual(10);
+    expect(component.fiatPrice).toEqual(10);
   });
 
   it('should open external link when http link is clicked', () => {
@@ -185,7 +185,7 @@ describe('OperationsNewPage', () => {
   });
 
   it('should save operation and create user when valid form is submitted and user doesnt exists', async () => {
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     component.form.patchValue(validForm);
     fixture.detectChanges();
     await fixture.whenStable();
@@ -198,7 +198,7 @@ describe('OperationsNewPage', () => {
 
   it('should redirect user when valid form is submitted and user already exists', async () => {
     fiatRampsServiceSpy.checkUser.and.returnValue(of(userNew));
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     component.form.patchValue(validForm);
     fixture.detectChanges();
     await fixture.whenStable();
@@ -239,14 +239,14 @@ describe('OperationsNewPage', () => {
 
   it('should show form validation errors when form submitted is not valid', () => {
     const spy = spyOn(component.form, 'markAsTouched').and.callThrough();
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     component.handleSubmit();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should update fiat amount when price changes', fakeAsync(() => {
-    component.price = 10;
-    component.ionViewWillEnter();
+    component.fiatPrice = 10;
+    component.ionViewDidEnter();
     component.form.patchValue({ cryptoAmount: 1 });
     fixture.detectChanges();
     expect(component.form.value.fiatAmount).toEqual(10);
@@ -256,7 +256,7 @@ describe('OperationsNewPage', () => {
   }));
 
   it('should show modal',   () => {    
-    component.ionViewWillEnter();
+    component.ionViewDidEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', undefined);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
