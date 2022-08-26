@@ -250,6 +250,17 @@ export class WalletTransactionsService {
       : `${environment.covalentApiUrl}${asset.chainId}/address/${address}/transfers_v2/?contract-address=${asset.contract}&limit=10&quote-currency=${quoteCurrency}`;
   }
 
+  CovalentDataRepo{
+    constructor(http) {
+    }
+    getTransfer(token)
+    url()
+}
+  TransfersOf {
+    constructor(aToken, dataRepo)
+
+    value()
+}
   getTransfers(
     address: string,
     asset: Coin,
