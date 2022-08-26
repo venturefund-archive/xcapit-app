@@ -13,6 +13,7 @@ export class CovalentNoNativeTransfer extends CovalentTransfer {
     this.amount = parseInt(transfer.delta, 10) / Math.pow(10, transfer.contract_decimals);
     this.quoteAmount = parseFloat(transfer.delta_quote);
     this.successful = successful;
+    this.gasQuote = this.transfer.gas_quote;
   }
 
   getFee() {
