@@ -7,7 +7,6 @@ fdescribe('DirectaPriceFactory', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   beforeEach(() => {
-    coinSpy = jasmine.createSpyObj('Coin', {}, { value: 'MATIC' });
   });
   it('create', () => {
     expect(new DirectaPriceFactory().new(2000, 'ARS', coinSpy, fiatRampsServiceSpy)).toBeInstanceOf(DirectaPrice);
