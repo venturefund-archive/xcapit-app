@@ -17,6 +17,9 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/directa-price-factory';
+import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 
 fdescribe('DirectaPage', () => {
   let component: DirectaPage;
@@ -31,60 +34,67 @@ fdescribe('DirectaPage', () => {
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+  let directaPriceFactorySpy: jasmine.SpyObj<DirectaPriceFactory>;
+  let directaPriceSpy: jasmine.SpyObj<DirectaPrice>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
 
-  beforeEach(
-    waitForAsync(() => {
-      navControllerSpy = new FakeNavController().createSpy();
+  beforeEach(waitForAsync(() => {
+    navControllerSpy = new FakeNavController().createSpy();
 
-      coinsSpy = [
-        jasmine.createSpyObj('Coin', {}, { value: 'USDC', network: 'MATIC' }),
-        jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' }),
-      ];
-      fakeActivatedRoute = new FakeActivatedRoute({ country: 'argentina' }, {});
-      activatedRouteSpy = fakeActivatedRoute.createSpy();
+    coinsSpy = [
+      jasmine.createSpyObj('Coin', {}, { value: 'USDC', network: 'MATIC' }),
+      jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' }),
+    ];
+    fakeActivatedRoute = new FakeActivatedRoute({ country: 'argentina' }, {});
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
 
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getCoins: coinsSpy,
-      });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: coinsSpy,
+    });
 
-      providersSpy = jasmine.createSpyObj('Providers', {
-        all: rawProvidersData,
-        byAlias: rawProvidersData.find((provider) => provider.alias === 'PX'),
-      });
+    providersSpy = jasmine.createSpyObj('Providers', {
+      all: rawProvidersData,
+      byAlias: rawProvidersData.find((provider) => provider.alias === 'PX'),
+    });
 
-      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
-        create: providersSpy,
-      });
-      walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
-        addCoinIfUserDoesNotHaveIt: Promise.resolve(),
-      });
-      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{
-        clean: Promise.resolve()
-      },{
-        tokenOperationData: {asset:'USDC', network:'MATIC', country: 'ECU'}
-      })
+    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+      create: providersSpy,
+    });
+    walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
+      addCoinIfUserDoesNotHaveIt: Promise.resolve(),
+    });
+    tokenOperationDataServiceSpy = jasmine.createSpyObj(
+      'TokenOperationDataService',
+      {
+        clean: Promise.resolve(),
+      },
+      {
+        tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
+      }
+    );
 
-      TestBed.configureTestingModule({
-        declarations: [DirectaPage],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
-          { provide: ProvidersFactory, useValue: providersFactorySpy },
-          { provide: HttpClient, useValue: httpClientSpy },
-          { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
-          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    TestBed.configureTestingModule({
+      declarations: [DirectaPage],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: ProvidersFactory, useValue: providersFactorySpy },
+        { provide: HttpClient, useValue: httpClientSpy },
+        { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+        { provide: DirectaPriceFactory, useValue: directaPriceFactorySpy },
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(DirectaPage);
-      component = fixture.componentInstance;
-      component.countries = rawProviderCountriesData;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(DirectaPage);
+    component = fixture.componentInstance;
+    component.countries = rawProviderCountriesData;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
