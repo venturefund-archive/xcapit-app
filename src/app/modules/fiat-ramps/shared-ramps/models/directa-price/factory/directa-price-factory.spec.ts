@@ -1,1 +1,6 @@
-describe('DirectaPriceFactory', () => {});
+describe('DirectaPriceFactory', () => {
+
+    it('create',()=>{
+        
+    })
+});
