@@ -19,7 +19,8 @@ fdescribe('FakeCovalentRepo', () => {
 
   beforeEach(() => {
     aToken = jasmine.createSpyObj('RawToken', {}, { native: true, value: 'MATIC' });
-    fakeCovalentRepo = new FakeCovalentRepo();
+    covalentTransfersResponseSpy = jasmine.createSpyObj('CovalentTransfersResponse', {value: null});
+    fakeCovalentRepo = new FakeCovalentRepo(of(covalentTransfersResponseSpy));
   });
 
   it('new', () => {
