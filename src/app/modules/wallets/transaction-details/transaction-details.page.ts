@@ -7,6 +7,10 @@ import { TransactionDetailsService } from '../shared-wallets/services/transactio
 import { format, parseISO } from 'date-fns';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { ScanUrlOf } from '../shared-wallets/models/scan-url-of/scan-url-of';
+import { DefaultCovalentRepo } from '../shared-wallets/models/covalent-repo/default/default-covalent-repo';
+import { HttpClient } from '@angular/common/http';
+import { EnvService } from '../../../shared/services/env/env.service';
+import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 @Component({
   selector: 'app-transaction-details',
   template: ` <ion-header>
@@ -126,7 +130,9 @@ export class TransactionDetailsPage implements OnInit {
   constructor(
     private transactionDetailsService: TransactionDetailsService,
     private apiWalletService: ApiWalletService,
-    private browserService: BrowserService
+    private browserService: BrowserService,
+    private http: HttpClient,
+    private env: EnvService
   ) {}
 
   ngOnInit() {}
@@ -140,8 +146,9 @@ export class TransactionDetailsPage implements OnInit {
   }
 
   private getTransactionData() {
-    this.transactionData = this.transactionDetailsService.transactionData;
-    this.fee = this.transactionData.getFee();
+    console.log(new DefaultCovalentRepo(this.http, this.env).transfersOf({value: ''} as RawToken, ))
+    // this.transactionData = this.transactionDetailsService.transactionData;
+    // this.fee = this.transactionData.getFee();
   }
 
   private getCurrency() {
