@@ -1,6 +1,5 @@
 import { DirectaPrice } from './directa-price';
-import { interval, of, Subscriber, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { interval, of } from 'rxjs';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampsService } from '../../services/fiat-ramps.service';
 
