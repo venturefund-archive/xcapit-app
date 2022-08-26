@@ -55,7 +55,7 @@ export class WalletTransactionCardItemComponent implements OnInit {
   @Input() network: string;
   formattedDate: string;
 
-  constructor(private browserService: BrowserService,
+  constructor(
     private navController: NavController,
     private transactionDetailsService: TransactionDetailsService,) {}
 
@@ -66,7 +66,6 @@ export class WalletTransactionCardItemComponent implements OnInit {
   openTransactionUrl() {
     this.saveTransactionDetails();
     this.navController.navigateForward(['/wallets/transaction-details']);
-    //this.browserService.open({ url: ScanUrlOf.create(this.transaction.hash, this.network).value() });
   }
 
   formatDate(value) {
