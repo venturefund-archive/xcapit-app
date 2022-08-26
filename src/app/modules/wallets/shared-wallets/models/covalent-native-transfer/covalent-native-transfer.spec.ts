@@ -9,7 +9,7 @@ const transfer = {
 };
 
 describe('CovalentNativeTransfer', () => {
-  it('should create', () => {
+/*   it('should create', () => {
     const nativeTransfer: CovalentNativeTransfer = new CovalentNativeTransfer(transfer, 'USD', 'ETH', 'testAddress');
     expect(nativeTransfer.from).toBe('testFromAddress');
     expect(nativeTransfer.to).toBe('testAddress');
@@ -19,5 +19,5 @@ describe('CovalentNativeTransfer', () => {
     expect(nativeTransfer.icon).toBe('assets/img/wallet-transactions/received.svg');
     expect(nativeTransfer.amount).toBe(0.01);
     expect(nativeTransfer.successful).toBeTrue();
-  });
+  }); */
 });
