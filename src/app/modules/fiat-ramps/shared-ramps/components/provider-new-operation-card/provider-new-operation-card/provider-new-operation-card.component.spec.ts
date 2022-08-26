@@ -9,7 +9,7 @@ import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { rawProvidersData } from '../../../fixtures/raw-providers-data';
 
-describe('ProviderNewOperationCardComponent', () => {
+fdescribe('ProviderNewOperationCardComponent', () => {
   let component: ProviderNewOperationCardComponent;
   let fixture: ComponentFixture<ProviderNewOperationCardComponent>;
   let formGroupDirectiveMock: FormGroupDirective;
