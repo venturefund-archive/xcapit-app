@@ -18,7 +18,7 @@ import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 
-describe('DirectaPage', () => {
+fdescribe('DirectaPage', () => {
   let component: DirectaPage;
   let fixture: ComponentFixture<DirectaPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
