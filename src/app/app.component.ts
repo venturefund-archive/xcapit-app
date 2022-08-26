@@ -78,6 +78,7 @@ export class AppComponent implements OnInit {
       this.languageService.setInitialAppLanguage();
       this.setLanguageSubscribe();
       this.checkDeeplinking();
+      this.checkDynamicLinks();
       this.localNotificationsService.init();
     });
   }

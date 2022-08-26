@@ -19,7 +19,7 @@ import { WalletBackupService } from './modules/wallets/shared-wallets/services/w
 import { LocalNotificationsService } from './modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
-fdescribe('AppComponent', () => {
+describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let component: AppComponent;
