@@ -28,14 +28,14 @@ function memoryCache(aMemoryCacheName: string) {
   return function (target: any, propertyName: string, descriptor: PropertyDescriptor) {
     const method = descriptor.value;
 
-    descriptor.value = function () {
+    descriptor.value = function (...args: any[]) {
       let result: any;
-      const cacheKey = `${target.constructor.name}#${propertyName}#${new SerializedArgs([...arguments]).value()}`;
+      const cacheKey = `${target.constructor.name}#${propertyName}#${new SerializedArgs(args).value()}`;
 
       if (_memoryCache.has(cacheKey)) {
         result = _memoryCache.getValueBy(cacheKey);
       } else {
-        result = method.apply(this, arguments);
+        result = method.apply(this, args);
         updateCache(cacheKey, result);
       }
 
