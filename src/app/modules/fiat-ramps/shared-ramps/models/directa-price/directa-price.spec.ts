@@ -25,8 +25,9 @@ fdescribe('DirectaPrice', () => {
   });
 
   it('value', async () => {
-    await directaPrice.value().subscribe((res) => expect(res).toEqual(3));
-  });
+    const result = await directaPrice.value().toPromise()
+    expect(result).toEqual(3);
+});
   // it('should subscribe to interval', () => {
   //   const kriptonDynamicPrice = KriptonDynamicPrice.create(
   //     15,
