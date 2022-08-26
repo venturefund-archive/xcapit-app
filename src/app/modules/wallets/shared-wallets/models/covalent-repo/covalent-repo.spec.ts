@@ -4,7 +4,6 @@ import { EnvService } from 'src/app/shared/services/env/env.service';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token-repo';
 import { CovalentQuoteCurrency } from '../../types/covalent-quote-currencies.type';
-import { environment } from '../../../../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { CovalentTransfersResponse } from '../covalent-transfers-response/covalent-transfers-response';
 import { Coin } from '../../interfaces/coin.interface';
