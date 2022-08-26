@@ -13,17 +13,19 @@ export class FakeCovalentRepo implements CovalentRepo {
 
 fdescribe('FakeCovalentRepo', () => {
   let aToken: jasmine.SpyObj<RawToken>;
+  let fakeCovalentRepo: CovalentRepo;
   const inAddress = '';
 
   beforeEach(() => {
     aToken = jasmine.createSpyObj('RawToken', {}, { native: true, value: 'MATIC' });
+    fakeCovalentRepo = new FakeCovalentRepo(of);
   });
 
   it('new', () => {
-    expect(new FakeCovalentRepo()).toBeTruthy();
+    expect(fakeCovalentRepo).toBeTruthy();
   });
 
   it('transfersOf', () => {
-    expect(new FakeCovalentRepo().transfersOf(aToken, inAddress)).toBeTruthy();
+    expect(fakeCovalentRepo.transfersOf(aToken, inAddress)).toBeTruthy();
   });
 });
