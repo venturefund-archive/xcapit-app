@@ -5,24 +5,18 @@ import { CovalentTransfer } from '../covalent-transfer/covalent-transfer';
 
 export class CovalentNoNativeTransfer extends CovalentTransfer {
   constructor(private transfer: any, quoteCurrency: string, successful: boolean, private asset: Coin) {
-    console.log(transfer)
     super(transfer, quoteCurrency);
     this.symbol = transfer.contract_ticker_symbol;
     this.type = transfer.transfer_type;
     this.icon =
       this.type === 'IN' ? 'assets/img/wallet-transactions/received.svg' : 'assets/img/wallet-transactions/sended.svg';
     this.amount = parseInt(transfer.delta, 10) / Math.pow(10, transfer.contract_decimals);
-    this.quoteAmount = parseFloat(transfer.delta_quote);    
+    this.quoteAmount = parseFloat(transfer.delta_quote);
     this.successful = successful;
   }
 
   getFee() {
-    console.log(this.transfer)
-    console.log(this.transfer.gas_price)
-    console.log(this.transfer.gas_spent)
-    console.log(this.asset.network)
     const nativeToken = new BlockchainsFactory().create().oneByName(this.asset.network).nativeToken();
     return new AmountOf(this.transfer.gas_spent, nativeToken).times(this.transfer.gas_price).value();
   }
 }
-

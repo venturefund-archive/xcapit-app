@@ -19,13 +19,13 @@ import { ScanUrlOf } from '../shared-wallets/models/scan-url-of/scan-url-of';
     </ion-header>
     <ion-content class="td ion-padding">
       <div class="td__card" *ngIf="this.currency">
-        <div class="td__card__title" >
+        <div class="td__card__title">
           <ion-text class="ux-font-text-xl">{{
-                  'wallets.transaction_details.' + this.transactionData.type | translate
-                }}</ion-text>
+            'wallets.transaction_details.' + this.transactionData.type | translate
+          }}</ion-text>
         </div>
         <div class="td__card__container">
-          <div class="td__card__container__title_and_image" >
+          <div class="td__card__container__title_and_image">
             <div class="td__card__container__title_and_image__image_container">
               <img [src]="this.currency.logoRoute" alt="Product Image" />
             </div>
@@ -40,14 +40,16 @@ import { ScanUrlOf } from '../shared-wallets/models/scan-url-of/scan-url-of';
               </div>
             </div>
           </div>
-          <div class="td__card__container__amount" >
+          <div class="td__card__container__amount">
             <div>
               <ion-text class="ux-font-text-lg"
                 >{{ this.transactionData.amount }} {{ this.currency.value | titlecase }}</ion-text
               >
             </div>
             <div class="td__card__container__amount__conversion">
-              <ion-text class="ux-font-text-xs"> = {{ this.quoteTransactionAmount | formattedAmount: 10:2 }} USD </ion-text>
+              <ion-text class="ux-font-text-xs">
+                = {{ this.quoteTransactionAmount | formattedAmount: 10:2 }} USD
+              </ion-text>
             </div>
           </div>
         </div>
@@ -69,7 +71,9 @@ import { ScanUrlOf } from '../shared-wallets/models/scan-url-of/scan-url-of';
               >
             </div>
             <div class="td__card__item__link">
-              <ion-text (click)="this.openTransactionUrl()" class="ux-link-xs">{{ 'wallets.transaction_details.link' | translate }}</ion-text>
+              <ion-text (click)="this.openTransactionUrl()" class="ux-link-xs">{{
+                'wallets.transaction_details.link' | translate
+              }}</ion-text>
             </div>
           </div>
           <div class="divider list-divider"></div>
@@ -77,31 +81,31 @@ import { ScanUrlOf } from '../shared-wallets/models/scan-url-of/scan-url-of';
             <ion-text class="ux-font-title-xs">{{ 'wallets.transaction_details.title_wallet' | translate }}</ion-text>
           </div>
           <div class="td__card__item__wallet">
-            <ion-text class="ux-font-text-base">{{this.transactionData.to}}</ion-text>
+            <ion-text class="ux-font-text-base">{{ this.transactionData.to }}</ion-text>
           </div>
           <div class="divider list-divider"></div>
           <div class="td__card__item__title">
             <ion-text class="ux-font-title-xs">{{ 'wallets.transaction_details.title_fee' | translate }}</ion-text>
           </div>
           <div class="container-item">
-          <div class="td__card__item__fee">
-            <ion-text class="ux-font-text-base">{{this.fee}}</ion-text>
-          </div>
-          <div class="td__card__item__usd">
-            <ion-text class="ux-font-text-base">{{this.quoteTransactionFee | formattedAmount: 10:2 }} USD</ion-text>
-          </div>
+            <div class="td__card__item__fee">
+              <ion-text class="ux-font-text-base">{{ this.fee }}</ion-text>
+            </div>
+            <div class="td__card__item__usd">
+              <ion-text class="ux-font-text-base">{{ this.quoteTransactionFee | formattedAmount: 10:2 }} USD</ion-text>
+            </div>
           </div>
           <div class="divider list-divider"></div>
           <div class="td__card__item__title">
             <ion-text class="ux-font-title-xs">{{ 'wallets.transaction_details.title_date' | translate }}</ion-text>
           </div>
           <div class="container-item">
-          <div class="td__card__item__date">
-            <ion-text class="ux-font-text-base">{{this.formattedDate}}</ion-text>
-          </div>
-          <div class="td__card__item__time">
-            <ion-text class="ux-font-text-base">{{this.formattedTime}} H</ion-text>
-          </div>
+            <div class="td__card__item__date">
+              <ion-text class="ux-font-text-base">{{ this.formattedDate }}</ion-text>
+            </div>
+            <div class="td__card__item__time">
+              <ion-text class="ux-font-text-base">{{ this.formattedTime }} H</ion-text>
+            </div>
           </div>
         </div>
       </div>
@@ -122,11 +126,10 @@ export class TransactionDetailsPage implements OnInit {
   constructor(
     private transactionDetailsService: TransactionDetailsService,
     private apiWalletService: ApiWalletService,
-    private browserService: BrowserService,
+    private browserService: BrowserService
   ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
     this.getTransactionData();
@@ -139,7 +142,7 @@ export class TransactionDetailsPage implements OnInit {
 
   private getTransactionData() {
     this.transactionData = this.transactionDetailsService.transactionData;
-    //this.fee = this.transactionData.getFee()
+    this.fee = this.transactionData.getFee();
   }
 
   private getCurrency() {
@@ -147,14 +150,12 @@ export class TransactionDetailsPage implements OnInit {
   }
 
   private getPrice() {
-    this.apiWalletService
-      .getPrices([this.currency.value], false)
-      .subscribe((res) => (this.calculate(res)));
+    this.apiWalletService.getPrices([this.currency.value], false).subscribe((res) => this.calculate(res));
   }
 
   private calculate(res) {
-      this.quoteTransactionFee = res.prices[this.currency.value] * this.transactionData.feePaid;
-      this.quoteTransactionAmount = res.prices[this.currency.value] * this.transactionData.amount;
+    this.quoteTransactionFee = res.prices[this.currency.value] * this.transactionData.feePaid;
+    this.quoteTransactionAmount = res.prices[this.currency.value] * this.transactionData.amount;
   }
 
   private formatDate(value) {
@@ -162,13 +163,12 @@ export class TransactionDetailsPage implements OnInit {
   }
 
   private formatTime(value: string) {
-    const time = value.split(':')
-    time.pop()
-    return time.join(':')
+    const time = value.split(':');
+    time.pop();
+    return time.join(':');
   }
 
   openTransactionUrl() {
     this.browserService.open({ url: ScanUrlOf.create(this.transactionData.hash, this.currency.network).value() });
   }
 }
-
