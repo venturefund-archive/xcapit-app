@@ -36,7 +36,7 @@ fdescribe('DirectaPrice', () => {
           expect(res).toEqual(3);
         },
         complete: () => {
-          expect(count).toEqual(2);
+          expect(count).toEqual(1);
         },
       });
     expect(subscription).toBeTruthy();
