@@ -28,8 +28,7 @@ fdescribe('DirectaPrice', () => {
   });
 
   it('value', () => {
-    directaPrice.value().subscribe((res) => expect(res).toEqual(2);)
-    
+    directaPrice.value().subscribe((res) => expect(res).toEqual(2));
   });
   // it('should subscribe to interval', () => {
   //   const kriptonDynamicPrice = KriptonDynamicPrice.create(
