@@ -26,7 +26,8 @@ fdescribe('DirectaPrice', () => {
   });
 
   it('value', async () => {
-    directaPrice.value().subscribe((res) => console.log(res));
+    const algo = await directaPrice.value().toPromise();
+    console.log(algo);
     // expect(await directaPrice.value().toPromise()).toEqual(3);
   });
 });
