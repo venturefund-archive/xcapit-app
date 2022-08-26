@@ -7,7 +7,11 @@ constructor (private readonly _http: HttpClient | FakeHttpClient) {}
 }
 
 fdescribe('CovalentRepo',()=>{
+    it('new' ,()=>{
+        expect(new CovalentRepo(new FakeHttpClient())).toBeTruthy()
+    });
+
     it('new ',()=>{
         expect(new CovalentRepo(new FakeHttpClient())).toBeTruthy()
-    })
+    });
 })
