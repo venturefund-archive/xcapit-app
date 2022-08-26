@@ -42,7 +42,7 @@ const userNew = {
   registration_status: 'USER_INFORMATION',
 };
 
-describe('OperationsNewPage', () => {
+fdescribe('OperationsNewPage', () => {
   let component: OperationsNewPage;
   let fixture: ComponentFixture<OperationsNewPage>;
   let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
