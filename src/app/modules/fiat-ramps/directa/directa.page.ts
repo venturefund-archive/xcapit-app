@@ -118,6 +118,7 @@ export class DirectaPage implements OnInit {
   }
 
   setFiatCurrency() {
+    console.log(this.country.isoCurrencyCodeDirecta)
     this.fiatCurrency = this.country.isoCurrencyCodeDirecta;
   }
 
