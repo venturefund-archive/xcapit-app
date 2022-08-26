@@ -4,7 +4,7 @@ import { ExpirableValue } from "./expirable-value";
 export class MemoryCache {
   private _memoryStorage: Map<string, ExpirableValue> = new Map<string, ExpirableValue>();
 
-  constructor(private _ttlInSeconds: number = 1000) {}
+  constructor(private _ttlInSeconds: number = 1) {}
 
   getValueBy(aKey: string): any {
     return this._memoryStorage.get(aKey)?.value();
