@@ -26,18 +26,21 @@ fdescribe('DirectaPrice', () => {
   });
 
   it('value', async () => {
-    let count = 0;  
-    const subscription = directaPrice.value().pipe(take(2)).subscribe({
-        next: (res) =>{
-            count++;
-            expect(res).toEqual(3);
+    let count = 0;
+    const subscription = directaPrice
+      .value()
+      .pipe(take(2))
+      .subscribe({
+        next: (res) => {
+          count++;
+          expect(res).toEqual(3);
         },
         complete: () => {
           expect(count).toEqual(2);
         },
-    })
-    expect(result).toEqual(3);
-});
+      });
+    expect(subscription).toBeInstanceOf(Subscription);
+  });
   // it('should subscribe to interval', () => {
   //   const kriptonDynamicPrice = KriptonDynamicPrice.create(
   //     15,
