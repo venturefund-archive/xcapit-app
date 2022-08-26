@@ -118,7 +118,7 @@ fdescribe('DirectaPage', () => {
     expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coinsSpy[0]);
   });
 
-  it('should set country, default currency and provider on init', () => {
+  fit('should set country, default currency and provider on init', () => {
     fakeActivatedRoute.modifySnapshotParams({ alias: 'PX' });
     component.ionViewWillEnter();
     expect(component.country.name).toEqual('Ecuador');
