@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token-repo';
-import { map } from 'rxjs/operators';
-import { CovalentTransfersResponse } from '../covalent-transfers-response/covalent-transfers-response';
-import { Address } from 'cluster';
+
 
 export class CovalentRepo {
   constructor(private readonly _http: HttpClient | FakeHttpClient) {}
