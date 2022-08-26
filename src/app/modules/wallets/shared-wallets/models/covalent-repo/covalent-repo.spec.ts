@@ -11,7 +11,7 @@ fdescribe('CovalentRepo',()=>{
         expect(new CovalentRepo(new FakeHttpClient())).toBeTruthy()
     });
 
-    it('new ',()=>{
-        expect(new CovalentRepo(new FakeHttpClient())).toBeTruthy()
+    it('transfersOf',()=>{
+        expect(new CovalentRepo(new FakeHttpClient()).transfersOf()).toBeTruthy()
     });
 })
