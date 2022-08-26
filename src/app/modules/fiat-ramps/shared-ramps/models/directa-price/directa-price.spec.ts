@@ -27,18 +27,20 @@ fdescribe('DirectaPrice', () => {
 
   fit('value', async () => {
     let count = 0;
-    const subscription: Subscription = directaPrice
-      .value()
-      .pipe(take(2))
-      .subscribe({
-        next: (res) => {
-          count++;
-          expect(res).toEqual(3);
-        },
-        complete: () => {
-          expect(count).toEqual(1);
-        },
-      });
-    expect(subscription).toBeTruthy();
+    // const subscription: Subscription = directaPrice
+    //   .value()
+    //   .pipe(take(2))
+    //   .subscribe({
+    //     next: (res) => {
+    //       count++;
+    //       expect(res).toEqual(3);
+    //     },
+    //     complete: () => {
+    //       expect(count).toEqual(1);
+    //     },
+    //   });
+    // expect(subscription).toBeTruthy();
+    const subscription = directaPrice.value().toPromise();
+    expect(subscription).toEqual(3);
   });
 });
