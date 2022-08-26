@@ -2,6 +2,7 @@ import { DirectaPrice } from './directa-price';
 import { interval, of } from 'rxjs';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampsService } from '../../services/fiat-ramps.service';
+import { fakeAsync } from '@angular/core/testing';
 
 fdescribe('DirectaPrice', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
@@ -25,11 +26,6 @@ fdescribe('DirectaPrice', () => {
   });
 
   it('value', async () => {
-    directaPrice
-      .value()
-      .toPromise()
-      .then((res) => {
-        expect(res).toEqual(3);
-      });
+    expect(await directaPrice.value().toPromise()).toEqual(3);
   });
 });
