@@ -26,7 +26,6 @@ fdescribe('DirectaPrice', () => {
   });
 
   fit('value', async () => {
-    console.log('directaPrice', directaPrice)
     let count = 0;
     const subscription = directaPrice
       .value()
@@ -40,7 +39,5 @@ fdescribe('DirectaPrice', () => {
           expect(count).toEqual(2);
         },
       });
-    console.log('DIRECTA',subscription);
-    expect(subscription).toBeInstanceOf(Subscription);
   });
 });
