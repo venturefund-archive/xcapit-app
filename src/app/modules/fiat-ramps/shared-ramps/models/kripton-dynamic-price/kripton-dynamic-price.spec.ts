@@ -26,7 +26,7 @@ fdescribe('KriptonDynamicPrice', () => {
     expect(KriptonDynamicPrice.create(15, 'ars', coinSpy, new FakeHttpClient())).toBeTruthy();
   });
 
-  it('should subscribe to interval', () => {
+  fit('should subscribe to interval', () => {
     const kriptonDynamicPrice = KriptonDynamicPrice.create(
       15,
       'ars',
