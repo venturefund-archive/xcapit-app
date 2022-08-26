@@ -5,7 +5,7 @@ import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token
 export class CovalentRepo {
   constructor(private readonly _http: HttpClient | FakeHttpClient) {}
 
-  public transfersOf() {
+  public transfersOf(aToken: RawToken) {
     return true;
   }
 }
