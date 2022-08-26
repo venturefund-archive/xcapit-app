@@ -22,7 +22,7 @@ import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { of } from 'rxjs';
 
-fdescribe('DirectaPage', () => {
+describe('DirectaPage', () => {
   let component: DirectaPage;
   let fixture: ComponentFixture<DirectaPage>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
