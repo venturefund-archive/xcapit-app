@@ -1,21 +1,17 @@
-import { RawToken } from "src/app/modules/swaps/shared-swaps/models/token-repo/token-repo";
+import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 
-export class Transfers{
-    constructor(private readonly _aToken: RawToken){
-        
-    }
-
+export class Transfers {
+  constructor(private readonly _aToken: RawToken) {}
 }
 
+fdescribe('Transfers', () => {
+  let aToken: jasmine.SpyObj<RawToken>;
 
-fdescribe('Transfers', ()=>{
-    let aToken: jasmine.SpyObj<RawToken>;
+  beforeEach(() => {
+    aToken = jasmine.createSpyObj('RawToken', {}, { native: true, value: 'MATIC' });
+  });
 
-    beforeEach (()=>{
-        aToken = jasmine.createSpyObj('RawToken', {}, { native: true, value: 'MATIC' });
-    })
-
-    it('new', ()=>{
-        expect(new Transfers(aToken)).toBeTruthy();
-    })
-})
+  it('new', () => {
+    expect(new Transfers(aToken, new FakeDataRepo())).toBeTruthy();
+  });
+});
