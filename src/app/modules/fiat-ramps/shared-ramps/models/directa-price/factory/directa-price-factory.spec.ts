@@ -6,8 +6,7 @@ import { DirectaPrice } from '../directa-price';
 fdescribe('DirectaPriceFactory', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
-  beforeEach(() => {
-  });
+
   it('create', () => {
     expect(new DirectaPriceFactory().new(2000, 'ARS', coinSpy, fiatRampsServiceSpy)).toBeInstanceOf(DirectaPrice);
   });
