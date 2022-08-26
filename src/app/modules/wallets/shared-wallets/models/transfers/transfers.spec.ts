@@ -1,3 +1,9 @@
+export class Transfers{
+    constructor(){
+        
+    }
+
+}
 
 
 describe('Transfers', ()=>{
