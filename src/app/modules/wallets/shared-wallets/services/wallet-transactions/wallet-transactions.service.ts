@@ -256,11 +256,15 @@ export class WalletTransactionsService {
     getTransfer(token)
     url()
 }
+
   TransfersOf {
     constructor(aToken, dataRepo)
-
     value()
-}
+  }
+
+   JSONTransferOf(aTransfer).value()
+
+
   getTransfers(
     address: string,
     asset: Coin,
