@@ -7,7 +7,8 @@ import { CovalentQuoteCurrency } from '../../types/covalent-quote-currencies.typ
 
 
 export class CovalentRepo {
-  constructor(private readonly _http: HttpClient | FakeHttpClient) {}
+  constructor(private readonly _http: HttpClient | FakeHttpClient,
+    private readonly _env: EnvService) {}
 
   public transfersOf(aToken: RawToken, inAddress: string) {
     return this._http
