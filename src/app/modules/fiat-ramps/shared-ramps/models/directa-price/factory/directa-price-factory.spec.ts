@@ -3,7 +3,7 @@ import { FiatRampsService } from '../../../services/fiat-ramps.service';
 import { DirectaPriceFactory } from './directa-price-factory';
 import { DirectaPrice } from '../directa-price';
 
-fdescribe('DirectaPriceFactory', () => {
+describe('DirectaPriceFactory', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
 
