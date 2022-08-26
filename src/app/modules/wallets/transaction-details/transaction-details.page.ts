@@ -92,7 +92,9 @@ import { ScanUrlOf } from '../shared-wallets/models/scan-url-of/scan-url-of';
               <ion-text class="ux-font-text-base">{{ this.fee }}</ion-text>
             </div>
             <div class="td__card__item__usd">
-              <ion-text class="ux-font-text-base">{{ this.quoteTransactionFee | formattedAmount: 10:2 }} USD</ion-text>
+              <ion-text class="ux-font-text-base"
+                >{{ this.transactionData.gasQuote | formattedAmount: 10:2 }} USD</ion-text
+              >
             </div>
           </div>
           <div class="divider list-divider"></div>
