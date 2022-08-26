@@ -2,7 +2,6 @@ import { DirectaPrice } from './directa-price';
 import { interval, of } from 'rxjs';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampsService } from '../../services/fiat-ramps.service';
-import { fakeAsync } from '@angular/core/testing';
 import { take } from 'rxjs/operators';
 
 fdescribe('DirectaPrice', () => {
@@ -27,10 +26,7 @@ fdescribe('DirectaPrice', () => {
   });
 
   it('value', async () => {
-    const algo = await directaPrice.value().pipe(take(1)).toPromise();
-    console.log(algo);
-    expect(algo).toEqual(3);
-
-    // expect(await directaPrice.value().toPromise()).toEqual(3);
+    const exchange_rate = await directaPrice.value().pipe(take(1)).toPromise();
+    expect(exchange_rate).toEqual(3);
   });
 });
