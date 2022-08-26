@@ -4,7 +4,7 @@ import { CovalentTransfersResponse } from '../../covalent-transfers-response/cov
 import { Observable, of } from 'rxjs';
 
 export class FakeCovalentRepo implements CovalentRepo {
-  constructor(private readonly _transfersOfResponse: Observable<CovalentTransfersResponse> = of()) {}
+  constructor(private readonly _transfersOfResponse: Observable<any> = of()) {}
 
   transfersOf(aToken: RawToken, inAddress: string): Observable<CovalentTransfersResponse> {
     return this._transfersOfResponse;
@@ -25,7 +25,8 @@ fdescribe('FakeCovalentRepo', () => {
     expect(fakeCovalentRepo).toBeTruthy();
   });
 
-  it('transfersOf', () => {
-    expect(fakeCovalentRepo.transfersOf(aToken, inAddress)).toBeTruthy();
+  it('transfersOf', async () => {
+
+    expect(await fakeCovalentRepo.transfersOf(aToken, inAddress).toPromise()).toBeTruthy();
   });
 });
