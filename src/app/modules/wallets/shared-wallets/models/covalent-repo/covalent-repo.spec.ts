@@ -31,6 +31,6 @@ fdescribe('CovalentRepo', () => {
 
   it('transfersOf', async() => {
     const response = await covalentRepo.transfersOf(aToken, inAddress).toPromise();
-    expect(covalentRepo.transfersOf(aToken, inAddress)).toBeTruthy();
+    expect(response).toBeTruthy();
   });
 });
