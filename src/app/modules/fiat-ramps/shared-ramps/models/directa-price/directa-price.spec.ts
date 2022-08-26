@@ -25,10 +25,14 @@ fdescribe('DirectaPrice', () => {
     expect(DirectaPrice.create(15000,'ars',coinSpy,fiatRampsServiceSpy)).toBeInstanceOf(DirectaPrice);
   });
 
-  // it('should create interval', () => {
-  //   expect(KriptonDynamicPrice.create(15, 'ars', coinSpy, new FakeHttpClient())).toBeTruthy();
-  // });
-
+  it('value', () =>{
+    //    const kriptonDynamicPrice = KriptonDynamicPrice.create(
+    //   15,
+    //   'ars',
+    //   coinSpy,
+    //   new FakeHttpClient({}, amountOutResponse)
+    // );
+  })
   // it('should subscribe to interval', () => {
   //   const kriptonDynamicPrice = KriptonDynamicPrice.create(
   //     15,
