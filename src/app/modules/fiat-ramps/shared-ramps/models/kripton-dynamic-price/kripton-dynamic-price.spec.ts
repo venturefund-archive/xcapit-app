@@ -46,7 +46,7 @@ fdescribe('KriptonDynamicPrice', () => {
           expect(count).toEqual(2);
         },
       });
-      console.log(subscription);
+    console.log(subscription);
     expect(subscription).toBeInstanceOf(Subscription);
   });
 });
