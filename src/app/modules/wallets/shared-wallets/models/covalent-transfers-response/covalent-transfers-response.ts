@@ -26,6 +26,7 @@ export class CovalentTransfersResponse {
           new CovalentNativeTransfer(item, this.response.data.quote_currency, this.asset, this.response.data.address),
         ];
       }
+      console.log(result);
       return result;
     });
     // .flat();
