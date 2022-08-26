@@ -1,7 +1,7 @@
 import { RawToken } from "src/app/modules/swaps/shared-swaps/models/token-repo/token-repo";
 
 export class Transfers{
-    constructor(){
+    constructor(private readonly _aToken){
         
     }
 
