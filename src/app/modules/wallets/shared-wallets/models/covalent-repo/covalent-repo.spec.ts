@@ -18,11 +18,11 @@ export class CovalentRepo {
     //   .pipe(map((res) => new CovalentTransfersResponse(res, asset)));
   }
 
- /*  private _url(aToken: RawToken, address: string, quoteCurrency: CovalentQuoteCurrency = 'USD'): string {
+    private _url(aToken: RawToken, address: string, quoteCurrency: CovalentQuoteCurrency = 'USD'): string {
     return aToken.native
-      ? `${environment.covalentApiUrl}${aToken.chainId}/address/${address}/transactions_v2/?no-logs=true&match={"value":{"$ne": "0"}}&limit=10&quote-currency=${quoteCurrency}`
-      : `${environment.covalentApiUrl}${aToken.chainId}/address/${address}/transfers_v2/?contract-address=${aToken.contract}&limit=10&quote-currency=${quoteCurrency}`;
-  } */
+      ? `${this._env.byKey('covalentApiUrl')}${aToken.chainId}/address/${address}/transactions_v2/?no-logs=true&match={"value":{"$ne": "0"}}&limit=10&quote-currency=${quoteCurrency}`
+      : `${this._env.byKey('covalentApiUrl')}${aToken.chainId}/address/${address}/transfers_v2/?contract-address=${aToken.contract}&limit=10&quote-currency=${quoteCurrency}`;
+     } 
 }
 
 fdescribe('CovalentRepo', () => {
