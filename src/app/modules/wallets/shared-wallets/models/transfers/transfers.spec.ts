@@ -8,7 +8,7 @@ export class Transfers{
 }
 
 
-describe('Transfers', ()=>{
+fdescribe('Transfers', ()=>{
     let aToken: jasmine.SpyObj<RawToken>;
 
     beforeEach (()=>{
