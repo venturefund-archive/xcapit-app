@@ -74,12 +74,12 @@ fdescribe('DirectaPage', () => {
       }
     );
 
-    directaPriceFactorySpy = jasmine.createSpyObj('DirectaPriceFactory', {
-      new: directaPriceSpy,
-    });
-
     directaPriceSpy = jasmine.createSpyObj('DirectaPrice', {
       value: of(3),
+    });
+
+    directaPriceFactorySpy = jasmine.createSpyObj('DirectaPriceFactory', {
+      new: directaPriceSpy,
     });
 
     TestBed.configureTestingModule({
