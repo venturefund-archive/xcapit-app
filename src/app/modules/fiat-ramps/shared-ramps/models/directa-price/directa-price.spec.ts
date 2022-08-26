@@ -1,11 +1,12 @@
-import { DirectaPrice } from "./directa-price";
+import { DirectaPrice } from './directa-price';
 import { interval, Subscription } from 'rxjs';
-import { Coin } from "src/app/modules/wallets/shared-wallets/interfaces/coin.interface";
-import { FiatRampsService } from "../../services/fiat-ramps.service";
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
+import { FiatRampsService } from '../../services/fiat-ramps.service';
 
 fdescribe('DirectaPrice', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
-  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let directaPrice: DirectaPrice;
   // const amountOutResponse = {
   //   data: {
   //     amount_out: '2',
@@ -14,7 +15,8 @@ fdescribe('DirectaPrice', () => {
   // };
 
   beforeEach(() => {
-      coinSpy = jasmine.createSpyObj('Coin', {}, { value: 'MATIC' });
+    coinSpy = jasmine.createSpyObj('Coin', {}, { value: 'MATIC' });
+    directaPrice = DirectaPrice.create(15000, 'ars', coinSpy, fiatRampsServiceSpy);
   });
 
   it('new', () => {
@@ -22,17 +24,17 @@ fdescribe('DirectaPrice', () => {
   });
 
   it('create', () => {
-    expect(DirectaPrice.create(15000,'ars',coinSpy,fiatRampsServiceSpy)).toBeInstanceOf(DirectaPrice);
+    expect(directaPrice).toBeInstanceOf(DirectaPrice);
   });
 
-  it('value', () =>{
+  it('value', () => {
     //    const kriptonDynamicPrice = KriptonDynamicPrice.create(
     //   15,
     //   'ars',
     //   coinSpy,
     //   new FakeHttpClient({}, amountOutResponse)
     // );
-  })
+  });
   // it('should subscribe to interval', () => {
   //   const kriptonDynamicPrice = KriptonDynamicPrice.create(
   //     15,
