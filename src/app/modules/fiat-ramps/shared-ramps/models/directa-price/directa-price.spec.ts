@@ -28,12 +28,7 @@ fdescribe('DirectaPrice', () => {
   });
 
   it('value', () => {
-    //    const kriptonDynamicPrice = KriptonDynamicPrice.create(
-    //   15,
-    //   'ars',
-    //   coinSpy,
-    //   new FakeHttpClient({}, amountOutResponse)
-    // );
+    expect(directaPrice.value()).toBeTruthy();
   });
   // it('should subscribe to interval', () => {
   //   const kriptonDynamicPrice = KriptonDynamicPrice.create(
