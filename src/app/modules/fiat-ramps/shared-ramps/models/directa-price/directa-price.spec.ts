@@ -39,7 +39,6 @@ fdescribe('DirectaPrice', () => {
           expect(count).toEqual(2);
         },
       });
-    console.log(subscription);
-    expect(subscription).toBeInstanceOf(Subscription);
+      expect(subscription).toBeInstanceOf(Subscription);
   });
 });
