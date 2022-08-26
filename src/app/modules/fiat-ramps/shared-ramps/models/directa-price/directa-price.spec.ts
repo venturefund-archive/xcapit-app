@@ -4,7 +4,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
 import { FiatRampsService } from '../../services/fiat-ramps.service';
 import { take } from 'rxjs/operators';
 
-fdescribe('DirectaPrice', () => {
+describe('DirectaPrice', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let directaPrice: DirectaPrice;
