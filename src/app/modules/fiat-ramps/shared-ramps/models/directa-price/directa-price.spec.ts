@@ -11,7 +11,7 @@ fdescribe('DirectaPrice', () => {
   beforeEach(() => {
     coinSpy = jasmine.createSpyObj('Coin', {}, { value: 'MATIC' });
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampService', {
-      getDirectaExchangeRate: of({ fx_rate: 3 }),
+      getDirectaExchangeRate: { fx_rate: 3 },
     });
     directaPrice = DirectaPrice.create(15, 'ars', coinSpy, fiatRampsServiceSpy);
   });
