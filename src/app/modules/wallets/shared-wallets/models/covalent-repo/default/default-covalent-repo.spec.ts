@@ -1,11 +1,11 @@
 import { EnvService } from 'src/app/shared/services/env/env.service';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { RawToken } from '../../../../../swaps/shared-swaps/models/token-repo/token-repo';
+import { CovalentRepo } from '../covalent-repo.interface';
 import { DefaultCovalentRepo } from './default-covalent-repo';
 
-
 fdescribe('DefaultCovalentRepo', () => {
-  let covalentRepo: DefaultCovalentRepo;
+  let covalentRepo: CovalentRepo;
   let aToken: jasmine.SpyObj<RawToken>;
   let envSpy: jasmine.SpyObj<EnvService>;
   const inAddress = '';

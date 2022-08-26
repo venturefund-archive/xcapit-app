@@ -7,8 +7,9 @@ import { Coin } from '../../../interfaces/coin.interface';
 import { CovalentQuoteCurrency } from '../../../types/covalent-quote-currencies.type';
 import { CovalentTransfersResponse } from '../../covalent-transfers-response/covalent-transfers-response';
 import { Observable } from 'rxjs';
+import { CovalentRepo } from '../covalent-repo.interface';
 
-export class DefaultCovalentRepo {
+export class DefaultCovalentRepo implements CovalentRepo {
   constructor(private readonly _http: HttpClient | FakeHttpClient, private readonly _env: EnvService) {}
 
   public transfersOf(aToken: RawToken, inAddress: string): Observable<CovalentTransfersResponse> {
