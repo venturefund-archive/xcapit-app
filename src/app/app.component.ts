@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, NgZone } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { LanguageService } from './shared/services/language/language.service';
@@ -52,6 +52,7 @@ export class AppComponent implements OnInit {
     private walletConnectService: WalletConnectService,
     private walletBackupService: WalletBackupService,
     private localNotificationsService: LocalNotificationsService,
+    private navController: NavController
   ) {}
 
   ngOnInit() {
@@ -76,29 +77,38 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.languageService.setInitialAppLanguage();
       this.setLanguageSubscribe();
-      this.checkDeeplinking();
+      this.checkWalletConnectAndDynamicLinks();
       this.localNotificationsService.init();
     });
   }
 
-  private async checkDeeplinking() {
+  private async checkWalletConnectAndDynamicLinks() {
     await this.walletConnectService.checkConnection();
     await this.walletConnectService.retrieveWalletConnect();
 
     if (this.platformService.isNative()) {
       App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
         this.zone.run(async () => {
-          const url = event.url.split('?uri=').pop();
-
-          if (url) {
-            this.walletConnectService.setUri(url);
-
-            if (await this.authService.checkToken()) {
-              this.walletConnectService.checkDeeplinkUrl();
-            }
-          }
+          this.walletConnectDeepLinks(event);
+          this.dynamicLinks(event);
         });
       });
+    }
+  }
+
+  dynamicLinks(event) {
+    const dynamicLinkURL = event.url.split('app.xcapit.com/').pop();
+    if (dynamicLinkURL) this.navController.navigateForward(dynamicLinkURL);
+  }
+
+  async walletConnectDeepLinks(event) {
+    const url = event.url.split('?uri=').pop();
+    if (url) {
+      this.walletConnectService.setUri(url);
+
+      if (await this.authService.checkToken()) {
+        this.walletConnectService.checkDeeplinkUrl();
+      }
     }
   }
 
@@ -126,7 +136,7 @@ export class AppComponent implements OnInit {
     this.el.nativeElement.parentElement.parentElement.attributes.setNamedItem(lang);
   }
 
-    setLanguageSubscribe() {
+  setLanguageSubscribe() {
     this.onLangChange = this.translate.onLangChange.subscribe(() => {
       this.updateLanguage();
     });
