@@ -42,7 +42,7 @@ describe('WalletTransactionCardItemComponent', () => {
 
       fixture = TestBed.createComponent(WalletTransactionCardItemComponent);
       component = fixture.componentInstance;
-      component.transaction = transaction;
+      //component.transaction = transaction;
       component.network = 'MATIC';
       fixture.detectChanges();
     })
