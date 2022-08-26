@@ -27,7 +27,7 @@ fdescribe('DirectaPrice', () => {
 
   fit('value', async () => {
     let count = 0;
-    const subscription = directaPrice
+    const subscription: Subscription = directaPrice
       .value()
       .pipe(take(2))
       .subscribe({
