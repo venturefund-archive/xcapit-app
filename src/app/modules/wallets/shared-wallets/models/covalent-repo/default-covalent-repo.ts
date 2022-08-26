@@ -7,19 +7,19 @@ import { Coin } from "../../interfaces/coin.interface";
 import { CovalentQuoteCurrency } from "../../types/covalent-quote-currencies.type";
 import { CovalentTransfersResponse } from "../covalent-transfers-response/covalent-transfers-response";
 
-export class CovalentRepo {
+export class DefaultCovalentRepo {
     constructor(private readonly _http: HttpClient | FakeHttpClient, private readonly _env: EnvService) {}
-  
+
     public transfersOf(aToken: RawToken, inAddress: string) {
       return this._http
         .get(this._url(aToken, inAddress), { headers: this._authHeaders() })
         .pipe(map((res) => new CovalentTransfersResponse(res, aToken as Coin)));
     }
-  
+
     private _authHeaders() {
       return { Authorization: `Basic ${btoa(this._env.byKey('covalentApiKey') + ':')}` };
     }
-  
+
     private _url(aToken: RawToken, address: string, quoteCurrency: CovalentQuoteCurrency = 'USD'): string {
       return aToken.native
         ? `${this._env.byKey('covalentApiUrl')}${
@@ -30,5 +30,5 @@ export class CovalentRepo {
           }&limit=10&quote-currency=${quoteCurrency}`;
     }
 
-    
+
   }
