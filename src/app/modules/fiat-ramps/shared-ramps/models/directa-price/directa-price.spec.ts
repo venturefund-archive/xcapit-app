@@ -13,11 +13,11 @@ fdescribe('DirectaPrice', () => {
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampService', {
       getDirectaExchangeRate: of({ fx_rate: 3 }),
     });
-    directaPrice = DirectaPrice.create(15000, 'ars', coinSpy, fiatRampsServiceSpy);
+    directaPrice = DirectaPrice.create(1000, 'ars', coinSpy, fiatRampsServiceSpy);
   });
 
   it('new', () => {
-    expect(new DirectaPrice(interval(15), 'ars', coinSpy, fiatRampsServiceSpy)).toBeTruthy();
+    expect(new DirectaPrice(interval(1), 'ars', coinSpy, fiatRampsServiceSpy)).toBeTruthy();
   });
 
   it('create', () => {
