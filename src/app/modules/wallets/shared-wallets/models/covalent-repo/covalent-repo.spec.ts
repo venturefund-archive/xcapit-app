@@ -1,6 +1,10 @@
+import { HttpClient } from "@angular/common/http"
 import { FakeHttpClient } from "src/testing/fakes/fake-http.spec"
 
-export class CovalentRepo{}
+export class CovalentRepo{
+constructor (private readonly _http: HttpClient | FakeHttpClient) {}
+
+}
 
 fdescribe('CovalentRepo',()=>{
     it('new ',()=>{
