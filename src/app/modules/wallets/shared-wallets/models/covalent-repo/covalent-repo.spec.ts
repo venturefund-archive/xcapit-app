@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { async } from '@firebase/util';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token-repo';
 
@@ -28,7 +29,8 @@ fdescribe('CovalentRepo', () => {
     expect(covalentRepo).toBeTruthy();
   });
 
-  it('transfersOf', () => {
+  it('transfersOf', async() => {
+    const response = await covalentRepo.transfersOf(aToken, inAddress).toPromise();
     expect(covalentRepo.transfersOf(aToken, inAddress)).toBeTruthy();
   });
 });
