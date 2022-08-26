@@ -3,11 +3,12 @@ import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token-repo';
 import { map } from 'rxjs/operators';
 import { CovalentTransfersResponse } from '../covalent-transfers-response/covalent-transfers-response';
+import { Address } from 'cluster';
 
 export class CovalentRepo {
   constructor(private readonly _http: HttpClient | FakeHttpClient) {}
 
-  public transfersOf(aToken: RawToken) {
+  public transfersOf(aToken: RawToken, inAddress: string) {
     return true;
     // return this.http
     //   .get(this.getUrl(asset, address, quoteCurrency), { headers: this.authHeaders })
