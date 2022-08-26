@@ -1,15 +1,8 @@
 import { CovalentRepo } from '../covalent-repo.interface';
 import { RawToken } from '../../../../../swaps/shared-swaps/models/token-repo/token-repo';
 import { CovalentTransfersResponse } from '../../covalent-transfers-response/covalent-transfers-response';
-import { Observable, of } from 'rxjs';
-
-export class FakeCovalentRepo implements CovalentRepo {
-  constructor(private readonly _transfersOfResponse: Observable<any> = of()) {}
-
-  transfersOf(aToken: RawToken, inAddress: string): Observable<CovalentTransfersResponse> {
-    return this._transfersOfResponse;
-  }
-}
+import { of } from 'rxjs';
+import { FakeCovalentRepo } from './fake-covalent-repo';
 
 fdescribe('FakeCovalentRepo', () => {
   let aToken: jasmine.SpyObj<RawToken>;
@@ -19,7 +12,7 @@ fdescribe('FakeCovalentRepo', () => {
 
   beforeEach(() => {
     aToken = jasmine.createSpyObj('RawToken', {}, { native: true, value: 'MATIC' });
-    covalentTransfersResponseSpy = jasmine.createSpyObj('CovalentTransfersResponse', {value: null});
+    covalentTransfersResponseSpy = jasmine.createSpyObj('CovalentTransfersResponse', { value: null });
     fakeCovalentRepo = new FakeCovalentRepo(of(covalentTransfersResponseSpy));
   });
 
@@ -28,7 +21,6 @@ fdescribe('FakeCovalentRepo', () => {
   });
 
   it('transfersOf', async () => {
-
     expect(await fakeCovalentRepo.transfersOf(aToken, inAddress).toPromise()).toBeTruthy();
   });
 });
