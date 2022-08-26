@@ -145,8 +145,8 @@ export class TransactionDetailsPage implements OnInit {
     this.formattedDate = this.formatDate(this.transactionData.date);
   }
 
-  private getTransactionData() {
-    console.log(new DefaultCovalentRepo(this.http, this.env).transfersOf({
+  private async getTransactionData() {
+    console.log(await new DefaultCovalentRepo(this.http, this.env).transfersOf({
       id: 17,
       name: 'MATIC - Polygon',
       logoRoute: 'assets/img/coins/MATIC.svg',
@@ -160,7 +160,7 @@ export class TransactionDetailsPage implements OnInit {
       native: true,
       symbol: 'MATICUSDT',
       contract: '0x0000000000000000000000000000000000001010',
-    } as RawToken,'0x72fdeb93a64a0eb2b789a9ed87e65bff967928c3'))
+    } as RawToken,'0x72fdeb93a64a0eb2b789a9ed87e65bff967928c3').toPromise())
     // this.transactionData = this.transactionDetailsService.transactionData;
     // this.fee = this.transactionData.getFee();
   }
