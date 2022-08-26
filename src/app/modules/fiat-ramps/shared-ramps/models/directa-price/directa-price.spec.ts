@@ -25,7 +25,7 @@ fdescribe('DirectaPrice', () => {
   });
 
   it('value', async () => {
-    const result = await directaPrice.value().toPromise()
+    const subscription = directaPrice.value().pipe(take(2))
     expect(result).toEqual(3);
 });
   // it('should subscribe to interval', () => {
