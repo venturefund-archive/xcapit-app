@@ -4,7 +4,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
 import { KriptonDynamicPrice } from './kripton-dynamic-price';
 import { FakeHttpClient } from '../../../../../../testing/fakes/fake-http.spec';
 
-describe('KriptonDynamicPrice', () => {
+fdescribe('KriptonDynamicPrice', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
 
   const amountOutResponse = {
@@ -46,6 +46,7 @@ describe('KriptonDynamicPrice', () => {
           expect(count).toEqual(2);
         },
       });
+      console.log(subscription);
     expect(subscription).toBeInstanceOf(Subscription);
   });
 });
