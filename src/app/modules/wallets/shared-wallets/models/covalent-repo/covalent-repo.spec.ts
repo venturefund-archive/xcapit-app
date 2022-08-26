@@ -1,18 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token-repo';
+import { map } from 'rxjs/operators';
+import { CovalentTransfersResponse } from '../covalent-transfers-response/covalent-transfers-response';
 
 export class CovalentRepo {
   constructor(private readonly _http: HttpClient | FakeHttpClient) {}
 
   public transfersOf(aToken: RawToken) {
     return true;
+    // return this.http
+    //   .get(this.getUrl(asset, address, quoteCurrency), { headers: this.authHeaders })
+    //   .pipe(map((res) => new CovalentTransfersResponse(res, asset)));
   }
 }
 
 fdescribe('CovalentRepo', () => {
   let covalentRepo: CovalentRepo;
   let aToken: jasmine.SpyObj<RawToken>;
+  const inAddress = '';
 
   beforeEach(() => {
     covalentRepo = new CovalentRepo(new FakeHttpClient());
@@ -24,6 +30,6 @@ fdescribe('CovalentRepo', () => {
   });
 
   it('transfersOf', () => {
-    expect(covalentRepo.transfersOf(aToken)).toBeTruthy();
+    expect(covalentRepo.transfersOf(aToken, inAddress)).toBeTruthy();
   });
 });
