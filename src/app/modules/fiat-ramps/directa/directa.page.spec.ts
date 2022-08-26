@@ -121,8 +121,9 @@ fdescribe('DirectaPage', () => {
   fit('should set country, default currency and provider on init', async () => {
     fakeActivatedRoute.modifySnapshotParams({ alias: 'PX' });
     component.ionViewWillEnter();
-    await fixture.whenStable()
+    await fixture.whenStable();
     await fixture.whenRenderingDone();
+    fixture.detectChanges();
     expect(component.country.name).toEqual('Ecuador');
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);
     expect(component.fiatCurrency).toEqual('USD');
