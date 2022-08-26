@@ -26,6 +26,6 @@ fdescribe('DirectaPrice', () => {
 
   it('value', () => {
     const subscription = directaPrice.value().toPromise();
-    expect(subscription).toEqual(of(3));
+    expect(subscription).toEqual(3);
   });
 });
