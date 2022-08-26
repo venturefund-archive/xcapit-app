@@ -139,7 +139,7 @@ export class TransactionDetailsPage implements OnInit {
 
   private getTransactionData() {
     this.transactionData = this.transactionDetailsService.transactionData;
-    //this.fee = this.transactionData.getFee()
+    this.fee = this.transactionData.getFee()
   }
 
   private getCurrency() {
