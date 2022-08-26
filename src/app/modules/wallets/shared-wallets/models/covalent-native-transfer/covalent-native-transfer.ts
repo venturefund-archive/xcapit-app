@@ -14,10 +14,11 @@ export class CovalentNativeTransfer extends CovalentTransfer {
     this.amount = parseFloat(ethers.utils.formatEther(transfer.value));
     this.quoteAmount = transfer.value_quote;
     this.successful = transfer.successful;
+    this.gasQuote = transfer.gas_quote;
   }
 
   getFee() {
     const nativeToken = new BlockchainsFactory().create().oneByName(this.asset.network).nativeToken();
     return new AmountOf(this.transfer.gas_spent, nativeToken).times(this.transfer.gas_price).value();
-  } 
+  }
 }

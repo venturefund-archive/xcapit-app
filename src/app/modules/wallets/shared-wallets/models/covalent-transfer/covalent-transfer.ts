@@ -7,11 +7,10 @@ export class CovalentTransfer {
   amount: number;
   quoteAmount: number;
   quoteCurrency: string;
-  hash: string; 
+  hash: string;
   date: string;
   successful: boolean;
-  gasPrice: number;
-  gasSpent: string;
+  gasQuote: string;
   feePaid: number;
 
   constructor(transfer: any, quoteCurrency: string) {
