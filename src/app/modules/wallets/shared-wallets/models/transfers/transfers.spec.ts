@@ -8,7 +8,20 @@ export class Transfers {
 
   /* public transfersOf(aToken: RawToken, inAddress: string): Promise<Transfer> {
     return this.repo.transfersOf(aToken, inAddress).toPromise().then(res => {
-      new Transfer 
+      new Transfer(
+
+
+
+
+
+
+
+
+
+
+
+
+      )
     })
   } */
 }
