@@ -7,7 +7,7 @@ export class CovalentRepo {
   constructor(private readonly _http: HttpClient | FakeHttpClient) {}
 
   public transfersOf(aToken: RawToken, inAddress: string) {
-    return true;
+    return this._http.get('');
     // return this.http
     //   .get(this.getUrl(asset, address, quoteCurrency), { headers: this.authHeaders })
     //   .pipe(map((res) => new CovalentTransfersResponse(res, asset)));
