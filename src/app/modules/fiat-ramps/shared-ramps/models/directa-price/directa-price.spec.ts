@@ -33,7 +33,7 @@ fdescribe('DirectaPrice', () => {
       .subscribe({
         next: (res) => {
           count++;
-          expect(res).toEqual(0.5);
+          expect(res).toEqual(3);
         },
         complete: () => {
           expect(count).toEqual(2);
