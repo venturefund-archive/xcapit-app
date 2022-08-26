@@ -20,7 +20,7 @@ fdescribe('CovalentRepo', () => {
   const inAddress = '';
 
   beforeEach(() => {
-    covalentRepo = new CovalentRepo(new FakeHttpClient());
+    covalentRepo = new CovalentRepo(new FakeHttpClient(true));
     aToken = jasmine.createSpyObj('RawToken', {}, { native: true, value: 'MATIC' });
   });
 
