@@ -63,87 +63,85 @@ fdescribe('OperationsNewPage', () => {
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
-  beforeEach(
-    waitForAsync(() => {
-      navControllerSpy = new FakeNavController().createSpy();
-      storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
-        updateData: null,
-      });
-      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-        getUserWallets: of({}),
-        checkUser: of({}),
-        createUser: of({}),
-        setProvider: null,
-      });
+  beforeEach(waitForAsync(() => {
+    navControllerSpy = new FakeNavController().createSpy();
+    storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
+      updateData: null,
+    });
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      getUserWallets: of({}),
+      checkUser: of({}),
+      createUser: of({}),
+      setProvider: null,
+    });
 
-      coinsSpy = [
-        jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' }),
-        jasmine.createSpyObj('Coin', {}, { value: 'DAI', network: 'MATIC' }),
-      ];
+    coinsSpy = [
+      jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' }),
+      jasmine.createSpyObj('Coin', {}, { value: 'DAI', network: 'MATIC' }),
+    ];
 
-      fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'ARS' });
-      activatedRouteSpy = fakeActivatedRoute.createSpy();
+    fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'ARS' });
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
 
-      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
+    browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
 
-      walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-        getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x00000000000000' } }),
-      });
+    walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
+      getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x00000000000000' } }),
+    });
 
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getCoins: coinsSpy,
-      });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: coinsSpy,
+    });
 
-      priceSubject = new Subject<number>();
+    priceSubject = new Subject<number>();
 
-      kriptonDynamicPriceSpy = jasmine.createSpyObj('KriptonDynamicPrice', {
-        value: priceSubject,
-      });
+    kriptonDynamicPriceSpy = jasmine.createSpyObj('KriptonDynamicPrice', {
+      value: priceSubject,
+    });
 
-      kriptonDynamicPriceFactorySpy = jasmine.createSpyObj('KriptonDynamicPriceFactory', {
-        new: kriptonDynamicPriceSpy,
-      });
+    kriptonDynamicPriceFactorySpy = jasmine.createSpyObj('KriptonDynamicPriceFactory', {
+      new: kriptonDynamicPriceSpy,
+    });
 
-      providersSpy = jasmine.createSpyObj('Providers', {
-        all: rawProvidersData,
-        byAlias: rawProvidersData.find((provider) => provider.alias === 'kripton'),
-      });
+    providersSpy = jasmine.createSpyObj('Providers', {
+      all: rawProvidersData,
+      byAlias: rawProvidersData.find((provider) => provider.alias === 'kripton'),
+    });
 
-      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
-        create: providersSpy,
-      });
+    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+      create: providersSpy,
+    });
 
-      tokenOperationDataServiceSpy = jasmine.createSpyObj(
-        'TokenOperationDataService',
-        {},
-        {
-          tokenOperationData: { asset: 'DAI', network: 'MATIC', country: 'ARS' },
-        }
-      );
+    tokenOperationDataServiceSpy = jasmine.createSpyObj(
+      'TokenOperationDataService',
+      {},
+      {
+        tokenOperationData: { asset: 'DAI', network: 'MATIC', country: 'ARS' },
+      }
+    );
 
-      fakeModalController = new FakeModalController({});
-      modalControllerSpy = fakeModalController.createSpy();
+    fakeModalController = new FakeModalController({});
+    modalControllerSpy = fakeModalController.createSpy();
 
-      TestBed.configureTestingModule({
-        declarations: [OperationsNewPage, FakeTrackClickDirective],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
-        providers: [
-          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-          { provide: StorageOperationService, useValue: storageOperationServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
-          { provide: BrowserService, useValue: browserServiceSpy },
-          { provide: KriptonDynamicPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
-          { provide: ProvidersFactory, useValue: providersFactorySpy },
-          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
-          { provide: ModalController, useValue: modalControllerSpy },
-        ],
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      declarations: [OperationsNewPage, FakeTrackClickDirective],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      providers: [
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        { provide: StorageOperationService, useValue: storageOperationServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: BrowserService, useValue: browserServiceSpy },
+        { provide: KriptonDynamicPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
+        { provide: ProvidersFactory, useValue: providersFactorySpy },
+        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OperationsNewPage);
@@ -171,7 +169,6 @@ fdescribe('OperationsNewPage', () => {
     });
     expect(component.form.controls.cryptoAmount.value).toEqual('25');
   });
-
 
   it('should set country, default currency, provider and price on init', () => {
     component.ionViewWillEnter();
@@ -270,10 +267,21 @@ fdescribe('OperationsNewPage', () => {
     expect(component.form.value.fiatAmount).toEqual(35);
   }));
 
-  it('should show modal',   () => {    
+  it('should show modal', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', undefined);
+    fixture.debugElement
+      .query(By.css('app-provider-new-operation-card'))
+      .triggerEventHandler('changeCurrency', undefined);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should unsubscribe when leave', () => {
+    component.ionViewWillEnter();
+    const nextSpy = spyOn(component.destroy$, 'next');
+    const completeSpy = spyOn(component.destroy$, 'complete');
+    component.ionViewWillLeave();
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 });
