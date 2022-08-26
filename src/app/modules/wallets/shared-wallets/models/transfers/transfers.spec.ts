@@ -4,6 +4,7 @@ import { FakeCovalentRepo } from '../covalent-repo/fake/fake-covalent-repo';
 
 export class Transfers {
   constructor(private readonly _aToken: RawToken, private readonly repo: CovalentRepo) {}
+  
 }
 
 fdescribe('Transfers', () => {
