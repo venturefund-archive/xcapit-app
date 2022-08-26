@@ -4,7 +4,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
 import { KriptonDynamicPrice } from './kripton-dynamic-price';
 import { FakeHttpClient } from '../../../../../../testing/fakes/fake-http.spec';
 
-fdescribe('KriptonDynamicPrice', () => {
+describe('KriptonDynamicPrice', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
 
   const amountOutResponse = {
@@ -26,7 +26,7 @@ fdescribe('KriptonDynamicPrice', () => {
     expect(KriptonDynamicPrice.create(15, 'ars', coinSpy, new FakeHttpClient())).toBeTruthy();
   });
 
-  fit('should subscribe to interval', () => {
+  it('should subscribe to interval', () => {
     const kriptonDynamicPrice = KriptonDynamicPrice.create(
       15,
       'ars',
