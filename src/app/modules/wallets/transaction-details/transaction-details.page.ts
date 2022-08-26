@@ -48,7 +48,7 @@ import { ScanUrlOf } from '../shared-wallets/models/scan-url-of/scan-url-of';
             </div>
             <div class="td__card__container__amount__conversion">
               <ion-text class="ux-font-text-xs">
-                = {{ this.quoteTransactionAmount | formattedAmount: 10:2 }} USD
+                = {{ this.transactionData.quoteAmount | formattedAmount: 10:2 }} USD
               </ion-text>
             </div>
           </div>
@@ -136,7 +136,6 @@ export class TransactionDetailsPage implements OnInit {
   ionViewWillEnter() {
     this.getTransactionData();
     this.getCurrency();
-    this.getPrice();
     this.date = new Date(this.transactionData.date);
     this.formattedTime = this.formatTime(this.date.toLocaleTimeString());
     this.formattedDate = this.formatDate(this.transactionData.date);
@@ -149,15 +148,6 @@ export class TransactionDetailsPage implements OnInit {
 
   private getCurrency() {
     this.currency = this.apiWalletService.getCoin(this.transactionData.symbol);
-  }
-
-  private getPrice() {
-    this.apiWalletService.getPrices([this.currency.value], false).subscribe((res) => this.calculate(res));
-  }
-
-  private calculate(res) {
-    this.quoteTransactionFee = res.prices[this.currency.value] * this.transactionData.feePaid;
-    this.quoteTransactionAmount = res.prices[this.currency.value] * this.transactionData.amount;
   }
 
   private formatDate(value) {
