@@ -27,7 +27,7 @@ export class WalletEncryptionService {
   encryptWallet(password: string): Promise<any> {
     const derivedPaths = environment.derivedPaths;
 
-    for (let [network, derivedPath] of Object.entries(derivedPaths)) {
+    for (const [network, derivedPath] of Object.entries(derivedPaths)) {
       const wallet = this.walletService.createForDerivedPath(derivedPath);
 
       if (wallet instanceof ethers.Wallet) {
