@@ -1,5 +1,6 @@
 import { DirectaPrice } from './directa-price';
 import { interval, of, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampsService } from '../../services/fiat-ramps.service';
 
@@ -25,7 +26,16 @@ fdescribe('DirectaPrice', () => {
   });
 
   it('value', async () => {
-    const subscription = directaPrice.value().pipe(take(2))
+    let count = 0;  
+    const subscription = directaPrice.value().pipe(take(2)).subscribe({
+        next: (res) =>{
+            count++;
+            expect(res).toEqual(3);
+        },
+        complete: () => {
+          expect(count).toEqual(2);
+        },
+    })
     expect(result).toEqual(3);
 });
   // it('should subscribe to interval', () => {
@@ -35,7 +45,6 @@ fdescribe('DirectaPrice', () => {
   //     coinSpy,
   //     new FakeHttpClient({}, amountOutResponse)
   //   );
-  //   let count = 0;
   //   const subscription = kriptonDynamicPrice
   //     .value()
   //     .pipe(take(2))
