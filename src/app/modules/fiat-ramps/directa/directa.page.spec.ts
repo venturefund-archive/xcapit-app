@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -118,14 +118,12 @@ fdescribe('DirectaPage', () => {
     expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coinsSpy[0]);
   });
 
-  fit('should set country, default currency and provider on init', async () => {
+  fit('should set country, default currency and provider on init', fakeAsync( () => {
     fakeActivatedRoute.modifySnapshotParams({ alias: 'PX' });
     component.ionViewWillEnter();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    fixture.detectChanges();
+    tick();
     expect(component.country.name).toEqual('Ecuador');
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);
     expect(component.fiatCurrency).toEqual('USD');
-  });
+  }));
 });
