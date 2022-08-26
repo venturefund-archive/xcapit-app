@@ -17,8 +17,12 @@ fdescribe('DirectaPrice', () => {
       coinSpy = jasmine.createSpyObj('Coin', {}, { value: 'MATIC' });
   });
 
-  it('should create', () => {
+  it('new', () => {
     expect(new DirectaPrice(interval(15), 'ars', coinSpy, fiatRampsServiceSpy)).toBeTruthy();
+  });
+
+  it('create', () => {
+    expect(DirectaPrice.create(15000,'ars',coinSpy,fiatRampsServiceSpy)).toBeInstanceOf(DirectaPrice);
   });
 
   // it('should create interval', () => {
