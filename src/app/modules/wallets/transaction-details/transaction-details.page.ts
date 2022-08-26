@@ -118,8 +118,6 @@ export class TransactionDetailsPage implements OnInit {
   currency: Coin;
   networkColors = NETWORK_COLORS;
   transactionData: CovalentTransfer;
-  quoteTransactionFee: number;
-  quoteTransactionAmount: number;
   formattedDate: string;
   formattedTime: string;
   date: Date;
