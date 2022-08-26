@@ -13,7 +13,7 @@ fdescribe('DirectaPrice', () => {
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampService', {
       getDirectaExchangeRate: of({ fx_rate: 3 }),
     });
-    directaPrice = DirectaPrice.create(15, 'ars', coinSpy, fiatRampsServiceSpy);
+    directaPrice = DirectaPrice.create(1, 'ars', coinSpy, fiatRampsServiceSpy);
   });
 
   it('new', () => {
