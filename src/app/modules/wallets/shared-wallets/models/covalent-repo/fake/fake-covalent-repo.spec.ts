@@ -1,4 +1,4 @@
-import { CovalentRepo } from '../covalent-repo.interface';
+import { CovalentRepo } from '../../covalent-repo.interface';
 import { RawToken } from '../../../../../swaps/shared-swaps/models/token-repo/token-repo';
 import { CovalentTransfersResponse } from '../../covalent-transfers-response/covalent-transfers-response';
 import { Observable, of } from 'rxjs';
