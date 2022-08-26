@@ -33,6 +33,7 @@ fdescribe('KriptonDynamicPrice', () => {
       coinSpy,
       new FakeHttpClient({}, amountOutResponse)
     );
+    console.log('kriptonDynamicPrice', kriptonDynamicPrice)
     let count = 0;
     const subscription = kriptonDynamicPrice
       .value()
