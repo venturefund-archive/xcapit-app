@@ -14,21 +14,22 @@ export class CovalentTransfersResponse {
 
   value(): CovalentTransfer[] {
     //console.log(this.response)
-    return this.response.data.items.map((item: any) => {
-      let result: any[];
-      if (item.transfers) {
-        result = item.transfers.map(
-          (transfer: any) =>
-            new CovalentNoNativeTransfer(transfer, this.response.data.quote_currency, item.successful, this.asset)
-        );
-      } else {
-        result = [
-          new CovalentNativeTransfer(item, this.response.data.quote_currency, this.asset, this.response.data.address),
-        ];
-      }
-      console.log(result);
-      return result;
-    });
-    // .flat();
+    return this.response.data.items
+      .map((item: any) => {
+        let result: any[];
+        if (item.transfers) {
+          result = item.transfers.map(
+            (transfer: any) =>
+              new CovalentNoNativeTransfer(transfer, this.response.data.quote_currency, item.successful, this.asset)
+          );
+        } else {
+          result = [
+            new CovalentNativeTransfer(item, this.response.data.quote_currency, this.asset, this.response.data.address),
+          ];
+        }
+        console.log(result);
+        return result;
+      })
+      .flat();
   }
 }
