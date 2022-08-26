@@ -3,7 +3,7 @@ import { interval, Subscription } from 'rxjs';
 import { Coin } from "src/app/modules/wallets/shared-wallets/interfaces/coin.interface";
 import { FiatRampsService } from "../../services/fiat-ramps.service";
 
-describe('DirectaPrice', () => {
+fdescribe('DirectaPrice', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>
   // const amountOutResponse = {
