@@ -2066,6 +2066,18 @@
       "copy_button": "Copiar clave privada",
       "success_toast": "Tu clave privada se copio correctamente al portapapeles",
       "error_toast": "La contraseña que ingresaste es incorrecta"
+    },
+    "transaction_details": {
+      "header":"Detalles de la operación",
+      "title_status":"Estado",
+      "declined":"Rechazado",
+      "confirmed":"Confirmado",
+      "link":"Ver en polygonScan",
+      "title_wallet":"Wallet de destino",
+      "title_fee":"Tarifa de transacción",
+      "title_date":"Fecha",
+      "OUT": "Enviado",
+      "IN": "Recibido"
     }
   },
   "tabs": {

@@ -233,8 +233,14 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'transaction-details',
+        loadChildren: () => import('./transaction-details/transaction-details.module').then( m => m.TransactionDetailsPageModule)
+      },
     ],
   },
+
+
 ];
 
 @NgModule({

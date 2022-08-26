@@ -1,7 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavigationExtras } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { CovalentTransfer } from '../../models/covalent-transfer/covalent-transfer';
 import { ScanUrlOf } from '../../models/scan-url-of/scan-url-of';
+import { TransactionDetailsService } from '../../services/transaction-details/transaction-details.service';
 
 @Component({
   selector: 'app-wallet-transaction-card-item',
@@ -46,22 +50,28 @@ import { ScanUrlOf } from '../../models/scan-url-of/scan-url-of';
   styleUrls: ['./wallet-transaction-card-item.component.scss'],
 })
 export class WalletTransactionCardItemComponent implements OnInit {
-  @Input() transaction;
+  @Input() transaction: CovalentTransfer;
   @Input() last: boolean;
   @Input() network: string;
   formattedDate: string;
 
-  constructor(private browserService: BrowserService) {}
+  constructor(
+    private navController: NavController,
+    private transactionDetailsService: TransactionDetailsService,) {}
 
   ngOnInit() {
     this.formattedDate = this.formatDate(this.transaction.date);
   }
 
   openTransactionUrl() {
-    this.browserService.open({ url: ScanUrlOf.create(this.transaction.hash, this.network).value() });
+    this.saveTransactionDetails();
+    this.navController.navigateForward(['/wallets/transaction-details']);
   }
 
   formatDate(value) {
     return format(parseISO(value), 'dd-MM-yyyy');
   }
+
+  private async saveTransactionDetails(){ this.transactionDetailsService.transactionData = this.transaction}
+  
 }

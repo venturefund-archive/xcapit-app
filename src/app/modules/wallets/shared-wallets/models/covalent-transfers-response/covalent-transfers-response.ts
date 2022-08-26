@@ -13,19 +13,22 @@ export class CovalentTransfersResponse {
   }
 
   value(): CovalentTransfer[] {
-    return this.response.data.items
-      .map((item: any) =>
-        item.transfers
-          ? item.transfers.map(
-              (transfer: any) => new CovalentNoNativeTransfer(transfer, this.response.data.quote_currency, item.successful)
-            )
-          : new CovalentNativeTransfer(
-              item,
-              this.response.data.quote_currency,
-              this.asset.value,
-              this.response.data.address
-            )
-      )
-      .flat();
+    return this.response.data.items.map((item: any) => {
+      let result: CovalentTransfer;
+      if (item.transfers) {
+        const transfer = item.transfers[0];
+        transfer.gas_spent = item.gas_spent;
+        transfer.gas_price = item.gas_price;
+        result = new CovalentNoNativeTransfer(transfer, this.response.data.quote_currency, item.successful, this.asset);
+      } else {
+        result = new CovalentNativeTransfer(
+          item,
+          this.response.data.quote_currency,
+          this.asset,
+          this.response.data.address
+        );
+      }
+      return result;
+    });
   }
 }

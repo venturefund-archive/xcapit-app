@@ -10,6 +10,9 @@ export class CovalentTransfer {
   hash: string; 
   date: string;
   successful: boolean;
+  gasPrice: number;
+  gasSpent: string;
+  feePaid: number;
 
   constructor(transfer: any, quoteCurrency: string) {
     this.from = transfer.from_address;
@@ -17,5 +20,9 @@ export class CovalentTransfer {
     this.quoteCurrency = quoteCurrency;
     this.hash = transfer.tx_hash;
     this.date = transfer.block_signed_at;
+  }
+
+  getFee() {
+    return 0;
   }
 }
