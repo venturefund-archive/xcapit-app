@@ -19,6 +19,7 @@ export class CovalentTransfersResponse {
         const transfer = item.transfers[0];
         transfer.gas_spent = item.gas_spent;
         transfer.gas_price = item.gas_price;
+        transfer.gas_quote = item.gas_quote;
         result = new CovalentNoNativeTransfer(transfer, this.response.data.quote_currency, item.successful, this.asset);
       } else {
         result = new CovalentNativeTransfer(
