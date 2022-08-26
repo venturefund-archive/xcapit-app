@@ -26,6 +26,7 @@ fdescribe('DirectaPrice', () => {
   });
 
   fit('value', async () => {
+    console.log('directaPrice', directaPrice)
     let count = 0;
     const subscription = directaPrice
       .value()
