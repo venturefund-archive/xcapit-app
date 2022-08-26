@@ -1,5 +1,5 @@
 import { DirectaPrice } from './directa-price';
-import { interval, of, Subscription } from 'rxjs';
+import { interval, of, Subscriber, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampsService } from '../../services/fiat-ramps.service';
@@ -39,7 +39,6 @@ fdescribe('DirectaPrice', () => {
           expect(count).toEqual(2);
         },
       });
-    console.log(subscription)
-    expect(subscription).toBeInstanceOf(Subscription);
+    expect(subscription).toBeInstanceOf(Subscriber);
   });
 });
