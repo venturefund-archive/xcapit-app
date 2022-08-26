@@ -234,7 +234,6 @@ export class OperationsNewPage implements AfterViewInit {
         this.minimumCryptoAmount = this.mininumUSDAmount / price;
         this.minimumFiatAmount = this.minimumCryptoAmount * this.fiatPrice;
         this.addGreaterThanValidator(this.minimumCryptoAmount);
-        console.log(this.minimumCryptoAmount, this.fiatPrice, this.minimumFiatAmount );
       });
   }
 
