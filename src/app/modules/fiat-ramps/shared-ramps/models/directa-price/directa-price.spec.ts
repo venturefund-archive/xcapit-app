@@ -1,5 +1,5 @@
 import { DirectaPrice } from './directa-price';
-import { interval, Subscription } from 'rxjs';
+import { interval, of, Subscription } from 'rxjs';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampsService } from '../../services/fiat-ramps.service';
 
@@ -7,15 +7,12 @@ fdescribe('DirectaPrice', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let directaPrice: DirectaPrice;
-  // const amountOutResponse = {
-  //   data: {
-  //     amount_out: '2',
-  //     costs: '0.02917868',
-  //   },
-  // };
 
   beforeEach(() => {
     coinSpy = jasmine.createSpyObj('Coin', {}, { value: 'MATIC' });
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampService', {
+      getDirectaExchangeRate: of({ fx_rate: 3 }),
+    });
     directaPrice = DirectaPrice.create(15000, 'ars', coinSpy, fiatRampsServiceSpy);
   });
 
