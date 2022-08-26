@@ -1,7 +1,5 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Coin } from "src/app/modules/wallets/shared-wallets/interfaces/coin.interface";
-import { FakeHttpClient } from "src/testing/fakes/fake-http.spec";
 import { FiatRampsService } from "../../../services/fiat-ramps.service";
 import { DirectaPrice } from "../directa-price";
 
