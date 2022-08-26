@@ -166,6 +166,7 @@ fdescribe('OperationsNewPage', () => {
       fiatCode: 'ars',
       isoCodeAlpha3: 'ARS',
       directaCode: 'AR',
+      isoCurrencyCodeDirecta: 'ARS',
     });
     expect(component.form.controls.cryptoAmount.value).toEqual('25');
   });
@@ -180,6 +181,7 @@ fdescribe('OperationsNewPage', () => {
       fiatCode: 'ars',
       isoCodeAlpha3: 'ARS',
       directaCode: 'AR',
+      isoCurrencyCodeDirecta: 'ARS',
     });
     expect(component.selectedCurrency).toEqual(coinsSpy[1]);
     expect(component.fiatCurrency).toEqual('ars');
