@@ -24,7 +24,7 @@ fdescribe('DirectaPrice', () => {
     expect(directaPrice).toBeInstanceOf(DirectaPrice);
   });
 
-  fit('value', () => {
+  it('value', () => {
     const subscription = directaPrice.value().toPromise();
     expect(subscription).toEqual(3);
   });
