@@ -73,6 +73,10 @@ fdescribe('DirectaPage', () => {
       }
     );
 
+    directaPriceFactorySpy = jasmine.createSpyObj('DirectaPriceFactory', {
+      new: directaPriceSpy,
+    });
+
     TestBed.configureTestingModule({
       declarations: [DirectaPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
