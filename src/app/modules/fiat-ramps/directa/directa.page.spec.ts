@@ -78,9 +78,9 @@ fdescribe('DirectaPage', () => {
       new: directaPriceSpy,
     });
 
-    directaPriceSpy = jasmine.createSpyObj('DirectaPrice',{
-      value: of(3)
-    })
+    directaPriceSpy = jasmine.createSpyObj('DirectaPrice', {
+      value: of(3),
+    });
 
     TestBed.configureTestingModule({
       declarations: [DirectaPage],
@@ -118,7 +118,7 @@ fdescribe('DirectaPage', () => {
     expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coinsSpy[0]);
   });
 
-  fit('should set country, default currency and provider on init', fakeAsync( () => {
+  fit('should set country, default currency and provider on init', fakeAsync(() => {
     fakeActivatedRoute.modifySnapshotParams({ alias: 'PX' });
     component.ionViewWillEnter();
     tick();
