@@ -20,6 +20,7 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/directa-price-factory';
 import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { of } from 'rxjs';
 
 fdescribe('DirectaPage', () => {
   let component: DirectaPage;
@@ -76,6 +77,10 @@ fdescribe('DirectaPage', () => {
     directaPriceFactorySpy = jasmine.createSpyObj('DirectaPriceFactory', {
       new: directaPriceSpy,
     });
+
+    directaPriceSpy = jasmine.createSpyObj('DirectaPrice',{
+      value: of(3)
+    })
 
     TestBed.configureTestingModule({
       declarations: [DirectaPage],
