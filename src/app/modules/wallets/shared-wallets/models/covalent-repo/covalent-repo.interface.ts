@@ -2,5 +2,5 @@ import { CovalentTransfersResponse } from '../covalent-transfers-response/covale
 import { Observable } from 'rxjs';
 
 export interface CovalentRepo {
-  transfersOf: ()=> Observable<CovalentTransfersResponse>;
+  transfersOf: () => Observable<CovalentTransfersResponse>;
 }
