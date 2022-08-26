@@ -11,7 +11,7 @@ fdescribe('DirectaPrice', () => {
   beforeEach(() => {
     coinSpy = jasmine.createSpyObj('Coin', {}, { value: 'MATIC' });
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampService', {
-      getDirectaExchangeRate: { fx_rate: 3 },
+      getDirectaExchangeRate: of({ fx_rate: 3 }),
     });
     directaPrice = DirectaPrice.create(15, 'ars', coinSpy, fiatRampsServiceSpy);
   });
@@ -25,7 +25,11 @@ fdescribe('DirectaPrice', () => {
   });
 
   it('value', async () => {
-    const subscription = await directaPrice.value().toPromise();
-    expect(subscription).toEqual(3);
+    directaPrice
+      .value()
+      .toPromise()
+      .then((res) => {
+        expect(res).toEqual(3);
+      });
   });
 });
