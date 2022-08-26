@@ -148,7 +148,7 @@ describe('OperationsNewPage', () => {
     component = fixture.componentInstance;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     fakeActivatedRoute.modifySnapshotParams({}, { network: 'MATIC', asset: 'MATIC', country: 'ARS' });
-    component.price = 10;
+    component.fiatPrice = 10;
     fixture.detectChanges();
   });
 
@@ -185,7 +185,7 @@ describe('OperationsNewPage', () => {
     });
     expect(component.selectedCurrency).toEqual(coinsSpy[1]);
     expect(component.fiatCurrency).toEqual('ars');
-    expect(component.price).toEqual(10);
+    expect(component.fiatPrice).toEqual(10);
   });
 
   it('should open external link when http link is clicked', () => {
@@ -259,7 +259,7 @@ describe('OperationsNewPage', () => {
   });
 
   it('should update fiat amount when price changes', fakeAsync(() => {
-    component.price = 10;
+    component.fiatPrice = 10;
     component.ionViewWillEnter();
     component.form.patchValue({ cryptoAmount: 1 });
     fixture.detectChanges();

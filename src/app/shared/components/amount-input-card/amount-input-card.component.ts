@@ -129,7 +129,6 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
 
   form: UntypedFormGroup;
   quoteMax: number;
-  prueba: number;
 
   constructor(private formGroupDirective: FormGroupDirective) {}
 

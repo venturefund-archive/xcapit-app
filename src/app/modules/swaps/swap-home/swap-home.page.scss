@@ -91,6 +91,16 @@
           }
         }
       }
+
+      &__from {
+        &__detail {
+          align-items: flex-start;
+
+          &__amount {
+            margin-top: 29px;
+          }
+        }
+      }
     }
 
     &__checkbox {

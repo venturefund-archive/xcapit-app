@@ -2347,6 +2347,7 @@
         "quantity": "Cantidad",
         "provider": "Proveedor",
         "to_pay": "Pagarás*",
+        "input_error":"El monto mínimo de compra es de ${{amount}} {{fiatCurrency}}",
         "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día."
       },
       "kyc_disclaimer_modal": {
@@ -2667,6 +2668,7 @@
       "loading_button_text": "Intercambiando",
       "from_token_title": "Desde",
       "to_token_title": "Hacia",
+      "available":"Disponible ",
       "fee_title": "Detalles de Transacción",
       "footer_text": "Solo tomará unos segundos.",
       "tos_1": "Leí y estoy de acuerdo con los ",
