@@ -4,7 +4,7 @@ import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token
 import { CovalentRepo } from './covalent-repo';
 
 
-describe('CovalentRepo', () => {
+fdescribe('CovalentRepo', () => {
   let covalentRepo: CovalentRepo;
   let aToken: jasmine.SpyObj<RawToken>;
   let envSpy: jasmine.SpyObj<EnvService>;
