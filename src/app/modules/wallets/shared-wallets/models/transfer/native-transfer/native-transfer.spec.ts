@@ -1,24 +1,27 @@
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { Transfer } from '../transfer.interface';
+import { NativeTransfer } from './native-transfer';
+import { rawTransfer } from '../../covalent-repo/default/covalent-transfers.fixture';
 
 fdescribe('NativeTransfer', () => {
   let nativeTransfer: Transfer;
 
   beforeEach(() => {
-    transfer = new Transfer(rawTransfer, rawMATICData);
+    nativeTransfer = new NativeTransfer(rawTransfer, rawMATICData);
   });
 
   it('new', () => {
-    expect(transfer).toBeTruthy();
+    expect(nativeTransfer).toBeTruthy();
   });
 
   it('fee', () => {
-    expect(transfer.fee()).toEqual(0.024715417086192657);
+    expect(nativeTransfer.fee()).toEqual(0.024715417086192657);
   });
   it('token', () => {
-    expect(transfer.token()).toEqual(rawMATICData);
+    expect(nativeTransfer.token()).toEqual(rawMATICData);
   });
 
   it('raw', () => {
-    expect(transfer.raw()).toEqual(rawTransfer);
+    expect(nativeTransfer.raw()).toEqual(rawTransfer);
   });
 });
