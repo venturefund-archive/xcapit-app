@@ -257,6 +257,8 @@ export class AssetDetailPage implements OnInit {
       );
   }
 
+  transferPrueba
+
   private getCoinForPrice(symbol: string): string {
     return symbol === 'RBTC' ? 'BTC' : symbol;
   }
