@@ -160,7 +160,6 @@ export class RecoveryPhraseReadPage implements OnInit {
   isInfoModalOpen = false;
   private password: any;
   loading = false;
-  prueba = true;
   constructor(
     private clipboardService: ClipboardService,
     private toastService: ToastService,
