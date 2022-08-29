@@ -17,7 +17,7 @@ export class Transfers {
       .then((res) =>
         res.data.items.map((rawTransfer: RawTransfer ) => {
         if(Object.hasOwnProperty('transfers')){
-            rawTransfer = {...rawTransfer.}
+            rawTransfer = {...rawTransfer.transfers[0], ...rawTransfer}
         }
           new Transfer(rawTransfer, this._aToken);
         })
