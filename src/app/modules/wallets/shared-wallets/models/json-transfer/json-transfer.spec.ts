@@ -1,13 +1,13 @@
-import { Transfer } from '../transfer/transfer';
 import { rawTransfer } from '../covalent-repo/default/covalent-transfers.fixture';
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { JSONTransfer } from './json-transfer';
+import { NativeTransfer } from '../transfer/native-transfer/native-transfer';
 
 fdescribe('JSONTransfer', () => {
   let jsonTransfer: JSONTransfer;
 
   beforeEach(() => {
-    jsonTransfer = new JSONTransfer(new Transfer(rawTransfer, rawMATICData));
+    jsonTransfer = new JSONTransfer(new NativeTransfer(rawTransfer, rawMATICData));
   });
 
   it('new', () => {
