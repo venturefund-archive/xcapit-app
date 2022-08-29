@@ -15,12 +15,13 @@ export class Transfers {
       .transfersOf(this._aToken, this._inAddress)
       .toPromise()
       .then((res) =>
-        res.data.items.map((rawTransfer: RawTransfer ) => {
-          console.log(rawTransfer)
-        if(Object.hasOwnProperty('transfers')){
-            rawTransfer = {...rawTransfer.transfers[0], ...rawTransfer};
+        res.data.items.map((rawTransfer: RawTransfer) => {
+          console.log(rawTransfer);
+          if (Object.hasOwnProperty('transfers')) {
+            console.log('la tieene')
+            rawTransfer = { ...rawTransfer.transfers[0], ...rawTransfer };
             delete rawTransfer.transfers;
-        }
+          }
           return new Transfer(rawTransfer, this._aToken);
         })
       );
