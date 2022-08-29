@@ -3,19 +3,25 @@ import { rawTransfer } from '../covalent-repo/default/covalent-transfers.fixture
 import { rawMATICTokenData } from '../../../../swaps/shared-swaps/models/fixtures/raw-one-inch-response-data';
 
 export class JSONTransfer {
-  constructor(private readonly _aTransfer: Transfer) {
+  constructor(private readonly _aTransfer: Transfer) {}
 
+  public value(): any {
+    return true;
   }
-
-
 }
 
 fdescribe('JSONTransfer', () => {
-  it('new', () => {
-    expect(new JSONTransfer(new Transfer(rawTransfer, rawMATICTokenData))).toBeTruthy();
+  let jsonTransfer: JSONTransfer;
+
+  beforeEach(() => {
+    jsonTransfer = new JSONTransfer(new Transfer(rawTransfer, rawMATICTokenData));
   });
 
-  it('value', ()=>{
+  it('new', () => {
+    expect(jsonTransfer).toBeTruthy();
+  });
 
-  })
+  it('value', () => {
+    expect(jsonTransfer.value()).toBeTruthy();
+  });
 });
