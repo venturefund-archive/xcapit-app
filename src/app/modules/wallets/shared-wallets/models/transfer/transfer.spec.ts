@@ -1,4 +1,5 @@
 import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token-repo';
+import { rawTransfer } from '../covalent-repo/default/covalent-transfers.fixture';
 import { RawTransfer } from '../transfers/transfers.spec';
 
 export class Transfer {
@@ -10,11 +11,12 @@ export class Transfer {
 }
 
 fdescribe('Transfer', () => {
-  // it('new', () => {
-  //   expect(new Transfer()).toBeTruthy();
-  // });
-  //
-  // it('fee', () => {
-  //   expect(new Transfer().fee()).toBeTruthy();
-  // });
+  let aToken: jasmine.SpyObj<RawToken>;
+  it('new', () => {
+    expect(new Transfer(rawTransfer, rawMATICData )).toBeTruthy();
+  });
+  
+  it('fee', () => {
+    expect(new Transfer().fee()).toBeTruthy();
+  });
 });
