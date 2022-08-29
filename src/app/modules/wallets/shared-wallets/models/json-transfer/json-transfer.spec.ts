@@ -9,7 +9,9 @@ export class JSONTransfer {
 
   public value(): any {
     return {
-      fee: this._aTransfer.fee()
+      fee: this._aTransfer.fee(),
+      token: this._aTransfer.token(),
+      ...this._aTransfer.raw(),
     };
   }
 }
@@ -26,6 +28,7 @@ fdescribe('JSONTransfer', () => {
   });
 
   it('value', () => {
-    expect(jsonTransfer.value()).toBeTruthy();
+    expect(jsonTransfer.value()).toEqual(2);
   });
+
 });
