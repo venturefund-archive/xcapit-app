@@ -36,11 +36,11 @@ export class Transfers {
     return this.repo
       .transfersOf(this._aToken, this._inAddress)
       .toPromise()
-      .then((res) => {
-        return res.data.items.map((rawTransfer: RawTransfer ) => {
+      .then((res) =>
+          res.data.items.map((rawTransfer: RawTransfer ) => {
           new Transfer(rawTransfer, this._aToken);
         });
-      });
+      );
   }
 }
 
