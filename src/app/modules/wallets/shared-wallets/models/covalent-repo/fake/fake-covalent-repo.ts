@@ -6,7 +6,7 @@ import { CovalentTransfersResponse } from '../../covalent-transfers-response/cov
 export class FakeCovalentRepo implements CovalentRepo {
   constructor(private readonly _transfersOfResponse: Observable<any> = of()) {}
 
-  transfersOf(aToken: RawToken, inAddress: string): Observable<CovalentTransfersResponse> {
+  transfersOf(aToken: RawToken, inAddress: string): Observable<any> {
     return this._transfersOfResponse;
   }
 }

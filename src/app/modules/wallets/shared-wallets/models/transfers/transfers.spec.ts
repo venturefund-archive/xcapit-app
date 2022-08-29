@@ -10,24 +10,17 @@ export class Transfers {
     private readonly repo: CovalentRepo
   ) {}
 
-  // public all() {
-  //   return this.repo.transfersOf(this._aToken, this._inAddress).toPromise().then(res=>{
-  //     return res.map(item=>{
-  //       new Transfer(
-  //         as RawTransfer,
-  //         this._aToken
-  //       )
-  //     })
-  //   });
-  // }
+  public all() {
+    return this.repo.transfersOf(this._aToken, this._inAddress).toPromise().then(res=>{
+      return res.map(item=>{
+        new Transfer(
+          as RawTransfer,
+          this._aToken
+        )
+      })
+    });
+  }
 
-  /* public transfersOf(aToken: RawToken, inAddress: string): Promise<Transfer> {
-    return this.repo.transfersOf(aToken, inAddress).toPromise().then(res => {
-      new Transfer(
-
-      )
-    })
-  } */
 }
 
 fdescribe('Transfers', () => {
@@ -41,6 +34,7 @@ fdescribe('Transfers', () => {
   it('new', () => {
     expect(new Transfers(aToken, inAddress, new FakeCovalentRepo())).toBeTruthy();
   });
+
   it('all', () => {
     expect(new Transfers(aToken, inAddress, new FakeCovalentRepo()).all()).toBeTruthy();
   });
