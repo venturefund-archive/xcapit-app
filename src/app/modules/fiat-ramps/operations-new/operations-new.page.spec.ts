@@ -1,7 +1,7 @@
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { OperationsNewPage } from './operations-new.page';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
@@ -63,6 +63,7 @@ describe('OperationsNewPage', () => {
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+
   beforeEach(waitForAsync(() => {
     navControllerSpy = new FakeNavController().createSpy();
     storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
@@ -285,5 +286,16 @@ describe('OperationsNewPage', () => {
     component.ionViewWillLeave();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should validate that the crypto amount equals the minimum value in dollars', () => {
+    kriptonDynamicPriceSpy.value.and.returnValue(of(1));
+    component.ionViewWillEnter();
+    component.form.patchValue({ cryptoAmount: 1 });
+    fixture.detectChanges();
+    expect(component.form.controls.cryptoAmount.valid).toBeFalse();
+    component.form.patchValue({ cryptoAmount: 30 });
+    fixture.detectChanges();
+    expect(component.form.controls.cryptoAmount.valid).toBeTrue();
   });
 });
