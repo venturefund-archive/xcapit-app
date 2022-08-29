@@ -39,7 +39,7 @@ export class Transfers {
       .then((res) =>
           res.data.items.map((rawTransfer: RawTransfer ) => {
           new Transfer(rawTransfer, this._aToken);
-        });
+        })
       );
   }
 }
