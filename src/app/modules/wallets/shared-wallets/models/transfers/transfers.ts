@@ -1,7 +1,7 @@
 import { RawToken } from "src/app/modules/swaps/shared-swaps/models/token-repo/token-repo";
+import { RawTransfer } from "../../types/raw-transfer.type";
 import { CovalentRepo } from "../covalent-repo/covalent-repo.interface";
 import { Transfer } from "../transfer/transfer";
-import { RawTransfer } from "./transfers.spec";
 
 export class Transfers {
     constructor(
