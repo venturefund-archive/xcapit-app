@@ -28,6 +28,7 @@ import { LoginPasswordInfoComponent } from '../shared-users/components/login-pas
               aria-label="password"
               tabindex="1"
               (click)="this.dismissToast()"
+              [textClass]="'info'"
               [infoIcon]="true"
               (infoIconClicked)="this.showPasswordInfoModal()"
             ></app-ux-input>

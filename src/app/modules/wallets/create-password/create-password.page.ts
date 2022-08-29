@@ -53,6 +53,7 @@ import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
           <app-ux-input
             controlName="password"
             type="password"
+            [textClass]="'primary'"
             [label]="'wallets.create_password.write_password' | translate"
             inputmode="password"
             [errors]="this.passwordErrors"
@@ -62,6 +63,7 @@ import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
           <app-ux-input
             controlName="repeat_password"
             type="password"
+            [textClass]="'primary'"
             [label]="'wallets.create_password.repeat_password' | translate"
             inputmode="password"
             [errors]="this.repeatPasswordErrors"
