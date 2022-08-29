@@ -20,7 +20,7 @@ export class Transfers {
             rawTransfer = {...rawTransfer.transfers[0], ...rawTransfer};
             delete rawTransfer.transfers;
         }
-          new Transfer(rawTransfer, this._aToken);
+          return new Transfer(rawTransfer, this._aToken);
         })
       );
   }
