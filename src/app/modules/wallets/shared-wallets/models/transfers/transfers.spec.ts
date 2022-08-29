@@ -24,6 +24,6 @@ fdescribe('Transfers', () => {
 
   it('all when no native', async () => {
     transfers = new Transfers(aToken, inAddress, new FakeCovalentRepo(of(rawNoNativeTransfers)));
-    expect((await transfers.all()).length).toEqual(2);
+    expect((await transfers.all()).length).toEqual(1);
   });
 });
