@@ -16,6 +16,7 @@ export class Transfers {
       .toPromise()
       .then((res) =>
         res.data.items.map((rawTransfer: RawTransfer ) => {
+          console.log(rawTransfer)
         if(Object.hasOwnProperty('transfers')){
             rawTransfer = {...rawTransfer.transfers[0], ...rawTransfer};
             delete rawTransfer.transfers;
