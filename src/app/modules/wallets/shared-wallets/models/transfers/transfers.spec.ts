@@ -37,8 +37,8 @@ export class Transfers {
       .transfersOf(this._aToken, this._inAddress)
       .toPromise()
       .then((res) => {
-        return res.data.items.map((item: any) => {
-          new Transfer(item as RawTransfer, this._aToken);
+        return res.data.items.map((rawTransfer: RawTransfer ) => {
+          new Transfer(rawTransfer, this._aToken);
         });
       });
   }
