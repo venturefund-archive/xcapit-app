@@ -151,4 +151,14 @@ describe('DirectaPage', () => {
     fixture.detectChanges();
     expect(component.form.value.cryptoAmount).toEqual(3);
   }));
+
+  it('should validate that the crypto amount equals the minimum value in dollars', () => {
+    directaPriceSpy.value.and.returnValue(of(1));
+    component.ionViewWillEnter();
+    component.form.patchValue({ cryptoAmount: 1 });
+    fixture.detectChanges();
+    expect(component.form.controls.cryptoAmount.valid).toBeFalse();
+    component.form.patchValue({ cryptoAmount: 2 });
+    expect(component.form.controls.cryptoAmount.valid).toBeTrue();
+  });
 });
