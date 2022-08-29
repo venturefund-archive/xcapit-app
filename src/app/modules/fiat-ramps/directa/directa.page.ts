@@ -17,6 +17,7 @@ import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factor
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 
 @Component({
   selector: 'app-directa',
@@ -41,6 +42,7 @@ import { Subject } from 'rxjs';
             [fiatCurrency]="this.fiatCurrency"
             [provider]="this.provider"
             [coinSelectorEnabled]="false"
+            [minimumFiatAmount]="this.minimumFiatAmount"
           ></app-provider-new-operation-card>
         </div>
       </form>
@@ -85,6 +87,9 @@ export class DirectaPage implements OnInit {
   price: number;
   milliseconds = 15000;
   destroy$: Subject<void>;
+  minimumFiatAmount: number;
+  minimumCryptoAmount: number;
+  mininumUSDAmount = 2;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -161,6 +166,20 @@ export class DirectaPage implements OnInit {
     this.form.patchValue({ fiatAmount: this.form.value.cryptoAmount * this.price });
   }
 
+  private addDefaultValidators() {
+    this.form.get('cryptoAmount').addValidators(Validators.required);
+  }
+
+  private clearValidators() {
+    this.form.get('cryptoAmount').clearValidators();
+  }
+  private addGreaterThanValidator(amount) {
+    this.clearValidators();
+    this.addDefaultValidators();
+    this.form.get('cryptoAmount').addValidators(CustomValidators.greaterOrEqualThan(amount));
+    this.form.get('cryptoAmount').updateValueAndValidity();
+  }
+
   private cryptoPrice() {
     this.createDirectaPrice()
       .value()
@@ -168,11 +187,23 @@ export class DirectaPage implements OnInit {
       .subscribe((price: number) => {
         this.price = price;
         if (this.form.value.fiatAmount) this.updateAmounts();
+        this.usdCryptoPrice();
       });
   }
 
-  createDirectaPrice(): DirectaPrice {
-    return this.directaPrice.new(this.milliseconds, this.fiatCurrency, this.selectedCurrency, this.fiatRampsService);
+  private usdCryptoPrice() {
+    this.createDirectaPrice('USD')
+      .value()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((price: number) => {
+        this.minimumCryptoAmount = this.mininumUSDAmount / price;
+        this.minimumFiatAmount = this.minimumCryptoAmount * this.price;
+        this.addGreaterThanValidator(this.minimumCryptoAmount);
+      });
+  }
+
+  createDirectaPrice(currency = this.fiatCurrency): DirectaPrice {
+    return this.directaPrice.new(this.milliseconds, currency, this.selectedCurrency, this.fiatRampsService);
   }
 
   ionViewWillLeave() {
