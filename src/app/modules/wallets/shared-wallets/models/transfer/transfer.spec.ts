@@ -16,4 +16,7 @@ fdescribe('Transfer', () => {
   it('fee', () => {
     expect(transfer.fee()).toEqual(0.024715417086192657);
   });
+  it('token', () => {
+    expect(transfer.token()).toEqual(rawMATICData);
+  });
 });
