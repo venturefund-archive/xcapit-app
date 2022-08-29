@@ -23,6 +23,6 @@ fdescribe('Transfers', () => {
   });
 
   it('new', () => {
-    expect(new Transfers(aToken, new FakeCovalentRepo())).toBeTruthy();
+    expect(new Transfers(aToken, new FakeCovalentRepo()).all()).toBeTruthy();
   });
 });
