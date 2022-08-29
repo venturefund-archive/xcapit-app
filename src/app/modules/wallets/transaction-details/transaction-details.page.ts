@@ -11,6 +11,8 @@ import { DefaultCovalentRepo } from '../shared-wallets/models/covalent-repo/defa
 import { HttpClient } from '@angular/common/http';
 import { EnvService } from '../../../shared/services/env/env.service';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { TransferState } from '@angular/platform-browser';
+import { Transfers } from '../shared-wallets/models/transfers/transfers';
 @Component({
   selector: 'app-transaction-details',
   template: ` <ion-header>
@@ -139,33 +141,20 @@ export class TransactionDetailsPage implements OnInit {
 
   ionViewWillEnter() {
     this.getTransactionData();
-    this.getCurrency();
+    this.getToken();
     this.date = new Date(this.transactionData.date);
     this.formattedTime = this.formatTime(this.date.toLocaleTimeString());
     this.formattedDate = this.formatDate(this.transactionData.date);
   }
 
   private async getTransactionData() {
-    console.log(await new DefaultCovalentRepo(this.http, this.env).transfersOf({
-      id: 17,
-      name: 'MATIC - Polygon',
-      logoRoute: 'assets/img/coins/MATIC.svg',
-      last: false,
-      value: 'MATIC',
-      network: 'MATIC',
-      chainId: 137,
-      rpc: '',
-      moonpayCode: 'matic_polygon',
-      decimals: 18,
-      native: true,
-      symbol: 'MATICUSDT',
-      contract: '0x0000000000000000000000000000000000001010',
-    } as RawToken,'0x72fdeb93a64a0eb2b789a9ed87e65bff967928c3').toPromise())
+    console.log()
+    //new Transfers(this.currency, this.transactionData.)
     // this.transactionData = this.transactionDetailsService.transactionData;
     // this.fee = this.transactionData.getFee();
   }
 
-  private getCurrency() {
+  private getToken() {
     this.currency = this.apiWalletService.getCoin(this.transactionData.symbol);
   }
 
