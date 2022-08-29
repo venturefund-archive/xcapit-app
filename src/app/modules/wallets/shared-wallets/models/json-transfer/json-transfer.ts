@@ -1,4 +1,4 @@
-import { Transfer } from '../transfer/transfer';
+import { Transfer } from '../transfer/transfer.interface';
 
 export class JSONTransfer {
   constructor(private readonly _aTransfer: Transfer) {}
