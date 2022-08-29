@@ -19,4 +19,8 @@ fdescribe('Transfer', () => {
   it('token', () => {
     expect(transfer.token()).toEqual(rawMATICData);
   });
+
+  it('raw', () => {
+    expect(transfer.raw()).toEqual(rawTransfer);
+  });
 });
