@@ -16,9 +16,9 @@ fdescribe('Transfers', () => {
   it('new', () => {
     expect(transfers).toBeTruthy();
   });
-
-  it('all', async () => {
+  
   it('all', async () => {
     expect(await transfers.all()).toBeTruthy();
   });
 });
+
