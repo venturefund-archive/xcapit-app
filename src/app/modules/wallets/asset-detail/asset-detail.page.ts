@@ -265,9 +265,11 @@ export class AssetDetailPage implements OnInit {
   }
 
   async transferPrueba() {
+    const wallet = await this.walletEncryptionService.getEncryptedWallet();
+    const address = wallet.addresses[investmentProduct.token().network];
     const asdf = await new Transfers(
       this.currency as RawToken,
-      this.walletAddress,
+      address,
       new DefaultCovalentRepo(this.http, this.env)
     ).all();
     console.log(asdf);
