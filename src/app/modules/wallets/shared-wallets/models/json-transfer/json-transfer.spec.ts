@@ -4,17 +4,6 @@ import { rawMATICData, rawTokensData } from 'src/app/modules/swaps/shared-swaps/
 
 
 
-export class JSONTransfer {
-  constructor(private readonly _aTransfer: Transfer) {}
-
-  public value(): any {
-    return {
-      fee: this._aTransfer.fee(),
-      token: this._aTransfer.token(),
-      ...this._aTransfer.raw(),
-    };
-  }
-}
 
 
 fdescribe('JSONTransfer', () => {
