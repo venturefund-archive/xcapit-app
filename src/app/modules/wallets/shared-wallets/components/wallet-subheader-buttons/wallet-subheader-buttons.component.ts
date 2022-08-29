@@ -3,8 +3,8 @@ import { NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
 import { WalletBackupService } from '../../services/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { defaultSwapsUrls } from 'src/app/modules/swaps/swaps-routing.module';
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
+import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/default-swaps-urls';
 
 @Component({
   selector: 'app-wallet-subheader-buttons',
@@ -122,7 +122,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
 
   async goToSwap() {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
-      this.navController.navigateForward(defaultSwapsUrls.swapHome);
+      this.navController.navigateForward(new DefaultSwapsUrls().home());
     }
   }
 }

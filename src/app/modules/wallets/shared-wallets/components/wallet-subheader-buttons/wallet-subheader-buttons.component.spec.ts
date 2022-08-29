@@ -12,8 +12,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { WalletBackupService } from '../../services/wallet-backup/wallet-backup.service';
-import { defaultSwapsUrls } from 'src/app/modules/swaps/swaps-routing.module';
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
+import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/default-swaps-urls';
 
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
@@ -133,7 +133,7 @@ describe('WalletSubheaderButtonsComponent', () => {
     fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_swap']")).nativeElement.click();
     await fixture.whenStable();
 
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(defaultSwapsUrls.swapHome);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(new DefaultSwapsUrls().home());
   });
 
   it('should navigate to buy conditions page when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is not set on storage', async () => {
