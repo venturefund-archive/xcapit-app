@@ -6,7 +6,9 @@ export class JSONTransfer {
   constructor(private readonly _aTransfer: Transfer) {}
 
   public value(): any {
-    return true;
+    return {
+      fee: this._aTransfer.fee()
+    };
   }
 }
 
