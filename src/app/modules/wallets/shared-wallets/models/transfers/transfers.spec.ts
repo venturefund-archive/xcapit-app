@@ -5,7 +5,9 @@ import { Transfer } from '../transfer/transfer.spec';
 
 export class Transfers {
   constructor(private readonly _aToken: RawToken, private readonly repo: CovalentRepo) {}
-
+  public all() {
+    return true;
+  }
   /* public transfersOf(aToken: RawToken, inAddress: string): Promise<Transfer> {
     return this.repo.transfersOf(aToken, inAddress).toPromise().then(res => {
       new Transfer(
