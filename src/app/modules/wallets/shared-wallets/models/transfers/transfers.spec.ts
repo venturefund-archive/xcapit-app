@@ -4,25 +4,7 @@ import { rawTransfers } from '../covalent-repo/default/covalent-transfers.fixtur
 import { of } from 'rxjs';
 import { Transfers } from './transfers';
 
-export type RawTransfer = {
-  block_signed_at: string;
-  block_height: number;
-  tx_hash: string;
-  tx_offset: number;
-  successful: boolean;
-  from_address: string;
-  from_address_label: string;
-  to_address: string;
-  to_address_label: string;
-  value: string;
-  value_quote: number;
-  gas_offered: number;
-  gas_spent: number;
-  gas_price: number;
-  fees_paid: string;
-  gas_quote: number;
-  gas_quote_rate: number;
-};
+
 
 fdescribe('Transfers', () => {
   let aToken: jasmine.SpyObj<RawToken>;
