@@ -10,17 +10,6 @@ export class Transfers {
     return this.repo.transfersOf(aToken, inAddress).toPromise().then(res => {
       new Transfer(
 
-
-
-
-
-
-
-
-
-
-
-
       )
     })
   } */
