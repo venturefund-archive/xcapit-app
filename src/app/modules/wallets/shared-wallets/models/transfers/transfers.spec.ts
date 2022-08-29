@@ -4,8 +4,6 @@ import { rawTransfers } from '../covalent-repo/default/covalent-transfers.fixtur
 import { of } from 'rxjs';
 import { Transfers } from './transfers';
 
-
-
 fdescribe('Transfers', () => {
   let aToken: jasmine.SpyObj<RawToken>;
   const inAddress = '';
@@ -19,6 +17,7 @@ fdescribe('Transfers', () => {
     expect(transfers).toBeTruthy();
   });
 
+  it('all', async () => {
   it('all', async () => {
     expect(await transfers.all()).toBeTruthy();
   });
