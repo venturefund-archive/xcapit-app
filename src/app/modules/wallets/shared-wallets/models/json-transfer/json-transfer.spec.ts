@@ -1,6 +1,8 @@
 import { Transfer } from '../transfer/transfer';
 import { rawTransfer } from '../covalent-repo/default/covalent-transfers.fixture';
-import { rawMATICTokenData } from '../../../../swaps/shared-swaps/models/fixtures/raw-one-inch-response-data';
+import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
+
+
 
 export class JSONTransfer {
   constructor(private readonly _aTransfer: Transfer) {}
@@ -16,7 +18,7 @@ fdescribe('JSONTransfer', () => {
   let jsonTransfer: JSONTransfer;
 
   beforeEach(() => {
-    jsonTransfer = new JSONTransfer(new Transfer(rawTransfer, rawMATICTokenData));
+    jsonTransfer = new JSONTransfer(new Transfer(rawTransfer, rawMATICData));
   });
 
   it('new', () => {
