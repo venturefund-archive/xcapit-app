@@ -16,8 +16,12 @@ fdescribe('Transfers', () => {
   it('new', () => {
     expect(transfers).toBeTruthy();
   });
-  
-  it('all', async () => {
+
+  it('all when native', async () => {
+    expect(await transfers.all()).toBeTruthy();
+  });
+  it('all when no native', async () => {
+    transfers = new Transfers(aToken, inAddress, new FakeCovalentRepo(of(rawNoNativeTransfers)));
     expect(await transfers.all()).toBeTruthy();
   });
 });
