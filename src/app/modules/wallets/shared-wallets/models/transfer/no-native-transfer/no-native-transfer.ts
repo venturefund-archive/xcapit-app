@@ -20,7 +20,9 @@ export class NoNativeTransfer implements Transfer {
   }
 
   public raw(): RawTransfer {
-    return { ...this._aRawTransfer, ...this._aRawTransfer.transfers[0] };
+    const result = { ...this._aRawTransfer, ...this._aRawTransfer.transfers[0] };
+    delete result.transfers;
+    return result;
   }
 
   private _nativeToken() {
