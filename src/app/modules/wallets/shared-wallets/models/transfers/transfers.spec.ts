@@ -41,7 +41,7 @@ fdescribe('Transfers', () => {
   it('new', () => {
     expect(new Transfers(aToken, inAddress, new FakeCovalentRepo())).toBeTruthy();
   });
-  // it('all', () => {
-  //   expect(new Transfers(aToken, inAddress, new FakeCovalentRepo()).all()).toBeTruthy();
-  // });
+  it('all', () => {
+    expect(new Transfers(aToken, inAddress, new FakeCovalentRepo()).all()).toBeTruthy();
+  });
 });
