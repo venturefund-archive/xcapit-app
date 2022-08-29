@@ -17,6 +17,7 @@ fdescribe('NativeTransfer', () => {
   it('fee', () => {
     expect(nativeTransfer.fee()).toEqual(0.024715417086192657);
   });
+
   it('token', () => {
     expect(nativeTransfer.token()).toEqual(rawMATICData);
   });
