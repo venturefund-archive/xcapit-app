@@ -16,5 +16,7 @@ export class Transfer {
     return this._aToken;
   }
 
-  pu
+  public raw(): RawTransfer{
+    return this._aRawTransfer;
+  }
 }
