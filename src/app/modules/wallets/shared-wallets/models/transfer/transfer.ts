@@ -11,4 +11,6 @@ export class Transfer {
       .times(this._aRawTransfer.gas_spent)
       .value();
   }
+
+  
 }
