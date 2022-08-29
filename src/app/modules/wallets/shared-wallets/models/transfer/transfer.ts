@@ -1,0 +1,14 @@
+import { RawTransfer } from '../transfers/transfers.spec';
+import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token-repo';
+import { AmountOf } from '../../../../swaps/shared-swaps/models/amount-of/amount-of';
+import { DefaultToken } from '../../../../swaps/shared-swaps/models/token/token';
+
+export class Transfer {
+  constructor(private readonly _aRawTransfer: RawTransfer, private readonly _aToken: RawToken) {}
+
+  public fee() {
+    return new AmountOf(this._aRawTransfer.gas_price.toString(), new DefaultToken(this._aToken))
+      .times(this._aRawTransfer.gas_spent)
+      .value();
+  }
+}
