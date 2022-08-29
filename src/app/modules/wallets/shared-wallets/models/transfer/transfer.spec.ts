@@ -9,14 +9,15 @@ export class Transfer {
   constructor(private readonly _aRawTransfer: RawTransfer, private readonly _aToken: RawToken) {}
 
   public fee() {
-    return new AmountOf(this._aRawTransfer.gas_spent.toString(), new DefaultToken(this._aToken))
-      .times(this._aRawTransfer.gas_price)
+    return new AmountOf(this._aRawTransfer.gas_price.toString(), new DefaultToken(this._aToken))
+      .times(this._aRawTransfer.gas_spent)
       .value();
   }
 }
 
 fdescribe('Transfer', () => {
   let transfer: Transfer;
+
   beforeEach(() => {
     transfer = new Transfer(rawTransfer, rawMATICData);
   });
