@@ -1,7 +1,8 @@
+import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+import { RawTransfer } from '../../types/raw-transfer.type';
 
-import { RawToken } from "src/app/modules/swaps/shared-swaps/models/token-repo/token-repo";
-
-export interface Transfer{
+export interface Transfer {
   fee: () => number;
-  token: () => RawToken
+  token: () => RawToken;
+  raw: () => RawTransfer;
 }
