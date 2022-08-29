@@ -2,6 +2,8 @@ import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/t
 import { RawTransfer } from '../../types/raw-transfer.type';
 import { CovalentRepo } from '../covalent-repo/covalent-repo.interface';
 import { NativeTransfer } from '../transfer/native-transfer/native-transfer';
+import { NoNativeTransfer } from '../transfer/no-native-transfer/no-native-transfer';
+import { Transfer } from '../transfer/transfer.interface';
 
 export class Transfers {
   constructor(
@@ -16,11 +18,13 @@ export class Transfers {
       .toPromise()
       .then((res) =>
         res.data.items.map((rawTransfer: RawTransfer) => {
+            let transferType: typeof NativeTransfer | typeof NoNativeTransfer;
           if (rawTransfer.hasOwnProperty('transfers')) {
-            rawTransfer = { ...rawTransfer.transfers[0], ...rawTransfer };
-            delete rawTransfer.transfers;
+            transferType = NoNativeTransfer;
+          }else{
+            transferType = NativeTransfer;
           }
-          return new NativeTransfer(rawTransfer, this._aToken);
+          return new transferType(rawTransfer, this._aToken);
         })
       );
   }
