@@ -26,6 +26,6 @@ fdescribe('Transfer', () => {
   });
 
   it('fee', () => {
-    expect(transfer.fee()).toEqual(2);
+    expect(transfer.fee()).toEqual(0.024715417086192657);
   });
 });
