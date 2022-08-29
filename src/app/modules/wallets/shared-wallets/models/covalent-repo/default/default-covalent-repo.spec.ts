@@ -2,6 +2,7 @@ import { EnvService } from 'src/app/shared/services/env/env.service';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { RawToken } from '../../../../../swaps/shared-swaps/models/token-repo/token-repo';
 import { CovalentRepo } from '../covalent-repo.interface';
+import { rawTransfers } from './covalent-transfers.fixture';
 import { DefaultCovalentRepo } from './default-covalent-repo';
 
 fdescribe('DefaultCovalentRepo', () => {
@@ -12,7 +13,7 @@ fdescribe('DefaultCovalentRepo', () => {
 
   beforeEach(() => {
     envSpy = jasmine.createSpyObj('EnvService', { byKey: 'http://covalentUrl/' });
-    covalentRepo = new DefaultCovalentRepo(new FakeHttpClient(true), envSpy);
+    covalentRepo = new DefaultCovalentRepo(new FakeHttpClient(rawTransfers), envSpy);
     aToken = jasmine.createSpyObj('RawToken', {}, { native: true, value: 'MATIC' });
   });
 
@@ -22,6 +23,6 @@ fdescribe('DefaultCovalentRepo', () => {
 
   it('transfersOf', async () => {
     const response = await covalentRepo.transfersOf(aToken, inAddress).toPromise();
-    expect(response).toBeTruthy();
+    expect(response).toEqual(rawTransfers);
   });
 });
