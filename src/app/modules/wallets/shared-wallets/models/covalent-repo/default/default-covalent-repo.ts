@@ -12,7 +12,7 @@ import { CovalentRepo } from '../covalent-repo.interface';
 export class DefaultCovalentRepo implements CovalentRepo {
   constructor(private readonly _http: HttpClient | FakeHttpClient, private readonly _env: EnvService) {}
 
-  public transfersOf(aToken: RawToken, inAddress: string): Observable<CovalentTransfersResponse> {
+  public transfersOf(aToken: RawToken, inAddress: string): Observable<any> {
     return this._http
       .get(this._url(aToken, inAddress), { headers: this._authHeaders() });
   }
