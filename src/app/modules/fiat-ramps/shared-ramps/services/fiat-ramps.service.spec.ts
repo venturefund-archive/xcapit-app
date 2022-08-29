@@ -3,7 +3,6 @@ import { FiatRampsService } from './fiat-ramps.service';
 import { of } from 'rxjs';
 import { CustomHttpService } from '../../../../shared/services/custom-http/custom-http.service';
 import { rawProvidersData } from '../fixtures/raw-providers-data';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ProvidersFactory } from '../models/providers/factory/providers.factory';
 import { Providers } from '../models/providers/providers.interface';
 
@@ -144,5 +143,11 @@ describe('FiatRampsService', () => {
     expect(status.name).toEqual('pending_by_validate');
     expect(status.textToShow).toEqual('in_progress');
     expect(status.provider.alias).toEqual('kripton');
+  });
+
+  it('should call get on http when getDirectaExchangeRate', () => {
+    fiatRampsService.getDirectaExchangeRate('ARS', 'USDC', 1).subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
   });
 });

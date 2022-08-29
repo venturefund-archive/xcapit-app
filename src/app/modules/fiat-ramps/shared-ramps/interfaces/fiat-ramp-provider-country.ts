@@ -4,4 +4,5 @@ export interface FiatRampProviderCountry {
   fiatCode?: string;
   isoCodeAlpha3: string;
   directaCode?: string;
+  isoCurrencyCodeDirecta?: string;
 }
