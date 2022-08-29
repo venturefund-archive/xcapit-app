@@ -29,6 +29,7 @@ import { DefaultCovalentRepo } from '../shared-wallets/models/covalent-repo/defa
 import { EnvService } from '../../../shared/services/env/env.service';
 import { HttpClient } from '@angular/common/http';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transfer';
 @Component({
   selector: 'app-asset-detail',
   template: `
@@ -272,7 +273,7 @@ export class AssetDetailPage implements OnInit {
       address,
       new DefaultCovalentRepo(this.http, this.env)
     ).all();
-    console.log(asdf);
+    console.log(asdf.map(transfer => new JSONTransfer(transfer)));
   }
 
   private getCoinForPrice(symbol: string): string {
