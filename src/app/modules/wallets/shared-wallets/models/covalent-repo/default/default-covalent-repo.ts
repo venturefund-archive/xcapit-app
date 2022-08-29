@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { EnvService } from 'src/app/shared/services/env/env.service';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
-import { Coin } from '../../../interfaces/coin.interface';
 import { CovalentQuoteCurrency } from '../../../types/covalent-quote-currencies.type';
-import { CovalentTransfersResponse } from '../../covalent-transfers-response/covalent-transfers-response';
 import { Observable } from 'rxjs';
 import { CovalentRepo } from '../covalent-repo.interface';
 
