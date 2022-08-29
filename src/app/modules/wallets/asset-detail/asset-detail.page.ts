@@ -24,6 +24,11 @@ import { VoidSigner } from 'ethers';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { TwoPiInvestmentFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/factory/two-pi-investment-factory';
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
+import { Transfers } from '../shared-wallets/models/transfers/transfers';
+import { DefaultCovalentRepo } from '../shared-wallets/models/covalent-repo/default/default-covalent-repo';
+import { EnvService } from '../../../shared/services/env/env.service';
+import { HttpClient } from '@angular/common/http';
+import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 @Component({
   selector: 'app-asset-detail',
   template: `
@@ -63,7 +68,7 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
               appTrackClick
               (click)="this.goToInvest()"
             >
-            {{ 'wallets.asset_detail.invest_button' | translate }}
+              {{ 'wallets.asset_detail.invest_button' | translate }}
             </ion-button>
           </div>
 
@@ -104,12 +109,13 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
           </div>
         </div>
       </div>
+      <ion-button color="secondary" expand="block" (click)="this.transferPrueba()">GEt transfers</ion-button>
     </ion-content>
   `,
   styleUrls: ['./asset-detail.page.scss'],
 })
 export class AssetDetailPage implements OnInit {
-  buttonName : string;
+  buttonName: string;
   currency: Coin;
   coins: Coin[];
   walletAddress: string = null;
@@ -135,7 +141,9 @@ export class AssetDetailPage implements OnInit {
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService,
     private twoPiInvestmentFactory: TwoPiInvestmentFactory,
-    private twoPiProductFactory: TwoPiProductFactory
+    private twoPiProductFactory: TwoPiProductFactory,
+    private http: HttpClient,
+    private env: EnvService
   ) {}
 
   ngOnInit() {}
@@ -152,7 +160,6 @@ export class AssetDetailPage implements OnInit {
     await this.getInvestments();
     await this.findProductToInvest();
   }
-  
 
   private getAvailableDefiProducts(): void {
     this.defiProducts = this.createAvailableDefiProducts().value();
@@ -243,7 +250,7 @@ export class AssetDetailPage implements OnInit {
     this.enabledToBuy = !!new ProviderTokensOf(this.getProviders(), [this.currency]).all().length;
   }
 
-  getButtonName(){
+  getButtonName() {
     this.buttonName = `ux_go_to_invest_${this.currency.value.toLowerCase()}`;
   }
 
@@ -257,7 +264,14 @@ export class AssetDetailPage implements OnInit {
       );
   }
 
-  transferPrueba
+  async transferPrueba() {
+    const asdf = await new Transfers(
+      this.currency as RawToken,
+      this.walletAddress,
+      new DefaultCovalentRepo(this.http, this.env)
+    ).all();
+    console.log(asdf);
+  }
 
   private getCoinForPrice(symbol: string): string {
     return symbol === 'RBTC' ? 'BTC' : symbol;
