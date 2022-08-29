@@ -1,7 +1,7 @@
 import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { CovalentRepo } from '../covalent-repo/covalent-repo.interface';
 import { FakeCovalentRepo } from '../covalent-repo/fake/fake-covalent-repo';
-import { Transfer } from '../transfer/transfer.spec';
+import { Transfer } from '../transfer/transfer';
 import { rawTransfers } from '../covalent-repo/default/covalent-transfers.fixture';
 import { of } from 'rxjs';
 
