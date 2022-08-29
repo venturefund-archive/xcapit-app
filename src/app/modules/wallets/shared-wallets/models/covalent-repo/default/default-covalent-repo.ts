@@ -14,8 +14,7 @@ export class DefaultCovalentRepo implements CovalentRepo {
 
   public transfersOf(aToken: RawToken, inAddress: string): Observable<CovalentTransfersResponse> {
     return this._http
-      .get(this._url(aToken, inAddress), { headers: this._authHeaders() })
-      .pipe(map((res) => new CovalentTransfersResponse(res, aToken as Coin)));
+      .get(this._url(aToken, inAddress), { headers: this._authHeaders() });
   }
 
   private _authHeaders() {
