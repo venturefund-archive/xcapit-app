@@ -7,7 +7,7 @@ import { Transfer } from '../../models/transfer/transfer.interface';
     <div class="wtc">
       <ion-list class="wtc__list ">
         <app-wallet-transaction-card-item
-          *ngFor="let trasnfer of this.transfers; let last = last"
+          *ngFor="let transfer of this.transfers; let last = last"
           [transfer]="transfer"
           [network]="this.network"
           [last]="last"
