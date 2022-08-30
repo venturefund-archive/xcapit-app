@@ -275,7 +275,6 @@ export class AssetDetailPage implements OnInit {
       new DefaultCovalentRepo(this.http, this.env)
     )
       .all()
-      .then((transfers) => transfers.map((transfer) => new JSONTransfer(transfer)));
   } 
 
   private getCoinForPrice(symbol: string): string {
