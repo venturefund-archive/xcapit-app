@@ -26,24 +26,24 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
       </ion-toolbar>
     </ion-header>
     <ion-content class="td ion-padding">
-      <div class="td__card" *ngIf="this.currency">
+      <div class="td__card" *ngIf="this.tplTransfer.token">
         <div class="td__card__title">
           <ion-text class="ux-font-text-xl">{{
-            'wallets.transaction_details.' + this.transactionData.type | translate
+            'wallets.transaction_details.' + this.tplTransfer.type | translate
           }}</ion-text>
         </div>
         <div class="td__card__container">
           <div class="td__card__container__title_and_image">
             <div class="td__card__container__title_and_image__image_container">
-              <img [src]="this.currency.logoRoute" alt="Product Image" />
+              <img [src]="this.tplTransfer.token.logoRoute" alt="Product Image" />
             </div>
             <div class="td__card__container__title_container">
               <div class="td__card__container__title_container__title">
-                <ion-text class="ux-font-text-lg">{{ this.currency.value }}</ion-text>
+                <ion-text class="ux-font-text-lg">{{ this.tplTransfer.token.value }}</ion-text>
               </div>
               <div class="td__card__container__title_container__badge">
-                <ion-badge [color]="this.networkColors[this.currency.network]" class="ux-badge ux-font-num-subtitulo">{{
-                  this.currency.network | formattedNetwork | uppercase
+                <ion-badge [color]="this.networkColors[this.tplTransfer.token.network]" class="ux-badge ux-font-num-subtitulo">{{
+                  this.tplTransfer.token.network | formattedNetwork | uppercase
                 }}</ion-badge>
               </div>
             </div>
@@ -51,12 +51,12 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
           <div class="td__card__container__amount">
             <div>
               <ion-text class="ux-font-text-lg"
-                >{{ this.transactionData.amount }} {{ this.currency.value | titlecase }}</ion-text
+                >{{ this.tplTransfer.amount }} {{ this.tplTransfer.token.value | titlecase }}</ion-text
               >
             </div>
             <div class="td__card__container__amount__conversion">
               <ion-text class="ux-font-text-xs">
-                = {{ this.transactionData.quoteAmount | formattedAmount: 10:2 }} USD
+                = {{ this.tplTransfer.quoteAmount | formattedAmount: 10:2 }} USD
               </ion-text>
             </div>
           </div>
@@ -70,10 +70,10 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
             <div class="td__card__item__badge">
               <ion-badge
                 class="ux-font-num-subtitulo"
-                [ngClass]="{ confirmed: this.transactionData.successful, declined: !this.transactionData.successful }"
+                [ngClass]="{ confirmed: this.tplTransfer.successful, declined: !this.tplTransfer.successful }"
               >
                 {{
-                  (this.transactionData.successful ? 'wallets.transactions.confirmed' : 'wallets.transactions.declined')
+                  (this.tplTransfer.successful ? 'wallets.transactions.confirmed' : 'wallets.transactions.declined')
                     | translate
                 }}</ion-badge
               >
@@ -89,7 +89,7 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
             <ion-text class="ux-font-title-xs">{{ 'wallets.transaction_details.title_wallet' | translate }}</ion-text>
           </div>
           <div class="td__card__item__wallet">
-            <ion-text class="ux-font-text-base">{{ this.transactionData.to }}</ion-text>
+            <ion-text class="ux-font-text-base">{{ this.tplTransfer.to_address }}</ion-text>
           </div>
           <div class="divider list-divider"></div>
           <div class="td__card__item__title">
@@ -101,7 +101,7 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
             </div>
             <div class="td__card__item__usd">
               <ion-text class="ux-font-text-base"
-                >{{ this.transactionData.gasQuote | formattedAmount: 10:2 }} USD</ion-text
+                >{{ this.tplTransfer.gas_quote | formattedAmount: 10:2 }} USD</ion-text
               >
             </div>
           </div>
@@ -144,10 +144,10 @@ export class TransactionDetailsPage implements OnInit {
 
   ionViewWillEnter() {
     this.getTransactionData();
-    this.getToken();
-    this.date = new Date(this.tplTransfer.);
+    //this.getToken();
+    this.date = new Date(this.tplTransfer.block_signed_at);
     this.formattedTime = this.formatTime(this.date.toLocaleTimeString());
-    this.formattedDate = this.formatDate(this.transactionData.date);
+    this.formattedDate = this.formatDate(this.tplTransfer.block_signed_at);
   }
 
   private async getTransactionData() {
@@ -158,9 +158,9 @@ export class TransactionDetailsPage implements OnInit {
     // this.fee = this.transactionData.getFee();
   }
 
-  private getToken() {
-    this.currency = this.apiWalletService.getCoin(this.transactionData.symbol);
-  }
+  // private getToken() {
+  //   this.currency = this.apiWalletService.getCoin(this.tplTransfer.);
+  // }
 
   private formatDate(value) {
     return format(parseISO(value), 'dd-MM-yyyy');
@@ -173,6 +173,6 @@ export class TransactionDetailsPage implements OnInit {
   }
 
   openTransactionUrl() {
-    this.browserService.open({ url: ScanUrlOf.create(this.transactionData.hash, this.currency.network).value() });
+    this.browserService.open({ url: ScanUrlOf.create(this.tplTransfer.tx_hash, this.tplTransfer.token.network).value() });
   }
 }
