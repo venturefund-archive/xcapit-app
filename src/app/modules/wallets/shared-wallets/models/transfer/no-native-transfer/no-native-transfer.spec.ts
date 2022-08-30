@@ -39,6 +39,6 @@ fdescribe('NoNativeTransfer', () => {
   });
 
   it('amount', () => {
-    expect(noNativeTransfer.amount()).toEqual(2);
+    expect(noNativeTransfer.amount()).toEqual(0.389646);
   });
 });
