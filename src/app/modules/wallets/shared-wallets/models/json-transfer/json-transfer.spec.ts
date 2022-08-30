@@ -63,9 +63,10 @@ const expectedValueNoNative = {
 
 fdescribe('JSONTransfer', () => {
   let jsonTransfer: JSONTransfer;
+  const aT
 
   beforeEach(() => {
-    jsonTransfer = new JSONTransfer(new NativeTransfer(rawTransfer, rawMATICData));
+    jsonTransfer = new JSONTransfer(new NativeTransfer(rawTransfer, rawMATICData, aTestAddress));
   });
 
   it('new', () => {
@@ -77,7 +78,7 @@ fdescribe('JSONTransfer', () => {
   });
 
   it('value when no native transfer', () => {
-    jsonTransfer = new JSONTransfer(new NoNativeTransfer(rawNoNativeTransfer, rawMATICData));
+    jsonTransfer = new JSONTransfer(new NoNativeTransfer(rawNoNativeTransfer, rawMATICData, aTestAddress));
     expect(jsonTransfer.value()).toEqual(expectedValueNoNative);
   });
 });
