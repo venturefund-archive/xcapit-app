@@ -39,6 +39,6 @@ fdescribe('NoNativeTransfer', () => {
   });
 
   it('amount', () => {
-    expect(noNativeTransfer.amount()).toBeTruthy();
+    expect(noNativeTransfer.amount()).toEqual(2);
   });
 });
