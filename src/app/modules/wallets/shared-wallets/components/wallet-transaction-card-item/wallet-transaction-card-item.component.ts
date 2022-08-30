@@ -64,7 +64,6 @@ export class WalletTransactionCardItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('entrando');
     this.tplTransfer = new JSONTransfer(this.transfer).value();
     this.formattedDate = this.formatDate(this.tplTransfer.block_signed_at);
   
