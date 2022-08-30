@@ -6,9 +6,10 @@ import { rawNoNativeTransfer } from '../../../fixtures/covalent-no-native-transf
 
 fdescribe('NoNativeTransfer', () => {
   let noNativeTransfer: Transfer;
-  
+  const aTestAddress = '';
+
   beforeEach(() => {
-    noNativeTransfer = new NoNativeTransfer(rawNoNativeTransfer, rawMATICData);
+    noNativeTransfer = new NoNativeTransfer(rawNoNativeTransfer, rawMATICData, aTestAddress);
   });
 
   it('new', () => {
