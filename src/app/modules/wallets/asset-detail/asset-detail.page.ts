@@ -104,7 +104,7 @@ import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
           </div>
           <div class="wad__transaction__wallet-transaction-card">
             <app-wallet-transaction-card
-              [transfers]="this.transfers2"
+              [transfers]="this.transfers"
               [network]="this.currency.network"
             ></app-wallet-transaction-card>
           </div>
@@ -160,7 +160,6 @@ export class AssetDetailPage implements OnInit {
     this.getAvailableDefiProducts();
     await this.getInvestments();
     await this.findProductToInvest();
-    
   }
 
   private getAvailableDefiProducts(): void {
@@ -264,19 +263,17 @@ export class AssetDetailPage implements OnInit {
   //         .getTransfers(addresses[this.currency.network], this.currency)
   //         .subscribe((res: CovalentTransfersResponse) => (this.transfers = res.value()))
   //     );
-  // } 
+  // }
 
-   async getTransfers2() {
+  async getTransfers2() {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
     const address = wallet.addresses[this.currency.network];
     this.transfers = await new Transfers(
       this.currency as RawToken,
       address,
       new DefaultCovalentRepo(this.http, this.env)
-    )
-      .all()
-    
-  } 
+    ).all();
+  }
 
   private getCoinForPrice(symbol: string): string {
     return symbol === 'RBTC' ? 'BTC' : symbol;
