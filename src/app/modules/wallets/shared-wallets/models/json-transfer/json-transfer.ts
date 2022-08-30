@@ -9,6 +9,7 @@ export class JSONTransfer {
       type: this._aTransfer.type(),
       icon: this._aTransfer.icon(),
       token: this._aTransfer.token(),
+      amount: this._aTransfer.amount(),
       ...this._aTransfer.raw(),
     };
   }
