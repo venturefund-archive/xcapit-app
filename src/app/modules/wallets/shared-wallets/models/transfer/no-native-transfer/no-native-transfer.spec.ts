@@ -32,7 +32,6 @@ fdescribe('NoNativeTransfer', () => {
   });
 
   it('type', ()=>{
-    
     expect(noNativeTransfer.type()).toEqual('IN');
   })
 });

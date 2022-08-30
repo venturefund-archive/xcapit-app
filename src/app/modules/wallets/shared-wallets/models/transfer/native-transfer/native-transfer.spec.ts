@@ -5,7 +5,7 @@ import { rawTransfer } from '../../../fixtures/covalent-transfers.fixture';
 
 fdescribe('NativeTransfer', () => {
   let nativeTransfer: Transfer;
-  const aTestAddress = '';
+  const aTestAddress = '0x1111111254fb6c44bac0bed2854e76f90643097d';
 
   beforeEach(() => {
     nativeTransfer = new NativeTransfer(rawTransfer, rawMATICData, aTestAddress);
@@ -25,5 +25,9 @@ fdescribe('NativeTransfer', () => {
 
   it('raw', () => {
     expect(nativeTransfer.raw()).toEqual(rawTransfer);
+  });
+
+  it('type', () => {
+    expect(nativeTransfer.type()).toEqual('IN');
   });
 });
