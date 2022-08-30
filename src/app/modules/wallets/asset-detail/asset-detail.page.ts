@@ -30,6 +30,7 @@ import { EnvService } from '../../../shared/services/env/env.service';
 import { HttpClient } from '@angular/common/http';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transfer';
+import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
 @Component({
   selector: 'app-asset-detail',
   template: `
@@ -110,7 +111,6 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
           </div>
         </div>
       </div>
-      <ion-button color="secondary" expand="block" (click)="this.transferPrueba()">GEt transfers</ion-button>
     </ion-content>
   `,
   styleUrls: ['./asset-detail.page.scss'],
@@ -121,7 +121,7 @@ export class AssetDetailPage implements OnInit {
   coins: Coin[];
   walletAddress: string = null;
   balance: AssetBalance;
-  transfers: CovalentTransfer[] = [];
+  transfers: Transfer[] = [];
   usdPrice: { prices: any };
   networkColors = NETWORK_COLORS;
   enabledToBuy: boolean;

@@ -6,6 +6,8 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { CovalentTransfer } from '../../models/covalent-transfer/covalent-transfer';
 import { ScanUrlOf } from '../../models/scan-url-of/scan-url-of';
 import { TransactionDetailsService } from '../../services/transaction-details/transaction-details.service';
+import { Transfer } from '../../models/transfer/transfer.interface';
+import { JSONTransfer } from '../../models/json-transfer/json-transfer';
 
 @Component({
   selector: 'app-wallet-transaction-card-item',
@@ -13,7 +15,7 @@ import { TransactionDetailsService } from '../../services/transaction-details/tr
     <div>
       <div class="wtci">
         <div>
-          <ion-img class="wtci__img" [src]="this.transaction.icon"></ion-img>
+          <ion-img class="wtci__img" [src]="this.transaction"></ion-img>
         </div>
         <div class="wtci__content">
           <div class="wtci__content__top">
@@ -50,7 +52,7 @@ import { TransactionDetailsService } from '../../services/transaction-details/tr
   styleUrls: ['./wallet-transaction-card-item.component.scss'],
 })
 export class WalletTransactionCardItemComponent implements OnInit {
-  @Input() transaction: CovalentTransfer;
+  @Input() transfer: JSONTransfer;
   @Input() last: boolean;
   @Input() network: string;
   formattedDate: string;
@@ -73,5 +75,5 @@ export class WalletTransactionCardItemComponent implements OnInit {
   }
 
   private async saveTransactionDetails(){ this.transactionDetailsService.transactionData = this.transaction}
-  
+
 }
