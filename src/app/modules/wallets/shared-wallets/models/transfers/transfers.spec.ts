@@ -1,9 +1,9 @@
 import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { FakeCovalentRepo } from '../covalent-repo/fake/fake-covalent-repo';
-import { rawTransfers } from '../covalent-repo/default/covalent-transfers.fixture';
+import { rawTransfers } from '../../fixtures/covalent-transfers.fixture';
 import { of } from 'rxjs';
 import { Transfers } from './transfers';
-import { rawNoNativeTransfers } from '../covalent-repo/default/covalent-no-native-transfers.fixture';
+import { rawNoNativeTransfers } from '../../fixtures/covalent-no-native-transfers.fixture';
 
 fdescribe('Transfers', () => {
   let aToken: jasmine.SpyObj<RawToken>;
