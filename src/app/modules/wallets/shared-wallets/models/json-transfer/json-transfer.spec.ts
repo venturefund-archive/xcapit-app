@@ -2,6 +2,7 @@ import { rawTransfer } from '../../fixtures/covalent-transfers.fixture';
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { JSONTransfer } from './json-transfer';
 import { NativeTransfer } from '../transfer/native-transfer/native-transfer';
+import { NoNativeTransfer } from '../transfer/no-native-transfer/no-native-transfer';
 
 const expectedValue = {
     fee: 0.024715417086192657,
@@ -25,6 +26,10 @@ const expectedValue = {
     gas_quote_rate: 0.8596814870834351,
   }
 
+  const expectedValueNoNative = {
+
+  }
+
 fdescribe('JSONTransfer', () => {
   let jsonTransfer: JSONTransfer;
 
@@ -39,4 +44,10 @@ fdescribe('JSONTransfer', () => {
   it('value', () => {
     expect(jsonTransfer.value()).toEqual(expectedValue);
   });
+
+  it('value when no native transfer', ()=> {
+    jsonTransfer = new JSONTransfer(new NoNativeTransfer(rawTransfer, rawMATICData));
+    expect(jsonTransfer.value()).toEqual(2);
+  });
+
 });
