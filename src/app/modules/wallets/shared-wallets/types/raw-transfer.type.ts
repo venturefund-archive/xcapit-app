@@ -18,4 +18,5 @@ export type RawTransfer = {
     gas_quote_rate: number;
     delta?: string;
     transfers?: any;
+    contract_decimals?: string;
 };
