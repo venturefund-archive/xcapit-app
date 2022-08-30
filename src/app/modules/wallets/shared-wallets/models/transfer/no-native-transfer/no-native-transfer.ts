@@ -20,6 +20,10 @@ export class NoNativeTransfer implements Transfer {
       .value();
   }
 
+  public type(): 'IN'|'OUT' {
+    return this._aRawTransfer.to_address === this._anAddress ? 'IN' : 'OUT';
+  }
+
 
   public token(): RawToken {
     return this._aToken;
