@@ -41,7 +41,7 @@ describe('WalletTransactionCardComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
-  //
+  // TODO: ver tests
   // it('should create', () => {
   //   expect(component).toBeTruthy();
   // });

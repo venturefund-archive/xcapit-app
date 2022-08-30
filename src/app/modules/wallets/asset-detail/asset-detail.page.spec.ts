@@ -228,6 +228,7 @@ describe('AssetDetailPage', () => {
     expect(component.enabledToBuy).toBeFalse();
   });
 
+  // TODO: ver tests
   // it('should get transfers on view will enter', async () => {
   //   await component.ionViewWillEnter();
   //   await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
