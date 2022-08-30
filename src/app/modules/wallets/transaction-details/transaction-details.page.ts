@@ -13,6 +13,8 @@ import { EnvService } from '../../../shared/services/env/env.service';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { TransferState } from '@angular/platform-browser';
 import { Transfers } from '../shared-wallets/models/transfers/transfers';
+import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
+import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transfer';
 @Component({
   selector: 'app-transaction-details',
   template: ` <ion-header>
@@ -124,7 +126,6 @@ export class TransactionDetailsPage implements OnInit {
   currency: Coin;
   networkColors = NETWORK_COLORS;
   transactionData: Transfer;
-
   formattedDate: string;
   formattedTime: string;
   date: Date;
@@ -150,6 +151,7 @@ export class TransactionDetailsPage implements OnInit {
 
   private async getTransactionData() {
     console.log()
+    this.tplTransfer = new JSONTransfer(this.transactionData)
     //new Transfers(this.currency, this.transactionData.)
     // this.transactionData = this.transactionDetailsService.transactionData;
     // this.fee = this.transactionData.getFee();
