@@ -156,11 +156,12 @@ export class AssetDetailPage implements OnInit {
     this.getCurrency();
     this.getButtonName();
     this.getBalanceStructure(this.currency);
-    this.getTransfers();
+    this.getTransfers2();
     this.getUsdPrice();
     this.getAvailableDefiProducts();
     await this.getInvestments();
     await this.findProductToInvest();
+    
   }
 
   private getAvailableDefiProducts(): void {
