@@ -217,7 +217,7 @@ export class SendDetailPage {
           description: this.translate.instant('wallets.shared_wallets.info_send_modal.description'),
           buttonText: this.translate.instant('wallets.shared_wallets.info_send_modal.button_text'),
         },
-        cssClass: 'ux-xxs-modal-informative',
+        cssClass: 'modal',
         backdropDismiss: false,
       });
       await modal.present();
@@ -382,7 +382,8 @@ export class SendDetailPage {
   async openModalBalance() {
     const modal = await this.modalController.create({
       component: ToastWithButtonsComponent,
-      cssClass: 'ux-toast-warning-with-margin',
+      cssClass: 'modal',
+      //cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
       componentProps: {
