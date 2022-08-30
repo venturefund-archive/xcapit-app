@@ -273,6 +273,7 @@ export class AssetDetailPage implements OnInit {
       address,
       new DefaultCovalentRepo(this.http, this.env)
     ).all();
+    console.log(this.transfers);
   }
 
   private getCoinForPrice(symbol: string): string {
