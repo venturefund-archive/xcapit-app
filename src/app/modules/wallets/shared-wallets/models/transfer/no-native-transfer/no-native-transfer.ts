@@ -24,6 +24,12 @@ export class NoNativeTransfer implements Transfer {
     return this._aRawTransfer.to_address === this._anAddress ? 'IN' : 'OUT';
   }
 
+  public icon(): string {
+    return this.type() === 'IN'
+      ? 'assets/img/wallet-transactions/received.svg'
+      : 'assets/img/wallet-transactions/sended.svg';
+  }
+
   public token(): RawToken {
     return this._aToken;
   }

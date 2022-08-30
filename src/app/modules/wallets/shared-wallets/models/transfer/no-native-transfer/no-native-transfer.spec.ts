@@ -3,10 +3,10 @@ import { Transfer } from '../transfer.interface';
 import { NoNativeTransfer } from './no-native-transfer';
 import { rawNoNativeTransfer } from '../../../fixtures/covalent-no-native-transfers.fixture';
 
-
 fdescribe('NoNativeTransfer', () => {
   let noNativeTransfer: Transfer;
   const aTestAddress = '0x1111111254fb6c44bac0bed2854e76f90643097d';
+  const receivedIcon = 'assets/img/wallet-transactions/received.svg';
 
   beforeEach(() => {
     noNativeTransfer = new NoNativeTransfer(rawNoNativeTransfer, rawMATICData, aTestAddress);
@@ -31,7 +31,11 @@ fdescribe('NoNativeTransfer', () => {
     expect(rawData.hasOwnProperty('transfers')).toBeFalse();
   });
 
-  it('type', ()=>{
+  it('type', () => {
     expect(noNativeTransfer.type()).toEqual('IN');
-  })
+  });
+
+  it('icon', () => {
+    expect(noNativeTransfer.icon()).toEqual(receivedIcon);
+  });
 });
