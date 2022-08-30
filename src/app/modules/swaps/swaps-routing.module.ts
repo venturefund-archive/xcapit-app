@@ -5,18 +5,6 @@ import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { SwapTYCAccepted } from './shared-swaps/guards/swap-tyc-accepted';
 
 
-export const defaultSwapsUrls = {
-  swapHome: [
-    'swaps/home/blockchain',
-    'MATIC',
-    'from-token',
-    '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
-    'to-token',
-    '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
-  ]
-}
-
-
 const routes: Routes = [
   {
     path: 'swaps',
@@ -29,15 +17,18 @@ const routes: Routes = [
       },
       {
         path: 'select-currency',
-          loadChildren: () => import('./swap-select-token/swap-select-token.module').then( m => m.SwapSelectTokenPageModule)
+        loadChildren: () =>
+          import('./swap-select-token/swap-select-token.module').then((m) => m.SwapSelectTokenPageModule),
       },
       {
         path: 'swap-terms-and-conditions',
-        loadChildren: () => import('./swap-terms-and-conditions/swap-terms-and-conditions.module').then( m => m.SwapTermsAndConditionsPageModule)
+        loadChildren: () =>
+          import('./swap-terms-and-conditions/swap-terms-and-conditions.module').then(
+            (m) => m.SwapTermsAndConditionsPageModule
+          ),
       },
     ],
   },
- 
 ];
 
 @NgModule({

@@ -46,6 +46,7 @@ export const environment = {
     slippage: 1,
     referralAddress: "0x0",
     fee: 0.5,
+    blockchainsId: ['1', '137', '56'],
   },
   POLYGON_GAS_STATION: 'https://aGasStarionUrl',
   BLOCKCHAIN_DATA: [
