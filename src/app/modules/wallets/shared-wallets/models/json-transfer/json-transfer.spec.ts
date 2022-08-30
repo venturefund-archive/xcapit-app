@@ -3,6 +3,7 @@ import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures
 import { JSONTransfer } from './json-transfer';
 import { NativeTransfer } from '../transfer/native-transfer/native-transfer';
 import { NoNativeTransfer } from '../transfer/no-native-transfer/no-native-transfer';
+import { rawNoNativeTransfer } from '../../fixtures/covalent-no-native-transfers.fixture';
 
 const expectedValue = {
     fee: 0.024715417086192657,
@@ -46,7 +47,7 @@ fdescribe('JSONTransfer', () => {
   });
 
   it('value when no native transfer', ()=> {
-    jsonTransfer = new JSONTransfer(new NoNativeTransfer(rawTransfer, rawMATICData));
+    jsonTransfer = new JSONTransfer(new NoNativeTransfer(rawNoNativeTransfer, rawMATICData));
     expect(jsonTransfer.value()).toEqual(2);
   });
 
