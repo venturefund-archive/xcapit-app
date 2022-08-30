@@ -3,6 +3,7 @@ import { RawTransfer } from '../../types/raw-transfer.type';
 import { CovalentRepo } from '../covalent-repo/covalent-repo.interface';
 import { NativeTransfer } from '../transfer/native-transfer/native-transfer';
 import { NoNativeTransfer } from '../transfer/no-native-transfer/no-native-transfer';
+import { Transfer } from '../transfer/transfer.interface';
 
 export class Transfers {
   constructor(
@@ -11,7 +12,7 @@ export class Transfers {
     private readonly repo: CovalentRepo
   ) {}
 
-  public all() {
+  public all(): Promise<Transfer[]> {
     return this.repo
       .transfersOf(this._aToken, this._inAddress)
       .toPromise()
