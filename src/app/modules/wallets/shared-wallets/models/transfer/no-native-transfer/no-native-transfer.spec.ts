@@ -26,7 +26,6 @@ fdescribe('NoNativeTransfer', () => {
 
   it('raw', () => {
     const rawData = noNativeTransfer.raw();
-
     expect(rawData.tx_hash).toEqual('0x7d81572bd8028f7a8a1ea1205f825ce0bf5dad2c757b38af4b78ec2e49e03db9');
     expect(rawData.hasOwnProperty('transfers')).toBeFalse();
   });
