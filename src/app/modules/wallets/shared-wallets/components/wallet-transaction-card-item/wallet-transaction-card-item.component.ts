@@ -15,7 +15,7 @@ import { JSONTransfer } from '../../models/json-transfer/json-transfer';
     <div>
       <div class="wtci">
         <div>
-          <ion-img class="wtci__img" [src]="this.transfer"></ion-img>
+          <ion-img class="wtci__img" [src]="this.tplTransfer.token."></ion-img>
         </div>
         <div class="wtci__content">
           <div class="wtci__content__top">
@@ -55,6 +55,7 @@ export class WalletTransactionCardItemComponent implements OnInit {
   @Input() transfer: JSONTransfer;
   @Input() last: boolean;
   @Input() network: string;
+  tplTransfer: any;
   formattedDate: string;
 
   constructor(
@@ -63,6 +64,7 @@ export class WalletTransactionCardItemComponent implements OnInit {
 
   ngOnInit() {
     this.formattedDate = this.formatDate(this.transfer.date);
+    this.tplTransfer = this.transfer.value();
   }
 
   openTransactionUrl() {

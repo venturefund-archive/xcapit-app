@@ -105,7 +105,7 @@ import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
           </div>
           <div class="wad__transaction__wallet-transaction-card">
             <app-wallet-transaction-card
-              [transactions]="this.transfers"
+              [transfers]="this.transfers"
               [network]="this.currency.network"
             ></app-wallet-transaction-card>
           </div>
@@ -121,7 +121,7 @@ export class AssetDetailPage implements OnInit {
   coins: Coin[];
   walletAddress: string = null;
   balance: AssetBalance;
-  transfers: Transfer[] = [];
+  transfers: JSONTransfer[] = [];
   usdPrice: { prices: any };
   networkColors = NETWORK_COLORS;
   enabledToBuy: boolean;
@@ -255,7 +255,7 @@ export class AssetDetailPage implements OnInit {
     this.buttonName = `ux_go_to_invest_${this.currency.value.toLowerCase()}`;
   }
 
-/*   private getTransfers() {
+  /*   private getTransfers() {
     this.storageService
       .getWalletsAddresses()
       .then((addresses: any) =>
@@ -272,7 +272,9 @@ export class AssetDetailPage implements OnInit {
       this.currency as RawToken,
       address,
       new DefaultCovalentRepo(this.http, this.env)
-    ).all();
+    )
+      .all()
+      .then((transfers) => transfers.map((transfer) => new JSONTransfer(transfer)));
   }
 
   private getCoinForPrice(symbol: string): string {
