@@ -47,6 +47,6 @@ fdescribe('NoNativeTransfer', () => {
   it('raw', () => {
     const asd = noNativeTransfer.raw();
     console.log('RAAAAAAAAAAAw', asd);
-    expect(asd).toEqual(2);
+    expect(asd).toEqual({} as RawTransfer);
   });
 });
