@@ -123,7 +123,8 @@ import { Transfers } from '../shared-wallets/models/transfers/transfers';
 export class TransactionDetailsPage implements OnInit {
   currency: Coin;
   networkColors = NETWORK_COLORS;
-  transactionData: CovalentTransfer;
+  transactionData: Transfer;
+
   formattedDate: string;
   formattedTime: string;
   date: Date;
