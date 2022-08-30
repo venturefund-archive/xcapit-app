@@ -122,6 +122,7 @@ export class AssetDetailPage implements OnInit {
   walletAddress: string = null;
   balance: AssetBalance;
   transfers: CovalentTransfer[] = [];
+  transfers2: Transfer[] = [];
   usdPrice: { prices: any };
   networkColors = NETWORK_COLORS;
   enabledToBuy: boolean;
@@ -265,17 +266,17 @@ export class AssetDetailPage implements OnInit {
       );
   } 
 
-/*   async getTransfers2() {
+   async getTransfers2() {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
     const address = wallet.addresses[this.currency.network];
-    this.transfers = await new Transfers(
+    this.transfers2 = await new Transfers(
       this.currency as RawToken,
       address,
       new DefaultCovalentRepo(this.http, this.env)
     )
       .all()
       .then((transfers) => transfers.map((transfer) => new JSONTransfer(transfer)));
-  } */
+  } 
 
   private getCoinForPrice(symbol: string): string {
     return symbol === 'RBTC' ? 'BTC' : symbol;
