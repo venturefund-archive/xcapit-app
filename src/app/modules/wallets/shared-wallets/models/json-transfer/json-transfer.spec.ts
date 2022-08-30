@@ -70,7 +70,7 @@ fdescribe('JSONTransfer', () => {
   const aTestAddress = '0x72fdeb93a64a0eb2b789a9ed87e65bff967928c3';
 
   beforeEach(() => {
-    jsonTransfer = new JSONTransfer(new NativeTransfer(rawTransfer, rawMATICData, aTestAddress));
+    jsonTransfer = new JSONTransfer(new NativeTransfer(rawTransfer, rawMATICData, '0x1111111254fb6c44bac0bed2854e76f90643097d'));
   });
 
   it('new', () => {
@@ -82,7 +82,7 @@ fdescribe('JSONTransfer', () => {
   });
 
   it('value when no native transfer', () => {
-    jsonTransfer = new JSONTransfer(new NoNativeTransfer(rawNoNativeTransfer, rawMATICData, aTestAddress));
+    jsonTransfer = new JSONTransfer(new NoNativeTransfer(rawNoNativeTransfer, rawMATICData, '0x72fdeb93a64a0eb2b789a9ed87e65bff967928c3'));
     expect(jsonTransfer.value()).toEqual(expectedValueNoNative);
   });
 
