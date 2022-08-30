@@ -192,7 +192,7 @@ export class AssetDetailPage implements OnInit {
 
   async getProductBalance(investmentProduct: InvestmentProduct): Promise<number> {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
-    const address = wallet.addresses[investmentProduct.token().network];
+    //const address = wallet.addresses[investmentProduct.token().network];
     const investment = this.createInvestment(investmentProduct, address);
     return await investment.balance();
   }
