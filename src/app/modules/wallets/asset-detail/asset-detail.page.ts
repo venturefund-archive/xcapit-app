@@ -257,15 +257,15 @@ export class AssetDetailPage implements OnInit {
     this.buttonName = `ux_go_to_invest_${this.currency.value.toLowerCase()}`;
   }
 
-   private getTransfers() {
-    this.storageService
-      .getWalletsAddresses()
-      .then((addresses: any) =>
-        this.walletTransactionsService
-          .getTransfers(addresses[this.currency.network], this.currency)
-          .subscribe((res: CovalentTransfersResponse) => (this.transfers = res.value()))
-      );
-  } 
+  //  private getTransfers() {
+  //   this.storageService
+  //     .getWalletsAddresses()
+  //     .then((addresses: any) =>
+  //       this.walletTransactionsService
+  //         .getTransfers(addresses[this.currency.network], this.currency)
+  //         .subscribe((res: CovalentTransfersResponse) => (this.transfers = res.value()))
+  //     );
+  // } 
 
    async getTransfers2() {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
