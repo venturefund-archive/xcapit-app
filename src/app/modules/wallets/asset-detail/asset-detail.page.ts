@@ -255,7 +255,7 @@ export class AssetDetailPage implements OnInit {
     this.buttonName = `ux_go_to_invest_${this.currency.value.toLowerCase()}`;
   }
 
-  private getTransfers() {
+/*   private getTransfers() {
     this.storageService
       .getWalletsAddresses()
       .then((addresses: any) =>
@@ -263,12 +263,12 @@ export class AssetDetailPage implements OnInit {
           .getTransfers(addresses[this.currency.network], this.currency)
           .subscribe((res: CovalentTransfersResponse) => (this.transfers = res.value()))
       );
-  }
+  } */
 
-  async transferPrueba() {
+  async getTransfers() {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
     const address = wallet.addresses[this.currency.network];
-    const asdf = await new Transfers(
+    this.transfers = await new Transfers(
       this.currency as RawToken,
       address,
       new DefaultCovalentRepo(this.http, this.env)
