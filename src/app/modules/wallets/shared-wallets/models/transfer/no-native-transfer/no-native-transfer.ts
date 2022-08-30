@@ -41,7 +41,8 @@ export class NoNativeTransfer implements Transfer {
   }
 
   public amount(): number {
-    return new AmountOf(this.raw().delta, this._nativeToken()).value()
+    return parseInt(this.raw().delta, 10) / Math.pow(10, this.raw().contract_decimals);
+   /*  return new AmountOf(this.raw().delta, this._nativeToken()).value() */
   }
 
   private _nativeToken(): Token {
