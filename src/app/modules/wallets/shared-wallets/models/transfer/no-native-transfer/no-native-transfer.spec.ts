@@ -44,6 +44,6 @@ fdescribe('NoNativeTransfer', () => {
   });
 
   it('raw', () => {
-    expect(noNativeTransfer.raw()).toEqual(expectedValue as RawTransfer);
+    expect(noNativeTransfer.raw()).toEqual(2);
   });
 });
