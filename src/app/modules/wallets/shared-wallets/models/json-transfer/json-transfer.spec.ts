@@ -68,7 +68,7 @@ const expectedValueNoNative = {
 fdescribe('JSONTransfer', () => {
   let jsonTransfer: JSONTransfer;
   const aTestAddressNative = '0x1111111254fb6c44bac0bed2854e76f90643097d';
-  const aTestAddressNoNative = '0x72fdeb93a64a0eb2b789a9ed87e65bff967928c3'
+  const aTestAddressNoNative = '0x72fdeb93a64a0eb2b789a9ed87e65bff967928c3';
 
   beforeEach(() => {
     jsonTransfer = new JSONTransfer(new NativeTransfer(rawTransfer, rawMATICData, aTestAddressNative));
