@@ -12,6 +12,7 @@ import { VoidSigner } from 'ethers';
 import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
 
 @Component({
   selector: 'app-investment-detail',
@@ -64,10 +65,16 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
       </div>
       <div class="id__investment-history ion-padding">
         <div>
-          <ion-text class="ux-font-header-titulo">Historial</ion-text>
+          <ion-text class="ux-font-header-titulo">
+            {{ 'defi_investments.invest_detail.history.title' | translate }}</ion-text
+          >
         </div>
-        <div class="quotes-card">
-          <app-investment-history></app-investment-history>
+        <div class="investment-history">
+          <app-investment-history
+            [firstMovements]="this.firstMovements"
+            [remainingMovements]="this.remainingMovements"
+            [token]="this.token"
+          ></app-investment-history>
         </div>
       </div>
       <div class="id__weekly-profit-disclaimer ion-padding-horizontal" *ngIf="this.disclaimer">
@@ -85,6 +92,11 @@ export class InvestmentDetailPage implements OnInit {
   balance: number;
   disclaimer = false;
   updateEarningText: string;
+  allMovements = [];
+  address: string;
+  firstMovements;
+  remainingMovements;
+
   constructor(
     private route: ActivatedRoute,
     private twoPiApi: TwoPiApi,
@@ -92,7 +104,8 @@ export class InvestmentDetailPage implements OnInit {
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
     private walletEncryptionService: WalletEncryptionService,
-    private remoteConfig: RemoteConfigService
+    private remoteConfig: RemoteConfigService,
+    private graphql: GraphqlService
   ) {}
 
   ngOnInit() {}
@@ -100,6 +113,7 @@ export class InvestmentDetailPage implements OnInit {
   async ionViewDidEnter() {
     await this.getInvestmentProduct();
     this.setDisclaimer();
+    this.obtainPidOfProduct();
   }
 
   private vaultID() {
@@ -122,8 +136,8 @@ export class InvestmentDetailPage implements OnInit {
 
   async getProductBalance(investmentProduct: InvestmentProduct): Promise<void> {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
-    const address = wallet.addresses[investmentProduct.token().network];
-    const investment = this.createInvestment(investmentProduct, address);
+    this.address = wallet.addresses[investmentProduct.token().network];
+    const investment = this.createInvestment(investmentProduct, this.address);
     this.balance = await investment.balance();
     this.getPrice();
   }
@@ -149,6 +163,29 @@ export class InvestmentDetailPage implements OnInit {
 
   goToWithdraw() {
     this.navController.navigateForward(['/defi/withdraw/select-amount', this.investmentProduct.name()]);
+  }
+
+  obtainPidOfProduct() {
+    this.createAvailableDefiProducts()
+      .value()
+      .find((product) => {
+        if (product.id === this.investmentProduct.name()) {
+          const pid = this.investmentProduct.id();
+          this.getAllMovements(pid);
+        }
+      });
+  }
+
+  getAllMovements(pid: number) {
+    this.graphql.getAllMovements(this.address, pid).subscribe(({ data }) => {
+      this.allMovements = data.flows;
+      this.separateFilteredData();
+    });
+  }
+
+  separateFilteredData() {
+    this.firstMovements = this.allMovements?.slice(0, 3);
+    this.remainingMovements = this.allMovements?.slice(3, this.allMovements.length);
   }
 
   setDisclaimer() {

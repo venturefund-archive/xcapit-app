@@ -417,7 +417,12 @@
       "invested_amount": "Balance*",
       "daily_earnings_disclaimer": "*Your balance is updated daily.",
       "continuous_update": "*Continuous update",
-      "weekly_update": "*Weekly update"
+      "weekly_update": "*Weekly update",
+      "history":{
+        "title": "History",
+        "investment": "Investment",
+        "withdraw": "Withdraw"
+      }
     },
     "shared": {
       "withdraw_info_modal": {

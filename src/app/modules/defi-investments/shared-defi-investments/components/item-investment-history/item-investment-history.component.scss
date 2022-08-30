@@ -1,7 +1,29 @@
-.aiih {
-  &__content {
+:host {
+  .iih {
+    padding: 8px 16px;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
+    border-radius: 8px;
+
+    &__icon {
+      width: 28px;
+      height: 28px;
+
+      ion-icon {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    &__content {
+      display: flex;
+      flex-grow: 1;
+      margin-left: 8px;
+      justify-content: space-between;
+
+      &__amount {
+        text-align: right;
+      }
+    }
   }
 }

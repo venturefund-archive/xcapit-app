@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { IonAccordionGroup } from '@ionic/angular';
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 
 @Component({
   selector: 'app-investment-history',
@@ -8,21 +10,23 @@ import { Component, OnInit } from '@angular/core';
         <ion-list show="true" slot="content">
           <app-ux-list-inverted>
             <ion-list>
-              <div class="loader" *ngIf="this.waitingQuotes">
+              <div class="qc__loader" *ngIf="!firstMovements">
                 <app-ux-loading-block minSize="30px"></app-ux-loading-block>
               </div>
               <div class="container">
                 <app-item-investment-history
-                  *ngFor="let quote of this.firstQuotes; let last = last"
-                  [quotation]="quote"
+                  *ngFor="let movement of this.firstMovements; let last = last"
+                  [movement]="movement"
+                  [token]="this.token"
                 ></app-item-investment-history>
               </div>
               <ion-accordion-group>
-                <ion-accordion toggleIcon="" class="accordion" value="quotes">
+                <ion-accordion toggleIcon="" class="accordion" value="movements">
                   <div slot="content" class="container">
                     <app-item-investment-history
-                      *ngFor="let quote of this.remainingQuotes; let last = last"
-                      [quotation]="quote"
+                      *ngFor="let movement of this.remainingMovements; let last = last"
+                      [movement]="movement"
+                      [token]="this.token"
                       [last]="last"
                     ></app-item-investment-history>
                   </div>
@@ -33,9 +37,9 @@ import { Component, OnInit } from '@angular/core';
         </ion-list>
       </div>
     </div>
-    <div class="qc__button">
+    <div class="qc__button" *ngIf="this.remainingMovements">
       <ion-button
-        *ngIf="!this.openedAccordion"
+        *ngIf="!this.openedAccordion && this.remainingMovements.length > 0"
         name="Open Accordion"
         class="link ux-link-xs"
         appTrackClick
@@ -61,20 +65,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./investment-history.component.scss'],
 })
 export class InvestmentHistoryComponent implements OnInit {
-  openedAccordion;
-  waitingQuotes;
-  firstQuotes = [
-    { type: 'earning', date: '12-12-12', amount: '50 USD' },
-    { type: 'earning', date: '12-12-12', amount: '50 USD' },
-    { type: 'earning', date: '12-12-12', amount: '50 USD' },
-  ];
-  remainingQuotes;
+  @ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
+  @Input() firstMovements;
+  @Input() remainingMovements;
+  @Input() token: Coin;
+  openedAccordion: boolean;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.accordionGroup.value = '';
+  }
 
-  openAccordion() {}
+  openAccordion() {
+    this.accordionGroup.value = 'movements';
+    this.openedAccordion = true;
+  }
 
-  closeAccordion() {}
+  closeAccordion() {
+    this.accordionGroup.value = undefined;
+    this.openedAccordion = false;
+  }
 }
