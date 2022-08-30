@@ -39,11 +39,14 @@ fdescribe('NoNativeTransfer', () => {
   it('fee', () => {
     expect(noNativeTransfer.fee()).toEqual(0.024715417086192657);
   });
+
   it('token', () => {
     expect(noNativeTransfer.token()).toEqual(rawMATICData);
   });
 
   it('raw', () => {
-    expect(noNativeTransfer.raw()).toEqual(2);
+    const asd = noNativeTransfer.raw();
+    console.log('RAAAAAAAAAAAw', asd);
+    expect(asd).toEqual(2);
   });
 });
