@@ -1759,6 +1759,7 @@
       "header": "Historico transacciones",
       "OUT": "Envío",
       "IN": "Recepción",
+      "BUY":"Compra",
       "swap": "Swap",
       "confirmed": "Confirmado",
       "declined": "Rechazado"
