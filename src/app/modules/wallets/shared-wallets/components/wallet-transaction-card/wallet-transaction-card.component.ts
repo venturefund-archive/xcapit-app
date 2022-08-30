@@ -21,7 +21,9 @@ export class WalletTransactionCardComponent implements OnInit {
   @Input() transfers: Transfer[];
   @Input() network: string;
 
-  constructor() {}
+  constructor() {
+    console.log('transactions card', this.transfers);
+  }
 
   ngOnInit() {}
 }
