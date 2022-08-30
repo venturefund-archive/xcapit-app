@@ -5,7 +5,11 @@ import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { CovalentQuoteCurrency } from '../../../types/covalent-quote-currencies.type';
 import { Observable } from 'rxjs';
 import { CovalentRepo } from '../covalent-repo.interface';
+import { RawTransfer } from '../../../types/raw-transfer.type';
 
+export type CovalentAuthHeaders = {
+  Authorization : string;
+}
 export class DefaultCovalentRepo implements CovalentRepo {
   constructor(private readonly _http: HttpClient | FakeHttpClient, private readonly _env: EnvService) {}
 
@@ -14,7 +18,7 @@ export class DefaultCovalentRepo implements CovalentRepo {
       .get(this._url(aToken, inAddress), { headers: this._authHeaders() });
   }
 
-  private _authHeaders() {
+  private _authHeaders(): CovalentAuthHeaders {
     return { Authorization: `Basic ${btoa(this._env.byKey('covalentApiKey') + ':')}` };
   }
 
