@@ -37,4 +37,8 @@ fdescribe('NoNativeTransfer', () => {
   it('icon', () => {
     expect(noNativeTransfer.icon()).toEqual(receivedIcon);
   });
+
+  it('amount', () => {
+    expect(noNativeTransfer.amount()).toBeTruthy();
+  });
 });
