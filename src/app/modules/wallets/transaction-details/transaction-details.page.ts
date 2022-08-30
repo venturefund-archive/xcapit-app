@@ -130,6 +130,7 @@ export class TransactionDetailsPage implements OnInit {
   formattedTime: string;
   date: Date;
   fee: number;
+  tplTransfer: any;
 
   constructor(
     private transactionDetailsService: TransactionDetailsService,
@@ -144,14 +145,14 @@ export class TransactionDetailsPage implements OnInit {
   ionViewWillEnter() {
     this.getTransactionData();
     this.getToken();
-    this.date = new Date(this.transactionData.date);
+    this.date = new Date(this.tplTransfer.);
     this.formattedTime = this.formatTime(this.date.toLocaleTimeString());
     this.formattedDate = this.formatDate(this.transactionData.date);
   }
 
   private async getTransactionData() {
     console.log()
-    this.tplTransfer = new JSONTransfer(this.transactionData)
+    this.tplTransfer = new JSONTransfer(this.transactionData).value()
     //new Transfers(this.currency, this.transactionData.)
     // this.transactionData = this.transactionDetailsService.transactionData;
     // this.fee = this.transactionData.getFee();
