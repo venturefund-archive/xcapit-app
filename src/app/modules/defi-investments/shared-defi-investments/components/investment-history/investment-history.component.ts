@@ -4,13 +4,13 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
 
 @Component({
   selector: 'app-investment-history',
-  template: `<div class="qc">
-    <div class="qc__content">
-      <div class="qc__accordeon">
+  template: `<div class="ih">
+    <div class="ih__content">
+      <div class="ih__accordeon">
         <ion-list show="true" slot="content">
           <app-ux-list-inverted>
             <ion-list>
-              <div class="qc__loader" *ngIf="!firstMovements">
+              <div class="ih__loader" *ngIf="!firstMovements">
                 <app-ux-loading-block minSize="30px"></app-ux-loading-block>
               </div>
               <div class="container">
@@ -37,7 +37,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
         </ion-list>
       </div>
     </div>
-    <div class="qc__button" *ngIf="this.remainingMovements">
+    <div class="ih__button" *ngIf="this.remainingMovements">
       <ion-button
         *ngIf="!this.openedAccordion && this.remainingMovements.length > 0"
         name="Open Accordion"
