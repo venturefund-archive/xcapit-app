@@ -40,6 +40,10 @@ export class NoNativeTransfer implements Transfer {
     return result;
   }
 
+  public amount(): number {
+    return 
+  }
+
   private _nativeToken(): Token {
     return new Blockchains(new BlockchainRepo(environment.BLOCKCHAIN_DATA))
       .oneByName(this._aToken.network)
