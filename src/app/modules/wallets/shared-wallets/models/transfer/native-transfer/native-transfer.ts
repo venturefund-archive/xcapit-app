@@ -34,4 +34,8 @@ export class NativeTransfer implements Transfer {
   public raw(): RawTransfer {
     return this._aRawTransfer;
   }
+
+  public amount(): number {
+    return new AmountOf(this._aRawTransfer.value.toString(), new DefaultToken(this._aToken)).value();
+  }
 }
