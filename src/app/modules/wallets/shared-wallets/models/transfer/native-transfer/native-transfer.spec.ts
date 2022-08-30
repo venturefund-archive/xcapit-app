@@ -35,4 +35,8 @@ fdescribe('NativeTransfer', () => {
   it('icon', () => {
     expect(nativeTransfer.icon()).toEqual(receivedIcon);
   });
+
+  it('amount', () => {
+    expect(nativeTransfer.amount()).toEqual(2);
+  });
 });
