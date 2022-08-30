@@ -27,7 +27,6 @@ import { DefiProduct } from '../../defi-investments/shared-defi-investments/inte
 import { TwoPiProduct } from '../../defi-investments/shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
 import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
-import { Cipher } from 'crypto';
 
 @Component({
   selector: 'app-home-wallet',

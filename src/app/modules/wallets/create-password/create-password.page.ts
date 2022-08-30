@@ -18,6 +18,7 @@ import { XAuthService } from '../../users/shared-users/services/x-auth/x-auth.se
 import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
+import { ethers } from 'ethers';
 
 @Component({
   selector: 'app-create-password',
@@ -205,7 +206,7 @@ export class CreatePasswordPage implements OnInit {
 
   private async createXAuthToken(): Promise<void> {
     const blockchain = this.blockchains.create().oneByName('ERC20');
-    const wallet = this.walletService.createdWallets.find((w) => w.mnemonic.path === blockchain.derivedPath());
+    const wallet = this.walletService.createForDerivedPath(blockchain.derivedPath()) as ethers.Wallet;
     const signedMsg = await wallet.signMessage(wallet.address);
     return this.xAuthService.saveToken(`${wallet.address}_${signedMsg}`);
   }

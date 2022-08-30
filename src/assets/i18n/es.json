@@ -1601,8 +1601,7 @@
       "agree_phrase_checkbox": "Estoy de acuerdo con los términos y condiciones, y la política de privacidad de Xcapit.",
       "submit_button": "Confirmar y aceptar",
       "wallet_term_text": "Tu Wallet estará vinculada a este dispositivo, no a tu e-mail. Para mayor información, visita las ",
-      "wallet_term_link": "Preguntas frecuentes sobre la Wallet.",
-      "error_did_not_accept": "Debes marcar todas las opciones para continuar."
+      "wallet_term_link": "Preguntas frecuentes sobre la Wallet."
     },
     "recovery_phrase_information": {
       "header": "Frase de recuperación",

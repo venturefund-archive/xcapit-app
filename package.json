@@ -61,6 +61,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "@robingenz/capacitor-app-update": "^1.3.1",
+    "@solana/web3.js": "^1.53.0",
     "@typeform/embed": "^1.35.1",
     "@walletconnect/client": "^1.6.5",
     "abi-decoder": "^2.4.0",
