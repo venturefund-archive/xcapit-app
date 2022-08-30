@@ -1,8 +1,8 @@
-import { Token } from '@angular/compiler';
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { environment } from 'src/environments/environment';
 import { RawTransfer } from '../../../types/raw-transfer.type';
 import { Transfer } from '../transfer.interface';
@@ -23,7 +23,7 @@ export class NoNativeTransfer implements Transfer {
   public raw(): RawTransfer {
     const result = { ...this._aRawTransfer, ...this._aRawTransfer.transfers[0] };
     delete result.transfers;
-  return result;
+    return result;
   }
 
   private _nativeToken(): Token {
