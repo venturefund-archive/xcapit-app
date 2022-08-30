@@ -24,7 +24,7 @@ export class Transfers {
           } else {
             transferType = NativeTransfer;
           }
-          return new transferType(rawTransfer, this._aToken);
+          return new transferType(rawTransfer, this._aToken, this._inAddress);
         })
       );
   }

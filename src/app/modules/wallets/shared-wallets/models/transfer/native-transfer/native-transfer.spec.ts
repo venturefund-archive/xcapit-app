@@ -5,9 +5,10 @@ import { rawTransfer } from '../../../fixtures/covalent-transfers.fixture';
 
 fdescribe('NativeTransfer', () => {
   let nativeTransfer: Transfer;
+  const aTestAddress = '';
 
   beforeEach(() => {
-    nativeTransfer = new NativeTransfer(rawTransfer, rawMATICData);
+    nativeTransfer = new NativeTransfer(rawTransfer, rawMATICData, aTestAddress);
   });
 
   it('new', () => {
