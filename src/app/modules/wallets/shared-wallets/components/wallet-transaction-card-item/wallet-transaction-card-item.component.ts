@@ -32,7 +32,7 @@ import { Transfer } from '../../models/transfer/transfer.interface';
             </div>
             <div class="wtci__content__top__column">
               <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold">
-                {{ this.tplTransfer.amount | formattedAmount }} {{ this.tplTransfer.contract_ticker_symbol }}
+                {{ this.tplTransfer.amount | formattedAmount }} {{ this.tplTransfer.token.value }}
               </ion-label>
               <div class="ux-font-num-subtitulo wtci__content__top__column__badge">
                 <ion-badge
