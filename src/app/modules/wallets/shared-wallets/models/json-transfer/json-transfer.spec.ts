@@ -48,6 +48,7 @@ fdescribe('JSONTransfer', () => {
 
   it('value when no native transfer', ()=> {
     jsonTransfer = new JSONTransfer(new NoNativeTransfer(rawNoNativeTransfer, rawMATICData));
+    console.log(jsonTransfer.value());
     expect(jsonTransfer.value()).toEqual(2);
   });
 
