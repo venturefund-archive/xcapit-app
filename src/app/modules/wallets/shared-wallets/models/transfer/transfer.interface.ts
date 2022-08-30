@@ -3,6 +3,7 @@ import { RawTransfer } from '../../types/raw-transfer.type';
 
 export interface Transfer {
   fee: () => number;
+  type: () => 'IN' | 'OUT';
   token: () => RawToken;
   raw: () => RawTransfer;
 }
