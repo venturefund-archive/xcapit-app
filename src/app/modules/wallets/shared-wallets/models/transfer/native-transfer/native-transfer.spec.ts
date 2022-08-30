@@ -6,7 +6,7 @@ import { rawTransfer } from '../../../fixtures/covalent-transfers.fixture';
 fdescribe('NativeTransfer', () => {
   let nativeTransfer: Transfer;
   const aTestAddress = '0x1111111254fb6c44bac0bed2854e76f90643097d';
-
+  const receivedIcon = 'assets/img/wallet-transactions/received.svg';
   beforeEach(() => {
     nativeTransfer = new NativeTransfer(rawTransfer, rawMATICData, aTestAddress);
   });
@@ -29,5 +29,9 @@ fdescribe('NativeTransfer', () => {
 
   it('type', () => {
     expect(nativeTransfer.type()).toEqual('IN');
+  });
+
+  it('icon', () => {
+    expect(nativeTransfer.icon()).toEqual(receivedIcon);
   });
 });
