@@ -16,6 +16,5 @@ export type RawTransfer = {
     fees_paid: string;
     gas_quote: number;
     gas_quote_rate: number;
-    delta?: number;
     transfers?: any;
 };

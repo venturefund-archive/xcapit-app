@@ -41,7 +41,7 @@ export class NoNativeTransfer implements Transfer {
   }
 
   public amount(): number {
-    return 
+    return new AmountOf(this.raw().delta, this._nativeToken() ).value()
   }
 
   private _nativeToken(): Token {
