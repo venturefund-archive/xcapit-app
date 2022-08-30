@@ -29,7 +29,7 @@ import { TranslateService } from '@ngx-translate/core';
       </div>
       <form class="wp__form" [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
         <div class="wp__form__input">
-          <app-ux-input [label]="this.inputLabel" type="password" controlName="password"></app-ux-input>
+          <app-ux-input [label]="this.inputLabel" type="password" [textClass]="'primary'" controlName="password"></app-ux-input>
         </div>
         <div class="wp__form__disclaimer">
           <ion-text class="ux-font-text-xsg">

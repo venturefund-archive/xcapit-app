@@ -47,6 +47,7 @@ import { ToastService } from '../../services/toast/toast.service';
         ></ion-icon>
         <button
           [hidden]="!this.passwordType"
+          [ngClass]="this.textClass" 
           item-end
           type="button"
           class="ux_input_container__item__eye_icon"
@@ -113,6 +114,7 @@ export class UxInputComponent implements OnInit {
   @Input() leftIcon = '';
   @Input() showNewPasswordErrors = false;
   @Input() pasteType = false;
+  @Input() textClass: string;
   @Input() infoIcon = false;
   @Output() infoIconClicked: EventEmitter<void> = new EventEmitter<void>();
 
