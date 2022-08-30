@@ -1,3 +1,4 @@
+import { Token } from '@angular/compiler';
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
@@ -25,7 +26,7 @@ export class NoNativeTransfer implements Transfer {
   return result;
   }
 
-  private _nativeToken() {
+  private _nativeToken(): Token {
     return new Blockchains(new BlockchainRepo(environment.BLOCKCHAIN_DATA))
       .oneByName(this._aToken.network)
       .nativeToken();
