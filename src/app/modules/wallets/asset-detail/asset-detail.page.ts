@@ -121,8 +121,8 @@ export class AssetDetailPage implements OnInit {
   coins: Coin[];
   walletAddress: string = null;
   balance: AssetBalance;
-  transfers: CovalentTransfer[] = [];
-  transfers2: Transfer[] = [];
+  transfers2: CovalentTransfer[] = [];
+  transfers: Transfer[] = [];
   usdPrice: { prices: any };
   networkColors = NETWORK_COLORS;
   enabledToBuy: boolean;
@@ -270,12 +270,13 @@ export class AssetDetailPage implements OnInit {
    async getTransfers2() {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
     const address = wallet.addresses[this.currency.network];
-    this.transfers2 = await new Transfers(
+    this.transfers = await new Transfers(
       this.currency as RawToken,
       address,
       new DefaultCovalentRepo(this.http, this.env)
     )
       .all()
+    
   } 
 
   private getCoinForPrice(symbol: string): string {
