@@ -5,6 +5,7 @@ export interface Transfer {
   fee: () => number;
   type: () => 'IN' | 'OUT';
   icon: () => string;
+  amount: () => number;
   token: () => RawToken;
   raw: () => RawTransfer;
 }
