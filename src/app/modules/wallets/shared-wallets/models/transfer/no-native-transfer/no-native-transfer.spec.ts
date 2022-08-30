@@ -5,7 +5,7 @@ import { rawNoNativeTransfer } from '../../../fixtures/covalent-no-native-transf
 
 fdescribe('NoNativeTransfer', () => {
   let noNativeTransfer: Transfer;
-  const aTestAddress = '0x1111111254fb6c44bac0bed2854e76f90643097d';
+  const aTestAddress = '0x72fdeb93a64a0eb2b789a9ed87e65bff967928c3';
   const receivedIcon = 'assets/img/wallet-transactions/received.svg';
 
   beforeEach(() => {
