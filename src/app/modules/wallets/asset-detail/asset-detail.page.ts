@@ -105,7 +105,7 @@ import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
           </div>
           <div class="wad__transaction__wallet-transaction-card">
             <app-wallet-transaction-card
-              [transactions]="this.transfers2"
+              [transfers]="this.transfers2"
               [network]="this.currency.network"
             ></app-wallet-transaction-card>
           </div>
