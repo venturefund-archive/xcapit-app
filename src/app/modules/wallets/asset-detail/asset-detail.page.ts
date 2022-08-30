@@ -255,7 +255,7 @@ export class AssetDetailPage implements OnInit {
     this.buttonName = `ux_go_to_invest_${this.currency.value.toLowerCase()}`;
   }
 
-  /*   private getTransfers() {
+   private getTransfers() {
     this.storageService
       .getWalletsAddresses()
       .then((addresses: any) =>
@@ -263,9 +263,9 @@ export class AssetDetailPage implements OnInit {
           .getTransfers(addresses[this.currency.network], this.currency)
           .subscribe((res: CovalentTransfersResponse) => (this.transfers = res.value()))
       );
-  } */
+  } 
 
-  async getTransfers() {
+  async getTransfers2() {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
     const address = wallet.addresses[this.currency.network];
     this.transfers = await new Transfers(
