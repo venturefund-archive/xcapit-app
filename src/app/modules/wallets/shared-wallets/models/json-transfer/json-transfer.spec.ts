@@ -39,6 +39,8 @@ const expectedValueNoNative = {
   from_address_label: null,
   to_address: '0x72fdeb93a64a0eb2b789a9ed87e65bff967928c3',
   to_address_label: null,
+  type: 'IN',
+  icon: 'assets/img/wallet-transactions/received.svg',
   value: '500000000000000000',
   value_quote: 0.42984074354171753,
   gas_offered: 332741,
@@ -81,4 +83,6 @@ fdescribe('JSONTransfer', () => {
     jsonTransfer = new JSONTransfer(new NoNativeTransfer(rawNoNativeTransfer, rawMATICData, aTestAddress));
     expect(jsonTransfer.value()).toEqual(expectedValueNoNative);
   });
+
+
 });
