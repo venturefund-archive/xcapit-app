@@ -121,7 +121,7 @@ export class AssetDetailPage implements OnInit {
   coins: Coin[];
   walletAddress: string = null;
   balance: AssetBalance;
-  transfers: JSONTransfer[] = [];
+  transfers: CovalentTransfer[] = [];
   usdPrice: { prices: any };
   networkColors = NETWORK_COLORS;
   enabledToBuy: boolean;
