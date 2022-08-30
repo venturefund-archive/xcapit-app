@@ -273,7 +273,6 @@ export class AssetDetailPage implements OnInit {
       address,
       new DefaultCovalentRepo(this.http, this.env)
     ).all();
-    console.log(asdf.map(transfer => new JSONTransfer(transfer).value()));
   }
 
   private getCoinForPrice(symbol: string): string {
