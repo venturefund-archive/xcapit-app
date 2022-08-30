@@ -56,6 +56,7 @@ export const SUCCESS_TYPES = {
     textPrimary: 'users.register.success_title',
     textSecondary: 'users.register.success_text',
     urlPrimaryAction: '/users/login',
+    image: 'assets/img/users/success-register/success-register.svg',
     namePrimaryAction: 'users.register.accept_button',
     nameSecondaryAction: 'users.register.resend_email_button',
   },
