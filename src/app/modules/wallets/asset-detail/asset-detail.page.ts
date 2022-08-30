@@ -29,7 +29,6 @@ import { DefaultCovalentRepo } from '../shared-wallets/models/covalent-repo/defa
 import { EnvService } from '../../../shared/services/env/env.service';
 import { HttpClient } from '@angular/common/http';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
-import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transfer';
 import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
 @Component({
   selector: 'app-asset-detail',
