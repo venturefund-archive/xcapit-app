@@ -1,6 +1,5 @@
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { Transfer } from '../transfer.interface';
-import { rawTransfer } from '../../../fixtures/covalent-transfers.fixture';
 import { NoNativeTransfer } from './no-native-transfer';
 import { rawNoNativeTransfer } from '../../../fixtures/covalent-no-native-transfers.fixture';
 
@@ -8,7 +7,7 @@ fdescribe('NoNativeTransfer', () => {
   let noNativeTransfer: Transfer;
 
   beforeEach(() => {
-    noNativeTransfer = new NoNativeTransfer(rawTransfer, rawMATICData);
+    noNativeTransfer = new NoNativeTransfer(rawNoNativeTransfer, rawMATICData);
   });
 
   it('new', () => {
