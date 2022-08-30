@@ -37,6 +37,6 @@ fdescribe('NativeTransfer', () => {
   });
 
   it('amount', () => {
-    expect(nativeTransfer.amount()).toEqual(2);
+    expect(nativeTransfer.amount()).toEqual(0.5);
   });
 });
