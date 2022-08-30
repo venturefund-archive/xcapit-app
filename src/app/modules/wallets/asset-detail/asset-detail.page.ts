@@ -265,7 +265,7 @@ export class AssetDetailPage implements OnInit {
       );
   } 
 
-  async getTransfers2() {
+/*   async getTransfers2() {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
     const address = wallet.addresses[this.currency.network];
     this.transfers = await new Transfers(
@@ -275,7 +275,7 @@ export class AssetDetailPage implements OnInit {
     )
       .all()
       .then((transfers) => transfers.map((transfer) => new JSONTransfer(transfer)));
-  }
+  } */
 
   private getCoinForPrice(symbol: string): string {
     return symbol === 'RBTC' ? 'BTC' : symbol;
