@@ -1,10 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
-import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { CovalentTransfer } from '../../models/covalent-transfer/covalent-transfer';
-import { ScanUrlOf } from '../../models/scan-url-of/scan-url-of';
 import { TransactionDetailsService } from '../../services/transaction-details/transaction-details.service';
 import { JSONTransfer } from '../../models/json-transfer/json-transfer';
 import { Transfer } from '../../models/transfer/transfer.interface';
@@ -39,8 +35,14 @@ import { Transfer } from '../../models/transfer/transfer.interface';
                 {{ this.tplTransfer.amount | formattedAmount }} {{ this.tplTransfer.contract_ticker_symbol }}
               </ion-label>
               <div class="ux-font-num-subtitulo wtci__content__top__column__badge">
-                <ion-badge  [ngClass]="{'confirmed': this.tplTransfer.successful, 'declined': !this.tplTransfer.successful}">
-                  {{ (this.tplTransfer.successful ? 'wallets.transactions.confirmed' : 'wallets.transactions.declined' ) | translate }}</ion-badge>
+                <ion-badge
+                  [ngClass]="{ confirmed: this.tplTransfer.successful, declined: !this.tplTransfer.successful }"
+                >
+                  {{
+                    (this.tplTransfer.successful ? 'wallets.transactions.confirmed' : 'wallets.transactions.declined')
+                      | translate
+                  }}</ion-badge
+                >
               </div>
             </div>
           </div>
@@ -52,19 +54,17 @@ import { Transfer } from '../../models/transfer/transfer.interface';
   styleUrls: ['./wallet-transaction-card-item.component.scss'],
 })
 export class WalletTransactionCardItemComponent implements OnInit {
-  @Input() transaction: Transfer;
+  @Input() transfer: Transfer;
   @Input() last: boolean;
   @Input() network: string;
   formattedDate: string;
   tplTransfer: any;
 
-  constructor(
-    private navController: NavController,
-    private transactionDetailsService: TransactionDetailsService,) {}
+  constructor(private navController: NavController, private transactionDetailsService: TransactionDetailsService) {}
 
   ngOnInit() {
     this.formattedDate = this.formatDate(this.tplTransfer.block_signed_at);
-    this.tplTransfer = new JSONTransfer(this.transaction).value()
+    this.tplTransfer = new JSONTransfer(this.transfer).value();
   }
 
   openTransactionUrl() {
@@ -77,7 +77,6 @@ export class WalletTransactionCardItemComponent implements OnInit {
   }
 
   private saveTransactionDetails() {
-    this.transactionDetailsService.transactionData = this.transaction
+    this.transactionDetailsService.transactionData = this.transfer;
   }
-
 }
