@@ -50,7 +50,8 @@ export class WalletService {
   }
 
   private createWalletUsingSolana(): Keypair {
-    return Keypair.fromSeed(this.walletMnemonicService.getSeed().slice(0, 32));
+    return;
+    // return Keypair.fromSeed(this.walletMnemonicService.getSeed().slice(0, 32));
   }
 
   private wordList() {

@@ -1,14 +1,17 @@
 import { Blockchain } from "../blockchain/blockchain";
-import { Wallet, DefaultWallet } from "../wallet/wallet";
-import { WalletRepo } from "../wallet-repo/wallet-repo";
-
-
+import { Wallet, DefaultWallet, SolanaWallet } from "../wallet/wallet";
+import { DataRepo } from "../wallet-repo/data-repo.interface";
 export class Wallets {
-
-  constructor(private _dataRepo: WalletRepo) { }
+  constructor(private _dataRepo: DataRepo) { }
 
   async oneBy(aBlockchain: Blockchain): Promise<Wallet> {
-    return new DefaultWallet(await this._rawWalletData(aBlockchain), aBlockchain);
+    const rawData = await this._rawWalletData(aBlockchain);
+
+    if(aBlockchain.name() === 'SOLANA') {
+      return new SolanaWallet(rawData, aBlockchain);
+    }
+    
+    return new DefaultWallet(rawData, aBlockchain);
   }
 
   private async _rawWalletData(aBlockchain: Blockchain): Promise<any> {

@@ -35,6 +35,7 @@ import { GraphqlService } from '../shared-wallets/services/graphql/graphql.servi
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
 import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { Vault } from '@2pi-network/sdk';
+import { SolanaBalancesController } from '../shared-wallets/models/balances/solana-balances/solana-balances.controller';
 
 const dataTest = {
   data: {
@@ -65,6 +66,7 @@ describe('HomeWalletPage', () => {
   let totalBalanceControllerSpy: jasmine.SpyObj<TotalBalanceController>;
   let tokenPricesControllerSpy: jasmine.SpyObj<TokenPricesController>;
   let covalentBalancesControllerSpy: jasmine.SpyObj<CovalentBalancesController>;
+  let solanaBalancesControllerSpy: jasmine.SpyObj<SolanaBalancesController>;
   let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
@@ -81,6 +83,7 @@ describe('HomeWalletPage', () => {
     totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
     tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
     covalentBalancesControllerSpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+    solanaBalancesControllerSpy = jasmine.createSpyObj('SolanaBalancesController', { new: new FakeBalances() });
     localStorageServiceSpy = jasmine.createSpyObj(
       'LocalStorageService',
       {

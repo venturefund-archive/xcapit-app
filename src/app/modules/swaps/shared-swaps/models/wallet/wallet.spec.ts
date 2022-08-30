@@ -92,3 +92,5 @@ describe('DefaultWallet', () => {
     });
   });
 });
+
+describe('SolanaWallet', () => {});

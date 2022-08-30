@@ -1,6 +1,8 @@
+import { Keypair } from "@solana/web3.js";
+import { ethers } from "ethers";
 import { FakeAppStorage } from "src/app/shared/services/app-storage/app-storage.service";
 import { rawStoredWalletData } from "../fixtures/raw-stored-wallet-data";
-import { WalletRepo } from "./wallet-repo";
+import { NewWalletRepo, WalletRepo } from "./wallet-repo";
 
 
 describe('Wallet Repo', () => {
@@ -21,5 +23,43 @@ describe('Wallet Repo', () => {
 
   it('encrypted value access', async () => {
     expect(await repo.encryptedRootWallet()).toEqual(rawStoredWalletData.enc_wallet.wallet);
+  });
+});
+
+const testWalletSolana: Keypair = { secretKey: 'testPrivate', publicKey: 'testPublicSolana' } as unknown as Keypair;
+const testWalletEthers: ethers.Wallet = { address: 'testAddress', encrypt: (password) => Promise.resolve('testEncrypted') } as ethers.Wallet;
+describe('New Wallet Repo', () => {
+
+  let newRepo: NewWalletRepo;
+  let ethersFromMnemonic: jasmine.Spy;
+  let utilsSpy: jasmine.SpyObj<any>;
+  let keypairFromSeed: jasmine.Spy;
+
+  beforeEach(() => {
+    ethersFromMnemonic = spyOn(ethers.Wallet, 'fromMnemonic').and.returnValue(testWalletEthers);
+    utilsSpy = jasmine.createSpyObj('utils', {
+      mnemonicToSeed: '0x00323467',
+      arrayify: Uint8Array.from([0, 50, 52, 103])
+    });
+    keypairFromSeed = spyOn(Keypair, 'fromSeed').and.returnValue(testWalletSolana);
+    newRepo = new NewWalletRepo('test','test');
+    newRepo.utils = utilsSpy;
+  });
+
+  it('new', () => {
+    expect(new NewWalletRepo('test','test')).toBeTruthy();
+  });
+
+  it('get by blockchain name ethers', async () => {
+    expect(await newRepo.addressByName('MATIC')).toEqual('testaddress');
+  });
+
+  
+  it('get by blockchain name solana', async () => {
+    expect(await newRepo.addressByName('SOLANA')).toEqual('testPublicSolana');
+  });
+
+  it('encrypted value access', async () => {
+    expect(await newRepo.encryptedRootWallet()).toEqual('testEncrypted');
   });
 });

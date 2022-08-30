@@ -361,4 +361,20 @@ export const NONPROD_COINS: Coin[] = [
     abi: linkAbi,
     symbol: 'BTCUSDT',
   },
+
+  {
+    id: 29,
+    name: 'SOL - Solana',
+    logoRoute: 'assets/img/coins/SOL.png',
+    last: true,
+    value: 'SOL',
+    network: 'SOLANA',
+    contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    chainId: 666,
+    rpc: environment.maticApiUrl,
+    decimals: 8,
+    native: true,
+    abi: '',
+    symbol: 'SOL',
+  },
 ];
