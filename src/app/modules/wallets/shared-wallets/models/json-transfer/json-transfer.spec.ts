@@ -31,3 +31,4 @@ fdescribe('JSONTransfer', () => {
     expect(value.type).toEqual('IN');
     expect(value.icon).toEqual('assets/img/wallet-transactions/received.svg');
   });
+});
