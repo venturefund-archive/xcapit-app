@@ -72,12 +72,4 @@ describe('WalletMnemonicService', () => {
     service.mnemonic = undefined;
     expect(service.getMnemonic).toThrowError(TypeError, "Cannot read properties of undefined (reading 'mnemonic')");
   });
-
-  it('should return seed on getSeed', () => {
-    service.mnemonic = testMnemonic.constant;
-    const seed = service.getSeed();
-    expect(seed).toBeInstanceOf(Uint8Array);
-    expect(utilsSpy.mnemonicToSeed).toHaveBeenCalledOnceWith(testMnemonic.constant.phrase);
-    expect(utilsSpy.arrayify).toHaveBeenCalledOnceWith('0x00323467');
-  })
 });

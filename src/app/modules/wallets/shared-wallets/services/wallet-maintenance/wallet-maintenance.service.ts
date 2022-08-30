@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Wallet } from 'ethers';
+import { ethers, Wallet } from 'ethers';
 import moment from 'moment';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { environment } from 'variables.env';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
@@ -8,7 +9,6 @@ import { EthersService } from '../ethers/ethers.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
-import { WalletService } from '../wallet/wallet.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,10 +29,10 @@ export class WalletMaintenanceService {
   constructor(
     private walletMnemonicService: WalletMnemonicService,
     private apiWalletService: ApiWalletService,
-    private walletService: WalletService,
     private walletEncryptionService: WalletEncryptionService,
     private storageService: StorageService,
-    private ethersService: EthersService
+    private ethersService: EthersService,
+    private walletsFactory: WalletsFactory
   ) {}
 
   async getEncryptedWalletFromStorage(): Promise<void> {
@@ -56,9 +56,11 @@ export class WalletMaintenanceService {
     this.walletMnemonicService.getMnemonic(this.wallet);
 
     this.newNetworks.forEach((network) => {
-      const wallet: any = this.walletService.createForDerivedPath(
-        environment.derivedPaths[network]
-      );
+      //TODO: Fix this
+      const wallet: any = ethers.Wallet.createRandom();
+      // this.walletsFactory.createNew(
+      //   environment.derivedPaths[network]
+      // );
       
       this.encryptedWallet.addresses[network] = wallet.address ? wallet.address : wallet.publicKey;
 

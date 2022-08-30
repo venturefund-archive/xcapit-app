@@ -69,7 +69,7 @@ export class RecoveryPhrasePage implements OnInit {
   }
 
   goToVerifyPhrase() {
-    this.walletMnemonicService.mnemonic = this.mnemonic;
+    this.walletMnemonicService.mnemonic =  this.mnemonic;
     this.navController.navigateForward(['/wallets/create-first/verify-phrase']);
   }
 }

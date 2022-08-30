@@ -1,7 +1,8 @@
 import { SimpleSubject, Subscribable } from '../simple-subject/simple-subject';
-import { Wallet as EthersWallet, providers } from 'ethers';
+import { Wallet as EthersWallet, providers, ethers } from 'ethers';
 import { BlockchainTx } from '../blockchain-tx';
 import { Blockchain } from '../blockchain/blockchain';
+import { Keypair } from '@solana/web3.js'
 
 export interface Wallet {
   address: () => string;
@@ -22,7 +23,7 @@ export class DefaultWallet implements Wallet {
   ) {}
 
   address(): string {
-    return this._rawData['address'];
+    return this._rawData['address'].toLowerCase();
   }
 
   onDecryptedWallet(): Subscribable {
@@ -41,14 +42,14 @@ export class DefaultWallet implements Wallet {
     return true;
   }
 
-  private _encryptedWallet(): string {
+  encryptedWallet(): string {
     return this._rawData['encryptedWallet'];
   }
 
   private async _decryptedWallet(): Promise<EthersWallet> {
     const password = await this._onNeedPass.notify();
     return this._ethersWallet
-      .fromEncryptedJson(this._encryptedWallet(), password)
+      .fromEncryptedJson(this.encryptedWallet(), password)
       .then((decryptedWallet: EthersWallet) => {
         this._onWalletDecrypted.notify();
         return decryptedWallet;
@@ -97,4 +98,62 @@ export class FakeWallet implements Wallet {
       throw new Error(this.msgError);
     }
   }
+}
+
+export class SolanaWallet implements Wallet { 
+  private _onNeedPass: SimpleSubject = new SimpleSubject();
+  private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
+
+  constructor(
+    private _rawData: any,
+    private _aBlockchain: Blockchain,
+    private _solanaWallet: any = Keypair,
+    // private _ethersProviders: any = providers
+  ) {}
+  
+  sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
+
+  address(): string {
+    return this._rawData['address'];
+  }
+
+  onDecryptedWallet(): Subscribable {
+    return this._onWalletDecrypted;
+  }
+
+  onNeedPass(): Subscribable {
+    return this._onNeedPass;
+  }
+
+  // async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
+  //   const connectedWallet = this._connectedWallet(this._derivedWallet(await this._decryptedWallet()));
+  //   for (const tx of transactions) {
+  //     await (await connectedWallet.sendTransaction(await tx.value())).wait();
+  //   }
+  //   return true;
+  // }
+
+  private _encryptedWallet(): string {
+    return this._rawData['encryptedWallet'];
+  }
+
+  private async _decryptedWallet(): Promise<EthersWallet> {
+    const password = await this._onNeedPass.notify();
+    return this._solanaWallet
+      .fromEncryptedJson(this._encryptedWallet(), password)
+      .then((decryptedWallet: EthersWallet) => {
+        this._onWalletDecrypted.notify();
+        return decryptedWallet;
+      });
+  }
+
+  private _derivedWallet(aEthersWallet: EthersWallet): SolanaWallet {
+    const seed = ethers.utils.mnemonicToSeed(aEthersWallet.mnemonic.phrase);
+    const arraySeed = ethers.utils.arrayify(seed);
+    return this._solanaWallet.fromSeed(arraySeed.slice(0, 32));
+  }
+
+  // private _connectedWallet(aEthersWallet: EthersWallet): EthersWallet {
+  //   return aEthersWallet.connect(new this._ethersProviders.JsonRpcProvider(this._aBlockchain.rpc()));
+  // }
 }

@@ -54,7 +54,7 @@ const testLocalNotificationNotOk: LocalNotificationSchema = {
   actionTypeId: 'SWAP',
 };
 
-describe('SwapHomePage', () => {
+fdescribe('SwapHomePage', () => {
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
@@ -100,7 +100,7 @@ describe('SwapHomePage', () => {
   };
 
   const _setWalletToInvalidPassword = () => {
-    walletsFactorySpy.create.and.returnValue({
+    walletsFactorySpy.createFromStorage.and.returnValue({
       oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), new PasswordErrorMsgs().invalid())),
     });
   };
@@ -135,7 +135,7 @@ describe('SwapHomePage', () => {
     });
 
     walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
-      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+      createFromStorage: { oneBy: () => Promise.resolve(new FakeWallet()) },
     });
 
     swapTransactionsFactorySpy = jasmine.createSpyObj('SwapTransactionsFactory', {
@@ -337,7 +337,7 @@ describe('SwapHomePage', () => {
 
   it('should send error notification when swap is not ok', fakeAsync(() => {
     fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
-    walletsFactorySpy.create.and.returnValue({
+    walletsFactorySpy.createFromStorage.and.returnValue({
       oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'a random error')),
     });
     _setTokenAmountArrange(1);
