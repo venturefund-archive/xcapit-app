@@ -2,6 +2,7 @@ import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures
 import { Transfer } from '../transfer.interface';
 import { rawTransfer } from '../../../fixtures/covalent-transfers.fixture';
 import { NoNativeTransfer } from './no-native-transfer';
+import { rawNoNativeTransfer } from '../../../fixtures/covalent-no-native-transfers.fixture';
 
 fdescribe('NoNativeTransfer', () => {
   let noNativeTransfer: Transfer;
@@ -22,6 +23,6 @@ fdescribe('NoNativeTransfer', () => {
   });
 
   it('raw', () => {
-    expect(noNativeTransfer.raw()).toEqual(rawTransfer);
+    expect(noNativeTransfer.raw()).toEqual(rawNoNativeTransfer);
   });
 });
