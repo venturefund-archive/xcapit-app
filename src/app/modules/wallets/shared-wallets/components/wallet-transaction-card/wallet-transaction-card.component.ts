@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Transfer } from '../../models/transfer/transfer.interface';
-import { JSONTransfer } from '../../models/json-transfer/json-transfer';
 
 @Component({
   selector: 'app-wallet-transaction-card',
@@ -8,8 +6,8 @@ import { JSONTransfer } from '../../models/json-transfer/json-transfer';
     <div class="wtc">
       <ion-list class="wtc__list ">
         <app-wallet-transaction-card-item
-          *ngFor="let transfer of this.transfers; let last = last"
-          [transfer]="transfer"
+          *ngFor="let transaction of this.transactions; let last = last"
+          [transaction]="transaction"
           [network]="this.network"
           [last]="last"
         ></app-wallet-transaction-card-item>
@@ -19,7 +17,7 @@ import { JSONTransfer } from '../../models/json-transfer/json-transfer';
   styleUrls: ['./wallet-transaction-card.component.scss'],
 })
 export class WalletTransactionCardComponent implements OnInit {
-  @Input() transfers: JSONTransfer[];
+  @Input() transactions: any[];
   @Input() network: string;
 
   constructor() {}
