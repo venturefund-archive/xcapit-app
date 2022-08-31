@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TransactionDetailsService } from '../shared-wallets/services/transaction-details/transaction-details.service';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 fdescribe('TransactionDetailsPage', () => {
   let component: TransactionDetailsPage;
@@ -37,6 +38,7 @@ fdescribe('TransactionDetailsPage', () => {
         { provide: BrowserService, useValue: browserServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransactionDetailsPage);
