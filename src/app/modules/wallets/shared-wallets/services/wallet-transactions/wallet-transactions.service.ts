@@ -250,22 +250,8 @@ export class WalletTransactionsService {
       : `${environment.covalentApiUrl}${asset.chainId}/address/${address}/transfers_v2/?contract-address=${asset.contract}&limit=10&quote-currency=${quoteCurrency}`;
   }
 
-//   CovalentDataRepo{
-//     constructor(http) {
-//     }
-//     getTransfer(token)
-//     url()
-// }
-//
-//   TransfersOf {
-//     constructor(private readonly _aToken, dataRepo)
-//     value()
-//   }
-//
-//    JSONTransferOf(aTransfer).value()
 
-
-  getTransfers(
+/*   getTransfers(
     address: string,
     asset: Coin,
     quoteCurrency: CovalentQuoteCurrency = 'USD'
@@ -273,7 +259,7 @@ export class WalletTransactionsService {
     return this.http
       .get(this.getUrl(asset, address, quoteCurrency), { headers: this.authHeaders })
       .pipe(map((res) => new CovalentTransfersResponse(res, asset)));
-  }
+  } */
 
   async canAffordSendTx(to: string, amount: number, coin: Coin): Promise<boolean> {
     const from = await this.storageService.getWalletsAddresses(coin.network);
