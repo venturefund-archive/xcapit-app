@@ -220,77 +220,77 @@ fdescribe('AssetDetailPage', () => {
     expect(component.enabledToBuy).toBeTrue();
   });
 
-  it('should disable purchase when token is not enabled to buy among all providers', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ currency: 'AVAX' });
-    await component.ionViewWillEnter();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    expect(component.enabledToBuy).toBeFalse();
-  });
+  // it('should disable purchase when token is not enabled to buy among all providers', async () => {
+  //   fakeActivatedRoute.modifySnapshotParams({ currency: 'AVAX' });
+  //   await component.ionViewWillEnter();
+  //   await fixture.whenStable();
+  //   fixture.detectChanges();
+  //   expect(component.enabledToBuy).toBeFalse();
+  // });
 
-  // TODO: ver tests
-  // it('should get transfers on view will enter', async () => {
+  // // TODO: ver tests
+  // // it('should get transfers on view will enter', async () => {
+  // //   await component.ionViewWillEnter();
+  // //   await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+  // //   fixture.detectChanges();
+  // //   expect(component.transfers[0].symbol).toBe('ETH');
+  // //   expect(component.transfers[0].type).toBe('OUT');
+  // //   expect(component.transfers[0].amount).toBe(0.01);
+  // //   expect(component.transfers[1].symbol).toBe('ETH');
+  // //   expect(component.transfers[1].type).toBe('IN');
+  // //   expect(component.transfers[1].amount).toBe(0.01);
+  // //   const transfersEl = fixture.debugElement.query(By.css('app-wallet-transaction-card'));
+  // //   expect(transfersEl).not.toBe(null);
+  // // });
+
+  // it('should get prices and balances on view will enter', async () => {
   //   await component.ionViewWillEnter();
   //   await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
   //   fixture.detectChanges();
-  //   expect(component.transfers[0].symbol).toBe('ETH');
-  //   expect(component.transfers[0].type).toBe('OUT');
-  //   expect(component.transfers[0].amount).toBe(0.01);
-  //   expect(component.transfers[1].symbol).toBe('ETH');
-  //   expect(component.transfers[1].type).toBe('IN');
-  //   expect(component.transfers[1].amount).toBe(0.01);
-  //   const transfersEl = fixture.debugElement.query(By.css('app-wallet-transaction-card'));
-  //   expect(transfersEl).not.toBe(null);
+  //   const [amountEl, quoteAmountEl] = fixture.debugElement.queryAll(By.css('.wad__available__amounts ion-text'));
+  //   expect(amountEl.nativeElement.innerHTML).toContain(20);
+  //   expect(amountEl.nativeElement.innerHTML).toContain('ETH');
+  //   expect(quoteAmountEl.nativeElement.innerHTML).toContain('USD');
+  //   expect(quoteAmountEl.nativeElement.innerHTML).toContain('60000 USD');
   // });
 
-  it('should get prices and balances on view will enter', async () => {
-    await component.ionViewWillEnter();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    fixture.detectChanges();
-    const [amountEl, quoteAmountEl] = fixture.debugElement.queryAll(By.css('.wad__available__amounts ion-text'));
-    expect(amountEl.nativeElement.innerHTML).toContain(20);
-    expect(amountEl.nativeElement.innerHTML).toContain('ETH');
-    expect(quoteAmountEl.nativeElement.innerHTML).toContain('USD');
-    expect(quoteAmountEl.nativeElement.innerHTML).toContain('60000 USD');
-  });
+  // it('should get prices and balances on view will enter without prices', async () => {
+  //   apiWalletServiceSpy.getPrices.and.returnValues(of({ prices: {} }));
+  //   await component.ionViewWillEnter();
+  //   await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+  //   fixture.detectChanges();
+  //   const [amountEl, quoteAmountEl] = fixture.debugElement.queryAll(By.css('.wad__available__amounts ion-text'));
+  //   expect(amountEl.nativeElement.innerHTML).toContain(20);
+  //   expect(amountEl.nativeElement.innerHTML).toContain('ETH');
+  //   expect(quoteAmountEl).toBe(undefined);
+  // });
 
-  it('should get prices and balances on view will enter without prices', async () => {
-    apiWalletServiceSpy.getPrices.and.returnValues(of({ prices: {} }));
-    await component.ionViewWillEnter();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    fixture.detectChanges();
-    const [amountEl, quoteAmountEl] = fixture.debugElement.queryAll(By.css('.wad__available__amounts ion-text'));
-    expect(amountEl.nativeElement.innerHTML).toContain(20);
-    expect(amountEl.nativeElement.innerHTML).toContain('ETH');
-    expect(quoteAmountEl).toBe(undefined);
-  });
+  // it('should find to product to invest on view will enter', async () => {
+  //   fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
+  //   await component.ionViewWillEnter();
+  //   expect(component.productToInvest.token().value).toEqual('USDC');
+  // });
 
-  it('should find to product to invest on view will enter', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
-    await component.ionViewWillEnter();
-    expect(component.productToInvest.token().value).toEqual('USDC');
-  });
+  // it('should navigate to investment detail page when ux_go_to_invest_asset_detail button is clicked and product balance is greater than 0', async () => {
+  //   fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
+  //   await component.ionViewWillEnter();
+  //   fixture.detectChanges();
+  //   const buttonEl = fixture.debugElement.query(By.css('.wad__title_and_image ion-button'));
+  //   buttonEl.nativeElement.click();
+  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/investment-detail/', 'polygon_usdc']);
+  // });
 
-  it('should navigate to investment detail page when ux_go_to_invest_asset_detail button is clicked and product balance is greater than 0', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
-    await component.ionViewWillEnter();
-    fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('.wad__title_and_image ion-button'));
-    buttonEl.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/investment-detail/', 'polygon_usdc']);
-  });
-
-  it('should navigate to insert amount page when ux_go_to_invest_asset_detail button is clicked and product balance isnt greater than 0', async () => {
-    twoPiInvestmentFactorySpy.new.and.returnValue({ balance: () => Promise.resolve(0) } as TwoPiInvestment);
-    fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
-    await component.ionViewWillEnter();
-    fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('.wad__title_and_image ion-button'));
-    buttonEl.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      '/defi/new/insert-amount',
-      'polygon_usdc',
-      'invest',
-    ]);
-  });
+  // it('should navigate to insert amount page when ux_go_to_invest_asset_detail button is clicked and product balance isnt greater than 0', async () => {
+  //   twoPiInvestmentFactorySpy.new.and.returnValue({ balance: () => Promise.resolve(0) } as TwoPiInvestment);
+  //   fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
+  //   await component.ionViewWillEnter();
+  //   fixture.detectChanges();
+  //   const buttonEl = fixture.debugElement.query(By.css('.wad__title_and_image ion-button'));
+  //   buttonEl.nativeElement.click();
+  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
+  //     '/defi/new/insert-amount',
+  //     'polygon_usdc',
+  //     'invest',
+  //   ]);
+  // });
 });
