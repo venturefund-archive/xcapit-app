@@ -1,15 +1,18 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TransactionDetailsPage } from './transaction-details.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { TransactionDetailsService } from '../shared-wallets/services/transaction-details/transaction-details.service';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 fdescribe('TransactionDetailsPage', () => {
   let component: TransactionDetailsPage;
   let fixture: ComponentFixture<TransactionDetailsPage>;
   let transactionDetailsServiceSpy: jasmine.SpyObj<TransactionDetailsService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
 
   beforeEach(waitForAsync(() => {
     transactionDetailsServiceSpy = jasmine.createSpyObj(
@@ -23,6 +26,8 @@ fdescribe('TransactionDetailsPage', () => {
     browserServiceSpy = jasmine.createSpyObj('BrowserService', {
       open: Promise.resolve(),
     });
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
 
     TestBed.configureTestingModule({
       declarations: [TransactionDetailsPage],
@@ -30,6 +35,7 @@ fdescribe('TransactionDetailsPage', () => {
       providers: [
         { provide: TransactionDetailsService, useValue: transactionDetailsServiceSpy },
         { provide: BrowserService, useValue: browserServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
       ],
     }).compileComponents();
 
