@@ -10,6 +10,7 @@ export class JSONTransfer {
       icon: this._aTransfer.icon(),
       token: this._aTransfer.token(),
       amount: this._aTransfer.amount(),
+      quoteAmount: this._aTransfer.quoteAmount(),
       ...this._aTransfer.raw(),
     };
   }
