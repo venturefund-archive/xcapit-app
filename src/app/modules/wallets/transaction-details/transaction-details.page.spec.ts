@@ -9,6 +9,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ScanUrlOf } from '../shared-wallets/models/scan-url-of/scan-url-of';
 import { rawTransfer } from '../shared-wallets/fixtures/covalent-transfers.fixture';
+import { NativeTransfer } from '../shared-wallets/models/transfer/native-transfer/native-transfer';
+import { rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 fdescribe('TransactionDetailsPage', () => {
   let component: TransactionDetailsPage;
@@ -23,15 +25,15 @@ fdescribe('TransactionDetailsPage', () => {
       'TransactionDetailsService',
       {},
       {
-        transactionData: ,
+        transactionData: new NativeTransfer(rawTransfer, rawMATICData, ''),
       }
     );
 
     browserServiceSpy = jasmine.createSpyObj('BrowserService', {
       open: Promise.resolve(),
     });
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
 
     TestBed.configureTestingModule({
       declarations: [TransactionDetailsPage],
@@ -53,13 +55,12 @@ fdescribe('TransactionDetailsPage', () => {
     expect(component).toBeTruthy();
   });
 
-
   it('should open scan when link is clicked', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-text.scan_link')).nativeElement.click();
-    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({url: ScanUrlOf.create(component.tplTransfer.tx_hash, component.tplTransfer.token.network).value()});
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({
+      url: ScanUrlOf.create(component.tplTransfer.tx_hash, component.tplTransfer.token.network).value(),
+    });
   });
 });
-
-
