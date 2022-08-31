@@ -17,7 +17,7 @@ fdescribe('TransactionDetailsPage', () => {
     TestBed.configureTestingModule({
       declarations: [TransactionDetailsPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      providers:[]
+      providers:[{ provide: TransactionDetailsService, useValue: transactionDetailsServiceSpy }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransactionDetailsPage);
