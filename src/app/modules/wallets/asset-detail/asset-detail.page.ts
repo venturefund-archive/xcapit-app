@@ -155,7 +155,7 @@ export class AssetDetailPage implements OnInit {
     this.getCurrency();
     this.getButtonName();
     this.getBalanceStructure(this.currency);
-    this.getTransfers2();
+    this.getTransfers();
     this.getUsdPrice();
     this.getAvailableDefiProducts();
     await this.getInvestments();
@@ -255,17 +255,7 @@ export class AssetDetailPage implements OnInit {
     this.buttonName = `ux_go_to_invest_${this.currency.value.toLowerCase()}`;
   }
 
-  //  private getTransfers() {
-  //   this.storageService
-  //     .getWalletsAddresses()
-  //     .then((addresses: any) =>
-  //       this.walletTransactionsService
-  //         .getTransfers(addresses[this.currency.network], this.currency)
-  //         .subscribe((res: CovalentTransfersResponse) => (this.transfers = res.value()))
-  //     );
-  // }
-
-  async getTransfers2() {
+  async getTransfers() {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
     const address = wallet.addresses[this.currency.network];
     this.transfers = await new Transfers(
@@ -273,7 +263,6 @@ export class AssetDetailPage implements OnInit {
       address,
       new DefaultCovalentRepo(this.http, this.env)
     ).all();
-    console.log(this.transfers);
   }
 
   private getCoinForPrice(symbol: string): string {
