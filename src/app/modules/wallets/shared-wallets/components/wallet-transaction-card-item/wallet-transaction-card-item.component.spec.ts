@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { WalletTransactionCardItemComponent } from './wallet-transaction-card-item.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { NONPROD_SCAN_URLS } from '../../constants/scan-url-nonprod';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
@@ -10,30 +9,9 @@ import { NativeTransfer } from '../../models/transfer/native-transfer/native-tra
 import { rawTransfer } from '../../fixtures/covalent-transfers.fixture';
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
-const transaction = {
-  icon: 'assets/img/wallet-transactions/received.svg',
-  type: 'received',
-  asset: 'ETH',
-  from: '0x00000000000000000000000000',
-  to: '0x00000000000000000000000001',
-  value: '0.2',
-  hash: '0x000000000000000000000000000000000000000000001',
-  date: '2020-01-03T03:00:00Z',
-  blockNumber: '0x00000001',
-  erc721: false,
-  rawContract: false,
-  swap: {
-    currencyIn: '',
-    currencyOut: '',
-    amountIn: null,
-    amountOut: null,
-  },
-};
-
 fdescribe('WalletTransactionCardItemComponent', () => {
   let component: WalletTransactionCardItemComponent;
   let fixture: ComponentFixture<WalletTransactionCardItemComponent>;
-  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
 
@@ -42,13 +20,11 @@ fdescribe('WalletTransactionCardItemComponent', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
 
-      browserServiceSpy = jasmine.createSpyObj('BrowserService', {open:Promise.resolve()})
       
       TestBed.configureTestingModule({
         declarations: [WalletTransactionCardItemComponent, FormattedAmountPipe],
         imports: [IonicModule, TranslateModule.forRoot()],
-        providers: [{provide:BrowserService, useValue:browserServiceSpy},
-          { provide: NavController, useValue: navControllerSpy }]
+        providers: [{ provide: NavController, useValue: navControllerSpy }]
       }).compileComponents();
 
       fixture = TestBed.createComponent(WalletTransactionCardItemComponent);
