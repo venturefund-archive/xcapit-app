@@ -26,7 +26,7 @@ const transaction = {
   },
 };
 
-describe('WalletTransactionCardItemComponent', () => {
+fdescribe('WalletTransactionCardItemComponent', () => {
   let component: WalletTransactionCardItemComponent;
   let fixture: ComponentFixture<WalletTransactionCardItemComponent>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
