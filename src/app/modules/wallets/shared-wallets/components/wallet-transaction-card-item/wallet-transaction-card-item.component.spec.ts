@@ -44,7 +44,8 @@ fdescribe('WalletTransactionCardItemComponent', () => {
       TestBed.configureTestingModule({
         declarations: [WalletTransactionCardItemComponent, FormattedAmountPipe],
         imports: [IonicModule, TranslateModule.forRoot()],
-        providers: [{provide:BrowserService, useValue:browserServiceSpy}]
+        providers: [{provide:BrowserService, useValue:browserServiceSpy},
+          { provide: NavController, useValue: navControllerSpy }]
       }).compileComponents();
 
       fixture = TestBed.createComponent(WalletTransactionCardItemComponent);
