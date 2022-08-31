@@ -98,6 +98,9 @@ export const environment = {
       },
     },
   ],
+  ON_OFF_RAMPS_PROVIDER_ADDRESSES:[
+    'Oxdummyaddress'
+  ],
 };
 
 

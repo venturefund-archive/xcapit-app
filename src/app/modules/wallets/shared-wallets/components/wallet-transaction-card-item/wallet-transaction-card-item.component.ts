@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { format, parseISO } from 'date-fns';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { EnvService } from 'src/app/shared/services/env/env.service';
 import { ScanUrlOf } from '../../models/scan-url-of/scan-url-of';
 
 @Component({
@@ -15,7 +16,7 @@ import { ScanUrlOf } from '../../models/scan-url-of/scan-url-of';
           <div class="wtci__content__top">
             <div class="wtci__content__top__type_date_hash">
               <div class="wtci__content__top__type_date_hash__type_date">
-                <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-bold">{{
+                <ion-label class="type ux-font-lato ux-fsize-14 ux-fweight-bold">{{
                   'wallets.transactions.' + this.transaction.type | translate
                 }}</ion-label>
                 <ion-label class="ux-font-text-xxs date">
@@ -50,11 +51,18 @@ export class WalletTransactionCardItemComponent implements OnInit {
   @Input() last: boolean;
   @Input() network: string;
   formattedDate: string;
-
-  constructor(private browserService: BrowserService) {}
+  constructor(private browserService: BrowserService, private envService : EnvService) {}
 
   ngOnInit() {
     this.formattedDate = this.formatDate(this.transaction.date);
+    this.isBuyTransaction();
+  }
+
+  isBuyTransaction(){
+    if(this.transaction.type === 'IN' && this.envService.byKey('ON_OFF_RAMPS_PROVIDER_ADDRESSES').includes(this.transaction.from) ){
+      this.transaction.type = 'BUY';
+      this.transaction.icon = 'assets/img/wallet-transactions/buy.svg';
+    }
   }
 
   openTransactionUrl() {
