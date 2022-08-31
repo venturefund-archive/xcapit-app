@@ -26,7 +26,7 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
       </ion-toolbar>
     </ion-header>
     <ion-content class="td ion-padding">
-      <div class="td__card" *ngIf="this.tplTransfer.token">
+      <div class="td__card" *ngIf="this.tplTransfer?.token">
         <div class="td__card__title">
           <ion-text class="ux-font-text-xl">{{
             'wallets.transaction_details.' + this.tplTransfer.type | translate
