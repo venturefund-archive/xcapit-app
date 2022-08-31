@@ -41,4 +41,12 @@ fdescribe('TransactionDetailsPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
+  it('should open 2PI T&C when T&C link is clicked', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-label.checkbox-link > ion-text:last-child')).nativeElement.click();
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: LINKS.twoPiTermsAndConditions });
+  });
 });
