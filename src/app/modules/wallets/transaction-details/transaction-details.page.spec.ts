@@ -53,10 +53,10 @@ fdescribe('TransactionDetailsPage', () => {
   });
 
 
-  it('should open 2PI T&C when T&C link is clicked', async () => {
+  it('should open scan when link is clicked', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-label.checkbox-link > ion-text:last-child')).nativeElement.click();
-    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: ScanUrlOf.create(component.tplTransfer.tx_hash, component.tplTransfer.token.network).value() });
+    fixture.debugElement.query(By.css('ion-text.scan_link')).nativeElement.click();
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({url: ScanUrlOf.create(component.tplTransfer.tx_hash, component.tplTransfer.token.network).value()});
   });
 });
