@@ -22,6 +22,7 @@ fdescribe('JSONTransfer', () => {
     expect(value.tx_hash).toEqual('0x7d81572bd8028f7a8a1ea1205f825ce0bf5dad2c757b38af4b78ec2e49e03db9');
     expect(value.type).toEqual('IN');
     expect(value.icon).toEqual('assets/img/wallet-transactions/received.svg');
+    expect(value.quoteAmount).toEqual(0.42984074354171753);
   });
 
   it('value when no native transfer', () => {
@@ -30,5 +31,6 @@ fdescribe('JSONTransfer', () => {
     expect(value.tx_hash).toEqual('0x7d81572bd8028f7a8a1ea1205f825ce0bf5dad2c757b38af4b78ec2e49e03db9');
     expect(value.type).toEqual('IN');
     expect(value.icon).toEqual('assets/img/wallet-transactions/received.svg');
+    expect(value.quoteAmount).toEqual(0.4332683251647949);
   });
 });
