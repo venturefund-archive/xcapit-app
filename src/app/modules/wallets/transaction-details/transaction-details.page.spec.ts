@@ -12,6 +12,7 @@ import { rawTransfer } from '../shared-wallets/fixtures/covalent-transfers.fixtu
 import { NativeTransfer } from '../shared-wallets/models/transfer/native-transfer/native-transfer';
 import { rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { FormattedNetworkPipe } from '../../../shared/pipes/formatted-network-name/formatted-network.pipe';
+import { FormattedAmountPipe } from '../../../shared/pipes/formatted-amount/formatted-amount.pipe';
 
 fdescribe('TransactionDetailsPage', () => {
   let component: TransactionDetailsPage;
@@ -37,7 +38,7 @@ fdescribe('TransactionDetailsPage', () => {
     navControllerSpy = fakeNavController.createSpy();
 
     TestBed.configureTestingModule({
-      declarations: [TransactionDetailsPage, FormattedNetworkPipe],
+      declarations: [TransactionDetailsPage, FormattedNetworkPipe, FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: TransactionDetailsService, useValue: transactionDetailsServiceSpy },
