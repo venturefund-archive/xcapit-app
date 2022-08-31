@@ -7,7 +7,6 @@ import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wall
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { finalize } from 'rxjs/operators';
-import { CovalentTransfer } from '../shared-wallets/models/covalent-transfer/covalent-transfer';
 import { NETWORK_COLORS } from '../shared-wallets/constants/network-colors.constant';
 import { ProvidersFactory } from '../../fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../../fiat-ramps/shared-ramps/models/provider-tokens-of/provider-tokens-of';
@@ -23,10 +22,6 @@ import { VoidSigner } from 'ethers';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { TwoPiInvestmentFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/factory/two-pi-investment-factory';
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
-import { Transfers } from '../shared-wallets/models/transfers/transfers';
-import { DefaultCovalentRepo } from '../shared-wallets/models/covalent-repo/default/default-covalent-repo';
-import { EnvService } from '../../../shared/services/env/env.service';
-import { HttpClient } from '@angular/common/http';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
 import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
@@ -120,7 +115,6 @@ export class AssetDetailPage implements OnInit {
   coins: Coin[];
   walletAddress: string = null;
   balance: AssetBalance;
-  transfers2: CovalentTransfer[] = [];
   transfers: Transfer[] = [];
   usdPrice: { prices: any };
   networkColors = NETWORK_COLORS;
