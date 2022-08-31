@@ -7,8 +7,6 @@ import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-ht
 import { environment } from '../../../../../../environments/environment';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CovalentQuoteCurrency } from '../../types/covalent-quote-currencies.type';
-import { CovalentTransfersResponse } from '../../models/covalent-transfers-response/covalent-transfers-response';
 import { BigNumber, VoidSigner, Wallet } from 'ethers';
 import { personalSign, signTypedData_v4 } from 'eth-sig-util';
 import { TokenSend } from '../../models/token-send/token-send.model';

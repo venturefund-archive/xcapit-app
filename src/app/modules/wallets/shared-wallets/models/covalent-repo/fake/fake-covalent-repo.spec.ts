@@ -20,4 +20,5 @@ fdescribe('FakeCovalentRepo', () => {
   it('transfersOf', async () => {
     expect(await fakeCovalentRepo.transfersOf(aToken, inAddress).toPromise()).toEqual({});
   });
+  
 });
