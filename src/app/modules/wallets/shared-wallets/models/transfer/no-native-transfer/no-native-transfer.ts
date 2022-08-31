@@ -44,6 +44,10 @@ export class NoNativeTransfer implements Transfer {
     return parseInt(this.raw().delta, 10) / Math.pow(10, this.raw().contract_decimals);
   }
 
+  public quoteAmount(): number {
+    return parseFloat(this.raw().delta_quote);
+  }
+
   private _nativeToken(): Token {
     return new Blockchains(new BlockchainRepo(environment.BLOCKCHAIN_DATA))
       .oneByName(this._aToken.network)
