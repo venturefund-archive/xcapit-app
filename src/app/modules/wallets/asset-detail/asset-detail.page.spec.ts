@@ -235,21 +235,6 @@ fdescribe('AssetDetailPage', () => {
     expect(component.enabledToBuy).toBeFalse();
   });
 
-
-  it('should get transfers on view will enter', async () => {
-    await component.ionViewWillEnter();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    fixture.detectChanges();
-    expect(component.transfers[0].symbol).toBe('ETH');
-    expect(component.transfers[0].type).toBe('OUT');
-    expect(component.transfers[0].amount).toBe(0.01);
-    expect(component.transfers[1].symbol).toBe('ETH');
-    expect(component.transfers[1].type).toBe('IN');
-    expect(component.transfers[1].amount).toBe(0.01);
-    const transfersEl = fixture.debugElement.query(By.css('app-wallet-transaction-card'));
-    expect(transfersEl).not.toBe(null);
-  });
-
   it('should get prices and balances on view will enter', async () => {
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
