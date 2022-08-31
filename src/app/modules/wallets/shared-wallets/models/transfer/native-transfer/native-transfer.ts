@@ -5,6 +5,7 @@ import { RawTransfer } from '../../../types/raw-transfer.type';
 import { Transfer } from '../transfer.interface';
 
 export class NativeTransfer implements Transfer {
+
   constructor(
     private readonly _aRawTransfer: RawTransfer,
     private readonly _aToken: RawToken,
