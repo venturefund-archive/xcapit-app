@@ -41,6 +41,6 @@ fdescribe('NativeTransfer', () => {
   });
 
   it('quoteAmount', () => {
-    expect(nativeTransfer.quoteAmount()).toEqual(0.5);
+    expect(nativeTransfer.quoteAmount()).toEqual(0.42984074354171753);
   });
 });
