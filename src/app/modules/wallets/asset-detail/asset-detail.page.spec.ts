@@ -261,16 +261,16 @@ fdescribe('AssetDetailPage', () => {
     expect(quoteAmountEl.nativeElement.innerHTML).toContain('60000 USD');
   });
 
-  // it('should get prices and balances on view will enter without prices', async () => {
-  //   apiWalletServiceSpy.getPrices.and.returnValues(of({ prices: {} }));
-  //   await component.ionViewWillEnter();
-  //   await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-  //   fixture.detectChanges();
-  //   const [amountEl, quoteAmountEl] = fixture.debugElement.queryAll(By.css('.wad__available__amounts ion-text'));
-  //   expect(amountEl.nativeElement.innerHTML).toContain(20);
-  //   expect(amountEl.nativeElement.innerHTML).toContain('ETH');
-  //   expect(quoteAmountEl).toBe(undefined);
-  // });
+  it('should get prices and balances on view will enter without prices', async () => {
+    apiWalletServiceSpy.getPrices.and.returnValues(of({ prices: {} }));
+    await component.ionViewWillEnter();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    const [amountEl, quoteAmountEl] = fixture.debugElement.queryAll(By.css('.wad__available__amounts ion-text'));
+    expect(amountEl.nativeElement.innerHTML).toContain(20);
+    expect(amountEl.nativeElement.innerHTML).toContain('ETH');
+    expect(quoteAmountEl).toBe(undefined);
+  });
 
   // it('should find to product to invest on view will enter', async () => {
   //   fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
