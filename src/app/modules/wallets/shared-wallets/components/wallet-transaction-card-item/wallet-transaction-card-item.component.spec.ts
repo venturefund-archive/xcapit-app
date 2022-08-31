@@ -44,7 +44,7 @@ fdescribe('WalletTransactionCardItemComponent', () => {
 
     await fixture.whenRenderingDone();
 
-    expect(component.formattedDate).toBe('03-01-2020');
+    expect(component.formattedDate).toBe('19-08-2022');
   });
 
   it ('should open browser on transaction link', () => {
