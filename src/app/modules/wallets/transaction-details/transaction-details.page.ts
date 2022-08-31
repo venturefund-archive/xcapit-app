@@ -26,7 +26,7 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
       </ion-toolbar>
     </ion-header>
     <ion-content class="td ion-padding">
-      <div class="td__card" *ngIf="this.token">
+      <div class="td__card" *ngIf="this.tplTransfer.token">
         <div class="td__card__title">
           <ion-text class="ux-font-text-xl">{{
             'wallets.transaction_details.' + this.tplTransfer.type | translate
@@ -35,14 +35,14 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
         <div class="td__card__container">
           <div class="td__card__container__title_and_image">
             <div class="td__card__container__title_and_image__image_container">
-              <img [src]="this.token.logoRoute" alt="Product Image" />
+              <img [src]="this.tplTransfer.token.logoRoute" alt="Product Image" />
             </div>
             <div class="td__card__container__title_container">
               <div class="td__card__container__title_container__title">
-                <ion-text class="ux-font-text-lg">{{ this.token.value }}</ion-text>
+                <ion-text class="ux-font-text-lg">{{ this.tplTransfer.token.value }}</ion-text>
               </div>
               <div class="td__card__container__title_container__badge">
-                <ion-badge [color]="this.networkColors[this.token.network]" class="ux-badge ux-font-num-subtitulo">{{
+                <ion-badge [color]="this.networkColors[this.tplTransfer.token.network]" class="ux-badge ux-font-num-subtitulo">{{
                   this.token.network | formattedNetwork | uppercase
                 }}</ion-badge>
               </div>
@@ -51,7 +51,7 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
           <div class="td__card__container__amount">
             <div>
               <ion-text class="ux-font-text-lg"
-                >{{ this.tplTransfer.amount }} {{ this.token.value | titlecase }}</ion-text
+                >{{ this.tplTransfer.amount }} {{ this.tplTransfer.token.value | titlecase }}</ion-text
               >
             </div>
             <div class="td__card__container__amount__conversion">
@@ -152,7 +152,7 @@ export class TransactionDetailsPage implements OnInit {
   }
 
   private async getTransactionData() {
-    this.tplTransfer = new JSONTransfer(this.transactionData).value();
+    this.tplTransfer = new JSONTransfer(this.transactionDetailsService.transactionData).value();
   }
 
   // private getToken() {
