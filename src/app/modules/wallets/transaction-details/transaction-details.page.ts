@@ -142,7 +142,6 @@ export class TransactionDetailsPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.token = this.transactionDetailsService.transactionData.token();
     this.getTransactionData();
     console.log(this.token);
 
