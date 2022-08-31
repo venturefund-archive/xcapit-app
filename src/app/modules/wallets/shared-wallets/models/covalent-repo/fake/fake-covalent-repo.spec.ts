@@ -4,7 +4,7 @@ import { CovalentTransfersResponse } from '../../covalent-transfers-response/cov
 import { of } from 'rxjs';
 import { FakeCovalentRepo } from './fake-covalent-repo';
 
-fdescribe('FakeCovalentRepo', () => {
+describe('FakeCovalentRepo', () => {
   let aToken: jasmine.SpyObj<RawToken>;
   let covalentTransfersResponseSpy: jasmine.SpyObj<CovalentTransfersResponse>;
   let fakeCovalentRepo: CovalentRepo;
