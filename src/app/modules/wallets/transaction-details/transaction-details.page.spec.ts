@@ -11,12 +11,13 @@ fdescribe('TransactionDetailsPage', () => {
 
   beforeEach(waitForAsync(() => {
     transactionDetailsServiceSpy = jasmine.createSpyObj('TransactionDetailsService', {},{
-
+      transactionData: {all: ()=> [] },
     });
 
     TestBed.configureTestingModule({
       declarations: [TransactionDetailsPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers:[]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransactionDetailsPage);
