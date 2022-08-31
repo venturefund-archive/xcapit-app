@@ -28,6 +28,7 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
 import { TwoPiInvestment } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { TwoPiInvestmentFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/factory/two-pi-investment-factory';
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
+import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
 
 const nativeTransfersResponse = {
   data: {
@@ -80,6 +81,7 @@ fdescribe('AssetDetailPage', () => {
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let twoPiInvestmentFactorySpy: jasmine.SpyObj<TwoPiInvestmentFactory>;
   let twoPiProductFactorySpy: jasmine.SpyObj<TwoPiProductFactory>;
+  let transfersFactorySpy: jasmine.SpyObj<TransfersFactory>
 
   beforeEach(waitForAsync(() => {
     coinsSpy = [
@@ -151,6 +153,10 @@ fdescribe('AssetDetailPage', () => {
     });
 
     providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+      create: providersSpy,
+    });
+
+    transfersFactorySpy = jasmine.createSpyObj('TransfersFactory', {
       create: providersSpy,
     });
 
