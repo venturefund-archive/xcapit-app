@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
@@ -128,7 +127,6 @@ export class AssetDetailPage implements OnInit {
     private route: ActivatedRoute,
     private walletService: WalletService,
     private storageService: StorageService,
-    private walletTransactionsService: WalletTransactionsService,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
     private twoPiApi: TwoPiApi,
