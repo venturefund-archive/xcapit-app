@@ -42,11 +42,9 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
                 <ion-text class="ux-font-text-lg">{{ this.token.value }}</ion-text>
               </div>
               <div class="td__card__container__title_container__badge">
-                <ion-badge
-                  [color]="this.networkColors[this.token.network]"
-                  class="ux-badge ux-font-num-subtitulo"
-                  >{{ this.token.network | formattedNetwork | uppercase }}</ion-badge
-                >
+                <ion-badge [color]="this.networkColors[this.token.network]" class="ux-badge ux-font-num-subtitulo">{{
+                  this.token.network | formattedNetwork | uppercase
+                }}</ion-badge>
               </div>
             </div>
           </div>
@@ -145,6 +143,7 @@ export class TransactionDetailsPage implements OnInit {
 
   ionViewWillEnter() {
     this.token = this.transactionData.token();
+    console.log(this.token);
     this.getTransactionData();
 
     this.date = new Date(this.tplTransfer.block_signed_at);
