@@ -1,18 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NETWORK_COLORS } from '../shared-wallets/constants/network-colors.constant';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
-import { CovalentTransfer } from '../shared-wallets/models/covalent-transfer/covalent-transfer';
-import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { TransactionDetailsService } from '../shared-wallets/services/transaction-details/transaction-details.service';
 import { format, parseISO } from 'date-fns';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { ScanUrlOf } from '../shared-wallets/models/scan-url-of/scan-url-of';
-import { DefaultCovalentRepo } from '../shared-wallets/models/covalent-repo/default/default-covalent-repo';
-import { HttpClient } from '@angular/common/http';
-import { EnvService } from '../../../shared/services/env/env.service';
-import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
-import { TransferState } from '@angular/platform-browser';
-import { Transfers } from '../shared-wallets/models/transfers/transfers';
 import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
 import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transfer';
 @Component({
