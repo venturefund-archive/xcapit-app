@@ -12,7 +12,6 @@ import { WalletTransactionsService } from '../shared-wallets/services/wallet-tra
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
-import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-transfers-response/covalent-transfers-response';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.pipe';
