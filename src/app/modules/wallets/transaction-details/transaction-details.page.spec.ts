@@ -6,6 +6,7 @@ import { TransactionDetailsService } from '../shared-wallets/services/transactio
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 fdescribe('TransactionDetailsPage', () => {
   let component: TransactionDetailsPage;
@@ -52,7 +53,7 @@ fdescribe('TransactionDetailsPage', () => {
 
 
   it('should open 2PI T&C when T&C link is clicked', async () => {
-    await component.ionViewDidEnter();
+    await component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-label.checkbox-link > ion-text:last-child')).nativeElement.click();
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: LINKS.twoPiTermsAndConditions });
