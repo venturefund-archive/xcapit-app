@@ -8,6 +8,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ScanUrlOf } from '../shared-wallets/models/scan-url-of/scan-url-of';
+import { rawTransfer } from '../shared-wallets/fixtures/covalent-transfers.fixture';
 
 fdescribe('TransactionDetailsPage', () => {
   let component: TransactionDetailsPage;
@@ -22,7 +23,7 @@ fdescribe('TransactionDetailsPage', () => {
       'TransactionDetailsService',
       {},
       {
-        transactionData: all(),
+        transactionData: (rawTransfer),
       }
     );
 
@@ -60,3 +61,5 @@ fdescribe('TransactionDetailsPage', () => {
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({url: ScanUrlOf.create(component.tplTransfer.tx_hash, component.tplTransfer.token.network).value()});
   });
 });
+
+
