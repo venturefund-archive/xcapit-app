@@ -5,7 +5,6 @@ import { RawTransfer } from '../../../types/raw-transfer.type';
 import { Transfer } from '../transfer.interface';
 
 export class NativeTransfer implements Transfer {
-
   constructor(
     private readonly _aRawTransfer: RawTransfer,
     private readonly _aToken: RawToken,
@@ -38,5 +37,9 @@ export class NativeTransfer implements Transfer {
 
   public amount(): number {
     return new AmountOf(this._aRawTransfer.value.toString(), new DefaultToken(this._aToken)).value();
+  }
+
+  public quoteAmount(): number {
+    return this._aRawTransfer.value_quote;
   }
 }
