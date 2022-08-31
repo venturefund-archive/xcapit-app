@@ -8,7 +8,6 @@ import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { finalize } from 'rxjs/operators';
 import { CovalentTransfer } from '../shared-wallets/models/covalent-transfer/covalent-transfer';
-import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-transfers-response/covalent-transfers-response';
 import { NETWORK_COLORS } from '../shared-wallets/constants/network-colors.constant';
 import { ProvidersFactory } from '../../fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../../fiat-ramps/shared-ramps/models/provider-tokens-of/provider-tokens-of';
