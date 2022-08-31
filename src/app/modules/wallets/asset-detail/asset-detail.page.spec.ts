@@ -157,7 +157,7 @@ fdescribe('AssetDetailPage', () => {
     });
 
     transfersFactorySpy = jasmine.createSpyObj('TransfersFactory', {
-      create: providersSpy,
+      create: {all: ()=> [] },
     });
 
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', {
