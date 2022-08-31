@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
 import { TransactionDetailsPage } from './transaction-details.page';
+import { TranslateModule } from '@ngx-translate/core';
 
-describe('TransactionDetailsPage', () => {
+fdescribe('TransactionDetailsPage', () => {
   let component: TransactionDetailsPage;
   let fixture: ComponentFixture<TransactionDetailsPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransactionDetailsPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [TransactionDetailsPage],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransactionDetailsPage);

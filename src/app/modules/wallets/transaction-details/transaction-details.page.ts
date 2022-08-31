@@ -129,7 +129,6 @@ export class TransactionDetailsPage implements OnInit {
   formattedDate: string;
   formattedTime: string;
   date: Date;
-  fee: number;
   tplTransfer: any;
 
   constructor(
@@ -142,19 +141,14 @@ export class TransactionDetailsPage implements OnInit {
 
   ionViewWillEnter() {
     this.getTransactionData();
-
     this.date = new Date(this.tplTransfer.block_signed_at);
     this.formattedTime = this.formatTime(this.date.toLocaleTimeString());
     this.formattedDate = this.formatDate(this.tplTransfer.block_signed_at);
   }
 
-  private async getTransactionData() {
+  private getTransactionData() {
     this.tplTransfer = new JSONTransfer(this.transactionDetailsService.transactionData).value();
   }
-
-  // private getToken() {
-  //   this.currency = this.apiWalletService.getCoin(this.tplTransfer.);
-  // }
 
   private formatDate(value) {
     return format(parseISO(value), 'dd-MM-yyyy');
