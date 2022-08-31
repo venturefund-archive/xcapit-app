@@ -25,7 +25,7 @@ import { Transfer } from '../../models/transfer/transfer.interface';
                 </ion-label>
               </div>
               <div class="wtci__content__top__type_date_hash__hash">
-                <ion-text (click)="this.openTransactionUrl()" class="ux-font-text-xs">
+                <ion-text (click)="this.openTransactionDetails()" class="ux-font-text-xs">
                   {{ this.tplTransfer.tx_hash }}
                 </ion-text>
               </div>
@@ -69,7 +69,7 @@ export class WalletTransactionCardItemComponent implements OnInit {
   
   }
 
-  openTransactionUrl() {
+  openTransactionDetails() {
     this.saveTransactionDetails();
     this.navController.navigateForward(['/wallets/transaction-details']);
   }
