@@ -30,6 +30,7 @@ import { EnvService } from '../../../shared/services/env/env.service';
 import { HttpClient } from '@angular/common/http';
 import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
+import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
 @Component({
   selector: 'app-asset-detail',
   template: `
@@ -143,8 +144,7 @@ export class AssetDetailPage implements OnInit {
     private walletEncryptionService: WalletEncryptionService,
     private twoPiInvestmentFactory: TwoPiInvestmentFactory,
     private twoPiProductFactory: TwoPiProductFactory,
-    private http: HttpClient,
-    private env: EnvService
+    private transfersFactory: TransfersFactory,
   ) {}
 
   ngOnInit() {}
@@ -258,10 +258,9 @@ export class AssetDetailPage implements OnInit {
   async getTransfers() {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
     const address = wallet.addresses[this.currency.network];
-    this.transfers = await new Transfers(
+    this.transfers = await this.transfersFactory.create(
       this.currency as RawToken,
       address,
-      new DefaultCovalentRepo(this.http, this.env)
     ).all();
   }
 
