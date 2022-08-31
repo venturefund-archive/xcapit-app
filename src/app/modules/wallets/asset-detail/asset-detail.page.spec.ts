@@ -272,32 +272,32 @@ fdescribe('AssetDetailPage', () => {
     expect(quoteAmountEl).toBe(undefined);
   });
 
-  // it('should find to product to invest on view will enter', async () => {
-  //   fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
-  //   await component.ionViewWillEnter();
-  //   expect(component.productToInvest.token().value).toEqual('USDC');
-  // });
+  it('should find to product to invest on view will enter', async () => {
+    fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
+    await component.ionViewWillEnter();
+    expect(component.productToInvest.token().value).toEqual('USDC');
+  });
 
-  // it('should navigate to investment detail page when ux_go_to_invest_asset_detail button is clicked and product balance is greater than 0', async () => {
-  //   fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
-  //   await component.ionViewWillEnter();
-  //   fixture.detectChanges();
-  //   const buttonEl = fixture.debugElement.query(By.css('.wad__title_and_image ion-button'));
-  //   buttonEl.nativeElement.click();
-  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/investment-detail/', 'polygon_usdc']);
-  // });
+  it('should navigate to investment detail page when ux_go_to_invest_asset_detail button is clicked and product balance is greater than 0', async () => {
+    fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('.wad__title_and_image ion-button'));
+    buttonEl.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/investment-detail/', 'polygon_usdc']);
+  });
 
-  // it('should navigate to insert amount page when ux_go_to_invest_asset_detail button is clicked and product balance isnt greater than 0', async () => {
-  //   twoPiInvestmentFactorySpy.new.and.returnValue({ balance: () => Promise.resolve(0) } as TwoPiInvestment);
-  //   fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
-  //   await component.ionViewWillEnter();
-  //   fixture.detectChanges();
-  //   const buttonEl = fixture.debugElement.query(By.css('.wad__title_and_image ion-button'));
-  //   buttonEl.nativeElement.click();
-  //   expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-  //     '/defi/new/insert-amount',
-  //     'polygon_usdc',
-  //     'invest',
-  //   ]);
-  // });
+  it('should navigate to insert amount page when ux_go_to_invest_asset_detail button is clicked and product balance isnt greater than 0', async () => {
+    twoPiInvestmentFactorySpy.new.and.returnValue({ balance: () => Promise.resolve(0) } as TwoPiInvestment);
+    fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('.wad__title_and_image ion-button'));
+    buttonEl.nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
+      '/defi/new/insert-amount',
+      'polygon_usdc',
+      'invest',
+    ]);
+  });
 });
