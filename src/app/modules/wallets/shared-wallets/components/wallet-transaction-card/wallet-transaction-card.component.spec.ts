@@ -8,7 +8,7 @@ import { NativeTransfer } from '../../models/transfer/native-transfer/native-tra
 import { rawTransfer } from '../../fixtures/covalent-transfers.fixture';
 import { rawMATICData } from '../../../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
-fdescribe('WalletTransactionCardComponent', () => {
+describe('WalletTransactionCardComponent', () => {
   let component: WalletTransactionCardComponent;
   let fixture: ComponentFixture<WalletTransactionCardComponent>;
 
