@@ -36,7 +36,7 @@ fdescribe('WalletTransactionCardComponent', () => {
   });
 
   it('should not render app-wallet-transaction-card-item when not have transactions', () => {
-    component.transfers = [new NativeTransfer(rawTransfer, rawMATICData, '')];
+    component.transfers = [];
     fixture.detectChanges();
     const cardItemElement = fixture.debugElement.query(By.css('app-wallet-transaction-card-item'));
     expect(cardItemElement).toBeNull();
