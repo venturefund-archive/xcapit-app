@@ -3,13 +3,12 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { WalletTransactionCardItemComponent } from './wallet-transaction-card-item.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
-import { NONPROD_SCAN_URLS } from '../../constants/scan-url-nonprod';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { NativeTransfer } from '../../models/transfer/native-transfer/native-transfer';
 import { rawTransfer } from '../../fixtures/covalent-transfers.fixture';
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
-fdescribe('WalletTransactionCardItemComponent', () => {
+describe('WalletTransactionCardItemComponent', () => {
   let component: WalletTransactionCardItemComponent;
   let fixture: ComponentFixture<WalletTransactionCardItemComponent>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
