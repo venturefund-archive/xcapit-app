@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-create-ticket',
@@ -20,18 +20,18 @@ import { NavController } from '@ionic/angular';
 })
 export class CreateEmailValidationTicketPage implements OnInit {
   canModifyEmail = true;
-  userEmail = '';
-  constructor(private navController: NavController, private route: ActivatedRoute) {}
+  userEmail: string;
+  constructor(private navController: NavController, private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userEmail = this.router.getCurrentNavigation().extras?.state?.email;
+  }
 
   ionViewWillEnter() {
-    this.userEmail = this.route.snapshot.paramMap.get('email');
     if (this.userEmail) {
       this.canModifyEmail = false;
     }
   }
-
   async success() {
     await this.navController.navigateForward(['/tickets/success', true]);
   }

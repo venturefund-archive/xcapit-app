@@ -117,7 +117,7 @@ export class LoginNewPage {
       componentProps: {
         title: 'users.login_password_info.title',
         subtitle: 'users.login_password_info.subtitle',
-        image: 'assets/img/usuarios/login_password_info/info.svg',
+        image: 'assets/img/users/login_password_info/info.svg',
         button: 'users.login_password_info.button',
       },
     });
