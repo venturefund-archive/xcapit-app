@@ -39,4 +39,8 @@ fdescribe('NativeTransfer', () => {
   it('amount', () => {
     expect(nativeTransfer.amount()).toEqual(0.5);
   });
+
+  it('quoteAmount', () => {
+    expect(nativeTransfer.quoteAmount()).toEqual(0.5);
+  });
 });
