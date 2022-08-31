@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import format from 'date-fns/format';
 import { formatUnits } from 'ethers/lib/utils';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 
@@ -49,7 +50,7 @@ export class ItemInvestmentHistoryComponent implements OnInit {
   }
 
   formattedDate() {
-    this.date = new Date(this.movement.timestamp * 1000).toLocaleDateString().split('/').join('-');
+    this.date = format(new Date(this.movement.timestamp * 1000), 'dd-MM-yyyy');
   }
 
   formattedAmount() {

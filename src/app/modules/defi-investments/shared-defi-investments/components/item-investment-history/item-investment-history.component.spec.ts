@@ -54,7 +54,7 @@ describe('ItemInvestmentHistoryComponent', () => {
     const amountEl = fixture.debugElement.query(By.css('ion-text.iih__content__amount__amount'));
     expect(iconEl).toBeTruthy();
     expect(typeEl.nativeElement.innerHTML).toContain('defi_investments.invest_detail.history.withdraw');
-    expect(dateEl.nativeElement.innerHTML).toContain('22-8-2022');
+    expect(dateEl.nativeElement.innerHTML).toContain('22-08-2022');
     expect(amountEl.nativeElement.innerHTML).toContain('5');
   });
 });
