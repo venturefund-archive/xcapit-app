@@ -77,6 +77,7 @@ export class WalletTransactionCardItemComponent implements OnInit {
   formatDate(value) {
     return format(parseISO(value), 'dd-MM-yyyy');
   }
+  
 
   private saveTransactionDetails() {
     this.transactionDetailsService.transactionData = this.transfer;
