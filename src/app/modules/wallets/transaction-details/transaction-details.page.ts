@@ -80,7 +80,7 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
             </div>
             <div class="td__card__item__link">
               <ion-text (click)="this.openTransactionUrl()" class="ux-link-xs">{{
-                'wallets.transaction_details.link' | translate
+                'wallets.transaction_details.link' | translate: {network: this.tplTransfer.token.network}
               }}</ion-text>
             </div>
           </div>

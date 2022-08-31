@@ -2072,7 +2072,7 @@
       "title_status":"Estado",
       "declined":"Rechazado",
       "confirmed":"Confirmado",
-      "link":"Ver en polygonScan",
+      "link":"Ver en {{network}}Scan",
       "title_wallet":"Wallet de destino",
       "title_fee":"Tarifa de transacción",
       "title_date":"Fecha",
@@ -2501,7 +2501,7 @@
       "title_nft": "NFT",
       "description_nft": "Visualizar, transferir y recibir.",
       "title_wallet_swap": "Intercambiar",
-      "description_wallet_swap": "Posibles errores, tarifas y más."      
+      "description_wallet_swap": "Posibles errores, tarifas y más."
     },
     "contact_support": {
       "title": "Escribir a soporte"
