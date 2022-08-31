@@ -5,7 +5,7 @@ import { NativeTransfer } from '../transfer/native-transfer/native-transfer';
 import { NoNativeTransfer } from '../transfer/no-native-transfer/no-native-transfer';
 import { rawNoNativeTransfer } from '../../fixtures/covalent-no-native-transfers.fixture';
 
-fdescribe('JSONTransfer', () => {
+describe('JSONTransfer', () => {
   let jsonTransfer: JSONTransfer;
   const aTestAddress = '0x1111111254fb6c44bac0bed2854e76f90643097d';
 
