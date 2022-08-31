@@ -227,13 +227,13 @@ fdescribe('AssetDetailPage', () => {
     expect(component.enabledToBuy).toBeTrue();
   });
 
-  // it('should disable purchase when token is not enabled to buy among all providers', async () => {
-  //   fakeActivatedRoute.modifySnapshotParams({ currency: 'AVAX' });
-  //   await component.ionViewWillEnter();
-  //   await fixture.whenStable();
-  //   fixture.detectChanges();
-  //   expect(component.enabledToBuy).toBeFalse();
-  // });
+  it('should disable purchase when token is not enabled to buy among all providers', async () => {
+    fakeActivatedRoute.modifySnapshotParams({ currency: 'AVAX' });
+    await component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.enabledToBuy).toBeFalse();
+  });
 
   // // TODO: ver tests
   // // it('should get transfers on view will enter', async () => {
