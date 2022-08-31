@@ -142,9 +142,9 @@ export class TransactionDetailsPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    console.log(this.token);
     this.getTransactionData();
-    this.token = this.transactionData.token();
+    this.token = this.transactionDetailsService.transactionData.token();
+    console.log(this.token);
 
     this.date = new Date(this.tplTransfer.block_signed_at);
     this.formattedTime = this.formatTime(this.date.toLocaleTimeString());
