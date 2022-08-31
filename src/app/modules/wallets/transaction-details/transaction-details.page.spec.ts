@@ -19,13 +19,13 @@ fdescribe('TransactionDetailsPage', () => {
   let fakeNavController: FakeNavController;
 
   beforeEach(waitForAsync(() => {
-    transactionDetailsServiceSpy = jasmine.createSpyObj(
-      'TransactionDetailsService',
-      {},
-      {
-        transactionData: (rawTransfer),
-      }
-    );
+    // transactionDetailsServiceSpy = jasmine.createSpyObj(
+    //   'TransactionDetailsService',
+    //   {},
+    //   {
+    //     transactionData: (rawTransfer),
+    //   }
+    // );
 
     browserServiceSpy = jasmine.createSpyObj('BrowserService', {
       open: Promise.resolve(),
