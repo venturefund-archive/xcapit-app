@@ -6,6 +6,7 @@ export interface Transfer {
   type: () => 'IN' | 'OUT';
   icon: () => string;
   amount: () => number;
+  quoteAmount: () => number;
   token: () => RawToken;
   raw: () => RawTransfer;
 }
