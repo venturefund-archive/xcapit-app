@@ -29,7 +29,7 @@ fdescribe('WalletTransactionCardItemComponent', () => {
 
       fixture = TestBed.createComponent(WalletTransactionCardItemComponent);
       component = fixture.componentInstance;
-      component.transfer= new NativeTransfer(rawTransfer,rawMATICData,'');
+      component.transfer = new NativeTransfer(rawTransfer,rawMATICData,'');
       component.network = 'MATIC';
       fixture.detectChanges();
     })
@@ -48,10 +48,9 @@ fdescribe('WalletTransactionCardItemComponent', () => {
   });
 
   it ('should open browser on transaction link', () => {
-    const expectedUrl = `${NONPROD_SCAN_URLS[component.network]}tx/${transaction.hash}`;
 
-    component.openTransactionUrl();
+    component.openTransactionDetails();
 
-    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: expectedUrl })
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/transaction-details'])
   })
 });
