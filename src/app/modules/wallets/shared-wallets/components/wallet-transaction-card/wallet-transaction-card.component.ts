@@ -25,6 +25,5 @@ export class WalletTransactionCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('transactions card', this.transfers);
   }
 }

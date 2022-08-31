@@ -3,7 +3,7 @@ import { RawToken } from '../../../../../swaps/shared-swaps/models/token-repo/to
 import { of } from 'rxjs';
 import { FakeCovalentRepo } from './fake-covalent-repo';
 
-fdescribe('FakeCovalentRepo', () => {
+describe('FakeCovalentRepo', () => {
   let aToken: jasmine.SpyObj<RawToken>;
   let fakeCovalentRepo: CovalentRepo;
   const inAddress = '';
@@ -20,5 +20,5 @@ fdescribe('FakeCovalentRepo', () => {
   it('transfersOf', async () => {
     expect(await fakeCovalentRepo.transfersOf(aToken, inAddress).toPromise()).toEqual({});
   });
-  
+
 });
