@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { WalletTransactionCardItemComponent } from './wallet-transaction-card-item.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { NONPROD_SCAN_URLS } from '../../constants/scan-url-nonprod';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
 const transaction = {
   icon: 'assets/img/wallet-transactions/received.svg',
@@ -30,10 +31,16 @@ fdescribe('WalletTransactionCardItemComponent', () => {
   let component: WalletTransactionCardItemComponent;
   let fixture: ComponentFixture<WalletTransactionCardItemComponent>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
 
   beforeEach(
     waitForAsync(() => {
+      fakeNavController = new FakeNavController();
+      navControllerSpy = fakeNavController.createSpy();
+
       browserServiceSpy = jasmine.createSpyObj('BrowserService', {open:Promise.resolve()})
+      
       TestBed.configureTestingModule({
         declarations: [WalletTransactionCardItemComponent, FormattedAmountPipe],
         imports: [IonicModule, TranslateModule.forRoot()],
