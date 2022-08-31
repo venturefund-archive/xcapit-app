@@ -7,6 +7,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { ScanUrlOf } from '../shared-wallets/models/scan-url-of/scan-url-of';
 
 fdescribe('TransactionDetailsPage', () => {
   let component: TransactionDetailsPage;
@@ -56,6 +57,6 @@ fdescribe('TransactionDetailsPage', () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-label.checkbox-link > ion-text:last-child')).nativeElement.click();
-    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: LINKS.twoPiTermsAndConditions });
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: ScanUrlOf.create(component.tplTransfer.tx_hash, component.tplTransfer.token.network).value() });
   });
 });
