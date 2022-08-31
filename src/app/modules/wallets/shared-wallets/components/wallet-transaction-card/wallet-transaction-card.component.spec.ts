@@ -15,7 +15,7 @@ fdescribe('WalletTransactionCardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [WalletTransactionCardComponent],
-      imports: [IonicModule],
+      imports: [IonicModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
