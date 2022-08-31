@@ -62,7 +62,7 @@ const nativeAsset: Coin = {
   rpc: 'http://testrpc.test',
 };
 
-fdescribe('AssetDetailPage', () => {
+describe('AssetDetailPage', () => {
   let component: AssetDetailPage;
   let fixture: ComponentFixture<AssetDetailPage>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
