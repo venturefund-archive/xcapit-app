@@ -204,6 +204,7 @@ fdescribe('AssetDetailPage', () => {
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
         { provide: TwoPiInvestmentFactory, useValue: twoPiInvestmentFactorySpy },
         { provide: TwoPiProductFactory, useValue: twoPiProductFactorySpy },
+        { provide: TransfersFactory, useValue: transfersFactorySpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
