@@ -80,7 +80,7 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
             </div>
             <div class="td__card__item__link">
               <ion-text (click)="this.openTransactionUrl()" class="ux-link-xs">{{
-          'wallets.transaction_details.link' | translate
+                'wallets.transaction_details.link' | translate
               }}</ion-text>
             </div>
           </div>
@@ -133,7 +133,6 @@ export class TransactionDetailsPage implements OnInit {
 
   constructor(
     private transactionDetailsService: TransactionDetailsService,
-    private apiWalletService: ApiWalletService,
     private browserService: BrowserService
   ) {}
 
