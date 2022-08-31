@@ -65,7 +65,6 @@ describe('AssetDetailPage', () => {
   let component: AssetDetailPage;
   let fixture: ComponentFixture<AssetDetailPage>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
-  let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let fakeActivatedRoute: FakeActivatedRoute;
@@ -138,9 +137,6 @@ describe('AssetDetailPage', () => {
       walletExist: Promise.resolve(true),
     });
 
-    walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionsService', {
-      getTransfers: of(new CovalentTransfersResponse(nativeTransfersResponse, nativeAsset)),
-    });
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getWalletsAddresses: Promise.resolve('testAddress'),
     });
@@ -194,7 +190,6 @@ describe('AssetDetailPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: WalletService, useValue: walletServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-        { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
