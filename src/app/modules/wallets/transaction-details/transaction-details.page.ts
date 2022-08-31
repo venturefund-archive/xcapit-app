@@ -97,7 +97,7 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
           </div>
           <div class="container-item">
             <div class="td__card__item__fee">
-              <ion-text class="ux-font-text-base">{{ this.fee }}</ion-text>
+              <ion-text class="ux-font-text-base">{{ this.tplTransfer.fee }}</ion-text>
             </div>
             <div class="td__card__item__usd">
               <ion-text class="ux-font-text-base"
