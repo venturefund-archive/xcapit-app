@@ -142,8 +142,8 @@ export class TransactionDetailsPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.getTransactionData();
     this.token = this.transactionDetailsService.transactionData.token();
+    this.getTransactionData();
     console.log(this.token);
 
     this.date = new Date(this.tplTransfer.block_signed_at);
