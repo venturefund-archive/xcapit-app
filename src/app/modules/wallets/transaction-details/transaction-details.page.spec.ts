@@ -14,7 +14,7 @@ import { rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-token
 import { FormattedNetworkPipe } from '../../../shared/pipes/formatted-network-name/formatted-network.pipe';
 import { FormattedAmountPipe } from '../../../shared/pipes/formatted-amount/formatted-amount.pipe';
 
-fdescribe('TransactionDetailsPage', () => {
+describe('TransactionDetailsPage', () => {
   let component: TransactionDetailsPage;
   let fixture: ComponentFixture<TransactionDetailsPage>;
   let transactionDetailsServiceSpy: jasmine.SpyObj<TransactionDetailsService>;

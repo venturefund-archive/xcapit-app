@@ -157,7 +157,7 @@ const testStructure = [
   },
 ];
 
-describe('WalletTransactionsService', () => {
+fdescribe('WalletTransactionsService', () => {
   let service: WalletTransactionsService;
   let storageServiceMock: any;
   let storageSpy: any;
