@@ -23,7 +23,7 @@ fdescribe('TransactionDetailsPage', () => {
       'TransactionDetailsService',
       {},
       {
-        transactionData: {all():any},
+        transactionData: {},
       }
     );
 
