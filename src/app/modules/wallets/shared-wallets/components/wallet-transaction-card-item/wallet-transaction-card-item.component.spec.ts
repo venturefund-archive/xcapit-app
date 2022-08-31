@@ -6,6 +6,9 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { NONPROD_SCAN_URLS } from '../../constants/scan-url-nonprod';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { NativeTransfer } from '../../models/transfer/native-transfer/native-transfer';
+import { rawTransfer } from '../../fixtures/covalent-transfers.fixture';
+import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 const transaction = {
   icon: 'assets/img/wallet-transactions/received.svg',
@@ -50,7 +53,7 @@ fdescribe('WalletTransactionCardItemComponent', () => {
 
       fixture = TestBed.createComponent(WalletTransactionCardItemComponent);
       component = fixture.componentInstance;
-      //component.transaction = transaction;
+      component.transfer= new NativeTransfer(rawTransfer,rawMATICData,'');
       component.network = 'MATIC';
       fixture.detectChanges();
     })
