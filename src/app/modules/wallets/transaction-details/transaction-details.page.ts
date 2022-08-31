@@ -79,7 +79,7 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
               >
             </div>
             <div class="td__card__item__link">
-              <ion-text (click)="this.openTransactionUrl()" class="ux-link-xs">{{
+              <ion-text (click)="this.openTransactionUrl()" class="ux-link-xs" name="scan_link">{{
                 'wallets.transaction_details.link' | translate
               }}</ion-text>
             </div>
