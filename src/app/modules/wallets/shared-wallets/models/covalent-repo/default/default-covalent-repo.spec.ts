@@ -5,7 +5,7 @@ import { CovalentRepo } from '../covalent-repo.interface';
 import { rawTransfers } from '../../../fixtures/covalent-transfers.fixture';
 import { DefaultCovalentRepo } from './default-covalent-repo';
 
-fdescribe('DefaultCovalentRepo', () => {
+describe('DefaultCovalentRepo', () => {
   let covalentRepo: CovalentRepo;
   let aToken: jasmine.SpyObj<RawToken>;
   let envSpy: jasmine.SpyObj<EnvService>;

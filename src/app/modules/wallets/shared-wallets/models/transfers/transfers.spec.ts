@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { Transfers } from './transfers';
 import { rawNoNativeTransfers } from '../../fixtures/covalent-no-native-transfers.fixture';
 
-fdescribe('Transfers', () => {
+describe('Transfers', () => {
   let aToken: jasmine.SpyObj<RawToken>;
   const inAddress = '';
   let transfers: Transfers;

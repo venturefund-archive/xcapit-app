@@ -3,7 +3,7 @@ import { Transfer } from '../transfer.interface';
 import { NoNativeTransfer } from './no-native-transfer';
 import { rawNoNativeTransfer } from '../../../fixtures/covalent-no-native-transfers.fixture';
 
-fdescribe('NoNativeTransfer', () => {
+describe('NoNativeTransfer', () => {
   let noNativeTransfer: Transfer;
   const aTestAddress = '0x1111111254fb6c44bac0bed2854e76f90643097d';
   const receivedIcon = 'assets/img/wallet-transactions/received.svg';
