@@ -9,6 +9,12 @@ import { Coin } from '../../interfaces/coin.interface';
 import { EthersService } from '../ethers/ethers.service';
 import moment from 'moment';
 import { TEST_COINS } from '../../constants/coins.test';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 
 const testMnemonic = {
   locale: 'en',
@@ -48,7 +54,7 @@ const updateResultWallet = {
   addresses: {
     ERC20: 'testAddress',
     RSK: 'testAddress',
-    MATIC: 'testResultAddress',
+    MATIC: '',
   },
   updatedAt: moment('2015-10-19').utc().format(),
   assets: {
@@ -97,7 +103,7 @@ const testCoins: Coin[] = [
   },
 ];
 
-fdescribe('WalletMaintenanceService', () => {
+describe('WalletMaintenanceService', () => {
   let service: WalletMaintenanceService;
   let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
@@ -105,10 +111,14 @@ fdescribe('WalletMaintenanceService', () => {
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let ethersServiceSpy: jasmine.SpyObj<EthersService>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
 
   beforeEach(() => {
     walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {
       getMnemonic: testMnemonic,
+    }, {
+      mnemonic: testMnemonic
     });
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
       getEncryptedWallet: Promise.resolve(JSON.parse(JSON.stringify(testEncryptedWallet))),
@@ -127,6 +137,13 @@ fdescribe('WalletMaintenanceService', () => {
     ethersServiceSpy = jasmine.createSpyObj('EthersService', {
       decryptWalletJsonSync: {},
     });
+
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: new Blockchains(new BlockchainRepo(rawBlockchainsData)),
+    });
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      createFromPhrase: { oneBy: () => Promise.resolve(new FakeWallet()) },
+    });
     TestBed.configureTestingModule({
       imports: [],
       declarations: [],
@@ -137,6 +154,8 @@ fdescribe('WalletMaintenanceService', () => {
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: EthersService, useValue: ethersServiceSpy },
+        { provide: WalletsFactory, useValue: walletsFactorySpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
       ],
     });
     service = TestBed.inject(WalletMaintenanceService);
