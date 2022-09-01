@@ -35,7 +35,7 @@ describe('WalletTransactionCardItemComponent', () => {
 
     fixture = TestBed.createComponent(WalletTransactionCardItemComponent);
     component = fixture.componentInstance;
-    component.transfer = new NativeTransfer(rawTransfer, rawMATICData, '');
+    component.transfer = new NativeTransfer(rawTransfer, rawMATICData, '0x1111111254fb6c44bac0bed2854e76f90643097d');
     component.network = 'MATIC';
     fixture.detectChanges();
   }));

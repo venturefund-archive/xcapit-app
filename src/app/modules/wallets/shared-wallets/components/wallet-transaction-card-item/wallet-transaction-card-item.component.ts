@@ -76,7 +76,7 @@ export class WalletTransactionCardItemComponent implements OnInit {
   isBuyTransaction() {
     if (
       this.tplTransfer.type === 'IN' &&
-      this.envService.byKey('ON_OFF_RAMPS_PROVIDER_ADDRESSES').includes(this.tplTransfer.from)
+      this.envService.byKey('ON_OFF_RAMPS_PROVIDER_ADDRESSES').includes(this.tplTransfer.from_address)
     ) {
       this.tplTransfer.type = 'BUY';
       this.tplTransfer.icon = 'assets/img/wallet-transactions/buy.svg';

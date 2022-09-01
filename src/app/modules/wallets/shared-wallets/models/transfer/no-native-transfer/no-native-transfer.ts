@@ -1,6 +1,6 @@
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
-import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { environment } from 'src/environments/environment';
@@ -49,7 +49,7 @@ export class NoNativeTransfer implements Transfer {
   }
 
   private _nativeToken(): Token {
-    return new Blockchains(new BlockchainRepo(environment.BLOCKCHAIN_DATA))
+    return new DefaultBlockchains(new BlockchainRepo(environment.BLOCKCHAIN_DATA))
       .oneByName(this._aToken.network)
       .nativeToken();
   }
