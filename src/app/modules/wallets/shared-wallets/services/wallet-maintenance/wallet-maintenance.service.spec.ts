@@ -97,7 +97,7 @@ const testCoins: Coin[] = [
   },
 ];
 
-describe('WalletMaintenanceService', () => {
+fdescribe('WalletMaintenanceService', () => {
   let service: WalletMaintenanceService;
   let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
