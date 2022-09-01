@@ -112,7 +112,8 @@
       "action": "More information"
     },
     "need_help": {
-      "text_help_link": "Need help?"
+      "text_help_link": "Need help?",
+      "text_help_support": "Write to support"
     },
     "referrals_help": {
       "text_referrals_help_link": "How the referral system works?"

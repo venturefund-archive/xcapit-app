@@ -117,19 +117,8 @@ export class UserProfileMenuPage {
   ) {}
 
   ionViewWillEnter() {
-    this.checkNewLoginFeatureFlag();
     this.getProfile();
     this.existWallet();
-  }
-
-  checkNewLoginFeatureFlag() {
-    if (!this.remoteConfigService.getFeatureFlag('ff_newLogin')) {
-      const category = this.itemMenu.find(
-        (category) => category.category_title === 'profiles.user_profile_menu.category_help'
-      );
-      const item = category.items.find((item) => item.buttonName === 'ux_go_to_contact_support');
-      item.route = '/tickets/create-support-ticket';
-    }
   }
 
   back() {

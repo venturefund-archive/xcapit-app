@@ -95,6 +95,11 @@ import { NavController } from '@ionic/angular';
           </div>
         </div>
       </div>
+      <div class="support">
+        <ion-label class="ux-font-text-base">{{'shared.need_help.text_help_link' | translate }}</ion-label>
+        <br>
+        <ion-label class="link ux-link-xs">{{'shared.need_help.text_help_support' | translate }}</ion-label>
+      </div>
     </ion-content>
   `,
   styleUrls: ['./receive.page.scss'],
@@ -119,6 +124,8 @@ export class ReceivePage {
     private apiWalletService: ApiWalletService,
     private navController: NavController
   ) {}
+
+//TODO: MOVER ESTO A DETALLE DE OPERACION
 
   ionViewWillEnter() {
     this.checkPlatform();
