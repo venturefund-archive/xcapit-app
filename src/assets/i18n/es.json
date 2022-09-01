@@ -408,7 +408,12 @@
       "invested_amount": "Balance*",
       "daily_earnings_disclaimer": "*Tu balance se actualiza a diario.",
       "continuous_update": "*Actualización continua",
-      "weekly_update": "*Actualización semanal"
+      "weekly_update": "*Actualización semanal",
+      "history": {
+        "title": "Historial",
+        "investment": "Invesrión",
+        "withdraw": "Retiro"
+      }
     },
     "shared": {
       "withdraw_info_modal": {
