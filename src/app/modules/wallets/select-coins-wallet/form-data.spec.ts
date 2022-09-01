@@ -16,6 +16,9 @@ export const SELECT_COINS_FORM_DATA = {
     BSC_BEP20: {
       BNB: false,
     },
+    SOLANA: {
+      SOL: true,
+    },
   },
   invalid: {
     ERC20: {
@@ -33,6 +36,9 @@ export const SELECT_COINS_FORM_DATA = {
     },
     BSC_BEP20: {
       BNB: false,
+    },
+    SOLANA: {
+      SOL: false,
     },
   },
   allTrue: {
@@ -52,6 +58,9 @@ export const SELECT_COINS_FORM_DATA = {
     BSC_BEP20: {
       BNB: true,
     },
+    SOLANA: {
+      SOL: true,
+    },
   },  
   editTokensOriginal: {
     ERC20: {
@@ -69,6 +78,9 @@ export const SELECT_COINS_FORM_DATA = {
     },
     BSC_BEP20: {
       BNB: true,
+    },
+    SOLANA: {
+      SOL: true,
     },
   },
 };

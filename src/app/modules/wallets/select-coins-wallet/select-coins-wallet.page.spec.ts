@@ -25,6 +25,7 @@ import {
   TEST_ERC20_COINS,
   TEST_MATIC_COINS,
   TEST_RSK_COINS,
+  TEST_SOLANA_COINS,
 } from '../shared-wallets/constants/coins.test';
 import { SELECT_COINS_FORM_DATA } from './form-data.spec';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -133,7 +134,7 @@ const testCoinsForDynamicForm: Coin[] = [
   },
 ];
 
-const testSelectedTokens = [TEST_COINS[0], TEST_COINS[2], TEST_COINS[4], TEST_COINS[5], TEST_COINS[7]];
+const testSelectedTokens = [TEST_COINS[0], TEST_COINS[2], TEST_COINS[4], TEST_COINS[5], TEST_COINS[7], TEST_COINS[8]];
 
 const formData = SELECT_COINS_FORM_DATA;
 
@@ -142,6 +143,7 @@ const testSuites = {
   MATIC: TEST_MATIC_COINS,
   RSK: TEST_RSK_COINS,
   BSC_BEP20: TEST_BSC_BEP20_COINS,
+  SOLANA: TEST_SOLANA_COINS,
 };
 
 describe('SelectCoinsWalletPage', () => {
@@ -178,7 +180,7 @@ describe('SelectCoinsWalletPage', () => {
 
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getCoins: TEST_COINS,
-        getNetworks: ['ERC20', 'RSK', 'MATIC', 'BSC_BEP20'],
+        getNetworks: ['ERC20', 'RSK', 'MATIC', 'BSC_BEP20', 'SOLANA'],
         getCoinsFromNetwork: undefined,
         getCoin: TEST_COINS[0],
       });
@@ -427,7 +429,7 @@ describe('SelectCoinsWalletPage', () => {
           component.form.patchValue(formData.valid);
           fixture.detectChanges();
           fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
-          expect(walletServiceSpy.coins.length).toEqual(3);
+          expect(walletServiceSpy.coins.length).toEqual(4);
         });
 
         it(`should ${testCase.mode.text.toLowerCase()} wallet and navigate to ${

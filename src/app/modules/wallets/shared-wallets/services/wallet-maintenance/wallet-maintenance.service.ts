@@ -36,8 +36,7 @@ export class WalletMaintenanceService {
     private storageService: StorageService,
     private ethersService: EthersService,
     private walletsFactory: WalletsFactory,
-    private blockchainsFactory: BlockchainsFactory,
-    private appStorage: AppStorageService
+    private blockchainsFactory: BlockchainsFactory
   ) {}
 
   async getEncryptedWalletFromStorage(): Promise<void> {
@@ -59,23 +58,29 @@ export class WalletMaintenanceService {
 
   async updateWalletNetworks(changedAssets: string[]): Promise<void> {
     this.walletMnemonicService.getMnemonic(this.wallet);
+    const promises = [];
 
-    this.newNetworks.forEach(async (network) => {
-      const blockchain = this.blockchainsFactory.create().oneByName(network);
-      const wallet = await this.walletsFactory.createFromPhrase(this.password, this.walletMnemonicService.mnemonic.phrase).oneBy(blockchain);
-      
-      this.encryptedWallet.addresses[network] = wallet.address();
-
-      this.apiWalletService.getCoinsFromNetwork(network).forEach((coin) => {
-        this.encryptedWallet.assets[coin.value] = false;
-      });
+    this.newNetworks.forEach((network) => {
+      promises.push(this.createWalletsFromNetwork(network));
     });
+
+    await Promise.all(promises)
 
     changedAssets.forEach((coin) => {
       this.encryptedWallet.assets[coin] = !this.encryptedWallet.assets[coin];
     });
 
     this.encryptedWallet.updatedAt = moment().utc().format();
+  }
+
+  private async createWalletsFromNetwork(network: string) {
+    const blockchain = this.blockchainsFactory.create().oneByName(network);
+    const wallet = await this.walletsFactory.createFromPhrase(this.password, this.walletMnemonicService.mnemonic.phrase).oneBy(blockchain);
+    this.encryptedWallet.addresses[network] = wallet.address();
+
+    this.apiWalletService.getCoinsFromNetwork(network).forEach((coin) => {
+      this.encryptedWallet.assets[coin.value] = false;
+    });
   }
 
   toggleAssets(changedAssets: string[]) {

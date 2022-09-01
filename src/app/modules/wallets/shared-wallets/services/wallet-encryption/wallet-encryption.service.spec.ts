@@ -213,13 +213,12 @@ describe('WalletEncryptionService', () => {
     const walletExist = await service.encryptedWalletExist();
     expect(walletExist).toEqual(false);
   });
-  //TODO: Fix this
 
-  // it('should return the selected coins structure by the user when selectedAssetsStructure', () => {
-  //   service.coins = testCoins;
-  //   const selectedAssets = service.selectedAssetsStructure();
-  //   expect(selectedAssets).toEqual(testCoinsStructure);
-  // });
+  it('should return the selected coins structure by the user when selectedAssetsStructure', () => {
+    service.coins = testCoins;
+    const selectedAssets = service.selectedAssetsStructure();
+    expect(selectedAssets).toEqual(testCoinsStructure);
+  });
 
   it('should return the wallet from localstorage when getEncryptedWallet', async () => {
     storageSpy.getWalletFromStorage.and.returnValue(Promise.resolve(storageWallet));

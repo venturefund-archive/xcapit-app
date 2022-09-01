@@ -114,7 +114,7 @@ export const TEST_SOLANA_COINS: Coin[] = [
   {
     id: 8,
     name: 'SOL - Solana',
-    logoRoute: 'assets/img/coins/SOL.png',
+    logoRoute: 'assets/img/coins/SOL.svg',
     last: true,
     value: 'SOL',
     network: 'SOLANA',
