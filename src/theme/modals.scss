@@ -19,17 +19,6 @@
   }
 }
 
-// Modal Responsive
-.modal {
-  --background: transparent;
-  --max-width: 85%;
-
-  .modal-content {
-    background-color: var(--ion-color-white);
-    border-radius: 8px;
-  }
-}
-
 // Modal editar stop loss
 .ux_modal_stop_loss {
   --max-height: 200px;
