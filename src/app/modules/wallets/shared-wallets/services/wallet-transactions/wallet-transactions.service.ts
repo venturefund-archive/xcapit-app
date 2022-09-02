@@ -7,8 +7,6 @@ import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-ht
 import { environment } from '../../../../../../environments/environment';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CovalentQuoteCurrency } from '../../types/covalent-quote-currencies.type';
-import { CovalentTransfersResponse } from '../../models/covalent-transfers-response/covalent-transfers-response';
 import { BigNumber, VoidSigner, Wallet } from 'ethers';
 import { personalSign, signTypedData_v4 } from 'eth-sig-util';
 import { TokenSend } from '../../models/token-send/token-send.model';
@@ -244,21 +242,6 @@ export class WalletTransactionsService {
     return ordered.reverse();
   }
 
-  private getUrl(asset: Coin, address: string, quoteCurrency: CovalentQuoteCurrency): string {
-    return asset.native
-      ? `${environment.covalentApiUrl}${asset.chainId}/address/${address}/transactions_v2/?no-logs=true&match={"value":{"$ne": "0"}}&limit=10&quote-currency=${quoteCurrency}`
-      : `${environment.covalentApiUrl}${asset.chainId}/address/${address}/transfers_v2/?contract-address=${asset.contract}&limit=10&quote-currency=${quoteCurrency}`;
-  }
-
-  getTransfers(
-    address: string,
-    asset: Coin,
-    quoteCurrency: CovalentQuoteCurrency = 'USD'
-  ): Observable<CovalentTransfersResponse> {
-    return this.http
-      .get(this.getUrl(asset, address, quoteCurrency), { headers: this.authHeaders })
-      .pipe(map((res) => new CovalentTransfersResponse(res, asset)));
-  }
 
   async canAffordSendTx(to: string, amount: number, coin: Coin): Promise<boolean> {
     const from = await this.storageService.getWalletsAddresses(coin.network);

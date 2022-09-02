@@ -16,6 +16,7 @@ import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 const storageData = {
   valid: {
@@ -65,6 +66,8 @@ describe('ConfirmPagePage', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
+
 
   beforeEach(
     waitForAsync(() => {
@@ -97,6 +100,10 @@ describe('ConfirmPagePage', () => {
         create: providersSpy,
       });
 
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
+        trackEvent: Promise.resolve(true),
+      })
+
       TestBed.configureTestingModule({
         declarations: [ConfirmPagePage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -108,6 +115,7 @@ describe('ConfirmPagePage', () => {
           { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
+          { provide: TrackService, useValue: trackServiceSpy}
         ],
       }).compileComponents();
     })
@@ -149,5 +157,10 @@ describe('ConfirmPagePage', () => {
     const spy = spyOn(component, 'getProvider').and.callThrough();
     component.ionViewWillEnter();
     expect(spy).toHaveBeenCalledWith('1');
+  });
+
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

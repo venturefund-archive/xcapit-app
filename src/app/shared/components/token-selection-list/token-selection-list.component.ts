@@ -77,9 +77,6 @@ export class TokenSelectionListComponent implements OnInit {
   }
 
   getTrackClickEventName(coin: string) {
-    if (this.state === 'receive') {
-      return "Item Coin"
-    }
     return `ux_${this.state}_${coin}`;
   }
 }

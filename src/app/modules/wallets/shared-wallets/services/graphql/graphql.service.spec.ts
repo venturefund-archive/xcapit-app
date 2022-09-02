@@ -37,4 +37,9 @@ describe('GraphqlService', () => {
     service.getInvestedBalance('address', 1);
     expect(httpClientSpy.post).toHaveBeenCalledTimes(1);
   });
+
+  it('should get all movements', () => {
+    service.getAllMovements('address', 1);
+    expect(httpClientSpy.post).toHaveBeenCalledTimes(1);
+  });
 });

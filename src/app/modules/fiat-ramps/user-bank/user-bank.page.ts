@@ -3,6 +3,7 @@ import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { NavController } from '@ionic/angular';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-user-bank',
@@ -86,10 +87,15 @@ export class UserBankPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController
+    private navController: NavController,
+    private trackService: TrackService
   ) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.trackScreenViewEvent();
+  }
 
   cbuCountFunc() {
     this.cbuCount = this.form.value.cbu_cvu.length;
@@ -100,6 +106,14 @@ export class UserBankPage implements OnInit {
       next: (res) => {
         this.navController.navigateForward(['fiat-ramps/user-images'], { replaceUrl: true });
       },
+    });
+  }
+
+  trackScreenViewEvent() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_buy_kripton_screenview_bank',
     });
   }
 }

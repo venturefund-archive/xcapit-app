@@ -150,10 +150,10 @@
     }
   },
   "users": {
-    "login_password_info":{
-      "title":"What is the password you must enter?",
-      "subtitle":"The one you use to approve your transactions. It is the same one you generated when creating or importing your wallet.",
-      "button":"Understood"
+    "login_password_info": {
+      "title": "What is the password you must enter?",
+      "subtitle": "The one you use to approve your transactions. It is the same one you generated when creating or importing your wallet.",
+      "button": "Understood"
     },
     "email_validation": {
       "error_title": "We could not verify the Email!",
@@ -238,56 +238,47 @@
       "repeat_new_password": "Confirm New Password"
     },
     "account_recovery": {
-      "header":"Account recovery",
+      "header": "Account recovery",
       "alert": "Without your recovery phrase, we cannot help you recover your wallet.",
       "link": {
         "label": "Xcapit cannot (and will not) at any time access and/or manage your wallet information.",
         "privacy_policy": "Privacy policy."
       },
-      "title":"What can I do now?",
+      "title": "What can I do now?",
       "item_1": {
-        "title":"Create a new wallet",
+        "title": "Create a new wallet",
         "description": "Remember to make a backup copy so that you don't lose access to your money."
       },
       "item_2": {
-        "title":"Import a wallet",
+        "title": "Import a wallet",
         "description": "Access exclusive benefits that only our investment products offer."
       },
       "help_link": "Help"
     },
-    "on_boarding":{
-      "title_1":"We were waiting for you",
-      "title_2":"Investing has never been easier",
-      "title_3":"Learn by playing!",
-      "description_1":"With Xcapit Wallet, you are in control. At all times you will know where your money is and how much you are earning.",
-      "description_2":"Invest in DeFi! Fast, free transactions without intermediaries.",
-      "description_3":"The financial education you wanted. You will receive incentives for your learning and progress.",
+    "on_boarding": {
+      "title_1": "We were waiting for you",
+      "title_2": "Investing has never been easier",
+      "title_3": "Learn by playing!",
+      "description_1": "With Xcapit Wallet, you are in control. At all times you will know where your money is and how much you are earning.",
+      "description_2": "Invest in DeFi! Fast, free transactions without intermediaries.",
+      "description_3": "The financial education you wanted. You will receive incentives for your learning and progress.",
       "primary_action": "Create wallet",
       "secondary_action": "Import wallet"
     },
     "account_recovery_info": {
-      "header":"Account recovery",
+      "header": "Account recovery",
       "title": "Re-establish access to your wallet using your recovery phrase",
       "item_1": "You will need to import your wallet with your recovery phrase, and create a new password.",
       "item_2": "You will have to accept the terms and conditions and privacy policy again.",
       "item_3": "You will retain your progress in the financial literacy module, objective in the planner, and your investor profile.",
-      "button_primary":"Recover wallet",
-      "button_secondary":"I don't have my recovery phrase"
+      "button_primary": "Recover wallet",
+      "button_secondary": "I don't have my recovery phrase"
     }
-
   },
   "tickets": {
     "create": {
       "title": "Open a ticket",
-      "text": "Fill the details of your ticket. A member of the team will contact you soon.",
-      "label_email": "EMAIL",
-      "placeholder_email": "example@email.com",
-      "label_subject": "SUBJECT",
-      "placeholder_subject": "Subject",
-      "label_message": "DESCRIPTION",
-      "placeholder_message": "Write the details of your ticket here.",
-      "submit_button": "Send",
-      "cancel_button": "Go back to login"
+      "text": "Fill the details of your ticket. A member of the team will contact you soon."
     },
     "createSuccess": {
       "textPrimary": "Thank you for your patience!",
@@ -296,21 +287,36 @@
     },
     "create_support_ticket": {
       "header": "Support",
-      "info": "Enter your comments to help you. A member of the team will contact you."
+      "title": "We're here to help you!",
+      "info": "A member of our team will contact you shortly.",
+      "submit_button": "Send query"
     },
     "create_support_ticket_success": {
       "textPrimary": "¡Thank you for your patience!",
       "textSecondary": "Stay tuned, you will receive the answer in your mail",
       "namePrimaryAction": "Back to start"
     },
+    "create_support_ticket_success_new_login": {
+      "textPrimary": "Query sent successfully!",
+      "textSecondary": "Our team is already working on your case. We will get back to you as soon as possible at {{email}}",
+      "has_wallet": {
+        "namePrimaryAction": "Go to my Wallet",
+        "nameSecondaryAction": "Create another query"
+      },
+      "no_wallet": {
+        "namePrimaryAction": "Make another query"
+      }
+    },
     "create_ticket_form": {
-      "label_email": "EMAIL",
-      "placeholder_email": "example@email.com",
-      "label_subject": "Choose a category",
+      "label_subject": "Choose a category for your query*",
       "placeholder_subject": "Choose a category",
-      "label_message": "DESCRIPTION",
+      "label_email": "Enter your email*",
+      "placeholder_email": "example@email.com",
+      "label_message": "What can we help you with?*",
       "placeholder_message": "Write your comment or query here",
-      "submit_button": "Send"
+      "required": "*Required fields",
+      "disclaimer_text": "Xcapit will use your email only to communicate with you and resolve your queries. Learn more about data usage at",
+      "disclaimer_link": "Privacy policy."
     },
     "categories": {
       "my_account": "My account/Registration",
@@ -406,12 +412,17 @@
     },
     "invest_detail": {
       "header": "My investment",
-      "button": "Add amount",
-      "button_link": "Make withdrawal",
+      "button": "Add",
+      "button_link": "Withdraw",
       "invested_amount": "Balance*",
       "daily_earnings_disclaimer": "*Your balance is updated daily.",
       "continuous_update": "*Continuous update",
-      "weekly_update": "*Weekly update"
+      "weekly_update": "*Weekly update",
+      "history":{
+        "title": "History",
+        "investment": "Investment",
+        "withdraw": "Withdraw"
+      }
     },
     "shared": {
       "withdraw_info_modal": {
@@ -586,9 +597,9 @@
       "nameSecondaryAction": "Skip for now"
     },
     "success_profile_test": {
-      "text_primary":"Thanks a lot Xcapiter!",
-      "text_secondary":"Your opinion helps us to improve your experience day by day.",
-      "name_primary_action":"Go to my wallet"
+      "text_primary": "Thanks a lot Xcapiter!",
+      "text_secondary": "Your opinion helps us to improve your experience day by day.",
+      "name_primary_action": "Go to my wallet"
     },
     "personal_data": {
       "header": "Configure account",
@@ -621,30 +632,30 @@
       "country_placeholder": "Select a country",
       "cuit_placeholder": "Ej: 23000000009"
     },
-    "personalised_profile_test":{
-      "question_1":"1. What do you want to do inside Xcapit? Choose all the options you consider",
-      "question_2":"2. What is your experience level with cryptos?",
-      "to_do_in_app":{
-        "investor":"Diversify my investments or save in a stable currency",
-        "remote":"Receive collections and make payments",
-        "web3":"Connect to dapps",
-        "gamer":"Connecting to NFTs or P2E gaming platforms",
-        "other":"Other"        
+    "personalised_profile_test": {
+      "question_1": "1. What do you want to do inside Xcapit? Choose all the options you consider",
+      "question_2": "2. What is your experience level with cryptos?",
+      "to_do_in_app": {
+        "investor": "Diversify my investments or save in a stable currency",
+        "remote": "Receive collections and make payments",
+        "web3": "Connect to dapps",
+        "gamer": "Connecting to NFTs or P2E gaming platforms",
+        "other": "Other"
       },
       "crypto_experience": {
         "beginner": "I am starting to explore crypto",
         "intermediate": "I bought cryptos and used several platforms, but I have only been using them for a short time",
         "advanced": "I have been using it for quite some time, but I still do not consider myself an expert"
       },
-      "button_primary":"Submit",
-      "button_secondary":"Do it at another time"
+      "button_primary": "Submit",
+      "button_secondary": "Do it at another time"
     },
-    "shared_profiles":{
+    "shared_profiles": {
       "skip_profile_test": {
-        "title":"Wait!",
-        "description":"Your progress will not be maintained if you leave the form.",
-        "button_back":"Back",
-        "button_out":"Exit"
+        "title": "Wait!",
+        "description": "Your progress will not be maintained if you leave the form.",
+        "button_back": "Back",
+        "button_out": "Exit"
       }
     },
     "shared": {
@@ -1603,8 +1614,7 @@
       "recovery_phrase_checkbox": "I understand that if this application is moved to another device or removed, my funds can only be recovered with the recovery phrase.",
       "terms_of_use_checkbox": "I have read, understand and accept the <a class='ux-link-xs' href='https://xcapit.com/terms-and-conditions/'>Terms of Use</a> y <a class='ux-link-xs' href='https://xcapit.com/privacy-policy/'>Privacy Policy.</a>",
       "terms_of_use_button": "See terms of use",
-      "submit_button": "Confirm and accept",
-      "error_did_not_accept": "You need to check all the options to continue."
+      "submit_button": "Confirm and accept"
     },
     "recovery_phrase_information": {
       "header": "Recovery phrase",
@@ -1759,8 +1769,9 @@
     },
     "transactions": {
       "header": "Transactions history",
-      "OUT": "Sent",
-      "IN": "Received",
+      "OUT": "Send",
+      "BUY":"Purchase",
+      "IN": "Reception",
       "swap": "Swap",
       "confirmed": "Confirmed",
       "declined": "Declined"
@@ -2075,6 +2086,18 @@
       "copy_button": "Copy private key",
       "success_toast": "Your private key was successfully copied to the clipboard.",
       "error_toast": "The password you entered is incorrect"
+    },
+    "transaction_details": {
+      "header": "Operation detail",
+      "title_status": "Status",
+      "declined": "Rejected",
+      "confirmed": "Confirmed",
+      "link": "View in explorer",
+      "title_wallet": "Target wallet",
+      "title_fee": "Transaction fee",
+      "title_date": "Date",
+      "OUT": "Sent",
+      "IN": "Received"
     }
   },
   "tabs": {
@@ -2112,7 +2135,7 @@
       "select_label": "Country in which you are going to operate",
       "select_placeholder": "Select your country",
       "provider_label": "Select provider",
-      "no_provider":"At the moment it is not possible to purchase {{coinName}} in your country.",
+      "no_provider": "At the moment it is not possible to purchase {{coinName}} in your country.",
       "moonpay_description": "Buy with a credit card",
       "krypton_description": "Buy with bank transfer",
       "directa24": {
@@ -2128,10 +2151,12 @@
       "modal_info": {
         "subtitle_1": "Enabled payment methods:",
         "subtitle_2": "What is the delivery time?",
+        "subtitle_3": "Minimum purchase amount:",
         "button": "Understood",
         "kripton": {
           "description_1": "Bank transfer.",
-          "description_2": "Deliveries are made from Monday to Friday from 9:00 a.m. to 6:00 p.m. approximately."
+          "description_2": "Deliveries are made from Monday to Friday from 9:00 a.m. to 6:00 p.m. approximately.",
+          "description_3": "25 USD per purchase."
         },
         "moonpay": {
           "description_1": "Credit card*.",
@@ -2328,9 +2353,9 @@
       "brasil": "Brazil"
     },
     "shared": {
-      "coin_selector_modal":{
-        "title":"Attention!",
-        "description":"You will have to select again the supplier for the token you wish to purchase.",
+      "coin_selector_modal": {
+        "title": "Attention!",
+        "description": "You will have to select again the supplier for the token you wish to purchase.",
         "button": "Understood"
       },
       "constants": {
@@ -2350,6 +2375,7 @@
         "quantity": "Amount",
         "provider": "Provider",
         "to_pay": "You will pay*",
+        "input_error":"The minimum purchase amount is ${{amount}} {{fiatCurrency}}",
         "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day."
       },
       "kyc_disclaimer_modal": {
@@ -2435,7 +2461,9 @@
       "title_wallet_connect": "WalletConnect",
       "description_wallet_connect": "Connect wallet and interact with dapp.",
       "title_nft": "NFT",
-      "description_nft": "View, transfer and receive."
+      "description_nft": "View, transfer and receive.",
+      "title_wallet_swap": "Swap",
+      "description_wallet_swap": "Possible errors, rates and more."
     },
     "contact_support": {
       "title": "Write to support"
@@ -2497,6 +2525,7 @@
       "loading_button_text": "Swapping",
       "from_token_title": "From",
       "to_token_title": "To",
+      "available":"Available ",
       "fee_title": "Transaction details",
       "footer_text": "It will only take a few seconds.",
       "tos_1": "I have read and agree to the",

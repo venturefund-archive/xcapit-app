@@ -14,6 +14,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
         <app-ux-input
           controlName="actual_password"
           type="password"
+          [textClass]="'primary'"
           [label]="'users.password_change_form.actual_password' | translate"
           inputmode="password"
         ></app-ux-input>
@@ -21,6 +22,7 @@ import { CONFIG } from 'src/app/config/app-constants.config';
         <app-ux-input
           controlName="password"
           type="password"
+          [textClass]="'primary'"
           [label]="'users.password_change_form.new_password' | translate"
           inputmode="password"
           [errors]="this.passwordErrors"

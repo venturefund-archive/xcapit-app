@@ -12,7 +12,6 @@ import { WalletTransactionsService } from '../shared-wallets/services/wallet-tra
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
-import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-transfers-response/covalent-transfers-response';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.pipe';
@@ -28,6 +27,7 @@ import { WalletEncryptionService } from '../shared-wallets/services/wallet-encry
 import { TwoPiInvestment } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { TwoPiInvestmentFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/factory/two-pi-investment-factory';
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
+import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
 
 const nativeTransfersResponse = {
   data: {
@@ -65,7 +65,6 @@ describe('AssetDetailPage', () => {
   let component: AssetDetailPage;
   let fixture: ComponentFixture<AssetDetailPage>;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
-  let walletTransactionsServiceSpy: jasmine.SpyObj<WalletTransactionsService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let fakeActivatedRoute: FakeActivatedRoute;
@@ -80,6 +79,7 @@ describe('AssetDetailPage', () => {
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let twoPiInvestmentFactorySpy: jasmine.SpyObj<TwoPiInvestmentFactory>;
   let twoPiProductFactorySpy: jasmine.SpyObj<TwoPiProductFactory>;
+  let transfersFactorySpy: jasmine.SpyObj<TransfersFactory>
 
   beforeEach(waitForAsync(() => {
     coinsSpy = [
@@ -137,9 +137,6 @@ describe('AssetDetailPage', () => {
       walletExist: Promise.resolve(true),
     });
 
-    walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionsService', {
-      getTransfers: of(new CovalentTransfersResponse(nativeTransfersResponse, nativeAsset)),
-    });
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getWalletsAddresses: Promise.resolve('testAddress'),
     });
@@ -152,6 +149,10 @@ describe('AssetDetailPage', () => {
 
     providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
       create: providersSpy,
+    });
+
+    transfersFactorySpy = jasmine.createSpyObj('TransfersFactory', {
+      create: {all: ()=> [] },
     });
 
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', {
@@ -189,7 +190,6 @@ describe('AssetDetailPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: WalletService, useValue: walletServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-        { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
@@ -198,6 +198,7 @@ describe('AssetDetailPage', () => {
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
         { provide: TwoPiInvestmentFactory, useValue: twoPiInvestmentFactorySpy },
         { provide: TwoPiProductFactory, useValue: twoPiProductFactorySpy },
+        { provide: TransfersFactory, useValue: transfersFactorySpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -226,20 +227,6 @@ describe('AssetDetailPage', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     expect(component.enabledToBuy).toBeFalse();
-  });
-
-  it('should get transfers on view will enter', async () => {
-    await component.ionViewWillEnter();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    fixture.detectChanges();
-    expect(component.transfers[0].symbol).toBe('ETH');
-    expect(component.transfers[0].type).toBe('OUT');
-    expect(component.transfers[0].amount).toBe(0.01);
-    expect(component.transfers[1].symbol).toBe('ETH');
-    expect(component.transfers[1].type).toBe('IN');
-    expect(component.transfers[1].amount).toBe(0.01);
-    const transfersEl = fixture.debugElement.query(By.css('app-wallet-transaction-card'));
-    expect(transfersEl).not.toBe(null);
   });
 
   it('should get prices and balances on view will enter', async () => {

@@ -134,7 +134,7 @@ describe('ApiWalletService', () => {
 
   it('should get networks on getNetworks', () => {
     const networks = service.getNetworks();
-    expect(new Set(networks)).toEqual(new Set(['ERC20', 'RSK', 'BSC_BEP20', 'MATIC']));
+    expect(new Set(networks)).toEqual(new Set(['ERC20', 'RSK', 'BSC_BEP20', 'MATIC', 'SOLANA']));
   });
 
   it('should get coin by coin on getCoin', () => {
@@ -157,7 +157,7 @@ describe('ApiWalletService', () => {
       },
     };
     const networks = service.getWalletNewNetworks(encryptedWalletTest);
-    expect(new Set(networks)).toEqual(new Set(['ERC20', 'BSC_BEP20']));
+    expect(new Set(networks)).toEqual(new Set(['ERC20', 'BSC_BEP20', 'SOLANA']));
   });
 
   it('should get native token from network on getNativeTokenFromNetwork', () => {

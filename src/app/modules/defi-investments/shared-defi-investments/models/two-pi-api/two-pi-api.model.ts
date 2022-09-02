@@ -1,6 +1,8 @@
 import { TwoPi, Vault } from '@2pi-network/sdk';
 import { Injectable } from '@angular/core';
+import { memoryCache, standard60Sec } from 'src/app/shared/cache/memory-cache.decorator';
 import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +10,7 @@ import { environment } from 'src/environments/environment';
 export class TwoPiApi {
   instance: TwoPi;
   env = environment.environment;
+
   constructor() {
     this.instance = new TwoPi({});
   }
@@ -16,6 +19,7 @@ export class TwoPiApi {
     return this.env === 'PRODUCCION' ? { networks: ['polygon'], partner: 'xcapit' } : { networks: ['mumbai'] };
   }
 
+  @memoryCache(standard60Sec)
   async vaults(): Promise<Vault[]> {
     return await this.instance.getVaults(this.getParams());
   }

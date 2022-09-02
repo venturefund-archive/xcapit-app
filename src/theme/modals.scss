@@ -1,3 +1,14 @@
+// modal responsive
+.modal {
+  --background: transparent;
+  --max-width: 85%;
+
+  .modal-content {
+    background-color: var(--ion-color-white);
+    border-radius: 8px;
+  }
+}
+
 // Clase para que el modal no sea en pantalla completa, sino un alert
 .ux_modal_crm {
   --max-height: 195px;
@@ -107,28 +118,6 @@
 .ux-md-modal-informative {
   --max-height: 459px;
   --max-width: 296px;
-  --background: var(--ion-color-white);
-
-  &::part(content) {
-    border-radius: 8px;
-  }
-}
-
-// Modal informativo providers
-.ux-md-modal-informative-provider {
-  --max-height: 408px;
-  --max-width: 328px;
-  --background: var(--ion-color-white);
-
-  &::part(content) {
-    border-radius: 8px;
-  }
-}
-
-// Modal informativo providers
-.ux-sm-modal-informative-provider {
-  --max-height: 349px;
-  --max-width: 328px;
   --background: var(--ion-color-white);
 
   &::part(content) {

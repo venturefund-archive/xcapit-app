@@ -4,7 +4,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { BrowserService } from '../../services/browser/browser.service';
 import { LINKS } from 'src/app/config/static-links';
-import { defaultSwapsUrls } from '../../../modules/swaps/swaps-routing.module';
+import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/default-swaps-urls';
 
 @Component({
   selector: 'app-update-news',
@@ -45,7 +45,7 @@ export class UpdateNewsComponent implements OnInit {
       badge: this.translate.instant('shared.update_news.first.badge'),
       title: this.translate.instant('shared.update_news.first.title'),
       description: this.translate.instant('shared.update_news.first.description'),
-      url: defaultSwapsUrls.swapHome,
+      url: new DefaultSwapsUrls().home(),
       isOpenByBrowser: false,
     },
     {

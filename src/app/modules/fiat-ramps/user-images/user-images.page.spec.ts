@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 const formData = {
   valid: {
@@ -51,6 +52,7 @@ describe('UserImagesPage', () => {
   let fiatRampsServiceSpy: any;
   let navControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserImagesPage>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -58,6 +60,9 @@ describe('UserImagesPage', () => {
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
         registerUserImages: of({}),
       });
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
+        trackEvent: Promise.resolve(true),
+      })
 
       TestBed.configureTestingModule({
         declarations: [UserImagesPage, TrackClickDirective, DummyComponent],
@@ -73,6 +78,7 @@ describe('UserImagesPage', () => {
           TrackClickDirective,
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: TrackService, useValue: trackServiceSpy}
         ],
       }).compileComponents();
     })
@@ -95,5 +101,10 @@ describe('UserImagesPage', () => {
     await component.handleSubmit();
     fixture.detectChanges();
     expect(fiatRampsServiceSpy.registerUserImages).toHaveBeenCalledTimes(1);
+  });
+
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

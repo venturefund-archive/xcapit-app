@@ -19,6 +19,9 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { By } from '@angular/platform-browser';
 import { CameraPlugin } from '@capacitor/camera';
 import { FilesystemPlugin } from '@capacitor/filesystem';
+import { TrackService } from 'src/app/shared/services/track/track.service';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 
 const operation: FiatRampOperation = {
   operation_id: 678,
@@ -77,6 +80,9 @@ describe('OperationsDetailPage', () => {
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let cameraSpy: jasmine.SpyObj<CameraPlugin>;
   let filesystemSpy: jasmine.SpyObj<FilesystemPlugin>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsDetailPage>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  
 
   beforeEach(
     waitForAsync(() => {
@@ -113,8 +119,13 @@ describe('OperationsDetailPage', () => {
       filesystemSpy = jasmine.createSpyObj('Filesystem', {
         requestPermissions: Promise.resolve(),
       });
+
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
+        trackEvent: Promise.resolve(true),
+      })
+
       TestBed.configureTestingModule({
-        declarations: [OperationsDetailPage],
+        declarations: [OperationsDetailPage, FakeTrackClickDirective],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [
           IonicModule.forRoot(),
@@ -126,6 +137,7 @@ describe('OperationsDetailPage', () => {
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
+          { provide: TrackService, useValue: trackServiceSpy}
         ],
       }).compileComponents();
 
@@ -134,6 +146,8 @@ describe('OperationsDetailPage', () => {
       component.cameraPlugin = cameraSpy;
       component.filesystemPlugin = filesystemSpy;
       fixture.detectChanges();
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+
     })
   );
 
@@ -160,12 +174,12 @@ describe('OperationsDetailPage', () => {
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/fiat-ramps/select-provider']);
   });
 
-  it('should only show ux_add_button when there is no voucher', () => {
+  it('should only show ux_buy_kripton_attach when there is no voucher', () => {
     component.operation = mappedOperation;
     component.hasVoucher = false;
     component.voucher = null;
     fixture.detectChanges();
-    const addButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_add_photo"]'));
+    const addButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_attach"]'));
     const uploadButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]'));
     expect(addButtonEl).toBeTruthy();
     expect(uploadButtonEl).toBeNull();
@@ -176,18 +190,18 @@ describe('OperationsDetailPage', () => {
     component.hasVoucher = true;
     component.voucher = photo;
     fixture.detectChanges();
-    const addButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_add_photo"]'));
+    const addButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_attach"]'));
     const uploadButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]'));
     expect(addButtonEl).toBeNull();
     expect(uploadButtonEl).toBeTruthy();
   });
 
-  it('should upload photo when user clicks ux_add_photo button', async () => {
+  it('should upload photo when user clicks ux_buy_kripton_attach button', async () => {
     component.operation = mappedOperation;
     component.hasVoucher = false;
     component.voucher = null;
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_add_photo"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_attach"]')).nativeElement.click();
     await fixture.whenStable();
     expect(cameraSpy.requestPermissions).toHaveBeenCalledTimes(1);
     expect(filesystemSpy.requestPermissions).toHaveBeenCalledTimes(1);
@@ -242,5 +256,23 @@ describe('OperationsDetailPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
     await fixture.whenStable();
     expect(component.uploadingVoucher).toBeFalse();
+  });
+
+  it('should call trackEvent on trackService when ux_buy_kripton_attach Button clicked', () => {
+    component.operation = mappedOperation;
+    component.hasVoucher = false;
+    component.voucher = null;
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_attach');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

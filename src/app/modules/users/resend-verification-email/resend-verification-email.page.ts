@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { ApiUsuariosService } from '../shared-users/services/api-usuarios/api-usuarios.service';
 import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-resend-verification-email',
@@ -15,7 +15,7 @@ import { Storage } from '@ionic/storage';
           </ion-button>
         </div>
         <div class="main__ux_success_image">
-          <app-ux-center-img imagePath="./assets/img/usuarios/resend-verification-email/success-resend.svg"></app-ux-center-img>
+          <app-ux-center-img imagePath="./assets/img/users/resend-verification-email/success-resend.svg"></app-ux-center-img>
         </div>
         <div class="main__primary_text">
           <ion-text class="ux-font-text-xl">{{
@@ -62,16 +62,17 @@ export class ResendVerificationEmailPage implements OnInit {
   email: string;
 
   constructor(
-    private route: ActivatedRoute,
     private apiUsuariosService: ApiUsuariosService,
     private navController: NavController,
-    private storage: Storage
+    private storage: Storage,
+    private router: Router
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.email = this.router.getCurrentNavigation().extras?.state?.email;
+  }
 
   ionViewWillEnter() {
-    this.email = this.route.snapshot.paramMap.get('email');
     if (this.email) {
       this.updateStorage();
       this.resendEmail();
@@ -135,7 +136,8 @@ export class ResendVerificationEmailPage implements OnInit {
 
   openTicket() {
     this.clearStorage();
-    this.navController.navigateForward(['/tickets/create', this.email]);
+    const params = { state: { email: this.email } };
+    this.navController.navigateForward(['/tickets/create'], params);
   }
 
   clearStorage() {

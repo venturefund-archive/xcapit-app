@@ -28,6 +28,7 @@ import { LoginPasswordInfoComponent } from '../shared-users/components/login-pas
               aria-label="password"
               tabindex="1"
               (click)="this.dismissToast()"
+              [textClass]="'info'"
               [infoIcon]="true"
               (infoIconClicked)="this.showPasswordInfoModal()"
             ></app-ux-input>
@@ -116,7 +117,7 @@ export class LoginNewPage {
       componentProps: {
         title: 'users.login_password_info.title',
         subtitle: 'users.login_password_info.subtitle',
-        image: 'assets/img/usuarios/login_password_info/info.svg',
+        image: 'assets/img/users/login_password_info/info.svg',
         button: 'users.login_password_info.button',
       },
     });

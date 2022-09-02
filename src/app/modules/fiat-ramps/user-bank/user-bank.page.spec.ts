@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
-
 import { UserBankPage } from './user-bank.page';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { navControllerMock } from '../../../../testing/spies/nav-controller-mock.spec';
@@ -13,6 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { TrackClickDirective } from 'src/app/shared/directives/track-click/track-click.directive';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 const formData = {
   valid: {
@@ -33,13 +33,18 @@ describe('UserBankPage', () => {
   let fiatRampsServiceSpy: any;
   let navControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserBankPage>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
+  
   beforeEach(
     waitForAsync(() => {
       navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
         registerUserBank: of({}),
       });
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
+        trackEvent: Promise.resolve(true),
+      })
 
       TestBed.configureTestingModule({
         declarations: [UserBankPage, TrackClickDirective, DummyComponent],
@@ -55,6 +60,7 @@ describe('UserBankPage', () => {
           TrackClickDirective,
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
+          { provide: TrackService, useValue: trackServiceSpy }
         ],
       }).compileComponents();
     })
@@ -77,5 +83,10 @@ describe('UserBankPage', () => {
     await component.handleSubmit();
     fixture.detectChanges();
     expect(fiatRampsServiceSpy.registerUserBank).toHaveBeenCalledTimes(1);
+  });
+
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

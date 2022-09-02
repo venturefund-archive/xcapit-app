@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +17,10 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/directa-price-factory';
+import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { of } from 'rxjs';
 
 describe('DirectaPage', () => {
   let component: DirectaPage;
@@ -31,60 +35,75 @@ describe('DirectaPage', () => {
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+  let directaPriceFactorySpy: jasmine.SpyObj<DirectaPriceFactory>;
+  let directaPriceSpy: jasmine.SpyObj<DirectaPrice>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
 
-  beforeEach(
-    waitForAsync(() => {
-      navControllerSpy = new FakeNavController().createSpy();
+  beforeEach(waitForAsync(() => {
+    navControllerSpy = new FakeNavController().createSpy();
 
-      coinsSpy = [
-        jasmine.createSpyObj('Coin', {}, { value: 'USDC', network: 'MATIC' }),
-        jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' }),
-      ];
-      fakeActivatedRoute = new FakeActivatedRoute({ country: 'argentina' }, {});
-      activatedRouteSpy = fakeActivatedRoute.createSpy();
+    coinsSpy = [
+      jasmine.createSpyObj('Coin', {}, { value: 'USDC', network: 'MATIC' }),
+      jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' }),
+    ];
+    fakeActivatedRoute = new FakeActivatedRoute({ country: 'argentina' }, {});
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
 
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getCoins: coinsSpy,
-      });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: coinsSpy,
+    });
 
-      providersSpy = jasmine.createSpyObj('Providers', {
-        all: rawProvidersData,
-        byAlias: rawProvidersData.find((provider) => provider.alias === 'PX'),
-      });
+    providersSpy = jasmine.createSpyObj('Providers', {
+      all: rawProvidersData,
+      byAlias: rawProvidersData.find((provider) => provider.alias === 'PX'),
+    });
 
-      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
-        create: providersSpy,
-      });
-      walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
-        addCoinIfUserDoesNotHaveIt: Promise.resolve(),
-      });
-      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{
-        clean: Promise.resolve()
-      },{
-        tokenOperationData: {asset:'USDC', network:'MATIC', country: 'ECU'}
-      })
+    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+      create: providersSpy,
+    });
+    walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
+      addCoinIfUserDoesNotHaveIt: Promise.resolve(),
+    });
+    tokenOperationDataServiceSpy = jasmine.createSpyObj(
+      'TokenOperationDataService',
+      {
+        clean: Promise.resolve(),
+      },
+      {
+        tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
+      }
+    );
 
-      TestBed.configureTestingModule({
-        declarations: [DirectaPage],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
-          { provide: ProvidersFactory, useValue: providersFactorySpy },
-          { provide: HttpClient, useValue: httpClientSpy },
-          { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
-          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+    directaPriceSpy = jasmine.createSpyObj('DirectaPrice', {
+      value: of(3),
+    });
 
-      fixture = TestBed.createComponent(DirectaPage);
-      component = fixture.componentInstance;
-      component.countries = rawProviderCountriesData;
-      fixture.detectChanges();
-    })
-  );
+    directaPriceFactorySpy = jasmine.createSpyObj('DirectaPriceFactory', {
+      new: directaPriceSpy,
+    });
+
+    TestBed.configureTestingModule({
+      declarations: [DirectaPage],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: ProvidersFactory, useValue: providersFactorySpy },
+        { provide: HttpClient, useValue: httpClientSpy },
+        { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+        { provide: DirectaPriceFactory, useValue: directaPriceFactorySpy },
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(DirectaPage);
+    component = fixture.componentInstance;
+    component.countries = rawProviderCountriesData;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -99,11 +118,47 @@ describe('DirectaPage', () => {
     expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coinsSpy[0]);
   });
 
-  it('should set country, default currency and provider on init', () => {
+  it('should set country, default currency and provider on init', fakeAsync(() => {
     fakeActivatedRoute.modifySnapshotParams({ alias: 'PX' });
+    component.form.patchValue({ fiatAmount: 1 });
     component.ionViewWillEnter();
+    fixture.detectChanges();
+    tick();
     expect(component.country.name).toEqual('Ecuador');
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);
     expect(component.fiatCurrency).toEqual('USD');
+  }));
+
+  it('should unsubscribe when leave', () => {
+    component.ionViewWillEnter();
+    const nextSpy = spyOn(component.destroy$, 'next');
+    const completeSpy = spyOn(component.destroy$, 'complete');
+    component.ionViewWillLeave();
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should recalculate fiat amount when crypto amount is changed', fakeAsync(() => {
+    component.ionViewWillEnter();
+    component.form.patchValue({ cryptoAmount: 3 });
+    fixture.detectChanges();
+    expect(component.form.value.fiatAmount).toEqual(9);
+  }));
+
+  it('should recalculate crypto amount when fiat amount is changed', fakeAsync(() => {
+    component.ionViewWillEnter();
+    component.form.patchValue({ fiatAmount: 9 });
+    fixture.detectChanges();
+    expect(component.form.value.cryptoAmount).toEqual(3);
+  }));
+
+  it('should validate that the crypto amount equals the minimum value in dollars', () => {
+    directaPriceSpy.value.and.returnValue(of(1));
+    component.ionViewWillEnter();
+    component.form.patchValue({ cryptoAmount: 1 });
+    fixture.detectChanges();
+    expect(component.form.controls.cryptoAmount.valid).toBeFalse();
+    component.form.patchValue({ cryptoAmount: 2 });
+    expect(component.form.controls.cryptoAmount.valid).toBeTrue();
   });
 });
