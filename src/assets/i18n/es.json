@@ -2082,7 +2082,12 @@
       "title_fee":"Tarifa de transacción",
       "title_date":"Fecha",
       "OUT": "Enviado",
-      "IN": "Recibido"
+      "IN": "Recibido",
+      "modal_info_state":{
+        "title": "¿Qué significa este estado?",
+        "description": "Tu transacción fue rechazada por la red. Obtén más detalle accediendo al scan.",
+        "button_text": "Entendido"
+      }
     }
   },
   "tabs": {

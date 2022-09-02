@@ -7,6 +7,9 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { ScanUrlOf } from '../shared-wallets/models/scan-url-of/scan-url-of';
 import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
 import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transfer';
+import { InfoSendModalComponent } from '../shared-wallets/components/info-send-modal/info-send-modal.component';
+import { ModalController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-transaction-details',
   template: ` <ion-header>
@@ -34,9 +37,11 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
                 <ion-text class="ux-font-text-lg">{{ this.tplTransfer.token.value }}</ion-text>
               </div>
               <div class="td__card__container__title_container__badge">
-                <ion-badge [color]="this.networkColors[this.tplTransfer.token.network]" class="ux-badge ux-font-num-subtitulo">{{
-                  this.tplTransfer.token.network | formattedNetwork | uppercase
-                }}</ion-badge>
+                <ion-badge
+                  [color]="this.networkColors[this.tplTransfer.token.network]"
+                  class="ux-badge ux-font-num-subtitulo"
+                  >{{ this.tplTransfer.token.network | formattedNetwork | uppercase }}</ion-badge
+                >
               </div>
             </div>
           </div>
@@ -56,7 +61,14 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
         <div class="td__card__item">
           <div class="divider list-divider"></div>
           <div class="td__card__item__title">
-            <ion-text class="ux-font-title-xs">{{ 'wallets.transaction_details.title_status' | translate }}</ion-text>
+            <ion-text class="ux-font-title-xs">{{ 'wallets.transaction_details.title_status' | translate }} </ion-text>
+            <ion-icon
+              appTrackClick
+              [dataToTrack]="{ eventLabel: 'transaction_detail' }"
+              name="information-circle"
+              (click)="this.showOperatingStatusInformation()"
+              color="info"
+            ></ion-icon>
           </div>
           <div class="container-item">
             <div class="td__card__item__badge">
@@ -125,7 +137,9 @@ export class TransactionDetailsPage implements OnInit {
 
   constructor(
     private transactionDetailsService: TransactionDetailsService,
-    private browserService: BrowserService
+    private browserService: BrowserService,
+    private modalController: ModalController,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {}
@@ -155,5 +169,20 @@ export class TransactionDetailsPage implements OnInit {
     this.browserService.open({
       url: ScanUrlOf.create(this.tplTransfer.tx_hash, this.tplTransfer.token.network).value(),
     });
+  }
+
+  async showOperatingStatusInformation() {
+    const modal = await this.modalController.create({
+      component: InfoSendModalComponent,
+      componentProps: {
+        title: this.translate.instant('wallets.transaction_details.modal_info_state.title'),
+        description: this.translate.instant('wallets.transaction_details.modal_info_state.description'),
+        buttonText: this.translate.instant('wallets.transaction_details.modal_info_state.button_text'),
+        state: this.tplTransfer.successful,
+      },
+      cssClass: 'modal',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 }

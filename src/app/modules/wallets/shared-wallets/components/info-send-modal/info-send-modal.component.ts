@@ -13,7 +13,7 @@ import { ModalController } from '@ionic/angular';
     <div class="main__body">
       <div class="main__body__content">
         <ion-label class="ux-font-text-lg main__body__content__title">{{ this.title }} </ion-label>
-        <div *ngIf="this.state != null" class="main__body__content__state">
+        <div *ngIf="this.state != undefined" class="main__body__content__state">
           <ion-badge
             class="ux-badge ux-font-num-subtitulo"
             [ngClass]="{ confirmed: this.state, declined: !this.state }"
@@ -45,7 +45,6 @@ export class InfoSendModalComponent implements OnInit {
   description: string;
   buttonText: string;
   @Input() state?: boolean;
-  isState: boolean;
 
   constructor(private modalController: ModalController) {}
 

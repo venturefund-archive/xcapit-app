@@ -22,6 +22,8 @@
         &__title {
           padding-left: 16px;
           margin-bottom: 8px;
+          display: flex;
+          align-items: center;
 
           ion-text {
             color: var(--ion-color-primary);
@@ -164,5 +166,11 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
+  }
+
+  ion-icon {
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
   }
 }
