@@ -10,6 +10,7 @@ import { JSONTransfer } from '../shared-wallets/models/json-transfer/json-transf
 import { InfoSendModalComponent } from '../shared-wallets/components/info-send-modal/info-send-modal.component';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-transaction-details',
   template: ` <ion-header>
@@ -123,6 +124,14 @@ import { TranslateService } from '@ngx-translate/core';
           </div>
         </div>
       </div>
+      <div class="td__support">
+        <div class="td__support__text">
+          <ion-text class="ux-font-text-base">{{'shared.need_help.text_help_link' | translate }}</ion-text>
+        </div>
+        <div class="td__support__link">
+          <ion-text class="link ux-link-xs" (click)="this.goToSupport()" name="support_link"> {{'shared.need_help.text_help_support' | translate }}</ion-text>
+        </div>
+      </div>
     </ion-content>`,
   styleUrls: ['./transaction-details.page.scss'],
 })
@@ -139,7 +148,8 @@ export class TransactionDetailsPage implements OnInit {
     private transactionDetailsService: TransactionDetailsService,
     private browserService: BrowserService,
     private modalController: ModalController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private navController: NavController
   ) {}
 
   ngOnInit() {}
@@ -184,5 +194,9 @@ export class TransactionDetailsPage implements OnInit {
       backdropDismiss: false,
     });
     await modal.present();
+  }
+
+  goToSupport() {
+    this.navController.navigateForward(['/tickets/create-support-ticket']);
   }
 }
