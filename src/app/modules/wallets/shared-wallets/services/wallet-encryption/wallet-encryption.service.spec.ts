@@ -13,7 +13,7 @@ import { Keypair } from '@solana/web3.js';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 
@@ -135,7 +135,7 @@ describe('WalletEncryptionService', () => {
 
   beforeEach(() => {
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
-      create: new Blockchains(new BlockchainRepo(rawBlockchainsData)),
+      create: new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)),
     });
     walletFactorySpy = jasmine.createSpyObj('WalletsFactory', {
       createFromPhrase: jasmine.createSpyObj('Wallets', { oneBy: Promise.resolve({ address: () => 'testAddress', encryptedWallet: ()=>'encWallet'}) }, {}),
