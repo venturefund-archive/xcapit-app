@@ -32,13 +32,13 @@ describe('NewLoginTickets', () => {
     expect(newLogin).toBeTruthy();
   });
 
-  it('should navigate to new login if feature flag is enabled', async () => {
+  it('should redirect to new create support ticket if feature flag is enabled', async () => {
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
     await newLogin.canActivate();
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tickets/new-create-support-ticket']);
   });
 
-  it('should not navigate to new login if feature flag is enabled', async () => {
+  it('should not redirect to new create support ticket if feature flag is disabled', async () => {
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
     await newLogin.canActivate();
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(0);

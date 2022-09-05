@@ -18,7 +18,6 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { Storage } from '@ionic/storage';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 
 @Component({
@@ -113,7 +112,6 @@ export class UserProfileMenuPage {
     private walletBackupService: WalletBackupService,
     private walletConnectService: WalletConnectService,
     private storage: Storage,
-    private remoteConfigService: RemoteConfigService
   ) {}
 
   ionViewWillEnter() {
