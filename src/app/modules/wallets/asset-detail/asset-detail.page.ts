@@ -66,7 +66,6 @@ import { TransfersFactory } from '../shared-wallets/models/transfers/factory/tra
               {{ 'wallets.asset_detail.invest_button' | translate }}
             </ion-button>
           </div>
-
           <div class="wad__available text-center">
             <ion-text class="title ux-font-titulo-xs">
               {{ 'wallets.asset_detail.available' | translate }}
@@ -81,7 +80,6 @@ import { TransfersFactory } from '../shared-wallets/models/transfers/factory/tra
             </div>
           </div>
         </ion-card>
-
         <div class="wad__subheader_buttons" *ngIf="this.currency">
           <app-wallet-subheader-buttons
             [asset]="this.currency.value"

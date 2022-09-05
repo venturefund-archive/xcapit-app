@@ -2097,7 +2097,12 @@
       "title_fee": "Transaction fee",
       "title_date": "Date",
       "OUT": "Sent",
-      "IN": "Received"
+      "IN": "Received",
+      "modal_info_state":{
+        "title": "What does this state mean?",
+        "description": "Your transaction was rejected by the network. Get more details by accessing the scan.",
+        "button_text": "Understood"
+      }
     }
   },
   "tabs": {

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TransactionDetailsPage } from './transaction-details.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { TransactionDetailsService } from '../shared-wallets/services/transaction-details/transaction-details.service';
@@ -13,6 +13,7 @@ import { NativeTransfer } from '../shared-wallets/models/transfer/native-transfe
 import { rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { FormattedNetworkPipe } from '../../../shared/pipes/formatted-network-name/formatted-network.pipe';
 import { FormattedAmountPipe } from '../../../shared/pipes/formatted-amount/formatted-amount.pipe';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 describe('TransactionDetailsPage', () => {
   let component: TransactionDetailsPage;
@@ -21,6 +22,8 @@ describe('TransactionDetailsPage', () => {
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
 
   beforeEach(waitForAsync(() => {
     transactionDetailsServiceSpy = jasmine.createSpyObj(
@@ -34,6 +37,8 @@ describe('TransactionDetailsPage', () => {
     browserServiceSpy = jasmine.createSpyObj('BrowserService', {
       open: Promise.resolve(),
     });
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
@@ -44,6 +49,7 @@ describe('TransactionDetailsPage', () => {
         { provide: TransactionDetailsService, useValue: transactionDetailsServiceSpy },
         { provide: BrowserService, useValue: browserServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -64,5 +70,12 @@ describe('TransactionDetailsPage', () => {
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({
       url: ScanUrlOf.create(component.tplTransfer.tx_hash, component.tplTransfer.token.network).value(),
     });
+  });
+
+  it('should open modal when information-circle button is clicked', async () => {
+    component.ionViewWillEnter()
+    fixture.detectChanges()
+    fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click()
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });

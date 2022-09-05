@@ -4,7 +4,7 @@ import { ModalController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-toast-with-buttons',
-  template: `
+  template: `<div class="modal-content">
     <div class="twb">
       <ion-icon
         color="warningdark"
@@ -44,7 +44,7 @@ import { ModalController, NavController } from '@ionic/angular';
         </ion-button>
       </div>
     </div>
-  `,
+  </div> `,
   styleUrls: ['./toast-with-buttons.component.scss'],
 })
 export class ToastWithButtonsComponent implements OnInit {
