@@ -72,7 +72,7 @@ describe('TransactionDetailsPage', () => {
     });
   });
 
-  it('should open modal when showOperatingStatusInformation event is clicked', async () => {
+  it('should open modal when information-circle button is clicked', async () => {
     component.ionViewWillEnter()
     fixture.detectChanges()
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click()

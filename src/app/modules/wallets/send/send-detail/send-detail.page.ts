@@ -382,8 +382,7 @@ export class SendDetailPage {
   async openModalBalance() {
     const modal = await this.modalController.create({
       component: ToastWithButtonsComponent,
-      cssClass: 'modal',
-      //cssClass: 'ux-toast-warning-with-margin',
+      cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
       componentProps: {
