@@ -108,7 +108,6 @@ export class SolanaWallet implements Wallet {
     private _rawData: any,
     private _aBlockchain: Blockchain,
     private _solanaWallet: any = Keypair,
-    // private _ethersProviders: any = providers
   ) {}
   
   sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
@@ -124,14 +123,6 @@ export class SolanaWallet implements Wallet {
   onNeedPass(): Subscribable {
     return this._onNeedPass;
   }
-
-  // async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
-  //   const connectedWallet = this._connectedWallet(this._derivedWallet(await this._decryptedWallet()));
-  //   for (const tx of transactions) {
-  //     await (await connectedWallet.sendTransaction(await tx.value())).wait();
-  //   }
-  //   return true;
-  // }
 
   private _encryptedWallet(): string {
     return this._rawData['encryptedWallet'];
@@ -152,8 +143,4 @@ export class SolanaWallet implements Wallet {
     const arraySeed = ethers.utils.arrayify(seed);
     return this._solanaWallet.fromSeed(arraySeed.slice(0, 32));
   }
-
-  // private _connectedWallet(aEthersWallet: EthersWallet): EthersWallet {
-  //   return aEthersWallet.connect(new this._ethersProviders.JsonRpcProvider(this._aBlockchain.rpc()));
-  // }
 }
