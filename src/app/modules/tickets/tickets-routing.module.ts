@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NoAuthGuard } from '../users/shared-users/guards/no-auth/no-auth.guard';
+import { NewLoginTickets } from './shared-tickets/guards/new-login/new-login-tickets.guard';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
           import('./create-ticket-success/create-ticket-success.module').then((m) => m.CreateTicketSuccessPageModule),
       },
       {
+        canActivate: [NewLoginTickets],
         path: 'create-support-ticket',
         loadChildren: () =>
           import('./create-support-ticket/create-support-ticket.module').then((m) => m.CreateSupportTicketPageModule),

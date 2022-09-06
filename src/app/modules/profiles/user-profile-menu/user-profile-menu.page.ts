@@ -18,7 +18,6 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { Storage } from '@ionic/storage';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 
 @Component({
@@ -113,23 +112,11 @@ export class UserProfileMenuPage {
     private walletBackupService: WalletBackupService,
     private walletConnectService: WalletConnectService,
     private storage: Storage,
-    private remoteConfigService: RemoteConfigService
   ) {}
 
   ionViewWillEnter() {
-    this.checkNewLoginFeatureFlag();
     this.getProfile();
     this.existWallet();
-  }
-
-  checkNewLoginFeatureFlag() {
-    if (!this.remoteConfigService.getFeatureFlag('ff_newLogin')) {
-      const category = this.itemMenu.find(
-        (category) => category.category_title === 'profiles.user_profile_menu.category_help'
-      );
-      const item = category.items.find((item) => item.buttonName === 'ux_go_to_contact_support');
-      item.route = '/tickets/create-support-ticket';
-    }
   }
 
   back() {
