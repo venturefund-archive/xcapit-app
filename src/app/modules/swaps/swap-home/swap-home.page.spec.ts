@@ -393,4 +393,13 @@ describe('SwapHomePage', () => {
       { replaceUrl: true, animated: false }
     );
   });
+
+  it('should set max amount from swap', async()=>{
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    
+    fixture.debugElement.query(By.css('ion-button.sw__swap-card__from__detail__amount__wrapper__max')).nativeElement.click();
+    
+    expect(component.form.controls.fromTokenAmount.value).toEqual(10);
+  })
 });

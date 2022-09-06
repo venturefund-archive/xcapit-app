@@ -72,16 +72,28 @@
             width: 55%;
             margin-left: 5px;
 
-            &__input {
-              border-radius: 4px;
-              border: 1px solid var(--ion-color-neutral80);
-              background-color: var(--ion-color-neutral10);
-              color: var(--ion-color-neutral90);
+            &__wrapper {
+              position: relative;
 
-              --padding-start: 14px;
-              --padding-top: 12px;
-              --padding-end: 14px;
-              --padding-bottom: 12px;
+              &__input {
+                border-radius: 4px;
+                border: 1px solid var(--ion-color-neutral80);
+                background-color: var(--ion-color-neutral10);
+                color: var(--ion-color-neutral90);
+
+                --padding-start: 14px;
+                --padding-top: 12px;
+                --padding-end: 55px;
+                --padding-bottom: 12px;
+              }
+
+              &__max {
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 2;
+                color: var(--ion-color-info);
+              }
             }
 
             &__value {
