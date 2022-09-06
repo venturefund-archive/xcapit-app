@@ -37,6 +37,7 @@ import { CustomValidatorErrors } from 'src/app/shared/validators/custom-validato
         <app-ux-input
           controlName="password"
           type="password"
+          [textClass]="'primary'"
           [label]="'users.reset_password_form.new_password' | translate"
           inputmode="password"
           [errors]="this.passwordErrors"

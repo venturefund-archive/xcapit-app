@@ -56,9 +56,11 @@ export class WalletMaintenanceService {
     this.walletMnemonicService.getMnemonic(this.wallet);
 
     this.newNetworks.forEach((network) => {
-      this.encryptedWallet.addresses[network] = this.walletService.createForDerivedPath(
+      const wallet: any = this.walletService.createForDerivedPath(
         environment.derivedPaths[network]
-      ).address;
+      );
+      
+      this.encryptedWallet.addresses[network] = wallet.address ? wallet.address : wallet.publicKey;
 
       this.apiWalletService.getCoinsFromNetwork(network).forEach((coin) => {
         this.encryptedWallet.assets[coin.value] = false;

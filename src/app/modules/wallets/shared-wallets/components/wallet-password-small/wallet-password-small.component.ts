@@ -32,6 +32,7 @@ import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/pas
           <app-ux-input
             [label]="'wallets.shared_wallets.wallet_password_small.label' | translate"
             type="password"
+            [textClass]="'primary'"
             controlName="password"
           ></app-ux-input>
         </div>

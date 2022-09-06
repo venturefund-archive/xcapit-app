@@ -11,6 +11,7 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { OperationStatus } from '../shared-ramps/interfaces/operation-status.interface';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-operations-detail',
@@ -18,7 +19,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
+          <ion-back-button (click)="this.navigateBackToOperations()"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.operation_detail.header' | translate }}
@@ -69,7 +70,14 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
       <div class="dp__upload-voucher">
         <div *ngIf="this.hasVoucher; then sendPictureElement; else addPhotoElement"></div>
         <ng-template #addPhotoElement>
-          <ion-button name="ux_add_photo" class="ux_button ion-no-margin" color="secondary" expand="block" (click)="this.addPhoto()">
+          <ion-button 
+            class="ux_button ion-no-margin"
+            appTrackClick 
+            name="ux_buy_kripton_attach"
+            color="secondary" 
+            expand="block"
+            (click)="this.addPhoto()"  
+            >
             {{ 'fiat_ramps.operation_detail.upload_voucher' | translate }}
           </ion-button>
         </ng-template>
@@ -102,6 +110,7 @@ export class OperationsDetailPage implements OnInit {
     private navController: NavController,
     private apiWalletSertvice: ApiWalletService,
     private browserService: BrowserService,
+    private trackService: TrackService
   ) {}
 
   ngOnInit() {}
@@ -111,6 +120,7 @@ export class OperationsDetailPage implements OnInit {
     const providerId = this.route.snapshot.paramMap.get('provider_id');
     this.getProvider(parseInt(providerId));
     this.getUserOperation(operationId);
+    this.trackScreenViewEvent();
   }
 
   private getProvider(providerId: number) {
@@ -206,6 +216,14 @@ export class OperationsDetailPage implements OnInit {
   async navigateToKriptonTOS() {
     await this.browserService.open({
       url: 'https://kriptonmarket.com/terms-and-conditions',
+    });
+  }
+
+  trackScreenViewEvent() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_buy_kripton_screenview_details',
     });
   }
 }

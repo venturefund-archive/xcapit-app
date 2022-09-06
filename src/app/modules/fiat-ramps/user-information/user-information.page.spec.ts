@@ -15,6 +15,7 @@ import { By } from '@angular/platform-browser';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 const formData = {
   valid: {
@@ -73,6 +74,8 @@ describe('UserInformationPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserInformationPage>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
+
 
   beforeEach(
     waitForAsync(() => {
@@ -82,7 +85,9 @@ describe('UserInformationPage', () => {
       });
 
       modalControllerSpy = new FakeModalController().createSpy();
-
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
+        trackEvent: Promise.resolve(true),
+      })
       TestBed.configureTestingModule({
         declarations: [UserInformationPage, FakeTrackClickDirective, DummyComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -91,6 +96,7 @@ describe('UserInformationPage', () => {
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: ModalController, useValue: modalControllerSpy },
+          { provide: TrackService, useValue: trackServiceSpy }
         ],
       }).compileComponents();
     })
@@ -139,5 +145,10 @@ describe('UserInformationPage', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

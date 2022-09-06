@@ -2,7 +2,13 @@ import { Blockchain } from "../blockchain/blockchain";
 import { BlockchainRepo } from "../blockchain-repo/blockchain-repo";
 
 
-export class Blockchains {
+export interface Blockchains {
+  value(): Blockchain[];
+  oneByName(aBlockchainName: string): Blockchain;
+}
+
+
+export class DefaultBlockchains implements Blockchains {
 
   constructor(private _dataRepo: BlockchainRepo) { }
 

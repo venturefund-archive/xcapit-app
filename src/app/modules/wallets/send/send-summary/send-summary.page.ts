@@ -98,7 +98,7 @@ export class SendSummaryPage implements OnInit {
           description: this.translate.instant('wallets.shared_wallets.info_send_modal.description'),
           buttonText: this.translate.instant('wallets.shared_wallets.info_send_modal.button_text'),
         },
-        cssClass: 'ux-xxs-modal-informative',
+        cssClass: 'modal',
         backdropDismiss: false,
       });
       await modal.present();
@@ -116,7 +116,7 @@ export class SendSummaryPage implements OnInit {
           description: this.translate.instant('wallets.shared_wallets.info_send_modal.description'),
           buttonText: this.translate.instant('wallets.shared_wallets.info_send_modal.button_text'),
         },
-        cssClass: 'ux-xxs-modal-informative',
+        cssClass: 'modal',
         backdropDismiss: false,
       });
       await modal.present();

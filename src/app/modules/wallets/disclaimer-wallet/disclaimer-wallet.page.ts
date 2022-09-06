@@ -1,9 +1,7 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController, NavController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
-import { ToastAlertComponent } from 'src/app/shared/components/new-toasts/toast-alert/toast-alert.component';
+import { NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { StorageWalletsService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { LINKS } from 'src/app/config/static-links';
@@ -82,7 +80,6 @@ import { LINKS } from 'src/app/config/static-links';
               name="ux_create_disclaimer_check_button_1"
               formControlName="agreePhraseCheckbox"
               slot="start"
-              (ionChange)="this.enableButton()"
             ></ion-checkbox>
           </ion-item>
           <ion-button
@@ -104,9 +101,7 @@ import { LINKS } from 'src/app/config/static-links';
   styleUrls: ['./disclaimer-wallet.page.scss'],
 })
 export class DisclaimerWalletPage implements OnInit {
-  acceptTos = false;
   mode: string;
-  hasAcceptedDisclaimer: boolean;
   links = LINKS;
   disclaimerForm: UntypedFormGroup = this.formBuilder.group({
     agreePhraseCheckbox: [false, [Validators.requiredTrue]],
@@ -118,12 +113,9 @@ export class DisclaimerWalletPage implements OnInit {
   }
 
   constructor(
-    private elementRef: ElementRef,
     private route: ActivatedRoute,
     private formBuilder: UntypedFormBuilder,
-    private modalController: ModalController,
     private navController: NavController,
-    private translate: TranslateService,
     private storageWalletsService: StorageWalletsService,
     private browserService: BrowserService
   ) {}
@@ -134,13 +126,10 @@ export class DisclaimerWalletPage implements OnInit {
   }
 
   handleSubmit() {
-    if (this.disclaimerForm.valid) {
-      this.acceptToS();
-      this.navigateByMode();
-    } else {
-      this.showModalDidNotAccept();
-    }
+    this.acceptToS();
+    this.navigateByMode();
   }
+  
   navigateByMode() {
     const url = this.isImporting ? 'wallets/recovery' : 'wallets/create-password/create';
     this.navController.navigateForward([url]);
@@ -148,23 +137,6 @@ export class DisclaimerWalletPage implements OnInit {
 
   openDocument(url): void {
     this.browserService.open({ url });
-  }
-
-  enableButton() {
-    return (this.acceptTos = !this.acceptTos);
-  }
-
-  async showModalDidNotAccept() {
-    const modal = await this.modalController.create({
-      component: ToastAlertComponent,
-      cssClass: 'ux-alert',
-      showBackdrop: false,
-      componentProps: {
-        title: this.translate.instant('wallets.disclaimer.error_did_not_accept'),
-        type: 'error',
-      },
-    });
-    await modal.present();
   }
 
   acceptToS() {

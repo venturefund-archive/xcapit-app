@@ -4,7 +4,7 @@ import { AuthFormComponent } from '../shared-users/components/auth-form/auth-for
 import { ApiUsuariosService } from '../shared-users/services/api-usuarios/api-usuarios.service';
 import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { TrackService } from '../../../shared/services/track/track.service';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
 
@@ -95,7 +95,7 @@ export class RegisterPage implements OnInit {
     private route: ActivatedRoute,
     private navController: NavController,
     private trackService: TrackService,
-    private browserService: BrowserService
+    private browserService: BrowserService,
   ) {}
 
   ngOnInit() {}
@@ -148,7 +148,7 @@ export class RegisterPage implements OnInit {
       this.showWhiteListAlert();
     } else {
       this.registerForm.form.reset();
-      const params = { replaceUrl: true, state: { email: response.email } };
+      const params: NavigationExtras = { replaceUrl: true, state: { email: response.email } };
       this.navController.navigateForward(['/users/success-register'], params);
     }
     this.trackService.trackSignUp();
@@ -175,7 +175,7 @@ export class RegisterPage implements OnInit {
 
   async openTOS() {
     await this.browserService.open({
-      url: 'https://www.info.xcapit.com/tutorial/xcapit_terms.html',
+      url: 'https://www.xcapit.com/terminos-y-condiciones',
     });
   }
 

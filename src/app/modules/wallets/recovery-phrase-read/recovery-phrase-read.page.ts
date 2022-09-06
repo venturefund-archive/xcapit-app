@@ -160,7 +160,6 @@ export class RecoveryPhraseReadPage implements OnInit {
   isInfoModalOpen = false;
   private password: any;
   loading = false;
-
   constructor(
     private clipboardService: ClipboardService,
     private toastService: ToastService,
@@ -191,6 +190,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   }
 
   goToVerifyPhrase() {
+    this.isRevealed = false;
     this.walletMnemonicService.importMnemonic(this.mnemonic.phrase);
     this.navController.navigateForward(['/wallets/create-first/verify-phrase']);
   }

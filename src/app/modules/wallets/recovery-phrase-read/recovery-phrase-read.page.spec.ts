@@ -101,6 +101,16 @@ describe('RecoveryPhraseReadPage', () => {
     expect(buttonEl.properties.disabled).toBeTrue();
   });
 
+  it('should disable Continue button if phrase are revealed and go to verify phrase', async () => {
+    await component.ionViewDidEnter();
+    component.isRevealed = true;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_protect_continue_phrase"]'));
+    buttonEl.nativeElement.click();
+    expect(buttonEl.properties.disabled).toBeFalse();
+  });
+
   it('should call trackEvent on trackService when continue is clicked', () => {
     component.isRevealed = true;
     component.mnemonic = testMnemonic;

@@ -13,8 +13,15 @@ import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.in
           <div class="cs__selector__item__logo">
             <img [src]="this.selectedCoin.logoRoute" alt="logo" />
           </div>
-          <ion-label class="cs__selector__item__label ion-no-margin" color="neutral90">{{ this.selectedCoin.value }}</ion-label>
-          <ion-icon *ngIf="this.enabled" class="cs__selector__item__chevron" color="info" name="chevron-down-outline"></ion-icon>
+          <ion-label class="cs__selector__item__label ion-no-margin" color="neutral90">{{
+            this.selectedCoin.value
+          }}</ion-label>
+          <ion-icon
+            *ngIf="this.enabled"
+            class="cs__selector__item__chevron"
+            color="info"
+            [name]="this.isRightOpen ? 'chevron-forward-outline' : 'chevron-down-outline'"
+          ></ion-icon>
         </ion-item>
       </div>
     </div>
@@ -24,6 +31,7 @@ import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.in
 export class CoinSelectorComponent {
   @Input() selectedCoin: Coin;
   @Input() enabled: boolean;
+  @Input() isRightOpen = false;
   @Output() changeCurrency: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}

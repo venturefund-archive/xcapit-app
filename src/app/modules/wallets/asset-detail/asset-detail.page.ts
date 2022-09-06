@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
 import { finalize } from 'rxjs/operators';
-import { CovalentTransfer } from '../shared-wallets/models/covalent-transfer/covalent-transfer';
-import { CovalentTransfersResponse } from '../shared-wallets/models/covalent-transfers-response/covalent-transfers-response';
 import { NETWORK_COLORS } from '../shared-wallets/constants/network-colors.constant';
 import { ProvidersFactory } from '../../fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../../fiat-ramps/shared-ramps/models/provider-tokens-of/provider-tokens-of';
@@ -24,6 +21,9 @@ import { VoidSigner } from 'ethers';
 import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { TwoPiInvestmentFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/factory/two-pi-investment-factory';
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
+import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
+import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
 @Component({
   selector: 'app-asset-detail',
   template: `
@@ -63,10 +63,9 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
               appTrackClick
               (click)="this.goToInvest()"
             >
-            {{ 'wallets.asset_detail.invest_button' | translate }}
+              {{ 'wallets.asset_detail.invest_button' | translate }}
             </ion-button>
           </div>
-
           <div class="wad__available text-center">
             <ion-text class="title ux-font-titulo-xs">
               {{ 'wallets.asset_detail.available' | translate }}
@@ -81,7 +80,6 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
             </div>
           </div>
         </ion-card>
-
         <div class="wad__subheader_buttons" *ngIf="this.currency">
           <app-wallet-subheader-buttons
             [asset]="this.currency.value"
@@ -98,7 +96,7 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
           </div>
           <div class="wad__transaction__wallet-transaction-card">
             <app-wallet-transaction-card
-              [transactions]="this.transfers"
+              [transfers]="this.transfers"
               [network]="this.currency.network"
             ></app-wallet-transaction-card>
           </div>
@@ -109,12 +107,12 @@ import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investme
   styleUrls: ['./asset-detail.page.scss'],
 })
 export class AssetDetailPage implements OnInit {
-  buttonName : string;
+  buttonName: string;
   currency: Coin;
   coins: Coin[];
   walletAddress: string = null;
   balance: AssetBalance;
-  transfers: CovalentTransfer[] = [];
+  transfers: Transfer[] = [];
   usdPrice: { prices: any };
   networkColors = NETWORK_COLORS;
   enabledToBuy: boolean;
@@ -127,7 +125,6 @@ export class AssetDetailPage implements OnInit {
     private route: ActivatedRoute,
     private walletService: WalletService,
     private storageService: StorageService,
-    private walletTransactionsService: WalletTransactionsService,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
     private twoPiApi: TwoPiApi,
@@ -135,7 +132,8 @@ export class AssetDetailPage implements OnInit {
     private navController: NavController,
     private walletEncryptionService: WalletEncryptionService,
     private twoPiInvestmentFactory: TwoPiInvestmentFactory,
-    private twoPiProductFactory: TwoPiProductFactory
+    private twoPiProductFactory: TwoPiProductFactory,
+    private transfersFactory: TransfersFactory,
   ) {}
 
   ngOnInit() {}
@@ -152,7 +150,6 @@ export class AssetDetailPage implements OnInit {
     await this.getInvestments();
     await this.findProductToInvest();
   }
-  
 
   private getAvailableDefiProducts(): void {
     this.defiProducts = this.createAvailableDefiProducts().value();
@@ -243,18 +240,17 @@ export class AssetDetailPage implements OnInit {
     this.enabledToBuy = !!new ProviderTokensOf(this.getProviders(), [this.currency]).all().length;
   }
 
-  getButtonName(){
+  getButtonName() {
     this.buttonName = `ux_go_to_invest_${this.currency.value.toLowerCase()}`;
   }
 
-  private getTransfers() {
-    this.storageService
-      .getWalletsAddresses()
-      .then((addresses: any) =>
-        this.walletTransactionsService
-          .getTransfers(addresses[this.currency.network], this.currency)
-          .subscribe((res: CovalentTransfersResponse) => (this.transfers = res.value()))
-      );
+  async getTransfers() {
+    const wallet = await this.walletEncryptionService.getEncryptedWallet();
+    const address = wallet.addresses[this.currency.network];
+    this.transfers = await this.transfersFactory.create(
+      this.currency as RawToken,
+      address,
+    ).all();
   }
 
   private getCoinForPrice(symbol: string): string {

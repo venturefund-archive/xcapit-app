@@ -1,5 +1,5 @@
 :host {
-  justify-content: unset;
+  justify-content: center;
 
   .main {
     position: relative;
@@ -36,6 +36,27 @@
 
         &__title {
           margin: 16px 8px 10px;
+        }
+
+        &__state {
+          text-align: left;
+          border-radius: 4px;
+          padding: 0 10px;
+
+          .declined {
+            background-color: var(--ion-color-dangerlight);
+            color: var(--ion-color-dangerdark);
+          }
+
+          .confirmed {
+            background-color: var(--ion-color-successlight);
+            color: var(--ion-color-successdark);
+          }
+
+          ion-badge {
+            background-color: var(--ion-color-successlight);
+            color: var(--ion-color-successdark);
+          }
         }
 
         &__description {

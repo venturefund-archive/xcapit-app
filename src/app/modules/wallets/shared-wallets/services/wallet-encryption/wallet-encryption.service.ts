@@ -25,20 +25,21 @@ export class WalletEncryptionService {
   ) {}
 
   encryptWallet(password: string): Promise<any> {
-    const wallets = this.walletService.createdWallets;
     const derivedPaths = environment.derivedPaths;
 
-    wallets.forEach((wallet) => {
-      if (wallet.mnemonic.path === derivedPaths.ERC20) {
-        this.ethWallet = wallet;
-        this.walletsAddresses['BSC_BEP20'] = wallet.address.toLowerCase();
+    for (const [network, derivedPath] of Object.entries(derivedPaths)) {
+      const wallet = this.walletService.createForDerivedPath(derivedPath);
+
+      if (wallet instanceof ethers.Wallet) {
+        if (network === 'ERC20') {
+          this.ethWallet = wallet;
+        }
+        this.walletsAddresses[network] = wallet.address.toLowerCase();
+      } else {
+        this.walletsAddresses[network] = wallet.publicKey.toString();
       }
+    }
 
-      const key = Object.keys(derivedPaths).filter((keyName) => derivedPaths[keyName] === wallet.mnemonic.path);
-      const value = wallet.address.toLowerCase();
-
-      this.walletsAddresses[key[0]] = value;
-    });
     return this.saveEncryptedWallet(password);
   }
 

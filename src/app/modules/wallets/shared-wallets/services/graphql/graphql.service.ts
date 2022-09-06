@@ -7,16 +7,28 @@ import { EnvService } from 'src/app/shared/services/env/env.service';
   providedIn: 'root',
 })
 export class GraphqlService {
-  private query: string;
   constructor(private http: HttpClient, private env: EnvService) {}
 
   getInvestedBalance(walletAddress: string, pid: number): Observable<any> {
-    this.query = `
+    const query = `
       query{
-        flows(first: 1 orderBy: timestamp orderDirection: desc
+        flows(
+          first: 1 orderBy: timestamp orderDirection: desc
           where: {holder: "${walletAddress}", pid: ${pid}}
         ) {balance balanceUSD}
       }`;
-    return this.http.post(this.env.byKey('twoPiGraphqlUrl'), JSON.stringify({ query: this.query }));
+    return this.http.post(this.env.byKey('twoPiGraphqlUrl'), JSON.stringify({ query: query }));
+  }
+
+  getAllMovements(walletAddress: string, pid: number): Observable<any> {
+    const query = `
+      query{
+        flows(
+          first: 1000 orderBy: timestamp orderDirection: desc 
+          where: {holder: "${walletAddress}", pid: ${pid} type_not: earnings}
+        ) {amount balance balanceUSD timestamp type
+        }
+      }`;
+    return this.http.post(this.env.byKey('twoPiGraphqlUrl'), JSON.stringify({ query: query }));
   }
 }

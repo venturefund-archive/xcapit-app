@@ -4,6 +4,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { BrowserService } from '../../services/browser/browser.service';
 import { LINKS } from 'src/app/config/static-links';
+import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/default-swaps-urls';
 
 @Component({
   selector: 'app-update-news',
@@ -37,30 +38,29 @@ import { LINKS } from 'src/app/config/static-links';
   styleUrls: ['./update-news.component.scss'],
 })
 export class UpdateNewsComponent implements OnInit {
-  links = LINKS
+  links = LINKS;
   image = 'assets/img/update-news/news.svg';
   items: News[] = [
-
     {
       badge: this.translate.instant('shared.update_news.first.badge'),
       title: this.translate.instant('shared.update_news.first.title'),
       description: this.translate.instant('shared.update_news.first.description'),
-      url: this.links.discordCommunity,
-      isOpenByBrowser: true
+      url: new DefaultSwapsUrls().home(),
+      isOpenByBrowser: false,
     },
     {
       badge: this.translate.instant('shared.update_news.second.badge'),
       title: this.translate.instant('shared.update_news.second.title'),
       description: this.translate.instant('shared.update_news.second.description'),
-      url: '/financial-planner/information',
-      isOpenByBrowser:false
-    }
+      url: ['/tabs/financial-education'],
+      isOpenByBrowser: false,
+    },
   ];
   constructor(
     private modalController: ModalController,
     private navController: NavController,
     private translate: TranslateService,
-    private browserService: BrowserService,
+    private browserService: BrowserService
   ) {}
 
   ngOnInit() {}
@@ -69,14 +69,13 @@ export class UpdateNewsComponent implements OnInit {
     this.modalController.dismiss();
   }
 
-  navigateToUrl(item:News) {
-    if (item.isOpenByBrowser){
-      this.browserService.open({url:item.url})
+  navigateToUrl(item: News) {
+    if (item.isOpenByBrowser) {
+      this.browserService.open({ url: item.url[0] });
       this.close();
-    }else {
+    } else {
       this.navController.navigateForward(item.url);
       this.close();
     }
-    
   }
 }

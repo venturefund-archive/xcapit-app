@@ -182,7 +182,7 @@ describe('NewInvestmentPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-label[name="go_to_buy"'));
     expect(buttonEl).toBeTruthy();
   });
 
@@ -202,7 +202,7 @@ describe('NewInvestmentPage', () => {
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     await fixture.whenStable();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-label[name="go_to_buy"'));
     buttonEl.nativeElement.click();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
@@ -217,10 +217,9 @@ describe('NewInvestmentPage', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     walletBackupServiceSpy.presentModal.and.resolveTo('skip')
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-label[name="go_to_buy"'));
     buttonEl.nativeElement.click();
     fixture.detectChanges();
-    await fixture.whenRenderingDone();
     await fixture.whenStable();
     expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
@@ -232,7 +231,7 @@ describe('NewInvestmentPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_buy"'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-label[name="go_to_buy"'));
     buttonEl.nativeElement.click();
     await fixture.whenStable();
     expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
