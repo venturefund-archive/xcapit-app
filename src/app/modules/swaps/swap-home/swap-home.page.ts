@@ -109,7 +109,7 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
               </form>
               <div class="sw__swap-card__from__detail__available">
                 <ion-text class="ux-font-text-xxs" color="neutral80">
-                  {{ 'swaps.home.available' | translate }} {{ this.balance | formattedAmount }}</ion-text
+                  {{ 'swaps.home.available' | translate }} {{ this.swapBalance | formattedAmount }}</ion-text
                 >
               </div>
             </div>
@@ -156,7 +156,7 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
               {{ 'swaps.home.fee_title' | translate }}
             </ion-text>
           </div>
-          <app-transaction-fee [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
+          <app-transaction-fee [balance]="this.feeBalance" [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
         </div>
       </div>
       <div class="sw__checkbox ion-padding">
@@ -198,7 +198,8 @@ export class SwapHomePage {
   private referral: Referral = new Referral();
   private fromTokenKey = 'fromToken';
   private toTokenKey = 'toToken';
-  balance = 0;
+  swapBalance = 0;
+  feeBalance = 0;
   loadingBtn: boolean;
   disabledBtn: boolean;
   tplBlockchain: RawBlockchain;
@@ -291,7 +292,13 @@ export class SwapHomePage {
 
   async balanceAvailableOf(aCoin: string) {
     const aToken = this.apiWalletService.getCoin(aCoin);
-    this.balance = await this.walletBalance.balanceOf(aToken);
+    this.swapBalance = await this.walletBalance.balanceOf(aToken);
+    if(aToken.native){
+      this.feeBalance = this.swapBalance;
+    }else{
+      const aNativeToken = this.apiWalletService.getNativeTokenFromNetwork(aToken.network);
+      this.feeBalance = await this.walletBalance.balanceOf(aNativeToken);
+    }
   }
 
   private subscribeToFromTokenAmountChanges() {
@@ -470,7 +477,7 @@ export class SwapHomePage {
   }
 
   setMaxAmount() {
-    this.form.get('fromTokenAmount').setValue(this.balance);
+    this.form.get('fromTokenAmount').setValue(this.swapBalance);
     this.form.updateValueAndValidity();
   }
 }
