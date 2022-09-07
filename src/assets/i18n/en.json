@@ -1203,13 +1203,6 @@
         "dialogTitle": "Share",
         "share_error": "Text was copied to the clipboard"
       },
-      "share_send_transaction":{
-        "title": "",
-        "text": "Hello! I sent you ",
-        "text2": "For more information: ",
-        "dialogTitle": "Share",
-        "share_error": "Text was copied to the clipboard"
-      },
 
       "rule_card": {
         "rule_1": {
@@ -1865,6 +1858,12 @@
       }
     },
     "shared_wallets": {
+      "share_transaction_detail":{
+        "text": "Hello! I sent you ",
+        "text2": "For more information: ",
+        "dialogTitle": "Share",
+        "share_error": "Text was copied to the clipboard"
+      },
       "start_investing_card": {
         "title": "Invest your cryptos now and get daily profit",
         "text": "Start investing"

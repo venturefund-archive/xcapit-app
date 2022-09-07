@@ -19,8 +19,8 @@ import { NavController } from '@ionic/angular';
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'wallets.transaction_details.header' | translate }}</ion-title>
-        <ion-buttons class="back-button" slot="end">
-          <app-share-test></app-share-test>
+        <ion-buttons *ngIf="this.tplTransfer && this.tplTransfer.type === 'OUT'" class="back-button" slot="end">
+          <app-share-transaction-detail  [txAmount]="this.tplTransfer.amount" [txAsset]="this.tplTransfer.token.value" [txLink]="this.url"></app-share-transaction-detail>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -146,6 +146,7 @@ export class TransactionDetailsPage implements OnInit {
   formattedTime: string;
   date: Date;
   tplTransfer: any;
+  url: string;
 
   constructor(
     private transactionDetailsService: TransactionDetailsService,
@@ -159,9 +160,14 @@ export class TransactionDetailsPage implements OnInit {
 
   ionViewWillEnter() {
     this.getTransactionData();
+    this.getTransactionUrl();
     this.date = new Date(this.tplTransfer.block_signed_at);
     this.formattedTime = this.formatTime(this.date.toLocaleTimeString());
     this.formattedDate = this.formatDate(this.tplTransfer.block_signed_at);
+  }
+
+  getTransactionUrl(){
+    this.url = ScanUrlOf.create(this.tplTransfer.tx_hash, this.tplTransfer.token.network).value();
   }
 
   private getTransactionData() {
@@ -180,7 +186,7 @@ export class TransactionDetailsPage implements OnInit {
 
   openTransactionUrl() {
     this.browserService.open({
-      url: ScanUrlOf.create(this.tplTransfer.tx_hash, this.tplTransfer.token.network).value(),
+      url: this.url
     });
   }
 
