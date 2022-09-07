@@ -293,7 +293,6 @@ export class SwapHomePage {
   async balanceAvailableOf(aCoin: string) {
     const aToken = this.apiWalletService.getCoin(aCoin);
     this.swapBalance = await this.walletBalance.balanceOf(aToken);
-    console.log(aToken)
     if(aToken.native){
       this.feeBalance = this.swapBalance;
     }else{
