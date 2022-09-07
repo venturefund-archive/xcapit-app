@@ -1203,6 +1203,14 @@
         "dialogTitle": "Share",
         "share_error": "Text was copied to the clipboard"
       },
+      "share_send_transaction":{
+        "title": "",
+        "text": "Hello! I sent you ",
+        "text2": "For more information: ",
+        "dialogTitle": "Share",
+        "share_error": "Text was copied to the clipboard"
+      },
+
       "rule_card": {
         "rule_1": {
           "title": "How do I get my NFT?",

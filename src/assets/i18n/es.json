@@ -1195,6 +1195,13 @@
         "dialogTitle": "Compartir",
         "share_error": "El texto se copió en el portapapeles"
       },
+      "share_send_transaction":{
+        "title": "",
+        "text": "Hola! Te envié ",
+        "text2": "Para mas informacion: ",
+        "dialogTitle": "Compartir",
+        "share_error": "El texto se copió en el portapapeles"
+      },
       "rule_card": {
         "rule_1": {
           "title": "¿Cómo obtengo mi NFT?",

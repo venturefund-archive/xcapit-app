@@ -19,6 +19,9 @@ import { NavController } from '@ionic/angular';
           <ion-back-button defaultHref="/wallets/home"></ion-back-button>
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'wallets.transaction_details.header' | translate }}</ion-title>
+        <ion-buttons class="back-button" slot="end">
+          <app-share-test></app-share-test>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content class="td ion-padding">
