@@ -11,7 +11,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
   template: ` <div
     appTrackClick
     [dataToTrack]="{ eventLabel: 'ux_share_transaction_details' }"
-    
+    *ngIf="this.canShare"
     [ngClass]="this.lightBackground ? 'se-light' : 'se'"
     (click)="this.share()"
   >
