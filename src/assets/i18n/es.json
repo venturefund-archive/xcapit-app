@@ -103,7 +103,8 @@
       "action": "Más información"
     },
     "need_help": {
-      "text_help_link": "¿Necesitas ayuda?"
+      "text_help_link": "¿Necesitas ayuda?",
+      "text_help_support": "Escribe a soporte"
     },
     "referrals_help": {
       "text_referrals_help_link": "¿Cómo funciona el sistema de referidos?"

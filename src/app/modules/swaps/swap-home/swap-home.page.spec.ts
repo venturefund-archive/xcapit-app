@@ -122,6 +122,7 @@ describe('SwapHomePage', () => {
     });
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoin: rawUSDCData,
+      getNativeTokenFromNetwork: rawMATICData
     });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     fakeNavController = new FakeNavController();
@@ -270,9 +271,10 @@ describe('SwapHomePage', () => {
 
   it('should show and render available amount properly', async () => {
     fakeActivatedRoute.modifySnapshotParams({
-      fromToken: rawUSDCData.contract,
-      toToken: rawMATICData.contract,
+      fromToken: rawMATICData.contract,
+      toToken: rawUSDCData.contract,
     });
+    apiWalletServiceSpy.getCoin.and.returnValue(rawMATICData);
 
     await component.ionViewDidEnter();
     fixture.detectChanges();
@@ -281,6 +283,21 @@ describe('SwapHomePage', () => {
     expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(1);
     expect(walletBalanceSpy.balanceOf).toHaveBeenCalledTimes(1);
     expect(availableEl.nativeElement.innerHTML).toContain('swaps.home.available 10');
+  });
+
+  it('should set native token balance to pass to fee component', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      fromToken: rawUSDCData.contract,
+      toToken: rawMATICData.contract,
+    });
+    apiWalletServiceSpy.getCoin.and.returnValue(rawUSDCData);
+
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+
+    expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(1);
+    expect(apiWalletServiceSpy.getNativeTokenFromNetwork).toHaveBeenCalledTimes(1)
+    expect(walletBalanceSpy.balanceOf).toHaveBeenCalledTimes(2);
   });
 
   it('should show swap info on valid from token amount value', fakeAsync(() => {
@@ -393,4 +410,13 @@ describe('SwapHomePage', () => {
       { replaceUrl: true, animated: false }
     );
   });
+
+  it('should set max amount from swap', async()=>{
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    
+    fixture.debugElement.query(By.css('ion-button.sw__swap-card__from__detail__amount__wrapper__max')).nativeElement.click();
+    
+    expect(component.form.controls.fromTokenAmount.value).toEqual(10);
+  })
 });

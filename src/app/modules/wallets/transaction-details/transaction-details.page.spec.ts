@@ -78,4 +78,9 @@ describe('TransactionDetailsPage', () => {
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click()
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
+
+  it('should navigate to write support ticket when support link is clicked', () => {
+    fixture.debugElement.query(By.css('ion-text[name="support_link"]')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/create-support-ticket']);
+  })
 });

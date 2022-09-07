@@ -171,7 +171,7 @@ export class ReceivePage {
     });
   }
 
-   shareAddress() {
+  shareAddress() {
     this.shareService.share(
       {
         title: this.translate.instant('wallets.receive.share_title'),
@@ -182,8 +182,6 @@ export class ReceivePage {
       this.copyAddress();
     });
   }
-
-
 
   generateAddressQR() {
     this.qrCodeService.generateQRFromText(this.address).then((qr) => (this.addressQr = qr));
