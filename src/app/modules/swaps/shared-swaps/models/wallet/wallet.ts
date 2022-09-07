@@ -1,4 +1,4 @@
-import { SimpleSubject, Subscribable } from '../simple-subject/simple-subject';
+import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
 import { Wallet as EthersWallet, providers } from 'ethers';
 import { BlockchainTx } from '../blockchain-tx';
 import { Blockchain } from '../blockchain/blockchain';

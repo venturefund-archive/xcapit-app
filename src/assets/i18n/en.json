@@ -419,7 +419,7 @@
       "daily_earnings_disclaimer": "*Your balance is updated daily.",
       "continuous_update": "*Continuous update",
       "weekly_update": "*Weekly update",
-      "history":{
+      "history": {
         "title": "History",
         "investment": "Investment",
         "withdraw": "Withdraw"
@@ -568,6 +568,7 @@
       "support_help": "Talk to support",
       "category_security_account": "Security Xcapit account",
       "change_pass": "Password Change",
+      "biometric_auth": "Biometric data",
       "category_security_wallet": "Security Xcapit wallet",
       "remove_wallet": "Remove Wallet",
       "export_private_key": "Private key",
@@ -576,6 +577,7 @@
       "push_notifications": "Push notifications",
       "language": "Language",
       "logout": "Log Out",
+      "new_badge": "New",
       "category_walletconnect": "WalletConnect",
       "delete_account_button": "Delete account",
       "delete_account_message": "I request the deletion of my account and associated data.",
@@ -602,37 +604,6 @@
       "text_secondary": "Your opinion helps us to improve your experience day by day.",
       "name_primary_action": "Go to my wallet"
     },
-    "personal_data": {
-      "header": "Configure account",
-      "personal_data_title": "Personal data",
-      "nro_dni": "ID",
-      "first_name": "First Name",
-      "first_name_placeholder": "My first name",
-      "last_name": "Last Name",
-      "last_name_placeholder": "My last name",
-      "cellphone": "Cellphone",
-      "cuit": "CUIL",
-      "address": "Address",
-      "submit_button": "Next",
-      "address_placeholder": "Ej: Río Negro 350, Cordoba, Argentina",
-      "nro_dni_placeholder": "Ej: 35485865",
-      "cuit_placeholder": "Ej: 23000000009",
-      "cellphone_placeholder": "Ej: 3512556525"
-    },
-    "fiscal_data": {
-      "header": "Configure account",
-      "fiscal_data_title": "Fiscal information",
-      "not_sure_text": "If you are not sure you can change this data from your profile later.",
-      "cuit": "CUIL/CUIT",
-      "country": "Country",
-      "country_modal_ok_text": "Ok",
-      "country_modal_cancel_text": "Cancel",
-      "iva_condition": "IVA condition",
-      "tipo_factura": "Type of invoice",
-      "submit_button": "Finalize configuration",
-      "country_placeholder": "Select a country",
-      "cuit_placeholder": "Ej: 23000000009"
-    },
     "personalised_profile_test": {
       "question_1": "1. What do you want to do inside Xcapit? Choose all the options you consider",
       "question_2": "2. What is your experience level with cryptos?",
@@ -658,6 +629,15 @@
         "button_back": "Back",
         "button_out": "Exit"
       }
+    },
+    "biometric_auth": {
+      "header": "Biometric data",
+      "toggle_text": "Biometric data",
+      "toggle_description": "Activate to enter quickly.",
+      "password_title": "Your safety matters to us",
+      "password_description": "To activate your biometric data, enter your Xcapit wallet's password..",
+      "password_button": "Confirm",
+      "password_error": "The password entered is not valid."
     },
     "shared": {
       "remove_account_modal": {
@@ -1771,7 +1751,7 @@
     "transactions": {
       "header": "Transactions history",
       "OUT": "Send",
-      "BUY":"Purchase",
+      "BUY": "Purchase",
       "IN": "Reception",
       "swap": "Swap",
       "confirmed": "Confirmed",
@@ -2099,7 +2079,7 @@
       "title_date": "Date",
       "OUT": "Sent",
       "IN": "Received",
-      "modal_info_state":{
+      "modal_info_state": {
         "title": "What does this state mean?",
         "description": "Your transaction was rejected by the network. Get more details by accessing the scan.",
         "button_text": "Understood"
@@ -2381,7 +2361,7 @@
         "quantity": "Amount",
         "provider": "Provider",
         "to_pay": "You will pay*",
-        "input_error":"The minimum purchase amount is ${{amount}} {{fiatCurrency}}",
+        "input_error": "The minimum purchase amount is ${{amount}} {{fiatCurrency}}",
         "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day."
       },
       "kyc_disclaimer_modal": {
@@ -2531,7 +2511,7 @@
       "loading_button_text": "Swapping",
       "from_token_title": "From",
       "to_token_title": "To",
-      "available":"Available ",
+      "available": "Available ",
       "fee_title": "Transaction details",
       "footer_text": "It will only take a few seconds.",
       "tos_1": "I have read and agree to the",

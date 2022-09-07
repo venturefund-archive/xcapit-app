@@ -1,0 +1,116 @@
+import { Component, OnInit } from '@angular/core';
+import { ModalController, NavController } from '@ionic/angular';
+import { WalletPasswordComponent } from '../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
+import { Password } from '../../swaps/shared-swaps/models/password/password';
+import { TranslateService } from '@ngx-translate/core';
+import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { ToastService } from '../../../shared/services/toast/toast.service';
+import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
+
+@Component({
+  selector: 'app-biometric-auth',
+  template: `
+    <ion-header>
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+        <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{ 'profiles.biometric_auth.header' | translate }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <form [formGroup]="this.form">
+        <ion-item lines="none" class="ba__toggle ux-font-title-xs ion-no-padding">
+          <div class="ba__toggle__labels">
+            <ion-text class="ux-font-text-lg">
+              {{ 'profiles.biometric_auth.toggle_text' | translate }}
+            </ion-text>
+            <ion-text class="ux-font-text-base">{{
+              'profiles.biometric_auth.toggle_description' | translate
+            }}</ion-text>
+          </div>
+          <ion-toggle
+            formControlName="biometric"
+            name="ux_create_all"
+            class="ux-toggle ion-no-padding"
+            mode="ios"
+            slot="end"
+          ></ion-toggle>
+        </ion-item>
+      </form>
+    </ion-content>
+  `,
+  styleUrls: ['./biometric-auth.page.scss'],
+})
+export class BiometricAuthPage implements OnInit {
+  form: UntypedFormGroup = this.formBuilder.group({
+    biometric: [false, []],
+  });
+  constructor(
+    private modalController: ModalController,
+    private navController: NavController,
+    private translate: TranslateService,
+    private biometricAuthInjectable: BiometricAuthInjectable,
+    private formBuilder: UntypedFormBuilder,
+    private storage: IonicStorageService,
+    private toastService: ToastService
+  ) {}
+
+  ngOnInit() {}
+
+  async ionViewDidEnter() {
+    await this.setBiometricAuth();
+    this.valueChanges();
+  }
+
+  private async setBiometricAuth() {
+    this.form.patchValue({ biometric: await this.biometricAuthInjectable.create().enabled() });
+  }
+
+  private valueChanges() {
+    this.form.valueChanges.subscribe((value) => this.toggle(value.biometric));
+  }
+
+  private async requestPassword() {
+    const modal = await this.modalController.create({
+      component: WalletPasswordComponent,
+      cssClass: 'ux-routeroutlet-modal small-wallet-password-modal',
+      componentProps: {
+        state: 'biometric',
+        title: this.translate.instant('profiles.biometric_auth.password_title'),
+        description: this.translate.instant('profiles.biometric_auth.password_description'),
+        submitButtonText: this.translate.instant('profiles.biometric_auth.password_button'),
+        disclaimer: '',
+      },
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    return new Password(data);
+  }
+
+  async toggle(value: boolean) {
+    const biometricAuth = this.biometricAuthInjectable.create();
+    biometricAuth.onNeedPass().subscribe(() => this.requestPassword());
+    value
+      ? await biometricAuth.on().catch((err) => {
+          if (!new PasswordErrorMsgs().isEmptyError(err)) {
+            this.showErrorToast();
+          }
+          this.disableToggle();
+        })
+      : await biometricAuth.off();
+  }
+
+  private disableToggle() {
+    this.form.patchValue({ biometric: false });
+  }
+
+  private showErrorToast() {
+    this.toastService.showErrorToast({
+      message: this.translate.instant('profiles.biometric_auth.password_error'),
+    });
+  }
+}
