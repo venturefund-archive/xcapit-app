@@ -44,6 +44,7 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { Blockchains } from '../shared-swaps/models/blockchains/blockchains';
 import { DefaultSwapsUrls } from '../shared-swaps/routes/default-swaps-urls';
 import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blockchains-of/factory/one-inch-blockchains-of';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-swap-home',
@@ -61,6 +62,9 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
       <div class="sw__swap-card">
         <div class="sw__swap-card__networks ion-padding" *ngIf="this.tplBlockchain">
           <app-network-select-card
+            appTrackClick
+            name="ux_swap_matic"
+            [dataToTrack]="{ eventLabel: this.blockchainName }"
             [title]="'wallets.send.send_detail.network_select.network' | translate"
             [networks]="this.tplAllowedBlockchainsName"
             [disclaimer]=""
@@ -215,6 +219,7 @@ export class SwapHomePage {
   actions = [];
   actionTypeId = 'SWAP';
   sameTokens = false;
+  blockchainName: string;
   constructor(
     private apiWalletService: ApiWalletService,
     private walletBalance: WalletBalanceService,
@@ -283,6 +288,7 @@ export class SwapHomePage {
   }
 
   switchBlockchainTo(aBlockchainName: string) {
+    this.getTrackClickEventName(aBlockchainName.toLowerCase());
     this.navController.navigateForward(new DefaultSwapsUrls().homeByBlockchain(aBlockchainName), {
       replaceUrl: true,
       animated: false,
@@ -472,5 +478,11 @@ export class SwapHomePage {
   setMaxAmount() {
     this.form.get('fromTokenAmount').setValue(this.balance);
     this.form.updateValueAndValidity();
+  }
+
+  getTrackClickEventName(network: string) {
+    this.blockchainName = `ux_swap_${network}`;
+    console.log(this.blockchainName);
+    // return `ux_swap_${network}`;
   }
 }

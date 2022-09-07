@@ -8,6 +8,7 @@ import { LoggedIn } from '../shared-users/models/logged-in/logged-in';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LoginPasswordInfoComponent } from '../shared-users/components/login-password-info/login-password-info.component';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-login-new',
@@ -90,8 +91,17 @@ export class LoginNewPage {
     private storage: IonicStorageService,
     private navController: NavController,
     private translate: TranslateService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private trackService: TrackService
   ) {}
+
+  ionViewWillEnter() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_screenview_login',
+    });
+  }
 
   dismissToast() {
     this.toastService.dismiss();

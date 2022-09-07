@@ -11,6 +11,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 
 describe('LoginNewPage', () => {
@@ -25,6 +26,8 @@ describe('LoginNewPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<LoginNewPage>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
+
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
@@ -38,6 +41,9 @@ describe('LoginNewPage', () => {
       get: Promise.resolve(aHashedPassword),
       set: Promise.resolve(),
     });
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
     TestBed.configureTestingModule({
       declarations: [LoginNewPage,  FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
@@ -46,6 +52,7 @@ describe('LoginNewPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -112,5 +119,10 @@ describe('LoginNewPage', () => {
     fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('infoIconClicked', undefined);
     fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+  
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });
