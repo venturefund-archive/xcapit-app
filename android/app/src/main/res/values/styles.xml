@@ -18,9 +18,8 @@
 
   <style name="Theme.App.Starting" parent="Theme.SplashScreen">
     <item name="windowSplashScreenBackground">@color/colorPrimaryXcapit</item>
-    <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
-    <item name="android:windowSplashScreenBrandingImage">@drawable/new_logo</item>
-    <item name="android:background">#1c2d5e</item>
+    <item name="windowSplashScreenAnimatedIcon">@drawable/ic_transparent</item>
+    <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>
 
   </style>
 

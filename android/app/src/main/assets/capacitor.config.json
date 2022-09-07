@@ -23,11 +23,8 @@
 			"forceCodeForRefreshToken": true
 		},
 		"SplashScreen": {
-			"splashFullScreen": true,
-			"splashImmersive": true,
-			"launchAutoHide": false,
-			"launchShowDuration": 2000,
-			"backgroundColor": "#1c2d5e"
+			"launchAutoHide": true,
+			"launchShowDuration": 2000
 		}
 	}
 }
