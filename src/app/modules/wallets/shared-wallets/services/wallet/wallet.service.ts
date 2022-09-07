@@ -37,21 +37,12 @@ export class WalletService {
     });
   }
 
-  createForDerivedPath(derivedPath: string): ethers.Wallet | Keypair {
-    if (derivedPath === environment.derivedPaths.SOLANA) {
-      return this.createWalletUsingSolana();
-    }
-
+  createForDerivedPath(derivedPath: string): ethers.Wallet {
     return this.createWalletUsingEthers(derivedPath);
   }
 
   private createWalletUsingEthers(derivedPath: string): ethers.Wallet {
     return ethers.Wallet.fromMnemonic(this.walletMnemonicService.mnemonic.phrase, derivedPath, this.wordList());
-  }
-
-  private createWalletUsingSolana(): Keypair {
-    return;
-    // return Keypair.fromSeed(this.walletMnemonicService.getSeed().slice(0, 32));
   }
 
   private wordList() {

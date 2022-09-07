@@ -8,7 +8,7 @@ export class Wallets {
     const rawData = await this._rawWalletData(aBlockchain);
 
     if(aBlockchain.name() === 'SOLANA') {
-      return new SolanaWallet(rawData, aBlockchain);
+      return new SolanaWallet(rawData);
     }
     
     return new DefaultWallet(rawData, aBlockchain);

@@ -4,12 +4,13 @@ import { FakeAppStorage } from 'src/app/shared/services/app-storage/app-storage.
 import { rawStoredWalletData } from '../../fixtures/raw-stored-wallet-data';
 import { WalletsFactory } from './wallets.factory';
 
-const testMnemonic: Mnemonic = {
-  locale: 'en',
-  path: '',
-  phrase: 'test phrase other word number another rooster keyboard confort destroy jingle july',
-};
+
 describe('Wallets Factory', () => {
+  const testMnemonic: Mnemonic = {
+    locale: 'en',
+    path: '',
+    phrase: 'test phrase other word number another rooster keyboard confort destroy jingle july',
+  };
   let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
   beforeEach(() => {
     walletMnemonicServiceSpy = jasmine.createSpyObj(

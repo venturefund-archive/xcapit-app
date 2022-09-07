@@ -16,93 +16,6 @@ import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockc
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 
-const testMnemonic = {
-  locale: 'en',
-  phrase: 'test mnemonic constant',
-  path: '',
-};
-
-const testToggleAssets = ['USDT', 'RBTC', 'RSK'];
-
-const walletResultToggleAssets = {
-  addresses: {
-    ERC20: 'testAddress',
-    RSK: 'testAddress',
-  },
-  assets: {
-    ETH: true,
-    USDT: false,
-    RBTC: true,
-    RSK: true,
-  },
-};
-
-const testEncryptedWallet = {
-  addresses: {
-    ERC20: 'testAddress',
-    RSK: 'testAddress',
-  },
-  assets: {
-    ETH: true,
-    USDT: true,
-    RBTC: false,
-    RSK: false,
-  },
-};
-
-const updateResultWallet = {
-  addresses: {
-    ERC20: 'testAddress',
-    RSK: 'testAddress',
-    MATIC: '',
-  },
-  updatedAt: moment('2015-10-19').utc().format(),
-  assets: {
-    ETH: true,
-    USDT: false,
-    RBTC: true,
-    RSK: true,
-    MATIC: false,
-  },
-};
-
-const testCoins: Coin[] = [
-  {
-    id: 1,
-    name: 'ETH - Ethereum',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    last: false,
-    value: 'ETH',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: 'http://testrpc.test/',
-    native: true,
-  },
-  {
-    id: 6,
-    name: 'RBTC - Smart Bitcoin',
-    logoRoute: 'assets/img/coins/RBTC.png',
-    last: false,
-    value: 'RBTC',
-    network: 'RSK',
-    chainId: 31,
-    rpc: 'testRpc',
-    native: true,
-  },
-  {
-    id: 8,
-    name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.svg',
-    last: false,
-    value: 'MATIC',
-    network: 'MATIC',
-    chainId: 80001,
-    rpc: 'http://testrpc.text/',
-    decimals: 18,
-    native: true,
-  },
-];
-
 describe('WalletMaintenanceService', () => {
   let service: WalletMaintenanceService;
   let walletMnemonicServiceSpy: jasmine.SpyObj<WalletMnemonicService>;
@@ -113,6 +26,93 @@ describe('WalletMaintenanceService', () => {
   let ethersServiceSpy: jasmine.SpyObj<EthersService>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
+
+  const testMnemonic = {
+    locale: 'en',
+    phrase: 'test mnemonic constant',
+    path: '',
+  };
+  
+  const testToggleAssets = ['USDT', 'RBTC', 'RSK'];
+  
+  const walletResultToggleAssets = {
+    addresses: {
+      ERC20: 'testAddress',
+      RSK: 'testAddress',
+    },
+    assets: {
+      ETH: true,
+      USDT: false,
+      RBTC: true,
+      RSK: true,
+    },
+  };
+  
+  const testEncryptedWallet = {
+    addresses: {
+      ERC20: 'testAddress',
+      RSK: 'testAddress',
+    },
+    assets: {
+      ETH: true,
+      USDT: true,
+      RBTC: false,
+      RSK: false,
+    },
+  };
+  
+  const updateResultWallet = {
+    addresses: {
+      ERC20: 'testAddress',
+      RSK: 'testAddress',
+      MATIC: '',
+    },
+    updatedAt: moment('2015-10-19').utc().format(),
+    assets: {
+      ETH: true,
+      USDT: false,
+      RBTC: true,
+      RSK: true,
+      MATIC: false,
+    },
+  };
+  
+  const testCoins: Coin[] = [
+    {
+      id: 1,
+      name: 'ETH - Ethereum',
+      logoRoute: 'assets/img/coins/ETH.svg',
+      last: false,
+      value: 'ETH',
+      network: 'ERC20',
+      chainId: 42,
+      rpc: 'http://testrpc.test/',
+      native: true,
+    },
+    {
+      id: 6,
+      name: 'RBTC - Smart Bitcoin',
+      logoRoute: 'assets/img/coins/RBTC.png',
+      last: false,
+      value: 'RBTC',
+      network: 'RSK',
+      chainId: 31,
+      rpc: 'testRpc',
+      native: true,
+    },
+    {
+      id: 8,
+      name: 'MATIC - Polygon',
+      logoRoute: 'assets/img/coins/MATIC.svg',
+      last: false,
+      value: 'MATIC',
+      network: 'MATIC',
+      chainId: 80001,
+      rpc: 'http://testrpc.text/',
+      decimals: 18,
+      native: true,
+    },
+  ];
 
   beforeEach(() => {
     walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {

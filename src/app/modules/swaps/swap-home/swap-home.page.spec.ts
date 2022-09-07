@@ -43,19 +43,7 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
 import { OneInchBlockchainsOf } from '../shared-swaps/models/one-inch-blockchains-of/one-inch-blockchains-of';
 import { DefaultSwapsUrls } from '../shared-swaps/routes/default-swaps-urls';
 
-const testLocalNotificationOk: LocalNotificationSchema = {
-  id: 1,
-  title: 'swaps.sent_notification.swap_ok.title',
-  body: 'swaps.sent_notification.swap_ok.body',
-  actionTypeId: 'SWAP',
-};
 
-const testLocalNotificationNotOk: LocalNotificationSchema = {
-  id: 1,
-  title: 'swaps.sent_notification.swap_not_ok.title',
-  body: 'swaps.sent_notification.swap_not_ok.body',
-  actionTypeId: 'SWAP',
-};
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -79,7 +67,19 @@ describe('SwapHomePage', () => {
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletBalanceSpy: jasmine.SpyObj<WalletBalanceService>;
-
+  const testLocalNotificationOk: LocalNotificationSchema = {
+    id: 1,
+    title: 'swaps.sent_notification.swap_ok.title',
+    body: 'swaps.sent_notification.swap_ok.body',
+    actionTypeId: 'SWAP',
+  };
+  
+  const testLocalNotificationNotOk: LocalNotificationSchema = {
+    id: 1,
+    title: 'swaps.sent_notification.swap_not_ok.title',
+    body: 'swaps.sent_notification.swap_not_ok.body',
+    actionTypeId: 'SWAP',
+  };
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
   const toToken = rawMATICData;

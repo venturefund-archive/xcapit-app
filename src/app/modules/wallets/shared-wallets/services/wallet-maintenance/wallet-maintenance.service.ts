@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ethers, Wallet } from 'ethers';
+import { Wallet } from 'ethers';
 import moment from 'moment';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
-import { environment } from 'variables.env';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { EthersService } from '../ethers/ethers.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
-import { WalletService } from '../wallet/wallet.service';
 
 @Injectable({
   providedIn: 'root',

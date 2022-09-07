@@ -2,7 +2,7 @@ import { FakeBlockchainTx } from '../fakes/fake-blockchain-tx';
 import { FakeEthersWallet } from '../fakes/fake-ethers-wallet';
 import { rawEthereumData } from '../fixtures/raw-blockchains-data';
 import { passEncryptedWallet, rawWalletData } from '../fixtures/raw-wallet-data';
-import { DefaultWallet, FakeWallet, Wallet } from './wallet';
+import { DefaultWallet, FakeWallet, SolanaWallet, Wallet } from './wallet';
 import { fakeProviders } from '../fakes/fake-ethers-providers';
 import { Blockchain } from '../blockchain/blockchain';
 
@@ -93,4 +93,31 @@ describe('DefaultWallet', () => {
   });
 });
 
-describe('SolanaWallet', () => {});
+describe('SolanaWallet', () => {
+  let wallet: Wallet;
+  let testObject: any;
+
+  beforeAll(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 150000;
+  });
+
+  beforeEach(() => {
+    wallet = new SolanaWallet(rawWalletData);
+    testObject = { testMethod: () => Promise.resolve(passEncryptedWallet) };
+    spyOn(testObject, 'testMethod').and.callThrough();
+  });
+
+  it('new', () => {
+    expect(wallet).toBeTruthy();
+  });
+
+  it('address access', () => {
+    expect(wallet.address()).toEqual('0x0');
+  });
+
+  it('on need pass subscribe', () => {
+    wallet.onNeedPass().subscribe(() => 'superpass');
+
+    expect(true).toBeTrue();
+  });
+});

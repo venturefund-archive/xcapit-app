@@ -106,7 +106,6 @@ export class SolanaWallet implements Wallet {
 
   constructor(
     private _rawData: any,
-    private _aBlockchain: Blockchain,
     private _solanaWallet: any = Keypair,
   ) {}
   

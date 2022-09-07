@@ -37,17 +37,6 @@ import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/
 import { Vault } from '@2pi-network/sdk';
 import { SolanaBalancesController } from '../shared-wallets/models/balances/solana-balances/solana-balances.controller';
 
-const dataTest = {
-  data: {
-    flows: [
-      {
-        balance: '12777395',
-        balanceUSD: '12.77640743514045',
-      },
-    ],
-  },
-};
-
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
   let fixture: ComponentFixture<HomeWalletPage>;
@@ -76,6 +65,16 @@ describe('HomeWalletPage', () => {
   let graphqlServiceSpy: jasmine.SpyObj<GraphqlService>;
   let twoPiProductFactorySpy: jasmine.SpyObj<TwoPiProductFactory>;
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
+  const dataTest = {
+    data: {
+      flows: [
+        {
+          balance: '12777395',
+          balanceUSD: '12.77640743514045',
+        },
+      ],
+    },
+  };
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();

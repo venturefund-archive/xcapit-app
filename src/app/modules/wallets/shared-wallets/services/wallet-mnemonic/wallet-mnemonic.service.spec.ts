@@ -2,23 +2,23 @@ import { TestBed } from '@angular/core/testing';
 import { WalletMnemonicService } from './wallet-mnemonic.service';
 import { Wallet } from 'ethers';
 
-const testMnemonic = {
-  constant: {
-    locale: 'en',
-    phrase: 'test mnemonic constant',
-    path: '',
-  },
-  wallet: {
-    locale: 'en',
-    phrase: 'test mnemonic wallet',
-    path: '',
-  },
-};
-
 describe('WalletMnemonicService', () => {
   let service: WalletMnemonicService;
   let fakeWallet: jasmine.SpyObj<Wallet>;
   let utilsSpy: jasmine.SpyObj<any>;
+
+  const testMnemonic = {
+    constant: {
+      locale: 'en',
+      phrase: 'test mnemonic constant',
+      path: '',
+    },
+    wallet: {
+      locale: 'en',
+      phrase: 'test mnemonic wallet',
+      path: '',
+    },
+  };
 
   beforeEach(() => {
     utilsSpy = jasmine.createSpyObj('utils', {

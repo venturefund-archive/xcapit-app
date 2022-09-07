@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
 import { FakeAppStorage } from "src/app/shared/services/app-storage/app-storage.service";
-import { environment } from "variables.env";
 import { Blockchain } from "../blockchain/blockchain";
 import { rawPolygonData, rawSolanaData } from "../fixtures/raw-blockchains-data";
 import { rawStoredWalletData } from "../fixtures/raw-stored-wallet-data";

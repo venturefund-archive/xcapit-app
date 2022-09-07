@@ -26,9 +26,9 @@ describe('Wallet Repo', () => {
   });
 });
 
-const testWalletSolana: Keypair = { secretKey: 'testPrivate', publicKey: 'testPublicSolana' } as unknown as Keypair;
-const testWalletEthers: ethers.Wallet = { address: 'testAddress', encrypt: (password) => Promise.resolve('testEncrypted') } as ethers.Wallet;
 describe('New Wallet Repo', () => {
+  const testWalletSolana: Keypair = { secretKey: 'testPrivate', publicKey: 'testPublicSolana' } as unknown as Keypair;
+  const testWalletEthers: ethers.Wallet = { address: 'testAddress', encrypt: (password) => Promise.resolve('testEncrypted') } as ethers.Wallet;
 
   let newRepo: NewWalletRepo;
   let ethersFromMnemonic: jasmine.Spy;

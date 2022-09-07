@@ -4,9 +4,9 @@ import { WalletService } from './wallet.service';
 import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 
-const testWallet: Wallet = { address: 'testAddress' } as Wallet;
 
 describe('WalletService', () => {
+  const testWallet: Wallet = { address: 'testAddress' } as Wallet;
   let service: WalletService;
   let blockchainProviderServiceMock;
   let blockchainProviderService: BlockchainProviderService;
