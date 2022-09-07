@@ -42,7 +42,6 @@ import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-erro
 import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Blockchains } from '../shared-swaps/models/blockchains/blockchains';
-import { OneInchBlockchainsOf } from '../shared-swaps/models/one-inch-blockchains-of/one-inch-blockchains-of';
 import { DefaultSwapsUrls } from '../shared-swaps/routes/default-swaps-urls';
 import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blockchains-of/factory/one-inch-blockchains-of';
 
@@ -88,18 +87,29 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
             </div>
             <div class="sw__swap-card__from__detail__amount">
               <form [formGroup]="this.form">
-                <ion-input
-                  appNumberInput
-                  [disabled]="this.sameTokens"
-                  class="sw__swap-card__from__detail__amount__input"
-                  formControlName="fromTokenAmount"
-                  type="number"
-                  inputmode="numeric"
-                ></ion-input>
+                <div class="sw__swap-card__from__detail__amount__wrapper">
+                  <ion-input
+                    appNumberInput
+                    [disabled]="this.sameTokens"
+                    class="sw__swap-card__from__detail__amount__wrapper__input"
+                    formControlName="fromTokenAmount"
+                    type="number"
+                    inputmode="numeric"
+                  ></ion-input>
+                  <ion-button
+                    (click)="this.setMaxAmount()"
+                    [disabled]="this.sameTokens"
+                    slot="end"
+                    fill="clear"
+                    size="small"
+                    class="sw__swap-card__from__detail__amount__wrapper__max ux-font-button"
+                    >{{ 'defi_investments.shared.amount_input_card.max_button' | translate }}</ion-button
+                  >
+                </div>
               </form>
               <div class="sw__swap-card__from__detail__available">
                 <ion-text class="ux-font-text-xxs" color="neutral80">
-                  {{ 'swaps.home.available' | translate }} {{this.balance | formattedAmount }}</ion-text
+                  {{ 'swaps.home.available' | translate }} {{ this.balance | formattedAmount }}</ion-text
                 >
               </div>
             </div>
@@ -188,7 +198,7 @@ export class SwapHomePage {
   private referral: Referral = new Referral();
   private fromTokenKey = 'fromToken';
   private toTokenKey = 'toToken';
-  balance= 0;
+  balance = 0;
   loadingBtn: boolean;
   disabledBtn: boolean;
   tplBlockchain: RawBlockchain;
@@ -224,7 +234,7 @@ export class SwapHomePage {
     private passwordErrorHandlerService: PasswordErrorHandlerService,
     private toastService: ToastService,
     private translate: TranslateService,
-    private oneInchBlockchainsOf: OneInchBlockchainsOfFactory,
+    private oneInchBlockchainsOf: OneInchBlockchainsOfFactory
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -269,18 +279,18 @@ export class SwapHomePage {
 
   setAllowedBlockchains() {
     this.allowedBlockchains = this.oneInchBlockchainsOf.create(this.blockchains.create());
-    this.tplAllowedBlockchainsName = this.allowedBlockchains.value().map(blockchain => blockchain.name());
+    this.tplAllowedBlockchainsName = this.allowedBlockchains.value().map((blockchain) => blockchain.name());
   }
 
   switchBlockchainTo(aBlockchainName: string) {
-    this.navController.navigateForward(
-      new DefaultSwapsUrls().homeByBlockchain(aBlockchainName),
-      { replaceUrl: true, animated: false }
-    );
+    this.navController.navigateForward(new DefaultSwapsUrls().homeByBlockchain(aBlockchainName), {
+      replaceUrl: true,
+      animated: false,
+    });
   }
 
   async balanceAvailableOf(aCoin: string) {
-    const aToken =  this.apiWalletService.getCoin(aCoin);
+    const aToken = this.apiWalletService.getCoin(aCoin);
     this.balance = await this.walletBalance.balanceOf(aToken);
   }
 
@@ -457,5 +467,10 @@ export class SwapHomePage {
       backdropDismiss: false,
     });
     await modal.present();
+  }
+
+  setMaxAmount() {
+    this.form.get('fromTokenAmount').setValue(this.balance);
+    this.form.updateValueAndValidity();
   }
 }
