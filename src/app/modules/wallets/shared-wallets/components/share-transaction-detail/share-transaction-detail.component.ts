@@ -25,7 +25,9 @@ export class ShareTransactionDetailComponent implements OnInit {
   @Input() txAmount : number;
   @Input() txAsset : string;
   @Input() txLink : string;
+  formattedMessage : string;
   canShare: boolean;
+
   constructor(
     private translate: TranslateService,
     private shareService: ShareService,
@@ -34,7 +36,15 @@ export class ShareTransactionDetailComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.getShareMessage();
     await this.setCanShare();
+  }
+  
+  getShareMessage(){
+    const formattedAmount = new FormattedAmountPipe().transform(this.txAmount);
+    const primaryText = this.translate.instant('wallets.shared_wallets.share_transaction_detail.text');
+    const secondaryText = this.translate.instant('wallets.shared_wallets.share_transaction_detail.text2');
+    this.formattedMessage = `${primaryText}${formattedAmount} ${this.txAsset}. ${secondaryText} ${this.txLink}`;
   }
 
   async setCanShare(): Promise<void> {
@@ -42,18 +52,16 @@ export class ShareTransactionDetailComponent implements OnInit {
   }
 
   async shareTransactionDetail() {
-    const formattedAmount = new FormattedAmountPipe().transform(this.txAmount);
-    const formattedText = `${this.translate.instant('wallets.shared_wallets.share_transaction_detail.text')}${formattedAmount} ${this.txAsset}. ${this.translate.instant('wallets.shared_wallets.share_transaction_detail.text2')} ${this.txLink}`;
     this.shareService
       .share({
-        text: formattedText,
+        text: this.formattedMessage,
         dialogTitle: this.translate.instant('wallets.shared_wallets.share_transaction_detail.dialogTitle'),
       })
       .catch((err) => {
         if (!err.message.includes('canceled')) {
           this.clipboardService
             .write({
-              string: formattedText,
+              string: this.formattedMessage,
             })
             .then(() => {
               this.showToast();

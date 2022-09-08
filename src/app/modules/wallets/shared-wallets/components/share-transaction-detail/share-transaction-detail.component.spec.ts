@@ -3,12 +3,11 @@ import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { ShareService } from 'src/app/shared/services/share/share.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ShareTransactionDetailComponent } from './share-transaction-detail.component';
 
-fdescribe('ShareTestComponent', () => {
+describe('ShareTransactionDetailComponent', () => {
   let component: ShareTransactionDetailComponent;
   let fixture: ComponentFixture<ShareTransactionDetailComponent>;
   let shareServiceSpy: jasmine.SpyObj<ShareService>;
@@ -54,7 +53,6 @@ fdescribe('ShareTestComponent', () => {
   }));
 
   it('should create', () => {
-    console.log(component.txAmount)
     expect(component).toBeTruthy();
   });
 
