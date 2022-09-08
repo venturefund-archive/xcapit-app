@@ -42,6 +42,9 @@ import { WalletBalanceService } from '../../wallets/shared-wallets/services/wall
 import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blockchains-of/factory/one-inch-blockchains-of';
 import { OneInchBlockchainsOf } from '../shared-swaps/models/one-inch-blockchains-of/one-inch-blockchains-of';
 import { DefaultSwapsUrls } from '../shared-swaps/routes/default-swaps-urls';
+import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
+import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
+import { of } from 'rxjs';
 
 const testLocalNotificationOk: LocalNotificationSchema = {
   id: 1,
@@ -79,6 +82,8 @@ describe('SwapHomePage', () => {
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletBalanceSpy: jasmine.SpyObj<WalletBalanceService>;
+  let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
+  let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
 
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
@@ -122,6 +127,10 @@ describe('SwapHomePage', () => {
     });
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoin: rawUSDCData,
+    });
+    dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
+    dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
+      new: dynamicPriceSpy,
     });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     fakeNavController = new FakeNavController();
@@ -196,6 +205,7 @@ describe('SwapHomePage', () => {
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: WalletBalanceService, useValue: walletBalanceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
       ],
     }).compileComponents();
 
@@ -281,6 +291,16 @@ describe('SwapHomePage', () => {
     expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(1);
     expect(walletBalanceSpy.balanceOf).toHaveBeenCalledTimes(1);
     expect(availableEl.nativeElement.innerHTML).toContain('swaps.home.available 10');
+  });
+
+  it('should unsubscribe when leave', () => {
+    const nextSpy = spyOn(component.destroy$, 'next');
+    const completeSpy = spyOn(component.destroy$, 'complete');
+
+    component.ionViewWillLeave();
+
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should show swap info on valid from token amount value', fakeAsync(() => {
