@@ -27,6 +27,8 @@ import { DefiProduct } from '../../defi-investments/shared-defi-investments/inte
 import { TwoPiProduct } from '../../defi-investments/shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
 import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
+import { SolanaBalancesController } from '../shared-wallets/models/balances/solana-balances/solana-balances.controller';
+import { Balances } from '../shared-wallets/models/balances/balances.interface';
 
 @Component({
   selector: 'app-home-wallet',
@@ -217,6 +219,7 @@ export class HomeWalletPage implements OnInit {
     private balanceCacheService: BalanceCacheService,
     private http: HttpClient,
     private covalentBalances: CovalentBalancesController,
+    private solanaBalances: SolanaBalancesController,
     private tokenPrices: TokenPricesController,
     private tokenDetail: TokenDetailController,
     private totalBalance: TotalBalanceController,
@@ -314,25 +317,32 @@ export class HomeWalletPage implements OnInit {
   }
 
   private async setTokenDetails() {
-    const result = [];
+    const tokenDetails = [];
     for (const network of this.apiWalletService.getNetworks()) {
       const tokens = this.userTokens.filter((token) => token.network === network);
       const address = await this.storageService.getWalletsAddresses(network);
-
       if (tokens.length) {
-        const balances = this.covalentBalances.new(address, tokens, this.http);
+        const balances = this.getBalances(network, address, tokens);
         const prices = this.tokenPrices.new(tokens, this.http);
         for (const token of tokens) {
           const tokenDetail = this.tokenDetail.new(balances, prices, token, this.balanceCacheService);
-          result.push(tokenDetail);
+          tokenDetails.push(tokenDetail);
           await tokenDetail.cached();
         }
         this.totalBalanceModel = this.totalBalance.new(prices, balances, this.totalBalanceModel);
       }
     }
-    this.sortTokens(result);
-    this.tokenDetails = result;
+    this.sortTokens(tokenDetails);
+    this.tokenDetails = tokenDetails;
     this.spinnerActivated = false;
+  }
+
+  private getBalances(network: string, address: string, tokens: Coin[]): Balances {
+    if (network === 'SOLANA') {
+      return this.solanaBalances.new(address, tokens);
+    } else {
+      return this.covalentBalances.new(address, tokens, this.http);
+    }
   }
 
   private async fetchDetails() {

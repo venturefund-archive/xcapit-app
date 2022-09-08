@@ -43,19 +43,7 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
 import { OneInchBlockchainsOf } from '../shared-swaps/models/one-inch-blockchains-of/one-inch-blockchains-of';
 import { DefaultSwapsUrls } from '../shared-swaps/routes/default-swaps-urls';
 
-const testLocalNotificationOk: LocalNotificationSchema = {
-  id: 1,
-  title: 'swaps.sent_notification.swap_ok.title',
-  body: 'swaps.sent_notification.swap_ok.body',
-  actionTypeId: 'SWAP',
-};
 
-const testLocalNotificationNotOk: LocalNotificationSchema = {
-  id: 1,
-  title: 'swaps.sent_notification.swap_not_ok.title',
-  body: 'swaps.sent_notification.swap_not_ok.body',
-  actionTypeId: 'SWAP',
-};
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -79,7 +67,19 @@ describe('SwapHomePage', () => {
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let walletBalanceSpy: jasmine.SpyObj<WalletBalanceService>;
-
+  const testLocalNotificationOk: LocalNotificationSchema = {
+    id: 1,
+    title: 'swaps.sent_notification.swap_ok.title',
+    body: 'swaps.sent_notification.swap_ok.body',
+    actionTypeId: 'SWAP',
+  };
+  
+  const testLocalNotificationNotOk: LocalNotificationSchema = {
+    id: 1,
+    title: 'swaps.sent_notification.swap_not_ok.title',
+    body: 'swaps.sent_notification.swap_not_ok.body',
+    actionTypeId: 'SWAP',
+  };
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
   const toToken = rawMATICData;
@@ -105,7 +105,7 @@ describe('SwapHomePage', () => {
   };
 
   const _setWalletToInvalidPassword = () => {
-    walletsFactorySpy.create.and.returnValue({
+    walletsFactorySpy.createFromStorage.and.returnValue({
       oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), new PasswordErrorMsgs().invalid())),
     });
   };
@@ -144,7 +144,7 @@ describe('SwapHomePage', () => {
     });
 
     walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
-      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+      createFromStorage: { oneBy: () => Promise.resolve(new FakeWallet()) },
     });
 
     swapTransactionsFactorySpy = jasmine.createSpyObj('SwapTransactionsFactory', {
@@ -363,7 +363,7 @@ describe('SwapHomePage', () => {
 
   it('should send error notification when swap is not ok', fakeAsync(() => {
     fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
-    walletsFactorySpy.create.and.returnValue({
+    walletsFactorySpy.createFromStorage.and.returnValue({
       oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'a random error')),
     });
     _setTokenAmountArrange(1);

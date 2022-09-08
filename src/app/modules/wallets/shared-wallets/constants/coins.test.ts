@@ -110,9 +110,25 @@ export const TEST_BSC_BEP20_COINS: Coin[] = [
   },
 ];
 
+export const TEST_SOLANA_COINS: Coin[] = [
+  {
+    id: 8,
+    name: 'SOL - Solana',
+    logoRoute: 'assets/img/coins/SOL.svg',
+    last: true,
+    value: 'SOL',
+    network: 'SOLANA',
+    chainId: 97,
+    rpc: 'http://testrpc.text/',
+    decimals: 18,
+    native: true,
+  },
+];
+
 export const TEST_COINS: Coin[] = [
   ...TEST_ERC20_COINS,
   ...TEST_RSK_COINS,
   ...TEST_MATIC_COINS,
   ...TEST_BSC_BEP20_COINS,
+  ...TEST_SOLANA_COINS
 ];

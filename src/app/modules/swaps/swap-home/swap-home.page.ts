@@ -407,7 +407,7 @@ export class SwapHomePage {
 
   async swapThem() {
     this.disableMainButton();
-    const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
+    const wallet = await this.wallets.createFromStorage(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());
     wallet.onDecryptedWallet().subscribe(() => this.showSwapInProgressModal());
     wallet
