@@ -20,6 +20,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-home',
@@ -140,13 +141,15 @@ export class HomePage implements OnInit {
     private totalBalance: TotalBalanceController,
     private appStorage: AppStorageService,
     private walletBackupService: WalletBackupService,
-    private storage: IonicStorageService
+    private storage: IonicStorageService,
+    private trackService: TrackService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
     this.getPlannerData();
+    this.trackScreenViewEvent();
   }
 
   async ionViewDidEnter() {
@@ -254,5 +257,13 @@ export class HomePage implements OnInit {
 
   goToPlannerInfo() {
     this.navController.navigateForward(['/financial-planner/result-objetive']);
+  }
+
+  trackScreenViewEvent() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_screenview_home',
+    });
   }
 }

@@ -5,7 +5,12 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 @Component({
   selector: 'app-investor-test-cards',
   template: ` <div class="investor-cards">
-    <div class="take-test-card vertical-card" name="ux_education_go" (click)="this.goToEducation()">
+    <div
+      class="take-test-card vertical-card"
+      (click)="this.goToEducation()"
+      name="ux_go_to_education"
+      appTrackClick
+    >
       <div class="take-test-card__image">
         <ion-img src="assets/ux-icons/take-test.svg"></ion-img>
       </div>
@@ -17,7 +22,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           *ngIf="this.testAvailable"
           appTrackClick
           class="link ux-link-xl"
-          name="ux_education_go"
+          name="Manage"
           fill="clear"
           size="small"
         >
@@ -32,7 +37,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
     <div
       class="options-test-card vertical-card"
       appTrackClick
-      name="Go Investor Options"
+      name="ux_go_to_investor_profile"
       (click)="this.goToInvestorOptions()"
     >
       <div class="options-test-card__image">
@@ -66,10 +71,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 export class InvestorTestCardsComponent implements OnInit {
   optionsTestAvailable = true;
   testAvailable: boolean;
-  constructor(
-    private navController: NavController,
-    private remoteConfigService: RemoteConfigService
-  ) {}
+  constructor(private navController: NavController, private remoteConfigService: RemoteConfigService) {}
 
   ngOnInit() {
     this.testAvailable = this.remoteConfigService.getFeatureFlag('ff_educationCardAvailable');

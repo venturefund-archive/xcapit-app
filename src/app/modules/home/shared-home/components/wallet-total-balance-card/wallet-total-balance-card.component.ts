@@ -31,9 +31,10 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
         </div>
       </div>
       <div
+        name="Go To Wallet"
         [ngClass]="{ walletArrow: this.walletExist }"
         class="wbc__arrow"
-        name="ux_create_go_to_home_wallet"
+        [dataToTrack]="{eventLabel: this.trackClickName}"
         (click)="this.goToHomeWallet()"
         appTrackClick
       >
@@ -47,11 +48,16 @@ export class WalletTotalBalanceCardComponent implements OnInit {
   @Input() totalBalanceWallet?: number;
   @Input() walletExist: boolean;
   hideFundText: boolean;
+  trackClickName: string;
 
   constructor(private navController: NavController, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.subscribeOnHideFunds();
+  }
+
+  ngOnChanges() {
+    this.setTrackClickName()
   }
 
   subscribeOnHideFunds()  {
@@ -65,4 +71,8 @@ export class WalletTotalBalanceCardComponent implements OnInit {
   goToHomeWallet() {
     this.navController.navigateForward(['tabs/wallets']);
   }
+
+  setTrackClickName() {
+    this.trackClickName = this.walletExist ? 'ux_go_to_wallet' : 'ux_create_go_to_home_wallet'
+    }
 }
