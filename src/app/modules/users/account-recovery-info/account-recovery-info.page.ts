@@ -26,13 +26,13 @@ import { NavController } from '@ionic/angular';
           <div class="ari__items__item">
             <img src="assets/ux-icons/ux-terms-infolight.svg" />
             <ion-text class="ux-font-text-base" color="neutral90"
-              >{{ 'users.account_recovery_info.item_1' | translate }}
+              >{{ 'users.account_recovery_info.item_2' | translate }}
             </ion-text>
           </div>
           <div class="ari__items__item">
             <img src="assets/ux-icons/ux-bookmark-infolight.svg" />
             <ion-text class="ux-font-text-base" color="neutral90"
-              >{{ 'users.account_recovery_info.item_1' | translate }}
+              >{{ 'users.account_recovery_info.item_3' | translate }}
             </ion-text>
           </div>
         </div>

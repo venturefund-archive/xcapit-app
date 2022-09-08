@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
@@ -18,6 +17,14 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
+import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { LanguageService } from '../../../shared/services/language/language.service';
+import DepositLinkRequest from '../shared-ramps/models/deposit-link-request/deposit-link-request';
+import DepositLinkRequestFactory from '../shared-ramps/models/deposit-link-request/factory/deposit-link-request.factory';
+import { BrowserService } from '../../../shared/services/browser/browser.service';
+import { DirectaDepositCreationData } from '../shared-ramps/interfaces/directa-deposit-creation-data.interface';
+import { EnvService } from '../../../shared/services/env/env.service';
 
 @Component({
   selector: 'app-directa',
@@ -79,7 +86,6 @@ export class DirectaPage implements OnInit {
   });
   provider: FiatRampProvider;
   countries = COUNTRIES;
-  tokens: Coin[];
   selectedCurrency: Coin;
   fiatCurrency = 'USD';
   country: FiatRampProviderCountry;
@@ -94,13 +100,18 @@ export class DirectaPage implements OnInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
-    private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
     private walletMaintenance: WalletMaintenanceService,
     private tokenOperationDataService: TokenOperationDataService,
     private directaPrice: DirectaPriceFactory,
-    private fiatRampsService: FiatRampsService
+    private fiatRampsService: FiatRampsService,
+    private storageService: StorageService,
+    private platformService: PlatformService,
+    private languageService: LanguageService,
+    private depositLinkRequestFactory: DepositLinkRequestFactory,
+    private browserService: BrowserService,
+    private envService: EnvService
   ) {}
 
   ngOnInit() {}
@@ -110,8 +121,8 @@ export class DirectaPage implements OnInit {
     const providerAlias = this.route.snapshot.paramMap.get('alias');
     this.provider = this.getProviders().byAlias(providerAlias);
     this.setCountry();
-    this.setFiatCurrency();
-    this.setCurrency();
+    this.setFiatToken();
+    this.setCryptoToken();
     this.cryptoPrice();
     this.subscribeToFormChanges();
   }
@@ -122,23 +133,64 @@ export class DirectaPage implements OnInit {
     );
   }
 
-  setFiatCurrency() {
+  setFiatToken() {
     this.fiatCurrency = this.country.isoCurrencyCodeDirecta;
   }
 
-  setCurrency() {
-    this.tokens = this.providerTokens();
+  setCryptoToken() {
     const { asset, network } = this.tokenOperationDataService.tokenOperationData;
-    this.selectedCurrency = this.tokens.find((token) => token.value === asset && token.network === network);
+    this.selectedCurrency = this.providerTokens().find((token) => token.value === asset && token.network === network);
   }
 
   providerTokens() {
     return new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(this.provider.alias);
   }
 
+  depositLinkRequest(depositCreationData: DirectaDepositCreationData): DepositLinkRequest {
+    return this.depositLinkRequestFactory.new(depositCreationData);
+  }
+
+  userWalletAddress(): Promise<string> {
+    return this.storageService.getWalletsAddresses(this.selectedCurrency.network);
+  }
+
+  isNativePlatform(): boolean {
+    return this.platformService.isNative();
+  }
+
+  async userLanguage(): Promise<string> {
+    const language = await this.languageService.getSelectedLanguage();
+    return language ?? 'es';
+  }
+
+  webhookURL(): string {
+    return `${this.envService.byKey('apiUrl')}/on_off_ramps/directa/deposit_link`;
+  }
+
+  async depositData(): Promise<DirectaDepositCreationData> {
+    return {
+      amount: this.form.value.fiatAmount,
+      fiat_token: this.fiatCurrency,
+      crypto_token: this.selectedCurrency.value,
+      country: this.country.directaCode,
+      payment_method: this.provider.alias,
+      back_url: 'https://nonprod.xcapit.com/tabs/wallets',
+      success_url: 'https://nonprod.xcapit.com/tabs/wallets',
+      error_url: 'https://nonprod.xcapit.com/tabs/wallets',
+      notification_url: this.webhookURL(),
+      logo: 'https://xcapit-foss.gitlab.io/documentation/img/x.svg',
+      wallet: await this.userWalletAddress(),
+      mobile: this.isNativePlatform(),
+      language: await this.userLanguage(),
+    };
+  }
+
   async openD24() {
+    const response = await this.depositLinkRequest(await this.depositData())
+      .response()
+      .toPromise();
+    if (response.link) this.browserService.open({ url: response.link });
     await this.addBoughtCoinIfUserDoesNotHaveIt();
-    return this.navController.navigateForward(['/tabs/wallets']);
   }
 
   getProviders(): Providers {

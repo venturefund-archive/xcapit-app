@@ -206,7 +206,7 @@ export class CreatePasswordPage implements OnInit {
 
   private async createXAuthToken(): Promise<void> {
     const blockchain = this.blockchains.create().oneByName('ERC20');
-    const wallet = this.walletService.createForDerivedPath(blockchain.derivedPath()) as ethers.Wallet;
+    const wallet = this.walletService.createForDerivedPath(blockchain.derivedPath());
     const signedMsg = await wallet.signMessage(wallet.address);
     return this.xAuthService.saveToken(`${wallet.address}_${signedMsg}`);
   }

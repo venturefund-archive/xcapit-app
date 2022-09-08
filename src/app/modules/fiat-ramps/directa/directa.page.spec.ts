@@ -1,12 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
-import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
@@ -21,27 +19,38 @@ import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factor
 import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { of } from 'rxjs';
+import { LanguageService } from '../../../shared/services/language/language.service';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { PlatformService } from '../../../shared/services/platform/platform.service';
+import DepositLinkRequestFactory from '../shared-ramps/models/deposit-link-request/factory/deposit-link-request.factory';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import DepositLinkRequest from '../shared-ramps/models/deposit-link-request/deposit-link-request';
+import { EnvService } from 'src/app/shared/services/env/env.service';
 
 describe('DirectaPage', () => {
   let component: DirectaPage;
   let fixture: ComponentFixture<DirectaPage>;
-  let navControllerSpy: jasmine.SpyObj<NavController>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
   let fakeActivatedRoute: FakeActivatedRoute;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
-  let httpClientSpy: jasmine.SpyObj<HttpClient>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let directaPriceFactorySpy: jasmine.SpyObj<DirectaPriceFactory>;
   let directaPriceSpy: jasmine.SpyObj<DirectaPrice>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let languageServiceSpy: jasmine.SpyObj<LanguageService>;
+  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let directaLinkRequestFactorySpy: jasmine.SpyObj<DepositLinkRequestFactory>;
+  let directaLinkRequestSpy: jasmine.SpyObj<DepositLinkRequest>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  let envServiceSpy: jasmine.SpyObj<EnvService>;
 
   beforeEach(waitForAsync(() => {
-    navControllerSpy = new FakeNavController().createSpy();
-
     coinsSpy = [
       jasmine.createSpyObj('Coin', {}, { value: 'USDC', network: 'MATIC' }),
       jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' }),
@@ -82,19 +91,51 @@ describe('DirectaPage', () => {
       new: directaPriceSpy,
     });
 
+    platformServiceSpy = jasmine.createSpyObj('PlatformService', {
+      isNative: true,
+    });
+
+    languageServiceSpy = jasmine.createSpyObj('LanguageService', {
+      getSelectedLanguage: Promise.resolve('en'),
+    });
+
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      getWalletsAddresses: Promise.resolve('0x_some_test_wallet'),
+    });
+
+    browserServiceSpy = jasmine.createSpyObj('BrowserService', {
+      open: Promise.resolve(),
+    });
+
+    directaLinkRequestSpy = jasmine.createSpyObj('DirectaLinkRequest', {
+      response: of({ link: 'test-link/hash' }),
+    });
+
+    directaLinkRequestFactorySpy = jasmine.createSpyObj('DirectaLinkRequestFactory', {
+      new: directaLinkRequestSpy,
+    });
+
+    envServiceSpy = jasmine.createSpyObj('EnvService', {
+      byKey: 'api_url',
+    });
+
     TestBed.configureTestingModule({
       declarations: [DirectaPage],
-      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule, RouterTestingModule],
       providers: [
-        { provide: NavController, useValue: navControllerSpy },
-        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
-        { provide: HttpClient, useValue: httpClientSpy },
         { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         { provide: DirectaPriceFactory, useValue: directaPriceFactorySpy },
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
+        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: LanguageService, useValue: languageServiceSpy },
+        { provide: DepositLinkRequestFactory, useValue: directaLinkRequestFactorySpy },
+        { provide: BrowserService, useValue: browserServiceSpy },
+        { provide: EnvService, useValue: envServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -109,13 +150,13 @@ describe('DirectaPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should redirect to tabs wallets and call addCoinIfUserDoesNotHaveIt when Continue is clicked', async () => {
+  it('should add coin if user doesnt have it in wallet when Continue is clicked', async () => {
     component.ionViewWillEnter();
     fixture.debugElement.query(By.css('ion-button[name="Continue"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
-    expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coinsSpy[0]);
+    expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledTimes(1);
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'test-link/hash' });
   });
 
   it('should set country, default currency and provider on init', fakeAsync(() => {

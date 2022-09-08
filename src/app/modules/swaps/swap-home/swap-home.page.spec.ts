@@ -46,19 +46,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { of } from 'rxjs';
 
-const testLocalNotificationOk: LocalNotificationSchema = {
-  id: 1,
-  title: 'swaps.sent_notification.swap_ok.title',
-  body: 'swaps.sent_notification.swap_ok.body',
-  actionTypeId: 'SWAP',
-};
 
-const testLocalNotificationNotOk: LocalNotificationSchema = {
-  id: 1,
-  title: 'swaps.sent_notification.swap_not_ok.title',
-  body: 'swaps.sent_notification.swap_not_ok.body',
-  actionTypeId: 'SWAP',
-};
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -84,7 +72,19 @@ describe('SwapHomePage', () => {
   let walletBalanceSpy: jasmine.SpyObj<WalletBalanceService>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
-
+  const testLocalNotificationOk: LocalNotificationSchema = {
+    id: 1,
+    title: 'swaps.sent_notification.swap_ok.title',
+    body: 'swaps.sent_notification.swap_ok.body',
+    actionTypeId: 'SWAP',
+  };
+  
+  const testLocalNotificationNotOk: LocalNotificationSchema = {
+    id: 1,
+    title: 'swaps.sent_notification.swap_not_ok.title',
+    body: 'swaps.sent_notification.swap_not_ok.body',
+    actionTypeId: 'SWAP',
+  };
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
   const toToken = rawMATICData;
@@ -110,7 +110,7 @@ describe('SwapHomePage', () => {
   };
 
   const _setWalletToInvalidPassword = () => {
-    walletsFactorySpy.create.and.returnValue({
+    walletsFactorySpy.createFromStorage.and.returnValue({
       oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), new PasswordErrorMsgs().invalid())),
     });
   };
@@ -127,6 +127,7 @@ describe('SwapHomePage', () => {
     });
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoin: rawUSDCData,
+      getNativeTokenFromNetwork: rawMATICData
     });
     dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
     dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
@@ -152,7 +153,7 @@ describe('SwapHomePage', () => {
     });
 
     walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
-      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+      createFromStorage: { oneBy: () => Promise.resolve(new FakeWallet()) },
     });
 
     swapTransactionsFactorySpy = jasmine.createSpyObj('SwapTransactionsFactory', {
@@ -280,9 +281,10 @@ describe('SwapHomePage', () => {
 
   it('should show and render available amount properly', async () => {
     fakeActivatedRoute.modifySnapshotParams({
-      fromToken: rawUSDCData.contract,
-      toToken: rawMATICData.contract,
+      fromToken: rawMATICData.contract,
+      toToken: rawUSDCData.contract,
     });
+    apiWalletServiceSpy.getCoin.and.returnValue(rawMATICData);
 
     await component.ionViewDidEnter();
     fixture.detectChanges();
@@ -301,6 +303,21 @@ describe('SwapHomePage', () => {
 
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set native token balance to pass to fee component', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      fromToken: rawUSDCData.contract,
+      toToken: rawMATICData.contract,
+    });
+    apiWalletServiceSpy.getCoin.and.returnValue(rawUSDCData);
+
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+
+    expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(1);
+    expect(apiWalletServiceSpy.getNativeTokenFromNetwork).toHaveBeenCalledTimes(1)
+    expect(walletBalanceSpy.balanceOf).toHaveBeenCalledTimes(2);
   });
 
   it('should show swap info on valid from token amount value', fakeAsync(() => {
@@ -366,7 +383,7 @@ describe('SwapHomePage', () => {
 
   it('should send error notification when swap is not ok', fakeAsync(() => {
     fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
-    walletsFactorySpy.create.and.returnValue({
+    walletsFactorySpy.createFromStorage.and.returnValue({
       oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'a random error')),
     });
     _setTokenAmountArrange(1);
@@ -413,4 +430,13 @@ describe('SwapHomePage', () => {
       { replaceUrl: true, animated: false }
     );
   });
+
+  it('should set max amount from swap', async()=>{
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    
+    fixture.debugElement.query(By.css('ion-button.sw__swap-card__from__detail__amount__wrapper__max')).nativeElement.click();
+    
+    expect(component.form.controls.fromTokenAmount.value).toEqual(10);
+  })
 });

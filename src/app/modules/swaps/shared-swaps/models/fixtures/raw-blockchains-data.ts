@@ -28,4 +28,17 @@ export const rawPolygonData: RawBlockchain = {
   }
 };
 
-export const rawBlockchainsData: RawBlockchain[] = [rawEthereumData, rawPolygonData];
+export const rawSolanaData: RawBlockchain = {
+  name: 'SOLANA',
+  derivedPath: "m/44'/501'/0'/0/0",
+  id: '137',
+  rpc: 'https://polygonRpc',
+  nativeToken: {
+    value: 'SOL',
+    decimals: 18,
+    chainId: 137,
+    contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+  }
+};
+
+export const rawBlockchainsData: RawBlockchain[] = [rawEthereumData, rawPolygonData, rawSolanaData];

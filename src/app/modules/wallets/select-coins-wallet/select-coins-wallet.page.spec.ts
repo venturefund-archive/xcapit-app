@@ -25,124 +25,11 @@ import {
   TEST_ERC20_COINS,
   TEST_MATIC_COINS,
   TEST_RSK_COINS,
+  TEST_SOLANA_COINS,
 } from '../shared-wallets/constants/coins.test';
 import { SELECT_COINS_FORM_DATA } from './form-data.spec';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
-
-const modeTestsData = [
-  {
-    mode: {
-      text: 'Create',
-      value: '',
-    },
-    onSubmit: {
-      navigateTo: {
-        route: ['/wallets/create-first/recovery-phrase'],
-        pageName: 'Recovery Phrase page',
-      },
-    },
-    changeTexts: {
-      header: 'wallets.select_coin.header',
-      submitButton: ' deposit_addresses.deposit_currency.next_button ',
-    },
-  },
-  {
-    mode: {
-      text: 'Import',
-      value: 'import',
-    },
-    onSubmit: {
-      navigateTo: {
-        route: ['/wallets/create-password', 'import'],
-        pageName: 'Create Password page',
-      },
-    },
-    changeTexts: {
-      header: 'wallets.recovery_wallet.header',
-      submitButton: ' wallets.recovery_wallet.next_button ',
-    },
-  },
-  {
-    mode: {
-      text: 'Edit',
-      value: 'edit',
-    },
-    onSubmit: {
-      navigateTo: {
-        route: ['/tabs/wallets'],
-        pageName: 'Wallet Home page',
-      },
-    },
-    changeTexts: {
-      header: 'wallets.select_coin.header_edit',
-      submitButton: ' wallets.select_coin.submit_edit ',
-    },
-  },
-];
-
-const walletUpdateTestData = [
-  {
-    isUpdated: false,
-    text: 'Wallet requires update',
-    editTokens: {
-      text: 'call updateWalletNetworks and not call toggleAssets',
-      callsToToggleAssets: 0,
-      callsToUpdateWalletNetworks: 1,
-    },
-  },
-  {
-    isUpdated: true,
-    text: 'Wallet is updated',
-    editTokens: {
-      text: 'call toggleAssets and not call updateWalletNetworks',
-      callsToToggleAssets: 1,
-      callsToUpdateWalletNetworks: 0,
-    },
-  },
-];
-
-const testDynamicFormValue = {
-  test: {
-    TNC: false,
-    TC: false,
-  },
-};
-
-const testCoinsForDynamicForm: Coin[] = [
-  {
-    id: 1,
-    name: 'TNC - Test Native Coin',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    last: false,
-    value: 'TNC',
-    network: 'test',
-    chainId: 400,
-    rpc: 'http://testrpc.test/',
-    native: true,
-  },
-  {
-    id: 2,
-    name: 'TC - Test Coin',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    last: false,
-    value: 'TC',
-    network: 'test',
-    chainId: 400,
-    rpc: 'http://testrpc.test/',
-  },
-];
-
-const testSelectedTokens = [TEST_COINS[0], TEST_COINS[2], TEST_COINS[4], TEST_COINS[5], TEST_COINS[7]];
-
-const formData = SELECT_COINS_FORM_DATA;
-
-const testSuites = {
-  ERC20: TEST_ERC20_COINS,
-  MATIC: TEST_MATIC_COINS,
-  RSK: TEST_RSK_COINS,
-  BSC_BEP20: TEST_BSC_BEP20_COINS,
-};
 
 describe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
@@ -159,6 +46,121 @@ describe('SelectCoinsWalletPage', () => {
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+
+  const modeTestsData = [
+    {
+      mode: {
+        text: 'Create',
+        value: '',
+      },
+      onSubmit: {
+        navigateTo: {
+          route: ['/wallets/create-first/recovery-phrase'],
+          pageName: 'Recovery Phrase page',
+        },
+      },
+      changeTexts: {
+        header: 'wallets.select_coin.header',
+        submitButton: ' deposit_addresses.deposit_currency.next_button ',
+      },
+    },
+    {
+      mode: {
+        text: 'Import',
+        value: 'import',
+      },
+      onSubmit: {
+        navigateTo: {
+          route: ['/wallets/create-password', 'import'],
+          pageName: 'Create Password page',
+        },
+      },
+      changeTexts: {
+        header: 'wallets.recovery_wallet.header',
+        submitButton: ' wallets.recovery_wallet.next_button ',
+      },
+    },
+    {
+      mode: {
+        text: 'Edit',
+        value: 'edit',
+      },
+      onSubmit: {
+        navigateTo: {
+          route: ['/tabs/wallets'],
+          pageName: 'Wallet Home page',
+        },
+      },
+      changeTexts: {
+        header: 'wallets.select_coin.header_edit',
+        submitButton: ' wallets.select_coin.submit_edit ',
+      },
+    },
+  ];
+  
+  const walletUpdateTestData = [
+    {
+      isUpdated: false,
+      text: 'Wallet requires update',
+      editTokens: {
+        text: 'call updateWalletNetworks and not call toggleAssets',
+        callsToToggleAssets: 0,
+        callsToUpdateWalletNetworks: 1,
+      },
+    },
+    {
+      isUpdated: true,
+      text: 'Wallet is updated',
+      editTokens: {
+        text: 'call toggleAssets and not call updateWalletNetworks',
+        callsToToggleAssets: 1,
+        callsToUpdateWalletNetworks: 0,
+      },
+    },
+  ];
+  
+  const testDynamicFormValue = {
+    test: {
+      TNC: false,
+      TC: false,
+    },
+  };
+  
+  const testCoinsForDynamicForm: Coin[] = [
+    {
+      id: 1,
+      name: 'TNC - Test Native Coin',
+      logoRoute: 'assets/img/coins/ETH.svg',
+      last: false,
+      value: 'TNC',
+      network: 'test',
+      chainId: 400,
+      rpc: 'http://testrpc.test/',
+      native: true,
+    },
+    {
+      id: 2,
+      name: 'TC - Test Coin',
+      logoRoute: 'assets/img/coins/ETH.svg',
+      last: false,
+      value: 'TC',
+      network: 'test',
+      chainId: 400,
+      rpc: 'http://testrpc.test/',
+    },
+  ];
+  
+  const testSelectedTokens = [TEST_COINS[0], TEST_COINS[2], TEST_COINS[4], TEST_COINS[5], TEST_COINS[7], TEST_COINS[8]];
+  
+  const formData = SELECT_COINS_FORM_DATA;
+  
+  const testSuites = {
+    ERC20: TEST_ERC20_COINS,
+    MATIC: TEST_MATIC_COINS,
+    RSK: TEST_RSK_COINS,
+    BSC_BEP20: TEST_BSC_BEP20_COINS,
+    SOLANA: TEST_SOLANA_COINS,
+  };
 
   beforeEach(
     waitForAsync(() => {
@@ -178,7 +180,7 @@ describe('SelectCoinsWalletPage', () => {
 
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getCoins: TEST_COINS,
-        getNetworks: ['ERC20', 'RSK', 'MATIC', 'BSC_BEP20'],
+        getNetworks: ['ERC20', 'RSK', 'MATIC', 'BSC_BEP20', 'SOLANA'],
         getCoinsFromNetwork: undefined,
         getCoin: TEST_COINS[0],
       });
@@ -427,7 +429,7 @@ describe('SelectCoinsWalletPage', () => {
           component.form.patchValue(formData.valid);
           fixture.detectChanges();
           fixture.debugElement.query(By.css('form.ux_main')).triggerEventHandler('ngSubmit', null);
-          expect(walletServiceSpy.coins.length).toEqual(3);
+          expect(walletServiceSpy.coins.length).toEqual(4);
         });
 
         it(`should ${testCase.mode.text.toLowerCase()} wallet and navigate to ${

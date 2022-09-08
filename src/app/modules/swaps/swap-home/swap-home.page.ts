@@ -95,18 +95,29 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
                 >
               </div>
               <form [formGroup]="this.form">
-                <ion-input
-                  appNumberInput
-                  [disabled]="this.sameTokens"
-                  class="sw__swap-card__from__detail__amount__input"
-                  formControlName="fromTokenAmount"
-                  type="number"
-                  inputmode="numeric"
-                ></ion-input>
+                <div class="sw__swap-card__from__detail__amount__wrapper">
+                  <ion-input
+                    appNumberInput
+                    [disabled]="this.sameTokens"
+                    class="sw__swap-card__from__detail__amount__wrapper__input"
+                    formControlName="fromTokenAmount"
+                    type="number"
+                    inputmode="numeric"
+                  ></ion-input>
+                  <ion-button
+                    (click)="this.setMaxAmount()"
+                    [disabled]="this.sameTokens"
+                    slot="end"
+                    fill="clear"
+                    size="small"
+                    class="sw__swap-card__from__detail__amount__wrapper__max ux-font-button"
+                    >{{ 'defi_investments.shared.amount_input_card.max_button' | translate }}</ion-button
+                  >
+                </div>
               </form>
               <div class="sw__swap-card__from__detail__available">
                 <ion-text class="ux-font-text-xxs" color="neutral80">
-                  {{ 'swaps.home.available' | translate }} {{ this.balance | formattedAmount }}</ion-text
+                  {{ 'swaps.home.available' | translate }} {{ this.swapBalance | formattedAmount }}</ion-text
                 >
               </div>
             </div>
@@ -159,7 +170,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
               {{ 'swaps.home.fee_title' | translate }}
             </ion-text>
           </div>
-          <app-transaction-fee [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
+          <app-transaction-fee [balance]="this.feeBalance" [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
         </div>
       </div>
       <div class="sw__checkbox ion-padding">
@@ -203,7 +214,8 @@ export class SwapHomePage {
   private toTokenKey = 'toToken';
   private priceRefreshInterval = 15000;
   destroy$ = new Subject<void>();
-  balance = 0;
+  swapBalance = 0;
+  feeBalance  = 0;
   loadingBtn: boolean;
   disabledBtn: boolean;
   tplBlockchain: RawBlockchain;
@@ -332,7 +344,13 @@ export class SwapHomePage {
 
   async balanceAvailableOf(aCoin: string) {
     const aToken = this.apiWalletService.getCoin(aCoin);
-    this.balance = await this.walletBalance.balanceOf(aToken);
+    this.swapBalance = await this.walletBalance.balanceOf(aToken);
+    if(aToken.native){
+      this.feeBalance = this.swapBalance;
+    }else{
+      const aNativeToken = this.apiWalletService.getNativeTokenFromNetwork(aToken.network);
+      this.feeBalance = await this.walletBalance.balanceOf(aNativeToken);
+    }
   }
 
   private subscribeToFromTokenAmountChanges() {
@@ -447,7 +465,7 @@ export class SwapHomePage {
 
   async swapThem() {
     this.disableMainButton();
-    const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
+    const wallet = await this.wallets.createFromStorage(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());
     wallet.onDecryptedWallet().subscribe(() => this.showSwapInProgressModal());
     wallet
@@ -514,5 +532,10 @@ export class SwapHomePage {
       backdropDismiss: false,
     });
     await modal.present();
+  }
+
+  setMaxAmount() {
+    this.form.get('fromTokenAmount').setValue(this.swapBalance);
+    this.form.updateValueAndValidity();
   }
 }

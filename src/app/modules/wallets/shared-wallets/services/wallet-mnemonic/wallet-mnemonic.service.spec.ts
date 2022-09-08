@@ -2,23 +2,23 @@ import { TestBed } from '@angular/core/testing';
 import { WalletMnemonicService } from './wallet-mnemonic.service';
 import { Wallet } from 'ethers';
 
-const testMnemonic = {
-  constant: {
-    locale: 'en',
-    phrase: 'test mnemonic constant',
-    path: '',
-  },
-  wallet: {
-    locale: 'en',
-    phrase: 'test mnemonic wallet',
-    path: '',
-  },
-};
-
 describe('WalletMnemonicService', () => {
   let service: WalletMnemonicService;
   let fakeWallet: jasmine.SpyObj<Wallet>;
   let utilsSpy: jasmine.SpyObj<any>;
+
+  const testMnemonic = {
+    constant: {
+      locale: 'en',
+      phrase: 'test mnemonic constant',
+      path: '',
+    },
+    wallet: {
+      locale: 'en',
+      phrase: 'test mnemonic wallet',
+      path: '',
+    },
+  };
 
   beforeEach(() => {
     utilsSpy = jasmine.createSpyObj('utils', {
@@ -72,12 +72,4 @@ describe('WalletMnemonicService', () => {
     service.mnemonic = undefined;
     expect(service.getMnemonic).toThrowError(TypeError, "Cannot read properties of undefined (reading 'mnemonic')");
   });
-
-  it('should return seed on getSeed', () => {
-    service.mnemonic = testMnemonic.constant;
-    const seed = service.getSeed();
-    expect(seed).toBeInstanceOf(Uint8Array);
-    expect(utilsSpy.mnemonicToSeed).toHaveBeenCalledOnceWith(testMnemonic.constant.phrase);
-    expect(utilsSpy.arrayify).toHaveBeenCalledOnceWith('0x00323467');
-  })
 });

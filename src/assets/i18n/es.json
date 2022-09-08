@@ -1195,6 +1195,7 @@
         "dialogTitle": "Compartir",
         "share_error": "El texto se copió en el portapapeles"
       },
+     
       "rule_card": {
         "rule_1": {
           "title": "¿Cómo obtengo mi NFT?",
@@ -1841,6 +1842,12 @@
       }
     },
     "shared_wallets": {
+      "share_transaction_detail":{
+        "text": "Hola! Te envié ",
+        "text2": "Para mas información: ",
+        "dialogTitle": "Compartir",
+        "share_error": "El texto se copió en el portapapeles"
+      },
       "start_investing_card": {
         "title": "Invierte tus cripto ahora y obtén ganancias diarias",
         "text": "Comenzar a invertir"

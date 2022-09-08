@@ -1,7 +1,7 @@
 import { Coin } from '../../interfaces/coin.interface';
-import { CovalentBalances } from '../balances/covalent-balances/covalent-balances';
 import { TokenPrices } from '../prices/token-prices/token-prices';
 import { BalanceCacheService } from '../../services/balance-cache/balance-cache.service';
+import { Balances } from '../balances/balances.interface';
 
 export class TokenDetail {
   price = 0;
@@ -9,7 +9,7 @@ export class TokenDetail {
   quoteSymbol = 'USD';
 
   constructor(
-    private readonly _balances: CovalentBalances,
+    private readonly _balances: Balances,
     private readonly _prices: TokenPrices,
     public readonly coin: Coin,
     private readonly balanceCacheService: BalanceCacheService
