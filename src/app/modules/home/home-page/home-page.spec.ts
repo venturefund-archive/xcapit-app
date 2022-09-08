@@ -314,7 +314,7 @@ describe('HomePage', () => {
   });
 
   it('should track screenview event on init', () => {
-    component.ionViewDidEnter();
+    component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

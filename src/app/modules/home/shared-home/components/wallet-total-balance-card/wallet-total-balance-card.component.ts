@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 
@@ -44,7 +44,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage/local
   `,
   styleUrls: ['./wallet-total-balance-card.component.scss'],
 })
-export class WalletTotalBalanceCardComponent implements OnInit {
+export class WalletTotalBalanceCardComponent implements OnInit, OnChanges {
   @Input() totalBalanceWallet?: number;
   @Input() walletExist: boolean;
   hideFundText: boolean;
