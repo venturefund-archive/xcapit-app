@@ -20,9 +20,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
       <div>
         <ion-button
           *ngIf="this.testAvailable"
-          appTrackClick
           class="link ux-link-xl"
-          name="Manage"
           fill="clear"
           size="small"
         >
@@ -51,9 +49,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
       <div>
         <ion-button
           *ngIf="this.optionsTestAvailable"
-          appTrackClick
           class="link ux-link-xl"
-          name="Manage"
           fill="clear"
           size="small"
         >

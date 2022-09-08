@@ -49,8 +49,8 @@ describe('FinancialPlannerCardComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/financial-planner/information');
   });
 
-  it('should call appTrackEvent on trackService when ux_go_to_planer is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('div', 'ux_go_to_planer');
+  it('should call appTrackEvent on trackService when ux_go_to_planner is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('div', 'ux_go_to_planner');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
