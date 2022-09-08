@@ -10,6 +10,8 @@ import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/ser
 import { By } from '@angular/platform-browser';
 
 import { WalletConnectCardComponent } from './wallet-connect-card.component';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 
 describe('WalletConnectCardComponent', () => {
   let component: WalletConnectCardComponent;
@@ -19,6 +21,8 @@ describe('WalletConnectCardComponent', () => {
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let fakeWalletService: FakeWalletService;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<WalletConnectCardComponent>;
+
 
   beforeEach(
     waitForAsync(() => {
@@ -28,7 +32,7 @@ describe('WalletConnectCardComponent', () => {
       walletServiceSpy = fakeWalletService.createSpy();
       walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { connected: false });
       TestBed.configureTestingModule({
-        declarations: [WalletConnectCardComponent],
+        declarations: [WalletConnectCardComponent, FakeTrackClickDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
           UrlSerializer,
@@ -40,6 +44,7 @@ describe('WalletConnectCardComponent', () => {
 
       fixture = TestBed.createComponent(WalletConnectCardComponent);
       component = fixture.componentInstance;
+      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
       fixture.detectChanges();
     })
   );
@@ -50,22 +55,31 @@ describe('WalletConnectCardComponent', () => {
 
   it('Should navigate to no wallet when wallet does not exists', async () => {
     fakeWalletService.modifyReturns(false, {});
-    fixture.debugElement.query(By.css('div[name="Go To WalletConnect"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('div[name="ux_go_to_wallet_connect"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/no-wallet']);
   })
 
   it('shoud navigate to WalletConnect new-connection when wallet exists and walletconnect service is not connected', async () => {
     walletConnectServiceSpy.connected = false;
-    fixture.debugElement.query(By.css('div[name="Go To WalletConnect"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('div[name="ux_go_to_wallet_connect"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/wallet-connect/new-connection']);
   })
 
   it('should navidate to WalletConnect connection-detail when wallet exists and walletconnect service is connected', async () => {
     walletConnectServiceSpy.connected = true;
-    fixture.debugElement.query(By.css('div[name="Go To WalletConnect"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('div[name="ux_go_to_wallet_connect"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/wallet-connect/connection-detail']);
   })
+
+  it('should call appTrackEvent on trackService when ux_go_to_wallet_connect is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('div', 'ux_go_to_wallet_connect');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });

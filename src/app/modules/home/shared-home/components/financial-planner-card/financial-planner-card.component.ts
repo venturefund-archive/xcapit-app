@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-financial-planner-card',
   template: `
-    <div class="fpc" (click)="this.goToFinancialPlanner()" name="Go To Financial Planner">
+    <div class="fpc" (click)="this.goToFinancialPlanner()" name="ux_go_to_planner" appTrackClick>
       <div class="fpc__content">
         <div class="fpc__content__image">
           <div class="fpc__content__image__img">
