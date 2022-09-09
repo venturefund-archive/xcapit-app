@@ -502,8 +502,6 @@ export class SwapHomePage {
 
   checkBalance() {
     this.form.get('fromTokenAmount').valueChanges.subscribe((value) => {
-      console.log('value', value);
-      console.log('balance', this.swapBalance);
       if (value > this.swapBalance) {
         this.disableMainButton();
         this.insufficientBalance = true;
