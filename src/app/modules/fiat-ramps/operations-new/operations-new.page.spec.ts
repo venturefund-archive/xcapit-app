@@ -162,7 +162,7 @@ describe('OperationsNewPage', () => {
     component.ionViewWillEnter();
     fixture.whenStable();
     fixture.whenRenderingDone();
-    expect(component.form.controls.cryptoAmount.value).toEqual('25');
+    expect(component.form.controls.cryptoAmount.value).toEqual(25);
   });
 
   it('should set country, default currency, provider and price on init', () => {
