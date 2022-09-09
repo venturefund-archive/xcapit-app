@@ -91,6 +91,7 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
                   <ion-input
                     appNumberInput
                     [disabled]="this.sameTokens"
+                    [ngClass]="{ insufficient: this.insufficientBalance }"
                     class="sw__swap-card__from__detail__amount__wrapper__input"
                     formControlName="fromTokenAmount"
                     type="number"
@@ -107,7 +108,13 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
                   >
                 </div>
               </form>
-              <div class="sw__swap-card__from__detail__available">
+              <div
+                [ngClass]="
+                  this.swapBalance === 0 || this.insufficientBalance
+                    ? 'sw__swap-card__from__detail__insufficient'
+                    : 'sw__swap-card__from__detail__available'
+                "
+              >
                 <ion-text class="ux-font-text-xxs" color="neutral80">
                   {{ 'swaps.home.available' | translate }} {{ this.swapBalance | formattedAmount }}</ion-text
                 >
@@ -156,7 +163,12 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
               {{ 'swaps.home.fee_title' | translate }}
             </ion-text>
           </div>
-          <app-transaction-fee [balance]="this.feeBalance" [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
+          <app-transaction-fee
+            [balance]="this.feeBalance"
+            [fee]="this.tplFee"
+            [autoPrice]="true"
+            [defaultFeeInfo]="true"
+          ></app-transaction-fee>
         </div>
       </div>
       <div class="sw__checkbox ion-padding">
@@ -216,6 +228,8 @@ export class SwapHomePage {
   actions = [];
   actionTypeId = 'SWAP';
   sameTokens = false;
+  insufficientBalance: boolean;
+
   constructor(
     private apiWalletService: ApiWalletService,
     private walletBalance: WalletBalanceService,
@@ -264,6 +278,7 @@ export class SwapHomePage {
   }
 
   async ionViewDidEnter() {
+    this.checkBalance();
     this.trackPage();
     this.subscribeToFromTokenAmountChanges();
     this.setAllowedBlockchains();
@@ -293,9 +308,9 @@ export class SwapHomePage {
   async balanceAvailableOf(aCoin: string) {
     const aToken = this.apiWalletService.getCoin(aCoin);
     this.swapBalance = await this.walletBalance.balanceOf(aToken);
-    if(aToken.native){
+    if (aToken.native) {
       this.feeBalance = this.swapBalance;
-    }else{
+    } else {
       const aNativeToken = this.apiWalletService.getNativeTokenFromNetwork(aToken.network);
       this.feeBalance = await this.walletBalance.balanceOf(aNativeToken);
     }
@@ -405,6 +420,10 @@ export class SwapHomePage {
     this.disabledBtn = true;
   }
 
+  private enabledMainButton() {
+    this.disabledBtn = false;
+  }
+
   async swapThem() {
     this.disableMainButton();
     const wallet = await this.wallets.createFromStorage(this.appStorageService).oneBy(this.activeBlockchain);
@@ -479,5 +498,19 @@ export class SwapHomePage {
   setMaxAmount() {
     this.form.get('fromTokenAmount').setValue(this.swapBalance);
     this.form.updateValueAndValidity();
+  }
+
+  checkBalance() {
+    this.form.get('fromTokenAmount').valueChanges.subscribe((value) => {
+      console.log('value', value);
+      console.log('balance', this.swapBalance);
+      if (value > this.swapBalance) {
+        this.disableMainButton();
+        this.insufficientBalance = true;
+      } else {
+        this.insufficientBalance = false;
+        this.enabledMainButton();
+      }
+    });
   }
 }
