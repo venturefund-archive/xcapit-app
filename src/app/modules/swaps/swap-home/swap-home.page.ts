@@ -91,7 +91,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
             <div class="sw__swap-card__from__detail__amount">
               <div class="sw__swap-card__from__detail__amount__USD-price">
                 <ion-text class="ux-font-text-xxs" color="neutral80"
-                  >= {{ this.fromUSDPrice | formattedAmount: 10:2 }} USD</ion-text
+                  >= {{ this.fromTokenUSDAmount | formattedAmount: 10:2 }} USD</ion-text
                 >
               </div>
               <form [formGroup]="this.form">
@@ -153,7 +153,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
               <div class="sw__swap-card__to__detail__amount__value">
                 <div class="sw__swap-card__to__detail__USD-price">
                   <ion-text class="ux-font-text-xxs" color="neutral80"
-                    >= {{ this.toUSDPrice | formattedAmount: 10:2 }} USD</ion-text
+                    >= {{ this.toTokenUSDAmount | formattedAmount: 10:2 }} USD</ion-text
                   >
                 </div>
                 <ion-text class="ux-font-text-lg">
@@ -232,10 +232,10 @@ export class SwapHomePage {
   actions = [];
   actionTypeId = 'SWAP';
   sameTokens = false;
-  toTokenQuotePrice: number;
-  fromTokenQuotePrice: number;
-  fromUSDPrice = 0;
-  toUSDPrice = 0;
+  toTokenQuotePrice = 0;
+  fromTokenQuotePrice = 0;
+  fromTokenUSDAmount = 0;
+  toTokenUSDAmount = 0;
 
   constructor(
     private apiWalletService: ApiWalletService,
@@ -312,14 +312,16 @@ export class SwapHomePage {
   }
 
   private setToTokenQuotePrice(): void {
-    this.getDynamicPriceOf(this.tplToToken).subscribe((price: number) => {
+    this.getDynamicPriceOf(this.toToken.json()).subscribe((price: number) => {
       this.toTokenQuotePrice = price;
+      this.setUSDPrices(this.form.get('fromTokenAmount').value);
     });
   }
 
   private setFromTokenQuotePrice(): void {
-    this.getDynamicPriceOf(this.tplFromToken).subscribe((price: number) => {
+    this.getDynamicPriceOf(this.fromToken.json()).subscribe((price: number) => {
       this.fromTokenQuotePrice = price;
+      this.setUSDPrices(this.form.get('fromTokenAmount').value);
     });
   }
 
@@ -366,8 +368,8 @@ export class SwapHomePage {
   }
 
   private setUSDPrices(value) {
-    this.fromUSDPrice = value * this.fromTokenQuotePrice;
-    this.toUSDPrice = this.tplSwapInfo.toTokenAmount * this.toTokenQuotePrice;
+    this.fromTokenUSDAmount = value * this.fromTokenQuotePrice;
+    this.toTokenUSDAmount = this.tplSwapInfo.toTokenAmount * this.toTokenQuotePrice;
   }
 
   private trackPage() {
