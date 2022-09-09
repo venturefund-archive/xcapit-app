@@ -258,7 +258,7 @@ export class UserInformationPage implements OnInit {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: 'ux_buy_kripton_screenview_personal_details',
+      eventLabel: 'ux_buy_kripton_screenview_pdetails',
     });
   }
 }

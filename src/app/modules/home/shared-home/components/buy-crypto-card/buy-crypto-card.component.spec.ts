@@ -44,10 +44,9 @@ describe('BuyCryptoCardComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when Buy Crypto button clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('div', 'Buy Crypto');
+  it('should call trackEvent on trackService when ux_go_to_buy_banner button clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('div', 'ux_go_to_buy_banner');
     const directive = trackClickDirectiveHelper.getDirective(el);
-
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();

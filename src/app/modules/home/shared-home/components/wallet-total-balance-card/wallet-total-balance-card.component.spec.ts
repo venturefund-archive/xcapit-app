@@ -55,17 +55,32 @@ describe('WalletTotalBalanceCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call appTrackEvent on trackService when ux_create_go_to_home_wallet is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('div', 'ux_create_go_to_home_wallet');
+  it('should track ux_go_to_wallet on trackService when Go To Wallet is clicked and wallet exists', () => {
+    component.walletExist = true;
+    component.ngOnChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('div', 'Go To Wallet');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
+    expect(directive.dataToTrack.eventLabel).toEqual('ux_go_to_wallet')
   });
 
-  it('should navigate to home wallet when ux_create_go_to_home_wallet is clicked', () => {
-    fixture.debugElement.query(By.css('div[name="ux_create_go_to_home_wallet"]')).nativeElement.click();
+  it('should track ux_create_go_to_home_wallet on trackService when Go To Wallet is clicked and wallet does not exist', () => {
+    component.walletExist = false;
+    component.ngOnChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('div', 'Go To Wallet');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(directive.dataToTrack.eventLabel).toEqual('ux_create_go_to_home_wallet')
+  });
+
+  it('should navigate to home wallet when Go To Wallet is clicked', () => {
+    fixture.debugElement.query(By.css('div[name="Go To Wallet"]')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['tabs/wallets']);
   });
 

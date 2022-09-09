@@ -231,6 +231,6 @@ export class CreatePasswordPage implements OnInit {
 
   navigateByMode() {
     const url = this.mode === 'import' ? '/wallets/recovery/success' : '/wallets/success-creation';
-    return this.navController.navigateForward([url]);
+    return this.navController.navigateRoot([url]);
   }
 }

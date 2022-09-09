@@ -117,8 +117,9 @@ export class OperationsNewPage implements AfterViewInit {
   minimumFiatAmount: number;
   minimumCryptoAmount: number;
   mininumUSDAmount = 25;
+  alreadySet = false;
   form: UntypedFormGroup = this.formBuilder.group({
-    cryptoAmount: ['25', [Validators.required]],
+    cryptoAmount: ['', [Validators.required]],
     fiatAmount: ['', [Validators.required]],
     thirdPartyKYC: [false, [Validators.requiredTrue]],
     thirdPartyTransaction: [false, [Validators.requiredTrue]],
@@ -234,7 +235,15 @@ export class OperationsNewPage implements AfterViewInit {
         this.minimumCryptoAmount = this.mininumUSDAmount / price;
         this.minimumFiatAmount = this.minimumCryptoAmount * this.fiatPrice;
         this.addGreaterThanValidator(this.minimumCryptoAmount);
+        this.patchCryptoAmountValue();
       });
+  }
+
+  patchCryptoAmountValue(){
+    if(!this.alreadySet){
+      this.form.get('cryptoAmount').patchValue(this.minimumCryptoAmount);
+      this.alreadySet = true;
+    }
   }
 
   createKriptonDynamicPrice(currency = this.fiatCurrency): KriptonDynamicPrice {

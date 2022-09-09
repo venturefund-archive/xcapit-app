@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular';
-import { alertControllerMock } from '../../../../testing/spies/alert-controller-mock.spec';
 import { UpdateAppService } from './update-app.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
-import { AppUpdateAvailability } from '@robingenz/capacitor-app-update';
+import { AppUpdateAvailability } from '@capawesome/capacitor-app-update';
 import { RemoteConfigService } from '../remote-config/remote-config.service';
 
 describe('UpdateAppService', () => {
