@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UpdateService } from '../update/update.service';
 import { ModalController } from '@ionic/angular';
-import { AppUpdate, AppUpdateAvailability } from '@robingenz/capacitor-app-update';
+import { AppUpdate, AppUpdateAvailability } from '@capawesome/capacitor-app-update';
 import { RemoteConfigService } from '../remote-config/remote-config.service';
 @Injectable({
   providedIn: 'root',

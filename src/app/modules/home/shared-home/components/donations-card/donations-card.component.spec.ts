@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 
 import { DonationsCardComponent } from './donations-card.component';
@@ -17,17 +18,18 @@ describe('DonationsCardComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DonationsCardComponent>;
   let storageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     storageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: null
     });
-     walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
+    walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
         presentModal: Promise.resolve('skip'),
       });
     TestBed.configureTestingModule({
-      declarations: [ DonationsCardComponent ],
+      declarations: [ DonationsCardComponent, FakeTrackClickDirective ],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [{provide: NavController, useValue: navControllerSpy }, {provide: IonicStorageService, useValue: storageServiceSpy}, { provide: WalletBackupService, useValue: walletBackupServiceSpy },]
     }).compileComponents();
@@ -43,7 +45,7 @@ describe('DonationsCardComponent', () => {
   });
 
   it('should navigate donations information tests page when user did not make introduction', async () => {
-    const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_donations_go"]'));
+    const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_go_to_donations"]'));
     clickeableDiv.nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
@@ -52,7 +54,7 @@ describe('DonationsCardComponent', () => {
 
   it('should navigate to causes when user make introduction', async () => {
     storageServiceSpy.get.and.resolveTo(true);
-    const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_donations_go"]'));
+    const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_go_to_donations"]'));
     clickeableDiv.nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
@@ -62,7 +64,7 @@ describe('DonationsCardComponent', () => {
 
   it('should not navigate to causes/information when user click on backup wallet inside modal', async () => {
     walletBackupServiceSpy.presentModal.and.resolveTo('')
-    const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_donations_go"]'));
+    const clickeableDiv = fixture.debugElement.query(By.css('div[name="ux_go_to_donations"]'));
     clickeableDiv.nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(walletBackupServiceSpy.presentModal).toHaveBeenCalledTimes(1);
@@ -75,5 +77,14 @@ describe('DonationsCardComponent', () => {
     expect(titleEl.nativeElement.innerHTML).toContain('home.home_page.donations_card.title');
     expect(subtitleEl.nativeElement.innerHTML).toContain('home.home_page.donations_card.subtitle');
     expect(imgEl.attributes.src).toContain("/assets/img/home/donations.svg");
+  });
+
+  it('should call appTrackEvent on trackService when ux_go_to_donations is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('div', 'ux_go_to_donations');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

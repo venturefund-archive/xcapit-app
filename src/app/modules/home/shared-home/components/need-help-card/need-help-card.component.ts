@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-need-help-card',
-  template: ` <div class="nhc" (click)="this.goToFaqs()">
+  template: ` <div class="nhc" (click)="this.goToFaqs()" name="ux_go_to_support" appTrackClick>
     <div class="nhc__content">
       <div class="nhc__content__body">
         <div class="ux-font-text-lg nhc__content__body__title">

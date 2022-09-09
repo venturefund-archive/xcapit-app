@@ -157,18 +157,11 @@ describe('OperationsNewPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set to 25 cryptoAmount form value', () => {
+  it('should set properly cryptoAmount form value with minimum crypto amount', () => {
+    kriptonDynamicPriceSpy.value.and.returnValue(of(1));
     component.ionViewWillEnter();
-    expect(fiatRampsServiceSpy.setProvider).toHaveBeenCalledOnceWith('1');
-    expect(component.providerTokens).toEqual(coinsSpy);
-    expect(component.country).toEqual({
-      name: 'Argentina',
-      value: 'fiat_ramps.countries_list.argentina',
-      fiatCode: 'ars',
-      isoCodeAlpha3: 'ARS',
-      directaCode: 'AR',
-      isoCurrencyCodeDirecta: 'ARS',
-    });
+    fixture.whenStable();
+    fixture.whenRenderingDone();
     expect(component.form.controls.cryptoAmount.value).toEqual('25');
   });
 

@@ -4,7 +4,7 @@ import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/w
 @Component({
   selector: 'app-buy-crypto-card',
   template: `
-    <div class="bcc" (click)="this.emitClicked()" name="Buy Crypto" appTrackClick>
+    <div class="bcc" (click)="this.emitClicked()" name="ux_go_to_buy_banner" appTrackClick>
       <div class="bcc__image">
         <img src="assets/img/home/btc-coins.svg" alt="BTC coins" />
       </div>
