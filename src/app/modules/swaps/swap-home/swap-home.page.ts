@@ -318,16 +318,16 @@ export class SwapHomePage {
     });
   }
 
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   private setFromTokenQuotePrice(): void {
     this.getDynamicPriceOf(this.fromToken.json()).subscribe((price: number) => {
       this.fromTokenQuotePrice = price;
       this.setUSDPrices(this.form.get('fromTokenAmount').value);
     });
-  }
-
-  ionViewWillLeave() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private getDynamicPriceOf(token: Coin | RawToken): Observable<number> {
