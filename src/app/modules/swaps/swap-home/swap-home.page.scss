@@ -101,6 +101,11 @@
               text-align: right;
             }
           }
+
+          &__USD-price {
+            padding-bottom: 16px;
+            text-align: right;
+          }
         }
       }
 
@@ -109,7 +114,12 @@
           align-items: flex-start;
 
           &__amount {
-            margin-top: 29px;
+            margin-top: 3px;
+
+            &__USD-price {
+              text-align: right;
+              padding-bottom: 4px;
+            }
           }
 
           &__available {
