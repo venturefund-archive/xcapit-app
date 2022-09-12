@@ -25,6 +25,7 @@ import DepositLinkRequestFactory from '../shared-ramps/models/deposit-link-reque
 import { BrowserService } from '../../../shared/services/browser/browser.service';
 import { DirectaDepositCreationData } from '../shared-ramps/interfaces/directa-deposit-creation-data.interface';
 import { EnvService } from '../../../shared/services/env/env.service';
+import RoundedNumber from '../../../shared/models/rounded-number/rounded-number';
 
 @Component({
   selector: 'app-directa',
@@ -207,15 +208,20 @@ export class DirectaPage implements OnInit {
   }
 
   private cryptoAmountChange(value: number) {
-    this.form.patchValue({ fiatAmount: value * this.price }, { emitEvent: false, onlySelf: true });
+    this.form.patchValue(
+      { fiatAmount: new RoundedNumber(value * this.price).value() },
+      { emitEvent: false, onlySelf: true }
+    );
   }
 
   private fiatAmountChange(value: number) {
-    this.form.patchValue({ cryptoAmount: value / this.price }, { emitEvent: false, onlySelf: true });
+    const roundedValue = new RoundedNumber(value).value();
+    this.form.patchValue({ fiatAmount: roundedValue }, { emitEvent: false, onlySelf: true });
+    this.form.patchValue({ cryptoAmount: roundedValue / this.price }, { emitEvent: false, onlySelf: true });
   }
 
-  updateAmounts(): void {
-    this.form.patchValue({ fiatAmount: this.form.value.cryptoAmount * this.price });
+  private updateAmounts(): void {
+    this.form.patchValue({ fiatAmount: new RoundedNumber(this.form.value.cryptoAmount * this.price).value() });
   }
 
   private addDefaultValidators() {
