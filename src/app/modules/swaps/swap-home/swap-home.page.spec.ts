@@ -46,8 +46,6 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { of } from 'rxjs';
 
-
-
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
@@ -78,7 +76,7 @@ describe('SwapHomePage', () => {
     body: 'swaps.sent_notification.swap_ok.body',
     actionTypeId: 'SWAP',
   };
-  
+
   const testLocalNotificationNotOk: LocalNotificationSchema = {
     id: 1,
     title: 'swaps.sent_notification.swap_not_ok.title',
@@ -127,7 +125,7 @@ describe('SwapHomePage', () => {
     });
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoin: rawUSDCData,
-      getNativeTokenFromNetwork: rawMATICData
+      getNativeTokenFromNetwork: rawMATICData,
     });
     dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
     dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
@@ -316,7 +314,7 @@ describe('SwapHomePage', () => {
     fixture.detectChanges();
 
     expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(1);
-    expect(apiWalletServiceSpy.getNativeTokenFromNetwork).toHaveBeenCalledTimes(1)
+    expect(apiWalletServiceSpy.getNativeTokenFromNetwork).toHaveBeenCalledTimes(1);
     expect(walletBalanceSpy.balanceOf).toHaveBeenCalledTimes(2);
   });
 
@@ -418,12 +416,11 @@ describe('SwapHomePage', () => {
   }));
 
   it('should change selected network on event emited', async () => {
-    const blockchainName = 'ERC20'
+    const blockchainName = 'ERC20';
     await component.ionViewDidEnter();
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('app-network-select-card'))
-      .triggerEventHandler('networkChanged', blockchainName);
+    fixture.debugElement.query(By.css('app-network-select-card')).triggerEventHandler('networkChanged', blockchainName);
 
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
       new DefaultSwapsUrls().homeByBlockchain(blockchainName),
@@ -431,12 +428,34 @@ describe('SwapHomePage', () => {
     );
   });
 
-  it('should set max amount from swap', async()=>{
+  it('should set max amount from swap', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    
-    fixture.debugElement.query(By.css('ion-button.sw__swap-card__from__detail__amount__wrapper__max')).nativeElement.click();
-    
+
+    fixture.debugElement
+      .query(By.css('ion-button.sw__swap-card__from__detail__amount__wrapper__max'))
+      .nativeElement.click();
+
     expect(component.form.controls.fromTokenAmount.value).toEqual(10);
-  })
+  });
+
+  it('should render correct properly and enabled button when the balance is available', fakeAsync(() => {
+    _setTokenAmountArrange(1);
+    const div = fixture.debugElement.query(By.css('div.sw__swap-card__from__detail__available'));
+    fixture.detectChanges();
+
+    expect(div).toBeTruthy();
+    expect(component.disabledBtn).toBeFalsy();
+    expect(component.insufficientBalance).toBeFalsy();
+  }));
+
+  it('should render correct properly and disabled button when the balance is insufficient', fakeAsync(() => {
+    _setTokenAmountArrange(11);
+    const div = fixture.debugElement.query(By.css('div.sw__swap-card__from__detail__insufficient'));
+    fixture.detectChanges();
+    
+    expect(div).toBeTruthy();
+    expect(component.disabledBtn).toBeTruthy();
+    expect(component.insufficientBalance).toBeTruthy();
+  }));
 });

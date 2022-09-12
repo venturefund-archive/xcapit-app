@@ -121,6 +121,18 @@
               padding-bottom: 4px;
             }
           }
+
+          &__available {
+            ion-text {
+              color: var(--ion-color-successdark);
+            }
+          }
+
+          &__insufficient {
+            ion-text {
+              color: var(--ion-color-dangerdark);
+            }
+          }
         }
       }
     }
@@ -158,5 +170,9 @@
         }
       }
     }
+  }
+
+  .insufficient {
+    border: 1px solid var(--ion-color-dangerdark);
   }
 }
