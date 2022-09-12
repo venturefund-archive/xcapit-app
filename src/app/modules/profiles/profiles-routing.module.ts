@@ -33,6 +33,10 @@ const routes: Routes = [
         loadChildren: () =>
           import('./success-profile-test/success-profile-test.module').then((m) => m.SuccessProfileTestPageModule),
       },
+      {
+        path: 'biometric-auth',
+        loadChildren: () => import('./biometric-auth/biometric-auth.module').then((m) => m.BiometricAuthPageModule),
+      },
     ],
   },
 ];

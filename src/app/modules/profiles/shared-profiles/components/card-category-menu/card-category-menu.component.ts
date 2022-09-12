@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { MenuCategory } from '../../interfaces/menu-category.interface';
 
 @Component({
   selector: 'app-card-category-menu',
@@ -18,21 +19,28 @@ import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/ser
           fill="clear"
           [id]="this.category.name"
           appTrackClick
-          [attr.name]='this.category.buttonName'
+          [attr.name]="this.category.buttonName"
           (click)="this.goToRoute(this.category)"
           >{{ this.category.category_title | translate }}</ion-button
         >
       </div>
-      <div *ngFor="let item of this.category.items">
+      <div *ngFor="let item of this.category.items" class="item-container">
         <ion-button
+          *ngIf="!item.hidden"
           class="ux-font-text-xs"
           fill="clear"
           [id]="item.name"
           color="neutral90"
           appTrackClick
-          [attr.name]='item.buttonName'
+          [attr.name]="item.buttonName"
           (click)="this.goToRoute(item)"
           >{{ item.text | translate }}</ion-button
+        >
+        <ion-badge
+          *ngIf="!item.hidden && item.newBadge"
+          class="new-badge ux-font-num-subtitulo"
+          slot="end"
+          >{{ 'profiles.user_profile_menu.new_badge' | translate }}</ion-badge
         >
       </div>
     </div>
@@ -40,7 +48,7 @@ import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/ser
   styleUrls: ['./card-category-menu.component.scss'],
 })
 export class CardCategoryMenuComponent implements OnInit {
-  @Input() category;
+  @Input() category: MenuCategory;
 
   constructor(
     private navController: NavController,

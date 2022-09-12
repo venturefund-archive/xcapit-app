@@ -4,6 +4,18 @@
     margin-bottom: 8px;
   }
 
+  .item-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .new-badge {
+    border-radius: 4px;
+
+    --background: var(--ion-color-warninglight);
+    --color: var(--ion-color-warningdark);
+  }
+
   .card-title {
     display: flex;
     align-content: center;
