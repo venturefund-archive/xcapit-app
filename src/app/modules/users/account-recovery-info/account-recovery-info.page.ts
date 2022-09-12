@@ -69,10 +69,10 @@ export class AccountRecoveryInfoPage implements OnInit {
   ngOnInit() {}
 
   goToRecoveryWallet() {
-    this.navController.navigateRoot(['/wallets/create-first/disclaimer/import']);
+    this.navController.navigateForward(['/wallets/create-first/disclaimer/import']);
   }
 
   goToAccountRecovery() {
-    this.navController.navigateRoot(['/users/account-recovery']);
+    this.navController.navigateForward(['/users/account-recovery']);
   }
 }

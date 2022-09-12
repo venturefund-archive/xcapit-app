@@ -5,7 +5,7 @@ import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/ser
 
 @Component({
   selector: 'app-wallet-connect-card',
-  template: ` <div class="wcc" (click)="this.goToWalletConnect()" name="Go To WalletConnect">
+  template: ` <div class="wcc" (click)="this.goToWalletConnect()" name="ux_go_to_wallet_connect" appTrackClick>
     <div class="wcc__content">
       <div class="wcc__content__body">
         <div class="ux-font-text-lg wcc__content__body__title">

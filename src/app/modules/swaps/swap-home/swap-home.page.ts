@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { WalletPasswordComponent } from '../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
@@ -44,6 +44,9 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { Blockchains } from '../shared-swaps/models/blockchains/blockchains';
 import { DefaultSwapsUrls } from '../shared-swaps/routes/default-swaps-urls';
 import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blockchains-of/factory/one-inch-blockchains-of';
+import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { Observable, Subject } from 'rxjs';
+import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 
 @Component({
   selector: 'app-swap-home',
@@ -86,6 +89,11 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
               ></app-coin-selector>
             </div>
             <div class="sw__swap-card__from__detail__amount">
+              <div class="sw__swap-card__from__detail__amount__USD-price">
+                <ion-text class="ux-font-text-xxs" color="neutral80"
+                  >= {{ this.fromTokenUSDAmount | formattedAmount: 10:2 }} USD</ion-text
+                >
+              </div>
               <form [formGroup]="this.form">
                 <div class="sw__swap-card__from__detail__amount__wrapper">
                   <ion-input
@@ -109,7 +117,7 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
               </form>
               <div class="sw__swap-card__from__detail__available">
                 <ion-text class="ux-font-text-xxs" color="neutral80">
-                  {{ 'swaps.home.available' | translate }} {{ this.balance | formattedAmount }}</ion-text
+                  {{ 'swaps.home.available' | translate }} {{ this.swapBalance | formattedAmount }}</ion-text
                 >
               </div>
             </div>
@@ -140,8 +148,14 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
                 (changeCurrency)="this.selectToToken()"
               ></app-coin-selector>
             </div>
+
             <div class="sw__swap-card__to__detail__amount">
               <div class="sw__swap-card__to__detail__amount__value">
+                <div class="sw__swap-card__to__detail__USD-price">
+                  <ion-text class="ux-font-text-xxs" color="neutral80"
+                    >= {{ this.toTokenUSDAmount | formattedAmount: 10:2 }} USD</ion-text
+                  >
+                </div>
                 <ion-text class="ux-font-text-lg">
                   {{ this.tplSwapInfo.toTokenAmount | formattedAmount }}
                 </ion-text>
@@ -156,7 +170,7 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
               {{ 'swaps.home.fee_title' | translate }}
             </ion-text>
           </div>
-          <app-transaction-fee [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
+          <app-transaction-fee [balance]="this.feeBalance" [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
         </div>
       </div>
       <div class="sw__checkbox ion-padding">
@@ -198,7 +212,10 @@ export class SwapHomePage {
   private referral: Referral = new Referral();
   private fromTokenKey = 'fromToken';
   private toTokenKey = 'toToken';
-  balance = 0;
+  private priceRefreshInterval = 15000;
+  destroy$ = new Subject<void>();
+  swapBalance = 0;
+  feeBalance  = 0;
   loadingBtn: boolean;
   disabledBtn: boolean;
   tplBlockchain: RawBlockchain;
@@ -215,6 +232,11 @@ export class SwapHomePage {
   actions = [];
   actionTypeId = 'SWAP';
   sameTokens = false;
+  toTokenQuotePrice = 0;
+  fromTokenQuotePrice = 0;
+  fromTokenUSDAmount = 0;
+  toTokenUSDAmount = 0;
+
   constructor(
     private apiWalletService: ApiWalletService,
     private walletBalance: WalletBalanceService,
@@ -234,7 +256,8 @@ export class SwapHomePage {
     private passwordErrorHandlerService: PasswordErrorHandlerService,
     private toastService: ToastService,
     private translate: TranslateService,
-    private oneInchBlockchainsOf: OneInchBlockchainsOfFactory
+    private oneInchBlockchainsOf: OneInchBlockchainsOfFactory,
+    private dynamicPriceFactory: DynamicPriceFactory
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -275,11 +298,43 @@ export class SwapHomePage {
       this.route.snapshot.paramMap.get(this.fromTokenKey),
       this.route.snapshot.paramMap.get(this.toTokenKey)
     );
+    this.setQuotePrices();
   }
 
   setAllowedBlockchains() {
     this.allowedBlockchains = this.oneInchBlockchainsOf.create(this.blockchains.create());
     this.tplAllowedBlockchainsName = this.allowedBlockchains.value().map((blockchain) => blockchain.name());
+  }
+
+  private setQuotePrices() {
+    this.setToTokenQuotePrice();
+    this.setFromTokenQuotePrice();
+  }
+
+  private setToTokenQuotePrice(): void {
+    this.getDynamicPriceOf(this.toToken.json()).subscribe((price: number) => {
+      this.toTokenQuotePrice = price;
+      this.setUSDPrices(this.form.get('fromTokenAmount').value);
+    });
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private setFromTokenQuotePrice(): void {
+    this.getDynamicPriceOf(this.fromToken.json()).subscribe((price: number) => {
+      this.fromTokenQuotePrice = price;
+      this.setUSDPrices(this.form.get('fromTokenAmount').value);
+    });
+  }
+
+  private getDynamicPriceOf(token: Coin | RawToken): Observable<number> {
+    return this.dynamicPriceFactory
+      .new(this.priceRefreshInterval, token, this.apiWalletService)
+      .value()
+      .pipe(takeUntil(this.destroy$));
   }
 
   switchBlockchainTo(aBlockchainName: string) {
@@ -291,7 +346,13 @@ export class SwapHomePage {
 
   async balanceAvailableOf(aCoin: string) {
     const aToken = this.apiWalletService.getCoin(aCoin);
-    this.balance = await this.walletBalance.balanceOf(aToken);
+    this.swapBalance = await this.walletBalance.balanceOf(aToken);
+    if(aToken.native){
+      this.feeBalance = this.swapBalance;
+    }else{
+      const aNativeToken = this.apiWalletService.getNativeTokenFromNetwork(aToken.network);
+      this.feeBalance = await this.walletBalance.balanceOf(aNativeToken);
+    }
   }
 
   private subscribeToFromTokenAmountChanges() {
@@ -302,7 +363,13 @@ export class SwapHomePage {
         this.setNullFeeInfo();
         await this.setSwapInfo(value);
         this.setFeeInfo();
+        this.setUSDPrices(value);
       });
+  }
+
+  private setUSDPrices(value) {
+    this.fromTokenUSDAmount = value * this.fromTokenQuotePrice;
+    this.toTokenUSDAmount = this.tplSwapInfo.toTokenAmount * this.toTokenQuotePrice;
   }
 
   private trackPage() {
@@ -400,7 +467,7 @@ export class SwapHomePage {
 
   async swapThem() {
     this.disableMainButton();
-    const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
+    const wallet = await this.wallets.createFromStorage(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());
     wallet.onDecryptedWallet().subscribe(() => this.showSwapInProgressModal());
     wallet
@@ -470,7 +537,7 @@ export class SwapHomePage {
   }
 
   setMaxAmount() {
-    this.form.get('fromTokenAmount').setValue(this.balance);
+    this.form.get('fromTokenAmount').setValue(this.swapBalance);
     this.form.updateValueAndValidity();
   }
 }

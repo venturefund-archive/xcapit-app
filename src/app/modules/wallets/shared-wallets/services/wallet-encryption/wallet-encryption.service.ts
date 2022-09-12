@@ -1,57 +1,58 @@
 import { Injectable } from '@angular/core';
-import { ethers, Wallet } from 'ethers';
-import { WalletService } from '../wallet/wallet.service';
-import { StorageService } from '../storage-wallets/storage-wallets.service';
+import { Wallet } from 'ethers';
 import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { EthersService } from '../ethers/ethers.service';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { DefaultWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { StorageService } from '../storage-wallets/storage-wallets.service';
+import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
+import { WalletService } from '../wallet/wallet.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WalletEncryptionService {
-  private ethWallet: Wallet = null;
+  private encWallet: string;
+  private ethereumAddress: string;
   private walletsAddresses = {};
   private selectedCoins = {};
   coins: Coin[];
 
   constructor(
-    private walletService: WalletService,
+    private walletsFactory: WalletsFactory,
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
-    private ethersService: EthersService
+    private ethersService: EthersService,
+    private blockchainsFactory: BlockchainsFactory,
+    private mnemonicService: WalletMnemonicService,
+    private walletService: WalletService
   ) {}
 
-  encryptWallet(password: string): Promise<any> {
-    const derivedPaths = environment.derivedPaths;
+  async encryptWallet(password: string): Promise<any> {
+    const walletsFactory = this.walletsFactory.createFromPhrase(password, this.mnemonicService.mnemonic.phrase);
 
-    for (const [network, derivedPath] of Object.entries(derivedPaths)) {
-      const wallet = this.walletService.createForDerivedPath(derivedPath);
-
-      if (wallet instanceof ethers.Wallet) {
-        if (network === 'ERC20') {
-          this.ethWallet = wallet;
-        }
-        this.walletsAddresses[network] = wallet.address.toLowerCase();
-      } else {
-        this.walletsAddresses[network] = wallet.publicKey.toString();
+    for (const blockchain of this.blockchainsFactory.create().value()) {
+      const wallet = await walletsFactory.oneBy(blockchain);
+      this.walletsAddresses[blockchain.name()] = wallet.address();
+      if (blockchain.name() === 'ERC20') {
+        this.encWallet = (wallet as DefaultWallet).encryptedWallet();
+        this.ethereumAddress = wallet.address();
       }
     }
 
-    return this.saveEncryptedWallet(password);
+    return this.saveEncryptedWallet();
   }
 
-  private saveEncryptedWallet(password: string): Promise<boolean> {
+  private saveEncryptedWallet(): Promise<boolean> {
     return new Promise<boolean>(async (resolve) => {
-      this.ethWallet.encrypt(password).then(async (wallet) => {
-        const structure = this.storageStructure(wallet);
+        const structure = this.storageStructure();
         await this.storageService.saveWalletToStorage(structure);
-
         resolve(true);
       });
-    });
   }
 
   getDecryptedWallet(password: string): Promise<any> {
@@ -89,10 +90,10 @@ export class WalletEncryptionService {
     return this.selectedCoins;
   }
 
-  private storageStructure(encWallet) {
+  private storageStructure() {
     return {
-      alias: this.ethWallet.address,
-      wallet: encWallet,
+      alias: this.ethereumAddress,
+      wallet: this.encWallet,
       createdAt: moment().utc().format(),
       updatedAt: moment().utc().format(),
       addresses: this.walletsAddresses,

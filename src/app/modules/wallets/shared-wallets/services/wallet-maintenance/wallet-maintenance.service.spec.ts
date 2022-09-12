@@ -9,93 +9,12 @@ import { Coin } from '../../interfaces/coin.interface';
 import { EthersService } from '../ethers/ethers.service';
 import moment from 'moment';
 import { TEST_COINS } from '../../constants/coins.test';
-
-const testMnemonic = {
-  locale: 'en',
-  phrase: 'test mnemonic constant',
-  path: '',
-};
-
-const testToggleAssets = ['USDT', 'RBTC', 'RSK'];
-
-const walletResultToggleAssets = {
-  addresses: {
-    ERC20: 'testAddress',
-    RSK: 'testAddress',
-  },
-  assets: {
-    ETH: true,
-    USDT: false,
-    RBTC: true,
-    RSK: true,
-  },
-};
-
-const testEncryptedWallet = {
-  addresses: {
-    ERC20: 'testAddress',
-    RSK: 'testAddress',
-  },
-  assets: {
-    ETH: true,
-    USDT: true,
-    RBTC: false,
-    RSK: false,
-  },
-};
-
-const updateResultWallet = {
-  addresses: {
-    ERC20: 'testAddress',
-    RSK: 'testAddress',
-    MATIC: 'testResultAddress',
-  },
-  updatedAt: moment('2015-10-19').utc().format(),
-  assets: {
-    ETH: true,
-    USDT: false,
-    RBTC: true,
-    RSK: true,
-    MATIC: false,
-  },
-};
-
-const testCoins: Coin[] = [
-  {
-    id: 1,
-    name: 'ETH - Ethereum',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    last: false,
-    value: 'ETH',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: 'http://testrpc.test/',
-    native: true,
-  },
-  {
-    id: 6,
-    name: 'RBTC - Smart Bitcoin',
-    logoRoute: 'assets/img/coins/RBTC.png',
-    last: false,
-    value: 'RBTC',
-    network: 'RSK',
-    chainId: 31,
-    rpc: 'testRpc',
-    native: true,
-  },
-  {
-    id: 8,
-    name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.svg',
-    last: false,
-    value: 'MATIC',
-    network: 'MATIC',
-    chainId: 80001,
-    rpc: 'http://testrpc.text/',
-    decimals: 18,
-    native: true,
-  },
-];
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 
 describe('WalletMaintenanceService', () => {
   let service: WalletMaintenanceService;
@@ -105,10 +24,101 @@ describe('WalletMaintenanceService', () => {
   let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let ethersServiceSpy: jasmine.SpyObj<EthersService>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
+
+  const testMnemonic = {
+    locale: 'en',
+    phrase: 'test mnemonic constant',
+    path: '',
+  };
+  
+  const testToggleAssets = ['USDT', 'RBTC', 'RSK'];
+  
+  const walletResultToggleAssets = {
+    addresses: {
+      ERC20: 'testAddress',
+      RSK: 'testAddress',
+    },
+    assets: {
+      ETH: true,
+      USDT: false,
+      RBTC: true,
+      RSK: true,
+    },
+  };
+  
+  const testEncryptedWallet = {
+    addresses: {
+      ERC20: 'testAddress',
+      RSK: 'testAddress',
+    },
+    assets: {
+      ETH: true,
+      USDT: true,
+      RBTC: false,
+      RSK: false,
+    },
+  };
+  
+  const updateResultWallet = {
+    addresses: {
+      ERC20: 'testAddress',
+      RSK: 'testAddress',
+      MATIC: '',
+    },
+    updatedAt: moment('2015-10-19').utc().format(),
+    assets: {
+      ETH: true,
+      USDT: false,
+      RBTC: true,
+      RSK: true,
+      MATIC: false,
+    },
+  };
+  
+  const testCoins: Coin[] = [
+    {
+      id: 1,
+      name: 'ETH - Ethereum',
+      logoRoute: 'assets/img/coins/ETH.svg',
+      last: false,
+      value: 'ETH',
+      network: 'ERC20',
+      chainId: 42,
+      rpc: 'http://testrpc.test/',
+      native: true,
+    },
+    {
+      id: 6,
+      name: 'RBTC - Smart Bitcoin',
+      logoRoute: 'assets/img/coins/RBTC.png',
+      last: false,
+      value: 'RBTC',
+      network: 'RSK',
+      chainId: 31,
+      rpc: 'testRpc',
+      native: true,
+    },
+    {
+      id: 8,
+      name: 'MATIC - Polygon',
+      logoRoute: 'assets/img/coins/MATIC.svg',
+      last: false,
+      value: 'MATIC',
+      network: 'MATIC',
+      chainId: 80001,
+      rpc: 'http://testrpc.text/',
+      decimals: 18,
+      native: true,
+    },
+  ];
 
   beforeEach(() => {
     walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {
       getMnemonic: testMnemonic,
+    }, {
+      mnemonic: testMnemonic
     });
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
       getEncryptedWallet: Promise.resolve(JSON.parse(JSON.stringify(testEncryptedWallet))),
@@ -127,6 +137,13 @@ describe('WalletMaintenanceService', () => {
     ethersServiceSpy = jasmine.createSpyObj('EthersService', {
       decryptWalletJsonSync: {},
     });
+
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)),
+    });
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      createFromPhrase: { oneBy: () => Promise.resolve(new FakeWallet()) },
+    });
     TestBed.configureTestingModule({
       imports: [],
       declarations: [],
@@ -137,6 +154,8 @@ describe('WalletMaintenanceService', () => {
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: EthersService, useValue: ethersServiceSpy },
+        { provide: WalletsFactory, useValue: walletsFactorySpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
       ],
     });
     service = TestBed.inject(WalletMaintenanceService);
