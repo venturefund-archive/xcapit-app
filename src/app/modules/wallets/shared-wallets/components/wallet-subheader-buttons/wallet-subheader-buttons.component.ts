@@ -33,7 +33,7 @@ import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/defa
             icon="ux-arrow-down"
           ></app-icon-button-card>
         </div>
-        <ng-template [ngIf]="this.enabledToBuy" [ngIf]="this.enabledToOperate">
+        <ng-template [ngIf]="this.enabledToBuy && this.enabledToOperate">
           <div *appFeatureFlag="'ff_buyCryptoHomeWalletButton'" class="wsb__card-buttons__buy-card card">
             <app-icon-button-card
               (click)="this.goToBuy()"

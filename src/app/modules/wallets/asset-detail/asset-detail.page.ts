@@ -240,7 +240,7 @@ export class AssetDetailPage implements OnInit {
   private getCurrency() {
     this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
     this.enabledToBuy = !!new ProviderTokensOf(this.getProviders(), [this.currency]).all().length;
-    this.canAssetOperate(this.currency)
+    this.canAssetOperate(this.currency);
   }
 
   getButtonName() {
