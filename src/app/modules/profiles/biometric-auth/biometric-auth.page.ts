@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { WalletPasswordComponent } from '../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
@@ -45,7 +45,7 @@ import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/pass
   `,
   styleUrls: ['./biometric-auth.page.scss'],
 })
-export class BiometricAuthPage implements OnInit {
+export class BiometricAuthPage {
   form: UntypedFormGroup = this.formBuilder.group({
     biometric: [false, []],
   });
@@ -58,8 +58,6 @@ export class BiometricAuthPage implements OnInit {
     private storage: IonicStorageService,
     private toastService: ToastService
   ) {}
-
-  ngOnInit() {}
 
   async ionViewDidEnter() {
     await this.setBiometricAuth();
