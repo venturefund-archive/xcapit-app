@@ -92,6 +92,7 @@ import { TokenWithBlockchainLogoComponent } from './components/token-with-blockc
 import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/components/skip-profile-test/skip-profile-test.component';
 import { InformationAlertComponent } from '../modules/users/shared-users/components/information-alert/information-alert.component';
 import { HelpItemCardComponent } from '../modules/users/shared-users/components/help-item-card/help-item-card.component';
+import { NewTokenAvailableCardComponent } from '../modules/wallets/shared-wallets/components/new-token-available-card/new-token-available-card.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { HelpItemCardComponent } from '../modules/users/shared-users/components/
     TokenWithBlockchainLogoComponent,
     SkipProfileTestComponent,
     // Ux
+    NewTokenAvailableCardComponent,
     HelpItemCardComponent,
     InformationAlertComponent,
     InfoSendModalComponent,
@@ -222,6 +224,7 @@ import { HelpItemCardComponent } from '../modules/users/shared-users/components/
     TokenWithBlockchainLogoComponent,
     SkipProfileTestComponent,
     // Ux
+    NewTokenAvailableCardComponent,
     HelpItemCardComponent,
     InformationAlertComponent,
     InfoSendModalComponent,
