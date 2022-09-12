@@ -2095,6 +2095,12 @@
       "label_check": "Estoy de acuerdo con los términos y condiciones de compra.",
       "button": "Continuar"
     },
+    "error_d24_operation":{
+      "text_primary":"Se produjo un error en tu compra",
+      "text_secondary":"Inténtalo nuevamente o comunícate con soporte si el problema persiste.",
+      "button_primary":"Reintentar",
+      "button_secondary":"Ir a wallet"
+    },
     "operations_list": {
       "title": "Mis operaciones",
       "operation": "Compra",
