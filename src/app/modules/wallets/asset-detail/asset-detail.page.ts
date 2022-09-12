@@ -85,6 +85,7 @@ import { TransfersFactory } from '../shared-wallets/models/transfers/factory/tra
             [asset]="this.currency.value"
             [network]="this.currency.network"
             [enabledToBuy]="this.enabledToBuy"
+            [enabledToOperate]="this.enabledToOperate"
           ></app-wallet-subheader-buttons>
         </div>
 
@@ -116,6 +117,7 @@ export class AssetDetailPage implements OnInit {
   usdPrice: { prices: any };
   networkColors = NETWORK_COLORS;
   enabledToBuy: boolean;
+  enabledToOperate: boolean;
   defiProducts: DefiProduct[];
   allDefiProducts: InvestmentProduct[] = [];
   productToInvest: InvestmentProduct;
@@ -238,6 +240,7 @@ export class AssetDetailPage implements OnInit {
   private getCurrency() {
     this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
     this.enabledToBuy = !!new ProviderTokensOf(this.getProviders(), [this.currency]).all().length;
+    this.canAssetOperate(this.currency)
   }
 
   getButtonName() {
@@ -263,5 +266,9 @@ export class AssetDetailPage implements OnInit {
 
   private getProviders() {
     return this.providers.create();
+  }
+
+  canAssetOperate(currency: Coin) {
+    this.enabledToOperate = (currency.network !== 'SOLANA');
   }
 }
