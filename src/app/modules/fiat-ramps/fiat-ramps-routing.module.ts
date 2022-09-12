@@ -85,6 +85,10 @@ const routes: Routes = [
         path: 'buy-conditions',
         loadChildren: () => import('./buy-conditions/buy-conditions.module').then((m) => m.BuyConditionsPageModule),
       },
+      {
+        path: 'success-d24-operation',
+        loadChildren: () => import('./success-d24-operation/success-d24-operation.module').then( m => m.SuccessD24OperationPageModule)
+      },
     ],
   },
 ];

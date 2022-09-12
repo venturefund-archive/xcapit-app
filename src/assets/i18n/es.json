@@ -2114,6 +2114,11 @@
       "label_check": "Estoy de acuerdo con los términos y condiciones de compra.",
       "button": "Continuar"
     },
+    "success_d24_operation":{
+      "text_primary":"¡Compra confirmada!",
+      "text_secondary":"La acreditación de tus tokens puede tardar hasta 24hs.",
+      "button_text":"Ir a wallet"
+    },
     "operations_list": {
       "title": "Mis operaciones",
       "operation": "Compra",
