@@ -244,6 +244,7 @@ export class SwapHomePage {
   actions = [];
   actionTypeId = 'SWAP';
   sameTokens = false;
+  insufficientBalance: boolean;
   toTokenQuotePrice = 0;
   fromTokenQuotePrice = 0;
   fromTokenUSDAmount = 0;
