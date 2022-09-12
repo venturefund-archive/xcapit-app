@@ -27,6 +27,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
           controlName="password"
           type="password"
           inputmode="password"
+          [textClass]="'primary'"
           [label]="'users.login.password_label' | translate"
           [errors]="this.passwordErrors"
           aria-label="password"

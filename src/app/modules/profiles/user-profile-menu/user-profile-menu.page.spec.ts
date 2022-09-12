@@ -38,8 +38,9 @@ const itemMenu: MenuCategory[] = [
       {
         name: 'Support',
         text: 'profiles.user_profile_menu.support_help',
-        route: 'tickets/create-support-ticket',
+        route: '/tickets/new-create-support-ticket',
         type: 'link',
+        buttonName: 'ux_go_to_contact_support',
       },
     ],
   },
@@ -68,6 +69,12 @@ const itemMenu: MenuCategory[] = [
         type: 'link',
       },
     ],
+  },
+  {
+    id: 'wallet',
+    showCategory: false,
+    category_title: '',
+    icon: '',
   },
 ];
 
@@ -205,8 +212,9 @@ describe('UserProfileMenuPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get data of users when ionViewWillEnter is called', () => {
+  it('should get data of users when ionViewWillEnter is called', async () => {
     component.ionViewWillEnter();
+    await fixture.whenStable();
     expect(component.profile).toEqual(profile);
   });
 
@@ -292,7 +300,7 @@ describe('UserProfileMenuPage', () => {
     fixture.detectChanges();
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
-    expect(menu.length).toBe(3);
+    expect(menu.length).toBe(4);
   });
 
   it('should back to home when back button is clicked', async () => {
@@ -305,5 +313,13 @@ describe('UserProfileMenuPage', () => {
   it('should set username on enter', async () => {
     await component.ionViewWillEnter();
     expect(component.username).toEqual('Xcapiter 0x012');
+  });
+
+  it('should navigate to support page when clicking ux_go_to_contact_support', () => {
+    component.itemMenu = JSON.parse(JSON.stringify(itemMenu));
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.itemMenu[0].items[1].route).toEqual('/tickets/new-create-support-ticket');
   });
 });

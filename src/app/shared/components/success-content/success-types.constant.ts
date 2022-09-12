@@ -56,6 +56,7 @@ export const SUCCESS_TYPES = {
     textPrimary: 'users.register.success_title',
     textSecondary: 'users.register.success_text',
     urlPrimaryAction: '/users/login',
+    image: 'assets/img/users/success-register/success-register.svg',
     namePrimaryAction: 'users.register.accept_button',
     nameSecondaryAction: 'users.register.resend_email_button',
   },
@@ -132,9 +133,9 @@ export const SUCCESS_TYPES = {
   success_wallet_recovery: {
     urlClose: '/tabs/wallets',
     textPrimary: 'wallets.success_wallet_recovery.title',
-    image:'assets/img/wallets/success_celebration.svg',
-    textSecondary:'wallets.success_wallet_recovery.subtitle',
-    urlPrimaryAction: '/tabs/wallets',
+    image: 'assets/img/wallets/success_celebration.svg',
+    textSecondary: 'wallets.success_wallet_recovery.subtitle',
+    urlPrimaryAction: '/profiles/profile-test',
     namePrimaryAction: 'wallets.success_wallet_recovery.button',
     trackClickEventNamePrimaryAction: 'ux_import_go_to_home',
   },
@@ -199,7 +200,7 @@ export const SUCCESS_TYPES = {
     urlThirdAction: '/tabs/wallets',
   },
 
-    error_donation: {
+  error_donation: {
     image: '/assets/img/donations/error/error-donation.svg',
     urlClose: '/donations/causes',
     textPrimary: 'donations.error.textPrimary',
@@ -208,7 +209,7 @@ export const SUCCESS_TYPES = {
     trackClickEventNamePrimaryAction: 'ux_donations_go_to_donations',
     urlPrimaryAction: '/donations/causes',
   },
-  
+
   success_investment: {
     image: 'assets/img/defi-investments/success-investment.svg',
     urlClose: '/tabs/wallets',
@@ -220,7 +221,7 @@ export const SUCCESS_TYPES = {
     trackClickEventNamePrimaryAction: 'ux_invest_go_to_invest',
     nameThirdAction: 'defi_investments.success_investment.secondaryButton',
     urlThirdAction: '/tabs/wallets',
-    trackClickEventNameThirdAction: 'ux_invest_go_to_wallet'
+    trackClickEventNameThirdAction: 'ux_invest_go_to_wallet',
   },
   success_add_amount: {
     image: 'assets/img/defi-investments/success-add.svg',
@@ -233,7 +234,7 @@ export const SUCCESS_TYPES = {
     trackClickEventNamePrimaryAction: 'ux_invest_go_to_invest',
     nameThirdAction: 'defi_investments.success_add_amount.secondaryButton',
     urlThirdAction: '/tabs/wallets',
-    trackClickEventNameThirdAction: 'ux_invest_go_to_wallet'
+    trackClickEventNameThirdAction: 'ux_invest_go_to_wallet',
   },
   error_investment: {
     image: 'assets/img/defi-investments/error-investment.svg',
@@ -253,16 +254,16 @@ export const SUCCESS_TYPES = {
     namePrimaryAction: 'financial_planner.new_objetive.success_button',
     urlPrimaryAction: '/financial-planner/new-objetive',
   },
-  success_fiat_ramps:{
-    image:"assets/img/fiat-ramps/success-page/operations-success.svg",
-    urlClose:'/fiat-ramps/select-provider',
-    textPrimary: 'fiat_ramps.fiat_success.textPrimary', 
-    textSecondary:'fiat_ramps.fiat_success.textSecondary',
-    namePrimaryAction:'fiat_ramps.fiat_success.buttonText',
-    urlPrimaryAction:'/fiat-ramps/operation-detail/provider/1/operation/',
-    trackClickEventNamePrimaryAction: 'ux_buy_kripton_details'
+  success_fiat_ramps: {
+    image: 'assets/img/fiat-ramps/success-page/operations-success.svg',
+    urlClose: '/fiat-ramps/select-provider',
+    textPrimary: 'fiat_ramps.fiat_success.textPrimary',
+    textSecondary: 'fiat_ramps.fiat_success.textSecondary',
+    namePrimaryAction: 'fiat_ramps.fiat_success.buttonText',
+    urlPrimaryAction: '/fiat-ramps/operation-detail/provider/1/operation/',
+    trackClickEventNamePrimaryAction: 'ux_buy_kripton_details',
   },
-  error_test_financial_education:{
+  error_test_financial_education: {
     image: '/assets/img/financial-education/error-test-financial-education.svg',
     textPrimary: 'financial_education.error_test.textPrimary',
     textSecondary: 'financial_education.error_test.textSecondary',
@@ -271,39 +272,39 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '',
     nameSecondaryAction: 'financial_education.error_test.nameSecondaryAction',
     urlSecondaryAction: 'tabs/financial-education',
-    trackClickEventNameSecondaryAction:'ux_education_go_to_menu',
+    trackClickEventNameSecondaryAction: 'ux_education_go_to_menu',
     nameThirdAction: 'financial_education.error_test.nameThirdAction',
-    urlThirdAction: ''
+    urlThirdAction: '',
   },
-  success_submodules:{ 
-    image:"assets/img/financial-education/success-submodules/success-submodules.svg",
-    textPrimary: 'financial_education.success_submodule.textPrimary', 
-    textSecondary:'financial_education.success_submodule.textSecondary',
-    namePrimaryAction:'financial_education.success_submodule.buttonText',
-    nameThirdAction:"financial_education.success_submodule.buttonText2",
-    urlPrimaryAction:'/tabs/financial-education',
-    urlThirdAction:'tabs/financial-education',
+  success_submodules: {
+    image: 'assets/img/financial-education/success-submodules/success-submodules.svg',
+    textPrimary: 'financial_education.success_submodule.textPrimary',
+    textSecondary: 'financial_education.success_submodule.textSecondary',
+    namePrimaryAction: 'financial_education.success_submodule.buttonText',
+    nameThirdAction: 'financial_education.success_submodule.buttonText2',
+    urlPrimaryAction: '/tabs/financial-education',
+    urlThirdAction: 'tabs/financial-education',
     trackClickEventNamePrimaryAction: 'ux_education_next_module',
-    trackClickEventNameThirdAction: 'ux_education_go_to_menu'
+    trackClickEventNameThirdAction: 'ux_education_go_to_menu',
   },
-  final_success_test:{
-    image:"assets/img/financial-education/final-success-test.svg",
-    textPrimary: 'financial_education.final_success_test.textPrimary', 
-    textSecondary:'financial_education.final_success_test.textSecondary',
+  final_success_test: {
+    image: 'assets/img/financial-education/final-success-test.svg',
+    textPrimary: 'financial_education.final_success_test.textPrimary',
+    textSecondary: 'financial_education.final_success_test.textSecondary',
     namePrimaryAction: 'financial_education.final_success_test.primaryButton',
-    urlPrimaryAction:'tabs/financial-education',
-    trackClickEventNamePrimaryAction: 'ux_education_finalize'
+    urlPrimaryAction: 'tabs/financial-education',
+    trackClickEventNamePrimaryAction: 'ux_education_finalize',
   },
-  swap_in_progress:{
-    image:"assets/img/swaps/swap-in-progress.svg",
-    icon:"assets/img/swaps/swap-icon.svg",
-    urlClose:'/tabs/wallets',
-    textPrimary: 'swaps.swap_in_progress.text_primary', 
-    textSecondary:'swaps.swap_in_progress.text_secondary',
-    namePrimaryAction:'swaps.swap_in_progress.button_text',
-    urlPrimaryAction:'/tabs/wallets',
+  swap_in_progress: {
+    image: 'assets/img/swaps/swap-in-progress.svg',
+    icon: 'assets/img/swaps/swap-icon.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'swaps.swap_in_progress.text_primary',
+    textSecondary: 'swaps.swap_in_progress.text_secondary',
+    namePrimaryAction: 'swaps.swap_in_progress.button_text',
+    urlPrimaryAction: '/tabs/wallets',
     titlePrimary: 'swaps.swap_in_progress.text_title',
-    textBadge: 'swaps.swap_in_progress.text_badge'
+    textBadge: 'swaps.swap_in_progress.text_badge',
   },
   error_no_wallet_financial_education: {
     image: '/assets/img/financial-education/error-no-wallet.svg',
@@ -314,5 +315,21 @@ export const SUCCESS_TYPES = {
     nameSecondaryAction: 'financial_education.error_no_wallet.nameSecondaryAction',
     urlPrimaryAction: '/tabs/wallets',
     urlSecondaryAction: '/tabs/financial-education',
-  }
+  },
+  create_ticket_wallet: {
+    image: 'assets/img/support-ticket/create-ticket-success.svg',
+    textPrimary: 'tickets.create_support_ticket_success_new_login.textPrimary',
+    textSecondary: 'tickets.create_support_ticket_success_new_login.textSecondary',
+    namePrimaryAction: 'tickets.create_support_ticket_success_new_login.has_wallet.namePrimaryAction',
+    nameSecondaryAction: 'tickets.create_support_ticket_success_new_login.has_wallet.nameSecondaryAction',
+    urlPrimaryAction: '/tabs/wallets',
+    urlClose: '/profiles/menu',
+  },
+  create_ticket_no_wallet: {
+    image: 'assets/img/support-ticket/create-ticket-success.svg',
+    textPrimary: 'tickets.create_support_ticket_success_new_login.textPrimary',
+    textSecondary: 'tickets.create_support_ticket_success_new_login.textSecondary',
+    namePrimaryAction: 'tickets.create_support_ticket_success_new_login.no_wallet.namePrimaryAction',
+    urlClose: '/support/options',
+  },
 };

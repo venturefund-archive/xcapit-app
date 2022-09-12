@@ -111,7 +111,7 @@ export class UserProfileMenuPage {
     private ionicStorageService: IonicStorageService,
     private walletBackupService: WalletBackupService,
     private walletConnectService: WalletConnectService,
-    private storage: Storage
+    private storage: Storage,
   ) {}
 
   ionViewWillEnter() {

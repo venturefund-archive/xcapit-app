@@ -28,6 +28,7 @@ import { FakeBalances } from '../../wallets/shared-wallets/models/balances/fake-
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 const dataTest = {
   category: 'purchases',
@@ -59,6 +60,7 @@ describe('HomePage', () => {
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -117,6 +119,8 @@ describe('HomePage', () => {
         get: null,
       });
 
+      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{ trackEvent: Promise.resolve(true),})
+
       TestBed.configureTestingModule({
         declarations: [HomePage, FakeFeatureFlagDirective],
         imports: [HttpClientTestingModule, IonicModule, TranslateModule.forRoot()],
@@ -135,6 +139,7 @@ describe('HomePage', () => {
           { provide: AppStorageService, useValue: appStorageServiceSpy },
           { provide: WalletBackupService, useValue: walletBackupServiceSpy },
           { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+          { provide: TrackService, useValue: trackServiceSpy},
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -306,5 +311,10 @@ describe('HomePage', () => {
     fixture.detectChanges();
     const cardEl = fixture.debugElement.query(By.css('app-donations-card'));
     expect(cardEl).toBeFalsy();
+  });
+
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

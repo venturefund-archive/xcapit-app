@@ -78,8 +78,8 @@ export class OnBoardingPage implements OnInit {
   }
   
   onSlideChange() {
-    this.isBeginning = this.swiper.swiperRef.isBeginning;
-    this.isEnd = this.swiper.swiperRef.isEnd;
+    this.isBeginning = this.swiper.swiperRef.activeIndex === 0;
+    this.isEnd = this.swiper.swiperRef.activeIndex ===2;
   }
 
   slideNext() {

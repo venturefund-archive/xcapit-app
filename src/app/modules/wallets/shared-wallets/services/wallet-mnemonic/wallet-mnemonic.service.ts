@@ -6,6 +6,7 @@ import { Mnemonic } from '@ethersproject/hdnode';
   providedIn: 'root',
 })
 export class WalletMnemonicService {
+  utils = ethers.utils;
   mnemonic: Mnemonic;
 
   constructor() {}

@@ -5,6 +5,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { NavController } from '@ionic/angular';
 import { Filesystem } from '@capacitor/filesystem';
 import { Camera, CameraSource, CameraResultType } from '@capacitor/camera';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 @Component({
   selector: 'app-user-images',
   template: `
@@ -117,10 +118,15 @@ export class UserImagesPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController
+    private navController: NavController,
+    private trackService: TrackService
   ) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.trackScreenViewEvent();
+  }
 
   async handleSubmit() {
     this.fiatRampsService.registerUserImages(this.form.value).subscribe((res) => {
@@ -144,5 +150,13 @@ export class UserImagesPage implements OnInit {
     };
 
     this.form.controls[pic].setValue(res);
+  }
+
+  trackScreenViewEvent() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_buy_kripton_screenview_id',
+    });
   }
 }

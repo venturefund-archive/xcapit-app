@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
@@ -7,7 +7,7 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
 @Component({
   selector: 'app-success-register',
   template: `
-    <ion-content class="ion-padding">
+    <ion-content *ngIf="this.data" class="ion-padding">
       <app-success-content
         [data]="this.data"
         [unauth]="true"
@@ -21,24 +21,27 @@ export class SuccessRegisterPage implements OnInit {
   data: any;
   email: string;
 
-  constructor(private route: ActivatedRoute, private router: Router, private navController: NavController, private translate: TranslateService) {
-    this.route.queryParams.subscribe(() => {
-      const navigationState = this.router.getCurrentNavigation().extras;
-      if (navigationState) {
-        this.email = navigationState.state.email;
-      } else {
-        this.navController.navigateBack(['/users/register', this.email]);
-      }
-    });
-  }
+  constructor(
+    private navController: NavController,
+    private router: Router,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
+    this.getEmail();
     this.data = SUCCESS_TYPES.register;
-    this.data.textSecondary = this.translate.instant(this.data.textSecondary, {email: this.email}) 
-    this.data.image = "assets/img/users/success-register/success-register.svg"
+    this.data.textSecondary = this.translate.instant(this.data.textSecondary, { email: this.email });
+  }
+
+  getEmail() {
+    this.email = this.router.getCurrentNavigation().extras?.state?.email;
+    if (!this.email) {
+      this.navController.navigateBack(['/users/register', this.email]);
+    }
   }
 
   resendVerificationEmail() {
-    this.navController.navigateForward(['/users/resend-verification-email', this.email]);
+      const params: NavigationExtras = { state: { email: this.email } };
+      this.navController.navigateForward(['/users/resend-verification-email'], params);
   }
 }

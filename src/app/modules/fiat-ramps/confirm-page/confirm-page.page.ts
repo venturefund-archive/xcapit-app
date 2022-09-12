@@ -10,6 +10,7 @@ import { NETWORK_COLORS } from '../../wallets/shared-wallets/constants/network-c
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -76,11 +77,13 @@ export class ConfirmPagePage implements OnInit {
     private navController: NavController,
     private walletMaintenance: WalletMaintenanceService,
     private providersFactory: ProvidersFactory,
+    private trackService: TrackService,
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.trackScreenViewEvent();
     this.storageOperationService.data.subscribe((data) => {
       this.operationData = data;
       this.token = this.apiWalletService.getCoin(this.operationData.currency_out, this.operationData.network);
@@ -114,5 +117,13 @@ export class ConfirmPagePage implements OnInit {
 
   addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
     return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.token);
+  }
+
+  trackScreenViewEvent() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_buy_kripton_screenview_confirm',
+    });
   }
 }

@@ -31,7 +31,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
@@ -154,7 +154,7 @@ describe('SendDetailPage', () => {
     });
 
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
-      create: new Blockchains(new BlockchainRepo(rawBlockchainsData)),
+      create: new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)),
     });
 
     gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {

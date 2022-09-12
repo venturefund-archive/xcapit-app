@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ModalController, NavController } from '@ionic/angular';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { SkipProfileTestComponent } from '../shared-profiles/components/skip-profile-test/skip-profile-test.component';
 
@@ -74,7 +74,7 @@ import { SkipProfileTestComponent } from '../shared-profiles/components/skip-pro
           class="ux-button-outlined ppt__footer__other-time-button__button"
           name="Skip test"
           expand="block"
-          (click)="this.skipTest()"
+          (click)="this.showSkipProfileTest()"
           >{{ 'profiles.personalised_profile_test.button_secondary' | translate }}</ion-button
         >
       </div>
@@ -145,7 +145,7 @@ export class PersonalisedProfileTestPage implements OnInit {
     private trackService: TrackService,
     private modalController: ModalController,
     private navController: NavController,
-    private appStorageService: AppStorageService
+    private ionicStorageService: IonicStorageService
   ) {}
 
   ngOnInit() {}
@@ -153,7 +153,7 @@ export class PersonalisedProfileTestPage implements OnInit {
   submitTest() {
     this.sendToDoInAppEvent();
     this.sendCryptoExperienceEvent();
-    this.appStorageService.set(this.key, true);
+    this.ionicStorageService.set(this.key, true);
     this.navController.navigateRoot([this.successProfileTestUrl]);
   }
 
@@ -184,12 +184,6 @@ export class PersonalisedProfileTestPage implements OnInit {
   sendCryptoExperienceEvent() {
     this.cryptoEventToSend = this.eventPrefix + this.crypto_experience_form.value.radio_option;
     return this.sendEvent(this.cryptoEventToSend);
-  }
-
-  skipTest() {
-    if (this.crypto_experience_form.valid || this.isToDoInAppFormValid()) {
-      this.showSkipProfileTest();
-    }
   }
 
   bothFormsValid() {

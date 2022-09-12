@@ -13,6 +13,7 @@ import { OperationStatus } from '../shared-ramps/interfaces/operation-status.int
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { platform } from 'os';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-operations-detail',
@@ -20,7 +21,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/select-provider"></ion-back-button>
+          <ion-back-button (click)="this.navigateBackToOperations()"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.operation_detail.header' | translate }}
@@ -72,13 +73,14 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
       <div class="ux_footer ion-padding">
         <div *ngIf="this.hasVoucher; then sendPictureElement; else addPhotoElement"></div>
         <ng-template #addPhotoElement>
-          <ion-button
-            name="ux_add_photo"
+          <ion-button 
             class="ux_button ion-no-margin"
-            color="secondary"
+            appTrackClick 
+            name="ux_buy_kripton_attach"
+            color="secondary" 
             expand="block"
-            (click)="this.addPhoto()"
-          >
+            (click)="this.addPhoto()"  
+            >
             {{ 'fiat_ramps.operation_detail.upload_voucher' | translate }}
           </ion-button>
         </ng-template>
@@ -117,6 +119,7 @@ export class OperationsDetailPage implements OnInit {
     private navController: NavController,
     private apiWalletSertvice: ApiWalletService,
     private browserService: BrowserService,
+    private trackService: TrackService
     private platformService: PlatformService,
   ) {}
 
@@ -127,6 +130,7 @@ export class OperationsDetailPage implements OnInit {
     const providerId = this.route.snapshot.paramMap.get('provider_id');
     this.getProvider(parseInt(providerId));
     this.getUserOperation(operationId);
+    this.trackScreenViewEvent();
   }
 
   private getProvider(providerId: number) {
@@ -228,5 +232,11 @@ export class OperationsDetailPage implements OnInit {
     });
   }
 
-  
+  trackScreenViewEvent() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_buy_kripton_screenview_details',
+    });
+  }
 }

@@ -29,5 +29,11 @@ export const SUPPORT_OPTIONS = [
     icon: '../../assets/ux-icons/ux-nft.svg',
     route: '/support/faqs/nft',
   },
+  {
+    title: 'support.support_options.title_wallet_swap',
+    description: 'support.support_options.description_wallet_swap',
+    icon: '../../assets/ux-icons/ux-wallet-swap.svg',
+    route: '/support/faqs/wallet_swap',
+  }
 
 ];

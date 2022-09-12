@@ -4,6 +4,7 @@ import { ABOUT_BUY } from '../shared-support/constants/about-buy';
 import { ABOUT_WALLET } from '../shared-support/constants/about-wallet';
 import { ABOUT_WALLET_CONNECT } from '../shared-support/constants/about-wallet-connect';
 import { ABOUT_WALLET_OPERATIONS } from '../shared-support/constants/about-wallet-operations';
+import { ABOUT_WALLET_SWAP } from '../shared-support/constants/about-wallet-swap';
 import { NFT_TERMS } from '../shared-support/constants/nft-terms';
 
 @Component({
@@ -57,7 +58,8 @@ export class FaqsPage implements OnInit {
       wallet_operations: ABOUT_WALLET_OPERATIONS,
       nft: NFT_TERMS,
       buy: ABOUT_BUY,
-      wallet_connect: ABOUT_WALLET_CONNECT
+      wallet_connect: ABOUT_WALLET_CONNECT,
+      wallet_swap: ABOUT_WALLET_SWAP
     }
 
     this.faqs = faqs[topic];

@@ -11,7 +11,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        canActivate: [AcceptedToSGuard, CreatedWalletGuard],
+        canActivate: [AcceptedToSGuard],
         path: 'create-first/recovery-phrase',
         loadChildren: () => import('./recovery-phrase/recovery-phrase.module').then((m) => m.RecoveryPhrasePageModule),
       },
@@ -21,7 +21,7 @@ const routes: Routes = [
         loadChildren: () => import('./verify-phrase/verify-phrase.module').then((m) => m.VerifyPhrasePageModule),
       },
       {
-        canActivate: [CreatedWalletGuard],
+        canActivate: [],
         path: 'create-first/disclaimer',
         loadChildren: () =>
           import('./disclaimer-wallet/disclaimer-wallet.module').then((m) => m.DisclaimerWalletPageModule),
@@ -47,7 +47,7 @@ const routes: Routes = [
         loadChildren: () => import('./failed-mnemonic/failed-mnemonic.module').then((m) => m.FailedMnemonicPageModule),
       },
       {
-        canActivate: [AcceptedToSGuard, CreatedWalletGuard],
+        canActivate: [AcceptedToSGuard],
         path: 'create-password',
         loadChildren: () => import('./create-password/create-password.module').then((m) => m.CreatePasswordPageModule),
       },
@@ -233,8 +233,14 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'transaction-details',
+        loadChildren: () => import('./transaction-details/transaction-details.module').then( m => m.TransactionDetailsPageModule)
+      },
     ],
   },
+
+
 ];
 
 @NgModule({
