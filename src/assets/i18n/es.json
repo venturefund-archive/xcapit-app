@@ -1920,6 +1920,13 @@
         "description": "Antes de realizar cualquier operación, protégela haciendo una copia de seguridad de tu frase de recuperación.",
         "button_protect": "Proteger mi wallet",
         "button_skip": "Omitir"
+      },
+      "new_token_available_card": {
+        "coming_soon":"Próximamente"
+      },
+      "new_token_info-modal":{
+        "title":"Ventajas de usar Solana",
+        "subtitle":"<ul><li>Gran variedad DApps para utilizar</li><li>Rapidez transaccional: Solana es la blockchain  más rápida del mundo</li><li>Bajo costo por transacción</li></ul>"
       }
     },
     "asset_detail": {

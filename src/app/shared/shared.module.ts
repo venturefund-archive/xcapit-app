@@ -93,6 +93,7 @@ import { SkipProfileTestComponent } from '../modules/profiles/shared-profiles/co
 import { InformationAlertComponent } from '../modules/users/shared-users/components/information-alert/information-alert.component';
 import { HelpItemCardComponent } from '../modules/users/shared-users/components/help-item-card/help-item-card.component';
 import { NewTokenAvailableCardComponent } from '../modules/wallets/shared-wallets/components/new-token-available-card/new-token-available-card.component';
+import { NewTokenInfoModalComponent } from '../modules/wallets/shared-wallets/components/new-token-info-modal/new-token-info-modal.component';
 
 @NgModule({
   declarations: [
@@ -120,6 +121,7 @@ import { NewTokenAvailableCardComponent } from '../modules/wallets/shared-wallet
     TokenWithBlockchainLogoComponent,
     SkipProfileTestComponent,
     // Ux
+    NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
     HelpItemCardComponent,
     InformationAlertComponent,
@@ -224,6 +226,7 @@ import { NewTokenAvailableCardComponent } from '../modules/wallets/shared-wallet
     TokenWithBlockchainLogoComponent,
     SkipProfileTestComponent,
     // Ux
+    NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
     HelpItemCardComponent,
     InformationAlertComponent,

@@ -1935,6 +1935,13 @@
         "description": "Before performing any operation, protect it by backing up your recovery phrase.",
         "button_protect": "Protect my wallet",
         "button_skip": "Skip"
+      },
+      "new_token_available_card": {
+        "coming_soon":"Coming soon"
+      },
+      "new_token_info-modal":{
+        "title":"Benefits of using Solana",
+        "subtitle":"<ul><li>Wide variety of DApps to use</li><li>Transactional speed: Solana is the fastest blockchain in the world</li><li>Low cost per transaction</li></ul>"
       }
     },
     "asset_detail": {
