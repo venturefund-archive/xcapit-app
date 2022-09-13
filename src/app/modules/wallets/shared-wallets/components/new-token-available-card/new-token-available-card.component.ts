@@ -7,7 +7,8 @@ import { NewTokenInfoModalComponent } from '../new-token-info-modal/new-token-in
 
 @Component({
   selector: 'app-new-token-available-card',
-  template: `<div class="ntac" (click)="this.openNewTokenInfoModal()">
+  template: `<div class="ntac" name="ux_solana_more_info"
+  appTrackClick (click)="this.openNewTokenInfoModal()" >
   <div><img class="ntac__img" [src]="this.newToken.icon" alt="Asset icon" /></div>
   <div class="ntac__content">
     <div class="ntac__content__top">
@@ -42,14 +43,14 @@ export class NewTokenAvailableCardComponent implements OnInit {
     const modal = await this.modalController.create({
       component: NewTokenInfoModalComponent,
       showBackdrop: false,
-      cssClass: 'modal-info',
+      cssClass: 'modal',
       componentProps: {
         title: 'wallets.shared_wallets.new_token_info-modal.title',
         subtitle: this.translate.instant('wallets.shared_wallets.new_token_info-modal.subtitle'),
         image: 'assets/img/wallets/solana-info.svg',
       },
     });
-    modal.present();
+    await modal.present();
 
   }
 
