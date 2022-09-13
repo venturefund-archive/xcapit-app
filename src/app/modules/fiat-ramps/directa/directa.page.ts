@@ -169,15 +169,16 @@ export class DirectaPage implements OnInit {
   }
 
   async depositData(): Promise<DirectaDepositCreationData> {
+    const dynamicLinkUrl = this.getDynamicLinkUrl()
     return {
       amount: this.form.value.fiatAmount,
       fiat_token: this.fiatCurrency,
       crypto_token: this.selectedCurrency.value,
       country: this.country.directaCode,
       payment_method: this.provider.alias,
-      back_url: 'https://nonprod.xcapit.com/tabs/wallets',
-      success_url: 'https://nonprod.xcapit.com/tabs/wallets',
-      error_url: 'https://nonprod.xcapit.com/tabs/wallets',
+      back_url: dynamicLinkUrl + 'directa-back-url',
+      success_url: dynamicLinkUrl + 'directa-success-url',
+      error_url: dynamicLinkUrl + 'directa-error-url',
       notification_url: this.webhookURL(),
       logo: 'https://xcapit-foss.gitlab.io/documentation/img/x.svg',
       wallet: await this.userWalletAddress(),
@@ -267,5 +268,9 @@ export class DirectaPage implements OnInit {
   ionViewWillLeave() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  getDynamicLinkUrl() {
+    return this.envService.all().firebase.dynamicLinkUrl
   }
 }

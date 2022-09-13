@@ -117,6 +117,11 @@ describe('DirectaPage', () => {
 
     envServiceSpy = jasmine.createSpyObj('EnvService', {
       byKey: 'api_url',
+      all: {
+        firebase:{
+          dynamicLinkUrl: 'https://testlink.com'
+        }
+      }
     });
 
     TestBed.configureTestingModule({
