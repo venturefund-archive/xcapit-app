@@ -85,6 +85,16 @@ const routes: Routes = [
         path: 'buy-conditions',
         loadChildren: () => import('./buy-conditions/buy-conditions.module').then((m) => m.BuyConditionsPageModule),
       },
+      {
+        path: 'others',
+        children: [
+          {
+            path: 'error-operation',
+            loadChildren: () =>
+              import('./error-d24-operation/error-d24-operation.module').then((m) => m.ErrorD24OperationPageModule),
+          },
+        ],
+      },
     ],
   },
 ];
