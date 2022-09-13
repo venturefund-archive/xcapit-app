@@ -11,16 +11,18 @@ import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/defa
   template: `
     <div class="wsb">
       <div class="wsb__card-buttons">
-        <div class="wsb__card-buttons__send-card card">
-          <app-icon-button-card
-            (click)="this.goToSend()"
-            appTrackClick
-            class="ux-font-text-lg"
-            name="ux_go_to_send"
-            [text]="'wallets.home.subheader_buttons_component.send_card' | translate"
-            icon="ux-arrow-up"
-          ></app-icon-button-card>
-        </div>
+        <ng-template [ngIf]="this.enabledToOperate">
+          <div class="wsb__card-buttons__send-card card">
+            <app-icon-button-card
+              (click)="this.goToSend()"
+              appTrackClick
+              class="ux-font-text-lg"
+              name="ux_go_to_send"
+              [text]="'wallets.home.subheader_buttons_component.send_card' | translate"
+              icon="ux-arrow-up"
+            ></app-icon-button-card>
+          </div>
+        </ng-template>
         <div class="wsb__card-buttons__receive-card card">
           <app-icon-button-card
             (click)="this.goToReceive()"
@@ -31,7 +33,7 @@ import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/defa
             icon="ux-arrow-down"
           ></app-icon-button-card>
         </div>
-        <ng-template [ngIf]="this.enabledToBuy">
+        <ng-template [ngIf]="this.enabledToBuy && this.enabledToOperate">
           <div *appFeatureFlag="'ff_buyCryptoHomeWalletButton'" class="wsb__card-buttons__buy-card card">
             <app-icon-button-card
               (click)="this.goToBuy()"
@@ -43,16 +45,18 @@ import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/defa
             ></app-icon-button-card>
           </div>
         </ng-template>
-        <div *appFeatureFlag="'ff_swap'" class="wsb__card-buttons__swap-card card">
-          <app-icon-button-card
-            (click)="this.goToSwap()"
-            appTrackClick
-            class="ux-font-text-lg"
-            name="ux_go_to_swap"
-            [text]="'wallets.home.subheader_buttons_component.swap_card' | translate"
-            icon="ux-vertical-switch"
-          ></app-icon-button-card>
-        </div>
+        <ng-template [ngIf]="this.enabledToOperate">
+          <div *appFeatureFlag="'ff_swap'" class="wsb__card-buttons__swap-card card">
+            <app-icon-button-card
+              (click)="this.goToSwap()"
+              appTrackClick
+              class="ux-font-text-lg"
+              name="ux_go_to_swap"
+              [text]="'wallets.home.subheader_buttons_component.swap_card' | translate"
+              icon="ux-vertical-switch"
+            ></app-icon-button-card>
+          </div>
+      </ng-template>
       </div>
     </div>
   `,
@@ -62,6 +66,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
   @Input() network: string;
   @Input() enabledToBuy = true;
+  @Input() enabledToOperate = true;
 
   constructor(
     private navController: NavController,
