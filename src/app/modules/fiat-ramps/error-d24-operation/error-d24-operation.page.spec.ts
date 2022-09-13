@@ -28,7 +28,7 @@ describe('ErrorD24OperationPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
+
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);

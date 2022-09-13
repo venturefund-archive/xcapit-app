@@ -87,12 +87,13 @@ const routes: Routes = [
       },
       {
         path: 'others',
-        children:[
+        children: [
           {
             path: 'error-operation',
-            loadChildren: () => import('./error-d24-operation/error-d24-operation.module').then( m => m.ErrorD24OperationPageModule)
+            loadChildren: () =>
+              import('./error-d24-operation/error-d24-operation.module').then((m) => m.ErrorD24OperationPageModule),
           },
-        ]
+        ],
       },
     ],
   },
