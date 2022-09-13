@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 
 import { SuccessD24OperationPage } from './success-d24-operation.page';
