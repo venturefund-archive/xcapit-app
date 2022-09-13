@@ -7,18 +7,15 @@ import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { EthersService } from '../ethers/ethers.service';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { DefaultWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from '../wallet/wallet.service';
+import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WalletEncryptionService {
-  private encWallet: string;
-  private ethereumAddress: string;
-  private walletsAddresses = {};
   private selectedCoins = {};
   coins: Coin[];
 
@@ -33,26 +30,30 @@ export class WalletEncryptionService {
   ) {}
 
   async encryptWallet(password: string): Promise<any> {
-    const walletsFactory = this.walletsFactory.createFromPhrase(password, this.mnemonicService.mnemonic.phrase);
-
-    for (const blockchain of this.blockchainsFactory.create().value()) {
-      const wallet = await walletsFactory.oneBy(blockchain);
-      this.walletsAddresses[blockchain.name()] = wallet.address();
-      if (blockchain.name() === 'ERC20') {
-        this.encWallet = (wallet as DefaultWallet).encryptedWallet();
-        this.ethereumAddress = wallet.address();
-      }
-    }
-
-    return this.saveEncryptedWallet();
+    await this.createWallets(new Password(password));
+    await this.saveEncryptedWallet();
   }
 
-  private saveEncryptedWallet(): Promise<boolean> {
-    return new Promise<boolean>(async (resolve) => {
-        const structure = this.storageStructure();
-        await this.storageService.saveWalletToStorage(structure);
-        resolve(true);
-      });
+  private async createWallets(aPassword: Password): Promise<void> {
+    await this.walletsFactory.create().createFrom(
+      this.mnemonicService.mnemonic.phrase,
+      aPassword,
+      this.blockchainsFactory.create()
+    );
+  }
+
+  private async saveEncryptedWallet(): Promise<void> {
+    await this.storageService.saveWalletToStorage(await this.storageStructure());
+  }
+
+  private async storageStructure() {
+    return {
+      alias: (await this.walletsFactory.create().oneBy(this.blockchainsFactory.create().oneByName('ERC20'))).address(),
+      createdAt: moment().utc().format(),
+      updatedAt: moment().utc().format(),
+      network: environment.walletNetwork,
+      assets: this.selectedAssetsStructure(),
+    };
   }
 
   getDecryptedWallet(password: string): Promise<any> {
@@ -88,18 +89,6 @@ export class WalletEncryptionService {
     }
 
     return this.selectedCoins;
-  }
-
-  private storageStructure() {
-    return {
-      alias: this.ethereumAddress,
-      wallet: this.encWallet,
-      createdAt: moment().utc().format(),
-      updatedAt: moment().utc().format(),
-      addresses: this.walletsAddresses,
-      network: environment.walletNetwork,
-      assets: this.selectedAssetsStructure(),
-    };
   }
 
   async encryptedWalletExist(): Promise<boolean> {

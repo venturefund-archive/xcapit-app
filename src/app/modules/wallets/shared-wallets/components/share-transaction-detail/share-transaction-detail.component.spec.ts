@@ -6,6 +6,7 @@ import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.se
 import { ShareService } from 'src/app/shared/services/share/share.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ShareTransactionDetailComponent } from './share-transaction-detail.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('ShareTransactionDetailComponent', () => {
   let component: ShareTransactionDetailComponent;
@@ -42,6 +43,7 @@ describe('ShareTransactionDetailComponent', () => {
         { provide: ClipboardService, useValue: clipboardServiceSpy },
         { provide: ToastService, useValue: toastServiceSpy },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ShareTransactionDetailComponent);

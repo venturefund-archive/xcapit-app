@@ -7,25 +7,26 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-share-transaction-detail',
-  template: ` <div
-    appTrackClick
-    [dataToTrack]="{ eventLabel: 'ux_share_transaction_details' }"
-    *ngIf="this.canShare"
-    [ngClass]="this.lightBackground ? 'td-light' : 'td'"
-    (click)="this.shareTransactionDetail()"
-  >
-    <img *ngIf="!this.lightBackground" src="/assets/img/shared/share-button/share.svg" />
-    <img *ngIf="this.lightBackground" src="/assets/img/shared/share-button/share-blue.svg" />
-  </div>
+  template: `
+    <div
+      appTrackClick
+      [dataToTrack]="{ eventLabel: 'ux_share_transaction_details' }"
+      *ngIf="this.canShare"
+      [ngClass]="this.lightBackground ? 'td-light' : 'td'"
+      (click)="this.shareTransactionDetail()"
+    >
+      <img *ngIf="!this.lightBackground" src="/assets/img/shared/share-button/share.svg" />
+      <img *ngIf="this.lightBackground" src="/assets/img/shared/share-button/share-blue.svg" />
+    </div>
   `,
   styleUrls: ['./share-transaction-detail.component.scss'],
 })
 export class ShareTransactionDetailComponent implements OnInit {
   @Input() lightBackground = false;
-  @Input() txAmount : number;
-  @Input() txAsset : string;
-  @Input() txLink : string;
-  formattedMessage : string;
+  @Input() txAmount: number;
+  @Input() txAsset: string;
+  @Input() txLink: string;
+  formattedMessage: string;
   canShare: boolean;
 
   constructor(
@@ -39,8 +40,8 @@ export class ShareTransactionDetailComponent implements OnInit {
     this.getShareMessage();
     await this.setCanShare();
   }
-  
-  getShareMessage(){
+
+  getShareMessage() {
     const formattedAmount = new FormattedAmountPipe().transform(this.txAmount);
     const primaryText = this.translate.instant('wallets.shared_wallets.share_transaction_detail.text');
     const secondaryText = this.translate.instant('wallets.shared_wallets.share_transaction_detail.text2');
@@ -75,5 +76,4 @@ export class ShareTransactionDetailComponent implements OnInit {
       message: this.translate.instant('wallets.shared_wallets.share_transaction_detail.share_error'),
     });
   }
-
 }

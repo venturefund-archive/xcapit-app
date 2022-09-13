@@ -108,7 +108,7 @@ describe('SwapHomePage', () => {
   };
 
   const _setWalletToInvalidPassword = () => {
-    walletsFactorySpy.createFromStorage.and.returnValue({
+    walletsFactorySpy.create.and.returnValue({
       oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), new PasswordErrorMsgs().invalid())),
     });
   };
@@ -151,7 +151,7 @@ describe('SwapHomePage', () => {
     });
 
     walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
-      createFromStorage: { oneBy: () => Promise.resolve(new FakeWallet()) },
+      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
     });
 
     swapTransactionsFactorySpy = jasmine.createSpyObj('SwapTransactionsFactory', {
@@ -381,7 +381,7 @@ describe('SwapHomePage', () => {
 
   it('should send error notification when swap is not ok', fakeAsync(() => {
     fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
-    walletsFactorySpy.createFromStorage.and.returnValue({
+    walletsFactorySpy.create.and.returnValue({
       oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'a random error')),
     });
     _setTokenAmountArrange(1);
@@ -453,7 +453,7 @@ describe('SwapHomePage', () => {
     _setTokenAmountArrange(11);
     const div = fixture.debugElement.query(By.css('div.sw__swap-card__from__detail__insufficient'));
     fixture.detectChanges();
-    
+
     expect(div).toBeTruthy();
     expect(component.disabledBtn).toBeTruthy();
     expect(component.insufficientBalance).toBeTruthy();

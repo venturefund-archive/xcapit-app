@@ -1,18 +1,15 @@
-import { Injectable } from "@angular/core";
-import { StorageService } from "src/app/shared/services/app-storage/app-storage.service";
-import { NewWalletRepo, WalletRepo } from "../../wallet-repo/wallet-repo";
-import { Wallets } from "../wallets";
+import { Injectable } from '@angular/core';
+import { AppStorageService, StorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { WalletRepo } from '../../wallet-repo/wallet-repo';
+import { Wallets } from '../wallets';
 
 
 @Injectable({ providedIn: 'root' })
 export class WalletsFactory {
-  constructor() {}
 
-  createFromStorage(aStorage: StorageService): Wallets {
+  constructor(private appStorageService: AppStorageService) {}
+
+  create(aStorage: StorageService = this.appStorageService): Wallets {
     return new Wallets(new WalletRepo(aStorage));
-  }
-
-  createFromPhrase(_aPassword: string, _aPhrase: string) {
-    return new Wallets(new NewWalletRepo(_aPhrase, _aPassword))
   }
 }

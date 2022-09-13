@@ -42,7 +42,8 @@ export class StorageService {
   }
 
   async saveWalletToStorage(wallet: any) {
-    return await this.appStorageService.set('enc_wallet', wallet);
+    const walletData = await this.getWalletFromStorage() || {};
+    return await this.appStorageService.set('enc_wallet', { ...walletData, ...wallet });
   }
 
   async removeWalletFromStorage() {
