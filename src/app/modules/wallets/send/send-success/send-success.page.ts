@@ -16,7 +16,7 @@ export class SendSuccessPage {
 
   constructor(private trackService: TrackService) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
