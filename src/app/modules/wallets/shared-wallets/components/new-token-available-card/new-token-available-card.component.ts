@@ -31,13 +31,11 @@ import { NewTokenInfoModalComponent } from '../new-token-info-modal/new-token-in
 </div>`,
   styleUrls: ['./new-token-available-card.component.scss'],
 })
-export class NewTokenAvailableCardComponent implements OnInit {
+export class NewTokenAvailableCardComponent {
   @Input() newToken: NewToken;
   networkColors = NETWORK_COLORS;
   constructor(private modalController: ModalController,
     private translate: TranslateService,) { }
-
-  ngOnInit() {}
 
   async openNewTokenInfoModal() {
     const modal = await this.modalController.create({
@@ -51,7 +49,5 @@ export class NewTokenAvailableCardComponent implements OnInit {
       },
     });
     await modal.present();
-
   }
-
 }

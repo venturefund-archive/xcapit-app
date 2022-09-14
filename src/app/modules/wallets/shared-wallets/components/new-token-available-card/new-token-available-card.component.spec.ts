@@ -26,7 +26,6 @@ describe('NewTokenAvailableCardComponent', () => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
 
-
     TestBed.configureTestingModule({
       declarations: [ NewTokenAvailableCardComponent, FakeTrackClickDirective ],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],

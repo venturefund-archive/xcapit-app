@@ -1,5 +1,5 @@
-export interface NewToken {
-    name: string;
-    network: string;
-    icon: string;
-  }
+export type NewToken = {
+  name: string;
+  network: string;
+  icon: string;
+};

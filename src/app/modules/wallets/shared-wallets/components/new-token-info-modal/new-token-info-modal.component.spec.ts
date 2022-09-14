@@ -16,9 +16,9 @@ describe('NewTokenInfoModalComponent', () => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
     TestBed.configureTestingModule({
-      declarations: [ NewTokenInfoModalComponent ],
+      declarations: [NewTokenInfoModalComponent],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      providers:[{ provide: ModalController, useValue: modalControllerSpy },]
+      providers: [{ provide: ModalController, useValue: modalControllerSpy }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NewTokenInfoModalComponent);
@@ -35,13 +35,11 @@ describe('NewTokenInfoModalComponent', () => {
 
   it('should render properly', async () => {
     fixture.detectChanges();
-
-    const closeButtonEl =  fixture.debugElement.query(By.css('.ntim__close_button ion-button'));
+    const closeButtonEl = fixture.debugElement.query(By.css('.ntim__close_button ion-button'));
     const imgEl = fixture.debugElement.query(By.css('.ntim__img-container__img img'));
     const titleEl = fixture.debugElement.query(By.css('.ntim__title ion-text'));
     const subtitletEl = fixture.debugElement.query(By.css('.ntim__subtitle ion-text'));
-    
-    
+
     expect(closeButtonEl).toBeTruthy();
     expect(imgEl.nativeElement.src).toContain('/assets/test_image.svg');
     expect(titleEl.nativeElement.innerHTML).toContain('test_title');
@@ -52,5 +50,4 @@ describe('NewTokenInfoModalComponent', () => {
     fixture.debugElement.query(By.css('.ntim__close_button ion-button')).nativeElement.click();
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
-
 });

@@ -406,10 +406,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   private getNewTokensAvailable(): void {
-    this.newTokens = this.createNewTokenAvailable().value();
+    this.newTokens = new NewTokensAvailable(this.remoteConfig).value();
   }
 
-  createNewTokenAvailable(): NewTokensAvailable {
-    return new NewTokensAvailable(this.remoteConfig);
-  }
 }

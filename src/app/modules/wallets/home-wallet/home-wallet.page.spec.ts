@@ -388,6 +388,4 @@ describe('HomeWalletPage', () => {
     expect(component.totalInvested).toEqual(12.77640743514045);
     expect(totalInvestedEl.nativeElement.innerHTML).toContain('12.78 USD');
   });
-
-
 });
