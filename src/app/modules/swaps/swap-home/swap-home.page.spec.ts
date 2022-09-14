@@ -216,7 +216,7 @@ describe('SwapHomePage', () => {
 
   it('should call appTrackEvent on trackService when swap button is clicked', () => {
     spyOn(component, 'swapThem');
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_swaps_swap');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_swap_confirm');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
 
@@ -229,7 +229,7 @@ describe('SwapHomePage', () => {
   it('should button disabled on invalid value in from token amount input', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_swaps_swap"]'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_swap_confirm"]'));
 
     expect(component.form.valid).toBeFalse();
     expect(buttonEl.attributes['ng-reflect-disabled']).toEqual('true');
@@ -257,6 +257,7 @@ describe('SwapHomePage', () => {
 
   it('should show warning toast and disable amount input if fromToken and toToken equals each other', async () => {
     fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
       fromToken: rawUSDCData.contract,
       toToken: rawUSDCData.contract,
     });
@@ -270,6 +271,7 @@ describe('SwapHomePage', () => {
 
   it('should show and render available amount properly', async () => {
     fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
       fromToken: rawUSDCData.contract,
       toToken: rawMATICData.contract,
     });
@@ -381,12 +383,11 @@ describe('SwapHomePage', () => {
   }));
 
   it('should change selected network on event emited', async () => {
-    const blockchainName = 'ERC20'
+    const blockchainName = 'ERC20';
     await component.ionViewDidEnter();
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('app-network-select-card'))
-      .triggerEventHandler('networkChanged', blockchainName);
+    fixture.debugElement.query(By.css('app-network-select-card')).triggerEventHandler('networkChanged', blockchainName);
 
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
       new DefaultSwapsUrls().homeByBlockchain(blockchainName),
@@ -394,12 +395,14 @@ describe('SwapHomePage', () => {
     );
   });
 
-  it('should set max amount from swap', async()=>{
+  it('should set max amount from swap', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    
-    fixture.debugElement.query(By.css('ion-button.sw__swap-card__from__detail__amount__wrapper__max')).nativeElement.click();
-    
+
+    fixture.debugElement
+      .query(By.css('ion-button.sw__swap-card__from__detail__amount__wrapper__max'))
+      .nativeElement.click();
+
     expect(component.form.controls.fromTokenAmount.value).toEqual(10);
-  })
+  });
 });
