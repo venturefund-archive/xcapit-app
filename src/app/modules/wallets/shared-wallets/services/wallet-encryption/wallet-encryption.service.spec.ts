@@ -51,7 +51,7 @@ describe('WalletEncryptionService', () => {
       RIF: true,
     },
   };
-  
+
   const modifiedPasswordWallet = {
     alias: '0xa8d720DBC2bea006e8450a6c0456e169d2fD7954',
     wallet:
@@ -73,21 +73,15 @@ describe('WalletEncryptionService', () => {
       RIF: true,
     },
   };
-  
+
   const walletSaved = {
     alias: jasmine.any(String),
-    wallet: jasmine.any(String),
     createdAt: jasmine.any(String),
     updatedAt: jasmine.any(String),
-    addresses: {
-      ERC20: jasmine.any(String),
-      SOLANA: jasmine.any(String),
-      MATIC: jasmine.any(String),
-    },
     network: 'testnet',
     assets: jasmine.any(Object),
   };
-  
+
   const testCoins: Coin[] = [
     {
       id: 1,
@@ -120,13 +114,13 @@ describe('WalletEncryptionService', () => {
       rpc: environment.rskApiUrl,
     },
   ];
-  
+
   const testCoinsStructure = {
     ETH: true,
     USDT: true,
     RBTC: true,
   };
-  
+
   const testMnemonic = {
     phrase: 'test mnemonic',
     path: "m/44'/60'/0'/0/0",
@@ -138,7 +132,10 @@ describe('WalletEncryptionService', () => {
       create: new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)),
     });
     walletFactorySpy = jasmine.createSpyObj('WalletsFactory', {
-      createFromPhrase: jasmine.createSpyObj('Wallets', { oneBy: Promise.resolve({ address: () => 'testAddress', encryptedWallet: ()=>'encWallet'}) }, {}),
+      create: jasmine.createSpyObj(
+        'Wallets',
+        { oneBy: Promise.resolve({ address: () => 'testAddress' }), createFrom: Promise.resolve() }
+      ),
     });
     WalletMnemonicServiceSpy = jasmine.createSpyObj(
       'WalletMnemonicService',
@@ -189,8 +186,8 @@ describe('WalletEncryptionService', () => {
   });
 
   it('should encrypt ETH wallet from array and save all network adresses', async () => {
-    const res = await service.encryptWallet('testPassword');
-    expect(res).toEqual(true);
+    await service.encryptWallet('testPassword');
+
     expect(storageSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(walletSaved);
   });
 

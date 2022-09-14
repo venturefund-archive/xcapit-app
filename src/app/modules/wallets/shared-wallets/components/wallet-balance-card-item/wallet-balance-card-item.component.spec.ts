@@ -5,11 +5,11 @@ import { WalletBalanceCardItemComponent } from './wallet-balance-card-item.compo
 import { By } from '@angular/platform-browser';
 import { FormattedNetworkPipe } from '../../../../../shared/pipes/formatted-network-name/formatted-network.pipe';
 import { TokenDetail } from '../../models/token-detail/token-detail';
-import { Coin } from '../../interfaces/coin.interface';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 import { of } from 'rxjs';
+import { rawMATICData } from '../../../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 describe('WalletBalanceCardItemComponent', () => {
   let component: WalletBalanceCardItemComponent;
@@ -17,7 +17,6 @@ describe('WalletBalanceCardItemComponent', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
-  let coinSpy: jasmine.SpyObj<Coin>;
   let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
 
   beforeEach(waitForAsync(() => {
@@ -30,11 +29,6 @@ describe('WalletBalanceCardItemComponent', () => {
     );
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
-    coinSpy = jasmine.createSpyObj(
-      'Coin',
-      {},
-      { value: 'MATIC', logoRoute: 'assets/img/coins/MATIC.svg', network: 'MATIC' }
-    );
     tokenDetailSpy = jasmine.createSpyObj(
       'TokenDetail',
       {},
@@ -42,7 +36,7 @@ describe('WalletBalanceCardItemComponent', () => {
         price: 20,
         balance: 1,
         quoteSymbol: 'USD',
-        coin: coinSpy,
+        token: rawMATICData,
       }
     );
     TestBed.configureTestingModule({

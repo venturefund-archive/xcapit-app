@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Coin } from '../../../interfaces/coin.interface';
 import { HttpClient } from '@angular/common/http';
 import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
 import { environment } from '../../../../../../../environments/environment';
 import { TokenPrices } from './token-prices';
+import { Tokens } from 'src/app/modules/swaps/shared-swaps/models/tokens/tokens';
 
 @Injectable({ providedIn: 'root' })
 export class TokenPricesController {
-  public new(_coins: Coin[], _http: HttpClient | FakeHttpClient, _baseUrl = environment.apiUrl): TokenPrices {
-    return new TokenPrices(_coins, _http, _baseUrl);
+  public new(_tokens: Tokens, _http: HttpClient | FakeHttpClient, _baseUrl = environment.apiUrl): TokenPrices {
+    return new TokenPrices(_tokens, _http, _baseUrl);
   }
 }

@@ -1,17 +1,20 @@
-import { Coin } from '../../../interfaces/coin.interface';
 import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
 import { TokenPrices } from './token-prices';
+import { BlockchainTokens } from 'src/app/modules/swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
+import { DefaultTokens, Tokens } from 'src/app/modules/swaps/shared-swaps/models/tokens/tokens';
+import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
+import { rawPolygonData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { TokenRepo } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+import { rawMATICData, rawTokensData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 describe('TokenPrices', () => {
-  let usdcSpy: jasmine.SpyObj<Coin>;
-  let maticSpy: jasmine.SpyObj<Coin>;
+  let tokens: Tokens;
   let tokenPrices: TokenPrices;
 
   beforeEach(() => {
-    usdcSpy = jasmine.createSpyObj('USDC', {}, { value: 'USDC' });
-    maticSpy = jasmine.createSpyObj('MATIC', {}, { value: 'MATIC' });
+    tokens = new BlockchainTokens(new Blockchain(rawPolygonData), new DefaultTokens(new TokenRepo(rawTokensData)));
     tokenPrices = new TokenPrices(
-      [usdcSpy, maticSpy],
+      tokens,
       new FakeHttpClient({}, { prices: { USDC: 1, MATIC: 2 } }),
       'https://test.com/'
     );
@@ -22,7 +25,7 @@ describe('TokenPrices', () => {
   });
 
   it('should create with default url', () => {
-    expect(new TokenPrices([usdcSpy, maticSpy], new FakeHttpClient({}, {}))).toBeTruthy();
+    expect(new TokenPrices(tokens, new FakeHttpClient({}, {}))).toBeTruthy();
   });
 
   it('should get value', async () => {
@@ -35,6 +38,6 @@ describe('TokenPrices', () => {
   });
 
   it('should get value of a coin', async () => {
-    expect(await tokenPrices.valueOf(maticSpy)).toEqual(2);
+    expect(await tokenPrices.valueOf(rawMATICData)).toEqual(2);
   });
 });

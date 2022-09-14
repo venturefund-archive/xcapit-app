@@ -1,8 +1,6 @@
-import { FakeEthersWallet } from "./fake-ethers-wallet";
-
+import { FakeEthersWallet } from './fake-ethers-wallet';
 
 describe('Fake Ethers Wallet', () => {
-
   let fakeWallet: FakeEthersWallet;
 
   beforeEach(() => {
@@ -23,5 +21,9 @@ describe('Fake Ethers Wallet', () => {
 
   it('connect', () => {
     expect(fakeWallet.connect()).toBeTruthy();
+  });
+
+  it('encrypt', async () => {
+    expect(await fakeWallet.encrypt()).toEqual('');
   });
 });

@@ -1,3 +1,5 @@
+import { environment } from '../../../../../../environments/environment';
+
 export const rawETHData = {
   id: 1,
   name: 'ETH - Ethereum',
@@ -8,7 +10,7 @@ export const rawETHData = {
   chainId: 1,
   rpc: '',
   moonpayCode: 'keth',
-  contract: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   decimals: 18,
   native: true,
   symbol: 'ETHUSDT',
@@ -61,4 +63,36 @@ export const rawMATICData = {
   contract: '0x0000000000000000000000000000000000001010',
 };
 
-export const rawTokensData = [rawETHData, rawMATICData, rawUSDCData, rawUSDTData];
+export const rawSOLData = {
+  id: 29,
+  name: 'SOL - Solana',
+  logoRoute: 'assets/img/coins/SOL.svg',
+  last: false,
+  value: 'SOL',
+  network: 'SOLANA',
+  contract: '11111111111111111111111111111111',
+  chainId: 1399811149,
+  rpc: '',
+  decimals: 8,
+  native: true,
+  abi: '',
+  symbol: 'SOL',
+};
+
+export const rawSAMOData = {
+  id: 30,
+  name: 'SAMO - Samoyed Coin',
+  logoRoute: 'assets/img/coins/SOL.svg',
+  last: true,
+  value: 'SAMO',
+  network: 'SOLANA',
+  contract: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
+  chainId: 1399811149,
+  rpc: environment.solanaApiUrl,
+  decimals: 9,
+  native: false,
+  abi: '',
+  symbol: 'SAMO',
+};
+
+export const rawTokensData = [rawETHData, rawMATICData, rawUSDCData, rawUSDTData, rawSOLData, rawSAMOData];
