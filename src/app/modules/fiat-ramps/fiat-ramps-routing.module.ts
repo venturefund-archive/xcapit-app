@@ -93,6 +93,10 @@ const routes: Routes = [
             loadChildren: () =>
               import('./error-d24-operation/error-d24-operation.module').then((m) => m.ErrorD24OperationPageModule),
           },
+          {
+            path: 'success-operation',
+            loadChildren: () => import('./success-d24-operation/success-d24-operation.module').then( m => m.SuccessD24OperationPageModule)
+          },
         ],
       },
     ],

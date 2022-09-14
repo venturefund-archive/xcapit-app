@@ -2114,6 +2114,11 @@
       "button_primary":"Retry",
       "button_secondary":"Go to wallet"
     },
+    "success_d24_operation":{
+      "text_primary":"Purchase confirmed!",
+      "text_secondary":"The crediting of your tokens can take up to 24 hours.",
+      "button_text":"Go to wallet"
+    },
     "operations_list": {
       "title": "My operations",
       "operation": "Buy",
