@@ -3,7 +3,6 @@ import { BalanceCacheService } from '../../services/balance-cache/balance-cache.
 import { Balances } from '../balances/balances.interface';
 import { Token } from '../../../../swaps/shared-swaps/models/token/token';
 import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token-repo';
-import { Coin } from '../../interfaces/coin.interface';
 
 export class TokenDetail {
   price = 0;
