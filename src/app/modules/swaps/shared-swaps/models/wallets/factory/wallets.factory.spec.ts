@@ -9,7 +9,7 @@ describe('Wallets Factory', () => {
     expect(new WalletsFactory(null)).toBeTruthy();
   });
 
-  it('createFromStorage', () => {
+  it('create', () => {
     expect(new WalletsFactory(null).create(new FakeAppStorage(rawStoredWalletData))).toBeTruthy();
   });
 });
