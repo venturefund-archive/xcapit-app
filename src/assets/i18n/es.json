@@ -142,10 +142,10 @@
     }
   },
   "users": {
-    "login_password_info":{
-      "title":"¿Cuál es la contraseña que debes ingresar?",
-      "subtitle":"La que utilizas para aprobar tus transacciones. Es la misma que generaste al crear o importar tu wallet.",
-      "button":"Entendido"
+    "login_password_info": {
+      "title": "¿Cuál es la contraseña que debes ingresar?",
+      "subtitle": "La que utilizas para aprobar tus transacciones. Es la misma que generaste al crear o importar tu wallet.",
+      "button": "Entendido"
     },
     "email_validation": {
       "error_title": "No pudimos verificar el Email!",
@@ -230,41 +230,41 @@
       "repeat_new_password": "Confirmar nueva contraseña"
     },
     "account_recovery": {
-      "header":"Recuperar cuenta",
+      "header": "Recuperar cuenta",
       "alert": "Sin tu frase de recuperación, no podemos ayudarte a recuperar tu wallet.",
       "link": {
         "label": "Xcapit en ningún momento puede (ni podrá) acceder y/o administrar la información de tu wallet. ",
         "privacy_policy": "Politica de privacidad."
       },
-      "title":"¿Qué puedo hacer ahora?",
+      "title": "¿Qué puedo hacer ahora?",
       "item_1": {
-        "title":"Crear nueva wallet",
+        "title": "Crear nueva wallet",
         "description": "Recuerda realizar una copia de seguridad para no perder acceso a tu dinero."
       },
       "item_2": {
-        "title":"Importar una wallet",
+        "title": "Importar una wallet",
         "description": "Accede a beneficios exclusivos que sólo nuestros productos de inversión ofrecen."
       },
       "help_link": "Ayuda"
     },
-    "on_boarding":{
-      "title_1":"Te estábamos esperando",
-      "title_2":"Invertir nunca fue tan fácil",
-      "title_3":"¡Aprende jugando!",
-      "description_1":"Con la Wallet de Xcapit, tú tienes el control. En todo momento sabrás donde está tu dinero y cuántas ganancias obtienes.",
-      "description_2":"¡Invierte en DeFi! Transacciones rápidas, libres y sin intermediarios.",
-      "description_3":"La educación financiera que querías. Recibirás incentivos por tu aprendizaje y avance.",
+    "on_boarding": {
+      "title_1": "Te estábamos esperando",
+      "title_2": "Invertir nunca fue tan fácil",
+      "title_3": "¡Aprende jugando!",
+      "description_1": "Con la Wallet de Xcapit, tú tienes el control. En todo momento sabrás donde está tu dinero y cuántas ganancias obtienes.",
+      "description_2": "¡Invierte en DeFi! Transacciones rápidas, libres y sin intermediarios.",
+      "description_3": "La educación financiera que querías. Recibirás incentivos por tu aprendizaje y avance.",
       "primary_action": "Crear wallet",
       "secondary_action": "Importar wallet"
     },
     "account_recovery_info": {
-      "header":"Recuperar cuenta",
+      "header": "Recuperar cuenta",
       "title": "Reestablece el acceso de tu wallet usando tu frase de recuperación",
       "item_1": "Tendrás que importar tu wallet con tu frase de recuperación, y crear una nueva contraseña.",
       "item_2": "Deberás aceptar nuevamente los términos y condiciones y política de privacidad.",
       "item_3": "Conservarás tu avance en el módulo de educación financiera, objetivo en el planificador, y tu perfil de inversor.",
-      "button_primary":"Recuperar wallet",
-      "button_secondary":"No tengo mi frase de recuperación"
+      "button_primary": "Recuperar wallet",
+      "button_secondary": "No tengo mi frase de recuperación"
     }
   },
   "tickets": {
@@ -561,6 +561,7 @@
       "support_help": "Hablar con soporte",
       "category_security_account": "Seguridad cuenta Xcapit",
       "change_pass": "Cambiar contraseña",
+      "biometric_auth": "Datos biométricos",
       "category_security_wallet": "Seguridad wallet Xcapit",
       "remove_wallet": "Eliminar Wallet",
       "export_private_key": "Clave privada",
@@ -569,6 +570,7 @@
       "push_notifications": "Notificaciones push",
       "language": "Idioma",
       "logout": "Cerrar Sesión",
+      "new_badge": "Nuevo",
       "category_walletconnect": "WalletConnect",
       "delete_account_button": "Eliminar cuenta",
       "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma",
@@ -595,36 +597,6 @@
       "text_secondary": "Tu opinión nos ayuda a seguir mejorando día a día tu experiencia.",
       "name_primary_action": "Ir a mi wallet"
     },
-    "personal_data": {
-      "header": "Configurar cuenta",
-      "personal_data_title": "Datos personales",
-      "nro_dni": "Documento de identidad",
-      "first_name": "Nombre",
-      "first_name_placeholder": "Mi nombre",
-      "last_name": "Apellido",
-      "last_name_placeholder": "Mi apellido",
-      "cellphone": "Teléfono",
-      "address": "Domicilio",
-      "submit_button": "Siguiente",
-      "address_placeholder": "Ej: Río Negro 350, Cordoba, Argentina",
-      "nro_dni_placeholder": "Ej: 35485865",
-      "cuit_placeholder": "Ej: 23000000009",
-      "cellphone_placeholder": "Ej: 3512556525"
-    },
-    "fiscal_data": {
-      "header": "Configurar cuenta",
-      "fiscal_data_title": "Información fiscal",
-      "not_sure_text": "Si no estas seguro podrás cambiar mas tarde este dato desde tu perfil.",
-      "cuit": "CUIL/CUIT",
-      "country": "País",
-      "country_modal_ok_text": "Ok",
-      "country_modal_cancel_text": "Cancelar",
-      "iva_condition": "Condicion frente al IVA",
-      "tipo_factura": "Tipo de factura",
-      "submit_button": "Finalizar configuración",
-      "country_placeholder": "Elije un país",
-      "cuit_placeholder": "Ej: 23000000009"
-    },
     "personalised_profile_test": {
       "question_1": "1. ¿Qué deseas hacer dentro de Xcapit? Elige todas las opciones que consideres",
       "question_2": "2. ¿Cuál es tu nivel de experiencia con criptos?",
@@ -650,6 +622,15 @@
         "button_back": "Atrás",
         "button_out": "Salir"
       }
+    },
+    "biometric_auth": {
+      "header": "Datos biométricos",
+      "toggle_text": "Datos biométricos",
+      "toggle_description": "Actívalos para ingresar rápidamente.",
+      "password_title": "Tu seguridad nos importa",
+      "password_description": "Para activar tus datos biométricos, ingresa la contraseña de tu wallet Xcapit.",
+      "password_button": "Confirmar",
+      "password_error": "La contraseña ingresada no es correcta."
     },
     "shared": {
       "remove_account_modal": {
@@ -1195,6 +1176,7 @@
         "dialogTitle": "Compartir",
         "share_error": "El texto se copió en el portapapeles"
       },
+     
       "rule_card": {
         "rule_1": {
           "title": "¿Cómo obtengo mi NFT?",
@@ -1764,7 +1746,7 @@
       "header": "Historico transacciones",
       "OUT": "Envío",
       "IN": "Recepción",
-      "BUY":"Compra",
+      "BUY": "Compra",
       "swap": "Swap",
       "confirmed": "Confirmado",
       "declined": "Rechazado"
@@ -1841,6 +1823,12 @@
       }
     },
     "shared_wallets": {
+      "share_transaction_detail":{
+        "text": "Hola! Te envié ",
+        "text2": "Para mas información: ",
+        "dialogTitle": "Compartir",
+        "share_error": "El texto se copió en el portapapeles"
+      },
       "start_investing_card": {
         "title": "Invierte tus cripto ahora y obtén ganancias diarias",
         "text": "Comenzar a invertir"
@@ -2074,17 +2062,17 @@
       "error_toast": "La contraseña que ingresaste es incorrecta"
     },
     "transaction_details": {
-      "header":"Detalles de la operación",
-      "title_status":"Estado",
-      "declined":"Rechazado",
-      "confirmed":"Confirmado",
-      "link":"Ver en explorer",
-      "title_wallet":"Wallet de destino",
-      "title_fee":"Tarifa de transacción",
-      "title_date":"Fecha",
+      "header": "Detalles de la operación",
+      "title_status": "Estado",
+      "declined": "Rechazado",
+      "confirmed": "Confirmado",
+      "link": "Ver en explorer",
+      "title_wallet": "Wallet de destino",
+      "title_fee": "Tarifa de transacción",
+      "title_date": "Fecha",
       "OUT": "Enviado",
       "IN": "Recibido",
-      "modal_info_state":{
+      "modal_info_state": {
         "title": "¿Qué significa este estado?",
         "description": "Tu transacción fue rechazada por la red. Obtén más detalle accediendo al scan.",
         "button_text": "Entendido"
@@ -2106,6 +2094,17 @@
       "condition_3": "El proveedor puede solicitarte información de verificación o KYC. Xcapit no pide (ni pedirá) datos personales ni de validación.",
       "label_check": "Estoy de acuerdo con los términos y condiciones de compra.",
       "button": "Continuar"
+    },
+    "error_d24_operation":{
+      "text_primary":"Se produjo un error en tu compra",
+      "text_secondary":"Inténtalo nuevamente o comunícate con soporte si el problema persiste.",
+      "button_primary":"Reintentar",
+      "button_secondary":"Ir a wallet"
+    },
+    "success_d24_operation":{
+      "text_primary":"¡Compra confirmada!",
+      "text_secondary":"La acreditación de tus tokens puede tardar hasta 24hs.",
+      "button_text":"Ir a wallet"
     },
     "operations_list": {
       "title": "Mis operaciones",
@@ -2348,9 +2347,9 @@
       "brasil": "Brasil"
     },
     "shared": {
-      "coin_selector_modal":{
-        "title":"¡Atención!",
-        "description":"Deberás seleccionar nuevamente el proveedor para el token que desees comprar.",
+      "coin_selector_modal": {
+        "title": "¡Atención!",
+        "description": "Deberás seleccionar nuevamente el proveedor para el token que desees comprar.",
         "button": "Entendido"
       },
       "constants": {
@@ -2370,7 +2369,7 @@
         "quantity": "Cantidad",
         "provider": "Proveedor",
         "to_pay": "Pagarás*",
-        "input_error":"El monto mínimo de compra es de ${{amount}} {{fiatCurrency}}",
+        "input_error": "El monto mínimo de compra es de ${{amount}} {{fiatCurrency}}",
         "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día."
       },
       "kyc_disclaimer_modal": {
@@ -2691,7 +2690,7 @@
       "loading_button_text": "Intercambiando",
       "from_token_title": "Desde",
       "to_token_title": "Hacia",
-      "available":"Disponible ",
+      "available": "Disponible ",
       "fee_title": "Detalles de Transacción",
       "footer_text": "Solo tomará unos segundos.",
       "tos_1": "Leí y estoy de acuerdo con los ",

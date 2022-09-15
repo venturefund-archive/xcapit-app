@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Wallet } from 'ethers';
 import moment from 'moment';
-import { environment } from 'variables.env';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { EthersService } from '../ethers/ethers.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { WalletEncryptionService } from '../wallet-encryption/wallet-encryption.service';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
-import { WalletService } from '../wallet/wallet.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,10 +30,11 @@ export class WalletMaintenanceService {
   constructor(
     private walletMnemonicService: WalletMnemonicService,
     private apiWalletService: ApiWalletService,
-    private walletService: WalletService,
     private walletEncryptionService: WalletEncryptionService,
     private storageService: StorageService,
-    private ethersService: EthersService
+    private ethersService: EthersService,
+    private walletsFactory: WalletsFactory,
+    private blockchainsFactory: BlockchainsFactory
   ) {}
 
   async getEncryptedWalletFromStorage(): Promise<void> {
@@ -54,24 +56,36 @@ export class WalletMaintenanceService {
 
   async updateWalletNetworks(changedAssets: string[]): Promise<void> {
     this.walletMnemonicService.getMnemonic(this.wallet);
+    const promises = [];
 
     this.newNetworks.forEach((network) => {
-      const wallet: any = this.walletService.createForDerivedPath(
-        environment.derivedPaths[network]
-      );
-      
-      this.encryptedWallet.addresses[network] = wallet.address ? wallet.address : wallet.publicKey;
-
-      this.apiWalletService.getCoinsFromNetwork(network).forEach((coin) => {
-        this.encryptedWallet.assets[coin.value] = false;
-      });
+      promises.push(this.createWalletsFromNetwork(network));
     });
+
+    await Promise.all(promises)
 
     changedAssets.forEach((coin) => {
       this.encryptedWallet.assets[coin] = !this.encryptedWallet.assets[coin];
     });
 
     this.encryptedWallet.updatedAt = moment().utc().format();
+  }
+
+  private async createWalletsFromNetwork(network: string) {
+    const wallets = this.walletsFactory.create();
+    const blockchains = this.blockchainsFactory.create();
+
+    await wallets.createFrom(
+      this.walletMnemonicService.mnemonic.phrase,
+      new Password(this.password),
+      blockchains
+    );
+
+    this.encryptedWallet.addresses[network] = (await wallets.oneBy(blockchains.oneByName(network))).address();
+
+    this.apiWalletService.getCoinsFromNetwork(network).forEach((coin) => {
+      this.encryptedWallet.assets[coin.value] = false;
+    });
   }
 
   toggleAssets(changedAssets: string[]) {
@@ -97,7 +111,7 @@ export class WalletMaintenanceService {
     const coins = this.apiWalletService.getCoins();
     return coins.filter((coin) => !!this.encryptedWallet.assets[coin.value]);
   }
-  
+
   userHasCoin(coin: Coin): boolean {
     return this.encryptedWallet.assets[coin.value];
   }

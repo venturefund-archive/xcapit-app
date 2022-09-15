@@ -27,6 +27,11 @@ import { DefiProduct } from '../../defi-investments/shared-defi-investments/inte
 import { TwoPiProduct } from '../../defi-investments/shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
 import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
+import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
 
 @Component({
   selector: 'app-home-wallet',
@@ -226,7 +231,9 @@ export class HomeWalletPage implements OnInit {
     private remoteConfig: RemoteConfigService,
     private graphql: GraphqlService,
     private twoPiProductFactory: TwoPiProductFactory,
-    private twoPiApi: TwoPiApi
+    private twoPiApi: TwoPiApi,
+    private blockchainsFactory: BlockchainsFactory,
+    private walletsFactory: WalletsFactory
   ) {}
 
   ngOnInit() {}
@@ -238,7 +245,7 @@ export class HomeWalletPage implements OnInit {
       description: window.location.href,
       eventLabel: 'ux_screenview_wallet',
     });
-    this, this.getUserWalletAddress();
+    this.getUserWalletAddress();
     this.isProtectedWallet();
   }
 
@@ -314,24 +321,27 @@ export class HomeWalletPage implements OnInit {
   }
 
   private async setTokenDetails() {
-    const result = [];
-    for (const network of this.apiWalletService.getNetworks()) {
-      const tokens = this.userTokens.filter((token) => token.network === network);
-      const address = await this.storageService.getWalletsAddresses(network);
+    const tokenDetails = [];
 
-      if (tokens.length) {
-        const balances = this.covalentBalances.new(address, tokens, this.http);
+    for (const blockchain of this.blockchainsFactory.create().value()) {
+      const tokens: any = new BlockchainTokens(blockchain, new DefaultTokens(new TokenRepo(this.userTokens)));
+      if ((await tokens.value()).length) {
+        const balances = this.covalentBalances.new(
+          (await this.walletsFactory.create().oneBy(blockchain)).address(),
+          tokens,
+          this.http
+        );
         const prices = this.tokenPrices.new(tokens, this.http);
-        for (const token of tokens) {
+        for (const token of await tokens.value()) {
           const tokenDetail = this.tokenDetail.new(balances, prices, token, this.balanceCacheService);
-          result.push(tokenDetail);
+          tokenDetails.push(tokenDetail);
           await tokenDetail.cached();
         }
         this.totalBalanceModel = this.totalBalance.new(prices, balances, this.totalBalanceModel);
       }
     }
-    this.sortTokens(result);
-    this.tokenDetails = result;
+    this.sortTokens(tokenDetails);
+    this.tokenDetails = tokenDetails;
     this.spinnerActivated = false;
   }
 

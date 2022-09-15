@@ -1,5 +1,4 @@
-import { RawBlockchain } from "../blockchain-repo/blockchain-repo";
-
+import { RawBlockchain } from '../blockchain-repo/blockchain-repo';
 
 export const rawEthereumData: RawBlockchain = {
   name: 'ERC20',
@@ -11,7 +10,7 @@ export const rawEthereumData: RawBlockchain = {
     decimals: 18,
     chainId: 1,
     contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  }
+  },
 };
 
 export const rawPolygonData: RawBlockchain = {
@@ -25,7 +24,20 @@ export const rawPolygonData: RawBlockchain = {
     decimals: 18,
     chainId: 137,
     contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  }
+  },
 };
 
-export const rawBlockchainsData: RawBlockchain[] = [rawEthereumData, rawPolygonData];
+export const rawSolanaData: RawBlockchain = {
+  name: 'SOLANA',
+  derivedPath: "m/44'/501'/0'/0/0",
+  id: '1399811149',
+  rpc: '',
+  nativeToken: {
+    value: 'SOL',
+    decimals: 9,
+    chainId: 1399811149,
+    contract: '11111111111111111111111111111111',
+  },
+};
+
+export const rawBlockchainsData: RawBlockchain[] = [rawEthereumData, rawPolygonData, rawSolanaData];

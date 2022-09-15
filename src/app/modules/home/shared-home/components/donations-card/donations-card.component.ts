@@ -6,7 +6,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 @Component({
   selector: 'app-donations-card',
   template:`
-  <div class="dc" name="ux_donations_go" (click)="this.goToDonations()">
+  <div class="dc" (click)="this.goToDonations()" name="ux_go_to_donations" appTrackClick>
     <div class="dc__content">
       <div class="dc__content__body">
         <ion-text class="ux-font-text-lg dc__content__body__title">

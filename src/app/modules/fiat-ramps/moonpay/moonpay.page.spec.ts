@@ -22,19 +22,12 @@ import { ProvidersFactory } from '../shared-ramps/models/providers/factory/provi
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
-
-const testWallet = {
-  assets: {
-    ETH: true,
-    LINK: false,
-    UNI: true,
-    MATIC: true,
-  },
-  addresses: {
-    ERC20: 'testERC20Address',
-    MATIC: 'testMaticAddress',
-  },
-};
+import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 
 describe('MoonpayPage', () => {
   let component: MoonpayPage;
@@ -52,81 +45,121 @@ describe('MoonpayPage', () => {
   let providersSpy: jasmine.SpyObj<Providers>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'COL' });
-      browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
-      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
-        getMoonpayLink: of({ url: 'http://testURL.com' }),
-      });
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getCoins: TEST_COINS,
-      });
-      walletMaintenanceServiceSpy = jasmine.createSpyObj(
-        'WalletMaintenanceService',
-        {
-          getEncryptedWalletFromStorage: Promise.resolve(),
-          addCoinIfUserDoesNotHaveIt: Promise.resolve(),
-          wipeDataFromService: null,
-        },
-        {
-          encryptedWallet: testWallet,
-        }
-      );
-      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService',{},{
-        tokenOperationData: {asset:'ETH', network:'ERC20', country: 'ARS'}
-      })
-      providersSpy = jasmine.createSpyObj('Providers',{
-        byAlias: rawProvidersData.find((provider) => provider.alias === 'moonpay'),
-      })
-      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
-        create: providersSpy,
-      });
-      fakeModalController = new FakeModalController({});
-      modalControllerSpy = fakeModalController.createSpy();
-      TestBed.configureTestingModule({
-        declarations: [MoonpayPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule, HttpClientTestingModule],
-        providers: [
-          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: BrowserService, useValue: browserServiceSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
-          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
-          { provide: ProvidersFactory, useValue: providersFactorySpy },
-          { provide: ModalController, useValue: modalControllerSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
+  let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  const testWallet = {
+    assets: {
+      ETH: true,
+      LINK: false,
+      UNI: true,
+      MATIC: true,
+    },
+    addresses: {
+      ERC20: 'testERC20Address',
+      MATIC: 'testMaticAddress',
+    },
+  };
+  const blockchain = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)).oneByName('ERC20');
 
-      fixture = TestBed.createComponent(MoonpayPage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    fakeActivatedRoute = new FakeActivatedRoute({}, { country: 'COL' });
+    browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
+      getMoonpayLink: of({ url: 'http://testURL.com' }),
+    });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoins: TEST_COINS,
+    });
+    walletMaintenanceServiceSpy = jasmine.createSpyObj(
+      'WalletMaintenanceService',
+      {
+        getEncryptedWalletFromStorage: Promise.resolve(),
+        addCoinIfUserDoesNotHaveIt: Promise.resolve(),
+        wipeDataFromService: null,
+      },
+      {
+        encryptedWallet: testWallet,
+      }
+    );
+    tokenOperationDataServiceSpy = jasmine.createSpyObj(
+      'TokenOperationDataService',
+      {},
+      {
+        tokenOperationData: { asset: 'ETH', network: 'ERC20', country: 'ARS' },
+      }
+    );
+    providersSpy = jasmine.createSpyObj('Providers', {
+      byAlias: rawProvidersData.find((provider) => provider.alias === 'moonpay'),
+    });
+    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+      create: providersSpy,
+    });
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: {
+        oneByName: () => {
+          return blockchain;
+        },
+      },
+    });
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+    });
+    fakeModalController = new FakeModalController({});
+    modalControllerSpy = fakeModalController.createSpy();
+    TestBed.configureTestingModule({
+      declarations: [MoonpayPage, FakeTrackClickDirective],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule, HttpClientTestingModule],
+      providers: [
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: BrowserService, useValue: browserServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+        { provide: ProvidersFactory, useValue: providersFactorySpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: WalletsFactory, useValue: walletsFactorySpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(MoonpayPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should open in app browser and redirect to tabs wallets when ux_buy_moonpay_continue is clicked', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_moonpay_continue"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
+
+    expect(blockchainsFactorySpy.create).toHaveBeenCalledTimes(1);
+    expect(walletsFactorySpy.create).toHaveBeenCalledTimes(1);
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'http://testURL.com' });
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
   });
 
   it('should call addCoinIfUserDoesNotHaveIt when transaction completes', async () => {
     const coin: jasmine.SpyObj<Coin> = jasmine.createSpyObj('Coin', {}, { value: 'USDT', network: 'ERC20' });
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+
     component.form.patchValue({ currency: coin });
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_moonpay_continue"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
+
     expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coin);
   });
 
@@ -142,10 +175,12 @@ describe('MoonpayPage', () => {
     expect(component.form.value.currency.value).toEqual(tokenOperationDataServiceSpy.tokenOperationData.asset);
   });
 
-  it('should show modal',  async () => {    
+  it('should show modal', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-provider-new-operation-card')).triggerEventHandler('changeCurrency', undefined);
+    fixture.debugElement
+      .query(By.css('app-provider-new-operation-card'))
+      .triggerEventHandler('changeCurrency', undefined);
     fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });

@@ -84,7 +84,7 @@ describe('DirectaPage', () => {
     );
 
     directaPriceSpy = jasmine.createSpyObj('DirectaPrice', {
-      value: of(3),
+      value: of(4),
     });
 
     directaPriceFactorySpy = jasmine.createSpyObj('DirectaPriceFactory', {
@@ -117,6 +117,11 @@ describe('DirectaPage', () => {
 
     envServiceSpy = jasmine.createSpyObj('EnvService', {
       byKey: 'api_url',
+      all: {
+        firebase:{
+          dynamicLinkUrl: 'https://testlink.com'
+        }
+      }
     });
 
     TestBed.configureTestingModule({
@@ -183,14 +188,15 @@ describe('DirectaPage', () => {
     component.ionViewWillEnter();
     component.form.patchValue({ cryptoAmount: 3 });
     fixture.detectChanges();
-    expect(component.form.value.fiatAmount).toEqual(9);
+    expect(component.form.value.fiatAmount).toEqual(12);
   }));
 
   it('should recalculate crypto amount when fiat amount is changed', fakeAsync(() => {
     component.ionViewWillEnter();
-    component.form.patchValue({ fiatAmount: 9 });
+    component.form.patchValue({ fiatAmount: 9.1234 });
     fixture.detectChanges();
-    expect(component.form.value.cryptoAmount).toEqual(3);
+    expect(component.form.value.fiatAmount).toEqual(9.12);
+    expect(component.form.value.cryptoAmount).toEqual(2.28);
   }));
 
   it('should validate that the crypto amount equals the minimum value in dollars', () => {

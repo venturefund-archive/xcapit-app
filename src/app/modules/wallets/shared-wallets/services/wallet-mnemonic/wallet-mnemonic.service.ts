@@ -30,9 +30,4 @@ export class WalletMnemonicService {
   clearMnemonic(){
     this.mnemonic = undefined;
   }
-
-  getSeed(): Uint8Array {
-    const seed = this.utils.mnemonicToSeed(this.mnemonic.phrase);
-    return this.utils.arrayify(seed);
-  }
 }

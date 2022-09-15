@@ -1,7 +1,7 @@
-import { SimpleSubject, Subscribable } from '../simple-subject/simple-subject';
 import { Wallet as EthersWallet, providers } from 'ethers';
 import { BlockchainTx } from '../blockchain-tx';
 import { Blockchain } from '../blockchain/blockchain';
+import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
 
 export interface Wallet {
   address: () => string;
@@ -22,7 +22,7 @@ export class DefaultWallet implements Wallet {
   ) {}
 
   address(): string {
-    return this._rawData['address'];
+    return this._rawData['address'].toLowerCase();
   }
 
   onDecryptedWallet(): Subscribable {
@@ -68,10 +68,7 @@ export class FakeWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
   private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
-  constructor(
-    private readonly sendTxsResponse: Promise<any> = Promise.resolve(false),
-    private msgError: string = ''
-  ) {}
+  constructor(private readonly sendTxsResponse: Promise<any> = Promise.resolve(false), private msgError: string = '') {}
 
   public onNeedPass(): Subscribable {
     return this._onNeedPass;
@@ -96,5 +93,26 @@ export class FakeWallet implements Wallet {
     if (this.msgError) {
       throw new Error(this.msgError);
     }
+  }
+}
+
+export class SolanaWallet implements Wallet {
+  private _onNeedPass: SimpleSubject = new SimpleSubject();
+  private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
+
+  constructor(private _rawData: any) {}
+
+  sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
+
+  address(): string {
+    return this._rawData['address'];
+  }
+
+  onDecryptedWallet(): Subscribable {
+    return this._onWalletDecrypted;
+  }
+
+  onNeedPass(): Subscribable {
+    return this._onNeedPass;
   }
 }

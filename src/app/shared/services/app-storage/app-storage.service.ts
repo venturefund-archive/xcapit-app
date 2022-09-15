@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@capacitor/storage';
-
+import { Preferences } from '@capacitor/preferences';
 
 export interface StorageService {
-
   get(key: string): Promise<any>;
+  set(key: string, value: any): Promise<any>;
 }
-
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppStorageService implements StorageService {
-  storage = Storage;
+  storage = Preferences;
   windowStorage = window.localStorage;
 
   constructor() {
@@ -47,12 +45,14 @@ export class AppStorageService implements StorageService {
   }
 }
 
-
 export class FakeAppStorage implements StorageService {
-
-  constructor(private _aFakeStorageValue: any = {}) { }
+  constructor(private _aFakeStorageValue: any = {}) {}
 
   async get(aStorageKey: string): Promise<any> {
     return this._aFakeStorageValue[aStorageKey];
+  }
+
+  async set(key: string, value: any): Promise<any> {
+    this._aFakeStorageValue[key] = value;
   }
 }

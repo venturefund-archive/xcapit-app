@@ -23,12 +23,8 @@
 			"forceCodeForRefreshToken": true
 		},
 		"SplashScreen": {
-			"splashFullScreen": true,
-			"splashImmersive": true,
 			"launchAutoHide": true,
-			"launchShowDuration": 2000,
-			"androidScaleType": "CENTER_INSIDE",
-			"backgroundColor": "#1c2d5e"
+			"launchShowDuration": 2000
 		}
 	}
 }

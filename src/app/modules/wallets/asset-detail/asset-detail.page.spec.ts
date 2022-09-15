@@ -61,6 +61,17 @@ const nativeAsset: Coin = {
   rpc: 'http://testrpc.test',
 };
 
+const solanaAsset: Coin  = {
+  id: 29,
+  name: 'SOL - Solana',
+  logoRoute: 'assets/img/coins/SOL.svg',
+  last: true,
+  value: 'SOL',
+  network: 'SOLANA',
+  chainId: 666,
+  rpc: 'http://testrpc.test',
+}
+
 describe('AssetDetailPage', () => {
   let component: AssetDetailPage;
   let fixture: ComponentFixture<AssetDetailPage>;
@@ -279,4 +290,11 @@ describe('AssetDetailPage', () => {
       'invest',
     ]);
   });
+
+  it('should disable operations except receive when token belongs to Solana network', async () => {
+    component.canAssetOperate(solanaAsset);
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(component.enabledToOperate).toBeFalse();
+  })
 });

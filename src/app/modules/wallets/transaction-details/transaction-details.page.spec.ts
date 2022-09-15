@@ -72,6 +72,14 @@ describe('TransactionDetailsPage', () => {
     });
   });
 
+  it('should render app-share-transaction-detail component', async () => {
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    const componentEl = fixture.debugElement.queryAll(By.css('app-share-transaction-detail'));
+    fixture.detectChanges();
+    expect(componentEl).toBeTruthy();
+  });
+
   it('should open modal when information-circle button is clicked', async () => {
     component.ionViewWillEnter()
     fixture.detectChanges()

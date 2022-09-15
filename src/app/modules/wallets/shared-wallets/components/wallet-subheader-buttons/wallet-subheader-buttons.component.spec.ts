@@ -214,4 +214,18 @@ describe('WalletSubheaderButtonsComponent', () => {
     const div = fixture.debugElement.query(By.css('.wsb__card-buttons__buy-card'));
     expect(div).toBeFalsy();
   });
+
+  it(`should only render ux_go_to_receive if token is not available for operation`, () => {
+    component.enabledToOperate = false;
+    fixture.detectChanges();
+    const divReceive = fixture.debugElement.query(By.css('.wsb__card-buttons__receive-card'));
+    const divSend = fixture.debugElement.query(By.css('.wsb__card-buttons__send-card'));
+    const divBuy = fixture.debugElement.query(By.css('.wsb__card-buttons__buy-card'));
+    const divSwap = fixture.debugElement.query(By.css('.wsb__card-buttons__swap-card'));
+
+    expect(divReceive).toBeTruthy();
+    expect(divSend).toBeFalsy();
+    expect(divBuy).toBeFalsy();
+    expect(divSwap).toBeFalsy();
+  })
 });

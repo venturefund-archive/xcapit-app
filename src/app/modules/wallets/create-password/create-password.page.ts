@@ -206,7 +206,7 @@ export class CreatePasswordPage implements OnInit {
 
   private async createXAuthToken(): Promise<void> {
     const blockchain = this.blockchains.create().oneByName('ERC20');
-    const wallet = this.walletService.createForDerivedPath(blockchain.derivedPath()) as ethers.Wallet;
+    const wallet = this.walletService.createForDerivedPath(blockchain.derivedPath());
     const signedMsg = await wallet.signMessage(wallet.address);
     return this.xAuthService.saveToken(`${wallet.address}_${signedMsg}`);
   }
@@ -231,6 +231,6 @@ export class CreatePasswordPage implements OnInit {
 
   navigateByMode() {
     const url = this.mode === 'import' ? '/wallets/recovery/success' : '/wallets/success-creation';
-    return this.navController.navigateForward([url]);
+    return this.navController.navigateRoot([url]);
   }
 }

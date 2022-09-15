@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { AppStorageService } from './app-storage.service';
+import { AppStorageService, FakeAppStorage, StorageService } from './app-storage.service';
 
 describe('AppStorageService', () => {
   let service: AppStorageService;
@@ -14,7 +14,7 @@ describe('AppStorageService', () => {
     });
 
     windowStorageSpy = jasmine.createSpyObj('window.localStorage', {
-      removeItem: (): void => {}
+      removeItem: (): void => {},
     });
 
     TestBed.configureTestingModule({
@@ -60,5 +60,33 @@ describe('AppStorageService', () => {
   it('should force remove a value from storage', async () => {
     await service.forceRemove('oneKey');
     expect(windowStorageSpy.removeItem).toHaveBeenCalledTimes(1);
-  })
+  });
+});
+
+describe('FakeAppStorage ', () => {
+  const aKey = 'key';
+  const aTestValue = 1;
+  let storage: StorageService;
+
+  beforeEach(() => {
+    storage = new FakeAppStorage({ [aKey]: aTestValue });
+  });
+
+  it('new', () => {
+    expect(new FakeAppStorage()).toBeTruthy();
+  });
+
+  it('get value', async () => {
+    expect(await storage.get(aKey)).toEqual(aTestValue);
+  });
+
+  it('set value', async () => {
+    const anotherKey = 'anotherKey';
+    const anotherTestValue = 2;
+
+    await storage.set(anotherKey, anotherTestValue);
+
+    expect(await storage.get(aKey)).toEqual(aTestValue);
+    expect(await storage.get(anotherKey)).toEqual(anotherTestValue);
+  });
 });

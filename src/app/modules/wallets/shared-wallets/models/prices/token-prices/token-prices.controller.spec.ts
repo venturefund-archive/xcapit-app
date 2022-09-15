@@ -11,10 +11,10 @@ describe('TokenPricesController', () => {
   });
 
   it('should create', () => {
-    expect(service.new([], new FakeHttpClient(), 'https://testurl.com')).toBeInstanceOf(TokenPrices);
+    expect(service.new(null, new FakeHttpClient(), 'https://testurl.com')).toBeInstanceOf(TokenPrices);
   });
 
   it('should create with default', () => {
-    expect(service.new([], new FakeHttpClient())).toBeInstanceOf(TokenPrices);
+    expect(service.new(null, new FakeHttpClient())).toBeInstanceOf(TokenPrices);
   });
 });
