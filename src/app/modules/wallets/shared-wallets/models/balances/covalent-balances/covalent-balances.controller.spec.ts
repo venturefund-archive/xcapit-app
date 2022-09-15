@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { CovalentBalancesController } from './covalent-balances.controller';
 import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
 import { CovalentBalances } from './covalent-balances';
@@ -7,7 +6,7 @@ describe('CovalentBalancesController', () => {
   let service: CovalentBalancesController;
 
   beforeEach(() => {
-    service = TestBed.inject(CovalentBalancesController);
+    service = new CovalentBalancesController(null);
   });
 
   it('should create', () => {
@@ -15,6 +14,6 @@ describe('CovalentBalancesController', () => {
   });
 
   it('should create with default', () => {
-    expect(service.new('0x000001', null, new FakeHttpClient())).toBeInstanceOf(CovalentBalances);
+    expect(service.new('0x000001', null)).toBeInstanceOf(CovalentBalances);
   });
 });

@@ -371,7 +371,7 @@ export const NONPROD_COINS: Coin[] = [
     contract: '11111111111111111111111111111111',
     chainId: 1399811149,
     rpc: environment.solanaApiUrl,
-    decimals: 8,
+    decimals: 9,
     native: true,
     abi: '',
     symbol: 'SOL',

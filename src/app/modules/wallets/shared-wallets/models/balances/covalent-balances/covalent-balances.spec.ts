@@ -45,7 +45,7 @@ describe('CovalentBalances', () => {
 
     covalentBalances = new CovalentBalances('0x0001', tokens, new FakeHttpClient(solanaResponse), 'https:/test/');
     expect(await covalentBalances.value()).toEqual([
-      { coin: rawSOLData, balance: 19.44182 },
+      { coin: rawSOLData, balance: 1.944182 },
       { coin: rawSAMOData, balance: 92.07568407 },
     ]);
   });

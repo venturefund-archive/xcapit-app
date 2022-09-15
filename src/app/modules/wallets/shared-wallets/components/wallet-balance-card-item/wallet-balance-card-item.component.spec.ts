@@ -60,7 +60,12 @@ describe('WalletBalanceCardItemComponent', () => {
 
   it('should navigate to asset detail when item is clicked', () => {
     fixture.debugElement.query(By.css('div.wbci')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['wallets/asset-detail/', 'MATIC']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
+      'wallets/token-detail/blockchain',
+      rawMATICData.network,
+      'token',
+      rawMATICData.contract,
+    ]);
   });
 
   it('should render balance item properly', () => {

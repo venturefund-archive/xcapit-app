@@ -7,10 +7,13 @@ import { Tokens } from '../../../../../swaps/shared-swaps/models/tokens/tokens';
 
 @Injectable({ providedIn: 'root' })
 export class CovalentBalancesController {
+
+  constructor(private httpClient: HttpClient) {}
+
   public new(
     _address: string,
     _tokens: Tokens,
-    _http: HttpClient | FakeHttpClient,
+    _http: HttpClient | FakeHttpClient = this.httpClient,
     _baseUrl = environment.covalentApiUrl
   ): CovalentBalances {
     return new CovalentBalances(_address, _tokens, _http, _baseUrl);

@@ -73,7 +73,7 @@ export const rawSOLData = {
   contract: '11111111111111111111111111111111',
   chainId: 1399811149,
   rpc: '',
-  decimals: 8,
+  decimals: 9,
   native: true,
   abi: '',
   symbol: 'SOL',

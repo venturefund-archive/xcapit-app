@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { AcceptedToSGuard } from './shared-wallets/guards/accepted-tos/accepted-tos.guard';
-import { CreatedWalletGuard } from './shared-wallets/guards/created-wallet/created-wallet.guard';
 import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 
 const routes: Routes = [
@@ -154,8 +153,8 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'asset-detail/:currency',
-        loadChildren: () => import('./asset-detail/asset-detail.module').then((m) => m.AssetDetailPageModule),
+        path: 'token-detail',
+        loadChildren: () => import('./token-detail/token-detail.module').then((m) => m.TokenDetailPageModule),
       },
       {
         path: 'password-change',

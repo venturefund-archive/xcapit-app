@@ -1,11 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { Coin } from '../shared-wallets/interfaces/coin.interface';
-import { AssetBalance } from '../shared-wallets/interfaces/asset-balance.interface';
-import { finalize } from 'rxjs/operators';
 import { NETWORK_COLORS } from '../shared-wallets/constants/network-colors.constant';
 import { ProvidersFactory } from '../../fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../../fiat-ramps/shared-ramps/models/provider-tokens-of/provider-tokens-of';
@@ -16,14 +11,28 @@ import { DefiProduct } from '../../defi-investments/shared-defi-investments/inte
 import { NavController } from '@ionic/angular';
 import { TwoPiProduct } from '../../defi-investments/shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { InvestmentProduct } from '../../defi-investments/shared-defi-investments/interfaces/investment-product.interface';
-import { TwoPiInvestment } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { VoidSigner } from 'ethers';
-import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { TwoPiInvestmentFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/factory/two-pi-investment-factory';
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
-import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { RawToken, TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { Transfer } from '../shared-wallets/models/transfer/transfer.interface';
 import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { FixedTokens } from '../../swaps/shared-swaps/models/filtered-tokens/fixed-tokens';
+import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
+import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
+import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
+import { Wallet } from '../../swaps/shared-swaps/models/wallet/wallet';
+import { Blockchain } from '../../swaps/shared-swaps/models/blockchain/blockchain';
+import { RawBlockchain } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { TokenByAddress } from '../../swaps/shared-swaps/models/token-by-address/token-by-address';
+import { Token } from '../../swaps/shared-swaps/models/token/token';
+import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
+
+
 @Component({
   selector: 'app-asset-detail',
   template: `
@@ -39,19 +48,21 @@ import { TransfersFactory } from '../shared-wallets/models/transfers/factory/tra
     <ion-content class="wad ion-padding">
       <div class="ux_content">
         <ion-card class="wad__card">
-          <div class="wad__title_and_image" *ngIf="this.currency">
+          <div class="wad__title_and_image" *ngIf="this.tplToken">
             <div class="wad__title_and_image__image_container">
-              <img [src]="this.currency.logoRoute" alt="Product Image" />
+              <img [src]="this.tplToken.logoRoute" alt="Product Image" />
             </div>
             <div class="wad__title_container">
               <div class="wad__title_container__title">
-                <ion-text class="ux-font-text-lg">{{ this.currency.value }}</ion-text>
-                <ion-text class="ux-font-text-xs title">{{ this.currency.name | splitString: ' - '[1] }}</ion-text>
+                <ion-text class="ux-font-text-lg">{{ this.tplToken.value }}</ion-text>
+                <ion-text class="ux-font-text-xs title">{{ this.tplToken.name | splitString: ' - '[1] }}</ion-text>
               </div>
               <div class="wad__title_container__badge">
-                <ion-badge [color]="this.networkColors[this.currency.network]" class="ux-badge ux-font-num-subtitulo">{{
-                  this.currency.network | formattedNetwork | uppercase
-                }}</ion-badge>
+                <ion-badge
+                  [color]="this.networkColors[this.tplBlockchain.name]"
+                  class="ux-badge ux-font-num-subtitulo"
+                  >{{ this.tplBlockchain.name | formattedNetwork | uppercase }}</ion-badge
+                >
               </div>
             </div>
             <ion-button
@@ -70,20 +81,21 @@ import { TransfersFactory } from '../shared-wallets/models/transfers/factory/tra
             <ion-text class="title ux-font-titulo-xs">
               {{ 'wallets.asset_detail.available' | translate }}
             </ion-text>
-            <div class="wad__available__amounts" *ngIf="this.balance">
+            <div class="wad__available__amounts" *ngIf="this.tokenDetail">
               <ion-text class="ux-font-text-xl" color="neutral80">
-                {{ this.balance.amount | formattedAmount }} {{ this.balance.symbol }}</ion-text
+                {{ this.tokenDetail.balance | formattedAmount }} {{ this.tplToken.value }}</ion-text
               >
-              <ion-text class="ux-font-text-xxs" color="neutral80" *ngIf="this.balance?.usdAmount">
-                ≈ {{ this.balance.usdAmount | formattedAmount: 10:2 }} USD
+              <ion-text class="ux-font-text-xxs" color="neutral80" *ngIf="this.tokenDetail?.price">
+                ≈ {{ this.tokenDetail.price * this.tokenDetail.balance | formattedAmount: 10:2 }}
+                {{ this.tokenDetail.quoteSymbol }}
               </ion-text>
             </div>
           </div>
         </ion-card>
-        <div class="wad__subheader_buttons" *ngIf="this.currency">
+        <div class="wad__subheader_buttons" *ngIf="this.tplToken">
           <app-wallet-subheader-buttons
-            [asset]="this.currency.value"
-            [network]="this.currency.network"
+            [asset]="this.tplToken.value"
+            [network]="this.tplBlockchain.name"
             [enabledToBuy]="this.enabledToBuy"
             [enabledToOperate]="this.enabledToOperate"
           ></app-wallet-subheader-buttons>
@@ -98,23 +110,18 @@ import { TransfersFactory } from '../shared-wallets/models/transfers/factory/tra
           <div class="wad__transaction__wallet-transaction-card">
             <app-wallet-transaction-card
               [transfers]="this.transfers"
-              [network]="this.currency.network"
+              [network]="this.tplBlockchain.name"
             ></app-wallet-transaction-card>
           </div>
         </div>
       </div>
     </ion-content>
   `,
-  styleUrls: ['./asset-detail.page.scss'],
+  styleUrls: ['./token-detail.page.scss'],
 })
-export class AssetDetailPage implements OnInit {
+export class TokenDetailPage {
   buttonName: string;
-  currency: Coin;
-  coins: Coin[];
-  walletAddress: string = null;
-  balance: AssetBalance;
   transfers: Transfer[] = [];
-  usdPrice: { prices: any };
   networkColors = NETWORK_COLORS;
   enabledToBuy: boolean;
   enabledToOperate: boolean;
@@ -122,32 +129,38 @@ export class AssetDetailPage implements OnInit {
   allDefiProducts: InvestmentProduct[] = [];
   productToInvest: InvestmentProduct;
   productBalance: number;
+  tokenDetail: TokenDetail;
+  tplToken: RawToken;
+  tplBlockchain: RawBlockchain;
+  private token: Token;
+  private wallet: Wallet;
+  private blockchain: Blockchain;
 
   constructor(
     private route: ActivatedRoute,
-    private walletService: WalletService,
-    private storageService: StorageService,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
     private twoPiApi: TwoPiApi,
     private remoteConfig: RemoteConfigService,
     private navController: NavController,
-    private walletEncryptionService: WalletEncryptionService,
     private twoPiInvestmentFactory: TwoPiInvestmentFactory,
     private twoPiProductFactory: TwoPiProductFactory,
     private transfersFactory: TransfersFactory,
+    private blockchainsFactory: BlockchainsFactory,
+    private walletsFactory: WalletsFactory,
+    private covalentBalancesFactory: CovalentBalancesController,
+    private tokenPricesFactory: TokenPricesController,
+    private tokenDetailInjectable: TokenDetailInjectable,
   ) {}
 
-  ngOnInit() {}
-
   async ionViewWillEnter() {
-    await this.walletService.walletExist();
-    this.coins = this.apiWalletService.getCoins();
-    this.getCurrency();
-    this.getButtonName();
-    this.getBalanceStructure(this.currency);
-    this.getTransfers();
-    this.getUsdPrice();
+    this.setBlockchain();
+    await this.setToken();
+    await this.setWallet();
+    await this.setTokenDetail();
+    this.setButtonName();
+    this.setAllowedOperations();
+    await this.getTransfers();
     this.getAvailableDefiProducts();
     await this.getInvestments();
     await this.findProductToInvest();
@@ -164,8 +177,7 @@ export class AssetDetailPage implements OnInit {
   async getInvestments() {
     const investmentsProducts = [];
     for (const product of this.defiProducts) {
-      const anInvestmentProduct = await this.getInvestmentProduct(product);
-      investmentsProducts.push(anInvestmentProduct);
+      investmentsProducts.push(await this.getInvestmentProduct(product));
     }
     this.allDefiProducts = investmentsProducts;
   }
@@ -174,26 +186,17 @@ export class AssetDetailPage implements OnInit {
     return this.twoPiProductFactory.create(await this.twoPiApi.vault(product.id));
   }
 
-  async setBalance(product) {
-    if (product) {
-      this.productBalance = await this.getProductBalance(product);
+  async setBalance(anInvestmentProduct: InvestmentProduct) {
+    if (anInvestmentProduct) {
+      this.productBalance = await this.twoPiInvestmentFactory
+        .new(anInvestmentProduct, new VoidSigner(this.wallet.address()), this.apiWalletService)
+        .balance();
     }
-  }
-
-  async getProductBalance(investmentProduct: InvestmentProduct): Promise<number> {
-    const wallet = await this.walletEncryptionService.getEncryptedWallet();
-    const address = wallet.addresses[investmentProduct.token().network];
-    const investment = this.createInvestment(investmentProduct, address);
-    return await investment.balance();
-  }
-
-  createInvestment(investmentProduct: InvestmentProduct, address: string): TwoPiInvestment {
-    return this.twoPiInvestmentFactory.new(investmentProduct, new VoidSigner(address), this.apiWalletService);
   }
 
   async findProductToInvest() {
     this.allDefiProducts.find((product) => {
-      if (product.token().value === this.currency.value) {
+      if (product.token().value === this.token.symbol()) {
         this.productToInvest = product;
       }
     });
@@ -208,67 +211,46 @@ export class AssetDetailPage implements OnInit {
     }
   }
 
-  private getBalanceStructure(coin) {
-    this.balance = {
-      icon: coin.logoRoute,
-      symbol: coin.value,
-      name: coin.name,
-      amount: 0,
-      usdAmount: 0,
-      usdSymbol: 'USD',
-    };
+  private async setWallet() {
+    this.wallet = await this.walletsFactory.create().oneBy(this.blockchain);
   }
 
-  private getUsdPrice() {
-    this.apiWalletService
-      .getPrices([this.getCoinForPrice(this.currency.value)])
-      .pipe(finalize(() => this.getAssetBalance()))
-      .subscribe((res) => (this.usdPrice = res));
+  private setBlockchain() {
+    this.blockchain = this.blockchainsFactory.create().oneByName(this.route.snapshot.paramMap.get('blockchain'));
+    this.tplBlockchain = this.blockchain.json();
   }
 
-  private getAssetBalance() {
-    this.storageService.getWalletsAddresses(this.currency.network).then((address) => {
-      this.walletService.balanceOf(address, this.currency.value).then((balance) => {
-        this.balance.amount = parseFloat(balance);
-        if (this.usdPrice) {
-          this.balance.usdAmount = this.balance.amount * this.getUsdAmount(this.currency.value);
-        }
-      });
-    });
+  private async setToken() {
+    this.token = await new TokenByAddress(
+      this.route.snapshot.paramMap.get('token'),
+      new BlockchainTokens(this.blockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
+    ).value();
+    this.tplToken = this.token.json();
   }
 
-  private getCurrency() {
-    this.currency = this.coins.find((c) => c.value === this.route.snapshot.paramMap.get('currency'));
-    this.enabledToBuy = !!new ProviderTokensOf(this.getProviders(), [this.currency]).all().length;
-    this.canAssetOperate(this.currency);
+  private async setTokenDetail() {
+    const fixedTokens = new FixedTokens([this.token]);
+    this.tokenDetail = this.tokenDetailInjectable.create(
+      this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
+      this.tokenPricesFactory.new(fixedTokens),
+      (await fixedTokens.value())[0]
+    );
+    this.tokenDetail.cached();
+    this.tokenDetail.fetch();
   }
 
-  getButtonName() {
-    this.buttonName = `ux_go_to_invest_${this.currency.value.toLowerCase()}`;
+  setButtonName() {
+    this.buttonName = `ux_go_to_invest_${this.token.symbol().toLowerCase()}`;
   }
 
   async getTransfers() {
-    const wallet = await this.walletEncryptionService.getEncryptedWallet();
-    const address = wallet.addresses[this.currency.network];
-    this.transfers = await this.transfersFactory.create(
-      this.currency as RawToken,
-      address,
-    ).all();
+    if (this.blockchain.name() !== 'SOLANA') {
+      this.transfers = await this.transfersFactory.create(this.token.json(), this.wallet.address()).all();
+    }
   }
 
-  private getCoinForPrice(symbol: string): string {
-    return symbol === 'RBTC' ? 'BTC' : symbol;
-  }
-
-  private getUsdAmount(symbol: string): number {
-    return this.usdPrice.prices[this.getCoinForPrice(symbol)];
-  }
-
-  private getProviders() {
-    return this.providers.create();
-  }
-
-  canAssetOperate(currency: Coin) {
-    this.enabledToOperate = (currency.network !== 'SOLANA');
+  private setAllowedOperations() {
+    this.enabledToBuy = !!new ProviderTokensOf(this.providers.create(), [this.token.json()]).all().length;
+    this.enabledToOperate = this.blockchain.name() !== 'SOLANA';
   }
 }

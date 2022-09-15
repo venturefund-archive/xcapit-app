@@ -58,8 +58,11 @@ export class WalletBalanceCardItemComponent implements OnInit {
   }
 
   goToAssetDetail() {
-    if (this.tokenDetail.token.value !== 'SOL') {
-      this.navController.navigateForward(['wallets/asset-detail/', this.tokenDetail.token.value]);
-    }
+    this.navController.navigateForward([
+      'wallets/token-detail/blockchain',
+      this.tokenDetail.token.network,
+      'token',
+      this.tokenDetail.token.contract,
+    ]);
   }
 }

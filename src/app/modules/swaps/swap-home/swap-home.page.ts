@@ -525,7 +525,12 @@ export class SwapHomePage {
   }
 
   private navigateToTokenDetail() {
-    this.navController.navigateForward([`wallets/asset-detail/${this.toToken.symbol()}`]);
+    this.navController.navigateForward([
+      'wallets/token-detail/blockchain',
+      this.activeBlockchain.name,
+      'token',
+      this.toToken.symbol()
+    ]);
   }
 
   private createNotification(mode: string): LocalNotificationSchema[] {
