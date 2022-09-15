@@ -8,6 +8,7 @@ import { LoggedIn } from '../shared-users/models/logged-in/logged-in';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LoginPasswordInfoComponent } from '../shared-users/components/login-password-info/login-password-info.component';
+import { DefaultBiometricAuth } from 'src/app/shared/models/biometric-auth/default/default-biometric-auth';
 
 @Component({
   selector: 'app-login-new',
@@ -90,11 +91,22 @@ export class LoginNewPage {
     private storage: IonicStorageService,
     private navController: NavController,
     private translate: TranslateService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private defaultBiometricAuth : DefaultBiometricAuth
   ) {}
 
   dismissToast() {
     this.toastService.dismiss();
+  }
+
+  ionViewWillEnter(){
+    this.activateBiometricAuth()
+  }
+
+  activateBiometricAuth(){
+    if(this.defaultBiometricAuth.enabled()){
+      this.defaultBiometricAuth.verified();
+    }
   }
 
   async handleSubmit() {
