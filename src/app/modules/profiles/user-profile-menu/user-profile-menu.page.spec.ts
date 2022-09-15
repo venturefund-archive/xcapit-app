@@ -22,6 +22,7 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { Storage } from '@ionic/storage';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
 
 const itemMenu: MenuCategory[] = [
   {
@@ -75,6 +76,15 @@ const itemMenu: MenuCategory[] = [
     showCategory: false,
     category_title: '',
     icon: '',
+    items: [
+      {
+        name: 'BiometricAuth',
+        hidden: true,
+        text: 'profiles.user_profile_menu.security_phrase',
+        route: '/wallets/recovery/info',
+        type: 'link',
+      },
+    ],
   },
 ];
 
@@ -101,6 +111,7 @@ describe('UserProfileMenuPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let storageSpy: jasmine.SpyObj<Storage>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+  let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
 
   beforeEach(waitForAsync(() => {
     logOutModalServiceSpy = jasmine.createSpyObj('LogOutModalService', {
@@ -162,6 +173,9 @@ describe('UserProfileMenuPage', () => {
       set: Promise.resolve(),
     });
 
+    biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
+      create: { available: () => Promise.resolve(true) },
+    });
     TestBed.configureTestingModule({
       declarations: [UserProfileMenuPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -179,6 +193,7 @@ describe('UserProfileMenuPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: Storage, useValue: storageSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+        { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

@@ -58,6 +58,15 @@ export const ITEM_MENU: MenuCategory[] = [
         buttonName: 'ux_go_to_wallet_change_password',
       },
       {
+        name: 'BiometricAuth',
+        text: 'profiles.user_profile_menu.biometric_auth',
+        route: '/profiles/biometric-auth',
+        type: 'link',
+        buttonName: 'ux_go_to_biometric_auth',
+        hidden: true,
+        newBadge: true,
+      },
+      {
         name: 'RecoveryPhrase',
         text: 'profiles.user_profile_menu.security_phrase',
         route: '/wallets/recovery/info',

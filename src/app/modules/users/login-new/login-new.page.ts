@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ToastService } from '../../../shared/services/toast/toast.service';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { LoginToken } from '../shared-users/models/login-token/login-token';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { Password } from '../../swaps/shared-swaps/models/password/password';

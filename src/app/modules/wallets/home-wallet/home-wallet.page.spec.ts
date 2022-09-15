@@ -35,7 +35,13 @@ import { GraphqlService } from '../shared-wallets/services/graphql/graphql.servi
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
 import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { Vault } from '@2pi-network/sdk';
-import { SolanaBalancesController } from '../shared-wallets/models/balances/solana-balances/solana-balances.controller';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/wallet';
+import { rawETHData, rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -55,7 +61,6 @@ describe('HomeWalletPage', () => {
   let totalBalanceControllerSpy: jasmine.SpyObj<TotalBalanceController>;
   let tokenPricesControllerSpy: jasmine.SpyObj<TokenPricesController>;
   let covalentBalancesControllerSpy: jasmine.SpyObj<CovalentBalancesController>;
-  let solanaBalancesControllerSpy: jasmine.SpyObj<SolanaBalancesController>;
   let tokenDetailControllerSpy: jasmine.SpyObj<TokenDetailController>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
@@ -65,7 +70,10 @@ describe('HomeWalletPage', () => {
   let graphqlServiceSpy: jasmine.SpyObj<GraphqlService>;
   let twoPiProductFactorySpy: jasmine.SpyObj<TwoPiProductFactory>;
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
 
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const dataTest = {
     data: {
       flows: [
@@ -83,7 +91,6 @@ describe('HomeWalletPage', () => {
     totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
     tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
     covalentBalancesControllerSpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
-    solanaBalancesControllerSpy = jasmine.createSpyObj('SolanaBalancesController', { new: new FakeBalances() });
     localStorageServiceSpy = jasmine.createSpyObj(
       'LocalStorageService',
       {
@@ -124,7 +131,7 @@ describe('HomeWalletPage', () => {
     });
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      getAssestsSelected: Promise.resolve([coinSpy, coinSpy]),
+      getAssestsSelected: Promise.resolve([rawETHData, rawMATICData]),
       getWalletsAddresses: Promise.resolve('0x00001'),
       getWalletFromStorage: Promise.resolve({
         addresses: { MATIC: 'testAddressMatic' },
@@ -176,6 +183,14 @@ describe('HomeWalletPage', () => {
       } as Vault),
     });
 
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: blockchains,
+    });
+
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+    });
+
     TestBed.configureTestingModule({
       declarations: [HomeWalletPage, FakeTrackClickDirective, HideTextPipe],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
@@ -198,6 +213,8 @@ describe('HomeWalletPage', () => {
         { provide: GraphqlService, useValue: graphqlServiceSpy },
         { provide: TwoPiProductFactory, useValue: twoPiProductFactorySpy },
         { provide: TwoPiApi, useValue: twoPiApiSpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: WalletsFactory, useValue: walletsFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -217,6 +234,7 @@ describe('HomeWalletPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();
+
     expect(component.walletExist).toBeTrue();
     expect(component.userTokens.length).toBeGreaterThan(0);
     expect(component.tokenDetails.length).toBeGreaterThan(0);
@@ -227,6 +245,7 @@ describe('HomeWalletPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();
+
     expect(component.walletExist).toBeTrue();
     expect(component.userTokens.length).toEqual(0);
     expect(component.tokenDetails.length).toEqual(0);
@@ -240,6 +259,7 @@ describe('HomeWalletPage', () => {
     fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
     fixture.detectChanges();
     tick(1000);
+
     expect(spy).toHaveBeenCalled();
     expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
     expect(refreshTimeoutServiceSpy.lock).toHaveBeenCalledTimes(1);
@@ -252,6 +272,7 @@ describe('HomeWalletPage', () => {
     tick();
     fixture.debugElement.query(By.css('ion-refresher')).triggerEventHandler('ionRefresh', eventMock);
     tick(1000);
+
     expect(spy).not.toHaveBeenCalled();
     expect(eventMock.target.complete).toHaveBeenCalledTimes(1);
     expect(refreshTimeoutServiceSpy.lock).not.toHaveBeenCalled();

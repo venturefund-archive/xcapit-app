@@ -263,6 +263,25 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/fiat-ramps/operation-detail/provider/1/operation/',
     trackClickEventNamePrimaryAction: 'ux_buy_kripton_details',
   },
+  error_d24_operation: {
+    image: '/assets/img/fiat-ramps/error-d24-buy/error-buy.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'fiat_ramps.error_d24_operation.text_primary',
+    textSecondary: 'fiat_ramps.error_d24_operation.text_secondary',
+    namePrimaryAction: 'fiat_ramps.error_d24_operation.button_primary',
+    urlPrimaryAction: '/fiat-ramps/token-selection',
+    nameSecondaryAction: 'fiat_ramps.error_d24_operation.button_secondary',
+    urlSecondaryAction: 'tabs/wallets',
+   },
+  success_d24_operation: {
+    image: '/assets/img/fiat-ramps/success-d24-buy/success-buy.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'fiat_ramps.success_d24_operation.text_primary',
+    textSecondary: 'fiat_ramps.success_d24_operation.text_secondary',
+    namePrimaryAction: 'fiat_ramps.success_d24_operation.button_text',
+    urlPrimaryAction: '/tabs/wallets',
+  },
+
   error_test_financial_education: {
     image: '/assets/img/financial-education/error-test-financial-education.svg',
     textPrimary: 'financial_education.error_test.textPrimary',

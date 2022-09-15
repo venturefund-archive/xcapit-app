@@ -14,7 +14,6 @@ import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/bl
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
-import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 
 describe('WalletMaintenanceService', () => {
   let service: WalletMaintenanceService;
@@ -32,9 +31,9 @@ describe('WalletMaintenanceService', () => {
     phrase: 'test mnemonic constant',
     path: '',
   };
-  
+
   const testToggleAssets = ['USDT', 'RBTC', 'RSK'];
-  
+
   const walletResultToggleAssets = {
     addresses: {
       ERC20: 'testAddress',
@@ -47,7 +46,7 @@ describe('WalletMaintenanceService', () => {
       RSK: true,
     },
   };
-  
+
   const testEncryptedWallet = {
     addresses: {
       ERC20: 'testAddress',
@@ -60,12 +59,12 @@ describe('WalletMaintenanceService', () => {
       RSK: false,
     },
   };
-  
+
   const updateResultWallet = {
     addresses: {
       ERC20: 'testAddress',
       RSK: 'testAddress',
-      MATIC: '',
+      MATIC: 'testAddress',
     },
     updatedAt: moment('2015-10-19').utc().format(),
     assets: {
@@ -76,7 +75,7 @@ describe('WalletMaintenanceService', () => {
       MATIC: false,
     },
   };
-  
+
   const testCoins: Coin[] = [
     {
       id: 1,
@@ -142,7 +141,10 @@ describe('WalletMaintenanceService', () => {
       create: new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)),
     });
     walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
-      createFromPhrase: { oneBy: () => Promise.resolve(new FakeWallet()) },
+      create: jasmine.createSpyObj(
+        'Wallets',
+        { oneBy: Promise.resolve({ address: () => 'testAddress' }), createFrom: Promise.resolve() }
+      ),
     });
     TestBed.configureTestingModule({
       imports: [],
@@ -212,24 +214,26 @@ describe('WalletMaintenanceService', () => {
   });
 
   it('should create new wallet addresses on updateWalletNetworks', async () => {
-    const today = moment('2015-10-19').toDate();
-    jasmine.clock().mockDate(today);
+    jasmine.clock().mockDate(moment('2015-10-19').toDate());
     service.newNetworks = ['MATIC'];
     service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
+
     await service.updateWalletNetworks(testToggleAssets);
+
     expect(service.encryptedWallet).toEqual(updateResultWallet);
   });
 
   it('should create new wallet addresses and set new tokens on updateWalletNetworks', async () => {
-    const today = moment('2015-10-19').toDate();
-    jasmine.clock().mockDate(today);
+    jasmine.clock().mockDate(moment('2015-10-19').toDate());
     service.newNetworks = ['MATIC'];
     service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
     const toggleAssets = JSON.parse(JSON.stringify(testToggleAssets));
     toggleAssets.push('MATIC');
     const expectedResult = JSON.parse(JSON.stringify(updateResultWallet));
     expectedResult.assets.MATIC = true;
+
     await service.updateWalletNetworks(toggleAssets);
+
     expect(service.encryptedWallet).toEqual(expectedResult);
   });
 

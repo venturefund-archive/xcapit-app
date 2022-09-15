@@ -99,6 +99,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
                   <ion-input
                     appNumberInput
                     [disabled]="this.sameTokens"
+                    [ngClass]="{ insufficient: this.insufficientBalance }"
                     class="sw__swap-card__from__detail__amount__wrapper__input"
                     formControlName="fromTokenAmount"
                     type="number"
@@ -115,7 +116,13 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
                   >
                 </div>
               </form>
-              <div class="sw__swap-card__from__detail__available">
+              <div
+                [ngClass]="
+                  this.swapBalance === 0 || this.insufficientBalance
+                    ? 'sw__swap-card__from__detail__insufficient'
+                    : 'sw__swap-card__from__detail__available'
+                "
+              >
                 <ion-text class="ux-font-text-xxs" color="neutral80">
                   {{ 'swaps.home.available' | translate }} {{ this.swapBalance | formattedAmount }}</ion-text
                 >
@@ -170,7 +177,12 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
               {{ 'swaps.home.fee_title' | translate }}
             </ion-text>
           </div>
-          <app-transaction-fee [balance]="this.feeBalance" [fee]="this.tplFee" [autoPrice]="true" [defaultFeeInfo]="true"></app-transaction-fee>
+          <app-transaction-fee
+            [balance]="this.feeBalance"
+            [fee]="this.tplFee"
+            [autoPrice]="true"
+            [defaultFeeInfo]="true"
+          ></app-transaction-fee>
         </div>
       </div>
       <div class="sw__checkbox ion-padding">
@@ -232,6 +244,7 @@ export class SwapHomePage {
   actions = [];
   actionTypeId = 'SWAP';
   sameTokens = false;
+  insufficientBalance: boolean;
   toTokenQuotePrice = 0;
   fromTokenQuotePrice = 0;
   fromTokenUSDAmount = 0;
@@ -286,6 +299,7 @@ export class SwapHomePage {
   }
 
   async ionViewDidEnter() {
+    this.checkBalance();
     this.trackPage();
     this.subscribeToFromTokenAmountChanges();
     this.setAllowedBlockchains();
@@ -347,9 +361,9 @@ export class SwapHomePage {
   async balanceAvailableOf(aCoin: string) {
     const aToken = this.apiWalletService.getCoin(aCoin);
     this.swapBalance = await this.walletBalance.balanceOf(aToken);
-    if(aToken.native){
+    if (aToken.native) {
       this.feeBalance = this.swapBalance;
-    }else{
+    } else {
       const aNativeToken = this.apiWalletService.getNativeTokenFromNetwork(aToken.network);
       this.feeBalance = await this.walletBalance.balanceOf(aNativeToken);
     }
@@ -465,9 +479,13 @@ export class SwapHomePage {
     this.disabledBtn = true;
   }
 
+  private enabledMainButton() {
+    this.disabledBtn = false;
+  }
+
   async swapThem() {
     this.disableMainButton();
-    const wallet = await this.wallets.createFromStorage(this.appStorageService).oneBy(this.activeBlockchain);
+    const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());
     wallet.onDecryptedWallet().subscribe(() => this.showSwapInProgressModal());
     wallet
@@ -539,5 +557,17 @@ export class SwapHomePage {
   setMaxAmount() {
     this.form.get('fromTokenAmount').setValue(this.swapBalance);
     this.form.updateValueAndValidity();
+  }
+
+  checkBalance() {
+    this.form.get('fromTokenAmount').valueChanges.subscribe((value) => {
+      if (value > this.swapBalance) {
+        this.disableMainButton();
+        this.insufficientBalance = true;
+      } else {
+        this.insufficientBalance = false;
+        this.enabledMainButton();
+      }
+    });
   }
 }

@@ -11,10 +11,10 @@ describe('CovalentBalancesController', () => {
   });
 
   it('should create', () => {
-    expect(service.new('0x000001', [], new FakeHttpClient(), 'https://testurl.com')).toBeInstanceOf(CovalentBalances);
+    expect(service.new('0x000001', null, new FakeHttpClient(), 'https://testurl.com')).toBeInstanceOf(CovalentBalances);
   });
 
   it('should create with default', () => {
-    expect(service.new('0x000001', [], new FakeHttpClient())).toBeInstanceOf(CovalentBalances);
+    expect(service.new('0x000001', null, new FakeHttpClient())).toBeInstanceOf(CovalentBalances);
   });
 });
