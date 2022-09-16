@@ -225,7 +225,7 @@ describe('SwapHomePage', () => {
 
   it('should call appTrackEvent on trackService when swap button is clicked', () => {
     spyOn(component, 'swapThem');
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_swaps_swap');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_swap_confirm');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
 
@@ -238,7 +238,7 @@ describe('SwapHomePage', () => {
   it('should button disabled on invalid value in from token amount input', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_swaps_swap"]'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_swap_confirm"]'));
 
     expect(component.form.valid).toBeFalse();
     expect(buttonEl.attributes['ng-reflect-disabled']).toEqual('true');
@@ -266,6 +266,7 @@ describe('SwapHomePage', () => {
 
   it('should show warning toast and disable amount input if fromToken and toToken equals each other', async () => {
     fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
       fromToken: rawUSDCData.contract,
       toToken: rawUSDCData.contract,
     });
@@ -279,6 +280,7 @@ describe('SwapHomePage', () => {
 
   it('should show and render available amount properly', async () => {
     fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
       fromToken: rawMATICData.contract,
       toToken: rawUSDCData.contract,
     });
@@ -305,6 +307,7 @@ describe('SwapHomePage', () => {
 
   it('should set native token balance to pass to fee component', async () => {
     fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
       fromToken: rawUSDCData.contract,
       toToken: rawMATICData.contract,
     });

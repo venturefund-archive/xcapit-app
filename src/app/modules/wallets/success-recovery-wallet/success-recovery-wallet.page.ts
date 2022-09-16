@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-success-recovery-wallet',
@@ -16,11 +17,16 @@ export class SuccessRecoveryWalletPage implements OnInit {
   profileTestComplete: boolean;
   key = 'profileTestCompleted';
 
-  constructor(private ionicStorageService: IonicStorageService) {}
+  constructor(private ionicStorageService: IonicStorageService, private trackService: TrackService) {}
 
   ngOnInit() {
     this.getProfileStatus();
     this.data = { ...SUCCESS_TYPES.success_wallet_recovery };
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_import_screenview_success',
+    });
   }
 
   changeUrlIfProfileCompleted() {
