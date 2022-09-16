@@ -86,8 +86,6 @@ export class WalletMaintenanceService {
     });
   }
   
-  // TODO: Test this
-  // TODO: Check other methods
   updateTokensStorage(tokens: any) {
     this.encryptedWallet.assets = tokens;
     return this.storageService.saveWalletToStorage(this.encryptedWallet);

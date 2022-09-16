@@ -55,7 +55,6 @@ export class SelectCoinsWalletPage implements OnInit {
   userCoinsLoaded: boolean;
   form: UntypedFormGroup;
   allSelected = false;
-  almostOneChecked = false;
 
   get networks(): string[] {
     return this.apiWalletService.getNetworks();
@@ -88,13 +87,10 @@ export class SelectCoinsWalletPage implements OnInit {
       });
 
       this.form = this.formBuilder.group(formGroup);
-
-      this.form.valueChanges.pipe(debounce(() => interval(100))).subscribe(() => this.updateTokens());
     }
   }
 
   async updateTokens() {
-    console.log('hi')
     this.setAllSelected();
     const values = Object.values(this.form.value).reduce((prev: any, curr: any) => {
       return { ...prev, ...curr };
@@ -113,19 +109,6 @@ export class SelectCoinsWalletPage implements OnInit {
     });
 
     return this.formBuilder.group(formGroup);
-  }
-
-  almostOneToggledInSuite(suite) {
-    return Object.values(this.form.value[suite]).some(Boolean);
-  }
-
-  setContinueButtonState() {
-    this.almostOneChecked = this.almostOneToggled();
-  }
-
-  almostOneToggled() {
-    const suites = Object.keys(this.form.value);
-    return suites.map((suite) => this.almostOneToggledInSuite(suite)).some(Boolean);
   }
 
   private getSuiteFormGroupKeys(): string[] {
@@ -148,6 +131,8 @@ export class SelectCoinsWalletPage implements OnInit {
       this.form.patchValue(formData);
       this.userCoinsLoaded = true;
       this.setAllSelected();
+
+      this.form.valueChanges.pipe(debounce(() => interval(100))).subscribe(() => this.updateTokens());
     });
   }
 
@@ -166,8 +151,6 @@ export class SelectCoinsWalletPage implements OnInit {
     });
 
     this.form.patchValue(formData);
-
-    this.setAllSelected();
   }
 
   setAllSelected() {
