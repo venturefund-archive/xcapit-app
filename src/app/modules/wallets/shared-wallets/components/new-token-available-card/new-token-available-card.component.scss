@@ -1,0 +1,44 @@
+:host {
+  .ntac {
+    background-color: var(--ion-color-white);
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid var(--ion-color-secondary);
+    margin: 10px 10.5px 0;
+    padding: 10px 0 10px 5.5px;
+
+    &__img {
+      height: 33px;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      margin-left: 16px;
+
+      &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        ion-label {
+          color: var(--ion-color-primary);
+        }
+
+        &__name-label {
+          display: flex;
+
+          ion-badge {
+            margin-left: 8px;
+          }
+        }
+      }
+
+      &__bottom {
+        margin-top: 8px;
+      }
+    }
+  }
+}

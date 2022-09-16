@@ -32,6 +32,8 @@ import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/
 import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
 import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
+import { NewTokensAvailable } from '../shared-wallets/models/new-tokens-avalaible/new-tokens-available.model';
+import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
 
 @Component({
   selector: 'app-home-wallet',
@@ -166,6 +168,10 @@ import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tok
               name="crescent"
               *ngIf="this.tokenDetails.length === 0"
             ></ion-spinner>
+            <div *appFeatureFlag="'ff_newTokenAvailable'">
+              <app-new-token-available-card *ngFor="let newToken of this.newTokens" [newToken]="newToken">
+              </app-new-token-available-card>
+            </div>
             <app-wallet-balance-card-item
               *ngFor="let tokenDetail of this.tokenDetails; let last = last"
               [tokenDetail]="tokenDetail"
@@ -211,6 +217,7 @@ export class HomeWalletPage implements OnInit {
   totalInvested: number;
   spinnerActivated: boolean;
   pids = [];
+  newTokens: NewToken[];
 
   constructor(
     private walletService: WalletService,
@@ -247,6 +254,7 @@ export class HomeWalletPage implements OnInit {
     });
     this.getUserWalletAddress();
     this.isProtectedWallet();
+    this.getNewTokensAvailable();
   }
 
   async ionViewDidEnter() {
@@ -396,4 +404,9 @@ export class HomeWalletPage implements OnInit {
   goToSelectCoins(): void {
     this.navController.navigateForward(['wallets/select-coins', 'edit']);
   }
+
+  private getNewTokensAvailable(): void {
+    this.newTokens = new NewTokensAvailable(this.remoteConfig).value();
+  }
+
 }

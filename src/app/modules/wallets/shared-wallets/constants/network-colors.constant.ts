@@ -3,4 +3,5 @@ export const NETWORK_COLORS = {
   ERC20: 'alt-2-light',
   MATIC: 'alt-3-light',
   BSC_BEP20: 'alt-4-light',
+  SOLANA:'alt-5-light'
 };
