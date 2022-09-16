@@ -37,7 +37,6 @@ describe('SelectCoinsWalletPage', () => {
     test2: {
       TNT: false,
     },
-    updateOn: jasmine.anything(),
   };
 
   const testCoinValuesForDynamicForm: Array<Coin[]> = [

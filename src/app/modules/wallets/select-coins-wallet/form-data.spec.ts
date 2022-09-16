@@ -19,7 +19,6 @@ export const SELECT_COINS_FORM_DATA = {
     SOLANA: {
       SOL: true,
     },
-    updateOn: jasmine.anything(),
   },
   invalid: {
     ERC20: {
@@ -41,7 +40,6 @@ export const SELECT_COINS_FORM_DATA = {
     SOLANA: {
       SOL: false,
     },
-    updateOn: jasmine.anything(),
   },
   allTrue: {
     ERC20: {
@@ -63,7 +61,6 @@ export const SELECT_COINS_FORM_DATA = {
     SOLANA: {
       SOL: true,
     },
-    updateOn: jasmine.anything(),
   },
   editTokensOriginal: {
     ERC20: {
@@ -85,6 +82,5 @@ export const SELECT_COINS_FORM_DATA = {
     SOLANA: {
       SOL: true,
     },
-    updateOn: jasmine.anything(),
   },
 };

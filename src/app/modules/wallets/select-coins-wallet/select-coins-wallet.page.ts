@@ -80,7 +80,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
   createForm() {
     if (!this.form) {
-      const formGroup = { updateOn: 'submit' };
+      const formGroup = { };
 
       this.networks.forEach((network) => {
         formGroup[network] = this.createSuiteFormGroup(this.getCoinsFromNetwork(network));
