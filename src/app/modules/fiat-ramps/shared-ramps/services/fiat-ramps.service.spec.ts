@@ -54,14 +54,8 @@ describe('FiatRampsService', () => {
     });
   });
 
-  it('should call get on http when checkUser', () => {
-    fiatRampsService.checkUser().subscribe(() => {
-      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  it('should call post on http when createUser', () => {
-    fiatRampsService.createUser().subscribe(() => {
+  it('should call post on http when getOrCreateUser', () => {
+    fiatRampsService.getOrCreateUser().subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
