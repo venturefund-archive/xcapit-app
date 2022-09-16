@@ -43,32 +43,56 @@ describe('ProviderNewOperationCardComponent', () => {
     component.minimumFiatAmount = 10;
     fixture.detectChanges();
   }));
-  
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
+
   it('should emit changeCurrency event when currency selector is clicked', () => {
     const spy = spyOn(component.changeCurrency, 'emit');
     fixture.debugElement.query(By.css('app-coin-selector')).triggerEventHandler('changeCurrency', null);
     expect(spy).toHaveBeenCalledTimes(1);
   });
-  
+
   it('should show error message and add invalid class to ion-inputs if form is not valid', () => {
-    component.form.get('cryptoAmount').addValidators(CustomValidators.greaterThan(5))
-    component.form.patchValue({cryptoAmount: 4});
-    component.form.markAllAsTouched()
+    component.form.get('fiatAmount').addValidators(CustomValidators.greaterThan(5));
+    component.form.patchValue({ fiatAmount: 4 });
+    component.form.markAllAsTouched();
     fixture.detectChanges();
-    
-    const labelEl = fixture.debugElement.query(By.css('.pnoc__amount-select__inputs-errors__error'))
-    const amountEl = fixture.debugElement.query(By.css('.pnoc__amount-select__inputs__amount > ion-input'))
-    const quoteAmountEl = fixture.debugElement.query(By.css('.pnoc__amount-select__inputs__quoteAmount > ion-input'))
+
+    const labelEl = fixture.debugElement.query(By.css('.pnoc__amount-select__inputs-errors__error'));
+    const amountEl = fixture.debugElement.query(By.css('.pnoc__amount-select__inputs__amount > ion-input'));
+    const quoteAmountEl = fixture.debugElement.query(By.css('.pnoc__amount-select__inputs__quoteAmount > ion-input'));
 
     expect(component.form.valid).toBeFalse();
-    expect(labelEl).toBeTruthy();     
-    expect(amountEl).toBeTruthy();     
-    expect(amountEl.classes.invalid).toBeTrue();     
-    expect(quoteAmountEl).toBeTruthy();     
-    expect(quoteAmountEl.classes.invalid).toBeTrue();     
+    expect(labelEl).toBeTruthy();
+    expect(amountEl).toBeTruthy();
+    expect(amountEl.classes.invalid).toBeTrue();
+    expect(quoteAmountEl).toBeTruthy();
+    expect(quoteAmountEl.classes.invalid).toBeTrue();
+  });
+
+  it('should show skeleton when fee is undefined', () => {
+    component.provider = rawProvidersData.find((provider) => provider.alias === 'PX');
+    component.fee = { value: undefined, token: undefined };
+    fixture.detectChanges();
+    const skeleton = fixture.debugElement.query(By.css('div.skeleton > ion-skeleton-text'));
+
+    expect(skeleton).toBeTruthy();
+  });
+
+  it('should show fee when fee is defined', () => {
+    component.provider = rawProvidersData.find((provider) => provider.alias === 'PX');
+    component.fee = { value: 10.4278, token: 'USD' };
+    fixture.detectChanges();
+    const feeLabelEl = fixture.debugElement.query(By.css('div.pnoc__fee__label > ion-text'));
+    const feeInfoIconEl = fixture.debugElement.query(
+      By.css('div.pnoc__fee__label > ion-icon[name="information-circle"]')
+    );
+    const feeAmountEl = fixture.debugElement.query(By.css('div.pnoc__fee__amount > ion-text'));
+
+    expect(feeLabelEl.nativeElement.innerHTML).toContain('fiat_ramps.shared.provider_new_operation_card.estimated_fee');
+    expect(feeInfoIconEl).toBeTruthy();
+    expect(feeAmountEl.nativeElement.innerHTML).toContain('10.43 USD');
   });
 });

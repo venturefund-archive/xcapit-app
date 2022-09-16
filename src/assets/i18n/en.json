@@ -2387,7 +2387,8 @@
         "provider": "Provider",
         "to_pay": "You will pay*",
         "input_error": "The minimum purchase amount is ${{amount}} {{fiatCurrency}}",
-        "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day."
+        "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day.",
+        "estimated_fee": "Estimated transaction fee"
       },
       "kyc_disclaimer_modal": {
         "title": "Krypton account registration",
