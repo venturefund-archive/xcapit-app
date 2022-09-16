@@ -598,6 +598,7 @@
       "name_primary_action": "Ir a mi wallet"
     },
     "personalised_profile_test": {
+      "header":"Personaliza tu perfil",
       "question_1": "1. ¿Qué deseas hacer dentro de Xcapit? Elige todas las opciones que consideres",
       "question_2": "2. ¿Cuál es tu nivel de experiencia con criptos?",
       "to_do_in_app": {

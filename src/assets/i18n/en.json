@@ -605,6 +605,7 @@
       "name_primary_action": "Go to my wallet"
     },
     "personalised_profile_test": {
+      "header":"Customise your profile",
       "question_1": "1. What do you want to do inside Xcapit? Choose all the options you consider",
       "question_2": "2. What is your experience level with cryptos?",
       "to_do_in_app": {
