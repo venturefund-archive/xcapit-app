@@ -7,7 +7,12 @@ import { Tokens } from 'src/app/modules/swaps/shared-swaps/models/tokens/tokens'
 
 @Injectable({ providedIn: 'root' })
 export class TokenPricesController {
-  public new(_tokens: Tokens, _http: HttpClient | FakeHttpClient, _baseUrl = environment.apiUrl): TokenPrices {
+  constructor(private httpClient: HttpClient) {}
+  public new(
+    _tokens: Tokens,
+    _http: HttpClient | FakeHttpClient = this.httpClient,
+    _baseUrl = environment.apiUrl
+  ): TokenPrices {
     return new TokenPrices(_tokens, _http, _baseUrl);
   }
 }

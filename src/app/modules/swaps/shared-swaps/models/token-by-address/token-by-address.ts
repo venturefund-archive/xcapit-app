@@ -7,6 +7,7 @@ export class TokenByAddress {
   constructor(private _aTokenAddress: string, private _fromTokens: Tokens) { }
 
   async value(): Promise<Token> {
-    return (await this._fromTokens.value()).find(token => token.address() === this._aTokenAddress.toLocaleLowerCase());
+    return (await this._fromTokens.value()).find(token =>
+      token.address() === this._aTokenAddress.toLowerCase() || token.address() === this._aTokenAddress);
   }
 }

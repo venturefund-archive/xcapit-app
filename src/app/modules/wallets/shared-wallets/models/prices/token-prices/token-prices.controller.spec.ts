@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { TokenPricesController } from './token-prices.controller';
 import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
 import { TokenPrices } from './token-prices';
@@ -7,7 +6,7 @@ describe('TokenPricesController', () => {
   let service: TokenPricesController;
 
   beforeEach(() => {
-    service = TestBed.inject(TokenPricesController);
+    service = new TokenPricesController(null);
   });
 
   it('should create', () => {
@@ -15,6 +14,6 @@ describe('TokenPricesController', () => {
   });
 
   it('should create with default', () => {
-    expect(service.new(null, new FakeHttpClient())).toBeInstanceOf(TokenPrices);
+    expect(service.new(null)).toBeInstanceOf(TokenPrices);
   });
 });
