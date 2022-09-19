@@ -9,7 +9,7 @@ import { ShareTransactionDetailComponent } from './share-transaction-detail.comp
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 
-fdescribe('ShareTransactionDetailComponent', () => {
+describe('ShareTransactionDetailComponent', () => {
   let component: ShareTransactionDetailComponent;
   let fixture: ComponentFixture<ShareTransactionDetailComponent>;
   let shareServiceSpy: jasmine.SpyObj<ShareService>;

@@ -61,8 +61,9 @@ export class RemoveAccountModalComponent implements OnInit {
 
   ngOnInit() {}
 
-  async goToFAQ() {
-    await this.navController.navigateForward(['/support/faqs/wallet']);
+  goToFAQ() {
+    this.modalController.dismiss(false);
+    this.navController.navigateForward(['/support/faqs/wallet']);
   }
 
   removeAccount() {
