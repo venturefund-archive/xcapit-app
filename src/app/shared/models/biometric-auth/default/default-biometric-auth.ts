@@ -44,7 +44,10 @@ export class DefaultBiometricAuth implements BiometricAuth {
   }
 
   public verified(): Promise<boolean> {
-    return this._aPlugin.verifyIdentity(this._verifyOptions.value());
+    return this._aPlugin
+      .verifyIdentity(this._verifyOptions.value())
+      .then(() => true)
+      .catch(() => false);
   }
 
   public onNeedPass(): Subscribable {

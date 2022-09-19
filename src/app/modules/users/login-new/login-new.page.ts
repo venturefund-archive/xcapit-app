@@ -106,13 +106,15 @@ export class LoginNewPage {
 
   async activateBiometricAuth() {
     const biometricAuth = this.biometricAuthInjectable.create();
-    if (await biometricAuth.enabled() && await biometricAuth.verified()) {
+    if ((await biometricAuth.enabled()) && (await biometricAuth.verified())) {
       this.handleSubmit(true);
     }
   }
 
-  async handleSubmit(isBiometricAuth : boolean) {
-    const password = isBiometricAuth ? this.biometricAuthInjectable.create().password() : this.form.value.password;
+  async handleSubmit(isBiometricAuth: boolean) {
+    const password = isBiometricAuth
+      ? await this.biometricAuthInjectable.create().password()
+      : this.form.value.password;
     if (await new LoginToken(new Password(password), this.storage).valid()) {
       await new LoggedIn(this.storage).save(true);
       this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
