@@ -20,7 +20,7 @@ import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/in
       </div>
       <div class="ul__title">
         <ion-text class="ux-font-text-xl">{{ 'users.login_new.title' | translate }}</ion-text>
-        <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
+        <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit(false)">
           <div class="ul__input">
             <app-ux-input
               controlName="password"
@@ -105,13 +105,15 @@ export class LoginNewPage {
   }
 
   async activateBiometricAuth() {
-    if (await this.biometricAuthInjectable.create().enabled()) {
-      this.biometricAuthInjectable.create().verified();
+    const biometricAuth = this.biometricAuthInjectable.create();
+    if (await biometricAuth.enabled() && await biometricAuth.verified()) {
+      this.handleSubmit(true);
     }
   }
 
-  async handleSubmit() {
-    if (await new LoginToken(new Password(this.form.value.password), this.storage).valid()) {
+  async handleSubmit(isBiometricAuth : boolean) {
+    const password = isBiometricAuth ? this.biometricAuthInjectable.create().password() : this.form.value.password;
+    if (await new LoginToken(new Password(password), this.storage).valid()) {
       await new LoggedIn(this.storage).save(true);
       this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
     } else {
