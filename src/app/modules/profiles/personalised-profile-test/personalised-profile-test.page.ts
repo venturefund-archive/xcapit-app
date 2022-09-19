@@ -13,7 +13,7 @@ import { SkipProfileTestComponent } from '../shared-profiles/components/skip-pro
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/wallets" name="back"></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ 'wealth_managements.investor_test.header' | translate }}</ion-title>
+        <ion-title>{{ 'profiles.personalised_profile_test.header' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ppt ion-padding">
