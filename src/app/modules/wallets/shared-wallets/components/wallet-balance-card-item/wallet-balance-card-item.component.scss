@@ -20,6 +20,12 @@
         justify-content: space-between;
         align-items: center;
 
+        &__balance {
+          ion-label {
+            color: var(--ion-color-primary);
+          }
+        }
+
         &__name-label {
           display: flex;
 

@@ -18,9 +18,11 @@ import { RawToken } from '../../../../swaps/shared-swaps/models/token-repo/token
               this.tplToken.network | formattedNetwork | uppercase
             }}</ion-badge>
           </ion-label>
+          <div class="wbci__content__top__balance">
           <ion-label class="ux-font-lato ux-fsize-14 ux-fweight-semibold">{{
             this.tokenDetail.balance | formattedAmount | hideText: this.hideFundText
           }}</ion-label>
+          </div>
         </div>
         <div class="wbci__content__bottom">
           <ion-label color="neutral50" class="ux-font-lato ux-fsize-12 ux-fweight-regular"
