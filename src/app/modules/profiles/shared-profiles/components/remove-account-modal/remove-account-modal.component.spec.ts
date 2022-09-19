@@ -69,8 +69,4 @@ describe('RemoveAccountModalComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/faqs/wallet'])
     expect(modalControllerSpy.dismiss).toHaveBeenCalledOnceWith(false);
   });
-
-  it('should dismiss on navigate to FAQs', async () => {
-    
-  });
 });
