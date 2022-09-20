@@ -22,7 +22,6 @@ import { ProvidersFactory } from '../shared-ramps/models/providers/factory/provi
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
@@ -46,7 +45,6 @@ describe('MoonpayPage', () => {
   let providersSpy: jasmine.SpyObj<Providers>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
-  let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
   let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   const testWallet = {
@@ -106,7 +104,7 @@ describe('MoonpayPage', () => {
       },
     });
     walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
-      createFromStorage: { oneBy: () => Promise.resolve(new FakeWallet()) },
+      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
     });
     fakeModalController = new FakeModalController({});
     modalControllerSpy = fakeModalController.createSpy();
@@ -122,7 +120,6 @@ describe('MoonpayPage', () => {
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
         { provide: ModalController, useValue: modalControllerSpy },
-        { provide: AppStorageService, useValue: appStorageServiceSpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
       ],
@@ -148,7 +145,7 @@ describe('MoonpayPage', () => {
     await fixture.whenStable();
 
     expect(blockchainsFactorySpy.create).toHaveBeenCalledTimes(1);
-    expect(walletsFactorySpy.createFromStorage).toHaveBeenCalledTimes(1);
+    expect(walletsFactorySpy.create).toHaveBeenCalledTimes(1);
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'http://testURL.com' });
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
   });
@@ -157,12 +154,12 @@ describe('MoonpayPage', () => {
     const coin: jasmine.SpyObj<Coin> = jasmine.createSpyObj('Coin', {}, { value: 'USDT', network: 'ERC20' });
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    
+
     component.form.patchValue({ currency: coin });
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_moonpay_continue"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
-    
+
     expect(walletMaintenanceServiceSpy.addCoinIfUserDoesNotHaveIt).toHaveBeenCalledOnceWith(coin);
   });
 

@@ -14,7 +14,6 @@ import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 
 @Component({
@@ -80,7 +79,6 @@ export class MoonpayPage implements OnInit {
     private walletMaintenance: WalletMaintenanceService,
     private tokenOperationDataService: TokenOperationDataService,
     private modalController: ModalController,
-    private appStorageService: AppStorageService,
     private wallets: WalletsFactory,
     private blockchains: BlockchainsFactory
   ) {}
@@ -115,7 +113,7 @@ export class MoonpayPage implements OnInit {
 
   async openMoonpay() {
     const blockchain = this.blockchains.create().oneByName(this.coinSelected.network);
-    const wallet = await this.wallets.createFromStorage(this.appStorageService).oneBy(blockchain);
+    const wallet = await this.wallets.create().oneBy(blockchain);
     this.fiatRampsService
       .getMoonpayLink(wallet.address(), this.form.value.currency.moonpayCode)
       .toPromise()

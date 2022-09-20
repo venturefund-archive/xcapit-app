@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Wallet } from 'ethers';
 import moment from 'moment';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
@@ -71,9 +72,16 @@ export class WalletMaintenanceService {
   }
 
   private async createWalletsFromNetwork(network: string) {
-    const blockchain = this.blockchainsFactory.create().oneByName(network);
-    const wallet = await this.walletsFactory.createFromPhrase(this.password, this.walletMnemonicService.mnemonic.phrase).oneBy(blockchain);
-    this.encryptedWallet.addresses[network] = wallet.address();
+    const wallets = this.walletsFactory.create();
+    const blockchains = this.blockchainsFactory.create();
+
+    await wallets.createFrom(
+      this.walletMnemonicService.mnemonic.phrase,
+      new Password(this.password),
+      blockchains
+    );
+
+    this.encryptedWallet.addresses[network] = (await wallets.oneBy(blockchains.oneByName(network))).address();
 
     this.apiWalletService.getCoinsFromNetwork(network).forEach((coin) => {
       this.encryptedWallet.assets[coin.value] = false;
@@ -103,7 +111,7 @@ export class WalletMaintenanceService {
     const coins = this.apiWalletService.getCoins();
     return coins.filter((coin) => !!this.encryptedWallet.assets[coin.value]);
   }
-  
+
   userHasCoin(coin: Coin): boolean {
     return this.encryptedWallet.assets[coin.value];
   }

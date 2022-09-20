@@ -21,6 +21,11 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
+import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
+import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 
 @Component({
   selector: 'app-home',
@@ -142,7 +147,9 @@ export class HomePage implements OnInit {
     private appStorage: AppStorageService,
     private walletBackupService: WalletBackupService,
     private storage: IonicStorageService,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private blockchainsFactory: BlockchainsFactory,
+    private walletsFactory: WalletsFactory
   ) {}
 
   ngOnInit() {}
@@ -200,23 +207,26 @@ export class HomePage implements OnInit {
   }
 
   private async setTokenDetails() {
-    const result = [];
-    for (const network of this.apiWalletService.getNetworks()) {
-      const tokens = this.userTokens.filter((token) => token.network === network);
-      const address = await this.storageService.getWalletsAddresses(network);
+    const tokenDetails : TokenDetail[] = [];
 
-      if (tokens.length) {
-        const balances = this.covalentBalances.new(address, tokens, this.http);
+    for (const blockchain of this.blockchainsFactory.create().value()) {
+      const tokens: any = new BlockchainTokens(blockchain, new DefaultTokens(new TokenRepo(this.userTokens)));
+      if ((await tokens.value()).length) {
+        const balances = this.covalentBalances.new(
+          (await this.walletsFactory.create().oneBy(blockchain)).address(),
+          tokens,
+          this.http
+        );
         const prices = this.tokenPrices.new(tokens, this.http);
-        for (const token of tokens) {
+        for (const token of await tokens.value()) {
           const tokenDetail = this.tokenDetail.new(balances, prices, token, this.balanceCacheService);
-          result.push(tokenDetail);
+          tokenDetails.push(tokenDetail);
           await tokenDetail.cached();
         }
         this.totalBalanceModel = this.totalBalance.new(prices, balances, this.totalBalanceModel);
       }
     }
-    this.tokenDetails = result;
+    this.tokenDetails = tokenDetails;
   }
 
   private async fetchDetails() {

@@ -71,8 +71,7 @@ describe('OperationsNewPage', () => {
     });
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       getUserWallets: of({}),
-      checkUser: of({}),
-      createUser: of({}),
+      getOrCreateUser: of({}),
       setProvider: null,
     });
 
@@ -200,19 +199,18 @@ describe('OperationsNewPage', () => {
     await fixture.whenRenderingDone();
     await component.handleSubmit();
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
-    expect(fiatRampsServiceSpy.checkUser).toHaveBeenCalledTimes(1);
-    expect(fiatRampsServiceSpy.createUser).toHaveBeenCalledTimes(1);
+    expect(fiatRampsServiceSpy.getOrCreateUser).toHaveBeenCalledTimes(1);
   });
 
   it('should redirect user when valid form is submitted and user already exists', async () => {
-    fiatRampsServiceSpy.checkUser.and.returnValue(of(userNew));
+    fiatRampsServiceSpy.getOrCreateUser.and.returnValue(of(userNew));
     component.ionViewWillEnter();
     component.form.patchValue(validForm);
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     await component.handleSubmit();
-    expect(fiatRampsServiceSpy.checkUser).toHaveBeenCalledTimes(1);
+    expect(fiatRampsServiceSpy.getOrCreateUser).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/user-information']);
   });
 

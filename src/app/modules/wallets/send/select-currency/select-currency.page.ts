@@ -36,7 +36,7 @@ export class SelectCurrencyPage implements OnInit {
 
   ionViewWillEnter() {
     this.storageService.getAssestsSelected().then((coins) => {
-      this.coins = coins;
+      this.coins = coins.filter(rawToken => rawToken.network !== 'SOLANA');
     });
   }
 
@@ -47,7 +47,7 @@ export class SelectCurrencyPage implements OnInit {
         network: currency.network
       },
     };
-    
+
     this.navController.navigateForward(['/wallets/send/detail'], navigationExtras);
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import { SUCCESS_TYPES } from '../../../../shared/components/success-content/success-types.constant';
 
 @Component({
@@ -12,5 +13,14 @@ import { SUCCESS_TYPES } from '../../../../shared/components/success-content/suc
 })
 export class SendSuccessPage {
   data = SUCCESS_TYPES.wallet_send;
-  constructor() {}
+
+  constructor(private trackService: TrackService) {}
+
+  ionViewWillEnter() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_send_screenview_success',
+    });
+  }
 }

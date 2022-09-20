@@ -26,6 +26,7 @@ import { BrowserService } from '../../../shared/services/browser/browser.service
 import { DirectaDepositCreationData } from '../shared-ramps/interfaces/directa-deposit-creation-data.interface';
 import { EnvService } from '../../../shared/services/env/env.service';
 import RoundedNumber from '../../../shared/models/rounded-number/rounded-number';
+import CeilOf from 'src/app/shared/models/ceil-of/ceil-of';
 
 @Component({
   selector: 'app-directa',
@@ -51,6 +52,7 @@ import RoundedNumber from '../../../shared/models/rounded-number/rounded-number'
             [provider]="this.provider"
             [coinSelectorEnabled]="false"
             [minimumFiatAmount]="this.minimumFiatAmount"
+            [fee]="this.fee"
           ></app-provider-new-operation-card>
         </div>
       </form>
@@ -97,7 +99,7 @@ export class DirectaPage implements OnInit {
   minimumFiatAmount: number;
   minimumCryptoAmount: number;
   mininumUSDAmount = 2;
-
+  fee = { value: 0, token: '' };
   constructor(
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
@@ -125,6 +127,7 @@ export class DirectaPage implements OnInit {
     this.setFiatToken();
     this.setCryptoToken();
     this.cryptoPrice();
+    this.usdCryptoPrice();
     this.subscribeToFormChanges();
   }
 
@@ -136,6 +139,7 @@ export class DirectaPage implements OnInit {
 
   setFiatToken() {
     this.fiatCurrency = this.country.isoCurrencyCodeDirecta;
+    this.fee.token = this.fiatCurrency;
   }
 
   setCryptoToken() {
@@ -169,15 +173,16 @@ export class DirectaPage implements OnInit {
   }
 
   async depositData(): Promise<DirectaDepositCreationData> {
+    const dynamicLinkUrl = this.getDynamicLinkUrl();
     return {
       amount: this.form.value.fiatAmount,
       fiat_token: this.fiatCurrency,
       crypto_token: this.selectedCurrency.value,
       country: this.country.directaCode,
       payment_method: this.provider.alias,
-      back_url: 'https://nonprod.xcapit.com/tabs/wallets',
-      success_url: 'https://nonprod.xcapit.com/tabs/wallets',
-      error_url: 'https://nonprod.xcapit.com/tabs/wallets',
+      back_url: dynamicLinkUrl + 'directa-back-url',
+      success_url: dynamicLinkUrl + 'directa-success-url',
+      error_url: dynamicLinkUrl + 'directa-error-url',
       notification_url: this.webhookURL(),
       logo: 'https://xcapit-foss.gitlab.io/documentation/img/x.svg',
       wallet: await this.userWalletAddress(),
@@ -203,39 +208,56 @@ export class DirectaPage implements OnInit {
   }
 
   subscribeToFormChanges() {
-    this.form.get('cryptoAmount').valueChanges.subscribe((value) => this.cryptoAmountChange(value));
-    this.form.get('fiatAmount').valueChanges.subscribe((value) => this.fiatAmountChange(value));
+    this.form
+      .get('cryptoAmount')
+      .valueChanges.subscribe((value) => (value ? this.cryptoAmountChange(value) : this.resetInfo('fiatAmount')));
+    this.form
+      .get('fiatAmount')
+      .valueChanges.subscribe((value) => (value ? this.fiatAmountChange(value) : this.resetInfo('cryptoAmount')));
   }
 
+  resetInfo(aField: string) {
+    this.form.patchValue({ [aField]: 0 }, this.defaultPatchValueOptions());
+    this.resetFee();
+  }
   private cryptoAmountChange(value: number) {
     this.form.patchValue(
       { fiatAmount: new RoundedNumber(value * this.price).value() },
-      { emitEvent: false, onlySelf: true }
+      this.defaultPatchValueOptions()
     );
+    this.getFee();
   }
 
   private fiatAmountChange(value: number) {
     const roundedValue = new RoundedNumber(value).value();
-    this.form.patchValue({ fiatAmount: roundedValue }, { emitEvent: false, onlySelf: true });
-    this.form.patchValue({ cryptoAmount: roundedValue / this.price }, { emitEvent: false, onlySelf: true });
+    this.form.patchValue(
+      { fiatAmount: roundedValue, cryptoAmount: roundedValue / this.price },
+      this.defaultPatchValueOptions()
+    );
+    this.getFee();
   }
 
   private updateAmounts(): void {
-    this.form.patchValue({ fiatAmount: new RoundedNumber(this.form.value.cryptoAmount * this.price).value() });
+    if (this.form.value.fiatAmount && this.form.value.cryptoAmount) {
+      this.form.patchValue(
+        { fiatAmount: new RoundedNumber(this.form.value.cryptoAmount * this.price).value() },
+        this.defaultPatchValueOptions()
+      );
+    }
   }
 
   private addDefaultValidators() {
-    this.form.get('cryptoAmount').addValidators(Validators.required);
+    this.form.get('fiatAmount').addValidators(Validators.required);
   }
 
   private clearValidators() {
-    this.form.get('cryptoAmount').clearValidators();
+    this.form.get('fiatAmount').clearValidators();
   }
   private addGreaterThanValidator(amount) {
     this.clearValidators();
     this.addDefaultValidators();
-    this.form.get('cryptoAmount').addValidators(CustomValidators.greaterOrEqualThan(amount));
-    this.form.get('cryptoAmount').updateValueAndValidity();
+    this.form.get('fiatAmount').addValidators(CustomValidators.greaterOrEqualThan(amount));
+    this.form.get('fiatAmount').updateValueAndValidity(this.defaultPatchValueOptions());
   }
 
   private cryptoPrice() {
@@ -244,8 +266,7 @@ export class DirectaPage implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
         this.price = price;
-        if (this.form.value.fiatAmount) this.updateAmounts();
-        this.usdCryptoPrice();
+        this.updateAmounts();
       });
   }
 
@@ -254,9 +275,11 @@ export class DirectaPage implements OnInit {
       .value()
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
-        this.minimumCryptoAmount = this.mininumUSDAmount / price;
-        this.minimumFiatAmount = this.minimumCryptoAmount * this.price;
-        this.addGreaterThanValidator(this.minimumCryptoAmount);
+        if (this.price) {
+          this.minimumCryptoAmount = this.mininumUSDAmount / price;
+          this.minimumFiatAmount = new CeilOf(this.minimumCryptoAmount * this.price).value();
+          this.addGreaterThanValidator(this.minimumFiatAmount);
+        }
       });
   }
 
@@ -264,8 +287,31 @@ export class DirectaPage implements OnInit {
     return this.directaPrice.new(this.milliseconds, currency, this.selectedCurrency, this.fiatRampsService);
   }
 
+  loadingFee() {
+    this.fee.value = undefined;
+  }
+
+  resetFee() {
+    this.fee.value = 0;
+  }
+
+  getFee() {
+    this.loadingFee();
+    this.fiatRampsService
+      .getDirectaExchangeRate(this.fiatCurrency, this.selectedCurrency.value, this.form.value.fiatAmount)
+      .subscribe((res) => (this.fee.value = res.fee * this.price));
+  }
+
   ionViewWillLeave() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private defaultPatchValueOptions() {
+    return { emitEvent: false, onlySelf: true };
+  }
+
+  getDynamicLinkUrl() {
+    return this.envService.all().firebase.dynamicLinkUrl;
   }
 }

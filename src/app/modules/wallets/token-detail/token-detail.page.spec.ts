@@ -1,17 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { AssetDetailPage } from './asset-detail.page';
+import { TokenDetailPage } from './token-detail.page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { By } from '@angular/platform-browser';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
-import { of } from 'rxjs';
-import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { WalletTransactionsService } from '../shared-wallets/services/wallet-transactions/wallet-transactions.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
-import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { SplitStringPipe } from 'src/app/shared/pipes/split-string/split-string.pipe';
@@ -23,105 +18,62 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { Vault } from '@2pi-network/sdk';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
-import { WalletEncryptionService } from '../shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { TwoPiInvestment } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
 import { TwoPiInvestmentFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-investment/factory/two-pi-investment-factory';
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
 import { TransfersFactory } from '../shared-wallets/models/transfers/factory/transfers.factory';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { CovalentBalancesController } from '../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { TokenPricesController } from '../shared-wallets/models/prices/token-prices/token-prices.controller';
+import {
+  rawETHData,
+  rawSAMOData,
+  rawTokensData,
+  rawUSDCData,
+} from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import {
+  rawBlockchainsData,
+  rawEthereumData,
+  rawPolygonData,
+  rawSolanaData,
+} from '../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/wallet';
+import { DefaultBlockchains } from '../../swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from '../../swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { FakeBalances } from '../shared-wallets/models/balances/fake-balances/fake-balances';
+import { FakePrices } from '../shared-wallets/models/prices/fake-prices/fake-prices';
+import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/injectable/token-detail.injectable';
+import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
+import { SpyProperty } from 'src/testing/spy-property.spec';
 
-const nativeTransfersResponse = {
-  data: {
-    address: 'testAddress',
-    quote_currency: 'USD',
-    items: [
-      {
-        from_address: 'testFromAddress',
-        to_address: 'testToAddress',
-        value: '10000000000000000',
-        value_quote: 30,
-      },
-      {
-        from_address: 'testFromAddress',
-        to_address: 'testAddress',
-        value: '10000000000000000',
-        value_quote: 30,
-      },
-    ],
-  },
-};
 
-const nativeAsset: Coin = {
-  id: 2,
-  name: 'ETH - Ethereum',
-  logoRoute: '../../assets/img/coins/ETH.svg',
-  last: false,
-  value: 'ETH',
-  network: 'ERC20',
-  chainId: 42,
-  rpc: 'http://testrpc.test',
-};
+describe('TokenDetailPage', () => {
 
-const solanaAsset: Coin  = {
-  id: 29,
-  name: 'SOL - Solana',
-  logoRoute: 'assets/img/coins/SOL.svg',
-  last: true,
-  value: 'SOL',
-  network: 'SOLANA',
-  chainId: 666,
-  rpc: 'http://testrpc.test',
-}
+  let component: TokenDetailPage;
+  let fixture: ComponentFixture<TokenDetailPage>;
 
-describe('AssetDetailPage', () => {
-  let component: AssetDetailPage;
-  let fixture: ComponentFixture<AssetDetailPage>;
-  let walletServiceSpy: jasmine.SpyObj<WalletService>;
-  let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
-  let navControllerSpy: jasmine.SpyObj<NavController>;
-  let fakeNavController: FakeNavController;
-  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let providersSpy: jasmine.SpyObj<Providers>;
-  let coinsSpy: jasmine.SpyObj<Coin>[];
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
-  let walletEncryptionServiceSpy: jasmine.SpyObj<WalletEncryptionService>;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
   let twoPiInvestmentFactorySpy: jasmine.SpyObj<TwoPiInvestmentFactory>;
   let twoPiProductFactorySpy: jasmine.SpyObj<TwoPiProductFactory>;
-  let transfersFactorySpy: jasmine.SpyObj<TransfersFactory>
+  let transfersFactorySpy: jasmine.SpyObj<TransfersFactory>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
+  let covalentBalancesFactorySpy: jasmine.SpyObj<CovalentBalancesController>;
+  let tokenPricesFactorySpy: jasmine.SpyObj<TokenPricesController>;
+  let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
+  let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   beforeEach(waitForAsync(() => {
-    coinsSpy = [
-      jasmine.createSpyObj(
-        'Coin',
-        {},
-        {
-          value: 'ETH',
-          network: 'ERC20',
-        }
-      ),
-      jasmine.createSpyObj(
-        'Coin',
-        {},
-        {
-          value: 'AVAX',
-          network: 'BSC_BEP20',
-        }
-      ),
-      jasmine.createSpyObj(
-        'Coin',
-        {},
-        {
-          name: 'USDC - USD Coin',
-          value: 'USDC',
-          network: 'MATIC',
-          decimals: 6,
-        }
-      ),
-    ];
-
     twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
       vault: Promise.resolve({
         apy: 0.227843965358873,
@@ -136,26 +88,20 @@ describe('AssetDetailPage', () => {
       } as Vault),
     });
 
-    fakeActivatedRoute = new FakeActivatedRoute({ currency: 'ETH' });
+    tokenPricesFactorySpy = jasmine.createSpyObj('TokenPricesController', {
+      new: new FakePrices(),
+    });
+    covalentBalancesFactorySpy = jasmine.createSpyObj('CovalentBalancesController', { new: new FakeBalances() });
+    fakeActivatedRoute = new FakeActivatedRoute({ blockchain: rawEthereumData.name, token: rawETHData.contract });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getPrices: of({ prices: { ETH: 3000 } }),
-      getCoins: coinsSpy,
-    });
-    walletServiceSpy = jasmine.createSpyObj('WalletService', {
-      balanceOf: Promise.resolve('20'),
-      addresses: { ERC20: 'testAddress' },
-      walletExist: Promise.resolve(true),
+      getCoins: rawTokensData,
     });
 
-    storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      getWalletsAddresses: Promise.resolve('testAddress'),
-    });
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     providersSpy = jasmine.createSpyObj('Providers', {
       all: rawProvidersData,
-      byAlias: rawProvidersData.find((provider) => provider.alias === 'PX'),
     });
 
     providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
@@ -163,22 +109,12 @@ describe('AssetDetailPage', () => {
     });
 
     transfersFactorySpy = jasmine.createSpyObj('TransfersFactory', {
-      create: {all: ()=> [] },
+      create: { all: () => [] },
     });
 
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', {
       getObject: [{ test: 'test' }],
     });
-
-    walletEncryptionServiceSpy = jasmine.createSpyObj(
-      'WalletEncryptionServiceSpy',
-      {
-        getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x0000001' } }),
-      },
-      {
-        addresses: { MATIC: '0x0000001' },
-      }
-    );
 
     twoPiInvestmentFactorySpy = jasmine.createSpyObj('TwoPiInvestmentFactory', {
       new: { balance: () => Promise.resolve(10) },
@@ -194,27 +130,51 @@ describe('AssetDetailPage', () => {
       },
     });
 
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: blockchains,
+    });
+
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+    });
+
+    tokenDetailSpy = jasmine.createSpyObj(
+      'TokenDetail',
+      {
+        fetch: Promise.resolve(),
+        cached: Promise.resolve(),
+      },
+      {
+        price: 3000,
+        balance: 20,
+        quoteSymbol: 'USD',
+      }
+    );
+    tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailInjectable', { create: tokenDetailSpy });
+
     TestBed.configureTestingModule({
-      declarations: [AssetDetailPage, FormattedAmountPipe, SplitStringPipe, FormattedNetworkPipe],
+      declarations: [TokenDetailPage, FormattedAmountPipe, SplitStringPipe, FormattedNetworkPipe],
       imports: [TranslateModule.forRoot(), IonicModule.forRoot(), RouterTestingModule],
       providers: [
-        { provide: NavController, useValue: navControllerSpy },
-        { provide: WalletService, useValue: walletServiceSpy },
-        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-        { provide: StorageService, useValue: storageServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
         { provide: TwoPiApi, useValue: twoPiApiSpy },
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
-        { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
         { provide: TwoPiInvestmentFactory, useValue: twoPiInvestmentFactorySpy },
         { provide: TwoPiProductFactory, useValue: twoPiProductFactorySpy },
-        { provide: TransfersFactory, useValue: transfersFactorySpy }
+        { provide: TransfersFactory, useValue: transfersFactorySpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: WalletsFactory, useValue: walletsFactorySpy },
+        { provide: CovalentBalancesController, useValue: covalentBalancesFactorySpy },
+        { provide: TokenPricesController, useValue: tokenPricesFactorySpy },
+        { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AssetDetailPage);
+    fixture = TestBed.createComponent(TokenDetailPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
@@ -223,67 +183,74 @@ describe('AssetDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get currency on view will enter', async () => {
-    expect(component.currency).toBeFalsy();
+  it('should get token template on view will enter', async () => {
+    expect(component.tplToken).toBeFalsy();
     await component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(component.currency).toEqual(coinsSpy[0]);
+
     expect(component.enabledToBuy).toBeTrue();
+    expect(component.tplToken).toEqual(rawETHData);
   });
 
   it('should disable purchase when token is not enabled to buy among all providers', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ currency: 'AVAX' });
+    fakeActivatedRoute.modifySnapshotParams({ blockchain: rawSolanaData.name, token: rawSAMOData.contract });
+
     await component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
+
     expect(component.enabledToBuy).toBeFalse();
   });
 
   it('should get prices and balances on view will enter', async () => {
     await component.ionViewWillEnter();
-    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     const [amountEl, quoteAmountEl] = fixture.debugElement.queryAll(By.css('.wad__available__amounts ion-text'));
-    expect(amountEl.nativeElement.innerHTML).toContain(20);
-    expect(amountEl.nativeElement.innerHTML).toContain('ETH');
-    expect(quoteAmountEl.nativeElement.innerHTML).toContain('USD');
+
+    expect(amountEl.nativeElement.innerHTML).toContain('20 ETH');
     expect(quoteAmountEl.nativeElement.innerHTML).toContain('60000 USD');
   });
 
   it('should get prices and balances on view will enter without prices', async () => {
-    apiWalletServiceSpy.getPrices.and.returnValues(of({ prices: {} }));
+    new SpyProperty(tokenDetailSpy, 'price').value().and.returnValue(null);
     await component.ionViewWillEnter();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     const [amountEl, quoteAmountEl] = fixture.debugElement.queryAll(By.css('.wad__available__amounts ion-text'));
+
+    expect(quoteAmountEl).toBe(undefined);
     expect(amountEl.nativeElement.innerHTML).toContain(20);
     expect(amountEl.nativeElement.innerHTML).toContain('ETH');
-    expect(quoteAmountEl).toBe(undefined);
   });
 
   it('should find to product to invest on view will enter', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
+    fakeActivatedRoute.modifySnapshotParams({ blockchain: rawPolygonData.name, token: rawUSDCData.contract });
     await component.ionViewWillEnter();
+
     expect(component.productToInvest.token().value).toEqual('USDC');
   });
 
   it('should navigate to investment detail page when ux_go_to_invest_asset_detail button is clicked and product balance is greater than 0', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
+    fakeActivatedRoute.modifySnapshotParams({ blockchain: rawPolygonData.name, token: rawUSDCData.contract });
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('.wad__title_and_image ion-button'));
-    buttonEl.nativeElement.click();
+
+    fixture.debugElement.query(By.css('.wad__title_and_image ion-button')).nativeElement.click();
+
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/investment-detail/', 'polygon_usdc']);
   });
 
   it('should navigate to insert amount page when ux_go_to_invest_asset_detail button is clicked and product balance isnt greater than 0', async () => {
     twoPiInvestmentFactorySpy.new.and.returnValue({ balance: () => Promise.resolve(0) } as TwoPiInvestment);
-    fakeActivatedRoute.modifySnapshotParams({ currency: 'USDC' });
+    fakeActivatedRoute.modifySnapshotParams({ blockchain: rawPolygonData.name, token: rawUSDCData.contract });
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('.wad__title_and_image ion-button'));
-    buttonEl.nativeElement.click();
+
+    fixture.debugElement.query(By.css('.wad__title_and_image ion-button')).nativeElement.click();
+
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       '/defi/new/insert-amount',
       'polygon_usdc',
@@ -292,9 +259,11 @@ describe('AssetDetailPage', () => {
   });
 
   it('should disable operations except receive when token belongs to Solana network', async () => {
-    component.canAssetOperate(solanaAsset);
+    fakeActivatedRoute.modifySnapshotParams({ blockchain: rawSolanaData.name, token: rawSAMOData.contract });
+    await component.ionViewWillEnter();
     await fixture.whenStable();
     fixture.detectChanges();
+
     expect(component.enabledToOperate).toBeFalse();
-  })
+  });
 });

@@ -223,7 +223,7 @@ export class OperationsNewPage implements AfterViewInit {
       .subscribe((price: number) => {
         this.fiatPrice = price;
         if (this.form.value.fiatAmount) this.updateAmounts();
-        this.usdDynamicPrice()
+        this.usdDynamicPrice();
       });
   }
 
@@ -239,8 +239,8 @@ export class OperationsNewPage implements AfterViewInit {
       });
   }
 
-  patchCryptoAmountValue(){
-    if(!this.alreadySet){
+  patchCryptoAmountValue() {
+    if (!this.alreadySet) {
       this.form.get('cryptoAmount').patchValue(this.minimumCryptoAmount);
       this.alreadySet = true;
     }
@@ -267,16 +267,15 @@ export class OperationsNewPage implements AfterViewInit {
   async handleSubmit() {
     if (this.form.valid) {
       await this.setOperationStorage();
-      this.checkUser();
+      this.checkKYCAndRedirect();
     } else {
       this.form.markAllAsTouched();
     }
   }
 
-  async checkUser() {
-    const checkUserResponse = await this.fiatRampsService.checkUser().toPromise();
-    const userStatus = checkUserResponse.id ? checkUserResponse : await this.fiatRampsService.createUser().toPromise();
-    this.redirectByStatus(userStatus);
+  async checkKYCAndRedirect() {
+    const userStatus = await this.fiatRampsService.getOrCreateUser().toPromise();
+    this.redirectByStatus(userStatus.registration_status);
   }
 
   async setOperationStorage() {
@@ -323,8 +322,8 @@ export class OperationsNewPage implements AfterViewInit {
     return url;
   }
 
-  redirectByStatus(userStatus) {
-    const url = this.getUrlByStatus(userStatus.registration_status);
+  redirectByStatus(registrationStatus: string) {
+    const url = this.getUrlByStatus(registrationStatus);
     this.navController.navigateForward(url);
   }
 

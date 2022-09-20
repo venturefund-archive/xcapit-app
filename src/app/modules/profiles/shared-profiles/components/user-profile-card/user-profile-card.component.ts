@@ -19,11 +19,12 @@ import { NavController } from '@ionic/angular';
           appTrackClick
           class="option-button ux_button ion-no-padding ion-no-margin"
           fill="clear"
+          color="info"
           name="ux_go_to_investor_profile"
           (click)="this.goToInvestments()"
         >
           <ion-text>{{ 'profiles.user_profile_menu.profile_footer.investor_profile_button' | translate }}</ion-text>
-          <ion-icon name="chevron-forward"></ion-icon>
+          <ion-icon color="info" name="chevron-forward"></ion-icon>
         </ion-button>
       </div>
     </div>

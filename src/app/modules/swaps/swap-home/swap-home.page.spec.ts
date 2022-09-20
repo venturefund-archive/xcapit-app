@@ -108,7 +108,7 @@ describe('SwapHomePage', () => {
   };
 
   const _setWalletToInvalidPassword = () => {
-    walletsFactorySpy.createFromStorage.and.returnValue({
+    walletsFactorySpy.create.and.returnValue({
       oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), new PasswordErrorMsgs().invalid())),
     });
   };
@@ -151,7 +151,7 @@ describe('SwapHomePage', () => {
     });
 
     walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
-      createFromStorage: { oneBy: () => Promise.resolve(new FakeWallet()) },
+      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
     });
 
     swapTransactionsFactorySpy = jasmine.createSpyObj('SwapTransactionsFactory', {
@@ -225,7 +225,7 @@ describe('SwapHomePage', () => {
 
   it('should call appTrackEvent on trackService when swap button is clicked', () => {
     spyOn(component, 'swapThem');
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_swaps_swap');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_swap_confirm');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
 
@@ -238,7 +238,7 @@ describe('SwapHomePage', () => {
   it('should button disabled on invalid value in from token amount input', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_swaps_swap"]'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_swap_confirm"]'));
 
     expect(component.form.valid).toBeFalse();
     expect(buttonEl.attributes['ng-reflect-disabled']).toEqual('true');
@@ -266,6 +266,7 @@ describe('SwapHomePage', () => {
 
   it('should show warning toast and disable amount input if fromToken and toToken equals each other', async () => {
     fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
       fromToken: rawUSDCData.contract,
       toToken: rawUSDCData.contract,
     });
@@ -279,6 +280,7 @@ describe('SwapHomePage', () => {
 
   it('should show and render available amount properly', async () => {
     fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
       fromToken: rawMATICData.contract,
       toToken: rawUSDCData.contract,
     });
@@ -305,6 +307,7 @@ describe('SwapHomePage', () => {
 
   it('should set native token balance to pass to fee component', async () => {
     fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
       fromToken: rawUSDCData.contract,
       toToken: rawMATICData.contract,
     });
@@ -381,7 +384,7 @@ describe('SwapHomePage', () => {
 
   it('should send error notification when swap is not ok', fakeAsync(() => {
     fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
-    walletsFactorySpy.createFromStorage.and.returnValue({
+    walletsFactorySpy.create.and.returnValue({
       oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'a random error')),
     });
     _setTokenAmountArrange(1);
@@ -453,7 +456,7 @@ describe('SwapHomePage', () => {
     _setTokenAmountArrange(11);
     const div = fixture.debugElement.query(By.css('div.sw__swap-card__from__detail__insufficient'));
     fixture.detectChanges();
-    
+
     expect(div).toBeTruthy();
     expect(component.disabledBtn).toBeTruthy();
     expect(component.insufficientBalance).toBeTruthy();

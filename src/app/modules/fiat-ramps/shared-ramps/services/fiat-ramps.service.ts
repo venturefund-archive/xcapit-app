@@ -34,18 +34,9 @@ export class FiatRampsService {
     return this.http.get(`${environment.apiUrl}/apikeys/deposit_address/${currency}`, undefined, undefined, false);
   }
 
-  checkUser(): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/${this.provider}/check_user`,
-      undefined,
-      undefined,
-      false
-    );
-  }
-
-  createUser(): Observable<any> {
+  getOrCreateUser(): Observable<any> {
     return this.http.post(
-      `${environment.apiUrl}/${this.entity}/${this.provider}/create_user`,
+      `${environment.apiUrl}/${this.entity}/${this.provider}/get_or_create_user`,
       undefined,
       undefined,
       false

@@ -605,6 +605,7 @@
       "name_primary_action": "Go to my wallet"
     },
     "personalised_profile_test": {
+      "header":"Customise your profile",
       "question_1": "1. What do you want to do inside Xcapit? Choose all the options you consider",
       "question_2": "2. What is your experience level with cryptos?",
       "to_do_in_app": {
@@ -1838,7 +1839,7 @@
       }
     },
     "shared_wallets": {
-      "share_transaction_detail":{
+      "share_transaction_detail": {
         "text": "Hello! I sent you ",
         "text2": "For more information: ",
         "dialogTitle": "Share",
@@ -1915,6 +1916,13 @@
         "description": "Before performing any operation, protect it by backing up your recovery phrase.",
         "button_protect": "Protect my wallet",
         "button_skip": "Skip"
+      },
+      "new_token_available_card": {
+        "coming_soon": "Coming soon"
+      },
+      "new_token_info-modal": {
+        "title": "Benefits of using Solana",
+        "subtitle": "<ul><li>Wide variety of DApps to use</li><li>Transactional speed: Solana is the fastest blockchain in the world</li><li>Low cost per transaction</li></ul>"
       }
     },
     "asset_detail": {
@@ -2108,11 +2116,16 @@
       "label_check": "I agree to the terms and conditions of purchase.",
       "button": "Continue"
     },
-    "error_d24_operation":{
-      "text_primary":"There was an error in your purchase",
-      "text_secondary":"Try again or contact support if the problem persists.",
-      "button_primary":"Retry",
-      "button_secondary":"Go to wallet"
+    "error_d24_operation": {
+      "text_primary": "There was an error in your purchase",
+      "text_secondary": "Try again or contact support if the problem persists.",
+      "button_primary": "Retry",
+      "button_secondary": "Go to wallet"
+    },
+    "success_d24_operation": {
+      "text_primary": "Purchase confirmed!",
+      "text_secondary": "The crediting of your tokens can take up to 24 hours.",
+      "button_text": "Go to wallet"
     },
     "operations_list": {
       "title": "My operations",
@@ -2387,12 +2400,20 @@
         "provider": "Provider",
         "to_pay": "You will pay*",
         "input_error": "The minimum purchase amount is ${{amount}} {{fiatCurrency}}",
-        "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day."
+        "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day.",
+        "estimated_fee": "Estimated transaction fee"
       },
       "kyc_disclaimer_modal": {
         "title": "Krypton account registration",
         "description": "You only have to create a Krypton account once, the next time you choose this operator you will be automatically logged in. Remember that the registration and purchase process is in the control of Krypton.",
         "button": "Begin"
+      },
+      "fee_info_modal": {
+        "title": "What is the transaction fee?",
+        "item1": "It is the cost of making a purchase.",
+        "item2": "It may vary slightly at the time of the operation.",
+        "item3": "You can find it on your payment ticket as “amount checker“.",
+        "button": "Understood"
       }
     }
   },
