@@ -38,9 +38,6 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./fee-info-modal.component.scss'],
 })
 export class FeeInfoModalComponent implements OnInit {
-  title: string;
-  description: string;
-  buttonText: string;
 
   constructor(private modalController: ModalController) {}
 
