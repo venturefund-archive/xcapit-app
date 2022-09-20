@@ -42,6 +42,7 @@ import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { rawETHData, rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -192,7 +193,7 @@ describe('HomeWalletPage', () => {
     });
 
     TestBed.configureTestingModule({
-      declarations: [HomeWalletPage, FakeTrackClickDirective, HideTextPipe],
+      declarations: [HomeWalletPage, FakeTrackClickDirective, HideTextPipe, FakeFeatureFlagDirective],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
