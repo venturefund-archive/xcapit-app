@@ -2217,6 +2217,18 @@
         "provider": "Provider",
         "reception_address": "Reception address",
         "network": "Network"
+      },
+      "remove_photo":{
+        "title": "Remove file?",
+        "description":"If you continue, you will have to upload the voucher again.",
+        "button_text1":"Cancel",
+        "button_text2":"Remove"
+      },
+      "exit_operation_detail":{
+        "title": "Do you want to go out?",
+        "description":"You will need to reload your voucher.",
+        "button_text1":"Cancel",
+        "button_text2":"Confirm"
       }
     },
     "operation_status": {

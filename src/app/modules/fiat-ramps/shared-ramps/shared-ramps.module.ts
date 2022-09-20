@@ -11,6 +11,7 @@ import { KycDisclaimerModalComponent } from './components/kyc-disclaimer-modal/k
 import { FiatInputComponent } from './components/fiat-input/fiat-input.component';
 import { InfoProviderComponent } from './components/info-provider/info-provider.component';
 import { CoinSelectorModalComponent } from './components/coin-selector-modal/coin-selector-modal.component';
+import { SkipTransactionVoucherComponent } from './components/skip-transaction-voucher/skip-transaction-voucher.component';
 import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-modal.component';
 
 @NgModule({
@@ -27,6 +28,7 @@ import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-moda
     InfoProviderComponent,
     CoinSelectorModalComponent,
     FeeInfoModalComponent,
+    SkipTransactionVoucherComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -43,6 +45,7 @@ import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-moda
     InfoProviderComponent,
     CoinSelectorModalComponent,
     FeeInfoModalComponent,
+    SkipTransactionVoucherComponent
   ],
 })
 export class SharedRampsModule {}
