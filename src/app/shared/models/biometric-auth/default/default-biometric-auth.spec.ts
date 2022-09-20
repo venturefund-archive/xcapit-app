@@ -19,7 +19,7 @@ describe('BiometricAuth', () => {
       remove: Promise.resolve(),
       get: Promise.resolve(true),
     });
-    biometricAuth = new DefaultBiometricAuth(storageSpy, new BiometricVerifyOptions(), fakeNativeBiometricPlugin);
+    biometricAuth = new DefaultBiometricAuth(storageSpy, new BiometricVerifyOptions(null), fakeNativeBiometricPlugin);
   });
 
   it('new', () => {

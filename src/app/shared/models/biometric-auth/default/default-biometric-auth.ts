@@ -14,7 +14,7 @@ export class DefaultBiometricAuth implements BiometricAuth {
 
   constructor(
     private readonly _aStorage: IonicStorageService,
-    private readonly _verifyOptions: BiometricVerifyOptions = new BiometricVerifyOptions(),
+    private readonly _verifyOptions: BiometricVerifyOptions,
     private readonly _aPlugin: NativeBiometricPlugin | FakeNativeBiometricPlugin = NativeBiometric
   ) {}
 
