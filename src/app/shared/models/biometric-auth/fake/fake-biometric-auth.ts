@@ -10,7 +10,7 @@ export class FakeBiometricAuth implements BiometricAuth {
     private readonly enabledReturn: Promise<boolean> = Promise.resolve(true),
     private readonly verifiedReturn: Promise<boolean> = Promise.resolve(true),
     private readonly onReturn: Promise<void> = Promise.resolve(),
-    private readonly passwordReturn: Promise<string> = Promise.resolve('fakePass')
+    private readonly passwordReturn: Promise<string> = Promise.resolve('aPassword')
   ) {}
 
   available(): Promise<boolean> {

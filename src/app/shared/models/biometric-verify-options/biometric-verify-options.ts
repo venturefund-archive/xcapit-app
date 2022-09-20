@@ -1,9 +1,9 @@
 import { BiometricOptions } from 'capacitor-native-biometric/dist/esm/definitions';
-
+import { TranslateService } from '@ngx-translate/core';
 export class BiometricVerifyOptions {
   private _defaultOptions = {
-    title: 'hola',
-    subtitle: 'como estas'
+    // title: this.translate.instant('profiles.biometric_auth.options.title'),
+    // subtitle: this.translate.instant('profiles.biometric_auth.options.subtitle')
   }
   constructor(private readonly _options?: BiometricOptions) {}
 

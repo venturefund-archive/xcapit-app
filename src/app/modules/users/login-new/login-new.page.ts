@@ -8,7 +8,6 @@ import { LoggedIn } from '../shared-users/models/logged-in/logged-in';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LoginPasswordInfoComponent } from '../shared-users/components/login-password-info/login-password-info.component';
-import { DefaultBiometricAuth } from 'src/app/shared/models/biometric-auth/default/default-biometric-auth';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
 
 @Component({
@@ -86,6 +85,7 @@ export class LoginNewPage {
   form: UntypedFormGroup = this.formBuilder.group({
     password: ['', []],
   });
+  biometricAuth = this.biometricAuthInjectable.create();
   constructor(
     private toastService: ToastService,
     private formBuilder: UntypedFormBuilder,
@@ -105,15 +105,14 @@ export class LoginNewPage {
   }
 
   async activateBiometricAuth() {
-    const biometricAuth = this.biometricAuthInjectable.create();
-    if ((await biometricAuth.enabled()) && (await biometricAuth.verified())) {
+    if ((await this.biometricAuth.enabled()) && (await this.biometricAuth.verified())) {
       this.handleSubmit(true);
     }
   }
 
   async handleSubmit(isBiometricAuth: boolean) {
     const password = isBiometricAuth
-      ? await this.biometricAuthInjectable.create().password()
+      ? await this.biometricAuth.password()
       : this.form.value.password;
     if (await new LoginToken(new Password(password), this.storage).valid()) {
       await new LoggedIn(this.storage).save(true);

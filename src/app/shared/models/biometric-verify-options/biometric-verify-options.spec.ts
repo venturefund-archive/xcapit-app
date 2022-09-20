@@ -2,7 +2,6 @@ import { BiometricVerifyOptions } from './biometric-verify-options';
 
 describe('BiometricVerifyOptions', () => {
   let biometricVerifyOptions: BiometricVerifyOptions;
-
   beforeEach(() => {
     biometricVerifyOptions = new BiometricVerifyOptions();
   });

@@ -4,7 +4,7 @@ import { FakeNativeBiometricPlugin } from '../../native-biometric-plugin/fake-na
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { BiometricVerifyOptions } from '../../biometric-verify-options/biometric-verify-options';
 
-fdescribe('BiometricAuth', () => {
+describe('BiometricAuth', () => {
   let biometricAuth: DefaultBiometricAuth;
   let fakeNativeBiometricPlugin: FakeNativeBiometricPlugin;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
@@ -13,6 +13,7 @@ fdescribe('BiometricAuth', () => {
 
   beforeEach(() => {
     fakeNativeBiometricPlugin = new FakeNativeBiometricPlugin(Promise.resolve(true),Promise.resolve(),Promise.resolve({password: aPassword.value()}));
+    
     storageSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
       remove: Promise.resolve(),
