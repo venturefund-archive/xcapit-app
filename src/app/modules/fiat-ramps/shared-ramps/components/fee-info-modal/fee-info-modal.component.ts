@@ -12,13 +12,13 @@ import { ModalController } from '@ionic/angular';
     <div class="fim__bodyion-padding">
       <div class="fim__body__content">
         <ion-text class="ux-font-text-lg fim__body__content__title">
-          {{ 'fiat_ramps.shared.fee_modal_info.title' | translate }}
+          {{ 'fiat_ramps.shared.fee_info_modal.title' | translate }}
         </ion-text>
         <div class="fim__body__content__items">
           <ul>
-            <li>{{ 'fiat_ramps.shared.fee_modal_info.item1' | translate }}</li>
-            <li>{{ 'fiat_ramps.shared.fee_modal_info.item2' | translate }}</li>
-            <li>{{ 'fiat_ramps.shared.fee_modal_info.item3' | translate }}</li>
+            <li>{{ 'fiat_ramps.shared.fee_info_modal.item1' | translate }}</li>
+            <li>{{ 'fiat_ramps.shared.fee_info_modal.item2' | translate }}</li>
+            <li>{{ 'fiat_ramps.shared.fee_info_modal.item3' | translate }}</li>
           </ul>
         </div>
         <div class="fim__actions">
@@ -29,7 +29,7 @@ import { ModalController } from '@ionic/angular';
             size="large"
             (click)="this.close()"
           >
-            {{ 'fiat_ramps.shared.fee_modal_info.button' | translate }}
+            {{ 'fiat_ramps.shared.fee_info_modal.button' | translate }}
           </ion-button>
         </div>
       </div>
