@@ -180,6 +180,9 @@ import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
           </div>
         </div>
       </div>
+      <div class="quotes-card" *appFeatureFlag="'ff_newLogin'">
+          <app-quotes-card></app-quotes-card>
+        </div>
       <div class="wt__start-investing" *ngIf="this.walletExist">
         <app-start-investing></app-start-investing>
       </div>
