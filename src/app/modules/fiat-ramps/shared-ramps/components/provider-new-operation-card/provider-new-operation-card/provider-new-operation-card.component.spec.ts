@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormBuilder, UntypedFormGroup, FormGroupDirective, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ProviderNewOperationCardComponent } from './provider-new-operation-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
@@ -10,6 +9,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { rawProvidersData } from '../../../fixtures/raw-providers-data';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 describe('ProviderNewOperationCardComponent', () => {
   let component: ProviderNewOperationCardComponent;
@@ -17,6 +17,8 @@ describe('ProviderNewOperationCardComponent', () => {
   let formGroupDirectiveMock: FormGroupDirective;
   let controlContainerMock: UntypedFormGroup;
   let coinSpy: jasmine.SpyObj<Coin>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
 
   beforeEach(waitForAsync(() => {
     coinSpy = jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' });
@@ -28,10 +30,16 @@ describe('ProviderNewOperationCardComponent', () => {
     formGroupDirectiveMock = new FormGroupDirective([], []);
     formGroupDirectiveMock.form = controlContainerMock;
 
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
+
     TestBed.configureTestingModule({
       declarations: [ProviderNewOperationCardComponent, FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      providers: [{ provide: FormGroupDirective, useValue: formGroupDirectiveMock }],
+      providers: [
+        { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
+        { provide: ModalController, useValue: modalControllerSpy },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
@@ -94,5 +102,17 @@ describe('ProviderNewOperationCardComponent', () => {
     expect(feeLabelEl.nativeElement.innerHTML).toContain('fiat_ramps.shared.provider_new_operation_card.estimated_fee');
     expect(feeInfoIconEl).toBeTruthy();
     expect(feeAmountEl.nativeElement.innerHTML).toContain('10.43 USD');
+  });
+
+  it('should show modal when icon info is clicked', async () => {
+    component.provider = rawProvidersData.find((provider) => provider.alias === 'PX');
+    component.fee = { value: 10.4278, token: 'USD' };
+    fixture.detectChanges();
+
+    fixture.debugElement
+      .query(By.css('div.pnoc__fee__label > ion-icon[name="information-circle"]'))
+      .nativeElement.click();
+
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });
