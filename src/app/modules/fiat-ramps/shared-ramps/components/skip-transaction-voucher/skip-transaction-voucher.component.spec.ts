@@ -41,7 +41,6 @@ describe('SkipTransactionVoucherComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
-    //expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith([component.]);
     expect(modalControllerSpy.dismiss).toHaveBeenCalledOnceWith('secondaryAction');
   });
 
