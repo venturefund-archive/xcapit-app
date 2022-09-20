@@ -179,9 +179,10 @@ describe('UserProfileMenuPage', () => {
       create: { available: () => Promise.resolve(true) },
     });
 
-    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', ()=>{
-      getFeatureFlag: false
-    })
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: false,
+    });
+
     TestBed.configureTestingModule({
       declarations: [UserProfileMenuPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -335,6 +336,25 @@ describe('UserProfileMenuPage', () => {
   it('should set username on enter', async () => {
     await component.ionViewWillEnter();
     expect(component.username).toEqual('Xcapiter 0x012');
+  });
+
+  it('should show biometric auth item when new login', async () => {
+    component.itemMenu = itemMenu;
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
+    await component.ionViewWillEnter();
+    const biometricAuthItem = component.itemMenu
+      .find((category) => category.id === 'wallet')
+      .items.find((item) => item.name === 'BiometricAuth');
+    expect(biometricAuthItem.hidden).toBeFalse();
+  });
+
+  it('should hide biometric auth item when old login', async () => {
+    component.itemMenu = itemMenu;
+    await component.ionViewWillEnter();
+    const biometricAuthItem = component.itemMenu
+      .find((category) => category.id === 'wallet')
+      .items.find((item) => item.name === 'BiometricAuth');
+    expect(biometricAuthItem.hidden).toBeTrue();
   });
 
   it('should navigate to support page when clicking ux_go_to_contact_support', () => {
