@@ -2186,6 +2186,18 @@
         "provider": "Proveedor",
         "reception_address": "Dirección de recepción",
         "network": "Red"
+      },
+      "remove_photo":{
+        "title": "¿Eliminar archivo?",
+        "description":"Si continuas, deberás cargar nuevamente el comprobante.",
+        "button_text1":"Cancelar",
+        "button_text2":"Eliminar"
+      },
+      "exit_operation_detail":{
+        "title": "¿Deseas salir?",
+        "description":"Deberás volver a cargar tu comprobante.",
+        "button_text1":"Cancelar",
+        "button_text2":"Confirmar"
       }
     },
     "operation_status": {

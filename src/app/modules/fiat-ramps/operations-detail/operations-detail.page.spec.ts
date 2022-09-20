@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { waitForAsync, ComponentFixture, TestBed, tick, fakeAsync, discardPeriodicTasks, flush } from '@angular/core/testing';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { OperationsDetailPage } from './operations-detail.page';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { of, throwError } from 'rxjs';
@@ -22,6 +22,8 @@ import { FilesystemPlugin } from '@capacitor/filesystem';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 
 const operation: FiatRampOperation = {
   operation_id: 678,
@@ -69,6 +71,7 @@ const photo = {
 };
 
 describe('OperationsDetailPage', () => {
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let component: OperationsDetailPage;
   let fixture: ComponentFixture<OperationsDetailPage>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
@@ -82,10 +85,16 @@ describe('OperationsDetailPage', () => {
   let filesystemSpy: jasmine.SpyObj<FilesystemPlugin>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsDetailPage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
   
 
   beforeEach(
     waitForAsync(() => {
+      platformServiceSpy = jasmine.createSpyObj('PlatformSpy', {isNative: true });
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
+
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
         getProvider: provider,
         getUserSingleOperation: of([operation]),
@@ -135,9 +144,11 @@ describe('OperationsDetailPage', () => {
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: PlatformService, useValue: platformServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
-          { provide: TrackService, useValue: trackServiceSpy}
+          { provide: TrackService, useValue: trackServiceSpy},
+          { provide: ModalController, useValue: modalControllerSpy }
         ],
       }).compileComponents();
 
@@ -197,6 +208,7 @@ describe('OperationsDetailPage', () => {
   });
 
   it('should upload photo when user clicks ux_buy_kripton_attach button', async () => {
+    component.ionViewWillEnter();
     component.operation = mappedOperation;
     component.hasVoucher = false;
     component.voucher = null;
@@ -225,15 +237,22 @@ describe('OperationsDetailPage', () => {
     expect(component.uploadingVoucher).toBeFalse();
   });
 
-  it('should remove photo on when user clicks remove photo button', () => {
+  it('should remove photo on when user clicks remove photo button', async () => {
+    fakeModalController.modifyReturns(null, {data: 'secondaryAction'})
+    component.ionViewWillEnter()
     component.operation = mappedOperation;
     component.hasVoucher = true;
     component.voucher = photo;
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('removePhoto', null);
+    fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('removePhoto', null);  
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     expect(component.voucher).toBeUndefined();
     expect(component.hasVoucher).toBeFalse();
-  });
+    });
 
   it('should redirect to Kripton ToS when user clicks ux_goto_kripton_tos button', () => {
     const url = {
@@ -274,5 +293,15 @@ describe('OperationsDetailPage', () => {
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should open modal when exit_operation Button clicked', () => {
+    component.ionViewWillEnter();
+    component.hasVoucher = true;
+    
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button','exit_operation');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });

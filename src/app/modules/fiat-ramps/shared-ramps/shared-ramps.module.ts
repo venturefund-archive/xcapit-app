@@ -11,6 +11,7 @@ import { KycDisclaimerModalComponent } from './components/kyc-disclaimer-modal/k
 import { FiatInputComponent } from './components/fiat-input/fiat-input.component';
 import { InfoProviderComponent } from './components/info-provider/info-provider.component';
 import { CoinSelectorModalComponent } from './components/coin-selector-modal/coin-selector-modal.component';
+import { SkipTransactionVoucherComponent } from './components/skip-transaction-voucher/skip-transaction-voucher.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CoinSelectorModalComponent } from './components/coin-selector-modal/coi
     FiatInputComponent,
     InfoProviderComponent,
     CoinSelectorModalComponent,
+    SkipTransactionVoucherComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -39,7 +41,8 @@ import { CoinSelectorModalComponent } from './components/coin-selector-modal/coi
     OperationsListItemComponent,
     FiatInputComponent,
     InfoProviderComponent,
-    CoinSelectorModalComponent
+    CoinSelectorModalComponent,
+    SkipTransactionVoucherComponent
   ],
 })
 export class SharedRampsModule {}
