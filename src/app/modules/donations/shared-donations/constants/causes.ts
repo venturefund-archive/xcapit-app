@@ -7,7 +7,7 @@ export const CAUSES = [
     image: 'assets/img/donations/causes/cause_7/image.png',
     title: 'UNICEF',
     logo: 'assets/img/donations/causes/cause_7/logo.svg',
-    type: 'humanitary',
+    type: 'human_rights',
     title_1: 'donations.description_cause.info.unicef.title_1',
     title_2: 'donations.description_cause.info.unicef.title_2',
     title_3: 'donations.description_cause.info.unicef.title_3',
