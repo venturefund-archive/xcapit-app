@@ -2,6 +2,44 @@ import { environment } from 'src/environments/environment';
 
 export const CAUSES = [
   {
+    id: 'unicef',
+    scope: 'donations.description_cause.info.global',
+    image: 'assets/img/donations/causes/cause_7/image.png',
+    title: 'UNICEF',
+    logo: 'assets/img/donations/causes/cause_7/logo.svg',
+    type: 'humanitary',
+    title_1: 'donations.description_cause.info.unicef.title_1',
+    title_2: 'donations.description_cause.info.unicef.title_2',
+    title_3: 'donations.description_cause.info.unicef.title_3',
+    description: 'donations.description_cause.info.unicef.description',
+    address: '0xdE7Bb4FAEFfABef07dece6DC7118aE77e7743649',
+    social_media: [
+      { logo: 'instagram', link: 'https://www.instagram.com/uniceflac/', text: 'instagram.com/uniceflac' },
+      { logo: 'twitter', link: 'https://twitter.com/uniceflac', text: 'twitter.com/uniceflac' },
+      { logo: 'mail', link: 'https://www.unicef.org.au/contact-us', text: 'unicef.org.au/contact-us' },
+    ],
+    token: { network: 'ERC20', value: 'ETH' },
+  },
+  {
+    id: 'caecus',
+    scope: 'donations.description_cause.info.latam',
+    image: 'assets/img/donations/causes/cause_8/image.png',
+    title: 'Caecus',
+    logo: 'assets/img/donations/causes/cause_8/logo.svg',
+    type: 'social',
+    title_1: 'donations.description_cause.info.caecus.title_1',
+    title_2: 'donations.description_cause.info.caecus.title_2',
+    title_3: 'donations.description_cause.info.caecus.title_3',
+    description: 'donations.description_cause.info.caecus.description',
+    address: '0x9065f88e288b4cacb1c80282a3dc0ade121e08ef',
+    social_media: [
+      { logo: 'instagram', link: 'https://www.instagram.com/caecuslab', text: 'instagram.com/caecuslab' },
+      { logo: 'linkedin', link: 'https://www.linkedin.com/company/caecus-lab', text: 'linkedin.com/company/caecus-lab' },
+      { logo: 'mail', link: 'http://caecuslab.com', text: 'info@caecuslab.com' },
+    ],
+    token: { network: 'MATIC', value: 'USDC' },
+  },
+  {
     id: 'unhcr',
     scope: 'donations.description_cause.info.global',
     image: 'assets/img/donations/causes/cause_1/image.jpg',
@@ -111,4 +149,5 @@ export const CAUSES = [
     social_media: [{ logo: 'chain', link: 'https://pulenta.org', text: 'pulenta.org/' }],
     token: { network: 'MATIC', value: 'USDC' },
   },
+
 ];
