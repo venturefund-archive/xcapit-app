@@ -1,9 +1,12 @@
+import { TranslateService } from '@ngx-translate/core';
 import { BiometricVerifyOptions } from './biometric-verify-options';
 
 describe('BiometricVerifyOptions', () => {
   let biometricVerifyOptions: BiometricVerifyOptions;
+  let translateSpy: jasmine.SpyObj<TranslateService>;
   beforeEach(() => {
-    biometricVerifyOptions = new BiometricVerifyOptions({});
+    translateSpy = jasmine.createSpyObj('TranslateService', { instant: 'test text' }, {});
+    biometricVerifyOptions = new BiometricVerifyOptions(translateSpy);
   });
 
   it('new', () => {
@@ -11,6 +14,6 @@ describe('BiometricVerifyOptions', () => {
   });
 
   it('value', () => {
-    expect(biometricVerifyOptions.value()).toEqual({});
+    expect(biometricVerifyOptions.value()).toEqual({reason:'test text', title:'test text',subtitle:'test text'});
   });
 });
