@@ -134,13 +134,13 @@
       "title": "Good news!",
       "first": {
         "badge": "New feature",
-        "title": "Swap",
-        "description": "Don't miss out on the best! Now you can exchange coins quickly, easily and securely."
+        "title": "More opportunities!",
+        "description": "New payment methods, more tokens and countries to buy, all in your local currency!"
       },
       "second": {
         "badge": "New feature",
-        "title": "Financial education",
-        "description": "Take your crypto knowledge to the next level and become a crypto expert."
+        "title": "App improvements",
+        "description": "You will be able to access the details of your operations and other data in an agile and simple way."
       }
     },
     "transaction_fees": {
@@ -605,7 +605,7 @@
       "name_primary_action": "Go to my wallet"
     },
     "personalised_profile_test": {
-      "header":"Customise your profile",
+      "header": "Customise your profile",
       "question_1": "1. What do you want to do inside Xcapit? Choose all the options you consider",
       "question_2": "2. What is your experience level with cryptos?",
       "to_do_in_app": {
@@ -2218,17 +2218,17 @@
         "reception_address": "Reception address",
         "network": "Network"
       },
-      "remove_photo":{
+      "remove_photo": {
         "title": "Remove file?",
-        "description":"If you continue, you will have to upload the voucher again.",
-        "button_text1":"Cancel",
-        "button_text2":"Remove"
+        "description": "If you continue, you will have to upload the voucher again.",
+        "button_text1": "Cancel",
+        "button_text2": "Remove"
       },
-      "exit_operation_detail":{
+      "exit_operation_detail": {
         "title": "Do you want to go out?",
-        "description":"You will need to reload your voucher.",
-        "button_text1":"Cancel",
-        "button_text2":"Confirm"
+        "description": "You will need to reload your voucher.",
+        "button_text1": "Cancel",
+        "button_text2": "Confirm"
       }
     },
     "operation_status": {
