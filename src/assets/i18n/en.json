@@ -1314,7 +1314,8 @@
       "types": {
         "humanitary": "Humanitarian aid",
         "environment": "Environment",
-        "human_rights": "Human Rights"
+        "human_rights": "Human Rights",
+        "social": "Social assistance"
       }
     },
     "description_cause": {
@@ -1323,6 +1324,7 @@
       "info": {
         "regional": "Regional",
         "global": "Global",
+        "latam": "Latam",
         "receive": "Receive",
         "unhcr": {
           "title_1": "Donate to provide assistance to the affected populations in Ukraine and in the countries of the region.",
@@ -1359,6 +1361,18 @@
           "title_2": "About Pulenta",
           "title_3": "Learn more about Pulenta",
           "description": "Achieve traceable, transparent and scalable crypto donations to organizations that help people in a state of emergency and vulnerability."
+        },
+        "unicef": {
+          "title_1": "Your donation will go to UNICEF's global programs. From helping children in Latin America, to those caught in the conflict in Ukraine, to freeing child soldiers in South Sudan, you will help us give children around the world a fair chance in life.",
+          "title_2": "About UNICEF",
+          "title_3": "Learn more about UNICEF",
+          "description": "The United Nations Children's Fund (UNICEF) has more than 75 years of experience working in 190 countries, 36 of which are in Latin America and the Caribbean. We are 100% funded by voluntary donations, allowing us to provide the world's most vulnerable children with life-saving food, vaccines, education, clean water, sanitation and hygiene, and protection from violence. We are always there before, during and after an emergency for every child."
+        },
+        "caecus": {
+          "title_1": "They seek to promote the academic development of children and visually impaired people in LATAM. And, in turn, raise awareness about the responsible consumption of technology, promoting the circular economy.",
+          "title_2": "About Caecus",
+          "title_3": "Learn more about Caecus",
+          "description": "Your donation helps to encourage academic and labor inclusion, training visually impaired people in the use of technology. Providing the possibility of developing autonomy and being included in society again. With your contribution, blind people can acquire cell phones, computers and smart glasses (www.annyweb.com) to help them read and move safely on public roads."
         }
       }
     },

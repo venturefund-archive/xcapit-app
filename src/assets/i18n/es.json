@@ -1307,7 +1307,8 @@
       "types": {
         "humanitary": "Ayuda humanitaria",
         "environment": "Medio ambiente",
-        "human_rights": "Derechos Humanos"
+        "human_rights": "Derechos Humanos",
+        "social": "Ayuda social"
       }
     },
     "description_cause": {
@@ -1316,6 +1317,7 @@
       "info": {
         "regional": "Regional",
         "global": "Global",
+        "latam": "Latam",
         "receive": "Recibe",
         "unhcr": {
           "title_1": "Dona para brindar asistencia a las poblaciones afectadas en Ucrania y en los países de la región.",
@@ -1352,6 +1354,18 @@
           "title_2": "Sobre Pulenta",
           "title_3": "Conoce más sobre Pulenta",
           "description": "Alcanzar de manera trazable, transparente y escalables donaciones cripto a organizaciones que ayudan a personas en estado de emergencia y vulnerabilidad. "
+        },
+        "unicef": {
+          "title_1": "Su donación se destinará a los programas globales de UNICEF Desde ayudar a los niños de América Latina, aquellos atrapados en el conflicto de Ucrania, hasta liberar a los niños soldados en Sudán del Sur, nos ayudará a brindarles a los niños de todo el mundo una oportunidad justa en la vida.",
+          "title_2": "Sobre UNICEF",
+          "title_3": "Conoce más sobre UNICEF",
+          "description": "El Fondo de las Naciones Unidas para la Infancia (UNICEF) tiene más de 75 años de experiencia trabajando en 190 países, 36 de estos países están en América Latina y el Caribe. Estamos 100% financiados por donaciones voluntarias, lo que nos permite brindar a los niños más vulnerables del mundo alimentos, vacunas, educación, agua potable, saneamiento e higiene, y protección contra la violencia que salvan vidas. Siempre estamos ahí antes, durante y después de una emergencia para cada niño."
+        },
+        "caecus": {
+          "title_1": "Buscan fomentar el desarrollo académico de niños y personas con discapacidad visual en LATAM. Y, a su vez, concientizar sobre el consumo responsable de tecnología, fomentando la economía circular.",
+          "title_2": "Sobre Caecus",
+          "title_3": "Conoce más sobre Caecus",
+          "description": "Tu donación ayuda a incentivar la inclusión académica y laboral, capacitando a personas con discapacidad visual en el uso de tecnología. Brindando la posibilidad de desarrollar autonomía incluyéndose a la sociedad nuevamente. Con tu aporte, personas ciegas pueden adquirir celulares, computadoras y anteojos inteligentes (www.annyweb.com) para ayudar a la lectura y movilidad segura en vía pública."
         }
       }
     },
