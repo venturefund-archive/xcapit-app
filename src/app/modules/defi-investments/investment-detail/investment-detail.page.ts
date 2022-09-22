@@ -13,6 +13,7 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
+import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
 
 @Component({
   selector: 'app-investment-detail',
@@ -63,6 +64,17 @@ import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/gr
           ></app-icon-button-card>
         </div>
       </div>
+      <div class="id__yields ion-padding">
+        <div class="id__yields__title">
+          <ion-text class="ux-font-header-titulo">
+            {{ 'defi_investments.invest_detail.yields.title' | translate }}
+          </ion-text>
+          <ion-icon name="information-circle" color="info"></ion-icon>
+        </div>
+        <div class="id__yields__content">
+          <app-cumulative-yields [yield]="this.yield" [usdYield]="this.usdYield"></app-cumulative-yields>
+        </div>
+      </div>
       <div class="id__investment-history ion-padding">
         <div>
           <ion-text class="ux-font-header-titulo">
@@ -96,6 +108,8 @@ export class InvestmentDetailPage implements OnInit {
   address: string;
   firstMovements;
   remainingMovements;
+  yield: RawAmount = {value: 0.0000023, token: 'WBTC'};
+  usdYield: RawAmount = {value: 2003.12312234, token: 'USD'};
 
   constructor(
     private route: ActivatedRoute,

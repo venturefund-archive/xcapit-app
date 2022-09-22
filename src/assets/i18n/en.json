@@ -423,6 +423,9 @@
         "title": "History",
         "investment": "Investment",
         "withdraw": "Withdraw"
+      },
+      "yields": {
+        "title": "Cumulative yield"
       }
     },
     "shared": {

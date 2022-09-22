@@ -10,6 +10,16 @@
       }
     }
 
+    &__yields {
+      &__title {
+        margin-bottom: 8px;
+
+        ion-text {
+          color: var(--ion-color-neutral80);
+        }
+      }
+    }
+
     .invested-balance {
       margin-top: 0;
       margin-bottom: 16px;

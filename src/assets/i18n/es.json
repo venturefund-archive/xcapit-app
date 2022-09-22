@@ -414,6 +414,9 @@
         "title": "Historial",
         "investment": "Inversión",
         "withdraw": "Retiro"
+      },
+      "yields": {
+        "title": "Rendimiento acumulado"
       }
     },
     "shared": {
