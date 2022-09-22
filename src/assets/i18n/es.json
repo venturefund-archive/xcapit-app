@@ -125,13 +125,13 @@
       "title": "¡Buenas noticias!",
       "first": {
         "badge": "Nueva función",
-        "title": "Intercambios o Swap",
-        "description": "¡No te quedes afuera de lo mejor! Ahora puedes intercambiar monedas de manera rápida, fácil y segura."
+        "title": "¡Más oportunidades!",
+        "description": "Nuevos medios de pago, más tokens y países donde comprar. ¡Todo en tu moneda local!"
       },
       "second": {
         "badge": "Nueva función",
-        "title": "Educación financiera",
-        "description": "Lleva tus conocimientos criptos al siguiente nivel y conviértete en un experto en el tema."
+        "title": "Mejoras en la app",
+        "description": "Podrás acceder al detalle de tus operaciones y demás datos de manera ágil y sencilla."
       }
     },
     "transaction_fees": {
