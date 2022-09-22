@@ -42,6 +42,7 @@ import { rawBlockchainsData } from '../../swaps/shared-swaps/models/fixtures/raw
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { rawETHData, rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -72,6 +73,7 @@ describe('HomeWalletPage', () => {
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
+  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const dataTest = {
@@ -191,6 +193,8 @@ describe('HomeWalletPage', () => {
       create: { oneBy: () => Promise.resolve(new FakeWallet()) },
     });
 
+    walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { connected: false });
+
     TestBed.configureTestingModule({
       declarations: [HomeWalletPage, FakeTrackClickDirective, HideTextPipe],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
@@ -215,6 +219,7 @@ describe('HomeWalletPage', () => {
         { provide: TwoPiApi, useValue: twoPiApiSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
+        { provide: WalletConnectService, useValue: walletConnectServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -408,5 +413,21 @@ describe('HomeWalletPage', () => {
     expect(graphqlServiceSpy.getInvestedBalance).toHaveBeenCalledTimes(1);
     expect(component.totalInvested).toEqual(12.77640743514045);
     expect(totalInvestedEl.nativeElement.innerHTML).toContain('12.78 USD');
+  });
+
+  it('should render correct icon if wallet connect is not connected', async () => {
+    walletConnectServiceSpy.connected = false;
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const iconEl = fixture.debugElement.query(By.css('ion-icon[name="ux-walletconnect"]'));
+    expect(iconEl).toBeTruthy();
+  });
+
+  it('should render correct icon if wallet connect is connected', async () => {
+    walletConnectServiceSpy.connected = true;
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const iconEl = fixture.debugElement.query(By.css('ion-icon[name="ux-walletconnectconnect"]'));
+    expect(iconEl).toBeTruthy();
   });
 });

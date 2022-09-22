@@ -34,6 +34,7 @@ import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo
 import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
 import { NewTokensAvailable } from '../shared-wallets/models/new-tokens-avalaible/new-tokens-available.model';
 import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
+import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -41,6 +42,8 @@ import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
       <ion-toolbar color="primary" class="ux_toolbar">
         <div class="header">
           <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
+          <ion-icon *ngIf="!this.connected" name="ux-walletconnect"></ion-icon>
+          <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect"></ion-icon>
         </div>
         <app-avatar-profile></app-avatar-profile>
       </ion-toolbar>
@@ -218,7 +221,7 @@ export class HomeWalletPage implements OnInit {
   spinnerActivated: boolean;
   pids = [];
   newTokens: NewToken[];
-
+  connected: boolean;
   constructor(
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
@@ -240,7 +243,8 @@ export class HomeWalletPage implements OnInit {
     private twoPiProductFactory: TwoPiProductFactory,
     private twoPiApi: TwoPiApi,
     private blockchainsFactory: BlockchainsFactory,
-    private walletsFactory: WalletsFactory
+    private walletsFactory: WalletsFactory,
+    private walletConnectService: WalletConnectService
   ) {}
 
   ngOnInit() {}
@@ -255,11 +259,16 @@ export class HomeWalletPage implements OnInit {
     this.getUserWalletAddress();
     this.isProtectedWallet();
     this.getNewTokensAvailable();
+    this.checkConnectionOfWalletConnect();
   }
 
   async ionViewDidEnter() {
     await this.checkWalletExist();
     await this.initialize();
+  }
+
+  checkConnectionOfWalletConnect() {
+    this.connected = this.walletConnectService.connected;
   }
 
   private getAvailableDefiProducts(): void {
@@ -408,5 +417,4 @@ export class HomeWalletPage implements OnInit {
   private getNewTokensAvailable(): void {
     this.newTokens = new NewTokensAvailable(this.remoteConfig).value();
   }
-
 }
