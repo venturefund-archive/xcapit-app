@@ -579,6 +579,8 @@
       "logout": "Log Out",
       "new_badge": "New",
       "category_walletconnect": "WalletConnect",
+      "connected_walletconnect": "Connected",
+      "disconnected_walletconnect": "Disconnected",
       "delete_account_button": "Delete account",
       "delete_account_message": "I request the deletion of my account and associated data.",
       "profile_footer": {
