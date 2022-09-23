@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { defaultSwapsUrls } from '../swaps-routing.module';
+import { DefaultSwapsUrls } from '../shared-swaps/routes/default-swaps-urls';
 
 @Component({
   selector: 'app-swap-terms-and-conditions',
@@ -75,7 +75,7 @@ export class SwapTermsAndConditionsPage {
 
   async goToSelectProvider() {
     await this.storage.set(this.key, this.acceptTos);
-    this.navController.navigateForward(defaultSwapsUrls.swapHome, { replaceUrl: true });
+    this.navController.navigateForward(new DefaultSwapsUrls().home(), { replaceUrl: true });
   }
 
   close() {

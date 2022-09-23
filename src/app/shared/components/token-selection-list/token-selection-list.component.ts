@@ -17,7 +17,10 @@ import { ApiWalletService } from '../../../modules/wallets/shared-wallets/servic
             <ion-item
               appTrackClick
               name="ux_buy_eth"
-              [dataToTrack]="{ eventLabel: this.getTrackClickEventName(coin.value.toLowerCase()) }"
+              [dataToTrack]="{
+                eventLabel: this.getTrackClickEventName(coin.value.toLowerCase()),
+                description: this.getUrlForTrackClickEventName()
+              }"
               class="tsl__suite-container__suite__coin-container ion-no-padding ion-no-margin"
               (click)="this.selectCurrency(coin)"
               [lines]="last ? 'none' : 'full'"
@@ -77,9 +80,14 @@ export class TokenSelectionListComponent implements OnInit {
   }
 
   getTrackClickEventName(coin: string) {
-    if (this.state === 'receive') {
-      return "Item Coin"
-    }
     return `ux_${this.state}_${coin}`;
+  }
+
+  getUrlForTrackClickEventName() {
+    if (this.state === 'swap') {
+      return '/swaps/select-currency';
+    } else {
+      return window.location.href;
+    }
   }
 }

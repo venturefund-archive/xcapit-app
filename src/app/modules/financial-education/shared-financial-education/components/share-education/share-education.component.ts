@@ -16,10 +16,10 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
       [ngClass]="this.lightBackground ? 'se-light' : 'se'"
       (click)="this.share()"
     >
-      <img *ngIf="!this.lightBackground" src="/assets/img/financial-education/shared-financial-education/share.svg" />
+      <img *ngIf="!this.lightBackground" src="/assets/img/shared/share-button/share.svg" />
       <img
         *ngIf="this.lightBackground"
-        src="/assets/img/financial-education/shared-financial-education/share-blue.svg"
+        src="/assets/img/shared/share-button/share-blue.svg"
       />
     </div>
   `,

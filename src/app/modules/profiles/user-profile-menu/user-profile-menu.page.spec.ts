@@ -22,6 +22,8 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { Storage } from '@ionic/storage';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 
 const itemMenu: MenuCategory[] = [
   {
@@ -38,8 +40,9 @@ const itemMenu: MenuCategory[] = [
       {
         name: 'Support',
         text: 'profiles.user_profile_menu.support_help',
-        route: 'tickets/create-support-ticket',
+        route: '/tickets/new-create-support-ticket',
         type: 'link',
+        buttonName: 'ux_go_to_contact_support',
       },
     ],
   },
@@ -63,6 +66,21 @@ const itemMenu: MenuCategory[] = [
     items: [
       {
         name: 'RecoveryPhrase',
+        text: 'profiles.user_profile_menu.security_phrase',
+        route: '/wallets/recovery/info',
+        type: 'link',
+      },
+    ],
+  },
+  {
+    id: 'wallet',
+    showCategory: false,
+    category_title: '',
+    icon: '',
+    items: [
+      {
+        name: 'BiometricAuth',
+        hidden: true,
         text: 'profiles.user_profile_menu.security_phrase',
         route: '/wallets/recovery/info',
         type: 'link',
@@ -94,6 +112,8 @@ describe('UserProfileMenuPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let storageSpy: jasmine.SpyObj<Storage>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+  let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(waitForAsync(() => {
     logOutModalServiceSpy = jasmine.createSpyObj('LogOutModalService', {
@@ -155,6 +175,14 @@ describe('UserProfileMenuPage', () => {
       set: Promise.resolve(),
     });
 
+    biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
+      create: { available: () => Promise.resolve(true) },
+    });
+
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: false,
+    });
+
     TestBed.configureTestingModule({
       declarations: [UserProfileMenuPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -172,6 +200,8 @@ describe('UserProfileMenuPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: Storage, useValue: storageSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+        { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -205,8 +235,9 @@ describe('UserProfileMenuPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get data of users when ionViewWillEnter is called', () => {
+  it('should get data of users when ionViewWillEnter is called', async () => {
     component.ionViewWillEnter();
+    await fixture.whenStable();
     expect(component.profile).toEqual(profile);
   });
 
@@ -292,7 +323,7 @@ describe('UserProfileMenuPage', () => {
     fixture.detectChanges();
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
-    expect(menu.length).toBe(3);
+    expect(menu.length).toBe(4);
   });
 
   it('should back to home when back button is clicked', async () => {
@@ -305,5 +336,32 @@ describe('UserProfileMenuPage', () => {
   it('should set username on enter', async () => {
     await component.ionViewWillEnter();
     expect(component.username).toEqual('Xcapiter 0x012');
+  });
+
+  it('should show biometric auth item when new login', async () => {
+    component.itemMenu = itemMenu;
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
+    await component.ionViewWillEnter();
+    const biometricAuthItem = component.itemMenu
+      .find((category) => category.id === 'wallet')
+      .items.find((item) => item.name === 'BiometricAuth');
+    expect(biometricAuthItem.hidden).toBeFalse();
+  });
+
+  it('should hide biometric auth item when old login', async () => {
+    component.itemMenu = itemMenu;
+    await component.ionViewWillEnter();
+    const biometricAuthItem = component.itemMenu
+      .find((category) => category.id === 'wallet')
+      .items.find((item) => item.name === 'BiometricAuth');
+    expect(biometricAuthItem.hidden).toBeTrue();
+  });
+
+  it('should navigate to support page when clicking ux_go_to_contact_support', () => {
+    component.itemMenu = JSON.parse(JSON.stringify(itemMenu));
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.itemMenu[0].items[1].route).toEqual('/tickets/new-create-support-ticket');
   });
 });

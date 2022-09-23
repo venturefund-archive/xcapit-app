@@ -19,14 +19,14 @@ export const ITEM_MENU: MenuCategory[] = [
         text: 'profiles.user_profile_menu.faq_help',
         route: '/support/options',
         type: 'link',
-        buttonName: 'ux_go_to_faq'
+        buttonName: 'ux_go_to_faq',
       },
       {
         name: 'Support',
         text: 'profiles.user_profile_menu.support_help',
-        route: 'tickets/create-support-ticket',
+        route: '/tickets/create-support-ticket',
         type: 'link',
-        buttonName: 'ux_go_to_contact_support'
+        buttonName: 'ux_go_to_contact_support',
       },
     ],
   },
@@ -40,7 +40,7 @@ export const ITEM_MENU: MenuCategory[] = [
         text: 'profiles.user_profile_menu.change_pass',
         route: '/users/password-change',
         type: 'link',
-        buttonName: 'ux_go_to_account_change_password'
+        buttonName: 'ux_go_to_account_change_password',
       },
     ],
   },
@@ -55,14 +55,23 @@ export const ITEM_MENU: MenuCategory[] = [
         text: 'profiles.user_profile_menu.change_pass',
         route: '/wallets/password-change',
         type: 'link',
-        buttonName: 'ux_go_to_wallet_change_password'
+        buttonName: 'ux_go_to_wallet_change_password',
+      },
+      {
+        name: 'BiometricAuth',
+        text: 'profiles.user_profile_menu.biometric_auth',
+        route: '/profiles/biometric-auth',
+        type: 'link',
+        buttonName: 'ux_go_to_biometric_auth',
+        hidden: true,
+        newBadge: true,
       },
       {
         name: 'RecoveryPhrase',
         text: 'profiles.user_profile_menu.security_phrase',
         route: '/wallets/recovery/info',
         type: 'link',
-        buttonName: 'ux_go_to_phrase'
+        buttonName: 'ux_go_to_phrase',
       },
       {
         name: 'PrivateKey',
@@ -75,7 +84,7 @@ export const ITEM_MENU: MenuCategory[] = [
         text: 'profiles.user_profile_menu.remove_wallet',
         route: '/wallets/remove',
         type: 'link',
-        buttonName: 'ux_go_to_eliminate_wallet'
+        buttonName: 'ux_go_to_eliminate_wallet',
       },
     ],
   },

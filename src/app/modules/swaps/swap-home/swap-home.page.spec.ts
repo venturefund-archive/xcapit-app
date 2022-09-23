@@ -13,7 +13,7 @@ import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec'
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { BlockchainRepo } from '../shared-swaps/models/blockchain-repo/blockchain-repo';
-import { Blockchains } from '../shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from '../shared-swaps/models/blockchains/blockchains';
 import { BlockchainsFactory } from '../shared-swaps/models/blockchains/factory/blockchains.factory';
 import { rawBlockchainsData, rawPolygonData } from '../shared-swaps/models/fixtures/raw-blockchains-data';
 import { SwapHomePage } from './swap-home.page';
@@ -37,20 +37,14 @@ import { GasStationOfFactory } from '../shared-swaps/models/gas-station-of/facto
 import { AmountOf } from '../shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from '../shared-swaps/models/token/token';
 import { PasswordErrorMsgs } from '../shared-swaps/models/password/password-error-msgs';
-
-const testLocalNotificationOk: LocalNotificationSchema = {
-  id: 1,
-  title: 'swaps.sent_notification.swap_ok.title',
-  body: 'swaps.sent_notification.swap_ok.body',
-  actionTypeId: 'SWAP',
-};
-
-const testLocalNotificationNotOk: LocalNotificationSchema = {
-  id: 1,
-  title: 'swaps.sent_notification.swap_not_ok.title',
-  body: 'swaps.sent_notification.swap_not_ok.body',
-  actionTypeId: 'SWAP',
-};
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { WalletBalanceService } from '../../wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
+import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blockchains-of/factory/one-inch-blockchains-of';
+import { OneInchBlockchainsOf } from '../shared-swaps/models/one-inch-blockchains-of/one-inch-blockchains-of';
+import { DefaultSwapsUrls } from '../shared-swaps/routes/default-swaps-urls';
+import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
+import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
+import { of } from 'rxjs';
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -62,6 +56,7 @@ describe('SwapHomePage', () => {
   let fakeNavController: FakeNavController;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let oneInchBlockchainsOfFactorySpy: jasmine.SpyObj<OneInchBlockchainsOfFactory>;
   let intersectedTokensFactorySpy: jasmine.SpyObj<IntersectedTokensFactory>;
   let oneInchFactorySpy: jasmine.SpyObj<OneInchFactory>;
   let walletsFactorySpy: jasmine.SpyObj<any | WalletsFactory>;
@@ -71,7 +66,23 @@ describe('SwapHomePage', () => {
   let fakeModalController: FakeModalController;
   let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let walletBalanceSpy: jasmine.SpyObj<WalletBalanceService>;
+  let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
+  let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
+  const testLocalNotificationOk: LocalNotificationSchema = {
+    id: 1,
+    title: 'swaps.sent_notification.swap_ok.title',
+    body: 'swaps.sent_notification.swap_ok.body',
+    actionTypeId: 'SWAP',
+  };
 
+  const testLocalNotificationNotOk: LocalNotificationSchema = {
+    id: 1,
+    title: 'swaps.sent_notification.swap_not_ok.title',
+    body: 'swaps.sent_notification.swap_not_ok.body',
+    actionTypeId: 'SWAP',
+  };
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
   const toToken = rawMATICData;
@@ -85,6 +96,7 @@ describe('SwapHomePage', () => {
     'token-to-select',
     selectTokenkey,
   ];
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   const _setTokenAmountArrange = (fromTokenAmount: number) => {
     component.ionViewDidEnter();
@@ -107,11 +119,26 @@ describe('SwapHomePage', () => {
       fromToken: fromToken.contract,
       toToken: toToken.contract,
     });
+
+    walletBalanceSpy = jasmine.createSpyObj('WalletBalanceService', {
+      balanceOf: Promise.resolve(10),
+    });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoin: rawUSDCData,
+      getNativeTokenFromNetwork: rawMATICData,
+    });
+    dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(2) });
+    dynamicPriceFactorySpy = jasmine.createSpyObj('DynamicPriceFactory', {
+      new: dynamicPriceSpy,
+    });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
-      create: new Blockchains(new BlockchainRepo(rawBlockchainsData)),
+      create: blockchains,
+    });
+    oneInchBlockchainsOfFactorySpy = jasmine.createSpyObj('OneInchBlockchainsOfFactory', {
+      create: new OneInchBlockchainsOf(blockchains, ['1', '137']),
     });
     oneInchFactorySpy = jasmine.createSpyObj('OneInchFactory', {
       create: { swapInfo: () => Promise.resolve(rawSwapInfoData) },
@@ -166,6 +193,7 @@ describe('SwapHomePage', () => {
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: OneInchBlockchainsOfFactory, useValue: oneInchBlockchainsOfFactorySpy },
         { provide: IntersectedTokensFactory, useValue: intersectedTokensFactorySpy },
         { provide: OneInchFactory, useValue: oneInchFactorySpy },
         { provide: ModalController, useValue: modalControllerSpy },
@@ -174,6 +202,9 @@ describe('SwapHomePage', () => {
         { provide: SwapTransactionsFactory, useValue: swapTransactionsFactorySpy },
         { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
         { provide: ToastService, useValue: toastServiceSpy },
+        { provide: WalletBalanceService, useValue: walletBalanceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
       ],
     }).compileComponents();
 
@@ -194,7 +225,7 @@ describe('SwapHomePage', () => {
 
   it('should call appTrackEvent on trackService when swap button is clicked', () => {
     spyOn(component, 'swapThem');
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_swaps_swap');
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_swap_confirm');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
 
@@ -207,7 +238,7 @@ describe('SwapHomePage', () => {
   it('should button disabled on invalid value in from token amount input', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_swaps_swap"]'));
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_swap_confirm"]'));
 
     expect(component.form.valid).toBeFalse();
     expect(buttonEl.attributes['ng-reflect-disabled']).toEqual('true');
@@ -235,6 +266,7 @@ describe('SwapHomePage', () => {
 
   it('should show warning toast and disable amount input if fromToken and toToken equals each other', async () => {
     fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
       fromToken: rawUSDCData.contract,
       toToken: rawUSDCData.contract,
     });
@@ -244,6 +276,49 @@ describe('SwapHomePage', () => {
 
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
     expect(component.sameTokens).toBeTrue();
+  });
+
+  it('should show and render available amount properly', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
+      fromToken: rawMATICData.contract,
+      toToken: rawUSDCData.contract,
+    });
+    apiWalletServiceSpy.getCoin.and.returnValue(rawMATICData);
+
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+
+    const availableEl = fixture.debugElement.query(By.css('.sw__swap-card__from__detail__available ion-text '));
+    expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(1);
+    expect(walletBalanceSpy.balanceOf).toHaveBeenCalledTimes(1);
+    expect(availableEl.nativeElement.innerHTML).toContain('swaps.home.available 10');
+  });
+
+  it('should unsubscribe when leave', () => {
+    const nextSpy = spyOn(component.destroy$, 'next');
+    const completeSpy = spyOn(component.destroy$, 'complete');
+
+    component.ionViewWillLeave();
+
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should set native token balance to pass to fee component', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
+      fromToken: rawUSDCData.contract,
+      toToken: rawMATICData.contract,
+    });
+    apiWalletServiceSpy.getCoin.and.returnValue(rawUSDCData);
+
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+
+    expect(apiWalletServiceSpy.getCoin).toHaveBeenCalledTimes(1);
+    expect(apiWalletServiceSpy.getNativeTokenFromNetwork).toHaveBeenCalledTimes(1);
+    expect(walletBalanceSpy.balanceOf).toHaveBeenCalledTimes(2);
   });
 
   it('should show swap info on valid from token amount value', fakeAsync(() => {
@@ -341,5 +416,49 @@ describe('SwapHomePage', () => {
     tick(2);
 
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledTimes(0);
+  }));
+
+  it('should change selected network on event emited', async () => {
+    const blockchainName = 'ERC20';
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('app-network-select-card')).triggerEventHandler('networkChanged', blockchainName);
+
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
+      new DefaultSwapsUrls().homeByBlockchain(blockchainName),
+      { replaceUrl: true, animated: false }
+    );
+  });
+
+  it('should set max amount from swap', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+
+    fixture.debugElement
+      .query(By.css('ion-button.sw__swap-card__from__detail__amount__wrapper__max'))
+      .nativeElement.click();
+
+    expect(component.form.controls.fromTokenAmount.value).toEqual(10);
+  });
+
+  it('should render correct properly and enabled button when the balance is available', fakeAsync(() => {
+    _setTokenAmountArrange(1);
+    const div = fixture.debugElement.query(By.css('div.sw__swap-card__from__detail__available'));
+    fixture.detectChanges();
+
+    expect(div).toBeTruthy();
+    expect(component.disabledBtn).toBeFalsy();
+    expect(component.insufficientBalance).toBeFalsy();
+  }));
+
+  it('should render correct properly and disabled button when the balance is insufficient', fakeAsync(() => {
+    _setTokenAmountArrange(11);
+    const div = fixture.debugElement.query(By.css('div.sw__swap-card__from__detail__insufficient'));
+    fixture.detectChanges();
+
+    expect(div).toBeTruthy();
+    expect(component.disabledBtn).toBeTruthy();
+    expect(component.insufficientBalance).toBeTruthy();
   }));
 });

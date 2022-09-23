@@ -18,6 +18,7 @@ import { XAuthService } from '../../users/shared-users/services/x-auth/x-auth.se
 import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
+import { ethers } from 'ethers';
 
 @Component({
   selector: 'app-create-password',
@@ -53,6 +54,7 @@ import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
           <app-ux-input
             controlName="password"
             type="password"
+            [textClass]="'primary'"
             [label]="'wallets.create_password.write_password' | translate"
             inputmode="password"
             [errors]="this.passwordErrors"
@@ -62,6 +64,7 @@ import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
           <app-ux-input
             controlName="repeat_password"
             type="password"
+            [textClass]="'primary'"
             [label]="'wallets.create_password.repeat_password' | translate"
             inputmode="password"
             [errors]="this.repeatPasswordErrors"
@@ -203,7 +206,7 @@ export class CreatePasswordPage implements OnInit {
 
   private async createXAuthToken(): Promise<void> {
     const blockchain = this.blockchains.create().oneByName('ERC20');
-    const wallet = this.walletService.createdWallets.find((w) => w.mnemonic.path === blockchain.derivedPath());
+    const wallet = this.walletService.createForDerivedPath(blockchain.derivedPath());
     const signedMsg = await wallet.signMessage(wallet.address);
     return this.xAuthService.saveToken(`${wallet.address}_${signedMsg}`);
   }
@@ -228,6 +231,6 @@ export class CreatePasswordPage implements OnInit {
 
   navigateByMode() {
     const url = this.mode === 'import' ? '/wallets/recovery/success' : '/wallets/success-creation';
-    return this.navController.navigateForward([url]);
+    return this.navController.navigateRoot([url]);
   }
 }

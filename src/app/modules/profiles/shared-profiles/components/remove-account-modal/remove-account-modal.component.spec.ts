@@ -67,5 +67,6 @@ describe('RemoveAccountModalComponent', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/faqs/wallet'])
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledOnceWith(false);
   });
 });

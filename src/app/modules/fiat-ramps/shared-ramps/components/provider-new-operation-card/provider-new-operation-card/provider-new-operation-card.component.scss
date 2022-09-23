@@ -29,6 +29,17 @@
         }
       }
 
+      &__inputs-errors {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 8px;
+
+        &__error {
+          color: var(--ion-color-dangerdark);
+        }
+      }
+
       &__inputs {
         display: flex;
         align-items: center;
@@ -48,6 +59,10 @@
 
           --placeholder-color: var(--ion-color-neutral90);
           --placeholder-opacity: 0;
+        }
+
+        ion-input.invalid {
+          border: 1px solid var(--ion-color-dangerdark);
         }
 
         &__amount {
@@ -109,5 +124,34 @@
         }
       }
     }
+
+    &__fee {
+      margin-top: 24px;
+
+      &__label {
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+
+        ion-icon {
+          width: 16px;
+          height: 16px;
+          margin-left: 4px;
+        }
+      }
+
+      &__amount {
+        ion-text {
+          color: var(--ion-color-neutral90);
+        }
+      }
+    }
+  }
+}
+
+.skeleton {
+  ion-skeleton-text {
+    height: 18px;
+    border-radius: 8px;
   }
 }

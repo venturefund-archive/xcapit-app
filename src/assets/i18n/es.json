@@ -103,7 +103,8 @@
       "action": "Más información"
     },
     "need_help": {
-      "text_help_link": "¿Necesitas ayuda?"
+      "text_help_link": "¿Necesitas ayuda?",
+      "text_help_support": "Escribe a soporte"
     },
     "referrals_help": {
       "text_referrals_help_link": "¿Cómo funciona el sistema de referidos?"
@@ -124,13 +125,13 @@
       "title": "¡Buenas noticias!",
       "first": {
         "badge": "Nueva función",
-        "title": "Intercambios o Swap",
-        "description": "¡No te quedes afuera de lo mejor! Ahora puedes intercambiar monedas de manera rápida, fácil y segura."
+        "title": "¡Más oportunidades!",
+        "description": "Nuevos medios de pago, más tokens y países donde comprar. ¡Todo en tu moneda local!"
       },
       "second": {
         "badge": "Nueva función",
-        "title": "Educación financiera",
-        "description": "Lleva tus conocimientos criptos al siguiente nivel y conviértete en un experto en el tema."
+        "title": "Mejoras en la app",
+        "description": "Podrás acceder al detalle de tus operaciones y demás datos de manera ágil y sencilla."
       }
     },
     "transaction_fees": {
@@ -141,10 +142,10 @@
     }
   },
   "users": {
-    "login_password_info":{
-      "title":"¿Cuál es la contraseña que debes ingresar?",
-      "subtitle":"La que utilizas para aprobar tus transacciones. Es la misma que generaste al crear o importar tu wallet.",
-      "button":"Entendido"
+    "login_password_info": {
+      "title": "¿Cuál es la contraseña que debes ingresar?",
+      "subtitle": "La que utilizas para aprobar tus transacciones. Es la misma que generaste al crear o importar tu wallet.",
+      "button": "Entendido"
     },
     "email_validation": {
       "error_title": "No pudimos verificar el Email!",
@@ -229,55 +230,47 @@
       "repeat_new_password": "Confirmar nueva contraseña"
     },
     "account_recovery": {
-      "header":"Recuperar cuenta",
+      "header": "Recuperar cuenta",
       "alert": "Sin tu frase de recuperación, no podemos ayudarte a recuperar tu wallet.",
       "link": {
         "label": "Xcapit en ningún momento puede (ni podrá) acceder y/o administrar la información de tu wallet. ",
         "privacy_policy": "Politica de privacidad."
       },
-      "title":"¿Qué puedo hacer ahora?",
+      "title": "¿Qué puedo hacer ahora?",
       "item_1": {
-        "title":"Crear nueva wallet",
+        "title": "Crear nueva wallet",
         "description": "Recuerda realizar una copia de seguridad para no perder acceso a tu dinero."
       },
       "item_2": {
-        "title":"Importar una wallet",
+        "title": "Importar una wallet",
         "description": "Accede a beneficios exclusivos que sólo nuestros productos de inversión ofrecen."
       },
       "help_link": "Ayuda"
     },
-    "on_boarding":{
-      "title_1":"Te estábamos esperando",
-      "title_2":"Invertir nunca fue tan fácil",
-      "title_3":"¡Aprende jugando!",
-      "description_1":"Con la Wallet de Xcapit, tú tienes el control. En todo momento sabrás donde está tu dinero y cuántas ganancias obtienes.",
-      "description_2":"¡Invierte en DeFi! Transacciones rápidas, libres y sin intermediarios.",
-      "description_3":"La educación financiera que querías. Recibirás incentivos por tu aprendizaje y avance.",
+    "on_boarding": {
+      "title_1": "Te estábamos esperando",
+      "title_2": "Invertir nunca fue tan fácil",
+      "title_3": "¡Aprende jugando!",
+      "description_1": "Con la Wallet de Xcapit, tú tienes el control. En todo momento sabrás donde está tu dinero y cuántas ganancias obtienes.",
+      "description_2": "¡Invierte en DeFi! Transacciones rápidas, libres y sin intermediarios.",
+      "description_3": "La educación financiera que querías. Recibirás incentivos por tu aprendizaje y avance.",
       "primary_action": "Crear wallet",
       "secondary_action": "Importar wallet"
     },
     "account_recovery_info": {
-      "header":"Recuperar cuenta",
+      "header": "Recuperar cuenta",
       "title": "Reestablece el acceso de tu wallet usando tu frase de recuperación",
       "item_1": "Tendrás que importar tu wallet con tu frase de recuperación, y crear una nueva contraseña.",
       "item_2": "Deberás aceptar nuevamente los términos y condiciones y política de privacidad.",
       "item_3": "Conservarás tu avance en el módulo de educación financiera, objetivo en el planificador, y tu perfil de inversor.",
-      "button_primary":"Recuperar wallet",
-      "button_secondary":"No tengo mi frase de recuperación"
+      "button_primary": "Recuperar wallet",
+      "button_secondary": "No tengo mi frase de recuperación"
     }
   },
   "tickets": {
     "create": {
       "title": "Enviar una solicitud",
-      "text": "Ingrese los detalles de su solicitud. Un integrante del equipo se pondrá en contacto a la brevedad.",
-      "label_email": "CORREO ELECTRÓNICO",
-      "placeholder_email": "ejemplo@email.com",
-      "label_subject": "ASUNTO",
-      "placeholder_subject": "Asunto",
-      "label_message": "¿CUÁL ES TU CONSULTA?",
-      "placeholder_message": "Escriba su consulta aquí.",
-      "submit_button": "Enviar",
-      "cancel_button": "Volver a inicio de sesión"
+      "text": "Ingrese los detalles de su solicitud. Un integrante del equipo se pondrá en contacto a la brevedad."
     },
     "createSuccess": {
       "textPrimary": "¡Gracias por comunicarte con nosotros!",
@@ -286,22 +279,36 @@
     },
     "create_support_ticket": {
       "header": "Soporte",
-      "info": "Ingresa tus comentarios para poder ayudarte. Un integrante del equipo se pondrá en contacto contigo."
+      "title": "¡Estamos para ayudarte!",
+      "info": "Nuestro equipo se pondrá en contacto contigo a la brevedad.",
+      "submit_button": "Enviar consulta"
     },
     "create_support_ticket_success": {
       "textPrimary": "¡Gracias por comunicarte con nosotros!",
       "textSecondary": "Quédate atento, recibirás la respuesta en tu mail",
       "namePrimaryAction": "Volver al inicio"
     },
+    "create_support_ticket_success_new_login": {
+      "textPrimary": "¡Consulta enviada exitosamente!",
+      "textSecondary": "Nuestro equipo ya se encuentra trabajando sobre tu caso. Te estaremos respondiendo a  la brevedad al email {{email}}",
+      "has_wallet": {
+        "namePrimaryAction": "Ir a mi Wallet",
+        "nameSecondaryAction": "Crear otra consulta"
+      },
+      "no_wallet": {
+        "namePrimaryAction": "Hacer otra consulta"
+      }
+    },
     "create_ticket_form": {
-      "label_email": "CORREO ELECTRÓNICO",
-      "placeholder_email": "ejemplo@email.com",
-      "label_subject": "Elige una categoría de consulta",
+      "label_subject": "Elige una categoría de consulta*",
       "placeholder_subject": "Seleccione una categoría",
-      "label_message": "Escribe tu consulta",
-      "placeholder_message": "Escriba su consulta aquí.",
-      "submit_button": "Enviar",
-      "cancel_button": "Volver a inicio de sesión"
+      "label_email": "Ingresa tu email*",
+      "placeholder_email": "ejemplo@email.com",
+      "label_message": "¿En qué podemos ayudarte?*",
+      "placeholder_message": "Escribe tu consulta aquí.",
+      "required": "*Campos obligatorios",
+      "disclaimer_text": "Xcapit utilizará tu email únicamente para comunicarse contigo y resolver tus consultas. Obtén más información sobre el uso de datos en",
+      "disclaimer_link": "Política de privacidad."
     },
     "categories": {
       "my_account": "Mi cuenta/Registro",
@@ -397,12 +404,17 @@
     },
     "invest_detail": {
       "header": "Mi inversión",
-      "button": "Añadir monto",
-      "button_link": "Realizar retiro",
+      "button": "Añadir",
+      "button_link": "Retirar",
       "invested_amount": "Balance*",
       "daily_earnings_disclaimer": "*Tu balance se actualiza a diario.",
       "continuous_update": "*Actualización continua",
-      "weekly_update": "*Actualización semanal"
+      "weekly_update": "*Actualización semanal",
+      "history": {
+        "title": "Historial",
+        "investment": "Inversión",
+        "withdraw": "Retiro"
+      }
     },
     "shared": {
       "withdraw_info_modal": {
@@ -549,6 +561,7 @@
       "support_help": "Hablar con soporte",
       "category_security_account": "Seguridad cuenta Xcapit",
       "change_pass": "Cambiar contraseña",
+      "biometric_auth": "Datos biométricos",
       "category_security_wallet": "Seguridad wallet Xcapit",
       "remove_wallet": "Eliminar Wallet",
       "export_private_key": "Clave privada",
@@ -557,6 +570,7 @@
       "push_notifications": "Notificaciones push",
       "language": "Idioma",
       "logout": "Cerrar Sesión",
+      "new_badge": "Nuevo",
       "category_walletconnect": "WalletConnect",
       "delete_account_button": "Eliminar cuenta",
       "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma",
@@ -583,37 +597,8 @@
       "text_secondary": "Tu opinión nos ayuda a seguir mejorando día a día tu experiencia.",
       "name_primary_action": "Ir a mi wallet"
     },
-    "personal_data": {
-      "header": "Configurar cuenta",
-      "personal_data_title": "Datos personales",
-      "nro_dni": "Documento de identidad",
-      "first_name": "Nombre",
-      "first_name_placeholder": "Mi nombre",
-      "last_name": "Apellido",
-      "last_name_placeholder": "Mi apellido",
-      "cellphone": "Teléfono",
-      "address": "Domicilio",
-      "submit_button": "Siguiente",
-      "address_placeholder": "Ej: Río Negro 350, Cordoba, Argentina",
-      "nro_dni_placeholder": "Ej: 35485865",
-      "cuit_placeholder": "Ej: 23000000009",
-      "cellphone_placeholder": "Ej: 3512556525"
-    },
-    "fiscal_data": {
-      "header": "Configurar cuenta",
-      "fiscal_data_title": "Información fiscal",
-      "not_sure_text": "Si no estas seguro podrás cambiar mas tarde este dato desde tu perfil.",
-      "cuit": "CUIL/CUIT",
-      "country": "País",
-      "country_modal_ok_text": "Ok",
-      "country_modal_cancel_text": "Cancelar",
-      "iva_condition": "Condicion frente al IVA",
-      "tipo_factura": "Tipo de factura",
-      "submit_button": "Finalizar configuración",
-      "country_placeholder": "Elije un país",
-      "cuit_placeholder": "Ej: 23000000009"
-    },
     "personalised_profile_test": {
+      "header":"Personaliza tu perfil",
       "question_1": "1. ¿Qué deseas hacer dentro de Xcapit? Elige todas las opciones que consideres",
       "question_2": "2. ¿Cuál es tu nivel de experiencia con criptos?",
       "to_do_in_app": {
@@ -638,6 +623,15 @@
         "button_back": "Atrás",
         "button_out": "Salir"
       }
+    },
+    "biometric_auth": {
+      "header": "Datos biométricos",
+      "toggle_text": "Datos biométricos",
+      "toggle_description": "Actívalos para ingresar rápidamente.",
+      "password_title": "Tu seguridad nos importa",
+      "password_description": "Para activar tus datos biométricos, ingresa la contraseña de tu wallet Xcapit.",
+      "password_button": "Confirmar",
+      "password_error": "La contraseña ingresada no es correcta."
     },
     "shared": {
       "remove_account_modal": {
@@ -1183,6 +1177,7 @@
         "dialogTitle": "Compartir",
         "share_error": "El texto se copió en el portapapeles"
       },
+
       "rule_card": {
         "rule_1": {
           "title": "¿Cómo obtengo mi NFT?",
@@ -1312,7 +1307,8 @@
       "types": {
         "humanitary": "Ayuda humanitaria",
         "environment": "Medio ambiente",
-        "human_rights": "Derechos Humanos"
+        "human_rights": "Derechos Humanos",
+        "social": "Ayuda social"
       }
     },
     "description_cause": {
@@ -1321,6 +1317,7 @@
       "info": {
         "regional": "Regional",
         "global": "Global",
+        "latam": "Latam",
         "receive": "Recibe",
         "unhcr": {
           "title_1": "Dona para brindar asistencia a las poblaciones afectadas en Ucrania y en los países de la región.",
@@ -1343,7 +1340,7 @@
         "free_the_girls": {
           "title_1": "Dona para que las supervivientes de la trata sexual de todo el mundo, reciban  capacitación y microcréditos que les permitan crear microempresas en sus comunidades locales.",
           "title_2": "Sobre Free the Girls",
-          "title_3": "Conoce más Free the Girls",
+          "title_3": "Conoce más sobre Free the Girls",
           "description": "Ayuda a estas mujeres a convertirse en empresarias, brindando las herramientas para que puedan comercializar en los mercados locales de ropa de segunda mano en sus comunidades."
         },
         "proof_of_integrity": {
@@ -1357,6 +1354,18 @@
           "title_2": "Sobre Pulenta",
           "title_3": "Conoce más sobre Pulenta",
           "description": "Alcanzar de manera trazable, transparente y escalables donaciones cripto a organizaciones que ayudan a personas en estado de emergencia y vulnerabilidad. "
+        },
+        "unicef": {
+          "title_1": "Su donación se destinará a los programas globales de UNICEF Desde ayudar a los niños de América Latina, aquellos atrapados en el conflicto de Ucrania, hasta liberar a los niños soldados en Sudán del Sur, nos ayudará a brindarles a los niños de todo el mundo una oportunidad justa en la vida.",
+          "title_2": "Sobre UNICEF",
+          "title_3": "Conoce más sobre UNICEF",
+          "description": "El Fondo de las Naciones Unidas para la Infancia (UNICEF) tiene más de 75 años de experiencia trabajando en 190 países, 36 de estos países están en América Latina y el Caribe. Estamos 100% financiados por donaciones voluntarias, lo que nos permite brindar a los niños más vulnerables del mundo alimentos, vacunas, educación, agua potable, saneamiento e higiene, y protección contra la violencia que salvan vidas. Siempre estamos ahí antes, durante y después de una emergencia para cada niño."
+        },
+        "caecus": {
+          "title_1": "Buscan fomentar el desarrollo académico de niños y personas con discapacidad visual en LATAM. Y, a su vez, concientizar sobre el consumo responsable de tecnología, fomentando la economía circular.",
+          "title_2": "Sobre Caecus",
+          "title_3": "Conoce más sobre Caecus",
+          "description": "Tu donación ayuda a incentivar la inclusión académica y laboral, capacitando a personas con discapacidad visual en el uso de tecnología. Brindando la posibilidad de desarrollar autonomía incluyéndose a la sociedad nuevamente. Con tu aporte, personas ciegas pueden adquirir celulares, computadoras y anteojos inteligentes (www.annyweb.com) para ayudar a la lectura y movilidad segura en vía pública."
         }
       }
     },
@@ -1595,8 +1604,7 @@
       "agree_phrase_checkbox": "Estoy de acuerdo con los términos y condiciones, y la política de privacidad de Xcapit.",
       "submit_button": "Confirmar y aceptar",
       "wallet_term_text": "Tu Wallet estará vinculada a este dispositivo, no a tu e-mail. Para mayor información, visita las ",
-      "wallet_term_link": "Preguntas frecuentes sobre la Wallet.",
-      "error_did_not_accept": "Debes marcar todas las opciones para continuar."
+      "wallet_term_link": "Preguntas frecuentes sobre la Wallet."
     },
     "recovery_phrase_information": {
       "header": "Frase de recuperación",
@@ -1751,8 +1759,9 @@
     },
     "transactions": {
       "header": "Historico transacciones",
-      "OUT": "Enviado",
-      "IN": "Recibido",
+      "OUT": "Envío",
+      "IN": "Recepción",
+      "BUY": "Compra",
       "swap": "Swap",
       "confirmed": "Confirmado",
       "declined": "Rechazado"
@@ -1829,6 +1838,12 @@
       }
     },
     "shared_wallets": {
+      "share_transaction_detail": {
+        "text": "Hola! Te envié ",
+        "text2": "Para mas información: ",
+        "dialogTitle": "Compartir",
+        "share_error": "El texto se copió en el portapapeles"
+      },
       "start_investing_card": {
         "title": "Invierte tus cripto ahora y obtén ganancias diarias",
         "text": "Comenzar a invertir"
@@ -1901,6 +1916,13 @@
         "description": "Antes de realizar cualquier operación, protégela haciendo una copia de seguridad de tu frase de recuperación.",
         "button_protect": "Proteger mi wallet",
         "button_skip": "Omitir"
+      },
+      "new_token_available_card": {
+        "coming_soon": "Próximamente"
+      },
+      "new_token_info-modal": {
+        "title": "Ventajas de usar Solana",
+        "subtitle": "<ul><li>Gran variedad DApps para utilizar</li><li>Rapidez transaccional: Solana es la blockchain  más rápida del mundo</li><li>Bajo costo por transacción</li></ul>"
       }
     },
     "asset_detail": {
@@ -2060,6 +2082,23 @@
       "copy_button": "Copiar clave privada",
       "success_toast": "Tu clave privada se copio correctamente al portapapeles",
       "error_toast": "La contraseña que ingresaste es incorrecta"
+    },
+    "transaction_details": {
+      "header": "Detalles de la operación",
+      "title_status": "Estado",
+      "declined": "Rechazado",
+      "confirmed": "Confirmado",
+      "link": "Ver en explorer",
+      "title_wallet": "Wallet de destino",
+      "title_fee": "Tarifa de transacción",
+      "title_date": "Fecha",
+      "OUT": "Enviado",
+      "IN": "Recibido",
+      "modal_info_state": {
+        "title": "¿Qué significa este estado?",
+        "description": "Tu transacción fue rechazada por la red. Obtén más detalle accediendo al scan.",
+        "button_text": "Entendido"
+      }
     }
   },
   "tabs": {
@@ -2072,11 +2111,22 @@
   "fiat_ramps": {
     "buy_conditions": {
       "title": "¿Qué necesitas saber antes de comprar?",
-      "condition_1": "Las compras se realizan a través de un proovedor externo. Xcapit no vende criptomonedas.",
+      "condition_1": "Las compras se realizan a través de un proveedor externo. Xcapit no vende criptomonedas.",
       "condition_2": "Las condiciones de venta y entrega de tokens dependen de cada proveedor.",
-      "condition_3": "El proovedor puede solicitarte información de verificación o KYC. Xcapit no pide (ni pedirá) datos personales ni de validación.",
+      "condition_3": "El proveedor puede solicitarte información de verificación o KYC. Xcapit no pide (ni pedirá) datos personales ni de validación.",
       "label_check": "Estoy de acuerdo con los términos y condiciones de compra.",
       "button": "Continuar"
+    },
+    "error_d24_operation": {
+      "text_primary": "Se produjo un error en tu compra",
+      "text_secondary": "Inténtalo nuevamente o comunícate con soporte si el problema persiste.",
+      "button_primary": "Reintentar",
+      "button_secondary": "Ir a wallet"
+    },
+    "success_d24_operation": {
+      "text_primary": "¡Compra confirmada!",
+      "text_secondary": "La acreditación de tus tokens puede tardar hasta 24hs.",
+      "button_text": "Ir a wallet"
     },
     "operations_list": {
       "title": "Mis operaciones",
@@ -2109,10 +2159,12 @@
       "modal_info": {
         "subtitle_1": "Medios de pago habilitados:",
         "subtitle_2": "¿Cuál es el plazo de entrega?",
+        "subtitle_3": "Monto mínimo de compra:",
         "button": "Entendido",
         "kripton": {
           "description_1": "Transferencia bancaria.",
-          "description_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs. aproximadamente."
+          "description_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs. aproximadamente.",
+          "description_3": "25 USD por compra."
         },
         "moonpay": {
           "description_1": "Tarjeta de crédito.*",
@@ -2161,6 +2213,18 @@
         "provider": "Proveedor",
         "reception_address": "Dirección de recepción",
         "network": "Red"
+      },
+      "remove_photo":{
+        "title": "¿Eliminar archivo?",
+        "description":"Si continuas, deberás cargar nuevamente el comprobante.",
+        "button_text1":"Cancelar",
+        "button_text2":"Eliminar"
+      },
+      "exit_operation_detail":{
+        "title": "¿Deseas salir?",
+        "description":"Deberás volver a cargar tu comprobante.",
+        "button_text1":"Cancelar",
+        "button_text2":"Confirmar"
       }
     },
     "operation_status": {
@@ -2283,7 +2347,7 @@
       "provider": {
         "label": "Proveedor",
         "name": "Moonpay",
-        "description": "Proovedor de terceros"
+        "description": "Proveedor de terceros"
       },
       "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
       "information": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
@@ -2317,9 +2381,9 @@
       "brasil": "Brasil"
     },
     "shared": {
-      "coin_selector_modal":{
-        "title":"¡Atención!",
-        "description":"Deberás seleccionar nuevamente el proveedor para el token que desees comprar.",
+      "coin_selector_modal": {
+        "title": "¡Atención!",
+        "description": "Deberás seleccionar nuevamente el proveedor para el token que desees comprar.",
         "button": "Entendido"
       },
       "constants": {
@@ -2339,12 +2403,21 @@
         "quantity": "Cantidad",
         "provider": "Proveedor",
         "to_pay": "Pagarás*",
-        "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día."
+        "input_error": "El monto mínimo de compra es de ${{amount}} {{fiatCurrency}}",
+        "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día.",
+        "estimated_fee": "Tarifa de transacción estimada"
       },
       "kyc_disclaimer_modal": {
         "title": "Registro cuenta Kripton",
         "description": "Por única vez tienes que crearte una cuenta en kripton, la próxima vez que elijas este operador vas a acceder de manera automática.\n Recuerda que el registro y proceso de compra queda a cargo de Kripton.",
         "button": "Empezar"
+      },
+      "fee_info_modal": {
+        "title": "¿Qué es la tarifa de transacción?",
+        "item1": "Es el costo por realizar una compra.",
+        "item2": "Puede variar ligeramente al momento de realizar la operación.",
+        "item3": "Podrás encontrarlo en tu ticket de pago como “verificador de monto”.",
+        "button": "Entendido"
       }
     }
   },
@@ -2479,7 +2552,9 @@
       "title_wallet_connect": "WalletConnect",
       "description_wallet_connect": "Conectar wallet e interactuar con dapp.",
       "title_nft": "NFT",
-      "description_nft": "Visualizar, transferir y recibir."
+      "description_nft": "Visualizar, transferir y recibir.",
+      "title_wallet_swap": "Intercambiar",
+      "description_wallet_swap": "Posibles errores, tarifas y más."
     },
     "contact_support": {
       "title": "Escribir a soporte"
@@ -2591,6 +2666,14 @@
       "answer6": "No, una vez conectada la Wallet de Xcapit con la Dapp, podrás moverte en cualquier pantalla de la app sin perder la conexión. Cuando solicites una transacción desde la Dapp, la app de Xcapit la reconocerá automáticamente.<br>Sin embargo, si cierras la app de Xcapit, perderás la conexión con la Dapp.",
       "question7": "¿Puedo transferir un NFT con WalletConnect?",
       "answer7": "Sí. Podrás visualizar tu NFT en la plataforma de OpenSea y transferirlo o venderlo en la misma. Para ello entra a <a class='ux-link-xl' href='https://opensea.io/'> Opensea.io </a> y conecta tu wallet de Xcapit mediante WalletConnect, pega el código o escanea el QR y listo! (asegurarse de conectarse mediante la red de Polygon para ver los NFT que Xcapit te brindó)."
+    },
+    "support_wallet_swap": {
+      "header": "Ayuda",
+      "title": "Intercambiar",
+      "question1": "¿Por qué la tarifa de transacción es variable?",
+      "answer1": "La misma puede variar ligeramente por la volatilidad del mercado. Posee un tiempo de validez, luego caduca y se actualiza. Ocurre por diferentes motivos:<ul><li>Porque se modificó el tipo de cambio entre el momento en que se ingresaron los datos y cuando se desea confirmar la operación. Por lo que deberá volver a confirmarla para finalizar.</li><li>No posees suficientes criptos (MATIC, ETH, etc) para abonar las comisiones.</li><li>Las criptos que estás intentando intercambiar son altamente volátiles o hay poca liquidez en el grupo.</li></ul>",
+      "question2": "¿Porqué debo confirmar aceptar los términos de 1inch si estoy operando con Xcapit?",
+      "answer2": "Debido a que Xcapit no posee un swap propio, sino que provee el servicio a través de 1inch."
     }
   },
   "wealth_managements": {
@@ -2649,6 +2732,7 @@
       "loading_button_text": "Intercambiando",
       "from_token_title": "Desde",
       "to_token_title": "Hacia",
+      "available": "Disponible ",
       "fee_title": "Detalles de Transacción",
       "footer_text": "Solo tomará unos segundos.",
       "tos_1": "Leí y estoy de acuerdo con los ",
@@ -2666,8 +2750,8 @@
     },
     "terms_and_conditions": {
       "title": "¿Qué necesitas saber antes de realizar un intercambio?",
-      "condition_1": "El intercambio se realiza a través del proovedor externo “1inch”.",
-      "condition_2": "Las condiciones de intercambio de tokens dependen del proovedor.",
+      "condition_1": "El intercambio se realiza a través del proveedor externo “1inch”.",
+      "condition_2": "Las condiciones de intercambio de tokens dependen del proveedor.",
       "condition_3": "Los intercambios poseen costos de transacción asociados.",
       "terms": {
         "i_have_read": "Leí y estoy de acuerdo con los",

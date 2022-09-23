@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import { SUCCESS_TYPES } from '../../../../shared/components/success-content/success-types.constant';
 
 @Component({
@@ -10,9 +11,14 @@ import { SUCCESS_TYPES } from '../../../../shared/components/success-content/suc
 })
 export class DefiInvestmentSuccessWithdrawPage {
   data: any;
-  constructor() {}
+  constructor(private trackService: TrackService) {}
 
   ionViewWillEnter() {
     this.data = SUCCESS_TYPES.success_defi_withdraw;
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_invest_withdraw_screenview_success',
+    });
   }
 }

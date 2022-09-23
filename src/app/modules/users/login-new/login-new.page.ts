@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ToastService } from '../../../shared/services/toast/toast.service';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { LoginToken } from '../shared-users/models/login-token/login-token';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
@@ -8,6 +8,7 @@ import { LoggedIn } from '../shared-users/models/logged-in/logged-in';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LoginPasswordInfoComponent } from '../shared-users/components/login-password-info/login-password-info.component';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-login-new',
@@ -28,6 +29,7 @@ import { LoginPasswordInfoComponent } from '../shared-users/components/login-pas
               aria-label="password"
               tabindex="1"
               (click)="this.dismissToast()"
+              [textClass]="'info'"
               [infoIcon]="true"
               (infoIconClicked)="this.showPasswordInfoModal()"
             ></app-ux-input>
@@ -89,8 +91,17 @@ export class LoginNewPage {
     private storage: IonicStorageService,
     private navController: NavController,
     private translate: TranslateService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private trackService: TrackService
   ) {}
+
+  ionViewWillEnter() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_screenview_login',
+    });
+  }
 
   dismissToast() {
     this.toastService.dismiss();
@@ -116,7 +127,7 @@ export class LoginNewPage {
       componentProps: {
         title: 'users.login_password_info.title',
         subtitle: 'users.login_password_info.subtitle',
-        image: 'assets/img/usuarios/login_password_info/info.svg',
+        image: 'assets/img/users/login_password_info/info.svg',
         button: 'users.login_password_info.button',
       },
     });

@@ -12,6 +12,7 @@ import { VoidSigner } from 'ethers';
 import { WalletEncryptionService } from '../../wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
 
 @Component({
   selector: 'app-investment-detail',
@@ -42,33 +43,45 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           </ion-label>
         </ion-item>
       </ion-card>
+      <div class="id__buttons">
+        <div class="id__buttons__add-amount">
+          <app-icon-button-card
+            appTrackClick
+            name="ux_invest_add_amount"
+            [text]="'defi_investments.invest_detail.button' | translate"
+            icon="ux-up-arrow"
+            (click)="this.addAmount()"
+          ></app-icon-button-card>
+        </div>
+        <div class="id__buttons__withdraw">
+          <app-icon-button-card
+            appTrackClick
+            name="ux_invest_withdraw"
+            [text]="'defi_investments.invest_detail.button_link' | translate"
+            icon="ux-down-arrow"
+            (click)="this.goToWithdraw()"
+          ></app-icon-button-card>
+        </div>
+      </div>
+      <div class="id__investment-history ion-padding">
+        <div>
+          <ion-text class="ux-font-header-titulo">
+            {{ 'defi_investments.invest_detail.history.title' | translate }}</ion-text
+          >
+        </div>
+        <div class="investment-history">
+          <app-investment-history
+            [firstMovements]="this.firstMovements"
+            [remainingMovements]="this.remainingMovements"
+            [token]="this.token"
+          ></app-investment-history>
+        </div>
+      </div>
       <div class="id__weekly-profit-disclaimer ion-padding-horizontal" *ngIf="this.disclaimer">
         <ion-label class=" ux-font-text-xs" color="neutral80">
           {{ this.updateEarningText | translate }}
         </ion-label>
       </div>
-      <ion-button
-        appTrackClick
-        name="ux_invest_add_amount"
-        expand="block"
-        size="large"
-        class="ion-padding-start ion-padding-end ux_button id__add-amount"
-        color="secondary"
-        (click)="this.addAmount()"
-      >
-        {{ 'defi_investments.invest_detail.button' | translate }}
-      </ion-button>
-      <ion-button
-        appTrackClick
-        name="ux_invest_withdraw"
-        expand="block"
-        fill="clear"
-        size="small"
-        class="link ux-link-xl ion-padding-start ion-padding-end id__finish-btn"
-        (click)="this.goToWithdraw()"
-      >
-        {{ 'defi_investments.invest_detail.button_link' | translate }}
-      </ion-button>
     </ion-content>`,
   styleUrls: ['./investment-detail.page.scss'],
 })
@@ -79,6 +92,11 @@ export class InvestmentDetailPage implements OnInit {
   balance: number;
   disclaimer = false;
   updateEarningText: string;
+  allMovements = [];
+  address: string;
+  firstMovements;
+  remainingMovements;
+
   constructor(
     private route: ActivatedRoute,
     private twoPiApi: TwoPiApi,
@@ -86,7 +104,8 @@ export class InvestmentDetailPage implements OnInit {
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
     private walletEncryptionService: WalletEncryptionService,
-    private remoteConfig: RemoteConfigService
+    private remoteConfig: RemoteConfigService,
+    private graphql: GraphqlService
   ) {}
 
   ngOnInit() {}
@@ -94,6 +113,7 @@ export class InvestmentDetailPage implements OnInit {
   async ionViewDidEnter() {
     await this.getInvestmentProduct();
     this.setDisclaimer();
+    this.obtainPidOfProduct();
   }
 
   private vaultID() {
@@ -116,8 +136,8 @@ export class InvestmentDetailPage implements OnInit {
 
   async getProductBalance(investmentProduct: InvestmentProduct): Promise<void> {
     const wallet = await this.walletEncryptionService.getEncryptedWallet();
-    const address = wallet.addresses[investmentProduct.token().network];
-    const investment = this.createInvestment(investmentProduct, address);
+    this.address = wallet.addresses[investmentProduct.token().network];
+    const investment = this.createInvestment(investmentProduct, this.address);
     this.balance = await investment.balance();
     this.getPrice();
   }
@@ -145,15 +165,39 @@ export class InvestmentDetailPage implements OnInit {
     this.navController.navigateForward(['/defi/withdraw/select-amount', this.investmentProduct.name()]);
   }
 
+  obtainPidOfProduct() {
+    this.createAvailableDefiProducts()
+      .value()
+      .find((product) => {
+        if (product.id === this.investmentProduct.name()) {
+          const pid = this.investmentProduct.id();
+          this.getAllMovements(pid);
+        }
+      });
+  }
+
+  getAllMovements(pid: number) {
+    this.graphql.getAllMovements(this.address, pid).subscribe(({ data }) => {
+      this.allMovements = data.flows;
+      this.separateFilteredData();
+    });
+  }
+
+  separateFilteredData() {
+    this.firstMovements = this.allMovements?.slice(0, 3);
+    this.remainingMovements = this.allMovements?.slice(3, this.allMovements.length);
+  }
+
   setDisclaimer() {
     const product = this.createAvailableDefiProducts()
       .value()
       .find((product) => product.id === this.investmentProduct.name());
-    if (product){
+    if (product) {
       this.disclaimer = true;
-      this.updateEarningText = product.continuousEarning ? 'defi_investments.invest_detail.continuous_update' : 'defi_investments.invest_detail.weekly_update'
-      
-    } 
+      this.updateEarningText = product.continuousEarning
+        ? 'defi_investments.invest_detail.continuous_update'
+        : 'defi_investments.invest_detail.weekly_update';
+    }
   }
 
   createAvailableDefiProducts(): AvailableDefiProducts {

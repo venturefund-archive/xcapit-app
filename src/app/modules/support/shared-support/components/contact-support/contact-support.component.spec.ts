@@ -1,4 +1,3 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -15,23 +14,24 @@ describe('ContactSupportComponent', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: any;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ContactSupportComponent>;
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
 
-      TestBed.configureTestingModule({
-        declarations: [ContactSupportComponent, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
 
-      fixture = TestBed.createComponent(ContactSupportComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    })
-  );
+    TestBed.configureTestingModule({
+      declarations: [ContactSupportComponent, FakeTrackClickDirective],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(ContactSupportComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -39,7 +39,7 @@ describe('ContactSupportComponent', () => {
 
   it('should navigate to create-ticket-support when Go To Create Ticket is clicked', () => {
     fixture.debugElement.query(By.css('ion-button[name="Go To Create Ticket"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/create-support-ticket']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tickets/create-support-ticket');
   });
 
   it('should call trackEvent on trackService when Go To Create Ticket clicked', async () => {

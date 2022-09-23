@@ -46,7 +46,7 @@ describe('AccountRecoveryInfoPage', () => {
     fixture.detectChanges();
 
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/wallets/create-first/disclaimer/import']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/create-first/disclaimer/import']);
   });
 
   it('should call trackEvent on trackService when ux_recover_no_phrase clicked', () => {
@@ -58,6 +58,6 @@ describe('AccountRecoveryInfoPage', () => {
     fixture.detectChanges();
 
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/users/account-recovery']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/users/account-recovery']);
   });
 });

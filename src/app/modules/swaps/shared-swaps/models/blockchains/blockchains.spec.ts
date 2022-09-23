@@ -1,5 +1,5 @@
 import { BlockchainRepo } from "../blockchain-repo/blockchain-repo";
-import { Blockchains } from "./blockchains";
+import { Blockchains, DefaultBlockchains } from "./blockchains";
 import { rawBlockchainsData } from "../fixtures/raw-blockchains-data";
 
 
@@ -8,11 +8,11 @@ describe('Blockchains', () => {
   let blockchains: Blockchains;
 
   beforeEach(() => {
-    blockchains = new Blockchains(new BlockchainRepo(rawBlockchainsData));
+    blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   });
 
   it('new', () => {
-    expect(new Blockchains(new BlockchainRepo([]))).toBeTruthy();
+    expect(new DefaultBlockchains(new BlockchainRepo([]))).toBeTruthy();
   });
 
   it('value', () => {
@@ -29,5 +29,5 @@ describe('Blockchains', () => {
     const aBlockchainName = rawBlockchainsData[0].name;
 
     expect(blockchains.oneByName(aBlockchainName).name()).toEqual(aBlockchainName);
-  })
+  });
 });

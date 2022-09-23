@@ -99,7 +99,7 @@ export class TransactionFeeComponent implements OnChanges, OnDestroy {
           description: this.translate.instant('shared.transaction_fees.description'),
           buttonText: this.translate.instant('shared.transaction_fees.button_text'),
         },
-        cssClass: 'ux-xxs-modal-informative',
+        cssClass: 'modal',
         backdropDismiss: false,
       });
       await modal.present();

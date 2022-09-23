@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
@@ -12,6 +11,22 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price';
+import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/directa-price-factory';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { CustomValidators } from 'src/app/shared/validators/custom-validators';
+import { StorageService } from 'src/app/modules/wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { LanguageService } from '../../../shared/services/language/language.service';
+import DepositLinkRequest from '../shared-ramps/models/deposit-link-request/deposit-link-request';
+import DepositLinkRequestFactory from '../shared-ramps/models/deposit-link-request/factory/deposit-link-request.factory';
+import { BrowserService } from '../../../shared/services/browser/browser.service';
+import { DirectaDepositCreationData } from '../shared-ramps/interfaces/directa-deposit-creation-data.interface';
+import { EnvService } from '../../../shared/services/env/env.service';
+import RoundedNumber from '../../../shared/models/rounded-number/rounded-number';
+import CeilOf from 'src/app/shared/models/ceil-of/ceil-of';
 
 @Component({
   selector: 'app-directa',
@@ -35,8 +50,9 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
             [coin]="this.selectedCurrency"
             [fiatCurrency]="this.fiatCurrency"
             [provider]="this.provider"
-            [amountEnabled]="false"
             [coinSelectorEnabled]="false"
+            [minimumFiatAmount]="this.minimumFiatAmount"
+            [fee]="this.fee"
           ></app-provider-new-operation-card>
         </div>
       </form>
@@ -68,33 +84,51 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 })
 export class DirectaPage implements OnInit {
   form: UntypedFormGroup = this.formBuilder.group({
+    cryptoAmount: ['', Validators.required],
     fiatAmount: ['', Validators.required],
   });
   provider: FiatRampProvider;
   countries = COUNTRIES;
-  tokens: Coin[];
   selectedCurrency: Coin;
   fiatCurrency = 'USD';
   country: FiatRampProviderCountry;
   providerAlias: string;
-
+  price: number;
+  milliseconds = 15000;
+  destroy$: Subject<void>;
+  minimumFiatAmount: number;
+  minimumCryptoAmount: number;
+  mininumUSDAmount = 2;
+  fee = { value: 0, token: '' };
   constructor(
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
-    private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providers: ProvidersFactory,
     private walletMaintenance: WalletMaintenanceService,
-    private tokenOperationDataService: TokenOperationDataService
+    private tokenOperationDataService: TokenOperationDataService,
+    private directaPrice: DirectaPriceFactory,
+    private fiatRampsService: FiatRampsService,
+    private storageService: StorageService,
+    private platformService: PlatformService,
+    private languageService: LanguageService,
+    private depositLinkRequestFactory: DepositLinkRequestFactory,
+    private browserService: BrowserService,
+    private envService: EnvService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.destroy$ = new Subject<void>();
     const providerAlias = this.route.snapshot.paramMap.get('alias');
     this.provider = this.getProviders().byAlias(providerAlias);
     this.setCountry();
-    this.setCurrency();
+    this.setFiatToken();
+    this.setCryptoToken();
+    this.cryptoPrice();
+    this.usdCryptoPrice();
+    this.subscribeToFormChanges();
   }
 
   setCountry() {
@@ -103,19 +137,66 @@ export class DirectaPage implements OnInit {
     );
   }
 
-  setCurrency() {
-    this.tokens = this.providerTokens();
+  setFiatToken() {
+    this.fiatCurrency = this.country.isoCurrencyCodeDirecta;
+    this.fee.token = this.fiatCurrency;
+  }
+
+  setCryptoToken() {
     const { asset, network } = this.tokenOperationDataService.tokenOperationData;
-    this.selectedCurrency = this.tokens.find((token) => token.value === asset && token.network === network);
+    this.selectedCurrency = this.providerTokens().find((token) => token.value === asset && token.network === network);
   }
 
   providerTokens() {
     return new ProviderTokensOf(this.getProviders(), this.apiWalletService.getCoins()).byAlias(this.provider.alias);
   }
 
+  depositLinkRequest(depositCreationData: DirectaDepositCreationData): DepositLinkRequest {
+    return this.depositLinkRequestFactory.new(depositCreationData);
+  }
+
+  userWalletAddress(): Promise<string> {
+    return this.storageService.getWalletsAddresses(this.selectedCurrency.network);
+  }
+
+  isNativePlatform(): boolean {
+    return this.platformService.isNative();
+  }
+
+  async userLanguage(): Promise<string> {
+    const language = await this.languageService.getSelectedLanguage();
+    return language ?? 'es';
+  }
+
+  webhookURL(): string {
+    return `${this.envService.byKey('apiUrl')}/on_off_ramps/directa/deposit_link`;
+  }
+
+  async depositData(): Promise<DirectaDepositCreationData> {
+    const dynamicLinkUrl = this.getDynamicLinkUrl();
+    return {
+      amount: this.form.value.fiatAmount,
+      fiat_token: this.fiatCurrency,
+      crypto_token: this.selectedCurrency.value,
+      country: this.country.directaCode,
+      payment_method: this.provider.alias,
+      back_url: dynamicLinkUrl + 'directa-back-url',
+      success_url: dynamicLinkUrl + 'directa-success-url',
+      error_url: dynamicLinkUrl + 'directa-error-url',
+      notification_url: this.webhookURL(),
+      logo: 'https://xcapit-foss.gitlab.io/documentation/img/x.svg',
+      wallet: await this.userWalletAddress(),
+      mobile: this.isNativePlatform(),
+      language: await this.userLanguage(),
+    };
+  }
+
   async openD24() {
+    const response = await this.depositLinkRequest(await this.depositData())
+      .response()
+      .toPromise();
+    if (response.link) this.browserService.open({ url: response.link });
     await this.addBoughtCoinIfUserDoesNotHaveIt();
-    return this.navController.navigateForward(['/tabs/wallets']);
   }
 
   getProviders(): Providers {
@@ -124,5 +205,113 @@ export class DirectaPage implements OnInit {
 
   addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
     return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.selectedCurrency);
+  }
+
+  subscribeToFormChanges() {
+    this.form
+      .get('cryptoAmount')
+      .valueChanges.subscribe((value) => (value ? this.cryptoAmountChange(value) : this.resetInfo('fiatAmount')));
+    this.form
+      .get('fiatAmount')
+      .valueChanges.subscribe((value) => (value ? this.fiatAmountChange(value) : this.resetInfo('cryptoAmount')));
+  }
+
+  resetInfo(aField: string) {
+    this.form.patchValue({ [aField]: 0 }, this.defaultPatchValueOptions());
+    this.resetFee();
+  }
+  private cryptoAmountChange(value: number) {
+    this.form.patchValue(
+      { fiatAmount: new RoundedNumber(value * this.price).value() },
+      this.defaultPatchValueOptions()
+    );
+    this.getFee();
+  }
+
+  private fiatAmountChange(value: number) {
+    const roundedValue = new RoundedNumber(value).value();
+    this.form.patchValue(
+      { fiatAmount: roundedValue, cryptoAmount: roundedValue / this.price },
+      this.defaultPatchValueOptions()
+    );
+    this.getFee();
+  }
+
+  private updateAmounts(): void {
+    if (this.form.value.fiatAmount && this.form.value.cryptoAmount) {
+      this.form.patchValue(
+        { fiatAmount: new RoundedNumber(this.form.value.cryptoAmount * this.price).value() },
+        this.defaultPatchValueOptions()
+      );
+    }
+  }
+
+  private addDefaultValidators() {
+    this.form.get('fiatAmount').addValidators(Validators.required);
+  }
+
+  private clearValidators() {
+    this.form.get('fiatAmount').clearValidators();
+  }
+  private addGreaterThanValidator(amount) {
+    this.clearValidators();
+    this.addDefaultValidators();
+    this.form.get('fiatAmount').addValidators(CustomValidators.greaterOrEqualThan(amount));
+    this.form.get('fiatAmount').updateValueAndValidity(this.defaultPatchValueOptions());
+  }
+
+  private cryptoPrice() {
+    this.createDirectaPrice()
+      .value()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((price: number) => {
+        this.price = price;
+        this.updateAmounts();
+      });
+  }
+
+  private usdCryptoPrice() {
+    this.createDirectaPrice('USD')
+      .value()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((price: number) => {
+        if (this.price) {
+          this.minimumCryptoAmount = this.mininumUSDAmount / price;
+          this.minimumFiatAmount = new CeilOf(this.minimumCryptoAmount * this.price).value();
+          this.addGreaterThanValidator(this.minimumFiatAmount);
+        }
+      });
+  }
+
+  createDirectaPrice(currency = this.fiatCurrency): DirectaPrice {
+    return this.directaPrice.new(this.milliseconds, currency, this.selectedCurrency, this.fiatRampsService);
+  }
+
+  loadingFee() {
+    this.fee.value = undefined;
+  }
+
+  resetFee() {
+    this.fee.value = 0;
+  }
+
+  getFee() {
+    this.loadingFee();
+    this.fiatRampsService
+      .getDirectaExchangeRate(this.fiatCurrency, this.selectedCurrency.value, this.form.value.fiatAmount)
+      .subscribe((res) => (this.fee.value = res.fee * this.price));
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private defaultPatchValueOptions() {
+    return { emitEvent: false, onlySelf: true };
+  }
+
+  getDynamicLinkUrl() {
+    return this.envService.all().firebase.dynamicLinkUrl;
   }
 }

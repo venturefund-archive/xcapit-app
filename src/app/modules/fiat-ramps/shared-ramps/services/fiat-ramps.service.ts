@@ -9,7 +9,7 @@ import { OperationStatus } from '../interfaces/operation-status.interface';
 import { Providers } from '../models/providers/providers.interface';
 import { ProvidersFactory } from '../models/providers/factory/providers.factory';
 import { RemoteConfigService } from '../../../../shared/services/remote-config/remote-config.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -31,26 +31,12 @@ export class FiatRampsService {
   }
 
   getUserWallets(currency): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/apikeys/deposit_address/${currency}`,
-      undefined,
-      undefined,
-      false
-    );
+    return this.http.get(`${environment.apiUrl}/apikeys/deposit_address/${currency}`, undefined, undefined, false);
   }
 
-  checkUser(): Observable<any> {
-    return this.http.get(
-      `${environment.apiUrl}/${this.entity}/${this.provider}/check_user`,
-      undefined,
-      undefined,
-      false
-    );
-  }
-
-  createUser(): Observable<any> {
+  getOrCreateUser(): Observable<any> {
     return this.http.post(
-      `${environment.apiUrl}/${this.entity}/${this.provider}/create_user`,
+      `${environment.apiUrl}/${this.entity}/${this.provider}/get_or_create_user`,
       undefined,
       undefined,
       false
@@ -125,6 +111,19 @@ export class FiatRampsService {
       currency_code: currencyCode,
       publishable_key: environment.moonpayPK,
     });
+  }
+
+  getDirectaExchangeRate(aFiatCurrency: string, aCryptoCurrency: string, anAmount: number): Observable<any> {
+    const params = {
+      params: new HttpParams({
+        fromObject: {
+          base: aFiatCurrency,
+          quote: aCryptoCurrency,
+          amount: anAmount,
+        },
+      }),
+    };
+    return this.http.get(`${environment.apiUrl}/on_off_ramps/directa/crypto_exchange_rate`, params, undefined, false);
   }
 
   setProvider(provider: string) {

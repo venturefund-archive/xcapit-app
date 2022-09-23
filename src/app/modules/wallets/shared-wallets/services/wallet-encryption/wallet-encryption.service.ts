@@ -1,56 +1,59 @@
 import { Injectable } from '@angular/core';
-import { ethers, Wallet } from 'ethers';
-import { WalletService } from '../wallet/wallet.service';
-import { StorageService } from '../storage-wallets/storage-wallets.service';
+import { Wallet } from 'ethers';
 import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { EthersService } from '../ethers/ethers.service';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { StorageService } from '../storage-wallets/storage-wallets.service';
+import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
+import { WalletService } from '../wallet/wallet.service';
+import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WalletEncryptionService {
-  private ethWallet: Wallet = null;
-  private walletsAddresses = {};
   private selectedCoins = {};
   coins: Coin[];
 
   constructor(
-    private walletService: WalletService,
+    private walletsFactory: WalletsFactory,
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
-    private ethersService: EthersService
+    private ethersService: EthersService,
+    private blockchainsFactory: BlockchainsFactory,
+    private mnemonicService: WalletMnemonicService,
+    private walletService: WalletService
   ) {}
 
-  encryptWallet(password: string): Promise<any> {
-    const wallets = this.walletService.createdWallets;
-    const derivedPaths = environment.derivedPaths;
-
-    wallets.forEach((wallet) => {
-      if (wallet.mnemonic.path === derivedPaths.ERC20) {
-        this.ethWallet = wallet;
-        this.walletsAddresses['BSC_BEP20'] = wallet.address.toLowerCase();
-      }
-
-      const key = Object.keys(derivedPaths).filter((keyName) => derivedPaths[keyName] === wallet.mnemonic.path);
-      const value = wallet.address.toLowerCase();
-
-      this.walletsAddresses[key[0]] = value;
-    });
-    return this.saveEncryptedWallet(password);
+  async encryptWallet(password: string): Promise<any> {
+    await this.createWallets(new Password(password));
+    await this.saveEncryptedWallet();
   }
 
-  private saveEncryptedWallet(password: string): Promise<boolean> {
-    return new Promise<boolean>(async (resolve) => {
-      this.ethWallet.encrypt(password).then(async (wallet) => {
-        const structure = this.storageStructure(wallet);
-        await this.storageService.saveWalletToStorage(structure);
+  private async createWallets(aPassword: Password): Promise<void> {
+    await this.walletsFactory.create().createFrom(
+      this.mnemonicService.mnemonic.phrase,
+      aPassword,
+      this.blockchainsFactory.create()
+    );
+  }
 
-        resolve(true);
-      });
-    });
+  private async saveEncryptedWallet(): Promise<void> {
+    await this.storageService.saveWalletToStorage(await this.storageStructure());
+  }
+
+  private async storageStructure() {
+    return {
+      alias: (await this.walletsFactory.create().oneBy(this.blockchainsFactory.create().oneByName('ERC20'))).address(),
+      createdAt: moment().utc().format(),
+      updatedAt: moment().utc().format(),
+      network: environment.walletNetwork,
+      assets: this.selectedAssetsStructure(),
+    };
   }
 
   getDecryptedWallet(password: string): Promise<any> {
@@ -86,18 +89,6 @@ export class WalletEncryptionService {
     }
 
     return this.selectedCoins;
-  }
-
-  private storageStructure(encWallet) {
-    return {
-      alias: this.ethWallet.address,
-      wallet: encWallet,
-      createdAt: moment().utc().format(),
-      updatedAt: moment().utc().format(),
-      addresses: this.walletsAddresses,
-      network: environment.walletNetwork,
-      assets: this.selectedAssetsStructure(),
-    };
   }
 
   async encryptedWalletExist(): Promise<boolean> {

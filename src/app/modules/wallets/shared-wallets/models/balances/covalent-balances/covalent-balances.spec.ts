@@ -1,33 +1,27 @@
-import covalentBalancesData from '../../../fixtures/covalent-balances.json';
 import { CovalentBalances } from './covalent-balances';
 import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
-import { Coin } from '../../../interfaces/coin.interface';
+import { polygonResponse, solanaResponse } from '../../../fixtures/covalent-balances.fixture';
+import {
+  rawETHData,
+  rawMATICData,
+  rawSAMOData,
+  rawSOLData,
+  rawTokensData,
+  rawUSDCData,
+} from '../../../../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { Blockchain } from '../../../../../swaps/shared-swaps/models/blockchain/blockchain';
+import { rawPolygonData, rawSolanaData } from '../../../../../swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { BlockchainTokens } from '../../../../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
+import { TokenRepo } from '../../../../../swaps/shared-swaps/models/token-repo/token-repo';
+import { DefaultTokens, Tokens } from '../../../../../swaps/shared-swaps/models/tokens/tokens';
 
 describe('CovalentBalances', () => {
   let covalentBalances: CovalentBalances;
-  let maticSpy: jasmine.SpyObj<Coin>;
-  let usdcSpy: jasmine.SpyObj<Coin>;
-  let lunaSpy: jasmine.SpyObj<Coin>;
+  let tokens: Tokens;
 
   beforeEach(() => {
-    maticSpy = jasmine.createSpyObj(
-      'MATIC',
-      {},
-      { value: 'MATIC', contract: '0x0000000000000000000000000000000000001010', chainId: 137 }
-    );
-    usdcSpy = jasmine.createSpyObj(
-      'USDC',
-      {},
-      { value: 'USDC', contract: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', chainId: 137 }
-    );
-
-    lunaSpy = jasmine.createSpyObj('LUNA', {}, { value: 'LUNA', contract: '0x15987', chainId: 137 });
-    covalentBalances = new CovalentBalances(
-      '0x0001',
-      [maticSpy, usdcSpy],
-      new FakeHttpClient(covalentBalancesData),
-      'https:/test/'
-    );
+    tokens = new BlockchainTokens(new Blockchain(rawPolygonData), new DefaultTokens(new TokenRepo(rawTokensData)));
+    covalentBalances = new CovalentBalances('0x0001', tokens, new FakeHttpClient(polygonResponse), 'https:/test/');
   });
 
   it('should create', () => {
@@ -35,22 +29,32 @@ describe('CovalentBalances', () => {
   });
 
   it('should create with default url', () => {
-    covalentBalances = new CovalentBalances('0x0001', [maticSpy, usdcSpy], new FakeHttpClient(covalentBalancesData));
+    covalentBalances = new CovalentBalances('0x0001', tokens, new FakeHttpClient(polygonResponse));
     expect(covalentBalances).toBeTruthy();
   });
 
-  it('should get value', async () => {
+  it('should get value for polygon tokens', async () => {
     expect(await covalentBalances.value()).toEqual([
-      { coin: maticSpy, balance: 1.6756807965451055 },
-      { coin: usdcSpy, balance: 2e-13 },
+      { coin: rawMATICData, balance: 1.6756807965451055 },
+      { coin: rawUSDCData, balance: 0.2 },
+    ]);
+  });
+
+  it('should get value for solana tokens', async () => {
+    tokens = new BlockchainTokens(new Blockchain(rawSolanaData), new DefaultTokens(new TokenRepo(rawTokensData)));
+
+    covalentBalances = new CovalentBalances('0x0001', tokens, new FakeHttpClient(solanaResponse), 'https:/test/');
+    expect(await covalentBalances.value()).toEqual([
+      { coin: rawSOLData, balance: 1.944182 },
+      { coin: rawSAMOData, balance: 92.07568407 },
     ]);
   });
 
   it('should get value of a coin', async () => {
-    expect(await covalentBalances.valueOf(maticSpy)).toEqual({ coin: maticSpy, balance: 1.6756807965451055 });
+    expect(await covalentBalances.valueOf(rawMATICData)).toEqual({ coin: rawMATICData, balance: 1.6756807965451055 });
   });
 
   it('should get 0 if not balance', async () => {
-    expect(await covalentBalances.valueOf(lunaSpy)).toEqual({ coin: lunaSpy, balance: 0 });
+    expect(await covalentBalances.valueOf(rawETHData)).toEqual({ coin: rawETHData, balance: 0 });
   });
 });

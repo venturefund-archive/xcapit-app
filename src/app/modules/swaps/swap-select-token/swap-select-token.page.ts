@@ -15,7 +15,6 @@ import { BlockchainTokens } from '../shared-swaps/models/blockchain-tokens/block
 import { OneInchTokens } from '../shared-swaps/models/one-inch-tokens/one-inch-tokens';
 import { OneInch } from '../shared-swaps/models/one-inch/one-inch';
 
-
 @Component({
   selector: 'app-swap-select-token',
   template: `
@@ -92,7 +91,7 @@ export class SwapSelectTokenPage {
   private trackPage() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
-      description: window.location.href,
+      description: '/swaps/home',
       eventLabel: `ux_swaps_screenview_select_${this.tokenToSelect()}`,
     });
   }

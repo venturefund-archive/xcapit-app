@@ -96,6 +96,12 @@ export class CustomValidators {
     };
   }
 
+  static greaterOrEqualThan(min: number, error: ValidationErrors = CustomValidatorErrors.greaterOrEqualThanError): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return control.value !== undefined && (isNaN(control.value) || control.value < min) ? error : null;
+    };
+  }
+
   static lowerThanEqual(max: number, error: ValidationErrors = CustomValidatorErrors.lowerThanEqualError): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       return control.value !== undefined && (isNaN(control.value) || control.value > max) ? error : null;

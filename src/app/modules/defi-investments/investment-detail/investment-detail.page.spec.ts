@@ -22,6 +22,7 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
+import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -34,6 +35,73 @@ const testVault = {
   token_address: '0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F',
   tvl: 1301621680000,
 } as Vault;
+
+const dataTest = {
+  data: {
+    flows: [
+      {
+        amount: '500024348558355473',
+        balance: '0',
+        balanceUSD: '0',
+        timestamp: '1661194501',
+        type: 'withdraw',
+      },
+      {
+        amount: '50123123132355473',
+        balance: '12123',
+        balanceUSD: '1232',
+        timestamp: '1661194501',
+        type: 'deposit',
+      },
+      {
+        amount: '500024348558355473',
+        balance: '0',
+        balanceUSD: '0',
+        timestamp: '1661194501',
+        type: 'withdraw',
+      },
+      {
+        amount: '500024348558355473',
+        balance: '0',
+        balanceUSD: '0',
+        timestamp: '1661194501',
+        type: 'withdraw',
+      },
+    ],
+  },
+};
+const firstMovementsTest = [
+  {
+    amount: '500024348558355473',
+    balance: '0',
+    balanceUSD: '0',
+    timestamp: '1661194501',
+    type: 'withdraw',
+  },
+  {
+    amount: '50123123132355473',
+    balance: '12123',
+    balanceUSD: '1232',
+    timestamp: '1661194501',
+    type: 'deposit',
+  },
+  {
+    amount: '500024348558355473',
+    balance: '0',
+    balanceUSD: '0',
+    timestamp: '1661194501',
+    type: 'withdraw',
+  },
+];
+const remainingMovementsTest = [
+  {
+    amount: '500024348558355473',
+    balance: '0',
+    balanceUSD: '0',
+    timestamp: '1661194501',
+    type: 'withdraw',
+  },
+];
 
 describe('InvestmentDetailPage', () => {
   let component: InvestmentDetailPage;
@@ -53,6 +121,8 @@ describe('InvestmentDetailPage', () => {
   let availableDefiProductsSpy: jasmine.SpyObj<AvailableDefiProducts>;
   let coinSpy: jasmine.SpyObj<Coin>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
+  let graphqlServiceSpy: jasmine.SpyObj<GraphqlService>;
+
   beforeEach(waitForAsync(() => {
     fakeActivatedRoute = new FakeActivatedRoute({ vault: 'polygon_usdc' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
@@ -108,6 +178,10 @@ describe('InvestmentDetailPage', () => {
 
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ test: 'test' }] });
 
+    graphqlServiceSpy = jasmine.createSpyObj('GraphqlService', {
+      getAllMovements: of(dataTest),
+    });
+
     TestBed.configureTestingModule({
       declarations: [InvestmentDetailPage, FakeTrackClickDirective, FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule],
@@ -119,6 +193,7 @@ describe('InvestmentDetailPage', () => {
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
+        { provide: GraphqlService, useValue: graphqlServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -127,6 +202,9 @@ describe('InvestmentDetailPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     createInvestmentProductSpy = spyOn(component, 'createInvestmentProduct').and.resolveTo(investmentProductSpy);
+    component.allMovements = dataTest.data.flows;
+    component.firstMovements = firstMovementsTest;
+    component.remainingMovements = remainingMovementsTest;
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 
@@ -162,7 +240,7 @@ describe('InvestmentDetailPage', () => {
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     walletServiceSpy.walletExist.and.returnValue(Promise.resolve(false));
-    fixture.debugElement.query(By.css('ion-button[name="ux_invest_add_amount"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('app-icon-button-card[name="ux_invest_add_amount"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/no-wallet-to-invest']);
   });
@@ -171,7 +249,7 @@ describe('InvestmentDetailPage', () => {
     component.investmentProduct = investmentProductSpy;
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    fixture.debugElement.query(By.css('ion-button[name="ux_invest_add_amount"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('app-icon-button-card[name="ux_invest_add_amount"]')).nativeElement.click();
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
       '/defi/new/insert-amount',
@@ -185,7 +263,7 @@ describe('InvestmentDetailPage', () => {
     component.investmentProduct = investmentProductSpy;
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_invest_add_amount');
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_invest_add_amount');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -197,7 +275,7 @@ describe('InvestmentDetailPage', () => {
     component.investmentProduct = investmentProductSpy;
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_invest_withdraw');
+    const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_invest_withdraw');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -230,5 +308,20 @@ describe('InvestmentDetailPage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const disclaimerEl = fixture.debugElement.query(By.css('div.id__weekly-profit-disclaimer > ion-label'));
     expect(disclaimerEl.nativeElement.innerHTML).toContain('defi_investments.invest_detail.weekly_update');
+  });
+
+  it('should get investment history on view did enter', async () => {
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(component.allMovements).toEqual(dataTest.data.flows);
+  });
+
+  it('should filter invesment movements of complete data', async () => {
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(component.firstMovements).toEqual(firstMovementsTest);
+    expect(component.remainingMovements).toEqual(remainingMovementsTest);
   });
 });

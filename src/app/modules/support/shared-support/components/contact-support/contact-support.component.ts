@@ -31,6 +31,6 @@ export class ContactSupportComponent implements OnInit {
 
   ngOnInit() {}
   goToWriteTicket() {
-    this.navController.navigateForward(['/tickets/create-support-ticket']);
+    this.navController.navigateForward('/tickets/create-support-ticket');
   }
 }

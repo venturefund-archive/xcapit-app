@@ -27,7 +27,7 @@ import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/g
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
-import { Blockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
@@ -241,7 +241,7 @@ describe('WalletTransactionsService', () => {
     });
 
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
-      create: new Blockchains(new BlockchainRepo(rawBlockchainsData)),
+      create: new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)),
     });
 
     TestBed.configureTestingModule({

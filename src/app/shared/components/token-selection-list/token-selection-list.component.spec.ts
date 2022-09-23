@@ -94,6 +94,6 @@ describe('TokenSelectionListComponent', () => {
     el.nativeElement.click();
     fixture.detectChanges();
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
-    expect(directive.dataToTrack.eventLabel).toEqual('Item Coin');
+    expect(directive.dataToTrack.eventLabel).toEqual('ux_receive_eth');
   });
 });

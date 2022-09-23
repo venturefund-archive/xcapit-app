@@ -6,8 +6,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { SwapTermsAndConditionsPage } from './swap-terms-and-conditions.page';
-import { defaultSwapsUrls } from '../swaps-routing.module';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { DefaultSwapsUrls } from '../shared-swaps/routes/default-swaps-urls';
 
 describe('SwapTermsAndConditionsPage', () => {
   let component: SwapTermsAndConditionsPage;
@@ -58,7 +58,7 @@ describe('SwapTermsAndConditionsPage', () => {
     await fixture.whenStable();
 
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(defaultSwapsUrls.swapHome, { replaceUrl: true });
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(new DefaultSwapsUrls().home(), { replaceUrl: true });
   });
 
   it('should navigate to back when Close Success button is clicked', () => {

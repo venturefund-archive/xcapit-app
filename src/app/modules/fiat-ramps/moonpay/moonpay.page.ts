@@ -13,6 +13,8 @@ import { ProvidersFactory } from '../shared-ramps/models/providers/factory/provi
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
+import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 
 @Component({
   selector: 'app-moonpay',
@@ -61,6 +63,7 @@ export class MoonpayPage implements OnInit {
     currency: ['', Validators.required],
   });
   coins: Coin[];
+  coinSelected: Coin;
   address: string;
   operationsList: FiatRampOperation[];
   provider: FiatRampProvider;
@@ -75,7 +78,9 @@ export class MoonpayPage implements OnInit {
     private providers: ProvidersFactory,
     private walletMaintenance: WalletMaintenanceService,
     private tokenOperationDataService: TokenOperationDataService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private wallets: WalletsFactory,
+    private blockchains: BlockchainsFactory
   ) {}
 
   ngOnInit() {}
@@ -94,7 +99,8 @@ export class MoonpayPage implements OnInit {
     await this.walletMaintenance.getEncryptedWalletFromStorage();
     this.coins = this.providerTokens();
     const { asset, network } = this.tokenOperationDataService.tokenOperationData;
-    this.form.patchValue({ currency: this.coins.find((coin) => coin.value === asset && coin.network === network) });
+    this.coinSelected = this.coins.find((coin) => coin.value === asset && coin.network === network)
+    this.form.patchValue({ currency: this.coinSelected });
   }
 
   providerTokens() {
@@ -106,8 +112,10 @@ export class MoonpayPage implements OnInit {
   }
 
   async openMoonpay() {
+    const blockchain = this.blockchains.create().oneByName(this.coinSelected.network);
+    const wallet = await this.wallets.create().oneBy(blockchain);
     this.fiatRampsService
-      .getMoonpayLink(this.address, this.form.value.currency.moonpayCode)
+      .getMoonpayLink(wallet.address(), this.form.value.currency.moonpayCode)
       .toPromise()
       .then(async (link) => {
         this.success().then(() => {
@@ -125,11 +133,11 @@ export class MoonpayPage implements OnInit {
     return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.form.value.currency);
   }
 
-  async openModal(event){
+  async openModal(event) {
     const modal = await this.modalController.create({
       component: CoinSelectorModalComponent,
-      cssClass: 'ux-modal-skip-backup',   
+      cssClass: 'ux-modal-skip-backup',
     });
-    await modal.present()
+    await modal.present();
   }
 }

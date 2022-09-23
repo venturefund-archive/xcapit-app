@@ -4,4 +4,6 @@ export interface MenuItem {
   route: string;
   buttonName?: string;
   type: 'link';
+  hidden?: boolean;
+  newBadge?: boolean;
 }

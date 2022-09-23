@@ -5,15 +5,18 @@ import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.servic
 import { BlockchainProviderService } from '../blockchain-provider/blockchain-provider.service';
 import { environment } from 'src/environments/environment';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
+import { Keypair } from '@solana/web3.js';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WalletService {
   coins: Coin[];
-  createdWallets: ethers.Wallet[];
+  createdWallets: (ethers.Wallet | Keypair)[];
   addresses: any = null;
   userCoins: Coin[];
+  Keypair = Keypair
+  ethers = ethers;
 
   constructor(
     private walletMnemonicService: WalletMnemonicService,
@@ -21,7 +24,7 @@ export class WalletService {
     private storageService: StorageService
   ) {}
 
-  create(): Promise<ethers.Wallet[]> {
+  create(): Promise<(ethers.Wallet | Keypair)[]> {
     return new Promise((resolve) => {
       if (this.mnemonicExists() && this.selectedCoins()) {
         this.createdWallets = [];
@@ -34,7 +37,11 @@ export class WalletService {
     });
   }
 
-  createForDerivedPath(derivedPath: string) {
+  createForDerivedPath(derivedPath: string): ethers.Wallet {
+    return this.createWalletUsingEthers(derivedPath);
+  }
+
+  private createWalletUsingEthers(derivedPath: string): ethers.Wallet {
     return ethers.Wallet.fromMnemonic(this.walletMnemonicService.mnemonic.phrase, derivedPath, this.wordList());
   }
 

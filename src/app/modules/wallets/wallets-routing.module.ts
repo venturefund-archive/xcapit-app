@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { AcceptedToSGuard } from './shared-wallets/guards/accepted-tos/accepted-tos.guard';
-import { CreatedWalletGuard } from './shared-wallets/guards/created-wallet/created-wallet.guard';
 import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 
 const routes: Routes = [
@@ -11,7 +10,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        canActivate: [AcceptedToSGuard, CreatedWalletGuard],
+        canActivate: [AcceptedToSGuard],
         path: 'create-first/recovery-phrase',
         loadChildren: () => import('./recovery-phrase/recovery-phrase.module').then((m) => m.RecoveryPhrasePageModule),
       },
@@ -21,7 +20,7 @@ const routes: Routes = [
         loadChildren: () => import('./verify-phrase/verify-phrase.module').then((m) => m.VerifyPhrasePageModule),
       },
       {
-        canActivate: [CreatedWalletGuard],
+        canActivate: [],
         path: 'create-first/disclaimer',
         loadChildren: () =>
           import('./disclaimer-wallet/disclaimer-wallet.module').then((m) => m.DisclaimerWalletPageModule),
@@ -47,7 +46,7 @@ const routes: Routes = [
         loadChildren: () => import('./failed-mnemonic/failed-mnemonic.module').then((m) => m.FailedMnemonicPageModule),
       },
       {
-        canActivate: [AcceptedToSGuard, CreatedWalletGuard],
+        canActivate: [AcceptedToSGuard],
         path: 'create-password',
         loadChildren: () => import('./create-password/create-password.module').then((m) => m.CreatePasswordPageModule),
       },
@@ -154,8 +153,8 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'asset-detail/:currency',
-        loadChildren: () => import('./asset-detail/asset-detail.module').then((m) => m.AssetDetailPageModule),
+        path: 'token-detail',
+        loadChildren: () => import('./token-detail/token-detail.module').then((m) => m.TokenDetailPageModule),
       },
       {
         path: 'password-change',
@@ -233,8 +232,14 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'transaction-details',
+        loadChildren: () => import('./transaction-details/transaction-details.module').then( m => m.TransactionDetailsPageModule)
+      },
     ],
   },
+
+
 ];
 
 @NgModule({

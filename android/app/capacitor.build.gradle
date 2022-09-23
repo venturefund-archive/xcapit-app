@@ -2,8 +2,8 @@
 
 android {
   compileOptions {
-      sourceCompatibility JavaVersion.VERSION_1_8
-      targetCompatibility JavaVersion.VERSION_1_8
+      sourceCompatibility JavaVersion.VERSION_11
+      targetCompatibility JavaVersion.VERSION_11
   }
 }
 
@@ -20,13 +20,13 @@ dependencies {
     implementation project(':capacitor-haptics')
     implementation project(':capacitor-keyboard')
     implementation project(':capacitor-local-notifications')
+    implementation project(':capacitor-preferences')
     implementation project(':capacitor-push-notifications')
     implementation project(':capacitor-share')
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
-    implementation project(':capacitor-storage')
-    implementation project(':codetrix-studio-capacitor-google-auth')
-    implementation project(':robingenz-capacitor-app-update')
+    implementation project(':capawesome-capacitor-app-update')
+    implementation project(':capacitor-native-biometric')
     implementation "com.android.support:support-v4:27.+"
 }
 

@@ -11,4 +11,6 @@ export const REMOTE_CONFIG_DEFAULTS = {
   investmentProducts: undefined,
   onOffRampsProviders: undefined,
   ff_newLogin: false,
+  newTokensAvailable: undefined,
+  ff_newTokenAvailable: false
 };

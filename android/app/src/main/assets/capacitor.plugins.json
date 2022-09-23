@@ -1,7 +1,7 @@
 [
 	{
 		"pkg": "@capacitor-community/barcode-scanner",
-		"classpath": "com.dutchconcepts.capacitor.barcodescanner.BarcodeScanner"
+		"classpath": "com.getcapacitor.community.barcodescanner.BarcodeScanner"
 	},
 	{
 		"pkg": "@capacitor-community/firebase-analytics",
@@ -44,6 +44,10 @@
 		"classpath": "com.capacitorjs.plugins.localnotifications.LocalNotificationsPlugin"
 	},
 	{
+		"pkg": "@capacitor/preferences",
+		"classpath": "com.capacitorjs.plugins.preferences.PreferencesPlugin"
+	},
+	{
 		"pkg": "@capacitor/push-notifications",
 		"classpath": "com.capacitorjs.plugins.pushnotifications.PushNotificationsPlugin"
 	},
@@ -60,15 +64,11 @@
 		"classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
 	},
 	{
-		"pkg": "@capacitor/storage",
-		"classpath": "com.capacitorjs.plugins.storage.StoragePlugin"
+		"pkg": "@capawesome/capacitor-app-update",
+		"classpath": "io.capawesome.capacitorjs.plugins.appupdate.AppUpdatePlugin"
 	},
 	{
-		"pkg": "@codetrix-studio/capacitor-google-auth",
-		"classpath": "com.codetrixstudio.capacitor.GoogleAuth.GoogleAuth"
-	},
-	{
-		"pkg": "@robingenz/capacitor-app-update",
-		"classpath": "dev.robingenz.capacitor.appupdate.AppUpdatePlugin"
+		"pkg": "capacitor-native-biometric",
+		"classpath": "com.epicshaggy.biometric.NativeBiometric"
 	}
 ]

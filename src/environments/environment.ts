@@ -33,18 +33,21 @@ export const environment = {
   maticApiUrl: 'https://matic.url',
   bscApiUrl: 'https://bsc.url',
   binanceApiUrl: 'https://binance.url',
+  solanaApiUrl: 'https://solana.url',
   twoPiReferralAddress: '0x0001',
   derivedPaths: {
     ERC20: "m/44'/60'/0'/0/0",
     RSK: "m/44'/37310'/0'/0/0",
     MATIC: "m/44'/80001'/0'/0/0",
     BSC_BEP20: "m/44'/60'/0'/0/0",
+    SOLANA: "m/44'/501'/0'/0/0",
   },
   IPFS_GATEWAY: 'https://gateway.pinata.cloud/ipfs',
   ONE_INCH_DEFAULTS: {
     slippage: 1,
     referralAddress: "0x0",
     fee: 0.5,
+    blockchainsId: ['1', '137', '56'],
   },
   POLYGON_GAS_STATION: 'https://aGasStarionUrl',
   BLOCKCHAIN_DATA: [
@@ -96,5 +99,8 @@ export const environment = {
         contract: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
       },
     },
+  ],
+  ON_OFF_RAMPS_PROVIDER_ADDRESSES:[
+    'Oxdummyaddress'
   ],
 };

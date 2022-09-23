@@ -5,7 +5,7 @@ import { SharedUsersModule } from '../shared-users/shared-users.module';
 
 const routes: Routes = [
   {
-    path: ':email',
+    path: '',
     component: ResendVerificationEmailPage,
   },
 ];

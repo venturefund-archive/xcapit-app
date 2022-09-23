@@ -8,7 +8,7 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
   template: `
     <div [appSelectStyle]="this.selectorStyle">
       <div class="uxselect">
-        <ion-label class="ux-font-text-xs" color="neutral90">{{ this.label }}</ion-label>
+        <ion-label class="ux-font-titulo-xs" color="primary">{{ this.label }}</ion-label>
         <ion-item (click)="this.openModal()" [disabled]="this.isOpen" class="ux-font-text-base uxselect__item">
           <img
             *ngIf="this.imageKey"
@@ -85,7 +85,7 @@ export class InputSelectComponent implements OnInit {
       cssClass: 'ux-routeroutlet-modal generic-modal',
       swipeToClose: false,
     });
-    
+
     await modal.present();
 
     const data = await modal.onDidDismiss();

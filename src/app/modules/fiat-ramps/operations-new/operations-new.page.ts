@@ -24,6 +24,7 @@ import { ProvidersFactory } from '../shared-ramps/models/providers/factory/provi
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
+import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 @Component({
   selector: 'app-operations-new',
   template: `
@@ -47,6 +48,7 @@ import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-sele
             [fiatCurrency]="this.fiatCurrency"
             [provider]="this.provider"
             [coinSelectorEnabled]="true"
+            [minimumFiatAmount]="this.minimumFiatAmount"
             (changeCurrency)="this.openModal($event)"
           ></app-provider-new-operation-card>
 
@@ -109,12 +111,15 @@ export class OperationsNewPage implements AfterViewInit {
   selectedCurrency: Coin;
   fiatCurrency: string;
   country: FiatRampProviderCountry;
-  price: number;
+  fiatPrice: number;
   priceRefreshInterval = 15000;
   destroy$: Subject<void>;
-
+  minimumFiatAmount: number;
+  minimumCryptoAmount: number;
+  mininumUSDAmount = 25;
+  alreadySet = false;
   form: UntypedFormGroup = this.formBuilder.group({
-    cryptoAmount: ['25', [Validators.required]],
+    cryptoAmount: ['', [Validators.required]],
     fiatAmount: ['', [Validators.required]],
     thirdPartyKYC: [false, [Validators.requiredTrue]],
     thirdPartyTransaction: [false, [Validators.requiredTrue]],
@@ -179,20 +184,36 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   subscribeToFormChanges() {
-    this.form.get('cryptoAmount').valueChanges.subscribe((value) => this.cryptoAmountChange(value));
+    this.form.get('cryptoAmount').valueChanges.subscribe((value) => {
+      this.cryptoAmountChange(value);
+    });
     this.form.get('fiatAmount').valueChanges.subscribe((value) => this.fiatAmountChange(value));
   }
 
   private cryptoAmountChange(value: number) {
-    this.form.patchValue({ fiatAmount: value * this.price }, { emitEvent: false, onlySelf: true });
+    this.form.patchValue({ fiatAmount: value * this.fiatPrice }, { emitEvent: false, onlySelf: true });
   }
 
   private fiatAmountChange(value: number) {
-    this.form.patchValue({ cryptoAmount: value / this.price }, { emitEvent: false, onlySelf: true });
+    this.form.patchValue({ cryptoAmount: value / this.fiatPrice }, { emitEvent: false, onlySelf: true });
   }
 
   updateAmounts(): void {
-    this.form.patchValue({ fiatAmount: this.form.value.cryptoAmount * this.price });
+    this.form.patchValue({ fiatAmount: this.form.value.cryptoAmount * this.fiatPrice });
+  }
+
+  private addDefaultValidators() {
+    this.form.get('cryptoAmount').addValidators(Validators.required);
+  }
+
+  private clearValidators() {
+    this.form.get('cryptoAmount').clearValidators();
+  }
+  private addGreaterThanValidator(amount) {
+    this.clearValidators();
+    this.addDefaultValidators();
+    this.form.get('cryptoAmount').addValidators(CustomValidators.greaterOrEqualThan(amount));
+    this.form.get('cryptoAmount').updateValueAndValidity();
   }
 
   private dynamicPrice() {
@@ -200,13 +221,33 @@ export class OperationsNewPage implements AfterViewInit {
       .value()
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
-        this.price = price;
+        this.fiatPrice = price;
         if (this.form.value.fiatAmount) this.updateAmounts();
+        this.usdDynamicPrice();
       });
   }
 
-  createKriptonDynamicPrice(): KriptonDynamicPrice {
-    return this.kriptonDynamicPrice.new(this.priceRefreshInterval, this.fiatCurrency, this.selectedCurrency, this.http);
+  private usdDynamicPrice() {
+    this.createKriptonDynamicPrice('USD')
+      .value()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((price: number) => {
+        this.minimumCryptoAmount = this.mininumUSDAmount / price;
+        this.minimumFiatAmount = this.minimumCryptoAmount * this.fiatPrice;
+        this.addGreaterThanValidator(this.minimumCryptoAmount);
+        this.patchCryptoAmountValue();
+      });
+  }
+
+  patchCryptoAmountValue() {
+    if (!this.alreadySet) {
+      this.form.get('cryptoAmount').patchValue(this.minimumCryptoAmount);
+      this.alreadySet = true;
+    }
+  }
+
+  createKriptonDynamicPrice(currency = this.fiatCurrency): KriptonDynamicPrice {
+    return this.kriptonDynamicPrice.new(this.priceRefreshInterval, currency, this.selectedCurrency, this.http);
   }
 
   setCountry() {
@@ -226,16 +267,15 @@ export class OperationsNewPage implements AfterViewInit {
   async handleSubmit() {
     if (this.form.valid) {
       await this.setOperationStorage();
-      this.checkUser();
+      this.checkKYCAndRedirect();
     } else {
       this.form.markAllAsTouched();
     }
   }
 
-  async checkUser() {
-    const checkUserResponse = await this.fiatRampsService.checkUser().toPromise();
-    const userStatus = checkUserResponse.id ? checkUserResponse : await this.fiatRampsService.createUser().toPromise();
-    this.redirectByStatus(userStatus);
+  async checkKYCAndRedirect() {
+    const userStatus = await this.fiatRampsService.getOrCreateUser().toPromise();
+    this.redirectByStatus(userStatus.registration_status);
   }
 
   async setOperationStorage() {
@@ -247,7 +287,7 @@ export class OperationsNewPage implements AfterViewInit {
       currency_in: this.fiatCurrency,
       currency_out: this.selectedCurrency.value,
       price_in: '1',
-      price_out: this.price.toString(),
+      price_out: this.fiatPrice.toString(),
       wallet: await this.walletAddress(),
       provider: this.provider.id.toString(),
       network: this.selectedCurrency.network,
@@ -282,16 +322,21 @@ export class OperationsNewPage implements AfterViewInit {
     return url;
   }
 
-  redirectByStatus(userStatus) {
-    const url = this.getUrlByStatus(userStatus.registration_status);
+  redirectByStatus(registrationStatus: string) {
+    const url = this.getUrlByStatus(registrationStatus);
     this.navController.navigateForward(url);
   }
 
-  async openModal(event){
+  async openModal(event) {
     const modal = await this.modalController.create({
       component: CoinSelectorModalComponent,
       cssClass: 'ux-modal-skip-backup',
     });
-    await modal.present()
+    await modal.present();
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
