@@ -246,11 +246,11 @@ export class SendDetailPage {
       await this.setAllFeeData();
       this.resetFee();
       this.balance = this.nativeBalance = Math.max(tokenBalance - this.fee, 0);
+      await this.checkEnoughBalance();
     } else {
       this.balance = tokenBalance;
       this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
     }
-    await this.checkEnoughBalance();
     this.addLowerThanValidator();
   }
 
@@ -267,6 +267,7 @@ export class SendDetailPage {
     this.form.valueChanges.subscribe(async () => {
       if (this.form.valid) {
         await this.setAllFeeData();
+        await this.checkEnoughBalance();
       } else this.resetFee();
     });
   }
@@ -400,7 +401,6 @@ export class SendDetailPage {
         data: this.nativeToken.json(),
       },
     });
-    await this.modalController.dismiss(null, null, 'feeModal');
     if (window.location.href === this.modalHref) {
       await modal.present();
     }

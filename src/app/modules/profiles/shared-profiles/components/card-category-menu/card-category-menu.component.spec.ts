@@ -44,6 +44,8 @@ const menuCategoryClickable: MenuCategory = {
   icon: 'assets/ux-icons/wallet-connect-icon.svg',
   route: '/wallets/wallet-connect/new-connection',
   name: 'WalletConnect',
+  legend: 'profiles.user_profile_menu.connected_walletconnect',
+  connected: true,
 }
 
 describe('CardItemMenuComponent', () => {
@@ -174,4 +176,20 @@ describe('CardItemMenuComponent', () => {
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/new-connection');
   })
+  
+  it('should show WalletConnect connection status', () => {
+    component.category = menuCategoryClickable;
+    component.category.showCategory = true;
+    walletConnectServiceSpy.connected = true
+    walletServiceSpy.walletExist.and.resolveTo(true);
+    fixture.detectChanges();
+
+    const labelEl = fixture.debugElement.query(By.css('div.card-title__legend > ion-label'))
+    const iconEl = fixture.debugElement.query(By.css('div.card-title__legend > ion-icon'))
+  
+    expect(labelEl).toBeTruthy();
+    expect(labelEl.nativeElement.innerHTML).toContain('profiles.user_profile_menu.connected_walletconnect');
+    expect(iconEl).toBeTruthy();
+    expect(iconEl.nativeElement.color).toEqual('success');
+  });
 });

@@ -274,7 +274,6 @@ describe('DefiInvestmentProductsPage', () => {
   it('should call trackEvent on trackService when go_to_defi_faqs Button clicked', async () => {
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
-    component.disableFaqsButton = false;
     component.ionViewWillEnter();
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();
@@ -287,7 +286,6 @@ describe('DefiInvestmentProductsPage', () => {
   });
 
   it('should navigate to deFi Faqs when go_to_defi_faqs button is clicked', async () => {
-    component.disableFaqsButton = false;
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
@@ -297,7 +295,7 @@ describe('DefiInvestmentProductsPage', () => {
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_defi_faqs"'));
     buttonEl.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/defi']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/faqs/wallet_operations']);
   });
 
   it('should render skeleton if there is not active investements and it is still loading', async () => {

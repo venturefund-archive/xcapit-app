@@ -9,4 +9,6 @@ export interface MenuCategory {
   route?: string;
   name?: string;
   buttonName?: string;
+  legend?: string;
+  connected?: boolean;
 }
