@@ -90,6 +90,7 @@ import { NavController } from '@ionic/angular';
                     }
             "
             [textClass]="'ux-home-backup-card'"
+            [backgroundClass]="'ux-info-background-card'"
           >
           </app-backup-information-card>
           </div>

@@ -89,6 +89,7 @@ import { ApiWalletService } from '../../services/api-wallet/api-wallet.service';
       <app-backup-information-card
         [text]="'wallets.send.send_summary.transaction_summary_card.disclaimer' | translate"
         [textClass]="'ux-home-backup-card'"
+        [backgroundClass]="'ux-info-background-card'"
       >
       </app-backup-information-card>
     </div>

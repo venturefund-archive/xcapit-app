@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       appTrackClick
       [dataToTrack]="{ eventLabel: 'ux_go_to_protect' }"
       (click)="this.emitCardClicked()"
+      [ngClass]="this.backgroundClass"
     >
       <img src="assets/img/wallets/backup-information-circle.svg" class="bic__information__icon" />
       <div class="bic__information__text">
@@ -20,6 +21,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class BackupInformationCardComponent implements OnInit {
   @Input() text: string;
   @Input() textClass: string;
+  @Input() backgroundClass: string;
   @Output() cardClicked: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}

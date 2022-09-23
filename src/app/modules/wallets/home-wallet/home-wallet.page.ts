@@ -117,6 +117,7 @@ import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
         <app-backup-information-card
           [text]="'wallets.home.backup_card_component.text'"
           [textClass]="'ux-home-backup-card'"
+          [backgroundClass]="'ux-info-background-card'"
           (cardClicked)="this.goToBackup()"
         >
         </app-backup-information-card>

@@ -15,6 +15,7 @@ export interface OperationDataInterface {
   network: string;
   voucher?: boolean;
   operation_id?: number;
+  email?: string;
 }
 
 @Injectable({

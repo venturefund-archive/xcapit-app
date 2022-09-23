@@ -20,6 +20,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
                     }
             "
             [textClass]="'ux-home-backup-card'"
+            [backgroundClass]="'ux-info-background-card'"
           >
           </app-backup-information-card>
         </div>

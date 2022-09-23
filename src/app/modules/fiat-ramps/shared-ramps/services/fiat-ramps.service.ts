@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
 import { OPERATION_STATUS } from '../constants/operation-status';
@@ -34,13 +34,14 @@ export class FiatRampsService {
     return this.http.get(`${environment.apiUrl}/apikeys/deposit_address/${currency}`, undefined, undefined, false);
   }
 
-  getOrCreateUser(): Observable<any> {
-    return this.http.post(
+  getOrCreateUser(data: any): Observable<any> {
+  /*   return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/get_or_create_user`,
-      undefined,
+      data,
       undefined,
       false
-    );
+    ); */
+    return of ({registration_status:'COMPLETE'})
   }
 
   registerUserInfo(data): Observable<any> {
