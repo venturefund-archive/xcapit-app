@@ -5,7 +5,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 @Component({
   selector: 'app-referral-promotion-card',
   template: `
-    <div class="rpc" (click)="this.goToReferrals()" name="Go To Referrals">
+    <div *appFeatureFlag="'ff_referralsCard'" class="rpc" (click)="this.goToReferrals()" name="Go To Referrals">
       <div class="rpc__left">
         <ion-text class="ux-font-text-lg" color="primary">{{
           'referrals.referral_promotion.title' | translate

@@ -7,6 +7,7 @@ import { TrackClickDirectiveTestHelper } from '../../../../../../testing/track-c
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeTrackClickDirective } from '../../../../../../testing/fakes/track-click-directive.fake.spec';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 
 describe('ReferralPromotionCardComponent', () => {
   let component: ReferralPromotionCardComponent;
@@ -21,7 +22,7 @@ describe('ReferralPromotionCardComponent', () => {
       fakeNavController = new FakeNavController();
       navControllerSpy = fakeNavController.createSpy();
       TestBed.configureTestingModule({
-        declarations: [ReferralPromotionCardComponent, FakeTrackClickDirective],
+        declarations: [ReferralPromotionCardComponent, FakeTrackClickDirective, FakeFeatureFlagDirective],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
         providers: [{ provide: NavController, useValue: navControllerSpy }, { provide: RemoteConfigService, useValue: remoteConfigServiceSpy }],
       }).compileComponents();

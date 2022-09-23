@@ -22,6 +22,6 @@ export class NewLoginTickets implements CanActivate {
   }
 
   async redirectToNewLogin() {
-    return await this.navController.navigateRoot(['/tickets/new-create-support-ticket']);
+    return await this.navController.navigateForward(['/tickets/new-create-support-ticket']);
   }
 }

@@ -43,6 +43,7 @@ import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/
 import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { rawETHData, rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -196,7 +197,7 @@ describe('HomeWalletPage', () => {
     walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { connected: false });
 
     TestBed.configureTestingModule({
-      declarations: [HomeWalletPage, FakeTrackClickDirective, HideTextPipe],
+      declarations: [HomeWalletPage, FakeTrackClickDirective, HideTextPipe, FakeFeatureFlagDirective],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
