@@ -64,6 +64,9 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
       <div class="sw__swap-card">
         <div class="sw__swap-card__networks ion-padding" *ngIf="this.tplBlockchain">
           <app-network-select-card
+            appTrackClick
+            name="ux_swap_matic"
+            [dataToTrack]="{ eventLabel: this.blockchainName, description: this.url }"
             [title]="'wallets.send.send_detail.network_select.network' | translate"
             [networks]="this.tplAllowedBlockchainsName"
             [disclaimer]=""
@@ -155,7 +158,6 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
                 (changeCurrency)="this.selectToToken()"
               ></app-coin-selector>
             </div>
-
             <div class="sw__swap-card__to__detail__amount">
               <div class="sw__swap-card__to__detail__amount__value">
                 <div class="sw__swap-card__to__detail__USD-price">
@@ -189,14 +191,13 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
         <app-one-inch-tos-check disabled="true"> </app-one-inch-tos-check>
       </div>
     </ion-content>
-
     <ion-footer class="sw__footer">
       <div class="sw__footer__swap-button ion-padding">
         <ion-button
           [appLoading]="this.loadingBtn"
           [loadingText]="'swaps.home.loading_button_text' | translate"
           appTrackClick
-          name="ux_swaps_swap"
+          name="ux_swap_confirm"
           class="ux_button sw__footer__swap-button__button"
           color="secondary"
           [disabled]="this.form.invalid || this.disabledBtn"
@@ -249,6 +250,8 @@ export class SwapHomePage {
   fromTokenQuotePrice = 0;
   fromTokenUSDAmount = 0;
   toTokenUSDAmount = 0;
+  blockchainName: string;
+  url: string;
 
   constructor(
     private apiWalletService: ApiWalletService,
@@ -389,7 +392,7 @@ export class SwapHomePage {
   private trackPage() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
-      description: window.location.href,
+      description: '/swaps/home',
       eventLabel: 'ux_swaps_screenview_home',
     });
   }
@@ -455,6 +458,7 @@ export class SwapHomePage {
   private setBlockchain(aBlockchainName: string) {
     this.activeBlockchain = this.blockchains.create().oneByName(aBlockchainName);
     this.tplBlockchain = this.activeBlockchain.json();
+    this.trackClickEventName(aBlockchainName);
   }
 
   async requestPassword() {
@@ -485,7 +489,7 @@ export class SwapHomePage {
 
   async swapThem() {
     this.disableMainButton();
-    const wallet = await this.wallets.createFromStorage(this.appStorageService).oneBy(this.activeBlockchain);
+    const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());
     wallet.onDecryptedWallet().subscribe(() => this.showSwapInProgressModal());
     wallet
@@ -525,7 +529,12 @@ export class SwapHomePage {
   }
 
   private navigateToTokenDetail() {
-    this.navController.navigateForward([`wallets/asset-detail/${this.toToken.symbol()}`]);
+    this.navController.navigateForward([
+      'wallets/token-detail/blockchain',
+      this.activeBlockchain.name,
+      'token',
+      this.toToken.symbol()
+    ]);
   }
 
   private createNotification(mode: string): LocalNotificationSchema[] {
@@ -569,5 +578,10 @@ export class SwapHomePage {
         this.enabledMainButton();
       }
     });
+  }
+
+  trackClickEventName(blockchain: string) {
+    this.blockchainName = `ux_swap_${blockchain.toLowerCase()}`;
+    this.url = `/swaps/home/blockchain/${blockchain}`;
   }
 }

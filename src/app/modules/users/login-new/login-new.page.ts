@@ -9,6 +9,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LoginPasswordInfoComponent } from '../shared-users/components/login-password-info/login-password-info.component';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-login-new',
@@ -93,15 +94,21 @@ export class LoginNewPage {
     private navController: NavController,
     private translate: TranslateService,
     private modalController: ModalController,
-    private biometricAuthInjectable: BiometricAuthInjectable
+    private biometricAuthInjectable: BiometricAuthInjectable,
+    private trackService: TrackService
   ) {}
-
-  dismissToast() {
-    this.toastService.dismiss();
-  }
 
   ionViewWillEnter() {
     this.activateBiometricAuth();
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_screenview_login',
+    });
+  }
+
+  dismissToast() {
+    this.toastService.dismiss();
   }
 
   async activateBiometricAuth() {

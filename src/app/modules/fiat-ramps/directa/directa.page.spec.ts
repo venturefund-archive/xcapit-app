@@ -18,7 +18,7 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/directa-price-factory';
 import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { of } from 'rxjs';
+import { of, Subject, timer, BehaviorSubject } from 'rxjs';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
@@ -49,6 +49,7 @@ describe('DirectaPage', () => {
   let directaLinkRequestSpy: jasmine.SpyObj<DepositLinkRequest>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let envServiceSpy: jasmine.SpyObj<EnvService>;
+  let priceSubject: Subject<number>;
 
   beforeEach(waitForAsync(() => {
     coinsSpy = [
@@ -67,6 +68,10 @@ describe('DirectaPage', () => {
       byAlias: rawProvidersData.find((provider) => provider.alias === 'PX'),
     });
 
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      getDirectaExchangeRate: of({ fee: 1 }),
+    });
+
     providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
       create: providersSpy,
     });
@@ -83,8 +88,10 @@ describe('DirectaPage', () => {
       }
     );
 
+    priceSubject = new BehaviorSubject<number>(4);
+
     directaPriceSpy = jasmine.createSpyObj('DirectaPrice', {
-      value: of(4),
+      value: priceSubject,
     });
 
     directaPriceFactorySpy = jasmine.createSpyObj('DirectaPriceFactory', {
@@ -118,10 +125,10 @@ describe('DirectaPage', () => {
     envServiceSpy = jasmine.createSpyObj('EnvService', {
       byKey: 'api_url',
       all: {
-        firebase:{
-          dynamicLinkUrl: 'https://testlink.com'
-        }
-      }
+        firebase: {
+          dynamicLinkUrl: 'https://testlink.com',
+        },
+      },
     });
 
     TestBed.configureTestingModule({
@@ -188,24 +195,50 @@ describe('DirectaPage', () => {
     component.ionViewWillEnter();
     component.form.patchValue({ cryptoAmount: 3 });
     fixture.detectChanges();
+    tick();
     expect(component.form.value.fiatAmount).toEqual(12);
+    expect(component.fee.value).toEqual(4);
   }));
 
   it('should recalculate crypto amount when fiat amount is changed', fakeAsync(() => {
     component.ionViewWillEnter();
     component.form.patchValue({ fiatAmount: 9.1234 });
     fixture.detectChanges();
+    tick();
     expect(component.form.value.fiatAmount).toEqual(9.12);
     expect(component.form.value.cryptoAmount).toEqual(2.28);
+    expect(component.fee.value).toEqual(4);
   }));
 
   it('should validate that the crypto amount equals the minimum value in dollars', () => {
     directaPriceSpy.value.and.returnValue(of(1));
     component.ionViewWillEnter();
-    component.form.patchValue({ cryptoAmount: 1 });
+    component.form.patchValue({ fiatAmount: 1 });
     fixture.detectChanges();
-    expect(component.form.controls.cryptoAmount.valid).toBeFalse();
-    component.form.patchValue({ cryptoAmount: 2 });
-    expect(component.form.controls.cryptoAmount.valid).toBeTrue();
+    expect(component.form.controls.fiatAmount.valid).toBeFalse();
+    component.form.patchValue({ fiatAmount: 2 });
+    expect(component.form.controls.fiatAmount.valid).toBeTrue();
+  });
+
+  it('should reset info when input changes', () => {
+    component.ionViewWillEnter();
+    component.form.patchValue({ fiatAmount: null });
+    fixture.detectChanges();
+    expect(component.fee.value).toEqual(0);
+    expect(component.form.value.cryptoAmount).toEqual(0);
+
+    component.form.patchValue({ cryptoAmount: null });
+    fixture.detectChanges();
+    expect(component.form.value.fiatAmount).toEqual(0);
+  });
+
+  it('should update inputs when price is set', () => {
+    component.ionViewWillEnter();
+    component.form.patchValue({ cryptoAmount: 1 });
+    priceSubject.next(1);
+    fixture.detectChanges();
+    expect(component.form.value.fiatAmount).toEqual(1);
+    expect(component.form.value.cryptoAmount).toEqual(1);
+    component.ionViewWillLeave();
   });
 });

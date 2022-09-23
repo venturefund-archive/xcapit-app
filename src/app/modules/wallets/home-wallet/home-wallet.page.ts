@@ -27,8 +27,13 @@ import { DefiProduct } from '../../defi-investments/shared-defi-investments/inte
 import { TwoPiProduct } from '../../defi-investments/shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
 import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
-import { SolanaBalancesController } from '../shared-wallets/models/balances/solana-balances/solana-balances.controller';
-import { Balances } from '../shared-wallets/models/balances/balances.interface';
+import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { DefaultTokens } from '../../swaps/shared-swaps/models/tokens/tokens';
+import { TokenRepo } from '../../swaps/shared-swaps/models/token-repo/token-repo';
+import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
+import { NewTokensAvailable } from '../shared-wallets/models/new-tokens-avalaible/new-tokens-available.model';
+import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
 
 @Component({
   selector: 'app-home-wallet',
@@ -163,6 +168,10 @@ import { Balances } from '../shared-wallets/models/balances/balances.interface';
               name="crescent"
               *ngIf="this.tokenDetails.length === 0"
             ></ion-spinner>
+            <div *appFeatureFlag="'ff_newTokenAvailable'">
+              <app-new-token-available-card *ngFor="let newToken of this.newTokens" [newToken]="newToken">
+              </app-new-token-available-card>
+            </div>
             <app-wallet-balance-card-item
               *ngFor="let tokenDetail of this.tokenDetails; let last = last"
               [tokenDetail]="tokenDetail"
@@ -208,6 +217,7 @@ export class HomeWalletPage implements OnInit {
   totalInvested: number;
   spinnerActivated: boolean;
   pids = [];
+  newTokens: NewToken[];
 
   constructor(
     private walletService: WalletService,
@@ -219,7 +229,6 @@ export class HomeWalletPage implements OnInit {
     private balanceCacheService: BalanceCacheService,
     private http: HttpClient,
     private covalentBalances: CovalentBalancesController,
-    private solanaBalances: SolanaBalancesController,
     private tokenPrices: TokenPricesController,
     private tokenDetail: TokenDetailController,
     private totalBalance: TotalBalanceController,
@@ -229,7 +238,9 @@ export class HomeWalletPage implements OnInit {
     private remoteConfig: RemoteConfigService,
     private graphql: GraphqlService,
     private twoPiProductFactory: TwoPiProductFactory,
-    private twoPiApi: TwoPiApi
+    private twoPiApi: TwoPiApi,
+    private blockchainsFactory: BlockchainsFactory,
+    private walletsFactory: WalletsFactory
   ) {}
 
   ngOnInit() {}
@@ -241,8 +252,9 @@ export class HomeWalletPage implements OnInit {
       description: window.location.href,
       eventLabel: 'ux_screenview_wallet',
     });
-    this, this.getUserWalletAddress();
+    this.getUserWalletAddress();
     this.isProtectedWallet();
+    this.getNewTokensAvailable();
   }
 
   async ionViewDidEnter() {
@@ -318,13 +330,17 @@ export class HomeWalletPage implements OnInit {
 
   private async setTokenDetails() {
     const tokenDetails = [];
-    for (const network of this.apiWalletService.getNetworks()) {
-      const tokens = this.userTokens.filter((token) => token.network === network);
-      const address = await this.storageService.getWalletsAddresses(network);
-      if (tokens.length) {
-        const balances = this.getBalances(network, address, tokens);
+
+    for (const blockchain of this.blockchainsFactory.create().value()) {
+      const tokens: any = new BlockchainTokens(blockchain, new DefaultTokens(new TokenRepo(this.userTokens)));
+      if ((await tokens.value()).length) {
+        const balances = this.covalentBalances.new(
+          (await this.walletsFactory.create().oneBy(blockchain)).address(),
+          tokens,
+          this.http
+        );
         const prices = this.tokenPrices.new(tokens, this.http);
-        for (const token of tokens) {
+        for (const token of await tokens.value()) {
           const tokenDetail = this.tokenDetail.new(balances, prices, token, this.balanceCacheService);
           tokenDetails.push(tokenDetail);
           await tokenDetail.cached();
@@ -335,14 +351,6 @@ export class HomeWalletPage implements OnInit {
     this.sortTokens(tokenDetails);
     this.tokenDetails = tokenDetails;
     this.spinnerActivated = false;
-  }
-
-  private getBalances(network: string, address: string, tokens: Coin[]): Balances {
-    if (network === 'SOLANA') {
-      return this.solanaBalances.new(address, tokens);
-    } else {
-      return this.covalentBalances.new(address, tokens, this.http);
-    }
   }
 
   private async fetchDetails() {
@@ -396,4 +404,9 @@ export class HomeWalletPage implements OnInit {
   goToSelectCoins(): void {
     this.navController.navigateForward(['wallets/select-coins', 'edit']);
   }
+
+  private getNewTokensAvailable(): void {
+    this.newTokens = new NewTokensAvailable(this.remoteConfig).value();
+  }
+
 }

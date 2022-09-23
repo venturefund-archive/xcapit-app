@@ -33,6 +33,7 @@ export const environment = {
   maticApiUrl: 'https://matic.url',
   bscApiUrl: 'https://bsc.url',
   binanceApiUrl: 'https://binance.url',
+  solanaApiUrl: 'https://solana.url',
   twoPiReferralAddress: '0x0001',
   derivedPaths: {
     ERC20: "m/44'/60'/0'/0/0",
@@ -103,3 +104,5 @@ export const environment = {
     'Oxdummyaddress'
   ],
 };
+
+

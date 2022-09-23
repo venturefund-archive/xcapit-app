@@ -13,6 +13,7 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeBiometricAuth } from 'src/app/shared/models/biometric-auth/fake/fake-biometric-auth';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 
 describe('LoginNewPage', () => {
@@ -28,6 +29,8 @@ describe('LoginNewPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
+
   beforeEach(waitForAsync(() => {
     biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
       create: new FakeBiometricAuth()
@@ -44,6 +47,9 @@ describe('LoginNewPage', () => {
       get: Promise.resolve(aHashedPassword),
       set: Promise.resolve(),
     });
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
     TestBed.configureTestingModule({
       declarations: [LoginNewPage,  FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
@@ -53,6 +59,7 @@ describe('LoginNewPage', () => {
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -129,5 +136,10 @@ describe('LoginNewPage', () => {
     fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('infoIconClicked', undefined);
     fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+  
+  it('should track screenview event on init', () => {
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

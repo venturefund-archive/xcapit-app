@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedWalletsModule } from '../shared-wallets/shared-wallets.module';
-import { AssetDetailPage } from './asset-detail.page';
+import { TokenDetailPage } from './token-detail.page';
 
 const routes: Routes = [
   {
-    path: '',
-    component: AssetDetailPage,
+    path: 'blockchain/:blockchain/token/:token',
+    component: TokenDetailPage,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), SharedWalletsModule],
-  declarations: [AssetDetailPage],
+  declarations: [TokenDetailPage],
 })
-export class AssetDetailPageModule {}
+export class TokenDetailPageModule {}

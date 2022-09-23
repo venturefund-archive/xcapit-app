@@ -11,10 +11,6 @@ describe('DefaultWallet', () => {
   let testObject: any;
   const blockchain = new Blockchain(rawEthereumData);
 
-  beforeAll(() => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 150000;
-  });
-
   beforeEach(() => {
     wallet = new DefaultWallet(rawWalletData, blockchain, new FakeEthersWallet(), fakeProviders);
     testObject = { testMethod: () => Promise.resolve(passEncryptedWallet) };
@@ -96,10 +92,6 @@ describe('DefaultWallet', () => {
 describe('SolanaWallet', () => {
   let wallet: Wallet;
   let testObject: any;
-
-  beforeAll(() => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 150000;
-  });
 
   beforeEach(() => {
     wallet = new SolanaWallet(rawWalletData);
