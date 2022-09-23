@@ -14,6 +14,11 @@
       &__title {
         margin-bottom: 8px;
 
+        ion-button {
+          width: 16px;
+          height: 16px;
+        }
+
         ion-text {
           color: var(--ion-color-neutral80);
         }

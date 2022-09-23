@@ -1,19 +1,18 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { YieldsComponent } from './yields.component';
 
-import { CumulativeYieldsComponent } from './cumulative-yields.component';
-
-describe('CumulativeYieldsComponent', () => {
-  let component: CumulativeYieldsComponent;
-  let fixture: ComponentFixture<CumulativeYieldsComponent>;
+describe('YieldsComponent', () => {
+  let component: YieldsComponent;
+  let fixture: ComponentFixture<YieldsComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CumulativeYieldsComponent ],
+      declarations: [ YieldsComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CumulativeYieldsComponent);
+    fixture = TestBed.createComponent(YieldsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

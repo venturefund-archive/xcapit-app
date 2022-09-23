@@ -416,7 +416,13 @@
         "withdraw": "Retiro"
       },
       "yields": {
-        "title": "Rendimiento acumulado"
+        "title": "Rendimiento acumulado",
+        "info_modal": {
+          "title": "¿Qué es el rendimiento acumulado?",
+          "item1": "Es el acumulado de ganancias obtenidas en este producto de inversión, desde que lo creaste.",
+          "item2": "Este monto se reinvierte continuamente generando interés compuesto.",
+          "button": "Entendido"
+        }
       }
     },
     "shared": {

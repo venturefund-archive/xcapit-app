@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
@@ -14,6 +14,7 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
 import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
+import { CumulativeYieldsInfoModalComponent } from '../shared-defi-investments/components/cumulative-yields-info-modal/cumulative-yields-info-modal.component';
 
 @Component({
   selector: 'app-investment-detail',
@@ -69,10 +70,13 @@ import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
           <ion-text class="ux-font-header-titulo">
             {{ 'defi_investments.invest_detail.yields.title' | translate }}
           </ion-text>
-          <ion-icon name="information-circle" color="info"></ion-icon>
+          <!-- TODO: Test this button -->
+          <ion-button class="ion-no-padding ion-no-margin" fill="clear" size="small" (click)="this.openYieldsModal()">
+            <ion-icon name="information-circle" color="info"></ion-icon>
+          </ion-button>
         </div>
         <div class="id__yields__content">
-          <app-cumulative-yields [yield]="this.yield" [usdYield]="this.usdYield"></app-cumulative-yields>
+          <app-cumulative-yields [yield]="this.yield" [usdYield]="this.usdYield" mode="cumulative"></app-cumulative-yields>
         </div>
       </div>
       <div class="id__investment-history ion-padding">
@@ -119,7 +123,8 @@ export class InvestmentDetailPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private walletEncryptionService: WalletEncryptionService,
     private remoteConfig: RemoteConfigService,
-    private graphql: GraphqlService
+    private graphql: GraphqlService,
+    private modalController: ModalController,
   ) {}
 
   ngOnInit() {}
@@ -216,5 +221,16 @@ export class InvestmentDetailPage implements OnInit {
 
   createAvailableDefiProducts(): AvailableDefiProducts {
     return new AvailableDefiProducts(this.remoteConfig);
+  }
+
+  // TODO: Test this
+  async openYieldsModal() {
+    const modal = await this.modalController.create({
+      component: CumulativeYieldsInfoModalComponent,
+      cssClass: 'modal',
+      backdropDismiss: false,
+    });
+
+    await modal.present();
   }
 }

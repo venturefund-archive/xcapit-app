@@ -11,7 +11,8 @@ import { ChooseInvestorProfileCardComponent } from './components/choose-investor
 import { WithdrawInfoModalComponent } from './components/withdraw-info-modal/withdraw-info-modal.component';
 import { InvestmentHistoryComponent } from './components/investment-history/investment-history.component';
 import { ItemInvestmentHistoryComponent } from './components/item-investment-history/item-investment-history.component';
-import { CumulativeYieldsComponent } from './components/cumulative-yields/cumulative-yields.component';
+import { YieldsComponent } from './components/yields/yields.component';
+import { CumulativeYieldsInfoModalComponent } from './components/cumulative-yields-info-modal/cumulative-yields-info-modal.component';
 @NgModule({
   declarations: [
     ExpandableInvestmentInfoComponent,
@@ -25,7 +26,8 @@ import { CumulativeYieldsComponent } from './components/cumulative-yields/cumula
     WithdrawInfoModalComponent,
     InvestmentHistoryComponent,
     ItemInvestmentHistoryComponent,
-    CumulativeYieldsComponent,
+    YieldsComponent,
+    CumulativeYieldsInfoModalComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -41,7 +43,8 @@ import { CumulativeYieldsComponent } from './components/cumulative-yields/cumula
     WithdrawInfoModalComponent,
     InvestmentHistoryComponent,
     ItemInvestmentHistoryComponent,
-    CumulativeYieldsComponent,
+    YieldsComponent,
+    CumulativeYieldsInfoModalComponent,
   ],
 })
 export class SharedDefiInvestmentsModule {}
