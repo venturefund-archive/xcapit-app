@@ -294,4 +294,18 @@ describe('WalletMaintenanceService', () => {
     expect(saveWalletSpy).toHaveBeenCalledTimes(1);
     expect(service.encryptedWallet).toBeUndefined();
   });
+
+  it('should save wallet assets on updateTokensStorage', () => {
+    service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
+    const testTokens = { ETH: true, BNB: true, MATIC: false };
+    const testWallet = {
+      addresses: {
+        ERC20: 'testAddress',
+        RSK: 'testAddress',
+      },
+      assets: testTokens,
+    };
+    service.updateTokensStorage(testTokens);
+    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(testWallet)
+  });
 });
