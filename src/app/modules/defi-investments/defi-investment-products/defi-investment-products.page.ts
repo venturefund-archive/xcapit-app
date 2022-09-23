@@ -14,6 +14,8 @@ import { ApiUsuariosService } from '../../users/shared-users/services/api-usuari
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -26,6 +28,24 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
       </ion-toolbar>
     </ion-header>
     <ion-content>
+      <div class="dp__subheader">
+        <div class="dp__subheader__title ux-font-num-subtitulo">
+          <ion-text>
+            {{ 'defi_investments.defi_investment_products.total_invested' | translate }}
+          </ion-text>
+        </div>
+        <div class="dp__spinner-and-amount ux-font-num-titulo">
+          <ion-spinner color="white" name="crescent" *ngIf="!this.allLoaded"></ion-spinner>
+          <div class="dp__amount">
+            <div class="dp__amount__content">
+              <ion-text class="dp__amount__content__total-invested" *ngIf="this.allLoaded">
+                {{ this.totalInvested ?? 0.0 | number: '1.2-2' }}
+              </ion-text>
+              <ion-text class="ux-font-text-lg" *ngIf="this.allLoaded">USD</ion-text>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="header-background"></div>
       <div class="dp">
         <div class="dp__active-card">
@@ -114,9 +134,12 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 })
 export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
+  address: string;
+  totalInvested: number;
   allDefiProducts: DefiInvestment[] = [];
   investorCategory: string;
   disableFaqsButton = true;
+  pids = [];
   profileForm: UntypedFormGroup = this.formBuilder.group({
     profile: ['conservative', []],
   });
@@ -152,7 +175,9 @@ export class DefiInvestmentProductsPage {
     private walletEncryptionService: WalletEncryptionService,
     private walletService: WalletService,
     private navController: NavController,
-    private remoteConfig: RemoteConfigService
+    private remoteConfig: RemoteConfigService,
+    private graphql: GraphqlService,
+    private storageService: StorageService,
   ) {}
 
   get hasDoneInvestorTest(): boolean {
@@ -175,12 +200,30 @@ export class DefiInvestmentProductsPage {
   }
 
   async ionViewDidEnter() {
+    this.getUserWalletAddress();
     this.getAvailableDefiProducts();
     await this.getInvestments();
     this.filterByInvestorCategory(this.profileForm.value.profile);
     await this.setBalance();
     this.setFilter(this.investorCategory);
     this.allLoaded = true;
+  }
+
+  private async getUserWalletAddress() {
+    const wallet = await this.storageService.getWalletFromStorage();
+    if (wallet) this.address = wallet.addresses.MATIC;
+  }
+
+  calculatedTotalBalanceInvested() {
+    this.totalInvested = 0;
+    for (const pid of this.pids) {
+      this.graphql.getInvestedBalance(this.address, pid).subscribe(({ data }) => {
+        if (data.flows[0]) {
+          const balance = parseFloat(data.flows[0].balanceUSD);
+          this.totalInvested += balance;
+        }
+      });
+    }
   }
 
   getUser() {
@@ -226,6 +269,7 @@ export class DefiInvestmentProductsPage {
 
   async getInvestments() {
     const investmentsProducts = [];
+    this.pids = [];
     for (const product of this.defiProducts) {
       const anInvestmentProduct = await this.getInvestmentProduct(product);
       investmentsProducts.push({
@@ -235,8 +279,10 @@ export class DefiInvestmentProductsPage {
         continuousEarning: product.continuousEarning,
         category: product.category,
       });
+      this.pids.push(anInvestmentProduct.id());
     }
     this.allDefiProducts = this.availableInvestments = investmentsProducts;
+    this.calculatedTotalBalanceInvested();
   }
 
   async setBalance() {
