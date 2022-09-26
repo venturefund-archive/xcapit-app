@@ -1,12 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { MenuController, NavController, IonTabs } from '@ionic/angular';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-tabs',
   template: `
     <ion-tabs #tabs (ionTabsDidChange)="this.tabChange()">
       <ion-tab-bar >
-        <ion-tab-button
+        <ion-tab-button *ngIf="!this.isNewLogin"
           tab="home"
           appTrackClick
           name="ux_nav_go_to_home"
@@ -38,6 +39,17 @@ import { MenuController, NavController, IonTabs } from '@ionic/angular';
           <ion-icon src="assets/img/tabs/Trending-up.svg"></ion-icon>
           <ion-label class="label ux-font-text-xxs">{{ 'tabs.new_fund' | translate }}</ion-label>
         </ion-tab-button>
+
+        <ion-tab-button *ngIf="this.isNewLogin"
+          tab="tools"
+          appTrackClick
+          (click)="this.goToTools()"
+          name="ux_nav_go_to_tools"
+          layout="{{ this.selectedCategory === 'tools' ? 'icon-start' : 'label-hide' }}"
+        >
+          <ion-icon src="assets/img/tabs/Tools.svg"></ion-icon>
+          <ion-label class="label ux-font-text-xxs">{{ 'tabs.tools' | translate }}</ion-label>
+        </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
   `,
@@ -47,7 +59,10 @@ export class TabsComponent {
   @ViewChild('tabs', { static: true }) tabs: IonTabs;
   activeTab?: HTMLElement;
   selectedCategory: any;
-  constructor(private navController: NavController) {}
+  isNewLogin: boolean;
+  constructor(
+    private navController: NavController,
+    private remoteConfigService: RemoteConfigService) {}
 
   tabChange() {
     this.selectedCategory = this.tabs.getSelected();
@@ -64,6 +79,7 @@ export class TabsComponent {
 
   ionViewWillEnter() {
     this.propagateToActiveTab('ionViewWillEnter');
+    this.isNewLogin = this.remoteConfigService.getFeatureFlag('ff_newLogin');
   }
 
   ionViewDidEnter() {
@@ -81,6 +97,10 @@ export class TabsComponent {
   }
 
   async goToWallet() {
-    this.navController.navigateForward(['/tabs/wallets']);
+    this.navController.navigateRoot(['/tabs/wallets']);
+  }
+
+  goToTools() {
+    this.navController.navigateRoot(['/tabs/tools']);
   }
 }

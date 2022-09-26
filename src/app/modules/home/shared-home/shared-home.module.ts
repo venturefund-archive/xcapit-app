@@ -4,10 +4,11 @@ import { BuyCryptoCardComponent } from './components/buy-crypto-card/buy-crypto-
 import { InformativeModalComponent } from './components/informative-modal/informative-modal.component';
 import { FinancialPlannerCardComponent } from './components/financial-planner-card/financial-planner-card.component';
 import { DonationsCardComponent } from './components/donations-card/donations-card.component';
+import { ToolsCardComponent } from './components/tools-card/tools-card.component';
 
 @NgModule({
-  declarations: [BuyCryptoCardComponent, InformativeModalComponent, FinancialPlannerCardComponent, DonationsCardComponent],
+  declarations: [BuyCryptoCardComponent, InformativeModalComponent, FinancialPlannerCardComponent, DonationsCardComponent, ToolsCardComponent],
   imports: [SharedModule],
-  exports: [SharedModule, BuyCryptoCardComponent, InformativeModalComponent, FinancialPlannerCardComponent, DonationsCardComponent,],
+  exports: [SharedModule, BuyCryptoCardComponent, InformativeModalComponent, FinancialPlannerCardComponent, DonationsCardComponent, ToolsCardComponent],
 })
 export class SharedHomeModule {}
