@@ -5,7 +5,6 @@ import { ModalController, NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import {
-  OperationDataInterface,
   StorageOperationService,
 } from '../shared-ramps/services/operation/storage-operation.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
@@ -24,6 +23,7 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
+import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 @Component({
   selector: 'app-operations-new',
   template: `
@@ -267,7 +267,6 @@ export class OperationsNewPage implements AfterViewInit {
     if (this.form.valid) {
       await this.setOperationStorage();
       this.navController.navigateForward('/fiat-ramps/user-email');
-    
     } else {
       this.form.markAllAsTouched();
     }
@@ -293,7 +292,6 @@ export class OperationsNewPage implements AfterViewInit {
   async walletAddress(): Promise<string> {
     return (await this.walletEncryptionService.getEncryptedWallet()).addresses[this.selectedCurrency.network];
   }
-
 
   async openModal(event) {
     const modal = await this.modalController.create({

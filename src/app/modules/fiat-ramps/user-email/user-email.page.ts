@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { RegistrationStatus } from '../enums/registration-status.enum';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 
 @Component({
   selector: 'app-user-email',
@@ -43,7 +44,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
         </form>
       </div>
       <div class="ue__container__card">
-      <app-backup-information-card
+        <app-backup-information-card
           [text]="'fiat_ramps.user_email.text'"
           [textClass]="'ux-home-backup-card'"
           [backgroundClass]="'ux-white-background-card'"
@@ -73,43 +74,28 @@ export class UserEmailPage implements OnInit {
   form: UntypedFormGroup = this.formBuilder.group({
     email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
   });
-
-  constructor(private formBuilder: UntypedFormBuilder, 
+  constructor(
+    private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController,) {}
+    private navController: NavController,
+    private storageOperationService: StorageOperationService
+  ) {}
 
   ngOnInit() {}
 
   async checkKYCAndRedirect() {
     const userStatus = await this.fiatRampsService.getOrCreateUser(this.form.value).toPromise();
+    this.saveEmail();
     this.redirectByStatus(userStatus.registration_status);
   }
 
   redirectByStatus(registrationStatus: string) {
-    const url = this.getUrlByStatus(registrationStatus);
+    const url = RegistrationStatus[registrationStatus];
     this.navController.navigateForward(url);
   }
 
-  getUrlByStatus(statusName) {
-    let url: string[];
-    switch (statusName) {
-      case RegistrationStatus.USER_INFORMATION: {
-        url = ['fiat-ramps/user-information'];
-        break;
-      }
-      case RegistrationStatus.USER_BANK: {
-        url = ['fiat-ramps/user-bank'];
-        break;
-      }
-      case RegistrationStatus.USER_IMAGES: {
-        url = ['fiat-ramps/user-images'];
-        break;
-      }
-      case RegistrationStatus.COMPLETE: {
-        url = ['fiat-ramps/confirm-page'];
-        break;
-      }
-    }
-    return url;
+  saveEmail() {
+    const newData = Object.assign({ email: this.form.value.email }, this.storageOperationService.getData());
+    this.storageOperationService.updateData(newData);
   }
 }

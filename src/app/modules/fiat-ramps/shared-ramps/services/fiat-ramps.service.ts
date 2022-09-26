@@ -35,13 +35,12 @@ export class FiatRampsService {
   }
 
   getOrCreateUser(data: any): Observable<any> {
-  /*   return this.http.post(
+    return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/get_or_create_user`,
       data,
       undefined,
       false
-    ); */
-    return of ({registration_status:'COMPLETE'})
+    );
   }
 
   registerUserInfo(data): Observable<any> {

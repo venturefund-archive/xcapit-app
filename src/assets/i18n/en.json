@@ -2415,6 +2415,15 @@
         "item3": "You can find it on your payment ticket as “amount checker“.",
         "button": "Understood"
       }
+    },
+    "user_email": {
+      "header":"Buy crypto",
+      "provider":"Provider: Kripton Market",
+      "title":"To continue your purchase, please enter your Kripton Market account email address.",
+      "subtitle":"If you do not have an account, please enter the email address you would like us to register you with.",
+      "label_email":"Email",
+      "button":"Continue",
+      "text":"Make sure you have access to the email, you will use it to confirm your transactions."
     }
   },
   "home": {
