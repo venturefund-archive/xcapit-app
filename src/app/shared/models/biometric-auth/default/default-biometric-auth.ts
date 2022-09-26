@@ -6,6 +6,7 @@ import { BiometricAuth } from '../biometric-auth.interface';
 import { LoginToken } from '../../../../modules/users/shared-users/models/login-token/login-token';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { throwError } from 'rxjs';
+import { BiometricVerifyOptions } from '../../biometric-verify-options/biometric-verify-options';
 
 export class DefaultBiometricAuth implements BiometricAuth {
   private readonly _onNeedPass: SimpleSubject = new SimpleSubject();
@@ -13,7 +14,7 @@ export class DefaultBiometricAuth implements BiometricAuth {
 
   constructor(
     private readonly _aStorage: IonicStorageService,
-    private readonly _verifyOptions = {},
+    private readonly _verifyOptions: BiometricVerifyOptions,
     private readonly _aPlugin: NativeBiometricPlugin | FakeNativeBiometricPlugin = NativeBiometric
   ) {}
 
@@ -34,12 +35,19 @@ export class DefaultBiometricAuth implements BiometricAuth {
     }
   }
 
+  public async password(): Promise<string> {
+    return await this._aPlugin.getCredentials({ server: this._aKey }).then((credentials) => credentials.password);
+  }
+
   public off(): Promise<void> {
     return Promise.all([this._removePassword(), this._removeStorage()]).then(() => undefined);
   }
 
   public verified(): Promise<boolean> {
-    return this._aPlugin.verifyIdentity(this._verifyOptions);
+    return this._aPlugin
+      .verifyIdentity(this._verifyOptions.value())
+      .then(() => true)
+      .catch(() => false);
   }
 
   public onNeedPass(): Subscribable {

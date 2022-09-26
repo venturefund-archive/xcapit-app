@@ -634,7 +634,11 @@
       "password_title": "Tu seguridad nos importa",
       "password_description": "Para activar tus datos biométricos, ingresa la contraseña de tu wallet Xcapit.",
       "password_button": "Confirmar",
-      "password_error": "La contraseña ingresada no es correcta."
+      "password_error": "La contraseña ingresada no es correcta.",
+      "options":{
+        "title":"Ingresa con tus datos biométricos",
+        "subtitle":"Apoya tu huella sobre el lector de datos o apunta la pantalla hacia tu rostro, según corresponda en tu dispositivo."
+      }
     },
     "shared": {
       "remove_account_modal": {

@@ -641,7 +641,11 @@
       "password_title": "Your safety matters to us",
       "password_description": "To activate your biometric data, enter your Xcapit wallet's password..",
       "password_button": "Confirm",
-      "password_error": "The password entered is not valid."
+      "password_error": "The password entered is not valid.",
+      "options":{
+        "title":"Log in with your biometric data",
+        "subtitle":"Rest your fingerprint on the data reader or point the screen towards your face, as appropriate on your device."
+      }
     },
     "shared": {
       "remove_account_modal": {
