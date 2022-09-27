@@ -35,6 +35,8 @@
     &__secondary-text {
       margin-top: 16px;
       text-align: center;
+      margin-right: 8px;
+      margin-left: 8px;
 
       ion-text {
         color: var(--ion-color-primary);
@@ -58,6 +60,7 @@
 
       ion-button {
         width: 100%;
+        margin-inline: 0;
       }
 
       &__secondary {

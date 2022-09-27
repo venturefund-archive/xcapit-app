@@ -4,7 +4,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-success-d24-operation',
-  template: ` <ion-content class="ion-padding">
+  template: ` <ion-content class="so">
     <app-success-content [data]="this.data"> </app-success-content>
   </ion-content>`,
   styleUrls: ['./success-d24-operation.page.scss'],
@@ -22,5 +22,4 @@ export class SuccessD24OperationPage implements OnInit {
       eventLabel: 'ux_buy_d24_screenview_success',
     });
   }
-
 }
