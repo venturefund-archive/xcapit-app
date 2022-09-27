@@ -84,7 +84,6 @@ export class ConfirmPagePage implements OnInit {
     this.trackScreenViewEvent();
     this.operationData = this.storageOperationService.getData();
     this.token = this.apiWalletService.getCoin(this.operationData.currency_out, this.operationData.network);
-    console.log(this.operationData);
     this.provider = this.getProvider(this.operationData.provider);
   }
 

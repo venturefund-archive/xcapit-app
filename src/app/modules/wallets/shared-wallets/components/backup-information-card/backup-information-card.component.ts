@@ -21,7 +21,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class BackupInformationCardComponent implements OnInit {
   @Input() text: string;
   @Input() textClass: string;
-  @Input() backgroundClass: string;
+  @Input() backgroundClass = 'ux-info-background-card';
   @Output() cardClicked: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
