@@ -91,7 +91,7 @@ describe('ToolPagePage', () => {
     component.data = dataTest;
     component.ionViewWillEnter();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('div.card-objetive')).nativeElement.click();;
+    fixture.debugElement.query(By.css('div.card-objetive')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/financial-planner/result-objetive']);
   })
 });
