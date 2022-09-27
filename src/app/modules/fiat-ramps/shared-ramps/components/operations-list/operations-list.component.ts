@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 
 @Component({
@@ -26,7 +26,7 @@ import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interfac
   `,
   styleUrls: ['./operations-list.component.scss'],
 })
-export class OperationsListComponent implements OnInit {
+export class OperationsListComponent implements OnInit, OnChanges {
   @Input() operationsList: FiatRampOperation[];
   private readonly numberOfOperationsToShow = 2;
   firstOperations: FiatRampOperation[];
