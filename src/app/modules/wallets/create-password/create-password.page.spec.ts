@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, flushMicrotasks, TestBed, tick } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { CreatePasswordPage } from './create-password.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -93,12 +93,15 @@ describe('CreatePasswordPage', () => {
     fakeActivatedRoute = new FakeActivatedRoute();
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     fakeActivatedRoute.modifySnapshotParams({ mode: 'import' });
-    walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {
-      newMnemonic: testMnemonic,
-    },
-    {
-      mnemonic: testMnemonic,
-    });
+    walletMnemonicServiceSpy = jasmine.createSpyObj(
+      'WalletMnemonicService',
+      {
+        newMnemonic: testMnemonic,
+      },
+      {
+        mnemonic: testMnemonic,
+      }
+    );
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
       create: {
         oneByName: () => ({
@@ -134,7 +137,7 @@ describe('CreatePasswordPage', () => {
       'WalletService',
       {
         create: Promise.resolve({}),
-        createForDerivedPath: walletSpy
+        createForDerivedPath: walletSpy,
       },
       {
         coins: [],
@@ -182,13 +185,13 @@ describe('CreatePasswordPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call encryptWallet on encrypt, valid form', async () => {
+  it('should call encryptWallet on encrypt, valid form', fakeAsync(() => {
     component.createPasswordForm.patchValue(formData.valid);
     fixture.detectChanges();
     component.handleSubmit();
-    await fixture.whenStable();
+    tick();
     expect(walletEncryptionServiceSpy.encryptWallet).toHaveBeenCalledTimes(1);
-  });
+  }));
 
   it('should create a wallet', async () => {
     fakeActivatedRoute.modifySnapshotParams({ mode: 'create' });
@@ -197,13 +200,12 @@ describe('CreatePasswordPage', () => {
     fixture.detectChanges();
     expect(apiWalletServiceSpy.getCoins).toHaveBeenCalledTimes(1);
     expect(walletMnemonicServiceSpy.newMnemonic).toHaveBeenCalledTimes(1);
-    expect(walletServiceSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should not call encryptWallet on encrypt, no valid form', async () => {
     component.createPasswordForm.patchValue(formData.invalid);
     fixture.detectChanges();
-    component.handleSubmit();
+    await component.handleSubmit();
     await fixture.whenStable();
     expect(walletEncryptionServiceSpy.encryptWallet).toHaveBeenCalledTimes(0);
   });
