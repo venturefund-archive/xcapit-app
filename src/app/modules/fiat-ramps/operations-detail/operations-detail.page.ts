@@ -33,13 +33,14 @@ import { TranslateService } from '@ngx-translate/core';
     </ion-header>
     <ion-content class="ion-padding dp" *ngIf="this.operation">
       <div class="dp__card-container">
-        <div *ngIf="!this.hasVoucher">
+        <div *ngIf="!this.voucher && !this.voucherUploadedOnKripton">
           <app-bank-info-card [operation]="this.operation" [provider]="this.provider"></app-bank-info-card>
         </div>
-        <div *ngIf="this.hasVoucher">
+        <div *ngIf="this.voucher || this.voucherUploadedOnKripton">
           <app-voucher-card
             [uploading]="this.uploadingVoucher"
             [voucher]="this.voucher"
+            [voucherUploadedOnKripton]="this.voucherUploadedOnKripton"
             (removePhoto)="this.showRemovePhotoModal()"
           ></app-voucher-card>
         </div>
@@ -78,9 +79,9 @@ import { TranslateService } from '@ngx-translate/core';
         </div>
       </div>
     </ion-content>
-    <ion-footer class="dp__footer">
+    <ion-footer *ngIf="!this.voucherUploadedOnKripton" class="dp__footer">
       <div class="ux_footer ion-padding">
-        <div *ngIf="this.hasVoucher; then sendPictureElement; else addPhotoElement"></div>
+        <div *ngIf="this.voucher === undefined; then addPhotoElement; else sendPictureElement"></div>
         <ng-template #addPhotoElement>
           <ion-button
             class="ux_button ion-no-margin"
@@ -94,7 +95,7 @@ import { TranslateService } from '@ngx-translate/core';
           </ion-button>
         </ng-template>
         <ng-template #sendPictureElement>
-          <ion-button
+          <ion-button 
             name="ux_upload_photo"
             class="ux_button ion-no-margin"
             color="secondary"
@@ -114,9 +115,9 @@ export class OperationsDetailPage implements OnInit {
   operation: OperationDataInterface;
   operationStatus: OperationStatus;
   coin: Coin;
-  voucher = null;
+  voucher = undefined;
   cotizacion = 0;
-  hasVoucher = false;
+  voucherUploadedOnKripton = false;
   showBankInfo = false;
   uploadingVoucher = false;
   filesystemPlugin = Filesystem;
@@ -143,6 +144,7 @@ export class OperationsDetailPage implements OnInit {
     this.getProvider(parseInt(providerId));
     this.getUserOperation(operationId);
     this.trackScreenViewEvent();
+
   }
 
   private getProvider(providerId: number) {
@@ -193,7 +195,7 @@ export class OperationsDetailPage implements OnInit {
 
   private verifyVoucher() {
     if (this.provider.alias === 'kripton') {
-      this.hasVoucher = this.operation.voucher;
+      this.voucherUploadedOnKripton = this.operation.voucher;
     }
   }
 
@@ -209,7 +211,6 @@ export class OperationsDetailPage implements OnInit {
       });
 
       this.voucher = photo;
-      this.hasVoucher = true;
     }
   }
 
@@ -220,11 +221,12 @@ export class OperationsDetailPage implements OnInit {
     this.fiatRampsService.confirmOperation(this.operation.operation_id, formData).subscribe({
       next: (data) => {
         this.voucher = undefined;
-        this.hasVoucher = true;
+        this.voucherUploadedOnKripton = true;
         this.uploadingVoucher = false;
       },
       error: () => (this.uploadingVoucher = false),
     });
+
   }
 
   navigateBackToOperations() {
@@ -233,7 +235,6 @@ export class OperationsDetailPage implements OnInit {
 
   removePhoto() {
     this.voucher = undefined;
-    this.hasVoucher = false;
   }
 
   async showRemovePhotoModal() {
@@ -260,7 +261,7 @@ export class OperationsDetailPage implements OnInit {
   }
 
   async showExitOperationDetail() {
-    if (this.hasVoucher) {
+    if (this.voucher !== undefined) {
       if (this.isInfoModalOpen === false) {
         this.isInfoModalOpen = true;
         const modal = await this.modalController.create({
