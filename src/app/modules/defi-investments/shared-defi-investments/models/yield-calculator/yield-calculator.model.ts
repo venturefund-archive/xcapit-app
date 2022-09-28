@@ -29,6 +29,10 @@ export class YieldCalculator {
           break;
       }
     });
+
+    if (this._aYield.isNegative()) {
+      this._aYield = BigNumber.from('0');
+    }
   }
 
   cumulativeYield(): RawAmount {
