@@ -221,6 +221,7 @@ export class TokenDetailPage {
   }
 
   private async setToken() {
+    //token es un contrato
     this.token = await new TokenByAddress(
       this.route.snapshot.paramMap.get('token'),
       new BlockchainTokens(this.blockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
@@ -229,6 +230,7 @@ export class TokenDetailPage {
   }
 
   private async setTokenDetail() {
+    //esto me sirve
     const fixedTokens = new FixedTokens([this.token]);
     this.tokenDetail = this.tokenDetailInjectable.create(
       this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
@@ -251,6 +253,6 @@ export class TokenDetailPage {
 
   private setAllowedOperations() {
     this.enabledToBuy = !!new ProviderTokensOf(this.providers.create(), [this.token.json()]).all().length;
-    this.enabledToOperate = this.blockchain.name() !== 'SOLANA';
+    this.enabledToOperate = true;
   }
 }

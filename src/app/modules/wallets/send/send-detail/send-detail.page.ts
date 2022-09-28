@@ -148,7 +148,7 @@ export class SendDetailPage {
 
   url: string;
   form: UntypedFormGroup = this.formBuilder.group({
-    address: ['', [Validators.required, CustomValidators.isAddress()]],
+    address: ['', [Validators.required]],
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
@@ -173,13 +173,46 @@ export class SendDetailPage {
   ) {}
 
   async ionViewDidEnter() {
+    this.form.get('address')
     this.modalHref = window.location.href;
     this.setBlockchain(this.route.snapshot.queryParamMap.get('network'));
+    this.checkIfSolana();
     this.setTokens();
     this.getPrices();
     this.setUrlToBuyCrypto();
     await this.tokenBalances();
   }
+
+  checkIfSolana(){
+    if(this.activeBlockchain.name() !== 'SOLANA'){
+      console.log('no es solana')
+      this.form.get('address').addValidators(CustomValidators.isAddress());
+    }
+  }
+
+  //esto es para obtener el token, balance y precio actual (esto, va a amount-input-card cuando lo tengamos)
+  // private async setToken() {
+  //   //token es un contrato
+  //   this.token = await new TokenByAddress(
+  //     this.route.snapshot.paramMap.get('token'), ----> por ahora no va, hay que meter una variable con el contrato.
+  //     new BlockchainTokens(this.blockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
+  //   ).value();
+  //   this.tplToken = this.token.json();
+  // }
+
+  // private async setTokenDetail() {
+  //   //esto me sirve
+  //   const fixedTokens = new FixedTokens([this.token]);
+  //   this.tokenDetail = this.tokenDetailInjectable.create(
+  //     this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
+  //     this.tokenPricesFactory.new(fixedTokens),
+  //     (await fixedTokens.value())[0]
+  //   );
+  //   this.tokenDetail.cached();
+  //   this.tokenDetail.fetch();
+  // }
+
+
 
   private gasPrice(): Promise<AmountOf> {
     return this.gasStation.create(this.activeBlockchain).price().standard();
@@ -260,6 +293,7 @@ export class SendDetailPage {
   }
 
   private async userBalanceOf(_aToken: Coin | RawToken) {
+    console.log(_aToken.value)
     return this.walletService.balanceOf(await this.userWallet(), _aToken.value);
   }
 
