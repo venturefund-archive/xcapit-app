@@ -1,7 +1,11 @@
 import { Wallet as EthersWallet, providers } from 'ethers';
+import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { BlockchainTx } from '../blockchain-tx';
 import { Blockchain } from '../blockchain/blockchain';
 import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
+import { Connection, Keypair, Transaction, VersionedTransaction } from '@solana/web3.js';
+import * as bip39 from 'bip39';
+import { FakeConnection } from '../fakes/fake-connection';
 
 export interface Wallet {
   address: () => string;
@@ -36,7 +40,7 @@ export class DefaultWallet implements Wallet {
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
     const connectedWallet = this._connectedWallet(this._derivedWallet(await this._decryptedWallet()));
     for (const tx of transactions) {
-      await (await connectedWallet.sendTransaction(await tx.value())).wait();
+      await (await connectedWallet.sendTransaction((await tx.value()) as TransactionRequest)).wait();
     }
     return true;
   }
@@ -68,7 +72,7 @@ export class FakeWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
   private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
-  constructor(private readonly sendTxsResponse: Promise<any> = Promise.resolve(false), private msgError: string = '') {}
+  constructor(private readonly sendTxsResponse: Promise<any> = Promise.resolve(false), private msgError: string = '', private _address : string = '') {}
 
   public onNeedPass(): Subscribable {
     return this._onNeedPass;
@@ -86,7 +90,7 @@ export class FakeWallet implements Wallet {
   }
 
   address(): string {
-    return '';
+    return this._address;
   }
 
   private _checkError() {
@@ -100,9 +104,41 @@ export class SolanaWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
   private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
-  constructor(private _rawData: any) {}
+  constructor(
+    private _rawData: any,
+    private _connection: Connection | FakeConnection,
+    private _ethersWallet: any = EthersWallet
+  ) {}
 
-  sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
+  public static create(_rawData: any, _aBlockchain: Blockchain): SolanaWallet {
+    return new this(_rawData, new Connection(_aBlockchain.rpc()));
+  }
+
+  async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
+    const derivedWallet = this._derivedWallet(await this._decryptedWallet());
+    for (const tx of transactions) {
+      await this._connection.sendTransaction((await tx.value()) as Transaction, [derivedWallet]);
+    }
+    return true;
+  }
+
+  private async _decryptedWallet(): Promise<EthersWallet> {
+    const password = await this._onNeedPass.notify();
+    return this._ethersWallet
+      .fromEncryptedJson(this._encryptedWallet(), password)
+      .then((decryptedWallet: EthersWallet) => {
+        this._onWalletDecrypted.notify();
+        return decryptedWallet;
+      });
+  }
+
+  private _encryptedWallet(): string {
+    return this._rawData['encryptedWallet'];
+  }
+
+  private _derivedWallet(aEthersWallet: EthersWallet): Keypair {
+    return Keypair.fromSeed(bip39.mnemonicToSeedSync(aEthersWallet.mnemonic.phrase, '').slice(0, 32));
+  }
 
   address(): string {
     return this._rawData['address'];

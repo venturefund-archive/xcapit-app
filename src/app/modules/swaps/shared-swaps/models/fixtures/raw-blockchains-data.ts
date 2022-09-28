@@ -31,7 +31,7 @@ export const rawSolanaData: RawBlockchain = {
   name: 'SOLANA',
   derivedPath: "m/44'/501'/0'/0/0",
   id: '1399811149',
-  rpc: '',
+  rpc: 'https://solana.com',
   nativeToken: {
     value: 'SOL',
     decimals: 9,

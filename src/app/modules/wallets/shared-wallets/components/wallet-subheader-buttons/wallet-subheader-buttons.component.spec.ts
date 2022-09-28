@@ -14,6 +14,7 @@ import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directi
 import { WalletBackupService } from '../../services/wallet-backup/wallet-backup.service';
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/default-swaps-urls';
+import { rawUSDCData, rawUSDTData } from '../../../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
@@ -92,18 +93,21 @@ describe('WalletSubheaderButtonsComponent', () => {
   });
 
   it('should navigate to Send page of an specific asset when ux_go_to_send is clicked from AssetDetailPage', async () => {
-    component.asset = 'USDT';
-    component.network = 'ERC20';
+    component.asset = rawUSDTData.value;
+    component.tokenAddress = rawUSDTData.contract;
+    component.network = rawUSDTData.network;
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('app-icon-button-card', 'ux_go_to_send');
     el.nativeElement.click();
     await fixture.whenStable();
 
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(
-      ['wallets/send/detail'],
-      Object({ queryParams: Object({ asset: 'USDT', network: 'ERC20' }) })
-    );
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
+      'wallets/send/detail/blockchain',
+      rawUSDTData.network,
+      'token',
+      rawUSDTData.contract,
+    ]);
   });
 
   it('should navigate to receive page with the default asset selected when ux_go_to_receive is clicked from HomeWalletPage', async () => {
@@ -227,5 +231,5 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(divSend).toBeFalsy();
     expect(divBuy).toBeFalsy();
     expect(divSwap).toBeFalsy();
-  })
+  });
 });

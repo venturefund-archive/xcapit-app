@@ -64,6 +64,7 @@ import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/defa
 })
 export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
+  @Input() tokenAddress: string;
   @Input() network: string;
   @Input() enabledToBuy = true;
   @Input() enabledToOperate = true;
@@ -83,14 +84,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
         return this.navController.navigateForward(['wallets/send/select-currency']);
       }
 
-      const navigationExtras: NavigationExtras = {
-        queryParams: {
-          asset: this.asset,
-          network: this.network,
-        },
-      };
-
-      return this.navController.navigateForward(['wallets/send/detail'], navigationExtras);
+      return this.navController.navigateForward(['wallets/send/detail/blockchain', this.network, 'token', this.tokenAddress]);
     }
   }
 
