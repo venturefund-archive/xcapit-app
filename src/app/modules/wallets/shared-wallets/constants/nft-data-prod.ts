@@ -1,5 +1,6 @@
 import nftAbi from './nft-abi/nft_abi.json';
 import { environment } from 'src/environments/environment';
+
 export const NFT_DATA_PROD = [
   {
     contractAddress: '0x042841842502d3eaf1946f52e77cc5c48f40dff6',
@@ -48,6 +49,11 @@ export const NFT_DATA_PROD = [
   },
   {
     contractAddress: '0x94ad825155b13f6BA2C652F7fEE006DfC87b6227',
+    rpc: environment.maticApiUrl,
+    abi: nftAbi,
+  },
+  {
+    contractAddress: '0x157EeB703bd54D01ef0Ed26677985C77146432E5',
     rpc: environment.maticApiUrl,
     abi: nftAbi,
   },
