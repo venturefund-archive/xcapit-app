@@ -23,7 +23,7 @@ import { ModalController } from '@ionic/angular';
       </li>
     </ul>
     <div class="cyi__button">
-    <ion-button name="Understood button" class="ux_button" expand="block" color="secondary" (click)="this.close()">{{ 'defi_investments.invest_detail.yields.info_modal.button' | translate }}</ion-button>
+    <ion-button name="Understood button" class="ux_button ion-no-margin" expand="block" color="secondary" (click)="this.close()">{{ 'defi_investments.invest_detail.yields.info_modal.button' | translate }}</ion-button>
     </div>
   </ion-card>
   `,

@@ -23,8 +23,16 @@
     }
 
     &__text {
+      padding-left: 20px;
+      font-size: 16px;
+      color: var(--ion-color-primary);
+
       li {
         margin-bottom: 4px;
+
+        ion-text {
+          color: var(--ion-color-primary);
+        }
       }
 
       margin-bottom: 20px;
