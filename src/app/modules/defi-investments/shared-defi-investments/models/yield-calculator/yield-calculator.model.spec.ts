@@ -1,7 +1,7 @@
 import { InvestmentMovement } from 'src/app/modules/wallets/shared-wallets/interfaces/investment-movement.interface';
 import { YieldCalculator } from './yield-calculator.model';
 
-fdescribe('YieldCalculator', () => {
+describe('YieldCalculator', () => {
   let yieldCalculator: YieldCalculator;
   const movements: InvestmentMovement[] = [
     jasmine.createSpyObj('deposit', {}, { type: 'deposit', amount: '80000000000000000000' }),

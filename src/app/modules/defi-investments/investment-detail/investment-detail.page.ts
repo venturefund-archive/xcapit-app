@@ -72,8 +72,13 @@ import { Observable, forkJoin } from 'rxjs';
           <ion-text class="ux-font-header-titulo">
             {{ 'defi_investments.invest_detail.yields.title' | translate }}
           </ion-text>
-          <!-- TODO: Test this button -->
-          <ion-button class="ion-no-padding ion-no-margin" fill="clear" size="small" (click)="this.openYieldsModal()">
+          <ion-button
+            name="Cumulative yield info button"
+            class="ion-no-padding ion-no-margin"
+            fill="clear"
+            size="small"
+            (click)="this.openYieldsModal()"
+          >
             <ion-icon name="information-circle" color="info"></ion-icon>
           </ion-button>
         </div>
@@ -213,7 +218,6 @@ export class InvestmentDetailPage implements OnInit {
     });
   }
 
-  // TODO: TEST THIS
   private calculateEarnings() {
     forkJoin([this.price$, this.movements$]).subscribe((res) => {
       const calculator = new YieldCalculator(
@@ -249,7 +253,6 @@ export class InvestmentDetailPage implements OnInit {
     return new AvailableDefiProducts(this.remoteConfig);
   }
 
-  // TODO: Test this
   async openYieldsModal() {
     const modal = await this.modalController.create({
       component: CumulativeYieldsInfoModalComponent,

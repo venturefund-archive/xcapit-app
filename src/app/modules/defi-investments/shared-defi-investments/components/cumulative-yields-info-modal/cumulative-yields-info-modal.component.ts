@@ -6,8 +6,7 @@ import { ModalController } from '@ionic/angular';
   template: `
   <ion-card class="cyi">
     <div class="cyi__top-bar">
-    <!-- TODO: Test this -->
-    <ion-button class="ion-no-padding" slot="icon-only" fill="clear" name="Close" (click)="this.close()">
+    <ion-button name="Close button" class="ion-no-padding" slot="icon-only" fill="clear" (click)="this.close()">
       <ion-icon name="ux-close"></ion-icon>
     </ion-button>
     </div>
@@ -24,8 +23,7 @@ import { ModalController } from '@ionic/angular';
       </li>
     </ul>
     <div class="cyi__button">
-    <!-- TODO: Test this -->
-    <ion-button class="ux_button" expand="block" color="secondary" (click)="this.close()">{{ 'defi_investments.invest_detail.yields.info_modal.button' | translate }}</ion-button>
+    <ion-button name="Understood button" class="ux_button" expand="block" color="secondary" (click)="this.close()">{{ 'defi_investments.invest_detail.yields.info_modal.button' | translate }}</ion-button>
     </div>
   </ion-card>
   `,
