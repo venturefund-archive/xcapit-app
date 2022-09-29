@@ -13,7 +13,6 @@ import { ModalController } from '@ionic/angular';
     <div class="cyi__title">
       <ion-text class="ux-font-text-lg">{{ 'defi_investments.invest_detail.yields.info_modal.title' | translate }}</ion-text>
     </div>
-    <!-- TODO: Fix list padding and bullet size -->
     <ul class="cyi__text">
       <li>
         <ion-text class="ux-font-text-base">{{ 'defi_investments.invest_detail.yields.info_modal.item1' | translate }}</ion-text>
