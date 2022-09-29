@@ -99,6 +99,7 @@ export class AddressInputCardComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formGroupDirective.form;
+    console.log(this.form)
     this.checkIsWebPlatform();
     this.form.get('address').statusChanges.subscribe((valid) => {
       this.status = valid === 'VALID';

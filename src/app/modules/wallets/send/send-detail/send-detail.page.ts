@@ -12,7 +12,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
 import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
-import { VoidSigner } from 'ethers';
+import { VoidSigner, Wallet } from 'ethers';
 import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
 import { ERC20ContractController } from '../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
@@ -33,8 +33,16 @@ import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/g
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
 import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
-import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+import { RawToken, TokenRepo } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
+import { TokenByAddress } from 'src/app/modules/swaps/shared-swaps/models/token-by-address/token-by-address';
+import { BlockchainTokens } from 'src/app/modules/swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
+import { DefaultTokens } from 'src/app/modules/swaps/shared-swaps/models/tokens/tokens';
+import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
+import { FixedTokens } from 'src/app/modules/swaps/shared-swaps/models/filtered-tokens/fixed-tokens';
+import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
+import { CovalentBalancesController } from '../../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { TokenPricesController } from '../../shared-wallets/models/prices/token-prices/token-prices.controller';
 
 @Component({
   selector: 'app-send-detail',
@@ -145,6 +153,13 @@ export class SendDetailPage {
   quoteFee: Amount = { value: 0, token: 'USD' };
   modalHref: string;
   isInfoModalOpen = false;
+  //Aca agrego lo necesario de solana
+  private tokenSolana: Token;
+    tplTokenSolana: RawToken;
+    private blockchainSol: Blockchain;
+    tokenDetailSol: TokenDetail;
+    private walletSol: Wallet;
+    
 
   url: string;
   form: UntypedFormGroup = this.formBuilder.group({
@@ -169,7 +184,11 @@ export class SendDetailPage {
     private storage: IonicStorageService,
     private tokenOperationDataService: TokenOperationDataService,
     private blockchains: BlockchainsFactory,
-    private gasStation: GasStationOfFactory
+    private gasStation: GasStationOfFactory,
+    //sol
+    private tokenDetailInjectable: TokenDetailInjectable,
+    private covalentBalancesFactory: CovalentBalancesController,
+    private tokenPricesFactory: TokenPricesController
   ) {}
 
   async ionViewDidEnter() {
@@ -187,30 +206,32 @@ export class SendDetailPage {
     if(this.activeBlockchain.name() !== 'SOLANA'){
       console.log('no es solana')
       this.form.get('address').addValidators(CustomValidators.isAddress());
+    }else{
+      this.setToken()
     }
   }
 
   //esto es para obtener el token, balance y precio actual (esto, va a amount-input-card cuando lo tengamos)
-  // private async setToken() {
+  private async setToken() {
   //   //token es un contrato
-  //   this.token = await new TokenByAddress(
-  //     this.route.snapshot.paramMap.get('token'), ----> por ahora no va, hay que meter una variable con el contrato.
-  //     new BlockchainTokens(this.blockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
-  //   ).value();
-  //   this.tplToken = this.token.json();
-  // }
+  this.tokenSolana = await new TokenByAddress(
+       this.route.snapshot.paramMap.get('token'), //----> por ahora no va, hay que meter una variable con el contrato.
+       new BlockchainTokens(this.blockchainSol, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
+     ).value();
+     this.tplTokenSolana = this.token.json();
+  }
 
-  // private async setTokenDetail() {
+   private async setTokenDetail() {
   //   //esto me sirve
-  //   const fixedTokens = new FixedTokens([this.token]);
-  //   this.tokenDetail = this.tokenDetailInjectable.create(
-  //     this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
-  //     this.tokenPricesFactory.new(fixedTokens),
-  //     (await fixedTokens.value())[0]
-  //   );
-  //   this.tokenDetail.cached();
-  //   this.tokenDetail.fetch();
-  // }
+     const fixedTokens = new FixedTokens([this.tokenSolana]);
+    this.tokenDetailSol = this.tokenDetailInjectable.create(
+       this.covalentBalancesFactory.new(this.walletSol.address(), fixedTokens),
+      this.tokenPricesFactory.new(fixedTokens),
+      (await fixedTokens.value())[0]
+    );
+     this.tokenDetailSol.cached();
+     this.tokenDetailSol.fetch();
+   }
 
 
 
