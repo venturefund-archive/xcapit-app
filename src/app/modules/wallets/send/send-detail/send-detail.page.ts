@@ -275,7 +275,7 @@ export class SendDetailPage {
   }
 
   private async setTokens() {
-    this.tokenObj = new TokenByAddress()
+    // this.tokenObj = new TokenByAddress()
       this.token = this.apiWalletService.getCoin(
         this.route.snapshot.queryParamMap.get('asset'),
         this.activeBlockchain.name()
