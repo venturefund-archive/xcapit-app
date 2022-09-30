@@ -299,6 +299,8 @@ export class SendDetailPage {
     this.wallet = await this.walletsFactory.create().oneBy(this.activeBlockchain);
   }
 
+  private setTokenDetail(){}
+
   async tokenBalances() {
     // const tokenBalance = parseFloat(await this.userBalanceOf(this.token));
     this.watchFormChanges();
