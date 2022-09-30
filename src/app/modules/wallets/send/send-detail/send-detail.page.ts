@@ -204,8 +204,6 @@ export class SendDetailPage {
     if (this.activeBlockchain.name() !== 'SOLANA') {
       this.form.get('address').addValidators(CustomValidators.isAddress());
     } else {
-      //Las address de solana son format ED25519 curve
-      //entonces valida con respecto a este format.
       this.form.get('address').addValidators(CustomValidators.isAddressSolana());
       await this.setAllFeeData();
     }
