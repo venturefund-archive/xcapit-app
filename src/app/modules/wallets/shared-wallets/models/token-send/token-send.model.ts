@@ -30,11 +30,10 @@ export class TokenSend {
   value(): NativeTokenSend | ERC20TokenSend {
     if (this.coin.network === 'SOLANA') {
       if (this.coin.native) {
-
+        // TODO: Ver si seguimos agregando clases de send
       } else {
-
+        // TODO: Ver si seguimos agregando clases de send
       }
-
     } else {
       if (this.coin.native) {
         return NativeTokenSend.create(this.to, this.amount, this.coin, this.signer, this.networkConfig);
