@@ -279,11 +279,11 @@ export class SendDetailPage {
     this.wallet = await this.walletsFactory.create().oneBy(this.activeBlockchain);
   }
 
-  private async ahilovemo(token: Token) {
+  private async tokenDetailOf(aToken: Token) {
     const tokenDetail = this.tokenDetailInjectable.create(
-      this.covalentBalancesFactory.new(this.wallet.address(), new FixedTokens([token])),
-      this.tokenPricesFactory.new(new FixedTokens([token])),
-      (await new FixedTokens([token]).value())[0]
+      this.covalentBalancesFactory.new(this.wallet.address(), new FixedTokens([aToken])),
+      this.tokenPricesFactory.new(new FixedTokens([aToken])),
+      (await new FixedTokens([aToken]).value())[0]
     );
     await tokenDetail.cached();
     await tokenDetail.fetch();
