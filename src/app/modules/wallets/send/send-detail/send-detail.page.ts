@@ -148,6 +148,7 @@ export class SendDetailPage {
   private priceRefreshInterval = 15000;
   alertType = UX_ALERT_TYPES.warning;
   token: Coin;
+  private tokenObj: Token;
   balance: number;
   nativeBalance: number;
   amount: number;
@@ -273,6 +274,7 @@ export class SendDetailPage {
   }
 
   private async setTokens() {
+    this.tokenObj = new TokenByAddress()
       this.token = this.apiWalletService.getCoin(
         this.route.snapshot.queryParamMap.get('asset'),
         this.activeBlockchain.name()
