@@ -292,7 +292,8 @@ export class SendDetailPage {
     // );
     // await this.tokenDetail.cached();
     // await this.tokenDetail.fetch();
-    this.balance = (await this.ahilovemo(this.tokenObj)).balance;
+    this.tokenDetail = await this.ahilovemo(this.tokenObj)
+    this.balance = (this.tokenDetail).balance;
   }
 
   private async setWallet() {
