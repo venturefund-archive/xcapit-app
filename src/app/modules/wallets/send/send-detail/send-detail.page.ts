@@ -201,6 +201,7 @@ export class SendDetailPage {
     //this.form.get('address');
     this.modalHref = window.location.href;
     this.setBlockchain(this.route.snapshot.queryParamMap.get('network'));
+    this.setTokens();
     await this.checkIfSolana();
     this.getPrices();
     this.setUrlToBuyCrypto();
@@ -211,13 +212,11 @@ export class SendDetailPage {
   async checkIfSolana() {
     if (this.activeBlockchain.name() !== 'SOLANA') {
       this.form.get('address').addValidators(CustomValidators.isAddress());
-      await this.setTokens();
     } else {
       //Las address de solana son format ED25519 curve
     //entonces valida con respecto a este format.
       this.form.get('address').addValidators(CustomValidators.isAddressSolana());
       await this.setWallet();
-      await this.setSolanaTokens();
       await this.solanaTokenDetail();
       await this.setAllFeeData();
     }
