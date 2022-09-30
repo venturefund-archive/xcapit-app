@@ -285,15 +285,6 @@ export class SendDetailPage {
     this.dynamicFee.token = this.nativeToken.symbol();
   }
 
-  // private async setSolanaTokens(){
-  //   this.nativeToken = this.activeBlockchain.nativeToken();
-  //   this.tokenSolana = await new TokenByAddress(
-  //     this.nativeToken.address(),
-  //     new BlockchainTokens(this.activeBlockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
-  //   ).value();
-  //   this.token = this.tokenSolana.json();
-  // }
-
   private async solanaTokenDetail() {
     const fixedTokens = new FixedTokens([this.tokenSolana]);
     this.tokenDetailSol = this.tokenDetailInjectable.create(
