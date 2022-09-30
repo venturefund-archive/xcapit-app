@@ -12,7 +12,7 @@ import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-w
 import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { ERC20Contract } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
-import { VoidSigner, Wallet } from 'ethers';
+import { VoidSigner } from 'ethers';
 import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
 import { ERC20ContractController } from '../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
@@ -43,6 +43,10 @@ import { FixedTokens } from 'src/app/modules/swaps/shared-swaps/models/filtered-
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { CovalentBalancesController } from '../../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
 import { TokenPricesController } from '../../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { Console } from 'console';
+import { WalletBalanceService } from '../../shared-wallets/services/wallet-balance/wallet-balance.service';
 
 @Component({
   selector: 'app-send-detail',
@@ -153,13 +157,10 @@ export class SendDetailPage {
   quoteFee: Amount = { value: 0, token: 'USD' };
   modalHref: string;
   isInfoModalOpen = false;
-  //Aca agrego lo necesario de solana
-  private tokenSolana: Token;
-    tplTokenSolana: RawToken;
-    private blockchainSol: Blockchain;
-    tokenDetailSol: TokenDetail;
-    private walletSol: Wallet;
-    
+  tokenSolana: Token;
+  tplTokenSolana: RawToken;
+  tokenDetailSol: TokenDetail;
+  private walletSol: Wallet;
 
   url: string;
   form: UntypedFormGroup = this.formBuilder.group({
@@ -174,6 +175,7 @@ export class SendDetailPage {
     private formBuilder: UntypedFormBuilder,
     private transactionDataService: TransactionDataService,
     private walletService: WalletService,
+    private walletsFactory: WalletsFactory,
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
     private erc20ProviderController: ERC20ProviderController,
@@ -188,52 +190,31 @@ export class SendDetailPage {
     //sol
     private tokenDetailInjectable: TokenDetailInjectable,
     private covalentBalancesFactory: CovalentBalancesController,
-    private tokenPricesFactory: TokenPricesController
+    private tokenPricesFactory: TokenPricesController,
+    private walletBalanceService: WalletBalanceService
   ) {}
 
   async ionViewDidEnter() {
-    this.form.get('address')
+    this.form.get('address');
     this.modalHref = window.location.href;
     this.setBlockchain(this.route.snapshot.queryParamMap.get('network'));
-    this.checkIfSolana();
-    this.setTokens();
+    await this.checkIfSolana();
     this.getPrices();
     this.setUrlToBuyCrypto();
     await this.tokenBalances();
   }
 
-  checkIfSolana(){
-    if(this.activeBlockchain.name() !== 'SOLANA'){
-      console.log('no es solana')
+  async checkIfSolana() {
+    if (this.activeBlockchain.name() !== 'SOLANA') {
       this.form.get('address').addValidators(CustomValidators.isAddress());
-    }else{
-      this.setToken()
+      await this.setTokens();
+    } else {
+      await this.setWallet();
+      await this.setSolanaTokens();
+      await this.solanaTokenDetail();
+      await this.setAllFeeData();
     }
   }
-
-  //esto es para obtener el token, balance y precio actual (esto, va a amount-input-card cuando lo tengamos)
-  private async setToken() {
-  //   //token es un contrato
-  this.tokenSolana = await new TokenByAddress(
-       this.route.snapshot.paramMap.get('token'), //----> por ahora no va, hay que meter una variable con el contrato.
-       new BlockchainTokens(this.blockchainSol, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
-     ).value();
-     this.tplTokenSolana = this.token.json();
-  }
-
-   private async setTokenDetail() {
-  //   //esto me sirve
-     const fixedTokens = new FixedTokens([this.tokenSolana]);
-    this.tokenDetailSol = this.tokenDetailInjectable.create(
-       this.covalentBalancesFactory.new(this.walletSol.address(), fixedTokens),
-      this.tokenPricesFactory.new(fixedTokens),
-      (await fixedTokens.value())[0]
-    );
-     this.tokenDetailSol.cached();
-     this.tokenDetailSol.fetch();
-   }
-
-
 
   private gasPrice(): Promise<AmountOf> {
     return this.gasStation.create(this.activeBlockchain).price().standard();
@@ -242,22 +223,25 @@ export class SendDetailPage {
   private setBlockchain(aBlockchainName: string) {
     this.activeBlockchain = this.blockchains.create().oneByName(aBlockchainName);
     this.tplBlockchain = this.activeBlockchain.json();
+    console.log(this.tplBlockchain)
   }
 
   private getPrices(): void {
     this.setNativePrice();
-    this.setQuotePrice();
+     this.setQuotePrice();
   }
 
   private setNativePrice(): void {
     this.getDynamicPriceOf(this.nativeToken.json()).subscribe((price: number) => {
       this.nativeTokenPrice = price;
+      console.log('nativeTokenPrice', this.nativeTokenPrice)
     });
   }
 
   private setQuotePrice(): void {
     this.getDynamicPriceOf(this.token.native ? this.nativeToken.json() : this.token).subscribe((price: number) => {
       this.quotePrice = price;
+      console.log('quote' ,this.quotePrice)
     });
   }
 
@@ -283,14 +267,40 @@ export class SendDetailPage {
     return await this.storageService.getWalletsAddresses(this.activeBlockchain.name());
   }
 
-  private setTokens() {
-    this.token = this.apiWalletService.getCoin(
-      this.route.snapshot.queryParamMap.get('asset'),
-      this.activeBlockchain.name()
-    );
+  private async setTokens() {
+      this.token = this.apiWalletService.getCoin(
+        this.route.snapshot.queryParamMap.get('asset'),
+        this.activeBlockchain.name()
+      );
     this.nativeToken = this.activeBlockchain.nativeToken();
     this.tplNativeToken = this.nativeToken.json();
     this.dynamicFee.token = this.nativeToken.symbol();
+  }
+
+  private async setSolanaTokens(){
+    this.nativeToken = this.activeBlockchain.nativeToken();
+    this.tokenSolana = await new TokenByAddress(
+      this.nativeToken.address(),
+      new BlockchainTokens(this.activeBlockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
+    ).value();
+    this.token = this.tokenSolana.json();
+  }
+
+  private async solanaTokenDetail() {
+    const fixedTokens = new FixedTokens([this.tokenSolana]);
+    this.tokenDetailSol = this.tokenDetailInjectable.create(
+      this.covalentBalancesFactory.new(this.walletSol.address(), fixedTokens),
+      this.tokenPricesFactory.new(fixedTokens),
+      (await fixedTokens.value())[0]
+    );
+    await this.tokenDetailSol.cached();
+    await this.tokenDetailSol.fetch();
+    this.balance = this.tokenDetailSol.balance;
+    
+  }
+
+  private async setWallet() {
+    this.walletSol = await this.walletsFactory.create().oneBy(this.activeBlockchain);
   }
 
   async tokenBalances() {
@@ -306,6 +316,7 @@ export class SendDetailPage {
       this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
     }
     this.addLowerThanValidator();
+    console.log('balance de una coin que no es sonala', this.balance)
   }
 
   private addLowerThanValidator() {
@@ -314,7 +325,6 @@ export class SendDetailPage {
   }
 
   private async userBalanceOf(_aToken: Coin | RawToken) {
-    console.log(_aToken.value)
     return this.walletService.balanceOf(await this.userWallet(), _aToken.value);
   }
 
@@ -332,14 +342,24 @@ export class SendDetailPage {
   }
 
   private async setAllFeeData(): Promise<void> {
-    this.loadingFee();
-    await this.setFee();
-    this.dynamicFee = { value: this.fee, token: this.nativeToken.symbol() };
+    if (this.activeBlockchain.name() !== 'SOLANA') {
+      this.loadingFee();
+      await this.setFee();
+      this.dynamicFee = { value: this.fee, token: this.nativeToken.symbol() };
+    }else{
+      console.log(this.nativeToken.symbol())
+      this.dynamicFee = { value: 0, token: this.nativeToken.symbol() };
+      this.fee = 0;
+    }
     this.getQuoteFee();
   }
 
   private getQuoteFee(): void {
-    this.quoteFee.value = this.nativeTokenPrice * this.fee;
+    if (this.activeBlockchain.name() !== 'SOLANA') {
+      this.quoteFee.value = this.nativeTokenPrice * this.fee;
+    }else{
+      this.quoteFee.value = 1;
+    }
   }
 
   private resetFee() {

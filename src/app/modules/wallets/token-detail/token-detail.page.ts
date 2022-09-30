@@ -212,6 +212,7 @@ export class TokenDetailPage {
   }
 
   private async setWallet() {
+    console.log(this.blockchain)
     this.wallet = await this.walletsFactory.create().oneBy(this.blockchain);
   }
 
@@ -221,7 +222,6 @@ export class TokenDetailPage {
   }
 
   private async setToken() {
-    //token es un contrato
     this.token = await new TokenByAddress(
       this.route.snapshot.paramMap.get('token'),
       new BlockchainTokens(this.blockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
@@ -230,7 +230,6 @@ export class TokenDetailPage {
   }
 
   private async setTokenDetail() {
-    //esto me sirve
     const fixedTokens = new FixedTokens([this.token]);
     this.tokenDetail = this.tokenDetailInjectable.create(
       this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
