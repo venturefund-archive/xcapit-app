@@ -303,6 +303,7 @@ export class SendDetailPage {
   async tokenBalances() {
     // const tokenBalance = parseFloat(await this.userBalanceOf(this.token));
     this.watchFormChanges();
+    console.log('tokenDetail',this.tokenDetail)
     if (this.token.native) {
       await this.setAllFeeData();
       this.resetFee();
