@@ -183,7 +183,6 @@ export class SendDetailPage {
     private tokenOperationDataService: TokenOperationDataService,
     private blockchains: BlockchainsFactory,
     private gasStation: GasStationOfFactory,
-    //sol
     private tokenDetailInjectable: TokenDetailInjectable,
     private covalentBalancesFactory: CovalentBalancesController,
     private tokenPricesFactory: TokenPricesController,
