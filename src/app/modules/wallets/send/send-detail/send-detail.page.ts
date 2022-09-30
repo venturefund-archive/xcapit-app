@@ -284,7 +284,7 @@ export class SendDetailPage {
   }
 
   private async setTokenDetail() {
-    const fixedTokens = new FixedTokens([this.tokenObj]);
+    // const fixedTokens = new FixedTokens([this.tokenObj]);
     // this.tokenDetail = this.tokenDetailInjectable.create(
     //   this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
     //   this.tokenPricesFactory.new(fixedTokens),
