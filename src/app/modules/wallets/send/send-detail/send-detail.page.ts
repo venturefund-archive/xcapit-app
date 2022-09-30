@@ -201,7 +201,7 @@ export class SendDetailPage {
     //this.form.get('address');
     this.modalHref = window.location.href;
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
-    this.setTokens();
+    await this.setTokens();
     await this.checkIfSolana();
     this.getPrices();
     this.setUrlToBuyCrypto();
