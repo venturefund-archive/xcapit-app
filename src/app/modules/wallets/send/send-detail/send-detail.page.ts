@@ -201,6 +201,7 @@ export class SendDetailPage {
     this.modalHref = window.location.href;
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
     await this.setTokens();
+    await this.setTokenDetail();
     await this.checkIfSolana();
     this.getPrices();
     this.setUrlToBuyCrypto();
@@ -215,7 +216,6 @@ export class SendDetailPage {
       //entonces valida con respecto a este format.
       this.form.get('address').addValidators(CustomValidators.isAddressSolana());
       await this.setWallet();
-      await this.solanaTokenDetail();
       await this.setAllFeeData();
     }
   }
@@ -284,7 +284,7 @@ export class SendDetailPage {
     this.dynamicFee.token = this.nativeToken.symbol();
   }
 
-  private async solanaTokenDetail() {
+  private async setTokenDetail() {
     const fixedTokens = new FixedTokens([this.tokenObj]);
     this.tokenDetail = this.tokenDetailInjectable.create(
       this.covalentBalancesFactory.new(this.walletSol.address(), fixedTokens),
