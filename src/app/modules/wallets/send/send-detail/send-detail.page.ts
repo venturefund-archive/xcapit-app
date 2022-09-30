@@ -161,7 +161,7 @@ export class SendDetailPage {
   isInfoModalOpen = false;
   tokenSolana: Token;
   tplTokenSolana: RawToken;
-  tokenDetailSol: TokenDetail;
+  tokenDetail: TokenDetail;
   private walletSol: Wallet;
 
   url: string;
@@ -286,14 +286,14 @@ export class SendDetailPage {
 
   private async solanaTokenDetail() {
     const fixedTokens = new FixedTokens([this.tokenObj]);
-    this.tokenDetailSol = this.tokenDetailInjectable.create(
+    this.tokenDetail = this.tokenDetailInjectable.create(
       this.covalentBalancesFactory.new(this.walletSol.address(), fixedTokens),
       this.tokenPricesFactory.new(fixedTokens),
       (await fixedTokens.value())[0]
     );
-    await this.tokenDetailSol.cached();
-    await this.tokenDetailSol.fetch();
-    this.balance = this.tokenDetailSol.balance;
+    await this.tokenDetail.cached();
+    await this.tokenDetail.fetch();
+    this.balance = this.tokenDetail.balance;
   }
 
   private async setWallet() {
@@ -303,17 +303,17 @@ export class SendDetailPage {
   async tokenBalances() {
     // const tokenBalance = parseFloat(await this.userBalanceOf(this.token));
     this.watchFormChanges();
-    // if (this.token.native) {
-    //   await this.setAllFeeData();
-    //   this.resetFee();
-    //   this.balance = this.nativeBalance = Math.max(tokenBalance - this.fee, 0);
-    //   await this.checkEnoughBalance();
-    // } else {
-    //   this.balance = tokenBalance;
-    //   this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
-    // }
-    // this.addLowerThanValidator();
-    // console.log('balance de una coin que no es sonala', this.balance)
+    if (this.token.native) {
+      await this.setAllFeeData();
+      this.resetFee();
+      this.balance = this.nativeBalance = Math.max(this.tokenDetail.balance - this.fee, 0);
+      await this.checkEnoughBalance();
+    } else {
+      this.balance = this.tokenDetail.balance;
+      this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
+    }
+    this.addLowerThanValidator();
+    console.log('balance de una coin que no es sonala', this.balance)
   }
 
   private addLowerThanValidator() {
