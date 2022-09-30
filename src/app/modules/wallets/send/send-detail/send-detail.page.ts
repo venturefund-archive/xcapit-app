@@ -275,10 +275,10 @@ export class SendDetailPage {
   }
 
   private async setTokens() {
-    this.tokenObj = new TokenByAddress(
+    this.tokenObj = await new TokenByAddress(
       this.route.snapshot.paramMap.get('token'),
       new BlockchainTokens(this.activeBlockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
-    )
+    ).value();
       this.token = this.apiWalletService.getCoin(
         this.route.snapshot.queryParamMap.get('asset'),
         this.activeBlockchain.name()
