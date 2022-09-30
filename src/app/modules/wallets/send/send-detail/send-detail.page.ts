@@ -292,7 +292,7 @@ export class SendDetailPage {
     // );
     // await this.tokenDetail.cached();
     // await this.tokenDetail.fetch();
-    this.balance = ((await this.ahilovemo(this.activeBlockchain.nativeToken())).balance;);
+    this.balance = (await this.ahilovemo(this.tokenObj)).balance;
   }
 
   private async setWallet() {
