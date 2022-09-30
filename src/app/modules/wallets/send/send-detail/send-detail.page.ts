@@ -287,7 +287,7 @@ export class SendDetailPage {
   }
 
   private async solanaTokenDetail() {
-    const fixedTokens = new FixedTokens([this.tokenSolana]);
+    const fixedTokens = new FixedTokens([this.tokenObj]);
     this.tokenDetailSol = this.tokenDetailInjectable.create(
       this.covalentBalancesFactory.new(this.walletSol.address(), fixedTokens),
       this.tokenPricesFactory.new(fixedTokens),
