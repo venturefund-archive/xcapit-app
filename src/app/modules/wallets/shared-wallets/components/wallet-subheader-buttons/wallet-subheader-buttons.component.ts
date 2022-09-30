@@ -84,14 +84,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
         return this.navController.navigateForward(['wallets/send/select-currency']);
       }
 
-      // const navigationExtras: NavigationExtras = {
-      //   queryParams: {
-      //     blockchain: this.network,
-      //     token: this.tokenAddress,
-      //   },
-      // };
-
-      return this.navController.navigateForward([`wallets/send/detail/blockchain/${this.network}/token/${this.tokenAddress}`]);
+      return this.navController.navigateForward(['wallets/send/detail/blockchain', this.network, 'token', this.tokenAddress]);
     }
   }
 
