@@ -311,6 +311,11 @@ export class SendDetailPage {
       await this.checkEnoughBalance();
     } else {
       this.balance = this.tokenDetail.balance;
+      const nativeTokenDetail = this.tokenDetailInjectable.create(
+        this.covalentBalancesFactory.new(this.wallet.address(), new FixedTokens([this.activeBlockchain.nativeToken()])),
+        this.tokenPricesFactory.new(new FixedTokens([this.activeBlockchain.nativeToken()])),
+        (await (new FixedTokens([this.activeBlockchain.nativeToken()])).value())[0]
+      );
       this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
     }
     this.addLowerThanValidator();
