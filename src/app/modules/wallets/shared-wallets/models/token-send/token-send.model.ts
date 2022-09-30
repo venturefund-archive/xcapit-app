@@ -28,17 +28,20 @@ export class TokenSend {
   }
 
   value(): NativeTokenSend | ERC20TokenSend {
-    if (this.coin.native) {
-      return NativeTokenSend.create(this.to, this.amount, this.coin, this.signer, this.networkConfig);
+    if (this.coin.network === 'SOLANA') {
+      if (this.coin.native) {
+
+      } else {
+
+      }
+
     } else {
-      const nativeCoin = this.apiWalletService.getNativeTokenFromNetwork(this.coin.network);
-      return ERC20TokenSend.create(
-        this.to,
-        this.amount,
-        this.coin,
-        this.signer,
-        this.networkConfig
-      );
+      if (this.coin.native) {
+        return NativeTokenSend.create(this.to, this.amount, this.coin, this.signer, this.networkConfig);
+      } else {
+        const nativeCoin = this.apiWalletService.getNativeTokenFromNetwork(this.coin.network);
+        return ERC20TokenSend.create(this.to, this.amount, this.coin, this.signer, this.networkConfig);
+      }
     }
   }
 }
