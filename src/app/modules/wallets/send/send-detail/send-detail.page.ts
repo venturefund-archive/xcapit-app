@@ -162,7 +162,7 @@ export class SendDetailPage {
   tokenSolana: Token;
   tplTokenSolana: RawToken;
   tokenDetail: TokenDetail;
-  private walletSol: Wallet;
+  private wallet: Wallet;
 
   url: string;
   form: UntypedFormGroup = this.formBuilder.group({
@@ -201,6 +201,7 @@ export class SendDetailPage {
     this.modalHref = window.location.href;
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
     await this.setTokens();
+    await this.setWallet();
     await this.setTokenDetail();
     await this.checkIfSolana();
     this.getPrices();
@@ -215,7 +216,6 @@ export class SendDetailPage {
       //Las address de solana son format ED25519 curve
       //entonces valida con respecto a este format.
       this.form.get('address').addValidators(CustomValidators.isAddressSolana());
-      await this.setWallet();
       await this.setAllFeeData();
     }
   }
@@ -287,7 +287,7 @@ export class SendDetailPage {
   private async setTokenDetail() {
     const fixedTokens = new FixedTokens([this.tokenObj]);
     this.tokenDetail = this.tokenDetailInjectable.create(
-      this.covalentBalancesFactory.new(this.walletSol.address(), fixedTokens),
+      this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
       this.tokenPricesFactory.new(fixedTokens),
       (await fixedTokens.value())[0]
     );
@@ -297,7 +297,7 @@ export class SendDetailPage {
   }
 
   private async setWallet() {
-    this.walletSol = await this.walletsFactory.create().oneBy(this.activeBlockchain);
+    this.wallet = await this.walletsFactory.create().oneBy(this.activeBlockchain);
   }
 
   async tokenBalances() {
