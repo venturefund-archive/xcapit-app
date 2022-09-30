@@ -321,15 +321,16 @@ export class SendDetailPage {
       await this.checkEnoughBalance();
     } else {
       this.balance = this.tokenDetail.balance;
-      const nativeTokenDetail = this.tokenDetailInjectable.create(
-        this.covalentBalancesFactory.new(this.wallet.address(), new FixedTokens([this.activeBlockchain.nativeToken()])),
-        this.tokenPricesFactory.new(new FixedTokens([this.activeBlockchain.nativeToken()])),
-        (await new FixedTokens([this.activeBlockchain.nativeToken()]).value())[0]
-      );
-      await nativeTokenDetail.cached();
-      await nativeTokenDetail.fetch();
+      // const nativeTokenDetail = this.tokenDetailInjectable.create(
+      //   this.covalentBalancesFactory.new(this.wallet.address(), new FixedTokens([this.activeBlockchain.nativeToken()])),
+      //   this.tokenPricesFactory.new(new FixedTokens([this.activeBlockchain.nativeToken()])),
+      //   (await new FixedTokens([this.activeBlockchain.nativeToken()]).value())[0]
+      // );
+      // await nativeTokenDetail.cached();
+      // await nativeTokenDetail.fetch();
+      
       // this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
-      this.nativeBalance = nativeTokenDetail.balance;
+      this.nativeBalance = (await this.ahilovemo(this.activeBlockchain.nativeToken())).balance;
     }
     this.addLowerThanValidator();
     console.log('balance de una coin que no es sonala', this.balance);
