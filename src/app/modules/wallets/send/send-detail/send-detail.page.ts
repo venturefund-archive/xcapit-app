@@ -285,14 +285,14 @@ export class SendDetailPage {
 
   private async setTokenDetail() {
     const fixedTokens = new FixedTokens([this.tokenObj]);
-    this.tokenDetail = this.tokenDetailInjectable.create(
-      this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
-      this.tokenPricesFactory.new(fixedTokens),
-      (await fixedTokens.value())[0]
-    );
-    await this.tokenDetail.cached();
-    await this.tokenDetail.fetch();
-    this.balance = this.tokenDetail.balance;
+    // this.tokenDetail = this.tokenDetailInjectable.create(
+    //   this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
+    //   this.tokenPricesFactory.new(fixedTokens),
+    //   (await fixedTokens.value())[0]
+    // );
+    // await this.tokenDetail.cached();
+    // await this.tokenDetail.fetch();
+    this.balance = ((await this.ahilovemo(this.activeBlockchain.nativeToken())).balance;);
   }
 
   private async setWallet() {
@@ -321,15 +321,6 @@ export class SendDetailPage {
       await this.checkEnoughBalance();
     } else {
       this.balance = this.tokenDetail.balance;
-      // const nativeTokenDetail = this.tokenDetailInjectable.create(
-      //   this.covalentBalancesFactory.new(this.wallet.address(), new FixedTokens([this.activeBlockchain.nativeToken()])),
-      //   this.tokenPricesFactory.new(new FixedTokens([this.activeBlockchain.nativeToken()])),
-      //   (await new FixedTokens([this.activeBlockchain.nativeToken()]).value())[0]
-      // );
-      // await nativeTokenDetail.cached();
-      // await nativeTokenDetail.fetch();
-      
-      // this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
       this.nativeBalance = (await this.ahilovemo(this.activeBlockchain.nativeToken())).balance;
     }
     this.addLowerThanValidator();
