@@ -48,6 +48,6 @@ export class SelectCurrencyPage implements OnInit {
       },
     };
 
-    this.navController.navigateForward(['/wallets/send/detail'], navigationExtras);
+    this.navController.navigateForward(['wallets/send/detail/blockchain', currency.network, 'token', currency]);
   }
 }
