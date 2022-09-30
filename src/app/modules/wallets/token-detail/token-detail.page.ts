@@ -96,6 +96,7 @@ import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/inj
           <app-wallet-subheader-buttons
             [asset]="this.tplToken.value"
             [network]="this.tplBlockchain.name"
+            [address]=''
             [enabledToBuy]="this.enabledToBuy"
             [enabledToOperate]="this.enabledToOperate"
           ></app-wallet-subheader-buttons>
