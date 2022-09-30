@@ -86,8 +86,8 @@ export class WalletSubheaderButtonsComponent implements OnInit {
 
       const navigationExtras: NavigationExtras = {
         queryParams: {
-          address: this.tokenAddress,
-          network: this.network,
+          blockchain: this.network,
+          token: this.tokenAddress,
         },
       };
 
