@@ -318,7 +318,8 @@ export class SendDetailPage {
       );
       await nativeTokenDetail.cached();
       await nativeTokenDetail.fetch();
-      this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
+      // this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
+      this.nativeBalance = nativeTokenDetail.balance;
     }
     this.addLowerThanValidator();
     console.log('balance de una coin que no es sonala', this.balance)
