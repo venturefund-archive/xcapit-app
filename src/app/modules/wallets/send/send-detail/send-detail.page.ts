@@ -316,6 +316,8 @@ export class SendDetailPage {
         this.tokenPricesFactory.new(new FixedTokens([this.activeBlockchain.nativeToken()])),
         (await (new FixedTokens([this.activeBlockchain.nativeToken()])).value())[0]
       );
+      await nativeTokenDetail.cached();
+      await nativeTokenDetail.fetch();
       this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
     }
     this.addLowerThanValidator();
