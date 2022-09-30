@@ -91,7 +91,7 @@ export class WalletSubheaderButtonsComponent implements OnInit {
         },
       };
 
-      return this.navController.navigateForward(['wallets/send/detail'], navigationExtras);
+      return this.navController.navigateForward([`wallets/send/detail/blockchain/${this.network}/token/:token`], navigationExtras);
     }
   }
 
