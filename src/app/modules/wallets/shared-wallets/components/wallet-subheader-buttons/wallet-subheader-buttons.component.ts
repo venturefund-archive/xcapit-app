@@ -64,6 +64,7 @@ import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/defa
 })
 export class WalletSubheaderButtonsComponent implements OnInit {
   @Input() asset: string;
+  @Input() tokenAddress: string;
   @Input() network: string;
   @Input() enabledToBuy = true;
   @Input() enabledToOperate = true;
