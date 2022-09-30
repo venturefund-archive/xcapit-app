@@ -4,4 +4,4 @@ export interface InvestmentMovement {
     balanceUSD: string;
     timestamp: string;
     type: string;
-};
+}
