@@ -341,7 +341,6 @@ export class SendDetailPage {
       await this.setFee();
       this.dynamicFee = { value: this.fee, token: this.nativeToken.symbol() };
     } else {
-      console.log(this.nativeToken.symbol());
       this.dynamicFee = { value: 0, token: this.nativeToken.symbol() };
       this.fee = 0;
     }
