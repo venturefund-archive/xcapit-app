@@ -6,7 +6,6 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
 import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-alert-types';
-import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
 import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
@@ -44,7 +43,6 @@ import { CovalentBalancesController } from '../../shared-wallets/models/balances
 import { TokenPricesController } from '../../shared-wallets/models/prices/token-prices/token-prices.controller';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
-import { WalletBalanceService } from '../../shared-wallets/services/wallet-balance/wallet-balance.service';
 
 @Component({
   selector: 'app-send-detail',
@@ -173,7 +171,6 @@ export class SendDetailPage {
     private navController: NavController,
     private formBuilder: UntypedFormBuilder,
     private transactionDataService: TransactionDataService,
-    private walletService: WalletService,
     private walletsFactory: WalletsFactory,
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
@@ -190,7 +187,6 @@ export class SendDetailPage {
     private tokenDetailInjectable: TokenDetailInjectable,
     private covalentBalancesFactory: CovalentBalancesController,
     private tokenPricesFactory: TokenPricesController,
-    private walletBalanceService: WalletBalanceService
   ) {}
 
   async ionViewDidEnter() {
