@@ -200,7 +200,7 @@ export class SendDetailPage {
   async ionViewDidEnter() {
     //this.form.get('address');
     this.modalHref = window.location.href;
-    this.setBlockchain(this.route.snapshot.queryParamMap.get('network'));
+    this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
     this.setTokens();
     await this.checkIfSolana();
     this.getPrices();
@@ -229,7 +229,6 @@ export class SendDetailPage {
   private setBlockchain(aBlockchainName: string) {
     this.activeBlockchain = this.blockchains.create().oneByName(aBlockchainName);
     this.tplBlockchain = this.activeBlockchain.json();
-    console.log(this.tplBlockchain)
   }
 
   private getPrices(): void {
@@ -280,7 +279,7 @@ export class SendDetailPage {
     ).value();
 
     this.token = this.tokenObj.json();
-    console.log(this.token);
+
     this.nativeToken = this.activeBlockchain.nativeToken();
     this.tplNativeToken = this.nativeToken.json();
     this.dynamicFee.token = this.nativeToken.symbol();
