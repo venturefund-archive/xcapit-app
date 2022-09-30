@@ -7,6 +7,10 @@ const routes: Routes = [
     path: '',
     component: SendDetailPage,
   },
+  {
+    path: '',
+    component: SendDetailPage,
+  },
 ];
 
 @NgModule({
