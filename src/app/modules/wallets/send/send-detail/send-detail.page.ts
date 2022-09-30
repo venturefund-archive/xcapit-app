@@ -280,6 +280,7 @@ export class SendDetailPage {
     ).value();
 
     this.token = this.tokenObj.json();
+    console.log(this.token)
     this.nativeToken = this.activeBlockchain.nativeToken();
     this.tplNativeToken = this.nativeToken.json();
     this.dynamicFee.token = this.nativeToken.symbol();
