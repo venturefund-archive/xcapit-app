@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
@@ -206,7 +205,6 @@ export class SendDetailPage {
     this.getPrices();
     this.setUrlToBuyCrypto();
     await this.tokenBalances();
-
   }
 
   async checkIfSolana() {
@@ -214,7 +212,7 @@ export class SendDetailPage {
       this.form.get('address').addValidators(CustomValidators.isAddress());
     } else {
       //Las address de solana son format ED25519 curve
-    //entonces valida con respecto a este format.
+      //entonces valida con respecto a este format.
       this.form.get('address').addValidators(CustomValidators.isAddressSolana());
       await this.setWallet();
       await this.solanaTokenDetail();
@@ -233,20 +231,20 @@ export class SendDetailPage {
 
   private getPrices(): void {
     this.setNativePrice();
-     this.setQuotePrice();
+    this.setQuotePrice();
   }
 
   private setNativePrice(): void {
     this.getDynamicPriceOf(this.nativeToken.json()).subscribe((price: number) => {
       this.nativeTokenPrice = price;
-      console.log('nativeTokenPrice', this.nativeTokenPrice)
+      console.log('nativeTokenPrice', this.nativeTokenPrice);
     });
   }
 
   private setQuotePrice(): void {
     this.getDynamicPriceOf(this.token.native ? this.nativeToken.json() : this.token).subscribe((price: number) => {
       this.quotePrice = price;
-      console.log('quote' ,this.quotePrice)
+      console.log('quote', this.quotePrice);
     });
   }
 
@@ -277,7 +275,7 @@ export class SendDetailPage {
       this.route.snapshot.paramMap.get('token'),
       new BlockchainTokens(this.activeBlockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
     ).value();
-    console.log(this.tokenObj)
+    console.log(this.tokenObj);
 
     this.token = this.tokenObj.json();
 
@@ -296,7 +294,6 @@ export class SendDetailPage {
     await this.tokenDetailSol.cached();
     await this.tokenDetailSol.fetch();
     this.balance = this.tokenDetailSol.balance;
-
   }
 
   private async setWallet() {
@@ -304,19 +301,19 @@ export class SendDetailPage {
   }
 
   async tokenBalances() {
-    const tokenBalance = parseFloat(await this.userBalanceOf(this.token));
+    // const tokenBalance = parseFloat(await this.userBalanceOf(this.token));
     this.watchFormChanges();
-    if (this.token.native) {
-      await this.setAllFeeData();
-      this.resetFee();
-      this.balance = this.nativeBalance = Math.max(tokenBalance - this.fee, 0);
-      await this.checkEnoughBalance();
-    } else {
-      this.balance = tokenBalance;
-      this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
-    }
-    this.addLowerThanValidator();
-    console.log('balance de una coin que no es sonala', this.balance)
+    // if (this.token.native) {
+    //   await this.setAllFeeData();
+    //   this.resetFee();
+    //   this.balance = this.nativeBalance = Math.max(tokenBalance - this.fee, 0);
+    //   await this.checkEnoughBalance();
+    // } else {
+    //   this.balance = tokenBalance;
+    //   this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
+    // }
+    // this.addLowerThanValidator();
+    // console.log('balance de una coin que no es sonala', this.balance)
   }
 
   private addLowerThanValidator() {
@@ -346,8 +343,8 @@ export class SendDetailPage {
       this.loadingFee();
       await this.setFee();
       this.dynamicFee = { value: this.fee, token: this.nativeToken.symbol() };
-    }else{
-      console.log(this.nativeToken.symbol())
+    } else {
+      console.log(this.nativeToken.symbol());
       this.dynamicFee = { value: 0, token: this.nativeToken.symbol() };
       this.fee = 0;
     }
@@ -357,7 +354,7 @@ export class SendDetailPage {
   private getQuoteFee(): void {
     if (this.activeBlockchain.name() !== 'SOLANA') {
       this.quoteFee.value = this.nativeTokenPrice * this.fee;
-    }else{
+    } else {
       this.quoteFee.value = 1;
     }
   }
