@@ -424,6 +424,15 @@
         "title": "History",
         "investment": "Investment",
         "withdraw": "Withdraw"
+      },
+      "yields": {
+        "title": "Cumulative yield",
+        "info_modal": {
+          "title": "What is cumulative yield?",
+          "item1": "It's the accumulated profits obtained from this investment product, since you created it.",
+          "item2": "This amount is continually reinvested earning compound interest.",
+          "button": "Understood"
+        }
       }
     },
     "shared": {

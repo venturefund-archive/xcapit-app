@@ -1,0 +1,25 @@
+:host {
+  .cyc {
+    display: flex;
+    flex-direction: row;
+
+    &__image {
+      display: flex;
+      justify-content: center;
+    }
+
+    &__cumulative-yields {
+      margin-left: 8px;
+      width: 100%;
+
+      ion-skeleton-text {
+        border-radius: 16px;
+      }
+
+      ion-text,
+      span {
+        color: var(--ion-color-successdark);
+      }
+    }
+  }
+}
