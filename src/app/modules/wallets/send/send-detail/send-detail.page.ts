@@ -305,7 +305,6 @@ export class SendDetailPage {
 
   async tokenBalances() {
     this.watchFormChanges();
-    console.log('tokenDetail', this.tokenDetail);
     if (this.token.native) {
       await this.setAllFeeData();
       this.resetFee();
@@ -316,7 +315,6 @@ export class SendDetailPage {
       this.nativeBalance = (await this.ahilovemo(this.activeBlockchain.nativeToken())).balance;
     }
     this.addLowerThanValidator();
-    console.log('balance de una coin que no es sonala', this.balance);
   }
 
   private addLowerThanValidator() {
