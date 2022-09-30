@@ -307,6 +307,7 @@ export class SendDetailPage {
     );
     await tokenDetail.cached();
     await tokenDetail.fetch();
+    return tokenDetail;
   }
 
   async tokenBalances() {
