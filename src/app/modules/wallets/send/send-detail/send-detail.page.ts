@@ -271,7 +271,7 @@ export class SendDetailPage {
   }
 
   private async setTokenDetail() {
-    this.tokenDetail = await this.ahilovemo(this.tokenObj)
+    this.tokenDetail = await this.tokenDetailOf(this.tokenObj)
     this.balance = (this.tokenDetail).balance;
   }
 
@@ -299,7 +299,7 @@ export class SendDetailPage {
       await this.checkEnoughBalance();
     } else {
       this.balance = this.tokenDetail.balance;
-      this.nativeBalance = (await this.ahilovemo(this.activeBlockchain.nativeToken())).balance;
+      this.nativeBalance = (await this.tokenDetailOf(this.activeBlockchain.nativeToken())).balance;
     }
     this.addLowerThanValidator();
   }
