@@ -275,7 +275,6 @@ export class SendDetailPage {
       this.route.snapshot.paramMap.get('token'),
       new BlockchainTokens(this.activeBlockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
     ).value();
-    console.log(this.tokenObj);
 
     this.token = this.tokenObj.json();
 
