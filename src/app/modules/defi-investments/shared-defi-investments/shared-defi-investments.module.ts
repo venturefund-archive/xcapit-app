@@ -13,6 +13,7 @@ import { InvestmentHistoryComponent } from './components/investment-history/inve
 import { ItemInvestmentHistoryComponent } from './components/item-investment-history/item-investment-history.component';
 import { YieldsComponent } from './components/yields/yields.component';
 import { CumulativeYieldsInfoModalComponent } from './components/cumulative-yields-info-modal/cumulative-yields-info-modal.component';
+import { CumulativeTotalYieldsComponent } from './components/cumulative-total-yields/cumulative-total-yields.component';
 @NgModule({
   declarations: [
     ExpandableInvestmentInfoComponent,
@@ -28,6 +29,7 @@ import { CumulativeYieldsInfoModalComponent } from './components/cumulative-yiel
     ItemInvestmentHistoryComponent,
     YieldsComponent,
     CumulativeYieldsInfoModalComponent,
+    CumulativeTotalYieldsComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -45,6 +47,7 @@ import { CumulativeYieldsInfoModalComponent } from './components/cumulative-yiel
     ItemInvestmentHistoryComponent,
     YieldsComponent,
     CumulativeYieldsInfoModalComponent,
+    CumulativeTotalYieldsComponent
   ],
 })
 export class SharedDefiInvestmentsModule {}

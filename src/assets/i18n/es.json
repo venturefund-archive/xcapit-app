@@ -371,6 +371,7 @@
       "empty_products": "Proximamente podrás encontrar las mejores inversiones para tu perfil",
       "link_button": "¿Cómo funcionan las inversiones DeFi?",
       "no_investments": "Tus inversiones aparecerán aquí. ¡Comienza ahora mismo!",
+      "total_yields": "Rendimientos totales",
       "choose_investor_profile": {
         "complete_test": {
           "title": "Quiero elegir mi perfil nuevamente",
@@ -499,6 +500,11 @@
         "transaction_fee": "Tarifa de transacción",
         "confirm": "Confirmar",
         "confirm_loading": "Confirmando..."
+      },
+      "earnings_modal_info": {
+        "title": "¿Qué es el rendimiento total?",
+        "description": "Es la sumatoria en USD del total de los rendimientos obtenidos en tus productos de inversión.",
+        "button": "Entendido"
       }
     },
     "withdraw": {
