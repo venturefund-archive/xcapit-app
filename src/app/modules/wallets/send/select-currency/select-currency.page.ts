@@ -40,14 +40,7 @@ export class SelectCurrencyPage implements OnInit {
     });
   }
 
-  selectCurrency(currency: Coin) {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        asset: currency.value,
-        network: currency.network
-      },
-    };
-
-    this.navController.navigateForward(['wallets/send/detail/blockchain', currency.network, 'token', currency.contract]);
+  selectCurrency(token: Coin) {
+    this.navController.navigateForward(['wallets/send/detail/blockchain', token.network, 'token', token.contract]);
   }
 }
