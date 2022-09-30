@@ -197,7 +197,7 @@ export class SendDetailPage {
     private walletBalanceService: WalletBalanceService
   ) {}
 
-  async ionViewDidEnter() {    
+  async ionViewDidEnter() {
     //this.form.get('address');
     this.modalHref = window.location.href;
     this.setBlockchain(this.route.snapshot.queryParamMap.get('network'));
@@ -205,7 +205,7 @@ export class SendDetailPage {
     this.getPrices();
     this.setUrlToBuyCrypto();
     await this.tokenBalances();
-    
+
   }
 
   async checkIfSolana() {
@@ -275,7 +275,9 @@ export class SendDetailPage {
   }
 
   private async setTokens() {
-    // this.tokenObj = new TokenByAddress()
+    this.tokenObj = new TokenByAddress(
+      this.route.snapshot.paramMap.get('token');
+    )
       this.token = this.apiWalletService.getCoin(
         this.route.snapshot.queryParamMap.get('asset'),
         this.activeBlockchain.name()
@@ -304,7 +306,7 @@ export class SendDetailPage {
     await this.tokenDetailSol.cached();
     await this.tokenDetailSol.fetch();
     this.balance = this.tokenDetailSol.balance;
-    
+
   }
 
   private async setWallet() {
