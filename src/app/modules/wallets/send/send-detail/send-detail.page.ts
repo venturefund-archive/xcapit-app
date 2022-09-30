@@ -47,6 +47,7 @@ import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallet
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { Console } from 'console';
 import { WalletBalanceService } from '../../shared-wallets/services/wallet-balance/wallet-balance.service';
+import { PublicKey } from '@solana/web3.js';
 
 @Component({
   selector: 'app-send-detail',
@@ -194,14 +195,15 @@ export class SendDetailPage {
     private walletBalanceService: WalletBalanceService
   ) {}
 
-  async ionViewDidEnter() {
-    this.form.get('address');
+  async ionViewDidEnter() {    
+    //this.form.get('address');
     this.modalHref = window.location.href;
     this.setBlockchain(this.route.snapshot.queryParamMap.get('network'));
     await this.checkIfSolana();
     this.getPrices();
     this.setUrlToBuyCrypto();
     await this.tokenBalances();
+    
   }
 
   async checkIfSolana() {
@@ -209,6 +211,9 @@ export class SendDetailPage {
       this.form.get('address').addValidators(CustomValidators.isAddress());
       await this.setTokens();
     } else {
+      //Las address de solana son format ED25519 curve
+    //entonces valida con respecto a este format.
+      this.form.get('address').addValidators(CustomValidators.isAddressSolana());
       await this.setWallet();
       await this.setSolanaTokens();
       await this.solanaTokenDetail();
