@@ -45,9 +45,7 @@ import { CovalentBalancesController } from '../../shared-wallets/models/balances
 import { TokenPricesController } from '../../shared-wallets/models/prices/token-prices/token-prices.controller';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
-import { Console } from 'console';
 import { WalletBalanceService } from '../../shared-wallets/services/wallet-balance/wallet-balance.service';
-import { PublicKey } from '@solana/web3.js';
 
 @Component({
   selector: 'app-send-detail',
@@ -237,14 +235,12 @@ export class SendDetailPage {
   private setNativePrice(): void {
     this.getDynamicPriceOf(this.nativeToken.json()).subscribe((price: number) => {
       this.nativeTokenPrice = price;
-      console.log('nativeTokenPrice', this.nativeTokenPrice);
     });
   }
 
   private setQuotePrice(): void {
     this.getDynamicPriceOf(this.token.native ? this.nativeToken.json() : this.token).subscribe((price: number) => {
       this.quotePrice = price;
-      console.log('quote', this.quotePrice);
     });
   }
 
