@@ -2435,6 +2435,15 @@
         "item3": "Podrás encontrarlo en tu ticket de pago como “verificador de monto”.",
         "button": "Entendido"
       }
+    },
+    "user_email": {
+      "header":"Comprar cripto",
+      "provider":"Proveedor: Kripton Market",
+      "title":"Para continuar tu compra, ingresa el email de tu cuenta Kripton Market",
+      "subtitle":"Si no posees una cuenta, escribe el email con el que quieres que te registremos.",
+      "label_email":"Email",
+      "button":"Continuar",
+      "text":"Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones."
     }
   },
   "home": {

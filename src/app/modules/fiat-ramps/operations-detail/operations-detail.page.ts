@@ -6,7 +6,6 @@ import { Filesystem } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
-import { OperationDataInterface } from '../shared-ramps/services/operation/storage-operation.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { OperationStatus } from '../shared-ramps/interfaces/operation-status.interface';
@@ -15,6 +14,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { SkipTransactionVoucherComponent } from '../shared-ramps/components/skip-transaction-voucher/skip-transaction-voucher.component';
 import { TranslateService } from '@ngx-translate/core';
+import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 
 @Component({
   selector: 'app-operations-detail',

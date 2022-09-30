@@ -8,7 +8,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
-import { OperationDataInterface } from '../shared-ramps/services/operation/storage-operation.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TEST_ERC20_COINS } from '../../wallets/shared-wallets/constants/coins.test';
@@ -24,6 +23,7 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 
 const operation: FiatRampOperation = {
   operation_id: 678,

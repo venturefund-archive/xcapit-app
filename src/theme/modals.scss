@@ -330,19 +330,6 @@
   box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
 }
 
-.kyc-disclaimer-modal {
-  --height: 598px;
-  --width: 320px;
-  --background: var(--ion-color-white);
-  --border-radius: 8px;
-  --border-width: 0.5px;
-  --border-style: solid;
-  --border-color: var(--ion-color-neutral50);
-
-  box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
-  border-radius: 8px;
-}
-
 // Modal as toast-warning
 .ux-toast-warning {
   --max-height: 110px;
