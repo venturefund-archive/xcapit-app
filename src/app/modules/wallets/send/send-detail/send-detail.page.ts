@@ -284,14 +284,6 @@ export class SendDetailPage {
   }
 
   private async setTokenDetail() {
-    // const fixedTokens = new FixedTokens([this.tokenObj]);
-    // this.tokenDetail = this.tokenDetailInjectable.create(
-    //   this.covalentBalancesFactory.new(this.wallet.address(), fixedTokens),
-    //   this.tokenPricesFactory.new(fixedTokens),
-    //   (await fixedTokens.value())[0]
-    // );
-    // await this.tokenDetail.cached();
-    // await this.tokenDetail.fetch();
     this.tokenDetail = await this.ahilovemo(this.tokenObj)
     this.balance = (this.tokenDetail).balance;
   }
