@@ -189,7 +189,6 @@ export class SendDetailPage {
   ) {}
 
   async ionViewDidEnter() {
-    //this.form.get('address');
     this.modalHref = window.location.href;
     this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
     await this.setTokens();
