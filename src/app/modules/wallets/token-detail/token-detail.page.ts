@@ -213,7 +213,6 @@ export class TokenDetailPage {
   }
 
   private async setWallet() {
-    console.log(this.blockchain)
     this.wallet = await this.walletsFactory.create().oneBy(this.blockchain);
   }
 
