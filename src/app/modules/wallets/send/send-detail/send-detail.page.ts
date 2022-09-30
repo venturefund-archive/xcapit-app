@@ -322,10 +322,6 @@ export class SendDetailPage {
     this.form.get('amount').updateValueAndValidity();
   }
 
-  private async userBalanceOf(_aToken: Coin | RawToken) {
-    return this.walletService.balanceOf(await this.userWallet(), _aToken.value);
-  }
-
   private watchFormChanges() {
     this.form.valueChanges.subscribe(async () => {
       if (this.form.valid) {
