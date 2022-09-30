@@ -4,11 +4,7 @@ import { SendDetailPage } from './send-detail.page';
 
 const routes: Routes = [
   {
-    path: '',
-    component: SendDetailPage,
-  },
-  {
-    path: '',
+    path: 'blockchain/:blockchain/token/:token',
     component: SendDetailPage,
   },
 ];
