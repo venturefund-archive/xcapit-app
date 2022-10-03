@@ -605,7 +605,7 @@
       "name_primary_action": "Go to my wallet"
     },
     "personalised_profile_test": {
-      "header":"Customise your profile",
+      "header": "Customise your profile",
       "question_1": "1. What do you want to do inside Xcapit? Choose all the options you consider",
       "question_2": "2. What is your experience level with cryptos?",
       "to_do_in_app": {
@@ -1839,7 +1839,7 @@
       }
     },
     "shared_wallets": {
-      "share_transaction_detail":{
+      "share_transaction_detail": {
         "text": "Hello! I sent you ",
         "text2": "For more information: ",
         "dialogTitle": "Share",
@@ -1918,11 +1918,11 @@
         "button_skip": "Skip"
       },
       "new_token_available_card": {
-        "coming_soon":"Coming soon"
+        "coming_soon": "Coming soon"
       },
-      "new_token_info-modal":{
-        "title":"Benefits of using Solana",
-        "subtitle":"<ul><li>Wide variety of DApps to use</li><li>Transactional speed: Solana is the fastest blockchain in the world</li><li>Low cost per transaction</li></ul>"
+      "new_token_info-modal": {
+        "title": "Benefits of using Solana",
+        "subtitle": "<ul><li>Wide variety of DApps to use</li><li>Transactional speed: Solana is the fastest blockchain in the world</li><li>Low cost per transaction</li></ul>"
       }
     },
     "asset_detail": {
@@ -2102,22 +2102,24 @@
     }
   },
   "tools": {
-    "header": "What would you like to do today?",
-    "donations": {
-      "textPrimary": "Donations",
-      "textSecondary": "Collaborate and be part of a good cause"
-    },
-    "education": {
-      "textPrimary": "Education",
-      "textSecondary": "The road to your financial freedom"
-    },
-    "planner": {
-      "textPrimary": "Planner",
-      "textSecondary": "Improve your money's return"
-    },
-    "investor_test": {
-      "textPrimary": "Investor Test",
-      "textSecondary": "Find out what kind of investor you are"
+    "tools_page": {
+      "header": "What would you like to do today?",
+      "donations": {
+        "textPrimary": "Donations",
+        "textSecondary": "Collaborate and be part of a good cause"
+      },
+      "education": {
+        "textPrimary": "Education",
+        "textSecondary": "The road to your financial freedom"
+      },
+      "planner": {
+        "textPrimary": "Planner",
+        "textSecondary": "Improve your money's return"
+      },
+      "investor_test": {
+        "textPrimary": "Investor Test",
+        "textSecondary": "Find out what kind of investor you are"
+      }
     }
   },
   "tabs": {
@@ -2136,16 +2138,16 @@
       "label_check": "I agree to the terms and conditions of purchase.",
       "button": "Continue"
     },
-    "error_d24_operation":{
-      "text_primary":"There was an error in your purchase",
-      "text_secondary":"Try again or contact support if the problem persists.",
-      "button_primary":"Retry",
-      "button_secondary":"Go to wallet"
+    "error_d24_operation": {
+      "text_primary": "There was an error in your purchase",
+      "text_secondary": "Try again or contact support if the problem persists.",
+      "button_primary": "Retry",
+      "button_secondary": "Go to wallet"
     },
-    "success_d24_operation":{
-      "text_primary":"Purchase confirmed!",
-      "text_secondary":"The crediting of your tokens can take up to 24 hours.",
-      "button_text":"Go to wallet"
+    "success_d24_operation": {
+      "text_primary": "Purchase confirmed!",
+      "text_secondary": "The crediting of your tokens can take up to 24 hours.",
+      "button_text": "Go to wallet"
     },
     "operations_list": {
       "title": "My operations",

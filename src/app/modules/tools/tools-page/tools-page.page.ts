@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-import { TOOLS_CARDS } from '../shared-home/components/tools-card/tools-card-content.constant';
+import { TOOLS_CARDS } from '../shared-tools/components/tools-card/tools-card-content.constant';
 import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 
 @Component({
@@ -20,7 +20,7 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/serv
     <ion-content>
       <div class="tp__title">
         <ion-text class="ux-font-text-xl">
-        {{ 'tools.header' | translate }}
+        {{ 'tools.tools_page.header' | translate }}
         </ion-text>
       </div>
           <div class="tool-card">
@@ -82,10 +82,6 @@ export class ToolsPage implements OnInit {
     }
   }
 
-  goToPlannerInfo() {
-    this.navController.navigateForward(['/financial-planner/result-objetive']);
-  }
-
   trackScreenViewEvent() {
     this.trackService.trackEvent({
       eventAction: 'screenview',
@@ -95,11 +91,13 @@ export class ToolsPage implements OnInit {
   }
 
   async itemAction(buttonName: string) {
-    if (buttonName === 'ux_go_to_donations') {
-      await this.goToDonations();
-    }
-    if (buttonName === 'ux_go_to_planner') {
-      this.goToPlannerInfo();
+    switch (buttonName) {
+      case 'ux_go_to_donations':
+        await this.goToDonations();
+        break;
+      case 'ux_go_to_planner':
+        this.goToPlannerInfo();
+        break;
     }
   }
 
@@ -107,5 +105,9 @@ export class ToolsPage implements OnInit {
     if ((await this.walletBackupService.presentModal()) === 'skip') {
       this.navController.navigateForward(['/donations/causes']);
     }
+  }
+
+  goToPlannerInfo() {
+    this.navController.navigateForward(['/financial-planner/result-objetive']);
   }
 }

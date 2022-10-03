@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ToolsPage } from './tools-page.page';
-import { SharedHomeModule } from '../shared-home/shared-home.module';
 import { IonicStorageModule } from '@ionic/storage';
+import { SharedToolsModule } from '../shared-tools/shared-tools.module';
 
 const routes: Routes = [
   {
@@ -13,7 +13,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    SharedHomeModule, RouterModule.forChild(routes), IonicStorageModule.forRoot()],
+    RouterModule.forChild(routes), IonicStorageModule.forRoot(), SharedToolsModule],
   declarations: [ToolsPage]
 })
 export class ToolsPageModule {}

@@ -6,12 +6,14 @@ import { FeatureFlagDirective } from './feature-flag.directive';
 
 @Component({
   template: `
-    <div *appFeatureFlag="'test'">
+    <div *appFeatureFlag="'test'; negated: isNegated">
       <p id="HiddenFeature">Test component</p>
     </div>
   `,
 })
-class TestComponent {}
+class TestComponent {
+  isNegated = false;
+}
 
 describe('FeatureFlagDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
@@ -66,5 +68,20 @@ describe('FeatureFlagDirective', () => {
     fixture.detectChanges();
     const textEl = fixture.debugElement.query(By.css('#HiddenFeature'));
     expect(textEl.nativeElement.textContent.trim()).toEqual('Test component');
+  });
+
+  it('should show element when remote config service returns false and is negated', async () => {
+    fixture.componentInstance.isNegated = true;
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
+    fixture.detectChanges();
+    const textEl = fixture.debugElement.query(By.css('#HiddenFeature'));
+    expect(textEl.nativeElement.textContent.trim()).toEqual('Test component');
+  });
+
+  it('should hide element when remote config service returns true and is negated', async () => {
+    fixture.componentInstance.isNegated = true;
+    fixture.detectChanges();
+    const textEl = fixture.debugElement.query(By.css('#HiddenFeature'));
+    expect(textEl).toBeFalsy();
   });
 });

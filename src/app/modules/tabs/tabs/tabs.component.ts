@@ -1,13 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { MenuController, NavController, IonTabs } from '@ionic/angular';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { NavController, IonTabs } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs',
   template: `
     <ion-tabs #tabs (ionTabsDidChange)="this.tabChange()">
-      <ion-tab-bar >
-        <ion-tab-button *ngIf="!this.isNewLogin"
+      <ion-tab-bar>
+        <ion-tab-button *appFeatureFlag="'ff_newLogin'; negated:true"
           tab="home"
           appTrackClick
           name="ux_nav_go_to_home"
@@ -40,7 +39,8 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
           <ion-label class="label ux-font-text-xxs">{{ 'tabs.new_fund' | translate }}</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button *ngIf="this.isNewLogin"
+        <ion-tab-button
+          *appFeatureFlag="'ff_newLogin'"
           tab="tools"
           appTrackClick
           (click)="this.goToTools()"
@@ -60,9 +60,7 @@ export class TabsComponent {
   activeTab?: HTMLElement;
   selectedCategory: any;
   isNewLogin: boolean;
-  constructor(
-    private navController: NavController,
-    private remoteConfigService: RemoteConfigService) {}
+  constructor(private navController: NavController) {}
 
   tabChange() {
     this.selectedCategory = this.tabs.getSelected();
@@ -79,7 +77,6 @@ export class TabsComponent {
 
   ionViewWillEnter() {
     this.propagateToActiveTab('ionViewWillEnter');
-    this.isNewLogin = this.remoteConfigService.getFeatureFlag('ff_newLogin');
   }
 
   ionViewDidEnter() {

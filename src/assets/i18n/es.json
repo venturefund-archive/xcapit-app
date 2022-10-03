@@ -2088,23 +2088,26 @@
     }
   },
   "tools": {
-    "header": "¿Qué te gustaría hacer hoy?",
-    "donations": {
-      "textPrimary": "Donaciones",
-      "textSecondary": "Colabora y se parte de una buena causa"
-    },
-    "education": {
-      "textPrimary": "Educación",
-      "textSecondary": "El camino hacia tu libertad financiera"
-    },
-    "planner": {
-      "textPrimary": "Planificador",
-      "textSecondary": "Mejora el rendimiento de tu dinero"
-    },
-    "investor_test": {
-      "textPrimary": "Test Inversor",
-      "textSecondary": "Conoce que tipo de inversionista eres"
+    "tools_page": {
+      "header": "¿Qué te gustaría hacer hoy?",
+      "donations": {
+        "textPrimary": "Donaciones",
+        "textSecondary": "Colabora y se parte de una buena causa"
+      },
+      "education": {
+        "textPrimary": "Educación",
+        "textSecondary": "El camino hacia tu libertad financiera"
+      },
+      "planner": {
+        "textPrimary": "Planificador",
+        "textSecondary": "Mejora el rendimiento de tu dinero"
+      },
+      "investor_test": {
+        "textPrimary": "Test Inversor",
+        "textSecondary": "Conoce que tipo de inversionista eres"
+      }
     }
+    
   },
   "tabs": {
     "home": "Inicio",

@@ -8,13 +8,12 @@ import { IonTabs, NavController } from '@ionic/angular';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { By } from '@angular/platform-browser';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 
 describe('TabsComponent', () => {
   let component: TabsComponent;
   let fixture: ComponentFixture<TabsComponent>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<TabsComponent>;
-  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let activeTabSpy: jasmine.SpyObj<HTMLElement>;
@@ -29,15 +28,11 @@ describe('TabsComponent', () => {
         { getSelected: 'test' },
         { outlet: { activatedView: { element: null } } }
         );
-      remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
-        getFeatureFlag: false,
-      });
       TestBed.configureTestingModule({
-        declarations: [TabsComponent, FakeTrackClickDirective],
+        declarations: [TabsComponent, FakeTrackClickDirective, FakeFeatureFlagDirective],
         imports: [HttpClientTestingModule, TranslateModule.forRoot()],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
-          { provide: RemoteConfigService, useValue: remoteConfigServiceSpy}
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -69,7 +64,6 @@ describe('TabsComponent', () => {
   });
 
   it('should call trackEvent on trackService when Tab Tools button clicked', () => {
-    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
     fixture.detectChanges();
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -105,7 +99,6 @@ describe('TabsComponent', () => {
   });
 
   it('should navigate to Tools Tab when Tab Tools clicked', () => {
-    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
     fixture.detectChanges();
     component.ionViewWillEnter();
     fixture.detectChanges();

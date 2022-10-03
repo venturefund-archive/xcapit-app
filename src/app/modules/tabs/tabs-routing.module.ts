@@ -19,7 +19,7 @@ const routes: Routes = [
       },
       {
         path: 'tools',
-        loadChildren: () => import('../home/tools-page/tools-page.module').then( m => m.ToolsPageModule)
+        loadChildren: () => import('../tools/tools-page/tools-page.module').then( m => m.ToolsPageModule)
       },
       {
         path: 'investments',
