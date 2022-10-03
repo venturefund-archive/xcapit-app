@@ -424,6 +424,15 @@
         "title": "History",
         "investment": "Investment",
         "withdraw": "Withdraw"
+      },
+      "yields": {
+        "title": "Cumulative yield",
+        "info_modal": {
+          "title": "What is cumulative yield?",
+          "item1": "It's the accumulated profits obtained from this investment product, since you created it.",
+          "item2": "This amount is continually reinvested earning compound interest.",
+          "button": "Understood"
+        }
       }
     },
     "shared": {
@@ -1943,7 +1952,7 @@
       },
       "new_token_info-modal": {
         "title": "Benefits of using Solana",
-        "subtitle": "<ul><li>Wide variety of DApps to use</li><li>Transactional speed: Solana is the fastest blockchain in the world</li><li>Low cost per transaction</li></ul>"
+        "subtitle": "Solana is one of the cheapest and fastest networks in the crypto ecosystem and that is because they have a very distinct block validation called proof of history that has helped a huge ecosystem develop around it. "
       }
     },
     "asset_detail": {
@@ -2436,6 +2445,15 @@
         "item3": "You can find it on your payment ticket as “amount checker“.",
         "button": "Understood"
       }
+    },
+    "user_email": {
+      "header":"Buy crypto",
+      "provider":"Provider: Kripton Market",
+      "title":"To continue your purchase, please enter your Kripton Market account email address.",
+      "subtitle":"If you do not have an account, please enter the email address you would like us to register you with.",
+      "label_email":"Email",
+      "button":"Continue",
+      "text":"Make sure you have access to the email, you will use it to confirm your transactions."
     }
   },
   "home": {

@@ -7,6 +7,7 @@ import { rawMATICData, rawUSDCData } from "../fixtures/raw-tokens-data";
 import { Swap } from "../swap/swap";
 import { DefaultToken } from "../token/token";
 import { Blockchain } from "../blockchain/blockchain";
+import { BigNumber } from "ethers";
 
 
 describe('ApproveTxOf', () => {
@@ -32,6 +33,12 @@ describe('ApproveTxOf', () => {
   });
 
   it('value access', async () => {
-    expect(await approveTx.value()).toEqual(rawApproveData);
+    const txValue = {
+      ...rawApproveData,
+      gasPrice: BigNumber.from(rawApproveData.gasPrice),
+      value: BigNumber.from(rawApproveData.value)
+    };
+
+    expect(await approveTx.value()).toEqual(txValue);
   });
 });

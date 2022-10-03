@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
@@ -13,7 +13,11 @@ import { WalletEncryptionService } from '../../wallets/shared-wallets/services/w
 import { AvailableDefiProducts } from '../shared-defi-investments/models/available-defi-products/available-defi-products.model';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
-
+import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
+import { CumulativeYieldsInfoModalComponent } from '../shared-defi-investments/components/cumulative-yields-info-modal/cumulative-yields-info-modal.component';
+import { InvestmentMovement } from '../../wallets/shared-wallets/interfaces/investment-movement.interface';
+import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator.model';
+import { Observable, forkJoin } from 'rxjs';
 @Component({
   selector: 'app-investment-detail',
   template: ` <ion-header>
@@ -63,6 +67,29 @@ import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/gr
           ></app-icon-button-card>
         </div>
       </div>
+      <div class="id__yields ion-padding">
+        <div class="id__yields__title">
+          <ion-text class="ux-font-header-titulo">
+            {{ 'defi_investments.invest_detail.yields.title' | translate }}
+          </ion-text>
+          <ion-button
+            name="Cumulative yield info button"
+            class="ion-no-padding ion-no-margin"
+            fill="clear"
+            size="small"
+            (click)="this.openYieldsModal()"
+          >
+            <ion-icon name="information-circle" color="info"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="id__yields__content">
+          <app-cumulative-yields
+            [yield]="this.yield"
+            [usdYield]="this.usdYield"
+            mode="cumulative"
+          ></app-cumulative-yields>
+        </div>
+      </div>
       <div class="id__investment-history ion-padding">
         <div>
           <ion-text class="ux-font-header-titulo">
@@ -92,10 +119,14 @@ export class InvestmentDetailPage implements OnInit {
   balance: number;
   disclaimer = false;
   updateEarningText: string;
-  allMovements = [];
+  allMovements: InvestmentMovement[] = [];
   address: string;
   firstMovements;
   remainingMovements;
+  yield: RawAmount;
+  usdYield: RawAmount;
+  private price$: Observable<any>;
+  private movements$: Observable<any>;
 
   constructor(
     private route: ActivatedRoute,
@@ -105,7 +136,8 @@ export class InvestmentDetailPage implements OnInit {
     private apiWalletService: ApiWalletService,
     private walletEncryptionService: WalletEncryptionService,
     private remoteConfig: RemoteConfigService,
-    private graphql: GraphqlService
+    private graphql: GraphqlService,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {}
@@ -114,6 +146,7 @@ export class InvestmentDetailPage implements OnInit {
     await this.getInvestmentProduct();
     this.setDisclaimer();
     this.obtainPidOfProduct();
+    this.calculateEarnings();
   }
 
   private vaultID() {
@@ -147,9 +180,10 @@ export class InvestmentDetailPage implements OnInit {
   }
 
   private getPrice() {
-    this.apiWalletService
-      .getPrices([this.token.value], false)
-      .subscribe((res) => (this.referenceBalance = res.prices[this.token.value] * this.balance));
+    this.price$ = this.apiWalletService.getPrices([this.token.value], false);
+    this.price$.subscribe((res) => {
+      this.referenceBalance = res.prices[this.token.value] * this.balance;
+    });
   }
 
   async addAmount() {
@@ -177,9 +211,24 @@ export class InvestmentDetailPage implements OnInit {
   }
 
   getAllMovements(pid: number) {
-    this.graphql.getAllMovements(this.address, pid).subscribe(({ data }) => {
+    this.movements$ = this.graphql.getAllMovements(this.address, pid);
+    this.movements$.subscribe(({ data }) => {
       this.allMovements = data.flows;
       this.separateFilteredData();
+    });
+  }
+
+  private calculateEarnings() {
+    forkJoin([this.price$, this.movements$]).subscribe((res) => {
+      const calculator = new YieldCalculator(
+        this.balance,
+        res[1].data.flows,
+        this.token.value,
+        res[0].prices[this.token.value],
+        this.token.decimals
+      );
+      this.yield = calculator.cumulativeYield();
+      this.usdYield = calculator.cumulativeYieldUSD();
     });
   }
 
@@ -202,5 +251,15 @@ export class InvestmentDetailPage implements OnInit {
 
   createAvailableDefiProducts(): AvailableDefiProducts {
     return new AvailableDefiProducts(this.remoteConfig);
+  }
+
+  async openYieldsModal() {
+    const modal = await this.modalController.create({
+      component: CumulativeYieldsInfoModalComponent,
+      cssClass: 'modal',
+      backdropDismiss: false,
+    });
+
+    await modal.present();
   }
 }

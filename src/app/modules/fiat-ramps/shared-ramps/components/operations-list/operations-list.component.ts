@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 
 @Component({
@@ -26,7 +26,7 @@ import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interfac
   `,
   styleUrls: ['./operations-list.component.scss'],
 })
-export class OperationsListComponent implements OnInit {
+export class OperationsListComponent implements OnInit, OnChanges {
   @Input() operationsList: FiatRampOperation[];
   private readonly numberOfOperationsToShow = 2;
   firstOperations: FiatRampOperation[];
@@ -37,10 +37,20 @@ export class OperationsListComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.firstOperations = this.calculateFirstOperations();
-    this.remainingOperations = this.calculateRemainingOperations();
+    this.sliceOperations();
     this.cssWithLine = this.calculateDynamicCssClasses();
     this.hasOperations = this.checkIfUserHasOperations();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.operationsList = changes.operationsList.currentValue;
+    this.sliceOperations();
+    this.hasOperations = this.checkIfUserHasOperations();
+  }
+
+  sliceOperations() {
+    this.firstOperations = this.calculateFirstOperations();
+    this.remainingOperations = this.calculateRemainingOperations();
   }
 
   private calculateFirstOperations(): FiatRampOperation[] {
@@ -55,7 +65,6 @@ export class OperationsListComponent implements OnInit {
     if (this.hasOperations) {
       return 'with-line';
     }
-
     return '';
   }
 

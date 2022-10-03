@@ -7,9 +7,8 @@ import { MARITAL_STATUS } from '../constants/marital-status';
 import { Province } from '../enums/province.enums';
 import { GENDERS } from '../constants/gender';
 import { DOC_TYPES } from '../constants/doc_types';
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import * as moment from 'moment';
-import { KycDisclaimerModalComponent } from '../shared-ramps/components/kyc-disclaimer-modal/kyc-disclaimer-modal.component';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
@@ -178,7 +177,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
   `,
   styleUrls: ['./user-information.page.scss'],
 })
-export class UserInformationPage implements OnInit {
+export class UserInformationPage {
   form: UntypedFormGroup = this.formBuilder.group({
     nombre: ['', [Validators.required, Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ '-]*$")]],
     apellido: ['', [Validators.required, Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ '-]*$")]],
@@ -210,25 +209,11 @@ export class UserInformationPage implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
-    private modalController: ModalController,
     private trackService: TrackService
   ) {}
 
-  ngOnInit() {
-    this.showModal();
-  }
-
   ionViewWillEnter() {
     this.trackScreenViewEvent();
-  }
-
-  async showModal(): Promise<void> {
-    const modal = await this.modalController.create({
-      component: KycDisclaimerModalComponent,
-      cssClass: 'kyc-disclaimer-modal',
-      backdropDismiss: false
-    });
-    await modal.present();
   }
 
   handleSubmit() {

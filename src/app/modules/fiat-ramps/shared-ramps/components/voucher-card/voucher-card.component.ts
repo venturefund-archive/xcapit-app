@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Photo } from '@capacitor/camera';
-import { Filesystem } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-voucher-card',
@@ -16,7 +15,7 @@ import { Filesystem } from '@capacitor/filesystem';
         <app-ux-loading-block minSize="30px"></app-ux-loading-block>
       </ng-template>
       <ng-template #voucherEl>
-        <div *ngIf="this.voucher; then file; else success"></div>
+        <div *ngIf="this.voucherUploadedOnKripton; then success ; else file"></div>
         <ng-template #file>
           <div class="vc__file">
             <div class="vc__file__text-container">
@@ -50,6 +49,7 @@ import { Filesystem } from '@capacitor/filesystem';
 export class VoucherCardComponent implements OnInit {
   @Input() voucher: Photo;
   @Input() uploading: boolean;
+  @Input() voucherUploadedOnKripton: boolean;
   @Output() removePhoto: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {}

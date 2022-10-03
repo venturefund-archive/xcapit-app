@@ -99,8 +99,14 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'user-email',
+        loadChildren: () => import('./user-email/user-email.module').then( m => m.UserEmailPageModule)
+      },
     ],
   },
+
+
 ];
 
 @NgModule({

@@ -5,10 +5,8 @@ import { ModalController, NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import {
-  OperationDataInterface,
   StorageOperationService,
 } from '../shared-ramps/services/operation/storage-operation.service';
-import { RegistrationStatus } from '../enums/registration-status.enum';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
@@ -25,6 +23,7 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
+import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 @Component({
   selector: 'app-operations-new',
   template: `
@@ -267,15 +266,10 @@ export class OperationsNewPage implements AfterViewInit {
   async handleSubmit() {
     if (this.form.valid) {
       await this.setOperationStorage();
-      this.checkKYCAndRedirect();
+      this.navController.navigateForward('/fiat-ramps/user-email');
     } else {
       this.form.markAllAsTouched();
     }
-  }
-
-  async checkKYCAndRedirect() {
-    const userStatus = await this.fiatRampsService.getOrCreateUser().toPromise();
-    this.redirectByStatus(userStatus.registration_status);
   }
 
   async setOperationStorage() {
@@ -297,34 +291,6 @@ export class OperationsNewPage implements AfterViewInit {
 
   async walletAddress(): Promise<string> {
     return (await this.walletEncryptionService.getEncryptedWallet()).addresses[this.selectedCurrency.network];
-  }
-
-  getUrlByStatus(statusName) {
-    let url: string[];
-    switch (statusName) {
-      case RegistrationStatus.USER_INFORMATION: {
-        url = ['fiat-ramps/user-information'];
-        break;
-      }
-      case RegistrationStatus.USER_BANK: {
-        url = ['fiat-ramps/user-bank'];
-        break;
-      }
-      case RegistrationStatus.USER_IMAGES: {
-        url = ['fiat-ramps/user-images'];
-        break;
-      }
-      case RegistrationStatus.COMPLETE: {
-        url = ['fiat-ramps/confirm-page'];
-        break;
-      }
-    }
-    return url;
-  }
-
-  redirectByStatus(registrationStatus: string) {
-    const url = this.getUrlByStatus(registrationStatus);
-    this.navController.navigateForward(url);
   }
 
   async openModal(event) {
