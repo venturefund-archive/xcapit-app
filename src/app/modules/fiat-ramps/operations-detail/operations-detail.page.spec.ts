@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { waitForAsync, ComponentFixture, TestBed, tick, fakeAsync, discardPeriodicTasks, flush } from '@angular/core/testing';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { OperationsDetailPage } from './operations-detail.page';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { of, throwError } from 'rxjs';
@@ -8,7 +8,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
-import { OperationDataInterface } from '../shared-ramps/services/operation/storage-operation.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TEST_ERC20_COINS } from '../../wallets/shared-wallets/constants/coins.test';
@@ -22,6 +21,9 @@ import { FilesystemPlugin } from '@capacitor/filesystem';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 
 const operation: FiatRampOperation = {
   operation_id: 678,
@@ -69,6 +71,7 @@ const photo = {
 };
 
 describe('OperationsDetailPage', () => {
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let component: OperationsDetailPage;
   let fixture: ComponentFixture<OperationsDetailPage>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
@@ -82,10 +85,16 @@ describe('OperationsDetailPage', () => {
   let filesystemSpy: jasmine.SpyObj<FilesystemPlugin>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsDetailPage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
   
 
   beforeEach(
     waitForAsync(() => {
+      platformServiceSpy = jasmine.createSpyObj('PlatformSpy', {isNative: true });
+      fakeModalController = new FakeModalController();
+      modalControllerSpy = fakeModalController.createSpy();
+
       fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
         getProvider: provider,
         getUserSingleOperation: of([operation]),
@@ -135,9 +144,11 @@ describe('OperationsDetailPage', () => {
           { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+          { provide: PlatformService, useValue: platformServiceSpy },
           { provide: NavController, useValue: navControllerSpy },
           { provide: BrowserService, useValue: browserServiceSpy },
-          { provide: TrackService, useValue: trackServiceSpy}
+          { provide: TrackService, useValue: trackServiceSpy},
+          { provide: ModalController, useValue: modalControllerSpy }
         ],
       }).compileComponents();
 
@@ -163,7 +174,7 @@ describe('OperationsDetailPage', () => {
     expect(component.operation).toEqual(mappedOperation);
     expect(component.coin).toEqual(coin);
     expect(component.operationStatus).toEqual(operationStatus);
-    expect(component.hasVoucher).toEqual(false);
+    expect(component.voucherUploadedOnKripton).toEqual(false);
   });
 
   it('should navigate to operations list if operations does not exists', async () => {
@@ -176,8 +187,8 @@ describe('OperationsDetailPage', () => {
 
   it('should only show ux_buy_kripton_attach when there is no voucher', () => {
     component.operation = mappedOperation;
-    component.hasVoucher = false;
-    component.voucher = null;
+    component.voucherUploadedOnKripton = false;
+    component.voucher = undefined;
     fixture.detectChanges();
     const addButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_attach"]'));
     const uploadButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]'));
@@ -185,9 +196,9 @@ describe('OperationsDetailPage', () => {
     expect(uploadButtonEl).toBeNull();
   });
 
-  it('should only show ux_upload_photo when there is no voucher', () => {
+  it('should only show ux_upload_photo when there is voucher', () => {
     component.operation = mappedOperation;
-    component.hasVoucher = true;
+    component.voucherUploadedOnKripton = false;
     component.voucher = photo;
     fixture.detectChanges();
     const addButtonEl = fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_attach"]'));
@@ -197,9 +208,10 @@ describe('OperationsDetailPage', () => {
   });
 
   it('should upload photo when user clicks ux_buy_kripton_attach button', async () => {
+    component.ionViewWillEnter();
     component.operation = mappedOperation;
-    component.hasVoucher = false;
-    component.voucher = null;
+    component.voucherUploadedOnKripton = false;
+    component.voucher = undefined;
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_attach"]')).nativeElement.click();
     await fixture.whenStable();
@@ -207,33 +219,40 @@ describe('OperationsDetailPage', () => {
     expect(filesystemSpy.requestPermissions).toHaveBeenCalledTimes(1);
     expect(cameraSpy.getPhoto).toHaveBeenCalledTimes(1);
     expect(component.voucher).toEqual(photo);
-    expect(component.hasVoucher).toBeTrue();
+    expect(component.voucherUploadedOnKripton).toBeFalse();
   });
 
   it('should call confirmOperation when user clicks ux_upload_photo button with a voucher image', async () => {
     const formData = new FormData();
     formData.append('file', photo.dataUrl);
     component.operation = mappedOperation;
-    component.hasVoucher = true;
+    component.voucherUploadedOnKripton = false;
     component.voucher = photo;
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
     await fixture.whenStable();
     expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(mappedOperation.operation_id, formData);
     expect(component.voucher).toBeUndefined();
-    expect(component.hasVoucher).toBeTrue();
+    expect(component.voucherUploadedOnKripton).toBeTrue();
     expect(component.uploadingVoucher).toBeFalse();
   });
 
-  it('should remove photo on when user clicks remove photo button', () => {
+  it('should remove photo on when user clicks remove photo button', async () => {
+    fakeModalController.modifyReturns(null, {data: 'secondaryAction'})
+    component.ionViewWillEnter()
     component.operation = mappedOperation;
-    component.hasVoucher = true;
+    component.voucherUploadedOnKripton = true;
     component.voucher = photo;
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('removePhoto', null);
+    fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('removePhoto', null);  
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     expect(component.voucher).toBeUndefined();
-    expect(component.hasVoucher).toBeFalse();
-  });
+    expect(component.voucherUploadedOnKripton).toBeTrue();
+    });
 
   it('should redirect to Kripton ToS when user clicks ux_goto_kripton_tos button', () => {
     const url = {
@@ -250,7 +269,7 @@ describe('OperationsDetailPage', () => {
     const formData = new FormData();
     formData.append('file', photo.dataUrl);
     component.operation = mappedOperation;
-    component.hasVoucher = true;
+    component.voucherUploadedOnKripton = false;
     component.voucher = photo;
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
@@ -260,8 +279,8 @@ describe('OperationsDetailPage', () => {
 
   it('should call trackEvent on trackService when ux_buy_kripton_attach Button clicked', () => {
     component.operation = mappedOperation;
-    component.hasVoucher = false;
-    component.voucher = null;
+    component.voucherUploadedOnKripton = false;
+    component.voucher = undefined;
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_attach');
     const directive = trackClickDirectiveHelper.getDirective(el);
@@ -274,5 +293,30 @@ describe('OperationsDetailPage', () => {
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should open modal when exit_operation Button clicked', () => {
+    component.ionViewWillEnter();
+    component.voucher = photo;
+    
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button','exit_operation');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not show ion footer when send a voucher to krypton', async() => {
+    const formData = new FormData();
+    formData.append('file', photo.dataUrl);
+    component.operation = mappedOperation;
+    component.voucherUploadedOnKripton = false;
+    component.voucher = photo;
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    console.log(component.voucherUploadedOnKripton)
+    const footerEl = fixture.debugElement.query(By.css('ion-footer[class="dp__footer"]'))    
+    expect(footerEl).toBeFalsy()    
   });
 });

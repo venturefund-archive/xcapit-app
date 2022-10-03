@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
@@ -96,5 +96,14 @@ describe('OperationsListComponent', () => {
     const textEl = fixture.debugElement.query(By.css('ion-text[name="No Operations"]'));
     expect(textEl).toBeTruthy();
     expect(tableEl).toBeFalsy();
+  });
+
+  it('should update operation List when input changes', () => {
+    component.operationsList = [];
+    component.ngOnInit();
+    fixture.detectChanges();
+    const change: SimpleChanges = { operationsList: new SimpleChange([], [{},{}], true)}
+    component.ngOnChanges(change);
+    expect(component.operationsList.length).toEqual(2);
   });
 });

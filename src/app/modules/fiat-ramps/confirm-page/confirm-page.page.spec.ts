@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
-
 import { ConfirmPagePage } from './confirm-page.page';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
@@ -68,58 +67,49 @@ describe('ConfirmPagePage', () => {
   let providersSpy: jasmine.SpyObj<Providers>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
+  beforeEach(waitForAsync(() => {
+    navControllerSpy = new FakeNavController().createSpy();
+    storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
+      getData: storageData.valid.data,
+    });
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      createOperation: of({ id: operationId }),
+    });
+    walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
+      addCoinIfUserDoesNotHaveIt: Promise.resolve(),
+    });
 
-  beforeEach(
-    waitForAsync(() => {
-      navControllerSpy = new FakeNavController().createSpy();
-      storageOperationServiceSpy = jasmine.createSpyObj(
-        'StorageOperationService',
-        {
-          setOperationId: null,
-        },
-        {
-          data: of(storageData.valid.data),
-        }
-      );
-      fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-        createOperation: of({ id: operationId }),
-      });
-      walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
-        addCoinIfUserDoesNotHaveIt: Promise.resolve(),
-      });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoin: TEST_COINS[2],
+    });
 
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-        getCoin: TEST_COINS[2],
-      });
+    providersSpy = jasmine.createSpyObj('Providers', {
+      all: rawProvidersData,
+    });
 
-      providersSpy = jasmine.createSpyObj('Providers', {
-        all: rawProvidersData,
-      });
+    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+      create: providersSpy,
+    });
 
-      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
-        create: providersSpy,
-      });
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
 
-      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy',{
-        trackEvent: Promise.resolve(true),
-      })
-
-      TestBed.configureTestingModule({
-        declarations: [ConfirmPagePage, FakeTrackClickDirective],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [IonicModule, TranslateModule.forRoot()],
-        providers: [
-          { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
-          { provide: StorageOperationService, useValue: storageOperationServiceSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: ProvidersFactory, useValue: providersFactorySpy },
-          { provide: TrackService, useValue: trackServiceSpy}
-        ],
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      declarations: [ConfirmPagePage, FakeTrackClickDirective],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [IonicModule, TranslateModule.forRoot()],
+      providers: [
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        { provide: StorageOperationService, useValue: storageOperationServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: ProvidersFactory, useValue: providersFactorySpy },
+        { provide: TrackService, useValue: trackServiceSpy },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmPagePage);

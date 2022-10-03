@@ -32,6 +32,18 @@
       height: 20px;
     }
 
+    &__legend {
+      display: flex;
+      align-items: center;
+      margin: 0 16px 0 auto;
+
+      ion-icon {
+        margin-right: 4px;
+        width: 8px;
+        height: 8px;
+      }
+    }
+
     ion-button::part(native) {
       padding-inline-start: 0;
       padding-inline-end: 0;

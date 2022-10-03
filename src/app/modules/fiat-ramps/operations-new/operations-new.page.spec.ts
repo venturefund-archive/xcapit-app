@@ -191,7 +191,7 @@ describe('OperationsNewPage', () => {
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://kriptonmarket.com/terms-and-conditions' });
   });
 
-  it('should save operation and create user when valid form is submitted and user doesnt exists', async () => {
+  it('should save operation and redirect to user email when valid form is submitted', async () => {
     component.ionViewWillEnter();
     component.form.patchValue(validForm);
     fixture.detectChanges();
@@ -199,39 +199,7 @@ describe('OperationsNewPage', () => {
     await fixture.whenRenderingDone();
     await component.handleSubmit();
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
-    expect(fiatRampsServiceSpy.getOrCreateUser).toHaveBeenCalledTimes(1);
-  });
-
-  it('should redirect user when valid form is submitted and user already exists', async () => {
-    fiatRampsServiceSpy.getOrCreateUser.and.returnValue(of(userNew));
-    component.ionViewWillEnter();
-    component.form.patchValue(validForm);
-    fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    await component.handleSubmit();
-    expect(fiatRampsServiceSpy.getOrCreateUser).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/user-information']);
-  });
-
-  it('should redirect to user information form when status is USER_INFORMATION', () => {
-    const url = component.getUrlByStatus('USER_INFORMATION');
-    expect(url).toEqual(['fiat-ramps/user-information']);
-  });
-
-  it('should redirect to user bank information form when status is USER_BANK', () => {
-    const url = component.getUrlByStatus('USER_BANK');
-    expect(url).toEqual(['fiat-ramps/user-bank']);
-  });
-
-  it('should redirect to user images upload form when status is USER_IMAGES', () => {
-    const url = component.getUrlByStatus('USER_IMAGES');
-    expect(url).toEqual(['fiat-ramps/user-images']);
-  });
-
-  it('should redirect to new order confirm when status is COMPLETE', () => {
-    const url = component.getUrlByStatus('COMPLETE');
-    expect(url).toEqual(['fiat-ramps/confirm-page']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/user-email');
   });
 
   it('should call trackEvent on trackService when ux_buy_kripton_continue Button clicked', () => {

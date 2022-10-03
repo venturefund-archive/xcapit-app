@@ -12,10 +12,10 @@ import { SwapTxOf } from "./swap-tx-of";
 import { DefaultToken } from "../token/token";
 import { DefaultWallet } from "../wallet/wallet";
 import { Blockchain } from "../blockchain/blockchain";
+import { BigNumber } from "ethers";
 
 
 describe('Swap Tx Of', () => {
-
 
   let swapTx: SwapTxOf;
 
@@ -37,9 +37,9 @@ describe('Swap Tx Of', () => {
     const expectedValue = {
       data: rawSwapData.tx.data,
       to: rawSwapData.tx.to,
-      value: rawSwapData.tx.value,
-      gasPrice: rawSwapData.tx.gasPrice,
-      gasLimit: new FixedIncreasedNumber(rawSwapData.tx.gas, 25).value()
+      value: BigNumber.from(rawSwapData.tx.value),
+      gasPrice: BigNumber.from(rawSwapData.tx.gasPrice),
+      gasLimit: BigNumber.from(new FixedIncreasedNumber(rawSwapData.tx.gas, 25).value())
     };
 
     expect(await swapTx.value()).toEqual(expectedValue);

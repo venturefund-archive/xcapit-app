@@ -6,6 +6,11 @@
       margin-bottom: 16px;
     }
 
+    &__footer {
+      border-radius: 8px 8px 0 0;
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+    }
+
     &__disclaimer {
       padding: 0 16px;
 
@@ -21,10 +26,6 @@
           height: 16.42px;
         }
       }
-    }
-
-    &__upload-voucher {
-      margin-top: 16px;
     }
   }
 }

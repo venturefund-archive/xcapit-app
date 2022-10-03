@@ -6,6 +6,7 @@ import { Swap } from "../swap/swap";
 import { TransactionRequest } from "@ethersproject/abstract-provider";
 import { Dex } from "../dex";
 import { Wallet } from "../wallet/wallet";
+import { BigNumber } from "ethers";
 
 
 export class SwapTxOf implements BlockchainTx {
@@ -25,9 +26,9 @@ export class SwapTxOf implements BlockchainTx {
     return {
       data: rawResponse.tx.data,
       to: rawResponse.tx.to,
-      value: rawResponse.tx.value,
-      gasPrice: rawResponse.tx.gasPrice,
-      gasLimit: new FixedIncreasedNumber(rawResponse.tx.gas, 25).value()
+      value: BigNumber.from(rawResponse.tx.value),
+      gasPrice: BigNumber.from(rawResponse.tx.gasPrice),
+      gasLimit: BigNumber.from(new FixedIncreasedNumber(rawResponse.tx.gas, 25).value())
     };
   }
 

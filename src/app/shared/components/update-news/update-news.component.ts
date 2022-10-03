@@ -45,14 +45,14 @@ export class UpdateNewsComponent implements OnInit {
       badge: this.translate.instant('shared.update_news.first.badge'),
       title: this.translate.instant('shared.update_news.first.title'),
       description: this.translate.instant('shared.update_news.first.description'),
-      url: new DefaultSwapsUrls().home(),
+      url: ['/tabs/wallets'],
       isOpenByBrowser: false,
     },
     {
       badge: this.translate.instant('shared.update_news.second.badge'),
       title: this.translate.instant('shared.update_news.second.title'),
       description: this.translate.instant('shared.update_news.second.description'),
-      url: ['/tabs/financial-education'],
+      url: ['/tabs/wallets'],
       isOpenByBrowser: false,
     },
   ];

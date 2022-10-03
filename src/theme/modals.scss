@@ -114,40 +114,6 @@
   }
 }
 
-// Modal no tienes apikeys
-.ux-modal-no-apikeys {
-  --max-height: 378px;
-  --max-width: 85%;
-
-  &::part(content) {
-    background-color: var(--ion-color-white);
-    border-radius: 8px;
-  }
-}
-
-// Modal no tienes apikeys (tutorial)
-.ux-modal-apikeys-tutorial-no-apikeys {
-  --max-height: 549px;
-  --max-width: 89%;
-
-  &::part(content) {
-    margin-top: 76px;
-    background-color: var(--ion-color-white);
-    border-radius: 8px;
-  }
-}
-
-// Modal no tienes cuenta de binance
-.ux-modal-apikeys-tutorial-no-binance-account {
-  --max-height: 337px;
-  --max-width: 89%;
-
-  &::part(content) {
-    background-color: var(--ion-color-white);
-    border-radius: 8px;
-  }
-}
-
 // Modal como swippeable
 .ux-routeroutlet-modal {
   &::part(content) {
@@ -362,19 +328,6 @@
   --border-color: var(--ion-color-neutral50);
 
   box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
-}
-
-.kyc-disclaimer-modal {
-  --height: 598px;
-  --width: 320px;
-  --background: var(--ion-color-white);
-  --border-radius: 8px;
-  --border-width: 0.5px;
-  --border-style: solid;
-  --border-color: var(--ion-color-neutral50);
-
-  box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
-  border-radius: 8px;
 }
 
 // Modal as toast-warning

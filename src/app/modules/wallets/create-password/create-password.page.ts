@@ -169,28 +169,42 @@ export class CreatePasswordPage implements OnInit {
     if (this.mode === 'create') {
       this.walletMnemonicService.mnemonic = this.walletMnemonicService.newMnemonic();
     }
-    await this.walletService.create();
   }
 
   ngOnInit() {}
 
-  handleSubmit() {
+  private createWallets(): Promise<any> {
+    return this.walletService.create();
+  }
+
+  private encryptWallet(): Promise<any> {
+    return this.walletEncryptionService.encryptWallet(this.createPasswordForm.value.password);
+  }
+
+  private encryptedWallet(): Promise<any> {
+    return this.walletEncryptionService.getEncryptedWallet();
+  }
+
+  private async saveWallets(): Promise<void> {
+    return this.apiWalletService
+      .saveWalletAddresses(await this.formattedWallets(await this.encryptedWallet()))
+      .toPromise();
+  }
+
+  async handleSubmit() {
     if (this.createPasswordForm.valid) {
       this.loading = true;
-      this.walletEncryptionService
-        .encryptWallet(this.createPasswordForm.value.password)
-        .then(() => this.walletEncryptionService.getEncryptedWallet())
-        .then((encryptedWallet) => this.formattedWallets(encryptedWallet))
-        .then(async (wallets) => {
-          await this.createXAuthToken();
-          return wallets;
-        })
-        .then((wallets) => this.apiWalletService.saveWalletAddresses(wallets).toPromise())
-        .then(() => this.createLoginToken())
-        .then(() => this.loginUser())
-        .then(() => this.setWalletAsProtectedIfImporting())
-        .then(() => (this.loading = false))
-        .then(() => this.navigateByMode());
+      setTimeout(async () => {
+        await this.encryptWallet();
+        await this.createWallets();
+        await this.createXAuthToken();
+        await this.saveWallets();
+        await this.createLoginToken();
+        await this.loginUser();
+        await this.setWalletAsProtectedIfImporting();
+        this.loading = false;
+        await this.navigateByMode();
+      }, 0);
     } else {
       this.createPasswordForm.markAllAsTouched();
     }
@@ -220,7 +234,7 @@ export class CreatePasswordPage implements OnInit {
     }
   }
 
-  formattedWallets(encryptedWallet: any): Promise<any> {
+  private formattedWallets(encryptedWallet: any): Promise<any> {
     return Promise.resolve(
       Object.keys(encryptedWallet.addresses).map((network) => ({
         network,

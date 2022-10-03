@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,6 +11,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { FakeBiometricAuth } from 'src/app/shared/models/biometric-auth/fake/fake-biometric-auth';
+import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 
 
@@ -26,9 +28,13 @@ describe('LoginNewPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<LoginNewPage>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(waitForAsync(() => {
+    biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
+      create: new FakeBiometricAuth()
+    });
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
@@ -52,6 +58,7 @@ describe('LoginNewPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
+        { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
         { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -67,10 +74,19 @@ describe('LoginNewPage', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should login with biometric auth when is enabled', fakeAsync (() => {
+    biometricAuthInjectableSpy.create.and.returnValue(
+      new FakeBiometricAuth(Promise.resolve(true), Promise.resolve(true), Promise.resolve(true), null, Promise.resolve(aPassword))
+    );
+    component.ionViewWillEnter();
+    tick();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets', { replaceUrl: true });
+  }));
+
   it('should login when password is ok', async () => {
     component.form.patchValue({ password: aPassword });
 
-    await component.handleSubmit();
+    await component.handleSubmit(false);
 
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets', { replaceUrl: true });
   });
@@ -78,13 +94,14 @@ describe('LoginNewPage', () => {
   it('should show error toast when password is not ok', async () => {
     component.form.patchValue({ password: 'anInvalidPassword' });
 
-    await component.handleSubmit();
+    await component.handleSubmit(false);
 
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
       message: 'users.login_new.invalid_password_text',
       duration: 8000,
     });
   });
+
 
   it('should dismiss modal when input is clicked', () => {
     fixture.debugElement.query(By.css('app-ux-input[controlName="password"]')).nativeElement.click();
