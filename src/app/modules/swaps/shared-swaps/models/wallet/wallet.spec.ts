@@ -104,6 +104,11 @@ fdescribe('SolanaWallet', () => {
     expect(wallet).toBeTruthy();
   });
 
+  it('create', () => {
+    wallet = SolanaWallet.create(rawWalletData, blockchain);
+    expect(wallet).toBeTruthy();
+  });
+
   it('address access', () => {
     expect(wallet.address()).toEqual('0x0');
   });
