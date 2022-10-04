@@ -416,7 +416,7 @@
       "header": "My investment",
       "button": "Add",
       "button_link": "Withdraw",
-      "invested_amount": "Balance*",
+      "invested_amount": "Total amount invested*",
       "daily_earnings_disclaimer": "*Your balance is updated daily.",
       "continuous_update": "*Continuous update",
       "weekly_update": "*Weekly update",

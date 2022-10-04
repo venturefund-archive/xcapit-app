@@ -32,19 +32,23 @@ import { Observable, forkJoin } from 'rxjs';
       <ion-card class="id__card ux-card">
         <app-expandable-investment-info [investmentProduct]="this.investmentProduct"></app-expandable-investment-info>
         <ion-item lines="none" class="invested-balance">
-          <ion-label class="invested-balance__content">
-            <ion-text class="invested-balance__content__label ux-font-titulo-xs">
-              {{ 'defi_investments.invest_detail.invested_amount' | translate }}
-            </ion-text>
-            <div class="invested-balance__content__balance">
-              <ion-text class="invested-balance__content__balance__text ux-font-text-base">
-                {{ this.balance | formattedAmount }} {{ this.token?.value }}
-              </ion-text>
-              <ion-text class="invested-balance__content__balance__text ux-font-text-base">
-                {{ this.referenceBalance | formattedAmount: 10:2 }}{{ ' USD' }}
+          <div class="invested-balance__content">
+            <div class="invested-balance__content__label">
+              <ion-text class="ux-font-titulo-xs">
+                {{ 'defi_investments.invest_detail.invested_amount' | translate }}
               </ion-text>
             </div>
-          </ion-label>
+            <div class="invested-balance__content__balance__token">
+              <ion-text class="ux-font-text-xl">
+                {{ this.balance | formattedAmount }} {{ this.token?.value }}
+              </ion-text>
+            </div>
+            <div class="invested-balance__content__balance__usd">
+              <ion-text class="ux-font-text-xxs">
+                {{'= '}}{{ this.referenceBalance | formattedAmount: 10:2 }}{{ ' USD' }}
+              </ion-text>
+            </div>
+          </div>
         </ion-item>
       </ion-card>
       <div class="id__buttons">
@@ -138,9 +142,9 @@ export class InvestmentDetailPage implements OnInit {
     private remoteConfig: RemoteConfigService,
     private graphql: GraphqlService,
     private modalController: ModalController
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async ionViewDidEnter() {
     await this.getInvestmentProduct();

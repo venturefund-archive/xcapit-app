@@ -407,7 +407,7 @@
       "header": "Mi inversión",
       "button": "Añadir",
       "button_link": "Retirar",
-      "invested_amount": "Balance*",
+      "invested_amount": "Monto total invertido*",
       "daily_earnings_disclaimer": "*Tu balance se actualiza a diario.",
       "continuous_update": "*Actualización continua",
       "weekly_update": "*Actualización semanal",
