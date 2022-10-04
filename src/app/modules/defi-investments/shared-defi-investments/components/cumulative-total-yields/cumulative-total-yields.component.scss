@@ -41,21 +41,20 @@
             display: flex;
             align-items: flex-end;
 
-            .text-usd {
+            .token {
               margin-left: 5px;
+            }
+
+            ion-text {
+              display: grid;
+              text-align: start;
+              color: var(--ion-color-successdark);
             }
 
             ion-skeleton-text {
               border-radius: 8px;
-              width: 50%;
             }
           }
-        }
-
-        .text {
-          display: grid;
-          text-align: start;
-          color: var(--ion-color-successdark);
         }
       }
     }

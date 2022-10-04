@@ -19,6 +19,7 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator';
 import { forkJoin, Observable } from 'rxjs';
 import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
+import { InvestmentMovement } from '../../wallets/shared-wallets/interfaces/investment-movement.interface';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -178,7 +179,7 @@ export class DefiInvestmentProductsPage {
   private price$: Observable<any>;
   private movements$: Observable<any>;
   totalUsdYield: RawAmount = { value: 0, token: 'USD' };
-  allMovements;
+  allMovements: InvestmentMovement[] = [];
   tokenPrice: number;
   usdYield: RawAmount;
   balance: number;
@@ -249,7 +250,7 @@ export class DefiInvestmentProductsPage {
     });
   }
 
-  private calculateEarnings(token) {
+  calculateEarnings(token) {
     forkJoin([this.price$, this.movements$]).subscribe((res) => {
       const calculator = new YieldCalculator(
         this.balance,
@@ -263,7 +264,7 @@ export class DefiInvestmentProductsPage {
     });
   }
 
-  private getPrice(token) {
+  getPrice(token) {
     this.price$ = this.apiWalletService.getPrices([token.value], false);
     this.price$.subscribe((res) => {
       this.tokenPrice = res.prices[token.value];
@@ -293,7 +294,7 @@ export class DefiInvestmentProductsPage {
   }
 
   setFilter(investorProfile: string) {
-    this.profileForm.patchValue({ profile: investorProfile.replace('wealth_managements.profiles.', '') });
+    this.profileForm.patchValue({ profile: investorProfile?.replace('wealth_managements.profiles.', '') });
   }
 
   emptyArrays() {

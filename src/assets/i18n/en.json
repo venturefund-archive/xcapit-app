@@ -507,6 +507,11 @@
         "transaction_fee": "Transaction fee",
         "confirm": "Confirm",
         "confirm_loading": "Confirming..."
+      },
+      "earnings_modal_info": {
+        "title": "What is total yield?",
+        "description": "It is the sum in USD of the total yields obtained in your investment products.",
+        "button": "Understood"
       }
     },
     "withdraw": {

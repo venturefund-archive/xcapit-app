@@ -1,14 +1,14 @@
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { BigNumber } from 'ethers';
 import { RawAmount } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
-// import { InvestmentMovement } from 'src/app/modules/wallets/shared-wallets/interfaces/investment-movement.interface';
+import { InvestmentMovement } from 'src/app/modules/wallets/shared-wallets/interfaces/investment-movement.interface';
 
 export class YieldCalculator {
   private _aYield: BigNumber;
 
   constructor(
     private readonly _aTotalBalance: number,
-    private readonly _movements: any,
+    private readonly _movements: InvestmentMovement[],
     private readonly _aTokenName: string,
     private readonly _aTokenUSDPrice: number,
     private readonly _aNumberOfDecimals: number = 18

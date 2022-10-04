@@ -9,7 +9,7 @@ import { InformationModalComponent } from 'src/app/shared/components/information
   template: ` <div class="cty__content__card">
     <div class="cty__content__card__body">
       <div class="cty__content__card__body__image">
-        <img class="cty__content__card__image__img" src="assets/img/defi-investments/earnings.svg" alt="Product Image" />
+        <img class="cty__content__card__image__img" src="assets/img/defi-investments/yields.svg" alt="Yield Image" />
       </div>
       <div class="cty__content__card__information">
         <div class="cty__content__card__information__text">
@@ -22,13 +22,14 @@ import { InformationModalComponent } from 'src/app/shared/components/information
           <div class="cty__content__card__information__text__amount">
             <ion-skeleton-text
               class="ux-font-titulo-xs"
+              style="width:50%"
               animated
               *ngIf="!this.allLoaded"
             ></ion-skeleton-text>
-            <ion-text class="ux-font-text-xl text" *ngIf="this.allLoaded">
-              {{ this.totalUsdYield.value | formattedAmount: 14:5 }}</ion-text
+            <ion-text class="ux-font-text-xl amount" *ngIf="this.allLoaded">
+              {{ this.totalUsdYield.value ?? '0.00' | number: '1.2-5' }}</ion-text
             >
-            <ion-text class="ux-font-header-titulo text text-usd" *ngIf="this.allLoaded">
+            <ion-text class="ux-font-header-titulo token" *ngIf="this.allLoaded">
               {{ this.totalUsdYield.token }}</ion-text
             >
           </div>
