@@ -1,6 +1,8 @@
+import { Transaction } from "@solana/web3.js";
+
 export class FakeConnection {
 
-  sendTransaction() {
+  sendTransaction(transaction: Transaction) {
     return true;
   }
 }
