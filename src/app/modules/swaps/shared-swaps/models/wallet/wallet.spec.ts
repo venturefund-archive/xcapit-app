@@ -5,7 +5,6 @@ import { passEncryptedWallet, rawWalletData } from '../fixtures/raw-wallet-data'
 import { DefaultWallet, FakeWallet, SolanaWallet, Wallet } from './wallet';
 import { fakeProviders } from '../fakes/fake-ethers-providers';
 import { Blockchain } from '../blockchain/blockchain';
-import { Connection } from '@solana/web3.js';
 import { FakeConnection } from '../fakes/fake-connection';
 
 describe('DefaultWallet', () => {
@@ -73,12 +72,12 @@ describe('DefaultWallet', () => {
       expect(testObject.testMethod).toHaveBeenCalledTimes(1);
     });
 
-    it('address', ()=>{
+    it('address', () => {
       const addressTestValue = 'x';
       const wallet = new FakeWallet(Promise.resolve(false), '', addressTestValue);
 
-      expect(wallet.address()).toEqual(addressTestValue)
-    })
+      expect(wallet.address()).toEqual(addressTestValue);
+    });
 
     it('notify wallet was decrypted', async () => {
       fakeWallet.onNeedPass().subscribe(() => testObject.testMethod());
