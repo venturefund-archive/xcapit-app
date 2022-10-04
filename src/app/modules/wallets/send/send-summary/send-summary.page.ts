@@ -266,8 +266,6 @@ export class SendSummaryPage implements OnInit {
       );
   }
 
-
-
   private async handleSendError(error) {
     if (new PasswordErrorMsgs().isInvalidError(error)) {
       await this.handleInvalidPassword();
