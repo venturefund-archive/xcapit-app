@@ -1,4 +1,4 @@
-import { Transaction, Signer } from '@solana/web3.js';
+import { FakeConnection } from './fake-connection';
 
 fdescribe('Fake Connection', () => {
   let connection: FakeConnection;
