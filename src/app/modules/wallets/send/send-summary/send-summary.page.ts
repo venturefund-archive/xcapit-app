@@ -17,6 +17,7 @@ import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/pas
 import { TrackService } from '../../../../shared/services/track/track.service';
 import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 
 @Component({
   selector: 'app-send-summary',
@@ -81,7 +82,8 @@ export class SendSummaryPage implements OnInit {
     private translate: TranslateService,
     private alertController: AlertController,
     private trackService: TrackService,
-    private blockchains: BlockchainsFactory
+    private blockchains: BlockchainsFactory,
+    private walletsFactory : WalletsFactory
   ) {}
 
   ngOnInit() {}
@@ -169,7 +171,7 @@ export class SendSummaryPage implements OnInit {
       );
       await this.goToSuccess(response);
     }else{
-      
+      const wallet = this.walletsFactory.create().oneBy(this.blockchain); 
     }
   }
 
