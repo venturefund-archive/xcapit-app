@@ -136,7 +136,9 @@ export class SolanaWallet implements Wallet {
   }
 
   private _derivedWallet(aEthersWallet: EthersWallet): EthersWallet {
-    return this._ethersWallet.fromMnemonic(aEthersWallet.mnemonic.phrase, this._aBlockchain.derivedPath());
+    const wallet = Keypair.fromSeed(bip39.mnemonicToSeedSync(mnemonic, '').slice(0, 32));
+    return wallet;
+    // return this._ethersWallet.fromMnemonic(aEthersWallet.mnemonic.phrase, this._aBlockchain.derivedPath());
   }
 
   private _connectedWallet(aEthersWallet: EthersWallet): EthersWallet {
