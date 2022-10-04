@@ -1,4 +1,5 @@
 import { Wallet as EthersWallet, providers } from 'ethers';
+import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { BlockchainTx } from '../blockchain-tx';
 import { Blockchain } from '../blockchain/blockchain';
 import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
@@ -38,7 +39,7 @@ export class DefaultWallet implements Wallet {
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
     const connectedWallet = this._connectedWallet(this._derivedWallet(await this._decryptedWallet()));
     for (const tx of transactions) {
-      await (await connectedWallet.sendTransaction(await tx.value())).wait();
+      await (await connectedWallet.sendTransaction((await tx.value()) as TransactionRequest)).wait();
     }
     return true;
   }
