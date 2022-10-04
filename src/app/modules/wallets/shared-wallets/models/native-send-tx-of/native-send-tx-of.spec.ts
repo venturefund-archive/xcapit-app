@@ -1,4 +1,3 @@
-import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { Transaction } from '@solana/web3.js';
 import { BlockchainTx } from 'src/app/modules/swaps/shared-swaps/models/blockchain-tx';
 import { FakeWallet, Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
