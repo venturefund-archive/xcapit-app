@@ -107,7 +107,7 @@ export class SolanaWallet implements Wallet {
   ) {}
 
   public static create(_rawData: any, _aBlockchain: Blockchain) : SolanaWallet {
-    return new this(_rawData, new Connection(_aBlockchain.name()));
+    return new this(_rawData, new Connection(_aBlockchain.rpc()));
   }
 
   sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
