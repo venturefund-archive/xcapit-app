@@ -189,15 +189,15 @@ export class SendSummaryPage implements OnInit {
       return false;
     }
 
-    if (!(await this.userCanAffordFees())) {
-      await this.handleUserCantAffordFees();
-      return false;
-    }
+    // if (!(await this.userCanAffordFees())) {
+    //   await this.handleUserCantAffordFees();
+    //   return false;
+    // }
 
-    if (!(await this.userCanAffordTx())) {
-      await this.handleUserCantAffordTx();
-      return false;
-    }
+    // if (!(await this.userCanAffordTx())) {
+    //   await this.handleUserCantAffordTx();
+    //   return false;
+    // }
 
     return true;
   }
@@ -318,7 +318,7 @@ export class SendSummaryPage implements OnInit {
     // if(this.blockchain.name() !== 'SOLANA'){
     //   return isAddress(this.summaryData.address);
     // }else{
-  
+
     // }
   }
 
