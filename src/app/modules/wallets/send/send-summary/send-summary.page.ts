@@ -160,14 +160,18 @@ export class SendSummaryPage implements OnInit {
   }
 
   private async send(password: string) {
-    if(this.blockchain.name() !== 'SOLANA'){}
-    const response = await this.walletTransactionsService.send(
-      password,
-      this.summaryData.amount,
-      this.summaryData.address,
-      this.summaryData.currency
-    );
-    await this.goToSuccess(response);
+    if(this.blockchain.name() !== 'SOLANA'){
+
+    }else{
+
+      const response = await this.walletTransactionsService.send(
+        password,
+        this.summaryData.amount,
+        this.summaryData.address,
+        this.summaryData.currency
+      );
+      await this.goToSuccess(response);
+    }
   }
 
   private async checksBeforeSend(): Promise<boolean> {
