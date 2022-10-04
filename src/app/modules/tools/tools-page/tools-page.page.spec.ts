@@ -10,14 +10,6 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { ToolsPage } from './tools-page.page';
 
-const dataTest = {
-  category: 'purchases',
-  expenses: 700,
-  income: 1000,
-  name: 'Auto',
-  necessaryAmount: 2500,
-};
-
 describe('ToolPagePage', () => {
   let component: ToolsPage;
   let fixture: ComponentFixture<ToolsPage>;
@@ -26,6 +18,14 @@ describe('ToolPagePage', () => {
   let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+
+  const dataTest = {
+    category: 'purchases',
+    expenses: 700,
+    income: 1000,
+    name: 'Auto',
+    necessaryAmount: 2500,
+  };
 
   beforeEach(waitForAsync(() => {
     walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
@@ -57,7 +57,7 @@ describe('ToolPagePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render app-objetive-card component if there is data in the storage', async () => {
+  it('should render app-objetive-card component if there is planner data in the storage', async () => {
     component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
@@ -88,7 +88,7 @@ describe('ToolPagePage', () => {
   });
 
   it('should navigate to objetive page when objetive card is clicked', async () => {
-    component.data = dataTest;
+    component.plannerData = dataTest;
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('div.card-objetive')).nativeElement.click();

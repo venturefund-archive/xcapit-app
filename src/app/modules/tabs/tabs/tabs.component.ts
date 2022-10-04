@@ -59,7 +59,6 @@ export class TabsComponent {
   @ViewChild('tabs', { static: true }) tabs: IonTabs;
   activeTab?: HTMLElement;
   selectedCategory: any;
-  isNewLogin: boolean;
   constructor(private navController: NavController) {}
 
   tabChange() {

@@ -26,7 +26,7 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/serv
           <div class="tool-card">
             <app-tools-card *ngFor="let cardItem of content" [data]="cardItem" (primaryActionEvent)="itemAction($event)"></app-tools-card>
           </div>
-      <div class="financial-planner-card" *ngIf="this.data">
+      <div class="financial-planner-card" *ngIf="this.plannerData">
         <div class="title">
           <ion-text class="ux-font-header-titulo" color="neutral80">{{
             'home.shared.financial_planner_card.my_plan' | translate
@@ -36,8 +36,8 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/serv
           <app-objetive-card
             [icon]="this.icon"
             [category]="this.category"
-            [necessaryAmount]="this.necessaryAmount"
-            [name]="this.name"
+            [necessaryAmount]="this.plannerData.necessaryAmount"
+            [name]="this.plannerData.name"
             [edit]="false"
           ></app-objetive-card>
         </div>
@@ -47,11 +47,9 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/serv
   styleUrls: ['./tools-page.page.scss'],
 })
 export class ToolsPage implements OnInit {
-  data: any;
+  plannerData: any;
   icon: string;
   category: string;
-  name: string;
-  necessaryAmount: number;
   content = TOOLS_CARDS;
 
   constructor(
@@ -69,16 +67,14 @@ export class ToolsPage implements OnInit {
   }
 
   async getPlannerData() {
-    this.data = await this.appStorage.get('planner_data');
-    this.setData();
+    this.plannerData = await this.appStorage.get('planner_data');
+    this.setPlannerData();
   }
 
-  setData() {
-    if (this.data) {
-      this.name = this.data.name;
-      this.necessaryAmount = this.data.necessaryAmount;
-      this.icon = `assets/img/financial-planner/categories/${this.data.category}.svg`;
-      this.category = `financial_planner.shared_financial_planner.objetive_card.categories.${this.data.category}`;
+  setPlannerData() {
+    if (this.plannerData) {
+      this.icon = `assets/img/financial-planner/categories/${this.plannerData.category}.svg`;
+      this.category = `financial_planner.shared_financial_planner.objetive_card.categories.${this.plannerData.category}`;
     }
   }
 
