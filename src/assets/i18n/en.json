@@ -2454,6 +2454,26 @@
       "label_email":"Email",
       "button":"Continue",
       "text":"Make sure you have access to the email, you will use it to confirm your transactions."
+    },
+    "user_register":{
+      "header":"Register",
+      "provider":"Provider: Kripton Market",
+      "title":"Hello! You don't have an account yet, we will help you to register quickly",
+      "subtitle": "😄 Don't worry! It will be a one-time only.",
+      "steps": {
+        "step_one":{
+          "title": "Load data",
+          "subtitle": "Complete with your personal information"
+        },
+        "step_two":{
+          "title": "Verify identity",
+          "subtitle": "You will need your identity"
+        }
+      },
+      "disclaimer": {
+        "content":"Xcapit does not store data. Find out more about data usage at ",
+        "link":"Privacy policy Kripton Market."
+      }
     }
   },
   "home": {

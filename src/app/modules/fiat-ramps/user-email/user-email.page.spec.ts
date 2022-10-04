@@ -11,6 +11,7 @@ import { UserEmailPage } from './user-email.page';
 import { RegistrationStatus } from '../enums/registration-status.enum';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { rawOperationData } from '../shared-ramps/fixtures/raw-operation-data';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 describe('UserEmailPage', () => {
   let component: UserEmailPage;
@@ -18,12 +19,14 @@ describe('UserEmailPage', () => {
   let fiatRampServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   const STATUS = Object.keys(RegistrationStatus);
 
   beforeEach(waitForAsync(() => {
     fiatRampServiceSpy = jasmine.createSpyObj('FiatRampService', {
       getOrCreateUser: of(),
     });
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', { getFeatureFlag: false });
 
     navControllerSpy = new FakeNavController().createSpy();
 
@@ -39,6 +42,8 @@ describe('UserEmailPage', () => {
         { provide: FiatRampsService, useValue: fiatRampServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: StorageOperationService, useValue: storageOperationServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
+
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -55,6 +60,7 @@ describe('UserEmailPage', () => {
   STATUS.forEach((registrationStatus) => {
     const URL = RegistrationStatus[registrationStatus];
     it(`should redirect to ${URL} when user status is ${registrationStatus}`, async () => {
+      remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
       fiatRampServiceSpy.getOrCreateUser.and.returnValue(of({ registration_status: registrationStatus }));
       component.form.patchValue({ email: 'test@test.com' });
       fixture.debugElement.query(By.css('ion-button[name="ux_user_mail_continue"]')).nativeElement.click();
@@ -64,5 +70,13 @@ describe('UserEmailPage', () => {
       expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(URL);
     });
+  });
+
+  it('should redirect to Kripton User Register if ff is enabled', () => {
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
+    component.form.patchValue({ email: 'test@test.com' });
+      fixture.debugElement.query(By.css('ion-button[name="ux_user_mail_continue"]')).nativeElement.click();
+      fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/user-register']);
   });
 });
