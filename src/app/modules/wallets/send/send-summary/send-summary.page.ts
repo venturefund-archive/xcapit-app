@@ -162,6 +162,7 @@ export class SendSummaryPage implements OnInit {
 
   private async send(password: string) {
     if (this.blockchain.name() !== 'SOLANA') {
+      console.log("No Solana")
       const response = await this.walletTransactionsService.send(
         password,
         this.summaryData.amount,
@@ -172,6 +173,7 @@ export class SendSummaryPage implements OnInit {
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
       wallet.sendTxs([]);
+      console.log("Solana")
     }
   }
 
