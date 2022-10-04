@@ -15,6 +15,8 @@ import { isAddress } from 'ethers/lib/utils';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 import { TrackService } from '../../../../shared/services/track/track.service';
+import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 
 @Component({
   selector: 'app-send-summary',
@@ -65,6 +67,7 @@ export class SendSummaryPage implements OnInit {
   amountSend = false;
   transactionFee = false;
   isInfoModalOpen = false;
+  blockchain: Blockchain;
 
   constructor(
     private transactionDataService: TransactionDataService,
@@ -77,7 +80,8 @@ export class SendSummaryPage implements OnInit {
     private localNotificationsService: LocalNotificationsService,
     private translate: TranslateService,
     private alertController: AlertController,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private blockchains: BlockchainsFactory
   ) {}
 
   ngOnInit() {}
@@ -85,7 +89,9 @@ export class SendSummaryPage implements OnInit {
   ionViewWillEnter() {
     this.isSending = false;
     this.summaryData = this.transactionDataService.transactionData;
+    this.blockchain = this.blockchains.create().oneByName(this.summaryData.network)
     this.checkMode();
+    
   }
 
   async showPhraseAmountInfo() {
@@ -154,6 +160,7 @@ export class SendSummaryPage implements OnInit {
   }
 
   private async send(password: string) {
+    if(this.blockchain.name() !== 'SOLANA'){}
     const response = await this.walletTransactionsService.send(
       password,
       this.summaryData.amount,
@@ -237,6 +244,7 @@ export class SendSummaryPage implements OnInit {
       },
     ];
   }
+
 
   private notifyWhenTransactionMined(response: TransactionResponse) {
     response
