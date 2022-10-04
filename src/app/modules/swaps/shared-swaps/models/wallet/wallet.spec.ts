@@ -89,7 +89,7 @@ describe('DefaultWallet', () => {
   });
 });
 
-describe('SolanaWallet', () => {
+fdescribe('SolanaWallet', () => {
   let wallet: Wallet;
   let testObject: any;
 
@@ -113,7 +113,7 @@ describe('SolanaWallet', () => {
     expect(true).toBeTrue();
   });
 
-  it('sendTx', () => {
-    
-  });
+  // it('sendTx', () => {
+
+  // });
 });
