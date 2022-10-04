@@ -16,7 +16,7 @@ import { NavController } from '@ionic/angular';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
-import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator';
+import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator.model';
 import { forkJoin, Observable } from 'rxjs';
 import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
 import { InvestmentMovement } from '../../wallets/shared-wallets/interfaces/investment-movement.interface';
