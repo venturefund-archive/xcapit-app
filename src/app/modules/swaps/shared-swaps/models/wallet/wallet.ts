@@ -115,9 +115,11 @@ export class SolanaWallet implements Wallet {
   // sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
 
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
-    const connectedWallet = this._connectedWallet(this._derivedWallet(await this._decryptedWallet()));
     for (const tx of transactions) {
-      await (await connectedWallet.sendTransaction(await tx.value())).wait();
+      await this._connection.sendTransaction(
+        await tx.value(),
+        this._derivedWallet(await this._decryptedWallet())
+      );
     }
     return true;
   }
@@ -138,12 +140,11 @@ export class SolanaWallet implements Wallet {
 
   private _derivedWallet(aEthersWallet: EthersWallet): Keypair {
     return Keypair.fromSeed(bip39.mnemonicToSeedSync(aEthersWallet.mnemonic.phrase, '').slice(0, 32));
-    // return this._ethersWallet.fromMnemonic(aEthersWallet.mnemonic.phrase, this._aBlockchain.derivedPath());
   }
 
-  private _connectedWallet(aEthersWallet: EthersWallet): EthersWallet {
-    return aEthersWallet.connect(new this._ethersProviders.JsonRpcProvider(this._aBlockchain.rpc()));
-  }
+  // private _connectedWallet(aEthersWallet: EthersWallet): EthersWallet {
+  //   return aEthersWallet.connect(new this._ethersProviders.JsonRpcProvider(this._aBlockchain.rpc()));
+  // }
 
   address(): string {
     return this._rawData['address'];
