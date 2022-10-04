@@ -18,6 +18,7 @@ import { TrackService } from '../../../../shared/services/track/track.service';
 import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { NativeSendTxOf } from '../../shared-wallets/models/native-send-tx-of/native-send-tx-of';
 
 @Component({
   selector: 'app-send-summary',
@@ -171,7 +172,10 @@ export class SendSummaryPage implements OnInit {
       await this.goToSuccess(response);
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
-      wallet.sendTxs([]);
+      wallet.sendTxs([new NativeSendTxOf(
+        wallet, 
+        this.summaryData.address, 
+        this.summaryData.amount)]);
     }
   }
 
