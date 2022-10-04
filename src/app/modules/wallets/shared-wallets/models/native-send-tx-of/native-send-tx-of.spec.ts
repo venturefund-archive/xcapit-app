@@ -23,7 +23,11 @@ fdescribe('NativeSendTxOf', () => {
   let transaction: NativeSendTxOf;
 
   beforeEach(() => {
-    transaction = new NativeSendTxOf(new FakeWallet(Promise.resolve(false), '', ), '', 1);
+    transaction = new NativeSendTxOf(
+      new FakeWallet(Promise.resolve(false), '', 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH'),
+      'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH',
+      1
+    );
   });
 
   it('new', () => {
@@ -31,7 +35,7 @@ fdescribe('NativeSendTxOf', () => {
   });
 
   it('value', async () => {
-    
+
     expect(await transaction.value()).toEqual(null);
   });
 });
