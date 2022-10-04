@@ -317,8 +317,9 @@ export class SendSummaryPage implements OnInit {
   }
 
   private addressIsValid() {
-    if(this.summaryData.addressn)
-    return isAddress(this.summaryData.address);
+    if(this.blockchain.name() !== 'SOLANA'){
+      return isAddress(this.summaryData.address);
+    }
   }
 
   private async handleInvalidAddress() {
