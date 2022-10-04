@@ -2,7 +2,7 @@ import { Transaction, Signer } from "@solana/web3.js";
 
 export class FakeConnection {
 
-  sendTransaction(transaction: Transaction, Signer[]) {
+  sendTransaction(transaction: Transaction, signers: Signer[]) {
     return true;
   }
 }
