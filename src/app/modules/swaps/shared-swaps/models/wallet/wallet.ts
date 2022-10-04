@@ -5,6 +5,7 @@ import { Blockchain } from '../blockchain/blockchain';
 import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
 import { Connection, Keypair, Transaction, VersionedTransaction } from '@solana/web3.js';
 import * as bip39 from 'bip39';
+import { FakeConnection } from '../fakes/fake-connection';
 
 export interface Wallet {
   address: () => string;
@@ -103,7 +104,11 @@ export class SolanaWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
   private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
-  constructor(private _rawData: any, private _connection: Connection, private _ethersWallet: any = EthersWallet) {}
+  constructor(
+    private _rawData: any,
+    private _connection: Connection | FakeConnection,
+    private _ethersWallet: any = EthersWallet
+  ) {}
 
   public static create(_rawData: any, _aBlockchain: Blockchain): SolanaWallet {
     return new this(_rawData, new Connection(_aBlockchain.rpc()));
