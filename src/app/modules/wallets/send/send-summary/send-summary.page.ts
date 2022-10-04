@@ -317,8 +317,11 @@ export class SendSummaryPage implements OnInit {
   }
 
   private addressIsValid() {
+    return this.blockchain.name() !== 'SOLANA' ? isAddress(this.summaryData.address) : 
     if(this.blockchain.name() !== 'SOLANA'){
       return isAddress(this.summaryData.address);
+    }else{
+  
     }
   }
 
