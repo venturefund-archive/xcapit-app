@@ -63,7 +63,7 @@ const summaryDataInvalidAddress: SummaryData = {
   balance: 2,
 };
 
-describe('SendSummaryPage', () => {
+fdescribe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
   let transactionDataServiceMock: any;
