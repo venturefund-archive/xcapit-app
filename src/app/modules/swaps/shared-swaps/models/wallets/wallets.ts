@@ -31,7 +31,7 @@ export class Wallets {
     for (const blockchain of blockchains.value()) {
       addresses[blockchain.name()] = this._isSolana(blockchain)
         ? this._solanaWalletFor(aPhrase).publicKey.toString()
-        : this._ethersWalletFor(aPhrase, blockchain).address;
+        : this._ethersWalletFor(aPhrase, blockchain).address.toLowerCase();
     }
     return addresses;
   }

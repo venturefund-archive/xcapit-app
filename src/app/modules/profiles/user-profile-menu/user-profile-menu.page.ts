@@ -21,6 +21,7 @@ import { Storage } from '@ionic/storage';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 import { DefaultBiometricAuth } from '../../../shared/models/biometric-auth/default/default-biometric-auth';
 import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -113,13 +114,27 @@ export class UserProfileMenuPage {
     private walletBackupService: WalletBackupService,
     private walletConnectService: WalletConnectService,
     private storage: Storage,
-    private biometricAuthInjectable: BiometricAuthInjectable
+    private biometricAuthInjectable: BiometricAuthInjectable,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   ionViewWillEnter() {
     this.getProfile();
     this.existWallet();
     this.biometricAuthAvailable();
+    this.walletConnectStatus();
+  }
+
+  async walletConnectStatus() {
+    this.itemMenu.map(async (item) => {
+      if (item.name === 'WalletConnect') {
+        item.connected = this.walletConnectService.connected;
+        item.legend = this.walletConnectService.connected
+          ? 'profiles.user_profile_menu.connected_walletconnect'
+          : 'profiles.user_profile_menu.disconnected_walletconnect';
+      }
+      return item;
+    });
   }
 
   async biometricAuthAvailable() {
@@ -127,7 +142,7 @@ export class UserProfileMenuPage {
       const biometricAuthItem = this.itemMenu
         .find((category) => category.id === 'wallet')
         .items.find((item) => item.name === 'BiometricAuth');
-      biometricAuthItem.hidden = false;
+      biometricAuthItem.hidden = !this.remoteConfig.getFeatureFlag('ff_newLogin');
     }
   }
 

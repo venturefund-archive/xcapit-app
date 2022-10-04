@@ -78,10 +78,10 @@ describe('NewCreateSupportTicketPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/new-success'], navigationExtras);
   });
 
-  it('should navigate back to FAQs', () => {
+  it('should navigate back to previous page', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-create-ticket-form')).triggerEventHandler('ionBackButton');
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/support/options']);
+    expect(navControllerSpy.back).toHaveBeenCalledTimes(1);
   });
 });

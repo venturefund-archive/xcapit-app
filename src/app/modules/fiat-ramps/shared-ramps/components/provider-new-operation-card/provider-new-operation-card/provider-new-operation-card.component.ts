@@ -1,7 +1,9 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
 import { Coin } from '../../../../../wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interface';
+import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.component';
 
 @Component({
   selector: 'app-provider-new-operation-card',
@@ -33,11 +35,13 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
           <div class="pnoc__amount-select__inputs__amount">
             <ion-input
               appNumberInput
+              debounce="1000"
               [class.invalid]="
-                !this.form.controls.cryptoAmount.valid &&
+                !this.form.controls.fiatAmount.valid &&
                 (this.form.controls.cryptoAmount.touched ||
                   this.form.controls.cryptoAmount.dirty ||
-                  this.form.controls.fiatAmount.touched || this.form.controls.fiatAmount.dirty)
+                  this.form.controls.fiatAmount.touched ||
+                  this.form.controls.fiatAmount.dirty)
               "
               formControlName="cryptoAmount"
               type="number"
@@ -48,12 +52,14 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
           <ion-text class="pnoc__amount-select__inputs__equal ux-fweight-medium ">=</ion-text>
           <div class="pnoc__amount-select__inputs__quoteAmount">
             <ion-input
+              debounce="1000"
               appNumberInput
               [class.invalid]="
-                !this.form.controls.cryptoAmount.valid &&
+                !this.form.controls.fiatAmount.valid &&
                 (this.form.controls.cryptoAmount.touched ||
                   this.form.controls.cryptoAmount.dirty ||
-                  this.form.controls.fiatAmount.touched || this.form.controls.fiatAmount.dirty)
+                  this.form.controls.fiatAmount.touched ||
+                  this.form.controls.fiatAmount.dirty)
               "
               formControlName="fiatAmount"
               type="number"
@@ -64,10 +70,11 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
         <div
           class="pnoc__amount-select__inputs-errors"
           *ngIf="
-            !this.form.controls.cryptoAmount.valid &&
+            !this.form.controls.fiatAmount.valid &&
             (this.form.controls.cryptoAmount.touched ||
               this.form.controls.cryptoAmount.dirty ||
-              this.form.controls.fiatAmount.touched || this.form.controls.fiatAmount.dirty)
+              this.form.controls.fiatAmount.touched ||
+              this.form.controls.fiatAmount.dirty)
           "
         >
           <ion-icon color="dangerdark" icon="information-error"></ion-icon>
@@ -83,7 +90,24 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
           </ion-label>
         </div>
       </div>
-      
+
+      <div class="pnoc__fee" *ngIf="this.provider.alias !== 'kripton' && this.provider.alias !== 'moonpay'">
+        <div class="pnoc__fee__label">
+          <ion-text class="ux-font-titulo-xs">{{
+            'fiat_ramps.shared.provider_new_operation_card.estimated_fee' | translate
+          }}</ion-text>
+          <ion-icon name="information-circle" color="info" (click)="this.openInfoModal()"></ion-icon>
+        </div>
+        <div *ngIf="this.fee.value !== undefined" class="pnoc__fee__amount">
+          <ion-text class="ux-font-text-base" color="neutral90"
+            >{{ this.fee.value | formattedAmount: 10:2 }} {{ this.fee.token }}</ion-text
+          >
+        </div>
+        <div *ngIf="this.fee.value === undefined" class="skeleton">
+          <ion-skeleton-text style="width: 100%;" animated> </ion-skeleton-text>
+        </div>
+      </div>
+
       <div class="pnoc__provider">
         <div class="pnoc__provider__label">
           <ion-text class="ux-font-titulo-xs">{{
@@ -130,10 +154,12 @@ export class ProviderNewOperationCardComponent implements OnInit {
   @Input() provider: FiatRampProvider;
   @Input() coinSelectorEnabled = true;
   @Input() minimumFiatAmount: number;
+  @Input() fee: { value: number; token: string };
   @Output() changeCurrency = new EventEmitter<void>();
+  isInfoModalOpen = false;
 
   form: UntypedFormGroup;
-  constructor(private formGroupDirective: FormGroupDirective) {}
+  constructor(private formGroupDirective: FormGroupDirective, private modalController: ModalController) {}
 
   ngOnInit() {
     this.form = this.formGroupDirective.form;
@@ -141,5 +167,18 @@ export class ProviderNewOperationCardComponent implements OnInit {
 
   emitChangeCurrency(): void {
     this.changeCurrency.emit();
+  }
+
+  async openInfoModal() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: FeeInfoModalComponent,
+        cssClass: 'modal',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
   }
 }

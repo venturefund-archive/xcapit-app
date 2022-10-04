@@ -22,6 +22,6 @@ export class ProviderDataRepo {
     );
   }
   private providers(): FiatRampProvider[] {
-    return this.remoteConfig.getObject('onOffRampsProviders');
+    return this.remoteConfig.getObject('onOffRampsProviders');   
   }
 }

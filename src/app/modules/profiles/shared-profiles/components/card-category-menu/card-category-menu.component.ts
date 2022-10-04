@@ -23,6 +23,12 @@ import { MenuCategory } from '../../interfaces/menu-category.interface';
           (click)="this.goToRoute(this.category)"
           >{{ this.category.category_title | translate }}</ion-button
         >
+        <div class="card-title__legend" *ngIf="this.category.legend">
+          <ion-icon [color]="this.category.connected ? 'success' : 'dangerdark'" name="ellipse"></ion-icon>
+          <ion-label [color]="this.category.connected ? 'success' : 'dangerdark'" class="ux-font-num-subtitulo">{{
+            this.category.legend | translate
+          }}</ion-label>
+        </div>
       </div>
       <div *ngFor="let item of this.category.items" class="item-container">
         <ion-button
@@ -36,12 +42,9 @@ import { MenuCategory } from '../../interfaces/menu-category.interface';
           (click)="this.goToRoute(item)"
           >{{ item.text | translate }}</ion-button
         >
-        <ion-badge
-          *ngIf="!item.hidden && item.newBadge"
-          class="new-badge ux-font-num-subtitulo"
-          slot="end"
-          >{{ 'profiles.user_profile_menu.new_badge' | translate }}</ion-badge
-        >
+        <ion-badge *ngIf="!item.hidden && item.newBadge" class="new-badge ux-font-num-subtitulo" slot="end">{{
+          'profiles.user_profile_menu.new_badge' | translate
+        }}</ion-badge>
       </div>
     </div>
   `,

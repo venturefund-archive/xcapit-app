@@ -7,17 +7,17 @@ import { OperationsListItemComponent } from './components/operations-list-item/o
 import { OperationStatusChipComponent } from './components/operation-status-chip/operation-status-chip.component';
 import { TransferConfirmCardComponent } from './components/transfer-confirm-card/transfer-confirm-card.component';
 import { ProviderNewOperationCardComponent } from './components/provider-new-operation-card/provider-new-operation-card/provider-new-operation-card.component';
-import { KycDisclaimerModalComponent } from './components/kyc-disclaimer-modal/kyc-disclaimer-modal.component';
 import { FiatInputComponent } from './components/fiat-input/fiat-input.component';
 import { InfoProviderComponent } from './components/info-provider/info-provider.component';
 import { CoinSelectorModalComponent } from './components/coin-selector-modal/coin-selector-modal.component';
+import { SkipTransactionVoucherComponent } from './components/skip-transaction-voucher/skip-transaction-voucher.component';
+import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-modal.component';
 
 @NgModule({
   declarations: [
     FixedFooterComponent,
     TransferConfirmCardComponent,
     ProviderNewOperationCardComponent,
-    KycDisclaimerModalComponent,
     OperationsListComponent,
     OperationStatusChipComponent,
     OperationsListAccordionComponent,
@@ -25,6 +25,8 @@ import { CoinSelectorModalComponent } from './components/coin-selector-modal/coi
     FiatInputComponent,
     InfoProviderComponent,
     CoinSelectorModalComponent,
+    FeeInfoModalComponent,
+    SkipTransactionVoucherComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -32,14 +34,15 @@ import { CoinSelectorModalComponent } from './components/coin-selector-modal/coi
     FixedFooterComponent,
     TransferConfirmCardComponent,
     ProviderNewOperationCardComponent,
-    KycDisclaimerModalComponent,
     OperationsListComponent,
     OperationStatusChipComponent,
     OperationsListAccordionComponent,
     OperationsListItemComponent,
     FiatInputComponent,
     InfoProviderComponent,
-    CoinSelectorModalComponent
+    CoinSelectorModalComponent,
+    FeeInfoModalComponent,
+    SkipTransactionVoucherComponent,
   ],
 })
 export class SharedRampsModule {}

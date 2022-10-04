@@ -9,7 +9,7 @@ import { ToastService } from '../../services/toast/toast.service';
   template: `
     <div class="ux_input_container">
       <div class="ux_input_container__label">
-        <ion-label class="ux-font-titulo-xs" color="primary">{{ this.label }} </ion-label>
+        <ion-label class="ux-font-titulo-xs">{{ this.label }} </ion-label>
         <ion-button
           *ngIf="this.infoIcon"
           class="ion-no-padding"

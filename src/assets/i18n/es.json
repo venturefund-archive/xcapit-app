@@ -125,13 +125,13 @@
       "title": "¡Buenas noticias!",
       "first": {
         "badge": "Nueva función",
-        "title": "Intercambios o Swap",
-        "description": "¡No te quedes afuera de lo mejor! Ahora puedes intercambiar monedas de manera rápida, fácil y segura."
+        "title": "¡Más oportunidades!",
+        "description": "Nuevos medios de pago, más tokens y países donde comprar. ¡Todo en tu moneda local!"
       },
       "second": {
         "badge": "Nueva función",
-        "title": "Educación financiera",
-        "description": "Lleva tus conocimientos criptos al siguiente nivel y conviértete en un experto en el tema."
+        "title": "Mejoras en la app",
+        "description": "Podrás acceder al detalle de tus operaciones y demás datos de manera ágil y sencilla."
       }
     },
     "transaction_fees": {
@@ -366,6 +366,7 @@
       "title_investments": "Mis inversiones",
       "profits": "Ganancia continua",
       "profits_weekly": "Ganancia Semanal",
+      "total_invested":"Inversión + Intereses ganados",
       "recommendations": "Podrían interesarte",
       "empty_products": "Proximamente podrás encontrar las mejores inversiones para tu perfil",
       "link_button": "¿Cómo funcionan las inversiones DeFi?",
@@ -414,6 +415,15 @@
         "title": "Historial",
         "investment": "Inversión",
         "withdraw": "Retiro"
+      },
+      "yields": {
+        "title": "Rendimiento acumulado",
+        "info_modal": {
+          "title": "¿Qué es el rendimiento acumulado?",
+          "item1": "Es el acumulado de ganancias obtenidas en este producto de inversión, desde que lo creaste.",
+          "item2": "Este monto se reinvierte continuamente generando interés compuesto.",
+          "button": "Entendido"
+        }
       }
     },
     "shared": {
@@ -572,6 +582,8 @@
       "logout": "Cerrar Sesión",
       "new_badge": "Nuevo",
       "category_walletconnect": "WalletConnect",
+      "connected_walletconnect": "Conectado",
+      "disconnected_walletconnect": "Desconectado",
       "delete_account_button": "Eliminar cuenta",
       "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma",
       "profile_footer": {
@@ -631,7 +643,11 @@
       "password_title": "Tu seguridad nos importa",
       "password_description": "Para activar tus datos biométricos, ingresa la contraseña de tu wallet Xcapit.",
       "password_button": "Confirmar",
-      "password_error": "La contraseña ingresada no es correcta."
+      "password_error": "La contraseña ingresada no es correcta.",
+      "options":{
+        "title":"Ingresa con tus datos biométricos",
+        "subtitle":"Apoya tu huella sobre el lector de datos o apunta la pantalla hacia tu rostro, según corresponda en tu dispositivo."
+      }
     },
     "shared": {
       "remove_account_modal": {
@@ -1177,7 +1193,7 @@
         "dialogTitle": "Compartir",
         "share_error": "El texto se copió en el portapapeles"
       },
-     
+
       "rule_card": {
         "rule_1": {
           "title": "¿Cómo obtengo mi NFT?",
@@ -1307,7 +1323,8 @@
       "types": {
         "humanitary": "Ayuda humanitaria",
         "environment": "Medio ambiente",
-        "human_rights": "Derechos Humanos"
+        "human_rights": "Derechos Humanos",
+        "social": "Ayuda social"
       }
     },
     "description_cause": {
@@ -1316,6 +1333,7 @@
       "info": {
         "regional": "Regional",
         "global": "Global",
+        "latam": "Latam",
         "receive": "Recibe",
         "unhcr": {
           "title_1": "Dona para brindar asistencia a las poblaciones afectadas en Ucrania y en los países de la región.",
@@ -1352,6 +1370,18 @@
           "title_2": "Sobre Pulenta",
           "title_3": "Conoce más sobre Pulenta",
           "description": "Alcanzar de manera trazable, transparente y escalables donaciones cripto a organizaciones que ayudan a personas en estado de emergencia y vulnerabilidad. "
+        },
+        "unicef": {
+          "title_1": "Su donación se destinará a los programas globales de UNICEF Desde ayudar a los niños de América Latina, aquellos atrapados en el conflicto de Ucrania, hasta liberar a los niños soldados en Sudán del Sur, nos ayudará a brindarles a los niños de todo el mundo una oportunidad justa en la vida.",
+          "title_2": "Sobre UNICEF",
+          "title_3": "Conoce más sobre UNICEF",
+          "description": "El Fondo de las Naciones Unidas para la Infancia (UNICEF) tiene más de 75 años de experiencia trabajando en 190 países, 36 de estos países están en América Latina y el Caribe. Estamos 100% financiados por donaciones voluntarias, lo que nos permite brindar a los niños más vulnerables del mundo alimentos, vacunas, educación, agua potable, saneamiento e higiene, y protección contra la violencia que salvan vidas. Siempre estamos ahí antes, durante y después de una emergencia para cada niño."
+        },
+        "caecus": {
+          "title_1": "Buscan fomentar el desarrollo académico de niños y personas con discapacidad visual en LATAM. Y, a su vez, concientizar sobre el consumo responsable de tecnología, fomentando la economía circular.",
+          "title_2": "Sobre Caecus",
+          "title_3": "Conoce más sobre Caecus",
+          "description": "Tu donación ayuda a incentivar la inclusión académica y laboral, capacitando a personas con discapacidad visual en el uso de tecnología. Brindando la posibilidad de desarrollar autonomía incluyéndose a la sociedad nuevamente. Con tu aporte, personas ciegas pueden adquirir celulares, computadoras y anteojos inteligentes (www.annyweb.com) para ayudar a la lectura y movilidad segura en vía pública."
         }
       }
     },
@@ -1824,7 +1854,7 @@
       }
     },
     "shared_wallets": {
-      "share_transaction_detail":{
+      "share_transaction_detail": {
         "text": "Hola! Te envié ",
         "text2": "Para mas información: ",
         "dialogTitle": "Compartir",
@@ -1904,11 +1934,11 @@
         "button_skip": "Omitir"
       },
       "new_token_available_card": {
-        "coming_soon":"Próximamente"
+        "coming_soon": "Próximamente"
       },
-      "new_token_info-modal":{
-        "title":"Ventajas de usar Solana",
-        "subtitle":"<ul><li>Gran variedad DApps para utilizar</li><li>Rapidez transaccional: Solana es la blockchain  más rápida del mundo</li><li>Bajo costo por transacción</li></ul>"
+      "new_token_info-modal": {
+        "title": "Ventajas de usar Solana",
+        "subtitle": "Solana es una de las redes más económicas y rápidas del ecosistema cripto eso se debe a que tienen una validación de bloques muy distinta que se denomina proof of history que ayudo a que se desarrolle un enorme ecosistema a si alrededor."
       }
     },
     "asset_detail": {
@@ -2126,16 +2156,16 @@
       "label_check": "Estoy de acuerdo con los términos y condiciones de compra.",
       "button": "Continuar"
     },
-    "error_d24_operation":{
-      "text_primary":"Se produjo un error en tu compra",
-      "text_secondary":"Inténtalo nuevamente o comunícate con soporte si el problema persiste.",
-      "button_primary":"Reintentar",
-      "button_secondary":"Ir a wallet"
+    "error_d24_operation": {
+      "text_primary": "Se produjo un error en tu compra",
+      "text_secondary": "Inténtalo nuevamente o comunícate con soporte si el problema persiste.",
+      "button_primary": "Reintentar",
+      "button_secondary": "Ir a wallet"
     },
-    "success_d24_operation":{
-      "text_primary":"¡Compra confirmada!",
-      "text_secondary":"La acreditación de tus tokens puede tardar hasta 24hs.",
-      "button_text":"Ir a wallet"
+    "success_d24_operation": {
+      "text_primary": "¡Compra confirmada!",
+      "text_secondary": "La acreditación de tus tokens puede tardar hasta 24hs.",
+      "button_text": "Ir a wallet"
     },
     "operations_list": {
       "title": "Mis operaciones",
@@ -2222,6 +2252,18 @@
         "provider": "Proveedor",
         "reception_address": "Dirección de recepción",
         "network": "Red"
+      },
+      "remove_photo":{
+        "title": "¿Eliminar archivo?",
+        "description":"Si continuas, deberás cargar nuevamente el comprobante.",
+        "button_text1":"Cancelar",
+        "button_text2":"Eliminar"
+      },
+      "exit_operation_detail":{
+        "title": "¿Deseas salir?",
+        "description":"Deberás volver a cargar tu comprobante.",
+        "button_text1":"Cancelar",
+        "button_text2":"Confirmar"
       }
     },
     "operation_status": {
@@ -2401,13 +2443,30 @@
         "provider": "Proveedor",
         "to_pay": "Pagarás*",
         "input_error": "El monto mínimo de compra es de ${{amount}} {{fiatCurrency}}",
-        "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día."
+        "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día.",
+        "estimated_fee": "Tarifa de transacción estimada"
       },
       "kyc_disclaimer_modal": {
         "title": "Registro cuenta Kripton",
         "description": "Por única vez tienes que crearte una cuenta en kripton, la próxima vez que elijas este operador vas a acceder de manera automática.\n Recuerda que el registro y proceso de compra queda a cargo de Kripton.",
         "button": "Empezar"
+      },
+      "fee_info_modal": {
+        "title": "¿Qué es la tarifa de transacción?",
+        "item1": "Es el costo por realizar una compra.",
+        "item2": "Puede variar ligeramente al momento de realizar la operación.",
+        "item3": "Podrás encontrarlo en tu ticket de pago como “verificador de monto”.",
+        "button": "Entendido"
       }
+    },
+    "user_email": {
+      "header":"Comprar cripto",
+      "provider":"Proveedor: Kripton Market",
+      "title":"Para continuar tu compra, ingresa el email de tu cuenta Kripton Market",
+      "subtitle":"Si no posees una cuenta, escribe el email con el que quieres que te registremos.",
+      "label_email":"Email",
+      "button":"Continuar",
+      "text":"Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones."
     }
   },
   "home": {

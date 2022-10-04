@@ -124,5 +124,34 @@
         }
       }
     }
+
+    &__fee {
+      margin-top: 24px;
+
+      &__label {
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+
+        ion-icon {
+          width: 16px;
+          height: 16px;
+          margin-left: 4px;
+        }
+      }
+
+      &__amount {
+        ion-text {
+          color: var(--ion-color-neutral90);
+        }
+      }
+    }
+  }
+}
+
+.skeleton {
+  ion-skeleton-text {
+    height: 18px;
+    border-radius: 8px;
   }
 }

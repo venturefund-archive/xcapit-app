@@ -180,9 +180,6 @@ import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
           </div>
         </div>
       </div>
-      <div class="wt__start-investing" *ngIf="this.walletExist">
-        <app-start-investing></app-start-investing>
-      </div>
       <div class="wt__button" *ngIf="!this.walletExist">
         <ion-button
           (click)="this.goToRecoveryWallet()"
@@ -194,6 +191,12 @@ import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
         >
           {{ 'wallets.home.wallet_recovery' | translate }}
         </ion-button>
+      </div>
+      <div class="quotes-card" *appFeatureFlag="'ff_newLogin'">
+          <app-quotes-card></app-quotes-card>
+        </div>
+      <div class="wt__start-investing" *ngIf="this.walletExist">
+        <app-start-investing></app-start-investing>
       </div>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],

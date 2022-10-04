@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -22,6 +22,8 @@ import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive
 import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { Vault } from '@2pi-network/sdk';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
+import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 
 const testCoins = [
   jasmine.createSpyObj(
@@ -34,6 +36,17 @@ const testCoins = [
     }
   ),
 ];
+
+const dataTest = {
+  data: {
+    flows: [
+      {
+        balance: '12777395',
+        balanceUSD: '12.77640743514045',
+      },
+    ],
+  },
+};
 
 describe('DefiInvestmentProductsPage', () => {
   let component: DefiInvestmentProductsPage;
@@ -53,7 +66,8 @@ describe('DefiInvestmentProductsPage', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<DefiInvestmentProductsPage>;
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
-
+  let graphqlServiceSpy: jasmine.SpyObj<GraphqlService>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
   beforeEach(waitForAsync(() => {
     twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
       vault: Promise.resolve({
@@ -120,6 +134,13 @@ describe('DefiInvestmentProductsPage', () => {
       }
     );
 
+    storageServiceSpy = jasmine.createSpyObj('StorageService', {
+      getWalletsAddresses: Promise.resolve('0x00001'),
+      getWalletFromStorage: Promise.resolve({
+        addresses: { MATIC: 'testAddressMatic' },
+      }),
+    });
+
     investmentSpy = jasmine.createSpyObj('TwoPiInvestment', {
       balance: Promise.resolve(50),
     });
@@ -127,6 +148,10 @@ describe('DefiInvestmentProductsPage', () => {
     investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
       token: testCoins[0],
       contractAddress: '0x00001',
+    });
+
+    graphqlServiceSpy = jasmine.createSpyObj('GraphqlService', {
+      getInvestedBalance: of(dataTest),
     });
 
     availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
@@ -146,6 +171,8 @@ describe('DefiInvestmentProductsPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: TwoPiApi, useValue: twoPiApiSpy },
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
+        { provide: GraphqlService, useValue: graphqlServiceSpy },
+        { provide: StorageService, useValue: storageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -247,7 +274,6 @@ describe('DefiInvestmentProductsPage', () => {
   it('should call trackEvent on trackService when go_to_defi_faqs Button clicked', async () => {
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
-    component.disableFaqsButton = false;
     component.ionViewWillEnter();
     await component.ionViewDidEnter();
     await fixture.whenRenderingDone();
@@ -260,7 +286,6 @@ describe('DefiInvestmentProductsPage', () => {
   });
 
   it('should navigate to deFi Faqs when go_to_defi_faqs button is clicked', async () => {
-    component.disableFaqsButton = false;
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
@@ -270,7 +295,7 @@ describe('DefiInvestmentProductsPage', () => {
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="go_to_defi_faqs"'));
     buttonEl.nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/defi']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/faqs/wallet_operations']);
   });
 
   it('should render skeleton if there is not active investements and it is still loading', async () => {
@@ -333,5 +358,21 @@ describe('DefiInvestmentProductsPage', () => {
     const cardEl = fixture.debugElement.query(By.css('app-choose-investor-profile-card'));
     expect(cardEl.nativeElement.hasDoneInvestorTest).toBeFalse();
     expect(cardEl).toBeTruthy();
+  });
+
+  it('should render total invested correctly', async () => {
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
+    component.ionViewWillEnter();
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    const totalInvestedEl = fixture.debugElement.query(By.css('.dp__amount__content__total-invested'));
+    fixture.detectChanges();
+    expect(graphqlServiceSpy.getInvestedBalance).toHaveBeenCalledTimes(1);
+    expect(component.totalInvested).toEqual(12.77640743514045);
+    expect(totalInvestedEl.nativeElement.innerHTML).toContain('12.78');
   });
 });

@@ -8,6 +8,7 @@ import { LoggedIn } from '../shared-users/models/logged-in/logged-in';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { LoginPasswordInfoComponent } from '../shared-users/components/login-password-info/login-password-info.component';
+import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
@@ -19,7 +20,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
       </div>
       <div class="ul__title">
         <ion-text class="ux-font-text-xl">{{ 'users.login_new.title' | translate }}</ion-text>
-        <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit()">
+        <form [formGroup]="this.form" (ngSubmit)="this.handleSubmit(false)">
           <div class="ul__input">
             <app-ux-input
               controlName="password"
@@ -85,6 +86,7 @@ export class LoginNewPage {
   form: UntypedFormGroup = this.formBuilder.group({
     password: ['', []],
   });
+  biometricAuth = this.biometricAuthInjectable.create();
   constructor(
     private toastService: ToastService,
     private formBuilder: UntypedFormBuilder,
@@ -92,10 +94,12 @@ export class LoginNewPage {
     private navController: NavController,
     private translate: TranslateService,
     private modalController: ModalController,
+    private biometricAuthInjectable: BiometricAuthInjectable,
     private trackService: TrackService
   ) {}
 
   ionViewWillEnter() {
+    this.activateBiometricAuth();
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
@@ -107,8 +111,17 @@ export class LoginNewPage {
     this.toastService.dismiss();
   }
 
-  async handleSubmit() {
-    if (await new LoginToken(new Password(this.form.value.password), this.storage).valid()) {
+  async activateBiometricAuth() {
+    if ((await this.biometricAuth.enabled()) && (await this.biometricAuth.verified())) {
+      this.handleSubmit(true);
+    }
+  }
+
+  async handleSubmit(isBiometricAuth: boolean) {
+    const password = isBiometricAuth
+      ? await this.biometricAuth.password()
+      : this.form.value.password;
+    if (await new LoginToken(new Password(password), this.storage).valid()) {
       await new LoggedIn(this.storage).save(true);
       this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
     } else {
