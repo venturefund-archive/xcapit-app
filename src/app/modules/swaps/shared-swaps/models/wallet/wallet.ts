@@ -112,8 +112,6 @@ export class SolanaWallet implements Wallet {
     return new this(_rawData, new Connection(_aBlockchain.rpc()));
   }
 
-  // sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
-
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
     for (const tx of transactions) {
       await this._connection.sendTransaction(
