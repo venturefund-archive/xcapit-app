@@ -73,6 +73,11 @@ describe('DefaultWallet', () => {
       expect(testObject.testMethod).toHaveBeenCalledTimes(1);
     });
 
+    it('address', ()=>{
+      const wallet = new FakeWallet();
+      expect(wallet.address()).toEqual('x')
+    })
+
     it('notify wallet was decrypted', async () => {
       fakeWallet.onNeedPass().subscribe(() => testObject.testMethod());
       fakeWallet.onDecryptedWallet().subscribe(() => testObject.testMethod());
