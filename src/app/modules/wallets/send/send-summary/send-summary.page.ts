@@ -83,7 +83,7 @@ export class SendSummaryPage implements OnInit {
     private alertController: AlertController,
     private trackService: TrackService,
     private blockchains: BlockchainsFactory,
-    private walletsFactory : WalletsFactory
+    private walletsFactory: WalletsFactory
   ) {}
 
   ngOnInit() {}
@@ -91,9 +91,8 @@ export class SendSummaryPage implements OnInit {
   ionViewWillEnter() {
     this.isSending = false;
     this.summaryData = this.transactionDataService.transactionData;
-    this.blockchain = this.blockchains.create().oneByName(this.summaryData.network)
+    this.blockchain = this.blockchains.create().oneByName(this.summaryData.network);
     this.checkMode();
-    
   }
 
   async showPhraseAmountInfo() {
@@ -162,7 +161,7 @@ export class SendSummaryPage implements OnInit {
   }
 
   private async send(password: string) {
-    if(this.blockchain.name() !== 'SOLANA'){
+    if (this.blockchain.name() !== 'SOLANA') {
       const response = await this.walletTransactionsService.send(
         password,
         this.summaryData.amount,
@@ -170,9 +169,9 @@ export class SendSummaryPage implements OnInit {
         this.summaryData.currency
       );
       await this.goToSuccess(response);
-    }else{
-      const wallet = await this.walletsFactory.create().oneBy(this.blockchain); 
-      wallet.sendTxs([])
+    } else {
+      const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
+      wallet.sendTxs([]);
     }
   }
 
@@ -251,17 +250,18 @@ export class SendSummaryPage implements OnInit {
     ];
   }
 
-
   private notifyWhenTransactionMined(response: TransactionResponse) {
     response
       .wait()
       .then((transaction: TransactionReceipt) => this.createNotification(transaction))
       .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification))
-      .then(() => this.trackService.trackEvent({
-        eventAction: 'async_tx',
-        description: window.location.href,
-        eventLabel: 'ux_send_notification_success'
-      }))
+      .then(() =>
+        this.trackService.trackEvent({
+          eventAction: 'async_tx',
+          description: window.location.href,
+          eventLabel: 'ux_send_notification_success',
+        })
+      );
   }
 
   private async handleSendError(error) {
