@@ -1,13 +1,18 @@
 export class FakeConnection {}
 
 fdescribe('Fake Connection', () => {
+  let connection: FakeConnection;
 
-  it('new', () => {
-    expect(new FakeConnection()).toBeTruthy();
-  });
-
-it('send transaction', () => {
-  expect(false).toBeTruthy();
+beforeEach(() => {
+  connection = new FakeConnection();
 });
 
+
+  it('new', () => {
+    expect(connection).toBeTruthy();
+  });
+
+  it('send transaction', () => {
+    expect(connection.sendTransaction()).toBeTruthy();
+  });
 });
