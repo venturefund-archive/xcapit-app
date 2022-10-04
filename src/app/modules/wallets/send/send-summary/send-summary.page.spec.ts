@@ -20,6 +20,12 @@ import { FakeNavController } from '../../../../../testing/fakes/nav-controller.f
 import { BigNumber, constants } from 'ethers';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 
 const testLocalNotification: LocalNotificationSchema = {
   id: 1,
@@ -80,6 +86,9 @@ fdescribe('SendSummaryPage', () => {
   let alertControllerSpy: jasmine.SpyObj<AlertController>;
   let alertSpy: jasmine.SpyObj<HTMLIonAlertElement>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   beforeEach(() => {
     alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
@@ -109,6 +118,14 @@ fdescribe('SendSummaryPage', () => {
       trackEvent: Promise.resolve(),
     });
 
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: blockchains,
+    });
+
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+    });
+
     TestBed.configureTestingModule({
       declarations: [SendSummaryPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
@@ -122,6 +139,8 @@ fdescribe('SendSummaryPage', () => {
         { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
         { provide: AlertController, useValue: alertControllerSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: WalletsFactory, useValue: walletsFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
