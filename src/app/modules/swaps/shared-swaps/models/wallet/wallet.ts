@@ -72,7 +72,7 @@ export class FakeWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
   private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
-  constructor(private readonly sendTxsResponse: Promise<any> = Promise.resolve(false), private msgError: string = '', private _address : string) {}
+  constructor(private readonly sendTxsResponse: Promise<any> = Promise.resolve(false), private msgError: string = '', private _address : string = '') {}
 
   public onNeedPass(): Subscribable {
     return this._onNeedPass;
