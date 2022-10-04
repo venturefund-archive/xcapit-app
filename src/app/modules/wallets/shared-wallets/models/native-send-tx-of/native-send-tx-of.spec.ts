@@ -24,7 +24,11 @@ fdescribe('NativeSendTxOf', () => {
 
   beforeEach(() => {
     transaction = new NativeSendTxOf(
-      new FakeWallet(Promise.resolve(false), '', 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH'),
+      new FakeWallet(
+        Promise.resolve(false),
+        '',
+        'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH'
+      ),
       'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH',
       1
     );
