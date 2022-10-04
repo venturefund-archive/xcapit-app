@@ -23,7 +23,7 @@ fdescribe('NativeSendTxOf', () => {
   let transaction: NativeSendTxOf;
 
   beforeEach(() => {
-    transaction = new NativeSendTxOf(new FakeWallet(), '', 1);
+    transaction = new NativeSendTxOf(new FakeWallet(Promise.resolve(false), '', ), '', 1);
   });
 
   it('new', () => {
