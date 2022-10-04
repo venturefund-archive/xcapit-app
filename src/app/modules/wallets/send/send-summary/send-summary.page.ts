@@ -182,21 +182,17 @@ export class SendSummaryPage implements OnInit {
   }
 
   private async checksBeforeSend(): Promise<boolean> {
-    if (!this.addressIsValid()) {
-      await this.handleInvalidAddress();
+
+    // TODO: y SOLANA?
+    if (!(await this.userCanAffordFees())) {
+      await this.handleUserCantAffordFees();
       return false;
     }
 
-    // TODO: y SOLANA?
-    // if (!(await this.userCanAffordFees())) {
-    //   await this.handleUserCantAffordFees();
-    //   return false;
-    // }
-
-    // if (!(await this.userCanAffordTx())) {
-    //   await this.handleUserCantAffordTx();
-    //   return false;
-    // }
+    if (!(await this.userCanAffordTx())) {
+      await this.handleUserCantAffordTx();
+      return false;
+    }
 
     return true;
   }
@@ -309,20 +305,6 @@ export class SendSummaryPage implements OnInit {
       this.summaryData.amount,
       this.summaryData.currency
     );
-  }
-
-  private addressIsValid() {
-    return true
-    //TODO: Limpiar
-    // if(this.blockchain.name() !== 'SOLANA'){
-    //   return isAddress(this.summaryData.address);
-    // }else{
-
-    // }
-  }
-
-  private async handleInvalidAddress() {
-    await this.navController.navigateForward(['/wallets/send/error/wrong-address']);
   }
 
   private async handleUserCantAffordFees() {
