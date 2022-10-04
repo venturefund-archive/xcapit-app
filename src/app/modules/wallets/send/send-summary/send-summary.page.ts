@@ -173,25 +173,22 @@ export class SendSummaryPage implements OnInit {
       await this.goToSuccess(response);
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
-      wallet.onNeedPass().subscribe(() => (new Password(password)).value());
-      await wallet.sendTxs([new NativeSendTxOf(
-        wallet,
-        this.summaryData.address,
-        this.summaryData.amount)]);
+      wallet.onNeedPass().subscribe(() => new Password(password).value());
+      await wallet.sendTxs([new NativeSendTxOf(wallet, this.summaryData.address, this.summaryData.amount)]);
     }
   }
 
   private async checksBeforeSend(): Promise<boolean> {
+    if (this.blockchain.name() !== 'SOLANA') {
+      if (!(await this.userCanAffordFees())) {
+        await this.handleUserCantAffordFees();
+        return false;
+      }
 
-    // TODO: y SOLANA?
-    if (!(await this.userCanAffordFees())) {
-      await this.handleUserCantAffordFees();
-      return false;
-    }
-
-    if (!(await this.userCanAffordTx())) {
-      await this.handleUserCantAffordTx();
-      return false;
+      if (!(await this.userCanAffordTx())) {
+        await this.handleUserCantAffordTx();
+        return false;
+      }
     }
 
     return true;
