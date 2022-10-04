@@ -1,5 +1,6 @@
 export class FakeConnection { }
-describe('Fake Connection', () => {
+
+fdescribe('Fake Connection', () => {
 
     it('new', () => {
       expect(new FakeConnection()).toBeTruthy();
