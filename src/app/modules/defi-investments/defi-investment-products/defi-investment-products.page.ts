@@ -259,7 +259,7 @@ export class DefiInvestmentProductsPage {
         res[0].prices[token.value],
         token.decimals
       );
-      let usdYield = calculator.cumulativeYieldUSD();
+      const usdYield = calculator.cumulativeYieldUSD();
       this.totalUsdYield.value += usdYield.value;
     });
   }
