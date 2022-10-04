@@ -173,10 +173,6 @@ export class CreatePasswordPage implements OnInit {
 
   ngOnInit() {}
 
-  private createWallets(): Promise<any> {
-    return this.walletService.create();
-  }
-
   private encryptWallet(): Promise<any> {
     return this.walletEncryptionService.encryptWallet(this.createPasswordForm.value.password);
   }
@@ -196,7 +192,6 @@ export class CreatePasswordPage implements OnInit {
       this.loading = true;
       setTimeout(async () => {
         await this.encryptWallet();
-        await this.createWallets();
         await this.createXAuthToken();
         await this.saveWallets();
         await this.createLoginToken();
@@ -220,7 +215,7 @@ export class CreatePasswordPage implements OnInit {
 
   private async createXAuthToken(): Promise<void> {
     const blockchain = this.blockchains.create().oneByName('ERC20');
-    const wallet = this.walletService.createForDerivedPath(blockchain.derivedPath());
+    const wallet = ethers.Wallet.fromMnemonic(this.walletMnemonicService.mnemonic.phrase, blockchain.derivedPath(), ethers.wordlists.en);
     const signedMsg = await wallet.signMessage(wallet.address);
     return this.xAuthService.saveToken(`${wallet.address}_${signedMsg}`);
   }
