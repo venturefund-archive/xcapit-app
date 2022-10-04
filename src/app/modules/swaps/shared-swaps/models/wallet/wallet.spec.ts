@@ -1,6 +1,6 @@
 import { FakeBlockchainTx } from '../fakes/fake-blockchain-tx';
 import { FakeEthersWallet } from '../fakes/fake-ethers-wallet';
-import { rawEthereumData } from '../fixtures/raw-blockchains-data';
+import { rawEthereumData, rawSolanaData } from '../fixtures/raw-blockchains-data';
 import { passEncryptedWallet, rawWalletData } from '../fixtures/raw-wallet-data';
 import { DefaultWallet, FakeWallet, SolanaWallet, Wallet } from './wallet';
 import { fakeProviders } from '../fakes/fake-ethers-providers';
@@ -92,6 +92,7 @@ describe('DefaultWallet', () => {
 fdescribe('SolanaWallet', () => {
   let wallet: Wallet;
   let testObject: any;
+  const blockchain = new Blockchain(rawSolanaData);
 
   beforeEach(() => {
     wallet = new SolanaWallet(rawWalletData, {});
