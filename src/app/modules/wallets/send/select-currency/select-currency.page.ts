@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { NavController } from '@ionic/angular';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-select-currency',
@@ -22,7 +21,11 @@ import { NavigationExtras } from '@angular/router';
         </ion-label>
       </div>
       <div class="sc__list" *ngIf="this.coins">
-        <app-token-selection-list state="send" [userCoins]="this.coins" (clickedCoin)="this.selectCurrency($event)"></app-token-selection-list>
+        <app-token-selection-list
+          state="send"
+          [userCoins]="this.coins"
+          (clickedCoin)="this.selectCurrency($event)"
+        ></app-token-selection-list>
       </div>
     </ion-content>
   `,
@@ -35,9 +38,7 @@ export class SelectCurrencyPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.storageService.getAssestsSelected().then((coins) => {
-      this.coins = coins.filter(rawToken => rawToken.network !== 'SOLANA');
-    });
+    this.storageService.getAssestsSelected().then((coins) => (this.coins = coins));
   }
 
   selectCurrency(token: Coin) {
