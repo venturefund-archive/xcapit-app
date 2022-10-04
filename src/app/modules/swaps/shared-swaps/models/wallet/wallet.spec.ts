@@ -5,6 +5,7 @@ import { passEncryptedWallet, rawWalletData } from '../fixtures/raw-wallet-data'
 import { DefaultWallet, FakeWallet, SolanaWallet, Wallet } from './wallet';
 import { fakeProviders } from '../fakes/fake-ethers-providers';
 import { Blockchain } from '../blockchain/blockchain';
+import { Connection } from '@solana/web3.js';
 
 describe('DefaultWallet', () => {
   let wallet: Wallet;
@@ -95,7 +96,7 @@ fdescribe('SolanaWallet', () => {
   const blockchain = new Blockchain(rawSolanaData);
 
   beforeEach(() => {
-    wallet = new SolanaWallet(rawWalletData, blockchain, {});
+    wallet = new SolanaWallet(rawWalletData, {} as Connection);
     testObject = { testMethod: () => Promise.resolve(passEncryptedWallet) };
     spyOn(testObject, 'testMethod').and.callThrough();
   });

@@ -16,7 +16,9 @@ export class Wallets {
   async oneBy(aBlockchain: Blockchain): Promise<Wallet> {
     const rawData = await this._rawWalletData(aBlockchain);
 
-    return this._isSolana(aBlockchain) ? new SolanaWallet(rawData, aBlockchain) : new DefaultWallet(rawData, aBlockchain);
+    return this._isSolana(aBlockchain)
+      ? SolanaWallet.create(rawData, aBlockchain)
+      : new DefaultWallet(rawData, aBlockchain);
   }
 
   async createFrom(aPhrase: string, aPassword: Password, blockchains: Blockchains): Promise<void> {
