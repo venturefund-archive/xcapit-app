@@ -2176,7 +2176,7 @@
       "header": "Buy Crypto",
       "select_label": "Country in which you are going to operate",
       "select_placeholder": "Select your country",
-      "provider_label": "Select provider",
+      "provider_label": "Select your payment method",
       "no_provider": "At the moment it is not possible to purchase {{coinName}} in your country.",
       "moonpay_description": "Buy with a credit card",
       "krypton_description": "Buy with bank transfer",
