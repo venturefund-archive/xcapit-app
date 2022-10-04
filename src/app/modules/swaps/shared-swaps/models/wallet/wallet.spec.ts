@@ -93,6 +93,7 @@ describe('DefaultWallet', () => {
 fdescribe('SolanaWallet', () => {
   let wallet: Wallet;
   let testObject: any;
+  let fakeConnection : 
   const blockchain = new Blockchain(rawSolanaData);
 
   beforeEach(() => {
