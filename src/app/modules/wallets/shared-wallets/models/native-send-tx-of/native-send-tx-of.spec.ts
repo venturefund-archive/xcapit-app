@@ -8,7 +8,7 @@ export class NativeSendTxOf {
         private _amount : number
     ){}
 }
-
+//TODO
 fdescribe('NativeSendTxOf', ()=>{
     it('new', ()=>{
         expect(new NativeSendTxOf(new FakeWallet(), '', 1)).toBeTruthy();
