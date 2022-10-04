@@ -15,7 +15,6 @@ export class NativeSendTxOf implements BlockchainTx {
           lamports: this._amount * LAMPORTS_PER_SOL,
         }),
       );
-
       return null;
     }
 }
