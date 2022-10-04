@@ -38,6 +38,7 @@ fdescribe('NativeSendTxOf', () => {
     expect(transaction).toBeTruthy();
   });
 
+  // TODO: ver si es suficiente con toBeTruthy...
   it('value', async () => {
     expect(await transaction.value()).toBeTruthy();
   });
