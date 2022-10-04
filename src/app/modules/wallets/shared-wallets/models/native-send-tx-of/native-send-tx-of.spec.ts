@@ -2,9 +2,9 @@ import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wal
 import { NativeSendTxOf } from './native-send-tx-of';
 
 fdescribe('NativeSendTxOf', () => {
-  const testWalletAddress = 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH';
-  const testToAddress = 'HVGoaJgWW9TEu19avGRPjc2KvmReUYwxXib7NmwQqm4F';
   let transaction: NativeSendTxOf;
+  const testToAddress = 'HVGoaJgWW9TEu19avGRPjc2KvmReUYwxXib7NmwQqm4F';
+  const testWalletAddress = 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH';
 
   beforeEach(() => {
     transaction = new NativeSendTxOf(
