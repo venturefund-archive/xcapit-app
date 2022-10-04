@@ -1,4 +1,3 @@
-
 import { FakeWallet, Wallet } from "src/app/modules/swaps/shared-swaps/models/wallet/wallet";
 
 export class NativeSendTxOf {
