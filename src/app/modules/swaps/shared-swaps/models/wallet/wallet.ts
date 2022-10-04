@@ -110,8 +110,9 @@ export class SolanaWallet implements Wallet {
   }
 
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
+    const derivedWallet = this._derivedWallet(await this._decryptedWallet());
     for (const tx of transactions) {
-      await this._connection.sendTransaction((await tx.value()) as Transaction, [this._derivedWallet(await this._decryptedWallet())]);
+      await this._connection.sendTransaction((await tx.value()) as Transaction, [derivedWallet]);
     }
     return true;
   }
