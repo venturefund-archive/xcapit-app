@@ -120,7 +120,8 @@ fdescribe('SolanaWallet', () => {
     expect(true).toBeTrue();
   });
 
-  // it('sendTx', () => {
-
-  // });
+  it('sendTx', async () => {
+    const result = await wallet.sendTxs([new FakeBlockchainTx()]);
+    expect(result).toBeTrue();
+  });
 });
