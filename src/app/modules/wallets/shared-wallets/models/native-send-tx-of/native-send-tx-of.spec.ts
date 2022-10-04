@@ -7,7 +7,7 @@ export class NativeSendTxOf implements BlockchainTx {
 
     constructor(private _wallet: Wallet, private _to: string, private _amount: number) { }
 
-    value(): Promise<Transaction> {
+    async value(): Promise<Transaction> {
       return null;
     }
 }
