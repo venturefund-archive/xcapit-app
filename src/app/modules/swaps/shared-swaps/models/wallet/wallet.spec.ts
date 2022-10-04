@@ -94,7 +94,7 @@ fdescribe('SolanaWallet', () => {
   let testObject: any;
 
   beforeEach(() => {
-    wallet = new SolanaWallet(rawWalletData);
+    wallet = new SolanaWallet(rawWalletData, {});
     testObject = { testMethod: () => Promise.resolve(passEncryptedWallet) };
     spyOn(testObject, 'testMethod').and.callThrough();
   });
