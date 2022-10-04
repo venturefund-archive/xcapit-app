@@ -74,8 +74,10 @@ describe('DefaultWallet', () => {
     });
 
     it('address', ()=>{
-      const wallet = new FakeWallet(Promise.resolve(false), '', 'x');
-      expect(wallet.address()).toEqual('x')
+      const addressTestValue = 'x';
+      const wallet = new FakeWallet(Promise.resolve(false), '', addressTestValue);
+
+      expect(wallet.address()).toEqual(addressTestValue)
     })
 
     it('notify wallet was decrypted', async () => {
