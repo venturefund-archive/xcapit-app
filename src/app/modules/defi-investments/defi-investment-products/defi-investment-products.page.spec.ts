@@ -48,6 +48,41 @@ const dataTest = {
   },
 };
 
+const allMovementsTest = {
+  data: {
+    flows: [
+      {
+        amount: '500024348558355473',
+        balance: '0',
+        balanceUSD: '0',
+        timestamp: '1661194501',
+        type: 'withdraw',
+      },
+      {
+        amount: '50123123132355473',
+        balance: '12123',
+        balanceUSD: '1232',
+        timestamp: '1661194501',
+        type: 'deposit',
+      },
+      {
+        amount: '500024348558355473',
+        balance: '0',
+        balanceUSD: '0',
+        timestamp: '1661194501',
+        type: 'withdraw',
+      },
+      {
+        amount: '500024348558355473',
+        balance: '0',
+        balanceUSD: '0',
+        timestamp: '1661194501',
+        type: 'withdraw',
+      },
+    ],
+  },
+}
+
 describe('DefiInvestmentProductsPage', () => {
   let component: DefiInvestmentProductsPage;
   let fixture: ComponentFixture<DefiInvestmentProductsPage>;
@@ -68,6 +103,7 @@ describe('DefiInvestmentProductsPage', () => {
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
   let graphqlServiceSpy: jasmine.SpyObj<GraphqlService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
+
   beforeEach(waitForAsync(() => {
     twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
       vault: Promise.resolve({
@@ -121,9 +157,12 @@ describe('DefiInvestmentProductsPage', () => {
     walletServiceSpy = jasmine.createSpyObj('WalletServiceSpy', {
       walletExist: Promise.resolve(true),
     });
+
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletServiceSpy', {
       getCoins: testCoins,
+      getPrices: of({ prices: { USDC: 1 } }),
     });
+
     walletEncryptionServiceSpy = jasmine.createSpyObj(
       'WalletEncryptionServiceSpy',
       {
@@ -152,6 +191,7 @@ describe('DefiInvestmentProductsPage', () => {
 
     graphqlServiceSpy = jasmine.createSpyObj('GraphqlService', {
       getInvestedBalance: of(dataTest),
+      getAllMovements: of(allMovementsTest),
     });
 
     availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
@@ -374,5 +414,12 @@ describe('DefiInvestmentProductsPage', () => {
     expect(graphqlServiceSpy.getInvestedBalance).toHaveBeenCalledTimes(1);
     expect(component.totalInvested).toEqual(12.77640743514045);
     expect(totalInvestedEl.nativeElement.innerHTML).toContain('12.78');
+  });
+
+  it('should render yields properly', async () => {
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(component.totalUsdYield).toEqual({ value: jasmine.any(Number), token: 'USD' });
   });
 });

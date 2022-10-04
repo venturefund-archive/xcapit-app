@@ -23,7 +23,6 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
-import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator.model';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const testVault = {

@@ -16,6 +16,10 @@ import { NavController } from '@ionic/angular';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator.model';
+import { forkJoin, Observable } from 'rxjs';
+import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
+import { InvestmentMovement } from '../../wallets/shared-wallets/interfaces/investment-movement.interface';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -47,6 +51,12 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
         </div>
       </div>
       <div class="header-background"></div>
+      <div class="cumulative-total-yields">
+        <app-cumulative-total-yields
+          [totalUsdYield]="this.totalUsdYield"
+          [allLoaded]="this.allLoaded"
+        ></app-cumulative-total-yields>
+      </div>
       <div class="dp">
         <div class="dp__active-card">
           <ion-item lines="none" slot="header">
@@ -166,6 +176,13 @@ export class DefiInvestmentProductsPage {
   availableInvestments: DefiInvestment[] = [];
   filteredAvailableInvestments: DefiInvestment[] = [];
   allLoaded = false;
+  private price$: Observable<any>;
+  private movements$: Observable<any>;
+  totalUsdYield: RawAmount = { value: 0, token: 'USD' };
+  allMovements: InvestmentMovement[] = [];
+  tokenPrice: number;
+  usdYield: RawAmount;
+  balance: number;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -177,7 +194,7 @@ export class DefiInvestmentProductsPage {
     private navController: NavController,
     private remoteConfig: RemoteConfigService,
     private graphql: GraphqlService,
-    private storageService: StorageService,
+    private storageService: StorageService
   ) {}
 
   get hasDoneInvestorTest(): boolean {
@@ -214,16 +231,45 @@ export class DefiInvestmentProductsPage {
     if (wallet) this.address = wallet.addresses.MATIC;
   }
 
-  calculatedTotalBalanceInvested() {
+  calculatedTotalBalanceInvested(product: InvestmentProduct) {
     this.totalInvested = 0;
-    for (const pid of this.pids) {
-      this.graphql.getInvestedBalance(this.address, pid).subscribe(({ data }) => {
-        if (data.flows[0]) {
-          const balance = parseFloat(data.flows[0].balanceUSD);
-          this.totalInvested += balance;
-        }
-      });
-    }
+    this.graphql.getInvestedBalance(this.address, product.id()).subscribe(({ data }) => {
+      if (data.flows[0]) {
+        const balanceUSD = parseFloat(data.flows[0].balanceUSD);
+        this.totalInvested += balanceUSD;
+      }
+    });
+    this.getAllMovements(product.id());
+    this.getPrice(product.token());
+  }
+
+  getAllMovements(pid: number) {
+    this.movements$ = this.graphql.getAllMovements(this.address, pid);
+    this.movements$.subscribe(({ data }) => {
+      this.allMovements = data.flows;
+    });
+  }
+
+  calculateEarnings(token) {
+    forkJoin([this.price$, this.movements$]).subscribe((res) => {
+      const calculator = new YieldCalculator(
+        this.balance,
+        res[1].data.flows,
+        token.value,
+        res[0].prices[token.value],
+        token.decimals
+      );
+      const usdYield = calculator.cumulativeYieldUSD();
+      this.totalUsdYield.value += usdYield.value;
+    });
+  }
+
+  getPrice(token) {
+    this.price$ = this.apiWalletService.getPrices([token.value], false);
+    this.price$.subscribe((res) => {
+      this.tokenPrice = res.prices[token.value];
+    });
+    this.calculateEarnings(token);
   }
 
   getUser() {
@@ -248,7 +294,7 @@ export class DefiInvestmentProductsPage {
   }
 
   setFilter(investorProfile: string) {
-    this.profileForm.patchValue({ profile: investorProfile.replace('wealth_managements.profiles.', '') });
+    this.profileForm.patchValue({ profile: investorProfile?.replace('wealth_managements.profiles.', '') });
   }
 
   emptyArrays() {
@@ -257,6 +303,7 @@ export class DefiInvestmentProductsPage {
     this.allDefiProducts = [];
     this.activeInvestmentsContinuousEarning = [];
     this.activeInvestmentsWeaklyEarning = [];
+    this.totalUsdYield.value = 0;
   }
 
   private getAvailableDefiProducts(): void {
@@ -279,10 +326,8 @@ export class DefiInvestmentProductsPage {
         continuousEarning: product.continuousEarning,
         category: product.category,
       });
-      this.pids.push(anInvestmentProduct.id());
     }
     this.allDefiProducts = this.availableInvestments = investmentsProducts;
-    this.calculatedTotalBalanceInvested();
   }
 
   async setBalance() {
@@ -297,6 +342,10 @@ export class DefiInvestmentProductsPage {
         continuousEarning: dp.continuousEarning,
         category: dp.category,
       });
+      if (balance > 0) {
+        this.balance = balance;
+        this.calculatedTotalBalanceInvested(dp.product);
+      }
     }
     this.allDefiProducts = investments;
     this.filterUserInvestments();
