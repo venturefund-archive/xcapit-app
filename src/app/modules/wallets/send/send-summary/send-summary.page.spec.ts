@@ -272,17 +272,6 @@ fdescribe('SendSummaryPage', () => {
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
-  it('should redirect to Wrong Address Page if address is invalid', async () => {
-    transactionDataServiceMock.transactionData = summaryDataInvalidAddress;
-    await component.ionViewWillEnter();
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
-    await fixture.whenStable();
-    expect(component.isSending).toBeFalse();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-address']);
-    expect(alertSpy.present).toHaveBeenCalledTimes(0);
-  });
-
   it('should open alert and not send transaction nor redirect user if user cannot afford fees', async () => {
     walletTransactionsServiceSpy.canAffordSendFee.and.resolveTo(false);
     component.ionViewWillEnter();
