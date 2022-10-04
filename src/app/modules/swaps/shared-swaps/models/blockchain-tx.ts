@@ -1,6 +1,6 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider';
-import { VersionedTransaction } from '@solana/web3.js';
+import { Transaction, VersionedTransaction } from '@solana/web3.js';
 
 export interface BlockchainTx {
-  value(): Promise<TransactionRequest | VersionedTransaction>;
+  value(): Promise<TransactionRequest | Transaction>;
 }
