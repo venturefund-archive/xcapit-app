@@ -175,7 +175,7 @@ export class SendSummaryPage implements OnInit {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
       wallet.onNeedPass().subscribe(() => new Password(password).value());
       await wallet.sendTxs([new NativeSendTxOf(wallet, this.summaryData.address, this.summaryData.amount)]);
-      await this.goToSuccess(response);
+      await this.goToSuccess();
     }
 
   }
