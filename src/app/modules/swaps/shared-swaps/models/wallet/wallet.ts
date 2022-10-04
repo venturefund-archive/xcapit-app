@@ -2,6 +2,7 @@ import { Wallet as EthersWallet, providers } from 'ethers';
 import { BlockchainTx } from '../blockchain-tx';
 import { Blockchain } from '../blockchain/blockchain';
 import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
+import { Connection } from '@solana/web3.js';
 
 export interface Wallet {
   address: () => string;
@@ -100,7 +101,10 @@ export class SolanaWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
   private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
-  constructor(private _rawData: any) {}
+  constructor(
+    private _rawData: any,
+    private _connection: any = new Connection(clusterApiUrl('devnet'))
+  ) {}
 
   sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
 
