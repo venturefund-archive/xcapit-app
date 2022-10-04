@@ -31,6 +31,7 @@ fdescribe('NativeSendTxOf', () => {
   });
 
   it('value', async () => {
+    
     expect(await transaction.value()).toEqual(null);
   });
 });
