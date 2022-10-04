@@ -177,7 +177,6 @@ export class SendSummaryPage implements OnInit {
       await wallet.sendTxs([new NativeSendTxOf(wallet, this.summaryData.address, this.summaryData.amount)]);
       await this.goToSuccess();
     }
-
   }
 
   private async checksBeforeSend(): Promise<boolean> {
