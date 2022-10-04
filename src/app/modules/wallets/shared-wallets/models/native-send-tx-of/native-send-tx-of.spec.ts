@@ -1,4 +1,4 @@
-import { SystemProgram, Transaction } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, SystemProgram, Transaction } from '@solana/web3.js';
 import { BlockchainTx } from 'src/app/modules/swaps/shared-swaps/models/blockchain-tx';
 import { FakeWallet, Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 
@@ -10,9 +10,9 @@ export class NativeSendTxOf implements BlockchainTx {
     async value(): Promise<Transaction> {
       new Transaction().add(
         SystemProgram.transfer({
-          fromPubkey: wallet1.publicKey,
-          toPubkey: wallet2.publicKey,
-          lamports: 1 * LAMPORTS_PER_SOL,
+          fromPubkey: this._wallet.address(),
+          toPubkey: this._to,
+          lamports: this._amount * LAMPORTS_PER_SOL,
         }),
       );
 
