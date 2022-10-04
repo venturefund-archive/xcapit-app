@@ -307,6 +307,7 @@ export class SendSummaryPage implements OnInit {
   }
 
   private addressIsValid() {
+    if(this.summaryData.addressn)
     return isAddress(this.summaryData.address);
   }
 
