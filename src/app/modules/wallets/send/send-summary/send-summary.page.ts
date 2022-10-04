@@ -171,7 +171,8 @@ export class SendSummaryPage implements OnInit {
       );
       await this.goToSuccess(response);
     }else{
-      const wallet = this.walletsFactory.create().oneBy(this.blockchain); 
+      const wallet = await this.walletsFactory.create().oneBy(this.blockchain); 
+      wallet.sendTxs({})
     }
   }
 
