@@ -103,7 +103,8 @@ export class SolanaWallet implements Wallet {
 
   constructor(
     private _rawData: any,
-    private _connection: Connection
+    private _connection: Connection,
+    private _ethersWallet: any = EthersWallet,
   ) {}
 
   public static create(_rawData: any, _aBlockchain: Blockchain) : SolanaWallet {
@@ -128,6 +129,10 @@ export class SolanaWallet implements Wallet {
         this._onWalletDecrypted.notify();
         return decryptedWallet;
       });
+  }
+
+  private _encryptedWallet(): string {
+    return this._rawData['encryptedWallet'];
   }
 
   private _derivedWallet(aEthersWallet: EthersWallet): EthersWallet {
