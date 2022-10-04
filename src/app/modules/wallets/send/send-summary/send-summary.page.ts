@@ -169,8 +169,8 @@ export class SendSummaryPage implements OnInit {
         this.summaryData.amount,
         this.summaryData.address,
         this.summaryData.currency
-        );
-        await this.goToSuccess(response);
+      );
+      await this.goToSuccess(response);
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
       wallet.onNeedPass().subscribe(() => new Password(password).value());
@@ -252,8 +252,8 @@ export class SendSummaryPage implements OnInit {
   }
 
   private notifyWhenTransactionMined(response: TransactionResponse) {
-    const fixedTxResponse = response ? response.wait() : Promise.resolve({to : this.summaryData.address});
-      fixedTxResponse
+    const fixedTxResponse = response ? response.wait() : Promise.resolve({ to: this.summaryData.address });
+    fixedTxResponse
       .then((transaction: TransactionReceipt) => this.createNotification(transaction.to))
       .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification))
       .then(() =>
