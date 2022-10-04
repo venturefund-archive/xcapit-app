@@ -97,7 +97,7 @@ fdescribe('SolanaWallet', () => {
   const blockchain = new Blockchain(rawSolanaData);
 
   beforeEach(() => {
-    wallet = new SolanaWallet(rawWalletData, new FakeConnection());
+    wallet = new SolanaWallet(rawWalletData, new FakeConnection(), new FakeEthersWallet());
     testObject = { testMethod: () => Promise.resolve(passEncryptedWallet) };
     spyOn(testObject, 'testMethod').and.callThrough();
   });
