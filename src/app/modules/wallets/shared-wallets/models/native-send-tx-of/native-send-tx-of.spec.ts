@@ -8,7 +8,7 @@ export class NativeSendTxOf implements BlockchainTx {
     constructor(private _wallet: Wallet, private _to: string, private _amount: number) { }
 
     async value(): Promise<Transaction> {
-      new Transaction().add(
+      const tx = new Transaction().add(
         SystemProgram.transfer({
           fromPubkey: new PublicKey(this._wallet.address()),
           toPubkey: new PublicKey(this._to),
