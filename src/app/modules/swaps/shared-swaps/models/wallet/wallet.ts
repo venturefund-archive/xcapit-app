@@ -103,7 +103,7 @@ export class SolanaWallet implements Wallet {
 
   constructor(
     private _rawData: any,
-    private _connection: any = new Connection(clusterApiUrl('devnet'))
+    private _connection: any = new Connection('devnet')
   ) {}
 
   sendTxs: (transactions: BlockchainTx[]) => Promise<boolean>;
