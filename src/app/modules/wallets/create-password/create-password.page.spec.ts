@@ -21,7 +21,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { WalletBackupService } from '../shared-wallets/services/wallet-backup/wallet-backup.service';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
-import { ethers, Wallet } from 'ethers';
+import { Wallet } from 'ethers';
 import { XAuthService } from '../../users/shared-users/services/x-auth/x-auth.service';
 
 const testMnemonic: Mnemonic = {
@@ -86,7 +86,7 @@ describe('CreatePasswordPage', () => {
   let xAuthServiceSpy: jasmine.SpyObj<XAuthService>;
 
   beforeEach(() => {
-    spyOn(ethers.Wallet, 'fromMnemonic').and.returnValue(walletSpy);
+    spyOn(Wallet, 'fromMnemonic').and.returnValue(walletSpy);
     fakeLoadingService = new FakeLoadingService();
     loadingServiceSpy = fakeLoadingService.createSpy();
     fakeNavController = new FakeNavController();
