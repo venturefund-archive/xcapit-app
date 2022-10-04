@@ -158,7 +158,7 @@ export class SendSummaryPage implements OnInit {
     return data;
   }
 
-  private goToSuccess(response: TransactionResponse) {
+  private goToSuccess(response?: TransactionResponse) {
     this.navController.navigateForward(['/wallets/send/success']).then(() => this.notifyWhenTransactionMined(response));
   }
 
