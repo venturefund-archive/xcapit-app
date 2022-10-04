@@ -251,9 +251,12 @@ export class SendSummaryPage implements OnInit {
   }
 
   private notifyWhenTransactionMined(response: TransactionResponse) {
+    const response
     response
+    if(response){
       .wait()
-      .then((transaction: TransactionReceipt) => this.createNotification(transaction.to))
+    }
+      .then((transaction: TransactionReceipt) => this.createNotification(transaction.to))      
       .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification))
       .then(() =>
         this.trackService.trackEvent({
