@@ -3,5 +3,5 @@ export interface ToolsCard {
     textPrimary: string;
     textSecondary: string;
     urlPrimaryAction?: string; 
-    trackClickEventNamePrimaryAction : string;
+    trackClickEventNamePrimaryAction: string;
   }
