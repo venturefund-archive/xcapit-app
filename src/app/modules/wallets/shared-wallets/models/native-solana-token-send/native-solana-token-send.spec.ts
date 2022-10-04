@@ -16,5 +16,5 @@ fdescribe('NativeSolanaTokenSend', () => {
     expect(new NativeSolanaTokenSend()).toBeTruthy();
   });
 
-  it('');
+  it('send', ()=>{});
 });
