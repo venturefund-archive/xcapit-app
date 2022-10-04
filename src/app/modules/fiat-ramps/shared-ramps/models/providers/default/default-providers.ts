@@ -8,7 +8,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
 import { ProviderDataRepo } from '../../provider-data-repo/provider-data-repo';
 import { Providers } from '../providers.interface';
 
-export class DefaultProviders implements Providers{
+export class DefaultProviders implements Providers {
   constructor(
     private readonly dataRepo: ProviderDataRepo,
     private readonly http: HttpClient | FakeHttpClient,
@@ -21,8 +21,8 @@ export class DefaultProviders implements Providers{
 
   public async availablesBy(aCountry: FiatRampProviderCountry, aCoin: Coin): Promise<FiatRampProvider[]> {
     let providers = this.dataRepo.byCountryAndCoin(aCountry, aCoin);
-
-    if (aCountry.directaCode) {
+    const directaEnabled = providers.some((provider) => provider.providerName === 'directa24');
+    if (aCountry.directaCode && directaEnabled) {
       const directaProviders = await this.availableDirectaProviders(aCountry).toPromise();
       providers = providers.filter(
         (provider) => directaProviders.some((dp) => dp.code === provider.alias) || provider.providerName !== 'directa24'
