@@ -102,22 +102,17 @@ export class SolanaWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
   private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
-  constructor(
-    private _rawData: any,
-    private _connection: Connection,
-    private _ethersWallet: any = EthersWallet,
-  ) {}
+  constructor(private _rawData: any, private _connection: Connection, private _ethersWallet: any = EthersWallet) {}
 
-  public static create(_rawData: any, _aBlockchain: Blockchain) : SolanaWallet {
+  public static create(_rawData: any, _aBlockchain: Blockchain): SolanaWallet {
     return new this(_rawData, new Connection(_aBlockchain.rpc()));
   }
 
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
     for (const tx of transactions) {
-      await this._connection.sendTransaction(
-        (await tx.value()) as Transaction,
-        [this._derivedWallet(await this._decryptedWallet())]
-      );
+      await this._connection.sendTransaction((await tx.value()) as Transaction, [
+        this._derivedWallet(await this._decryptedWallet()),
+      ]);
     }
     return true;
   }
