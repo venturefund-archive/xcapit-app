@@ -18,7 +18,7 @@ fdescribe('Fake Connection', () => {
     expect(connection).toBeTruthy();
   });
 
-  it('send transaction', () => {
-    expect(connection.sendTransaction(null, [])).toBeTruthy();
+  it('send transaction', async () => {
+    expect(await connection.sendTransaction(null, [])).toBeTruthy();
   });
 });
