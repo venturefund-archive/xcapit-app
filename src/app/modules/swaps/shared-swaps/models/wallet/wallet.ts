@@ -3,6 +3,7 @@ import { BlockchainTx } from '../blockchain-tx';
 import { Blockchain } from '../blockchain/blockchain';
 import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
 import { Connection, Keypair } from '@solana/web3.js';
+import * as bip39 from 'bip39';
 
 export interface Wallet {
   address: () => string;
