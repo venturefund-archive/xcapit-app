@@ -189,6 +189,7 @@ export class SendSummaryPage implements OnInit {
       return false;
     }
 
+    // TODO: y SOLANA?
     // if (!(await this.userCanAffordFees())) {
     //   await this.handleUserCantAffordFees();
     //   return false;
