@@ -5,7 +5,9 @@ import { FakeWallet, Wallet } from 'src/app/modules/swaps/shared-swaps/models/wa
 
 
 export class NativeSendTxOf implements BlockchainTx {
+
     constructor(private _wallet: Wallet, private _to: string, private _amount: number) { }
+
     value(): Promise<TransactionRequest | Transaction> {
         throw new Error('Method not implemented.');
     }
