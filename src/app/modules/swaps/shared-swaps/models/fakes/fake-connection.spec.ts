@@ -1,6 +1,5 @@
 import { Transaction, Signer } from '@solana/web3.js';
 
-
 fdescribe('Fake Connection', () => {
   let connection: FakeConnection;
 
