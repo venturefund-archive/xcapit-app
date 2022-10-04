@@ -238,13 +238,13 @@ export class SendSummaryPage implements OnInit {
     await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
   }
 
-  private createNotification(transaction: TransactionReceipt): LocalNotificationSchema[] {
+  private createNotification(address: string): LocalNotificationSchema[] {
     return [
       {
         id: 1,
         title: this.translate.instant('wallets.send.send_summary.sent_notification.title'),
         body: this.translate.instant('wallets.send.send_summary.sent_notification.body', {
-          address: transaction.to,
+          address,
         }),
       },
     ];
@@ -253,7 +253,7 @@ export class SendSummaryPage implements OnInit {
   private notifyWhenTransactionMined(response: TransactionResponse) {
     response
       .wait()
-      .then((transaction: TransactionReceipt) => this.createNotification(transaction))
+      .then((transaction: TransactionReceipt) => this.createNotification(transaction.to))
       .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification))
       .then(() =>
         this.trackService.trackEvent({
@@ -263,6 +263,8 @@ export class SendSummaryPage implements OnInit {
         })
       );
   }
+
+
 
   private async handleSendError(error) {
     if (new PasswordErrorMsgs().isInvalidError(error)) {
