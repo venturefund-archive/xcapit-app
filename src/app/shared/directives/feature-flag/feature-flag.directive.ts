@@ -6,6 +6,7 @@ import { RemoteConfigService } from '../../services/remote-config/remote-config.
 })
 export class FeatureFlagDirective implements OnInit {
   @Input() appFeatureFlag: string;
+  @Input() appFeatureFlagNegated = false;
 
   constructor(
     private viewContainer: ViewContainerRef,
@@ -18,7 +19,7 @@ export class FeatureFlagDirective implements OnInit {
   }
 
   private createView() {
-    if (this.remoteConfigService.getFeatureFlag(this.appFeatureFlag)) {
+    if (this.getFeatureFlag()) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {
       this.viewContainer.clear();
@@ -33,5 +34,10 @@ export class FeatureFlagDirective implements OnInit {
         this.createView();
       })
     }
+  }
+
+  private getFeatureFlag() {
+    const featureFlag = this.remoteConfigService.getFeatureFlag(this.appFeatureFlag)
+    return this.appFeatureFlagNegated? !featureFlag : featureFlag
   }
 }

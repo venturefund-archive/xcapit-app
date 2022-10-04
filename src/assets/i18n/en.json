@@ -2136,11 +2136,33 @@
       }
     }
   },
+  "tools": {
+    "tools_page": {
+      "header": "What would you like to do today?",
+      "donations": {
+        "textPrimary": "Donations",
+        "textSecondary": "Collaborate and be part of a good cause"
+      },
+      "education": {
+        "textPrimary": "Education",
+        "textSecondary": "The road to your financial freedom"
+      },
+      "planner": {
+        "textPrimary": "Planner",
+        "textSecondary": "Improve your money's return"
+      },
+      "investor_test": {
+        "textPrimary": "Investor Test",
+        "textSecondary": "Find out what kind of investor you are"
+      }
+    }
+  },
   "tabs": {
     "home": "Home",
     "new_fund": "Investments",
     "menu": "More",
-    "wallet": "Wallet"
+    "wallet": "Wallet",
+    "tools": "Tools"
   },
   "fiat_ramps": {
     "buy_conditions": {
