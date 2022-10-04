@@ -112,4 +112,8 @@ describe('SolanaWallet', () => {
 
     expect(true).toBeTrue();
   });
+
+  it('sendTx', () => {
+    
+  });
 });
