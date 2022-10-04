@@ -140,10 +140,6 @@ export class SolanaWallet implements Wallet {
     return Keypair.fromSeed(bip39.mnemonicToSeedSync(aEthersWallet.mnemonic.phrase, '').slice(0, 32));
   }
 
-  // private _connectedWallet(aEthersWallet: EthersWallet): EthersWallet {
-  //   return aEthersWallet.connect(new this._ethersProviders.JsonRpcProvider(this._aBlockchain.rpc()));
-  // }
-
   address(): string {
     return this._rawData['address'];
   }

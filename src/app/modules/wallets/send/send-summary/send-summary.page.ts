@@ -18,6 +18,8 @@ import { TrackService } from '../../../../shared/services/track/track.service';
 import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { NativeSendTxOf } from '../../shared-wallets/models/native-send-tx-of/native-send-tx-of';
+import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 
 @Component({
   selector: 'app-send-summary',
@@ -172,8 +174,16 @@ export class SendSummaryPage implements OnInit {
       await this.goToSuccess(response);
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
+<<<<<<< HEAD
       wallet.sendTxs([]);
       console.log("Solana")
+=======
+      wallet.onNeedPass().subscribe(() => (new Password(password)).value());
+      wallet.sendTxs([new NativeSendTxOf(
+        wallet,
+        this.summaryData.address,
+        this.summaryData.amount)]);
+>>>>>>> dddea264b0a9bfb7ee7bab3a88c1f8fc956e4a26
     }
   }
 
