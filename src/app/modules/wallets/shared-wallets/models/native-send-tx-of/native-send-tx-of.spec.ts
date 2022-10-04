@@ -1,7 +1,8 @@
+import { BlockchainTx } from 'src/app/modules/swaps/shared-swaps/models/blockchain-tx';
 import { FakeWallet, Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 
 
-export class NativeSendTxOf {
+export class NativeSendTxOf implements BlockchainTx {
   constructor(private _wallet: Wallet, private _to: string, private _amount: number) {}
 }
 
