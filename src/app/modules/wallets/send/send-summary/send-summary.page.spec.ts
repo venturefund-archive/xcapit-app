@@ -29,38 +29,6 @@ import { rawBlockchainsData, rawSolanaData } from 'src/app/modules/swaps/shared-
 import { SpyProperty } from '../../../../../testing/spy-property.spec';
 import { rawETHData, rawSOLData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
-const testLocalNotification: LocalNotificationSchema = {
-  id: 1,
-  title: 'wallets.send.send_summary.sent_notification.title',
-  body: 'wallets.send.send_summary.sent_notification.body',
-};
-
-// const summaryData: SummaryData = {
-//   network: 'ERC20',
-//   currency: {
-//     id: 1,
-//     name: 'ETH - Ethereum',
-//     logoRoute: 'assets/img/coins/ETH.svg',
-//     last: false,
-//     value: 'ETH',
-//     network: 'ERC20',
-//     chainId: 42,
-//     rpc: '',
-//   },
-//   address: constants.AddressZero,
-//   amount: 1,
-//   referenceAmount: '50000',
-//   balance: 2,
-// };
-const summaryData: SummaryData = {
-  network: 'ERC20',
-  currency: rawETHData,
-  address: constants.AddressZero,
-  amount: 1,
-  referenceAmount: '50000',
-  balance: 2,
-};
-
 fdescribe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
@@ -81,6 +49,20 @@ fdescribe('SendSummaryPage', () => {
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
+  const testLocalNotification: LocalNotificationSchema = {
+    id: 1,
+    title: 'wallets.send.send_summary.sent_notification.title',
+    body: 'wallets.send.send_summary.sent_notification.body',
+  };
+
+  const summaryData: SummaryData = {
+    network: 'ERC20',
+    currency: rawETHData,
+    address: constants.AddressZero,
+    amount: 1,
+    referenceAmount: '50000',
+    balance: 2,
+  };
 
   beforeEach(() => {
     alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
