@@ -20,20 +20,6 @@ describe('SelectCurrencyPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
 
-  const coins: Coin[] = rawTokensData;
-    
-  const coinClicked = {
-    id: 1,
-    name: 'BTC - Bitcoin',
-    logoRoute: 'assets/img/coins/BTC.svg',
-    last: false,
-    value: 'BTC',
-    network: 'RSK',
-    chainId: 42,
-    rpc: '',
-    contract: 'x'
-  };
-
   beforeEach(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
@@ -79,9 +65,9 @@ describe('SelectCurrencyPage', () => {
     await fixture.whenRenderingDone();
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', coinClicked);
+    fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', rawUSDTData);
 
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
-      ['wallets/send/detail/blockchain', coinClicked.network, 'token', coinClicked.contract]);
+      ['wallets/send/detail/blockchain', rawUSDTData.network, 'token',rawUSDTData.contract]);
   });
 });
