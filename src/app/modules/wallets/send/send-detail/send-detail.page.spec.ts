@@ -160,6 +160,7 @@ fdescribe('SendDetailPage', () => {
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(true),
     });
+
     walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
       create: { oneBy: () => Promise.resolve(new FakeWallet()) },
     });
