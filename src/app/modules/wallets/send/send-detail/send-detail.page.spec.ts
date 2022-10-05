@@ -36,7 +36,13 @@ import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockc
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
-import { rawETHData, rawTokensData, rawUSDTData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import {
+  rawETHData,
+  rawTokensData,
+  rawUSDTData,
+} from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/wallet';
+import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 
 const coins: Coin[] = [
   {
@@ -106,6 +112,7 @@ fdescribe('SendDetailPage', () => {
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
+  let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   beforeEach(() => {
@@ -153,6 +160,9 @@ fdescribe('SendDetailPage', () => {
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(true),
     });
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+    });
 
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
       create: blockchains,
@@ -188,6 +198,7 @@ fdescribe('SendDetailPage', () => {
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
