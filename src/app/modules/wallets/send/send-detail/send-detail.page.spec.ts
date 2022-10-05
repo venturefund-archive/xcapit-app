@@ -233,7 +233,7 @@ fdescribe('SendDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should find currency and networks on ionViewDidEnter', fakeAsync(() => {
+  it('should find currency and networks on ionViewDidEnter', fakeAsync(() => {
     component.ionViewDidEnter();
     tick();
 
