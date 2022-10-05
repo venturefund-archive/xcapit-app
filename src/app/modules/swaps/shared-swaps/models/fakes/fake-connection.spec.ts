@@ -1,6 +1,6 @@
 import { FakeConnection } from './fake-connection';
 
-fdescribe('Fake Connection', () => {
+describe('Fake Connection', () => {
   let connection: FakeConnection;
 
   beforeEach(() => {

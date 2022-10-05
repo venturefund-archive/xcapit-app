@@ -57,7 +57,7 @@ describe('DefaultWallet', () => {
     expect(result).toEqual(true);
   });
 
-  fdescribe('FakeWallet', () => {
+  describe('FakeWallet', () => {
     let fakeWallet: Wallet;
 
     beforeEach(() => {
