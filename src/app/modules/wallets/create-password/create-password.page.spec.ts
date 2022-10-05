@@ -112,6 +112,7 @@ describe('CreatePasswordPage', () => {
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       saveWalletAddresses: of({}),
       getCoins: coins,
+      getInitialTokens: coins,
     });
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
       encryptWallet: Promise.resolve(true),
@@ -198,7 +199,7 @@ describe('CreatePasswordPage', () => {
     component.ionViewWillEnter();
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    expect(apiWalletServiceSpy.getCoins).toHaveBeenCalledTimes(1);
+    expect(apiWalletServiceSpy.getInitialTokens).toHaveBeenCalledTimes(1);
     expect(walletMnemonicServiceSpy.newMnemonic).toHaveBeenCalledTimes(1);
   });
 

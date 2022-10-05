@@ -165,7 +165,7 @@ export class CreatePasswordPage implements OnInit {
   }
 
   async ionViewDidEnter() {
-    this.walletService.coins = this.apiWalletService.getCoins().filter((coin) => coin.native);
+    this.walletService.coins = this.apiWalletService.getInitialTokens();
     if (this.mode === 'create') {
       this.walletMnemonicService.mnemonic = this.walletMnemonicService.newMnemonic();
     }
