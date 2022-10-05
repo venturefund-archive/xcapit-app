@@ -238,8 +238,8 @@ fdescribe('SendDetailPage', () => {
     tick();
 
     expect(component.tplBlockchain.name).toEqual(rawUSDTData.network);
-    expect(component.tplNativeToken.value).toEqual(rawUSDTData.value);
-    expect(component.token).toEqual(coins[2]);
+    expect(component.tplNativeToken.value).toEqual(rawETHData.value);
+    expect(component.token).toEqual(rawUSDTData);
   }));
 
   it('should get native fee on ionViewDidEnter when token is native', fakeAsync(() => {
