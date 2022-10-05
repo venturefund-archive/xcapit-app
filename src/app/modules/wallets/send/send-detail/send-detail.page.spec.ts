@@ -60,7 +60,7 @@ const formData = {
   },
 };
 
-describe('SendDetailPage', () => {
+fdescribe('SendDetailPage', () => {
   let component: SendDetailPage;
   let fixture: ComponentFixture<SendDetailPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
@@ -261,7 +261,7 @@ describe('SendDetailPage', () => {
   }));
 
 
-  fit('should save transaction data and navigate when ux_send_continue Button clicked, form valid and solana token', fakeAsync(() => {
+  it('should save transaction data and navigate when ux_send_continue Button clicked, form valid and solana token', fakeAsync(() => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawSOLData.contract, blockchain: rawSOLData.network })
     component.ionViewDidEnter();        
     tick();
