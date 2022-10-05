@@ -60,7 +60,7 @@ const formData = {
   },
 };
 
-fdescribe('SendDetailPage', () => {
+describe('SendDetailPage', () => {
   let component: SendDetailPage;
   let fixture: ComponentFixture<SendDetailPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
