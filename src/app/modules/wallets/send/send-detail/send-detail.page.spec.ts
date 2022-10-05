@@ -316,7 +316,7 @@ fdescribe('SendDetailPage', () => {
         quoteSymbol: 'USD',
       }
     );
-    tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailInjectable', { create: tokenDetailSpy });
+    tokenDetailInjectableSpy.create.and.returnValue(tokenDetailSpy);
 
     await component.ionViewDidEnter();
 
