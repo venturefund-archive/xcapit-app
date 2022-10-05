@@ -265,7 +265,7 @@ describe('SendDetailPage', () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawSOLData.contract, blockchain: rawSOLData.network })
     component.ionViewDidEnter();        
     tick();
-    component.form.patchValue(formData.valid);
+    component.form.patchValue(formData.solanaValid);
     tick();
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
 
