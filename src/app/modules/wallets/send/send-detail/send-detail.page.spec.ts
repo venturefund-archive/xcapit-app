@@ -343,7 +343,7 @@ fdescribe('SendDetailPage', () => {
     expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 
-  fit('should show toast when native balance is less than fee', async () => {
+  it('should show toast when native balance is less than fee', async () => {
     await component.ionViewDidEnter();
     component.nativeBalance = 0.5;
     component.fee = 1;
