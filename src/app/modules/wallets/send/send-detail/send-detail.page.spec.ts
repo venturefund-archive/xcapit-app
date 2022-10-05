@@ -155,8 +155,11 @@ fdescribe('SendDetailPage', () => {
     });
 
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
-      create: new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)),
+      create: blockchains,
     });
+    // blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+    //   // create: new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)),
+    // });
 
     gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
       create: {
