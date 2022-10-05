@@ -96,7 +96,7 @@ describe('SelectCurrencyPage', () => {
     expect(list).toBeTruthy();
   });
 
-  it('should navigate when itemClicked event fired', async () => {
+  fit('should navigate when itemClicked event fired', async () => {
     // const navigationExtras: NavigationExtras = {
     //   queryParams: {
     //     asset: 'BTC',
