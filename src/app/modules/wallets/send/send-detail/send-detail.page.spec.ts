@@ -116,7 +116,7 @@ fdescribe('SendDetailPage', () => {
       balanceOf: Promise.resolve('11'),
     });
 
-    fakeActivatedRoute = new FakeActivatedRoute(null, { token: 'testContract', blockchain: 'ERC20' });
+    fakeActivatedRoute = new FakeActivatedRoute({ token: 'testContract', blockchain: 'ERC20' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -157,9 +157,6 @@ fdescribe('SendDetailPage', () => {
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
       create: blockchains,
     });
-    // blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
-    //   // create: new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)),
-    // });
 
     gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
       create: {
