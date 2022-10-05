@@ -13,7 +13,7 @@ import { SuitePipe } from '../../../../shared/pipes/suite/suite.pipe';
 import { rawTokensData, rawUSDTData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 
-describe('SelectCurrencyPage', () => {
+fdescribe('SelectCurrencyPage', () => {
   let component: SelectCurrencyPage;
   let fixture: ComponentFixture<SelectCurrencyPage>;
   let fakeNavController: FakeNavController;
@@ -49,7 +49,7 @@ describe('SelectCurrencyPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(component.coins).toEqual(coins);
+    expect(component.coins).toEqual(rawTokensData);
   });
 
   it('should render a list of coins', async () => {
