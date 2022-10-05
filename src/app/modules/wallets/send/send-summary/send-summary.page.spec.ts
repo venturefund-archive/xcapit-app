@@ -197,6 +197,7 @@ fdescribe('SendSummaryPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
+
     expect(component.isSending).toBeFalse();
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/success']);
