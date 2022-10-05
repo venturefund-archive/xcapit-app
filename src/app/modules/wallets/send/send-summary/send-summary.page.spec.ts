@@ -25,10 +25,12 @@ import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallet
 import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
-import { rawBlockchainsData, rawSolanaData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import {
+  rawBlockchainsData,
+  rawSolanaData,
+} from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { SpyProperty } from '../../../../../testing/spy-property.spec';
 import { rawETHData, rawSOLData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
-
 
 fdescribe('SendSummaryPage', () => {
   let component: SendSummaryPage;
@@ -75,7 +77,7 @@ fdescribe('SendSummaryPage', () => {
     localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
       send: Promise.resolve(),
     });
-    transactionDataServiceSpy = jasmine.createSpyObj('TransactionDataService', {}, {transactionData: summaryData})
+    transactionDataServiceSpy = jasmine.createSpyObj('TransactionDataService', {}, { transactionData: summaryData });
     walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionService', {
       send: Promise.resolve({ wait: () => Promise.resolve({ transactionHash: 'someHash' }) }),
       canAffordSendFee: Promise.resolve(true),
@@ -126,10 +128,11 @@ fdescribe('SendSummaryPage', () => {
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
-it('new', () => {
-  expect(new SendSummaryPage(null)).toBeTruthy();
-});
-
+  it('new', () => {
+    expect(
+      new SendSummaryPage(null, null, null, null, null, null, null, null, null, null, null, null, null)
+    ).toBeTruthy();
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -179,7 +182,7 @@ it('new', () => {
   });
 
   it('should send if solana', async () => {
-    const solanaSummaryData = { ...summaryData, currency: rawSOLData, network: rawSolanaData.name}
+    const solanaSummaryData = { ...summaryData, currency: rawSOLData, network: rawSolanaData.name };
     new SpyProperty(transactionDataServiceSpy, 'transactionData').value().and.returnValue(solanaSummaryData);
     component.ionViewWillEnter();
     fixture.detectChanges();
