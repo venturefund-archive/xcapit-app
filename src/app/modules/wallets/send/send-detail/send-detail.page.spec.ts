@@ -43,6 +43,8 @@ import {
 } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/wallet';
 import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
+import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
 
 const coins: Coin[] = [
   {
@@ -113,6 +115,8 @@ fdescribe('SendDetailPage', () => {
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
+  let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
+  let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   beforeEach(() => {
@@ -176,6 +180,19 @@ fdescribe('SendDetailPage', () => {
         }),
       },
     });
+    tokenDetailSpy = jasmine.createSpyObj(
+      'TokenDetail',
+      {
+        fetch: Promise.resolve(),
+        cached: Promise.resolve(),
+      },
+      {
+        price: 3000,
+        balance: 20,
+        quoteSymbol: 'USD',
+      }
+    );
+    tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailInjectable', { create: tokenDetailSpy });
 
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, FakeTrackClickDirective],
@@ -201,6 +218,7 @@ fdescribe('SendDetailPage', () => {
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
+        { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
