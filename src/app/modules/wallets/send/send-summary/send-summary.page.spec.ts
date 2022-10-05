@@ -232,7 +232,7 @@ fdescribe('SendSummaryPage', () => {
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
   });
 
-  fit('should show loader at the start of transaction and dismiss it afterwards', fakeAsync(() => {
+  it('should show loader at the start of transaction and dismiss it afterwards', fakeAsync(() => {
     component.summaryData = summaryData;
     component.ionViewWillEnter();
     component.handleSubmit();
