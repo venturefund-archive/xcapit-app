@@ -418,6 +418,8 @@ export class SendDetailPage {
   }
 
   async checkEnoughBalance() {
+    console.log(this.nativeBalance)
+    console.log(this.fee)
     if (this.nativeBalance < this.fee) {
       await this.openModalBalance();
     }
