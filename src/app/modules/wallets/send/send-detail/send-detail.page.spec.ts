@@ -106,6 +106,7 @@ fdescribe('SendDetailPage', () => {
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
