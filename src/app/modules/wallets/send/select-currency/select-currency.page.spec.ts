@@ -109,6 +109,7 @@ describe('SelectCurrencyPage', () => {
 
     fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', coinClicked);
 
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/detail'], navigationExtras);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      ['wallets/send/detail/blockchain', coinClicked.network, 'token', coinClicked.contract]);
   });
 });
