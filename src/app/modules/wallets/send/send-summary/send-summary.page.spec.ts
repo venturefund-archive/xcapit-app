@@ -127,7 +127,7 @@ fdescribe('SendSummaryPage', () => {
   });
 
 it('new', () => {
-  expect(new S).toBeTruthy();
+  expect(new SendSummaryPage(null)).toBeTruthy();
 });
 
 
