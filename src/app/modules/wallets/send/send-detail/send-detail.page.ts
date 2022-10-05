@@ -219,6 +219,7 @@ export class SendDetailPage {
     console.log('BLOCKCHAIN');
     console.log(this.activeBlockchain);
     console.log(this.tplBlockchain);
+    console.log(aBlockchainName)
   }
 
   private getPrices(): void {
