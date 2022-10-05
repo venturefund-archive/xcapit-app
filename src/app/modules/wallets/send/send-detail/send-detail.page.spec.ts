@@ -315,7 +315,7 @@ fdescribe('SendDetailPage', () => {
     walletServiceSpy.balanceOf.and.resolveTo('10000');
 
     await component.ionViewDidEnter();
-
+    
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 
