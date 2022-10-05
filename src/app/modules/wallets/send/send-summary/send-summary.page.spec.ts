@@ -126,6 +126,11 @@ fdescribe('SendSummaryPage', () => {
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
+it('new', () => {
+  expect(new S).toBeTruthy();
+});
+
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
