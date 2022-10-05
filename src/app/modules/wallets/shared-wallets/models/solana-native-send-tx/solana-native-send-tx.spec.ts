@@ -1,13 +1,13 @@
 import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
-import { NativeSendTxOf } from './solana-native-send-tx';
+import { SolanaNativeSendTx } from './solana-native-send-tx';
 
 fdescribe('NativeSendTxOf', () => {
-  let transaction: NativeSendTxOf;
+  let transaction: SolanaNativeSendTx;
   const testToAddress = 'HVGoaJgWW9TEu19avGRPjc2KvmReUYwxXib7NmwQqm4F';
   const testWalletAddress = 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH';
 
   beforeEach(() => {
-    transaction = new NativeSendTxOf(
+    transaction = new SolanaNativeSendTx(
       new FakeWallet(Promise.resolve(false), '', testWalletAddress),
       testToAddress,
       1
