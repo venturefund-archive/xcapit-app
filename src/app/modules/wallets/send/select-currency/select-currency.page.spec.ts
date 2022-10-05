@@ -39,7 +39,7 @@ describe('SelectCurrencyPage', () => {
     navControllerSpy = fakeNavController.createSpy();
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      getAssestsSelected: Promise.resolve(coins),
+      getAssestsSelected: Promise.resolve(rawTokensData),
     });
     TestBed.configureTestingModule({
       declarations: [SelectCurrencyPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
