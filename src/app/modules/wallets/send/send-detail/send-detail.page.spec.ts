@@ -33,11 +33,12 @@ import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/g
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
-import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { rawBlockchainsData, rawSolanaData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import {
   rawETHData,
+  rawSOLData,
   rawTokensData,
   rawUSDTData,
 } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
@@ -251,6 +252,21 @@ describe('SendDetailPage', () => {
     el.nativeElement.click();
     tick();
 
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
+  }));
+
+
+  fit('should save transaction data and navigate when ux_send_continue Button clicked, form valid and solana token', fakeAsync(() => {
+    fakeActivatedRoute.modifySnapshotParams({ token: rawSOLData.contract, blockchain: rawSOLData.network })
+    component.ionViewDidEnter();        
+    tick();
+    component.form.patchValue(formData.valid);
+    tick();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
+
+    el.nativeElement.click();
+    tick();
+    expect(component.fee).toEqual(0)
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   }));
 
