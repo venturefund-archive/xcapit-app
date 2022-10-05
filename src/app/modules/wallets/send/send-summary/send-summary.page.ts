@@ -17,9 +17,8 @@ import { TrackService } from '../../../../shared/services/track/track.service';
 import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
-import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
-
+import { SolanaNativeSendTx } from 'src/app/modules/wallets/'
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
