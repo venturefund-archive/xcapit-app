@@ -220,8 +220,9 @@ fdescribe('SendSummaryPage', () => {
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
-  it('should cancel transaction if user closed modal', async () => {
+  fit('should cancel transaction if user closed modal', async () => {
     component.summaryData = summaryData;
+    component.ionViewWillEnter();
     fakeModalController.modifyReturns(null, Promise.resolve({}));
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
