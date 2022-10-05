@@ -261,7 +261,6 @@ fdescribe('SendDetailPage', () => {
 
   it('should show card if native token balance is zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
-    walletServiceSpy.balanceOf.and.resolveTo('0');
     tokenDetailSpy = jasmine.createSpyObj(
       'TokenDetail',
       {
@@ -283,7 +282,6 @@ fdescribe('SendDetailPage', () => {
 
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
-    walletServiceSpy.balanceOf.and.resolveTo('10000');
 
     await component.ionViewDidEnter();
 
@@ -292,7 +290,6 @@ fdescribe('SendDetailPage', () => {
 
   it('should let user change currency on selected currency click', async () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
-    walletServiceSpy.balanceOf.and.resolveTo('0');
     await component.ionViewDidEnter();
     await fixture.whenStable();
     fixture.detectChanges();
