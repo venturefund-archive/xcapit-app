@@ -216,9 +216,6 @@ export class SendDetailPage {
   private setBlockchain(aBlockchainName: string) {
     this.activeBlockchain = this.blockchains.create().oneByName(aBlockchainName);
     this.tplBlockchain = this.activeBlockchain.json();
-    console.log('BLOCKCHAIN');
-    console.log(this.activeBlockchain);
-    console.log(this.tplBlockchain);
   }
 
   private getPrices(): void {
@@ -278,8 +275,6 @@ export class SendDetailPage {
 
   private async setWallet() {
     this.wallet = await this.walletsFactory.create().oneBy(this.activeBlockchain);
-    console.log('wallet')
-    console.log(this.wallet)
   }
 
   private async tokenDetailOf(aToken: Token) {
