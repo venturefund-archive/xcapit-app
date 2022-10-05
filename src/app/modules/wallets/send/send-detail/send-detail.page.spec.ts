@@ -312,12 +312,12 @@ fdescribe('SendDetailPage', () => {
     expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should show toast when native balance is less than fee', async () => {
+  fit('should show toast when native balance is less than fee', async () => {
     await component.ionViewDidEnter();
     component.nativeBalance = 0.5;
     component.fee = 1;
 
-    component.checkEnoughBalance();
+    await component.checkEnoughBalance();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
