@@ -199,8 +199,9 @@ fdescribe('SendSummaryPage', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
+  fit('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
     component.summaryData = summaryData;
+    component.ionViewWillEnter();
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
     walletTransactionsServiceSpy.send.and.rejectWith({ message: new PasswordErrorMsgs().invalid() });
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
