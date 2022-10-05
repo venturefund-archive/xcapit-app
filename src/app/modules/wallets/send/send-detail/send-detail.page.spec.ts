@@ -204,7 +204,6 @@ fdescribe('SendDetailPage', () => {
   }));
 
   it('should get native fee on ionViewDidEnter when token is native', fakeAsync(() => {
-    apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
     component.form.patchValue({ amount: 1 });
 
@@ -248,7 +247,6 @@ fdescribe('SendDetailPage', () => {
   });
 
   it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync(() => {
-    apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     component.ionViewDidEnter();
     tick();
     component.form.patchValue(formData.valid);
@@ -263,7 +261,6 @@ fdescribe('SendDetailPage', () => {
 
   it('should show card if native token balance is zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
-    apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     walletServiceSpy.balanceOf.and.resolveTo('0');
     tokenDetailSpy = jasmine.createSpyObj(
       'TokenDetail',
@@ -286,7 +283,6 @@ fdescribe('SendDetailPage', () => {
 
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
-    apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     walletServiceSpy.balanceOf.and.resolveTo('10000');
 
     await component.ionViewDidEnter();
