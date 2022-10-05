@@ -21,7 +21,9 @@ describe('SelectCurrencyPage', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
 
   const coins: Coin[] = [
-    rawUSDTData
+    rawUSDTData,
+    raw
+
     {
       id: 1,
       name: 'BTC - Bitcoin',
