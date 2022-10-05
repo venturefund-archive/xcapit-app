@@ -300,7 +300,7 @@ fdescribe('SendDetailPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   }));
 
-  fit('should show card if native token balance is zero when sending native token', async () => {
+  it('should show card if native token balance is zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
     apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     walletServiceSpy.balanceOf.and.resolveTo('0');
