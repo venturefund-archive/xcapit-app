@@ -197,12 +197,6 @@ describe('SendSummaryPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
-      'testPassword',
-      1,
-      constants.AddressZero,
-      solanaSummaryData.currency
-    );
     expect(component.isSending).toBeFalse();
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/success']);
