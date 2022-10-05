@@ -48,7 +48,7 @@ import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail'
 import { SpyProperty } from 'src/testing/spy-property.spec';
 
 
-fdescribe('TokenDetailPage', () => {
+describe('TokenDetailPage', () => {
 
   let component: TokenDetailPage;
   let fixture: ComponentFixture<TokenDetailPage>;
