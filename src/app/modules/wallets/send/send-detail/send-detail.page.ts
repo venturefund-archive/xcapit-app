@@ -279,7 +279,7 @@ export class SendDetailPage {
   private async setWallet() {
     this.wallet = await this.walletsFactory.create().oneBy(this.activeBlockchain);
     console.log('wallet')
-    console.log(wallet)
+    console.log(this.wallet)
   }
 
   private async tokenDetailOf(aToken: Token) {
