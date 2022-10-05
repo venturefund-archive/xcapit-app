@@ -45,44 +45,6 @@ import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/wallet';
 import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
-//TODO Borrar
-const coins: Coin[] = [
-  {
-    id: 1,
-    name: 'BTC - Bitcoin',
-    logoRoute: '../../assets/img/coins/BTC.svg',
-    last: false,
-    value: 'BTC',
-    network: 'BTC',
-    chainId: 42,
-    rpc: '',
-    native: true,
-  },
-  {
-    id: 2,
-    name: 'ETH - Ethereum',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    last: false,
-    value: 'ETH',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: 'testRpc',
-    native: true,
-  },
-  {
-    id: 3,
-    name: 'USDT - Tether',
-    logoRoute: 'assets/img/coins/USDT.svg',
-    last: false,
-    value: 'USDT',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: 'testRPC',
-    contract: 'testContract',
-    abi: null,
-    decimals: 6,
-  },
-];
 
 const formData = {
   valid: {
