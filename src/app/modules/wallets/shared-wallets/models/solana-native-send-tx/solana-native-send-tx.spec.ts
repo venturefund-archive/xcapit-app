@@ -1,5 +1,5 @@
 import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
-import { NativeSendTxOf } from './native-send-tx-of';
+import { NativeSendTxOf } from './solana-native-send-tx';
 
 fdescribe('NativeSendTxOf', () => {
   let transaction: NativeSendTxOf;
