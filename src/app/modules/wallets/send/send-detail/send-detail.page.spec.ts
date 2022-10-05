@@ -188,7 +188,7 @@ fdescribe('SendDetailPage', () => {
       },
       {
         price: 3000,
-        balance: 0,
+        balance: 20,
         quoteSymbol: 'USD',
       }
     );
@@ -304,6 +304,19 @@ fdescribe('SendDetailPage', () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
     apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     walletServiceSpy.balanceOf.and.resolveTo('0');
+    tokenDetailSpy = jasmine.createSpyObj(
+      'TokenDetail',
+      {
+        fetch: Promise.resolve(),
+        cached: Promise.resolve(),
+      },
+      {
+        price: 3000,
+        balance: 0,
+        quoteSymbol: 'USD',
+      }
+    );
+    tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailInjectable', { create: tokenDetailSpy });
 
     await component.ionViewDidEnter();
 
