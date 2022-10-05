@@ -309,7 +309,7 @@ fdescribe('SendDetailPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should not show card if native token balance is greater than zero when sending native token', async () => {
+  fit('should not show card if native token balance is greater than zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, network: rawETHData.network });
     apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     walletServiceSpy.balanceOf.and.resolveTo('10000');
