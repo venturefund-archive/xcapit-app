@@ -53,6 +53,11 @@ const formData = {
     amount: 1,
     quoteAmount: 1,
   },
+  solanaValid: {
+    address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
+    amount: 1,
+    quoteAmount: 1,
+  },
 };
 
 describe('SendDetailPage', () => {
