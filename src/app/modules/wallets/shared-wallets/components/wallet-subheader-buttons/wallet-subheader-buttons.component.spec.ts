@@ -92,7 +92,7 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/send/select-currency']);
   });
 
-  fit('should navigate to Send page of an specific asset when ux_go_to_send is clicked from AssetDetailPage', async () => {
+  it('should navigate to Send page of an specific asset when ux_go_to_send is clicked from AssetDetailPage', async () => {
     component.asset = rawUSDTData.value;
     component.tokenAddress = rawUSDTData.contract;
     component.network = rawUSDTData.network;
