@@ -128,12 +128,6 @@ fdescribe('SendSummaryPage', () => {
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   });
 
-  it('new', () => {
-    expect(
-      new SendSummaryPage(null, null, null, null, null, null, null, null, null, null, null, null, null)
-    ).toBeTruthy();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
