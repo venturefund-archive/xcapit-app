@@ -180,9 +180,6 @@ export class SendSummaryPage implements OnInit {
   }
 
   private async checksBeforeSend(): Promise<boolean> {
-    console.log('blockchainnnnn')
-    console.log(this.blockchain)
-    console.log(this.blockchain.name())
     if (this.blockchain.name() !== 'SOLANA') {
       if (!(await this.userCanAffordFees())) {
         await this.handleUserCantAffordFees();
