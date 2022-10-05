@@ -3,7 +3,7 @@ import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { BlockchainTx } from '../blockchain-tx';
 import { Blockchain } from '../blockchain/blockchain';
 import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
-import { Connection, Keypair, Transaction, VersionedTransaction } from '@solana/web3.js';
+import { Connection, Keypair, Transaction } from '@solana/web3.js';
 import * as bip39 from 'bip39';
 import { FakeConnection } from '../fakes/fake-connection';
 

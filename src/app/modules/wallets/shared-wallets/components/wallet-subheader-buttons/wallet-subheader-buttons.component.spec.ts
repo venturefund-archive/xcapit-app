@@ -14,7 +14,7 @@ import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directi
 import { WalletBackupService } from '../../services/wallet-backup/wallet-backup.service';
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/default-swaps-urls';
-import { rawUSDCData, rawUSDTData } from '../../../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { rawUSDTData } from '../../../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 describe('WalletSubheaderButtonsComponent', () => {
   let component: WalletSubheaderButtonsComponent;
