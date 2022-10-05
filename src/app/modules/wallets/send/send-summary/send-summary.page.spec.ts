@@ -199,12 +199,12 @@ fdescribe('SendSummaryPage', () => {
     await fixture.whenStable();
 
     expect(component.isSending).toBeFalse();
-    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/success']);
+    expect(alertSpy.present).toHaveBeenCalledTimes(0);
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
-    expect(alertSpy.present).toHaveBeenCalledTimes(0);
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/success']);
   });
 
   it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
