@@ -97,12 +97,6 @@ describe('SelectCurrencyPage', () => {
   });
 
   fit('should navigate when itemClicked event fired', async () => {
-    // const navigationExtras: NavigationExtras = {
-    //   queryParams: {
-    //     asset: 'BTC',
-    //     network: 'RSK'
-    //   },
-    // };
     component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
