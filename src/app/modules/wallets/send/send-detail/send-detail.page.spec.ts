@@ -116,7 +116,7 @@ fdescribe('SendDetailPage', () => {
       balanceOf: Promise.resolve('11'),
     });
 
-    fakeActivatedRoute = new FakeActivatedRoute({ token: rawUSDTData.contract, blockchain: 'ERC20' });
+    fakeActivatedRoute = new FakeActivatedRoute({ token: rawUSDTData.contract, blockchain: rawUSDTData.network });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
