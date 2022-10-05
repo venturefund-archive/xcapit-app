@@ -61,7 +61,7 @@ const summaryData: SummaryData = {
   balance: 2,
 };
 
-describe('SendSummaryPage', () => {
+fdescribe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
   let transactionDataServiceSpy: jasmine.SpyObj<TransactionDataService>;
@@ -190,7 +190,7 @@ describe('SendSummaryPage', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
-  fit('should send if solana', async () => {
+  it('should send if solana', async () => {
     const solanaSummaryData = { ...summaryData, currency: rawSOLData, network: rawSolanaData.name}
     new SpyProperty(transactionDataServiceSpy, 'transactionData').value().and.returnValue(solanaSummaryData);
     component.ionViewWillEnter();
