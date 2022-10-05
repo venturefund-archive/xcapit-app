@@ -26,6 +26,7 @@ import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wal
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { SpyProperty } from '../../../../../testing/spy-property.spec';
 
 const testLocalNotification: LocalNotificationSchema = {
   id: 1,
@@ -33,18 +34,26 @@ const testLocalNotification: LocalNotificationSchema = {
   body: 'wallets.send.send_summary.sent_notification.body',
 };
 
+// const summaryData: SummaryData = {
+//   network: 'ERC20',
+//   currency: {
+//     id: 1,
+//     name: 'ETH - Ethereum',
+//     logoRoute: 'assets/img/coins/ETH.svg',
+//     last: false,
+//     value: 'ETH',
+//     network: 'ERC20',
+//     chainId: 42,
+//     rpc: '',
+//   },
+//   address: constants.AddressZero,
+//   amount: 1,
+//   referenceAmount: '50000',
+//   balance: 2,
+// };
 const summaryData: SummaryData = {
   network: 'ERC20',
-  currency: {
-    id: 1,
-    name: 'ETH - Ethereum',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    last: false,
-    value: 'ETH',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: '',
-  },
+  currency: ,
   address: constants.AddressZero,
   amount: 1,
   referenceAmount: '50000',
@@ -54,7 +63,7 @@ const summaryData: SummaryData = {
 describe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
-  let transactionDataServiceMock: any;
+  let transactionDataServiceSpy: jasmine.SpyObj<TransactionDataService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendSummaryPage>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
@@ -82,7 +91,7 @@ describe('SendSummaryPage', () => {
     localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
       send: Promise.resolve(),
     });
-    transactionDataServiceMock = { transactionData: summaryData };
+    transactionDataServiceSpy = jasmine.createSpyObj('TransactionDataService', {}, {transactionData: summaryData})
     walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionService', {
       send: Promise.resolve({ wait: () => Promise.resolve({ transactionHash: 'someHash' }) }),
       canAffordSendFee: Promise.resolve(true),
@@ -112,7 +121,7 @@ describe('SendSummaryPage', () => {
       declarations: [SendSummaryPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
       providers: [
-        { provide: TransactionDataService, useValue: transactionDataServiceMock },
+        { provide: TransactionDataService, useValue: transactionDataServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
@@ -161,6 +170,27 @@ describe('SendSummaryPage', () => {
   });
 
   it('should send and navigate to success when user can afford fees and password is correct on ux_send_send Button clicked', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
+    await fixture.whenStable();
+    expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
+      'testPassword',
+      1,
+      constants.AddressZero,
+      summaryData.currency
+    );
+    expect(component.isSending).toBeFalse();
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/success']);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
+    expect(alertSpy.present).toHaveBeenCalledTimes(0);
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  fit('should send if solana', async () => {
+    new SpyProperty(transactionDataServiceSpy, 'transactionData').value().and.returnValue(summaryData);
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
