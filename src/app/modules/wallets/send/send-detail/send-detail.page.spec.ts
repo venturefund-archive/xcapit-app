@@ -188,7 +188,7 @@ fdescribe('SendDetailPage', () => {
       },
       {
         price: 3000,
-        balance: 20,
+        balance: 0,
         quoteSymbol: 'USD',
       }
     );
