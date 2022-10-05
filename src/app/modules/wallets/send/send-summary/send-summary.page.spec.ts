@@ -29,6 +29,7 @@ import { rawBlockchainsData, rawSolanaData } from 'src/app/modules/swaps/shared-
 import { SpyProperty } from '../../../../../testing/spy-property.spec';
 import { rawETHData, rawSOLData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
+
 fdescribe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
