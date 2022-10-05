@@ -51,6 +51,7 @@ const summaryData: SummaryData = {
   balance: 2,
 };
 
+// TODO: Volar si no se usa
 const summaryDataInvalidAddress: SummaryData = {
   network: 'ERC20',
   currency: {
