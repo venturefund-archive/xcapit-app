@@ -286,7 +286,7 @@ fdescribe('SendDetailPage', () => {
   });
 
   it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync(() => {
-    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
+    apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     component.ionViewDidEnter();
     tick();
     component.form.patchValue(formData.valid);
@@ -300,8 +300,8 @@ fdescribe('SendDetailPage', () => {
   }));
 
   it('should show card if native token balance is zero when sending native token', async () => {
-    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'ETH', network: 'ERC20' });
-    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
+    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, network: rawETHData.network });
+    apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     walletServiceSpy.balanceOf.and.resolveTo('0');
 
     await component.ionViewDidEnter();
@@ -310,8 +310,8 @@ fdescribe('SendDetailPage', () => {
   });
 
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
-    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'ETH', network: 'ERC20' });
-    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
+    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, network: rawETHData.network });
+    apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     walletServiceSpy.balanceOf.and.resolveTo('10000');
 
     await component.ionViewDidEnter();
@@ -320,7 +320,7 @@ fdescribe('SendDetailPage', () => {
   });
 
   it('should let user change currency on selected currency click', async () => {
-    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'ETH', network: 'ERC20' });
+    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, network: rawETHData.network });
     walletServiceSpy.balanceOf.and.resolveTo('0');
     await component.ionViewDidEnter();
     await fixture.whenStable();
