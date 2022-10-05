@@ -199,7 +199,7 @@ fdescribe('SendSummaryPage', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
-  fit('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
+  it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
     component.summaryData = summaryData;
     component.ionViewWillEnter();
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
@@ -220,7 +220,7 @@ fdescribe('SendSummaryPage', () => {
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
-  fit('should cancel transaction if user closed modal', async () => {
+  it('should cancel transaction if user closed modal', async () => {
     component.summaryData = summaryData;
     component.ionViewWillEnter();
     fakeModalController.modifyReturns(null, Promise.resolve({}));
