@@ -36,7 +36,7 @@ import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockc
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
-import { rawETHData, rawTokensData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { rawETHData, rawTokensData, rawUSDTData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 const coins: Coin[] = [
   {
@@ -116,7 +116,7 @@ fdescribe('SendDetailPage', () => {
       balanceOf: Promise.resolve('11'),
     });
 
-    fakeActivatedRoute = new FakeActivatedRoute({ token: 'testContract', blockchain: 'ERC20' });
+    fakeActivatedRoute = new FakeActivatedRoute({ token: rawUSDTData.contract, blockchain: 'ERC20' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
