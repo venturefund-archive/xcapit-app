@@ -185,7 +185,7 @@ export class SendDetailPage {
     private gasStation: GasStationOfFactory,
     private tokenDetailInjectable: TokenDetailInjectable,
     private covalentBalancesFactory: CovalentBalancesController,
-    private tokenPricesFactory: TokenPricesController,
+    private tokenPricesFactory: TokenPricesController
   ) {}
 
   async ionViewDidEnter() {
@@ -216,6 +216,9 @@ export class SendDetailPage {
   private setBlockchain(aBlockchainName: string) {
     this.activeBlockchain = this.blockchains.create().oneByName(aBlockchainName);
     this.tplBlockchain = this.activeBlockchain.json();
+    console.log('BLOCKCHAIN');
+    console.log(this.activeBlockchain);
+    console.log(this.tplBlockchain);
   }
 
   private getPrices(): void {
@@ -271,8 +274,8 @@ export class SendDetailPage {
   }
 
   private async setTokenDetail() {
-    this.tokenDetail = await this.tokenDetailOf(this.tokenObj)
-    this.balance = (this.tokenDetail).balance;
+    this.tokenDetail = await this.tokenDetailOf(this.tokenObj);
+    this.balance = this.tokenDetail.balance;
   }
 
   private async setWallet() {
