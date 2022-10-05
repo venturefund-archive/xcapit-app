@@ -132,7 +132,7 @@ fdescribe('SendDetailPage', () => {
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: rawTokensData,
-      getCoin: JSON.parse(JSON.stringify(coins[2])),
+      getCoin: rawUSDTData,
       getPrices: of({ prices: { USDT: 1, ETH: 1, BTC: 1 } }),
     });
     fakeNavController = new FakeNavController();
