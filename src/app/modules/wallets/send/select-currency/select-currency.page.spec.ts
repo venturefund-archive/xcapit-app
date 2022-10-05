@@ -10,10 +10,43 @@ import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-clic
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { TokenSelectionListComponent } from '../../../../shared/components/token-selection-list/token-selection-list.component';
 import { SuitePipe } from '../../../../shared/pipes/suite/suite.pipe';
-import { NavigationExtras } from '@angular/router';
+import { rawUSDTData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
-const coins: Coin[] = [
-  {
+
+describe('SelectCurrencyPage', () => {
+  let component: SelectCurrencyPage;
+  let fixture: ComponentFixture<SelectCurrencyPage>;
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+
+  const coins: Coin[] = [
+    rawUSDTData
+    {
+      id: 1,
+      name: 'BTC - Bitcoin',
+      logoRoute: 'assets/img/coins/BTC.svg',
+      last: false,
+      value: 'BTC',
+      network: 'RSK',
+      chainId: 42,
+      rpc: '',
+      contract: 'x'
+    },
+    {
+      id: 2,
+      name: 'USDT - Tether',
+      logoRoute: 'assets/img/coins/USDT.svg',
+      last: false,
+      value: 'USDT',
+      network: 'ERC20',
+      chainId: 42,
+      rpc: '',
+      contract: 'y'
+    },
+  ];
+
+  const coinClicked = {
     id: 1,
     name: 'BTC - Bitcoin',
     logoRoute: 'assets/img/coins/BTC.svg',
@@ -23,38 +56,7 @@ const coins: Coin[] = [
     chainId: 42,
     rpc: '',
     contract: 'x'
-  },
-  {
-    id: 2,
-    name: 'USDT - Tether',
-    logoRoute: 'assets/img/coins/USDT.svg',
-    last: false,
-    value: 'USDT',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: '',
-    contract: 'y'
-  },
-];
-
-const coinClicked = {
-  id: 1,
-  name: 'BTC - Bitcoin',
-  logoRoute: 'assets/img/coins/BTC.svg',
-  last: false,
-  value: 'BTC',
-  network: 'RSK',
-  chainId: 42,
-  rpc: '',
-  contract: 'x'
-};
-
-describe('SelectCurrencyPage', () => {
-  let component: SelectCurrencyPage;
-  let fixture: ComponentFixture<SelectCurrencyPage>;
-  let fakeNavController: FakeNavController;
-  let navControllerSpy: jasmine.SpyObj<NavController>;
-  let storageServiceSpy: jasmine.SpyObj<StorageService>;
+  };
 
   beforeEach(() => {
     fakeNavController = new FakeNavController();
