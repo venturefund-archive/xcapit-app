@@ -27,6 +27,7 @@ import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/bl
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { SpyProperty } from '../../../../../testing/spy-property.spec';
+import { rawETHData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 const testLocalNotification: LocalNotificationSchema = {
   id: 1,
@@ -53,7 +54,7 @@ const testLocalNotification: LocalNotificationSchema = {
 // };
 const summaryData: SummaryData = {
   network: 'ERC20',
-  currency: ,
+  currency: rawETHData,
   address: constants.AddressZero,
   amount: 1,
   referenceAmount: '50000',
