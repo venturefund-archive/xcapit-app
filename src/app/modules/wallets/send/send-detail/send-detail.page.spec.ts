@@ -36,7 +36,7 @@ import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockc
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
-import { rawETHData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { rawETHData, rawTokensData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 const coins: Coin[] = [
   {
@@ -120,7 +120,7 @@ fdescribe('SendDetailPage', () => {
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getCoins: coins,
+      getCoins: rawTokensData,
       getCoin: JSON.parse(JSON.stringify(coins[2])),
       getPrices: of({ prices: { USDT: 1, ETH: 1, BTC: 1 } }),
     });
