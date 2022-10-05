@@ -32,7 +32,7 @@ import {
 import { SpyProperty } from '../../../../../testing/spy-property.spec';
 import { rawETHData, rawSOLData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
-fdescribe('SendSummaryPage', () => {
+describe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
   let transactionDataServiceSpy: jasmine.SpyObj<TransactionDataService>;
