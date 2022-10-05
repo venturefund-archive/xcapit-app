@@ -13,7 +13,7 @@ import { SuitePipe } from '../../../../shared/pipes/suite/suite.pipe';
 import { rawTokensData, rawUSDTData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 
-fdescribe('SelectCurrencyPage', () => {
+describe('SelectCurrencyPage', () => {
   let component: SelectCurrencyPage;
   let fixture: ComponentFixture<SelectCurrencyPage>;
   let fakeNavController: FakeNavController;
