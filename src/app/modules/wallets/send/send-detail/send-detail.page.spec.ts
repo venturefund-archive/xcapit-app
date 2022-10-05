@@ -237,8 +237,8 @@ fdescribe('SendDetailPage', () => {
     component.ionViewDidEnter();
     tick();
 
-    expect(component.tplBlockchain.name).toEqual(coins[2].network);
-    expect(component.tplNativeToken.value).toEqual(coins[1].value);
+    expect(component.tplBlockchain.name).toEqual(rawUSDTData.network);
+    expect(component.tplNativeToken.value).toEqual(rawUSDTData.value);
     expect(component.token).toEqual(coins[2]);
   }));
 
