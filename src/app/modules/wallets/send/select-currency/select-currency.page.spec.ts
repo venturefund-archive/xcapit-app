@@ -22,6 +22,7 @@ const coins: Coin[] = [
     network: 'RSK',
     chainId: 42,
     rpc: '',
+    contract: 'x'
   },
   {
     id: 2,
@@ -32,6 +33,7 @@ const coins: Coin[] = [
     network: 'ERC20',
     chainId: 42,
     rpc: '',
+    contract: 'y'
   },
 ];
 
@@ -44,6 +46,7 @@ const coinClicked = {
   network: 'RSK',
   chainId: 42,
   rpc: '',
+  contract: 'x'
 };
 
 describe('SelectCurrencyPage', () => {
@@ -94,16 +97,18 @@ describe('SelectCurrencyPage', () => {
   });
 
   it('should navigate when itemClicked event fired', async () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        asset: 'BTC',
-        network: 'RSK'
-      },
-    };
+    // const navigationExtras: NavigationExtras = {
+    //   queryParams: {
+    //     asset: 'BTC',
+    //     network: 'RSK'
+    //   },
+    // };
     component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
+
     fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', coinClicked);
+
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/detail'], navigationExtras);
   });
 });
