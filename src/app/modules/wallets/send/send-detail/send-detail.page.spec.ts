@@ -300,7 +300,7 @@ fdescribe('SendDetailPage', () => {
   }));
 
   it('should show card if native token balance is zero when sending native token', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, network: rawETHData.network });
+    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
     apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     walletServiceSpy.balanceOf.and.resolveTo('0');
 
@@ -310,17 +310,17 @@ fdescribe('SendDetailPage', () => {
   });
 
   fit('should not show card if native token balance is greater than zero when sending native token', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, network: rawETHData.network });
+    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
     apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     walletServiceSpy.balanceOf.and.resolveTo('10000');
 
     await component.ionViewDidEnter();
-    
+
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 
   it('should let user change currency on selected currency click', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, network: rawETHData.network });
+    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
     walletServiceSpy.balanceOf.and.resolveTo('0');
     await component.ionViewDidEnter();
     await fixture.whenStable();
