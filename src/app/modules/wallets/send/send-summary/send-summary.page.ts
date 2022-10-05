@@ -70,6 +70,7 @@ export class SendSummaryPage implements OnInit {
   isInfoModalOpen = false;
   blockchain: Blockchain;
 
+  /* istanbul ignore next */
   constructor(
     private transactionDataService: TransactionDataService,
     private walletTransactionsService: WalletTransactionsService,
