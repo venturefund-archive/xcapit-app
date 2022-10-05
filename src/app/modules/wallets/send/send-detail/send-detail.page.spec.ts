@@ -63,7 +63,6 @@ fdescribe('SendDetailPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let erc20ContractSpy: jasmine.SpyObj<ERC20Contract>;
   let erc20ProviderControllerSpy: jasmine.SpyObj<ERC20ProviderController>;
@@ -84,9 +83,6 @@ fdescribe('SendDetailPage', () => {
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getWalletsAddresses: Promise.resolve(['testAddress']),
-    });
-    walletServiceSpy = jasmine.createSpyObj('WalletService', {
-      balanceOf: Promise.resolve('11'),
     });
 
     fakeActivatedRoute = new FakeActivatedRoute({ token: rawUSDTData.contract, blockchain: rawUSDTData.network });
@@ -167,7 +163,6 @@ fdescribe('SendDetailPage', () => {
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: WalletService, useValue: walletServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ERC20ProviderController, useValue: erc20ProviderControllerSpy },
