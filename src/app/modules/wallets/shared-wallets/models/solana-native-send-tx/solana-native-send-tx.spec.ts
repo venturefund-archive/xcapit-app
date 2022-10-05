@@ -1,7 +1,7 @@
 import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SolanaNativeSendTx } from './solana-native-send-tx';
 
-fdescribe('NativeSendTxOf', () => {
+fdescribe('SolanaNativeSendTx', () => {
   let transaction: SolanaNativeSendTx;
   const testToAddress = 'HVGoaJgWW9TEu19avGRPjc2KvmReUYwxXib7NmwQqm4F';
   const testWalletAddress = 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH';
