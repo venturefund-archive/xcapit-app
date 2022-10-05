@@ -265,9 +265,7 @@ export class SendDetailPage {
       this.route.snapshot.paramMap.get('token'),
       new BlockchainTokens(this.activeBlockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
     ).value();
-
     this.token = this.tokenObj.json();
-
     this.nativeToken = this.activeBlockchain.nativeToken();
     this.tplNativeToken = this.nativeToken.json();
     this.dynamicFee.token = this.nativeToken.symbol();
