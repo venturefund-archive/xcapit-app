@@ -243,13 +243,13 @@ fdescribe('SendDetailPage', () => {
   }));
 
   it('should get native fee on ionViewDidEnter when token is native', fakeAsync(() => {
-    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
+    apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
     component.form.patchValue({ amount: 1 });
 
     component.ionViewDidEnter();
     tick();
 
-    expect(component.token).toEqual(coins[1]);
+    expect(component.token).toEqual(rawETHData);
     expect(component.fee).toEqual(10);
   }));
 
