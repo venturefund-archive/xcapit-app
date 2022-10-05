@@ -25,9 +25,9 @@ import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallet
 import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
-import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { rawBlockchainsData, rawSolanaData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { SpyProperty } from '../../../../../testing/spy-property.spec';
-import { rawETHData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { rawETHData, rawSOLData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 const testLocalNotification: LocalNotificationSchema = {
   id: 1,
@@ -191,7 +191,8 @@ describe('SendSummaryPage', () => {
   });
 
   fit('should send if solana', async () => {
-    new SpyProperty(transactionDataServiceSpy, 'transactionData').value().and.returnValue(summaryData);
+    const solanaSummaryData = { ...summaryData, currency: rawSOLData, network: rawSolanaData.name}
+    new SpyProperty(transactionDataServiceSpy, 'transactionData').value().and.returnValue(solanaSummaryData);
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
@@ -200,7 +201,7 @@ describe('SendSummaryPage', () => {
       'testPassword',
       1,
       constants.AddressZero,
-      summaryData.currency
+      solanaSummaryData.currency
     );
     expect(component.isSending).toBeFalse();
     expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
