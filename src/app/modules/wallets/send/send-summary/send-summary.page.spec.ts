@@ -51,7 +51,7 @@ const summaryData: SummaryData = {
   balance: 2,
 };
 
-fdescribe('SendSummaryPage', () => {
+describe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
   let transactionDataServiceMock: any;
