@@ -244,6 +244,7 @@ fdescribe('SendDetailPage', () => {
 
   it('should get native fee on ionViewDidEnter when token is native', fakeAsync(() => {
     apiWalletServiceSpy.getCoin.and.returnValue(rawETHData);
+    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
     component.form.patchValue({ amount: 1 });
 
     component.ionViewDidEnter();
