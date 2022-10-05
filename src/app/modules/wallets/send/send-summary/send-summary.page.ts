@@ -93,6 +93,8 @@ export class SendSummaryPage implements OnInit {
   ionViewWillEnter() {
     this.isSending = false;
     this.summaryData = this.transactionDataService.transactionData;
+    console.log('summary data')
+    console.log(this.summaryData)
     this.blockchain = this.blockchains.create().oneByName(this.summaryData.network);
     this.checkMode();
   }
