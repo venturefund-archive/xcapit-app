@@ -51,25 +51,6 @@ const summaryData: SummaryData = {
   balance: 2,
 };
 
-// TODO: Volar si no se usa
-const summaryDataInvalidAddress: SummaryData = {
-  network: 'ERC20',
-  currency: {
-    id: 1,
-    name: 'BTC - Bitcoin',
-    logoRoute: '../../assets/img/coins/BTC.svg',
-    last: false,
-    value: 'BTC',
-    network: '',
-    chainId: 42,
-    rpc: '',
-  },
-  address: 'invalid',
-  amount: 1,
-  referenceAmount: '50000',
-  balance: 2,
-};
-
 fdescribe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
