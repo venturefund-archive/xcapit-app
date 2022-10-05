@@ -11,7 +11,6 @@ import { LocalNotificationsService } from '../../../notifications/shared-notific
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
-import { isAddress } from 'ethers/lib/utils';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 import { TrackService } from '../../../../shared/services/track/track.service';
