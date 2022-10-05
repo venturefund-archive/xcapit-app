@@ -45,7 +45,7 @@ import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/wallet';
 import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
-
+//TODO Borrar
 const coins: Coin[] = [
   {
     id: 1,
@@ -188,7 +188,7 @@ fdescribe('SendDetailPage', () => {
       },
       {
         price: 3000,
-        balance: 20,
+        balance: 10,
         quoteSymbol: 'USD',
       }
     );
