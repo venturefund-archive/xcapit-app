@@ -96,7 +96,7 @@ describe('SelectCurrencyPage', () => {
     expect(list).toBeTruthy();
   });
 
-  fit('should navigate when itemClicked event fired', async () => {
+  it('should navigate when itemClicked event fired', async () => {
     component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
