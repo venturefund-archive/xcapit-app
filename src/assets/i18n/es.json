@@ -1598,7 +1598,8 @@
       "new_password": "Escribe tu nueva contraseña",
       "repeat_password": "Repite tu nueva contraseña",
       "submit_button": "Cambiar",
-      "loading": "Cambiando..."
+      "loading": "Cambiando...",
+      "disclaimer": "Usarás esta contraseña para ingresar a tu cuenta y aprobar todas tus transacciones."
     },
     "password_change_success": {
       "textPrimary": "¡Genial!",
@@ -1738,6 +1739,7 @@
       "creating_button_state": "Creando wallet",
       "importing_button_state": "Importando wallet",
       "wait_loading_message": "Solo tomará unos segundos.",
+      "disclaimer": "No pierdas esta contraseña, Xcapit no podrá recuperarla si lo haces.",
       "loading": {
         "title": "¡Tiempo!",
         "subtitle": {

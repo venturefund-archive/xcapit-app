@@ -69,6 +69,11 @@ import { ethers } from 'ethers';
             inputmode="password"
             [errors]="this.repeatPasswordErrors"
           ></app-ux-input>
+          <app-backup-information-card
+            [text]="'wallets.create_password.disclaimer'"
+            [textClass]="'ux-home-backup-card'"
+          >
+          </app-backup-information-card>
         </div>
         <div name="Create Password Form Buttons" class="ux_footer">
           <div class="button">
