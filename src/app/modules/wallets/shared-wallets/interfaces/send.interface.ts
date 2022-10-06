@@ -1,8 +1,8 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { BigNumber } from "ethers";
+import { TransactionResponse as SolanaTransactionResponse } from '@solana/web3.js';
 
 export interface Send {
-    get tokenDecimals(): number;
+  get tokenDecimals(): number;
 
-    send(): Promise<string | TransactionResponse>;
+  send(): Promise<SolanaTransactionResponse | TransactionResponse>;
 }

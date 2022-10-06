@@ -53,17 +53,17 @@ export class WalletTransactionsService {
     return this.gasStation.create(this.blockchains.create().oneByName(aBlockchainName));
   }
 
-  async send(password: string, amount: number, to: string, coin: Coin): Promise<TransactionResponse> {
-    const from = await this.storageService.getWalletsAddresses(coin.network);
-    const wallet = await this.walletEncryptionService.getDecryptedWalletForCurrency(password, coin);
+  async send(password: string, amount: number, to: string, token: Coin): Promise<TransactionResponse> {
+    const from = await this.storageService.getWalletsAddresses(token.network);
+    const wallet = await this.walletEncryptionService.getDecryptedWalletForCurrency(password, token);
     const tx = new this.tokenSendClass(
       from,
       to,
       amount,
-      coin,
+      token,
       this.apiWalletService,
       wallet,
-      new NetworkConfig(coin.network, this._gasStation(coin.network))
+      new NetworkConfig(token.network, this._gasStation(token.network))
     ).value();
     return tx.send();
   }
