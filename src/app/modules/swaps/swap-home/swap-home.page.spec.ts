@@ -45,6 +45,8 @@ import { DefaultSwapsUrls } from '../shared-swaps/routes/default-swaps-urls';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.model';
 import { of } from 'rxjs';
+import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
+import { Password } from '../shared-swaps/models/password/password';
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -70,6 +72,9 @@ describe('SwapHomePage', () => {
   let walletBalanceSpy: jasmine.SpyObj<WalletBalanceService>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
+  let storageSpy: jasmine.SpyObj<IonicStorageService>;
+  const aPassword = new Password('aPassword');
+  const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const testLocalNotificationOk: LocalNotificationSchema = {
     id: 1,
     title: 'swaps.sent_notification.swap_ok.title',
@@ -143,7 +148,7 @@ describe('SwapHomePage', () => {
     oneInchFactorySpy = jasmine.createSpyObj('OneInchFactory', {
       create: { swapInfo: () => Promise.resolve(rawSwapInfoData) },
     });
-    fakeModalController = new FakeModalController({}, { data: 'aPasswordString' });
+    fakeModalController = new FakeModalController({}, { data: 'aPassword' });
     modalControllerSpy = fakeModalController.createSpy();
 
     intersectedTokensFactorySpy = jasmine.createSpyObj('IntersectedTokensFactory', {
@@ -177,6 +182,11 @@ describe('SwapHomePage', () => {
       showErrorToast: Promise.resolve(),
       showWarningToast: Promise.resolve(),
     });
+    storageSpy = jasmine.createSpyObj('IonicStorageService', {
+      set: Promise.resolve(),
+      remove: Promise.resolve(),
+      get: Promise.resolve(true),
+    });
 
     TestBed.configureTestingModule({
       declarations: [SwapHomePage, FormattedAmountPipe, FakeTrackClickDirective],
@@ -205,6 +215,7 @@ describe('SwapHomePage', () => {
         { provide: WalletBalanceService, useValue: walletBalanceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
+        { provide: IonicStorageService, useValue: storageSpy },
       ],
     }).compileComponents();
 
@@ -356,8 +367,11 @@ describe('SwapHomePage', () => {
   });
 
   it('password modal and success modal open on click swap button and password is valid', fakeAsync(() => {
+    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
     _setTokenAmountArrange(1);
+
     component.swapThem();
+
     tick(2);
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
@@ -375,6 +389,7 @@ describe('SwapHomePage', () => {
   }));
 
   it('should send success notification when swap is ok', fakeAsync(() => {
+    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
     _setTokenAmountArrange(1);
     component.swapThem();
     tick(2);
@@ -383,7 +398,7 @@ describe('SwapHomePage', () => {
   }));
 
   it('should send error notification when swap is not ok', fakeAsync(() => {
-    fakeModalController.modifyReturns({}, { data: 'aStringPassword' });
+    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
     walletsFactorySpy.create.and.returnValue({
       oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'a random error')),
     });
