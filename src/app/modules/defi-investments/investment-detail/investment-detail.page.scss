@@ -26,26 +26,17 @@
     }
 
     .invested-balance {
-      margin-top: 0;
-      margin-bottom: 16px;
-
       &__content {
-        display: flex;
-        flex-direction: column;
+        text-align: center;
+        margin-bottom: 50px;
+        width: 100%;
 
         &__label {
-          margin-bottom: 4px;
+          margin-bottom: 6px;
         }
 
-        &__balance {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          padding-bottom: 18px;
-
-          &__text {
-            color: var(--ion-color-neutral90);
-          }
+        ion-text {
+          color: var(--ion-color-successdark);
         }
       }
     }
