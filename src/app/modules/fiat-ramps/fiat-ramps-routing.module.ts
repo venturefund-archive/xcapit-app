@@ -103,6 +103,10 @@ const routes: Routes = [
         path: 'user-email',
         loadChildren: () => import('./user-email/user-email.module').then( m => m.UserEmailPageModule)
       },
+      {
+        path: 'user-basic',
+        loadChildren: () => import('./kyc-user-basic-information/kyc-user-basic-information.module').then( m => m.KycUserBasicInformationPageModule)
+      },
     ],
   },
 
