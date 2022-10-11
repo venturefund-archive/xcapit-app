@@ -30,11 +30,12 @@ import { USER_REGISTER_STEPS } from '../shared-ramps/constants/user-register-ste
       <div class="ur__container__card">
         <app-user-register-step-card
           *ngFor="let step of this.steps"
-          [number]="step.number"
+          [order]="step.order"
           [title]="step.title"
           [subtitle]="step.subtitle"
           [url]="step.url"
           [disabled]="step.disabled"
+          [name]="step.name"
         >
         </app-user-register-step-card>
       </div>

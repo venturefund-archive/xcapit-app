@@ -34,9 +34,9 @@ import { TokenOperationDataService } from '../../shared-ramps/services/token-ope
             ></app-select-provider-card>
           </form>
         </div>
-        <!-- <div class="operations-list ion-padding-start ion-padding-end" *ngIf="this.operationsList">
+        <div class="operations-list ion-padding-start ion-padding-end" *ngIf="this.operationsList">
           <app-operations-list [operationsList]="this.operationsList"></app-operations-list>
-        </div> -->
+        </div>
       </div>
     </ion-content>
     <ion-footer class="sp__footer">

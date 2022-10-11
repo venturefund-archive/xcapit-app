@@ -3,11 +3,18 @@ import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-user-register-step-card',
-  template: `<ion-item (click)="navigateTo()" lines="none" class="ion-no-padding ursc" [disabled]="this.disabled">
+  template: `<ion-item
+  appTrackClick
+  (click)="navigateTo()"
+  lines="none"
+  class="ion-no-padding ursc"
+  [disabled]="this.disabled"
+  [dataToTrack]="{ eventLabel: this.name }"
+>
     <div class="ursc__wrapper">
       <div class="ursc__wrapper__step">
         <div class="ursc__wrapper__step__circle">
-          <ion-text class="ux-font-text-lg">{{ this.number }}</ion-text>
+          <ion-text class="ux-font-text-lg">{{ this.order }}</ion-text>
         </div>
       </div>
       <div class="ursc__wrapper__content">
@@ -22,11 +29,12 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./user-register-step-card.component.scss'],
 })
 export class UserRegisterStepCardComponent implements OnInit {
-  @Input() number: string;
+  @Input() order: string;
   @Input() title: string;
   @Input() subtitle: string;
   @Input() url: string;
   @Input() disabled: boolean;
+  @Input() name: string;
   constructor(private navController: NavController) {}
 
   ngOnInit() {}

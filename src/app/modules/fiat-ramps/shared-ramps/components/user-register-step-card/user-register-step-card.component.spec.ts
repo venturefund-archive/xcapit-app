@@ -4,7 +4,8 @@ import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { UserRegisterStepCardComponent } from './user-register-step-card.component';
 
 describe('UserRegisterStepCardComponent', () => {
@@ -12,19 +13,21 @@ describe('UserRegisterStepCardComponent', () => {
   let fixture: ComponentFixture<UserRegisterStepCardComponent>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<UserRegisterStepCardComponent>;
 
   const fakeData = {
-    number: '1',
+    order: '1',
     title: 'fakeTitle',
     subtitle: 'fakeSubtitle',
     url: 'fakeUrl',
+    name:'ux_buy_kripton_details',
     disabled: false,
   };
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     TestBed.configureTestingModule({
-      declarations: [UserRegisterStepCardComponent],
+      declarations: [UserRegisterStepCardComponent, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [{ provide: NavController, useValue: navControllerSpy }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -32,11 +35,13 @@ describe('UserRegisterStepCardComponent', () => {
 
     fixture = TestBed.createComponent(UserRegisterStepCardComponent);
     component = fixture.componentInstance;
-    component.number = fakeData.number;
+    component.order = fakeData.order;
     component.title = fakeData.title;
     component.subtitle = fakeData.subtitle;
+    component.name = fakeData.name;
     component.url = fakeData.url;
     fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
 
   it('should create', () => {
@@ -49,16 +54,30 @@ describe('UserRegisterStepCardComponent', () => {
     const subtitleEl = fixture.debugElement.query(By.css('div.ursc__wrapper__content > ion-text.ursc__wrapper__content__subtitle'));
     const iconEl = fixture.debugElement.query(By.css('div.ursc__wrapper__action > ion-icon'));
 
-    expect(numberEl.nativeElement.innerHTML).toContain(fakeData.number);
+    expect(numberEl.nativeElement.innerHTML).toContain(fakeData.order);
     expect(titleEl.nativeElement.innerHTML).toContain(fakeData.title);
     expect(subtitleEl.nativeElement.innerHTML).toContain(fakeData.subtitle);
     expect(iconEl.attributes['ng-reflect-name']).toContain('chevron-forward-outline');
   });
 
   it('should navigate if item is not disabled and was clicked', () =>{
-    component.disabled = false
+    component.disabled = false;
     const itemEl = fixture.debugElement.query(By.css('ion-item.ursc'));
+
     itemEl.nativeElement.click();
+
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(fakeData.url);
-  })
+  });
+
+  it('should call trackEvent if item is not disabled and was clicked', () => {
+    component.disabled = false;
+    const el = trackClickDirectiveHelper.getElement('ion-item');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+
+    el.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });

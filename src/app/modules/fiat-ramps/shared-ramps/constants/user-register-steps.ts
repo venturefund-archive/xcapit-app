@@ -1,15 +1,17 @@
 export const USER_REGISTER_STEPS = [
     {
-        number:'1',
+        order:'1',
         title:'fiat_ramps.user_register.steps.step_one.title',
         subtitle:'fiat_ramps.user_register.steps.step_one.subtitle',
-        url:''
+        url:'',
+        name:'ux_buy_kripton_details'
     },
     {
-        number:'2',
+        order:'2',
         title:'fiat_ramps.user_register.steps.step_two.title',
         subtitle:'fiat_ramps.user_register.steps.step_two.subtitle',
         disabled: true,
-        url:''
+        url:'',
+        name:'ux_buy_kripton_id'
     }
 ]
