@@ -96,6 +96,7 @@ import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/inj
           <app-wallet-subheader-buttons
             [asset]="this.tplToken.value"
             [network]="this.tplBlockchain.name"
+            [tokenAddress]='this.tplToken.contract'
             [enabledToBuy]="this.enabledToBuy"
             [enabledToOperate]="this.enabledToOperate"
           ></app-wallet-subheader-buttons>
@@ -248,9 +249,8 @@ export class TokenDetailPage {
       this.transfers = await this.transfersFactory.create(this.token.json(), this.wallet.address()).all();
     }
   }
-
   private setAllowedOperations() {
     this.enabledToBuy = !!new ProviderTokensOf(this.providers.create(), [this.token.json()]).all().length;
-    this.enabledToOperate = this.blockchain.name() !== 'SOLANA';
+    this.enabledToOperate = true;
   }
 }

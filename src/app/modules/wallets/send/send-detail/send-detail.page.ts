@@ -6,7 +6,6 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { TransactionDataService } from '../../shared-wallets/services/transaction-data/transaction-data.service';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
 import { UX_ALERT_TYPES } from 'src/app/shared/components/ux-alert-message/ux-alert-types';
-import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
 import { NativeGasOf } from 'src/app/shared/models/native-gas-of/native-gas-of';
@@ -16,7 +15,6 @@ import { VoidSigner } from 'ethers';
 import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
 import { ERC20ContractController } from '../../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
 import { ERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.interface';
-import { parseUnits } from 'ethers/lib/utils';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
@@ -33,8 +31,18 @@ import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/g
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { Fee } from 'src/app/modules/defi-investments/shared-defi-investments/interfaces/fee.interface';
 import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
-import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+import { RawToken, TokenRepo } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
+import { TokenByAddress } from 'src/app/modules/swaps/shared-swaps/models/token-by-address/token-by-address';
+import { BlockchainTokens } from 'src/app/modules/swaps/shared-swaps/models/blockchain-tokens/blockchain-tokens';
+import { DefaultTokens } from 'src/app/modules/swaps/shared-swaps/models/tokens/tokens';
+import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
+import { FixedTokens } from 'src/app/modules/swaps/shared-swaps/models/filtered-tokens/fixed-tokens';
+import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
+import { CovalentBalancesController } from '../../shared-wallets/models/balances/covalent-balances/covalent-balances.controller';
+import { TokenPricesController } from '../../shared-wallets/models/prices/token-prices/token-prices.controller';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 
 @Component({
   selector: 'app-send-detail',
@@ -135,6 +143,7 @@ export class SendDetailPage {
   private priceRefreshInterval = 15000;
   alertType = UX_ALERT_TYPES.warning;
   token: Coin;
+  private tokenObj: Token;
   balance: number;
   nativeBalance: number;
   amount: number;
@@ -145,10 +154,14 @@ export class SendDetailPage {
   quoteFee: Amount = { value: 0, token: 'USD' };
   modalHref: string;
   isInfoModalOpen = false;
+  tokenSolana: Token;
+  tplTokenSolana: RawToken;
+  tokenDetail: TokenDetail;
+  private wallet: Wallet;
 
   url: string;
   form: UntypedFormGroup = this.formBuilder.group({
-    address: ['', [Validators.required, CustomValidators.isAddress()]],
+    address: ['', [Validators.required]],
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
     quoteAmount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
   });
@@ -158,7 +171,7 @@ export class SendDetailPage {
     private navController: NavController,
     private formBuilder: UntypedFormBuilder,
     private transactionDataService: TransactionDataService,
-    private walletService: WalletService,
+    private walletsFactory: WalletsFactory,
     private storageService: StorageService,
     private apiWalletService: ApiWalletService,
     private erc20ProviderController: ERC20ProviderController,
@@ -169,16 +182,31 @@ export class SendDetailPage {
     private storage: IonicStorageService,
     private tokenOperationDataService: TokenOperationDataService,
     private blockchains: BlockchainsFactory,
-    private gasStation: GasStationOfFactory
+    private gasStation: GasStationOfFactory,
+    private tokenDetailInjectable: TokenDetailInjectable,
+    private covalentBalancesFactory: CovalentBalancesController,
+    private tokenPricesFactory: TokenPricesController
   ) {}
 
   async ionViewDidEnter() {
     this.modalHref = window.location.href;
-    this.setBlockchain(this.route.snapshot.queryParamMap.get('network'));
-    this.setTokens();
+    this.setBlockchain(this.route.snapshot.paramMap.get('blockchain'));
+    await this.setTokens();
+    await this.setWallet();
+    await this.setTokenDetail();
+    await this.checkIfSolana();
     this.getPrices();
     this.setUrlToBuyCrypto();
     await this.tokenBalances();
+  }
+
+  async checkIfSolana() {
+    if (this.activeBlockchain.name() !== 'SOLANA') {
+      this.form.get('address').addValidators(CustomValidators.isAddress());
+    } else {
+      this.form.get('address').addValidators(CustomValidators.isAddressSolana());
+      await this.setAllFeeData();
+    }
   }
 
   private gasPrice(): Promise<AmountOf> {
@@ -229,27 +257,47 @@ export class SendDetailPage {
     return await this.storageService.getWalletsAddresses(this.activeBlockchain.name());
   }
 
-  private setTokens() {
-    this.token = this.apiWalletService.getCoin(
-      this.route.snapshot.queryParamMap.get('asset'),
-      this.activeBlockchain.name()
-    );
+  private async setTokens() {
+    this.tokenObj = await new TokenByAddress(
+      this.route.snapshot.paramMap.get('token'),
+      new BlockchainTokens(this.activeBlockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
+    ).value();
+    this.token = this.tokenObj.json();
     this.nativeToken = this.activeBlockchain.nativeToken();
     this.tplNativeToken = this.nativeToken.json();
     this.dynamicFee.token = this.nativeToken.symbol();
   }
 
+  private async setTokenDetail() {
+    this.tokenDetail = await this.tokenDetailOf(this.tokenObj);
+    this.balance = this.tokenDetail.balance;
+  }
+
+  private async setWallet() {
+    this.wallet = await this.walletsFactory.create().oneBy(this.activeBlockchain);
+  }
+
+  private async tokenDetailOf(aToken: Token) {
+    const tokenDetail = this.tokenDetailInjectable.create(
+      this.covalentBalancesFactory.new(this.wallet.address(), new FixedTokens([aToken])),
+      this.tokenPricesFactory.new(new FixedTokens([aToken])),
+      (await new FixedTokens([aToken]).value())[0]
+    );
+    await tokenDetail.cached();
+    await tokenDetail.fetch();
+    return tokenDetail;
+  }
+
   async tokenBalances() {
-    const tokenBalance = parseFloat(await this.userBalanceOf(this.token));
     this.watchFormChanges();
     if (this.token.native) {
       await this.setAllFeeData();
       this.resetFee();
-      this.balance = this.nativeBalance = Math.max(tokenBalance - this.fee, 0);
+      this.balance = this.nativeBalance = Math.max(this.tokenDetail.balance - this.fee, 0);
       await this.checkEnoughBalance();
     } else {
-      this.balance = tokenBalance;
-      this.nativeBalance = parseFloat(await this.userBalanceOf(this.nativeToken.json()));
+      this.balance = this.tokenDetail.balance;
+      this.nativeBalance = (await this.tokenDetailOf(this.activeBlockchain.nativeToken())).balance;
     }
     this.addLowerThanValidator();
   }
@@ -257,10 +305,6 @@ export class SendDetailPage {
   private addLowerThanValidator() {
     this.form.get('amount').addValidators(CustomValidators.lowerThanEqual(this.balance));
     this.form.get('amount').updateValueAndValidity();
-  }
-
-  private async userBalanceOf(_aToken: Coin | RawToken) {
-    return this.walletService.balanceOf(await this.userWallet(), _aToken.value);
   }
 
   private watchFormChanges() {
@@ -277,14 +321,23 @@ export class SendDetailPage {
   }
 
   private async setAllFeeData(): Promise<void> {
-    this.loadingFee();
-    await this.setFee();
-    this.dynamicFee = { value: this.fee, token: this.nativeToken.symbol() };
+    if (this.activeBlockchain.name() !== 'SOLANA') {
+      this.loadingFee();
+      await this.setFee();
+      this.dynamicFee = { value: this.fee, token: this.nativeToken.symbol() };
+    } else {
+      this.dynamicFee = { value: 0, token: this.nativeToken.symbol() };
+      this.fee = 0;
+    }
     this.getQuoteFee();
   }
 
   private getQuoteFee(): void {
-    this.quoteFee.value = this.nativeTokenPrice * this.fee;
+    if (this.activeBlockchain.name() !== 'SOLANA') {
+      this.quoteFee.value = this.nativeTokenPrice * this.fee;
+    } else {
+      this.quoteFee.value = 1;
+    }
   }
 
   private resetFee() {
@@ -366,7 +419,7 @@ export class SendDetailPage {
 
   async checkEnoughBalance() {
     if (this.nativeBalance < this.fee) {
-      this.openModalBalance();
+      await this.openModalBalance();
     }
   }
 

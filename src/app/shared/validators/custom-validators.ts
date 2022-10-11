@@ -2,6 +2,8 @@ import { ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { CustomValidatorErrors } from './custom-validator-errors';
 import { isAddress } from 'ethers/lib/utils';
 import isExists from 'date-fns/isExists';
+import { PublicKey } from '@solana/web3.js';
+
 export class CustomValidators {
   static patternValidator(regex: RegExp, error: ValidationErrors, failWhenEmpty = false): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
@@ -36,11 +38,20 @@ export class CustomValidators {
       return isAddress(control.value) ? null : error;
     };
   }
+  static isAddressSolana(error: ValidationErrors = CustomValidatorErrors.isAddressSolana): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      try {
+        const address = control.value
+        const publicKey = new PublicKey(address)
+        const isSolana = PublicKey.isOnCurve(publicKey.toBuffer())
+        return isSolana ? null : error;        
+      } catch (err) {
+        return error;
+      }
+    };
+  }
 
-  static advancedCountWords(
-    value: number,
-    error: ValidationErrors = CustomValidatorErrors.countWordsMatch
-  ): ValidatorFn {
+  static advancedCountWords(value: number, error: ValidationErrors = CustomValidatorErrors.countWordsMatch): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const words = control.value.match(/[a-z0-9]+/g) || [];
       const hasUppercase = /[A-Z]+/g.test(control.value);

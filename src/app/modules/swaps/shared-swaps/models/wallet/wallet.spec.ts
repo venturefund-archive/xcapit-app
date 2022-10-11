@@ -1,10 +1,11 @@
 import { FakeBlockchainTx } from '../fakes/fake-blockchain-tx';
 import { FakeEthersWallet } from '../fakes/fake-ethers-wallet';
-import { rawEthereumData } from '../fixtures/raw-blockchains-data';
+import { rawEthereumData, rawSolanaData } from '../fixtures/raw-blockchains-data';
 import { passEncryptedWallet, rawWalletData } from '../fixtures/raw-wallet-data';
 import { DefaultWallet, FakeWallet, SolanaWallet, Wallet } from './wallet';
 import { fakeProviders } from '../fakes/fake-ethers-providers';
 import { Blockchain } from '../blockchain/blockchain';
+import { FakeConnection } from '../fakes/fake-connection';
 
 describe('DefaultWallet', () => {
   let wallet: Wallet;
@@ -71,6 +72,13 @@ describe('DefaultWallet', () => {
       expect(testObject.testMethod).toHaveBeenCalledTimes(1);
     });
 
+    it('address', () => {
+      const addressTestValue = 'x';
+      const wallet = new FakeWallet(Promise.resolve(false), '', addressTestValue);
+
+      expect(wallet.address()).toEqual(addressTestValue);
+    });
+
     it('notify wallet was decrypted', async () => {
       fakeWallet.onNeedPass().subscribe(() => testObject.testMethod());
       fakeWallet.onDecryptedWallet().subscribe(() => testObject.testMethod());
@@ -92,14 +100,20 @@ describe('DefaultWallet', () => {
 describe('SolanaWallet', () => {
   let wallet: Wallet;
   let testObject: any;
+  const blockchain = new Blockchain(rawSolanaData);
 
   beforeEach(() => {
-    wallet = new SolanaWallet(rawWalletData);
+    wallet = new SolanaWallet(rawWalletData, new FakeConnection(), new FakeEthersWallet());
     testObject = { testMethod: () => Promise.resolve(passEncryptedWallet) };
     spyOn(testObject, 'testMethod').and.callThrough();
   });
 
   it('new', () => {
+    expect(wallet).toBeTruthy();
+  });
+
+  it('create', () => {
+    wallet = SolanaWallet.create(rawWalletData, blockchain);
     expect(wallet).toBeTruthy();
   });
 
@@ -111,5 +125,10 @@ describe('SolanaWallet', () => {
     wallet.onNeedPass().subscribe(() => 'superpass');
 
     expect(true).toBeTrue();
+  });
+
+  it('sendTx', async () => {
+    const result = await wallet.sendTxs([new FakeBlockchainTx()]);
+    expect(result).toBeTrue();
   });
 });

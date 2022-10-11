@@ -417,7 +417,7 @@
       "header": "My investment",
       "button": "Add",
       "button_link": "Withdraw",
-      "invested_amount": "Balance*",
+      "invested_amount": "Total amount invested*",
       "daily_earnings_disclaimer": "*Your balance is updated daily.",
       "continuous_update": "*Continuous update",
       "weekly_update": "*Weekly update",
@@ -1605,7 +1605,8 @@
       "new_password": "Write your new password",
       "repeat_password": "Repeat your new password",
       "submit_button": "Change",
-      "loading": "Changing..."
+      "loading": "Changing...",
+      "disclaimer": "You will use this password to log in to your account and approve all your transactions."
     },
     "password_change_success": {
       "textPrimary": "Great!",
@@ -1745,6 +1746,7 @@
       "creating_button_state": "Creating wallet",
       "importing_button_state": "Importing wallet",
       "wait_loading_message": "It will only take a few seconds.",
+      "disclaimer": "Do not lose this password, Xcapit will not be able to recover it if you do.",
       "loading": {
         "title": "Time!",
         "subtitle": {

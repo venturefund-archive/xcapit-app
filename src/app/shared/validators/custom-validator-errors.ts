@@ -39,5 +39,7 @@ export class CustomValidatorErrors {
 
   static isAddress = {isAddress: true};
 
+  static isAddressSolana = {isAddressSolana: true};
+
   static lowerThanEqualError = {lowerThanEqual: true}
 }
