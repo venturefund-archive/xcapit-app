@@ -86,6 +86,7 @@ describe('CreatePasswordPage', () => {
   let xAuthServiceSpy: jasmine.SpyObj<XAuthService>;
 
   beforeEach(() => {
+    spyOn(Wallet, 'fromMnemonic').and.returnValue(walletSpy);
     fakeLoadingService = new FakeLoadingService();
     loadingServiceSpy = fakeLoadingService.createSpy();
     fakeNavController = new FakeNavController();
@@ -135,10 +136,7 @@ describe('CreatePasswordPage', () => {
 
     walletServiceSpy = jasmine.createSpyObj(
       'WalletService',
-      {
-        create: Promise.resolve({}),
-        createForDerivedPath: walletSpy,
-      },
+      {},
       {
         coins: [],
       }
