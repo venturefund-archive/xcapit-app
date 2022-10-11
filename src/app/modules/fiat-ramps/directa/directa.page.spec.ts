@@ -15,8 +15,6 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
-import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/directa-price-factory';
-import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { of, Subject, timer, BehaviorSubject } from 'rxjs';
 import { LanguageService } from '../../../shared/services/language/language.service';
@@ -27,6 +25,8 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { RouterTestingModule } from '@angular/router/testing';
 import DepositLinkRequest from '../shared-ramps/models/deposit-link-request/deposit-link-request';
 import { EnvService } from 'src/app/shared/services/env/env.service';
+import { DynamicDirectaPrice } from '../shared-ramps/models/directa-price/dynamic-directa-price';
+import { DynamicDirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/dynamic-directa-price-factory';
 
 describe('DirectaPage', () => {
   let component: DirectaPage;
@@ -39,8 +39,8 @@ describe('DirectaPage', () => {
   let providersSpy: jasmine.SpyObj<Providers>;
   let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
-  let directaPriceFactorySpy: jasmine.SpyObj<DirectaPriceFactory>;
-  let directaPriceSpy: jasmine.SpyObj<DirectaPrice>;
+  let dynamicDirectaPriceFactorySpy: jasmine.SpyObj<DynamicDirectaPriceFactory>;
+  let directaPriceSpy: jasmine.SpyObj<DynamicDirectaPrice>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let languageServiceSpy: jasmine.SpyObj<LanguageService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
@@ -94,7 +94,7 @@ describe('DirectaPage', () => {
       value: priceSubject,
     });
 
-    directaPriceFactorySpy = jasmine.createSpyObj('DirectaPriceFactory', {
+    dynamicDirectaPriceFactorySpy = jasmine.createSpyObj('DynamicDirectaPriceFactory', {
       new: directaPriceSpy,
     });
 
@@ -140,7 +140,7 @@ describe('DirectaPage', () => {
         { provide: ProvidersFactory, useValue: providersFactorySpy },
         { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
-        { provide: DirectaPriceFactory, useValue: directaPriceFactorySpy },
+        { provide: DynamicDirectaPriceFactory, useValue: dynamicDirectaPriceFactorySpy },
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: PlatformService, useValue: platformServiceSpy },

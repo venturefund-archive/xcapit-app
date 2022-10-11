@@ -18,13 +18,13 @@ import { By } from '@angular/platform-browser';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
-import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
+import { DynamicKriptonPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/dynamic-kripton-price-factory';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
-import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-dynamic-price/dynamic-kripton-price';
 
 const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
@@ -55,8 +55,8 @@ describe('OperationsNewPage', () => {
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
-  let kriptonDynamicPriceSpy: jasmine.SpyObj<KriptonDynamicPrice>;
-  let kriptonDynamicPriceFactorySpy: jasmine.SpyObj<KriptonDynamicPriceFactory>;
+  let dynamicKriptonPriceSpy: jasmine.SpyObj<DynamicKriptonPrice>;
+  let kriptonDynamicPriceFactorySpy: jasmine.SpyObj<DynamicKriptonPriceFactory>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
   let priceSubject: Subject<number>;
@@ -95,12 +95,12 @@ describe('OperationsNewPage', () => {
 
     priceSubject = new Subject<number>();
 
-    kriptonDynamicPriceSpy = jasmine.createSpyObj('KriptonDynamicPrice', {
+    dynamicKriptonPriceSpy = jasmine.createSpyObj('DynamicKriptonPrice', {
       value: priceSubject,
     });
 
     kriptonDynamicPriceFactorySpy = jasmine.createSpyObj('KriptonDynamicPriceFactory', {
-      new: kriptonDynamicPriceSpy,
+      new: dynamicKriptonPriceSpy,
     });
 
     providersSpy = jasmine.createSpyObj('Providers', {
@@ -135,7 +135,7 @@ describe('OperationsNewPage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: BrowserService, useValue: browserServiceSpy },
-        { provide: KriptonDynamicPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
+        { provide: DynamicKriptonPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
@@ -157,7 +157,7 @@ describe('OperationsNewPage', () => {
   });
 
   it('should set properly cryptoAmount form value with minimum crypto amount', () => {
-    kriptonDynamicPriceSpy.value.and.returnValue(of(1));
+    dynamicKriptonPriceSpy.value.and.returnValue(of(1));
     component.ionViewWillEnter();
     fixture.whenStable();
     fixture.whenRenderingDone();
@@ -248,7 +248,7 @@ describe('OperationsNewPage', () => {
   });
 
   it('should validate that the crypto amount equals the minimum value in dollars', () => {
-    kriptonDynamicPriceSpy.value.and.returnValue(of(1));
+    dynamicKriptonPriceSpy.value.and.returnValue(of(1));
     component.ionViewWillEnter();
     component.form.patchValue({ cryptoAmount: 1 });
     fixture.detectChanges();

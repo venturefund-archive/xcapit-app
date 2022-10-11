@@ -2190,6 +2190,8 @@
       "select_placeholder": "Selecciona tu país",
       "provider_label": "Selecciona el proveedor",
       "no_provider": "Por el momento no es posible adquirir {{coinName}} en tu país.",
+      "description": "Compra con {{providerName}} {{token}} a ${{quote}} {{fiatCode}}.",
+      "best_quote": "Mejor cotización",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
       "directa24": {

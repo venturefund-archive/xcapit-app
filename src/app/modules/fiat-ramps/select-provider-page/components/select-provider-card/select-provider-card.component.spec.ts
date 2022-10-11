@@ -36,7 +36,7 @@ const usdcCoin: Coin = {
   rpc: '',
 };
 
-describe('SelectProviderCardComponent', () => {
+fdescribe('SelectProviderCardComponent', () => {
   let component: SelectProviderCardComponent;
   let fixture: ComponentFixture<SelectProviderCardComponent>;
   let formGroupDirectiveMock: FormGroupDirective;

@@ -11,8 +11,6 @@ import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/prov
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
-import { DirectaPrice } from '../shared-ramps/models/directa-price/directa-price';
-import { DirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/directa-price-factory';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -27,6 +25,9 @@ import { DirectaDepositCreationData } from '../shared-ramps/interfaces/directa-d
 import { EnvService } from '../../../shared/services/env/env.service';
 import RoundedNumber from '../../../shared/models/rounded-number/rounded-number';
 import CeilOf from 'src/app/shared/models/ceil-of/ceil-of';
+import { DynamicDirectaPrice } from '../shared-ramps/models/directa-price/dynamic-directa-price';
+import { DefaultDirectaPrice } from '../shared-ramps/models/directa-price/default-directa-price';
+import { DynamicDirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/dynamic-directa-price-factory';
 
 @Component({
   selector: 'app-directa',
@@ -107,7 +108,7 @@ export class DirectaPage implements OnInit {
     private providers: ProvidersFactory,
     private walletMaintenance: WalletMaintenanceService,
     private tokenOperationDataService: TokenOperationDataService,
-    private directaPrice: DirectaPriceFactory,
+    private directaPrice: DynamicDirectaPriceFactory,
     private fiatRampsService: FiatRampsService,
     private storageService: StorageService,
     private platformService: PlatformService,
@@ -283,8 +284,8 @@ export class DirectaPage implements OnInit {
       });
   }
 
-  createDirectaPrice(currency = this.fiatCurrency): DirectaPrice {
-    return this.directaPrice.new(this.milliseconds, currency, this.selectedCurrency, this.fiatRampsService);
+  createDirectaPrice(currency = this.fiatCurrency): DynamicDirectaPrice {
+    return this.directaPrice.new(this.milliseconds, new DefaultDirectaPrice(currency, this.selectedCurrency, this.fiatRampsService));
   }
 
   loadingFee() {
