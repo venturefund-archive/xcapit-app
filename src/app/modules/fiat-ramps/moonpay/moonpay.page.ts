@@ -36,6 +36,7 @@ import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/
           [provider]="this.provider"
           [coinSelectorEnabled]="true"
           (changeCurrency)="this.openModal($event)"
+          paymentType='fiat_ramps.shared.constants.payment_types.moonpay'
         ></app-provider-new-operation-card>
       </form>
     </ion-content>

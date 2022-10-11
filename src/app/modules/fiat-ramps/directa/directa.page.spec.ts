@@ -66,6 +66,12 @@ describe('DirectaPage', () => {
     providersSpy = jasmine.createSpyObj('Providers', {
       all: rawProvidersData,
       byAlias: rawProvidersData.find((provider) => provider.alias === 'PX'),
+      availableDirectaProviders: of([
+        {
+          code: 'PX',
+          paymentType: 'VOUCHER',
+        },
+      ]),
     });
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
@@ -171,7 +177,7 @@ describe('DirectaPage', () => {
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'test-link/hash' });
   });
 
-  it('should set country, default currency and provider on init', fakeAsync(() => {
+  it('should set country, default currency, provider, and paymentType on init', fakeAsync(() => {
     fakeActivatedRoute.modifySnapshotParams({ alias: 'PX' });
     component.form.patchValue({ fiatAmount: 1 });
     component.ionViewWillEnter();
@@ -180,6 +186,7 @@ describe('DirectaPage', () => {
     expect(component.country.name).toEqual('Ecuador');
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);
     expect(component.fiatCurrency).toEqual('USD');
+    expect(component.paymentType).toEqual('fiat_ramps.shared.constants.payment_types.directa24_voucher');
   }));
 
   it('should unsubscribe when leave', () => {

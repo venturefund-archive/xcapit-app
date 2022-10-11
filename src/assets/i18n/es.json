@@ -2154,6 +2154,9 @@
       "button_show_less": "Ver menos",
       "button_show_more": "Ver más"
     },
+    "provider_new_operation_card":{
+      "description":"Proveedor: {{providerName}}"
+    },
     "select_provider": {
       "header": "Comprar Cripto",
       "select_label": "Pais en el que vas a operar",
@@ -2189,6 +2192,7 @@
         }
       }
     },
+    
     "information_paxful": {
       "header": "Comprar",
       "title": "Compra BTC con Paxful:",
@@ -2403,6 +2407,14 @@
         "button": "Entendido"
       },
       "constants": {
+        "payment_types":{
+          "directa24_bank_deposit":"Depósito Bancario",
+          "directa24_bank_transfer":"Transferencia Bancaria",
+          "directa24_credit_card":"Tarjeta de crédito o débito",
+          "directa24_voucher":"Tienda física más cercana",
+          "kripton":"Transferencia Bancaria",
+          "moonpay":"Tarjeta de crédito"
+        },
         "providers": {
           "kripton": {
             "disclaimer": "La entrega de tokens se hace de Lunes a Viernes de 9 a 18 hs. y puede tardar si el banco demora en procesar la transaccion a la cuenta comitente de Kripton."
@@ -2417,12 +2429,13 @@
       },
       "provider_new_operation_card": {
         "quantity": "Cantidad",
-        "provider": "Proveedor",
+        "payment_method": "Medio de Pago",
         "to_pay": "Pagarás*",
         "input_error": "El monto mínimo de compra es de ${{amount}} {{fiatCurrency}}",
         "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día.",
         "estimated_fee": "Tarifa de transacción estimada"
       },
+
       "kyc_disclaimer_modal": {
         "title": "Registro cuenta Kripton",
         "description": "Por única vez tienes que crearte una cuenta en kripton, la próxima vez que elijas este operador vas a acceder de manera automática.\n Recuerda que el registro y proceso de compra queda a cargo de Kripton.",

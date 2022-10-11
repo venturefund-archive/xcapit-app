@@ -49,6 +49,7 @@ import { OperationDataInterface } from '../shared-ramps/interfaces/operation-dat
             [coinSelectorEnabled]="true"
             [minimumFiatAmount]="this.minimumFiatAmount"
             (changeCurrency)="this.openModal($event)"
+            paymentType="fiat_ramps.shared.constants.payment_types.kripton"
           ></app-provider-new-operation-card>
 
           <div class="aon__disclaimer">
