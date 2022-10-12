@@ -56,6 +56,21 @@ const testCoins: Coin[] = [
     abi: 'testAbi',
     decimals: 18,
   },
+  {
+    id: 28,
+    name: 'WBTC - Wrapped BTC',
+    logoRoute: 'assets/img/coins/WBTC.png',
+    last: true,
+    value: 'WBTC',
+    network: 'MATIC',
+    contract: '0x0d787a4a1548f673ed375445535a6c7a1ee56180',
+    chainId: 80001,
+    rpc: 'testRpc',
+    decimals: 8,
+    abi: 'testAbi',
+    symbol: 'BTCUSDT',
+    canInvest: true,
+  },
 ];
 
 describe('ApiWalletService', () => {
@@ -183,4 +198,11 @@ describe('ApiWalletService', () => {
     const networks = service.getNetworks('RBTC');
     expect(networks).toEqual(['RSK']);
   });
+
+  it('should get native and investable coins on getInitialTokens', () => {
+    spyOn(service, 'getCoins').and.returnValue(testCoins);
+    const coins = service.getInitialTokens();
+    expect(coins).toContain(testCoins[1]);
+    expect(coins).toContain(testCoins[3]);
+  })
 });

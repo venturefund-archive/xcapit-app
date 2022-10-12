@@ -306,6 +306,7 @@ export const NONPROD_COINS: Coin[] = [
     abi: linkAbi,
     decimals: 6,
     symbol: 'USDCUSDT',
+    canInvest: true,
   },
   {
     id: 25,
@@ -332,6 +333,7 @@ export const NONPROD_COINS: Coin[] = [
     decimals: 18,
     abi: daiAbi,
     symbol: 'USDTDAI',
+    canInvest: true,
   },
   {
     id: 27,
@@ -360,6 +362,7 @@ export const NONPROD_COINS: Coin[] = [
     decimals: 8,
     abi: linkAbi,
     symbol: 'BTCUSDT',
+    canInvest: true,
   },
   {
     id: 29,
