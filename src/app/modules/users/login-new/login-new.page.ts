@@ -33,6 +33,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
               [textClass]="'info'"
               [infoIcon]="true"
               (infoIconClicked)="this.showPasswordInfoModal()"
+              [labelColor]="'white'"
             ></app-ux-input>
           </div>
           <div class="ul__login-button">

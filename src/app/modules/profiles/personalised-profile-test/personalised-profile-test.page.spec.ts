@@ -8,6 +8,8 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { PersonalisedProfileTestPage } from './personalised-profile-test.page';
 
 describe('PersonalisedProfileTestPage', () => {
@@ -19,6 +21,8 @@ describe('PersonalisedProfileTestPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<PersonalisedProfileTestPage>;
+
   
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController({});
@@ -32,7 +36,7 @@ describe('PersonalisedProfileTestPage', () => {
       set: Promise.resolve(),
     });
     TestBed.configureTestingModule({
-      declarations: [PersonalisedProfileTestPage],
+      declarations: [PersonalisedProfileTestPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
@@ -45,6 +49,7 @@ describe('PersonalisedProfileTestPage', () => {
 
     fixture = TestBed.createComponent(PersonalisedProfileTestPage);
     component = fixture.componentInstance;
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     fixture.detectChanges();
   }));
 
@@ -139,8 +144,8 @@ describe('PersonalisedProfileTestPage', () => {
     });
   });
 
-  it('should show warning modal on Skip test button clicked', async () => {
-    fixture.debugElement.query(By.css('ion-button[name="Skip test"]')).nativeElement.click();
+  it('should show warning modal on ux_user_skip button clicked', async () => {
+    fixture.debugElement.query(By.css('ion-button[name="ux_user_skip"]')).nativeElement.click();
     fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
@@ -158,5 +163,14 @@ describe('PersonalisedProfileTestPage', () => {
     fixture.detectChanges();
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith([component.successProfileTestUrl]);
+  });
+
+  it('should call trackEvent on trackService when ux_user_skip is clicked', () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_user_skip');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

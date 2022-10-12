@@ -11,11 +11,14 @@ import { LocalNotificationsService } from '../../../notifications/shared-notific
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
-import { isAddress } from 'ethers/lib/utils';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 import { TrackService } from '../../../../shared/services/track/track.service';
-
+import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
+import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
@@ -65,6 +68,7 @@ export class SendSummaryPage implements OnInit {
   amountSend = false;
   transactionFee = false;
   isInfoModalOpen = false;
+  blockchain: Blockchain;
 
   constructor(
     private transactionDataService: TransactionDataService,
@@ -77,7 +81,9 @@ export class SendSummaryPage implements OnInit {
     private localNotificationsService: LocalNotificationsService,
     private translate: TranslateService,
     private alertController: AlertController,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private blockchains: BlockchainsFactory,
+    private walletsFactory: WalletsFactory
   ) {}
 
   ngOnInit() {}
@@ -85,6 +91,7 @@ export class SendSummaryPage implements OnInit {
   ionViewWillEnter() {
     this.isSending = false;
     this.summaryData = this.transactionDataService.transactionData;
+    this.blockchain = this.blockchains.create().oneByName(this.summaryData.network);
     this.checkMode();
   }
 
@@ -149,34 +156,38 @@ export class SendSummaryPage implements OnInit {
     return data;
   }
 
-  private goToSuccess(response: TransactionResponse) {
+  private goToSuccess(response?: TransactionResponse) {
     this.navController.navigateForward(['/wallets/send/success']).then(() => this.notifyWhenTransactionMined(response));
   }
 
   private async send(password: string) {
-    const response = await this.walletTransactionsService.send(
-      password,
-      this.summaryData.amount,
-      this.summaryData.address,
-      this.summaryData.currency
-    );
-    await this.goToSuccess(response);
+    if (this.blockchain.name() !== 'SOLANA') {
+      const response = await this.walletTransactionsService.send(
+        password,
+        this.summaryData.amount,
+        this.summaryData.address,
+        this.summaryData.currency
+      );
+      await this.goToSuccess(response);
+    } else {
+      const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
+      wallet.onNeedPass().subscribe(() => new Password(password).value());
+      await wallet.sendTxs([new SolanaNativeSendTx(wallet, this.summaryData.address, this.summaryData.amount)]);
+      await this.goToSuccess();
+    }
   }
 
   private async checksBeforeSend(): Promise<boolean> {
-    if (!this.addressIsValid()) {
-      await this.handleInvalidAddress();
-      return false;
-    }
+    if (this.blockchain.name() !== 'SOLANA') {
+      if (!(await this.userCanAffordFees())) {
+        await this.handleUserCantAffordFees();
+        return false;
+      }
 
-    if (!(await this.userCanAffordFees())) {
-      await this.handleUserCantAffordFees();
-      return false;
-    }
-
-    if (!(await this.userCanAffordTx())) {
-      await this.handleUserCantAffordTx();
-      return false;
+      if (!(await this.userCanAffordTx())) {
+        await this.handleUserCantAffordTx();
+        return false;
+      }
     }
 
     return true;
@@ -226,28 +237,30 @@ export class SendSummaryPage implements OnInit {
     await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
   }
 
-  private createNotification(transaction: TransactionReceipt): LocalNotificationSchema[] {
+  private createNotification(address: string): LocalNotificationSchema[] {
     return [
       {
         id: 1,
         title: this.translate.instant('wallets.send.send_summary.sent_notification.title'),
         body: this.translate.instant('wallets.send.send_summary.sent_notification.body', {
-          address: transaction.to,
+          address,
         }),
       },
     ];
   }
 
   private notifyWhenTransactionMined(response: TransactionResponse) {
-    response
-      .wait()
-      .then((transaction: TransactionReceipt) => this.createNotification(transaction))
+    const fixedTxResponse = response ? response.wait() : Promise.resolve({ to: this.summaryData.address });
+    fixedTxResponse
+      .then((transaction: TransactionReceipt) => this.createNotification(transaction.to))
       .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification))
-      .then(() => this.trackService.trackEvent({
-        eventAction: 'async_tx',
-        description: window.location.href,
-        eventLabel: 'ux_send_notification_success'
-      }))
+      .then(() =>
+        this.trackService.trackEvent({
+          eventAction: 'async_tx',
+          description: window.location.href,
+          eventLabel: 'ux_send_notification_success',
+        })
+      );
   }
 
   private async handleSendError(error) {
@@ -288,14 +301,6 @@ export class SendSummaryPage implements OnInit {
       this.summaryData.amount,
       this.summaryData.currency
     );
-  }
-
-  private addressIsValid() {
-    return isAddress(this.summaryData.address);
-  }
-
-  private async handleInvalidAddress() {
-    await this.navController.navigateForward(['/wallets/send/error/wrong-address']);
   }
 
   private async handleUserCantAffordFees() {

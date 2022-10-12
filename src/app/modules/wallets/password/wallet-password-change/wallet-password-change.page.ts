@@ -73,6 +73,11 @@ import { WalletEncryptionService } from '../../shared-wallets/services/wallet-en
               [errors]="this.repeatPasswordErrors"
             ></app-ux-input>
           </div>
+          <app-backup-information-card
+            [text]="'wallets.password_change.disclaimer'"
+            [textClass]="'ux-home-backup-card'"
+          >
+          </app-backup-information-card>
         </div>
         <div name="Change Password Form Buttons" class="ux_footer">
           <div class="wpc__button">

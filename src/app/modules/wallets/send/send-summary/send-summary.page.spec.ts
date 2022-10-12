@@ -20,53 +20,22 @@ import { FakeNavController } from '../../../../../testing/fakes/nav-controller.f
 import { BigNumber, constants } from 'ethers';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-
-const testLocalNotification: LocalNotificationSchema = {
-  id: 1,
-  title: 'wallets.send.send_summary.sent_notification.title',
-  body: 'wallets.send.send_summary.sent_notification.body',
-};
-
-const summaryData: SummaryData = {
-  network: 'ERC20',
-  currency: {
-    id: 1,
-    name: 'BTC - Bitcoin',
-    logoRoute: 'assets/img/coins/BTC.svg',
-    last: false,
-    value: 'BTC',
-    network: '',
-    chainId: 42,
-    rpc: '',
-  },
-  address: constants.AddressZero,
-  amount: 1,
-  referenceAmount: '50000',
-  balance: 2,
-};
-
-const summaryDataInvalidAddress: SummaryData = {
-  network: 'ERC20',
-  currency: {
-    id: 1,
-    name: 'BTC - Bitcoin',
-    logoRoute: '../../assets/img/coins/BTC.svg',
-    last: false,
-    value: 'BTC',
-    network: '',
-    chainId: 42,
-    rpc: '',
-  },
-  address: 'invalid',
-  amount: 1,
-  referenceAmount: '50000',
-  balance: 2,
-};
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import {
+  rawBlockchainsData,
+  rawSolanaData,
+} from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { SpyProperty } from '../../../../../testing/spy-property.spec';
+import { rawETHData, rawSOLData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 describe('SendSummaryPage', () => {
   let component: SendSummaryPage;
   let fixture: ComponentFixture<SendSummaryPage>;
-  let transactionDataServiceMock: any;
+  let transactionDataServiceSpy: jasmine.SpyObj<TransactionDataService>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendSummaryPage>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
@@ -80,6 +49,23 @@ describe('SendSummaryPage', () => {
   let alertControllerSpy: jasmine.SpyObj<AlertController>;
   let alertSpy: jasmine.SpyObj<HTMLIonAlertElement>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
+  const testLocalNotification: LocalNotificationSchema = {
+    id: 1,
+    title: 'wallets.send.send_summary.sent_notification.title',
+    body: 'wallets.send.send_summary.sent_notification.body',
+  };
+
+  const summaryData: SummaryData = {
+    network: 'ERC20',
+    currency: rawETHData,
+    address: constants.AddressZero,
+    amount: 1,
+    referenceAmount: '50000',
+    balance: 2,
+  };
 
   beforeEach(() => {
     alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
@@ -91,7 +77,7 @@ describe('SendSummaryPage', () => {
     localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
       send: Promise.resolve(),
     });
-    transactionDataServiceMock = { transactionData: summaryData };
+    transactionDataServiceSpy = jasmine.createSpyObj('TransactionDataService', {}, { transactionData: summaryData });
     walletTransactionsServiceSpy = jasmine.createSpyObj('WalletTransactionService', {
       send: Promise.resolve({ wait: () => Promise.resolve({ transactionHash: 'someHash' }) }),
       canAffordSendFee: Promise.resolve(true),
@@ -109,11 +95,19 @@ describe('SendSummaryPage', () => {
       trackEvent: Promise.resolve(),
     });
 
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: blockchains,
+    });
+
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+    });
+
     TestBed.configureTestingModule({
       declarations: [SendSummaryPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
       providers: [
-        { provide: TransactionDataService, useValue: transactionDataServiceMock },
+        { provide: TransactionDataService, useValue: transactionDataServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: WalletTransactionsService, useValue: walletTransactionsServiceSpy },
@@ -122,6 +116,8 @@ describe('SendSummaryPage', () => {
         { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
         { provide: AlertController, useValue: alertControllerSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: WalletsFactory, useValue: walletsFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -179,8 +175,27 @@ describe('SendSummaryPage', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
+  it('should send if solana', async () => {
+    const solanaSummaryData = { ...summaryData, currency: rawSOLData, network: rawSolanaData.name };
+    new SpyProperty(transactionDataServiceSpy, 'transactionData').value().and.returnValue(solanaSummaryData);
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+
+    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
+    await fixture.whenStable();
+
+    expect(component.isSending).toBeFalse();
+    expect(alertSpy.present).toHaveBeenCalledTimes(0);
+    expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
+    expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/success']);
+  });
+
   it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
     component.summaryData = summaryData;
+    component.ionViewWillEnter();
     fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
     walletTransactionsServiceSpy.send.and.rejectWith({ message: new PasswordErrorMsgs().invalid() });
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
@@ -201,6 +216,7 @@ describe('SendSummaryPage', () => {
 
   it('should cancel transaction if user closed modal', async () => {
     component.summaryData = summaryData;
+    component.ionViewWillEnter();
     fakeModalController.modifyReturns(null, Promise.resolve({}));
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
@@ -214,6 +230,7 @@ describe('SendSummaryPage', () => {
 
   it('should show loader at the start of transaction and dismiss it afterwards', fakeAsync(() => {
     component.summaryData = summaryData;
+    component.ionViewWillEnter();
     component.handleSubmit();
     tick(50);
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
@@ -250,17 +267,6 @@ describe('SendSummaryPage', () => {
     await fixture.whenStable();
     expect(component.isSending).toBeFalse();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-amount']);
-    expect(alertSpy.present).toHaveBeenCalledTimes(0);
-  });
-
-  it('should redirect to Wrong Address Page if address is invalid', async () => {
-    transactionDataServiceMock.transactionData = summaryDataInvalidAddress;
-    await component.ionViewWillEnter();
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
-    await fixture.whenStable();
-    expect(component.isSending).toBeFalse();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-address']);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 

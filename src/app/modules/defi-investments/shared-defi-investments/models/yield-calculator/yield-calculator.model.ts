@@ -15,7 +15,7 @@ export class YieldCalculator {
   ) {  }
 
   private calculateCumulativeYield(): void {
-    this._aYield = parseUnits(this._aTotalBalance.toString(), this._aNumberOfDecimals);
+    this._aYield = parseUnits(this._aTotalBalance.toFixed(this._aNumberOfDecimals), this._aNumberOfDecimals);
 
     this._movements.forEach((movement) => {
       const amount = BigNumber.from(movement.amount);

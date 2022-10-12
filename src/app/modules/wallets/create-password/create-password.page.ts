@@ -69,6 +69,11 @@ import { ethers } from 'ethers';
             inputmode="password"
             [errors]="this.repeatPasswordErrors"
           ></app-ux-input>
+          <app-backup-information-card
+            [text]="'wallets.create_password.disclaimer'"
+            [textClass]="'ux-home-backup-card'"
+          >
+          </app-backup-information-card>
         </div>
         <div name="Create Password Form Buttons" class="ux_footer">
           <div class="button">
@@ -165,17 +170,13 @@ export class CreatePasswordPage implements OnInit {
   }
 
   async ionViewDidEnter() {
-    this.walletService.coins = this.apiWalletService.getCoins().filter((coin) => coin.native);
+    this.walletService.coins = this.apiWalletService.getInitialTokens();
     if (this.mode === 'create') {
       this.walletMnemonicService.mnemonic = this.walletMnemonicService.newMnemonic();
     }
   }
 
   ngOnInit() {}
-
-  private createWallets(): Promise<any> {
-    return this.walletService.create();
-  }
 
   private encryptWallet(): Promise<any> {
     return this.walletEncryptionService.encryptWallet(this.createPasswordForm.value.password);
@@ -196,7 +197,6 @@ export class CreatePasswordPage implements OnInit {
       this.loading = true;
       setTimeout(async () => {
         await this.encryptWallet();
-        await this.createWallets();
         await this.createXAuthToken();
         await this.saveWallets();
         await this.createLoginToken();
@@ -220,7 +220,7 @@ export class CreatePasswordPage implements OnInit {
 
   private async createXAuthToken(): Promise<void> {
     const blockchain = this.blockchains.create().oneByName('ERC20');
-    const wallet = this.walletService.createForDerivedPath(blockchain.derivedPath());
+    const wallet = ethers.Wallet.fromMnemonic(this.walletMnemonicService.mnemonic.phrase, blockchain.derivedPath(), ethers.wordlists.en);
     const signedMsg = await wallet.signMessage(wallet.address);
     return this.xAuthService.saveToken(`${wallet.address}_${signedMsg}`);
   }

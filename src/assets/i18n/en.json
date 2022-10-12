@@ -375,11 +375,12 @@
       "title_investments": "My investments",
       "profits": "Continuous profits",
       "profits_weekly": "Weekly profits",
-      "total_invested":"Investment + Earnings",
+      "total_invested": "Investment + Earnings",
       "recommendations": "You may be interested in",
       "empty_products": "Soon you will be able to find the best investments for your profile.",
       "link_button": "How do DeFi investments work?",
       "no_investments": "Your investments will appear here. Get started now!",
+      "total_yields": "Total yields",
       "choose_investor_profile": {
         "complete_test": {
           "title": "I want to choose my profile again",
@@ -416,7 +417,7 @@
       "header": "My investment",
       "button": "Add",
       "button_link": "Withdraw",
-      "invested_amount": "Balance*",
+      "invested_amount": "Total amount invested*",
       "daily_earnings_disclaimer": "*Your balance is updated daily.",
       "continuous_update": "*Continuous update",
       "weekly_update": "*Weekly update",
@@ -506,6 +507,11 @@
         "transaction_fee": "Transaction fee",
         "confirm": "Confirm",
         "confirm_loading": "Confirming..."
+      },
+      "earnings_modal_info": {
+        "title": "What is total yield?",
+        "description": "It is the sum in USD of the total yields obtained in your investment products.",
+        "button": "Understood"
       }
     },
     "withdraw": {
@@ -613,7 +619,6 @@
     },
     "success_profile_test": {
       "text_primary": "Thanks a lot Xcapiter!",
-      "text_secondary": "Your opinion helps us to improve your experience day by day.",
       "name_primary_action": "Go to my wallet"
     },
     "personalised_profile_test": {
@@ -651,9 +656,9 @@
       "password_description": "To activate your biometric data, enter your Xcapit wallet's password..",
       "password_button": "Confirm",
       "password_error": "The password entered is not valid.",
-      "options":{
-        "title":"Log in with your biometric data",
-        "subtitle":"Rest your fingerprint on the data reader or point the screen towards your face, as appropriate on your device."
+      "options": {
+        "title": "Log in with your biometric data",
+        "subtitle": "Rest your fingerprint on the data reader or point the screen towards your face, as appropriate on your device."
       }
     },
     "shared": {
@@ -1600,7 +1605,8 @@
       "new_password": "Write your new password",
       "repeat_password": "Repeat your new password",
       "submit_button": "Change",
-      "loading": "Changing..."
+      "loading": "Changing...",
+      "disclaimer": "You will use this password to log in to your account and approve all your transactions."
     },
     "password_change_success": {
       "textPrimary": "Great!",
@@ -1740,6 +1746,7 @@
       "creating_button_state": "Creating wallet",
       "importing_button_state": "Importing wallet",
       "wait_loading_message": "It will only take a few seconds.",
+      "disclaimer": "Do not lose this password, Xcapit will not be able to recover it if you do.",
       "loading": {
         "title": "Time!",
         "subtitle": {
@@ -2131,11 +2138,33 @@
       }
     }
   },
+  "tools": {
+    "tools_page": {
+      "header": "What would you like to do today?",
+      "donations": {
+        "textPrimary": "Donations",
+        "textSecondary": "Collaborate and be part of a good cause"
+      },
+      "education": {
+        "textPrimary": "Education",
+        "textSecondary": "The road to your financial freedom"
+      },
+      "planner": {
+        "textPrimary": "Planner",
+        "textSecondary": "Improve your money's return"
+      },
+      "investor_test": {
+        "textPrimary": "Investor Test",
+        "textSecondary": "Find out what kind of investor you are"
+      }
+    }
+  },
   "tabs": {
     "home": "Home",
     "new_fund": "Investments",
     "menu": "More",
-    "wallet": "Wallet"
+    "wallet": "Wallet",
+    "tools": "Tools"
   },
   "fiat_ramps": {
     "buy_conditions": {
@@ -2447,32 +2476,45 @@
       }
     },
     "user_email": {
-      "header":"Buy crypto",
-      "provider":"Provider: Kripton Market",
-      "title":"To continue your purchase, please enter your Kripton Market account email address.",
-      "subtitle":"If you do not have an account, please enter the email address you would like us to register you with.",
-      "label_email":"Email",
-      "button":"Continue",
-      "text":"Make sure you have access to the email, you will use it to confirm your transactions."
+      "header": "Buy crypto",
+      "provider": "Provider: Kripton Market",
+      "title": "To continue your purchase, please enter your Kripton Market account email address.",
+      "subtitle": "If you do not have an account, please enter the email address you would like us to register you with.",
+      "label_email": "Email",
+      "button": "Continue",
+      "text": "Make sure you have access to the email, you will use it to confirm your transactions."
     },
-    "user_register":{
-      "header":"Register",
-      "provider":"Provider: Kripton Market",
-      "title":"Hello! You don't have an account yet, we will help you to register quickly",
+    "user_register": {
+      "header": "Register",
+      "provider": "Provider: Kripton Market",
+      "title": "Hello! You don't have an account yet, we will help you to register quickly",
       "subtitle": "😄 Don't worry! It will be a one-time only.",
       "steps": {
-        "step_one":{
+        "step_one": {
           "title": "Load data",
           "subtitle": "Complete with your personal information"
         },
-        "step_two":{
+        "step_two": {
           "title": "Verify identity",
           "subtitle": "You will need your identity"
         }
       },
       "disclaimer": {
-        "content":"Xcapit does not store data. Find out more about data usage at ",
-        "link":"Privacy policy Kripton Market."
+        "content": "Xcapit does not store data. Find out more about data usage at ",
+        "link": "Privacy policy Kripton Market."
+      }
+    },
+    "kyc": {
+      "user_basic": {
+        "header": "Load data",
+        "provider": "Provider: Kripton Market",
+        "title": "🛫 Let's begin!",
+        "subtitle": "Fill in your personal data",
+        "label_first_name": "First name(s)",
+        "label_last_name": "Last name(s)",
+        "label_birthday": "Birthday",
+        "placeholder_birthday": "mm/dd/yyyy",
+        "button": "Continue"
       }
     }
   },

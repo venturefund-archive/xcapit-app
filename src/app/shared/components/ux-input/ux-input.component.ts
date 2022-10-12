@@ -9,7 +9,7 @@ import { ToastService } from '../../services/toast/toast.service';
   template: `
     <div class="ux_input_container">
       <div class="ux_input_container__label">
-        <ion-label class="ux-font-titulo-xs">{{ this.label }} </ion-label>
+        <ion-label class="ux-font-titulo-xs" [ngStyle]="{'color':this.labelColor ? this.labelColor : ''}">{{ this.label }} </ion-label>
         <ion-button
           *ngIf="this.infoIcon"
           class="ion-no-padding"
@@ -116,6 +116,7 @@ export class UxInputComponent implements OnInit {
   @Input() pasteType = false;
   @Input() textClass: string;
   @Input() infoIcon = false;
+  @Input() labelColor = undefined;
   @Output() infoIconClicked: EventEmitter<void> = new EventEmitter<void>();
 
   typeSetted: string;

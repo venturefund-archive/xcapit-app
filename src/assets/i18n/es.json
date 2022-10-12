@@ -366,11 +366,12 @@
       "title_investments": "Mis inversiones",
       "profits": "Ganancia continua",
       "profits_weekly": "Ganancia Semanal",
-      "total_invested":"Inversión + Intereses ganados",
+      "total_invested": "Inversión + Intereses ganados",
       "recommendations": "Podrían interesarte",
       "empty_products": "Proximamente podrás encontrar las mejores inversiones para tu perfil",
       "link_button": "¿Cómo funcionan las inversiones DeFi?",
       "no_investments": "Tus inversiones aparecerán aquí. ¡Comienza ahora mismo!",
+      "total_yields": "Rendimientos totales",
       "choose_investor_profile": {
         "complete_test": {
           "title": "Quiero elegir mi perfil nuevamente",
@@ -407,7 +408,7 @@
       "header": "Mi inversión",
       "button": "Añadir",
       "button_link": "Retirar",
-      "invested_amount": "Balance*",
+      "invested_amount": "Monto total invertido*",
       "daily_earnings_disclaimer": "*Tu balance se actualiza a diario.",
       "continuous_update": "*Actualización continua",
       "weekly_update": "*Actualización semanal",
@@ -499,6 +500,11 @@
         "transaction_fee": "Tarifa de transacción",
         "confirm": "Confirmar",
         "confirm_loading": "Confirmando..."
+      },
+      "earnings_modal_info": {
+        "title": "¿Qué es el rendimiento total?",
+        "description": "Es la sumatoria en USD del total de los rendimientos obtenidos en tus productos de inversión.",
+        "button": "Entendido"
       }
     },
     "withdraw": {
@@ -606,11 +612,10 @@
     },
     "success_profile_test": {
       "text_primary": "¡Muchas gracias Xcapiter!",
-      "text_secondary": "Tu opinión nos ayuda a seguir mejorando día a día tu experiencia.",
       "name_primary_action": "Ir a mi wallet"
     },
     "personalised_profile_test": {
-      "header":"Personaliza tu perfil",
+      "header": "Personaliza tu perfil",
       "question_1": "1. ¿Qué deseas hacer dentro de Xcapit? Elige todas las opciones que consideres",
       "question_2": "2. ¿Cuál es tu nivel de experiencia con criptos?",
       "to_do_in_app": {
@@ -644,9 +649,9 @@
       "password_description": "Para activar tus datos biométricos, ingresa la contraseña de tu wallet Xcapit.",
       "password_button": "Confirmar",
       "password_error": "La contraseña ingresada no es correcta.",
-      "options":{
-        "title":"Ingresa con tus datos biométricos",
-        "subtitle":"Apoya tu huella sobre el lector de datos o apunta la pantalla hacia tu rostro, según corresponda en tu dispositivo."
+      "options": {
+        "title": "Ingresa con tus datos biométricos",
+        "subtitle": "Apoya tu huella sobre el lector de datos o apunta la pantalla hacia tu rostro, según corresponda en tu dispositivo."
       }
     },
     "shared": {
@@ -1593,7 +1598,8 @@
       "new_password": "Escribe tu nueva contraseña",
       "repeat_password": "Repite tu nueva contraseña",
       "submit_button": "Cambiar",
-      "loading": "Cambiando..."
+      "loading": "Cambiando...",
+      "disclaimer": "Usarás esta contraseña para ingresar a tu cuenta y aprobar todas tus transacciones."
     },
     "password_change_success": {
       "textPrimary": "¡Genial!",
@@ -1733,6 +1739,7 @@
       "creating_button_state": "Creando wallet",
       "importing_button_state": "Importando wallet",
       "wait_loading_message": "Solo tomará unos segundos.",
+      "disclaimer": "No pierdas esta contraseña, Xcapit no podrá recuperarla si lo haces.",
       "loading": {
         "title": "¡Tiempo!",
         "subtitle": {
@@ -2117,12 +2124,34 @@
       }
     }
   },
+  "tools": {
+    "tools_page": {
+      "header": "¿Qué te gustaría hacer hoy?",
+      "donations": {
+        "textPrimary": "Donaciones",
+        "textSecondary": "Colabora y se parte de una buena causa"
+      },
+      "education": {
+        "textPrimary": "Educación",
+        "textSecondary": "El camino hacia tu libertad financiera"
+      },
+      "planner": {
+        "textPrimary": "Planificador",
+        "textSecondary": "Mejora el rendimiento de tu dinero"
+      },
+      "investor_test": {
+        "textPrimary": "Test Inversor",
+        "textSecondary": "Conoce que tipo de inversionista eres"
+      }
+    }
+  },
   "tabs": {
     "home": "Inicio",
     "refer": "Referir",
     "new_fund": "Inversiones",
     "menu": "Más",
-    "wallet": "Wallet"
+    "wallet": "Wallet",
+    "tools": "Herramientas"
   },
   "fiat_ramps": {
     "buy_conditions": {
@@ -2230,17 +2259,17 @@
         "reception_address": "Dirección de recepción",
         "network": "Red"
       },
-      "remove_photo":{
+      "remove_photo": {
         "title": "¿Eliminar archivo?",
-        "description":"Si continuas, deberás cargar nuevamente el comprobante.",
-        "button_text1":"Cancelar",
-        "button_text2":"Eliminar"
+        "description": "Si continuas, deberás cargar nuevamente el comprobante.",
+        "button_text1": "Cancelar",
+        "button_text2": "Eliminar"
       },
-      "exit_operation_detail":{
+      "exit_operation_detail": {
         "title": "¿Deseas salir?",
-        "description":"Deberás volver a cargar tu comprobante.",
-        "button_text1":"Cancelar",
-        "button_text2":"Confirmar"
+        "description": "Deberás volver a cargar tu comprobante.",
+        "button_text1": "Cancelar",
+        "button_text2": "Confirmar"
       }
     },
     "operation_status": {
@@ -2463,6 +2492,19 @@
       "disclaimer": {
         "content":"Xcapit no almacena información. Averigua más sobre el uso de datos en ",
         "link":"Politica de privacidad Kripton Market."
+      }
+    },
+    "kyc": {
+      "user_basic": {
+        "header": "Cargar datos",
+        "provider": "Proveedor: Kripton Market",
+        "title": "🛫 ¡Comencemos!",
+        "subtitle": "Ingresa tus datos personales",
+        "label_first_name": "Nombre/s",
+        "label_last_name": "Apellido/s",
+        "label_birthday": "Fecha de nacimiento",
+        "placeholder_birthday": "mm/dd/aaaa",
+        "button": "Continuar"
       }
     }
   },

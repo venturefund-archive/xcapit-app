@@ -9,10 +9,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
-import { WalletService } from '../../shared-wallets/services/wallet/wallet.service';
 import { ApiWalletService } from '../../shared-wallets/services/api-wallet/api-wallet.service';
 import { ERC20ProviderController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/controller/erc20-provider.controller';
 import { ERC20ContractController } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
@@ -33,52 +31,30 @@ import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/g
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
-import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import {
+  rawBlockchainsData,
+} from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
-import { rawETHData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
-
-const coins: Coin[] = [
-  {
-    id: 1,
-    name: 'BTC - Bitcoin',
-    logoRoute: '../../assets/img/coins/BTC.svg',
-    last: false,
-    value: 'BTC',
-    network: 'BTC',
-    chainId: 42,
-    rpc: '',
-    native: true,
-  },
-  {
-    id: 2,
-    name: 'ETH - Ethereum',
-    logoRoute: 'assets/img/coins/ETH.svg',
-    last: false,
-    value: 'ETH',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: 'testRpc',
-    native: true,
-  },
-  {
-    id: 3,
-    name: 'USDT - Tether',
-    logoRoute: 'assets/img/coins/USDT.svg',
-    last: false,
-    value: 'USDT',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: 'testRPC',
-    contract: 'testContract',
-    abi: null,
-    decimals: 6,
-  },
-];
+import {
+  rawETHData,
+  rawSOLData,
+  rawTokensData,
+  rawUSDTData,
+} from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/wallet';
+import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
+import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
+import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
 
 const formData = {
   valid: {
     address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
+    amount: 1,
+    quoteAmount: 1,
+  },
+  solanaValid: {
+    address: 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH',
     amount: 1,
     quoteAmount: 1,
   },
@@ -93,7 +69,6 @@ describe('SendDetailPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let walletServiceSpy: jasmine.SpyObj<WalletService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let erc20ContractSpy: jasmine.SpyObj<ERC20Contract>;
   let erc20ProviderControllerSpy: jasmine.SpyObj<ERC20ProviderController>;
@@ -106,21 +81,21 @@ describe('SendDetailPage', () => {
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
+  let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
+  let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
+  let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getWalletsAddresses: Promise.resolve(['testAddress']),
     });
-    walletServiceSpy = jasmine.createSpyObj('WalletService', {
-      balanceOf: Promise.resolve('11'),
-    });
 
-    fakeActivatedRoute = new FakeActivatedRoute(null, { asset: 'USDT', network: 'ERC20' });
+    fakeActivatedRoute = new FakeActivatedRoute({ token: rawUSDTData.contract, blockchain: rawUSDTData.network });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getCoins: coins,
-      getCoin: JSON.parse(JSON.stringify(coins[2])),
+      getCoins: rawTokensData,
       getPrices: of({ prices: { USDT: 1, ETH: 1, BTC: 1 } }),
     });
     fakeNavController = new FakeNavController();
@@ -153,8 +128,12 @@ describe('SendDetailPage', () => {
       get: Promise.resolve(true),
     });
 
+    walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
+      create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+    });
+
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
-      create: new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)),
+      create: blockchains,
     });
 
     gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
@@ -164,6 +143,19 @@ describe('SendDetailPage', () => {
         }),
       },
     });
+    tokenDetailSpy = jasmine.createSpyObj(
+      'TokenDetail',
+      {
+        fetch: Promise.resolve(),
+        cached: Promise.resolve(),
+      },
+      {
+        price: 3000,
+        balance: 20,
+        quoteSymbol: 'USD',
+      }
+    );
+    tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailInjectable', { create: tokenDetailSpy });
 
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, FakeTrackClickDirective],
@@ -177,7 +169,6 @@ describe('SendDetailPage', () => {
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: WalletService, useValue: walletServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ERC20ProviderController, useValue: erc20ProviderControllerSpy },
@@ -187,7 +178,9 @@ describe('SendDetailPage', () => {
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
+        { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -206,19 +199,19 @@ describe('SendDetailPage', () => {
     component.ionViewDidEnter();
     tick();
 
-    expect(component.tplBlockchain.name).toEqual(coins[2].network);
-    expect(component.tplNativeToken.value).toEqual(coins[1].value);
-    expect(component.token).toEqual(coins[2]);
+    expect(component.tplBlockchain.name).toEqual(rawUSDTData.network);
+    expect(component.tplNativeToken.value).toEqual(rawETHData.value);
+    expect(component.token).toEqual(rawUSDTData);
   }));
 
   it('should get native fee on ionViewDidEnter when token is native', fakeAsync(() => {
-    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
+    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
     component.form.patchValue({ amount: 1 });
 
     component.ionViewDidEnter();
     tick();
 
-    expect(component.token).toEqual(coins[1]);
+    expect(component.token).toEqual(rawETHData);
     expect(component.fee).toEqual(10);
   }));
 
@@ -255,7 +248,6 @@ describe('SendDetailPage', () => {
   });
 
   it('should save transaction data and navigate when ux_send_continue Button clicked and form valid', fakeAsync(() => {
-    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
     component.ionViewDidEnter();
     tick();
     component.form.patchValue(formData.valid);
@@ -268,10 +260,35 @@ describe('SendDetailPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   }));
 
+  it('should save transaction data and navigate when ux_send_continue Button clicked, form valid and solana token', fakeAsync(() => {
+    fakeActivatedRoute.modifySnapshotParams({ token: rawSOLData.contract, blockchain: rawSOLData.network });
+    component.ionViewDidEnter();
+    tick();
+    component.form.patchValue(formData.solanaValid);
+    tick();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
+
+    el.nativeElement.click();
+    tick();
+    expect(component.fee).toEqual(0);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
+  }));
+
   it('should show card if native token balance is zero when sending native token', async () => {
-    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'ETH', network: 'ERC20' });
-    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
-    walletServiceSpy.balanceOf.and.resolveTo('0');
+    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
+    tokenDetailSpy = jasmine.createSpyObj(
+      'TokenDetail',
+      {
+        fetch: Promise.resolve(),
+        cached: Promise.resolve(),
+      },
+      {
+        price: 3000,
+        balance: 0,
+        quoteSymbol: 'USD',
+      }
+    );
+    tokenDetailInjectableSpy.create.and.returnValue(tokenDetailSpy);
 
     await component.ionViewDidEnter();
 
@@ -279,9 +296,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should not show card if native token balance is greater than zero when sending native token', async () => {
-    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'ETH', network: 'ERC20' });
-    apiWalletServiceSpy.getCoin.and.returnValue(coins[1]);
-    walletServiceSpy.balanceOf.and.resolveTo('10000');
+    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
 
     await component.ionViewDidEnter();
 
@@ -289,8 +304,7 @@ describe('SendDetailPage', () => {
   });
 
   it('should let user change currency on selected currency click', async () => {
-    fakeActivatedRoute.modifySnapshotParams(null, { asset: 'ETH', network: 'ERC20' });
-    walletServiceSpy.balanceOf.and.resolveTo('0');
+    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
     await component.ionViewDidEnter();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -317,7 +331,7 @@ describe('SendDetailPage', () => {
     component.nativeBalance = 0.5;
     component.fee = 1;
 
-    component.checkEnoughBalance();
+    await component.checkEnoughBalance();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });

@@ -23,7 +23,6 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
-import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator.model';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const testVault = {
@@ -233,13 +232,14 @@ describe('InvestmentDetailPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    const titleEl = fixture.debugElement.query(By.css('ion-item.invested-balance > ion-label > ion-text'));
+
+    const titleEl = fixture.debugElement.query(By.css('div.invested-balance__content__label > ion-text'));
+    const balanceEl = fixture.debugElement.query(By.css('div.invested-balance__content__balance__token > ion-text'));
+    const referenceBalanceEl = fixture.debugElement.query(By.css('div.invested-balance__content__balance__usd > ion-text'));
+
     expect(titleEl.nativeElement.innerHTML).toContain('defi_investments.invest_detail.invested_amount');
-    const [balanceEl, referenceBalanceEl] = fixture.debugElement.queryAll(
-      By.css('div.invested-balance__content__balance ion-text.invested-balance__content__balance__text')
-    );
     expect(balanceEl.nativeElement.innerHTML).toContain(50.0);
-    expect(referenceBalanceEl.nativeElement.innerHTML).toEqual(' 50 USD ');
+    expect(referenceBalanceEl.nativeElement.innerHTML).toEqual(' = 50 USD ');
   });
 
   it('should redirect user to defi/no-wallet-to-invest if user has no wallet on ux_invest_add_amount button click', async () => {

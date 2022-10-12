@@ -12,7 +12,6 @@ export const SUCCESS_TYPES = {
     image: '/assets/img/profiles/success-profile-test.svg',
     urlClose: '/tabs/wallets',
     textPrimary: 'profiles.success_profile_test.text_primary',
-    textSecondary: 'profiles.success_profile_test.text_secondary',
     urlPrimaryAction: '/tabs/wallets',
     namePrimaryAction: 'profiles.success_profile_test.name_primary_action',
   },
