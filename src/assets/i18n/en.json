@@ -329,7 +329,8 @@
       "nft": "NFT",
       "others": "Others",
       "referrals": "Referrals",
-      "transactions": "Transactions"
+      "transactions": "Transactions",
+      "kripton_data": "Delete my Krypton data"
     }
   },
   "defi_investments": {
