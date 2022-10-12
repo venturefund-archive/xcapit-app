@@ -201,6 +201,7 @@ export class SendDetailPage {
     this.getPrices();
     this.setUrlToBuyCrypto();
     await this.tokenBalances();
+    this.openModalBalance();
   }
 
   async setAddressValidator() {

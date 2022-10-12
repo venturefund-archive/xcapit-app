@@ -22,7 +22,9 @@ import { ModalController, NavController } from '@ionic/angular';
       </div>
 
       <div class="content__buttons">
+        <div *ngIf="!this.firstButtonName" style="width: 139px;"></div>
         <ion-button
+          *ngIf="this.firstButtonName"
           (click)="this.firstAction()"
           class="ux-link-xl"
           appTrackClick
@@ -53,7 +55,7 @@ export class ToastWithButtonsComponent implements OnInit {
   @Input() secondaryButtonName: string;
   @Input() firstLink: string;
   @Input() secondLink: string;
-  @Input() data: any;
+  @Input() data: { value: string; network: string };
 
   constructor(private modalController: ModalController, private navController: NavController) {}
 

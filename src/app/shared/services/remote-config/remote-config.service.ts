@@ -19,6 +19,9 @@ export class RemoteConfigService {
   }
 
   getFeatureFlag(param: string): boolean {
+    if (param === 'ff_newLogin')  {
+      return true;
+    }
     return this.remoteConfig.getFeatureFlag(param);
   }
 
