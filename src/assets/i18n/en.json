@@ -169,7 +169,8 @@
       "login_button_text": "Login",
       "reset_password_link": "I forgot my password",
       "help_link": "Help",
-      "invalid_password_text": "The password entered is incorrect. Please try again."
+      "invalid_password_text": "The password entered is incorrect. Please try again.",
+      "error_biometric_auth": "An error occurred while trying to read your biometric data. Please enter your password to access."  
     },
     "login": {
       "password_label": "Password",

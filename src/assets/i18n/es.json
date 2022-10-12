@@ -160,7 +160,8 @@
       "login_button_text": "Ingresar",
       "reset_password_link": "Olvidé mi contraseña",
       "help_link": "Ayuda",
-      "invalid_password_text": "La contraseña ingresada no es correcta. Por favor intente nuevamente."
+      "invalid_password_text": "La contraseña ingresada no es correcta. Por favor intente nuevamente.",
+      "error_biometric_auth": "Se produjo un error al intentar leer tus datos biométricos. Ingresa tu contraseña para acceder."
     },
     "login": {
       "password_label": "Contraseña",

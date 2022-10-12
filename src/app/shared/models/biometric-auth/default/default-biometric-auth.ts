@@ -5,8 +5,8 @@ import { FakeNativeBiometricPlugin } from '../../native-biometric-plugin/fake-na
 import { BiometricAuth } from '../biometric-auth.interface';
 import { LoginToken } from '../../../../modules/users/shared-users/models/login-token/login-token';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
-import { throwError } from 'rxjs';
 import { BiometricVerifyOptions } from '../../biometric-verify-options/biometric-verify-options';
+import { VerifyResult } from '../verify-result.interface';
 
 export class DefaultBiometricAuth implements BiometricAuth {
   private readonly _onNeedPass: SimpleSubject = new SimpleSubject();
@@ -43,11 +43,17 @@ export class DefaultBiometricAuth implements BiometricAuth {
     return Promise.all([this._removePassword(), this._removeStorage()]).then(() => undefined);
   }
 
-  public verified(): Promise<boolean> {
+  public verified(): Promise<VerifyResult> {
     return this._aPlugin
       .verifyIdentity(this._verifyOptions.value())
-      .then(() => true)
-      .catch(() => false);
+      .then(() => {
+        return { verified: true };
+      })
+      .catch((error) => {
+        let response = { verified: false, message: 'Verification error: error' };
+        if (error.message === 'Authentication failed.') response.message = 'Authentication failed.';
+        return response;
+      });
   }
 
   public onNeedPass(): Subscribable {
