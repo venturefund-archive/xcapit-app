@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
-import { UserHasOperationsGuard } from './shared-ramps/guards/user-has-operations/user-has-operations.guard';
 import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 
 const routes: Routes = [
@@ -95,22 +94,30 @@ const routes: Routes = [
           },
           {
             path: 'success-operation',
-            loadChildren: () => import('./success-d24-operation/success-d24-operation.module').then( m => m.SuccessD24OperationPageModule)
+            loadChildren: () =>
+              import('./success-d24-operation/success-d24-operation.module').then(
+                (m) => m.SuccessD24OperationPageModule
+              ),
           },
         ],
       },
       {
         path: 'user-email',
-        loadChildren: () => import('./user-email/user-email.module').then( m => m.UserEmailPageModule)
+        loadChildren: () => import('./user-email/user-email.module').then((m) => m.UserEmailPageModule),
+      },
+      {
+        path: 'user-register',
+        loadChildren: () => import('./user-register/user-register.module').then((m) => m.UserRegisterPageModule),
       },
       {
         path: 'user-basic',
-        loadChildren: () => import('./kyc-user-basic-information/kyc-user-basic-information.module').then( m => m.KycUserBasicInformationPageModule)
+        loadChildren: () =>
+          import('./kyc-user-basic-information/kyc-user-basic-information.module').then(
+            (m) => m.KycUserBasicInformationPageModule
+          ),
       },
     ],
   },
-
-
 ];
 
 @NgModule({
