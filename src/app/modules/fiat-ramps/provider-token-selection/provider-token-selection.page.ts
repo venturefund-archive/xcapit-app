@@ -55,6 +55,7 @@ export class ProviderTokenSelectionPage implements OnInit {
       country: this.tokenOperationDataService?.tokenOperationData?.country,
     };
     this.navController.navigateForward(['fiat-ramps/select-provider']);
+    console.log("selectCurrency",this.tokenOperationDataService.tokenOperationData)
   }
 
   async availableCoins() {
