@@ -137,12 +137,14 @@ export class LoginNewPage {
     if (await new LoginToken(new Password(password), this.storage).valid()) {
       await new LoggedIn(this.storage).save(true);
       await this.checkWalletProtected();
-      if (this.form.value.password) {
-        console.log('el usuario se logeo con password')
+      if (this.form.value.password && this.biometricAuth.available()) {
+        console.log('el usuario se logeo con password')    
         this.showLoginBiometricActivation()
+        // Si da confirmar -> activateBiometricAuth
       } else {
         console.log('el usuario se logeo con biometricos')
       }
+      console.log('Tiene el usuario logeo biometrico?: ', await this.biometricAuth.available())
       // this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
     } else {
       this.toastService.showErrorToast({
