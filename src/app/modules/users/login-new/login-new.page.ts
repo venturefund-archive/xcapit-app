@@ -13,6 +13,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 import { VerifyResult } from 'src/app/shared/models/biometric-auth/verify-result.interface';
 import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { LoginBiometricActivationModalComponent } from '../shared-users/components/login-biometric-activation-modal/login-biometric-activation-modal.component';
 
 @Component({
   selector: 'app-login-new',
@@ -136,7 +137,13 @@ export class LoginNewPage {
     if (await new LoginToken(new Password(password), this.storage).valid()) {
       await new LoggedIn(this.storage).save(true);
       await this.checkWalletProtected();
-      this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
+      if (this.form.value.password) {
+        console.log('el usuario se logeo con password')
+        this.showLoginBiometricActivation()
+      } else {
+        console.log('el usuario se logeo con biometricos')
+      }
+      // this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
     } else {
       this.toastService.showErrorToast({
         message: this.translate.instant('users.login_new.invalid_password_text'),
@@ -166,6 +173,17 @@ export class LoginNewPage {
       },
     });
     modal.present();
+  }
+
+  async showLoginBiometricActivation() {
+    const modal = await this.modalController.create({
+      component: LoginBiometricActivationModalComponent,
+      showBackdrop: true,
+      backdropDismiss: false,
+      cssClass: 'login-biometric-activation-modal'
+    });
+    modal.present();
+
   }
 
   goToResetPassword(): void {
