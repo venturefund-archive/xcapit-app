@@ -68,7 +68,7 @@ describe('BiometricAuth', () => {
   });
 
   it('verified', async () => {
-    expect(await biometricAuth.verified()).toBeTrue();
+    expect(await biometricAuth.verified()).toEqual({verified: true});
   });
 
   it('available', async () => {

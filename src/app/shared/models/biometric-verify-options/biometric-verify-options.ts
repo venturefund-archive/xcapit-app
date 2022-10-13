@@ -4,10 +4,11 @@ export class BiometricVerifyOptions {
   private _defaultOptions = {
     reason: this.translate.instant('profiles.biometric_auth.options.title'),
     title: this.translate.instant('profiles.biometric_auth.options.title'),
-    subtitle: this.translate.instant('profiles.biometric_auth.options.subtitle')
+    subtitle: this.translate.instant('profiles.biometric_auth.options.subtitle'),
+    maxAttempts: 3
   }
-  constructor(private readonly translate: TranslateService, private readonly _options?: BiometricOptions) {}
+  constructor(private readonly translate: TranslateService, private readonly _options?: BiometricOptions) { }
   public value(): BiometricOptions {
-    return this._options??this._defaultOptions;
+    return this._options ?? this._defaultOptions;
   }
 }

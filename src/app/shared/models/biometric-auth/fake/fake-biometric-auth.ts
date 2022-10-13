@@ -1,6 +1,6 @@
 import { BiometricAuth } from '../biometric-auth.interface';
 import { SimpleSubject, Subscribable } from '../../simple-subject/simple-subject';
-import { of } from 'rxjs';
+import { VerifyResult } from '../verify-result.interface';
 
 export class FakeBiometricAuth implements BiometricAuth {
   private readonly _onNeedPass: SimpleSubject = new SimpleSubject();
@@ -8,7 +8,10 @@ export class FakeBiometricAuth implements BiometricAuth {
   constructor(
     private readonly availableReturn: Promise<boolean> = Promise.resolve(true),
     private readonly enabledReturn: Promise<boolean> = Promise.resolve(true),
-    private readonly verifiedReturn: Promise<boolean> = Promise.resolve(true),
+    private readonly verifiedReturn: Promise<VerifyResult> = Promise.resolve({
+      verified: false,
+      message: 'Error Message.',
+    }),
     private readonly onReturn: Promise<void> = Promise.resolve(),
     private readonly passwordReturn: Promise<string> = Promise.resolve('aPassword')
   ) {}
@@ -34,7 +37,7 @@ export class FakeBiometricAuth implements BiometricAuth {
     return this._onNeedPass;
   }
 
-  verified(): Promise<boolean> {
+  verified(): Promise<VerifyResult> {
     return this.verifiedReturn;
   }
 
