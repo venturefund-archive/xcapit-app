@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LoginPasswordInfoComponent } from '../shared-users/components/login-password-info/login-password-info.component';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-login-new',
@@ -86,16 +87,19 @@ export class LoginNewPage {
   form: UntypedFormGroup = this.formBuilder.group({
     password: ['', []],
   });
+  private readonly _aKey = 'enabledPushNotifications';
   biometricAuth = this.biometricAuthInjectable.create();
   constructor(
     private toastService: ToastService,
+    private notificationsService: NotificationsService,
     private formBuilder: UntypedFormBuilder,
     private storage: IonicStorageService,
     private navController: NavController,
     private translate: TranslateService,
     private modalController: ModalController,
     private biometricAuthInjectable: BiometricAuthInjectable,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private ionicStorageService: IonicStorageService,
   ) {}
 
   ionViewWillEnter() {
@@ -117,12 +121,31 @@ export class LoginNewPage {
     }
   }
 
+  async enabledPushNotifications(): Promise<boolean> {
+    return await this.ionicStorageService.get(this._aKey).then((status) => status);
+  }
+
+  returnedService(){
+    return this.notificationsService.getInstance();
+  }
+
+  async initializeNotifications(){
+    this.returnedService().init();
+    if(await this.enabledPushNotifications()){
+      this.returnedService().subscribeTo(this._aKey);
+    }else{
+      this.returnedService().subscribeTo(this._aKey);
+      this.returnedService().unsubscribeFrom(this._aKey);
+    }
+  }
+
   async handleSubmit(isBiometricAuth: boolean) {
     const password = isBiometricAuth
       ? await this.biometricAuth.password()
       : this.form.value.password;
     if (await new LoginToken(new Password(password), this.storage).valid()) {
       await new LoggedIn(this.storage).save(true);
+      this.initializeNotifications();
       this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
     } else {
       this.toastService.showErrorToast({

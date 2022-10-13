@@ -14,7 +14,8 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { FakeBiometricAuth } from 'src/app/shared/models/biometric-auth/fake/fake-biometric-auth';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -30,10 +31,20 @@ describe('LoginNewPage', () => {
   let fakeModalController: FakeModalController;
   let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
+  let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
 
   beforeEach(waitForAsync(() => {
     biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
-      create: new FakeBiometricAuth()
+      create: new FakeBiometricAuth(),
+    });
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
+      'init',
+      'subscribeTo',
+      'unsubscribeFrom',
+    ]);
+    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+      getInstance: nullNotificationServiceSpy,
     });
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
@@ -44,14 +55,16 @@ describe('LoginNewPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
-      get: Promise.resolve(aHashedPassword),
+      get: Promise.resolve(),
       set: Promise.resolve(),
     });
+    ionicStorageServiceSpy.get.withArgs('loginToken').and.resolveTo(aHashedPassword);
+    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(true);
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
     TestBed.configureTestingModule({
-      declarations: [LoginNewPage,  FakeTrackClickDirective],
+      declarations: [LoginNewPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
       providers: [
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
@@ -60,6 +73,7 @@ describe('LoginNewPage', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: NotificationsService, useValue: notificationsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -74,13 +88,41 @@ describe('LoginNewPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should login with biometric auth when is enabled', fakeAsync (() => {
+  it('should login with biometric auth when is enabled', fakeAsync(() => {
     biometricAuthInjectableSpy.create.and.returnValue(
-      new FakeBiometricAuth(Promise.resolve(true), Promise.resolve(true), Promise.resolve(true), null, Promise.resolve(aPassword))
+      new FakeBiometricAuth(
+        Promise.resolve(true),
+        Promise.resolve(true),
+        Promise.resolve(true),
+        null,
+        Promise.resolve(aPassword)
+      )
     );
     component.ionViewWillEnter();
     tick();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets', { replaceUrl: true });
+  }));
+
+  it('should init push notifications and subscribe to topic when password is ok and push notifications previously activated', fakeAsync( () => {
+    component.form.patchValue({ password: aPassword });
+    component.handleSubmit(false);
+    fixture.detectChanges();
+    tick();
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
+    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should init push notifications and subscribe to topic when password is ok and push notifications previously disabled', fakeAsync( () => {
+    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(false);
+    component.form.patchValue({ password: aPassword });
+    component.handleSubmit(false);
+    fixture.detectChanges();
+    tick();
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(3);
+    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
   }));
 
   it('should login when password is ok', async () => {
@@ -101,7 +143,6 @@ describe('LoginNewPage', () => {
       duration: 8000,
     });
   });
-
 
   it('should dismiss modal when input is clicked', () => {
     fixture.debugElement.query(By.css('app-ux-input[controlName="password"]')).nativeElement.click();
@@ -130,14 +171,14 @@ describe('LoginNewPage', () => {
 
     expect(spy).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/users/recovery-info');
-  });  
+  });
 
   it('should show informative password modal when info button is clicked', async () => {
     fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('infoIconClicked', undefined);
     fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
-  
+
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);

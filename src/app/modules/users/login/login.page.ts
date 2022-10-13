@@ -4,11 +4,9 @@ import { SubmitButtonService } from 'src/app/shared/services/submit-button/submi
 import { ApiUsuariosService } from '../shared-users/services/api-usuarios/api-usuarios.service';
 import { SubscriptionsService } from '../../subscriptions/shared-subscriptions/services/subscriptions/subscriptions.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
-import { LocalNotificationsService } from '../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { UpdateNewsService } from 'src/app/shared/services/update-news/update-news.service';
-import { PlatformService } from '../../../shared/services/platform/platform.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
@@ -82,17 +80,16 @@ export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
   alreadyOnboarded: boolean;
   loading: boolean;
+  private readonly _aKey = 'enabledPushNotifications';
 
   constructor(
     public submitButtonService: SubmitButtonService,
     private apiUsuarios: ApiUsuariosService,
     private subscriptionsService: SubscriptionsService,
     private notificationsService: NotificationsService,
-    private localNotificationsService: LocalNotificationsService,
     private navController: NavController,
     private storage: Storage,
     private updateNewsService: UpdateNewsService,
-    private platformService: PlatformService,
     private walletConnectService: WalletConnectService,
     private ionicStorageService: IonicStorageService,
     private walletBackupService: WalletBackupService
@@ -116,6 +113,12 @@ export class LoginPage implements OnInit {
     });
   }
 
+  async enabledPushNotifications() {
+    return await this.ionicStorageService.get(this._aKey).then((status) => 
+      status
+    );
+  }
+
   loginUser(data: any) {
     this.loading = true;
     this.apiUsuarios.login(data).subscribe(
@@ -124,9 +127,23 @@ export class LoginPage implements OnInit {
     );
   }
 
+  returnedService() {
+    return this.notificationsService.getInstance();
+  }
+
+  async initializeNotifications() {
+    this.returnedService().init();
+    if (await this.enabledPushNotifications()) {
+      this.returnedService().subscribeTo('app');
+    } else {
+      this.returnedService().subscribeTo('app');
+      this.returnedService().unsubscribeFrom('app');
+    }
+  }
+
   private async success() {
     this.loginForm.form.reset();
-    this.notificationsService.getInstance().init();
+    this.initializeNotifications();
     const storedLink = await this.subscriptionsService.checkStoredLink();
     if (!storedLink) {
       if (this.walletConnectService.uri.value && this.alreadyOnboarded) {
