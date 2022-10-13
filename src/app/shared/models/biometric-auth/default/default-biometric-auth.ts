@@ -50,7 +50,7 @@ export class DefaultBiometricAuth implements BiometricAuth {
         return { verified: true };
       })
       .catch((error) => {
-        let response = { verified: false, message: 'Verification error: error' };
+        const response = { verified: false, message: 'Verification error: error' };
         if (error.message === 'Authentication failed.') response.message = 'Authentication failed.';
         return response;
       });
