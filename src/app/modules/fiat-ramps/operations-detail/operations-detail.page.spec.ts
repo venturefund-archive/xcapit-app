@@ -315,7 +315,6 @@ describe('OperationsDetailPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
     await fixture.whenStable();
     fixture.detectChanges();
-    console.log(component.voucherUploadedOnKripton)
     const footerEl = fixture.debugElement.query(By.css('ion-footer[class="dp__footer"]'))    
     expect(footerEl).toBeFalsy()    
   });

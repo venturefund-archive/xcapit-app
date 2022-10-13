@@ -83,7 +83,6 @@ export class SelectProviderPage {
     this.trackScreenViewEvent();
     this.getProviders();
     if (this.kriptonEnabled()) this.getOperations();
-    this.getMoonpayCurrency();
   }
 
   ionViewDidEnter() {
@@ -135,9 +134,5 @@ export class SelectProviderPage {
 
   getProviders() {
     this.providers = this.providersFactory.create().all();
-  }
-
-  getMoonpayCurrency(){
-    this.fiatRampsService.getMoonpayQuotation(this.coin.moonpayCode)
-  }
-}
+  } 
+} 
