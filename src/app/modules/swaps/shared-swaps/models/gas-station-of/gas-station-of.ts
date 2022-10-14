@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { providers } from "ethers";
+import { SolanaGasPrice } from "src/app/modules/wallets/shared-wallets/models/solana-gas-price/solana-gas-price";
 import { FakeHttpClient } from "src/testing/fakes/fake-http.spec";
 import { Blockchain } from "../blockchain/blockchain";
 import { DefaultGasPriceOf, GasPrice } from "../gas-price/gas-price";
@@ -15,10 +16,9 @@ export class GasStationOf {
   ) { }
 
   price(): GasPrice {
-    let gasPrice: GasPrice = new DefaultGasPriceOf(this._aBlockchain, this._providers);
-    if (this._aBlockchain.gasPriceClass()) {
-      gasPrice = new PolygonGasPrice(this._aBlockchain, this._httpClient);
-    }
-    return gasPrice;
+    return new Map<string, GasPrice>([
+      ['SOLANA', new SolanaGasPrice(this._aBlockchain)],
+      ['MATIC', new PolygonGasPrice(this._aBlockchain, this._httpClient)]
+    ]).get(this._aBlockchain.name()) || new DefaultGasPriceOf(this._aBlockchain, this._providers);
   }
 }

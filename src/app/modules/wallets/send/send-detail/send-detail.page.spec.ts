@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { TrackClickDirectiveTestHelper } from '../../../../../testing/track-click-directive-test.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-click-directive.fake.spec';
@@ -46,19 +46,8 @@ import { FakeWallet } from '../../../swaps/shared-swaps/models/wallet/wallet';
 import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
+import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
 
-const formData = {
-  valid: {
-    address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
-    amount: 1,
-    quoteAmount: 1,
-  },
-  solanaValid: {
-    address: 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH',
-    amount: 1,
-    quoteAmount: 1,
-  },
-};
 
 describe('SendDetailPage', () => {
   let component: SendDetailPage;
@@ -84,7 +73,23 @@ describe('SendDetailPage', () => {
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   let tokenDetailInjectableSpy: jasmine.SpyObj<TokenDetailInjectable>;
   let tokenDetailSpy: jasmine.SpyObj<TokenDetail>;
+  let solanaFeeOfInjectableSpy: jasmine.SpyObj<SolanaFeeOfInjectable>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
+  const _continueButton = (): DebugElement => {
+    return trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
+  };
+  const formData = {
+    valid: {
+      address: '0x925F1b4d8092bd94608b1f680B87F87F0bd737DC',
+      amount: 1,
+      quoteAmount: 1,
+    },
+    solanaValid: {
+      address: 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH',
+      amount: 1,
+      quoteAmount: 1,
+    },
+  };
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -130,6 +135,10 @@ describe('SendDetailPage', () => {
 
     walletsFactorySpy = jasmine.createSpyObj('WalletsFactory', {
       create: { oneBy: () => Promise.resolve(new FakeWallet()) },
+    });
+
+    solanaFeeOfInjectableSpy = jasmine.createSpyObj('SolanaFeeOfInjectable', {
+      create: { value: () => Promise.resolve(10000000) },
     });
 
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
@@ -181,6 +190,7 @@ describe('SendDetailPage', () => {
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
         { provide: TokenDetailInjectable, useValue: tokenDetailInjectableSpy },
+        { provide: SolanaFeeOfInjectable, useValue: solanaFeeOfInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -238,7 +248,7 @@ describe('SendDetailPage', () => {
   it('should call trackEvent on trackService when ux_send_continue Button clicked', async () => {
     await fixture.whenRenderingDone();
     await fixture.whenStable();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
+    const el = _continueButton();
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
 
@@ -252,9 +262,8 @@ describe('SendDetailPage', () => {
     tick();
     component.form.patchValue(formData.valid);
     tick();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
 
-    el.nativeElement.click();
+    _continueButton().nativeElement.click();
     tick();
 
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
@@ -266,11 +275,11 @@ describe('SendDetailPage', () => {
     tick();
     component.form.patchValue(formData.solanaValid);
     tick();
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_send_continue');
 
-    el.nativeElement.click();
+    _continueButton().nativeElement.click();
     tick();
-    expect(component.fee).toEqual(0);
+
+    expect(component.fee).toEqual(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   }));
 
