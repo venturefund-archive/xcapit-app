@@ -5,6 +5,8 @@ import { ProvidersFactory } from '../../../shared-ramps/models/providers/factory
 import { FiatRampProvider } from '../../../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { FiatRampProviderCountry } from '../../../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
+import { FiatRampsService } from '../../../shared-ramps/services/fiat-ramps.service';
+import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay-price/factory/default-moonpay-price-factory';
 
 @Component({
   selector: 'app-select-provider-card',
@@ -67,7 +69,12 @@ export class SelectProviderCardComponent implements OnInit {
   countries = COUNTRIES;
   disabled = true;
   availableProviders: FiatRampProvider[];
-  constructor(private formGroupDirective: FormGroupDirective, private providersFactory: ProvidersFactory) {}
+  constructor(
+    private formGroupDirective: FormGroupDirective,
+    private providersFactory: ProvidersFactory,
+    private fiatRampsService: FiatRampsService,
+    private moonpayFactory: DefaultMoonpayPriceFactory
+  ) {}
 
   ngOnInit() {
     this.countries = this.availableCountries();
@@ -82,7 +89,7 @@ export class SelectProviderCardComponent implements OnInit {
     this.providers()
       .all()
       .forEach((provider) => providerCountries.push(...provider.countries));
-    return this.countries.filter((country) => providerCountries.includes(country.name));    
+    return this.countries.filter((country) => providerCountries.includes(country.name));
   }
 
   selectedProvider(provider) {
@@ -93,6 +100,10 @@ export class SelectProviderCardComponent implements OnInit {
   async selectedCountry(country: FiatRampProviderCountry) {
     this.changedCountry.emit();
     this.availableProviders = await this.providers().availablesBy(country, this.coin);
+    await this.moonpayFactory
+      .new(this.coin.moonpayCode, country.isoCurrencyCodeMoonpay, this.fiatRampsService)
+      .value()
+      .toPromise();
     this.disabled = false;
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
 import { OPERATION_STATUS } from '../constants/operation-status';
@@ -8,8 +8,7 @@ import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
 import { OperationStatus } from '../interfaces/operation-status.interface';
 import { Providers } from '../models/providers/providers.interface';
 import { ProvidersFactory } from '../models/providers/factory/providers.factory';
-import { RemoteConfigService } from '../../../../shared/services/remote-config/remote-config.service';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -132,6 +131,10 @@ export class FiatRampsService {
 
   userHasOperations(): Observable<any> {
     return this.http.get(`${environment.apiUrl}/on_off_ramps/user_has_operations`, undefined, undefined, true);
+  }
+
+  getMoonpayQuotation(currencyCode: string) {
+    return this.http.get(`${environment.moonpayApiUrl}/currencies/${currencyCode}/ask_price?apiKey=${environment.moonpayPK}`);
   }
 
   getProvider(providerId: number): FiatRampProvider {
