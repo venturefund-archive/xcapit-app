@@ -2198,6 +2198,9 @@
       "button_show_less": "Show less",
       "button_show_more": "Show more"
     },
+    "provider_new_operation_card":{
+      "description":"Provider: {{providerName}}"
+    },
     "fiat_success": {
       "textPrimary": "Operation created",
       "textSecondary": "Remember to make the transfer from your bank and upload the receipt",
@@ -2207,7 +2210,7 @@
       "header": "Buy Crypto",
       "select_label": "Country in which you are going to operate",
       "select_placeholder": "Select your country",
-      "provider_label": "Select provider",
+      "provider_label": "Select your payment method",
       "no_provider": "At the moment it is not possible to purchase {{coinName}} in your country.",
       "moonpay_description": "Buy with a credit card",
       "krypton_description": "Buy with bank transfer",
@@ -2444,6 +2447,14 @@
         "button": "Understood"
       },
       "constants": {
+        "payment_types":{
+          "directa24_bank_deposit":"Bank deposit",
+          "directa24_bank_transfer":"Bank transfer",
+          "directa24_credit_card":"Credit or debit card",
+          "directa24_voucher":"Nearest store",
+          "kripton":"Bank transfer",
+          "moonpay":"Credit card"
+        },
         "providers": {
           "kripton": {
             "disclaimer": "Token delivery is made Monday through Friday from 9 a.m. to 6 p.m. and may take some time if the bank delays in processing the transaction to Krypton's client account."
@@ -2458,7 +2469,7 @@
       },
       "provider_new_operation_card": {
         "quantity": "Amount",
-        "provider": "Provider",
+        "payment_method": "Payment method",
         "to_pay": "You will pay*",
         "input_error": "The minimum purchase amount is ${{amount}} {{fiatCurrency}}",
         "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day.",

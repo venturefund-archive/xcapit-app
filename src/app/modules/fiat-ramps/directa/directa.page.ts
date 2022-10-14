@@ -27,6 +27,7 @@ import { DirectaDepositCreationData } from '../shared-ramps/interfaces/directa-d
 import { EnvService } from '../../../shared/services/env/env.service';
 import RoundedNumber from '../../../shared/models/rounded-number/rounded-number';
 import CeilOf from 'src/app/shared/models/ceil-of/ceil-of';
+import { D24_PAYMENT_TYPES } from '../shared-ramps/constants/payment-types';
 
 @Component({
   selector: 'app-directa',
@@ -53,6 +54,7 @@ import CeilOf from 'src/app/shared/models/ceil-of/ceil-of';
             [coinSelectorEnabled]="false"
             [minimumFiatAmount]="this.minimumFiatAmount"
             [fee]="this.fee"
+            [paymentType]="this.paymentType"
           ></app-provider-new-operation-card>
         </div>
       </form>
@@ -87,6 +89,7 @@ export class DirectaPage implements OnInit {
     cryptoAmount: ['', Validators.required],
     fiatAmount: ['', Validators.required],
   });
+  paymentType: string;
   provider: FiatRampProvider;
   countries = COUNTRIES;
   selectedCurrency: Coin;
@@ -128,6 +131,7 @@ export class DirectaPage implements OnInit {
     this.setCryptoToken();
     this.cryptoPrice();
     this.usdCryptoPrice();
+    this.setPaymentType();
     this.subscribeToFormChanges();
   }
 
@@ -135,6 +139,12 @@ export class DirectaPage implements OnInit {
     this.country = this.countries.find(
       (country) => country.isoCodeAlpha3 === this.tokenOperationDataService.tokenOperationData.country
     );
+  }
+
+  async setPaymentType() {
+    const availableDirectaProviders = await this.getProviders().availableDirectaProviders(this.country).toPromise();
+    const paymentType = availableDirectaProviders.find((provider) => provider.code === this.provider.alias).paymentType;
+    this.paymentType = D24_PAYMENT_TYPES[paymentType];
   }
 
   setFiatToken() {
@@ -199,7 +209,7 @@ export class DirectaPage implements OnInit {
     await this.addBoughtCoinIfUserDoesNotHaveIt();
   }
 
-  getProviders(): Providers {
+  getProviders(): Providers  {
     return this.providers.create();
   }
 
