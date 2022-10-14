@@ -401,6 +401,10 @@ export class SwapHomePage {
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(async (value) => {
+        
+      if (value > this.swapBalance) {
+        this.showInsufficientBalanceModal();
+      }
         this.setNullFeeInfo();
         await this.setSwapInfo(value);
         await this.setFeeInfo();
@@ -602,32 +606,34 @@ export class SwapHomePage {
 
   checkBalance() {
     this.form.get('fromTokenAmount').valueChanges.subscribe((value) => {
+      console.log(value, this.swapBalance);
       this.disableMainButton();
       this.insufficientBalance = true;
-      if (value > this.swapBalance) {
-        this.showInsufficientBalanceModal();
-      }
+      // if (value > this.swapBalance) {
+      //   this.showInsufficientBalanceModal();
+      // }
     });
   }
 
-  checkFee(value) {
-    console.log('hi')
-    if (this.fromToken.json().native) {
-      console.log('I am a native swap')
-      console.log(value, this.tplFee);
-      if ((value + this.tplFee.value) > this.swapBalance) {
-      console.log('Show the modal dumbass')
-      this.showInsufficientBalanceFeeModal();
+  checkFee(value: number) {
+    if (value <= this.swapBalance) {
+      if (this.fromToken.json().native) {
+        console.log('I am a native swap');
+        console.log(value, this.tplFee);
+        if (value + this.tplFee.value > this.swapBalance) {
+          console.log('Show the modal dumbass');
+          this.showInsufficientBalanceFeeModal();
+        } else {
+          this.enabledMainButton();
+          this.insufficientBalance = false;
+        }
       } else {
-        this.enabledMainButton();
-        this.insufficientBalance = false;
-      }
-    } else {
-      if (this.tplFee.value > this.feeBalance) {
-        this.showInsufficientBalanceFeeModal();
-      } else {
-        this.enabledMainButton();
-        this.insufficientBalance = false;
+        if (this.tplFee.value > this.feeBalance) {
+          this.showInsufficientBalanceFeeModal();
+        } else {
+          this.enabledMainButton();
+          this.insufficientBalance = false;
+        }
       }
     }
   }
