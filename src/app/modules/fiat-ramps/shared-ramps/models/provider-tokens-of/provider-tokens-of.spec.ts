@@ -3,6 +3,7 @@ import { FakeProviders } from '../providers/fake/fake-providers';
 import { rawProvidersData } from '../../fixtures/raw-providers-data';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ProviderTokensOf } from './provider-tokens-of';
+import { of } from 'rxjs';
 
 describe('ProviderTokensOf', () => {
   let providers: Providers;
@@ -12,7 +13,8 @@ describe('ProviderTokensOf', () => {
     providers = new FakeProviders(
       rawProvidersData,
       rawProvidersData.find((provider) => provider.alias === 'PX'),
-      Promise.resolve([])
+      Promise.resolve([]),
+      of()
     );
 
     coinsSpy = [

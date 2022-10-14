@@ -209,7 +209,7 @@ export class DirectaPage implements OnInit {
     await this.addBoughtCoinIfUserDoesNotHaveIt();
   }
 
-  getProviders(): Providers | any {
+  getProviders(): Providers  {
     return this.providers.create();
   }
 
