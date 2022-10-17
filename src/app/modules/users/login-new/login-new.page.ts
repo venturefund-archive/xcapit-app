@@ -12,6 +12,7 @@ import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/in
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { VerifyResult } from 'src/app/shared/models/biometric-auth/verify-result.interface';
 import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
+import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 
 @Component({
   selector: 'app-login-new',
@@ -98,7 +99,8 @@ export class LoginNewPage {
     private translate: TranslateService,
     private modalController: ModalController,
     private biometricAuthInjectable: BiometricAuthInjectable,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private walletBackupService: WalletBackupService
   ) {}
 
   ionViewWillEnter() {
@@ -133,6 +135,7 @@ export class LoginNewPage {
     const password = isBiometricAuth ? await this.biometricAuth.password() : this.form.value.password;
     if (await new LoginToken(new Password(password), this.storage).valid()) {
       await new LoggedIn(this.storage).save(true);
+      await this.checkWalletProtected();
       this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
     } else {
       this.toastService.showErrorToast({
@@ -140,6 +143,14 @@ export class LoginNewPage {
         duration: 8000,
       });
     }
+  }
+
+  async checkWalletProtected() {
+    this.storage.get('protectedWallet').then((protectedWallet) => {
+      if (!protectedWallet) {
+        this.walletBackupService.enableModal();
+      }
+    });
   }
 
   async showPasswordInfoModal() {
