@@ -35,6 +35,10 @@
             ion-icon {
               margin-left: 5px;
             }
+
+            ion-text {
+              color: var(--ion-color-successdark);
+            }
           }
 
           &__amount {
