@@ -15,6 +15,9 @@ import { FakeBiometricAuth } from 'src/app/shared/models/biometric-auth/fake/fak
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { LoginBiometricActivationModalService } from '../shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -31,10 +34,14 @@ describe('LoginNewPage', () => {
   let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+  let loginBiometricActivationModalSpy: jasmine.SpyObj<LoginBiometricActivationModalService>;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let fakeBiometricAuth: BiometricAuth;
 
   beforeEach(waitForAsync(() => {
+    fakeBiometricAuth = new FakeBiometricAuth();
     biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
-      create: new FakeBiometricAuth(),
+      create: fakeBiometricAuth,
     });
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
@@ -52,6 +59,12 @@ describe('LoginNewPage', () => {
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
+    loginBiometricActivationModalSpy = jasmine.createSpyObj('LoginBiometricActivationModalService', {
+      isShowModal: Promise.resolve(true),
+    });
+    platformServiceSpy = jasmine.createSpyObj('PlatformService', {
+      isNative: true,
+    });
 
     walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', { enableModal: Promise.resolve() });
     TestBed.configureTestingModule({
@@ -65,6 +78,8 @@ describe('LoginNewPage', () => {
         { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+        { provide: LoginBiometricActivationModalService, useValue: loginBiometricActivationModalSpy },
+        { provide: PlatformService, useValue: platformServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -96,6 +111,7 @@ describe('LoginNewPage', () => {
   }));
 
   it('should login when password is ok', async () => {
+    component.ionViewWillEnter();
     component.form.patchValue({ password: aPassword });
 
     await component.handleSubmit(false);
@@ -155,6 +171,7 @@ describe('LoginNewPage', () => {
   });
 
   it('should enable modal when no protected wallet', async () => {
+    component.ionViewWillEnter();
     ionicStorageServiceSpy.get.withArgs('protectedWallet').and.returnValue(Promise.resolve(false));
     component.form.patchValue({ password: aPassword });
 
@@ -175,5 +192,29 @@ describe('LoginNewPage', () => {
     component.ionViewWillEnter();
     tick();
     expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should show biometric activation modal when available and not enabled', async () => {
+    biometricAuthInjectableSpy.create.and.returnValue(
+      new FakeBiometricAuth(Promise.resolve(true), Promise.resolve(false), null, null, null)
+    );
+    component.ionViewWillEnter();
+    component.form.patchValue({ password: aPassword });
+
+    await component.handleSubmit(false);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should activate biometric auth on modal confirm', fakeAsync(() => {
+    fakeModalController.modifyReturns({ data: 'confirm' }, null);
+    biometricAuthInjectableSpy.create.and.returnValue(
+      new FakeBiometricAuth(Promise.resolve(true), Promise.resolve(false), null, null, null)
+    );
+    component.ionViewWillEnter();
+    const spy = spyOn(component.biometricAuth, 'on').and.callThrough();
+    component.form.patchValue({ password: aPassword });
+    component.handleSubmit(false);
+    tick();
+    expect(spy).toHaveBeenCalledTimes(1);
   }));
 });
