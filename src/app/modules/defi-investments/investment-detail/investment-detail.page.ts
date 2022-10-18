@@ -224,12 +224,13 @@ export class InvestmentDetailPage implements OnInit {
 
   private calculateEarnings() {
     forkJoin([this.price$, this.movements$]).subscribe((res) => {
+      console.log(res);
       const calculator = new YieldCalculator(
         this.balance,
         res[1].data.flows,
         this.token.value,
         res[0].prices[this.token.value],
-        this.token.decimals
+        this.investmentProduct.decimals()
       );
       this.yield = calculator.cumulativeYield();
       this.usdYield = calculator.cumulativeYieldUSD();

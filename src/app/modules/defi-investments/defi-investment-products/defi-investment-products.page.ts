@@ -244,7 +244,7 @@ export class DefiInvestmentProductsPage {
       this.activeInvestments.forEach(ai => {
         const calculator = new YieldCalculator(
           ai.balance,
-          res.find(res => res.product?.id === ai.product.id).movements.data.flows,
+          res.find(res => res.product?.id() === ai.product.id()).movements.data.flows,
           ai.product.token().value,
           res[0].prices[ai.product.token().value],
           ai.product.decimals()
