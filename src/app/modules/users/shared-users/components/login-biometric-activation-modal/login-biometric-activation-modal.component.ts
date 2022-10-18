@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
 import { LoginBiometricActivationModalService } from '../../services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
 
 @Component({
@@ -30,12 +31,12 @@ import { LoginBiometricActivationModalService } from '../../services/login-biome
       </div>
       <div class="lbam__buttons">
         <div class="lbam__buttons__close-button">
-          <ion-button appTrackClick (click)="this.cancel()" name="Log Out" class="ux_button" fill="clear">{{
+          <ion-button appTrackClick (click)="this.cancel()" name="Cancel" class="ux_button" fill="clear">{{
             'users.login_biometric_activation_modal.cancel_button' | translate
           }}</ion-button>
         </div>
         <div class="lbam__buttons__confirm-button">
-          <ion-button appTrackClick (click)="this.confirm()" name="Log Out" class="ux_button" fill="clear">{{
+          <ion-button appTrackClick (click)="this.confirm()" name="Confirm" class="ux_button" fill="clear">{{
             'users.login_biometric_activation_modal.confirm_button' | translate
           }}</ion-button>
         </div>
@@ -45,26 +46,29 @@ import { LoginBiometricActivationModalService } from '../../services/login-biome
   styleUrls: ['./login-biometric-activation-modal.component.scss'],
 })
 export class LoginBiometricActivationModalComponent implements OnInit {
-  @Input() username: string;
   form: UntypedFormGroup = this.formBuilder.group({
     dontShowModalCheckbox: [false, []],
   });
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private loginBiometricActivationService: LoginBiometricActivationModalService
+    private loginBiometricActivationService: LoginBiometricActivationModalService,
+    private modalController: ModalController,
+
   ) { }
 
   ngOnInit() {}
 
   async confirm() {
-    // await this.navController.navigateForward(['/support/faqs/wallet']);
+    await this.saveModalChoice();
+    this.modalController.dismiss('confirm');
   }
 
   async cancel() {
-  
+    await this.saveModalChoice();
+    this.modalController.dismiss('cancel');
   }
 
   async saveModalChoice() {
-    await this.loginBiometricActivationService.addUserToNotShowModal(this.username);
+    if (this.form.value.dontShowModalCheckbox) await this.loginBiometricActivationService.disableModal();
   }
 }

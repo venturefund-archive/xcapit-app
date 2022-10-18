@@ -1,19 +1,19 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { LoginBiometricActivationModalService } from './login-biometric-activation-modal.service';
 
 describe('LoginBiometricActivationModalService', () => {
   let service: LoginBiometricActivationModalService;
-  let appStorageServiceSpy: jasmine.SpyObj<AppStorageService>;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(waitForAsync(() => {
-    appStorageServiceSpy = jasmine.createSpyObj('AppStorageService', {
-      get: Promise.resolve(['test@email.com']),
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(),
       set: Promise.resolve()
     })
     TestBed.configureTestingModule({
       providers: [
-        { provide: AppStorageService, useValue: appStorageServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ]
     });
     service = TestBed.inject(LoginBiometricActivationModalService);
@@ -23,36 +23,19 @@ describe('LoginBiometricActivationModalService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should add user to not show modal on addUserToNotShowModal', async () => {
-    await service.addUserToNotShowModal('test2@email.com');
-    expect(appStorageServiceSpy.set).toHaveBeenCalledOnceWith('not_show_modal_users', ['test@email.com', 'test2@email.com']);
+  it('should get notShowBiometricModal value on isShowModal ', async () => {
+    ionicStorageServiceSpy.get.and.returnValue(Promise.resolve(true));
+    await service.isShowModal();
+    expect(ionicStorageServiceSpy.get).toHaveBeenCalledOnceWith('notShowBiometricModal')
+  })
+
+  it('should enable modal on enableModal', async () => {
+    await service.enableModal();
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('notShowBiometricModal', false)
   });
 
-  it('should add user to not show modal if there is no variable on local storage on addUserToNotShowModal', async () => {
-    appStorageServiceSpy.get.and.returnValue(Promise.resolve(null));
-    await service.addUserToNotShowModal('test@email.com');
-    expect(appStorageServiceSpy.set).toHaveBeenCalledOnceWith('not_show_modal_users', ['test@email.com']);
-  });
-
-  it('should return false if there is no variable on local storage on isShowModalTo', async () => {
-    appStorageServiceSpy.get.and.returnValue(Promise.resolve(null));
-    const result = await service.isShowModalTo('test@email.com');
-    expect(result).toBeTrue();
-  });
-
-  it('should return false if list is empty on isShowModalTo', async () => {
-    appStorageServiceSpy.get.and.returnValue(Promise.resolve([]));
-    const result = await service.isShowModalTo('test@email.com');
-    expect(result).toBeTrue();
-  });
-
-  it('should return false if user is not on list on isShowModalTo', async () => {
-    const result = await service.isShowModalTo('test2@email.com');
-    expect(result).toBeTrue();
-  });
-
-  it('should return true if user is on list isShowModalTo', async () => {
-    const result = await service.isShowModalTo('test@email.com');
-    expect(result).toBeFalse();
+  it('should disable modal on disableModal', async () => {
+    await service.disableModal();
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('notShowBiometricModal', true)
   });
 });

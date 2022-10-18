@@ -1,27 +1,23 @@
 import { Injectable } from '@angular/core';
-import { AppStorageService } from 'src/app/shared/services/app-storage/app-storage.service';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginBiometricActivationModalService {
-  private get key(): string { return 'not_show_biometric_modal_users'; }
+  private get key(): string { return 'notShowBiometricModal'; }
 
-  constructor(private appStorageService: AppStorageService) { }
+  constructor(private ionicStorageService: IonicStorageService) { }
 
-  async addUserToNotShowModal(user: string): Promise<void> {
-    let usersList = await this.appStorageService.get(this.key);
-
-    if (!usersList) {
-      usersList = [];
-    }
-    
-    usersList.push(user);
-    await this.appStorageService.set(this.key, usersList)
+  async isShowModal(): Promise<boolean> {
+    return !(await this.ionicStorageService.get(this.key));
   }
 
-  async isShowModalTo(user: string): Promise<boolean> {
-    const usersList = await this.appStorageService.get(this.key);
-    return !(!!usersList && usersList.includes(user));
+  async enableModal(): Promise<void> {
+    await this.ionicStorageService.set(this.key, false)
+  }
+
+  async disableModal(): Promise<void> {
+    await this.ionicStorageService.set(this.key, true)
   }
 }

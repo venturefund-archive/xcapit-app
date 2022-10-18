@@ -14,6 +14,8 @@ import { VerifyResult } from 'src/app/shared/models/biometric-auth/verify-result
 import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { LoginBiometricActivationModalComponent } from '../shared-users/components/login-biometric-activation-modal/login-biometric-activation-modal.component';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { LoginBiometricActivationModalService } from '../shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
 
 @Component({
   selector: 'app-login-new',
@@ -101,10 +103,12 @@ export class LoginNewPage {
     private modalController: ModalController,
     private biometricAuthInjectable: BiometricAuthInjectable,
     private trackService: TrackService,
-    private walletBackupService: WalletBackupService
+    private walletBackupService: WalletBackupService,
+    private platformService: PlatformService,
+    private loginBiometricActivationService: LoginBiometricActivationModalService
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.biometricAuth = this.biometricAuthInjectable.create();
     this.activateBiometricAuth();
     this.trackService.trackEvent({
@@ -119,16 +123,18 @@ export class LoginNewPage {
   }
 
   async activateBiometricAuth() {
-    const verifyResult: VerifyResult = await this.biometricAuth.verified();
-    if ((await this.biometricAuth.enabled()) && verifyResult.verified) {
-      this.handleSubmit(true);
-    }
-    if ((await this.biometricAuth.enabled()) && verifyResult.message === 'Authentication failed.') {
-      this.toastService.showInfoToast({
-        message: this.translate.instant('users.login_new.error_biometric_auth'),
-        duration: 5000,
-      });
-      this.biometricAuth.off();
+    if (await this.biometricAuth.enabled()) {
+      const verifyResult: VerifyResult = await this.biometricAuth.verified();
+      if (verifyResult.verified) {
+        this.handleSubmit(true);
+      }
+      if (verifyResult.message === 'Authentication failed.') {
+        this.toastService.showInfoToast({
+          message: this.translate.instant('users.login_new.error_biometric_auth'),
+          duration: 5000,
+        });
+        this.biometricAuth.off();
+      }
     }
   }
 
@@ -137,15 +143,16 @@ export class LoginNewPage {
     if (await new LoginToken(new Password(password), this.storage).valid()) {
       await new LoggedIn(this.storage).save(true);
       await this.checkWalletProtected();
-      if (this.form.value.password && this.biometricAuth.available()) {
-        console.log('el usuario se logeo con password')    
-        this.showLoginBiometricActivation()
-        // Si da confirmar -> activateBiometricAuth
-      } else {
-        console.log('el usuario se logeo con biometricos')
+      if (this.platformService.isNative()) {
+        if (!(await this.biometricAuth.enabled()) && this.form.value.password && this.biometricAuth.available()) {
+          const shouldActivateBiometric = await this.showLoginBiometricActivation();
+          if (shouldActivateBiometric == 'confirm') {
+            this.biometricAuth.onNeedPass().subscribe(() => Promise.resolve(new Password(this.form.value.password)));
+            await this.biometricAuth.on();
+          }
+        }
       }
-      console.log('Tiene el usuario logeo biometrico?: ', await this.biometricAuth.available())
-      // this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
+      this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
     } else {
       this.toastService.showErrorToast({
         message: this.translate.instant('users.login_new.invalid_password_text'),
@@ -178,14 +185,17 @@ export class LoginNewPage {
   }
 
   async showLoginBiometricActivation() {
-    const modal = await this.modalController.create({
-      component: LoginBiometricActivationModalComponent,
-      showBackdrop: true,
-      backdropDismiss: false,
-      cssClass: 'login-biometric-activation-modal'
-    });
-    modal.present();
-
+    if (await this.loginBiometricActivationService.isShowModal()) {
+      const modal = await this.modalController.create({
+        component: LoginBiometricActivationModalComponent,
+        showBackdrop: true,
+        backdropDismiss: false,
+        cssClass: 'login-biometric-activation-modal',
+      });
+      modal.present();
+      const { data } = await modal.onWillDismiss();
+      return data;
+    }
   }
 
   goToResetPassword(): void {
