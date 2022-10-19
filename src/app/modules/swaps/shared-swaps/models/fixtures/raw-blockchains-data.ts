@@ -18,7 +18,6 @@ export const rawPolygonData: RawBlockchain = {
   derivedPath: "m/44'/966'/0'/0/0",
   id: '137',
   rpc: 'https://polygonRpc',
-  gasPrice: 'PolygonGasPrice',
   nativeToken: {
     value: 'MATIC',
     decimals: 18,

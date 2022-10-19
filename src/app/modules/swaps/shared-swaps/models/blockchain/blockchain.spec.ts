@@ -20,7 +20,6 @@ describe('Blockchain', () => {
     expect(blockchain.rpc()).toEqual(rawEthereumData.rpc);
     expect(blockchain.derivedPath()).toEqual(rawEthereumData.derivedPath);
     expect(blockchain.json()).toEqual(rawEthereumData);
-    expect(blockchain.gasPriceClass()).toEqual(rawEthereumData.gasPrice);
   });
 
   it('native token', () => {

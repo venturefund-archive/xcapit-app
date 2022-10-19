@@ -26,10 +26,6 @@ export class Blockchain {
     return { ...this._rawData };
   }
 
-  gasPriceClass(): string {
-    return this._rawData.gasPrice;
-  }
-
   nativeToken(): Token {
     return new DefaultToken(this._rawData.nativeToken);
   }
