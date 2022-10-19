@@ -145,8 +145,7 @@ export class LoginNewPage {
       await this.checkWalletProtected();
       if (this.platformService.isNative()) {
         if (!(await this.biometricAuth.enabled()) && this.form.value.password && this.biometricAuth.available()) {
-          const shouldActivateBiometric = await this.showLoginBiometricActivation();
-          if (shouldActivateBiometric === 'confirm') {
+          if (await this.showLoginBiometricActivation() === 'confirm') {
             this.biometricAuth.onNeedPass().subscribe(() => Promise.resolve(new Password(this.form.value.password)));
             await this.biometricAuth.on();
           }

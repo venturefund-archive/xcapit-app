@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { LoginBiometricActivationModalService } from '../../services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
@@ -45,7 +45,7 @@ import { LoginBiometricActivationModalService } from '../../services/login-biome
   `,
   styleUrls: ['./login-biometric-activation-modal.component.scss'],
 })
-export class LoginBiometricActivationModalComponent implements OnInit {
+export class LoginBiometricActivationModalComponent {
   form: UntypedFormGroup = this.formBuilder.group({
     dontShowModalCheckbox: [false, []],
   });
@@ -55,8 +55,6 @@ export class LoginBiometricActivationModalComponent implements OnInit {
     private modalController: ModalController,
 
   ) { }
-
-  ngOnInit() {}
 
   async confirm() {
     await this.saveModalChoice();
