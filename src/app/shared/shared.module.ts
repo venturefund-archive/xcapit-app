@@ -95,6 +95,7 @@ import { HelpItemCardComponent } from '../modules/users/shared-users/components/
 import { NewTokenAvailableCardComponent } from '../modules/wallets/shared-wallets/components/new-token-available-card/new-token-available-card.component';
 import { NewTokenInfoModalComponent } from '../modules/wallets/shared-wallets/components/new-token-info-modal/new-token-info-modal.component';
 import { InformationModalComponent } from './components/information-modal/information-modal.component';
+import { TwoButtonsAlertComponent } from './components/two-buttons-alert/two-buttons-alert.component';
 
 @NgModule({
   declarations: [
@@ -178,6 +179,7 @@ import { InformationModalComponent } from './components/information-modal/inform
     ObjetiveCardComponent,
     CauseInfoComponent,
     InformationModalComponent,
+    TwoButtonsAlertComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -280,6 +282,7 @@ import { InformationModalComponent } from './components/information-modal/inform
     ObjetiveCardComponent,
     CauseInfoComponent,
     InformationModalComponent,
+    TwoButtonsAlertComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

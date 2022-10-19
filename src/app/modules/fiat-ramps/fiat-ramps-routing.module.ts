@@ -130,6 +130,20 @@ const routes: Routes = [
             (m) => m.KycUserAddressInformationPageModule
           ),
       },
+      {
+        path: 'kyc-front-id',
+        loadChildren: () =>
+          import('./kyc-front-id-validation/kyc-front-id-validation.module').then(
+            (m) => m.KycFrontIdValidationPageModule
+          ),
+      },
+      {
+        path: 'kyc-front-id-confirmation',
+        loadChildren: () =>
+          import('./kyc-front-id-confirmation/kyc-front-id-confirmation.module').then(
+            (m) => m.KycFrontIdConfirmationPageModule
+          ),
+      },
     ],
   },
 ];
