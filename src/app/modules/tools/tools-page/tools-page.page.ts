@@ -4,6 +4,7 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { TOOLS_CARDS } from '../shared-tools/components/tools-card/tools-card-content.constant';
 import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 
 @Component({
   selector: 'app-tool',
@@ -12,6 +13,8 @@ import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/serv
       <ion-toolbar color="primary" class="ux_toolbar">
         <div class="header">
           <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
+          <ion-icon *ngIf="!this.connected" name="ux-walletconnect"></ion-icon>
+          <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect"></ion-icon>
         </div>
         <app-avatar-profile></app-avatar-profile>
       </ion-toolbar>
@@ -51,12 +54,14 @@ export class ToolsPage implements OnInit {
   icon: string;
   category: string;
   content = TOOLS_CARDS;
+  connected: boolean;
 
   constructor(
     private navController: NavController,
     private appStorage: AppStorageService,
     private trackService: TrackService,
     private walletBackupService : WalletBackupService,
+    private walletConnectService: WalletConnectService
   ) { }
 
   ngOnInit() {}
@@ -64,6 +69,7 @@ export class ToolsPage implements OnInit {
   ionViewWillEnter() {
     this.getPlannerData();
     this.trackScreenViewEvent();
+    this.checkConnectionOfWalletConnect();
   }
 
   async getPlannerData() {
@@ -105,5 +111,9 @@ export class ToolsPage implements OnInit {
 
   goToPlannerInfo() {
     this.navController.navigateForward(['/financial-planner/result-objetive']);
+  }
+
+  checkConnectionOfWalletConnect() {
+    this.connected = this.walletConnectService.connected;
   }
 }
