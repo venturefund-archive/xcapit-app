@@ -24,6 +24,7 @@ import { Vault } from '@2pi-network/sdk';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
+import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator.model';
 
 const testCoins = [
   jasmine.createSpyObj(
@@ -180,13 +181,17 @@ describe('DefiInvestmentProductsPage', () => {
       }),
     });
 
-    investmentSpy = jasmine.createSpyObj('TwoPiInvestment', {
-      balance: Promise.resolve(50),
-    });
-
     investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
       token: testCoins[0],
       contractAddress: '0x00001',
+      decimals: 6,
+    });
+
+    investmentSpy = jasmine.createSpyObj('TwoPiInvestment', {
+      balance: Promise.resolve(50),
+    },
+    {
+      product: investmentProductSpy,
     });
 
     graphqlServiceSpy = jasmine.createSpyObj('GraphqlService', {
@@ -230,6 +235,7 @@ describe('DefiInvestmentProductsPage', () => {
   it('should render empty div when no filtered products are available', async () => {
     investmentSpy.balance.and.resolveTo(0);
     apiUsuariosServiceSpy.getUser.and.returnValue(of(testAggressiveUserSpy));
+    spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
@@ -242,6 +248,7 @@ describe('DefiInvestmentProductsPage', () => {
   });
 
   it('should render active investment card', async () => {
+    spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewDidLeave();
@@ -259,6 +266,7 @@ describe('DefiInvestmentProductsPage', () => {
 
   it('should render available investment card', async () => {
     investmentSpy.balance.and.resolveTo(0);
+    spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
@@ -275,6 +283,7 @@ describe('DefiInvestmentProductsPage', () => {
 
   it('should render available investment card when dont have wallet', async () => {
     walletServiceSpy.walletExist.and.resolveTo(false);
+    spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
@@ -290,6 +299,7 @@ describe('DefiInvestmentProductsPage', () => {
 
   it('should render filter tab component', async () => {
     investmentSpy.balance.and.resolveTo(0);
+    spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
@@ -302,6 +312,7 @@ describe('DefiInvestmentProductsPage', () => {
 
   it('should set conservative filter when user didnt do test yet ', async () => {
     apiUsuariosServiceSpy.getUser.and.returnValue(of(testUserSpy));
+    spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
@@ -312,6 +323,7 @@ describe('DefiInvestmentProductsPage', () => {
   });
 
   it('should call trackEvent on trackService when go_to_defi_faqs Button clicked', async () => {
+    spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
@@ -326,6 +338,7 @@ describe('DefiInvestmentProductsPage', () => {
   });
 
   it('should navigate to deFi Faqs when go_to_defi_faqs button is clicked', async () => {
+    spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
@@ -373,6 +386,7 @@ describe('DefiInvestmentProductsPage', () => {
 
   it('should render investor test card when user did the investor test', async () => {
     walletServiceSpy.walletExist.and.resolveTo(false);
+    spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
@@ -388,6 +402,7 @@ describe('DefiInvestmentProductsPage', () => {
   it('should render investor test card when user did not take the investor test', async () => {
     apiUsuariosServiceSpy.getUser.and.returnValue(of(testUserSpy));
     walletServiceSpy.walletExist.and.resolveTo(false);
+    spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
@@ -401,6 +416,7 @@ describe('DefiInvestmentProductsPage', () => {
   });
 
   it('should render total invested correctly', async () => {
+    spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
@@ -417,9 +433,12 @@ describe('DefiInvestmentProductsPage', () => {
   });
 
   it('should render yields properly', async () => {
+    spyOn(YieldCalculator.prototype, 'cumulativeYieldUSD').and.returnValue({ value: 12, token: 'USD' });
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
+    component.ionViewWillEnter();
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    expect(component.totalUsdYield).toEqual({ value: jasmine.any(Number), token: 'USD' });
+    expect(component.totalUsdYield).toEqual({ value: 12, token: 'USD' });
   });
 });

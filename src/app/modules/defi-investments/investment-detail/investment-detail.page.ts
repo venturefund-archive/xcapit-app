@@ -224,7 +224,6 @@ export class InvestmentDetailPage implements OnInit {
 
   private calculateEarnings() {
     forkJoin([this.price$, this.movements$]).subscribe((res) => {
-      console.log(res);
       const calculator = new YieldCalculator(
         this.balance,
         res[1].data.flows,
