@@ -31,7 +31,7 @@ import { InvestmentMovement } from '../../wallets/shared-wallets/interfaces/inve
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content>
+    <ion-content [style]="this.contentFixedStyle">
       <div class="dp__subheader">
         <div class="dp__subheader__title ux-font-num-subtitulo">
           <ion-text>
@@ -183,6 +183,7 @@ export class DefiInvestmentProductsPage {
   tokenPrice: number;
   usdYield: RawAmount;
   balance: number;
+  contentFixedStyle = 'display: none';
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -218,7 +219,8 @@ export class DefiInvestmentProductsPage {
   }
 
   async ionViewDidEnter() {
-    this.getUserWalletAddress();
+    this.contentFixedStyle = 'display: inherit';
+    await this.getUserWalletAddress();
     this.getAvailableDefiProducts();
     await this.getInvestments();
     this.filterByInvestorCategory(this.profileForm.value.profile);
@@ -231,8 +233,6 @@ export class DefiInvestmentProductsPage {
     const wallet = await this.storageService.getWalletFromStorage();
     if (wallet) this.address = wallet.addresses.MATIC;
   }
-
-
 
   getAllMovements(pid: number) {
     this.movements$ = this.graphql.getAllMovements(this.address, pid);
