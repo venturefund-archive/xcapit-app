@@ -100,10 +100,12 @@ export class SelectProviderCardComponent implements OnInit {
   async selectedCountry(country: FiatRampProviderCountry) {
     this.changedCountry.emit();
     this.availableProviders = await this.providers().availablesBy(country, this.coin);
-    await this.moonpayFactory
+    if(this.availableProviders.find((provider)=> provider.alias === 'moonpay')) {
+      await this.moonpayFactory
       .new(this.coin.moonpayCode, country.isoCurrencyCodeMoonpay, this.fiatRampsService)
       .value()
       .toPromise();
+    }
     this.disabled = false;
   }
 
