@@ -56,6 +56,8 @@ export class LoginBiometricActivationModalComponent {
 
   ) { }
 
+  ngOnInit() {}
+
   async confirm() {
     await this.saveModalChoice();
     this.modalController.dismiss('confirm');
