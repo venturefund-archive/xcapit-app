@@ -116,6 +116,13 @@ const routes: Routes = [
             (m) => m.KycUserBasicInformationPageModule
           ),
       },
+      {
+        path: 'user-address',
+        loadChildren: () =>
+          import('./kyc-user-address-information/kyc-user-address-information.module').then(
+            (m) => m.KycUserAddressInformationPageModule
+          ),
+      },
     ],
   },
 ];

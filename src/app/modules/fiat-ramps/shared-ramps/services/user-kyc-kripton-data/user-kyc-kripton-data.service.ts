@@ -9,8 +9,8 @@ import { UserKycKriptonData } from "../../interfaces/user-kyc-kripton-data.inter
     userKycKriptonData: UserKycKriptonData;
     constructor() { }
   
-    public updateData(data: UserKycKriptonData) {
-      this.userKycKriptonData = data;
+    public updateData(data: any) {
+      this.userKycKriptonData = { ...this.userKycKriptonData, ...data};
     }
   
     public getData() {
