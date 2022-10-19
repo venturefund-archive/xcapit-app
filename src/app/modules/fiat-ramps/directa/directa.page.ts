@@ -179,7 +179,7 @@ export class DirectaPage implements OnInit {
   }
 
   webhookURL(): string {
-    return `${this.envService.byKey('apiUrl')}/on_off_ramps/directa/deposit_link`;
+    return `${this.envService.byKey('apiUrl')}/on_off_ramps/directa/update_status`;
   }
 
   async depositData(): Promise<DirectaDepositCreationData> {
