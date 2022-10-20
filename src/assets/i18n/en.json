@@ -2760,7 +2760,19 @@
       "tos_1": "I have read and agree to the",
       "tos_button": "terms and conditions.",
       "tos_2": "of 1inch",
-      "warning_same_tokens": "The source token cannot be equal to the destination token."
+      "warning_same_tokens": "The source token cannot be equal to the destination token.",
+      "balance_modal": {
+        "insufficient_balance": {
+          "text": "You don't have enough {{token}} in your account to make this operation.",
+          "firstButtonName": "Buy {{token}}",
+          "secondaryButtonName": "Deposit {{token}}"
+        },
+        "insufficient_balance_fee": {
+          "text": "You don't have enough {{token}} in your account to afford the transaction fee.",
+          "firstButtonName": "Buy {{token}}",
+          "secondaryButtonName": "Deposit {{token}}"
+        }
+      }
     },
     "errors": {
       "invalid_password": "The password entered is not valid."

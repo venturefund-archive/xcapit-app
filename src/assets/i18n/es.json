@@ -2922,7 +2922,19 @@
       "tos_1": "Leí y estoy de acuerdo con los ",
       "tos_button": "términos y condiciones",
       "tos_2": "de 1inch",
-      "warning_same_tokens": "El token de origen no puede ser igual al token de destino."
+      "warning_same_tokens": "El token de origen no puede ser igual al token de destino.",
+      "balance_modal": {
+        "insufficient_balance": {
+          "text": "No tienes suficiente {{token}} en tu cuenta para realizar esta operación.",
+          "firstButtonName": "Comprar {{token}}",
+          "secondaryButtonName": "Depositar {{token}}"
+        },
+        "insufficient_balance_fee": {
+          "text": "No tienes suficientes {{token}} en tu cuenta para pagar la tarifa de transacción.",
+          "firstButtonName": "Comprar {{token}}",
+          "secondaryButtonName": "Depositar {{token}}"
+        }
+      }
     },
     "errors": {
       "invalid_password": "La contraseña ingresada no es correcta."
