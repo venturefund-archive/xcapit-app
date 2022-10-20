@@ -22,7 +22,6 @@ import { Amount } from 'src/app/modules/defi-investments/shared-defi-investments
 import { ToastWithButtonsComponent } from 'src/app/modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 import { TranslateService } from '@ngx-translate/core';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { RawBlockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
@@ -161,7 +160,6 @@ export class SendDetailPage {
   private blockchain: Blockchain;
   private priceRefreshInterval = 15000;
 
-  url: string;
   form: UntypedFormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
@@ -181,7 +179,6 @@ export class SendDetailPage {
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalController: ModalController,
     private translate: TranslateService,
-    private storage: IonicStorageService,
     private tokenOperationDataService: TokenOperationDataService,
     private blockchains: BlockchainsFactory,
     private gasStation: GasStationOfFactory,
@@ -199,7 +196,7 @@ export class SendDetailPage {
     await this.setTokenDetail();
     await this.setAddressValidator();
     this.getPrices();
-    this.setUrlToBuyCrypto();
+    this.setDataToBuyCrypto();
     await this.tokenBalances();
     this.openModalBalance();
   }
@@ -437,14 +434,12 @@ export class SendDetailPage {
     }
   }
 
-  async setUrlToBuyCrypto() {
-    const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+  async setDataToBuyCrypto() {
+    // TODO: Move this to component
     this.tokenOperationDataService.tokenOperationData = {
       asset: this.tplNativeToken?.value,
       network: this.tplNativeToken?.network,
     };
-    this.url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
-    return this.url;
   }
 
   async openModalBalance() {
@@ -463,7 +458,7 @@ export class SendDetailPage {
         secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
           nativeToken: this.nativeToken.symbol(),
         }),
-        firstLink: this.url,
+        firstLink: '/fiat-ramps/select-provider',
         secondLink: '/wallets/receive/detail',
         data: this.nativeToken.json(),
       },

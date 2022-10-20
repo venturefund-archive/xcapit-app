@@ -15,7 +15,7 @@ import { Component } from '@angular/core';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
 import { Amount } from '../../shared-defi-investments/types/amount.type';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { BigNumber, ethers, VoidSigner, Wallet } from 'ethers';
+import { BigNumber, VoidSigner, Wallet } from 'ethers';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiWalletService } from '../../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Subject } from 'rxjs';
@@ -149,7 +149,6 @@ export class InvestmentConfirmationPage {
   labelText: string;
   isNegativeBalance: boolean;
   modalHref: string;
-  url: string;
 
   constructor(
     private investmentDataService: InvestmentDataService,
@@ -177,7 +176,7 @@ export class InvestmentConfirmationPage {
     this.checkTwoPiAgreement();
     await this.walletService.walletExist();
     await this.getNativeTokenBalance();
-    await this.setUrlToBuyCrypto();
+    await this.setDataToBuyCrypto();
     await this.checkNativeTokenBalance();
   }
 
@@ -336,14 +335,12 @@ export class InvestmentConfirmationPage {
     }
   }
 
-  async setUrlToBuyCrypto() {
-    const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
+  async setDataToBuyCrypto() {
+    // TODO: Move this to component
     this.tokenOperationDataService.tokenOperationData = {
       asset: this.nativeToken?.value,
       network: this.nativeToken?.network,
     };
-    this.url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
-    return this.url;
   }
 
   async openModalNativeTokenBalance() {
@@ -362,7 +359,7 @@ export class InvestmentConfirmationPage {
         secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
           nativeToken: this.nativeToken?.value,
         }),
-        firstLink: this.url,
+        firstLink: '/fiat-ramps/select-provider',
         secondLink: '/wallets/receive/detail',
         data: this.nativeToken,
       },
