@@ -90,6 +90,7 @@ export class InputSelectComponent implements OnInit {
     await modal.present();
 
     const data = await modal.onDidDismiss();
+    this.control.markAsTouched();
     this.isOpen = false;
     if (data.role === 'selected') {
       this.setSelectedValue(data.data);
