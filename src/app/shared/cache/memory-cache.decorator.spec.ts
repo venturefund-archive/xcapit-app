@@ -1,4 +1,4 @@
-import { asyncDelay } from "src/testing/async-delay.spec";
+import { fakeAsync, tick } from "@angular/core/testing";
 import { memoryCache, tests } from "./memory-cache.decorator";
 
 
@@ -25,36 +25,48 @@ describe('cache decorator', () => {
     dummyObj = new Dummy();
   });
 
-  it('cache decorator', async () => {
+  it('cache decorator', fakeAsync(() => {
     expect(dummyObj.regularMethod()).toEqual(3);
 
-    await asyncDelay(10);
+    tick(10);
 
     expect(dummyObj.regularMethod()).toEqual(3);
 
-    await asyncDelay(101);
+    tick(150);
 
     expect(dummyObj.regularMethod()).toEqual(2);
-  });
+  }));
 
-  it('async cache decorator', async () => {
-    expect(await dummyObj.asyncMethod()).toEqual(3);
+  it('async cache decorator fakeAsync', fakeAsync(() => {
+    let value: any;
+    dummyObj.asyncMethod().then(v => value = v);
+    tick();
 
-    await asyncDelay(10);
+    expect(value).toEqual(3);
 
-    expect(await dummyObj.asyncMethod()).toEqual(3);
+    tick(10);
+    dummyObj.asyncMethod().then(v => value = v);
+    tick();
 
-    await asyncDelay(101);
+    expect(value).toEqual(3);
 
-    expect(await dummyObj.asyncMethod()).toEqual(2);
-    expect(await dummyObj.asyncMethod()).toEqual(2);
+    tick(150);
 
-    await asyncDelay(101);
+    dummyObj.asyncMethod().then(v => value = v);
+    tick();
+    expect(value).toEqual(2);
+    dummyObj.asyncMethod().then(v => value = v);
+    tick();
+    expect(value).toEqual(2);
 
-    expect(await dummyObj.asyncMethod()).toEqual(1);
-  });
+    tick(150);
 
-  it('cache decorator calls with diff args', async () => {
+    dummyObj.asyncMethod().then(v => value = v);
+    tick();
+    expect(value).toEqual(1);
+  }));
+
+  it('cache decorator calls with diff args', () => {
     const aSimpleArg = 4;
     const anotherSimpleArg = 2;
     const aComplexArg = {test: () => 1, testProp: 3};

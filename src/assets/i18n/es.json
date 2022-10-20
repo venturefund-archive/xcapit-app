@@ -160,7 +160,8 @@
       "login_button_text": "Ingresar",
       "reset_password_link": "Olvidé mi contraseña",
       "help_link": "Ayuda",
-      "invalid_password_text": "La contraseña ingresada no es correcta. Por favor intente nuevamente."
+      "invalid_password_text": "La contraseña ingresada no es correcta. Por favor intente nuevamente.",
+      "error_biometric_auth": "Se produjo un error al intentar leer tus datos biométricos. Ingresa tu contraseña para acceder."
     },
     "login": {
       "password_label": "Contraseña",
@@ -320,7 +321,8 @@
       "nft": "NFT",
       "others": "Otros",
       "referrals": "Referidos",
-      "transactions": "Transacciones"
+      "transactions": "Transacciones",
+      "kripton_data": "Eliminar mis datos de Kripton"
     }
   },
   "defi_investments": {
@@ -366,7 +368,7 @@
       "title_investments": "Mis inversiones",
       "profits": "Ganancia continua",
       "profits_weekly": "Ganancia Semanal",
-      "total_invested":"Inversión + Intereses ganados",
+      "total_invested": "Inversión y ganancias",
       "recommendations": "Podrían interesarte",
       "empty_products": "Proximamente podrás encontrar las mejores inversiones para tu perfil",
       "link_button": "¿Cómo funcionan las inversiones DeFi?",
@@ -615,7 +617,7 @@
       "name_primary_action": "Ir a mi wallet"
     },
     "personalised_profile_test": {
-      "header":"Personaliza tu perfil",
+      "header": "Personaliza tu perfil",
       "question_1": "1. ¿Qué deseas hacer dentro de Xcapit? Elige todas las opciones que consideres",
       "question_2": "2. ¿Cuál es tu nivel de experiencia con criptos?",
       "to_do_in_app": {
@@ -649,9 +651,9 @@
       "password_description": "Para activar tus datos biométricos, ingresa la contraseña de tu wallet Xcapit.",
       "password_button": "Confirmar",
       "password_error": "La contraseña ingresada no es correcta.",
-      "options":{
-        "title":"Ingresa con tus datos biométricos",
-        "subtitle":"Apoya tu huella sobre el lector de datos o apunta la pantalla hacia tu rostro, según corresponda en tu dispositivo."
+      "options": {
+        "title": "Ingresa con tus datos biométricos",
+        "subtitle": "Apoya tu huella sobre el lector de datos o apunta la pantalla hacia tu rostro, según corresponda en tu dispositivo."
       }
     },
     "shared": {
@@ -2144,7 +2146,6 @@
         "textSecondary": "Conoce que tipo de inversionista eres"
       }
     }
-    
   },
   "tabs": {
     "home": "Inicio",
@@ -2184,11 +2185,14 @@
       "button_show_less": "Ver menos",
       "button_show_more": "Ver más"
     },
+    "provider_new_operation_card":{
+      "description":"Proveedor: {{providerName}}"
+    },
     "select_provider": {
       "header": "Comprar Cripto",
       "select_label": "Pais en el que vas a operar",
       "select_placeholder": "Selecciona tu país",
-      "provider_label": "Selecciona el proveedor",
+      "provider_label": "Selecciona tu medio de pago",
       "no_provider": "Por el momento no es posible adquirir {{coinName}} en tu país.",
       "description": "Compra con {{providerName}} {{token}} a ${{quote}} {{fiatCode}}.",
       "best_quote": "Mejor cotización",
@@ -2221,6 +2225,7 @@
         }
       }
     },
+    
     "information_paxful": {
       "header": "Comprar",
       "title": "Compra BTC con Paxful:",
@@ -2262,17 +2267,17 @@
         "reception_address": "Dirección de recepción",
         "network": "Red"
       },
-      "remove_photo":{
+      "remove_photo": {
         "title": "¿Eliminar archivo?",
-        "description":"Si continuas, deberás cargar nuevamente el comprobante.",
-        "button_text1":"Cancelar",
-        "button_text2":"Eliminar"
+        "description": "Si continuas, deberás cargar nuevamente el comprobante.",
+        "button_text1": "Cancelar",
+        "button_text2": "Eliminar"
       },
-      "exit_operation_detail":{
+      "exit_operation_detail": {
         "title": "¿Deseas salir?",
-        "description":"Deberás volver a cargar tu comprobante.",
-        "button_text1":"Cancelar",
-        "button_text2":"Confirmar"
+        "description": "Deberás volver a cargar tu comprobante.",
+        "button_text1": "Cancelar",
+        "button_text2": "Confirmar"
       }
     },
     "operation_status": {
@@ -2435,6 +2440,14 @@
         "button": "Entendido"
       },
       "constants": {
+        "payment_types":{
+          "directa24_bank_deposit":"Depósito Bancario",
+          "directa24_bank_transfer":"Transferencia Bancaria",
+          "directa24_credit_card":"Tarjeta de crédito o débito",
+          "directa24_voucher":"Tienda física más cercana",
+          "kripton":"Transferencia Bancaria",
+          "moonpay":"Tarjeta de crédito"
+        },
         "providers": {
           "kripton": {
             "disclaimer": "La entrega de tokens se hace de Lunes a Viernes de 9 a 18 hs. y puede tardar si el banco demora en procesar la transaccion a la cuenta comitente de Kripton."
@@ -2449,12 +2462,13 @@
       },
       "provider_new_operation_card": {
         "quantity": "Cantidad",
-        "provider": "Proveedor",
+        "payment_method": "Medio de Pago",
         "to_pay": "Pagarás*",
         "input_error": "El monto mínimo de compra es de ${{amount}} {{fiatCurrency}}",
         "usd_disclaimer": "*Ingresa el monto en dólares, al finalizar el proceso abonarás en tu moneda local según la cotización del día.",
         "estimated_fee": "Tarifa de transacción estimada"
       },
+
       "kyc_disclaimer_modal": {
         "title": "Registro cuenta Kripton",
         "description": "Por única vez tienes que crearte una cuenta en kripton, la próxima vez que elijas este operador vas a acceder de manera automática.\n Recuerda que el registro y proceso de compra queda a cargo de Kripton.",
@@ -2476,6 +2490,52 @@
       "label_email":"Email",
       "button":"Continuar",
       "text":"Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones."
+    },
+    "user_register":{
+      "header":"Registración",
+      "provider":"Proveedor: Kripton Market",
+      "title":"¡Hola! Aún no posees una cuenta, te ayudaremos a registrarte rápidamente",
+      "subtitle": "😄 ¡No te preocupes! Será por única vez.",
+      "steps": {
+        "step_one":{
+          "title": "Cargar datos",
+          "subtitle": "Completa con tu información personal"
+        },
+        "step_two":{
+          "title": "Verificar identidad",
+          "subtitle": "Necesitarás tu documento"
+        }
+      },
+      "disclaimer": {
+        "content":"Xcapit no almacena información. Averigua más sobre el uso de datos en ",
+        "link":"Politica de privacidad Kripton Market."
+      }
+    },
+    "kyc": {
+      "user_basic": {
+        "header": "Cargar datos",
+        "provider": "Proveedor: Kripton Market",
+        "title": "🛫 ¡Comencemos!",
+        "subtitle": "Ingresa tus datos personales",
+        "label_first_name": "Nombre/s",
+        "label_last_name": "Apellido/s",
+        "label_birthday": "Fecha de nacimiento",
+        "placeholder_birthday": "mm/dd/aaaa",
+        "button": "Continuar"
+      },
+      "user_address": {
+        "header": "Cargar datos",
+        "provider": "Proveedor: Kripton Market",
+        "title": "🛬 ¡Último paso! Rápido, ¿no?",
+        "subtitle": "Ingresa los datos de tu dirección",
+        "label_street": "Calle",
+        "label_number": "Número",
+        "label_floor": "Piso (opcional)",
+        "label_apartment": "Dpto (opcional)",
+        "label_city": "Ciudad",
+        "label_zip_code": "Código postal",
+        "button": "Continuar"
+      }
     }
   },
   "home": {

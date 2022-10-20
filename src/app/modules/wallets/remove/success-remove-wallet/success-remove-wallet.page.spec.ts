@@ -14,22 +14,20 @@ describe('SuccessRemoveWalletPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
 
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      TestBed.configureTestingModule({
-        declarations: [SuccessRemoveWalletPage, FakeTrackClickDirective],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    TestBed.configureTestingModule({
+      declarations: [SuccessRemoveWalletPage, FakeTrackClickDirective],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [{ provide: NavController, useValue: navControllerSpy }],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(SuccessRemoveWalletPage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-    })
-  );
+    fixture = TestBed.createComponent(SuccessRemoveWalletPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -62,19 +60,10 @@ describe('SuccessRemoveWalletPage', () => {
     expect(spyClickEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should call trackEvent on trackService when go_to_home is clicked', () => {
-    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'go_to_home');
-    const directive = trackClickDirectiveHelper.getDirective(el);
-    const spyClickEvent = spyOn(directive, 'clickEvent');
-    el.nativeElement.click();
-    fixture.detectChanges();
-    expect(spyClickEvent).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to home when close is clicked', () => {
+  it('should navigate to on boarding when close is clicked', () => {
     const closeButton = fixture.debugElement.query(By.css("ion-button[name='close']"));
     closeButton.nativeElement.click();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['tabs/home']);
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith('/users/on-boarding');
   });
 
   it('should navigate to create wallet page when go_to_create_wallet is clicked', () => {
@@ -87,11 +76,5 @@ describe('SuccessRemoveWalletPage', () => {
     const closeButton = fixture.debugElement.query(By.css("ion-button[name='go_to_import_wallet']"));
     closeButton.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/create-first/disclaimer/import']);
-  });
-
-  it('should navigate to home when go_to_home is clicked', () => {
-    const closeButton = fixture.debugElement.query(By.css("ion-button[name='go_to_home']"));
-    closeButton.nativeElement.click();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['tabs/home']);
   });
 });

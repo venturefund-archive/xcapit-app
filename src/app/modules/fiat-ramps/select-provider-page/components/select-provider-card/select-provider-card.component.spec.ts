@@ -9,6 +9,11 @@ import { SelectProviderCardComponent } from './select-provider-card.component';
 import { rawProvidersData } from '../../../shared-ramps/fixtures/raw-providers-data';
 import { Providers } from '../../../shared-ramps/models/providers/providers.interface';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
+import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay-price/factory/default-moonpay-price-factory';
+import { DefaultMoonpayPrice } from '../../../shared-ramps/models/moonpay-price/default-moonpay-price';
+import { of } from 'rxjs';
+import { FiatRampsService } from '../../../shared-ramps/services/fiat-ramps.service';
+
 
 const maticCoin: Coin = {
   id: 8,
@@ -43,6 +48,9 @@ fdescribe('SelectProviderCardComponent', () => {
   let controlContainerMock: UntypedFormGroup;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
+  let moonpayPriceFactorySpy: jasmine.SpyObj<DefaultMoonpayPriceFactory>
+  let moonpayPrice: jasmine.SpyObj<DefaultMoonpayPrice>
+  let fiatRampsServiceSpy : jasmine.SpyObj<FiatRampsService>
 
   beforeEach(
     waitForAsync(() => {
@@ -62,6 +70,11 @@ fdescribe('SelectProviderCardComponent', () => {
         ),
       });
 
+      fiatRampsServiceSpy= jasmine.createSpyObj('FiatRampsService',{ getMoonpayQuotation: of({ ARG: 1 }) })
+
+      moonpayPrice = jasmine.createSpyObj('DefaultMoonpayPrice',{value: of(2)})
+      moonpayPriceFactorySpy = jasmine.createSpyObj('DefaultMoonpayPriceFactory', {new: moonpayPrice})
+
       providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
         create: providersSpy,
       });
@@ -76,6 +89,8 @@ fdescribe('SelectProviderCardComponent', () => {
         providers: [
           { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
+          { provide: DefaultMoonpayPriceFactory, useValue: moonpayPriceFactorySpy},
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy}
         ],
       }).compileComponents();
 

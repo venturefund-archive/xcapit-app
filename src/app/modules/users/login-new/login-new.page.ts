@@ -10,6 +10,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { LoginPasswordInfoComponent } from '../shared-users/components/login-password-info/login-password-info.component';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { VerifyResult } from 'src/app/shared/models/biometric-auth/verify-result.interface';
+import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
+import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 
 @Component({
   selector: 'app-login-new',
@@ -33,6 +36,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
               [textClass]="'info'"
               [infoIcon]="true"
               (infoIconClicked)="this.showPasswordInfoModal()"
+              [labelColor]="'white'"
             ></app-ux-input>
           </div>
           <div class="ul__login-button">
@@ -86,7 +90,7 @@ export class LoginNewPage {
   form: UntypedFormGroup = this.formBuilder.group({
     password: ['', []],
   });
-  biometricAuth = this.biometricAuthInjectable.create();
+  biometricAuth: BiometricAuth;
   constructor(
     private toastService: ToastService,
     private formBuilder: UntypedFormBuilder,
@@ -95,10 +99,12 @@ export class LoginNewPage {
     private translate: TranslateService,
     private modalController: ModalController,
     private biometricAuthInjectable: BiometricAuthInjectable,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private walletBackupService: WalletBackupService
   ) {}
 
   ionViewWillEnter() {
+    this.biometricAuth = this.biometricAuthInjectable.create();
     this.activateBiometricAuth();
     this.trackService.trackEvent({
       eventAction: 'screenview',
@@ -112,17 +118,24 @@ export class LoginNewPage {
   }
 
   async activateBiometricAuth() {
-    if ((await this.biometricAuth.enabled()) && (await this.biometricAuth.verified())) {
+    const verifyResult: VerifyResult = await this.biometricAuth.verified();
+    if ((await this.biometricAuth.enabled()) && verifyResult.verified) {
       this.handleSubmit(true);
+    }
+    if ((await this.biometricAuth.enabled()) && verifyResult.message === 'Authentication failed.') {
+      this.toastService.showInfoToast({
+        message: this.translate.instant('users.login_new.error_biometric_auth'),
+        duration: 5000,
+      });
+      this.biometricAuth.off();
     }
   }
 
   async handleSubmit(isBiometricAuth: boolean) {
-    const password = isBiometricAuth
-      ? await this.biometricAuth.password()
-      : this.form.value.password;
+    const password = isBiometricAuth ? await this.biometricAuth.password() : this.form.value.password;
     if (await new LoginToken(new Password(password), this.storage).valid()) {
       await new LoggedIn(this.storage).save(true);
+      await this.checkWalletProtected();
       this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
     } else {
       this.toastService.showErrorToast({
@@ -130,6 +143,14 @@ export class LoginNewPage {
         duration: 8000,
       });
     }
+  }
+
+  async checkWalletProtected() {
+    this.storage.get('protectedWallet').then((protectedWallet) => {
+      if (!protectedWallet) {
+        this.walletBackupService.enableModal();
+      }
+    });
   }
 
   async showPasswordInfoModal() {

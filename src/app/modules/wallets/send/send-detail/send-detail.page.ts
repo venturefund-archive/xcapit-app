@@ -43,6 +43,8 @@ import { CovalentBalancesController } from '../../shared-wallets/models/balances
 import { TokenPricesController } from '../../shared-wallets/models/prices/token-prices/token-prices.controller';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
+import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
 
 @Component({
   selector: 'app-send-detail',
@@ -135,15 +137,11 @@ import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet'
   styleUrls: ['./send-detail.page.scss'],
 })
 export class SendDetailPage {
-  private activeBlockchain: Blockchain;
-  private nativeToken: Token;
   tplNativeToken: RawToken;
   tplBlockchain: RawBlockchain;
   destroy$ = new Subject<void>();
-  private priceRefreshInterval = 15000;
   alertType = UX_ALERT_TYPES.warning;
   token: Coin;
-  private tokenObj: Token;
   balance: number;
   nativeBalance: number;
   amount: number;
@@ -158,6 +156,10 @@ export class SendDetailPage {
   tplTokenSolana: RawToken;
   tokenDetail: TokenDetail;
   private wallet: Wallet;
+  private tokenObj: Token;
+  private nativeToken: Token;
+  private blockchain: Blockchain;
+  private priceRefreshInterval = 15000;
 
   url: string;
   form: UntypedFormGroup = this.formBuilder.group({
@@ -185,7 +187,8 @@ export class SendDetailPage {
     private gasStation: GasStationOfFactory,
     private tokenDetailInjectable: TokenDetailInjectable,
     private covalentBalancesFactory: CovalentBalancesController,
-    private tokenPricesFactory: TokenPricesController
+    private tokenPricesFactory: TokenPricesController,
+    private solanaFeeOf: SolanaFeeOfInjectable
   ) {}
 
   async ionViewDidEnter() {
@@ -194,28 +197,27 @@ export class SendDetailPage {
     await this.setTokens();
     await this.setWallet();
     await this.setTokenDetail();
-    await this.checkIfSolana();
+    await this.setAddressValidator();
     this.getPrices();
     this.setUrlToBuyCrypto();
     await this.tokenBalances();
   }
 
-  async checkIfSolana() {
-    if (this.activeBlockchain.name() !== 'SOLANA') {
-      this.form.get('address').addValidators(CustomValidators.isAddress());
-    } else {
+  async setAddressValidator() {
+    if (this._isSolana()) {
       this.form.get('address').addValidators(CustomValidators.isAddressSolana());
-      await this.setAllFeeData();
+    } else {
+      this.form.get('address').addValidators(CustomValidators.isAddress());
     }
   }
 
   private gasPrice(): Promise<AmountOf> {
-    return this.gasStation.create(this.activeBlockchain).price().standard();
+    return this.gasStation.create(this.blockchain).price().standard();
   }
 
   private setBlockchain(aBlockchainName: string) {
-    this.activeBlockchain = this.blockchains.create().oneByName(aBlockchainName);
-    this.tplBlockchain = this.activeBlockchain.json();
+    this.blockchain = this.blockchains.create().oneByName(aBlockchainName);
+    this.tplBlockchain = this.blockchain.json();
   }
 
   private getPrices(): void {
@@ -254,16 +256,16 @@ export class SendDetailPage {
   }
 
   private async userWallet(): Promise<string> {
-    return await this.storageService.getWalletsAddresses(this.activeBlockchain.name());
+    return await this.storageService.getWalletsAddresses(this.blockchain.name());
   }
 
   private async setTokens() {
     this.tokenObj = await new TokenByAddress(
       this.route.snapshot.paramMap.get('token'),
-      new BlockchainTokens(this.activeBlockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
+      new BlockchainTokens(this.blockchain, new DefaultTokens(new TokenRepo(this.apiWalletService.getCoins())))
     ).value();
     this.token = this.tokenObj.json();
-    this.nativeToken = this.activeBlockchain.nativeToken();
+    this.nativeToken = this.blockchain.nativeToken();
     this.tplNativeToken = this.nativeToken.json();
     this.dynamicFee.token = this.nativeToken.symbol();
   }
@@ -274,17 +276,18 @@ export class SendDetailPage {
   }
 
   private async setWallet() {
-    this.wallet = await this.walletsFactory.create().oneBy(this.activeBlockchain);
+    this.wallet = await this.walletsFactory.create().oneBy(this.blockchain);
   }
 
   private async tokenDetailOf(aToken: Token) {
     const tokenDetail = this.tokenDetailInjectable.create(
       this.covalentBalancesFactory.new(this.wallet.address(), new FixedTokens([aToken])),
       this.tokenPricesFactory.new(new FixedTokens([aToken])),
-      (await new FixedTokens([aToken]).value())[0]
+      aToken
     );
     await tokenDetail.cached();
     await tokenDetail.fetch();
+
     return tokenDetail;
   }
 
@@ -297,7 +300,7 @@ export class SendDetailPage {
       await this.checkEnoughBalance();
     } else {
       this.balance = this.tokenDetail.balance;
-      this.nativeBalance = (await this.tokenDetailOf(this.activeBlockchain.nativeToken())).balance;
+      this.nativeBalance = (await this.tokenDetailOf(this.blockchain.nativeToken())).balance;
     }
     this.addLowerThanValidator();
   }
@@ -321,23 +324,14 @@ export class SendDetailPage {
   }
 
   private async setAllFeeData(): Promise<void> {
-    if (this.activeBlockchain.name() !== 'SOLANA') {
-      this.loadingFee();
-      await this.setFee();
-      this.dynamicFee = { value: this.fee, token: this.nativeToken.symbol() };
-    } else {
-      this.dynamicFee = { value: 0, token: this.nativeToken.symbol() };
-      this.fee = 0;
-    }
+    this.loadingFee();
+    await this.setFee();
+    this.dynamicFee = { value: this.fee, token: this.nativeToken.symbol() };
     this.getQuoteFee();
   }
 
   private getQuoteFee(): void {
-    if (this.activeBlockchain.name() !== 'SOLANA') {
-      this.quoteFee.value = this.nativeTokenPrice * this.fee;
-    } else {
-      this.quoteFee.value = 1;
-    }
+    this.quoteFee.value = this.nativeTokenPrice * this.fee;
   }
 
   private resetFee() {
@@ -357,6 +351,25 @@ export class SendDetailPage {
   }
 
   private async estimatedGas(): Promise<number> {
+    return this._isSolana() ? await this._estimatedSolanaFee() : await this._estimatedFee();
+  }
+
+  private _isSolana(): boolean {
+    return this.blockchain.name() === 'SOLANA';
+  }
+
+  private async _estimatedSolanaFee(): Promise<number> {
+    return this.form.value.address ? await this.solanaFeeOf.create(
+      new SolanaNativeSendTx(
+        await this.walletsFactory.create().oneBy(this.blockchain),
+        this.form.value.address,
+        this.form.value.amount
+      ),
+      this.blockchain
+    ).value() : 0;
+  }
+
+  private async _estimatedFee(): Promise<number> {
     return this.token.native
       ? (await (await this.estimatedNativeGas()).value()).toNumber()
       : (await (await this.estimatedNonNativeGas()).value()).toNumber();
@@ -389,7 +402,7 @@ export class SendDetailPage {
 
   private async saveTransactionData() {
     this.transactionDataService.transactionData = {
-      network: this.activeBlockchain.name(),
+      network: this.blockchain.name(),
       currency: this.token,
       address: this.form.value.address,
       amount: this.form.value.amount,

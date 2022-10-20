@@ -107,7 +107,8 @@ describe('RemoveWalletPage', () => {
     expect(queueServiceSpy.dequeueAll).toHaveBeenCalledTimes(1);
     expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['wallets/remove/success']);
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('protectedWallet', false);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', false);
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('loggedIn', false);
     expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
   });
 });

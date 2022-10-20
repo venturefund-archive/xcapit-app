@@ -28,6 +28,7 @@ import CeilOf from 'src/app/shared/models/ceil-of/ceil-of';
 import { DynamicDirectaPrice } from '../shared-ramps/models/directa-price/dynamic-directa-price';
 import { DefaultDirectaPrice } from '../shared-ramps/models/directa-price/default-directa-price';
 import { DynamicDirectaPriceFactory } from '../shared-ramps/models/directa-price/factory/dynamic-directa-price-factory';
+import { D24_PAYMENT_TYPES } from '../shared-ramps/constants/payment-types';
 
 @Component({
   selector: 'app-directa',
@@ -54,6 +55,7 @@ import { DynamicDirectaPriceFactory } from '../shared-ramps/models/directa-price
             [coinSelectorEnabled]="false"
             [minimumFiatAmount]="this.minimumFiatAmount"
             [fee]="this.fee"
+            [paymentType]="this.paymentType"
           ></app-provider-new-operation-card>
         </div>
       </form>
@@ -88,6 +90,7 @@ export class DirectaPage implements OnInit {
     cryptoAmount: ['', Validators.required],
     fiatAmount: ['', Validators.required],
   });
+  paymentType: string;
   provider: FiatRampProvider;
   countries = COUNTRIES;
   selectedCurrency: Coin;
@@ -129,6 +132,7 @@ export class DirectaPage implements OnInit {
     this.setCryptoToken();
     this.cryptoPrice();
     this.usdCryptoPrice();
+    this.setPaymentType();
     this.subscribeToFormChanges();
   }
 
@@ -136,6 +140,12 @@ export class DirectaPage implements OnInit {
     this.country = this.countries.find(
       (country) => country.isoCodeAlpha3 === this.tokenOperationDataService.tokenOperationData.country
     );
+  }
+
+  async setPaymentType() {
+    const availableDirectaProviders = await this.getProviders().availableDirectaProviders(this.country).toPromise();
+    const paymentType = availableDirectaProviders.find((provider) => provider.code === this.provider.alias).paymentType;
+    this.paymentType = D24_PAYMENT_TYPES[paymentType];
   }
 
   setFiatToken() {
@@ -170,7 +180,7 @@ export class DirectaPage implements OnInit {
   }
 
   webhookURL(): string {
-    return `${this.envService.byKey('apiUrl')}/on_off_ramps/directa/deposit_link`;
+    return `${this.envService.byKey('apiUrl')}/on_off_ramps/directa/update_status`;
   }
 
   async depositData(): Promise<DirectaDepositCreationData> {
@@ -200,7 +210,7 @@ export class DirectaPage implements OnInit {
     await this.addBoughtCoinIfUserDoesNotHaveIt();
   }
 
-  getProviders(): Providers {
+  getProviders(): Providers  {
     return this.providers.create();
   }
 

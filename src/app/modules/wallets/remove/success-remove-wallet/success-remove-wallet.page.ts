@@ -5,7 +5,7 @@ import { NavController } from '@ionic/angular';
   selector: 'app-success-remove-wallet',
   template: ` <ion-content class="srw ion-padding-start ion-padding-end">
     <div class="srw__button_content">
-      <ion-button class="srw__close_button" appTrackClick fill="clear" name="close" (click)="this.goToHome()">
+      <ion-button class="srw__close_button" appTrackClick fill="clear" name="close" (click)="this.goToOnboarding()">
         <ion-icon class="srw__close_button__icon" name="ux-close" color="neutral80"></ion-icon>
       </ion-button>
     </div>
@@ -45,16 +45,6 @@ import { NavController } from '@ionic/angular';
             >
               {{ 'wallets.remove_success.import_button' | translate }}
             </ion-button>
-            <ion-button
-              class="ux-link-xl"
-              name="go_to_home"
-              type="button"
-              fill="clear"
-              (click)="this.goToHome()"
-              appTrackClick
-            >
-              {{ 'wallets.remove_success.home_link' | translate }}
-            </ion-button>
           </div>
         </div>
       </div>
@@ -75,7 +65,7 @@ export class SuccessRemoveWalletPage implements OnInit {
     this.navController.navigateForward(['/wallets/create-first/disclaimer/import']);
   }
 
-  goToHome() {
-    this.navController.navigateBack(['tabs/home']);
+  goToOnboarding() {
+    this.navController.navigateBack('/users/on-boarding');
   }
 }

@@ -31,7 +31,7 @@ import { InvestmentMovement } from '../../wallets/shared-wallets/interfaces/inve
         }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content>
+    <ion-content [style]="this.contentFixedStyle">
       <div class="dp__subheader">
         <div class="dp__subheader__title ux-font-num-subtitulo">
           <ion-text>
@@ -145,7 +145,7 @@ import { InvestmentMovement } from '../../wallets/shared-wallets/interfaces/inve
 export class DefiInvestmentProductsPage {
   defiProducts: DefiProduct[];
   address: string;
-  totalInvested: number;
+  totalInvested = 0;
   allDefiProducts: DefiInvestment[] = [];
   investorCategory: string;
   disableFaqsButton = true;
@@ -183,6 +183,7 @@ export class DefiInvestmentProductsPage {
   tokenPrice: number;
   usdYield: RawAmount;
   balance: number;
+  contentFixedStyle = 'display: none';
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -207,6 +208,7 @@ export class DefiInvestmentProductsPage {
   }
 
   cleanValues() {
+    this.totalInvested = 0;
     this.allLoaded = false;
     this.profileForm.get('profile').setValue('conservative');
   }
@@ -217,7 +219,8 @@ export class DefiInvestmentProductsPage {
   }
 
   async ionViewDidEnter() {
-    this.getUserWalletAddress();
+    this.contentFixedStyle = 'display: inherit';
+    await this.getUserWalletAddress();
     this.getAvailableDefiProducts();
     await this.getInvestments();
     this.filterByInvestorCategory(this.profileForm.value.profile);
@@ -229,18 +232,6 @@ export class DefiInvestmentProductsPage {
   private async getUserWalletAddress() {
     const wallet = await this.storageService.getWalletFromStorage();
     if (wallet) this.address = wallet.addresses.MATIC;
-  }
-
-  calculatedTotalBalanceInvested(product: InvestmentProduct) {
-    this.totalInvested = 0;
-    this.graphql.getInvestedBalance(this.address, product.id()).subscribe(({ data }) => {
-      if (data.flows[0]) {
-        const balanceUSD = parseFloat(data.flows[0].balanceUSD);
-        this.totalInvested += balanceUSD;
-      }
-    });
-    this.getAllMovements(product.id());
-    this.getPrice(product.token());
   }
 
   getAllMovements(pid: number) {
@@ -328,6 +319,17 @@ export class DefiInvestmentProductsPage {
       });
     }
     this.allDefiProducts = this.availableInvestments = investmentsProducts;
+  }
+
+  calculatedTotalBalanceInvested(product: InvestmentProduct) {
+    this.graphql.getInvestedBalance(this.address, product.id()).subscribe(({ data }) => {
+      if (data.flows[0]) {
+        const balanceUSD = parseFloat(data.flows[0].balanceUSD);
+        this.totalInvested += balanceUSD;
+      }
+    });
+    this.getAllMovements(product.id());
+    this.getPrice(product.token());
   }
 
   async setBalance() {

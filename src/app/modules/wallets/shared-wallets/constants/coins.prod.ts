@@ -331,6 +331,7 @@ export const PROD_COINS: Coin[] = [
     abi: linkAbi,
     decimals: 6,
     symbol: 'USDCUSDT',
+    canInvest: true,
   },
   {
     id: 25,
@@ -359,6 +360,7 @@ export const PROD_COINS: Coin[] = [
     contract: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
     decimals: 18,
     symbol: 'USDTDAI',
+    canInvest: true,
   },
   {
     id: 27,
@@ -387,5 +389,6 @@ export const PROD_COINS: Coin[] = [
     contract: '0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6',
     decimals: 8,
     symbol: 'BTCUSDT',
+    canInvest: true,
   },
 ];

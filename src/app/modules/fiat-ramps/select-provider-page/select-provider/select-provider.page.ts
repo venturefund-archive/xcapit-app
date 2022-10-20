@@ -84,9 +84,11 @@ export class SelectProviderPage {
     this.getProviders();
     if (this.kriptonEnabled()) this.getOperations();
   }
+
   ionViewDidEnter() {
     this.checkSelectedCountry();
   }
+
   checkSelectedCountry() {
     if (this.tokenOperationDataService.tokenOperationData.country)
       this.form
@@ -123,6 +125,7 @@ export class SelectProviderPage {
   goToRoute() {
     this.tokenOperationDataService.tokenOperationData.country = this.form.value.country.isoCodeAlpha3;
     this.navController.navigateForward([this.newOperationRoute]);
+    
   }
 
   resetForm() {
@@ -131,5 +134,5 @@ export class SelectProviderPage {
 
   getProviders() {
     this.providers = this.providersFactory.create().all();
-  }
-}
+  } 
+} 

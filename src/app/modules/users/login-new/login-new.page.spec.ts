@@ -14,7 +14,7 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { FakeBiometricAuth } from 'src/app/shared/models/biometric-auth/fake/fake-biometric-auth';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-
+import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -30,15 +30,17 @@ describe('LoginNewPage', () => {
   let fakeModalController: FakeModalController;
   let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
 
   beforeEach(waitForAsync(() => {
     biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
-      create: new FakeBiometricAuth()
+      create: new FakeBiometricAuth(),
     });
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showErrorToast: Promise.resolve(),
+      showInfoToast: Promise.resolve(),
       dismiss: Promise.resolve(),
     });
     fakeNavController = new FakeNavController();
@@ -50,8 +52,10 @@ describe('LoginNewPage', () => {
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
+
+    walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', { enableModal: Promise.resolve() });
     TestBed.configureTestingModule({
-      declarations: [LoginNewPage,  FakeTrackClickDirective],
+      declarations: [LoginNewPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
       providers: [
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
@@ -60,6 +64,7 @@ describe('LoginNewPage', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: WalletBackupService, useValue: walletBackupServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -74,10 +79,17 @@ describe('LoginNewPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should login with biometric auth when is enabled', fakeAsync (() => {
+  it('should login with biometric auth when is enabled', fakeAsync(() => {
     biometricAuthInjectableSpy.create.and.returnValue(
-      new FakeBiometricAuth(Promise.resolve(true), Promise.resolve(true), Promise.resolve(true), null, Promise.resolve(aPassword))
+      new FakeBiometricAuth(
+        Promise.resolve(true),
+        Promise.resolve(true),
+        Promise.resolve({ verified: true }),
+        null,
+        Promise.resolve(aPassword)
+      )
     );
+
     component.ionViewWillEnter();
     tick();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets', { replaceUrl: true });
@@ -101,7 +113,6 @@ describe('LoginNewPage', () => {
       duration: 8000,
     });
   });
-
 
   it('should dismiss modal when input is clicked', () => {
     fixture.debugElement.query(By.css('app-ux-input[controlName="password"]')).nativeElement.click();
@@ -130,16 +141,39 @@ describe('LoginNewPage', () => {
 
     expect(spy).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/users/recovery-info');
-  });  
+  });
 
   it('should show informative password modal when info button is clicked', async () => {
     fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('infoIconClicked', undefined);
     fixture.detectChanges();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
-  
+
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
+
+  it('should enable modal when no protected wallet', async () => {
+    ionicStorageServiceSpy.get.withArgs('protectedWallet').and.returnValue(Promise.resolve(false));
+    component.form.patchValue({ password: aPassword });
+
+    await component.handleSubmit(false);
+    expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
+  });
+
+  it('show info toast when biometric auth is incorrect three times', fakeAsync(() => {
+    biometricAuthInjectableSpy.create.and.returnValue(
+      new FakeBiometricAuth(
+        null,
+        Promise.resolve(true),
+        Promise.resolve({ verified: false, message: 'Authentication failed.' }),
+        null,
+        null
+      )
+    );
+    component.ionViewWillEnter();
+    tick();
+    expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
+  }));
 });

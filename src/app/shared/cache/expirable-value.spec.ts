@@ -1,4 +1,4 @@
-import { asyncDelay } from "src/testing/async-delay.spec";
+import { fakeAsync, tick } from "@angular/core/testing";
 import { ExpirableValue } from "./expirable-value";
 
 
@@ -19,17 +19,19 @@ describe('ExpirableValue', () => {
     expect(value.value()).toEqual(aValue);
   });
 
-  it('return null value on expired', async () => {
-    await asyncDelay(101);
+  it('return null value on expired', fakeAsync(() => {
+    value = new ExpirableValue(aValue, ttlInSeconds);
+    tick(150);
 
     expect(value.expired()).toBeTrue();
     expect(value.value()).toEqual(null);
-  });
+  }));
 
-  it('return value on not expired', async () => {
-    await asyncDelay(10);
+  it('return value on not expired', fakeAsync(() => {
+    value = new ExpirableValue(aValue, ttlInSeconds);
+    tick(10);
 
     expect(value.expired()).toBeFalse();
     expect(value.value()).toEqual(aValue);
-  });
+  }));
 });

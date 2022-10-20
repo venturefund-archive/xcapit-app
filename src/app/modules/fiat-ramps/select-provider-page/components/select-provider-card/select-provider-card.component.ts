@@ -9,6 +9,7 @@ import { FiatRampsService } from '../../../shared-ramps/services/fiat-ramps.serv
 import { HttpClient } from '@angular/common/http';
 import { DefaultDirectaPriceFactory } from '../../../shared-ramps/models/directa-price/factory/default-directa-price-factory';
 import { DefaultKriptonPriceFactory } from '../../../shared-ramps/models/kripton-dynamic-price/factory/default-kripton-price-factory';
+import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay-price/factory/default-moonpay-price-factory';
 
 @Component({
   selector: 'app-select-provider-card',
@@ -81,6 +82,7 @@ export class SelectProviderCardComponent implements OnInit {
     private providersFactory: ProvidersFactory,
     private directaPriceFactory: DefaultDirectaPriceFactory,
     private kriptonPriceFactory: DefaultKriptonPriceFactory,
+    private moonpayFactory: DefaultMoonpayPriceFactory,
     private http: HttpClient,
     private fiatRampsService: FiatRampsService
   ) {}

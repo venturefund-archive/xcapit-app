@@ -8,7 +8,7 @@ import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interfa
 import { ProviderDataRepo } from '../../provider-data-repo/provider-data-repo';
 import { Providers } from '../providers.interface';
 
-export class DefaultProviders implements Providers{
+export class DefaultProviders implements Providers {
   constructor(
     private readonly dataRepo: ProviderDataRepo,
     private readonly http: HttpClient | FakeHttpClient,
@@ -36,7 +36,7 @@ export class DefaultProviders implements Providers{
     return this.all().find((provider) => provider.alias === anAlias);
   }
 
-  private availableDirectaProviders(aCountry: FiatRampProviderCountry): Observable<any> {
+  public availableDirectaProviders(aCountry: FiatRampProviderCountry): Observable<any> {
     return this.http.get(`${this.env.directa24Url}payment_methods?country=${aCountry.directaCode}`, {
       headers: { Authorization: `Bearer ${this.env.directa24ApiKey}` },
     });

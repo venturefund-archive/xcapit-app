@@ -76,4 +76,8 @@ export class ApiWalletService {
   getGasPrice() {
     return this.http.get(`${environment.apiUrl}/${this.entity}/gas_price`, undefined, undefined, false);
   }
+  
+  getInitialTokens(): Coin[] {
+    return this.getCoins().filter((coin) => coin.native || coin.canInvest);
+  }
 }

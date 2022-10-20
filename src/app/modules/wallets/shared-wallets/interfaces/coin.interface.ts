@@ -15,5 +15,6 @@ export interface Coin {
   selected?: boolean;
   native?: boolean;
   symbol?: string;
+  canInvest?: boolean;
   moonpayCode?: string;
 }

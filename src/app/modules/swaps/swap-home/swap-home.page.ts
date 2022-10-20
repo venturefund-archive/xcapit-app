@@ -47,6 +47,8 @@ import { OneInchBlockchainsOfFactory } from '../shared-swaps/models/one-inch-blo
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { Observable, Subject } from 'rxjs';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
+import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
+import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-swap-home',
@@ -228,7 +230,7 @@ export class SwapHomePage {
   private priceRefreshInterval = 15000;
   destroy$ = new Subject<void>();
   swapBalance = 0;
-  feeBalance  = 0;
+  feeBalance = 0;
   loadingBtn: boolean;
   disabledBtn: boolean;
   tplBlockchain: RawBlockchain;
@@ -273,7 +275,8 @@ export class SwapHomePage {
     private toastService: ToastService,
     private translate: TranslateService,
     private oneInchBlockchainsOf: OneInchBlockchainsOfFactory,
-    private dynamicPriceFactory: DynamicPriceFactory
+    private dynamicPriceFactory: DynamicPriceFactory,
+    private storage: IonicStorageService
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -472,7 +475,17 @@ export class SwapHomePage {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     this.setMainButtonToLoading();
-    return new Password(data).value();
+    const password = new Password(data);
+    if (await this.validPassword(password)) {
+      this.showSwapInProgressModal();
+    } else {
+      throw new Error(new PasswordErrorMsgs().invalid());
+    }
+    return password.value();
+  }
+
+  private validPassword(password: Password) {
+    return new LoginToken(password, this.storage).valid();
   }
 
   private setMainButtonToLoading() {
@@ -491,12 +504,9 @@ export class SwapHomePage {
     this.disableMainButton();
     const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());
-    wallet.onDecryptedWallet().subscribe(() => this.showSwapInProgressModal());
     wallet
       .sendTxs(await this.swapTxs(wallet).blockchainTxs())
-      .then(() => {
-        this.notifyWhenSwap(this.createNotification('swap_ok'));
-      })
+      .then(() => this.notifyWhenSwap(this.createNotification('swap_ok')))
       .catch((err: Error) => {
         this.handleError(err);
         this.resetMainButton();
@@ -533,7 +543,7 @@ export class SwapHomePage {
       'wallets/token-detail/blockchain',
       this.activeBlockchain.name,
       'token',
-      this.toToken.symbol()
+      this.toToken.symbol(),
     ]);
   }
 
