@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent, NavController } from '@ionic/angular';
+import { IonAccordionGroup, IonContent, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
@@ -175,11 +175,9 @@ import { WalletConnectService } from '../shared-wallets/services/wallet-connect/
               <app-new-token-available-card *ngFor="let newToken of this.newTokens" [newToken]="newToken">
               </app-new-token-available-card>
             </div>
-            <app-wallet-balance-card-item
-              *ngFor="let tokenDetail of this.tokenDetails; let last = last"
-              [tokenDetail]="tokenDetail"
-              [last]="last"
-            ></app-wallet-balance-card-item>
+            <div *ngIf="this.tokenDetails.length > 0">
+              <app-accordion-tokens [tokenDetails]="tokenDetails"> </app-accordion-tokens>
+            </div>
           </div>
         </div>
       </div>
@@ -196,8 +194,8 @@ import { WalletConnectService } from '../shared-wallets/services/wallet-connect/
         </ion-button>
       </div>
       <div class="quotes-card" *appFeatureFlag="'ff_newLogin'">
-          <app-quotes-card></app-quotes-card>
-        </div>
+        <app-quotes-card></app-quotes-card>
+      </div>
       <div class="wt__start-investing" *ngIf="this.walletExist">
         <app-start-investing></app-start-investing>
       </div>
@@ -208,10 +206,15 @@ export class HomeWalletPage implements OnInit {
   walletExist: boolean;
   hideFundText: boolean;
   protectedWallet: boolean;
+  lessThanFourTokens: boolean;
   tokenDetails: TokenDetail[] = [];
   userTokens: Coin[];
+  firstTokenDetails;
+  remainingTokenDetails;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
+  openedAccordion: boolean;
+  @ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
   @ViewChild(IonContent, { static: true }) content: IonContent;
   segmentsForm: UntypedFormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
@@ -225,6 +228,7 @@ export class HomeWalletPage implements OnInit {
   pids = [];
   newTokens: NewToken[];
   connected: boolean;
+
   constructor(
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
