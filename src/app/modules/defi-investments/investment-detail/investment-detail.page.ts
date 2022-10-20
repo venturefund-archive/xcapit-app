@@ -229,7 +229,7 @@ export class InvestmentDetailPage implements OnInit {
         res[1].data.flows,
         this.token.value,
         res[0].prices[this.token.value],
-        this.token.decimals
+        this.investmentProduct.decimals()
       );
       this.yield = calculator.cumulativeYield();
       this.usdYield = calculator.cumulativeYieldUSD();

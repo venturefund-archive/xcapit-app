@@ -166,7 +166,6 @@ describe('InvestmentDetailPage', () => {
         name: 'USDC - USD Coin',
         value: 'USDC',
         network: 'MATIC',
-        decimals: 6,
       }
     );
 
@@ -175,6 +174,7 @@ describe('InvestmentDetailPage', () => {
       token: coinSpy,
       contractAddress: '0x00001',
       name: 'polygon_usdc',
+      decimals: 6,
     });
 
     availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
