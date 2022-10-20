@@ -9,7 +9,7 @@ import { SelectModalNewComponent } from '../select-modal-new/select-modal-new.co
     <div [appSelectStyle]="this.selectorStyle">
       <div class="uxselect">
         <ion-label class="ux-font-titulo-xs" color="primary">{{ this.label }}</ion-label>
-        <ion-item (click)="this.openModal()" [disabled]="this.isOpen" class="ux-font-text-base uxselect__item">
+        <ion-item (click)="this.openModal()" [disabled]="this.isOpen" class="uxselect__item">
           <img
             *ngIf="this.imageKey"
             class="uxselect__item__logo"
@@ -64,6 +64,7 @@ export class InputSelectComponent implements OnInit {
   @Input() imageKey: string;
   @Input() selectorStyle = 'classic';
   @Input() translated = false;
+  @Input() selected: string;
   constructor(private modalController: ModalController, private formGroupDirective: FormGroupDirective) {}
 
   ngOnInit() {

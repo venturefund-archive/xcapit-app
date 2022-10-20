@@ -2531,7 +2531,22 @@
         "label_floor": "Piso (opcional)",
         "label_apartment": "Dpto (opcional)",
         "label_city": "Ciudad",
-        "label_zip_code": "Código postal",
+        "label_zip_code": "Código postal"
+      },
+      "user_personal_information":{
+        "header": "Cargar datos",
+        "provider": "Proveedor: Kripton Market",
+        "title": "😎 Ya casi terminamos",
+        "subtitle": "Ingresa tus datos personales",
+        "general_placeholder": "Selecciona una opción",
+        "label_nationality": "Nacionalidad",
+        "label_document": "Documento",
+        "placeholder_document": "Tipo",
+        "modal_title_document": "Tipo de documento",
+        "label_gender": "Género",
+        "label_marital_status": "Estado civil",
+        "label_country_code": "Código de país",
+        "label_phone": "Teléfono",
         "button": "Continuar"
       }
     }
