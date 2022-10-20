@@ -4,7 +4,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { HasAcceptedBuyConditionsGuard } from './has-accepted-buy-conditions.guard';
 
-fdescribe('HasAcceptedBuyConditionsGuard', () => {
+describe('HasAcceptedBuyConditionsGuard', () => {
   let guard: HasAcceptedBuyConditionsGuard;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>; 
   let navControllerSpy: jasmine.SpyObj<NavController>;

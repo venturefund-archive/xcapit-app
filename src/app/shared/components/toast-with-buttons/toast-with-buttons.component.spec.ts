@@ -21,6 +21,7 @@ const dataTest = {
   native: true,
 };
 
+// TODO: TEST THIS
 describe('ToastWithButtonsComponent', () => {
   let component: ToastWithButtonsComponent;
   let fixture: ComponentFixture<ToastWithButtonsComponent>;
@@ -48,8 +49,9 @@ describe('ToastWithButtonsComponent', () => {
 
       fixture = TestBed.createComponent(ToastWithButtonsComponent);
       component = fixture.componentInstance;
+      // component.firstButtonName = 'test';
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      component.data = dataTest;
+      // component.data = dataTest;
       fixture.detectChanges();
     })
   );
@@ -57,6 +59,8 @@ describe('ToastWithButtonsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should hide primary button if no action');
 
   it('should call trackEvent on trackService when first_action Button clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'first_action');
@@ -84,7 +88,7 @@ describe('ToastWithButtonsComponent', () => {
   });
 
   it('should navigate to moonpay page and close modal', async () => {
-    component.firstLink = '/test/firstLink'
+    // component.firstLink = '/test/firstLink'
     fixture.debugElement.query(By.css('ion-button[name="first_action"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -93,7 +97,7 @@ describe('ToastWithButtonsComponent', () => {
   });
 
   it('should navigate to receive page and close modal', async () => {
-    component.secondLink = '/test/secondLink'
+    // component.secondLink = '/test/secondLink'
     const navigationExtras: NavigationExtras = {
       queryParams: {
         asset: 'MATIC',

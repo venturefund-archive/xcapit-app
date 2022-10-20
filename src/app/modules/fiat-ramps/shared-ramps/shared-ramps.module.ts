@@ -15,6 +15,7 @@ import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-moda
 import { UserRegisterStepCardComponent } from './components/user-register-step-card/user-register-step-card.component';
 import { ValidationContentComponent } from './components/validation-content/validation-content.component';
 import { ConfirmationContentComponent } from './components/confirmation-content/confirmation-content.component';
+import { BuyOrDepositTokenToastComponent } from './components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ConfirmationContentComponent } from './components/confirmation-content/
     SkipTransactionVoucherComponent,
     UserRegisterStepCardComponent,
     ValidationContentComponent,
-    ConfirmationContentComponent
+    ConfirmationContentComponent,
+    BuyOrDepositTokenToastComponent,
   ],
   imports: [SharedModule],
   exports: [
