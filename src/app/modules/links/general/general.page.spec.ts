@@ -59,17 +59,21 @@ describe('GeneralPage', () => {
   });
 
   it('should create the iOS URL Scheme when is an iOS platform', async () => {
+    const spy = spyOn(component, 'redirectToUrl');
     platformSpy.is.and.returnValue(true);
     fixture.debugElement.query(By.css('ion-button[name="link_redirect"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(component.appURL).toEqual('xcapitApp://links/wc?uri=wc:test-url')
+    expect(component.appURL).toEqual('xcapitApp://links/wc?uri=wc:test-url');
+    expect(spy).toHaveBeenCalledWith('xcapitApp://links/wc?uri=wc:test-url');
   });
 
   it('should create the android URL Scheme when is an android platform', async () => {
+    const spy = spyOn(component, 'redirectToUrl');
     platformSpy.is.and.returnValue(false);
     fixture.debugElement.query(By.css('ion-button[name="link_redirect"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(component.appURL).toEqual('wc:test-url')
+    expect(component.appURL).toEqual('wc:test-url');
+    expect(spy).toHaveBeenCalledWith('wc:test-url');
   });
 
   it('should open app store url when download button is clicked and is an iOS platform', async () => {

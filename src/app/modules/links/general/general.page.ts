@@ -73,7 +73,11 @@ export class GeneralPage implements OnInit {
       this.appURL = path.split('?uri=').pop();
     }
 
-    document.location.href = this.appURL;
+    this.redirectToUrl(this.appURL);
+  }
+
+  redirectToUrl(url: string) {
+    document.location.href = url;
   }
 
   redirectToStore() {
