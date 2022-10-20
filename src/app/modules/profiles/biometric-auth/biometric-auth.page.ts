@@ -35,7 +35,7 @@ import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/pass
           <ion-toggle
             formControlName="biometric"
             name="ux_create_all"
-            class="ux-toggle ion-no-padding"
+            class="ba__toggle__toggle ux-toggle ion-no-padding"
             mode="ios"
             slot="end"
           ></ion-toggle>
