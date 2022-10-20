@@ -119,7 +119,7 @@ const routes: Routes = [
       {
         path: 'user-personal-information',
         loadChildren: () =>
-          import('./kyc-user-basic-information-step2/kyc-user-personal-information.module').then(
+          import('./kyc-user-personal-information/kyc-user-personal-information.module').then(
             (m) => m.KycUserPersonalInformationPageModule
           ),
       },

@@ -1,13 +1,10 @@
-import { ConditionalExpr } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { COUNTRY_CODE } from '../constants/conutry_code';
 import { DOC_TYPES } from '../constants/doc_types';
 import { GENDERS } from '../constants/gender';
 import { MARITAL_STATUS } from '../constants/marital-status';
-import { Countries } from '../enums/countries.enum';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 
@@ -21,29 +18,29 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
         <ion-title>
           {{ 'fiat_ramps.kyc.user_personal_information.header' | translate }}
         </ion-title>
-        <ion-label class="ux-font-text-xs ubis__step_counter" slot="end"
+        <ion-label class="ux-font-text-xs upi__step_counter" slot="end"
           >2 {{ 'shared.step_counter.of' | translate }} 4</ion-label
         >
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ubis__container">
-      <ion-progress-bar class="ubis__container__progress" [value]="0.5" color="info"></ion-progress-bar>
+    <ion-content class="upi__container">
+      <ion-progress-bar class="upi__container__progress" [value]="0.5" color="info"></ion-progress-bar>
 
-      <div class="ubis__container__provider">
+      <div class="upi__container__provider">
         <ion-text class="ux-font-text-xxs">{{
           'fiat_ramps.kyc.user_personal_information.provider' | translate
         }}</ion-text>
       </div>
-      <div class="ubis__container__title">
+      <div class="upi__container__title">
         <ion-text class="ux-font-text-xl">{{ 'fiat_ramps.kyc.user_personal_information.title' | translate }}</ion-text>
       </div>
-      <div class="ubis__container__subtitle">
+      <div class="upi__container__subtitle">
         <ion-text class="ux-font-text-lg"
           >{{ 'fiat_ramps.kyc.user_personal_information.subtitle' | translate }}
           <ion-icon name="information-circle" color="info"></ion-icon>
         </ion-text>
       </div>
-      <div class="ubis__container__form">
+      <div class="upi__container__form">
         <form [formGroup]="this.form">
           <app-input-select
             [label]="'fiat_ramps.kyc.user_personal_information.label_nationality' | translate"
@@ -56,8 +53,8 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
             valueKey="value"
             [translated]="true"
           ></app-input-select>
-          <div class="ubis__container__form__document">
-            <div class="ubis__container__form__document__input-select">
+          <div class="upi__container__form__document">
+            <div class="upi__container__form__document__input-select">
               <app-input-select
                 [label]="'fiat_ramps.kyc.user_personal_information.label_document' | translate"
                 [modalTitle]="'fiat_ramps.kyc.user_personal_information.modal_title_document' | translate"
@@ -70,7 +67,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
                 [translated]="true"
               ></app-input-select>
             </div>
-            <div class="ubis__container__form__document__input">
+            <div class="upi__container__form__document__input">
               <app-ux-input
                 controlName="document_number"
                 type="number"
@@ -101,8 +98,8 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
             valueKey="value"
             [translated]="true"
           ></app-input-select>
-          <div class="ubis__container__form__phone">
-            <div class="ubis__container__form__phone__input-select">
+          <div class="upi__container__form__phone">
+            <div class="upi__container__form__phone__input-select">
               <app-input-select
                 [label]="'fiat_ramps.kyc.user_personal_information.label_country_code' | translate"
                 [modalTitle]="'fiat_ramps.kyc.user_personal_information.label_country_code' | translate"
@@ -114,7 +111,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
                 [translated]="true"
               ></app-input-select>
             </div>
-            <div class="ubis__container__form__phone__input">
+            <div class="upi__container__form__phone__input">
               <app-ux-input
                 [label]="'fiat_ramps.kyc.user_personal_information.label_phone' | translate"
                 controlName="phone_number"
@@ -127,7 +124,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
         </form>
       </div>
     </ion-content>
-    <ion-footer class="ubis__footer">
+    <ion-footer class="upi__footer">
       <div class="ux_footer ion-padding">
         <ion-button
           class="ux_button"
@@ -181,6 +178,6 @@ export class KycUserPersonalInformationPage implements OnInit {
     });
   }
   nextPage() {
-    console.log(this.form.value);
+    this.userKycKriptonDataService.updateData(this.form.value);
   }
 }
