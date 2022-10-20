@@ -147,7 +147,7 @@ export class DefiInvestmentProductsPage {
   address: string;
   totalInvested = 0;
   allDefiProducts: DefiInvestment[] = [];
-  investorCategory: string;
+  investorCategory = 'wealth_managements.profiles.conservative';
   disableFaqsButton = true;
   pids = [];
   profileForm: UntypedFormGroup = this.formBuilder.group({
@@ -182,6 +182,7 @@ export class DefiInvestmentProductsPage {
   usdYield: RawAmount;
   balance: number;
   contentFixedStyle = 'display: none';
+  hasDoneInvestorTest = false;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -195,10 +196,6 @@ export class DefiInvestmentProductsPage {
     private graphql: GraphqlService,
     private storageService: StorageService
   ) {}
-
-  get hasDoneInvestorTest(): boolean {
-    return this.investorCategory !== 'wealth_managements.profiles.no_category';
-  }
 
   ionViewDidLeave() {
     this.emptyArrays();
@@ -267,7 +264,10 @@ export class DefiInvestmentProductsPage {
 
   getUser() {
     this.apiUsuariosService.getUser(false).subscribe((user) => {
-      this.investorCategory = user.profile.investor_category;
+      if (!user.profile.investor_category.includes('no_category') && user.profile.investor_category) {
+        this.investorCategory = user.profile.investor_category;
+        this.hasDoneInvestorTest = true;
+      }
     });
   }
 
@@ -279,10 +279,6 @@ export class DefiInvestmentProductsPage {
     const investmentsToFilter = this.allDefiProducts.filter(
       (investment) => investment.balance === 0 || investment.balance === null
     );
-    if (category === 'no_category') {
-      this.availableInvestments = investmentsToFilter.filter((investment) => investment.category === 'conservative');
-      this.profileForm.patchValue({ profile: 'conservative' });
-    }
     this.availableInvestments = investmentsToFilter.filter((investment) => investment.category === category);
   }
 
