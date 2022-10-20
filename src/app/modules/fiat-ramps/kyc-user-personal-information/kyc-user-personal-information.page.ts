@@ -30,7 +30,9 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
       <ion-progress-bar class="ubis__container__progress" [value]="0.5" color="info"></ion-progress-bar>
 
       <div class="ubis__container__provider">
-        <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.kyc.user_personal_information.provider' | translate }}</ion-text>
+        <ion-text class="ux-font-text-xxs">{{
+          'fiat_ramps.kyc.user_personal_information.provider' | translate
+        }}</ion-text>
       </div>
       <div class="ubis__container__title">
         <ion-text class="ux-font-text-xl">{{ 'fiat_ramps.kyc.user_personal_information.title' | translate }}</ion-text>
@@ -127,7 +129,14 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
     </ion-content>
     <ion-footer class="ubis__footer">
       <div class="ux_footer ion-padding">
-        <ion-button class="ux_button" color="secondary" size="large" expand="block" (click)="this.nextPage()">
+        <ion-button
+          class="ux_button"
+          color="secondary"
+          size="large"
+          expand="block"
+          [disabled]="!this.form.valid"
+          (click)="this.nextPage()"
+        >
           {{ 'fiat_ramps.kyc.user_personal_information.button' | translate }}
         </ion-button>
       </div>
