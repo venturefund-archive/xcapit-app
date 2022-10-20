@@ -2932,5 +2932,12 @@
         "body": "Se produjo un error en el envío de {{fromAmount}} {{fromToken}} y recepción de {{toAmount}} {{toToken}}. Más información aquí. ."
       }
     }
+  },
+  "links": {
+    "title": "Continuar en Xcapit...",
+    "have_app": "¿Tienes la app?",
+    "go_to_xcapit": "Ir a Xcapit",
+    "dont_have_app": "¿Aún no la tienes?",
+    "download": "Descargar"
   }
 }
