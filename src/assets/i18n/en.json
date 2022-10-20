@@ -2544,7 +2544,7 @@
       },
       "user_personal_information": {
         "header": "Load data",
-        "provider": "Supplier: Kripton Market",
+        "provider": "Provider: Kripton Market",
         "title": "😎 We're almost done",
         "subtitle": "Enter your personal data",
         "general_placeholder": "Select an option",
