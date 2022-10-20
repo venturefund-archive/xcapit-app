@@ -3,13 +3,9 @@ import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { Coin } from "src/app/modules/wallets/shared-wallets/interfaces/coin.interface";
 import { FakeHttpClient } from "src/testing/fakes/fake-http.spec";
+import { ProviderPrice } from "../provider-price/provider-price";
 
-
-export interface KriptonPrice {
-  value(): Observable<number>;
-}
-
-export class DefaultKriptonPrice implements KriptonPrice {
+export class DefaultKriptonPrice implements ProviderPrice {
   constructor(
     private readonly _fiatCurrency: string,
     private readonly _cryptoCurrency: Coin,
@@ -30,10 +26,3 @@ export class DefaultKriptonPrice implements KriptonPrice {
   }
 }
 
-export class FakeKriptonPrice implements KriptonPrice {
-  constructor(private _aReturnValue: number) {}
-
-  value(): Observable<number> {
-    return of(this._aReturnValue);
-  }
-}

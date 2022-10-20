@@ -18,13 +18,13 @@ import { By } from '@angular/platform-browser';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
-import { DynamicKriptonPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/dynamic-kripton-price-factory';
+import { DynamicKriptonPriceFactory } from '../shared-ramps/models/kripton-price/factory/dynamic-kripton-price-factory';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
-import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-dynamic-price/dynamic-kripton-price';
+import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
 
 const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";

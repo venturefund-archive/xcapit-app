@@ -12,5 +12,6 @@ export interface FiatRampProvider {
   providerName?: string;
   showInfo?: boolean;
   quote?: number;
+  usdQuote?: number;
   isBestQuote?: boolean;
 }

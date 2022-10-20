@@ -33,17 +33,17 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
             </ion-button>
           </div>
           <div class="pcc__content__body__description">
-            <ion-text *ngIf="this.provider.quote" class="ux-font-text-xxs description" color="neutral80">{{
+            <ion-text *ngIf="this.provider.quote || this.provider.usdQuote" class="ux-font-text-xxs description" color="neutral80">{{
               'fiat_ramps.select_provider.description'
                 | translate
                   : {
                       providerName: this.provider.name,
                       token: this.tokenValue,
-                      quote: this.provider.quote | formattedAmount: 10:2,
+                      quote: this.provider.quote ? (this.provider.quote | formattedAmount: 10:2) : (this.provider.usdQuote | formattedAmount: 10:2),
                       fiatCode: this.fiatCode
                     }
             }}</ion-text>
-            <ion-skeleton-text *ngIf="!this.provider.quote" width="100%" animated></ion-skeleton-text>
+            <ion-skeleton-text *ngIf="!this.provider.quote && !this.provider.usdQuote" width="100%" animated></ion-skeleton-text>
           </div>
         </div>
         <div class="pcc__content__radio">
@@ -54,6 +54,7 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
             name="ux_buy_moonpay"
             (click)="this.sendProviderData(this.provider)"
             [disabled]="this.disabled"
+            [value]="this.provider"
             appTrackClick
             [dataToTrack]="{ eventLabel: this.provider.trackClickEventName }"
           ></ion-radio>

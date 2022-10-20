@@ -14,7 +14,7 @@ import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { DynamicKriptonPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/dynamic-kripton-price-factory';
+import { DynamicKriptonPriceFactory } from '../shared-ramps/models/kripton-price/factory/dynamic-kripton-price-factory';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
@@ -22,8 +22,8 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
-import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-dynamic-price/dynamic-kripton-price';
-import { DefaultKriptonPrice } from '../shared-ramps/models/kripton-dynamic-price/default-kripton-price';
+import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
+import { DefaultKriptonPrice } from '../shared-ramps/models/kripton-price/default-kripton-price';
 import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-operations-new',

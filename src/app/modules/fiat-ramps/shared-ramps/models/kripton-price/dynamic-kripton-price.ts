@@ -1,11 +1,11 @@
 import { Observable, timer } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { KriptonPrice } from './default-kripton-price';
+import { ProviderPrice } from '../provider-price/provider-price';
 
 export class DynamicKriptonPrice {
-  constructor(private readonly _timer: Observable<number>, private readonly _kriptonPrice: KriptonPrice) {}
+  constructor(private readonly _timer: Observable<number>, private readonly _kriptonPrice: ProviderPrice) {}
 
-  public static create(_milliseconds: number, _kriptonPrice: KriptonPrice): DynamicKriptonPrice {
+  public static create(_milliseconds: number, _kriptonPrice: ProviderPrice): DynamicKriptonPrice {
     return new this(timer(0, _milliseconds), _kriptonPrice);
   }
 

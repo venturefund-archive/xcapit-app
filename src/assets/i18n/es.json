@@ -2196,6 +2196,8 @@
       "no_provider": "Por el momento no es posible adquirir {{coinName}} en tu país.",
       "description": "Compra con {{providerName}} {{token}} a ${{quote}} {{fiatCode}}.",
       "best_quote": "Mejor cotización",
+      "pay_in_usd": "Comprá en USD",
+      "pay_in_fiat": "Comprá en moneda local",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
       "directa24": {

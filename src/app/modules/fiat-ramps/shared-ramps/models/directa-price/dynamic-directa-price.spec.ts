@@ -1,14 +1,14 @@
 import { interval } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { DirectaPrice, FakeDirectaPrice } from './default-directa-price';
+import { FakeProviderPrice, ProviderPrice } from '../provider-price/provider-price';
 import { DynamicDirectaPrice } from './dynamic-directa-price';
 
 describe('DynamicDirectaPrice', () => {
   const testValue = 7;
-  let directaPrice: DirectaPrice;
-  let dynamicDirectaPrice: DirectaPrice;
+  let directaPrice: ProviderPrice;
+  let dynamicDirectaPrice: ProviderPrice;
   beforeEach(() => {
-    directaPrice = new FakeDirectaPrice(testValue);
+    directaPrice = new FakeProviderPrice(testValue);
     dynamicDirectaPrice = DynamicDirectaPrice.create(15, directaPrice);
   });
 

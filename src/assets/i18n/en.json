@@ -2213,6 +2213,8 @@
       "provider_label": "Select your payment method",
       "no_provider": "At the moment it is not possible to purchase {{coinName}} in your country.",
       "moonpay_description": "Buy with a credit card",
+      "pay_in_usd": "Pay in USD",
+      "pay_in_fiat": "Pay in local currency",
       "krypton_description": "Buy with bank transfer",
       "directa24": {
         "platform_description": "Buy through the platform",

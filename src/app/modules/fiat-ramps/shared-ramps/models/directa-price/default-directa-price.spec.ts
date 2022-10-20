@@ -1,11 +1,12 @@
 import { of } from 'rxjs';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampsService } from '../../services/fiat-ramps.service';
-import { DefaultDirectaPrice, DirectaPrice, FakeDirectaPrice } from './default-directa-price';
+import { FakeProviderPrice, ProviderPrice } from '../provider-price/provider-price';
+import { DefaultDirectaPrice } from './default-directa-price';
 
 
 describe('DefaultDirectaPrice', () => {
-  let directaPrice: DirectaPrice;
+  let directaPrice: ProviderPrice;
   let coinSpy: jasmine.SpyObj<Coin>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
 
@@ -30,10 +31,10 @@ describe('DefaultDirectaPrice', () => {
 
 describe('FakeDirectaPrice', () => {
   const testValue = 7;
-  let directaPrice: DirectaPrice;
+  let directaPrice: ProviderPrice;
 
   beforeEach(() => {
-    directaPrice = new FakeDirectaPrice(testValue);
+    directaPrice = new FakeProviderPrice(testValue);
   });
 
   it('new', () => {
