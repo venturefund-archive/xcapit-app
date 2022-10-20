@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>To be able to scan barcodes</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -28,6 +26,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>capacitor</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.xcapit.iosapp</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>xcapitApp</string>
 			</array>
 		</dict>
 	</array>

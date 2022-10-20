@@ -85,7 +85,7 @@ export class AppComponent implements OnInit {
   private async checkWalletConnectAndDynamicLinks() {
     await this.walletConnectService.checkConnection();
     await this.walletConnectService.retrieveWalletConnect();
-
+    
     if (this.platformService.isNative()) {
       App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
         this.zone.run(async () => {
@@ -97,13 +97,17 @@ export class AppComponent implements OnInit {
   }
 
   dynamicLinks(event) {
-    const dynamicLinkURL = event.url.split('app.xcapit.com/').pop();
-    if (dynamicLinkURL) this.navController.navigateForward(dynamicLinkURL);
+    if (!event.url.includes('/links/wc')) {
+      const dynamicLinkURL = event.url.split('app.xcapit.com/').pop();
+      if (dynamicLinkURL) this.navController.navigateForward(dynamicLinkURL);
+    }
   }
 
   async walletConnectDeepLinks(event) {
-    const url = event.url.split('?uri=').pop();
-    if (url) {
+    let url = event.url.split('?uri=').pop();
+
+    if (url && url.includes('wc:')) {
+      url = decodeURIComponent(url);
       this.walletConnectService.setUri(url);
 
       if (await this.authService.checkToken()) {

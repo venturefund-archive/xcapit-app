@@ -2626,5 +2626,12 @@
         "body": "There was an error sending {{fromAmount}} {{fromToken}} and receiving {{toAmount}} {{toToken}}. More information here."
       }
     }
+  },
+  "links": {
+    "title": "Continuing to Xcapit...",
+    "have_app": "Have the app?",
+    "go_to_xcapit": "Go to Xcapit",
+    "dont_have_app": "Don't have Xcapit?",
+    "download": "Download"
   }
 }
