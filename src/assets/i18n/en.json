@@ -2528,6 +2528,20 @@
         "label_birthday": "Birthday",
         "placeholder_birthday": "mm/dd/yyyy",
         "button": "Continue"
+      },
+      "user_address": {
+        "header": "Load data",
+        "provider": "Provider: Kripton Market",
+        "title": "🛬 Last step! Quick, isn't it?",
+        "subtitle": "Fill in your address data",
+        "label_street": "Street",
+        "label_number": "Number",
+        "label_floor": "Floor (optional)",
+        "label_apartment": "Apt (optional)",
+        "label_city": "City",
+        "label_zip_code": "Zip code",
+        "placeholder_birthday": "mm/dd/yyyy",
+        "button": "Continue"
       }
     }
   },

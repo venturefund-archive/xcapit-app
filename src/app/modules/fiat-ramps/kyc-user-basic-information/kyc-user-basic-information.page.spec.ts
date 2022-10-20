@@ -5,7 +5,6 @@ import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackService } from 'src/app/shared/services/track/track.service';
-import { UserKycKriptonData } from '../shared-ramps/interfaces/user-kyc-kripton-data.interface';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 import { KycUserBasicInformationPage } from './kyc-user-basic-information.page';
 
@@ -15,12 +14,12 @@ describe('KycUserBasicInformationPage', () => {
   let userKycKriptonDataServiceSpy: jasmine.SpyObj<UserKycKriptonDataService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
-  const invalidFormData: UserKycKriptonData = {
+  const invalidFormData = {
     firstName: 'test',
     lastName: 'test',
     birthday: '1-1-1999',
   };
-  const validFormData: UserKycKriptonData = {
+  const validFormData = {
     firstName: 'test',
     lastName: 'test',
     birthday: '1/1/1999',
@@ -82,7 +81,7 @@ describe('KycUserBasicInformationPage', () => {
     expect(buttonEl.properties.disabled).toBeTrue();
   });
 
-  it('should disable Continue button if form is not valid', () => {
+  it('should set userKycKriptonData when form was sumbitted', () => {
     component.form.patchValue(validFormData);
     fixture.detectChanges();
 

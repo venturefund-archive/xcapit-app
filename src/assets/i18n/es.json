@@ -2520,6 +2520,19 @@
         "label_birthday": "Fecha de nacimiento",
         "placeholder_birthday": "mm/dd/aaaa",
         "button": "Continuar"
+      },
+      "user_address": {
+        "header": "Cargar datos",
+        "provider": "Proveedor: Kripton Market",
+        "title": "🛬 ¡Último paso! Rápido, ¿no?",
+        "subtitle": "Ingresa los datos de tu dirección",
+        "label_street": "Calle",
+        "label_number": "Número",
+        "label_floor": "Piso (opcional)",
+        "label_apartment": "Dpto (opcional)",
+        "label_city": "Ciudad",
+        "label_zip_code": "Código postal",
+        "button": "Continuar"
       }
     }
   },

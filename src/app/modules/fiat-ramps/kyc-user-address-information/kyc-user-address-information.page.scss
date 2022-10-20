@@ -1,0 +1,55 @@
+:host {
+  .uai {
+    &__step_counter {
+      margin-right: 13px;
+      color: var(--ion-color-white);
+    }
+
+    &__container {
+      &__progress {
+        height: 9px;
+        background: var(--ion-color-neutral50);
+      }
+
+      &__provider {
+        background-color: #f28d27;
+        text-align: center;
+        color: var(--ion-color-white);
+        padding: 4px 0;
+      }
+
+      &__title {
+        padding-top: 24px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      &__subtitle {
+        padding-top: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+
+        ion-text {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+      }
+
+      &__form {
+        padding-left: 16px;
+        padding-right: 16px;
+
+        &__group {
+          display: flex;
+          column-gap: 14px;
+        }
+      }
+    }
+
+    &__footer {
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+      border-radius: 8px 8px 0 0;
+    }
+  }
+}
