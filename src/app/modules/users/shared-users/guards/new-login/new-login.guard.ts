@@ -11,7 +11,7 @@ export class NewLogin implements CanActivate {
 
   async canActivate(): Promise<boolean> {
     const isffEnabled = this.isFeatureFlagEnabled();
-    
+
     if (isffEnabled) await this.redirectToNewLogin();
 
     return !isffEnabled;

@@ -18,6 +18,8 @@ import { WalletBackupService } from '../../wallets/shared-wallets/services/walle
 import { LoginBiometricActivationModalService } from '../shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -37,6 +39,7 @@ describe('LoginNewPage', () => {
   let loginBiometricActivationModalSpy: jasmine.SpyObj<LoginBiometricActivationModalService>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let fakeBiometricAuth: BiometricAuth;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(waitForAsync(() => {
     fakeBiometricAuth = new FakeBiometricAuth();
@@ -66,6 +69,10 @@ describe('LoginNewPage', () => {
       isNative: true,
     });
 
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: true,
+    });
+
     walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', { enableModal: Promise.resolve() });
     TestBed.configureTestingModule({
       declarations: [LoginNewPage, FakeTrackClickDirective],
@@ -80,6 +87,7 @@ describe('LoginNewPage', () => {
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: LoginBiometricActivationModalService, useValue: loginBiometricActivationModalSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -202,6 +210,7 @@ describe('LoginNewPage', () => {
     component.form.patchValue({ password: aPassword });
 
     await component.handleSubmit(false);
+
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
@@ -213,8 +222,29 @@ describe('LoginNewPage', () => {
     component.ionViewWillEnter();
     const spy = spyOn(component.biometricAuth, 'on').and.callThrough();
     component.form.patchValue({ password: aPassword });
+
     component.handleSubmit(false);
     tick();
+
     expect(spy).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should not call handle submit on  bio auth is disabled', fakeAsync(() => {
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
+    biometricAuthInjectableSpy.create.and.returnValue(
+      new FakeBiometricAuth(
+        null,
+        Promise.resolve(true),
+        Promise.resolve({ verified: true, message: '' }),
+        null,
+        null
+      )
+    );
+    const handleSubmitSpy = spyOn(component, 'handleSubmit');
+
+    component.ionViewWillEnter();
+    tick();
+
+    expect(handleSubmitSpy).toHaveBeenCalledTimes(0);
   }));
 });

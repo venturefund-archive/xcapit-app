@@ -142,7 +142,7 @@ export class UserProfileMenuPage {
       const biometricAuthItem = this.itemMenu
         .find((category) => category.id === 'wallet')
         .items.find((item) => item.name === 'BiometricAuth');
-      biometricAuthItem.hidden = !this.remoteConfig.getFeatureFlag('ff_newLogin');
+      biometricAuthItem.hidden = !this.remoteConfig.getFeatureFlag('ff_bioauth');
     }
   }
 
