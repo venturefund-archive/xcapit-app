@@ -27,6 +27,6 @@ export class Blockchain {
   }
 
   nativeToken(): Token {
-    return new DefaultToken(this._rawData.nativeToken);
+    return new DefaultToken({...this._rawData.nativeToken, network: this._rawData.name});
   }
 }

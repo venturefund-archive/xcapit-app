@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { ProviderTokensOf } from '../../models/provider-tokens-of/provider-tokens-of';
@@ -30,11 +31,20 @@ export class BuyOrDepositTokenToastComponent implements OnInit {
     private navController: NavController,
     private apiWalletService: ApiWalletService,
     private providersFactory: ProvidersFactory,
-    private tokenOperationDataService: TokenOperationDataService
+    private tokenOperationDataService: TokenOperationDataService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit() {
-    this.primaryButtonText = this.isTokenAvailableForPurchase() ? this.primaryButtonText : undefined;
+    console.log(this.primaryButtonText, this.secondaryButtonText, this.text, this.token)
+    if (this.isTokenAvailableForPurchase()) {
+      this.primaryButtonText = this.translateService.instant(this.primaryButtonText, {token: this.token.symbol()});
+    } else {
+      this.primaryButtonText = undefined;
+    }
+
+    this.text = this.translateService.instant(this.text, {token: this.token.symbol()});
+    this.secondaryButtonText = this.translateService.instant(this.secondaryButtonText, {token: this.token.symbol()});
   }
 
   private isTokenAvailableForPurchase(): boolean {

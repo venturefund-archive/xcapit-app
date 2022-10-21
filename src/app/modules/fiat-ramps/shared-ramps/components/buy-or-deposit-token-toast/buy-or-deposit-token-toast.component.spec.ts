@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync, tick, fakeAsync } from '@angul
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Token } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
@@ -25,6 +25,7 @@ describe('BuyOrDepositTokenToastComponent', () => {
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let translateServiceSpy: jasmine.SpyObj<TranslateService>;
 
   beforeEach(
     waitForAsync(() => {
@@ -37,6 +38,7 @@ describe('BuyOrDepositTokenToastComponent', () => {
       spyOn(ProviderTokensOf.prototype, 'all').and.returnValue([coinSpy]);
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getCoins: [] });
       providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', { create: [] });
+      translateServiceSpy = jasmine.createSpyObj('TranslateService', { instant: 'test' });
       TestBed.configureTestingModule({
         declarations: [BuyOrDepositTokenToastComponent, ToastWithButtonsComponent],
         imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -45,6 +47,7 @@ describe('BuyOrDepositTokenToastComponent', () => {
           { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
           { provide: ApiWalletService, useValue: apiWalletServiceSpy },
           { provide: ProvidersFactory, useValue: providersFactorySpy },
+          { provide: TranslateService, useValue: translateServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();
@@ -98,5 +101,10 @@ describe('BuyOrDepositTokenToastComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     expect(component.primaryButtonText).toBeDefined();
+  });
+
+  it('should translate texts', () => {
+    fixture.detectChanges();
+    expect(translateServiceSpy.instant).toHaveBeenCalledTimes(3);
   });
 });

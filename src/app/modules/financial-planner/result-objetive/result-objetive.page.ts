@@ -7,7 +7,7 @@ import { TwoPiProduct } from '../../defi-investments/shared-defi-investments/mod
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { environment } from 'variables.env';
 import { NONPROD_DEFI_PRODUCTS, PROD_DEFI_PRODUCTS } from '../shared-financial-planner/constants/products';
-import { ToastWithButtonsComponent } from '../../defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
+import { ToastWithButtonsComponent } from '../../../shared/components/toast-with-buttons/toast-with-buttons.component';
 
 @Component({
   selector: 'app-result-objetive',
@@ -190,8 +190,8 @@ export class ResultObjetivePage implements OnInit {
       showBackdrop: false,
       componentProps: {
         text: this.translate.instant('financial_planner.result_objetive.informative_modal'),
-        firstButtonName: this.translate.instant('financial_planner.result_objetive.informative_modal_button'),
-        firstLink: '/financial-planner/new-objetive',
+        primaryButtonText: this.translate.instant('financial_planner.result_objetive.informative_modal_button'),
+        primaryButtonRoute: '/financial-planner/new-objetive',
       },
     });
     modal.present();

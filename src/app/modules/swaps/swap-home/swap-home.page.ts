@@ -48,10 +48,8 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { Observable, Subject } from 'rxjs';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
-import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
-import { ToastWithButtonsComponent } from '../../defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
-import { ProvidersFactory } from '../../fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
-import { ProviderTokensOf } from '../../fiat-ramps/shared-ramps/models/provider-tokens-of/provider-tokens-of';
+import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-swap-home',
@@ -281,8 +279,7 @@ export class SwapHomePage {
     private translate: TranslateService,
     private oneInchBlockchainsOf: OneInchBlockchainsOfFactory,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private storage: IonicStorageService,
-    private providers: ProvidersFactory
+    private storage: IonicStorageService
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -326,20 +323,6 @@ export class SwapHomePage {
       this.route.snapshot.paramMap.get(this.toTokenKey)
     );
     this.setQuotePrices();
-    this.getTokensAvailableForPurchase();
-  }
-
-  private getTokensAvailableForPurchase() {
-    this.tokensAvailableForPurchase = new ProviderTokensOf(
-      this.providers.create(),
-      this.apiWalletService.getCoins()
-    ).all();
-  }
-
-  private isTokenAvailableForPurchase(token: Token): boolean {
-    return this.tokensAvailableForPurchase.some(
-      (coin) => coin.value === token.json().value && coin.network === token.json().network
-    );
   }
 
   setAllowedBlockchains() {
@@ -567,7 +550,7 @@ export class SwapHomePage {
   private navigateToTokenDetail() {
     this.navController.navigateForward([
       'wallets/token-detail/blockchain',
-      this.activeBlockchain.name,
+      this.activeBlockchain.name(),
       'token',
       this.toToken.symbol(),
     ]);
@@ -638,48 +621,29 @@ export class SwapHomePage {
 
   showInsufficientBalanceFeeModal() {
     const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
-    const firstButtonName = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
-    const secondaryButtonName = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
-    this.openModalBalance(this.getModalProps(this.fromToken, text, firstButtonName, secondaryButtonName));
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
+    this.openModalBalance(this.activeBlockchain.nativeToken(), text, primaryButtonText, secondaryButtonText);
   }
 
   showInsufficientBalanceModal() {
     const text = 'swaps.home.balance_modal.insufficient_balance.text';
-    const firstButtonName = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
-    const secondaryButtonName = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
-    this.openModalBalance(this.getModalProps(this.fromToken, text, firstButtonName, secondaryButtonName));
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
+    this.openModalBalance(this.fromToken, text, primaryButtonText, secondaryButtonText);
   }
 
-  async openModalBalance(modalProps: any) {
+  async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
     const modal = await this.modalController.create({
-      component: ToastWithButtonsComponent,
+      component: BuyOrDepositTokenToastComponent,
       cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
-      componentProps: modalProps,
+      componentProps: { token, text, primaryButtonText, secondaryButtonText }
     });
     if (window.location.href === this.modalHref) {
       await modal.present();
     }
     await modal.onDidDismiss();
-  }
-
-  private getModalProps(token: Token, text: string, firstButtonName: string, secondaryButtonName: string) {
-    return {
-      text: this.translate.instant(text, {
-        nativeToken: token.symbol(),
-      }),
-      firstButtonName: this.isTokenAvailableForPurchase(token)
-        ? this.translate.instant(firstButtonName, {
-            nativeToken: token.symbol(),
-          })
-        : undefined,
-      secondaryButtonName: this.translate.instant(secondaryButtonName, {
-        nativeToken: token.symbol(),
-      }),
-      firstLink: '/wallets/buy/',
-      secondLink: '/wallets/receive/detail',
-      data: token.json(),
-    };
   }
 }

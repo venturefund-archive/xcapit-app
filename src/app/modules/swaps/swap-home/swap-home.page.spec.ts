@@ -48,6 +48,7 @@ import { of } from 'rxjs';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { Password } from '../shared-swaps/models/password/password';
 
+// TODO: Fix tests
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
@@ -476,4 +477,10 @@ describe('SwapHomePage', () => {
     expect(component.disabledBtn).toBeTruthy();
     expect(component.insufficientBalance).toBeTruthy();
   }));
+
+  it('should show alert when insuficient funds for amount')
+  it('should show alert when insuficient funds for fee')
+  it('should show alert when insuficient funds for fee')
+  it('should show buy button if token available for purchase')
+  it('should not show buy button if token available for purchase')
 });
