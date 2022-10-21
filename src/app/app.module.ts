@@ -27,7 +27,7 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { TicketsModule } from './modules/tickets/tickets.module';
 import { AppStorageService } from './shared/services/app-storage/app-storage.service';
 import { RefreshTokenInterceptorService } from './modules/users/shared-users/services/refresh-token-interceptor/refresh-token-interceptor.service';
-import { AppInitializerFactory } from './shared/factories/app-initializer/app-initializer.factory';
+import { languageInitializer } from './shared/factories/app-initializers/language/language-initializer';
 import { updateServiceProvider } from './shared/providers/update/update.provider';
 import { httpLoaderFactory } from './shared/factories/translate/translate.factory';
 import { jwtOptionsFactory } from './shared/factories/jwt-options/jwt-options.factory';
@@ -42,86 +42,95 @@ import { DonationsModule } from './modules/donations/donations.module';
 import { FinancialEducationModule } from './modules/financial-education/financial-education.module';
 import { SwapsModule } from './modules/swaps/swaps.module';
 import { XAuthTokenInterceptorService } from './modules/users/shared-users/services/x-auth-token-interceptor/x-auth-token-interceptor.service';
+import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
+import { FirebaseService } from './shared/services/firebase/firebase.service';
+import { firebaseInitializer } from './shared/factories/app-initializers/firebase/firebase-initializer';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
 
 @NgModule({
-    declarations: [AppComponent],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        IonicModule.forRoot({
-            mode: 'ios',
-            backButtonText: '',
-            backButtonIcon: 'ux-back',
-        }),
-        IonicStorageModule.forRoot({
-            name: '__xcapitdb',
-            driverOrder: ['sqlite', 'indexeddb', 'websql'],
-        }),
-        AppRoutingModule,
-        UsersModule,
-        TutorialsModule,
-        ProfilesModule,
-        FinancialEducationModule,
-        FinancialPlannerModule,
-        DonationsModule,
-        SubscriptionsModule,
-        ReferralsModule,
-        TabsModule,
-        NotificationsModule,
-        WalletsModule,
-        TicketsModule,
-        FiatRampsModule,
-        WalletsModule,
-        HomeModule,
-        SupportModule,
-        WealthManagementsModule,
-        DefiInvestmentsModule,
-        SwapsModule,
-        JwtModule.forRoot({
-            jwtOptionsProvider: {
-                provide: JWT_OPTIONS,
-                useFactory: jwtOptionsFactory,
-                deps: [AppStorageService],
-            },
-        }),
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: httpLoaderFactory,
-                deps: [HttpClient],
-            },
-        }),
-        TrackClickModule,
-        ServiceWorkerModule.register('ngsw-worker.js', {
-            enabled: environment.production,
-        }),
-        WildcardRoutingModule, // always to last!
-    ],
-    providers: [
-        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: RefreshTokenInterceptorService,
-            multi: true,
-        },
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: XAuthTokenInterceptorService,
-        multi: true,
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    IonicModule.forRoot({
+      mode: 'ios',
+      backButtonText: '',
+      backButtonIcon: 'ux-back',
+    }),
+    IonicStorageModule.forRoot({
+      name: '__xcapitdb',
+      driverOrder: ['sqlite', 'indexeddb', 'websql'],
+    }),
+    AppRoutingModule,
+    UsersModule,
+    TutorialsModule,
+    ProfilesModule,
+    FinancialEducationModule,
+    FinancialPlannerModule,
+    DonationsModule,
+    SubscriptionsModule,
+    ReferralsModule,
+    TabsModule,
+    NotificationsModule,
+    WalletsModule,
+    TicketsModule,
+    FiatRampsModule,
+    WalletsModule,
+    HomeModule,
+    SupportModule,
+    WealthManagementsModule,
+    DefiInvestmentsModule,
+    SwapsModule,
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: jwtOptionsFactory,
+        deps: [AppStorageService],
       },
-        FileOpener,
-        updateServiceProvider,
-        trackServiceProvider,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: AppInitializerFactory,
-            deps: [TranslateService],
-            multi: true,
-        },
-    ],
-    bootstrap: [AppComponent]
+    }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
+    TrackClickModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
+    WildcardRoutingModule, // always to last!
+  ],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RefreshTokenInterceptorService,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: XAuthTokenInterceptorService,
+      multi: true,
+    },
+    FileOpener,
+    updateServiceProvider,
+    trackServiceProvider,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: languageInitializer,
+      deps: [TranslateService],
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: firebaseInitializer,
+      deps: [RemoteConfigService, FirebaseService],
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
