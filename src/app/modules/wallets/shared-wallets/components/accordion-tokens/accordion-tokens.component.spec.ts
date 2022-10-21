@@ -81,7 +81,7 @@ describe('AccordionTokensComponent', () => {
     expect(component.remainingTokenDetails).toEqual([tokenDetailSpy]);
   });
 
-  it('should get quote price on ngOnChanges if autoprice is true', () => {
+  it('should get token details on ngOnChanges if exist changes', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const change: SimpleChanges = { tokenDetails: new SimpleChange(component.tokenDetails, [tokenDetailSpy], true)}  
