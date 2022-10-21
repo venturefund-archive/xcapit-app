@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 import { KycUserPersonalInformationPage } from './kyc-user-personal-information.page';
 
@@ -16,6 +18,7 @@ const invalidFormData = {
   country_code: 'test',
   phone_number: '123',
 };
+
 const validFormData = {
   nationality: 'test',
   document: 'test',
@@ -26,11 +29,14 @@ const validFormData = {
   phone_number: '0123456789',
 };
 
+const provider = rawProvidersData[1];
+
 describe('KycUserBasicInformationStep2Page', () => {
   let component: KycUserPersonalInformationPage;
   let fixture: ComponentFixture<KycUserPersonalInformationPage>;
   let userKycKriptonDataServiceSpy: jasmine.SpyObj<UserKycKriptonDataService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
 
   beforeEach(waitForAsync(() => {
     userKycKriptonDataServiceSpy = jasmine.createSpyObj('UserKycKriptonDataService', {
@@ -39,12 +45,16 @@ describe('KycUserBasicInformationStep2Page', () => {
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      getProvider: provider,
+    });
     TestBed.configureTestingModule({
       declarations: [KycUserPersonalInformationPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
         { provide: UserKycKriptonDataService, useValue: userKycKriptonDataServiceSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
       ],
     }).compileComponents();
 

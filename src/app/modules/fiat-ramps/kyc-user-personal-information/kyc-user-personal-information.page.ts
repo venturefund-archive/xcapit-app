@@ -6,6 +6,8 @@ import { DOC_TYPES } from '../constants/doc_types';
 import { GENDERS } from '../constants/gender';
 import { MARITAL_STATUS } from '../constants/marital-status';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
+import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 
 @Component({
@@ -156,27 +158,51 @@ export class KycUserPersonalInformationPage implements OnInit {
       [Validators.required, Validators.minLength(10), Validators.maxLength(15), Validators.pattern('[0-9]*$')],
     ],
   });
-  countries: any = COUNTRIES.filter((country) => country.name === 'Argentina');
+  countries = [];
   maritalStatus = MARITAL_STATUS;
   genders = GENDERS;
   docTypes = DOC_TYPES;
   countryCode = COUNTRY_CODE;
+  provider: FiatRampProvider;
 
   constructor(
     private fb: FormBuilder,
     private trackService: TrackService,
-    private userKycKriptonDataService: UserKycKriptonDataService
+    private userKycKriptonDataService: UserKycKriptonDataService,
+    private fiatRampsService: FiatRampsService
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.getProvider();
+    this.defaultCountryCode();
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_buy_kripton_screenview_details',
     });
   }
+
+  private getProvider() {
+    this.provider = this.fiatRampsService.getProvider(1);
+    this.filterCountries();
+  }
+
+  private filterCountries() {
+    this.provider.countries.forEach((countryProvider) =>
+      COUNTRIES.filter((country) => {
+        if (countryProvider === country.name) {
+          this.countries.push(country);
+        }
+      })
+    );
+  }
+
+  private defaultCountryCode() {
+    this.form.patchValue({ country_code: this.countryCode.find((code) => code.country === 'Argentina') });
+  }
+
   nextPage() {
     this.userKycKriptonDataService.updateData(this.form.value);
   }
