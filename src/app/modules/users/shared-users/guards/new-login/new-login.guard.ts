@@ -10,14 +10,12 @@ export class NewLogin implements CanActivate {
   constructor(private remoteConfigService: RemoteConfigService, private navController: NavController) {}
 
   async canActivate(): Promise<boolean> {
-    const isffEnabled = this.isFeatureFlagEnabled();
-    
-    if (isffEnabled) await this.redirectToNewLogin();
+    if (this.newLogin()) await this.redirectToNewLogin();
 
-    return !isffEnabled;
+    return !this.newLogin();
   }
 
-  isFeatureFlagEnabled() {
+  private newLogin() {
     return this.remoteConfigService.getFeatureFlag('ff_newLogin');
   }
 
