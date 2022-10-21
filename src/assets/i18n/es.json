@@ -171,6 +171,13 @@
       "title": "Ingresar",
       "loading": "Ingresando"
     },
+    "login_biometric_activation_modal": {
+      "title": "Activa tus datos biométricos",
+      "text": "Te servirá para ingresar a tu wallet de Xcapit de manera más rápida.",
+      "checkbox_label": "No volver a mostrar este mensaje.",
+      "confirm_button": "Confirmar",
+      "cancel_button": "Cancelar"
+    },
     "register": {
       "card_header": "Crea tu cuenta",
       "submit_button": "Crear Cuenta",
