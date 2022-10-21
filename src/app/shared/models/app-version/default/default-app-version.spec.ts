@@ -1,10 +1,10 @@
-import { AppVersion } from './app-version';
-import { CapacitorApp } from '../capacitor-app/capacitor-app.interface';
-import { FakeCapacitorApp } from '../capacitor-app/fake/fake-capacitor-app';
-import { RemoteConfigService } from '../../services/remote-config/remote-config.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { CapacitorApp } from '../../capacitor-app/capacitor-app.interface';
+import { FakeCapacitorApp } from '../../capacitor-app/fake/fake-capacitor-app';
+import { DefaultAppVersion } from './default-app-version';
 
-describe('AppVersion', () => {
-  let appVersion: AppVersion;
+describe('DefaultAppVersion', () => {
+  let appVersion: DefaultAppVersion;
   let fakeCapacitorApp: CapacitorApp;
   let remoteconfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
@@ -13,7 +13,7 @@ describe('AppVersion', () => {
     remoteconfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
       getString: '3.0.1',
     });
-    appVersion = new AppVersion(fakeCapacitorApp, remoteconfigServiceSpy);
+    appVersion = new DefaultAppVersion(fakeCapacitorApp, remoteconfigServiceSpy);
   });
 
   it('new', () => {
