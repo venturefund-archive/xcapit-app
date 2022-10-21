@@ -13,5 +13,7 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_newLogin: false,
   newTokensAvailable: undefined,
   ff_newTokenAvailable: false,
-  ff_kriptonNewUx: false
+  ff_kriptonNewUx: false,
+  ff_inReview: false,
+  lastVersion: undefined
 };

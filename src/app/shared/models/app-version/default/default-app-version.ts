@@ -1,8 +1,9 @@
 import { AppInfo } from '@capacitor/app';
-import { RemoteConfigService } from '../../services/remote-config/remote-config.service';
-import { CapacitorApp } from '../capacitor-app/capacitor-app.interface';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { CapacitorApp } from '../../capacitor-app/capacitor-app.interface';
+import { AppVersion } from '../app-version.interface';
 
-export class AppVersion {
+export class DefaultAppVersion implements AppVersion {
   constructor(private readonly app: CapacitorApp, private remoteConfigService: RemoteConfigService) {}
 
   public current(): Promise<string> {

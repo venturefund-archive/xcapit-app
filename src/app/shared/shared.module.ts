@@ -95,6 +95,7 @@ import { HelpItemCardComponent } from '../modules/users/shared-users/components/
 import { NewTokenAvailableCardComponent } from '../modules/wallets/shared-wallets/components/new-token-available-card/new-token-available-card.component';
 import { NewTokenInfoModalComponent } from '../modules/wallets/shared-wallets/components/new-token-info-modal/new-token-info-modal.component';
 import { InformationModalComponent } from './components/information-modal/information-modal.component';
+import { InReviewFeatureFlagDirective } from './directives/in-review-feature-flag/in-review-feature-flag.directive';
 
 @NgModule({
   declarations: [
@@ -192,6 +193,7 @@ import { InformationModalComponent } from './components/information-modal/inform
     NumberInputDirective,
     ButtonSpinnerDirective,
     FeatureFlagDirective,
+    InReviewFeatureFlagDirective,
   ],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
@@ -294,6 +296,7 @@ import { InformationModalComponent } from './components/information-modal/inform
     NumberInputDirective,
     FeatureFlagDirective,
     SelectStyleDirective,
+    InReviewFeatureFlagDirective,
   ],
 })
 export class SharedModule {}
