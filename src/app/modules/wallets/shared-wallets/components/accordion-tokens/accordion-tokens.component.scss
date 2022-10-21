@@ -1,0 +1,40 @@
+.at {
+  margin-top: 8px;
+  border-radius: 16px;
+  width: 100%;
+  min-height: 70px;
+
+  ion-accordion-group {
+    width: 100%;
+
+    ion-accordion {
+      width: 100%;
+    }
+  }
+
+  &__loader {
+    margin-top: 19px;
+  }
+
+  &__content {
+    display: flex;
+    width: 100%;
+  }
+
+  &__accordeon {
+    width: 100%;
+
+    ion-list {
+      border-radius: 16px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+
+    ion-button {
+      text-decoration: none;
+    }
+  }
+}
