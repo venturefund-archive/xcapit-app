@@ -16,6 +16,7 @@ import { WalletBackupService } from '../../wallets/shared-wallets/services/walle
 import { LoginBiometricActivationModalComponent } from '../shared-users/components/login-biometric-activation-modal/login-biometric-activation-modal.component';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { LoginBiometricActivationModalService } from '../shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-login-new',
@@ -105,7 +106,8 @@ export class LoginNewPage {
     private trackService: TrackService,
     private walletBackupService: WalletBackupService,
     private platformService: PlatformService,
-    private loginBiometricActivationService: LoginBiometricActivationModalService
+    private loginBiometricActivationService: LoginBiometricActivationModalService,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   async ionViewWillEnter() {
@@ -122,8 +124,12 @@ export class LoginNewPage {
     this.toastService.dismiss();
   }
 
+  private _biometricAuthEnable(): boolean {
+    return this.remoteConfig.getFeatureFlag('ff_bioauth');
+  }
+
   async activateBiometricAuth() {
-    if (await this.biometricAuth.enabled()) {
+    if (this._biometricAuthEnable() && await this.biometricAuth.enabled()) {
       const verifyResult: VerifyResult = await this.biometricAuth.verified();
       if (verifyResult.verified) {
         this.handleSubmit(true);
@@ -143,7 +149,7 @@ export class LoginNewPage {
     if (await new LoginToken(new Password(password), this.storage).valid()) {
       await new LoggedIn(this.storage).save(true);
       await this.checkWalletProtected();
-      if (this.platformService.isNative()) {
+      if (this._biometricAuthEnable() && this.platformService.isNative()) {
         if (!(await this.biometricAuth.enabled()) && this.form.value.password && this.biometricAuth.available()) {
           if (await this.showLoginBiometricActivation() === 'confirm') {
             this.biometricAuth.onNeedPass().subscribe(() => Promise.resolve(new Password(this.form.value.password)));
