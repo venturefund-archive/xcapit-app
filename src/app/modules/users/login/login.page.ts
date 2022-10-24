@@ -80,6 +80,7 @@ export class LoginPage implements OnInit {
   @ViewChild(AuthFormComponent, { static: true }) loginForm: AuthFormComponent;
   alreadyOnboarded: boolean;
   loading: boolean;
+  private readonly _aTopic = 'app';
   private readonly _aKey = 'enabledPushNotifications';
 
   constructor(
@@ -134,10 +135,10 @@ export class LoginPage implements OnInit {
   async initializeNotifications() {
     this.returnedService().init();
     if (await this.enabledPushNotifications()) {
-      this.returnedService().subscribeTo('app');
+      this.returnedService().subscribeTo(this._aTopic);
     } else {
-      this.returnedService().subscribeTo('app');
-      this.returnedService().unsubscribeFrom('app');
+      this.returnedService().subscribeTo(this._aTopic);
+      this.returnedService().unsubscribeFrom(this._aTopic);
     }
   }
 

@@ -87,6 +87,7 @@ export class LoginNewPage {
   form: UntypedFormGroup = this.formBuilder.group({
     password: ['', []],
   });
+  private readonly _aTopic = 'app';
   private readonly _aKey = 'enabledPushNotifications';
   biometricAuth = this.biometricAuthInjectable.create();
   constructor(
@@ -132,10 +133,10 @@ export class LoginNewPage {
   async initializeNotifications(){
     this.returnedService().init();
     if(await this.enabledPushNotifications()){
-      this.returnedService().subscribeTo(this._aKey);
+      this.returnedService().subscribeTo(this._aTopic);
     }else{
-      this.returnedService().subscribeTo(this._aKey);
-      this.returnedService().unsubscribeFrom(this._aKey);
+      this.returnedService().subscribeTo(this._aTopic);
+      this.returnedService().unsubscribeFrom(this._aTopic);
     }
   }
 
