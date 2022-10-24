@@ -19,7 +19,8 @@ import { LoginBiometricActivationModalService } from '../shared-users/services/l
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
-
+import { LoginMigrationService } from '../shared-users/services/login-migration-service/login-migration-service';
+import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -40,6 +41,7 @@ describe('LoginNewPage', () => {
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let fakeBiometricAuth: BiometricAuth;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
+  let loginMigrationServiceSpy: jasmine.SpyObj<LoginMigrationService>;
 
   beforeEach(waitForAsync(() => {
     fakeBiometricAuth = new FakeBiometricAuth();
@@ -74,6 +76,9 @@ describe('LoginNewPage', () => {
     });
 
     walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', { enableModal: Promise.resolve() });
+
+    loginMigrationServiceSpy = jasmine.createSpyObj('LoginMigrationService', { migrate: Promise.resolve() });
+
     TestBed.configureTestingModule({
       declarations: [LoginNewPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
@@ -88,6 +93,7 @@ describe('LoginNewPage', () => {
         { provide: LoginBiometricActivationModalService, useValue: loginBiometricActivationModalSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
+        { provide: LoginMigrationService, useValue: loginMigrationServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -232,13 +238,7 @@ describe('LoginNewPage', () => {
   it('should not call handle submit on  bio auth is disabled', fakeAsync(() => {
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
     biometricAuthInjectableSpy.create.and.returnValue(
-      new FakeBiometricAuth(
-        null,
-        Promise.resolve(true),
-        Promise.resolve({ verified: true, message: '' }),
-        null,
-        null
-      )
+      new FakeBiometricAuth(null, Promise.resolve(true), Promise.resolve({ verified: true, message: '' }), null, null)
     );
     const handleSubmitSpy = spyOn(component, 'handleSubmit');
 
@@ -247,4 +247,29 @@ describe('LoginNewPage', () => {
 
     expect(handleSubmitSpy).toHaveBeenCalledTimes(0);
   }));
+
+  it('should migrate when login token does not exist', async () => {
+    ionicStorageServiceSpy.get.withArgs('loginToken').and.returnValue(null);
+    component.ionViewWillEnter();
+    component.form.patchValue({ password: aPassword });
+
+    await component.handleSubmit(false);
+
+    expect(loginMigrationServiceSpy.migrate).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets', { replaceUrl: true });
+  });
+
+  it('should migrate when login token does not exist', async () => {
+    loginMigrationServiceSpy.migrate.and.rejectWith({ message: new PasswordErrorMsgs().invalid() });
+    ionicStorageServiceSpy.get.withArgs('loginToken').and.returnValue(null);
+    component.ionViewWillEnter();
+
+    await component.handleSubmit(false);
+
+    expect(loginMigrationServiceSpy.migrate).toHaveBeenCalledTimes(1);
+    expect(toastServiceSpy.showErrorToast).toHaveBeenCalledOnceWith({
+      message: 'users.login_new.invalid_password_text',
+      duration: 8000,
+    });
+  });
 });
