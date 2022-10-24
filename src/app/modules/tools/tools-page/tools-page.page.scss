@@ -1,6 +1,7 @@
 :host {
   .ux_toolbar {
     --border-width: 0;
+    --border-color: transparent;
   }
 
   .tp {
@@ -20,6 +21,12 @@
     position: absolute;
     top: 0;
     left: 0;
+
+    ion-icon {
+      right: 17px;
+      position: absolute;
+      font-size: 25px;
+    }
   }
 
   ion-content {

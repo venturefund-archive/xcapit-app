@@ -8,6 +8,9 @@ export class WeiOf {
   constructor(private _anAmount: number|string, private _aToken: Token) { }
 
   value(): BigNumber {
-    return parseUnits(`${this._anAmount}`, this._aToken.decimals());
+    return parseUnits(
+      parseFloat(`${this._anAmount}`).toFixed(this._aToken.decimals()),
+      this._aToken.decimals()
+    );
   }
 }

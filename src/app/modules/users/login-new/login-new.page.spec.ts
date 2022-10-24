@@ -16,6 +16,11 @@ import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/in
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
+import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { LoginBiometricActivationModalService } from '../shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -33,10 +38,16 @@ describe('LoginNewPage', () => {
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
+  let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
+  let loginBiometricActivationModalSpy: jasmine.SpyObj<LoginBiometricActivationModalService>;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let fakeBiometricAuth: BiometricAuth;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
 
   beforeEach(waitForAsync(() => {
+    fakeBiometricAuth = new FakeBiometricAuth();
     biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
-      create: new FakeBiometricAuth(),
+      create: fakeBiometricAuth,
     });
     nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
       'init',
@@ -50,6 +61,7 @@ describe('LoginNewPage', () => {
     modalControllerSpy = fakeModalController.createSpy();
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showErrorToast: Promise.resolve(),
+      showInfoToast: Promise.resolve(),
       dismiss: Promise.resolve(),
     });
     fakeNavController = new FakeNavController();
@@ -63,6 +75,18 @@ describe('LoginNewPage', () => {
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
+    loginBiometricActivationModalSpy = jasmine.createSpyObj('LoginBiometricActivationModalService', {
+      isShowModal: Promise.resolve(true),
+    });
+    platformServiceSpy = jasmine.createSpyObj('PlatformService', {
+      isNative: true,
+    });
+
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: true,
+    });
+
+    walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', { enableModal: Promise.resolve() });
     TestBed.configureTestingModule({
       declarations: [LoginNewPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
@@ -74,6 +98,10 @@ describe('LoginNewPage', () => {
         { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
+        { provide: WalletBackupService, useValue: walletBackupServiceSpy },
+        { provide: LoginBiometricActivationModalService, useValue: loginBiometricActivationModalSpy },
+        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -93,17 +121,19 @@ describe('LoginNewPage', () => {
       new FakeBiometricAuth(
         Promise.resolve(true),
         Promise.resolve(true),
-        Promise.resolve(true),
+        Promise.resolve({ verified: true }),
         null,
         Promise.resolve(aPassword)
       )
     );
+
     component.ionViewWillEnter();
     tick();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets', { replaceUrl: true });
   }));
 
   it('should init push notifications and subscribe to topic when password is ok and push notifications previously activated', fakeAsync( () => {
+    component.ionViewWillEnter();
     component.form.patchValue({ password: aPassword });
     component.handleSubmit(false);
     fixture.detectChanges();
@@ -113,7 +143,8 @@ describe('LoginNewPage', () => {
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
   }));
 
-  it('should init push notifications and subscribe to topic when password is ok and push notifications previously disabled', fakeAsync( () => {
+  it('should init push notifications and unsubscribe to topic when password is ok and push notifications previously disabled', fakeAsync( () => {
+    component.ionViewWillEnter();
     ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(false);
     component.form.patchValue({ password: aPassword });
     component.handleSubmit(false);
@@ -126,6 +157,7 @@ describe('LoginNewPage', () => {
   }));
 
   it('should login when password is ok', async () => {
+    component.ionViewWillEnter();
     component.form.patchValue({ password: aPassword });
 
     await component.handleSubmit(false);
@@ -183,4 +215,74 @@ describe('LoginNewPage', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
+
+  it('should enable modal when no protected wallet', async () => {
+    component.ionViewWillEnter();
+    ionicStorageServiceSpy.get.withArgs('protectedWallet').and.returnValue(Promise.resolve(false));
+    component.form.patchValue({ password: aPassword });
+
+    await component.handleSubmit(false);
+    expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
+  });
+
+  it('show info toast when biometric auth is incorrect three times', fakeAsync(() => {
+    biometricAuthInjectableSpy.create.and.returnValue(
+      new FakeBiometricAuth(
+        null,
+        Promise.resolve(true),
+        Promise.resolve({ verified: false, message: 'Authentication failed.' }),
+        null,
+        null
+      )
+    );
+    component.ionViewWillEnter();
+    tick();
+    expect(toastServiceSpy.showInfoToast).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should show biometric activation modal when available and not enabled', async () => {
+    biometricAuthInjectableSpy.create.and.returnValue(
+      new FakeBiometricAuth(Promise.resolve(true), Promise.resolve(false), null, null, null)
+    );
+    component.ionViewWillEnter();
+    component.form.patchValue({ password: aPassword });
+
+    await component.handleSubmit(false);
+
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should activate biometric auth on modal confirm', fakeAsync(() => {
+    fakeModalController.modifyReturns({ data: 'confirm' }, null);
+    biometricAuthInjectableSpy.create.and.returnValue(
+      new FakeBiometricAuth(Promise.resolve(true), Promise.resolve(false), null, null, null)
+    );
+    component.ionViewWillEnter();
+    const spy = spyOn(component.biometricAuth, 'on').and.callThrough();
+    component.form.patchValue({ password: aPassword });
+
+    component.handleSubmit(false);
+    tick();
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should not call handle submit on  bio auth is disabled', fakeAsync(() => {
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
+    biometricAuthInjectableSpy.create.and.returnValue(
+      new FakeBiometricAuth(
+        null,
+        Promise.resolve(true),
+        Promise.resolve({ verified: true, message: '' }),
+        null,
+        null
+      )
+    );
+    const handleSubmitSpy = spyOn(component, 'handleSubmit');
+
+    component.ionViewWillEnter();
+    tick();
+
+    expect(handleSubmitSpy).toHaveBeenCalledTimes(0);
+  }));
 });

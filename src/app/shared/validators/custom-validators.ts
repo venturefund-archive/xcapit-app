@@ -1,6 +1,7 @@
 import { ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { CustomValidatorErrors } from './custom-validator-errors';
 import { isAddress } from 'ethers/lib/utils';
+import isExists from 'date-fns/isExists';
 import { PublicKey } from '@solana/web3.js';
 
 export class CustomValidators {
@@ -34,10 +35,9 @@ export class CustomValidators {
 
   static isAddress(error: ValidationErrors = CustomValidatorErrors.isAddress): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-    return isAddress(control.value) ? null : error
+      return isAddress(control.value) ? null : error;
     };
   }
-
   static isAddressSolana(error: ValidationErrors = CustomValidatorErrors.isAddressSolana): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       try {
@@ -51,12 +51,20 @@ export class CustomValidators {
     };
   }
 
-
   static advancedCountWords(value: number, error: ValidationErrors = CustomValidatorErrors.countWordsMatch): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const words = control.value.match(/[a-z0-9]+/g) || [];
-      const hasUppercase = /[A-Z]+/g.test(control.value)
-      return hasUppercase ||  words.length !== value ? error : null;
+      const hasUppercase = /[A-Z]+/g.test(control.value);
+      return hasUppercase || words.length !== value ? error : null;
+    };
+  }
+  static isDate(error: ValidationErrors = CustomValidatorErrors.isDate): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const items = control.value.split('/');
+      const [month, day, year] = items;
+      if (items.length !== 3) return error;
+      if (Number(year) < 1900) return error;
+      return isExists(Number(year), Number(month - 1), Number(day)) ? null : error;
     };
   }
 
@@ -75,7 +83,7 @@ export class CustomValidators {
 
       if (oldPassword === newPassword) {
         control.get('password').setErrors(CustomValidatorErrors.newPasswordMatchesOld);
-        return CustomValidatorErrors.newPasswordMatchesOld
+        return CustomValidatorErrors.newPasswordMatchesOld;
       }
 
       return null;
@@ -111,7 +119,10 @@ export class CustomValidators {
     };
   }
 
-  static greaterOrEqualThan(min: number, error: ValidationErrors = CustomValidatorErrors.greaterOrEqualThanError): ValidatorFn {
+  static greaterOrEqualThan(
+    min: number,
+    error: ValidationErrors = CustomValidatorErrors.greaterOrEqualThanError
+  ): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       return control.value !== undefined && (isNaN(control.value) || control.value < min) ? error : null;
     };

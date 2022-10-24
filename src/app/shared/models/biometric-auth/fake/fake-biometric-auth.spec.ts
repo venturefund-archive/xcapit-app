@@ -41,6 +41,6 @@ describe('FakeBiometricAuth', () => {
   });
 
   it('verified', async () => {
-    expect(await fakeBiometricAuth.verified()).toBeTrue();
+    expect(await fakeBiometricAuth.verified()).toEqual({ verified: false, message: 'Error Message.' });
   });
 });

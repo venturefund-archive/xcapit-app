@@ -14,6 +14,8 @@ export class CustomValidatorErrors {
   static isNotInRange = { isNotInRange: true };
 
   static countWordsMatch = { countWordsMatch: true };
+  
+  static isDate = { isDate: true };
 
   static noPasswordMatch = { noPasswordMatch: true };
 

@@ -27,6 +27,7 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { RouterTestingModule } from '@angular/router/testing';
 import DepositLinkRequest from '../shared-ramps/models/deposit-link-request/deposit-link-request';
 import { EnvService } from 'src/app/shared/services/env/env.service';
+import { FakeProviders } from '../shared-ramps/models/providers/fake/fake-providers';
 
 describe('DirectaPage', () => {
   let component: DirectaPage;
@@ -50,6 +51,7 @@ describe('DirectaPage', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let envServiceSpy: jasmine.SpyObj<EnvService>;
   let priceSubject: Subject<number>;
+  let fakeProviders: FakeProviders;
 
   beforeEach(waitForAsync(() => {
     coinsSpy = [
@@ -63,18 +65,26 @@ describe('DirectaPage', () => {
       getCoins: coinsSpy,
     });
 
-    providersSpy = jasmine.createSpyObj('Providers', {
-      all: rawProvidersData,
-      byAlias: rawProvidersData.find((provider) => provider.alias === 'PX'),
-    });
+    fakeProviders = new FakeProviders(
+      rawProvidersData,
+      rawProvidersData.find((provider) => provider.alias === 'PX'),
+      null,
+      of([
+        {
+          code: 'PX',
+          paymentType: 'VOUCHER',
+        },
+      ])
+    );
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       getDirectaExchangeRate: of({ fee: 1 }),
     });
 
     providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
-      create: providersSpy,
+      create: fakeProviders,
     });
+
     walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
       addCoinIfUserDoesNotHaveIt: Promise.resolve(),
     });
@@ -171,7 +181,7 @@ describe('DirectaPage', () => {
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'test-link/hash' });
   });
 
-  it('should set country, default currency and provider on init', fakeAsync(() => {
+  it('should set country, default currency, provider, and paymentType on init', fakeAsync(() => {
     fakeActivatedRoute.modifySnapshotParams({ alias: 'PX' });
     component.form.patchValue({ fiatAmount: 1 });
     component.ionViewWillEnter();
@@ -180,6 +190,7 @@ describe('DirectaPage', () => {
     expect(component.country.name).toEqual('Ecuador');
     expect(component.selectedCurrency).toEqual(coinsSpy[0]);
     expect(component.fiatCurrency).toEqual('USD');
+    expect(component.paymentType).toEqual('fiat_ramps.shared.constants.payment_types.directa24_voucher');
   }));
 
   it('should unsubscribe when leave', () => {

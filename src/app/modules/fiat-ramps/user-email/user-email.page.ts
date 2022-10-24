@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
@@ -10,7 +11,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
   template: ` <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/new-operation/moonpay"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/new-operation/kripton"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.user_email.header' | translate }}
@@ -78,15 +79,20 @@ export class UserEmailPage implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
-    private storageOperationService: StorageOperationService
+    private storageOperationService: StorageOperationService,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   ngOnInit() {}
 
   async checkKYCAndRedirect() {
-    const userStatus = await this.fiatRampsService.getOrCreateUser(this.form.value).toPromise();
-    this.saveEmail();
-    this.redirectByStatus(userStatus.registration_status);
+    if(this.remoteConfig.getFeatureFlag('ff_kriptonNewUx')){
+      this.navController.navigateForward(['/fiat-ramps/user-register'])
+    }else{
+      const userStatus = await this.fiatRampsService.getOrCreateUser(this.form.value).toPromise();
+      this.saveEmail();
+      this.redirectByStatus(userStatus.registration_status);
+    }
   }
 
   redirectByStatus(registrationStatus: string) {

@@ -28,73 +28,74 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { ReactiveFormsModule } from '@angular/forms';
 
-const itemMenu: MenuCategory[] = [
-  {
-    category_title: 'profiles.user_profile_menu.category_help',
-    icon: 'assets/ux-icons/ux-support.svg',
-    showCategory: true,
-    items: [
-      {
-        name: 'Faq',
-        text: 'profiles.user_profile_menu.faq_help',
-        route: '/support/options',
-        type: 'link',
-      },
-      {
-        name: 'Support',
-        text: 'profiles.user_profile_menu.support_help',
-        route: '/tickets/new-create-support-ticket',
-        type: 'link',
-        buttonName: 'ux_go_to_contact_support',
-      },
-    ],
-  },
-  {
-    category_title: 'profiles.user_profile_menu.category_security_account',
-    icon: 'assets/ux-icons/ux-lock-outline.svg',
-    showCategory: true,
-    items: [
-      {
-        name: 'PasswordChangeAccount',
-        text: 'profiles.user_profile_menu.change_pass',
-        route: '/users/password-change',
-        type: 'link',
-      },
-    ],
-  },
-  {
-    category_title: 'profiles.user_profile_menu.category_security_wallet',
-    icon: 'assets/ux-icons/ux-key-outline.svg',
-    showCategory: true,
-    items: [
-      {
-        name: 'RecoveryPhrase',
-        text: 'profiles.user_profile_menu.security_phrase',
-        route: '/wallets/recovery/info',
-        type: 'link',
-      },
-    ],
-  },
-  {
-    id: 'wallet',
-    showCategory: false,
-    category_title: '',
-    icon: '',
-    items: [
-      {
-        name: 'BiometricAuth',
-        hidden: true,
-        text: 'profiles.user_profile_menu.security_phrase',
-        route: '/wallets/recovery/info',
-        type: 'link',
-      },
-    ],
-  },
-];
-
-const profile = { email: 'test@mail.com' };
 
 describe('UserProfileMenuPage', () => {
+  const itemMenu: MenuCategory[] = [
+    {
+      category_title: 'profiles.user_profile_menu.category_help',
+      icon: 'assets/ux-icons/ux-support.svg',
+      showCategory: true,
+      items: [
+        {
+          name: 'Faq',
+          text: 'profiles.user_profile_menu.faq_help',
+          route: '/support/options',
+          type: 'link',
+        },
+        {
+          name: 'Support',
+          text: 'profiles.user_profile_menu.support_help',
+          route: '/tickets/new-create-support-ticket',
+          type: 'link',
+          buttonName: 'ux_go_to_contact_support',
+        },
+      ],
+    },
+    {
+      category_title: 'profiles.user_profile_menu.category_security_account',
+      icon: 'assets/ux-icons/ux-lock-outline.svg',
+      showCategory: true,
+      items: [
+        {
+          name: 'PasswordChangeAccount',
+          text: 'profiles.user_profile_menu.change_pass',
+          route: '/users/password-change',
+          type: 'link',
+        },
+      ],
+    },
+    {
+      category_title: 'profiles.user_profile_menu.category_security_wallet',
+      icon: 'assets/ux-icons/ux-key-outline.svg',
+      showCategory: true,
+      items: [
+        {
+          name: 'RecoveryPhrase',
+          text: 'profiles.user_profile_menu.security_phrase',
+          route: '/wallets/recovery/info',
+          type: 'link',
+        },
+      ],
+    },
+    {
+      id: 'wallet',
+      showCategory: false,
+      category_title: '',
+      icon: '',
+      items: [
+        {
+          name: 'BiometricAuth',
+          hidden: true,
+          text: 'profiles.user_profile_menu.security_phrase',
+          route: '/wallets/recovery/info',
+          type: 'link',
+        },
+      ],
+    },
+  ];
+
+  const profile = { email: 'test@mail.com' };
+
   const anERC20Address = '0x0123456789101112131415';
   let component: UserProfileMenuPage;
   let fixture: ComponentFixture<UserProfileMenuPage>;
@@ -382,22 +383,26 @@ describe('UserProfileMenuPage', () => {
     expect(component.username).toEqual('Xcapiter 0x012');
   });
 
-  it('should show biometric auth item when new login', async () => {
+  it('should show biometric auth item when bio auth is enabled', async () => {
     component.itemMenu = itemMenu;
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
     await component.ionViewWillEnter();
+
     const biometricAuthItem = component.itemMenu
       .find((category) => category.id === 'wallet')
       .items.find((item) => item.name === 'BiometricAuth');
+
     expect(biometricAuthItem.hidden).toBeFalse();
   });
 
-  it('should hide biometric auth item when old login', async () => {
+  it('should hide biometric auth item when bio auth is disabled', async () => {
     component.itemMenu = itemMenu;
     await component.ionViewWillEnter();
+
     const biometricAuthItem = component.itemMenu
       .find((category) => category.id === 'wallet')
       .items.find((item) => item.name === 'BiometricAuth');
+
     expect(biometricAuthItem.hidden).toBeTrue();
   });
 

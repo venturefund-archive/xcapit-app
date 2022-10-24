@@ -86,7 +86,6 @@ describe('CreatePasswordPage', () => {
   let xAuthServiceSpy: jasmine.SpyObj<XAuthService>;
 
   beforeEach(() => {
-    spyOn(Wallet, 'fromMnemonic').and.returnValue(walletSpy);
     fakeLoadingService = new FakeLoadingService();
     loadingServiceSpy = fakeLoadingService.createSpy();
     fakeNavController = new FakeNavController();
@@ -113,6 +112,7 @@ describe('CreatePasswordPage', () => {
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       saveWalletAddresses: of({}),
       getCoins: coins,
+      getInitialTokens: coins,
     });
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
       encryptWallet: Promise.resolve(true),
@@ -133,6 +133,7 @@ describe('CreatePasswordPage', () => {
       },
       { mnemonic: { path: 'aDerivedPath' }, address: 'anAddress' }
     );
+    spyOn(Wallet, 'fromMnemonic').and.returnValue(walletSpy);
 
     walletServiceSpy = jasmine.createSpyObj(
       'WalletService',
@@ -196,7 +197,7 @@ describe('CreatePasswordPage', () => {
     component.ionViewWillEnter();
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    expect(apiWalletServiceSpy.getCoins).toHaveBeenCalledTimes(1);
+    expect(apiWalletServiceSpy.getInitialTokens).toHaveBeenCalledTimes(1);
     expect(walletMnemonicServiceSpy.newMnemonic).toHaveBeenCalledTimes(1);
   });
 

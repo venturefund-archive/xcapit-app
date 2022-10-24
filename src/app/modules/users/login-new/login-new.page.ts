@@ -11,6 +11,13 @@ import { LoginPasswordInfoComponent } from '../shared-users/components/login-pas
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { VerifyResult } from 'src/app/shared/models/biometric-auth/verify-result.interface';
+import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-auth.interface';
+import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
+import { LoginBiometricActivationModalComponent } from '../shared-users/components/login-biometric-activation-modal/login-biometric-activation-modal.component';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { LoginBiometricActivationModalService } from '../shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-login-new',
@@ -34,6 +41,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
               [textClass]="'info'"
               [infoIcon]="true"
               (infoIconClicked)="this.showPasswordInfoModal()"
+              [labelColor]="'white'"
             ></app-ux-input>
           </div>
           <div class="ul__login-button">
@@ -89,7 +97,7 @@ export class LoginNewPage {
   });
   private readonly _aTopic = 'app';
   private readonly _aKey = 'enabledPushNotifications';
-  biometricAuth = this.biometricAuthInjectable.create();
+  biometricAuth: BiometricAuth;
   constructor(
     private toastService: ToastService,
     private notificationsService: NotificationsService,
@@ -101,9 +109,14 @@ export class LoginNewPage {
     private biometricAuthInjectable: BiometricAuthInjectable,
     private trackService: TrackService,
     private ionicStorageService: IonicStorageService,
+    private walletBackupService: WalletBackupService,
+    private platformService: PlatformService,
+    private loginBiometricActivationService: LoginBiometricActivationModalService,
+    private remoteConfig: RemoteConfigService
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
+    this.biometricAuth = this.biometricAuthInjectable.create();
     this.activateBiometricAuth();
     this.trackService.trackEvent({
       eventAction: 'screenview',
@@ -116,9 +129,23 @@ export class LoginNewPage {
     this.toastService.dismiss();
   }
 
+  private _biometricAuthEnable(): boolean {
+    return this.remoteConfig.getFeatureFlag('ff_bioauth');
+  }
+
   async activateBiometricAuth() {
-    if ((await this.biometricAuth.enabled()) && (await this.biometricAuth.verified())) {
-      this.handleSubmit(true);
+    if (this._biometricAuthEnable() && await this.biometricAuth.enabled()) {
+      const verifyResult: VerifyResult = await this.biometricAuth.verified();
+      if (verifyResult.verified) {
+        this.handleSubmit(true);
+      }
+      if (verifyResult.message === 'Authentication failed.') {
+        this.toastService.showInfoToast({
+          message: this.translate.instant('users.login_new.error_biometric_auth'),
+          duration: 5000,
+        });
+        this.biometricAuth.off();
+      }
     }
   }
 
@@ -141,12 +168,19 @@ export class LoginNewPage {
   }
 
   async handleSubmit(isBiometricAuth: boolean) {
-    const password = isBiometricAuth
-      ? await this.biometricAuth.password()
-      : this.form.value.password;
+    const password = isBiometricAuth ? await this.biometricAuth.password() : this.form.value.password;
     if (await new LoginToken(new Password(password), this.storage).valid()) {
       await new LoggedIn(this.storage).save(true);
-      this.initializeNotifications();
+      await this.checkWalletProtected();
+      if (this._biometricAuthEnable() && this.platformService.isNative()) {
+        if (!(await this.biometricAuth.enabled()) && this.form.value.password && this.biometricAuth.available()) {
+          if (await this.showLoginBiometricActivation() === 'confirm') {
+            this.biometricAuth.onNeedPass().subscribe(() => Promise.resolve(new Password(this.form.value.password)));
+            await this.biometricAuth.on();
+          }
+        }
+      }
+      await this.initializeNotifications();
       this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
     } else {
       this.toastService.showErrorToast({
@@ -154,6 +188,14 @@ export class LoginNewPage {
         duration: 8000,
       });
     }
+  }
+
+  async checkWalletProtected() {
+    this.storage.get('protectedWallet').then((protectedWallet) => {
+      if (!protectedWallet) {
+        this.walletBackupService.enableModal();
+      }
+    });
   }
 
   async showPasswordInfoModal() {
@@ -169,6 +211,20 @@ export class LoginNewPage {
       },
     });
     modal.present();
+  }
+
+  async showLoginBiometricActivation() {
+    if (await this.loginBiometricActivationService.isShowModal()) {
+      const modal = await this.modalController.create({
+        component: LoginBiometricActivationModalComponent,
+        showBackdrop: true,
+        backdropDismiss: false,
+        cssClass: 'login-biometric-activation-modal',
+      });
+      modal.present();
+      const { data } = await modal.onWillDismiss();
+      return data;
+    }
   }
 
   goToResetPassword(): void {

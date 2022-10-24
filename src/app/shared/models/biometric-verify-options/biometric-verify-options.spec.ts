@@ -14,6 +14,11 @@ describe('BiometricVerifyOptions', () => {
   });
 
   it('value', () => {
-    expect(biometricVerifyOptions.value()).toEqual({reason:'test text', title:'test text',subtitle:'test text'});
+    expect(biometricVerifyOptions.value()).toEqual({
+      reason: 'test text',
+      title: 'test text',
+      subtitle: 'test text',
+      maxAttempts: 3,
+    });
   });
 });

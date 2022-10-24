@@ -8,6 +8,7 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
+import { LoginBiometricActivationModalService } from '../../users/shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
 
 @Component({
   selector: 'app-biometric-auth',
@@ -35,7 +36,7 @@ import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/pass
           <ion-toggle
             formControlName="biometric"
             name="ux_create_all"
-            class="ux-toggle ion-no-padding"
+            class="ba__toggle__toggle ux-toggle ion-no-padding"
             mode="ios"
             slot="end"
           ></ion-toggle>
@@ -56,7 +57,8 @@ export class BiometricAuthPage {
     private biometricAuthInjectable: BiometricAuthInjectable,
     private formBuilder: UntypedFormBuilder,
     private storage: IonicStorageService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private loginBiometricActivationService: LoginBiometricActivationModalService
   ) {}
 
   async ionViewDidEnter() {
@@ -92,18 +94,21 @@ export class BiometricAuthPage {
   async toggle(value: boolean) {
     const biometricAuth = this.biometricAuthInjectable.create();
     biometricAuth.onNeedPass().subscribe(() => this.requestPassword());
-    value
-      ? await biometricAuth.on().catch((err) => {
-          if (!new PasswordErrorMsgs().isEmptyError(err)) {
-            this.showErrorToast();
-          }
-          this.disableToggle();
-        })
-      : await biometricAuth.off();
+    if (value) {
+      await biometricAuth.on().catch((err) => {
+        if (!new PasswordErrorMsgs().isEmptyError(err)) {
+          this.showErrorToast();
+        }
+        this.disableToggle();
+      });
+    } else {
+      await this.loginBiometricActivationService.enableModal();
+      await biometricAuth.off();
+    }
   }
 
   private disableToggle() {
-    this.form.patchValue({ biometric: false });
+    this.form.patchValue({ biometric: false }, {emitEvent: false});
   }
 
   private showErrorToast() {
