@@ -17,6 +17,7 @@ import { LoginBiometricActivationModalComponent } from '../shared-users/componen
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { LoginBiometricActivationModalService } from '../shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { LoginMigrationService } from '../shared-users/services/login-migration-service/login-migration-service';
 
 @Component({
   selector: 'app-login-new',
@@ -107,7 +108,8 @@ export class LoginNewPage {
     private walletBackupService: WalletBackupService,
     private platformService: PlatformService,
     private loginBiometricActivationService: LoginBiometricActivationModalService,
-    private remoteConfig: RemoteConfigService
+    private remoteConfig: RemoteConfigService,
+    private loginMigrationService: LoginMigrationService
   ) {}
 
   async ionViewWillEnter() {
@@ -129,7 +131,7 @@ export class LoginNewPage {
   }
 
   async activateBiometricAuth() {
-    if (this._biometricAuthEnable() && await this.biometricAuth.enabled()) {
+    if (this._biometricAuthEnable() && (await this.biometricAuth.enabled())) {
       const verifyResult: VerifyResult = await this.biometricAuth.verified();
       if (verifyResult.verified) {
         this.handleSubmit(true);
@@ -144,26 +146,50 @@ export class LoginNewPage {
     }
   }
 
+  private _loginToken(aPassword: string): LoginToken {
+    return new LoginToken(new Password(aPassword), this.storage);
+  }
+
+  private async _loggedIn(): Promise<void> {
+    await new LoggedIn(this.storage).save(true);
+    await this.checkWalletProtected();
+  }
+
   async handleSubmit(isBiometricAuth: boolean) {
     const password = isBiometricAuth ? await this.biometricAuth.password() : this.form.value.password;
-    if (await new LoginToken(new Password(password), this.storage).valid()) {
-      await new LoggedIn(this.storage).save(true);
-      await this.checkWalletProtected();
+    if (!(await this._loginToken(password).exist())) {
+      try {
+        await this.loginMigrationService.migrate(password);
+        await this._loggedIn();
+        this._goToWallet();
+      } catch {
+        this._showInvalidPasswordToast();
+      }
+    } else if (await this._loginToken(password).valid()) {
+      await this._loggedIn();
       if (this._biometricAuthEnable() && this.platformService.isNative()) {
         if (!(await this.biometricAuth.enabled()) && this.form.value.password && this.biometricAuth.available()) {
-          if (await this.showLoginBiometricActivation() === 'confirm') {
+          if ((await this.showLoginBiometricActivation()) === 'confirm') {
             this.biometricAuth.onNeedPass().subscribe(() => Promise.resolve(new Password(this.form.value.password)));
             await this.biometricAuth.on();
           }
         }
       }
-      this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
+      this._goToWallet();
     } else {
-      this.toastService.showErrorToast({
-        message: this.translate.instant('users.login_new.invalid_password_text'),
-        duration: 8000,
-      });
+      this._showInvalidPasswordToast();
     }
+  }
+
+  private _goToWallet(): void {
+    this.navController.navigateForward('/tabs/wallets', { replaceUrl: true });
+  }
+
+  private _showInvalidPasswordToast() {
+    this.toastService.showErrorToast({
+      message: this.translate.instant('users.login_new.invalid_password_text'),
+      duration: 8000,
+    });
   }
 
   async checkWalletProtected() {
