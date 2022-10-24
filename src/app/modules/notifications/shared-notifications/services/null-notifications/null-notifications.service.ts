@@ -17,7 +17,7 @@ export class NullNotificationsService implements Notification {
 
   pushNotificationActionPerformed(): void {}
 
-  subscribeTo(aTopic: string): void {};
+  subscribeTo(aTopic: string): void {}
 
-  unsubscribeFrom(aTopic: string): void {};
+  unsubscribeFrom(aTopic: string): void {}
 }
