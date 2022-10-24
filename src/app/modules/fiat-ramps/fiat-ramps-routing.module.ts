@@ -117,6 +117,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'user-personal-information',
+        loadChildren: () =>
+          import('./kyc-user-personal-information/kyc-user-personal-information.module').then(
+            (m) => m.KycUserPersonalInformationPageModule
+          ),
+      },
+      {
         path: 'user-address',
         loadChildren: () =>
           import('./kyc-user-address-information/kyc-user-address-information.module').then(

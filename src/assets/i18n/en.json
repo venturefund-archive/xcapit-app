@@ -170,7 +170,7 @@
       "reset_password_link": "I forgot my password",
       "help_link": "Help",
       "invalid_password_text": "The password entered is incorrect. Please try again.",
-      "error_biometric_auth": "An error occurred while trying to read your biometric data. Please enter your password to access."  
+      "error_biometric_auth": "An error occurred while trying to read your biometric data. Please enter your password to access."
     },
     "login": {
       "password_label": "Password",
@@ -1885,6 +1885,10 @@
       }
     },
     "shared_wallets": {
+      "accordion_token": {
+        "expand_button": "Expand",
+        "reduce_button": "Reduce"
+      },
       "share_transaction_detail": {
         "text": "Hello! I sent you ",
         "text2": "For more information: ",
@@ -2205,8 +2209,8 @@
       "button_show_less": "Show less",
       "button_show_more": "Show more"
     },
-    "provider_new_operation_card":{
-      "description":"Provider: {{providerName}}"
+    "provider_new_operation_card": {
+      "description": "Provider: {{providerName}}"
     },
     "fiat_success": {
       "textPrimary": "Operation created",
@@ -2454,13 +2458,13 @@
         "button": "Understood"
       },
       "constants": {
-        "payment_types":{
-          "directa24_bank_deposit":"Bank deposit",
-          "directa24_bank_transfer":"Bank transfer",
-          "directa24_credit_card":"Credit or debit card",
-          "directa24_voucher":"Nearest store",
-          "kripton":"Bank transfer",
-          "moonpay":"Credit card"
+        "payment_types": {
+          "directa24_bank_deposit": "Bank deposit",
+          "directa24_bank_transfer": "Bank transfer",
+          "directa24_credit_card": "Credit or debit card",
+          "directa24_voucher": "Nearest store",
+          "kripton": "Bank transfer",
+          "moonpay": "Credit card"
         },
         "providers": {
           "kripton": {
@@ -2547,7 +2551,22 @@
         "label_apartment": "Apt (optional)",
         "label_city": "City",
         "label_zip_code": "Zip code",
-        "placeholder_birthday": "mm/dd/yyyy",
+        "placeholder_birthday": "mm/dd/yyyy"
+      },
+      "user_personal_information": {
+        "header": "Load data",
+        "provider": "Provider: Kripton Market",
+        "title": "😎 We're almost done",
+        "subtitle": "Enter your personal data",
+        "general_placeholder": "Select an option",
+        "label_nationality": "Nationality",
+        "label_document": "Document",
+        "placeholder_document": "Type",
+        "modal_title_document": "Document type",
+        "label_gender": "Gender",
+        "label_marital_status": "Marital status",
+        "label_country_code": "Country code",
+        "label_phone": "Phone",
         "button": "Continue"
       }
     }
