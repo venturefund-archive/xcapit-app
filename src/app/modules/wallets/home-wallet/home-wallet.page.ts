@@ -341,7 +341,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   goToWalletConnect() {
-    let url = this.connected ? '/wallets/wallet-connect/connection-detail' : '/wallets/wallet-connect/new-connection';
+    const url = this.connected ? '/wallets/wallet-connect/connection-detail' : '/wallets/wallet-connect/new-connection';
     this.navController.navigateForward(url);
   }
 
