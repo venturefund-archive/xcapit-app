@@ -1,44 +1,43 @@
 import { Directive, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { RemoteConfigService } from '../../services/remote-config/remote-config.service';
-import { App } from '@capacitor/app';
 import { AppVersionInjectable } from '../../models/app-version/injectable/app-version.injectable';
+import { Subscription } from 'rxjs';
+import { FeatureFlagInjectable } from '../../models/feature-flag/injectable/feature-flag.injectable';
 
 @Directive({
   selector: '[inReviewAppFeatureFlag]',
 })
 export class InReviewFeatureFlagDirective implements OnInit {
-  app = App;
+  subscription$: Subscription;
   constructor(
     private viewContainer: ViewContainerRef,
     private templateRef: TemplateRef<any>,
     private remoteConfigService: RemoteConfigService,
-    private appVersion: AppVersionInjectable
+    private appVersion: AppVersionInjectable,
+    private featureFlag: FeatureFlagInjectable
   ) {}
 
   ngOnInit() {
-    this.checkIfRemoteConfigIsInitialized();
+    this.initialize();
   }
 
-  private async createView() {
-    if (await this.getFeatureFlag()) {
-      this.viewContainer.createEmbeddedView(this.templateRef);
-    } else {
-      this.viewContainer.clear();
-    }
+  private async initialize(): Promise<void> {
+    this.subscription$ = this.remoteConfigService.initialized().subscribe((initialized) => {
+      initialized && this.evaluateFeatureFlag();
+    });
   }
 
-  private checkIfRemoteConfigIsInitialized() {
-    if (this.remoteConfigService.isInitialized) {
-      this.createView();
-    } else {
-      this.remoteConfigService.initializationCompleteEvent.subscribe(() => {
-        this.createView();
-      });
-    }
-  }
-
-  private async getFeatureFlag(): Promise<boolean> {
+  private async isEnabled(): Promise<boolean> {
     const inReview = this.remoteConfigService.getFeatureFlag('inReview');
     return !((await this.appVersion.create().updated()) && inReview);
+  }
+
+  private async evaluateFeatureFlag() {
+    await this.featureFlag.create(this.viewContainer, this.templateRef, () => this.isEnabled()).evaluate();
+    this.unsubscribe();
+  }
+
+  private unsubscribe(): void {
+    this.subscription$ && this.subscription$.unsubscribe();
   }
 }
