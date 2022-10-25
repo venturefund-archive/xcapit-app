@@ -433,6 +433,6 @@ describe('HomeWalletPage', () => {
     const iconEl = fixture.debugElement.query(By.css('ion-icon[name="ux-walletconnectconnect"]'));
     iconEl.nativeElement.click();
     expect(iconEl).toBeTruthy();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/new-connection');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/connection-detail');
   });
 });
