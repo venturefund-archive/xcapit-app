@@ -1700,6 +1700,10 @@
       },
       "backup_card_component": {
         "text": "Don't lose your money. <b> Protect your wallet. </b>"
+      },
+      "no_tokens_selected": {
+        "title": "Here you will find your tokens.",
+        "link": "Select the ones you wish to view"
       }
     },
     "select_coin": {
