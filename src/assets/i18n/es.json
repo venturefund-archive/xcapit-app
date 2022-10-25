@@ -1693,6 +1693,10 @@
       },
       "backup_card_component": {
         "text": "No pierdas tu dinero. <b> Protege tu wallet. </b>"
+      },
+      "no_tokens_selected": {
+        "title": "Aquí se encontrarán tus tokens.",
+        "link": "Selecciona los que desees visualizar"
       }
     },
     "select_coin": {
@@ -1959,6 +1963,13 @@
       "new_token_info-modal": {
         "title": "Ventajas de usar Solana",
         "subtitle": "Solana es una de las redes más económicas y rápidas del ecosistema cripto eso se debe a que tienen una validación de bloques muy distinta que se denomina proof of history que ayudo a que se desarrolle un enorme ecosistema a su alrededor."
+      },
+      "no_active_tokens_card": {
+        "title": {
+          "send": "Para avanzar, activa la visualización de los tokens que deseas enviar",
+          "receive": "Para avanzar, activa la visualización de los tokens que deseas recibir"
+        },
+        "button": "Activar tokens"
       }
     },
     "asset_detail": {

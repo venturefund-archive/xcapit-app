@@ -169,8 +169,17 @@ import { WalletConnectService } from '../shared-wallets/services/wallet-connect/
               class="wt__balance__loading"
               color="primary"
               name="crescent"
-              *ngIf="this.tokenDetails.length === 0"
+              *ngIf="this.tokenDetails.length === 0 && this.allLoaded === false"
             ></ion-spinner>
+            <div class="wt__balance__no-token" *ngIf="this.tokenDetails.length === 0 && this.allLoaded === true">
+              <ion-text class="ux-font-text-xxs wt__balance__no-token__title">{{
+                'wallets.home.no_tokens_selected.title' | translate
+              }}</ion-text>
+              <img src="assets/img/wallets/growing_rafiki.svg" />
+              <ion-text class="ux-link-xs wt__balance__no-token__link" (click)="this.goToSelectCoins()">{{
+                'wallets.home.no_tokens_selected.link' | translate
+              }}</ion-text>
+            </div>
             <div *appFeatureFlag="'ff_newTokenAvailable'">
               <app-new-token-available-card *ngFor="let newToken of this.newTokens" [newToken]="newToken">
               </app-new-token-available-card>
@@ -228,7 +237,8 @@ export class HomeWalletPage implements OnInit {
   pids = [];
   newTokens: NewToken[];
   connected: boolean;
-
+  allLoaded = false;
+  
   constructor(
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
@@ -367,6 +377,7 @@ export class HomeWalletPage implements OnInit {
     this.sortTokens(tokenDetails);
     this.tokenDetails = tokenDetails;
     this.spinnerActivated = false;
+    this.allLoaded = true;
   }
 
   private async fetchDetails() {

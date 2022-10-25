@@ -167,6 +167,25 @@
         justify-self: center;
         margin-bottom: 30px;
       }
+
+      &__no-token {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 16px;
+
+        &__title {
+          color: var(--ion-color-neutral80);
+          line-height: 24px;
+          margin-bottom: 8px;
+        }
+
+        &__link {
+          margin-top: 8px;
+        }
+      }
     }
   }
 
