@@ -18,6 +18,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 import { LoginBiometricActivationModalService } from '../shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { LoginMigrationService } from '../shared-users/services/login-migration-service/login-migration-service';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-login-new',
@@ -109,7 +110,8 @@ export class LoginNewPage {
     private platformService: PlatformService,
     private loginBiometricActivationService: LoginBiometricActivationModalService,
     private remoteConfig: RemoteConfigService,
-    private loginMigrationService: LoginMigrationService
+    private loginMigrationService: LoginMigrationService,
+    private notificationsService: NotificationsService
   ) {}
 
   async ionViewWillEnter() {
@@ -152,6 +154,7 @@ export class LoginNewPage {
 
   private async _loggedIn(): Promise<void> {
     await new LoggedIn(this.storage).save(true);
+    this.notificationsService.getInstance().init();
     await this.checkWalletProtected();
   }
 

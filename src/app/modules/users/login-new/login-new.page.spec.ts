@@ -21,6 +21,8 @@ import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-au
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { LoginMigrationService } from '../shared-users/services/login-migration-service/login-migration-service';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -42,6 +44,8 @@ describe('LoginNewPage', () => {
   let fakeBiometricAuth: BiometricAuth;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let loginMigrationServiceSpy: jasmine.SpyObj<LoginMigrationService>;
+  let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
 
   beforeEach(waitForAsync(() => {
     fakeBiometricAuth = new FakeBiometricAuth();
@@ -79,6 +83,12 @@ describe('LoginNewPage', () => {
 
     loginMigrationServiceSpy = jasmine.createSpyObj('LoginMigrationService', { migrate: Promise.resolve() });
 
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init']);
+
+    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+      getInstance: nullNotificationServiceSpy,
+    });
+
     TestBed.configureTestingModule({
       declarations: [LoginNewPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
@@ -94,6 +104,7 @@ describe('LoginNewPage', () => {
         { provide: PlatformService, useValue: platformServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: LoginMigrationService, useValue: loginMigrationServiceSpy },
+        { provide: NotificationsService, useValue: notificationsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
