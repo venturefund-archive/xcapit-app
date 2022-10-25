@@ -15,17 +15,20 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
       </ion-toolbar>
     </ion-header>
     <ion-content class="sc ion-padding">
-      <div class="sc__title">
-        <ion-label class="ux-font-text-lg">
-          {{ 'wallets.send.select_currency.title' | translate }}
-        </ion-label>
-      </div>
-      <div class="sc__list" *ngIf="this.coins">
-        <app-token-selection-list
-          state="send"
-          [userCoins]="this.coins"
-          (clickedCoin)="this.selectCurrency($event)"
-        ></app-token-selection-list>
+      <app-no-active-tokens-card *ngIf="!this.hasAssets" operation="send"></app-no-active-tokens-card>
+      <div class="content" *ngIf="this.hasAssets">
+        <div class="sc__title">
+          <ion-label class="ux-font-text-lg">
+            {{ 'wallets.send.select_currency.title' | translate }}
+          </ion-label>
+        </div>
+        <div class="sc__list" *ngIf="this.coins">
+          <app-token-selection-list
+            state="send"
+            [userCoins]="this.coins"
+            (clickedCoin)="this.selectCurrency($event)"
+          ></app-token-selection-list>
+        </div>
       </div>
     </ion-content>
   `,
@@ -33,12 +36,16 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
 })
 export class SelectCurrencyPage implements OnInit {
   coins: Coin[];
+  hasAssets: boolean;
   constructor(private navController: NavController, private storageService: StorageService) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.storageService.getAssestsSelected().then((coins) => (this.coins = coins));
+    this.storageService.getAssestsSelected().then((coins) => {
+      this.coins = coins;
+      this.hasAssets = this.coins.length > 0;
+    });
   }
 
   selectCurrency(token: Coin) {

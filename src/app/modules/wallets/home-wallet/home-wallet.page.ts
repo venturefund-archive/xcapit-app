@@ -169,9 +169,9 @@ import { WalletConnectService } from '../shared-wallets/services/wallet-connect/
               class="wt__balance__loading"
               color="primary"
               name="crescent"
-              *ngIf="this.tokenDetails.length === 0 && this.allLoaded == false"
+              *ngIf="this.tokenDetails.length === 0 && this.allLoaded === false"
             ></ion-spinner>
-            <div class="wt__balance__no-token" *ngIf="this.tokenDetails.length === 0 && this.allLoaded == true">
+            <div class="wt__balance__no-token" *ngIf="this.tokenDetails.length === 0 && this.allLoaded === true">
               <ion-text class="ux-font-text-xxs wt__balance__no-token__title">{{
                 'wallets.home.no_tokens_selected.title' | translate
               }}</ion-text>
