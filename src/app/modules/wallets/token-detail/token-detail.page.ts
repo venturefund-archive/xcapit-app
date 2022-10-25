@@ -249,6 +249,7 @@ export class TokenDetailPage {
       this.transfers = await this.transfersFactory.create(this.token.json(), this.wallet.address()).all();
     }
   }
+
   private setAllowedOperations() {
     this.enabledToBuy = !!new ProviderTokensOf(this.providers.create(), [this.token.json()]).all().length;
     this.enabledToOperate = true;
