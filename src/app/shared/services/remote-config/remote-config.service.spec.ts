@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { RemoteConfiguration } from '../../interfaces/remote-configuration.interface';
 import { RemoteConfigService } from './remote-config.service';
 
@@ -23,14 +23,15 @@ describe('RemoteConfigService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call initialize on initialize', async () => {
+  it('should call initialize on initialize', fakeAsync(() => {
     const spy = spyOn(remoteConfigMock, 'initialize');
-    const eventSpy = spyOn(service.initializationCompleteEvent, 'emit');
-    await service.initialize(remoteConfigMock);
+    service.initialize(remoteConfigMock);
+    tick();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(service.isInitialized).toBeTrue();
-    expect(eventSpy).toHaveBeenCalledTimes(1);
-  });
+    service.initialized().subscribe((initialized) => {
+      expect(initialized).toBeTrue();
+    });
+  }));
 
   it('should call getFeatureFlag on getFeatureFlag', async () => {
     const spy = spyOn(remoteConfigMock, 'getFeatureFlag');
