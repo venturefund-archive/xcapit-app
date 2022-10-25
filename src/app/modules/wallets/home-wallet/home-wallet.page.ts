@@ -42,9 +42,9 @@ import { WalletConnectService } from '../shared-wallets/services/wallet-connect/
       <ion-toolbar color="primary" class="ux_toolbar">
         <div class="header">
           <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
-          <ion-icon *ngIf="!this.connected" name="ux-walletconnect"></ion-icon>
-          <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect"></ion-icon>
         </div>
+        <ion-icon *ngIf="!this.connected" name="ux-walletconnect" (click)="this.goToWalletConnect()"></ion-icon>
+        <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect" (click)="this.goToWalletConnect()"></ion-icon>
         <app-avatar-profile></app-avatar-profile>
       </ion-toolbar>
     </ion-header>
@@ -338,6 +338,10 @@ export class HomeWalletPage implements OnInit {
 
   goToBackup() {
     this.navController.navigateForward('/wallets/recovery/read');
+  }
+
+  goToWalletConnect() {
+    this.navController.navigateForward('/wallets/wallet-connect/new-connection');
   }
 
   private initializeTotalBalance() {
