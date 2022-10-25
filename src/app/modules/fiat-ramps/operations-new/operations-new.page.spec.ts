@@ -173,6 +173,7 @@ describe('OperationsNewPage', () => {
       value: 'fiat_ramps.countries_list.argentina',
       fiatCode: 'ars',
       isoCodeAlpha3: 'ARS',
+      iso4217CurrencyCode: 'ARS',
       directaCode: 'AR',
       isoCurrencyCodeDirecta: 'ARS',
     });

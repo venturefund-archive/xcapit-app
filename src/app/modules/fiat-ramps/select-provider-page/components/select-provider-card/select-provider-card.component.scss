@@ -15,6 +15,12 @@
       }
     }
 
+    &__disclaimer {
+      ion-text {
+        color: var(--ion-color-neutral80);
+      }
+    }
+
     &__providers {
       margin-top: 24px;
 

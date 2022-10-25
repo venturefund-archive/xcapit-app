@@ -36,18 +36,26 @@ import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay
         <div class="spc__select__label-provider" *ngIf="this.availableProviders.length">
           <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.select_provider.provider_label' | translate }}</ion-text>
         </div>
-        <ion-radio-group class="spc__providers__radio-group" [formControlName]="this.controlNameProvider" [value]="this.bestProvider">
-          <ion-text *ngIf="this.usdProviders.length > 0" class="ux-font-text-xxs spc__providers__radio-group__label">{{ 'fiat_ramps.select_provider.pay_in_fiat' | translate }}</ion-text>
+        <ion-radio-group
+          class="spc__providers__radio-group"
+          [formControlName]="this.controlNameProvider"
+          [value]="this.bestProvider"
+        >
+          <ion-text *ngIf="this.fiatProviders.length > 0" class="ux-font-text-xxs spc__providers__radio-group__label">{{
+            'fiat_ramps.select_provider.pay_in_fiat' | translate
+          }}</ion-text>
           <div *ngFor="let provider of fiatProviders">
             <app-provider-card
               [disabled]="this.disabled"
               [provider]="provider"
-              [fiatCode]="this.country.isoCodeAlpha3"
+              [fiatCode]="this.country.iso4217CurrencyCode"
               [tokenValue]="this.coin.value"
               (selectedProvider)="this.selectedProvider($event)"
             ></app-provider-card>
           </div>
-          <ion-text *ngIf="this.usdProviders.length > 0" class="ux-font-text-xxs spc__providers__radio-group__label">{{ 'fiat_ramps.select_provider.pay_in_usd' | translate }}</ion-text>
+          <ion-text *ngIf="this.usdProviders.length > 0" class="ux-font-text-xxs spc__providers__radio-group__label">{{
+            'fiat_ramps.select_provider.pay_in_usd' | translate
+          }}</ion-text>
           <div *ngFor="let provider of usdProviders">
             <app-provider-card
               [disabled]="this.disabled"
@@ -63,6 +71,9 @@ import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay
           <ion-text class="ux-font-text-xxs" color="neutral80">{{
             'fiat_ramps.select_provider.no_provider' | translate: { coinName: this.coin.value }
           }}</ion-text>
+        </div>
+        <div class="spc__disclaimer" *ngIf="this.availableProviders.length">
+          <ion-text class="ux-font-text-xs"> {{ 'fiat_ramps.select_provider.disclaimer' | translate }} </ion-text>
         </div>
       </div>
     </div>
@@ -90,9 +101,6 @@ export class SelectProviderCardComponent implements OnInit {
   bestProvider: FiatRampProvider;
   directaQuote: number;
   kriptonQuote: number;
-  moonpayQuote: number;
-  directaUsdQuote: number;
-  kriptonUsdQuote: number;
   moonpayUsdQuote: number;
   country: FiatRampProviderCountry;
   constructor(
@@ -147,19 +155,19 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   async setDirectaQuote(fiatCode: string) {
-    if (fiatCode) {
+    if (fiatCode && this.coin.value === 'USDC') {
       return await this.directaPriceFactory.new(fiatCode, this.coin, this.fiatRampsService).value().toPromise();
     }
     return null;
   }
   async setKriptonQuote(fiatCode: string) {
-    if (fiatCode) {
+    if (fiatCode && this.availableProviders.some((p) => p.alias === 'kripton')) {
       return await this.kriptonPriceFactory.new(fiatCode, this.coin, this.http).value().toPromise();
     }
     return null;
   }
   async setMoonpayQuote(fiatCode: string) {
-    if (fiatCode) {
+    if (fiatCode && this.availableProviders.some((p) => p.alias === 'moonpay')) {
       return await this.moonpayFactory.new(fiatCode, this.coin.moonpayCode, this.fiatRampsService).value().toPromise();
     }
     return null;
@@ -168,10 +176,6 @@ export class SelectProviderCardComponent implements OnInit {
   async setProvidersQuote() {
     this.directaQuote = await this.setDirectaQuote(this.country.isoCurrencyCodeDirecta);
     this.kriptonQuote = await this.setKriptonQuote(this.country.fiatCode);
-    this.moonpayQuote = await this.setMoonpayQuote(this.country.isoCurrencyCodeMoonpay);
-
-    this.directaUsdQuote = await this.setDirectaQuote('USD');
-    this.kriptonUsdQuote = await this.setKriptonQuote('USD');
     this.moonpayUsdQuote = await this.setMoonpayQuote('USD');
   }
 
@@ -180,26 +184,28 @@ export class SelectProviderCardComponent implements OnInit {
     this.usdProviders = [];
   }
 
-  hasMoonpayFiatQuote(){
-    return Boolean(this.country.isoCurrencyCodeMoonpay)
+  isUsdFiatQuote() {
+    return Boolean(this.country.isoCurrencyCodeMoonpay);
   }
 
   sliceProviders() {
-    if(!this.hasMoonpayFiatQuote()){
+    if (!this.isUsdFiatQuote()) {
       for (const provider of this.availableProviders) {
         provider.alias === 'moonpay' ? this.usdProviders.push(provider) : this.fiatProviders.push(provider);
       }
-    }else{
+    } else {
       this.fiatProviders = this.availableProviders;
     }
+    console.log('AP',this.availableProviders)
+    console.log('FP',this.fiatProviders)
   }
 
   getBestProvider() {
     let bestProvider: FiatRampProvider = null;
-    for (const provider of this.availableProviders) {
+    for (const provider of this.fiatProviders) {
       if (!bestProvider) {
         bestProvider = provider;
-      } else if (provider.usdQuote < bestProvider.usdQuote) {
+      } else if (provider.quote < bestProvider.quote) {
         bestProvider = provider;
       }
     }
@@ -208,20 +214,22 @@ export class SelectProviderCardComponent implements OnInit {
 
   moreThanOneBestQuote() {
     const bestProviderQuote = this.getBestProvider().quote;
-    const isMoreThanOne = this.availableProviders.filter((provider) => provider.quote === bestProviderQuote);
+    const isMoreThanOne = this.fiatProviders.filter((provider) => provider.quote === bestProviderQuote);
     return isMoreThanOne.length > 1;
   }
 
   setBestQuoteByProvider() {
-    if (!this.moreThanOneBestQuote()) {
-      const bestProvider = this.getBestProvider();
-      this.availableProviders = this.availableProviders.map((provider) => {
-        provider.isBestQuote = provider.id === bestProvider.id;
-        return provider;
-      });
-      this.form.get('provider').setValue(bestProvider);
-      this.selectedProvider(bestProvider);
-      this.bestProvider = bestProvider;
+    if (this.fiatProviders.length > 0) {
+      if (!this.moreThanOneBestQuote()) {
+        const bestProvider = this.getBestProvider();
+        this.fiatProviders = this.fiatProviders.map((provider) => {
+          provider.isBestQuote = provider.id === bestProvider.id;
+          return provider;
+        });
+        this.form.get('provider').setValue(bestProvider);
+        this.selectedProvider(bestProvider);
+        this.bestProvider = bestProvider;
+      }
     }
   }
 
@@ -229,13 +237,10 @@ export class SelectProviderCardComponent implements OnInit {
     this.availableProviders = this.availableProviders.map((provider) => {
       if (provider.providerName === 'directa24') {
         provider.quote = this.directaQuote;
-        provider.usdQuote = this.directaUsdQuote;
       } else if (provider.providerName === 'kripton') {
         provider.quote = this.kriptonQuote;
-        provider.usdQuote = this.kriptonUsdQuote;
       } else if (provider.providerName === 'moonpay') {
-        provider.quote = this.moonpayQuote;
-        provider.usdQuote = this.moonpayUsdQuote;
+        this.isUsdFiatQuote() ? (provider.usdQuote = this.moonpayUsdQuote) : (provider.quote = this.moonpayUsdQuote);
       }
       return provider;
     });

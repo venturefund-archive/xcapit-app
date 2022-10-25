@@ -3,6 +3,7 @@ export const rawProvidersData = [
     id: 3,
     alias: 'moonpay',
     name: 'Moonpay',
+    providerName: 'moonpay',
     trackClickEventName: 'ux_buy_moonpay',
     logoRoute: 'assets/img/provider-logos/Moonpay.svg',
     description: 'fiat_ramps.select_provider.moonpay_description',
@@ -27,6 +28,7 @@ export const rawProvidersData = [
     currencies: [
       { symbol: 'ETH', network: 'ERC20' },
       { symbol: 'LINK', network: 'ERC20' },
+      { symbol: 'USDC', network: 'MATIC' },
     ],
   },
   {
@@ -34,6 +36,7 @@ export const rawProvidersData = [
     alias: 'kripton',
     name: 'Kripton Market',
     trackClickEventName: 'ux_buy_kripton',
+    providerName: 'kripton',
     logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
     description: 'fiat_ramps.select_provider.krypton_description',
     newOperationRoute: '/fiat-ramps/new-operation/kripton',
@@ -41,6 +44,7 @@ export const rawProvidersData = [
     currencies: [
       { symbol: 'DAI', network: 'MATIC' },
       { symbol: 'MATIC', network: 'MATIC' },
+      { symbol: 'USDC', network: 'MATIC' },
     ],
   },
   {
@@ -66,5 +70,22 @@ export const rawProvidersData = [
     trackClickEventName: 'ux_buy_d24_BPICHINCHA',
     countries: ['Ecuador'],
     currencies: [{ symbol: 'USDC', network: 'MATIC' }],
+  },
+  {
+    id: 11,
+    alias: 'PC',
+    name: 'PSE',
+    providerName: 'directa24',
+    logoRoute: 'assets/img/provider-logos/directa24/PSE.svg',
+    description: 'fiat_ramps.select_provider.directa24.platform_description',
+    newOperationRoute: '/fiat-ramps/new-operation/others',
+    trackClickEventName: 'ux_buy_d24_PSE',
+    countries: ['Colombia'],
+    currencies: [
+      {
+        symbol: 'USDC',
+        network: 'MATIC',
+      },
+    ],
   },
 ];
