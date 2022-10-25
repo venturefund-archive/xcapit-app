@@ -36,7 +36,6 @@ export class BuyOrDepositTokenToastComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.primaryButtonText, this.secondaryButtonText, this.text, this.token)
     if (this.isTokenAvailableForPurchase()) {
       this.primaryButtonText = this.translateService.instant(this.primaryButtonText, {token: this.token.symbol()});
     } else {

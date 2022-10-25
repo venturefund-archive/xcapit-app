@@ -48,7 +48,6 @@ import { of } from 'rxjs';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { Password } from '../shared-swaps/models/password/password';
 
-// TODO: Fix tests
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
@@ -478,9 +477,24 @@ describe('SwapHomePage', () => {
     expect(component.insufficientBalance).toBeTruthy();
   }));
 
-  it('should show alert when insuficient funds for amount')
-  it('should show alert when insuficient funds for fee')
-  it('should show alert when insuficient funds for fee')
-  it('should show buy button if token available for purchase')
-  it('should not show buy button if token available for purchase')
+  it('should show alert when insuficient funds for amount', fakeAsync(() => {
+    const feeModal = spyOn(component, 'showInsufficientBalanceFeeModal');
+    const balanceModal = spyOn(component, 'showInsufficientBalanceModal');
+
+    _setTokenAmountArrange(15);
+
+    expect(balanceModal).toHaveBeenCalledTimes(1);
+    expect(feeModal).not.toHaveBeenCalled();
+  }));
+
+  it('should show alert when insuficient funds for fee', fakeAsync(() => {
+    const feeModal = spyOn(component, 'showInsufficientBalanceFeeModal');
+    const balanceModal = spyOn(component, 'showInsufficientBalanceModal');
+    walletBalanceSpy.balanceOf.and.returnValues(Promise.resolve(10), Promise.resolve(0));
+    fixture.detectChanges();
+    _setTokenAmountArrange(10);
+
+    expect(feeModal).toHaveBeenCalledTimes(1);
+    expect(balanceModal).not.toHaveBeenCalled();
+  }));
 });
