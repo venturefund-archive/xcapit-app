@@ -196,8 +196,6 @@ export class SelectProviderCardComponent implements OnInit {
     } else {
       this.fiatProviders = this.availableProviders;
     }
-    console.log('AP',this.availableProviders)
-    console.log('FP',this.fiatProviders)
   }
 
   getBestProvider() {

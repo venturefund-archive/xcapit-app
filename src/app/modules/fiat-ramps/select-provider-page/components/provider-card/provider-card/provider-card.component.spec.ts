@@ -9,13 +9,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 const providerTest = {
   id: 2,
   alias: 'kripton',
   name: 'Kripton Market',
   logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
-  description: 'fiat_ramps.select_provider.krypton_description',
+  description: 'fiat_ramps.select_provider.description',
   newOperationRoute: '/fiat-ramps/new-operation/kripton',
   countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
   trackClickEventName: 'ux_buy_moonpay',
@@ -30,23 +31,21 @@ describe('ProviderCardComponent', () => {
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
 
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      fakeModalController = new FakeModalController();
-      modalControllerSpy = fakeModalController.createSpy();
-      TestBed.configureTestingModule({
-        declarations: [ProviderCardComponent, FakeTrackClickDirective],
-        imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ModalController, useValue: modalControllerSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
+    TestBed.configureTestingModule({
+      declarations: [ProviderCardComponent, FakeTrackClickDirective, FormattedAmountPipe],
+      imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProviderCardComponent);
@@ -61,12 +60,28 @@ describe('ProviderCardComponent', () => {
   });
 
   it('should render properly', () => {
+    component.provider = {quote:1 ,...providerTest}
+    fixture.detectChanges();
     const imgEl = fixture.debugElement.query(By.css('div.pcc__content__image'));
-    const nameEl = fixture.debugElement.query(By.css('ion-text.name'));
+    const nameEl = fixture.debugElement.query(By.css('.pcc__content__body__name > ion-text'));
     const descriptionEl = fixture.debugElement.query(By.css('ion-text.description'));
     expect(imgEl.nativeElement.innerHTML).toBeTruthy();
     expect(nameEl.nativeElement.innerHTML).toContain(providerTest.name);
     expect(descriptionEl.nativeElement.innerHTML).toContain(providerTest.description);
+  });
+
+  it('should show skeleton when quote is not loaded yet', () => {
+    const skeletonEl = fixture.debugElement.query(By.css('div.pcc__content__body__description ion-skeleton-text'));
+    fixture.detectChanges();
+    expect(skeletonEl).toBeTruthy();
+  });
+
+
+  it('should show best quote badge when provider have best quote', () => {
+    component.provider = {isBestQuote: true,...providerTest}
+    fixture.detectChanges();
+    const besQuoteBadgeEl = fixture.debugElement.query(By.css('.pcc ion-badge'));
+    expect(besQuoteBadgeEl).toBeTruthy();
   });
 
   it('should emit event when radio button is checked', () => {

@@ -10,7 +10,7 @@ describe('DefaultMoonpayPrice', () => {
   
   beforeEach(() => {
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', { getMoonpayQuotation: of({ ARG: 1 }) });
-    moonpayPrice = new DefaultMoonpayPrice('USDC_polygon', 'ARG', fiatRampsServiceSpy);
+    moonpayPrice = new DefaultMoonpayPrice('ARG', 'USDC_polygon', fiatRampsServiceSpy);
   });
 
   it('new', () => {

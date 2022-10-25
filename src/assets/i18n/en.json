@@ -2214,6 +2214,7 @@
       "no_provider": "At the moment it is not possible to purchase {{coinName}} in your country.",
       "moonpay_description": "Buy with a credit card",
       "pay_in_usd": "Pay in USD",
+      "best_quote":"Best quote",
       "pay_in_fiat": "Pay in local currency",
       "krypton_description": "Buy with bank transfer",
       "disclaimer": "* Quotes may vary slightly at the time of purchase.",
