@@ -416,7 +416,7 @@ describe('HomeWalletPage', () => {
     expect(totalInvestedEl.nativeElement.innerHTML).toContain('12.78 USD');
   });
 
-  it('should render correct icon if wallet connect is not connected and redirect to wallet connect page when icon is clicked', async () => {
+  it('should render correct icon if wallet connect is not connected and redirect to new connection page when icon is clicked', async () => {
     walletConnectServiceSpy.connected = false;
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -426,7 +426,7 @@ describe('HomeWalletPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/new-connection');
   });
 
-  it('should render correct icon if wallet connect is connected and redirect to wallet connect page when icon is clicked', async () => {
+  it('should render correct icon if wallet connect is connected and redirect to connection detail page when icon is clicked', async () => {
     walletConnectServiceSpy.connected = true;
     component.ionViewWillEnter();
     fixture.detectChanges();

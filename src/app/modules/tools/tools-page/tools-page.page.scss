@@ -2,6 +2,14 @@
   .ux_toolbar {
     --border-width: 0;
     --border-color: transparent;
+
+    ion-icon {
+      right: 17px;
+      position: absolute;
+      font-size: 27px;
+      z-index: 1;
+      margin-top: 4px;
+    }
   }
 
   .tp {
@@ -21,12 +29,6 @@
     position: absolute;
     top: 0;
     left: 0;
-
-    ion-icon {
-      right: 17px;
-      position: absolute;
-      font-size: 25px;
-    }
   }
 
   ion-content {
