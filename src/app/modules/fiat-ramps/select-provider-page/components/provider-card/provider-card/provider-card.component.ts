@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { InfoProviderKriptonComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider-kripton/info-provider-kripton.component';
 import { InfoProviderComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider/info-provider.component';
 import { D24_PAYMENT_TYPES } from 'src/app/modules/fiat-ramps/shared-ramps/constants/payment-types';
 import { FiatRampProviderCountry } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider-country';
@@ -129,6 +130,19 @@ export class ProviderCardComponent implements OnInit {
     this.selectedProvider.emit(provider);
   }
 
+  async createKriptonInfoModal() {
+    const modal = await this.modalController.create({
+      component: InfoProviderKriptonComponent,
+      componentProps: {
+        image: this.provider?.logoRoute,
+        title: this.provider?.name,
+      },
+      cssClass: 'modal',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
+
   async createInfoModal() {
     const modal = await this.modalController.create({
       component: InfoProviderComponent,
@@ -170,7 +184,8 @@ export class ProviderCardComponent implements OnInit {
   async showProviderInfo() {
     if (!this.isInfoModalOpen) {
       this.isInfoModalOpen = true;
-      await this.createInfoModal();
+      // await this.createInfoModal();
+      await this.createKriptonInfoModal();
       this.isInfoModalOpen = false;
     }
   }
