@@ -56,7 +56,7 @@ import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/defa
               icon="ux-vertical-switch"
             ></app-icon-button-card>
           </div>
-      </ng-template>
+        </ng-template>
       </div>
     </div>
   `,
@@ -84,7 +84,12 @@ export class WalletSubheaderButtonsComponent implements OnInit {
         return this.navController.navigateForward(['wallets/send/select-currency']);
       }
 
-      return this.navController.navigateForward(['wallets/send/detail/blockchain', this.network, 'token', this.tokenAddress]);
+      return this.navController.navigateForward([
+        'wallets/send/detail/blockchain',
+        this.network,
+        'token',
+        this.tokenAddress,
+      ]);
     }
   }
 
@@ -111,10 +116,8 @@ export class WalletSubheaderButtonsComponent implements OnInit {
       } else {
         if (this.asset) {
           this.tokenOperationDataService.tokenOperationData = { asset: this.asset, network: this.network };
-          this.navController.navigateForward(['fiat-ramps/select-provider']);
-        } else {
-          this.navController.navigateForward(['fiat-ramps/token-selection']);
         }
+        this.navController.navigateForward(['fiat-ramps/purchases']);
       }
     }
   }

@@ -2167,6 +2167,11 @@
     "tools": "Herramientas"
   },
   "fiat_ramps": {
+    "home_of_purchases": {
+      "header": "Mis compras",
+      "question":"¿Cómo funcionan las compras?",
+      "button": "Realizar nueva compra"
+    },
     "buy_conditions": {
       "title": "¿Qué necesitas saber antes de comprar?",
       "condition_1": "Las compras se realizan a través de un proveedor externo. Xcapit no vende criptomonedas.",
@@ -2187,17 +2192,22 @@
       "button_text": "Ir a wallet"
     },
     "operations_list": {
-      "title": "Mis operaciones",
+      "title": "Compras en Kripton Market",
       "operation": "Compra",
       "amount": "Monto",
       "date": "Fecha",
       "status": "Estado",
-      "no_operations_message": "Aún no tienes compras realizadas, aquí vas a poder ver el listado de tus compras",
+      "no_operations_message": "Una vez realizadas tus compras, podrás verlas en este apartado.",
       "button_show_less": "Ver menos",
       "button_show_more": "Ver más"
     },
-    "provider_new_operation_card":{
-      "description":"Proveedor: {{providerName}}"
+    "moonpay_purchases": {
+      "title": "Compras en Moonpay",
+      "message": "Si realizaste compras, puedes verlas",
+      "link": "aquí"
+    },
+    "provider_new_operation_card": {
+      "description": "Proveedor: {{providerName}}"
     },
     "select_provider": {
       "header": "Comprar Cripto",
@@ -2234,7 +2244,7 @@
         }
       }
     },
-    
+
     "information_paxful": {
       "header": "Comprar",
       "title": "Compra BTC con Paxful:",
@@ -2449,13 +2459,13 @@
         "button": "Entendido"
       },
       "constants": {
-        "payment_types":{
-          "directa24_bank_deposit":"Depósito Bancario",
-          "directa24_bank_transfer":"Transferencia Bancaria",
-          "directa24_credit_card":"Tarjeta de crédito o débito",
-          "directa24_voucher":"Tienda física más cercana",
-          "kripton":"Transferencia Bancaria",
-          "moonpay":"Tarjeta de crédito"
+        "payment_types": {
+          "directa24_bank_deposit": "Depósito Bancario",
+          "directa24_bank_transfer": "Transferencia Bancaria",
+          "directa24_credit_card": "Tarjeta de crédito o débito",
+          "directa24_voucher": "Tienda física más cercana",
+          "kripton": "Transferencia Bancaria",
+          "moonpay": "Tarjeta de crédito"
         },
         "providers": {
           "kripton": {
@@ -2492,32 +2502,32 @@
       }
     },
     "user_email": {
-      "header":"Comprar cripto",
-      "provider":"Proveedor: Kripton Market",
-      "title":"Para continuar tu compra, ingresa el email de tu cuenta Kripton Market",
-      "subtitle":"Si no posees una cuenta, escribe el email con el que quieres que te registremos.",
-      "label_email":"Email",
-      "button":"Continuar",
-      "text":"Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones."
+      "header": "Comprar cripto",
+      "provider": "Proveedor: Kripton Market",
+      "title": "Para continuar tu compra, ingresa el email de tu cuenta Kripton Market",
+      "subtitle": "Si no posees una cuenta, escribe el email con el que quieres que te registremos.",
+      "label_email": "Email",
+      "button": "Continuar",
+      "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones."
     },
-    "user_register":{
-      "header":"Registración",
-      "provider":"Proveedor: Kripton Market",
-      "title":"¡Hola! Aún no posees una cuenta, te ayudaremos a registrarte rápidamente",
+    "user_register": {
+      "header": "Registración",
+      "provider": "Proveedor: Kripton Market",
+      "title": "¡Hola! Aún no posees una cuenta, te ayudaremos a registrarte rápidamente",
       "subtitle": "😄 ¡No te preocupes! Será por única vez.",
       "steps": {
-        "step_one":{
+        "step_one": {
           "title": "Cargar datos",
           "subtitle": "Completa con tu información personal"
         },
-        "step_two":{
+        "step_two": {
           "title": "Verificar identidad",
           "subtitle": "Necesitarás tu documento"
         }
       },
       "disclaimer": {
-        "content":"Xcapit no almacena información. Averigua más sobre el uso de datos en ",
-        "link":"Politica de privacidad Kripton Market."
+        "content": "Xcapit no almacena información. Averigua más sobre el uso de datos en ",
+        "link": "Politica de privacidad Kripton Market."
       }
     },
     "kyc": {
@@ -2544,7 +2554,7 @@
         "label_city": "Ciudad",
         "label_zip_code": "Código postal"
       },
-      "user_personal_information":{
+      "user_personal_information": {
         "header": "Cargar datos",
         "provider": "Proveedor: Kripton Market",
         "title": "😎 Ya casi terminamos",

@@ -1,0 +1,19 @@
+:host {
+  ion-content {
+    --background: #f7f8ff;
+  }
+
+  .hop {
+    &__question {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    &__button {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+    }
+  }
+}
