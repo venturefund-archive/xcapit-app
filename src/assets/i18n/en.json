@@ -131,16 +131,16 @@
       "of": "of"
     },
     "update_news": {
-      "title": "Good news!",
+      "title": "What you were waiting for, has arrived \uD83D\uDE0E",
       "first": {
         "badge": "New feature",
-        "title": "More opportunities!",
-        "description": "New payment methods, more tokens and countries to buy, all in your local currency!"
+        "title": "\uD83D\uDE80 Your wallet is faster than ever!",
+        "description": "You won't need your email anymore! You will enter and approve your transactions with the same password.\nMore agility, security and privacy for your data."
       },
       "second": {
         "badge": "New feature",
-        "title": "App improvements",
-        "description": "You will be able to access the details of your operations and other data in an agile and simple way."
+        "title": "\uD83D\uDCB8 More transparent investments",
+        "description": "You will be able to view the performance of all your investments at all times."
       }
     },
     "transaction_fees": {

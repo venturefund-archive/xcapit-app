@@ -122,16 +122,16 @@
       "of": "de"
     },
     "update_news": {
-      "title": "¡Buenas noticias!",
+      "title": "Lo que estabas esperando, llegó \uD83D\uDE0E",
       "first": {
         "badge": "Nueva función",
-        "title": "¡Más oportunidades!",
-        "description": "Nuevos medios de pago, más tokens y países donde comprar. ¡Todo en tu moneda local!"
+        "title": "\uD83D\uDE80 ¡Tu wallet más ágil que nunca!",
+        "description": "¡Ya no necesitarás tu email! Ingresarás y aprobarás tus transacciones con la misma contraseña.\nMayor agilidad, seguridad y privacidad para tus datos."
       },
       "second": {
         "badge": "Nueva función",
-        "title": "Mejoras en la app",
-        "description": "Podrás acceder al detalle de tus operaciones y demás datos de manera ágil y sencilla."
+        "title": "\uD83D\uDCB8 Inversiones más transparentes",
+        "description": "Podrás visualizar los rendimientos de todas tus inversiones en todo momento."
       }
     },
     "transaction_fees": {
