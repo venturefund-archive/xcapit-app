@@ -114,7 +114,7 @@ describe('SelectProviderCardComponent', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     const providerCards = fixture.debugElement.queryAll(By.css('app-provider-card'));
-    expect(providerCards.length).toEqual(2);
+    expect(providerCards.length).toEqual(3);
     expect(component.disabled).toEqual(false);
   });
 
