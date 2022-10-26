@@ -11,7 +11,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatusBar } from '@capacitor/status-bar';
 import { PlatformService } from './shared/services/platform/platform.service';
 import { CONFIG } from './config/app-constants.config';
-import { UpdateNewsService } from './shared/services/update-news/update-news.service';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { WalletConnectService } from './modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
@@ -42,7 +41,6 @@ export class AppComponent implements OnInit {
     private translate: TranslateService,
     private el: ElementRef,
     private platformService: PlatformService,
-    private updateNewsService: UpdateNewsService,
     private zone: NgZone,
     private walletConnectService: WalletConnectService,
     private walletBackupService: WalletBackupService,
@@ -58,17 +56,12 @@ export class AppComponent implements OnInit {
     this.trackService.startTracker();
   }
 
-  private showUpdateModal() {
-    this.updateNewsService.showModal();
-  }
-
   private checkForUpdate() {
     this.updateService.checkForUpdate();
   }
 
   private initializeApp() {
     this.checkForUpdate();
-    this.showUpdateModal();
     this.walletBackupService.getBackupWarningWallet();
     this.platform.ready().then(() => {
       this.languageService.setInitialAppLanguage();
