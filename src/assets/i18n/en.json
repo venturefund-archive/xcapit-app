@@ -131,16 +131,16 @@
       "of": "of"
     },
     "update_news": {
-      "title": "Good news!",
+      "title": "What you were waiting for, has arrived \uD83D\uDE0E",
       "first": {
         "badge": "New feature",
-        "title": "More opportunities!",
-        "description": "New payment methods, more tokens and countries to buy, all in your local currency!"
+        "title": "\uD83D\uDE80 Your wallet is faster than ever!",
+        "description": "You won't need your email anymore! You will enter and approve your transactions with the same password.\nMore agility, security and privacy for your data."
       },
       "second": {
         "badge": "New feature",
-        "title": "App improvements",
-        "description": "You will be able to access the details of your operations and other data in an agile and simple way."
+        "title": "\uD83D\uDCB8 More transparent investments",
+        "description": "You will be able to view the performance of all your investments at all times."
       }
     },
     "transaction_fees": {
@@ -169,7 +169,8 @@
       "login_button_text": "Login",
       "reset_password_link": "I forgot my password",
       "help_link": "Help",
-      "invalid_password_text": "The password entered is incorrect. Please try again."
+      "invalid_password_text": "The password entered is incorrect. Please try again.",
+      "error_biometric_auth": "An error occurred while trying to read your biometric data. Please enter your password to access."
     },
     "login": {
       "password_label": "Password",
@@ -178,6 +179,13 @@
       "login_button_text": "Login",
       "title": "Login",
       "loading": "Loading"
+    },
+    "login_biometric_activation_modal": {
+      "title": "Activate your biometric data",
+      "text": "It will help you to access your Xcapit wallet faster.",
+      "checkbox_label": "Don't show this message again.",
+      "confirm_button": "Confirm",
+      "cancel_button": "Cancel"
     },
     "register": {
       "card_header": "Create your account",
@@ -329,7 +337,8 @@
       "nft": "NFT",
       "others": "Others",
       "referrals": "Referrals",
-      "transactions": "Transactions"
+      "transactions": "Transactions",
+      "kripton_data": "Delete my Krypton data"
     }
   },
   "defi_investments": {
@@ -375,10 +384,12 @@
       "title_investments": "My investments",
       "profits": "Continuous profits",
       "profits_weekly": "Weekly profits",
+      "total_invested": "Investment and earnings",
       "recommendations": "You may be interested in",
       "empty_products": "Soon you will be able to find the best investments for your profile.",
       "link_button": "How do DeFi investments work?",
       "no_investments": "Your investments will appear here. Get started now!",
+      "total_yields": "Total yields",
       "choose_investor_profile": {
         "complete_test": {
           "title": "I want to choose my profile again",
@@ -415,7 +426,7 @@
       "header": "My investment",
       "button": "Add",
       "button_link": "Withdraw",
-      "invested_amount": "Balance*",
+      "invested_amount": "Total amount invested*",
       "daily_earnings_disclaimer": "*Your balance is updated daily.",
       "continuous_update": "*Continuous update",
       "weekly_update": "*Weekly update",
@@ -423,6 +434,15 @@
         "title": "History",
         "investment": "Investment",
         "withdraw": "Withdraw"
+      },
+      "yields": {
+        "title": "Cumulative yield",
+        "info_modal": {
+          "title": "What is cumulative yield?",
+          "item1": "It's the accumulated profits obtained from this investment product, since you created it.",
+          "item2": "This amount is continually reinvested earning compound interest.",
+          "button": "Understood"
+        }
       }
     },
     "shared": {
@@ -496,6 +516,11 @@
         "transaction_fee": "Transaction fee",
         "confirm": "Confirm",
         "confirm_loading": "Confirming..."
+      },
+      "earnings_modal_info": {
+        "title": "What is total yield?",
+        "description": "It is the sum in USD of the total yields obtained in your investment products.",
+        "button": "Understood"
       }
     },
     "withdraw": {
@@ -579,6 +604,8 @@
       "logout": "Log Out",
       "new_badge": "New",
       "category_walletconnect": "WalletConnect",
+      "connected_walletconnect": "Connected",
+      "disconnected_walletconnect": "Disconnected",
       "delete_account_button": "Delete account",
       "delete_account_message": "I request the deletion of my account and associated data.",
       "profile_footer": {
@@ -601,7 +628,6 @@
     },
     "success_profile_test": {
       "text_primary": "Thanks a lot Xcapiter!",
-      "text_secondary": "Your opinion helps us to improve your experience day by day.",
       "name_primary_action": "Go to my wallet"
     },
     "personalised_profile_test": {
@@ -638,7 +664,11 @@
       "password_title": "Your safety matters to us",
       "password_description": "To activate your biometric data, enter your Xcapit wallet's password..",
       "password_button": "Confirm",
-      "password_error": "The password entered is not valid."
+      "password_error": "The password entered is not valid.",
+      "options": {
+        "title": "Log in with your biometric data",
+        "subtitle": "Rest your fingerprint on the data reader or point the screen towards your face, as appropriate on your device."
+      }
     },
     "shared": {
       "remove_account_modal": {
@@ -1584,7 +1614,8 @@
       "new_password": "Write your new password",
       "repeat_password": "Repeat your new password",
       "submit_button": "Change",
-      "loading": "Changing..."
+      "loading": "Changing...",
+      "disclaimer": "You will use this password to log in to your account and approve all your transactions."
     },
     "password_change_success": {
       "textPrimary": "Great!",
@@ -1669,6 +1700,10 @@
       },
       "backup_card_component": {
         "text": "Don't lose your money. <b> Protect your wallet. </b>"
+      },
+      "no_tokens_selected": {
+        "title": "Here you will find your tokens.",
+        "link": "Select the ones you wish to view"
       }
     },
     "select_coin": {
@@ -1724,6 +1759,7 @@
       "creating_button_state": "Creating wallet",
       "importing_button_state": "Importing wallet",
       "wait_loading_message": "It will only take a few seconds.",
+      "disclaimer": "Do not lose this password, Xcapit will not be able to recover it if you do.",
       "loading": {
         "title": "Time!",
         "subtitle": {
@@ -1853,6 +1889,10 @@
       }
     },
     "shared_wallets": {
+      "accordion_token": {
+        "expand_button": "Expand",
+        "reduce_button": "Reduce"
+      },
       "share_transaction_detail": {
         "text": "Hello! I sent you ",
         "text2": "For more information: ",
@@ -1936,7 +1976,14 @@
       },
       "new_token_info-modal": {
         "title": "Benefits of using Solana",
-        "subtitle": "<ul><li>Wide variety of DApps to use</li><li>Transactional speed: Solana is the fastest blockchain in the world</li><li>Low cost per transaction</li></ul>"
+        "subtitle": "Solana is one of the cheapest and fastest networks in the crypto ecosystem and that is because they have a very distinct block validation called proof of history that has helped a huge ecosystem develop around it. "
+      },
+      "no_active_tokens_card": {
+        "title": {
+          "send": "To continue, activate the display of the tokens you wish to send.",
+          "receive": "To continue, activate the display of the tokens you wish to receive."
+        },
+        "button": "Activate tokens"
       }
     },
     "asset_detail": {
@@ -2115,11 +2162,33 @@
       }
     }
   },
+  "tools": {
+    "tools_page": {
+      "header": "What would you like to do today?",
+      "donations": {
+        "textPrimary": "Donations",
+        "textSecondary": "Collaborate and be part of a good cause"
+      },
+      "education": {
+        "textPrimary": "Education",
+        "textSecondary": "The road to your financial freedom"
+      },
+      "planner": {
+        "textPrimary": "Planner",
+        "textSecondary": "Improve your money's return"
+      },
+      "investor_test": {
+        "textPrimary": "Investor Test",
+        "textSecondary": "Find out what kind of investor you are"
+      }
+    }
+  },
   "tabs": {
     "home": "Home",
     "new_fund": "Investments",
     "menu": "More",
-    "wallet": "Wallet"
+    "wallet": "Wallet",
+    "tools": "Tools"
   },
   "fiat_ramps": {
     "buy_conditions": {
@@ -2151,6 +2220,9 @@
       "button_show_less": "Show less",
       "button_show_more": "Show more"
     },
+    "provider_new_operation_card": {
+      "description": "Provider: {{providerName}}"
+    },
     "fiat_success": {
       "textPrimary": "Operation created",
       "textSecondary": "Remember to make the transfer from your bank and upload the receipt",
@@ -2160,7 +2232,7 @@
       "header": "Buy Crypto",
       "select_label": "Country in which you are going to operate",
       "select_placeholder": "Select your country",
-      "provider_label": "Select provider",
+      "provider_label": "Select your payment method",
       "no_provider": "At the moment it is not possible to purchase {{coinName}} in your country.",
       "moonpay_description": "Buy with a credit card",
       "krypton_description": "Buy with bank transfer",
@@ -2397,6 +2469,14 @@
         "button": "Understood"
       },
       "constants": {
+        "payment_types": {
+          "directa24_bank_deposit": "Bank deposit",
+          "directa24_bank_transfer": "Bank transfer",
+          "directa24_credit_card": "Credit or debit card",
+          "directa24_voucher": "Nearest store",
+          "kripton": "Bank transfer",
+          "moonpay": "Credit card"
+        },
         "providers": {
           "kripton": {
             "disclaimer": "Token delivery is made Monday through Friday from 9 a.m. to 6 p.m. and may take some time if the bank delays in processing the transaction to Krypton's client account."
@@ -2411,7 +2491,7 @@
       },
       "provider_new_operation_card": {
         "quantity": "Amount",
-        "provider": "Provider",
+        "payment_method": "Payment method",
         "to_pay": "You will pay*",
         "input_error": "The minimum purchase amount is ${{amount}} {{fiatCurrency}}",
         "usd_disclaimer": "*Enter the amount in dollars, at the end of the process you will pay in your local currency according to the quotation of the day.",
@@ -2428,6 +2508,77 @@
         "item2": "It may vary slightly at the time of the operation.",
         "item3": "You can find it on your payment ticket as “amount checker“.",
         "button": "Understood"
+      }
+    },
+    "user_email": {
+      "header": "Buy crypto",
+      "provider": "Provider: Kripton Market",
+      "title": "To continue your purchase, please enter your Kripton Market account email address.",
+      "subtitle": "If you do not have an account, please enter the email address you would like us to register you with.",
+      "label_email": "Email",
+      "button": "Continue",
+      "text": "Make sure you have access to the email, you will use it to confirm your transactions."
+    },
+    "user_register": {
+      "header": "Register",
+      "provider": "Provider: Kripton Market",
+      "title": "Hello! You don't have an account yet, we will help you to register quickly",
+      "subtitle": "😄 Don't worry! It will be a one-time only.",
+      "steps": {
+        "step_one": {
+          "title": "Load data",
+          "subtitle": "Complete with your personal information"
+        },
+        "step_two": {
+          "title": "Verify identity",
+          "subtitle": "You will need your identity"
+        }
+      },
+      "disclaimer": {
+        "content": "Xcapit does not store data. Find out more about data usage at ",
+        "link": "Privacy policy Kripton Market."
+      }
+    },
+    "kyc": {
+      "user_basic": {
+        "header": "Load data",
+        "provider": "Provider: Kripton Market",
+        "title": "🛫 Let's begin!",
+        "subtitle": "Fill in your personal data",
+        "label_first_name": "First name(s)",
+        "label_last_name": "Last name(s)",
+        "label_birthday": "Birthday",
+        "placeholder_birthday": "mm/dd/yyyy",
+        "button": "Continue"
+      },
+      "user_address": {
+        "header": "Load data",
+        "provider": "Provider: Kripton Market",
+        "title": "🛬 Last step! Quick, isn't it?",
+        "subtitle": "Fill in your address data",
+        "label_street": "Street",
+        "label_number": "Number",
+        "label_floor": "Floor (optional)",
+        "label_apartment": "Apt (optional)",
+        "label_city": "City",
+        "label_zip_code": "Zip code",
+        "placeholder_birthday": "mm/dd/yyyy"
+      },
+      "user_personal_information": {
+        "header": "Load data",
+        "provider": "Provider: Kripton Market",
+        "title": "😎 We're almost done",
+        "subtitle": "Enter your personal data",
+        "general_placeholder": "Select an option",
+        "label_nationality": "Nationality",
+        "label_document": "Document",
+        "placeholder_document": "Type",
+        "modal_title_document": "Document type",
+        "label_gender": "Gender",
+        "label_marital_status": "Marital status",
+        "label_country_code": "Country code",
+        "label_phone": "Phone",
+        "button": "Continue"
       }
     }
   },

@@ -35,12 +35,12 @@ describe('NewLoginTickets', () => {
   it('should redirect to new create support ticket if feature flag is enabled', async () => {
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
     await newLogin.canActivate();
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tickets/new-create-support-ticket']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tickets/new-create-support-ticket']);
   });
 
   it('should not redirect to new create support ticket if feature flag is disabled', async () => {
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
     await newLogin.canActivate();
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledTimes(0);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
   });
 });

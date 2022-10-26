@@ -5,20 +5,22 @@ import { UxSelectModalComponent } from '../ux-select-modal/ux-select-modal.compo
 @Component({
   selector: 'app-ux-input-select',
   template: `
-    <div class="uxselect">
-      <ion-label class="ux-font-text-xs">{{ this.label }}</ion-label>
-      <ion-item class="uxselect__item">
-        <ion-input
-          mode="md"
-          [formControlName]="this.controlName"
-          [placeholder]="this.placeholder"
-          [readonly]="true"
-          (click)="this.openModal($event)"
-        >
-        </ion-input>
-        <ion-icon class="uxselect__item__arrow_icon" item-end name="ux-down" color="neutral90"></ion-icon>
-      </ion-item>
-      <app-errors-form-item [controlName]="this.controlName"></app-errors-form-item>
+    <div [appSelectStyle]="this.style">
+      <div class="uxselect">
+        <ion-label class="uxselect__label ux-font-text-xs">{{ this.label }}</ion-label>
+        <ion-item class="uxselect__item">
+          <ion-input
+            mode="md"
+            [formControlName]="this.controlName"
+            [placeholder]="this.placeholder"
+            [readonly]="true"
+            (click)="this.openModal($event)"
+          >
+          </ion-input>
+          <ion-icon class="uxselect__item__arrow_icon" item-end name="ux-down"></ion-icon>
+        </ion-item>
+        <app-errors-form-item [controlName]="this.controlName"></app-errors-form-item>
+      </div>
     </div>
   `,
   viewProviders: [
@@ -37,6 +39,7 @@ export class UxInputSelectComponent implements OnInit {
   @Input() data = [];
   @Input() keyName = '';
   @Input() valueName = '';
+  @Input() style: string;
   control: AbstractControl;
 
   constructor(private modalController: ModalController, private form: FormGroupDirective) {}

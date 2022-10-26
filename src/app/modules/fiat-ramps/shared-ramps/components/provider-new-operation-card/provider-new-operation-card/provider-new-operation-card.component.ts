@@ -111,7 +111,7 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
       <div class="pnoc__provider">
         <div class="pnoc__provider__label">
           <ion-text class="ux-font-titulo-xs">{{
-            'fiat_ramps.shared.provider_new_operation_card.provider' | translate
+            'fiat_ramps.shared.provider_new_operation_card.payment_method' | translate
           }}</ion-text>
         </div>
         <div class="pnoc__provider__content ux-card ion-padding">
@@ -121,12 +121,12 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
           <div class="pnoc__provider__content__body">
             <div class="pnoc__provider__content__body__provider-name">
               <ion-text class="pnoc__provider__content__body__text__name ux-font-text-lg">{{
-                this.provider.name
+                this.paymentType | translate
               }}</ion-text>
             </div>
             <div class="ux-font-text-xxs">
               <ion-text class="pnoc__provider__content__body__description">{{
-                this.provider?.description | translate
+                'fiat_ramps.provider_new_operation_card.description' | translate: { providerName: this.provider.name }
               }}</ion-text>
             </div>
           </div>
@@ -152,6 +152,7 @@ export class ProviderNewOperationCardComponent implements OnInit {
   @Input() amountEnabled = true;
   @Input() fiatCurrency = 'USD';
   @Input() provider: FiatRampProvider;
+  @Input() paymentType: string;
   @Input() coinSelectorEnabled = true;
   @Input() minimumFiatAmount: number;
   @Input() fee: { value: number; token: string };

@@ -10,7 +10,9 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_educationCardAvailable: false,
   investmentProducts: undefined,
   onOffRampsProviders: undefined,
-  ff_newLogin: false,
+  ff_newLogin: true,
   newTokensAvailable: undefined,
-  ff_newTokenAvailable: false
+  ff_newTokenAvailable: false,
+  ff_kriptonNewUx: false,
+  ff_bioauth: false
 };

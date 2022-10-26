@@ -93,12 +93,15 @@ describe('CreatePasswordPage', () => {
     fakeActivatedRoute = new FakeActivatedRoute();
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     fakeActivatedRoute.modifySnapshotParams({ mode: 'import' });
-    walletMnemonicServiceSpy = jasmine.createSpyObj('WalletMnemonicService', {
-      newMnemonic: testMnemonic,
-    },
-    {
-      mnemonic: testMnemonic,
-    });
+    walletMnemonicServiceSpy = jasmine.createSpyObj(
+      'WalletMnemonicService',
+      {
+        newMnemonic: testMnemonic,
+      },
+      {
+        mnemonic: testMnemonic,
+      }
+    );
     blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
       create: {
         oneByName: () => ({
@@ -109,6 +112,7 @@ describe('CreatePasswordPage', () => {
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       saveWalletAddresses: of({}),
       getCoins: coins,
+      getInitialTokens: coins,
     });
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
       encryptWallet: Promise.resolve(true),
@@ -129,13 +133,11 @@ describe('CreatePasswordPage', () => {
       },
       { mnemonic: { path: 'aDerivedPath' }, address: 'anAddress' }
     );
+    spyOn(Wallet, 'fromMnemonic').and.returnValue(walletSpy);
 
     walletServiceSpy = jasmine.createSpyObj(
       'WalletService',
-      {
-        create: Promise.resolve({}),
-        createForDerivedPath: walletSpy
-      },
+      {},
       {
         coins: [],
       }
@@ -182,28 +184,27 @@ describe('CreatePasswordPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call encryptWallet on encrypt, valid form', async () => {
+  it('should call encryptWallet on encrypt, valid form', fakeAsync(() => {
     component.createPasswordForm.patchValue(formData.valid);
     fixture.detectChanges();
     component.handleSubmit();
-    await fixture.whenStable();
+    tick();
     expect(walletEncryptionServiceSpy.encryptWallet).toHaveBeenCalledTimes(1);
-  });
+  }));
 
   it('should create a wallet', async () => {
     fakeActivatedRoute.modifySnapshotParams({ mode: 'create' });
     component.ionViewWillEnter();
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    expect(apiWalletServiceSpy.getCoins).toHaveBeenCalledTimes(1);
+    expect(apiWalletServiceSpy.getInitialTokens).toHaveBeenCalledTimes(1);
     expect(walletMnemonicServiceSpy.newMnemonic).toHaveBeenCalledTimes(1);
-    expect(walletServiceSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should not call encryptWallet on encrypt, no valid form', async () => {
     component.createPasswordForm.patchValue(formData.invalid);
     fixture.detectChanges();
-    component.handleSubmit();
+    await component.handleSubmit();
     await fixture.whenStable();
     expect(walletEncryptionServiceSpy.encryptWallet).toHaveBeenCalledTimes(0);
   });

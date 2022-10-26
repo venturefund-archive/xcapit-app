@@ -257,13 +257,4 @@ describe('TokenDetailPage', () => {
       'invest',
     ]);
   });
-
-  it('should disable operations except receive when token belongs to Solana network', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ blockchain: rawSolanaData.name, token: rawSAMOData.contract });
-    await component.ionViewWillEnter();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(component.enabledToOperate).toBeFalse();
-  });
 });

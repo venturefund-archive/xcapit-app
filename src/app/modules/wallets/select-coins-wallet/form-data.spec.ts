@@ -61,7 +61,7 @@ export const SELECT_COINS_FORM_DATA = {
     SOLANA: {
       SOL: true,
     },
-  },  
+  },
   editTokensOriginal: {
     ERC20: {
       ETH: true,

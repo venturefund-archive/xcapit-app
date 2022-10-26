@@ -17,6 +17,10 @@ export class LoginToken {
     return this._storage.set(this._storageKey, this._hash());
   }
 
+  public async exist(): Promise<boolean> {
+    return !!await this._storedHash();
+  }
+
   private _hash(): string {
     return CryptoJs.SHA3(this._aPassword.value(), { outputLength: 512 }).toString(CryptoJs.enc.Base64);
   }

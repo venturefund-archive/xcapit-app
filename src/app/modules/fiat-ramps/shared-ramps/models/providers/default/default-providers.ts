@@ -36,7 +36,7 @@ export class DefaultProviders implements Providers {
     return this.all().find((provider) => provider.alias === anAlias);
   }
 
-  private availableDirectaProviders(aCountry: FiatRampProviderCountry): Observable<any> {
+  public availableDirectaProviders(aCountry: FiatRampProviderCountry): Observable<any> {
     return this.http.get(`${this.env.directa24Url}payment_methods?country=${aCountry.directaCode}`, {
       headers: { Authorization: `Bearer ${this.env.directa24ApiKey}` },
     });

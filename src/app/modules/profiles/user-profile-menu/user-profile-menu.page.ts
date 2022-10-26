@@ -122,6 +122,19 @@ export class UserProfileMenuPage {
     this.getProfile();
     this.existWallet();
     this.biometricAuthAvailable();
+    this.walletConnectStatus();
+  }
+
+  async walletConnectStatus() {
+    this.itemMenu.map(async (item) => {
+      if (item.name === 'WalletConnect') {
+        item.connected = this.walletConnectService.connected;
+        item.legend = this.walletConnectService.connected
+          ? 'profiles.user_profile_menu.connected_walletconnect'
+          : 'profiles.user_profile_menu.disconnected_walletconnect';
+      }
+      return item;
+    });
   }
 
   async biometricAuthAvailable() {
@@ -129,7 +142,7 @@ export class UserProfileMenuPage {
       const biometricAuthItem = this.itemMenu
         .find((category) => category.id === 'wallet')
         .items.find((item) => item.name === 'BiometricAuth');
-      biometricAuthItem.hidden = !this.remoteConfig.getFeatureFlag('ff_newLogin');
+      biometricAuthItem.hidden = !this.remoteConfig.getFeatureFlag('ff_bioauth');
     }
   }
 

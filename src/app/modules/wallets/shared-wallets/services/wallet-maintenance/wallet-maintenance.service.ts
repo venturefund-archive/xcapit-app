@@ -93,6 +93,11 @@ export class WalletMaintenanceService {
       this.encryptedWallet.assets[asset] = !this.encryptedWallet.assets[asset];
     });
   }
+  
+  updateTokensStorage(tokens: any) {
+    this.encryptedWallet.assets = tokens;
+    return this.storageService.saveWalletToStorage(this.encryptedWallet);
+  }
 
   async saveWalletToStorage(): Promise<void> {
     await this.storageService.saveWalletToStorage(this.encryptedWallet);

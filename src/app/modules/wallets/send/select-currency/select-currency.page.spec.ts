@@ -1,8 +1,8 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { SelectCurrencyPage } from './select-currency.page';
-import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -10,41 +10,8 @@ import { FakeTrackClickDirective } from '../../../../../testing/fakes/track-clic
 import { StorageService } from '../../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { TokenSelectionListComponent } from '../../../../shared/components/token-selection-list/token-selection-list.component';
 import { SuitePipe } from '../../../../shared/pipes/suite/suite.pipe';
-import { NavigationExtras } from '@angular/router';
+import { rawTokensData, rawUSDTData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
-const coins: Coin[] = [
-  {
-    id: 1,
-    name: 'BTC - Bitcoin',
-    logoRoute: 'assets/img/coins/BTC.svg',
-    last: false,
-    value: 'BTC',
-    network: 'RSK',
-    chainId: 42,
-    rpc: '',
-  },
-  {
-    id: 2,
-    name: 'USDT - Tether',
-    logoRoute: 'assets/img/coins/USDT.svg',
-    last: false,
-    value: 'USDT',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: '',
-  },
-];
-
-const coinClicked = {
-  id: 1,
-  name: 'BTC - Bitcoin',
-  logoRoute: 'assets/img/coins/BTC.svg',
-  last: false,
-  value: 'BTC',
-  network: 'RSK',
-  chainId: 42,
-  rpc: '',
-};
 
 describe('SelectCurrencyPage', () => {
   let component: SelectCurrencyPage;
@@ -58,7 +25,7 @@ describe('SelectCurrencyPage', () => {
     navControllerSpy = fakeNavController.createSpy();
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      getAssestsSelected: Promise.resolve(coins),
+      getAssestsSelected: Promise.resolve(rawTokensData),
     });
     TestBed.configureTestingModule({
       declarations: [SelectCurrencyPage, FakeTrackClickDirective, TokenSelectionListComponent, SuitePipe],
@@ -67,6 +34,7 @@ describe('SelectCurrencyPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: StorageService, useValue: storageServiceSpy },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SelectCurrencyPage);
@@ -82,7 +50,7 @@ describe('SelectCurrencyPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(component.coins).toEqual(coins);
+    expect(component.coins).toEqual(rawTokensData);
   });
 
   it('should render a list of coins', async () => {
@@ -94,16 +62,23 @@ describe('SelectCurrencyPage', () => {
   });
 
   it('should navigate when itemClicked event fired', async () => {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        asset: 'BTC',
-        network: 'RSK'
-      },
-    };
     component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', coinClicked);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/detail'], navigationExtras);
+
+    fixture.debugElement.query(By.css('app-token-selection-list')).triggerEventHandler('clickedCoin', rawUSDTData);
+
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
+      ['wallets/send/detail/blockchain', rawUSDTData.network, 'token',rawUSDTData.contract]);
   });
+
+  it('should show no-active-tokens-card component when storage has no coins', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve([]));
+    await fixture.whenStable();
+
+    const cardEl = fixture.debugElement.query(By.css('app-no-active-tokens-card'))
+    expect(cardEl).toBeTruthy();
+  })
 });

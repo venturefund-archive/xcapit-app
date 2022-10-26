@@ -9,6 +9,11 @@ import { SelectProviderCardComponent } from './select-provider-card.component';
 import { rawProvidersData } from '../../../shared-ramps/fixtures/raw-providers-data';
 import { Providers } from '../../../shared-ramps/models/providers/providers.interface';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
+import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay-price/factory/default-moonpay-price-factory';
+import { DefaultMoonpayPrice } from '../../../shared-ramps/models/moonpay-price/default-moonpay-price';
+import { of } from 'rxjs';
+import { FiatRampsService } from '../../../shared-ramps/services/fiat-ramps.service';
+
 
 describe('SelectProviderCardComponent', () => {
   let component: SelectProviderCardComponent;
@@ -19,6 +24,9 @@ describe('SelectProviderCardComponent', () => {
   let providersSpy: jasmine.SpyObj<Providers>;
   let maticCoinSpy: jasmine.SpyObj<Coin>;
   let usdcCoinSpy: jasmine.SpyObj<Coin>;
+  let moonpayPriceFactorySpy: jasmine.SpyObj<DefaultMoonpayPriceFactory>
+  let moonpayPrice: jasmine.SpyObj<DefaultMoonpayPrice>
+  let fiatRampsServiceSpy : jasmine.SpyObj<FiatRampsService>
 
   beforeEach(waitForAsync(() => {
     maticCoinSpy = jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' });
@@ -42,22 +50,29 @@ describe('SelectProviderCardComponent', () => {
       ),
     });
 
-    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
-      create: providersSpy,
-    });
+      fiatRampsServiceSpy= jasmine.createSpyObj('FiatRampsService',{ getMoonpayQuotation: of({ ARG: 1 }) })
+
+      moonpayPrice = jasmine.createSpyObj('DefaultMoonpayPrice',{value: of(2)})
+      moonpayPriceFactorySpy = jasmine.createSpyObj('DefaultMoonpayPriceFactory', {new: moonpayPrice})
+
+      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+        create: providersSpy,
+      });
 
     formGroupDirectiveMock = new FormGroupDirective([], []);
     formGroupDirectiveMock.form = controlContainerMock;
 
-    TestBed.configureTestingModule({
-      declarations: [SelectProviderCardComponent],
-      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
-        { provide: ProvidersFactory, useValue: providersFactorySpy },
-      ],
-    }).compileComponents();
+      TestBed.configureTestingModule({
+        declarations: [SelectProviderCardComponent],
+        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [
+          { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
+          { provide: ProvidersFactory, useValue: providersFactorySpy },
+          { provide: DefaultMoonpayPriceFactory, useValue: moonpayPriceFactorySpy},
+          { provide: FiatRampsService, useValue: fiatRampsServiceSpy}
+        ],
+      }).compileComponents();
 
     fixture = TestBed.createComponent(SelectProviderCardComponent);
     component = fixture.componentInstance;

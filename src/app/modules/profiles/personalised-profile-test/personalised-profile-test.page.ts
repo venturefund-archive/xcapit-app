@@ -72,8 +72,9 @@ import { SkipProfileTestComponent } from '../shared-profiles/components/skip-pro
       <div class="ppt__footer__other-time-button">
         <ion-button
           class="ux-button-outlined ppt__footer__other-time-button__button"
-          name="Skip test"
+          name="ux_user_skip"
           expand="block"
+          appTrackClick
           (click)="this.showSkipProfileTest()"
           >{{ 'profiles.personalised_profile_test.button_secondary' | translate }}</ion-button
         >

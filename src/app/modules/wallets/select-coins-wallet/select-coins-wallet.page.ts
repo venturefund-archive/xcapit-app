@@ -1,16 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { ModalController, NavController } from '@ionic/angular';
-import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { ActivatedRoute } from '@angular/router';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
-import { LoadingService } from 'src/app/shared/services/loading/loading.service';
-import { TranslateService } from '@ngx-translate/core';
 import { WalletMaintenanceService } from '../shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
-import { WalletPasswordComponent } from '../shared-wallets/components/wallet-password/wallet-password.component';
-import { ToastService } from 'src/app/shared/services/toast/toast.service';
-import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
+import { debounce } from 'rxjs/operators';
+import { interval } from 'rxjs';
 @Component({
   selector: 'app-select-coins-wallet',
   template: ` <ion-header>
@@ -18,16 +12,11 @@ import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/pass
         <ion-buttons slot="start">
           <ion-back-button defaultHref="/tabs/home"></ion-back-button>
         </ion-buttons>
-        <ion-title class="ion-text-center">{{ this.headerText | translate }}</ion-title>
+        <ion-title class="ion-text-center">{{ 'wallets.select_coin.header_edit' | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding sc">
-      <form
-        [formGroup]="this.form"
-        (ngSubmit)="this.handleSubmit()"
-        class="ux_main"
-        *ngIf="!!this.form && this.userCoinsLoaded"
-      >
+      <form [formGroup]="this.form" class="ux_main" *ngIf="!!this.form && this.userCoinsLoaded">
         <div class="sc__content ux_content">
           <app-ux-title class="ion-padding-top ion-margin-top ">
             <div class="sc__title ux-font-text-lg ion-margin-top">
@@ -55,89 +44,58 @@ import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/pass
           <app-items-coin-group
             [network]="network"
             [coins]="this.getCoinsFromNetwork(network)"
-            (changed)="this.setAllSelected()"
             *ngFor="let network of this.networks"
           ></app-items-coin-group>
-        </div>
-        <div class="ux_footer">
-          <div class="sc__next_button">
-            <ion-button
-              [disabled]="!this.almostOneChecked || this.txInProgress"
-              color="secondary"
-              class="ux_button"
-              appTrackClick
-              [dataToTrack]="{ eventLabel: this.trackClickEventName }"
-              name="ux_create_next"
-              type="submit"
-              size="large"
-              [appLoading]="this.loading"
-              [loadingText]="'wallets.select_coin.loading' | translate"
-            >
-              {{ this.submitButtonText | translate }}
-            </ion-button>
-          </div>
         </div>
       </form>
     </ion-content>`,
   styleUrls: ['./select-coins-wallet.page.scss'],
 })
 export class SelectCoinsWalletPage implements OnInit {
-  headerText: string;
-  submitButtonText: string;
-  mode: string;
   userCoinsLoaded: boolean;
-  txInProgress: boolean;
   form: UntypedFormGroup;
   allSelected = false;
-  loading = false;
-  trackClickEventName: string;
 
   get networks(): string[] {
     return this.apiWalletService.getNetworks();
   }
 
-  almostOneChecked = false;
-  originalFormData: any;
-
   constructor(
-    private route: ActivatedRoute,
     private formBuilder: UntypedFormBuilder,
-    private navController: NavController,
-    private walletService: WalletService,
     private apiWalletService: ApiWalletService,
-    private loadingService: LoadingService,
-    private translate: TranslateService,
-    private modalController: ModalController,
-    private walletMaintenanceService: WalletMaintenanceService,
-    private toastService: ToastService
+    private walletMaintenanceService: WalletMaintenanceService
   ) {}
 
   ionViewWillEnter() {
-    this.txInProgress = false;
     this.userCoinsLoaded = false;
-    this.mode = this.route.snapshot.paramMap.get('mode');
-    this.updateTexts();
     this.createForm();
+    this.getUserCoins();
+  }
 
-    if (this.mode === 'edit') {
-      this.getUserCoins();
-    }
+  ionViewDidLeave() {
+    this.walletMaintenanceService.wipeDataFromService();
   }
 
   ngOnInit() {}
 
   createForm() {
     if (!this.form) {
-      const formGroup = {};
+      const formGroup = { };
 
       this.networks.forEach((network) => {
         formGroup[network] = this.createSuiteFormGroup(this.getCoinsFromNetwork(network));
       });
 
       this.form = this.formBuilder.group(formGroup);
-
-      this.form.valueChanges.subscribe(() => this.setContinueButtonState());
     }
+  }
+
+  async updateTokens() {
+    this.setAllSelected();
+    const values = Object.values(this.form.value).reduce((prev: any, curr: any) => {
+      return { ...prev, ...curr };
+    });
+    await this.walletMaintenanceService.updateTokensStorage(values);
   }
 
   getCoinsFromNetwork(network: string) {
@@ -153,186 +111,46 @@ export class SelectCoinsWalletPage implements OnInit {
     return this.formBuilder.group(formGroup);
   }
 
-  almostOneToggledInSuite(suite) {
-    return Object.values(this.form.value[suite]).some(Boolean);
-  }
-
-  setContinueButtonState() {
-    this.almostOneChecked = this.almostOneToggled();
-  }
-
-  almostOneToggled() {
-    const suites = Object.keys(this.form.value);
-    return suites.map((suite) => this.almostOneToggledInSuite(suite)).some(Boolean);
-  }
-
-  async handleSubmit() {
-    if (this.almostOneChecked) {
-      this.txInProgress = true;
-      switch (this.mode) {
-        case 'import':
-          this.importWallet();
-          break;
-        case 'edit':
-          this.editTokens();
-          break;
-        default:
-          this.createWallet();
-          break;
-      }
-      this.txInProgress = false;
-    }
-  }
-
-  importWallet() {
-    this.loading = true;
-    this.walletService.coins = [];
-    this.setUserCoins();
-    this.walletService
-      .create()
-      .then(() => this.navController.navigateForward(['/wallets/create-password', 'import']))
-      .finally(() => (this.loading = false));
-  }
-
-  async editTokens() {
-    const changedAssets = this.getChangedAssets();
-
-    if (this.walletMaintenanceService.isUpdated()) {
-      await this.loadingService.show();
-      await this.walletMaintenanceService.toggleAssets(changedAssets);
-    } else {
-      this.walletMaintenanceService.password = await this.askForPassword();
-
-      if (!this.walletMaintenanceService.password) {
-        this.txInProgress = false;
-        return;
-      }
-
-      await this.loadingService.show();
-      try {
-        await this.walletMaintenanceService.updateWalletNetworks(changedAssets);
-      } catch (error) {
-        if (new PasswordErrorMsgs().isInvalidError(error)) {
-          await this.loadingService.dismiss();
-          this.showInvalidPasswordToast();
-          return;
-        }
-      }
-    }
-
-    await this.walletMaintenanceService.saveWalletToStorage();
-    await this.loadingService.dismiss();
-    this.navController.navigateForward(['/tabs/wallets']);
-  }
-
-  async showInvalidPasswordToast() {
-    await this.toastService.showErrorToast({
-      message: this.translate.instant('wallets.send.error_incorrect_password.textPrimary'),
-    });
-    this.txInProgress = true;
-    await this.editTokens();
-  }
-
-  createWallet() {
-    this.walletService.coins = [];
-    this.setUserCoins();
-    this.navController.navigateForward(['/wallets/create-first/recovery-phrase']);
-  }
-
-  async askForPassword(): Promise<string> {
-    const modal = await this.modalController.create({
-      component: WalletPasswordComponent,
-      cssClass: 'ux-routeroutlet-modal full-screen-modal',
-    });
-    await modal.present();
-    const { data } = await modal.onDidDismiss();
-    return data;
-  }
-
-  getSuiteFormGroupKeys(): string[] {
+  private getSuiteFormGroupKeys(): string[] {
     return Object.keys(this.form.value);
   }
 
-  getCoinFormGroupKeys(network: string): string[] {
+  private getCoinFormGroupKeys(network: string): string[] {
     return Object.keys(this.form.value[network]);
   }
 
-  setUserCoins() {
-    this.getSuiteFormGroupKeys().forEach((network) => {
-      this.getCoinFormGroupKeys(network).forEach((coinKey) => {
-        if (this.form.value[network][coinKey]) {
-          const coin = this.apiWalletService.getCoin(coinKey, network);
-          if (coin) this.walletService.coins.push(coin);
-        }
-      });
-    });
-  }
-
   getUserCoins() {
-    this.initializeFormData();
-
+    const formData = {};
     this.walletMaintenanceService.getUserAssets().then((coins) => {
       coins.forEach((coin) => {
-        this.originalFormData[coin.network][coin.value] = true;
+        if (!formData[coin.network]) formData[coin.network] = {};
+
+        formData[coin.network][coin.value] = true;
       });
 
-      this.form.patchValue(this.originalFormData);
+      this.form.patchValue(formData);
       this.userCoinsLoaded = true;
       this.setAllSelected();
+
+      this.form.valueChanges.pipe(debounce(() => interval(100))).subscribe(() => this.updateTokens());
     });
   }
 
-  private initializeFormData() {
-    this.originalFormData = Object.assign({}, this.form.value);
-  }
-
-  private getChangedAssets(): string[] {
-    const changedAssets = [];
-
-    this.apiWalletService.getCoins().forEach((coin) => {
-      if (this.form.value[coin.network][coin.value] !== this.originalFormData[coin.network][coin.value]) {
-        changedAssets.push(coin.value);
-      }
-    });
-
-    return changedAssets;
-  }
-
-  private updateTexts() {
-    switch (this.mode) {
-      case 'edit':
-        this.trackClickEventName = 'ux_edit_next';
-        this.headerText = 'wallets.select_coin.header_edit';
-        this.submitButtonText = 'wallets.select_coin.submit_edit';
-        return;
-      case 'import':
-        this.trackClickEventName = 'ux_import_next';
-        this.userCoinsLoaded = true;
-        this.headerText = 'wallets.recovery_wallet.header';
-        this.submitButtonText = 'wallets.recovery_wallet.next_button';
-        return;
-      default:
-        this.trackClickEventName = 'ux_create_next';
-        this.userCoinsLoaded = true;
-        this.headerText = 'wallets.select_coin.header';
-        this.submitButtonText = 'deposit_addresses.deposit_currency.next_button';
-        return;
-    }
-  }
-
-  toggleAll(event) {
+  toggleAll(event: any) {
     event.stopImmediatePropagation();
     event.stopPropagation();
     event.preventDefault();
     const setAll = !this.allSelected;
+    const formData = {};
 
     this.getSuiteFormGroupKeys().forEach((network) => {
+      formData[network] = {};
       this.getCoinFormGroupKeys(network).forEach((coin) => {
-        this.form.get(network).get(coin).setValue(setAll);
+        formData[network][coin] = setAll;
       });
     });
 
-    this.setAllSelected();
+    this.form.patchValue(formData);
   }
 
   setAllSelected() {

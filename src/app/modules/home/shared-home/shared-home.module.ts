@@ -8,6 +8,6 @@ import { DonationsCardComponent } from './components/donations-card/donations-ca
 @NgModule({
   declarations: [BuyCryptoCardComponent, InformativeModalComponent, FinancialPlannerCardComponent, DonationsCardComponent],
   imports: [SharedModule],
-  exports: [SharedModule, BuyCryptoCardComponent, InformativeModalComponent, FinancialPlannerCardComponent, DonationsCardComponent,],
+  exports: [SharedModule, BuyCryptoCardComponent, InformativeModalComponent, FinancialPlannerCardComponent, DonationsCardComponent],
 })
 export class SharedHomeModule {}

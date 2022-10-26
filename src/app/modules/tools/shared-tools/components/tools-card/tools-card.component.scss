@@ -1,0 +1,28 @@
+:host {
+  margin: 0;
+
+  .main {
+    --background: white;
+
+    max-width: 160px;
+    max-height: 154px;
+
+    --padding-bottom: 16px;
+    --padding-start: 8px;
+    --padding-end: 8px;
+    --padding-top: 16px;
+
+    border: 0;
+    box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
+
+    &__ux-icon {
+      img {
+        width: 42px;
+        height: 42px;
+        border: 2px solid white;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
+      }
+    }
+  }
+}

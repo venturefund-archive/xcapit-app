@@ -25,6 +25,7 @@ export const environment = {
   covalentApiUrl: 'https://covalent.url',
   directa24Url: 'https://directa.url',
   directa24ApiKey: 'directa.key',
+  moonpayApiUrl: 'https://moonpay.url',
   moonpayPK: 'dummy_publishable_key',
   walletNetwork: 'testnet',
   ethAlchemyApiUrl: 'alchemy.url',

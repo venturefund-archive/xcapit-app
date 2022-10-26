@@ -4,13 +4,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ResetPasswordFormComponent } from './components/reset-password-form/reset-password-form.component';
 import { PasswordChangeFormComponent } from './components/password-change-form/password-change-form.component';
 import { LoginPasswordInfoComponent } from './components/login-password-info/login-password-info.component';
+import { LoginBiometricActivationModalComponent } from './components/login-biometric-activation-modal/login-biometric-activation-modal.component';
 
 @NgModule({
   declarations: [
     AuthFormComponent,
     ResetPasswordFormComponent,
     PasswordChangeFormComponent,
-    LoginPasswordInfoComponent
+    LoginPasswordInfoComponent,
+    LoginBiometricActivationModalComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -18,7 +20,8 @@ import { LoginPasswordInfoComponent } from './components/login-password-info/log
     AuthFormComponent,
     ResetPasswordFormComponent,
     PasswordChangeFormComponent,
-    LoginPasswordInfoComponent
+    LoginPasswordInfoComponent,
+    LoginBiometricActivationModalComponent
   ]
 })
 export class SharedUsersModule {}

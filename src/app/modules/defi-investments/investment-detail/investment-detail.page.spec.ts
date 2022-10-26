@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { TwoPiApi } from '../shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { Vault } from '@2pi-network/sdk';
@@ -23,6 +23,7 @@ import { AvailableDefiProducts } from '../shared-defi-investments/models/availab
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 
 const testVault = {
   apy: 0.227843965358873,
@@ -122,8 +123,12 @@ describe('InvestmentDetailPage', () => {
   let coinSpy: jasmine.SpyObj<Coin>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
   let graphqlServiceSpy: jasmine.SpyObj<GraphqlService>;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
 
   beforeEach(waitForAsync(() => {
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
     fakeActivatedRoute = new FakeActivatedRoute({ vault: 'polygon_usdc' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     fakeNavController = new FakeNavController({});
@@ -161,7 +166,6 @@ describe('InvestmentDetailPage', () => {
         name: 'USDC - USD Coin',
         value: 'USDC',
         network: 'MATIC',
-        decimals: 6,
       }
     );
 
@@ -170,13 +174,14 @@ describe('InvestmentDetailPage', () => {
       token: coinSpy,
       contractAddress: '0x00001',
       name: 'polygon_usdc',
+      decimals: 6,
     });
 
     availableDefiProductsSpy = jasmine.createSpyObj('AvailableDefiProducts', {
       value: [{ id: 'polygon_usdc', isComing: false, continuousEarning: true }],
     });
 
-    remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ test: 'test' }] });
+    remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ id: 'polygon_usdc' }] });
 
     graphqlServiceSpy = jasmine.createSpyObj('GraphqlService', {
       getAllMovements: of(dataTest),
@@ -194,6 +199,7 @@ describe('InvestmentDetailPage', () => {
         { provide: WalletEncryptionService, useValue: walletEncryptionServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
         { provide: GraphqlService, useValue: graphqlServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -226,13 +232,14 @@ describe('InvestmentDetailPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
-    const titleEl = fixture.debugElement.query(By.css('ion-item.invested-balance > ion-label > ion-text'));
+
+    const titleEl = fixture.debugElement.query(By.css('div.invested-balance__content__label > ion-text'));
+    const balanceEl = fixture.debugElement.query(By.css('div.invested-balance__content__balance__token > ion-text'));
+    const referenceBalanceEl = fixture.debugElement.query(By.css('div.invested-balance__content__balance__usd > ion-text'));
+
     expect(titleEl.nativeElement.innerHTML).toContain('defi_investments.invest_detail.invested_amount');
-    const [balanceEl, referenceBalanceEl] = fixture.debugElement.queryAll(
-      By.css('div.invested-balance__content__balance ion-text.invested-balance__content__balance__text')
-    );
     expect(balanceEl.nativeElement.innerHTML).toContain(50.0);
-    expect(referenceBalanceEl.nativeElement.innerHTML).toEqual(' 50 USD ');
+    expect(referenceBalanceEl.nativeElement.innerHTML).toEqual(' = 50 USD ');
   });
 
   it('should redirect user to defi/no-wallet-to-invest if user has no wallet on ux_invest_add_amount button click', async () => {
@@ -323,5 +330,21 @@ describe('InvestmentDetailPage', () => {
     fixture.detectChanges();
     expect(component.firstMovements).toEqual(firstMovementsTest);
     expect(component.remainingMovements).toEqual(remainingMovementsTest);
+  });
+
+  it('should open information modal when click on Cumulative yield info button', async () => {
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="Cumulative yield info button"]')).nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render yields properly', async () => {
+    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(component.yield).toEqual({ value: jasmine.any(Number), token: 'USDC' });
+    expect(component.usdYield).toEqual({ value: jasmine.any(Number), token: 'USD' });
   });
 });

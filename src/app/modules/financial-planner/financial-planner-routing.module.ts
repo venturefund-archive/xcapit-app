@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
+import { PlannerIntroductionCompletedGuard } from './shared-financial-planner/guards/planner-introduction-completed';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
       },
       {
         path: 'result-objetive',
+        canActivate: [PlannerIntroductionCompletedGuard],
         loadChildren: () => import('./result-objetive/result-objetive.module').then((m) => m.ResultObjetivePageModule),
       },
       {

@@ -1,5 +1,5 @@
 import { Blockchain } from '../blockchain/blockchain';
-import { rawEthereumData, rawPolygonData } from '../fixtures/raw-blockchains-data';
+import { rawEthereumData, rawPolygonData, rawSolanaData } from '../fixtures/raw-blockchains-data';
 import { FakeHttpClient } from 'src/testing/fakes/fake-http.spec';
 import { fakeRawGasPrice, fakeProviders } from '../fakes/fake-ethers-providers';
 import { BigNumberOf } from '../polygon-gas-price/big-number-of';
@@ -9,26 +9,18 @@ import { AmountOf } from '../amount-of/amount-of';
 
 
 describe('Gas Station Of', () => {
-
   let gasStation: GasStationOf;
+  const solanaBlockchain = new Blockchain(rawSolanaData);
   const polygonBlockchain = new Blockchain(rawPolygonData);
   const ethereumBlockchain = new Blockchain(rawEthereumData);
-  const expectedEthereumAmount = new AmountOf(fakeRawGasPrice.toString(), ethereumBlockchain.nativeToken());
-  const expectedPolygonAmount = new AmountOf(
-    new BigNumberOf(rawPolygonGasStation.safeLow.maxFee).value().toString(),
-    ethereumBlockchain.nativeToken());
 
   const _gasStationOf = (_aBlockchain: Blockchain): GasStationOf => {
-    return new GasStationOf(
-      _aBlockchain,
-      new FakeHttpClient(rawPolygonGasStation),
-      fakeProviders
-    );
+    return new GasStationOf(_aBlockchain, new FakeHttpClient(rawPolygonGasStation), fakeProviders);
   };
 
   beforeEach(() => {
     gasStation = _gasStationOf(polygonBlockchain);
-  })
+  });
 
   it('new', () => {
     expect(gasStation).toBeTruthy();
@@ -36,15 +28,29 @@ describe('Gas Station Of', () => {
 
   it('default gas price', async () => {
     const gasStation = _gasStationOf(ethereumBlockchain);
+    const expectedEthereumAmount = new AmountOf(fakeRawGasPrice.toString(), ethereumBlockchain.nativeToken());
 
-    const gasPriceValue = await gasStation.price().safeLow();
+    const gasPrice = await gasStation.price().safeLow();
 
-    expect(gasPriceValue.value()).toEqual(expectedEthereumAmount.value());
+    expect(gasPrice.value()).toEqual(expectedEthereumAmount.value());
   });
 
   it('polygon gas price', async () => {
-    const gasPriceValue = await gasStation.price().safeLow();
+    const gasPrice = await gasStation.price().safeLow();
+    const expectedPolygonAmount = new AmountOf(
+      new BigNumberOf(rawPolygonGasStation.safeLow.maxFee).value().toString(),
+      ethereumBlockchain.nativeToken()
+    );
 
-    expect(gasPriceValue.value()).toEqual(expectedPolygonAmount.value());
+    expect(gasPrice.value()).toEqual(expectedPolygonAmount.value());
+  });
+
+  it('solana gas price', async () => {
+    const gasStation = _gasStationOf(solanaBlockchain);
+    const expectedSolanaAmount = new AmountOf('1', solanaBlockchain.nativeToken());
+
+    const gasPrice = await gasStation.price().safeLow();
+
+    expect(gasPrice.value()).toEqual(expectedSolanaAmount.value());
   });
 });
