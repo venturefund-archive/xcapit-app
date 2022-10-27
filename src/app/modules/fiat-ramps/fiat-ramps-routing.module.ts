@@ -135,6 +135,20 @@ const routes: Routes = [
         loadChildren: () =>
           import('./home-of-purchases/home-of-purchases.module').then((m) => m.HomeOfPurchasesPageModule),
       },
+      {
+        path: 'kyc-front-id',
+        loadChildren: () =>
+          import('./kyc-front-id-validation/kyc-front-id-validation.module').then(
+            (m) => m.KycFrontIdValidationPageModule
+          ),
+      },
+      {
+        path: 'kyc-front-id-confirmation',
+        loadChildren: () =>
+          import('./kyc-front-id-confirmation/kyc-front-id-confirmation.module').then(
+            (m) => m.KycFrontIdConfirmationPageModule
+          ),
+      },
     ],
   },
 ];

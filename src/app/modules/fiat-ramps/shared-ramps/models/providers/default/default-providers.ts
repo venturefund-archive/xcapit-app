@@ -21,8 +21,8 @@ export class DefaultProviders implements Providers {
 
   public async availablesBy(aCountry: FiatRampProviderCountry, aCoin: Coin): Promise<FiatRampProvider[]> {
     let providers = this.dataRepo.byCountryAndCoin(aCountry, aCoin);
-
-    if (aCountry.directaCode) {
+    const directaEnabled = providers.some((provider) => provider.providerName === 'directa24');
+    if (aCountry.directaCode && directaEnabled) {
       const directaProviders = await this.availableDirectaProviders(aCountry).toPromise();
       providers = providers.filter(
         (provider) => directaProviders.some((dp) => dp.code === provider.alias) || provider.providerName !== 'directa24'

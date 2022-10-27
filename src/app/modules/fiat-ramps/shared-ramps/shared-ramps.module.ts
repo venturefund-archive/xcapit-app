@@ -13,6 +13,8 @@ import { CoinSelectorModalComponent } from './components/coin-selector-modal/coi
 import { SkipTransactionVoucherComponent } from './components/skip-transaction-voucher/skip-transaction-voucher.component';
 import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-modal.component';
 import { UserRegisterStepCardComponent } from './components/user-register-step-card/user-register-step-card.component';
+import { ValidationContentComponent } from './components/validation-content/validation-content.component';
+import { ConfirmationContentComponent } from './components/confirmation-content/confirmation-content.component';
 import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-card/moonpay-purchases-card/moonpay-purchases-card.component';
 
 @NgModule({
@@ -31,6 +33,8 @@ import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-ca
     SkipTransactionVoucherComponent,
     UserRegisterStepCardComponent,
     MoonpayPurchasesCardComponent,
+    ValidationContentComponent,
+    ConfirmationContentComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -49,6 +53,8 @@ import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-ca
     SkipTransactionVoucherComponent,
     UserRegisterStepCardComponent,
     MoonpayPurchasesCardComponent,
+    ValidationContentComponent,
+    ConfirmationContentComponent
   ],
 })
 export class SharedRampsModule {}

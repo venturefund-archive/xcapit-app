@@ -2518,6 +2518,30 @@
         "item2": "It may vary slightly at the time of the operation.",
         "item3": "You can find it on your payment ticket as “amount checker“.",
         "button": "Understood"
+      },
+      "validation_content": {
+        "header": "Verify identity",
+        "provider": "Provider: Kripton Market",
+        "button_primary": "Take photo",
+        "button_secondary": "Upload from gallery",
+
+        "front_id": {
+          "title": "¡Hello again! 👋",
+          "subtitle": "We need a photo of the front of your document",
+          "description": "The image should be similar to the one in the example and your data should be visible."
+        }
+      },
+      "confirmation_content": {
+        "header": "Verify identity",
+        "provider": "Provider: Kripton Market",
+        "button_primary": "Confirm",
+        "button_secondary": "Reloading",
+
+        "front_id": {
+          "title": "Very good! 📸",
+          "subtitle": "Check that the photo meets the following conditions:",
+          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>"
+        }
       }
     },
     "user_email": {
@@ -2589,6 +2613,14 @@
         "label_country_code": "Country code",
         "label_phone": "Phone",
         "button": "Continue"
+      },
+      "front_id": {
+        "back_modal": {
+          "title": "Attention",
+          "description": "Do you want to leave? Your progress will be lost and you will have to start again.",
+          "confirm_button": "Confirm",
+          "cancel_button": "Cancel"
+        }
       }
     }
   },
