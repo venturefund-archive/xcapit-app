@@ -2529,6 +2529,10 @@
           "title": "¡Hola de nuevo! 👋",
           "subtitle": "Necesitamos una foto del frente de tu documento",
           "description": "La imagen debe ser similar a la del ejemplo y sus datos deben ser visibles."
+        },
+        "back_id": {
+          "subtitle": "Ahora precisamos una foto del revés de tu documento",
+          "description": "La imagen debe ser similar a la del ejemplo y sus datos deben ser visibles."
         }
       },
 
@@ -2541,6 +2545,11 @@
         "front_id": {
           "title": "¡Muy bien! 📸",
           "subtitle": "Chequea que la foto cumpla con las siguientes condiciones:",
+          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>"
+        },
+        "back_id": {
+          "title": "😁 ¡Excelente!" ,
+          "subtitle": "Chequea que la foto cumpla con las siguientes condiciones: ",
           "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>"
         }
       }

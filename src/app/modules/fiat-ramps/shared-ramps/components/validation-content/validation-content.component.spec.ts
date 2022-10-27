@@ -20,6 +20,7 @@ describe('ValidationContentComponent', () => {
     subtitle: 'testSubtitle',
     description: 'testDescription',
     imagePath: 'assets/test_image.svg',
+    documentName: 'front_document',
   };
 
   beforeEach(waitForAsync(() => {
