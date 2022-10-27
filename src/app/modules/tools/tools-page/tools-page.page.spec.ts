@@ -40,9 +40,9 @@ describe('ToolPagePage', () => {
     walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { connected: false });
 
     TestBed.configureTestingModule({
-      declarations: [ ToolsPage, FakeFeatureFlagDirective ],
+      declarations: [ToolsPage, FakeFeatureFlagDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      providers: [ 
+      providers: [
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: AppStorageService, useValue: appStorageServiceSpy },
@@ -86,7 +86,9 @@ describe('ToolPagePage', () => {
   it('should navigate to donations when ux_go_to_donations is clicked', async () => {
     fixture.detectChanges();
     component.ionViewWillEnter();
-    fixture.debugElement.query(By.css('app-tools-card')).triggerEventHandler('primaryActionEvent', 'ux_go_to_donations');
+    fixture.debugElement
+      .query(By.css('app-tools-card'))
+      .triggerEventHandler('primaryActionEvent', 'ux_go_to_donations');
     await fixture.whenStable();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/donations/causes']);
   });
@@ -99,19 +101,23 @@ describe('ToolPagePage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/financial-planner/result-objetive']);
   });
 
-  it('should render correct icon if wallet connect is not connected', async () => {
+  it('should render correct icon if wallet connect is not connected and redirect to new connection page when icon is clicked', async () => {
     walletConnectServiceSpy.connected = false;
     component.ionViewWillEnter();
     fixture.detectChanges();
     const iconEl = fixture.debugElement.query(By.css('ion-icon[name="ux-walletconnect"]'));
+    iconEl.nativeElement.click();
     expect(iconEl).toBeTruthy();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/new-connection');
   });
 
-  it('should render correct icon if wallet connect is connected', async () => {
+  it('should render correct icon if wallet connect is connected and redirect to connection detail page when icon is clicked', async () => {
     walletConnectServiceSpy.connected = true;
     component.ionViewWillEnter();
     fixture.detectChanges();
     const iconEl = fixture.debugElement.query(By.css('ion-icon[name="ux-walletconnectconnect"]'));
+    iconEl.nativeElement.click();
     expect(iconEl).toBeTruthy();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/connection-detail');
   });
 });

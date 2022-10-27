@@ -52,7 +52,7 @@ import { NavController } from '@ionic/angular';
           <div class="td__card__container__amount">
             <div>
               <ion-text class="ux-font-text-lg"
-                >{{ this.tplTransfer.amount }} {{ this.tplTransfer.token.value | titlecase }}</ion-text
+                >{{ this.tplTransfer.amount }} {{ this.tplTransfer.token.value | titlecase | uppercase }}</ion-text
               >
             </div>
             <div class="td__card__container__amount__conversion">

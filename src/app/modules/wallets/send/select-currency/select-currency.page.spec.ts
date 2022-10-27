@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -33,6 +34,7 @@ describe('SelectCurrencyPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: StorageService, useValue: storageServiceSpy },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SelectCurrencyPage);
@@ -69,4 +71,14 @@ describe('SelectCurrencyPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(
       ['wallets/send/detail/blockchain', rawUSDTData.network, 'token',rawUSDTData.contract]);
   });
+
+  it('should show no-active-tokens-card component when storage has no coins', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    storageServiceSpy.getAssestsSelected.and.returnValue(Promise.resolve([]));
+    await fixture.whenStable();
+
+    const cardEl = fixture.debugElement.query(By.css('app-no-active-tokens-card'))
+    expect(cardEl).toBeTruthy();
+  })
 });

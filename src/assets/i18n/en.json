@@ -131,16 +131,16 @@
       "of": "of"
     },
     "update_news": {
-      "title": "Good news!",
+      "title": "What you were waiting for, has arrived \uD83D\uDE0E",
       "first": {
         "badge": "New feature",
-        "title": "More opportunities!",
-        "description": "New payment methods, more tokens and countries to buy, all in your local currency!"
+        "title": "\uD83D\uDE80 Your wallet is faster than ever!",
+        "description": "You won't need your email anymore! You will enter and approve your transactions with the same password.\nMore agility, security and privacy for your data."
       },
       "second": {
         "badge": "New feature",
-        "title": "App improvements",
-        "description": "You will be able to access the details of your operations and other data in an agile and simple way."
+        "title": "\uD83D\uDCB8 More transparent investments",
+        "description": "You will be able to view the performance of all your investments at all times."
       }
     },
     "transaction_fees": {
@@ -1700,6 +1700,10 @@
       },
       "backup_card_component": {
         "text": "Don't lose your money. <b> Protect your wallet. </b>"
+      },
+      "no_tokens_selected": {
+        "title": "Here you will find your tokens.",
+        "link": "Select the ones you wish to view"
       }
     },
     "select_coin": {
@@ -1973,6 +1977,13 @@
       "new_token_info-modal": {
         "title": "Benefits of using Solana",
         "subtitle": "Solana is one of the cheapest and fastest networks in the crypto ecosystem and that is because they have a very distinct block validation called proof of history that has helped a huge ecosystem develop around it. "
+      },
+      "no_active_tokens_card": {
+        "title": {
+          "send": "To continue, activate the display of the tokens you wish to send.",
+          "receive": "To continue, activate the display of the tokens you wish to receive."
+        },
+        "button": "Activate tokens"
       }
     },
     "asset_detail": {

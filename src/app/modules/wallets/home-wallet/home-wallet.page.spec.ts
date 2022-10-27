@@ -44,6 +44,7 @@ import { FakeWallet } from '../../swaps/shared-swaps/models/wallet/wallet';
 import { rawETHData, rawMATICData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
+import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -75,7 +76,7 @@ describe('HomeWalletPage', () => {
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
-
+  let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const dataTest = {
     data: {
@@ -90,6 +91,7 @@ describe('HomeWalletPage', () => {
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
+    updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
     navControllerSpy = fakeNavController.createSpy();
     totalBalanceControllerSpy = jasmine.createSpyObj('TotalBalanceController', { new: new FakeBalance(10) });
     tokenPricesControllerSpy = jasmine.createSpyObj('TokenPricesController', { new: new FakePrices() });
@@ -221,6 +223,7 @@ describe('HomeWalletPage', () => {
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+        { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -244,6 +247,7 @@ describe('HomeWalletPage', () => {
     expect(component.walletExist).toBeTrue();
     expect(component.userTokens.length).toBeGreaterThan(0);
     expect(component.tokenDetails.length).toBeGreaterThan(0);
+    expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
   });
 
   it('should initialize on view did enter without tokens', async () => {
@@ -416,19 +420,23 @@ describe('HomeWalletPage', () => {
     expect(totalInvestedEl.nativeElement.innerHTML).toContain('12.78 USD');
   });
 
-  it('should render correct icon if wallet connect is not connected', async () => {
+  it('should render correct icon if wallet connect is not connected and redirect to new connection page when icon is clicked', async () => {
     walletConnectServiceSpy.connected = false;
     component.ionViewWillEnter();
     fixture.detectChanges();
     const iconEl = fixture.debugElement.query(By.css('ion-icon[name="ux-walletconnect"]'));
+    iconEl.nativeElement.click();
     expect(iconEl).toBeTruthy();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/new-connection');
   });
 
-  it('should render correct icon if wallet connect is connected', async () => {
+  it('should render correct icon if wallet connect is connected and redirect to connection detail page when icon is clicked', async () => {
     walletConnectServiceSpy.connected = true;
     component.ionViewWillEnter();
     fixture.detectChanges();
     const iconEl = fixture.debugElement.query(By.css('ion-icon[name="ux-walletconnectconnect"]'));
+    iconEl.nativeElement.click();
     expect(iconEl).toBeTruthy();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/connection-detail');
   });
 });

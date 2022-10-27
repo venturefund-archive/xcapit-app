@@ -23,7 +23,7 @@ import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/defa
           <ion-icon name="close"></ion-icon>
         </ion-button>
         <img [src]="this.image" alt="News image" />
-        <ion-text class="ux-font-text-xl un__header__title">
+        <ion-text class="ux-font-text-xl un__header__title ion-padding-start ion-padding-end">
           {{ 'shared.update_news.title' | translate }}
         </ion-text>
       </div>
@@ -42,17 +42,15 @@ export class UpdateNewsComponent implements OnInit {
   image = 'assets/img/update-news/news.svg';
   items: News[] = [
     {
-      badge: this.translate.instant('shared.update_news.first.badge'),
       title: this.translate.instant('shared.update_news.first.title'),
       description: this.translate.instant('shared.update_news.first.description'),
       url: ['/tabs/wallets'],
       isOpenByBrowser: false,
     },
     {
-      badge: this.translate.instant('shared.update_news.second.badge'),
       title: this.translate.instant('shared.update_news.second.title'),
       description: this.translate.instant('shared.update_news.second.description'),
-      url: ['/tabs/wallets'],
+      url: ['/tabs/investments'],
       isOpenByBrowser: false,
     },
   ];
