@@ -28,9 +28,6 @@ describe('RemoteConfigService', () => {
     service.initialize(remoteConfigMock);
     tick();
     expect(spy).toHaveBeenCalledTimes(1);
-    service.initialized().subscribe((initialized) => {
-      expect(initialized).toBeTrue();
-    });
   }));
 
   it('should call getFeatureFlag on getFeatureFlag', async () => {

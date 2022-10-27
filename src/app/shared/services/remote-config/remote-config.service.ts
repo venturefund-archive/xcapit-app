@@ -1,5 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { RemoteConfiguration } from '../../interfaces/remote-configuration.interface';
 
 @Injectable({
@@ -7,18 +6,12 @@ import { RemoteConfiguration } from '../../interfaces/remote-configuration.inter
 })
 export class RemoteConfigService {
   private remoteConfig: RemoteConfiguration;
-  private isInitialized = new BehaviorSubject(false);
 
   constructor() {}
 
   async initialize(remoteConfig: RemoteConfiguration): Promise<void> {
     this.remoteConfig = remoteConfig;
     await this.remoteConfig.initialize();
-    this.isInitialized.next(true);
-  }
-
-  public initialized(): Observable<boolean> {
-    return this.isInitialized.asObservable();
   }
 
   getFeatureFlag(param: string): boolean {

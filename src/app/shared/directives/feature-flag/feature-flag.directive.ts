@@ -1,5 +1,4 @@
 import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { FeatureFlagInjectable } from '../../models/feature-flag/injectable/feature-flag.injectable';
 import { RemoteConfigService } from '../../services/remote-config/remote-config.service';
 
@@ -7,7 +6,6 @@ import { RemoteConfigService } from '../../services/remote-config/remote-config.
   selector: '[appFeatureFlag]',
 })
 export class FeatureFlagDirective implements OnInit {
-  subscription$: Subscription;
   @Input() appFeatureFlag: string;
   @Input() appFeatureFlagNegated = false;
 
@@ -19,13 +17,7 @@ export class FeatureFlagDirective implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.initialize();
-  }
-
-  private async initialize(): Promise<void> {
-    this.subscription$ = this.remoteConfigService.initialized().subscribe((initialized) => {
-      initialized && this.evaluateFeatureFlag();
-    });
+    this.evaluateFeatureFlag();
   }
 
   private isEnabled() {
@@ -35,10 +27,5 @@ export class FeatureFlagDirective implements OnInit {
 
   private async evaluateFeatureFlag() {
     await this.featureFlag.create(this.viewContainer, this.templateRef, () => this.isEnabled()).evaluate();
-    this.unsubscribe();
-  }
-
-  private unsubscribe(): void {
-    this.subscription$ && this.subscription$.unsubscribe();
   }
 }
