@@ -96,6 +96,7 @@ import { NewTokenAvailableCardComponent } from '../modules/wallets/shared-wallet
 import { NewTokenInfoModalComponent } from '../modules/wallets/shared-wallets/components/new-token-info-modal/new-token-info-modal.component';
 import { InformationModalComponent } from './components/information-modal/information-modal.component';
 import { TwoButtonsAlertComponent } from './components/two-buttons-alert/two-buttons-alert.component';
+import { InReviewFeatureFlagDirective } from './directives/in-review-feature-flag/in-review-feature-flag.directive';
 
 @NgModule({
   declarations: [
@@ -194,6 +195,7 @@ import { TwoButtonsAlertComponent } from './components/two-buttons-alert/two-but
     NumberInputDirective,
     ButtonSpinnerDirective,
     FeatureFlagDirective,
+    InReviewFeatureFlagDirective,
   ],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
@@ -297,6 +299,7 @@ import { TwoButtonsAlertComponent } from './components/two-buttons-alert/two-but
     NumberInputDirective,
     FeatureFlagDirective,
     SelectStyleDirective,
+    InReviewFeatureFlagDirective,
   ],
 })
 export class SharedModule {}

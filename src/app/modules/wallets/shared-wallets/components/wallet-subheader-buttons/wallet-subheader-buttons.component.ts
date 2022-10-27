@@ -34,7 +34,7 @@ import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/defa
           ></app-icon-button-card>
         </div>
         <ng-template [ngIf]="this.enabledToBuy && this.enabledToOperate">
-          <div *appFeatureFlag="'ff_buyCryptoHomeWalletButton'" class="wsb__card-buttons__buy-card card">
+          <div *inReviewAppFeatureFlag class="wsb__card-buttons__buy-card card">
             <app-icon-button-card
               (click)="this.goToBuy()"
               appTrackClick
@@ -56,7 +56,7 @@ import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/defa
               icon="ux-vertical-switch"
             ></app-icon-button-card>
           </div>
-      </ng-template>
+        </ng-template>
       </div>
     </div>
   `,
@@ -84,7 +84,12 @@ export class WalletSubheaderButtonsComponent implements OnInit {
         return this.navController.navigateForward(['wallets/send/select-currency']);
       }
 
-      return this.navController.navigateForward(['wallets/send/detail/blockchain', this.network, 'token', this.tokenAddress]);
+      return this.navController.navigateForward([
+        'wallets/send/detail/blockchain',
+        this.network,
+        'token',
+        this.tokenAddress,
+      ]);
     }
   }
 
