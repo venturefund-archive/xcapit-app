@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent, NavController } from '@ionic/angular';
+import { IonAccordionGroup, IonContent, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
 import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
@@ -35,6 +35,7 @@ import { BlockchainTokens } from '../../swaps/shared-swaps/models/blockchain-tok
 import { NewTokensAvailable } from '../shared-wallets/models/new-tokens-avalaible/new-tokens-available.model';
 import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
 import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
+import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 
 @Component({
   selector: 'app-home-wallet',
@@ -42,9 +43,9 @@ import { WalletConnectService } from '../shared-wallets/services/wallet-connect/
       <ion-toolbar color="primary" class="ux_toolbar">
         <div class="header">
           <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
-          <ion-icon *ngIf="!this.connected" name="ux-walletconnect"></ion-icon>
-          <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect"></ion-icon>
         </div>
+        <ion-icon *ngIf="!this.connected" name="ux-walletconnect" (click)="this.goToWalletConnect()"></ion-icon>
+        <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect" (click)="this.goToWalletConnect()"></ion-icon>
         <app-avatar-profile></app-avatar-profile>
       </ion-toolbar>
     </ion-header>
@@ -169,17 +170,24 @@ import { WalletConnectService } from '../shared-wallets/services/wallet-connect/
               class="wt__balance__loading"
               color="primary"
               name="crescent"
-              *ngIf="this.tokenDetails.length === 0"
+              *ngIf="this.tokenDetails.length === 0 && this.allLoaded === false"
             ></ion-spinner>
+            <div class="wt__balance__no-token" *ngIf="this.tokenDetails.length === 0 && this.allLoaded === true">
+              <ion-text class="ux-font-text-xxs wt__balance__no-token__title">{{
+                'wallets.home.no_tokens_selected.title' | translate
+              }}</ion-text>
+              <img src="assets/img/wallets/growing_rafiki.svg" />
+              <ion-text class="ux-link-xs wt__balance__no-token__link" (click)="this.goToSelectCoins()">{{
+                'wallets.home.no_tokens_selected.link' | translate
+              }}</ion-text>
+            </div>
             <div *appFeatureFlag="'ff_newTokenAvailable'">
               <app-new-token-available-card *ngFor="let newToken of this.newTokens" [newToken]="newToken">
               </app-new-token-available-card>
             </div>
-            <app-wallet-balance-card-item
-              *ngFor="let tokenDetail of this.tokenDetails; let last = last"
-              [tokenDetail]="tokenDetail"
-              [last]="last"
-            ></app-wallet-balance-card-item>
+            <div *ngIf="this.tokenDetails.length > 0">
+              <app-accordion-tokens [tokenDetails]="tokenDetails"> </app-accordion-tokens>
+            </div>
           </div>
         </div>
       </div>
@@ -196,8 +204,8 @@ import { WalletConnectService } from '../shared-wallets/services/wallet-connect/
         </ion-button>
       </div>
       <div class="quotes-card" *appFeatureFlag="'ff_newLogin'">
-          <app-quotes-card></app-quotes-card>
-        </div>
+        <app-quotes-card></app-quotes-card>
+      </div>
       <div class="wt__start-investing" *ngIf="this.walletExist">
         <app-start-investing></app-start-investing>
       </div>
@@ -208,10 +216,15 @@ export class HomeWalletPage implements OnInit {
   walletExist: boolean;
   hideFundText: boolean;
   protectedWallet: boolean;
+  lessThanFourTokens: boolean;
   tokenDetails: TokenDetail[] = [];
   userTokens: Coin[];
+  firstTokenDetails;
+  remainingTokenDetails;
   isRefreshAvailable$ = this.refreshTimeoutService.isAvailableObservable;
   refreshRemainingTime$ = this.refreshTimeoutService.remainingTimeObservable;
+  openedAccordion: boolean;
+  @ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
   @ViewChild(IonContent, { static: true }) content: IonContent;
   segmentsForm: UntypedFormGroup = this.formBuilder.group({
     tab: ['assets', [Validators.required]],
@@ -225,6 +238,8 @@ export class HomeWalletPage implements OnInit {
   pids = [];
   newTokens: NewToken[];
   connected: boolean;
+  allLoaded = false;
+
   constructor(
     private walletService: WalletService,
     private apiWalletService: ApiWalletService,
@@ -247,7 +262,8 @@ export class HomeWalletPage implements OnInit {
     private twoPiApi: TwoPiApi,
     private blockchainsFactory: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
-    private walletConnectService: WalletConnectService
+    private walletConnectService: WalletConnectService,
+    private updateNewsService: UpdateNewsService
   ) {}
 
   ngOnInit() {}
@@ -266,8 +282,13 @@ export class HomeWalletPage implements OnInit {
   }
 
   async ionViewDidEnter() {
+    this.showUpdateModal();
     await this.checkWalletExist();
     await this.initialize();
+  }
+
+  private showUpdateModal() {
+    this.updateNewsService.showModal();
   }
 
   checkConnectionOfWalletConnect() {
@@ -336,6 +357,11 @@ export class HomeWalletPage implements OnInit {
     this.navController.navigateForward('/wallets/recovery/read');
   }
 
+  goToWalletConnect() {
+    const url = this.connected ? '/wallets/wallet-connect/connection-detail' : '/wallets/wallet-connect/new-connection';
+    this.navController.navigateForward(url);
+  }
+
   private initializeTotalBalance() {
     this.totalBalanceModel = this.totalBalance.new(new NullPrices(), new NullBalances(), new ZeroBalance());
   }
@@ -363,6 +389,7 @@ export class HomeWalletPage implements OnInit {
     this.sortTokens(tokenDetails);
     this.tokenDetails = tokenDetails;
     this.spinnerActivated = false;
+    this.allLoaded = true;
   }
 
   private async fetchDetails() {

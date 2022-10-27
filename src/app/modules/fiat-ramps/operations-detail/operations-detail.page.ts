@@ -203,7 +203,6 @@ export class OperationsDetailPage implements OnInit {
     if (this.platformService.isNative()) {
       const filePermissions = await this.filesystemPlugin.requestPermissions();
       const cameraPermissions = await this.cameraPlugin.requestPermissions();
-
       const photo = await this.cameraPlugin.getPhoto({
         source: CameraSource.Prompt,
         saveToGallery: false,

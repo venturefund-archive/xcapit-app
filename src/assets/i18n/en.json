@@ -131,16 +131,16 @@
       "of": "of"
     },
     "update_news": {
-      "title": "Good news!",
+      "title": "What you were waiting for, has arrived \uD83D\uDE0E",
       "first": {
         "badge": "New feature",
-        "title": "More opportunities!",
-        "description": "New payment methods, more tokens and countries to buy, all in your local currency!"
+        "title": "\uD83D\uDE80 Your wallet is faster than ever!",
+        "description": "You won't need your email anymore! You will enter and approve your transactions with the same password.\nMore agility, security and privacy for your data."
       },
       "second": {
         "badge": "New feature",
-        "title": "App improvements",
-        "description": "You will be able to access the details of your operations and other data in an agile and simple way."
+        "title": "\uD83D\uDCB8 More transparent investments",
+        "description": "You will be able to view the performance of all your investments at all times."
       }
     },
     "transaction_fees": {
@@ -170,7 +170,7 @@
       "reset_password_link": "I forgot my password",
       "help_link": "Help",
       "invalid_password_text": "The password entered is incorrect. Please try again.",
-      "error_biometric_auth": "An error occurred while trying to read your biometric data. Please enter your password to access."  
+      "error_biometric_auth": "An error occurred while trying to read your biometric data. Please enter your password to access."
     },
     "login": {
       "password_label": "Password",
@@ -179,6 +179,13 @@
       "login_button_text": "Login",
       "title": "Login",
       "loading": "Loading"
+    },
+    "login_biometric_activation_modal": {
+      "title": "Activate your biometric data",
+      "text": "It will help you to access your Xcapit wallet faster.",
+      "checkbox_label": "Don't show this message again.",
+      "confirm_button": "Confirm",
+      "cancel_button": "Cancel"
     },
     "register": {
       "card_header": "Create your account",
@@ -1693,6 +1700,10 @@
       },
       "backup_card_component": {
         "text": "Don't lose your money. <b> Protect your wallet. </b>"
+      },
+      "no_tokens_selected": {
+        "title": "Here you will find your tokens.",
+        "link": "Select the ones you wish to view"
       }
     },
     "select_coin": {
@@ -1878,6 +1889,10 @@
       }
     },
     "shared_wallets": {
+      "accordion_token": {
+        "expand_button": "Expand",
+        "reduce_button": "Reduce"
+      },
       "share_transaction_detail": {
         "text": "Hello! I sent you ",
         "text2": "For more information: ",
@@ -1962,6 +1977,13 @@
       "new_token_info-modal": {
         "title": "Benefits of using Solana",
         "subtitle": "Solana is one of the cheapest and fastest networks in the crypto ecosystem and that is because they have a very distinct block validation called proof of history that has helped a huge ecosystem develop around it. "
+      },
+      "no_active_tokens_card": {
+        "title": {
+          "send": "To continue, activate the display of the tokens you wish to send.",
+          "receive": "To continue, activate the display of the tokens you wish to receive."
+        },
+        "button": "Activate tokens"
       }
     },
     "asset_detail": {
@@ -2198,8 +2220,8 @@
       "button_show_less": "Show less",
       "button_show_more": "Show more"
     },
-    "provider_new_operation_card":{
-      "description":"Provider: {{providerName}}"
+    "provider_new_operation_card": {
+      "description": "Provider: {{providerName}}"
     },
     "fiat_success": {
       "textPrimary": "Operation created",
@@ -2450,13 +2472,13 @@
         "button": "Understood"
       },
       "constants": {
-        "payment_types":{
-          "directa24_bank_deposit":"Bank deposit",
-          "directa24_bank_transfer":"Bank transfer",
-          "directa24_credit_card":"Credit or debit card",
-          "directa24_voucher":"Nearest store",
-          "kripton":"Bank transfer",
-          "moonpay":"Credit card"
+        "payment_types": {
+          "directa24_bank_deposit": "Bank deposit",
+          "directa24_bank_transfer": "Bank transfer",
+          "directa24_credit_card": "Credit or debit card",
+          "directa24_voucher": "Nearest store",
+          "kripton": "Bank transfer",
+          "moonpay": "Credit card"
         },
         "providers": {
           "kripton": {
@@ -2543,7 +2565,22 @@
         "label_apartment": "Apt (optional)",
         "label_city": "City",
         "label_zip_code": "Zip code",
-        "placeholder_birthday": "mm/dd/yyyy",
+        "placeholder_birthday": "mm/dd/yyyy"
+      },
+      "user_personal_information": {
+        "header": "Load data",
+        "provider": "Provider: Kripton Market",
+        "title": "😎 We're almost done",
+        "subtitle": "Enter your personal data",
+        "general_placeholder": "Select an option",
+        "label_nationality": "Nationality",
+        "label_document": "Document",
+        "placeholder_document": "Type",
+        "modal_title_document": "Document type",
+        "label_gender": "Gender",
+        "label_marital_status": "Marital status",
+        "label_country_code": "Country code",
+        "label_phone": "Phone",
         "button": "Continue"
       }
     }

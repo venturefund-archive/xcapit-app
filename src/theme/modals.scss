@@ -330,6 +330,18 @@
   box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
 }
 
+.login-biometric-activation-modal {
+  --height: 232px;
+  --width: 328px;
+  --background: var(--ion-color-white);
+  --border-radius: 8px;
+  --border-width: 0.5px;
+  --border-style: solid;
+  --border-color: var(--ion-color-neutral50);
+
+  box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
+}
+
 // Modal as toast-warning
 .ux-toast-warning {
   --max-height: 110px;

@@ -21,32 +21,6 @@ import { DefaultKriptonPrice } from '../../../shared-ramps/models/kripton-price/
 import { rawProviderCountriesData } from '../../../shared-ramps/fixtures/raw-provider-countries-data';
 
 
-const maticCoin: Coin = {
-  id: 8,
-  name: 'MATIC - Polygon',
-  logoRoute: 'assets/img/coins/MATIC.png',
-  value: 'MATIC',
-  network: 'MATIC',
-  native: true,
-  symbol: 'MATICUSDT',
-  last: false,
-  chainId: 1,
-  rpc: '',
-};
-
-const usdcCoin: Coin = {
-  id: 2,
-  name: 'USDC - Polygon',
-  logoRoute: 'usdcLogo',
-  value: 'USDC',
-  network: 'MATIC',
-  native: false,
-  symbol: 'USDCUSDT',
-  last: false,
-  chainId: 1,
-  rpc: '',
-};
-
 describe('SelectProviderCardComponent', () => {
   let component: SelectProviderCardComponent;
   let fixture: ComponentFixture<SelectProviderCardComponent>;
@@ -54,6 +28,8 @@ describe('SelectProviderCardComponent', () => {
   let controlContainerMock: UntypedFormGroup;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
+  let maticCoinSpy: jasmine.SpyObj<Coin>;
+  let usdcCoinSpy: jasmine.SpyObj<Coin>;
   let moonpayPriceFactorySpy: jasmine.SpyObj<DefaultMoonpayPriceFactory>
   let moonpayPrice: jasmine.SpyObj<DefaultMoonpayPrice>
   let directaPriceFactorySpy: jasmine.SpyObj<DefaultDirectaPriceFactory>
@@ -62,23 +38,27 @@ describe('SelectProviderCardComponent', () => {
   let kriptonPrice: jasmine.SpyObj<DefaultKriptonPrice>
   let fiatRampsServiceSpy : jasmine.SpyObj<FiatRampsService>
 
-  beforeEach(
-    waitForAsync(() => {
-      controlContainerMock = new UntypedFormBuilder().group({
-        country: ['', []],
-        provider: ['', []],
-      });
+  beforeEach(waitForAsync(() => {
+    maticCoinSpy = jasmine.createSpyObj('Coin', {}, { value: 'MATIC', network: 'MATIC' });
+    usdcCoinSpy = jasmine.createSpyObj('Coin', {}, { value: 'USDC', network: 'MATIC' });
 
-      providersSpy = jasmine.createSpyObj('Providers', {
-        all: rawProvidersData,
-        availablesBy: Promise.resolve(
-          rawProvidersData.filter(
-            (provider) =>
-              provider.countries.includes('Ecuador') &&
-              provider.currencies.some((curr) => curr.symbol === usdcCoin.value && curr.network === usdcCoin.network)
-          )
-        ),
-      });
+    controlContainerMock = new UntypedFormBuilder().group({
+      country: ['', []],
+      provider: ['', []],
+    });
+
+    providersSpy = jasmine.createSpyObj('Providers', {
+      all: rawProvidersData,
+      availablesBy: Promise.resolve(
+        rawProvidersData.filter(
+          (provider) =>
+            provider.countries.includes('Ecuador') &&
+            provider.currencies.some(
+              (curr) => curr.symbol === usdcCoinSpy.value && curr.network === usdcCoinSpy.network
+            )
+        )
+      ),
+    });
 
       fiatRampsServiceSpy= jasmine.createSpyObj('FiatRampsService',{ getMoonpayQuotation: of({ ARG: 1 }) })
 
@@ -95,8 +75,8 @@ describe('SelectProviderCardComponent', () => {
         create: providersSpy,
       });
 
-      formGroupDirectiveMock = new FormGroupDirective([], []);
-      formGroupDirectiveMock.form = controlContainerMock;
+    formGroupDirectiveMock = new FormGroupDirective([], []);
+    formGroupDirectiveMock.form = controlContainerMock;
 
       TestBed.configureTestingModule({
         declarations: [SelectProviderCardComponent],
@@ -112,18 +92,17 @@ describe('SelectProviderCardComponent', () => {
         ],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(SelectProviderCardComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(SelectProviderCardComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit event when radio button is checked', async() => {
-    component.coin = usdcCoin;
+  it('should emit event when radio button is checked', async () => {
+    component.coin = usdcCoinSpy;
     component.ngOnInit();
     fixture.detectChanges();
     component.form.patchValue({ country: rawProviderCountriesData[4] });
@@ -146,22 +125,22 @@ describe('SelectProviderCardComponent', () => {
   });
   
   it('should filter providers by country and coin and show availables providers excluding moonpay to usd providers', async () => {
-    component.coin = usdcCoin;
+    component.coin = usdcCoinSpy;
     component.form.patchValue({ country: rawProviderCountriesData[4] });
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()])
     fixture.detectChanges();
     const providerCards = fixture.debugElement.queryAll(By.css('app-provider-card'));
-    expect(providerCards.length).toEqual(2);
+    expect(providerCards.length).toEqual(3);
     expect(component.disabled).toEqual(false);
   });
 
   it('should filter providers by country and coin and show availables providers including moonpay on fiat providers', async () => {
-    component.coin = usdcCoin;
+    component.coin = usdcCoinSpy;
     providersSpy.availablesBy.and.resolveTo(
       rawProvidersData.filter(
         (provider) =>
           provider.countries.includes('Estados Unidos') &&
-          provider.currencies.some((curr) => curr.symbol === usdcCoin.value && curr.network === usdcCoin.network)
+          provider.currencies.some((curr) => curr.symbol === usdcCoinSpy.value && curr.network === usdcCoinSpy.network)
       )
     );
     component.form.patchValue({ country: rawProviderCountriesData[6] });
@@ -173,12 +152,12 @@ describe('SelectProviderCardComponent', () => {
   });
   
   it('should filter providers by country and coin, show availables providers and select best provider', async () => {
-    component.coin = usdcCoin;
+    component.coin = usdcCoinSpy;
     providersSpy.availablesBy.and.resolveTo(
       rawProvidersData.filter(
         (provider) =>
           provider.countries.includes('Colombia') &&
-          provider.currencies.some((curr) => curr.symbol === usdcCoin.value && curr.network === usdcCoin.network)
+          provider.currencies.some((curr) => curr.symbol === usdcCoinSpy.value && curr.network === usdcCoinSpy.network)
       )
     );
     
@@ -190,12 +169,14 @@ describe('SelectProviderCardComponent', () => {
   });
 
   it('should filter providers by country and coin and show non providers', async () => {
-    component.coin = maticCoin;
+    component.coin = maticCoinSpy;
     providersSpy.availablesBy.and.resolveTo(
       rawProvidersData.filter(
         (provider) =>
           provider.countries.includes('Ecuador') &&
-          provider.currencies.some((curr) => curr.symbol === maticCoin.value && curr.network === maticCoin.network)
+          provider.currencies.some(
+            (curr) => curr.symbol === maticCoinSpy.value && curr.network === maticCoinSpy.network
+          )
       )
     );
     component.ngOnInit();

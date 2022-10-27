@@ -3,7 +3,6 @@ import { App, AppInfo } from '@capacitor/app';
 import { ModalController } from '@ionic/angular';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { AppStorageService } from '../app-storage/app-storage.service';
-import { AuthService } from '../../../modules/users/shared-users/services/auth/auth.service';
 import { UpdateNewsComponent } from '../../components/update-news/update-news.component';
 import { PlatformService } from '../platform/platform.service';
 import { RemoteConfigService } from '../remote-config/remote-config.service';
@@ -17,7 +16,6 @@ export class UpdateNewsService {
   constructor(
     private modalController: ModalController,
     private storage: AppStorageService,
-    private authService: AuthService,
     private platformService: PlatformService,
     private remoteConfigService: RemoteConfigService
   ) {}
@@ -32,10 +30,6 @@ export class UpdateNewsService {
     return storageVersion === version;
   }
 
-  async loggedIn(): Promise<boolean> {
-    return await this.authService.checkToken();
-  }
-
   async showModal(): Promise<void> {
     if (await this.canShowModal()) {
       const modal = await this.modalController.create({
@@ -48,9 +42,7 @@ export class UpdateNewsService {
   }
 
   private async canShowModal(): Promise<boolean> {
-    return (
-      this.isNativePlatform() && !(await this.updated()) && (await this.loggedIn()) && this.isEnabledByFeatureFlag()
-    );
+    return this.isNativePlatform() && !(await this.updated()) && this.isEnabledByFeatureFlag();
   }
 
   private isEnabledByFeatureFlag(): boolean {

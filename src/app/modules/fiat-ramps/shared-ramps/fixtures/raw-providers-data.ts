@@ -72,6 +72,18 @@ export const rawProvidersData = [
     currencies: [{ symbol: 'USDC', network: 'MATIC' }],
   },
   {
+    id: 9,
+    alias: 'VI',
+    name: 'Visa',
+    providerName: 'directa24',
+    logoRoute: 'assets/img/provider-logos/directa24/VISA.svg',
+    description: 'fiat_ramps.select_provider.directa24.debit_credit_description',
+    newOperationRoute: '/fiat-ramps/new-operation/others',
+    trackClickEventName: 'ux_buy_d24_Visa',
+    countries: ['Chile', 'Peru', 'Mexico', 'Colombia', 'Ecuador'],
+    currencies: [{ symbol: 'USDC', network: 'MATIC' }],
+  },
+  {
     id: 11,
     alias: 'PC',
     name: 'PSE',
@@ -88,4 +100,5 @@ export const rawProvidersData = [
       },
     ],
   },
+
 ];

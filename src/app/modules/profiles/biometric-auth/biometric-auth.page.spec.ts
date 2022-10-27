@@ -10,6 +10,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { BiometricAuthPage } from './biometric-auth.page';
 import { FakeBiometricAuth } from '../../../shared/models/biometric-auth/fake/fake-biometric-auth';
 import { ToastService } from '../../../shared/services/toast/toast.service';
+import { LoginBiometricActivationModalService } from '../../users/shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
 
 describe('BiometricAuthPage', () => {
   let component: BiometricAuthPage;
@@ -21,6 +22,7 @@ describe('BiometricAuthPage', () => {
   let fakeModalController: FakeModalController;
   let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let loginBiometricActivationModalSpy: jasmine.SpyObj<LoginBiometricActivationModalService>;
 
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController(null, { data: 'fake_password' });
@@ -36,6 +38,9 @@ describe('BiometricAuthPage', () => {
     biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
       create: new FakeBiometricAuth(),
     });
+    loginBiometricActivationModalSpy = jasmine.createSpyObj('LoginBiometricActivationModalService', {
+      enableModal: Promise.resolve()
+    });
     TestBed.configureTestingModule({
       declarations: [BiometricAuthPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -45,6 +50,7 @@ describe('BiometricAuthPage', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
         { provide: ToastService, useValue: toastServiceSpy },
+        { provide: LoginBiometricActivationModalService, useValue: loginBiometricActivationModalSpy }
       ],
     }).compileComponents();
 
@@ -98,4 +104,10 @@ describe('BiometricAuthPage', () => {
     tick();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   }));
+
+  it('should enable biometric modal on disable toggle', async () => {
+    component.ionViewDidEnter();
+    component.toggle(false);
+    expect(loginBiometricActivationModalSpy.enableModal).toHaveBeenCalledTimes(1);
+  })
 });

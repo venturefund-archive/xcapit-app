@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-new-token-info-modal',
-  template: `<div class="modal-content">
+  template: `<div class="modal-content ntim">
     <div class="ntim__img-container">
       <div class="ntim__close_button">
         <ion-button class="ion-no-padding" slot="icon-only" fill="clear" name="Close" (click)="this.close()">

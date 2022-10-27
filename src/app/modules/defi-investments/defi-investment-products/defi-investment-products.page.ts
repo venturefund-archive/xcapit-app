@@ -18,8 +18,8 @@ import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/gr
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator.model';
 import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
-import { InvestmentMovement } from '../../wallets/shared-wallets/interfaces/investment-movement.interface';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -147,7 +147,7 @@ export class DefiInvestmentProductsPage {
   address: string;
   totalInvested = 0;
   allDefiProducts: DefiInvestment[] = [];
-  investorCategory: string;
+  investorCategory = 'wealth_managements.profiles.conservative';
   disableFaqsButton = true;
   pids = [];
   profileForm: UntypedFormGroup = this.formBuilder.group({
@@ -177,13 +177,12 @@ export class DefiInvestmentProductsPage {
   filteredAvailableInvestments: DefiInvestment[] = [];
   allLoaded = false;
   private price$: Observable<any>;
-  private movements$: Observable<any>;
+  private movements$: Observable<any>[];
   totalUsdYield: RawAmount = { value: 0, token: 'USD' };
-  allMovements: InvestmentMovement[] = [];
-  tokenPrice: number;
   usdYield: RawAmount;
   balance: number;
   contentFixedStyle = 'display: none';
+  hasDoneInvestorTest = false;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -197,10 +196,6 @@ export class DefiInvestmentProductsPage {
     private graphql: GraphqlService,
     private storageService: StorageService
   ) {}
-
-  get hasDoneInvestorTest(): boolean {
-    return this.investorCategory !== 'wealth_managements.profiles.no_category';
-  }
 
   ionViewDidLeave() {
     this.emptyArrays();
@@ -223,8 +218,11 @@ export class DefiInvestmentProductsPage {
     await this.getUserWalletAddress();
     this.getAvailableDefiProducts();
     await this.getInvestments();
+    this.getPrices();
+    this.getAllMovements();
     this.filterByInvestorCategory(this.profileForm.value.profile);
     await this.setBalance();
+    this.calculateEarnings();
     this.setFilter(this.investorCategory);
     this.allLoaded = true;
   }
@@ -234,38 +232,42 @@ export class DefiInvestmentProductsPage {
     if (wallet) this.address = wallet.addresses.MATIC;
   }
 
-  getAllMovements(pid: number) {
-    this.movements$ = this.graphql.getAllMovements(this.address, pid);
-    this.movements$.subscribe(({ data }) => {
-      this.allMovements = data.flows;
+  getAllMovementsForProduct(dp: DefiInvestment) {
+    this.movements$.push(this.graphql.getAllMovements(this.address, dp.product.id()).pipe(map(data => {return { movements: data, product: dp.product}})));
+  }
+
+  calculateEarnings() {
+    forkJoin([this.price$, ...this.movements$]).subscribe((res) => {
+      this.activeInvestments.forEach(ai => {
+        const calculator = new YieldCalculator(
+          ai.balance,
+          res.find(res => res.product?.id() === ai.product.id()).movements.data.flows,
+          ai.product.token().value,
+          res[0].prices[ai.product.token().value],
+          ai.product.decimals()
+        );
+        const usdYield = calculator.cumulativeYieldUSD();
+        this.totalUsdYield.value += usdYield.value;
+      });
     });
   }
 
-  calculateEarnings(token) {
-    forkJoin([this.price$, this.movements$]).subscribe((res) => {
-      const calculator = new YieldCalculator(
-        this.balance,
-        res[1].data.flows,
-        token.value,
-        res[0].prices[token.value],
-        token.decimals
-      );
-      const usdYield = calculator.cumulativeYieldUSD();
-      this.totalUsdYield.value += usdYield.value;
-    });
+  getPrices() {
+    const tokens = this.allDefiProducts.map((value: DefiInvestment) => value.product.token().value);
+    this.price$ = this.apiWalletService.getPrices(tokens, false);
   }
 
-  getPrice(token) {
-    this.price$ = this.apiWalletService.getPrices([token.value], false);
-    this.price$.subscribe((res) => {
-      this.tokenPrice = res.prices[token.value];
-    });
-    this.calculateEarnings(token);
+  getAllMovements() {
+    this.movements$ = [];
+    this.allDefiProducts.forEach((dp: DefiInvestment) => this.getAllMovementsForProduct(dp));
   }
 
   getUser() {
     this.apiUsuariosService.getUser(false).subscribe((user) => {
-      this.investorCategory = user.profile.investor_category;
+      if (!user.profile.investor_category.includes('no_category') && user.profile.investor_category) {
+        this.investorCategory = user.profile.investor_category;
+        this.hasDoneInvestorTest = true;
+      }
     });
   }
 
@@ -277,10 +279,6 @@ export class DefiInvestmentProductsPage {
     const investmentsToFilter = this.allDefiProducts.filter(
       (investment) => investment.balance === 0 || investment.balance === null
     );
-    if (category === 'no_category') {
-      this.availableInvestments = investmentsToFilter.filter((investment) => investment.category === 'conservative');
-      this.profileForm.patchValue({ profile: 'conservative' });
-    }
     this.availableInvestments = investmentsToFilter.filter((investment) => investment.category === category);
   }
 
@@ -328,8 +326,6 @@ export class DefiInvestmentProductsPage {
         this.totalInvested += balanceUSD;
       }
     });
-    this.getAllMovements(product.id());
-    this.getPrice(product.token());
   }
 
   async setBalance() {
