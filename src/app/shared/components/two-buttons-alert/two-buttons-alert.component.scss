@@ -1,0 +1,38 @@
+:host {
+  justify-content: center;
+
+  .main {
+    &__body {
+      padding-top: 24px;
+      text-align: center;
+
+      &__description {
+        margin-top: 16px;
+        padding: 0 16px;
+
+        ion-text {
+          color: var(--ion-color-primary);
+        }
+      }
+    }
+
+    &__actions {
+      display: flex;
+      margin-top: 24px;
+      border-top: 1px solid #eee;
+
+      &__button {
+        flex-basis: 50%;
+        text-decoration: none;
+
+        &-back {
+          color: var(--ion-color-neutral80);
+        }
+      }
+    }
+  }
+
+  .button-disabled {
+    color: var(--ion-color-neutral50);
+  }
+}

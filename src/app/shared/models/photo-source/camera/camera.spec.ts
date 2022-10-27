@@ -1,7 +1,6 @@
 import { FakeCameraPlugin } from '../../camera-plugin/fake/fake-camera-plugin';
 import { DefaultImageOptions } from '../../default-image-options/default-image-options';
 import { Camera } from './camera';
-import { Photo } from '@capacitor/camera';
 
 describe('Camera', () => {
   let camera: Camera;
@@ -18,7 +17,7 @@ describe('Camera', () => {
     expect(camera).toBeTruthy();
   });
 
-  it('image', async () => {
-    expect(await camera.image()).toEqual({} as Photo);
+  it('photo', async () => {
+    expect((await camera.photo()).path()).toEqual('testPath');
   });
 });

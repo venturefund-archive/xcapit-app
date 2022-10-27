@@ -1,7 +1,6 @@
 import { FakeCameraPlugin } from '../../camera-plugin/fake/fake-camera-plugin';
 import { Gallery } from './gallery';
 import { DefaultGalleryImageOptions } from '../../default-image-gallery-options/default-gallery-image-options';
-import { GalleryPhoto } from '@capacitor/camera';
 
 describe('Gallery', () => {
   let gallery: Gallery;
@@ -18,7 +17,7 @@ describe('Gallery', () => {
     expect(gallery).toBeTruthy();
   });
 
-  it('image', async () => {
-    expect(await gallery.image()).toEqual({} as GalleryPhoto);
+  it('photo', async () => {
+    expect((await gallery.photo()).path()).toEqual('testPath');
   });
 });
