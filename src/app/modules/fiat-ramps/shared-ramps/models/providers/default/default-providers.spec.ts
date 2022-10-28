@@ -10,20 +10,18 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
 describe('DefaultProviders', () => {
   let providers: DefaultProviders;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
-  let coinsSpy: jasmine.SpyObj<Coin[]>;
+  let fakeHttpClient: FakeHttpClient;
+  let usdcCoinSpy: jasmine.SpyObj<Coin>;
+  let ethCoinSpy: jasmine.SpyObj<Coin>;
+
   beforeEach(() => {
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', {
       getObject: rawProvidersData,
     });
-    coinsSpy = [
-      jasmine.createSpyObj('Coin', {}, { name: 'USDC', value: 'USDC', network: 'MATIC' }),
-      jasmine.createSpyObj('Coin', {}, { name: 'ETH', value: 'ETH', network: 'ERC20' }),
-    ];
-
-    providers = new DefaultProviders(
-      new ProviderDataRepo(remoteConfigSpy),
-      new FakeHttpClient(rawPaymentMethodsResponse)
-    );
+    usdcCoinSpy = jasmine.createSpyObj('Coin', {}, { name: 'USDC', value: 'USDC', network: 'MATIC' });
+    ethCoinSpy = jasmine.createSpyObj('Coin', {}, { name: 'ETH', value: 'ETH', network: 'ERC20' });
+    fakeHttpClient = new FakeHttpClient(rawPaymentMethodsResponse);
+    providers = new DefaultProviders(new ProviderDataRepo(remoteConfigSpy), fakeHttpClient);
   });
 
   it('new', () => {
@@ -34,16 +32,30 @@ describe('DefaultProviders', () => {
     expect(providers.all()).toEqual(rawProvidersData);
   });
 
-  it('availablesBy when country have directaCode', async () => {
+  it('availablesBy when country have directaCode and directa24 provider is enabled', async () => {
+    const spy = spyOn(fakeHttpClient, 'get').and.callThrough();
     const country = rawProviderCountriesData.find((country) => country.name === 'Ecuador');
     const expectedProviders = rawProvidersData.filter((provider) => provider.alias === 'GB');
-    expect(await providers.availablesBy(country, coinsSpy[0])).toEqual(expectedProviders);
+    expect(await providers.availablesBy(country, usdcCoinSpy)).toEqual(expectedProviders);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('availablesBy when country have directaCode and directa24 provider is disabled', async () => {
+    const spy = spyOn(fakeHttpClient, 'get').and.callThrough();
+    const providersWithoutDirecta24 = rawProvidersData.filter(
+      (provider) => provider.alias === 'kripton' || provider.alias === 'moonpay'
+    );
+    remoteConfigSpy.getObject.and.returnValue(providersWithoutDirecta24);
+    const country = rawProviderCountriesData.find((country) => country.name === 'Colombia');
+    const expectedProviders = rawProvidersData.filter((provider) => provider.alias === 'kripton');
+    expect(await providers.availablesBy(country, usdcCoinSpy)).toEqual(expectedProviders);
+    expect(spy).toHaveBeenCalledTimes(0);
   });
 
   it('availablesBy when country doesnt have directaCode', async () => {
     const country = rawProviderCountriesData.find((country) => country.name === 'Honduras');
     const expectedProviders = rawProvidersData.filter((provider) => provider.countries.includes('Honduras'));
-    expect(await providers.availablesBy(country, coinsSpy[1])).toEqual(expectedProviders);
+    expect(await providers.availablesBy(country, ethCoinSpy)).toEqual(expectedProviders);
   });
 
   it('byAlias', () => {

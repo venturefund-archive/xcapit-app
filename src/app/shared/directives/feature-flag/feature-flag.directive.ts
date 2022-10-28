@@ -1,4 +1,5 @@
 import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { FeatureFlagInjectable } from '../../models/feature-flag/injectable/feature-flag.injectable';
 import { RemoteConfigService } from '../../services/remote-config/remote-config.service';
 
 @Directive({
@@ -12,32 +13,19 @@ export class FeatureFlagDirective implements OnInit {
     private viewContainer: ViewContainerRef,
     private templateRef: TemplateRef<any>,
     private remoteConfigService: RemoteConfigService,
+    private featureFlag: FeatureFlagInjectable
   ) {}
 
   ngOnInit() {
-    this.checkIfRemoteConfigIsInitialized();
+    this.evaluateFeatureFlag();
   }
 
-  private createView() {
-    if (this.getFeatureFlag()) {
-      this.viewContainer.createEmbeddedView(this.templateRef);
-    } else {
-      this.viewContainer.clear();
-    }
+  private isEnabled() {
+    const featureFlag = this.remoteConfigService.getFeatureFlag(this.appFeatureFlag);
+    return this.appFeatureFlagNegated ? !featureFlag : featureFlag;
   }
 
-  private checkIfRemoteConfigIsInitialized() {
-    if (this.remoteConfigService.isInitialized) {
-      this.createView();
-    } else {
-      this.remoteConfigService.initializationCompleteEvent.subscribe(() => {
-        this.createView();
-      })
-    }
-  }
-
-  private getFeatureFlag() {
-    const featureFlag = this.remoteConfigService.getFeatureFlag(this.appFeatureFlag)
-    return this.appFeatureFlagNegated? !featureFlag : featureFlag
+  private async evaluateFeatureFlag() {
+    await this.featureFlag.create(this.viewContainer, this.templateRef, () => this.isEnabled()).evaluate();
   }
 }

@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import SwiperCore, { SwiperOptions, Virtual } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
+import { AuthService } from '../shared-users/services/auth/auth.service';
 SwiperCore.use([Virtual]);
 @Component({
   selector: 'app-on-boarding',
@@ -65,21 +66,30 @@ export class OnBoardingPage implements OnInit {
   };
   isBeginning = true;
   isEnd = false;
-  constructor(private navController: NavController, private trackService: TrackService) {}
+  constructor(
+    private navController: NavController,
+    private trackService: TrackService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
+    this.removeOldToken();
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
-      eventLabel: 'ux_onboarding_screenview'
+      eventLabel: 'ux_onboarding_screenview',
     });
   }
-  
+
+  private removeOldToken(): void {
+    this.authService.logout();
+  }
+
   onSlideChange() {
     this.isBeginning = this.swiper.swiperRef.activeIndex === 0;
-    this.isEnd = this.swiper.swiperRef.activeIndex ===2;
+    this.isEnd = this.swiper.swiperRef.activeIndex === 2;
   }
 
   slideNext() {

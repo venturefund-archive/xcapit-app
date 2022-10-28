@@ -476,4 +476,25 @@ describe('SwapHomePage', () => {
     expect(component.disabledBtn).toBeTruthy();
     expect(component.insufficientBalance).toBeTruthy();
   }));
+
+  it('should show alert when insuficient funds for amount', fakeAsync(() => {
+    const feeModal = spyOn(component, 'showInsufficientBalanceFeeModal');
+    const balanceModal = spyOn(component, 'showInsufficientBalanceModal');
+
+    _setTokenAmountArrange(15);
+
+    expect(balanceModal).toHaveBeenCalledTimes(1);
+    expect(feeModal).not.toHaveBeenCalled();
+  }));
+
+  it('should show alert when insuficient funds for fee', fakeAsync(() => {
+    const feeModal = spyOn(component, 'showInsufficientBalanceFeeModal');
+    const balanceModal = spyOn(component, 'showInsufficientBalanceModal');
+    walletBalanceSpy.balanceOf.and.returnValues(Promise.resolve(10), Promise.resolve(0));
+    fixture.detectChanges();
+    _setTokenAmountArrange(10);
+
+    expect(feeModal).toHaveBeenCalledTimes(1);
+    expect(balanceModal).not.toHaveBeenCalled();
+  }));
 });

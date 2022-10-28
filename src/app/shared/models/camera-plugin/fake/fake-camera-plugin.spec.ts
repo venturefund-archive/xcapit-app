@@ -7,12 +7,12 @@ describe('FakeCameraPlugin', () => {
   });
 
   it('getPhoto', async () => {
-    expect(await new FakeCameraPlugin().getPhoto({} as ImageOptions)).toEqual({} as Photo);
+    expect(await new FakeCameraPlugin().getPhoto({} as ImageOptions)).toEqual({ dataUrl: 'testPath' } as Photo);
   });
 
   it('pickImages', async () => {
     expect(await new FakeCameraPlugin().pickImages({} as GalleryImageOptions)).toEqual({
-      photos: [{} as GalleryPhoto],
+      photos: [{ webPath: 'testPath' } as GalleryPhoto],
     } as GalleryPhotos);
   });
 });

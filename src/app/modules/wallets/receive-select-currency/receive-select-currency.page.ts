@@ -16,13 +16,20 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
       </ion-toolbar>
     </ion-header>
     <ion-content class="sc ion-padding">
-      <div class="sc__title">
-        <ion-label class="ux-font-text-lg">
-          {{ 'wallets.receive_select_currency.title' | translate }}
-        </ion-label>
-      </div>
-      <div class="sc__list" *ngIf="this.coins">
-        <app-token-selection-list state="receive" [userCoins]="this.coins" (clickedCoin)="this.selectCurrency($event)"></app-token-selection-list>
+      <app-no-active-tokens-card *ngIf="!this.hasAssets" operation="receive"></app-no-active-tokens-card>
+      <div class="content" *ngIf="this.hasAssets">
+        <div class="sc__title">
+          <ion-label class="ux-font-text-lg">
+            {{ 'wallets.receive_select_currency.title' | translate }}
+          </ion-label>
+        </div>
+        <div class="sc__list" *ngIf="this.coins">
+          <app-token-selection-list
+            state="receive"
+            [userCoins]="this.coins"
+            (clickedCoin)="this.selectCurrency($event)"
+          ></app-token-selection-list>
+        </div>
       </div>
     </ion-content>
   `,
@@ -30,6 +37,7 @@ import { StorageService } from '../shared-wallets/services/storage-wallets/stora
 })
 export class ReceiveSelectCurrencyPage implements OnInit {
   coins: Coin[];
+  hasAssets: boolean;
   constructor(private navController: NavController, private storageService: StorageService) {}
 
   ngOnInit() {}
@@ -37,6 +45,7 @@ export class ReceiveSelectCurrencyPage implements OnInit {
   ionViewWillEnter() {
     this.storageService.getAssestsSelected().then((coins) => {
       this.coins = coins;
+      this.hasAssets = this.coins.length > 0;
     });
   }
 
@@ -44,10 +53,10 @@ export class ReceiveSelectCurrencyPage implements OnInit {
     const navigationExtras: NavigationExtras = {
       queryParams: {
         asset: currency.value,
-        network: currency.network
+        network: currency.network,
       },
     };
-    
+
     this.navController.navigateForward(['/wallets/receive/detail'], navigationExtras);
   }
 }

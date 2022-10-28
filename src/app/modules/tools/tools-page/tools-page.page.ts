@@ -13,9 +13,9 @@ import { WalletConnectService } from '../../wallets/shared-wallets/services/wall
       <ion-toolbar color="primary" class="ux_toolbar">
         <div class="header">
           <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
-          <ion-icon *ngIf="!this.connected" name="ux-walletconnect"></ion-icon>
-          <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect"></ion-icon>
         </div>
+        <ion-icon *ngIf="!this.connected" name="ux-walletconnect" (click)="goToWalletConnect()"></ion-icon>
+        <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect" (click)="goToWalletConnect()"></ion-icon>
         <app-avatar-profile></app-avatar-profile>
       </ion-toolbar>
     </ion-header>
@@ -23,12 +23,16 @@ import { WalletConnectService } from '../../wallets/shared-wallets/services/wall
     <ion-content>
       <div class="tp__title">
         <ion-text class="ux-font-text-xl">
-        {{ 'tools.tools_page.header' | translate }}
+          {{ 'tools.tools_page.header' | translate }}
         </ion-text>
       </div>
-          <div class="tool-card">
-            <app-tools-card *ngFor="let cardItem of content" [data]="cardItem" (primaryActionEvent)="itemAction($event)"></app-tools-card>
-          </div>
+      <div class="tool-card">
+        <app-tools-card
+          *ngFor="let cardItem of content"
+          [data]="cardItem"
+          (primaryActionEvent)="itemAction($event)"
+        ></app-tools-card>
+      </div>
       <div class="financial-planner-card" *ngIf="this.plannerData">
         <div class="title">
           <ion-text class="ux-font-header-titulo" color="neutral80">{{
@@ -46,7 +50,7 @@ import { WalletConnectService } from '../../wallets/shared-wallets/services/wall
         </div>
       </div>
     </ion-content>
-    `,
+  `,
   styleUrls: ['./tools-page.page.scss'],
 })
 export class ToolsPage implements OnInit {
@@ -60,9 +64,9 @@ export class ToolsPage implements OnInit {
     private navController: NavController,
     private appStorage: AppStorageService,
     private trackService: TrackService,
-    private walletBackupService : WalletBackupService,
+    private walletBackupService: WalletBackupService,
     private walletConnectService: WalletConnectService
-  ) { }
+  ) {}
 
   ngOnInit() {}
 
@@ -115,5 +119,10 @@ export class ToolsPage implements OnInit {
 
   checkConnectionOfWalletConnect() {
     this.connected = this.walletConnectService.connected;
+  }
+
+  goToWalletConnect() {
+    const url = this.connected ? '/wallets/wallet-connect/connection-detail' : '/wallets/wallet-connect/new-connection';
+    this.navController.navigateForward(url);
   }
 }

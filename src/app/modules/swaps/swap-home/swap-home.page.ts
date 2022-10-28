@@ -48,7 +48,8 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { Observable, Subject } from 'rxjs';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
-import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
+import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-swap-home',
@@ -228,6 +229,7 @@ export class SwapHomePage {
   private fromTokenKey = 'fromToken';
   private toTokenKey = 'toToken';
   private priceRefreshInterval = 15000;
+  private tokensAvailableForPurchase: Coin[];
   destroy$ = new Subject<void>();
   swapBalance = 0;
   feeBalance = 0;
@@ -254,6 +256,7 @@ export class SwapHomePage {
   toTokenUSDAmount = 0;
   blockchainName: string;
   url: string;
+  modalHref: string;
 
   constructor(
     private apiWalletService: ApiWalletService,
@@ -305,6 +308,7 @@ export class SwapHomePage {
   }
 
   async ionViewDidEnter() {
+    this.modalHref = window.location.href;
     this.checkBalance();
     this.trackPage();
     this.subscribeToFromTokenAmountChanges();
@@ -380,10 +384,15 @@ export class SwapHomePage {
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(async (value) => {
+        
+      if (value > this.swapBalance) {
+        this.showInsufficientBalanceModal();
+      }
         this.setNullFeeInfo();
         await this.setSwapInfo(value);
-        this.setFeeInfo();
+        await this.setFeeInfo();
         this.setUSDPrices(value);
+        this.checkFee(value);
       });
   }
 
@@ -541,7 +550,7 @@ export class SwapHomePage {
   private navigateToTokenDetail() {
     this.navController.navigateForward([
       'wallets/token-detail/blockchain',
-      this.activeBlockchain.name,
+      this.activeBlockchain.name(),
       'token',
       this.toToken.symbol(),
     ]);
@@ -580,18 +589,61 @@ export class SwapHomePage {
 
   checkBalance() {
     this.form.get('fromTokenAmount').valueChanges.subscribe((value) => {
-      if (value > this.swapBalance) {
-        this.disableMainButton();
-        this.insufficientBalance = true;
-      } else {
-        this.insufficientBalance = false;
-        this.enabledMainButton();
-      }
+      this.disableMainButton();
+      this.insufficientBalance = true;
     });
+  }
+
+  checkFee(value: number) {
+    if (value <= this.swapBalance) {
+      if (this.fromToken.json().native) {
+        if (value + this.tplFee.value > this.swapBalance) {
+          this.showInsufficientBalanceFeeModal();
+        } else {
+          this.enabledMainButton();
+          this.insufficientBalance = false;
+        }
+      } else {
+        if (this.tplFee.value > this.feeBalance) {
+          this.showInsufficientBalanceFeeModal();
+        } else {
+          this.enabledMainButton();
+          this.insufficientBalance = false;
+        }
+      }
+    }
   }
 
   trackClickEventName(blockchain: string) {
     this.blockchainName = `ux_swap_${blockchain.toLowerCase()}`;
     this.url = `/swaps/home/blockchain/${blockchain}`;
+  }
+
+  showInsufficientBalanceFeeModal() {
+    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
+    this.openModalBalance(this.activeBlockchain.nativeToken(), text, primaryButtonText, secondaryButtonText);
+  }
+
+  showInsufficientBalanceModal() {
+    const text = 'swaps.home.balance_modal.insufficient_balance.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
+    this.openModalBalance(this.fromToken, text, primaryButtonText, secondaryButtonText);
+  }
+
+  async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
+    const modal = await this.modalController.create({
+      component: BuyOrDepositTokenToastComponent,
+      cssClass: 'ux-toast-warning-with-margin',
+      showBackdrop: false,
+      id: 'feeModal',
+      componentProps: { token, text, primaryButtonText, secondaryButtonText }
+    });
+    if (window.location.href === this.modalHref) {
+      await modal.present();
+    }
+    await modal.onDidDismiss();
   }
 }

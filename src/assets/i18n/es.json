@@ -122,16 +122,16 @@
       "of": "de"
     },
     "update_news": {
-      "title": "¡Buenas noticias!",
+      "title": "Lo que estabas esperando, llegó \uD83D\uDE0E",
       "first": {
         "badge": "Nueva función",
-        "title": "¡Más oportunidades!",
-        "description": "Nuevos medios de pago, más tokens y países donde comprar. ¡Todo en tu moneda local!"
+        "title": "\uD83D\uDE80 ¡Tu wallet más ágil que nunca!",
+        "description": "¡Ya no necesitarás tu email! Ingresarás y aprobarás tus transacciones con la misma contraseña.\nMayor agilidad, seguridad y privacidad para tus datos."
       },
       "second": {
         "badge": "Nueva función",
-        "title": "Mejoras en la app",
-        "description": "Podrás acceder al detalle de tus operaciones y demás datos de manera ágil y sencilla."
+        "title": "\uD83D\uDCB8 Inversiones más transparentes",
+        "description": "Podrás visualizar los rendimientos de todas tus inversiones en todo momento."
       }
     },
     "transaction_fees": {
@@ -357,9 +357,9 @@
         "confirm_button": "Confirmar inversión"
       },
       "informative_modal": "No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos.",
-      "informative_modal_fee": "No tienes suficientes {{nativeToken}} en tu cuenta para pagar la tarifa de transacción.",
-      "buy_button": "Comprar {{nativeToken}}",
-      "deposit_button": "Depositar {{nativeToken}}",
+      "informative_modal_fee": "No tienes suficientes {{token}} en tu cuenta para pagar la tarifa de transacción.",
+      "buy_button": "Comprar {{token}}",
+      "deposit_button": "Depositar {{token}}",
       "terms": {
         "third_party_disclaimer": "Entiendo que al invertir mis criptomonedas lo haré a través de un proveedor externo (2pi) sujeto a  términos y condiciones  distintos, de los cuales Xcapit no es responsable.",
         "i_have_read": "He leído y acepto los ",
@@ -1693,6 +1693,10 @@
       },
       "backup_card_component": {
         "text": "No pierdas tu dinero. <b> Protege tu wallet. </b>"
+      },
+      "no_tokens_selected": {
+        "title": "Aquí se encontrarán tus tokens.",
+        "link": "Selecciona los que desees visualizar"
       }
     },
     "select_coin": {
@@ -1958,7 +1962,14 @@
       },
       "new_token_info-modal": {
         "title": "Ventajas de usar Solana",
-        "subtitle": "Solana es una de las redes más económicas y rápidas del ecosistema cripto eso se debe a que tienen una validación de bloques muy distinta que se denomina proof of history que ayudo a que se desarrolle un enorme ecosistema a si alrededor."
+        "subtitle": "Solana es una de las redes más económicas y rápidas del ecosistema cripto eso se debe a que tienen una validación de bloques muy distinta que se denomina proof of history que ayudo a que se desarrolle un enorme ecosistema a su alrededor."
+      },
+      "no_active_tokens_card": {
+        "title": {
+          "send": "Para avanzar, activa la visualización de los tokens que deseas enviar",
+          "receive": "Para avanzar, activa la visualización de los tokens que deseas recibir"
+        },
+        "button": "Activar tokens"
       }
     },
     "asset_detail": {
@@ -2196,8 +2207,8 @@
       "button_show_less": "Ver menos",
       "button_show_more": "Ver más"
     },
-    "provider_new_operation_card":{
-      "description":"Proveedor: {{providerName}}"
+    "provider_new_operation_card": {
+      "description": "Proveedor: {{providerName}}"
     },
     "select_provider": {
       "header": "Comprar Cripto",
@@ -2234,7 +2245,6 @@
         }
       }
     },
-    
     "information_paxful": {
       "header": "Comprar",
       "title": "Compra BTC con Paxful:",
@@ -2449,13 +2459,13 @@
         "button": "Entendido"
       },
       "constants": {
-        "payment_types":{
-          "directa24_bank_deposit":"Depósito Bancario",
-          "directa24_bank_transfer":"Transferencia Bancaria",
-          "directa24_credit_card":"Tarjeta de crédito o débito",
-          "directa24_voucher":"Tienda física más cercana",
-          "kripton":"Transferencia Bancaria",
-          "moonpay":"Tarjeta de crédito"
+        "payment_types": {
+          "directa24_bank_deposit": "Depósito Bancario",
+          "directa24_bank_transfer": "Transferencia Bancaria",
+          "directa24_credit_card": "Tarjeta de crédito o débito",
+          "directa24_voucher": "Tienda física más cercana",
+          "kripton": "Transferencia Bancaria",
+          "moonpay": "Tarjeta de crédito"
         },
         "providers": {
           "kripton": {
@@ -2503,17 +2513,42 @@
           "title":"¡Felicitaciones! 🎉 Registro finalizado",
           "subtitle": "⏱ Kripton Market está validando tu cuenta. Este proceso puede demorar hasta 48 hs.",
           "subtitle_2": "🛒 Una vez que tengas tu cuenta validada, podrás realizar tus compras con este proveedor."
-        }       
+        }
+      },       
+      "validation_content": {
+        "header": "Verificar identidad",
+        "provider": "Proveedor: Kripton Market",
+        "button_primary": "Tomar foto",
+        "button_secondary": "Subir desde galería",
+
+        "front_id": {
+          "title": "¡Hola de nuevo! 👋",
+          "subtitle": "Necesitamos una foto del frente de tu documento",
+          "description": "La imagen debe ser similar a la del ejemplo y sus datos deben ser visibles."
+        }
+      },
+
+      "confirmation_content": {
+        "header": "Verificar identidad",
+        "provider": "Proveedor: Kripton Market",
+        "button_primary": "Confirmar",
+        "button_secondary": "Cargar nuevamente",
+
+        "front_id": {
+          "title": "¡Muy bien! 📸",
+          "subtitle": "Chequea que la foto cumpla con las siguientes condiciones:",
+          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>"
+        }
       }
     },
     "user_email": {
-      "header":"Comprar cripto",
-      "provider":"Proveedor: Kripton Market",
-      "title":"Para continuar tu compra, ingresa el email de tu cuenta Kripton Market",
-      "subtitle":"Si no posees una cuenta, escribe el email con el que quieres que te registremos.",
-      "label_email":"Email",
-      "button":"Continuar",
-      "text":"Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones."
+      "header": "Comprar cripto",
+      "provider": "Proveedor: Kripton Market",
+      "title": "Para continuar tu compra, ingresa el email de tu cuenta Kripton Market",
+      "subtitle": "Si no posees una cuenta, escribe el email con el que quieres que te registremos.",
+      "label_email": "Email",
+      "button": "Continuar",
+      "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones."
     },
     "user_register":{
       "header":"Registración",
@@ -2525,14 +2560,14 @@
           "title": "Cargar datos",
           "subtitle": "Completa con tu información personal"
         },
-        "step_two":{
+        "step_two": {
           "title": "Verificar identidad",
           "subtitle": "Necesitarás tu documento"
         }
       },
       "disclaimer": {
-        "content":"Xcapit no almacena información. Averigua más sobre el uso de datos en ",
-        "link":"Politica de privacidad Kripton Market."
+        "content": "Xcapit no almacena información. Averigua más sobre el uso de datos en ",
+        "link": "Politica de privacidad Kripton Market."
       }
     },
     "kyc": {
@@ -2559,7 +2594,7 @@
         "label_city": "Ciudad",
         "label_zip_code": "Código postal"
       },
-      "user_personal_information":{
+      "user_personal_information": {
         "header": "Cargar datos",
         "provider": "Proveedor: Kripton Market",
         "title": "😎 Ya casi terminamos",
@@ -2574,6 +2609,14 @@
         "label_country_code": "Código de país",
         "label_phone": "Teléfono",
         "button": "Continuar"
+      },
+      "front_id": {
+        "back_modal": {
+          "title": "Atención",
+          "description": "¿Deseas salir? Se perderán tus avances y deberás comenzar nuevamente.",
+          "confirm_button": "Confirmar",
+          "cancel_button": "Cancelar"
+        }
       }
     }
   },
@@ -2894,7 +2937,19 @@
       "tos_1": "Leí y estoy de acuerdo con los ",
       "tos_button": "términos y condiciones",
       "tos_2": "de 1inch",
-      "warning_same_tokens": "El token de origen no puede ser igual al token de destino."
+      "warning_same_tokens": "El token de origen no puede ser igual al token de destino.",
+      "balance_modal": {
+        "insufficient_balance": {
+          "text": "No tienes suficiente {{token}} en tu cuenta para realizar esta operación.",
+          "firstButtonName": "Comprar {{token}}",
+          "secondaryButtonName": "Depositar {{token}}"
+        },
+        "insufficient_balance_fee": {
+          "text": "No tienes suficientes {{token}} en tu cuenta para pagar la tarifa de transacción.",
+          "firstButtonName": "Comprar {{token}}",
+          "secondaryButtonName": "Depositar {{token}}"
+        }
+      }
     },
     "errors": {
       "invalid_password": "La contraseña ingresada no es correcta."

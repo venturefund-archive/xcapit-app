@@ -11,7 +11,6 @@ import { UpdateService } from './shared/services/update/update.service';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
 import { PlatformService } from './shared/services/platform/platform.service';
 import { of } from 'rxjs';
-import { UpdateNewsService } from './shared/services/update-news/update-news.service';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { LocalNotificationsService } from './modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
@@ -30,7 +29,6 @@ describe('AppComponent', () => {
   let submitButtonServiceSpy: jasmine.SpyObj<SubmitButtonService>;
   let statusBarSpy: jasmine.SpyObj<any>;
   let translateSpy: jasmine.SpyObj<TranslateService>;
-  let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   let localNotificationServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
@@ -48,7 +46,6 @@ describe('AppComponent', () => {
     authServiceSpy = jasmine.createSpyObj('AuthService', { logout: Promise.resolve() });
     statusBarSpy = jasmine.createSpyObj('StatusBar', { setBackgroundColor: Promise.resolve() });
     translateSpy = jasmine.createSpyObj('TranslateService', {}, { onLangChange: of({}) });
-    updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     localNotificationServiceSpy = jasmine.createSpyObj('LocalNotificationsService', ['init']);
@@ -76,7 +73,6 @@ describe('AppComponent', () => {
         { provide: UpdateService, useValue: updateServiceSpy },
         { provide: SubmitButtonService, useValue: submitButtonServiceSpy },
         { provide: TranslateService, useValue: translateSpy },
-        { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: LocalNotificationsService, useValue: localNotificationServiceSpy },

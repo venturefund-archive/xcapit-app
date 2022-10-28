@@ -131,16 +131,16 @@
       "of": "of"
     },
     "update_news": {
-      "title": "Good news!",
+      "title": "What you were waiting for, has arrived \uD83D\uDE0E",
       "first": {
         "badge": "New feature",
-        "title": "More opportunities!",
-        "description": "New payment methods, more tokens and countries to buy, all in your local currency!"
+        "title": "\uD83D\uDE80 Your wallet is faster than ever!",
+        "description": "You won't need your email anymore! You will enter and approve your transactions with the same password.\nMore agility, security and privacy for your data."
       },
       "second": {
         "badge": "New feature",
-        "title": "App improvements",
-        "description": "You will be able to access the details of your operations and other data in an agile and simple way."
+        "title": "\uD83D\uDCB8 More transparent investments",
+        "description": "You will be able to view the performance of all your investments at all times."
       }
     },
     "transaction_fees": {
@@ -366,9 +366,9 @@
         "confirm_button": "Confirm investment"
       },
       "informative_modal": "You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
-      "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay the transaction fee.",
-      "buy_button": "Buy {{nativeToken}}",
-      "deposit_button": "Deposit {{nativeToken}}",
+      "informative_modal_fee": "You do not have enough {{token}} in your account to pay the transaction fee.",
+      "buy_button": "Buy {{token}}",
+      "deposit_button": "Deposit {{token}}",
       "terms": {
         "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
         "i_have_read": "I have read and agree to ",
@@ -1700,6 +1700,10 @@
       },
       "backup_card_component": {
         "text": "Don't lose your money. <b> Protect your wallet. </b>"
+      },
+      "no_tokens_selected": {
+        "title": "Here you will find your tokens.",
+        "link": "Select the ones you wish to view"
       }
     },
     "select_coin": {
@@ -1973,6 +1977,13 @@
       "new_token_info-modal": {
         "title": "Benefits of using Solana",
         "subtitle": "Solana is one of the cheapest and fastest networks in the crypto ecosystem and that is because they have a very distinct block validation called proof of history that has helped a huge ecosystem develop around it. "
+      },
+      "no_active_tokens_card": {
+        "title": {
+          "send": "To continue, activate the display of the tokens you wish to send.",
+          "receive": "To continue, activate the display of the tokens you wish to receive."
+        },
+        "button": "Activate tokens"
       }
     },
     "asset_detail": {
@@ -2511,7 +2522,31 @@
           "title":"Congratulations! 🎉 Registration completed",
           "subtitle": "⏱ Kripton Market is validating your account. This process can take up to 48 hours",
           "subtitle_2": "🛒 Once you have your account validated, you will be able to make your purchases with this supplier"
-        }        
+        }
+      },        
+      "validation_content": {
+        "header": "Verify identity",
+        "provider": "Provider: Kripton Market",
+        "button_primary": "Take photo",
+        "button_secondary": "Upload from gallery",
+
+        "front_id": {
+          "title": "¡Hello again! 👋",
+          "subtitle": "We need a photo of the front of your document",
+          "description": "The image should be similar to the one in the example and your data should be visible."
+        }
+      },
+      "confirmation_content": {
+        "header": "Verify identity",
+        "provider": "Provider: Kripton Market",
+        "button_primary": "Confirm",
+        "button_secondary": "Reloading",
+
+        "front_id": {
+          "title": "Very good! 📸",
+          "subtitle": "Check that the photo meets the following conditions:",
+          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>"
+        }
       }
     },
     "user_email": {
@@ -2583,6 +2618,14 @@
         "label_country_code": "Country code",
         "label_phone": "Phone",
         "button": "Continue"
+      },
+      "front_id": {
+        "back_modal": {
+          "title": "Attention",
+          "description": "Do you want to leave? Your progress will be lost and you will have to start again.",
+          "confirm_button": "Confirm",
+          "cancel_button": "Cancel"
+        }
       }
     }
   },
@@ -2732,7 +2775,19 @@
       "tos_1": "I have read and agree to the",
       "tos_button": "terms and conditions.",
       "tos_2": "of 1inch",
-      "warning_same_tokens": "The source token cannot be equal to the destination token."
+      "warning_same_tokens": "The source token cannot be equal to the destination token.",
+      "balance_modal": {
+        "insufficient_balance": {
+          "text": "You don't have enough {{token}} in your account to make this operation.",
+          "firstButtonName": "Buy {{token}}",
+          "secondaryButtonName": "Deposit {{token}}"
+        },
+        "insufficient_balance_fee": {
+          "text": "You don't have enough {{token}} in your account to afford the transaction fee.",
+          "firstButtonName": "Buy {{token}}",
+          "secondaryButtonName": "Deposit {{token}}"
+        }
+      }
     },
     "errors": {
       "invalid_password": "The password entered is not valid."
