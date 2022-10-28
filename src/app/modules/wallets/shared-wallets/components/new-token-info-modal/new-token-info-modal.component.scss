@@ -2,6 +2,8 @@
   justify-content: center;
 
   .ntim {
+    border: 1px solid var(--ion-color-neutral50);
+
     &__img-container {
       width: 100%;
       justify-content: center;
@@ -20,7 +22,7 @@
         color: var(--ion-color-primary);
       }
 
-      padding: 0 0 6px;
+      padding: 16px 16px 22px;
     }
 
     &__close_button {

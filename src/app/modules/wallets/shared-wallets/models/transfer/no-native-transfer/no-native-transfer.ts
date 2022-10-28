@@ -21,7 +21,7 @@ export class NoNativeTransfer implements Transfer {
   }
 
   public type(): 'IN' | 'OUT' {
-    return this._aRawTransfer.to_address === this._anAddress ? 'IN' : 'OUT';
+    return this.raw().to_address === this._anAddress ? 'IN' : 'OUT';
   }
 
   public icon(): string {

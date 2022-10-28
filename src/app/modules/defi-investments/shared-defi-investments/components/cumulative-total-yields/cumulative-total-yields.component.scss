@@ -1,0 +1,66 @@
+.cty {
+  &__content {
+    width: 100vw;
+
+    &__card {
+      margin-top: -40px;
+      margin-bottom: 30px;
+
+      &__body {
+        max-width: 80%;
+        border-radius: 8px;
+        box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+        display: flex;
+        background: var(--ion-color-white);
+        padding: 16px;
+        background-size: cover !important;
+        margin: auto;
+
+        &__image {
+          justify-content: center;
+          width: 50px;
+          display: flex;
+        }
+      }
+
+      &__information {
+        width: 100%;
+        display: flex;
+        margin-left: 6px;
+
+        &__text {
+          &__title {
+            display: flex;
+
+            ion-icon {
+              margin-left: 5px;
+            }
+
+            ion-text {
+              color: var(--ion-color-successdark);
+            }
+          }
+
+          &__amount {
+            display: flex;
+            align-items: flex-end;
+
+            .token {
+              margin-left: 5px;
+            }
+
+            ion-text {
+              display: grid;
+              text-align: start;
+              color: var(--ion-color-successdark);
+            }
+
+            ion-skeleton-text {
+              border-radius: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -14,6 +14,8 @@ export class CustomValidatorErrors {
   static isNotInRange = { isNotInRange: true };
 
   static countWordsMatch = { countWordsMatch: true };
+  
+  static isDate = { isDate: true };
 
   static noPasswordMatch = { noPasswordMatch: true };
 
@@ -36,6 +38,8 @@ export class CustomValidatorErrors {
   static spaceBetween = { spaceBetween: true };
 
   static isAddress = {isAddress: true};
+
+  static isAddressSolana = {isAddressSolana: true};
 
   static lowerThanEqualError = {lowerThanEqual: true}
 }

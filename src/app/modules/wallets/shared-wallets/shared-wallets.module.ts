@@ -24,6 +24,8 @@ import { InfoPhraseModalComponent } from './components/info-phrase-modal/info-ph
 import { WarningBackupModalComponent } from './components/warning-backup-modal/warning-backup-modal.component';
 import { SwapInProgressModalComponent } from './components/swap-in-progress-modal/swap-in-progress-modal.component';
 import { ShareTransactionDetailComponent } from './components/share-transaction-detail/share-transaction-detail.component';
+import { AccordionTokensComponent} from './components/accordion-tokens/accordion-tokens.component';
+import { NoActiveTokensCardComponent } from './components/no-active-tokens-card/no-active-tokens-card.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { ShareTransactionDetailComponent } from './components/share-transaction-
     InfoPhraseModalComponent,
     WarningBackupModalComponent,
     SwapInProgressModalComponent,
-    ShareTransactionDetailComponent
+    ShareTransactionDetailComponent,
+    AccordionTokensComponent,
+    NoActiveTokensCardComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -78,7 +82,9 @@ import { ShareTransactionDetailComponent } from './components/share-transaction-
     InfoPhraseModalComponent,
     WarningBackupModalComponent,
     SwapInProgressModalComponent,
-    ShareTransactionDetailComponent
+    ShareTransactionDetailComponent,
+    AccordionTokensComponent,
+    NoActiveTokensCardComponent
   ],
 })
 export class SharedWalletsModule {}

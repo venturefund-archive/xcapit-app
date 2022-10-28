@@ -6,6 +6,7 @@ import { StorageService } from '../../shared-wallets/services/storage-wallets/st
 import { WalletConnectService } from '../../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { WalletBackupService } from '../../shared-wallets/services/wallet-backup/wallet-backup.service';
+import { LoggedIn } from '../../../users/shared-users/models/logged-in/logged-in';
 
 @Component({
   selector: 'app-remove-wallet',
@@ -72,7 +73,7 @@ import { WalletBackupService } from '../../shared-wallets/services/wallet-backup
                   mode="md"
                   slot="start"
                   name="checkbox-condition"
-                  (ionChange)="this.enableButton()"
+                  (ionChange)="this.toggleButton()"
                 ></ion-checkbox>
               </ion-item>
             </ion-list>
@@ -116,22 +117,35 @@ export class RemoveWalletPage implements OnInit {
   ngOnInit() {}
 
   async remove() {
-    this.loading = true;
-    this.storageService.removeWalletFromStorage();
+    this.enableLoading();
+    await this.storageService.removeWalletFromStorage();
     this.queueService.dequeueAll();
-    this.balanceCacheService.removeTotal();
-    this.ionicStorageService.set('protectedWallet', false);
-    this.walletBackupService.enableModal();
+    await this.balanceCacheService.removeTotal();
+    await this.cleanProtectedWallet();
+    await this.walletBackupService.enableModal();
+    await new LoggedIn(this.ionicStorageService).save(false);
     await this.walletConnectService.killSession();
-    this.goToSuccessPage();
+    await this.goToSuccessPage();
+    this.disableLoading();
   }
 
-  enableButton() {
-    return (this.acceptTos = !this.acceptTos);
+  private cleanProtectedWallet(): Promise<void> {
+    return this.ionicStorageService.set('protectedWallet', false);
   }
 
-  goToSuccessPage() {
+  private enableLoading(): void {
+    this.loading = true;
+  }
+
+  private disableLoading(): void {
     this.loading = false;
-    this.navController.navigateForward(['wallets/remove/success']);
+  }
+
+  private goToSuccessPage(): Promise<boolean> {
+    return this.navController.navigateForward(['wallets/remove/success']);
+  }
+
+  toggleButton(): boolean {
+    return (this.acceptTos = !this.acceptTos);
   }
 }

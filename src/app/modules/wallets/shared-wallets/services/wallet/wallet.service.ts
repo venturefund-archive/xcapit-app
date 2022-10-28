@@ -12,10 +12,7 @@ import { Keypair } from '@solana/web3.js';
 })
 export class WalletService {
   coins: Coin[];
-  createdWallets: (ethers.Wallet | Keypair)[];
   addresses: any = null;
-  userCoins: Coin[];
-  Keypair = Keypair
   ethers = ethers;
 
   constructor(
@@ -23,31 +20,6 @@ export class WalletService {
     private blockchainProviderService: BlockchainProviderService,
     private storageService: StorageService
   ) {}
-
-  create(): Promise<(ethers.Wallet | Keypair)[]> {
-    return new Promise((resolve) => {
-      if (this.mnemonicExists() && this.selectedCoins()) {
-        this.createdWallets = [];
-        const derivedPaths = environment.derivedPaths;
-        Object.values(derivedPaths).forEach((path) => {
-          this.createdWallets.push(this.createForDerivedPath(path));
-        });
-      }
-      resolve(this.createdWallets);
-    });
-  }
-
-  createForDerivedPath(derivedPath: string): ethers.Wallet {
-    return this.createWalletUsingEthers(derivedPath);
-  }
-
-  private createWalletUsingEthers(derivedPath: string): ethers.Wallet {
-    return ethers.Wallet.fromMnemonic(this.walletMnemonicService.mnemonic.phrase, derivedPath, this.wordList());
-  }
-
-  private wordList() {
-    return ethers.wordlists.en;
-  }
 
   mnemonicExists(): boolean {
     return !!this.walletMnemonicService.mnemonic;

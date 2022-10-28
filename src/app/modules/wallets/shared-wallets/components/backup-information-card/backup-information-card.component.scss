@@ -5,7 +5,6 @@
       display: flex;
       align-items: center;
       padding: 10px;
-      background: var(--ion-color-infolight);
       border: 1px solid var(--ion-color-info);
       border-radius: 6px;
 
@@ -30,5 +29,13 @@
     font-family: var(--ux-font-lato);
     font-weight: var(--ux-fweight-regular);
     line-height: 18px;
+  }
+
+  .ux-info-background-card {
+    background: var(--ion-color-infolight);
+  }
+
+  .ux-white-background-card {
+    background: var(--ion-color-white);
   }
 }

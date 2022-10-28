@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  OperationDataInterface,
-  StorageOperationService,
-} from '../shared-ramps/services/operation/storage-operation.service';
+import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { NavController } from '@ionic/angular';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
@@ -12,6 +9,7 @@ import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 
 @Component({
   selector: 'app-confirm-page',
@@ -84,11 +82,9 @@ export class ConfirmPagePage implements OnInit {
 
   ionViewWillEnter() {
     this.trackScreenViewEvent();
-    this.storageOperationService.data.subscribe((data) => {
-      this.operationData = data;
-      this.token = this.apiWalletService.getCoin(this.operationData.currency_out, this.operationData.network);
-      this.provider = this.getProvider(this.operationData.provider);
-    });
+    this.operationData = this.storageOperationService.getData();
+    this.token = this.apiWalletService.getCoin(this.operationData.currency_out, this.operationData.network);
+    this.provider = this.getProvider(this.operationData.provider);
   }
 
   getProvider(providerId: string) {
@@ -101,11 +97,10 @@ export class ConfirmPagePage implements OnInit {
     return this.providersFactory.create();
   }
 
-  async createOperation() {  
+  async createOperation() {
     this.disabledButton = true;
     this.fiatRampsService.createOperation(this.operationData).subscribe({
       next: (res) => {
-        this.storageOperationService.setOperationId(res.id);
         this.addBoughtCoinIfUserDoesNotHaveIt();
         this.navController.navigateForward(['fiat-ramps/success-page', res.id]);
       },

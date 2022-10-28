@@ -1,3 +1,4 @@
+import { fakeAsync, tick } from "@angular/core/testing";
 import { asyncDelay } from "src/testing/async-delay.spec";
 import { MemoryCache } from "./memory-cache";
 
@@ -33,11 +34,11 @@ describe('MemoryCache', () => {
     expect(memoryCache.has('anyKey')).toBeFalse();
   });
 
-  it('has an expired key', async () => {
+  it('has an expired key', fakeAsync(() => {
     memoryCache.setBy(aKey, aValue);
 
-    await asyncDelay(101);
+    tick(150);
 
     expect(memoryCache.has(aKey)).toBeFalse();
-  });
+  }));
 });

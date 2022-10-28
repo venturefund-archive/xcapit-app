@@ -342,7 +342,6 @@ export class SendDonationPage implements OnInit {
         data: this.token,
       },
     });
-    await this.modalController.dismiss(null, null, 'feeModal');
     if (window.location.href === this.modalHref) {
       await modal.present();
     }

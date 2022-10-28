@@ -9,7 +9,7 @@ import { FakeEthersService } from 'src/testing/fakes/ethers.fake.spec';
 import { EthersService } from '../ethers/ethers.service';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 import { ethers, Wallet } from 'ethers';
-import { Keypair } from '@solana/web3.js';
+import { Keypair, PublicKey } from '@solana/web3.js';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
@@ -132,10 +132,10 @@ describe('WalletEncryptionService', () => {
       create: new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)),
     });
     walletFactorySpy = jasmine.createSpyObj('WalletsFactory', {
-      create: jasmine.createSpyObj(
-        'Wallets',
-        { oneBy: Promise.resolve({ address: () => 'testAddress' }), createFrom: Promise.resolve() }
-      ),
+      create: jasmine.createSpyObj('Wallets', {
+        oneBy: Promise.resolve({ address: () => 'testAddress' }),
+        createFrom: Promise.resolve(),
+      }),
     });
     WalletMnemonicServiceSpy = jasmine.createSpyObj(
       'WalletMnemonicService',
@@ -150,7 +150,7 @@ describe('WalletEncryptionService', () => {
     spyOn(ethersWalletMock, 'encrypt').and.resolveTo(storageWallet.wallet);
     spyOnProperty(ethersWalletMock, 'mnemonic', 'get').and.returnValue(testMnemonic);
     solanaWalletMock = Keypair.generate();
-    spyOnProperty(solanaWalletMock, 'publicKey', 'get').and.returnValue({ toString: () => 'testString' });
+    spyOnProperty(solanaWalletMock, 'publicKey', 'get').and.returnValue({ toString: () => 'testString' } as PublicKey);
     storageSpy = jasmine.createSpyObj('StorageService', {
       saveWalletToStorage: Promise.resolve(),
       getWalletFromStorage: Promise.resolve(ethersWalletMock),

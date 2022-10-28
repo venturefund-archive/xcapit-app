@@ -18,7 +18,6 @@ export const rawPolygonData: RawBlockchain = {
   derivedPath: "m/44'/966'/0'/0/0",
   id: '137',
   rpc: 'https://polygonRpc',
-  gasPrice: 'PolygonGasPrice',
   nativeToken: {
     value: 'MATIC',
     decimals: 18,
@@ -31,7 +30,7 @@ export const rawSolanaData: RawBlockchain = {
   name: 'SOLANA',
   derivedPath: "m/44'/501'/0'/0/0",
   id: '1399811149',
-  rpc: '',
+  rpc: 'https://solana.com',
   nativeToken: {
     value: 'SOL',
     decimals: 9,

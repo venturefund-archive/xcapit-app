@@ -8,6 +8,7 @@ import { IonTabs, NavController } from '@ionic/angular';
 import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-directive.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { By } from '@angular/platform-browser';
+import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 
 describe('TabsComponent', () => {
   let component: TabsComponent;
@@ -26,11 +27,13 @@ describe('TabsComponent', () => {
         'IonTabs',
         { getSelected: 'test' },
         { outlet: { activatedView: { element: null } } }
-      );
+        );
       TestBed.configureTestingModule({
-        declarations: [TabsComponent, FakeTrackClickDirective],
+        declarations: [TabsComponent, FakeTrackClickDirective, FakeFeatureFlagDirective],
         imports: [HttpClientTestingModule, TranslateModule.forRoot()],
-        providers: [{ provide: NavController, useValue: navControllerSpy }],
+        providers: [
+          { provide: NavController, useValue: navControllerSpy },
+        ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
     })
@@ -50,7 +53,21 @@ describe('TabsComponent', () => {
   });
 
   it('should call trackEvent on trackService when Tab Home button clicked', () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'ux_nav_go_to_home');
+    const directive = trackClickDirectiveHelper.getDirective(el);
+    const spy = spyOn(directive, 'clickEvent');
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call trackEvent on trackService when Tab Tools button clicked', () => {
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const el = trackClickDirectiveHelper.getByElementByName('ion-tab-button', 'ux_nav_go_to_tools');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
     el.nativeElement.click();
@@ -81,9 +98,17 @@ describe('TabsComponent', () => {
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/investments']);
   });
 
+  it('should navigate to Tools Tab when Tab Tools clicked', () => {
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-tab-button[name="ux_nav_go_to_tools"]')).nativeElement.click();
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/tools']);
+  });
+
   it('should navigate to Wallet Tab when Tab Wallet clicked', () => {
     fixture.debugElement.query(By.css('ion-tab-button[name="ux_nav_go_to_wallet"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/tabs/wallets']);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['/tabs/wallets']);
   });
   ['ionViewWillEnter', 'ionViewDidEnter', 'ionViewWillLeave', 'ionViewDidLeave'].forEach((event) => {
     it(`should dispatch ${event}`, () => {

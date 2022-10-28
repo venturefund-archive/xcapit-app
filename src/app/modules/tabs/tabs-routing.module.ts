@@ -4,6 +4,7 @@ import { TabsComponent } from './tabs/tabs.component';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { HasWallet } from 'src/app/shared/guards/has-wallet/has-wallet';
 import { IntroductionCompletedGuard } from '../financial-education/shared-financial-education/guards/introduction-completed';
+import { NewLoginRedirectGuard } from '../home/shared-home/guards/new-login-redirect-guard';
 
 const routes: Routes = [
   {
@@ -13,7 +14,12 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
+        canActivate: [NewLoginRedirectGuard],
         loadChildren: () => import('../home/home-page/home-page.module').then((m) => m.HomePageModule),
+      },
+      {
+        path: 'tools',
+        loadChildren: () => import('../tools/tools-page/tools-page.module').then( m => m.ToolsPageModule)
       },
       {
         path: 'investments',

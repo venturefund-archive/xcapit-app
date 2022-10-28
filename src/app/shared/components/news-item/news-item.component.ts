@@ -6,7 +6,9 @@ import { News } from '../../interfaces/news.interface';
   template: `
     <div class="ni">
       <ion-item class="ni__item ux-card" detail="true" (click)="this.emitClicked()" lines="none">
-        <ion-badge class="ni__item__badge ux-badge" color="warning-light">{{ this.item.badge }}</ion-badge>
+        <ion-badge *ngIf="this.item.badge" class="ni__item__badge ux-badge" color="warning-light">{{
+          this.item.badge
+        }}</ion-badge>
         <div class="ni__item__text">
           <ion-text class="ni__item__text__title ux-font-header-titulo">{{ this.item.title }}</ion-text>
           <ion-text class="ni__item__text__description ux-font-text-xxs">{{ this.item.description }}</ion-text>

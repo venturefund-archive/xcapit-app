@@ -42,4 +42,18 @@ describe('LoginToken', () => {
 
     expect(storageSpy.set).toHaveBeenCalledOnceWith(storageKey, aHashedPassword);
   });
+
+  it('exist', async () => {
+    expect(await loginToken.exist()).toBeTrue();
+  });
+
+ it('exist return false', async () => {
+   storageSpy = jasmine.createSpyObj('IonicStorageService', {
+     get: Promise.resolve(null)
+   });
+   loginToken = new LoginToken(aPassword, storageSpy, storageKey);
+
+   expect(await loginToken.exist()).toBeFalse();
+ });
+
 });

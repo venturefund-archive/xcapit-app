@@ -119,7 +119,6 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
   @Input() showRange: boolean;
   @Input() feeToken: Coin;
   @Input() amountSend: boolean;
-
   @Output() phraseAmountInfoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   isAmountSend: boolean;

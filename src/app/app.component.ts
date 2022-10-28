@@ -11,10 +11,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { StatusBar } from '@capacitor/status-bar';
 import { PlatformService } from './shared/services/platform/platform.service';
 import { CONFIG } from './config/app-constants.config';
-import { UpdateNewsService } from './shared/services/update-news/update-news.service';
-import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
-import { FirebaseRemoteConfig } from './shared/models/firebase-remote-config/firebase-remote-config';
-import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { WalletConnectService } from './modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
@@ -45,9 +41,6 @@ export class AppComponent implements OnInit {
     private translate: TranslateService,
     private el: ElementRef,
     private platformService: PlatformService,
-    private updateNewsService: UpdateNewsService,
-    private remoteConfigService: RemoteConfigService,
-    private firebaseService: FirebaseService,
     private zone: NgZone,
     private walletConnectService: WalletConnectService,
     private walletBackupService: WalletBackupService,
@@ -56,8 +49,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.initializeFirebase();
-    this.initializeRemoteConfig();
     this.initializeApp();
     this.statusBarConfig();
     this.submitButtonService.enabled();
@@ -65,15 +56,13 @@ export class AppComponent implements OnInit {
     this.trackService.startTracker();
   }
 
-  private showUpdateModal() {
-    this.updateNewsService.showModal();
-  }
-
   private checkForUpdate() {
     this.updateService.checkForUpdate();
   }
 
   private initializeApp() {
+    this.checkForUpdate();
+    this.walletBackupService.getBackupWarningWallet();
     this.platform.ready().then(() => {
       this.languageService.setInitialAppLanguage();
       this.setLanguageSubscribe();
@@ -114,18 +103,6 @@ export class AppComponent implements OnInit {
         this.walletConnectService.checkDeeplinkUrl();
       }
     }
-  }
-
-  private initializeFirebase() {
-    this.firebaseService.init();
-  }
-
-  private initializeRemoteConfig() {
-    this.remoteConfigService.initialize(new FirebaseRemoteConfig(this.firebaseService.getApp())).then(() => {
-      this.checkForUpdate();
-      this.showUpdateModal();
-      this.walletBackupService.getBackupWarningWallet();
-    });
   }
 
   private statusBarConfig() {
