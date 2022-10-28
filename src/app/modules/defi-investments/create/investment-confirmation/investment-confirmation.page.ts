@@ -15,7 +15,7 @@ import { Component } from '@angular/core';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
 import { Amount } from '../../shared-defi-investments/types/amount.type';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
-import { BigNumber, ethers, VoidSigner, Wallet } from 'ethers';
+import { BigNumber, VoidSigner, Wallet } from 'ethers';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ApiWalletService } from '../../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Subject } from 'rxjs';
@@ -32,9 +32,9 @@ import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/native-fee-of.model';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { ActivatedRoute } from '@angular/router';
-import { ToastWithButtonsComponent } from '../../shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
+import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -149,7 +149,6 @@ export class InvestmentConfirmationPage {
   labelText: string;
   isNegativeBalance: boolean;
   modalHref: string;
-  url: string;
 
   constructor(
     private investmentDataService: InvestmentDataService,
@@ -177,7 +176,6 @@ export class InvestmentConfirmationPage {
     this.checkTwoPiAgreement();
     await this.walletService.walletExist();
     await this.getNativeTokenBalance();
-    await this.setUrlToBuyCrypto();
     await this.checkNativeTokenBalance();
   }
 
@@ -336,35 +334,17 @@ export class InvestmentConfirmationPage {
     }
   }
 
-  async setUrlToBuyCrypto() {
-    const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
-    this.tokenOperationDataService.tokenOperationData = {
-      asset: this.nativeToken?.value,
-      network: this.nativeToken?.network,
-    };
-    this.url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
-    return this.url;
-  }
-
   async openModalNativeTokenBalance() {
     const modal = await this.modalController.create({
-      component: ToastWithButtonsComponent,
-      cssClass: 'ux-toast-warning',
+      component: BuyOrDepositTokenToastComponent,
+      cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
       componentProps: {
-        text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
-          nativeToken: this.nativeToken?.value,
-        }),
-        firstButtonName: this.translate.instant('defi_investments.confirmation.buy_button', {
-          nativeToken: this.nativeToken?.value,
-        }),
-        secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
-          nativeToken: this.nativeToken?.value,
-        }),
-        firstLink: this.url,
-        secondLink: '/wallets/receive/detail',
-        data: this.nativeToken,
+        text: 'defi_investments.confirmation.informative_modal_fee',
+        primaryButtonText: 'defi_investments.confirmation.buy_button',
+        secondaryButtonText: 'defi_investments.confirmation.deposit_button',
+        token: this.nativeToken
       },
     });
     await this.modalController.dismiss(null, null, 'feeModal');

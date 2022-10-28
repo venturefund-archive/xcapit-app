@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 
 @Component({
@@ -22,15 +21,17 @@ import { ModalController, NavController } from '@ionic/angular';
       </div>
 
       <div class="content__buttons">
+        <div *ngIf="!this.primaryButtonText" style="width: 139px;"></div>
         <ion-button
-          (click)="this.firstAction()"
+          *ngIf="this.primaryButtonText"
+          (click)="this.primaryAction()"
           class="ux-link-xl"
           appTrackClick
           name="first_action"
           type="button"
           fill="clear"
         >
-          {{ this.firstButtonName }}
+          {{ this.primaryButtonText }}
         </ion-button>
         <ion-button
           (click)="this.secondaryAction()"
@@ -40,7 +41,7 @@ import { ModalController, NavController } from '@ionic/angular';
           type="button"
           fill="clear"
         >
-          {{ this.secondaryButtonName }}
+          {{ this.secondaryButtonText }}
         </ion-button>
       </div>
     </div>
@@ -49,11 +50,13 @@ import { ModalController, NavController } from '@ionic/angular';
 })
 export class ToastWithButtonsComponent implements OnInit {
   @Input() text: string;
-  @Input() firstButtonName: string;
-  @Input() secondaryButtonName: string;
-  @Input() firstLink: string;
-  @Input() secondLink: string;
-  @Input() data: any;
+  @Input() primaryButtonText: string;
+  @Input() secondaryButtonText: string;
+  @Input() primaryButtonRoute: string;
+  @Input() secondaryButtonRoute: string;
+
+  @Output() primaryActionEvent = new EventEmitter<void>();
+  @Output() secondaryActionEvent = new EventEmitter<void>();
 
   constructor(private modalController: ModalController, private navController: NavController) {}
 
@@ -63,18 +66,15 @@ export class ToastWithButtonsComponent implements OnInit {
     this.modalController.dismiss();
   }
 
-  firstAction() {
+  primaryAction() {
     this.close();
-    this.navController.navigateForward([this.firstLink]);
+    if (this.primaryButtonRoute) this.navController.navigateForward([this.primaryButtonRoute]);
+    this.primaryActionEvent.emit();
   }
+
   secondaryAction() {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        asset: this.data.value,
-        network: this.data.network,
-      },
-    };
     this.close();
-    this.navController.navigateForward([this.secondLink], navigationExtras);
+    if (this.primaryButtonRoute) this.navController.navigateForward([this.secondaryButtonRoute]);
+    this.secondaryActionEvent.emit();
   }
 }
