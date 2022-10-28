@@ -9,18 +9,6 @@ import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { ToastWithButtonsComponent } from './toast-with-buttons.component';
 
-const dataTest = {
-  id: 16,
-  name: 'MATIC - Polygon',
-  logoRoute: 'assets/img/coins/MATIC.svg',
-  value: 'MATIC',
-  network: 'MATIC',
-  chainId: 80001,
-  rpc: '',
-  decimals: 18,
-  native: true,
-};
-
 describe('ToastWithButtonsComponent', () => {
   let component: ToastWithButtonsComponent;
   let fixture: ComponentFixture<ToastWithButtonsComponent>;
@@ -48,8 +36,12 @@ describe('ToastWithButtonsComponent', () => {
 
       fixture = TestBed.createComponent(ToastWithButtonsComponent);
       component = fixture.componentInstance;
+      component.text = 'test';
+      component.primaryButtonText = 'button 1';
+      component.secondaryButtonText = 'button 2';
+      component.primaryButtonRoute = 'test/route/1';
+      component.secondaryButtonRoute = 'test/route/2';
       trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      component.data = dataTest;
       fixture.detectChanges();
     })
   );
@@ -83,28 +75,30 @@ describe('ToastWithButtonsComponent', () => {
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to moonpay page and close modal', async () => {
-    component.firstLink = '/test/firstLink'
+  it('should navigate to primary link, emit event and dismiss modal', async () => {
+    const spy = spyOn(component.primaryActionEvent, 'emit');
     fixture.debugElement.query(By.css('ion-button[name="first_action"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test/route/1']);
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/test/firstLink']);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to receive page and close modal', async () => {
-    component.secondLink = '/test/secondLink'
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        asset: 'MATIC',
-        network: 'MATIC',
-      },
-    };
+  it('should navigate to secondary link, emit event and dismiss modal', async () => {
+    const spy = spyOn(component.secondaryActionEvent, 'emit');
     fixture.debugElement.query(By.css('ion-button[name="secondary_action"]')).nativeElement.click();
     fixture.detectChanges();
     await fixture.whenStable();
-    await fixture.whenRenderingDone();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['test/route/2']);
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/test/secondLink'], navigationExtras);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should hide primary button', () => {
+    component.primaryButtonText = undefined;
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('ion-button[name="first_action"]'));
+    expect(el).toBeFalsy();
   });
 });

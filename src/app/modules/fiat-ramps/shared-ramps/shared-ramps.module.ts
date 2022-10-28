@@ -16,6 +16,7 @@ import { UserRegisterStepCardComponent } from './components/user-register-step-c
 import { ValidationContentComponent } from './components/validation-content/validation-content.component';
 import { ConfirmationContentComponent } from './components/confirmation-content/confirmation-content.component';
 import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-card/moonpay-purchases-card/moonpay-purchases-card.component';
+import { BuyOrDepositTokenToastComponent } from './components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-ca
     UserRegisterStepCardComponent,
     MoonpayPurchasesCardComponent,
     ValidationContentComponent,
-    ConfirmationContentComponent
+    ConfirmationContentComponent,
+    BuyOrDepositTokenToastComponent,
   ],
   imports: [SharedModule],
   exports: [
