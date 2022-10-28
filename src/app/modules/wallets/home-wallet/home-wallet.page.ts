@@ -44,8 +44,10 @@ import { UpdateNewsService } from '../../../shared/services/update-news/update-n
         <div class="header">
           <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
         </div>
-        <ion-icon *ngIf="!this.connected" name="ux-walletconnect" (click)="this.goToWalletConnect()"></ion-icon>
-        <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect" (click)="this.goToWalletConnect()"></ion-icon>
+        <div (click)="this.goToWalletConnect()" appTrackClick [dataToTrack]="{ eventLabel: 'ux_go_to_wc' }">
+          <ion-icon *ngIf="!this.connected" name="ux-walletconnect" ></ion-icon>
+          <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect"></ion-icon>
+        </div>
         <app-avatar-profile></app-avatar-profile>
       </ion-toolbar>
     </ion-header>
