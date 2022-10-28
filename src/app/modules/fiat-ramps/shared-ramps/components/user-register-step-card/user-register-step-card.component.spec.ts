@@ -49,9 +49,10 @@ describe('UserRegisterStepCardComponent', () => {
   });
 
   it('should render properly', () => {
-    const numberEl = fixture.debugElement.query(By.css('div.ursc__wrapper__step > div.ursc__wrapper__step__circle > ion-text'));
+    component.completed = false;
+    const numberEl = fixture.debugElement.query(By.css('div.ursc__wrapper__step > div.incompleteInfo > ion-text'));
     const titleEl = fixture.debugElement.query(By.css('div.ursc__wrapper__content > ion-text.ursc__wrapper__content__title'));
-    const subtitleEl = fixture.debugElement.query(By.css('div.ursc__wrapper__content > ion-text.ursc__wrapper__content__subtitle'));
+    const subtitleEl = fixture.debugElement.query(By.css('div.subtitle ion-text'));
     const iconEl = fixture.debugElement.query(By.css('div.ursc__wrapper__action > ion-icon'));
 
     expect(numberEl.nativeElement.innerHTML).toContain(fakeData.order);

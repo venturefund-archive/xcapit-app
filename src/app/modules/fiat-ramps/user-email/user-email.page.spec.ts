@@ -71,12 +71,4 @@ describe('UserEmailPage', () => {
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(URL);
     });
   });
-
-  it('should redirect to Kripton User Register if ff is enabled', () => {
-    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
-    component.form.patchValue({ email: 'test@test.com' });
-      fixture.debugElement.query(By.css('ion-button[name="ux_user_mail_continue"]')).nativeElement.click();
-      fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/user-register']);
-  });
 });

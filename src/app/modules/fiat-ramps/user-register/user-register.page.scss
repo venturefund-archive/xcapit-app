@@ -1,5 +1,17 @@
 :host {
   .ur {
+    &__button-back {
+      ion-icon {
+        height: 24px;
+        width: 24px;
+      }
+    }
+
+    &__footer {
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+      border-radius: 8px 8px 0 0;
+    }
+
     &__container {
       &__provider {
         background-color: #f28d27;
