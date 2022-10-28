@@ -19,6 +19,7 @@ import { LoginBiometricActivationModalService } from '../shared-users/services/l
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { LoginMigrationService } from '../shared-users/services/login-migration-service/login-migration-service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { AuthService } from '../shared-users/services/auth/auth.service';
 
 @Component({
   selector: 'app-login-new',
@@ -111,10 +112,12 @@ export class LoginNewPage {
     private loginBiometricActivationService: LoginBiometricActivationModalService,
     private remoteConfig: RemoteConfigService,
     private loginMigrationService: LoginMigrationService,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private authService: AuthService
   ) {}
 
   async ionViewWillEnter() {
+    this.removeOldToken();
     this.biometricAuth = this.biometricAuthInjectable.create();
     this.activateBiometricAuth();
     this.trackService.trackEvent({
@@ -122,6 +125,10 @@ export class LoginNewPage {
       description: window.location.href,
       eventLabel: 'ux_screenview_login',
     });
+  }
+
+  private removeOldToken(): void {
+    this.authService.logout();
   }
 
   dismissToast() {
