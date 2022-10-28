@@ -7,6 +7,7 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { SwiperModule } from 'swiper/angular';
 import { OnBoardingPage } from './on-boarding.page';
+import { AuthService } from '../shared-users/services/auth/auth.service';
 
 describe('OnBoardingPage', () => {
   let component: OnBoardingPage;
@@ -14,6 +15,7 @@ describe('OnBoardingPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -21,12 +23,14 @@ describe('OnBoardingPage', () => {
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
+    authServiceSpy = jasmine.createSpyObj('AuthService', { logout: Promise.resolve() });
     TestBed.configureTestingModule({
       declarations: [OnBoardingPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), SwiperModule],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: AuthService, useValue: authServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -65,5 +69,10 @@ describe('OnBoardingPage', () => {
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should remove old jwt tokens on init', () => {
+    component.ionViewWillEnter();
+    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
   });
 });
