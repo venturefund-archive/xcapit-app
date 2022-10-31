@@ -2,37 +2,29 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { InfoProviderKriptonComponent } from './info-provider-kripton.component';
 
-describe('InfoProviderKriptonComponent', () => {
-  let component: InfoProviderKriptonComponent;
-  let fixture: ComponentFixture<InfoProviderKriptonComponent>;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InfoProviderKriptonComponent>;
+import { InfoProviderMoonpayComponent } from './info-provider-moonpay.component';
+
+describe('InfoProviderMoonpayComponent', () => {
+  let component: InfoProviderMoonpayComponent;
+  let fixture: ComponentFixture<InfoProviderMoonpayComponent>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<InfoProviderMoonpayComponent>;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
-  let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
-    browserServiceSpy = jasmine.createSpyObj('BrowserService', {
-      open: Promise.resolve(),
-    });
     TestBed.configureTestingModule({
-      declarations: [InfoProviderKriptonComponent, FakeTrackClickDirective],
+      declarations: [ InfoProviderMoonpayComponent, FakeTrackClickDirective ],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-      providers: 
-      [
-        { provide: ModalController, useValue: modalControllerSpy },
-        { provide: BrowserService, useValue: browserServiceSpy },
-      ],
+      providers: [{ provide: ModalController, useValue: modalControllerSpy }],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InfoProviderKriptonComponent);
+    fixture = TestBed.createComponent(InfoProviderMoonpayComponent);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -54,12 +46,5 @@ describe('InfoProviderKriptonComponent', () => {
   it('should close informative modal when Close clicked', async () => {
     fixture.debugElement.query(By.css('ion-button[name="Close"]')).nativeElement.click();
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
-  });
-
-  it('should open in app browser to Kripton main page when Go To Kripton element is clicked', async () => {
-    fixture.debugElement.query(By.css('ion-text[name="Go To Kripton"]')).nativeElement.click();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
   });
 });

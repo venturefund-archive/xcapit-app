@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-info-provider-kripton',
@@ -26,10 +27,9 @@ import { ModalController } from '@ionic/angular';
             <div class="main__body__content__title">
               <ion-text class="ux-font-text-xl">{{ this.title }} </ion-text>
             </div>
-
-          <!-- Parte generica (titulo y logo) -->
-            <div class="ux-font-header-titulo main__body__content__header">
+            <div class="ux-text-base main__body__content__header">
             <ion-text>{{'fiat_ramps.select_provider.modal_info.kripton.header' | translate}}</ion-text>
+            <br>
             <ion-text>{{'fiat_ramps.select_provider.modal_info.kyc_required' | translate}}</ion-text>
             </div>
             <div class="ux-font-header-titulo main__body__content__subtitle">
@@ -45,25 +45,23 @@ import { ModalController } from '@ionic/angular';
             </div>
             <div class="main__body__content__description">
               <ul>
-              <ion-text class="ux-font-text-base">
+              <li><ion-text class="ux-font-text-base">
                 {{ 'fiat_ramps.select_provider.modal_info.kripton.delivery_time_1' | translate}}
-              </ion-text>
-              <ion-text class="ux-font-text-base">
+              </ion-text></li>
+              <li><ion-text class="ux-font-text-base">
                 {{ 'fiat_ramps.select_provider.modal_info.kripton.delivery_time_2' | translate}}
-              </ion-text>
+              </ion-text></li>
               </ul>
             </div>
             <div class="ux-font-header-titulo main__body__content__subtitle">
               <ion-text>{{'fiat_ramps.select_provider.modal_info.subtitle_more_information' | translate}}</ion-text>
             </div>
-            <div class="main__body__content__description">
-              <ion-text class="ux-font-text-base">
-                {{ 'fiat_ramps.select_provider.modal_info.kripton.more_information' | translate}}
-              </ion-text>
+            <div class="main__body__content__link">
+              <ion-icon name="globe-outline" color="info"></ion-icon>
+                <ion-text name="Go To Kripton" class="ux-link-xs" href="https://kriptonmarket.com" (click)="this.navigateToKripton()">
+                  {{ 'fiat_ramps.select_provider.modal_info.kripton.more_information' | translate}}
+                </ion-text>
             </div>
-            <!-- <div class="main__body__content__disclaimer" *ngIf="this.disclaimer">
-              <ion-text class="ux-font-text-xxs">{{ this.disclaimer }} </ion-text>
-            </div> -->
             <div class="main__actions">
               <ion-button
                 class="ux_button main__actions__button ion-no-margin"
@@ -84,12 +82,21 @@ import { ModalController } from '@ionic/angular';
 export class InfoProviderKriptonComponent implements OnInit {
   image: string;
   title: string;
-  constructor(private modalController: ModalController) { }
+  constructor(
+    private modalController: ModalController,
+    private browserService: BrowserService,
+    ) { }
 
   ngOnInit() {}
 
   close() {
     this.modalController.dismiss();
+  }
+
+  async navigateToKripton() {
+    await this.browserService.open({
+      url: 'https://kriptonmarket.com',
+    });
   }
 
 }

@@ -14,6 +14,7 @@ import { SkipTransactionVoucherComponent } from './components/skip-transaction-v
 import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-modal.component';
 import { UserRegisterStepCardComponent } from './components/user-register-step-card/user-register-step-card.component';
 import { InfoProviderKriptonComponent } from './components/info-provider-kripton/info-provider-kripton.component';
+import { InfoProviderMoonpayComponent } from './components/info-provider-moonpay/info-provider-moonpay.component';
 import { ValidationContentComponent } from './components/validation-content/validation-content.component';
 import { ConfirmationContentComponent } from './components/confirmation-content/confirmation-content.component';
 import { BuyOrDepositTokenToastComponent } from './components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
@@ -36,6 +37,7 @@ import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-ca
     SkipTransactionVoucherComponent,
     UserRegisterStepCardComponent,
     InfoProviderKriptonComponent,
+    InfoProviderMoonpayComponent,
     MoonpayPurchasesCardComponent,
     UserRegisterContentComponent,
     ValidationContentComponent,
@@ -60,6 +62,7 @@ import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-ca
     SkipTransactionVoucherComponent,
     UserRegisterStepCardComponent,
     InfoProviderKriptonComponent,
+    InfoProviderMoonpayComponent,
     MoonpayPurchasesCardComponent,
     UserRegisterContentComponent,
     ValidationContentComponent,

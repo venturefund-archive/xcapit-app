@@ -3,6 +3,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { InfoProviderKriptonComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider-kripton/info-provider-kripton.component';
+import { InfoProviderMoonpayComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider-moonpay/info-provider-moonpay.component';
 import { InfoProviderComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider/info-provider.component';
 import { D24_PAYMENT_TYPES } from 'src/app/modules/fiat-ramps/shared-ramps/constants/payment-types';
 import { FiatRampProviderCountry } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider-country';
@@ -137,7 +138,20 @@ export class ProviderCardComponent implements OnInit {
         image: this.provider?.logoRoute,
         title: this.provider?.name,
       },
-      cssClass: 'modal',
+      cssClass: 'ux-lg-modal-informative-provider-kripton',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
+
+  async createMoonpayInfoModal() {
+    const modal = await this.modalController.create({
+      component: InfoProviderMoonpayComponent,
+      componentProps: {
+        image: this.provider?.logoRoute,
+        title: this.provider?.name,
+      },
+      cssClass: 'ux-lg-modal-informative-provider-moonpay',
       backdropDismiss: false,
     });
     await modal.present();
@@ -185,7 +199,11 @@ export class ProviderCardComponent implements OnInit {
     if (!this.isInfoModalOpen) {
       this.isInfoModalOpen = true;
       // await this.createInfoModal();
-      await this.createKriptonInfoModal();
+      if (this.provider.providerName === 'kripton') {
+        await this.createKriptonInfoModal();
+      } else {
+        await this.createMoonpayInfoModal();
+      }
       this.isInfoModalOpen = false;
     }
   }
