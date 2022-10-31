@@ -71,7 +71,7 @@ import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ram
         >
           {{ 'defi_investments.new.button' | translate }}
         </ion-button>
-        <div *buyCryptoAppFeatureFlag>
+        <div *appBuyCryptoFeatureFlag>
           <div class="ni__footer__text" *ngIf="this.buyAvailable">
             <span class="ux-font-text-xs text">
               {{ 'defi_investments.new.dont_have' | translate }}{{ this.token.value + '?' }}

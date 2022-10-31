@@ -5,7 +5,7 @@ import { FeatureFlagInjectable } from '../../models/feature-flag/injectable/feat
 import { PlatformService } from '../../services/platform/platform.service';
 
 @Directive({
-  selector: '[buyCryptoAppFeatureFlag]',
+  selector: '[appBuyCryptoFeatureFlag]',
 })
 export class BuyCryptoFeatureFlagDirective implements OnInit {
   constructor(

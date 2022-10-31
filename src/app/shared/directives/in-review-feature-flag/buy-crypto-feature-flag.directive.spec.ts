@@ -9,7 +9,7 @@ import { AppVersion } from '../../models/app-version/app-version.interface';
 import { PlatformService } from '../../services/platform/platform.service';
 @Component({
   template: `
-    <div *buyCryptoAppFeatureFlag>
+    <div *appBuyCryptoFeatureFlag>
       <p id="HiddenFeature">Test component</p>
     </div>
   `,

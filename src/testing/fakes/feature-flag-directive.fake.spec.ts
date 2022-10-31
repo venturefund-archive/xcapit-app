@@ -2,7 +2,7 @@ import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angula
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Directive({
-  selector: '[appFeatureFlag], [buyCryptoAppFeatureFlag]',
+  selector: '[appFeatureFlag], [appBuyCryptoFeatureFlag]',
   providers: [
     {
       provide: RemoteConfigService,
