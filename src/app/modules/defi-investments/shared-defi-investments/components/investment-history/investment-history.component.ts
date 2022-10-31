@@ -18,6 +18,7 @@ import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.int
                   *ngFor="let movement of this.firstMovements; let last = last"
                   [movement]="movement"
                   [token]="this.token"
+                  [last]="last"
                 ></app-item-investment-history>
               </div>
               <ion-accordion-group>
