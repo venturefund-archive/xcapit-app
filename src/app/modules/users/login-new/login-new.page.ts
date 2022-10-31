@@ -155,17 +155,17 @@ export class LoginNewPage {
     return await this.ionicStorageService.get(this._aKey).then((status) => status);
   }
 
-  returnedService(){
+  pushNotificationsService(){
     return this.notificationsService.getInstance();
   }
 
   async initializeNotifications(){
-    this.returnedService().init();
+    this.pushNotificationsService().init();
     if(await this.enabledPushNotifications()){
-      this.returnedService().subscribeTo(this._aTopic);
+      this.pushNotificationsService().subscribeTo(this._aTopic);
     }else{
-      this.returnedService().subscribeTo(this._aTopic);
-      this.returnedService().unsubscribeFrom(this._aTopic);
+      this.pushNotificationsService().subscribeTo(this._aTopic);
+      this.pushNotificationsService().unsubscribeFrom(this._aTopic);
     }
   }
     

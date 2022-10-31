@@ -161,13 +161,13 @@ export class UserProfileMenuPage {
     this.form.valueChanges.subscribe((value) => this.toggle(value.notifications));
   }
 
-  returnedService(){
+  pushNotificationsService(){
     return this.notificationsService.getInstance();
   }
 
    toggle(value: boolean) {
     this.ionicStorageService.set(this._aKey, value);
-    value ?  this.returnedService().subscribeTo(this._aTopic) : this.returnedService().unsubscribeFrom(this._aTopic);
+    value ?  this.pushNotificationsService().subscribeTo(this._aTopic) : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
   }
 
   async walletConnectStatus() {
