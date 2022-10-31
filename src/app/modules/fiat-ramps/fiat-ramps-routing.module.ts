@@ -166,6 +166,10 @@ const routes: Routes = [
         path: 'error-operation-km',
         loadChildren: () => import('./error-operation-km/error-operation-km.module').then( m => m.ErrorOperationKmPageModule)
       },
+      {
+        path: 'kripton-operation-detail',
+        loadChildren: () => import('./kripton-operation-detail/kripton-operation-detail.module').then( m => m.KriptonOperationDetailPageModule)
+      },
     ],
   },
   
