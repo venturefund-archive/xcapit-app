@@ -357,9 +357,9 @@
         "confirm_button": "Confirmar inversión"
       },
       "informative_modal": "No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos.",
-      "informative_modal_fee": "No tienes suficientes {{nativeToken}} en tu cuenta para pagar la tarifa de transacción.",
-      "buy_button": "Comprar {{nativeToken}}",
-      "deposit_button": "Depositar {{nativeToken}}",
+      "informative_modal_fee": "No tienes suficientes {{token}} en tu cuenta para pagar la tarifa de transacción.",
+      "buy_button": "Comprar {{token}}",
+      "deposit_button": "Depositar {{token}}",
       "terms": {
         "third_party_disclaimer": "Entiendo que al invertir mis criptomonedas lo haré a través de un proveedor externo (2pi) sujeto a  términos y condiciones  distintos, de los cuales Xcapit no es responsable.",
         "i_have_read": "He leído y acepto los ",
@@ -2245,7 +2245,6 @@
         }
       }
     },
-
     "information_paxful": {
       "header": "Comprar",
       "title": "Compra BTC con Paxful:",
@@ -2500,6 +2499,31 @@
         "item2": "Puede variar ligeramente al momento de realizar la operación.",
         "item3": "Podrás encontrarlo en tu ticket de pago como “verificador de monto”.",
         "button": "Entendido"
+      },
+      "validation_content": {
+        "header": "Verificar identidad",
+        "provider": "Proveedor: Kripton Market",
+        "button_primary": "Tomar foto",
+        "button_secondary": "Subir desde galería",
+
+        "front_id": {
+          "title": "¡Hola de nuevo! 👋",
+          "subtitle": "Necesitamos una foto del frente de tu documento",
+          "description": "La imagen debe ser similar a la del ejemplo y sus datos deben ser visibles."
+        }
+      },
+
+      "confirmation_content": {
+        "header": "Verificar identidad",
+        "provider": "Proveedor: Kripton Market",
+        "button_primary": "Confirmar",
+        "button_secondary": "Cargar nuevamente",
+
+        "front_id": {
+          "title": "¡Muy bien! 📸",
+          "subtitle": "Chequea que la foto cumpla con las siguientes condiciones:",
+          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>"
+        }
       }
     },
     "user_email": {
@@ -2570,6 +2594,14 @@
         "label_country_code": "Código de país",
         "label_phone": "Teléfono",
         "button": "Continuar"
+      },
+      "front_id": {
+        "back_modal": {
+          "title": "Atención",
+          "description": "¿Deseas salir? Se perderán tus avances y deberás comenzar nuevamente.",
+          "confirm_button": "Confirmar",
+          "cancel_button": "Cancelar"
+        }
       }
     }
   },
@@ -2890,7 +2922,19 @@
       "tos_1": "Leí y estoy de acuerdo con los ",
       "tos_button": "términos y condiciones",
       "tos_2": "de 1inch",
-      "warning_same_tokens": "El token de origen no puede ser igual al token de destino."
+      "warning_same_tokens": "El token de origen no puede ser igual al token de destino.",
+      "balance_modal": {
+        "insufficient_balance": {
+          "text": "No tienes suficiente {{token}} en tu cuenta para realizar esta operación.",
+          "firstButtonName": "Comprar {{token}}",
+          "secondaryButtonName": "Depositar {{token}}"
+        },
+        "insufficient_balance_fee": {
+          "text": "No tienes suficientes {{token}} en tu cuenta para pagar la tarifa de transacción.",
+          "firstButtonName": "Comprar {{token}}",
+          "secondaryButtonName": "Depositar {{token}}"
+        }
+      }
     },
     "errors": {
       "invalid_password": "La contraseña ingresada no es correcta."

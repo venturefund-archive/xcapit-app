@@ -286,6 +286,14 @@
   --ion-color-alt-5-dark-shade: #12594f;
   --ion-color-alt-5-dark-tint: #2c746b;
 
+  /** alt-6 **/
+  --ion-color-alt-6: #f28d27;
+  --ion-color-alt-6-rgb: 242, 141, 39;
+  --ion-color-alt-6-contrast: #000;
+  --ion-color-alt-6-contrast-rgb: 0, 0, 0;
+  --ion-color-alt-6-shade: #d57c22;
+  --ion-color-alt-6-tint: #f3983d;
+
   /** Fondos **/
 
   /** Neutral10 **/
@@ -638,6 +646,15 @@
   --ion-color-contrast-rgb: var(--ion-color-alt-5-dark-contrast-rgb);
   --ion-color-shade: var(--ion-color-alt-5-dark-shade);
   --ion-color-tint: var(--ion-color-alt-5-dark-tint);
+}
+
+.ion-color-alt-6 {
+  --ion-color-base: var(--ion-color-alt-6);
+  --ion-color-base-rgb: var(--ion-color-alt-6-rgb);
+  --ion-color-contrast: var(--ion-color-alt-6-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-alt-6-contrast-rgb);
+  --ion-color-shade: var(--ion-color-alt-6-shade);
+  --ion-color-tint: var(--ion-color-alt-6-tint);
 }
 
 // Fonts

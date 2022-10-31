@@ -13,6 +13,9 @@ import { CoinSelectorModalComponent } from './components/coin-selector-modal/coi
 import { SkipTransactionVoucherComponent } from './components/skip-transaction-voucher/skip-transaction-voucher.component';
 import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-modal.component';
 import { UserRegisterStepCardComponent } from './components/user-register-step-card/user-register-step-card.component';
+import { ValidationContentComponent } from './components/validation-content/validation-content.component';
+import { ConfirmationContentComponent } from './components/confirmation-content/confirmation-content.component';
+import { BuyOrDepositTokenToastComponent } from './components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { UserRegisterStepCardComponent } from './components/user-register-step-c
     CoinSelectorModalComponent,
     FeeInfoModalComponent,
     SkipTransactionVoucherComponent,
-    UserRegisterStepCardComponent
+    UserRegisterStepCardComponent,
+    ValidationContentComponent,
+    ConfirmationContentComponent,
+    BuyOrDepositTokenToastComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -45,7 +51,9 @@ import { UserRegisterStepCardComponent } from './components/user-register-step-c
     CoinSelectorModalComponent,
     FeeInfoModalComponent,
     SkipTransactionVoucherComponent,
-    UserRegisterStepCardComponent
+    UserRegisterStepCardComponent,
+    ValidationContentComponent,
+    ConfirmationContentComponent
   ],
 })
 export class SharedRampsModule {}

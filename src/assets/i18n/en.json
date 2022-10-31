@@ -366,9 +366,9 @@
         "confirm_button": "Confirm investment"
       },
       "informative_modal": "You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
-      "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay the transaction fee.",
-      "buy_button": "Buy {{nativeToken}}",
-      "deposit_button": "Deposit {{nativeToken}}",
+      "informative_modal_fee": "You do not have enough {{token}} in your account to pay the transaction fee.",
+      "buy_button": "Buy {{token}}",
+      "deposit_button": "Deposit {{token}}",
       "terms": {
         "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
         "i_have_read": "I have read and agree to ",
@@ -2508,6 +2508,30 @@
         "item2": "It may vary slightly at the time of the operation.",
         "item3": "You can find it on your payment ticket as “amount checker“.",
         "button": "Understood"
+      },
+      "validation_content": {
+        "header": "Verify identity",
+        "provider": "Provider: Kripton Market",
+        "button_primary": "Take photo",
+        "button_secondary": "Upload from gallery",
+
+        "front_id": {
+          "title": "¡Hello again! 👋",
+          "subtitle": "We need a photo of the front of your document",
+          "description": "The image should be similar to the one in the example and your data should be visible."
+        }
+      },
+      "confirmation_content": {
+        "header": "Verify identity",
+        "provider": "Provider: Kripton Market",
+        "button_primary": "Confirm",
+        "button_secondary": "Reloading",
+
+        "front_id": {
+          "title": "Very good! 📸",
+          "subtitle": "Check that the photo meets the following conditions:",
+          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>"
+        }
       }
     },
     "user_email": {
@@ -2579,6 +2603,14 @@
         "label_country_code": "Country code",
         "label_phone": "Phone",
         "button": "Continue"
+      },
+      "front_id": {
+        "back_modal": {
+          "title": "Attention",
+          "description": "Do you want to leave? Your progress will be lost and you will have to start again.",
+          "confirm_button": "Confirm",
+          "cancel_button": "Cancel"
+        }
       }
     }
   },
@@ -2728,7 +2760,19 @@
       "tos_1": "I have read and agree to the",
       "tos_button": "terms and conditions.",
       "tos_2": "of 1inch",
-      "warning_same_tokens": "The source token cannot be equal to the destination token."
+      "warning_same_tokens": "The source token cannot be equal to the destination token.",
+      "balance_modal": {
+        "insufficient_balance": {
+          "text": "You don't have enough {{token}} in your account to make this operation.",
+          "firstButtonName": "Buy {{token}}",
+          "secondaryButtonName": "Deposit {{token}}"
+        },
+        "insufficient_balance_fee": {
+          "text": "You don't have enough {{token}} in your account to afford the transaction fee.",
+          "firstButtonName": "Buy {{token}}",
+          "secondaryButtonName": "Deposit {{token}}"
+        }
+      }
     },
     "errors": {
       "invalid_password": "The password entered is not valid."

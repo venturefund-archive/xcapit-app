@@ -23,6 +23,7 @@ import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-au
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { LoginMigrationService } from '../shared-users/services/login-migration-service/login-migration-service';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
+import { AuthService } from '../shared-users/services/auth/auth.service';
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -46,9 +47,11 @@ describe('LoginNewPage', () => {
   let fakeBiometricAuth: BiometricAuth;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let loginMigrationServiceSpy: jasmine.SpyObj<LoginMigrationService>;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
 
   beforeEach(waitForAsync(() => {
     fakeBiometricAuth = new FakeBiometricAuth();
+    authServiceSpy = jasmine.createSpyObj('AuthService', { logout: Promise.resolve() });
     biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
       create: fakeBiometricAuth,
     });
@@ -110,6 +113,7 @@ describe('LoginNewPage', () => {
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: LoginMigrationService, useValue: loginMigrationServiceSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
+        { provide: AuthService, useValue: authServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -311,5 +315,10 @@ describe('LoginNewPage', () => {
       message: 'users.login_new.invalid_password_text',
       duration: 8000,
     });
+  });
+
+  it('should remove old jwt tokens on init', () => {
+    component.ionViewWillEnter();
+    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
   });
 });
