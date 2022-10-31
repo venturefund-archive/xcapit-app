@@ -2270,19 +2270,27 @@
       },
       "button": "Continue",
       "modal_info": {
-        "subtitle_1": "Enabled payment methods:",
-        "subtitle_2": "What is the delivery time?",
-        "subtitle_3": "Minimum purchase amount:",
+        "subtitle_payment_methods": "Enabled payment methods:",
+        "subtitle_delivery_time": "What is the delivery time?",
+        "subtitle_minimum_amount": "Minimum purchase amount:",
+        "subtitle_available_tokens": "What tokens can you buy?",
+        "subtitle_more_information": "More information:",
+        "kyc_required": "Requires KYC or registration process.",
         "button": "Understood",
         "kripton": {
-          "description_1": "Bank transfer.",
-          "description_2": "Deliveries are made from Monday to Friday from 9:00 a.m. to 6:00 p.m. approximately.",
-          "description_3": "25 USD per purchase."
+          "header": "It is an authorized provider for the sale of cryptocurrencies in Latin America.",
+          "minimum_amount": "25 USD per purchase.",
+          "delivery_time_1": "Up to 48 hours.",
+          "delivery_time_2": "Deliveries are made from Monday to Friday from 9:00 am to 6:00 pm.",
+          "more_information": "Kriptonmarket.com"
         },
         "moonpay": {
-          "description_1": "Credit card*.",
-          "description_2": "Depends on the external provider on a case-by-case basis.",
-          "disclaimer": "*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
+          "header": "It is an authorized provider for the sale of cryptocurrencies.",
+          "payment_methods": "Credit card*.",
+          "delivery_time": "Depends on the external provider on a case-by-case basis.",
+          "disclaimer": "*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
+          "available_tokens_1": "ETH, USDT and UNI",
+          "available_tokens_2": "USDC and MATIC"
         }
       }
     },

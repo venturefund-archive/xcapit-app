@@ -54,9 +54,12 @@
             color: var(--ion-color-primary) !important;
           }
 
-          ul {
-            padding-left: 24px;
-            margin: 0;
+          &__badge {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
           }
         }
 
@@ -81,6 +84,12 @@
           img {
             width: 48px;
           }
+        }
+
+        &__disclaimer {
+          text-align: left;
+          padding: 16px 16px 0;
+          color: var(--ion-color-neutral80) !important;
         }
       }
     }
