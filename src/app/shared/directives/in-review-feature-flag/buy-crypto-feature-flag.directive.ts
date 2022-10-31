@@ -2,17 +2,19 @@ import { Directive, OnInit, TemplateRef, ViewContainerRef } from '@angular/core'
 import { RemoteConfigService } from '../../services/remote-config/remote-config.service';
 import { AppVersionInjectable } from '../../models/app-version/injectable/app-version.injectable';
 import { FeatureFlagInjectable } from '../../models/feature-flag/injectable/feature-flag.injectable';
+import { PlatformService } from '../../services/platform/platform.service';
 
 @Directive({
-  selector: '[inReviewAppFeatureFlag]',
+  selector: '[buyCryptoAppFeatureFlag]',
 })
-export class InReviewFeatureFlagDirective implements OnInit {
+export class BuyCryptoFeatureFlagDirective implements OnInit {
   constructor(
     private viewContainer: ViewContainerRef,
     private templateRef: TemplateRef<any>,
     private remoteConfigService: RemoteConfigService,
     private appVersion: AppVersionInjectable,
-    private featureFlag: FeatureFlagInjectable
+    private featureFlag: FeatureFlagInjectable,
+    private platform: PlatformService
   ) {}
 
   ngOnInit() {
@@ -20,8 +22,13 @@ export class InReviewFeatureFlagDirective implements OnInit {
   }
 
   private async isEnabled(): Promise<boolean> {
-    const inReview = this.remoteConfigService.getFeatureFlag('inReview');
-    return !((await this.appVersion.create().updated()) && inReview);
+    let enabled = this.remoteConfigService.getFeatureFlag('ff_buyCrypto');
+
+    if (this.platform.isNative()) {
+      const inReview = this.remoteConfigService.getFeatureFlag('inReview');
+      enabled = !((await this.appVersion.create().updated()) && inReview);
+    }
+    return enabled;
   }
 
   private async evaluateFeatureFlag() {
