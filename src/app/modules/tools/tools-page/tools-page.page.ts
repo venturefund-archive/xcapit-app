@@ -14,8 +14,10 @@ import { WalletConnectService } from '../../wallets/shared-wallets/services/wall
         <div class="header">
           <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
         </div>
-        <ion-icon *ngIf="!this.connected" name="ux-walletconnect" (click)="goToWalletConnect()"></ion-icon>
-        <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect" (click)="goToWalletConnect()"></ion-icon>
+        <div (click)="this.goToWalletConnect()" appTrackClick [dataToTrack]="{ eventLabel: 'ux_go_to_wc' }">
+          <ion-icon *ngIf="!this.connected" name="ux-walletconnect" ></ion-icon>
+          <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect"></ion-icon>
+        </div>
         <app-avatar-profile></app-avatar-profile>
       </ion-toolbar>
     </ion-header>
