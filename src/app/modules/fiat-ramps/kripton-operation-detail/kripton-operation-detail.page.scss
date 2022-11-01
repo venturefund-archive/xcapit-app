@@ -18,7 +18,9 @@
           }
 
           &__content {
-            gap: 4px;
+            &__name {
+              margin-bottom: 4px;
+            }
           }
         }
 
