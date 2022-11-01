@@ -69,7 +69,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
             </div>
             <div>
               <ion-text class="kod__card-container__card__quotation__content__quote ux-font-text-base">
-
+                {{this.operation.amount_in/this.operation.amount_out}}
               </ion-text>
             </div>
           </ion-item>
