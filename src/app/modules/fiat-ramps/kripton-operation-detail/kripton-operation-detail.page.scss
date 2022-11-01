@@ -70,6 +70,10 @@
 
             &__operation {
               margin-left: auto;
+
+              &__content {
+                text-align: end;
+              }
             }
           }
         }
