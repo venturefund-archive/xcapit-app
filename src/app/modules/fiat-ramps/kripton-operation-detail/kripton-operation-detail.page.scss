@@ -92,10 +92,11 @@
           &__container {
             display: flex;
             width: 100%;
-            gap: 4px;
 
             &__date {
+              display: flex;
               align-self: auto;
+              gap: 4px;
 
               &__content {
                 display: flex;
