@@ -2643,6 +2643,9 @@
           "cancel_button": "Cancelar"
         }
       }
+    },
+    "kripton_operation_detail":{
+      "title":"Compra"
     }
   },
   "home": {
