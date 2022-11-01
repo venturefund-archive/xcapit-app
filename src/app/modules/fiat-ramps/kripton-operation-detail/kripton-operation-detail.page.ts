@@ -48,7 +48,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
             </div>
           </ion-item>
           <!-- State -->
-          <ion-item>
+          <ion-item class="ion-no-margin ion-no-padding">
             <div>
               <ion-text>
 
@@ -61,7 +61,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 
           </ion-item>
           <!-- Cotizacion/icono -->
-          <ion-item class="quotations">
+          <ion-item class="ion-no-margin ion-no-padding">
             <div>
               <ion-text></ion-text>
             </div>
@@ -71,7 +71,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
           </ion-item>
 
           <!-- Destino -->
-          <ion-item class="address">
+          <ion-item class="ion-no-margin ion-no-padding">
             <div>
               <ion-text></ion-text>
             </div>
@@ -81,12 +81,12 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
           </ion-item>
 
           <!-- Proveedor -->
-          <ion-item>
+          <ion-item class="ion-no-margin ion-no-padding">
             
             </ion-item>
 
           <!-- Fecha/hora -->
-          <ion-item>
+          <ion-item class="ion-no-margin ion-no-padding" lines="none">
             
             </ion-item>
         </ion-card>
