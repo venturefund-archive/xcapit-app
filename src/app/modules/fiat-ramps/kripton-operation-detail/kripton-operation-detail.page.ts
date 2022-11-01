@@ -42,7 +42,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
               <div class="kod__card-container__card__amount__out">
                 <ion-text class="ux-font-text-lg">{{ this.operation.amount_out }} {{ this.operation.currency_out }}</ion-text>
               </div>
-              <div>
+              <div class="kod__card-container__card__amount__in">
                 <ion-text class="ux-font-text-xs">= {{ this.operation.amount_in }} {{ this.operation.currency_in }}</ion-text>
               </div>
             </div>
