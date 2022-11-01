@@ -30,7 +30,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
             </div>
             <div class="kod__card-container__card__coin__content">
               <div class="kod__card-container__card__coin__content__name">
-                <ion-text></ion-text>
+                <ion-text class="ux-text-lg"></ion-text>
               </div>
               <div class="kod__card-container__card__coin__content__network">
                 <app-token-network-badge></app-token-network-badge>
