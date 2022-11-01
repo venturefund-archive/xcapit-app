@@ -117,7 +117,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
                 </div>
                 <div class="kod__card-container__card__provider__container__operation__content">
                   <ion-text class="ux-font-text-base">
-                    {{ this.operation.operation_id }}
+                    N° {{ this.operation.operation_id }}
                   </ion-text>
                 </div>
               </div>
