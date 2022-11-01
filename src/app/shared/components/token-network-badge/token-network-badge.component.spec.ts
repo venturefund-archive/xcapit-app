@@ -26,7 +26,7 @@ fdescribe('TokenNetworkBadgeComponent', () => {
   it('should correctly display badge color', () => {
     component.blockchainName = "SOLANA";
     fixture.detectChanges();
-    const color = fixture.debugElement.query(By.css('ion-badge')).nativeElement.attributes['color'];
+    const color = fixture.debugElement.query(By.css('ion-badge')).nativeElement.color;
     console.log(color);
     expect(color).toEqual('alt-3-light');
   })
