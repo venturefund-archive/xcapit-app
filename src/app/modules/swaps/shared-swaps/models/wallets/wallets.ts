@@ -24,7 +24,11 @@ export class Wallets {
   async createFrom(aPhrase: string, aPassword: Password, blockchains: Blockchains): Promise<void> {
     await this._dataRepo.save(
       this._addressesFrom(aPhrase, blockchains),
-      await this._erc20Wallet(aPhrase, blockchains).encrypt(aPassword.value())
+      await this._erc20Wallet(aPhrase, blockchains).encrypt(aPassword.value(), {
+        scrypt: {
+          N: 1,
+        },
+      })
     );
   }
 
