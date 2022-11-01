@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
+import { FormattedNetworkPipe } from '../../pipes/formatted-network-name/formatted-network.pipe';
 import { TokenNetworkBadgeComponent } from './token-network-badge.component';
 
 fdescribe('TokenNetworkBadgeComponent', () => {
@@ -9,7 +10,7 @@ fdescribe('TokenNetworkBadgeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TokenNetworkBadgeComponent ],
+      declarations: [ TokenNetworkBadgeComponent, FormattedNetworkPipe ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
