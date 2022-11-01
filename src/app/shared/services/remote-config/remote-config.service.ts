@@ -15,6 +15,7 @@ export class RemoteConfigService {
   }
 
   getFeatureFlag(param: string): boolean {
+    // TODO: Remove this
     if (param === 'ff_newLogin') {
       return false;
     }
