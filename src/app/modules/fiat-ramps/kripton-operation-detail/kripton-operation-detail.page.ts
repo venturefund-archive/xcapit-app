@@ -61,12 +61,16 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 
           </ion-item>
           <!-- Cotizacion/icono -->
-          <ion-item class="ion-no-margin ion-no-padding">
-            <div>
-              <ion-text></ion-text>
+          <ion-item class="kod__card-container__card__quotation ion-no-margin ion-no-padding">
+            <div class="kod__card-container__card__quotation__content">
+              <ion-text class="kod__card-container__card__quotation__content__title ux-font-title-xs">
+
+              </ion-text>
             </div>
             <div>
-              <ion-text></ion-text>
+              <ion-text class="kod__card-container__card__quotation__content__quote ux-font-text-base">
+
+              </ion-text>
             </div>
           </ion-item>
 
