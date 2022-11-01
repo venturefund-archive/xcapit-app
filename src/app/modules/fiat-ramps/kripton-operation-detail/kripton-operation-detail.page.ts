@@ -63,7 +63,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
           <!-- Cotizacion/icono -->
           <ion-item class="kod__card-container__card__quotation ion-no-margin ion-no-padding">
             <div class="kod__card-container__card__quotation__title">
-              <ion-text class="ux-font-title-xs">
+              <ion-text class="ux-font-titulo-xs">
                 {{ 'fiat_ramps.kripton_operation_detail.quotation' | translate }}
               </ion-text>
             </div>
