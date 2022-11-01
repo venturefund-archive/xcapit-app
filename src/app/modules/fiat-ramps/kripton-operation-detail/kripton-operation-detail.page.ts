@@ -19,7 +19,9 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
       <div class="kod__card-container">
         <ion-card class="kod__card-container__card">
           <div class="kod__card-container__card__title">
-            <ion-text></ion-text>
+            <ion-text>
+              {{ 'fiat_ramps.kripton_operation_detail.title' | translate }}
+            </ion-text>
           </div>
     <!-- Network/icono -->
           <ion-item class="kod__card-container__card__coin">
