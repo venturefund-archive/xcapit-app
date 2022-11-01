@@ -24,7 +24,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
     <!-- Network/icono -->
           <ion-item class="kod__card-container__card__coin">
             <div class="kod__card-container__card__coin__icon">
-              <img [src]="'test" alt="Token" />
+              <img [src]="'this.token.logoRoute'" alt="Token" />
             </div>
             <div class="kod__card-container__card__coin__content">
               <div class="kod__card-container__card__coin__content__name">
