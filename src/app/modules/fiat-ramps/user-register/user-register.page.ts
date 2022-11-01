@@ -36,12 +36,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
         <app-user-register-step-card
           *ngFor="let step of this.steps"
           [status]="this.userStatus"
-          [order]="step.order"
-          [title]="step.title"
-          [subtitle]="step.subtitle"
-          [url]="step.url"
-          [disabled]="step.disabled"
-          [name]="step.name"
+          [step]="step"
         >
         </app-user-register-step-card>
       </div>
