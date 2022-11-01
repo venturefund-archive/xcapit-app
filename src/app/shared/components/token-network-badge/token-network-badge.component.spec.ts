@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 
 import { TokenNetworkBadgeComponent } from './token-network-badge.component';
 
-describe('TokenNetworkBadgeComponent', () => {
+fdescribe('TokenNetworkBadgeComponent', () => {
   let component: TokenNetworkBadgeComponent;
   let fixture: ComponentFixture<TokenNetworkBadgeComponent>;
 
@@ -22,5 +23,10 @@ describe('TokenNetworkBadgeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should correctly')
+  it('should correctly display badge color', () => {
+    component.blockchainName = "SOLANA";
+    fixture.detectChanges();
+    const color = fixture.debugElement.query(By.css('ion-badge')).nativeElement.attributes['color'];
+    expect()
+  })
 });
