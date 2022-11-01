@@ -13,7 +13,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
           <ion-back-button defaultHref="/fiat-ramps/purchases"></ion-back-button>
         </ion-buttons>
         <ion-title>
-          {{ 'fiat_ramps.operation_detail.header' | translate }}
+          {{ 'fiat_ramps.kripton_operation_detail.header' | translate }}
         </ion-title>
       </ion-toolbar>
     </ion-header>
