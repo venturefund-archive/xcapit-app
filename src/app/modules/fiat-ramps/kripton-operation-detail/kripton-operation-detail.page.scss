@@ -9,6 +9,8 @@
       }
 
       &__card {
+        display: flex;
+        align-items: center;
         padding: 24px 16px;
 
         &__coin {
