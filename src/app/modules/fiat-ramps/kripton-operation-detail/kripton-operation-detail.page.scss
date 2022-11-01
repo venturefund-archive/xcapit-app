@@ -11,8 +11,11 @@
       &__card {
         padding: 24px 16px;
 
-        &__coin {
+        &__title {
           margin-bottom: 28px;
+        }
+
+        &__coin {
           display: flex;
           align-items: center;
 
