@@ -3,6 +3,13 @@
     &__card-container {
       &__card {
         padding: 24px 16px;
+
+        &__coin {
+          &__icon {
+            width: 32px;
+            height: 32px;
+          }
+        }
       }
     }
   }
