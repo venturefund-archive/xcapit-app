@@ -14,9 +14,10 @@
         &__amount {
           display: flex;
           justify-content: flex-end;
+          flex-direction: column;
 
           &__out {
-            padding: 1px;
+            color: aqua;
           }
         }
       }
