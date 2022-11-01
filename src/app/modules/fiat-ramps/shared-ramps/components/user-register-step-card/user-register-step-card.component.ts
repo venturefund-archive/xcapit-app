@@ -35,7 +35,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./user-register-step-card.component.scss'],
 })
 export class UserRegisterStepCardComponent implements OnChanges {
-  @Input() step: any ; 
+  @Input() step: any; 
   @Input() status: string;
   completed = false;
   constructor(private navController: NavController) {}

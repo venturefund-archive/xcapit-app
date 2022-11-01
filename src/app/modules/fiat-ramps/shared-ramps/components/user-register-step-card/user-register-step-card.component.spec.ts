@@ -35,11 +35,7 @@ describe('UserRegisterStepCardComponent', () => {
 
     fixture = TestBed.createComponent(UserRegisterStepCardComponent);
     component = fixture.componentInstance;
-    component.order = fakeData.order;
-    component.title = fakeData.title;
-    component.subtitle = fakeData.subtitle;
-    component.name = fakeData.name;
-    component.url = fakeData.url;
+    component.step = fakeData;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
@@ -62,7 +58,7 @@ describe('UserRegisterStepCardComponent', () => {
   });
 
   it('should navigate if item is not disabled and was clicked', () =>{
-    component.disabled = false;
+    component.step.disabled = false;
     const itemEl = fixture.debugElement.query(By.css('ion-item.ursc'));
 
     itemEl.nativeElement.click();
@@ -71,7 +67,7 @@ describe('UserRegisterStepCardComponent', () => {
   });
 
   it('should call trackEvent if item is not disabled and was clicked', () => {
-    component.disabled = false;
+    component.step.disabled = false;
     const el = trackClickDirectiveHelper.getElement('ion-item');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
