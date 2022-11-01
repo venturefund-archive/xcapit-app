@@ -126,7 +126,33 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
           </ion-item>
 
           <!-- Fecha/hora -->
-          <ion-item class="ion-no-margin ion-no-padding" lines="none"> </ion-item>
+          <ion-item class="kod__card-container__card__date ion-no-margin ion-no-padding">
+            <div class="kod__card-container__card__date__container">
+              <div class="kod__card-container__card__date__container__date">
+                <div class="kod__card-container__card__date__container__date__title">
+                  <ion-text class="ux-font-titulo-xs">
+                    <!-- {{ 'fiat_ramps.kripton_operation_detail.address' | translate }} -->
+                    Provider
+                  </ion-text>
+                </div>
+                <div class="kod__card-container__card__date__container__date__content">
+                  {{this.operation.created_at | date: 'dd/MM/YYYY'}}
+                </div>
+              </div>
+              <div class="kod__card-container__card__date__container__operation">
+                <div class="kod__card-container__card__date__container__operation__title">
+                  <ion-text class="ux-font-titulo-xs">
+                    {{ 'fiat_ramps.kripton_operation_detail.operation' | translate }}
+                  </ion-text>
+                </div>
+                <div class="kod__card-container__card__date__container__operation__content">
+                  <ion-text class="ux-font-text-base">
+                    {{ this.operation.operation_id }}
+                  </ion-text>
+                </div>
+              </div>
+            </div>
+          </ion-item>
         </ion-card>
       </div>
     </ion-content>
