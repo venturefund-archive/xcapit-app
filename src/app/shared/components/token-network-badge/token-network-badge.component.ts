@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-token-network-badge',
@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./token-network-badge.component.scss'],
 })
 export class TokenNetworkBadgeComponent implements OnInit {
+  @Input() blockchainName: string;
   constructor() {}
 
   ngOnInit() {}
