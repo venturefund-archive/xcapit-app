@@ -19,7 +19,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
     </ion-header>
     <ion-content class="ion-padding kod">
       <div class="kod__card-container">
-        <ion-card class="kod__card-container__card ux-card-new ion-no-margin">
+        <ion-card class="kod__card-container__card ux-card-new ion-no-margin" *ngIf="this.operation">
           <div class="kod__card-container__card__title">
             <ion-text class="ux-font-text-xl">
               {{ 'fiat_ramps.kripton_operation_detail.title' | translate }}
