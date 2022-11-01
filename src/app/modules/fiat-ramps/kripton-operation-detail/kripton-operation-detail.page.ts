@@ -7,9 +7,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-button name="exit_operation" (click)="this.showExitOperationDetail()">
-            <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
-          </ion-button>
+          <ion-back-button defaultHref="/fiat-ramps/purchases"></ion-back-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.operation_detail.header' | translate }}
