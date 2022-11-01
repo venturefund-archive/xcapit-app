@@ -12,6 +12,7 @@
         padding: 24px 16px;
 
         &__coin {
+          margin-bottom: 28px;
           display: flex;
           align-items: center;
 
@@ -26,8 +27,6 @@
             &__name {
               margin-bottom: 4px;
             }
-
-            margin-bottom: 28px;
           }
         }
 
