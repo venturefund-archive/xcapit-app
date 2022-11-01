@@ -1706,6 +1706,11 @@
   resolved "https://registry.yarnpkg.com/@capacitor-community/barcode-scanner/-/barcode-scanner-3.0.0.tgz#c41c1ebfce2c710179ea468f2d39ecead1f88d14"
   integrity sha512-Jzr4phHyDS+C2ZE+eoVsuq15oFvFLVtAJmmegIjwVBcb3CxgRdkt/kdVurXgVKMQ6mJ6StYI7hALeMu2vkyC6A==
 
+"@capacitor-community/fcm@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@capacitor-community/fcm/-/fcm-3.0.0.tgz#836954ad440a59b2de9b8babdfddb1de08c0906f"
+  integrity sha512-YLPPy7wiuWSg4Uocw8FWpA3c7YSwyY2iNVr09UycZkbMwTBSDmMnr23guMstRgN/y2qT9X2WyHkpLFCWeeD5VQ==
+
 "@capacitor-community/firebase-analytics@^1.0.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@capacitor-community/firebase-analytics/-/firebase-analytics-1.0.1.tgz#f247265a8b6b39aeb190775b1bbc659a99643283"

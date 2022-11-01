@@ -24,6 +24,9 @@ import { Storage } from '@ionic/storage';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 describe('UserProfileMenuPage', () => {
@@ -115,6 +118,8 @@ describe('UserProfileMenuPage', () => {
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
+  let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
 
   beforeEach(waitForAsync(() => {
     logOutModalServiceSpy = jasmine.createSpyObj('LogOutModalService', {
@@ -134,6 +139,16 @@ describe('UserProfileMenuPage', () => {
         isLoggedIn: new ReplaySubject<boolean>(1),
       }
     );
+    
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
+      'init',
+      'subscribeTo',
+      'unsubscribeFrom',
+    ]);
+
+    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+      getInstance: nullNotificationServiceSpy,
+    });
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
 
@@ -165,6 +180,7 @@ describe('UserProfileMenuPage', () => {
       removeWalletFromStorage: Promise.resolve(),
     });
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(false),
       set: Promise.resolve(),
     });
 
@@ -186,7 +202,7 @@ describe('UserProfileMenuPage', () => {
 
     TestBed.configureTestingModule({
       declarations: [UserProfileMenuPage, FakeTrackClickDirective],
-      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [
         { provide: ApiProfilesService, useValue: apiProfilesServiceSpy },
         { provide: AuthService, useValue: authServiceSpy },
@@ -203,6 +219,7 @@ describe('UserProfileMenuPage', () => {
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
+        { provide: NotificationsService, useValue: notificationsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -215,6 +232,33 @@ describe('UserProfileMenuPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should set toggle on enter', async () => {
+    await component.ionViewWillEnter();
+    expect(component.form.value.notifications).toBeFalse();
+  });
+
+  it('should render properly push notifications toggle', async () => {
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const toggle = fixture.debugElement.query(By.css('ion-toggle[name="ux_push_notifications"]'));
+    expect(toggle).toBeTruthy();
+  });
+
+  it('should subscribe to push notifications', async () => {
+    component.toggle(true)
+    fixture.detectChanges();
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
+  });
+
+  it('should unsubscribe to push notifications', async () => {
+    component.toggle(false)
+    fixture.detectChanges();
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
   });
 
   it('should call trackEvent on trackService when Change Language button clicked', () => {

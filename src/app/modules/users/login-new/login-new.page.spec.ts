@@ -14,6 +14,8 @@ import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spe
 import { FakeBiometricAuth } from 'src/app/shared/models/biometric-auth/fake/fake-biometric-auth';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { LoginBiometricActivationModalService } from '../shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
@@ -21,8 +23,6 @@ import { BiometricAuth } from 'src/app/shared/models/biometric-auth/biometric-au
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { LoginMigrationService } from '../shared-users/services/login-migration-service/login-migration-service';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
-import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
-import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { AuthService } from '../shared-users/services/auth/auth.service';
 
 describe('LoginNewPage', () => {
@@ -39,14 +39,14 @@ describe('LoginNewPage', () => {
   let fakeModalController: FakeModalController;
   let biometricAuthInjectableSpy: jasmine.SpyObj<BiometricAuthInjectable>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
+  let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   let loginBiometricActivationModalSpy: jasmine.SpyObj<LoginBiometricActivationModalService>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
   let fakeBiometricAuth: BiometricAuth;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let loginMigrationServiceSpy: jasmine.SpyObj<LoginMigrationService>;
-  let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
-  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
 
   beforeEach(waitForAsync(() => {
@@ -54,6 +54,14 @@ describe('LoginNewPage', () => {
     authServiceSpy = jasmine.createSpyObj('AuthService', { logout: Promise.resolve() });
     biometricAuthInjectableSpy = jasmine.createSpyObj('BiometricAuthInjectable', {
       create: fakeBiometricAuth,
+    });
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
+      'init',
+      'subscribeTo',
+      'unsubscribeFrom',
+    ]);
+    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+      getInstance: nullNotificationServiceSpy,
     });
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
@@ -65,9 +73,11 @@ describe('LoginNewPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
-      get: Promise.resolve(aHashedPassword),
+      get: Promise.resolve(),
       set: Promise.resolve(),
     });
+    ionicStorageServiceSpy.get.withArgs('loginToken').and.resolveTo(aHashedPassword);
+    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(true);
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
@@ -86,12 +96,6 @@ describe('LoginNewPage', () => {
 
     loginMigrationServiceSpy = jasmine.createSpyObj('LoginMigrationService', { migrate: Promise.resolve() });
 
-    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init']);
-
-    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
-      getInstance: nullNotificationServiceSpy,
-    });
-
     TestBed.configureTestingModule({
       declarations: [LoginNewPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
@@ -102,6 +106,7 @@ describe('LoginNewPage', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: BiometricAuthInjectable, useValue: biometricAuthInjectableSpy },
         { provide: TrackService, useValue: trackServiceSpy },
+        { provide: NotificationsService, useValue: notificationsServiceSpy },
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: LoginBiometricActivationModalService, useValue: loginBiometricActivationModalSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
@@ -137,6 +142,30 @@ describe('LoginNewPage', () => {
     component.ionViewWillEnter();
     tick();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets', { replaceUrl: true });
+  }));
+
+  it('should init push notifications and subscribe to topic when password is ok and push notifications previously activated', fakeAsync( () => {
+    component.ionViewWillEnter();
+    component.form.patchValue({ password: aPassword });
+    component.handleSubmit(false);
+    fixture.detectChanges();
+    tick();
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
+    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should init push notifications and unsubscribe to topic when password is ok and push notifications previously disabled', fakeAsync( () => {
+    component.ionViewWillEnter();
+    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(false);
+    component.form.patchValue({ password: aPassword });
+    component.handleSubmit(false);
+    fixture.detectChanges();
+    tick();
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(3);
+    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
   }));
 
   it('should login when password is ok', async () => {
