@@ -142,7 +142,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
               <div class="kod__card-container__card__date__container__hour">
                 <div class="kod__card-container__card__date__container__hour__content">
                   <ion-text class="ux-font-text-base">
-                    {{ this.operation.created_at.getHours() }}
+                    <!-- {{ this.operation.created_at.getHours() }} -->
                   </ion-text>
                 </div>
               </div>
