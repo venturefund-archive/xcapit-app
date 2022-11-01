@@ -14,7 +14,7 @@ export class GraphqlService {
       query{
         flows(
           first: 1 orderBy: timestamp orderDirection: desc
-          where: {holder: "${walletAddress}", pid: ${pid}}
+          where: {holder: "${this._normalizedAddress(walletAddress)}", pid: ${pid}}
         ) {balance balanceUSD}
       }`;
     return this.http.post(this.env.byKey('twoPiGraphqlUrl'), JSON.stringify({ query: query }));
@@ -24,11 +24,15 @@ export class GraphqlService {
     const query = `
       query{
         flows(
-          first: 1000 orderBy: timestamp orderDirection: desc 
-          where: {holder: "${walletAddress}", pid: ${pid} type_not: earnings}
+          first: 1000 orderBy: timestamp orderDirection: desc
+          where: {holder: "${this._normalizedAddress(walletAddress)}", pid: ${pid} type_not: earnings}
         ) {amount balance balanceUSD timestamp type
         }
       }`;
     return this.http.post(this.env.byKey('twoPiGraphqlUrl'), JSON.stringify({ query: query }));
+  }
+
+  private _normalizedAddress(anAddress: string): string {
+    return anAddress.toLowerCase();
   }
 }
