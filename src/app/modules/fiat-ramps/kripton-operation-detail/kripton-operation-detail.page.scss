@@ -1,0 +1,11 @@
+:host {
+  .kod {
+    &__card-container {
+      &__card {
+        &__title {
+          width: 10px;
+        }
+      }
+    }
+  }
+}
