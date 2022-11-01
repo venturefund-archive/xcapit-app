@@ -34,7 +34,7 @@ import { DefaultSwapsUrls } from 'src/app/modules/swaps/shared-swaps/routes/defa
           ></app-icon-button-card>
         </div>
         <ng-template [ngIf]="this.enabledToBuy && this.enabledToOperate">
-          <div *inReviewAppFeatureFlag class="wsb__card-buttons__buy-card card">
+          <div *appBuyCryptoFeatureFlag class="wsb__card-buttons__buy-card card">
             <app-icon-button-card
               (click)="this.goToBuy()"
               appTrackClick

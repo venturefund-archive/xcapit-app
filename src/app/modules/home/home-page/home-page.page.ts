@@ -69,7 +69,7 @@ import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/
             [totalBalanceWallet]="this.balance"
           ></app-wallet-total-balance-card>
         </div>
-        <div *inReviewAppFeatureFlag>
+        <div *appBuyCryptoFeatureFlag>
           <div *ngIf="this.hasWallet">
             <app-buy-crypto-card name="Buy Cripto Card" (clicked)="this.goToBuyCrypto()"></app-buy-crypto-card>
           </div>
