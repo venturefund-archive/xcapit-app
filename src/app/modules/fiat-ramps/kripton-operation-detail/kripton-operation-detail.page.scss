@@ -42,6 +42,8 @@
           align-items: flex-end;
           flex-direction: column;
           margin-left: auto;
+          gap: 4px;
+          align-self: auto;
 
           &__out {
             margin-bottom: 2px;
@@ -55,6 +57,10 @@
         }
 
         &__quotation {
+          display: flex;
+          width: 100%;
+          gap: 4px;
+
           &__container {
             gap: 4px;
           }
@@ -67,7 +73,10 @@
             gap: 4px;
 
             &__provider {
+              display: flex;
               align-self: auto;
+              flex-direction: column;
+              gap: 4px;
 
               &__content {
                 display: flex;
