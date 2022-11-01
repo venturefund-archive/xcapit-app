@@ -106,7 +106,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
                 </div>
                 <div class="kod__card-container__card__provider__container__provider__content">
                   <ion-text class="ux-font-text-base">
-                    {{ this.wallet.address }}
+                    Kripton Market
                   </ion-text>
                 </div>
               </div>
