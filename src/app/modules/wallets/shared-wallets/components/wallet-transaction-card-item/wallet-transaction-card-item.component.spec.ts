@@ -62,7 +62,8 @@ describe('WalletTransactionCardItemComponent', () => {
   });
 
   it('should open browser on transaction link', () => {
-    component.openTransactionDetails();
+    const divEl = fixture.debugElement.query(By.css('div.wtci'));
+    divEl.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/transaction-details']);
   });
 });
