@@ -25,7 +25,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
               {{ 'fiat_ramps.kripton_operation_detail.title' | translate }}
             </ion-text>
           </div>
-    <!-- Network/icono -->
+          <!-- Network/icono -->
           <ion-item class="kod__card-container__card__coin ion-no-margin ion-no-padding">
             <div class="kod__card-container__card__coin__icon">
               <img [src]="this.token.logoRoute" alt="Token" />
@@ -40,62 +40,65 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
             </div>
             <div class="kod__card-container__card__amount">
               <div class="kod__card-container__card__amount__out">
-                <ion-text class="ux-font-text-lg">{{ this.operation.amount_out }} {{ this.operation.currency_out }}</ion-text>
+                <ion-text class="ux-font-text-lg"
+                  >{{ this.operation.amount_out }} {{ this.operation.currency_out }}</ion-text
+                >
               </div>
               <div class="kod__card-container__card__amount__in">
-                <ion-text class="ux-font-text-xs">= {{ this.operation.amount_in }} {{ this.operation.currency_in }}</ion-text>
+                <ion-text class="ux-font-text-xs"
+                  >= {{ this.operation.amount_in }} {{ this.operation.currency_in }}</ion-text
+                >
               </div>
             </div>
           </ion-item>
           <!-- State -->
           <ion-item class="ion-no-margin ion-no-padding">
             <div>
-              <ion-text>
-
-              </ion-text>
+              <ion-text> </ion-text>
               <ion-button><ion-icon></ion-icon></ion-button>
             </div>
             <div>
               <ion-badge></ion-badge>
             </div>
-
           </ion-item>
           <!-- Cotizacion/icono -->
           <ion-item class="kod__card-container__card__quotation ion-no-margin ion-no-padding">
             <div class="kod__card-container__card__quotation__container">
-            <div class="kod__card-container__card__quotation__container__title">
-              <ion-text class="ux-font-titulo-xs">
-                {{ 'fiat_ramps.kripton_operation_detail.quotation' | translate }}
-              </ion-text>
+              <div class="kod__card-container__card__quotation__container__title">
+                <ion-text class="ux-font-titulo-xs">
+                  {{ 'fiat_ramps.kripton_operation_detail.quotation' | translate }}
+                </ion-text>
+              </div>
+              <div class="kod__card-container__card__quotation__container__content">
+                <ion-text class="ux-font-text-base">
+                  1 {{ this.operation.currency_out }} = {{ this.operation.amount_in / this.operation.amount_out }}
+                  {{ this.operation.currency_in }}
+                </ion-text>
+              </div>
             </div>
-            <div class="kod__card-container__card__quotation__container__content">
-              <ion-text class="ux-font-text-base">
-                1 {{ this.operation.currency_out }} = {{this.operation.amount_in/this.operation.amount_out}} {{ this.operation.currency_in }}
-              </ion-text>
-            </div>
-            </div>
-            
           </ion-item>
 
           <!-- Destino -->
-          <ion-item class="ion-no-margin ion-no-padding">
-            <div>
-              <ion-text></ion-text>
-            </div>
-            <div>
-              <ion-text></ion-text>
+          <ion-item class="kod__card-container__card__address ion-no-margin ion-no-padding">
+            <div class="kod__card-container__card__address__container">
+              <div class="kod__card-container__card__address__container__title">
+                <ion-text class="ux-font-titulo-xs">
+                {{ 'fiat_ramps.kripton_operation_detail.address' | translate }}
+                </ion-text>
+              </div>
+              <div class="kod__card-container__card__address__container__content">
+                <ion-text class="ux-font-text-base">
+                  {{ this.wallet.address }}
+                </ion-text>
+              </div>
             </div>
           </ion-item>
 
           <!-- Proveedor -->
-          <ion-item class="ion-no-margin ion-no-padding">
-            
-            </ion-item>
+          <ion-item class="ion-no-margin ion-no-padding"> </ion-item>
 
           <!-- Fecha/hora -->
-          <ion-item class="ion-no-margin ion-no-padding" lines="none">
-            
-            </ion-item>
+          <ion-item class="ion-no-margin ion-no-padding" lines="none"> </ion-item>
         </ion-card>
       </div>
     </ion-content>
@@ -106,6 +109,7 @@ export class KriptonOperationDetailPage implements OnInit {
   provider: FiatRampProvider;
   operation: FiatRampOperation;
   token: Coin = NONPROD_COINS[0];
+
   constructor() {}
 
   ngOnInit() {}
@@ -124,5 +128,9 @@ export class KriptonOperationDetailPage implements OnInit {
       provider: '1',
       voucher: false,
     };
+
+    const wallet = {
+      address: '0xeeeeeeeeeeeeeee'
+    }
   }
 }
