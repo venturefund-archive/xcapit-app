@@ -40,10 +40,10 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
             </div>
             <div>
               <div>
-                <ion-text> </ion-text>
+                <ion-text class="ux-font-text-lg">{{ this.operation.amount_out }} {{ this.operation.currency_out }}</ion-text>
               </div>
               <div>
-                <ion-text> </ion-text>
+                <ion-text class="ux-font-text-xs">{{ this.operation.amount_in }} {{ this.operation.currency_in }}</ion-text>
               </div>
             </div>
           </ion-item>
