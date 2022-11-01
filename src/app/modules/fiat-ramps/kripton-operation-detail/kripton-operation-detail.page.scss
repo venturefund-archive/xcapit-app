@@ -54,6 +54,15 @@
           }
         }
 
+        &__quotation {
+          &__container {
+            &__content {
+              display: flex;
+              gap: 4px;
+            }
+          }
+        }
+
         &__provider {
           &__container {
             display: flex;
