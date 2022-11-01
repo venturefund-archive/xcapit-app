@@ -44,7 +44,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
             </div>
           </ion-item>
           <!-- State -->
-
+          
           <!-- Cotizacion/icono -->
 
           <!-- Destino -->
