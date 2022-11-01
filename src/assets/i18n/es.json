@@ -2645,7 +2645,14 @@
       }
     },
     "kripton_operation_detail":{
-      "title":"Compra"
+      "header": "Detalle de la operación",
+      "title":"Compra",
+      "quotation":"Cotización",
+      "address": "Dirección de destino (tu wallet)",
+      "provider":"Proveedor",
+      "operation": "Operación",
+      "date": "Fecha",
+      "hours": "hs"
     }
   },
   "home": {
