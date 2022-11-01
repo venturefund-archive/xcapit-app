@@ -21,4 +21,6 @@ describe('TokenNetworkBadgeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should correctly')
 });
