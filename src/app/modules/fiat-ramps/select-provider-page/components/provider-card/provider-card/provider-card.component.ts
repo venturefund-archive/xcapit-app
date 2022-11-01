@@ -1,9 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { InfoProviderComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider/info-provider.component';
+import { D24_PAYMENT_TYPES } from 'src/app/modules/fiat-ramps/shared-ramps/constants/payment-types';
+import { FiatRampProviderCountry } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider-country';
 import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider.interface';
+import { ProvidersFactory } from 'src/app/modules/fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
 @Component({
   selector: 'app-provider-card',
   template: `
@@ -17,7 +20,7 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
         </div>
         <div class="pcc__content__body">
           <div class="pcc__content__body__name">
-            <ion-text class="ux-font-text-lg name" color="neutral90"> {{ this.provider?.name }}</ion-text>
+            <ion-text class="ux-font-text-lg paymentType" color="neutral90"> {{ this.paymentType | translate }}</ion-text>
             <ion-button
               class="pcc__content__body__name__button ion-no-padding"
               *ngIf="this.provider?.showInfo"
@@ -70,15 +73,44 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
     },
   ],
 })
-export class ProviderCardComponent {
+export class ProviderCardComponent implements OnInit {
   @Input() provider: FiatRampProvider;
   @Input() disabled: boolean;
   @Input() fiatCode: string;
   @Input() tokenValue: string;
+  @Input() selectedCountry: FiatRampProviderCountry;
   @Output() selectedProvider: EventEmitter<any> = new EventEmitter<any>();
   isInfoModalOpen = false;
+  paymentType: string;
+  availableDirectaProviders: any;
 
-  constructor(private modalController: ModalController, private translate: TranslateService) {}
+  constructor(
+    private modalController: ModalController,
+    private translate: TranslateService,
+    private providersFactory: ProvidersFactory
+  ) {}
+
+  ngOnInit() {
+    this.setPaymentType();
+  }
+
+  async setPaymentType() {
+    if (this.provider.providerName === 'directa24') {
+      this.availableDirectaProviders = await this.providers()
+        .availableDirectaProviders(this.selectedCountry)
+        .toPromise();
+      const paymentType = this.availableDirectaProviders.find(
+        (provider) => provider.code === this.provider.alias
+      ).paymentType;
+      this.paymentType = D24_PAYMENT_TYPES[paymentType];
+    } else {
+      this.paymentType = `fiat_ramps.shared.constants.payment_types.${this.provider.alias}`;
+    }
+  }
+
+  providers() {
+    return this.providersFactory.create();
+  }
 
   sendProviderData(provider: FiatRampProvider) {
     this.selectedProvider.emit(provider);
