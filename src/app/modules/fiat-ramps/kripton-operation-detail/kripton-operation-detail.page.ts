@@ -126,7 +126,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
           </ion-item>
 
           <!-- Fecha/hora -->
-          <ion-item class="kod__card-container__card__date ion-no-margin ion-no-padding">
+          <ion-item class="kod__card-container__card__date ion-no-margin ion-no-padding" lines="none">
             <div class="kod__card-container__card__date__container">
               <div class="kod__card-container__card__date__container__date">
                 <div class="kod__card-container__card__date__container__date__title">
