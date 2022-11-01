@@ -2,7 +2,10 @@
   .kod {
     &__card-container {
       &__card {
-        padding: 24px 16px;
+        --inner-padding-end: 0;
+        --inner-padding-start: 0;
+        --inner-padding-top: 0;
+        --inner-padding-bottom: 0;
 
         &__coin {
           margin: 0;
