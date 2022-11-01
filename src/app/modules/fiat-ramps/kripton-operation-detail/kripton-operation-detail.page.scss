@@ -68,6 +68,7 @@
         &__address {
           &__container {
             display: flex;
+            flex-direction: column;
             width: 100%;
             gap: 4px;
           }
