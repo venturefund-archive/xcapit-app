@@ -10,6 +10,15 @@
             height: 32px;
           }
         }
+
+        &__amount {
+          display: flex;
+          align-content: flex-end;
+
+          &__out {
+            padding: 1px;
+          }
+        }
       }
     }
   }
