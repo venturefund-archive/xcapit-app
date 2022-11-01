@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NETWORK_COLORS } from '../../../modules/wallets/shared-wallets/constants/network-colors.constant';
+
 
 @Component({
   selector: 'app-token-network-badge',
   template: `
-    <ion-badge [color]="this.networkColors[this.tplBlockchain.name]" class="ux-badge ux-font-num-subtitulo">{{
+    <ion-badge [color]="this.networkColors[this.blockchainName]" class="ux-badge ux-font-num-subtitulo">{{
       this.blockchainName | formattedNetwork | uppercase
     }}</ion-badge>
   `,
@@ -11,6 +13,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class TokenNetworkBadgeComponent implements OnInit {
   @Input() blockchainName: string;
+  networkColors = NETWORK_COLORS;
+
   constructor() {}
 
   ngOnInit() {}
