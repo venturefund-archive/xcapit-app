@@ -2572,14 +2572,14 @@
       }
     },
     "kripton_operation_detail":{
-      "header": "Detalle de la operación",
-      "title":"Compra",
-      "quotation":"Cotización",
-      "address": "Dirección de destino (tu wallet)",
-      "provider":"Proveedor",
-      "operation": "Operación",
-      "date": "Fecha",
-      "hours": "hs"
+      "header": "Operation detail",
+      "title":"Buy",
+      "quotation":"Quotation",
+      "address": "Destination address (your wallet)",
+      "provider":"Provider",
+      "operation": "Operation",
+      "date": "Date",
+      "hours": "hrs"
     },
     "user_email": {
       "header": "Buy crypto",
