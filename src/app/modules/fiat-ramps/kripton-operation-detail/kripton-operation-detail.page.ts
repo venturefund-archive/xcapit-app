@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 
 @Component({
@@ -20,9 +21,10 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
           <div class="kod__card-container__card__title">
             <ion-text></ion-text>
           </div>
-          <div class="kod__card-container__card__coin">
+    <!-- Network/icono -->
+          <ion-item class="kod__card-container__card__coin">
             <div class="kod__card-container__card__coin__icon">
-              <img [src]="this.token.logoRoute" alt="Token"/>
+              <img [src]="this.token.logoRoute" alt="Token" />
             </div>
             <div class="kod__card-container__card__coin__content">
               <div class="kod__card-container__card__coin__content__name">
@@ -40,7 +42,16 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
                 <ion-text> </ion-text>
               </div>
             </div>
-          </div>
+          </ion-item>
+          <!-- State -->
+
+          <!-- Cotizacion/icono -->
+
+          <!-- Destino -->
+
+          <!-- Proveedor -->
+
+          <!-- Fecha/hora -->
         </ion-card>
       </div>
     </ion-content>
@@ -49,6 +60,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 })
 export class KriptonOperationDetailPage implements OnInit {
   provider: FiatRampProvider;
+  token: Coin;
   constructor() {}
 
   ngOnInit() {}
