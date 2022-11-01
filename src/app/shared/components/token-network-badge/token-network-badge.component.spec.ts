@@ -27,7 +27,6 @@ fdescribe('TokenNetworkBadgeComponent', () => {
     component.blockchainName = "SOLANA";
     fixture.detectChanges();
     const color = fixture.debugElement.query(By.css('ion-badge')).nativeElement.color;
-    console.log(color);
     expect(color).toEqual('alt-5-light');
   })
 });
