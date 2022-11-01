@@ -96,11 +96,11 @@
             &__date {
               display: flex;
               align-self: auto;
+              flex-direction: column;
               gap: 4px;
 
               &__content {
                 display: flex;
-                flex-direction: column;
 
                 img {
                   width: 24px;
