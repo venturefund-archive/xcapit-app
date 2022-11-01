@@ -2637,6 +2637,16 @@
         "operation":"Operation"
       }
     },
+    "kripton_operation_detail":{
+      "header": "Operation detail",
+      "title":"Buy",
+      "quotation":"Quotation",
+      "address": "Destination address (your wallet)",
+      "provider":"Provider",
+      "operation": "Operation",
+      "date": "Date",
+      "hours": "hrs"
+    },
     "user_email": {
       "header": "Buy crypto",
       "provider": "Provider: Kripton Market",
