@@ -8,6 +8,9 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
   selector: 'app-provider-card',
   template: `
     <div class="pcc ux-card ion-padding" [ngClass]="{ pcc: !this.disabled, 'card-off': this.disabled }">
+      <ion-badge *ngIf="this.provider.isBestQuote" class="pcc__badge ux-font-num-subtitulo">{{
+        'fiat_ramps.select_provider.best_quote' | translate
+      }}</ion-badge>
       <div class="pcc__content">
         <div class="pcc__content__image">
           <img [src]="this.provider?.logoRoute" alt="Provider Logo" />
@@ -30,9 +33,17 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
             </ion-button>
           </div>
           <div class="pcc__content__body__description">
-            <ion-text class="ux-font-text-xxs description" color="neutral80">{{
-              this.provider?.description | translate
+            <ion-text *ngIf="this.provider.quote || this.provider.usdQuote" class="ux-font-text-xxs description" color="neutral80">{{
+              'fiat_ramps.select_provider.description'
+                | translate
+                  : {
+                      providerName: this.provider.name,
+                      token: this.tokenValue,
+                      quote: this.provider.quote ? (this.provider.quote | formattedAmount: 10:2) : (this.provider.usdQuote | formattedAmount: 10:2),
+                      fiatCode: this.fiatCode
+                    }
             }}</ion-text>
+            <ion-skeleton-text *ngIf="!this.provider.quote && !this.provider.usdQuote" width="100%" animated></ion-skeleton-text>
           </div>
         </div>
         <div class="pcc__content__radio">
@@ -43,6 +54,7 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
             name="ux_buy_moonpay"
             (click)="this.sendProviderData(this.provider)"
             [disabled]="this.disabled"
+            [value]="this.provider"
             appTrackClick
             [dataToTrack]="{ eventLabel: this.provider.trackClickEventName }"
           ></ion-radio>
@@ -61,6 +73,8 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
 export class ProviderCardComponent {
   @Input() provider: FiatRampProvider;
   @Input() disabled: boolean;
+  @Input() fiatCode: string;
+  @Input() tokenValue: string;
   @Output() selectedProvider: EventEmitter<any> = new EventEmitter<any>();
   isInfoModalOpen = false;
 

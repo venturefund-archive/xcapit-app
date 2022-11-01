@@ -2229,13 +2229,17 @@
       "buttonText": "Go to operation detail"
     },
     "select_provider": {
-      "header": "Buy Crypto",
+      "header": "Buy crypto",
       "select_label": "Country in which you are going to operate",
       "select_placeholder": "Select your country",
       "provider_label": "Select your payment method",
       "no_provider": "At the moment it is not possible to purchase {{coinName}} in your country.",
       "moonpay_description": "Buy with a credit card",
+      "pay_in_usd": "Pay in USD",
+      "best_quote":"Best quote",
+      "pay_in_fiat": "Pay in local currency",
       "krypton_description": "Buy with bank transfer",
+      "disclaimer": "* Quotes may vary slightly at the time of purchase.",
       "directa24": {
         "platform_description": "Buy through the platform",
         "nearest_store_description": "Buy at your nearest store",
@@ -2244,7 +2248,6 @@
         "debit_credit_description": "Buy with debit or credit",
         "transfer_description": "Buy via wire transfer."
       },
-      "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
       "button": "Continue",
       "modal_info": {
         "subtitle_1": "Enabled payment methods:",
