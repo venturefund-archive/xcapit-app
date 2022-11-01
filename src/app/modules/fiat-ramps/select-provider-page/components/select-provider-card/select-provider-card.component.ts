@@ -199,11 +199,9 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   getBestProvider() {
-    let bestProvider: FiatRampProvider = null;
+    let bestProvider: FiatRampProvider = this.fiatProviders[0] || null;
     for (const provider of this.fiatProviders) {
-      if (!bestProvider) {
-        bestProvider = provider;
-      } else if (provider.quote < bestProvider.quote) {
+      if (provider.quote < bestProvider.quote) {
         bestProvider = provider;
       }
     }
@@ -217,17 +215,15 @@ export class SelectProviderCardComponent implements OnInit {
   }
 
   setBestQuoteByProvider() {
-    if (this.fiatProviders.length > 0) {
-      if (!this.moreThanOneBestQuote()) {
-        const bestProvider = this.getBestProvider();
-        this.fiatProviders = this.fiatProviders.map((provider) => {
-          provider.isBestQuote = provider.id === bestProvider.id;
-          return provider;
-        });
-        this.form.get('provider').setValue(bestProvider);
-        this.selectedProvider(bestProvider);
-        this.bestProvider = bestProvider;
-      }
+    if (this.fiatProviders.length > 0 && !this.moreThanOneBestQuote()) {
+      const bestProvider = this.getBestProvider();
+      this.fiatProviders = this.fiatProviders.map((provider) => {
+        provider.isBestQuote = provider.id === bestProvider.id;
+        return provider;
+      });
+      this.form.get('provider').setValue(bestProvider);
+      this.selectedProvider(bestProvider);
+      this.bestProvider = bestProvider;
     }
   }
 
