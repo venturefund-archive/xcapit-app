@@ -1,12 +1,14 @@
 :host {
   .kod {
     &__card-container {
-      &__card {
+      ion-item {
         --inner-padding-end: 0;
         --inner-padding-start: 0;
         --inner-padding-top: 0;
         --inner-padding-bottom: 0;
+      }
 
+      &__card {
         &__coin {
           margin: 0;
 
