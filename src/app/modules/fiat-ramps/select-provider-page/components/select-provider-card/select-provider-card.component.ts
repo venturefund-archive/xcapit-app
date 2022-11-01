@@ -38,6 +38,7 @@ import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay
             <app-provider-card
               [disabled]="this.disabled"
               [provider]="provider"
+              [selectedCountry]="this.country"
               (selectedProvider)="this.selectedProvider($event)"
             ></app-provider-card>
           </div>
@@ -69,6 +70,7 @@ export class SelectProviderCardComponent implements OnInit {
   countries = COUNTRIES;
   disabled = true;
   availableProviders: FiatRampProvider[];
+  country : FiatRampProviderCountry;
   constructor(
     private formGroupDirective: FormGroupDirective,
     private providersFactory: ProvidersFactory,
@@ -99,6 +101,7 @@ export class SelectProviderCardComponent implements OnInit {
 
   async selectedCountry(country: FiatRampProviderCountry) {
     this.changedCountry.emit();
+    this.country = country;
     this.availableProviders = await this.providers().availablesBy(country, this.coin);
     if(this.availableProviders.find((provider)=> provider.alias === 'moonpay')) {
       await this.moonpayFactory
