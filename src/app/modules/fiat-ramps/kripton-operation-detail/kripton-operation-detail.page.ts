@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NONPROD_COINS } from '../../wallets/shared-wallets/constants/coins.nonprod';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 
 @Component({
@@ -96,10 +97,25 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 })
 export class KriptonOperationDetailPage implements OnInit {
   provider: FiatRampProvider;
+  operation: FiatRampOperation;
   token: Coin = NONPROD_COINS[0];
   constructor() {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {}
+  ionViewWillEnter() {
+    // TODO: change this
+    this.operation = {
+      operation_id: 678,
+      operation_type: 'cash-in',
+      status: 'cancel',
+      currency_in: 'ARS',
+      amount_in: 500.0,
+      currency_out: 'USDT',
+      amount_out: 100.0,
+      created_at: new Date('2021-02-27T10:02:49.719Z'),
+      provider: '1',
+      voucher: false,
+    };
+  }
 }
