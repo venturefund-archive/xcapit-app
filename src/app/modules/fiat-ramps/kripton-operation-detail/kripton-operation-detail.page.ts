@@ -14,22 +14,22 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
         </ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding dp" *ngIf="this.operation">
-      <div class="dp__card-container">
+    <ion-content class="ion-padding kod" *ngIf="this.operation">
+      <div class="kod__card-container">
         <ion-card class="">
           <div>
             <ion-text></ion-text>
           </div>
           <div>
             <div>
-              <img />
+              <img [src]="this.token.logoRoute" alt="Token"/>
             </div>
             <div>
               <div>
                 <ion-text></ion-text>
               </div>
               <div>
-                <!-- App network barge -->
+                <!-- App network badge -->
               </div>
             </div>
             <div>
