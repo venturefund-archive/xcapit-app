@@ -136,7 +136,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
                   </ion-text>
                 </div>
                 <div class="kod__card-container__card__date__container__date__content">
-                  <ion-text>
+                  <ion-text class="ux-font-text-base">
                     {{ this.operation.created_at | date: 'dd/MM/YYYY' }}
                   </ion-text>
                 </div>
