@@ -56,14 +56,14 @@
             width: 100%;
 
             &__provider {
+              align-self: auto;
+
               &__content {
                 img {
                   width: 24px;
                 }
               }
             }
-
-
 
             &__operation {
               margin-left: auto;
