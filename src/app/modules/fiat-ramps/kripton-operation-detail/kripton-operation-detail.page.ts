@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NONPROD_COINS } from '../../wallets/shared-wallets/constants/coins.nonprod';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 
@@ -95,7 +96,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 })
 export class KriptonOperationDetailPage implements OnInit {
   provider: FiatRampProvider;
-  token: Coin;
+  token: Coin = NONPROD_COINS[0];
   constructor() {}
 
   ngOnInit() {}
