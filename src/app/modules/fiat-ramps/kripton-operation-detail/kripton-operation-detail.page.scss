@@ -50,6 +50,16 @@
           }
         }
       }
+
+      &__provider {
+        &__container {
+          display: flex;
+
+          &__operation {
+            margin-left: auto;
+          }
+        }
+      }
     }
   }
 
