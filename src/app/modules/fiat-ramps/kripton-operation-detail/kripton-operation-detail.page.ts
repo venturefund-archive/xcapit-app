@@ -38,8 +38,8 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
                 <app-token-network-badge [blockchainName]="this.token.network"></app-token-network-badge>
               </div>
             </div>
-            <div>
-              <div>
+            <div class="kod__card-container__card__amount">
+              <div class="kod__card-container__card__amount__out">
                 <ion-text class="ux-font-text-lg">{{ this.operation.amount_out }} {{ this.operation.currency_out }}</ion-text>
               </div>
               <div>
