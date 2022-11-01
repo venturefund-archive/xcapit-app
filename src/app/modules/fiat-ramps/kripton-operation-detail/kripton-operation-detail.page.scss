@@ -99,6 +99,7 @@
               display: flex;
               width: 100%;
               gap: 4px;
+              flex-direction: column;
               margin-left: auto;
 
               &__content {
