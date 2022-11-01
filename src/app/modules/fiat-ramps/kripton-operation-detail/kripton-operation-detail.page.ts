@@ -95,28 +95,28 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
           </ion-item>
 
           <!-- Proveedor -->
-          <ion-item class="ion-no-margin ion-no-padding">
-            <div class="kod__card-container__card__address__container">
-              <div>
-                <div class="kod__card-container__card__address__container__title">
+          <ion-item class="kod__card-container__card__provider ion-no-margin ion-no-padding">
+            <div class="kod__card-container__card__provider__container">
+              <div class="kod__card-container__card__provider__container__provider">
+                <div class="kod__card-container__card__provider__container__provider__title">
                   <ion-text class="ux-font-titulo-xs">
                     <!-- {{ 'fiat_ramps.kripton_operation_detail.address' | translate }} -->
                     Provider
                   </ion-text>
                 </div>
-                <div class="kod__card-container__card__address__container__content">
+                <div class="kod__card-container__card__provider__container__provider__content">
                   <ion-text class="ux-font-text-base">
                     {{ this.wallet.address }}
                   </ion-text>
                 </div>
               </div>
-              <div>
-                <div class="kod__card-container__card__address__container__title">
+              <div class="kod__card-container__card__provider__container__operation">
+                <div class="kod__card-container__card__provider__container__operation__title">
                   <ion-text class="ux-font-titulo-xs">
                     {{ 'fiat_ramps.kripton_operation_detail.operation' | translate }}
                   </ion-text>
                 </div>
-                <div class="kod__card-container__card__address__container__content">
+                <div class="kod__card-container__card__provider__container__operation__content">
                   <ion-text class="ux-font-text-base">
                     {{ this.operation.operation_id }}
                   </ion-text>
