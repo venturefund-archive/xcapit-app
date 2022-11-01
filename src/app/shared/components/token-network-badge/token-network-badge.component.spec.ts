@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormattedNetworkPipe } from '../../pipes/formatted-network-name/formatted-network.pipe';
 import { TokenNetworkBadgeComponent } from './token-network-badge.component';
 
-fdescribe('TokenNetworkBadgeComponent', () => {
+describe('TokenNetworkBadgeComponent', () => {
   let component: TokenNetworkBadgeComponent;
   let fixture: ComponentFixture<TokenNetworkBadgeComponent>;
 
