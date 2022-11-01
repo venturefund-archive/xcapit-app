@@ -83,7 +83,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
             <div class="kod__card-container__card__address__container">
               <div class="kod__card-container__card__address__container__title">
                 <ion-text class="ux-font-titulo-xs">
-                {{ 'fiat_ramps.kripton_operation_detail.address' | translate }}
+                  {{ 'fiat_ramps.kripton_operation_detail.address' | translate }}
                 </ion-text>
               </div>
               <div class="kod__card-container__card__address__container__content">
@@ -109,7 +109,9 @@ export class KriptonOperationDetailPage implements OnInit {
   provider: FiatRampProvider;
   operation: FiatRampOperation;
   token: Coin = NONPROD_COINS[0];
-
+  wallet = {
+    address: '0xeeeeeeeeeeeeeee',
+  };
   constructor() {}
 
   ngOnInit() {}
@@ -128,9 +130,5 @@ export class KriptonOperationDetailPage implements OnInit {
       provider: '1',
       voucher: false,
     };
-
-    const wallet = {
-      address: '0xeeeeeeeeeeeeeee'
-    }
   }
 }
