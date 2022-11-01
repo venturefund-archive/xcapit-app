@@ -4,18 +4,56 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
 @Component({
   selector: 'app-kripton-operation-detail',
   template: `
-    <div>
-      
-    </div>
+    <ion-header>
+      <ion-toolbar mode="ios" color="primary" class="ux_toolbar">
+        <ion-buttons slot="start">
+          <ion-button name="exit_operation" (click)="this.showExitOperationDetail()">
+            <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-title>
+          {{ 'fiat_ramps.operation_detail.header' | translate }}
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding dp" *ngIf="this.operation">
+      <div class="dp__card-container">
+        <ion-card class="">
+          <div>
+            <ion-text></ion-text>
+          </div>
+          <div>
+            <div>
+              <img />
+            </div>
+            <div>
+              <div>
+                <ion-text></ion-text>
+              </div>
+              <div>
+                <!-- App network barge -->
+              </div>
+            </div>
+            <div>
+              <div>
+                <ion-text> </ion-text>
+              </div>
+              <div>
+                <ion-text> </ion-text>
+              </div>
+            </div>
+          </div>
+        </ion-card>
+      </div>
+    </ion-content>
   `,
   styleUrls: ['./kripton-operation-detail.page.scss'],
 })
 export class KriptonOperationDetailPage implements OnInit {
   provider: FiatRampProvider;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {}
 }
