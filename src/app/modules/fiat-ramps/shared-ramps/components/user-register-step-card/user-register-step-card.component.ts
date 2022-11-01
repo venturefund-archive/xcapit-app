@@ -45,7 +45,6 @@ export class UserRegisterStepCardComponent implements OnChanges {
   }
 
   setCurrentStatus() {
-    console.log(this.step)
     if (this.status === 'USER_INFORMATION' && this.step.order === '2') this.step.disabled = true;
     if (this.status === 'USER_IMAGES' && this.step.order === '1') this.completed = true;
     if (this.status === 'COMPLETE') this.completed = true;

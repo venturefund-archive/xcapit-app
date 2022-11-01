@@ -26,7 +26,7 @@ const storageData = {
     valid: false,
   },
 };
-fdescribe('UserRegisterPage', () => {
+describe('UserRegisterPage', () => {
   let component: UserRegisterPage;
   let fixture: ComponentFixture<UserRegisterPage>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
