@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-token-network-badge',
-  templateUrl: './token-network-badge.component.html',
+  template: `
+    <ion-badge [color]="this.networkColors[this.tplBlockchain.name]" class="ux-badge ux-font-num-subtitulo">{{
+      this.tplBlockchain.name | formattedNetwork | uppercase
+    }}</ion-badge>
+  `,
   styleUrls: ['./token-network-badge.component.scss'],
 })
 export class TokenNetworkBadgeComponent implements OnInit {
-
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
-
 }
