@@ -137,14 +137,15 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
                 </div>
                 <div class="kod__card-container__card__date__container__date__content">
                   <ion-text>
-                    {{this.operation.created_at | date: 'dd/MM/YYYY'}}
+                    {{ this.operation.created_at | date: 'dd/MM/YYYY' }}
                   </ion-text>
                 </div>
               </div>
               <div class="kod__card-container__card__date__container__hour">
                 <div class="kod__card-container__card__date__container__hour__content">
                   <ion-text class="ux-font-text-base">
-                    {{ this.operation.created_at | date: 'HH:mm' }}{{ 'fiat_ramps.kripton_operation_detail.hours' | translate }}
+                    {{ this.operation.created_at | date: 'HH:mm'
+                    }}{{ 'fiat_ramps.kripton_operation_detail.hours' | translate }}
                   </ion-text>
                 </div>
               </div>
