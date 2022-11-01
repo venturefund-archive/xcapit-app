@@ -14,7 +14,6 @@
         &__coin {
           display: flex;
           align-items: center;
-          margin-bottom: 28px;
 
           &__icon {
             width: 32px;
@@ -27,6 +26,8 @@
             &__name {
               margin-bottom: 4px;
             }
+
+            margin-bottom: 28px;
           }
         }
 
