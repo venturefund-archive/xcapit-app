@@ -138,7 +138,6 @@ fdescribe('KriptonOperationDetailPage', () => {
     expect(providerIcon.attributes.src).toContain("assets/img/provider-logos/KriptonMarket.svg");
     expect(date).toContain("27/02/2021");
     expect(hour).toContain("10:02");
-
   });
 
   it('should redirect to Kripton Support when user clicks UNDEFINED_BUTTON button', () => {
