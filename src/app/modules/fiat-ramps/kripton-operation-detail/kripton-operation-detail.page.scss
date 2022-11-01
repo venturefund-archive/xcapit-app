@@ -55,10 +55,15 @@
             display: flex;
             width: 100%;
 
-            &__content {
-              width: 24px;
-              height: 24px;
+            &__provider {
+              &__content {
+                img {
+                  width: 24px;
+                }
+              }
             }
+
+
 
             &__operation {
               margin-left: auto;
