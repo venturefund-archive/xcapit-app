@@ -15,7 +15,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
         </ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding kod" *ngIf="this.operation">
+    <ion-content class="ion-padding kod">
       <div class="kod__card-container">
         <ion-card class="kod__card-container__card">
           <div class="kod__card-container__card__title">
@@ -44,14 +44,47 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
             </div>
           </ion-item>
           <!-- State -->
-          
+          <ion-item>
+            <div>
+              <ion-text>
+
+              </ion-text>
+              <ion-button><ion-icon></ion-icon></ion-button>
+            </div>
+            <div>
+              <ion-badge></ion-badge>
+            </div>
+
+          </ion-item>
           <!-- Cotizacion/icono -->
+          <ion-item class="quotations">
+            <div>
+              <ion-text></ion-text>
+            </div>
+            <div>
+              <ion-text></ion-text>
+            </div>
+          </ion-item>
 
           <!-- Destino -->
+          <ion-item class="address">
+            <div>
+              <ion-text></ion-text>
+            </div>
+            <div>
+              <ion-text></ion-text>
+            </div>
+          </ion-item>
 
           <!-- Proveedor -->
+          <ion-item>
+            
+            </ion-item>
 
           <!-- Fecha/hora -->
+          <ion-item>
+            
+            </ion-item>
         </ion-card>
       </div>
     </ion-content>
