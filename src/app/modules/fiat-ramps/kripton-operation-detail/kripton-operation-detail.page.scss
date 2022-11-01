@@ -40,7 +40,9 @@
           }
 
           &__in {
-            color: var(--ion-color-neutral80);
+            ion-text {
+              color: var(--ion-color-neutral80);
+            }
           }
         }
       }
