@@ -132,7 +132,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
                 <div class="kod__card-container__card__date__container__date__title">
                   <ion-text class="ux-font-titulo-xs">
                     <!-- {{ 'fiat_ramps.kripton_operation_detail.address' | translate }} -->
-                    Provider
+                    Fecha
                   </ion-text>
                 </div>
                 <div class="kod__card-container__card__date__container__date__content">
