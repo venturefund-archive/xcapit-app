@@ -2504,6 +2504,21 @@
         "item3": "Podrás encontrarlo en tu ticket de pago como “verificador de monto”.",
         "button": "Entendido"
       },
+      "user_register_content":{
+        "user_information":{
+          "title":"¡Hola! Aún no posees una cuenta, te ayudaremos a registrarte rápidamente",
+          "subtitle": "😄 ¡No te preocupes! Será por única vez."
+        },
+        "user_images":{
+          "title":"Datos, listo ✅",
+          "subtitle": "Sólo queda un paso más, ¡no aflojes!"
+        },
+        "complete":{
+          "title":"¡Felicitaciones! 🎉 Registro finalizado",
+          "subtitle": "⏱ Kripton Market está validando tu cuenta. Este proceso puede demorar hasta 48 hs.",
+          "subtitle_2": "🛒 Una vez que tengas tu cuenta validada, podrás realizar tus compras con este proveedor."
+        }
+      },       
       "validation_content": {
         "header": "Verificar identidad",
         "provider": "Proveedor: Kripton Market",
@@ -2539,13 +2554,13 @@
       "button": "Continuar",
       "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones."
     },
-    "user_register": {
-      "header": "Registración",
-      "provider": "Proveedor: Kripton Market",
-      "title": "¡Hola! Aún no posees una cuenta, te ayudaremos a registrarte rápidamente",
-      "subtitle": "😄 ¡No te preocupes! Será por única vez.",
+    "user_register":{
+      "header":"Registración",
+      "provider":"Proveedor: Kripton Market",
+      "button": "Finalizar",
       "steps": {
-        "step_one": {
+        "complete": "Completo",
+        "step_one":{
           "title": "Cargar datos",
           "subtitle": "Completa con tu información personal"
         },

@@ -2512,6 +2512,21 @@
         "item3": "You can find it on your payment ticket as “amount checker“.",
         "button": "Understood"
       },
+      "user_register_content":{
+        "user_information":{
+          "title":"Hello! You don't have an account yet, we will help you to register quickly.",
+          "subtitle": "😄 Don't worry. It will bejust for this ocassion"
+        },
+        "user_images":{
+          "title":"Data, ready ✅",
+          "subtitle": "You are one step closer, don't give up!"
+        },
+        "complete":{
+          "title":"Congratulations! 🎉 Registration completed",
+          "subtitle": "⏱ Kripton Market is validating your account. This process can take up to 48 hours",
+          "subtitle_2": "🛒 Once you have your account validated, you will be able to make your purchases with this supplier"
+        }
+      },        
       "validation_content": {
         "header": "Verify identity",
         "provider": "Provider: Kripton Market",
@@ -2549,9 +2564,9 @@
     "user_register": {
       "header": "Register",
       "provider": "Provider: Kripton Market",
-      "title": "Hello! You don't have an account yet, we will help you to register quickly",
-      "subtitle": "😄 Don't worry! It will be a one-time only.",
+      "button": "Finish",
       "steps": {
+        "complete": "Complete",
         "step_one": {
           "title": "Load data",
           "subtitle": "Complete with your personal information"
