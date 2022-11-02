@@ -84,7 +84,6 @@ export class WalletTransactionCardItemComponent implements OnInit {
   }
 
   openTransactionDetails() {
-    console.log('click')
     this.saveTransactionDetails();
     this.navController.navigateForward(['/wallets/transaction-details']);
   }
