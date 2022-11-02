@@ -13,24 +13,27 @@ import { FakeProviders } from 'src/app/modules/fiat-ramps/shared-ramps/models/pr
 import { rawProvidersData } from 'src/app/modules/fiat-ramps/shared-ramps/fixtures/raw-providers-data';
 import { of } from 'rxjs';
 import { ProvidersFactory } from 'src/app/modules/fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 const providerTest = {
   id: 2,
   alias: 'kripton',
   name: 'Kripton Market',
   logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
-  description: 'fiat_ramps.select_provider.krypton_description',
+  description: 'fiat_ramps.select_provider.description',
   newOperationRoute: '/fiat-ramps/new-operation/kripton',
   countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
-  trackClickEventName: 'ux_buy_moonpay',
+  trackClickEventName: 'ux_buy_kripton',
+  providerName:'kripton'
 };
 
 const directa24ProviderTest = {
   id: 5,
   alias: 'PX',
+  quote: 1,
   name: 'Pichincha',
   logoRoute: 'assets/img/provider-logos/pichincha.svg',
-  description: 'fiat_ramps.select_provider.pichincha_description',
+  description: 'fiat_ramps.select_provider.description',
   newOperationRoute: '/fiat-ramps/new-operation/pichincha',
   countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
   trackClickEventName: 'ux_test',
@@ -69,7 +72,7 @@ describe('ProviderCardComponent', () => {
         create: fakeProviders,
       });
       TestBed.configureTestingModule({
-        declarations: [ProviderCardComponent, FakeTrackClickDirective],
+        declarations: [ProviderCardComponent, FakeTrackClickDirective, FormattedAmountPipe],
         imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
         providers: [
           { provide: NavController, useValue: navControllerSpy },
@@ -93,11 +96,11 @@ describe('ProviderCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render properly kripton provider', () => {
-    component.ngOnInit();
+  it('should render properly', () => {
+    component.provider = {quote:1 ,...providerTest}
     fixture.detectChanges();
     const imgEl = fixture.debugElement.query(By.css('div.pcc__content__image'));
-    const paymentTypeEl = fixture.debugElement.query(By.css('ion-text.paymentType'));
+    const paymentTypeEl = fixture.debugElement.query(By.css('.pcc__content__body__name > ion-text'));
     const descriptionEl = fixture.debugElement.query(By.css('ion-text.description'));
     expect(imgEl.nativeElement.innerHTML).toBeTruthy();
     expect(paymentTypeEl.nativeElement.innerHTML).toContain('fiat_ramps.shared.constants.payment_types.kripton');
@@ -107,6 +110,7 @@ describe('ProviderCardComponent', () => {
   it('should render properly directa24 provider', fakeAsync( () => {
     component.provider = directa24ProviderTest;
     component.ngOnInit();
+    fixture.detectChanges();
     tick();
     fixture.detectChanges();
     const imgEl = fixture.debugElement.query(By.css('div.pcc__content__image'));
@@ -116,6 +120,20 @@ describe('ProviderCardComponent', () => {
     expect(paymentTypeEl.nativeElement.innerHTML).toContain('fiat_ramps.shared.constants.payment_types.directa24_voucher');
     expect(descriptionEl.nativeElement.innerHTML).toContain(directa24ProviderTest.description);
   }));
+
+  it('should show skeleton when quote is not loaded yet', () => {
+    const skeletonEl = fixture.debugElement.query(By.css('div.pcc__content__body__description ion-skeleton-text'));
+    fixture.detectChanges();
+    expect(skeletonEl).toBeTruthy();
+  });
+
+
+  it('should show best quote badge when provider have best quote', () => {
+    component.provider = {isBestQuote: true,...providerTest}
+    fixture.detectChanges();
+    const besQuoteBadgeEl = fixture.debugElement.query(By.css('.pcc ion-badge'));
+    expect(besQuoteBadgeEl).toBeTruthy();
+  });
 
   it('should emit event when radio button is checked', () => {
     component.disabled = true;

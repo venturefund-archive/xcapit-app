@@ -384,7 +384,7 @@
       "title_investments": "My investments",
       "profits": "Continuous profits",
       "profits_weekly": "Weekly profits",
-      "total_invested": "Investment and earnings",
+      "total_invested": "Total invested balance",
       "recommendations": "You may be interested in",
       "empty_products": "Soon you will be able to find the best investments for your profile.",
       "link_button": "How do DeFi investments work?",
@@ -519,7 +519,7 @@
       },
       "earnings_modal_info": {
         "title": "What is total yield?",
-        "description": "It is the sum in USD of the total yields obtained in your investment products.",
+        "description": "It is the sum in USD of the total yields obtained in your investment products.\nIt is not historical or accumulated, if your balance is zero, your returns will be zero as well. They are calculated based on the invested balance at the time.",
         "button": "Understood"
       }
     },
@@ -1681,8 +1681,8 @@
       "error_toast": "The password you entered is incorrect"
     },
     "home": {
-      "available_money": "Available money in wallet",
-      "invested": "Invested",
+      "available_money": "Available balance in wallet",
+      "invested": "Amount invested",
       "tab_assets": "Assets",
       "tab_nfts": "NFTs",
       "wallet_recovery": "Import an existing wallet",
@@ -2229,13 +2229,17 @@
       "buttonText": "Go to operation detail"
     },
     "select_provider": {
-      "header": "Buy Crypto",
+      "header": "Buy crypto",
       "select_label": "Country in which you are going to operate",
       "select_placeholder": "Select your country",
       "provider_label": "Select your payment method",
       "no_provider": "At the moment it is not possible to purchase {{coinName}} in your country.",
       "moonpay_description": "Buy with a credit card",
+      "pay_in_usd": "Pay in USD",
+      "best_quote":"Best quote",
+      "pay_in_fiat": "Pay in local currency",
       "krypton_description": "Buy with bank transfer",
+      "disclaimer": "* Quotes may vary slightly at the time of purchase.",
       "directa24": {
         "platform_description": "Buy through the platform",
         "nearest_store_description": "Buy at your nearest store",
@@ -2244,7 +2248,6 @@
         "debit_credit_description": "Buy with debit or credit",
         "transfer_description": "Buy via wire transfer."
       },
-      "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
       "button": "Continue",
       "modal_info": {
         "subtitle_1": "Enabled payment methods:",
@@ -2509,6 +2512,21 @@
         "item3": "You can find it on your payment ticket as “amount checker“.",
         "button": "Understood"
       },
+      "user_register_content":{
+        "user_information":{
+          "title":"Hello! You don't have an account yet, we will help you to register quickly.",
+          "subtitle": "😄 Don't worry. It will bejust for this ocassion"
+        },
+        "user_images":{
+          "title":"Data, ready ✅",
+          "subtitle": "You are one step closer, don't give up!"
+        },
+        "complete":{
+          "title":"Congratulations! 🎉 Registration completed",
+          "subtitle": "⏱ Kripton Market is validating your account. This process can take up to 48 hours",
+          "subtitle_2": "🛒 Once you have your account validated, you will be able to make your purchases with this supplier"
+        }
+      },        
       "validation_content": {
         "header": "Verify identity",
         "provider": "Provider: Kripton Market",
@@ -2546,9 +2564,9 @@
     "user_register": {
       "header": "Register",
       "provider": "Provider: Kripton Market",
-      "title": "Hello! You don't have an account yet, we will help you to register quickly",
-      "subtitle": "😄 Don't worry! It will be a one-time only.",
+      "button": "Finish",
       "steps": {
+        "complete": "Complete",
         "step_one": {
           "title": "Load data",
           "subtitle": "Complete with your personal information"
@@ -2814,5 +2832,12 @@
         "body": "There was an error sending {{fromAmount}} {{fromToken}} and receiving {{toAmount}} {{toToken}}. More information here."
       }
     }
+  },
+  "links": {
+    "title": "Continuing to Xcapit...",
+    "have_app": "Have the app?",
+    "go_to_xcapit": "Go to Xcapit",
+    "dont_have_app": "Don't have Xcapit?",
+    "download": "Download"
   }
 }

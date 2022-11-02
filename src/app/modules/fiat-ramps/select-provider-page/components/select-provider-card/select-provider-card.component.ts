@@ -6,6 +6,9 @@ import { FiatRampProvider } from '../../../shared-ramps/interfaces/fiat-ramp-pro
 import { FiatRampProviderCountry } from '../../../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampsService } from '../../../shared-ramps/services/fiat-ramps.service';
+import { HttpClient } from '@angular/common/http';
+import { DefaultDirectaPriceFactory } from '../../../shared-ramps/models/directa-price/factory/default-directa-price-factory';
+import { DefaultKriptonPriceFactory } from '../../../shared-ramps/models/kripton-price/factory/default-kripton-price-factory';
 import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay-price/factory/default-moonpay-price-factory';
 
 @Component({
@@ -33,12 +36,33 @@ import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay
         <div class="spc__select__label-provider" *ngIf="this.availableProviders.length">
           <ion-text class="ux-font-titulo-xs">{{ 'fiat_ramps.select_provider.provider_label' | translate }}</ion-text>
         </div>
-        <ion-radio-group [formControlName]="this.controlNameProvider">
-          <div *ngFor="let provider of availableProviders">
+        <ion-radio-group
+          class="spc__providers__radio-group"
+          [formControlName]="this.controlNameProvider"
+          [value]="this.bestProvider"
+        >
+          <ion-text *ngIf="this.fiatProviders.length > 0" class="ux-font-text-xxs spc__providers__radio-group__label">{{
+            'fiat_ramps.select_provider.pay_in_fiat' | translate
+          }}</ion-text>
+          <div *ngFor="let provider of fiatProviders">
             <app-provider-card
               [disabled]="this.disabled"
               [provider]="provider"
               [selectedCountry]="this.country"
+              [fiatCode]="this.country.iso4217CurrencyCode"
+              [tokenValue]="this.coin.value"
+              (selectedProvider)="this.selectedProvider($event)"
+            ></app-provider-card>
+          </div>
+          <ion-text *ngIf="this.usdProviders.length > 0" class="ux-font-text-xxs spc__providers__radio-group__label">{{
+            'fiat_ramps.select_provider.pay_in_usd' | translate
+          }}</ion-text>
+          <div *ngFor="let provider of usdProviders">
+            <app-provider-card
+              [disabled]="this.disabled"
+              [provider]="provider"
+              [fiatCode]="'USD'"
+              [tokenValue]="this.coin.value"
               (selectedProvider)="this.selectedProvider($event)"
             ></app-provider-card>
           </div>
@@ -48,6 +72,9 @@ import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay
           <ion-text class="ux-font-text-xxs" color="neutral80">{{
             'fiat_ramps.select_provider.no_provider' | translate: { coinName: this.coin.value }
           }}</ion-text>
+        </div>
+        <div class="spc__disclaimer" *ngIf="this.availableProviders.length">
+          <ion-text class="ux-font-text-xs"> {{ 'fiat_ramps.select_provider.disclaimer' | translate }} </ion-text>
         </div>
       </div>
     </div>
@@ -70,12 +97,21 @@ export class SelectProviderCardComponent implements OnInit {
   countries = COUNTRIES;
   disabled = true;
   availableProviders: FiatRampProvider[];
-  country : FiatRampProviderCountry;
+  usdProviders: FiatRampProvider[] = [];
+  fiatProviders: FiatRampProvider[] = [];
+  bestProvider: FiatRampProvider;
+  directaQuote: number;
+  kriptonQuote: number;
+  moonpayUsdQuote: number;
+  country: FiatRampProviderCountry;
   constructor(
     private formGroupDirective: FormGroupDirective,
     private providersFactory: ProvidersFactory,
-    private fiatRampsService: FiatRampsService,
-    private moonpayFactory: DefaultMoonpayPriceFactory
+    private directaPriceFactory: DefaultDirectaPriceFactory,
+    private kriptonPriceFactory: DefaultKriptonPriceFactory,
+    private moonpayFactory: DefaultMoonpayPriceFactory,
+    private http: HttpClient,
+    private fiatRampsService: FiatRampsService
   ) {}
 
   ngOnInit() {
@@ -101,15 +137,14 @@ export class SelectProviderCardComponent implements OnInit {
 
   async selectedCountry(country: FiatRampProviderCountry) {
     this.changedCountry.emit();
-    this.country = country;
+    this.resetProviders();
     this.availableProviders = await this.providers().availablesBy(country, this.coin);
-    if(this.availableProviders.find((provider)=> provider.alias === 'moonpay')) {
-      await this.moonpayFactory
-      .new(this.coin.moonpayCode, country.isoCurrencyCodeMoonpay, this.fiatRampsService)
-      .value()
-      .toPromise();
-    }
+    this.country = country;
+    this.sliceProviders();
     this.disabled = false;
+    await this.setProvidersQuote();
+    this.setQuoteValues();
+    this.setBestQuoteByProvider();
   }
 
   sortCountries() {
@@ -118,5 +153,91 @@ export class SelectProviderCardComponent implements OnInit {
 
   providers() {
     return this.providersFactory.create();
+  }
+
+  async setDirectaQuote(fiatCode: string) {
+    if (fiatCode && this.coin.value === 'USDC') {
+      return await this.directaPriceFactory.new(fiatCode, this.coin, this.fiatRampsService).value().toPromise();
+    }
+    return null;
+  }
+  async setKriptonQuote(fiatCode: string) {
+    if (fiatCode && this.availableProviders.some((p) => p.alias === 'kripton')) {
+      return await this.kriptonPriceFactory.new(fiatCode, this.coin, this.http).value().toPromise();
+    }
+    return null;
+  }
+  async setMoonpayQuote(fiatCode: string) {
+    if (fiatCode && this.availableProviders.some((p) => p.alias === 'moonpay')) {
+      return await this.moonpayFactory.new(fiatCode, this.coin.moonpayCode, this.fiatRampsService).value().toPromise();
+    }
+    return null;
+  }
+
+  async setProvidersQuote() {
+    this.directaQuote = await this.setDirectaQuote(this.country.isoCurrencyCodeDirecta);
+    this.kriptonQuote = await this.setKriptonQuote(this.country.fiatCode);
+    this.moonpayUsdQuote = await this.setMoonpayQuote('USD');
+  }
+
+  resetProviders() {
+    this.fiatProviders = [];
+    this.usdProviders = [];
+  }
+
+  isUsdFiatQuote() {
+    return Boolean(this.country.isoCurrencyCodeMoonpay);
+  }
+
+  sliceProviders() {
+    if (!this.isUsdFiatQuote()) {
+      for (const provider of this.availableProviders) {
+        provider.alias === 'moonpay' ? this.usdProviders.push(provider) : this.fiatProviders.push(provider);
+      }
+    } else {
+      this.fiatProviders = this.availableProviders;
+    }
+  }
+
+  getBestProvider() {
+    let bestProvider: FiatRampProvider = this.fiatProviders[0] || null;
+    for (const provider of this.fiatProviders) {
+      if (provider.quote < bestProvider.quote) {
+        bestProvider = provider;
+      }
+    }
+    return bestProvider;
+  }
+
+  moreThanOneBestQuote() {
+    const bestProviderQuote = this.getBestProvider().quote;
+    const isMoreThanOne = this.fiatProviders.filter((provider) => provider.quote === bestProviderQuote);
+    return isMoreThanOne.length > 1;
+  }
+
+  setBestQuoteByProvider() {
+    if (this.fiatProviders.length > 0 && !this.moreThanOneBestQuote()) {
+      const bestProvider = this.getBestProvider();
+      this.fiatProviders = this.fiatProviders.map((provider) => {
+        provider.isBestQuote = provider.id === bestProvider.id;
+        return provider;
+      });
+      this.form.get('provider').setValue(bestProvider);
+      this.selectedProvider(bestProvider);
+      this.bestProvider = bestProvider;
+    }
+  }
+
+  setQuoteValues() {
+    this.availableProviders = this.availableProviders.map((provider) => {
+      if (provider.providerName === 'directa24') {
+        provider.quote = this.directaQuote;
+      } else if (provider.providerName === 'kripton') {
+        provider.quote = this.kriptonQuote;
+      } else if (provider.providerName === 'moonpay') {
+        this.isUsdFiatQuote() ? (provider.usdQuote = this.moonpayUsdQuote) : (provider.quote = this.moonpayUsdQuote);
+      }
+      return provider;
+    });
   }
 }

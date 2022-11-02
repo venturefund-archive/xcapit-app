@@ -35,11 +35,7 @@ describe('UserRegisterStepCardComponent', () => {
 
     fixture = TestBed.createComponent(UserRegisterStepCardComponent);
     component = fixture.componentInstance;
-    component.order = fakeData.order;
-    component.title = fakeData.title;
-    component.subtitle = fakeData.subtitle;
-    component.name = fakeData.name;
-    component.url = fakeData.url;
+    component.step = fakeData;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
@@ -49,9 +45,10 @@ describe('UserRegisterStepCardComponent', () => {
   });
 
   it('should render properly', () => {
-    const numberEl = fixture.debugElement.query(By.css('div.ursc__wrapper__step > div.ursc__wrapper__step__circle > ion-text'));
+    component.completed = false;
+    const numberEl = fixture.debugElement.query(By.css('div.ursc__wrapper__step > div.incompleteInfo > ion-text'));
     const titleEl = fixture.debugElement.query(By.css('div.ursc__wrapper__content > ion-text.ursc__wrapper__content__title'));
-    const subtitleEl = fixture.debugElement.query(By.css('div.ursc__wrapper__content > ion-text.ursc__wrapper__content__subtitle'));
+    const subtitleEl = fixture.debugElement.query(By.css('div.subtitle ion-text'));
     const iconEl = fixture.debugElement.query(By.css('div.ursc__wrapper__action > ion-icon'));
 
     expect(numberEl.nativeElement.innerHTML).toContain(fakeData.order);
@@ -61,7 +58,7 @@ describe('UserRegisterStepCardComponent', () => {
   });
 
   it('should navigate if item is not disabled and was clicked', () =>{
-    component.disabled = false;
+    component.step.disabled = false;
     const itemEl = fixture.debugElement.query(By.css('ion-item.ursc'));
 
     itemEl.nativeElement.click();
@@ -70,7 +67,7 @@ describe('UserRegisterStepCardComponent', () => {
   });
 
   it('should call trackEvent if item is not disabled and was clicked', () => {
-    component.disabled = false;
+    component.step.disabled = false;
     const el = trackClickDirectiveHelper.getElement('ion-item');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');

@@ -178,12 +178,26 @@ export class NewConnectionPage implements OnInit {
     })
   }
 
-  public async setWalletsInfo() {
+  private async getSupportedWallets () {
     const walletsAddrs = await this.storageService.getWalletsAddresses();
+    const wallets = Object.entries(walletsAddrs).filter(([key, value]) => {
+      const supported = this.providers.filter(
+        (prov) => prov.chain === key
+      )[0];
+
+      if (supported) return walletsAddrs[key];
+    })
+
+    return Object.fromEntries(wallets);
+  }
+
+  public async setWalletsInfo() {
+    const walletsAddrs = await this.getSupportedWallets();
     this.walletsList = Object.keys(walletsAddrs).map((addrKey) => {
       const provider = this.providers.filter(
         (prov) => prov.network === environment.walletNetwork && prov.chain === addrKey
       )[0];
+
       return {
         address: walletsAddrs[addrKey],
         network: addrKey,

@@ -10,6 +10,7 @@ import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.se
 import { rawProvidersData } from '../../fixtures/raw-providers-data';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FiatRampProviderCountry } from '../../interfaces/fiat-ramp-provider-country';
+import { rawProviderCountriesData } from '../../fixtures/raw-provider-countries-data';
 
 const allBanks: BankInfo[] = [
   {
@@ -55,12 +56,6 @@ const operation: FiatRampOperation = {
   voucher: false,
 };
 
-const COUNTRIES: FiatRampProviderCountry[] = [
-  { name: 'Costa Rica', value: 'fiat_ramps.countries_list.costa_rica', fiatCode: 'crc', isoCodeAlpha3: 'CRI' },
-  { name: 'Colombia', value: 'fiat_ramps.countries_list.colombia', fiatCode: 'cop', isoCodeAlpha3: 'COL' },
-  { name: 'Argentina', value: 'fiat_ramps.countries_list.argentina', fiatCode: 'ars', isoCodeAlpha3: 'ARS' },
-];
-
 const provider = rawProvidersData[1];
 
 describe('BankInfoCardComponent', () => {
@@ -89,7 +84,7 @@ describe('BankInfoCardComponent', () => {
     component.provider = provider;
     component.operation = operation;
     component.allBanks = allBanks;
-    component.countries = COUNTRIES;
+    component.countries = rawProviderCountriesData;
     fixture.detectChanges();
   }));
 

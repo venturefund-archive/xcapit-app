@@ -13,10 +13,8 @@ import { BrowserService } from '../../../shared/services/browser/browser.service
 import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { HttpClient } from '@angular/common/http';
-import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
-import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
+import { DynamicKriptonPriceFactory } from '../shared-ramps/models/kripton-price/factory/dynamic-kripton-price-factory';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
@@ -24,6 +22,9 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
+import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
+import { DefaultKriptonPrice } from '../shared-ramps/models/kripton-price/default-kripton-price';
+import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-operations-new',
   template: `
@@ -137,7 +138,7 @@ export class OperationsNewPage implements AfterViewInit {
     private elementRef: ElementRef,
     private browserService: BrowserService,
     private http: HttpClient,
-    private kriptonDynamicPrice: KriptonDynamicPriceFactory,
+    private kriptonDynamicPrice: DynamicKriptonPriceFactory,
     private providers: ProvidersFactory,
     private tokenOperationDataService: TokenOperationDataService,
     private modalController: ModalController
@@ -246,8 +247,8 @@ export class OperationsNewPage implements AfterViewInit {
     }
   }
 
-  createKriptonDynamicPrice(currency = this.fiatCurrency): KriptonDynamicPrice {
-    return this.kriptonDynamicPrice.new(this.priceRefreshInterval, currency, this.selectedCurrency, this.http);
+  createKriptonDynamicPrice(currency = this.fiatCurrency): DynamicKriptonPrice {
+    return this.kriptonDynamicPrice.new(this.priceRefreshInterval, new DefaultKriptonPrice(currency, this.selectedCurrency, this.http));
   }
 
   setCountry() {
