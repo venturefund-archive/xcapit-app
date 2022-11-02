@@ -384,7 +384,7 @@
       "title_investments": "My investments",
       "profits": "Continuous profits",
       "profits_weekly": "Weekly profits",
-      "total_invested": "Investment and earnings",
+      "total_invested": "Total invested balance",
       "recommendations": "You may be interested in",
       "empty_products": "Soon you will be able to find the best investments for your profile.",
       "link_button": "How do DeFi investments work?",
@@ -519,7 +519,7 @@
       },
       "earnings_modal_info": {
         "title": "What is total yield?",
-        "description": "It is the sum in USD of the total yields obtained in your investment products.",
+        "description": "It is the sum in USD of the total yields obtained in your investment products.\nIt is not historical or accumulated, if your balance is zero, your returns will be zero as well. They are calculated based on the invested balance at the time.",
         "button": "Understood"
       }
     },
@@ -1681,8 +1681,8 @@
       "error_toast": "The password you entered is incorrect"
     },
     "home": {
-      "available_money": "Available money in wallet",
-      "invested": "Invested",
+      "available_money": "Available balance in wallet",
+      "invested": "Amount invested",
       "tab_assets": "Assets",
       "tab_nfts": "NFTs",
       "wallet_recovery": "Import an existing wallet",

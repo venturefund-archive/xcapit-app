@@ -375,7 +375,7 @@
       "title_investments": "Mis inversiones",
       "profits": "Ganancia continua",
       "profits_weekly": "Ganancia Semanal",
-      "total_invested": "Inversión y ganancias",
+      "total_invested": "Saldo total invertido",
       "recommendations": "Podrían interesarte",
       "empty_products": "Proximamente podrás encontrar las mejores inversiones para tu perfil",
       "link_button": "¿Cómo funcionan las inversiones DeFi?",
@@ -512,7 +512,7 @@
       },
       "earnings_modal_info": {
         "title": "¿Qué es el rendimiento total?",
-        "description": "Es la sumatoria en USD del total de los rendimientos obtenidos en tus productos de inversión.",
+        "description": "Es la sumatoria en USD del total de los rendimientos obtenidos en tus productos de inversión.\n No es histórico ni acumulado, por lo que si tu saldo es cero, tus rendimientos también lo serán. Se calculan a partir del saldo invertido en el momento.",
         "button": "Entendido"
       }
     },
@@ -1674,8 +1674,8 @@
       "error_toast": "La contraseña que ingresaste es incorrecta"
     },
     "home": {
-      "available_money": "Tus activos",
-      "invested": "Invertidos",
+      "available_money": "Saldo disponible",
+      "invested": "Monto invertido",
       "tab_assets": "Monedas",
       "tab_nfts": "NFTs",
       "wallet_recovery": "Importar una wallet existente",
