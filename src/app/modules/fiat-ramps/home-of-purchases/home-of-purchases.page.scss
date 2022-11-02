@@ -1,6 +1,6 @@
 :host {
   ion-content {
-    --background: #f7f8ff;
+    --background: var(--ion-color-background);
   }
 
   .hop {
