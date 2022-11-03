@@ -33,6 +33,14 @@
       &__form {
         padding-left: 16px;
         padding-right: 16px;
+
+        ion-text {
+          color: var(--ion-color-primary);
+        }
+
+        &__token {
+          padding-top: 24px;
+        }
       }
 
       &__card {
