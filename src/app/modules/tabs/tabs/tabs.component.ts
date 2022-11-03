@@ -6,7 +6,8 @@ import { NavController, IonTabs } from '@ionic/angular';
   template: `
     <ion-tabs #tabs (ionTabsDidChange)="this.tabChange()">
       <ion-tab-bar>
-        <ion-tab-button *appFeatureFlag="'ff_newLogin'; negated:true"
+        <ion-tab-button
+          *appFeatureFlag="'ff_newLogin'; negated: true"
           tab="home"
           appTrackClick
           name="ux_nav_go_to_home"
