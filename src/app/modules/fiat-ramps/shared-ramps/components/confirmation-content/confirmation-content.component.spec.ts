@@ -29,6 +29,12 @@ describe('ConfirmationContentComponent', () => {
 
   it('should emit when back button is clicked', () => {
     const spy = spyOn(component.back, 'emit');
+    fixture.debugElement.query(By.css('ion-button.cc__button-back')).nativeElement.click();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should emit when reload button is clicked', () => {
+    const spy = spyOn(component.reload, 'emit');
     fixture.debugElement.query(By.css('ion-button.cc__footer__upload-button__button')).nativeElement.click();
     expect(spy).toHaveBeenCalledTimes(1);
   });

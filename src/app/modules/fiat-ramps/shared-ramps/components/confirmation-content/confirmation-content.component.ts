@@ -1,21 +1,22 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Photo } from 'src/app/shared/models/photo/photo.interface';
 
 @Component({
   selector: 'app-confirmation-content',
   template: `<ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/user-register"></ion-back-button>
+          <ion-button class="cc__button-back" (click)="this.goBack()">
+            <ion-icon name="chevron-back-outline"></ion-icon
+          ></ion-button>
         </ion-buttons>
         <ion-title>
           {{ 'fiat_ramps.shared.confirmation_content.header' | translate }}
         </ion-title>
         <ion-label class="ux-font-text-xs cc__step_counter" slot="end"
-          >{{ this.data.step_from }} {{ 'shared.step_counter.of' | translate }} 3</ion-label
+          >{{ this.data.stepFrom }} {{ 'shared.step_counter.of' | translate }} 3</ion-label
         >
       </ion-toolbar>
-      <ion-progress-bar class="cc__progress" [value]="0.25" color="info"></ion-progress-bar>
+      <ion-progress-bar class="cc__progress" [value]="this.data.progress" color="info"></ion-progress-bar>
       <div class="cc__provider">
         <ion-text class="ux-font-text-xxs">{{
           'fiat_ramps.shared.confirmation_content.provider' | translate
@@ -52,7 +53,7 @@ import { Photo } from 'src/app/shared/models/photo/photo.interface';
           class="ux-button-outlined cc__footer__upload-button__button"
           name="back_button"
           expand="block"
-          (click)="this.goBack()"
+          (click)="this.reloadPhoto()"
           >{{ 'fiat_ramps.shared.confirmation_content.button_secondary' | translate }}</ion-button
         >
       </div>
@@ -64,6 +65,8 @@ export class ConfirmationContentComponent implements OnInit {
   @Input() image: string;
   @Output() confirm: EventEmitter<void> = new EventEmitter<void>();
   @Output() back: EventEmitter<void> = new EventEmitter<void>();
+  @Output() reload: EventEmitter<void> = new EventEmitter<void>();
+
   constructor() {}
 
   ngOnInit() {}
@@ -74,5 +77,9 @@ export class ConfirmationContentComponent implements OnInit {
 
   goBack() {
     this.back.emit();
+  }
+
+  reloadPhoto() {
+    this.reload.emit();
   }
 }

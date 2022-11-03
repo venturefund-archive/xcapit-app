@@ -134,18 +134,18 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'kyc-front-id',
-        loadChildren: () =>
-          import('./kyc-front-id-validation/kyc-front-id-validation.module').then(
-            (m) => m.KycFrontIdValidationPageModule
-          ),
-      },
-      {
-        path: 'kyc-front-id-confirmation',
-        loadChildren: () =>
-          import('./kyc-front-id-confirmation/kyc-front-id-confirmation.module').then(
-            (m) => m.KycFrontIdConfirmationPageModule
-          ),
+        path: 'kyc',
+        children: [
+          {
+            path: 'validation/:digitalDocument',
+            loadChildren: () => import('./kyc-validation/kyc-validation.module').then((m) => m.KycValidationPageModule),
+          },
+          {
+            path: 'confirmation/:digitalDocument',
+            loadChildren: () =>
+              import('./kyc-confirmation/kyc-confirmation.module').then((m) => m.KycConfirmationPageModule),
+          },
+        ],
       },
       {
         path: 'purchase-order',

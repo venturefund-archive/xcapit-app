@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonAccordionGroup, IonContent, NavController } from '@ionic/angular';
 import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -241,7 +240,6 @@ export class HomeWalletPage implements OnInit {
 
   constructor(
     private walletService: WalletService,
-    private apiWalletService: ApiWalletService,
     private navController: NavController,
     private formBuilder: UntypedFormBuilder,
     private refreshTimeoutService: RefreshTimeoutService,

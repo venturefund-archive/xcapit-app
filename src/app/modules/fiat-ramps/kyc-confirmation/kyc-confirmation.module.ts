@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedRampsModule } from '../shared-ramps/shared-ramps.module';
-import { KycFrontIdValidationPage } from './kyc-front-id-validation.page';
+import { KycConfirmationPage } from './kyc-confirmation.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: KycFrontIdValidationPage
+    component: KycConfirmationPage
   }
 ];
 
@@ -15,6 +15,6 @@ const routes: Routes = [
     SharedRampsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [KycFrontIdValidationPage]
+  declarations: [KycConfirmationPage]
 })
-export class KycFrontIdValidationPageModule {}
+export class KycConfirmationPageModule {}
