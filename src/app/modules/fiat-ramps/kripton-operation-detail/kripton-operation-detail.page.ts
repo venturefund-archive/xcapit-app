@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { NONPROD_COINS } from '../../wallets/shared-wallets/constants/coins.nonprod';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
@@ -52,13 +53,25 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
             </div>
           </ion-item>
           <!-- State -->
-          <ion-item class="ion-no-margin ion-no-padding">
-            <div>
+          <ion-item class="kod__card-container__card__state ion-no-margin ion-no-padding">
+            <div class="kod__card-container__card__state__container">
+              <div class="kod__card-container__card__state__container__title">
+                <ion-text class="ux-font-titulo-xs">
+                  {{ 'fiat_ramps.kripton_operation_detail.state' | translate }}
+                </ion-text>
+              </div>
               <ion-text> </ion-text>
               <ion-button><ion-icon></ion-icon></ion-button>
-            </div>
-            <div>
-              <ion-badge></ion-badge>
+              <div>
+                <ion-badge></ion-badge>
+              </div>
+              <app-operation-status-alert></app-operation-status-alert>
+              <!-- <app-backup-information-card
+                [text]="'fiat_ramps.kripton_operation_detail.state_toast.created'"
+                [textClass]="'ux-home-backup-card'"
+                [backgroundClass]="'ux-warning-background-card'"
+              >
+              </app-backup-information-card> -->
             </div>
           </ion-item>
           <!-- Cotizacion/icono -->
@@ -116,9 +129,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
                   </ion-text>
                 </div>
                 <div class="kod__card-container__card__provider__container__operation__content">
-                  <ion-text class="ux-font-text-base">
-                    N° {{ this.operation.operation_id }}
-                  </ion-text>
+                  <ion-text class="ux-font-text-base"> N° {{ this.operation.operation_id }} </ion-text>
                 </div>
               </div>
             </div>
@@ -151,6 +162,24 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
           </ion-item>
         </ion-card>
       </div>
+      <div class="kod__disclaimer">
+        <div class="kod__disclaimer__header">
+          <ion-text class="ux-font-text-base">
+            {{ 'fiat_ramps.kripton_operation_detail.support.header' | translate }}
+          </ion-text>
+        </div>
+        <div class="kod__disclaimer__link">
+          <ion-button
+            name="ux_goto_kripton_tos"
+            class="ux-link-xs ion-no-margin ion-no-padding"
+            fill="clear"
+            (click)="this.navigateToKriptonTOS()"
+            size="small"
+          >
+            {{ 'fiat_ramps.kripton_operation_detail.support.link' | translate }}
+          </ion-button>
+        </div>
+      </div>
     </ion-content>
   `,
   styleUrls: ['./kripton-operation-detail.page.scss'],
@@ -162,7 +191,7 @@ export class KriptonOperationDetailPage implements OnInit {
   wallet = {
     address: '0xeeeeeeeeeeeeeee',
   };
-  constructor() {}
+  constructor(private browserService: BrowserService) {}
 
   ngOnInit() {}
 
@@ -180,5 +209,11 @@ export class KriptonOperationDetailPage implements OnInit {
       provider: '1',
       voucher: false,
     };
+  }
+
+  async navigateToKriptonTOS() {
+    await this.browserService.open({
+      url: 'https://kriptonmarket.com/terms-and-conditions',
+    });
   }
 }

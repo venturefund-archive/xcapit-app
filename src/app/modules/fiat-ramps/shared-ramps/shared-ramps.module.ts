@@ -18,6 +18,7 @@ import { ConfirmationContentComponent } from './components/confirmation-content/
 import { BuyOrDepositTokenToastComponent } from './components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { UserRegisterContentComponent } from './components/user-register-content/user-register-content/user-register-content.component';
 import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-card/moonpay-purchases-card/moonpay-purchases-card.component';
+import { OperationStatusAlertComponent } from './components/operation-status-alert/operation-status-alert.component';
 
 @NgModule({
   declarations: [
@@ -38,8 +39,7 @@ import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-ca
     UserRegisterContentComponent,
     ValidationContentComponent,
     ConfirmationContentComponent,
-    BuyOrDepositTokenToastComponent
-
+    BuyOrDepositTokenToastComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -61,7 +61,6 @@ import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-ca
     UserRegisterContentComponent,
     ValidationContentComponent,
     ConfirmationContentComponent
-
   ],
 })
 export class SharedRampsModule {}
