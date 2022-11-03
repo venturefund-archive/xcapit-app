@@ -2191,6 +2191,11 @@
     "tools": "Tools"
   },
   "fiat_ramps": {
+    "home_of_purchases": {
+      "header": "My purchases",
+      "question": "How do purchases work?",
+      "button": "Make new purchase"
+    },
     "buy_conditions": {
       "title": "What do you need to know before you buy?",
       "condition_1": "Purchases are made through a third party provider. Xcapit does not sell cryptocurrencies.",
@@ -2221,14 +2226,19 @@
       "button_text": "Go to wallet"
     },
     "operations_list": {
-      "title": "My operations",
+      "title": "Purchases in Kripton Market",
       "operation": "Buy",
       "amount": "Amount",
       "date": "Date",
       "status": "Status",
-      "no_operations_message": "You still do not have any purchases made, here you will be able to see the list of your purchases",
+      "no_operations_message": "Once you have made your purchases, you will be able to see them in this section.",
       "button_show_less": "Show less",
       "button_show_more": "Show more"
+    },
+    "moonpay_purchases": {
+      "title": "Purchases in Moonpay",
+      "message": "If you have made purchases, you can view them",
+      "link": "here"
     },
     "provider_new_operation_card": {
       "description": "Provider: {{providerName}}"

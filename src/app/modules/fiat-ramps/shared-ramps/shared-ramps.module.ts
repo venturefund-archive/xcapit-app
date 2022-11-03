@@ -20,6 +20,7 @@ import { UserRegisterContentComponent } from './components/user-register-content
 import { KriptonAccountInfoCardComponent } from './components/kripton-account-info-card/kripton-account-info-card.component';
 import { KriptonPurchaseInfoComponent } from './components/kripton-purchase-info/kripton-purchase-info.component';
 import { TimerCountdownComponent } from './components/timer-countdown/timer-countdown.component';
+import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-card/moonpay-purchases-card/moonpay-purchases-card.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { TimerCountdownComponent } from './components/timer-countdown/timer-coun
     FeeInfoModalComponent,
     SkipTransactionVoucherComponent,
     UserRegisterStepCardComponent,
+    MoonpayPurchasesCardComponent,
     UserRegisterContentComponent,
     ValidationContentComponent,
     ConfirmationContentComponent,
@@ -60,6 +62,7 @@ import { TimerCountdownComponent } from './components/timer-countdown/timer-coun
     FeeInfoModalComponent,
     SkipTransactionVoucherComponent,
     UserRegisterStepCardComponent,
+    MoonpayPurchasesCardComponent,
     UserRegisterContentComponent,
     ValidationContentComponent,
     ConfirmationContentComponent,
