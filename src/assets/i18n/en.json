@@ -2537,6 +2537,10 @@
           "title": "¡Hello again! 👋",
           "subtitle": "We need a photo of the front of your document",
           "description": "The image should be similar to the one in the example and your data should be visible."
+        },
+        "back_id": {
+          "subtitle": "Now we need a photo of the reverse side of your document.",
+          "description": "The image should be similar to the one in the example and your data should be visible."
         }
       },
       "confirmation_content": {
@@ -2547,6 +2551,11 @@
 
         "front_id": {
           "title": "Very good! 📸",
+          "subtitle": "Check that the photo meets the following conditions:",
+          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>"
+        },
+        "back_id": {
+          "title": "😁 ¡Excelent!",
           "subtitle": "Check that the photo meets the following conditions:",
           "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>"
         }

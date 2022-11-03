@@ -10,7 +10,7 @@ export const USER_REGISTER_STEPS = [
         order:'2',
         title:'fiat_ramps.user_register.steps.step_two.title',
         subtitle:'fiat_ramps.user_register.steps.step_two.subtitle',
-        url:'fiat-ramps/kyc-from-id',
+        url:'fiat-ramps/kyc/validation/front_id',
         name:'ux_buy_kripton_id'
     }
 ]

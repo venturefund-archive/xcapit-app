@@ -4,22 +4,27 @@ import { ModalController, NavController } from '@ionic/angular';
 import { TwoButtonsAlertComponent } from '../../../shared/components/two-buttons-alert/two-buttons-alert.component';
 import { TranslateService } from '@ngx-translate/core';
 import { VALIDATION_CONTENT } from '../shared-ramps/components/validation-content/validation-content.constant';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-kyc-front-id-validation',
+  selector: 'app-kyc-validation',
   template: `
     <app-validation-content
+      *ngIf="this.data"
       [data]="this.data"
       (backButton)="this.goBack()"
       (confirm)="this.goToConfirmation()"
     ></app-validation-content>
   `,
-  styleUrls: ['./kyc-front-id-validation.page.scss'],
+  styleUrls: ['./kyc-validation.page.scss'],
 })
-export class KycFrontIdValidationPage {
-  data = VALIDATION_CONTENT.front_id;
+export class KycValidationPage {
+  validationContent = VALIDATION_CONTENT;
+  data: any;
+  digitalDocument: string;
 
   constructor(
+    private route: ActivatedRoute,
     private trackService: TrackService,
     private navController: NavController,
     private modalController: ModalController,
@@ -27,6 +32,8 @@ export class KycFrontIdValidationPage {
   ) {}
 
   ionViewWillEnter() {
+    this.digitalDocument = this.route.snapshot.paramMap.get('digitalDocument');
+    this.data = this.validationContent[this.digitalDocument];
     this.trackScreenView();
   }
 
@@ -39,7 +46,7 @@ export class KycFrontIdValidationPage {
   }
 
   goToConfirmation() {
-    this.navController.navigateForward('/fiat-ramps/kyc-front-id-confirmation');
+    this.navController.navigateForward(`/fiat-ramps/kyc/confirmation/${this.digitalDocument}`);
   }
 
   async goBack() {
