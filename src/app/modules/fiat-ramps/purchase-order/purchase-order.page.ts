@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { addHours } from 'date-fns';
 import { interval, Subscription } from 'rxjs';
+import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 
 @Component({
@@ -23,7 +26,6 @@ import { OperationDataInterface } from '../shared-ramps/interfaces/operation-dat
         <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.user_email.provider' | translate }}</ion-text>
       </div>
 
-      <!-- TODO: Hacer un componente de esto -->
       <div class="po__step-wrapper">
         <div class="po__step-wrapper__step active">
           <div class="po__step-wrapper__step__number number first">
@@ -39,47 +41,13 @@ import { OperationDataInterface } from '../shared-ramps/interfaces/operation-dat
           <ion-label class="po__step-wrapper__step__title title ux-font-titulo-xs">Cargar comprobante</ion-label>
         </div>
       </div>
-      <!--  -->
 
-      <div class="po__account">
-        <ion-label class="po__account__title ux-font-text-lg">Transfiere a la siguiente cuenta</ion-label>
-        <div class="po__account__details">
-          <div class="po__account__details__amount">
-            <img
-              class="po__account__details__amount__country-flag"
-              [src]="'/assets/img/purchase-order/' + this.data.country + '-flag.svg'"
-            />
-            <div class="po__account__details__amount__currency">
-              <ion-label class="ux-font-header-titulo">{{ this.data.currency_in }}</ion-label>
-              <ion-label class="ux-font-text-xs">Pesos Argentinos</ion-label>
-            </div>
-            <ion-label class="po__account__details__amount__value ux-font-header-titulo">$20.000,00</ion-label>
-            <img src="/assets/img/purchase-order/copy.svg" />
-          </div>
-          <div class="po__account__details__item">
-            <div class="po__account__details__item__data">
-              <ion-label class="ux-font-titulo-xs">Alias</ion-label>
-              <ion-label class="po__account__details__item__data__value ux-font-text-base">Kriptonmarket.ars</ion-label>
-            </div>
-            <img src="/assets/img/purchase-order/copy.svg" />
-          </div>
-          <div class="po__account__details__item">
-            <div class="po__account__details__item__data">
-              <ion-label class="ux-font-titulo-xs">CBU</ion-label>
-              <ion-label class="po__account__details__item__data__value ux-font-text-base"
-                >1500623500062332502528</ion-label
-              >
-            </div>
-            <img src="/assets/img/purchase-order/copy.svg" />
-          </div>
-          <div class="po__account__details__item">
-            <div class="po__account__details__item__data">
-              <ion-label class="ux-font-titulo-xs">Titular</ion-label>
-              <ion-label class="po__account__details__item__data__value ux-font-text-base">Kripton S.A.</ion-label>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-kripton-account-info-card
+        [country]="this.data.country"
+        [amount]="this.data.amount_in"
+        [currency]="this.data.currency_in"
+        (copyValue)="this.copyToClipboard($event)"
+      ></app-kripton-account-info-card>
 
       <div class="po__buy">
         <ion-label class="po__buy__title ux-font-text-lg">Tu compra</ion-label>
@@ -87,30 +55,31 @@ import { OperationDataInterface } from '../shared-ramps/interfaces/operation-dat
           <ion-accordion class="po__buy__accordion-group__accordion accordion-arrow-info" value="first">
             <ion-item class="po__buy__accordion-group__accordion__item" slot="header">
               <div class="po__buy__accordion-group__accordion__item__header">
-                <img src="assets/img/coins/USDC.png" />
+                <img [src]="'assets/img/coins/' + this.data.currency_out + '.png'" />
                 <div class="po__buy__accordion-group__accordion__item__header__coin">
                   <ion-label
                     class="po__buy__accordion-group__accordion__item__header__coin__value ux-font-header-titulo"
-                    >USDC</ion-label
+                    >{{ this.data.currency_out }}</ion-label
                   >
-                  <ion-label
-                    class="po__buy__accordion-group__accordion__item__header__coin__network ux-font-num-subtitulo"
-                    >POLYGON</ion-label
-                  >
+                  <app-token-network-badge blockchainName="MATIC"></app-token-network-badge>
                 </div>
                 <ion-label class="po__buy__accordion-group__accordion__item__header__value ux-font-header-titulo"
-                  >100 USDC</ion-label
+                  >100 {{ this.data.currency_out }}</ion-label
                 >
               </div>
             </ion-item>
             <div class="po__buy__accordion-group__accordion__item__content ion-padding" slot="content">
               <div class="po__buy__accordion-group__accordion__item__content__data">
                 <ion-label class="ux-font-titulo-xs">Cotización</ion-label>
-                <ion-label class="po__buy__accordion-group__accordion__item__content__data__value ux-font-text-base">1 USDC = 280 ARS</ion-label>
+                <ion-label class="po__buy__accordion-group__accordion__item__content__data__value ux-font-text-base"
+                  >1 USDC = 280 ARS</ion-label
+                >
               </div>
               <div class="po__buy__accordion-group__accordion__item__content__data">
                 <ion-label class="ux-font-titulo-xs">Operación</ion-label>
-                <ion-label class="po__buy__accordion-group__accordion__item__content__data__value ux-font-text-base">N° 3456</ion-label>
+                <ion-label class="po__buy__accordion-group__accordion__item__content__data__value ux-font-text-base"
+                  >N° 3456</ion-label
+                >
               </div>
             </div>
           </ion-accordion>
@@ -138,10 +107,10 @@ export class PurchaseOrderPage implements OnInit, OnDestroy {
   data: Partial<OperationDataInterface> = {
     country: 'arg',
     // type: 'cash-in',
-    // amount_in: this.form.value.fiatAmount,
+    amount_in: '200000',
     // amount_out: this.form.value.cryptoAmount,
     currency_in: 'ARS',
-    // currency_out: this.selectedCurrency.value,
+    currency_out: 'USDC',
     // price_in: '1',
     // price_out: this.fiatPrice.toString(),
     // wallet: await this.walletAddress(),
@@ -151,7 +120,7 @@ export class PurchaseOrderPage implements OnInit, OnDestroy {
   public timeDifference;
   public minutesToDday;
   public hoursToDday;
-  constructor() {}
+  constructor(private clipboardService: ClipboardService, private toastService: ToastService, private translate: TranslateService) {}
 
   ngOnInit() {
     this.subscription = interval(1000).subscribe((x) => {
@@ -171,6 +140,20 @@ export class PurchaseOrderPage implements OnInit, OnDestroy {
     this.hoursToDday = Math.floor(
       timeDifference / (this.milliSecondsInASecond * this.minutesInAnHour * this.SecondsInAMinute)
     );
+  }
+
+  copyToClipboard(clipboardInfo) {
+    this.clipboardService.write({ string: clipboardInfo.value }).then(
+      () => {
+        this.showToastOf(clipboardInfo.modalText);
+      },
+    );
+  }
+
+  private showToastOf(modalText) {
+    this.toastService.showInfoToast({
+      message: this.translate.instant('fiat_ramps.purchase_order.clipboard_text', { type: this.translate.instant(modalText) }),
+    });
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();

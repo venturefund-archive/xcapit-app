@@ -2552,6 +2552,15 @@
           "subtitle": "Chequea que la foto cumpla con las siguientes condiciones: ",
           "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>"
         }
+      },
+      "kripton_account_info":{
+        "title": "Transfiere a la siguiente cuenta",
+        "alias": "Alias",
+        "cbu": "CBU",
+        "owner": "Titular",
+        "currency_type": {
+          "arg": "Pesos argentinos"
+        }
       }
     },
     "user_email": {
@@ -2631,6 +2640,12 @@
           "cancel_button": "Cancelar"
         }
       }
+    },
+    "purchase_order":{
+      "clipboard_text":"¡{{type}} copiado con exito!",
+      "amount":"Monto",
+      "alias":"Alias",
+      "cbu":"CBU"
     }
   },
   "home": {
