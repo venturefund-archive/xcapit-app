@@ -2615,12 +2615,17 @@
     "kripton_operation_detail":{
       "header": "Operation detail",
       "title":"Buy",
+      "state": "Status",
       "quotation":"Quotation",
       "address": "Destination address (your wallet)",
       "provider":"Provider",
       "operation": "Operation",
       "date": "Date",
-      "hours": "hrs"
+      "hours": "hrs",
+      "support": {
+        "header": "¿Need help?",
+        "link": "Write to Kripton Market support"
+      }
     },
     "user_email": {
       "header": "Buy crypto",

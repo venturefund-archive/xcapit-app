@@ -51,7 +51,6 @@ import { OperationKmInProgressModalComponent } from './components/operation-km-i
     UserAddressInformationComponent,
     BuyOrDepositTokenToastComponent,
     OperationKmInProgressModalComponent
-
   ],
   imports: [SharedModule],
   exports: [
@@ -80,7 +79,6 @@ import { OperationKmInProgressModalComponent } from './components/operation-km-i
     UserAddressInformationComponent,
     ConfirmationContentComponent,
     OperationKmInProgressModalComponent
-
   ],
 })
 export class SharedRampsModule {}
