@@ -2571,7 +2571,9 @@
       "subtitle": "Si no posees una cuenta, escribe el email con el que quieres que te registremos.",
       "label_email": "Email",
       "button": "Continuar",
-      "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones."
+      "text_token": "Enviamos un código temporal de ingreso a tu email.\n Si no lo encuentras, revisa tu bandeja de spam.",
+      "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones.",
+      "label_token":"Código de ingreso"
     },
     "user_register":{
       "header":"Registración",

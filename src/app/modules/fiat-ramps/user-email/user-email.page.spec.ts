@@ -13,7 +13,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
 import { rawOperationData } from '../shared-ramps/fixtures/raw-operation-data';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
-describe('UserEmailPage', () => {
+fdescribe('UserEmailPage', () => {
   let component: UserEmailPage;
   let fixture: ComponentFixture<UserEmailPage>;
   let fiatRampServiceSpy: jasmine.SpyObj<FiatRampsService>;
@@ -62,11 +62,11 @@ describe('UserEmailPage', () => {
     it(`should redirect to ${URL} when user status is ${registrationStatus}`, async () => {
       remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
       fiatRampServiceSpy.getOrCreateUser.and.returnValue(of({ registration_status: registrationStatus }));
-      component.form.patchValue({ email: 'test@test.com' });
+      component.form.patchValue({ email: 'test@test.com',token: '12345' });
       fixture.debugElement.query(By.css('ion-button[name="ux_user_mail_continue"]')).nativeElement.click();
       fixture.detectChanges();
       await fixture.whenStable();
-      expect(fiatRampServiceSpy.getOrCreateUser).toHaveBeenCalledOnceWith({ email: 'test@test.com' });
+      expect(fiatRampServiceSpy.getOrCreateUser).toHaveBeenCalledOnceWith({ email: 'test@test.com', token: '12345' });
       expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(URL);
     });
