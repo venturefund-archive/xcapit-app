@@ -82,9 +82,10 @@ describe('LogOutModalComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to Wallet FAQs when Wallet FAQs button clicked', async () => {
+  it('should close modal and navigate to Wallet FAQs when Wallet FAQs button clicked', async () => {
     await component.goToWalletFaq();
     await fixture.whenStable();
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/faqs/wallet']);
   });
 
