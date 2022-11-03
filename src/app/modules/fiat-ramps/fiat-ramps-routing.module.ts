@@ -147,8 +147,13 @@ const routes: Routes = [
             (m) => m.KycFrontIdConfirmationPageModule
           ),
       },
+      {
+        path: 'purchase-order',
+        loadChildren: () => import('./purchase-order/purchase-order.module').then( m => m.PurchaseOrderPageModule)
+      },
     ],
   },
+  
 ];
 
 @NgModule({
