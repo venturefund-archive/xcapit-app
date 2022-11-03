@@ -67,28 +67,6 @@ export class TabsComponent {
     this.activeTab = this.tabs.outlet.activatedView.element;
   }
 
-  ionViewWillLeave() {
-    this.propagateToActiveTab('ionViewWillLeave');
-  }
-
-  ionViewDidLeave() {
-    this.propagateToActiveTab('ionViewDidLeave');
-  }
-
-  ionViewWillEnter() {
-    this.propagateToActiveTab('ionViewWillEnter');
-  }
-
-  ionViewDidEnter() {
-    this.propagateToActiveTab('ionViewDidEnter');
-  }
-
-  private propagateToActiveTab(eventName: string) {
-    if (this.activeTab) {
-      this.activeTab.dispatchEvent(new CustomEvent(eventName));
-    }
-  }
-
   goToInvestments() {
     this.navController.navigateRoot(['/tabs/investments']);
   }
