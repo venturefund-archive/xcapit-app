@@ -48,8 +48,7 @@ import { UserAddressInformationComponent } from './components/user-address-infor
     UserBasicInformationComponent,
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
-    BuyOrDepositTokenToastComponent
-
+    BuyOrDepositTokenToastComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -77,7 +76,6 @@ import { UserAddressInformationComponent } from './components/user-address-infor
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
     ConfirmationContentComponent
-
   ],
 })
 export class SharedRampsModule {}
