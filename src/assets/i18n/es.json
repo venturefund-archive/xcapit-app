@@ -2737,13 +2737,23 @@
     },
     "kripton_operation_detail":{
       "header": "Detalle de la operación",
-      "title":"Compra",
-      "quotation":"Cotización",
+      "title": "Compra",
+      "state": "Estado",
+      "state_toast": {
+        "created": "Transfiere y envía el comprobante de la transacción. <b>Completar datos</b>",
+        "nullified": "El proveedor anuló esta operación. Para más infomación, comunícate con soporte.",
+        "canceled": "El proveedor no recibió el comprobante del pago."
+      },
+      "quotation": "Cotización",
       "address": "Dirección de destino (tu wallet)",
-      "provider":"Proveedor",
+      "provider": "Proveedor",
       "operation": "Operación",
       "date": "Fecha",
-      "hours": "hs"
+      "hours": "hs",
+      "support": {
+        "header": "¿Necesitas ayuda?",
+        "link": "Escribir a soporte Kripton Market"
+      }
     }
   },
   "home": {

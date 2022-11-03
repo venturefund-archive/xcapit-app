@@ -56,6 +56,15 @@
           }
         }
 
+        &__state {
+          &__container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 4px;
+          }
+        }
+
         &__quotation {
           &__container {
             display: flex;
@@ -127,6 +136,23 @@
             }
           }
         }
+      }
+    }
+
+    &__disclaimer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 24px;
+
+      &__header {
+        ion-text {
+          color: var(--ion-color-neutral80) !important;
+        }
+      }
+
+      &__link {
+        margin-top: -4px;
       }
     }
   }
