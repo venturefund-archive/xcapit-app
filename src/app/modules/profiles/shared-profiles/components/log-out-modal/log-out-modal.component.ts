@@ -77,6 +77,7 @@ export class LogOutModalComponent implements OnInit {
 
   async goToWalletFaq() {
     await this.navController.navigateForward(['/support/faqs/wallet']);
+    await this.modalController.dismiss();
   }
 
   async saveModalChoice() {
