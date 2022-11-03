@@ -116,10 +116,8 @@ export class WalletSubheaderButtonsComponent implements OnInit {
       } else {
         if (this.asset) {
           this.tokenOperationDataService.tokenOperationData = { asset: this.asset, network: this.network };
-          this.navController.navigateForward(['fiat-ramps/select-provider']);
-        } else {
-          this.navController.navigateForward(['fiat-ramps/token-selection']);
         }
+        this.navController.navigateForward(['fiat-ramps/purchases']);
       }
     }
   }
