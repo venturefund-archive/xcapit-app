@@ -134,6 +134,12 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'purchases',
+        loadChildren: () =>
+          import('./home-of-purchases/home-of-purchases.module').then((m) => m.HomeOfPurchasesPageModule),
+      },
+
+      {
         path: 'kyc',
         children: [
           {

@@ -304,6 +304,14 @@
   --ion-color-neutral10-shade: #d8d8d8;
   --ion-color-neutral10-tint: #f6f6f6;
 
+  /** New Background **/
+  --ion-color-background: #f7f8ff;
+  --ion-color-background-rgb: 247, 248, 255;
+  --ion-color-background-contrast: #000;
+  --ion-color-background-contrast-rgb: 0, 0, 0;
+  --ion-color-background-shade: #d9dae0;
+  --ion-color-background-tint: #f8f9ff;
+
   /** Fuentes **/
   --ux-font-worksans: 'Work Sans';
   --ux-font-gilroy: 'Gilroy';
@@ -655,6 +663,15 @@
   --ion-color-contrast-rgb: var(--ion-color-alt-6-contrast-rgb);
   --ion-color-shade: var(--ion-color-alt-6-shade);
   --ion-color-tint: var(--ion-color-alt-6-tint);
+}
+
+.ion-color-background {
+  --ion-color-base: var(--ion-color-background);
+  --ion-color-base-rgb: var(--ion-color-background-rgb);
+  --ion-color-contrast: var(--ion-color-background-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-background-contrast-rgb);
+  --ion-color-shade: var(--ion-color-background-shade);
+  --ion-color-tint: var(--ion-color-background-tint);
 }
 
 // Fonts
