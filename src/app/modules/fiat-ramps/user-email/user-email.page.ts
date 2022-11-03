@@ -42,7 +42,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
             tabindex="0"
             color="primary"
           ></app-ux-input>
-          <!-- <div *ngIf="this.validateEmail">
+          <div *ngIf="this.validateEmail">
             <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.user_email.text_token' | translate }}</ion-text>
             <div class="ue__container__form__token">
             <app-ux-input
@@ -55,7 +55,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
               color="primary"
             ></app-ux-input>
             </div>
-          </div> -->
+          </div>
         </form>
       </div>
       <div *ngIf="!this.validateEmail" class="ue__container__card">
@@ -88,7 +88,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
 export class UserEmailPage implements OnInit {
   form: UntypedFormGroup = this.formBuilder.group({
     email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-    //token: ['', []],
+    token: ['', []],
   });
 
   validateEmail = false;
@@ -107,9 +107,8 @@ export class UserEmailPage implements OnInit {
     const userStatus = await this.fiatRampsService.getOrCreateUser(this.form.value).toPromise();
     this.saveEmail();
     if (userStatus) this.validateEmail = true;
-    //this.tokenValidator();
-    //if (this.form.valid) 
-    this.redirectByStatus(userStatus.registration_status);
+    this.tokenValidator();
+    if (this.form.valid) this.redirectByStatus(userStatus.registration_status);
   }
 
   redirectByStatus(registrationStatus: string) {
@@ -117,10 +116,10 @@ export class UserEmailPage implements OnInit {
     this.navController.navigateForward(url);
   }
 
-  // private tokenValidator() {
-  //   this.form.get('token').addValidators(Validators.required);
-  //   this.form.get('token').updateValueAndValidity();
-  // }
+  private tokenValidator() {
+    this.form.get('token').addValidators(Validators.required);
+    this.form.get('token').updateValueAndValidity();
+  }
 
   saveEmail() {
     const newData = Object.assign({ email: this.form.value.email }, this.storageOperationService.getData());
