@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
-import { UserKycKriptonData } from '../shared-ramps/interfaces/user-kyc-kripton-data.interface';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 
@@ -125,31 +124,20 @@ export class KycSummaryDataPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadData();
-    this.formatCountryCode();
+    this._loadData();
+    this._formatCountryCode();
   }
 
-  loadData() {
+  private _loadData(): void {
     this.data = this.userKycKriptonDataService.getData();
   }
 
-  formatCountryCode() {
+  private _formatCountryCode() {
     this.countryCode = this.data.country_code.code;
     this.countryCode = this.countryCode.substring(this.countryCode.indexOf('('), this.countryCode.length);
   }
 
-  sendData() {
-    if (this.form.valid) {
-      this.userKycKriptonDataService.updateData({ politically_exposed: !this.form.value.not_politically_exposed });
-      this.loadData();
-      const parsedValues = this.getParsedValues(this.data);
-      this.fiatRampsService.registerUserInfo(parsedValues).subscribe(() => {
-        this.navController.navigateForward('fiat-ramps/user-register');
-      });
-    }
-  }
-
-  getParsedValues(formValues) {
+  private _parsedValues(formValues) {
     const valuesCopy = Object.assign({}, formValues);
     valuesCopy.country_code = this.countryCode;
     valuesCopy.gender = valuesCopy.gender.name;
@@ -157,5 +145,15 @@ export class KycSummaryDataPage implements OnInit {
     valuesCopy.document = valuesCopy.document.name;
     valuesCopy.nationality = valuesCopy.nationality.name;
     return valuesCopy;
+  }
+
+  sendData() {
+    if (this.form.valid) {
+      this.userKycKriptonDataService.updateData({ politically_exposed: !this.form.value.not_politically_exposed });
+      this._loadData();
+      this.fiatRampsService.registerUserInfo(this._parsedValues(this.data)).subscribe(() => {
+        this.navController.navigateForward('fiat-ramps/user-register');
+      });
+    }
   }
 }

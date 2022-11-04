@@ -108,6 +108,7 @@ describe('KycUserAddressInformationPage', () => {
   });
 
   it('should get data and patch data on form on init if there is data', async () => {
+    component.ionViewWillEnter();
     fixture.detectChanges();
     expect(userKycKriptonDataServiceSpy.getData).toHaveBeenCalledTimes(1);
     expect(component.form.value.street).toEqual(validFormData.street);

@@ -79,12 +79,12 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./user-address-information.component.scss'],
 })
 export class UserAddressInformationComponent implements OnInit {
-  @Input() street;
-  @Input() number;
-  @Input() floor;
-  @Input() apartment;
-  @Input() city;
-  @Input() zipCode;
+  @Input() street: string;
+  @Input() number: string;
+  @Input() floor: string;
+  @Input() apartment: string;
+  @Input() city: string;
+  @Input() zipCode: string;
 
   constructor(private navController: NavController) {}
 

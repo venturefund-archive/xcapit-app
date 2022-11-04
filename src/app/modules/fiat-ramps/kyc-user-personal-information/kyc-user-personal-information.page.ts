@@ -186,7 +186,7 @@ export class KycUserPersonalInformationPage implements OnInit {
       description: window.location.href,
       eventLabel: 'ux_buy_kripton_screenview_details',
     });
-    this.showData();
+    this._showData();
   }
 
   private getProvider() {
@@ -214,7 +214,7 @@ export class KycUserPersonalInformationPage implements OnInit {
     this.navController.navigateForward('fiat-ramps/user-address');
   }
 
-  showData() {
+  private _showData() {
     if (this.data.nationality !== undefined) {
       this.form.patchValue({
         nationality: this.data.nationality,

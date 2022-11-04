@@ -105,7 +105,7 @@ export class KycUserBasicInformationPage implements OnInit {
 
   ionViewWillEnter() {
     this.data = this.userKycKriptonDataService.getData();
-    this.showData();
+    this._showData();
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
@@ -118,7 +118,7 @@ export class KycUserBasicInformationPage implements OnInit {
     this.navController.navigateForward('fiat-ramps/user-personal-information');
   }
 
-  showData() {
+  private _showData() {
     if (this.form.value.firstName !== '') {
       this.form.patchValue({
         firstName: this.data.firstName,
