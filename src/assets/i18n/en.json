@@ -2641,6 +2641,11 @@
       "header": "Operation detail",
       "title":"Buy",
       "state": "Status",
+      "state_toast": {
+        "created": "Transfer and send the transaction receipt. <b>Complete data</b>",
+        "nullified": "The provider cancelled this operation. For more information, please contact support.",
+        "canceled": "The provider did not receive proof of payment."
+      },
       "quotation":"Quotation",
       "address": "Destination address (your wallet)",
       "provider":"Provider",
