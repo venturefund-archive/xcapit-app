@@ -19,46 +19,49 @@ import { KRIPTON_ACCOUNT_INFO } from '../../constants/kripton-account-info';
             'fiat_ramps.shared.kripton_account_info.currency_type.' + this.country | translate
           }}</ion-label>
         </div>
-        <ion-label class="kaic__details__amount__value ux-font-header-titulo">{{ '$' + this.amount }}</ion-label>
+        <ion-label class="kaic__details__amount__value ux-font-header-titulo">{{'$'}}{{ this.amount | formattedAmount: 10:2 }}</ion-label>
         <img
+          class="copy-icon-amount"
           (click)="this.copyToClipboard(this.amount, 'fiat_ramps.purchase_order.amount')"
           src="/assets/img/purchase-order/copy.svg"
         />
       </div>
       <div class="kaic__details__item">
         <div class="kaic__details__item__data">
-          <ion-label class="ux-font-titulo-xs">{{
+          <ion-label class="alias-title ux-font-titulo-xs">{{
             'fiat_ramps.shared.kripton_account_info.alias' | translate
           }}</ion-label>
-          <ion-label class="kaic__details__item__data__value ux-font-text-base">{{
+          <ion-label class="alias kaic__details__item__data__value ux-font-text-base">{{
             this.kriptonAccountInfo.alias
           }}</ion-label>
         </div>
         <img
+          class="copy-icon-alias"
           (click)="this.copyToClipboard(this.kriptonAccountInfo.alias, 'fiat_ramps.purchase_order.alias')"
           src="/assets/img/purchase-order/copy.svg"
         />
       </div>
       <div class="kaic__details__item">
         <div class="kaic__details__item__data">
-          <ion-label class="ux-font-titulo-xs">{{
+          <ion-label class="cbu-title ux-font-titulo-xs">{{
             'fiat_ramps.shared.kripton_account_info.cbu' | translate
           }}</ion-label>
-          <ion-label class="kaic__details__item__data__value ux-font-text-base">{{
+          <ion-label class="cbu kaic__details__item__data__value ux-font-text-base">{{
             this.kriptonAccountInfo.cbu
           }}</ion-label>
         </div>
         <img
+          class="copy-icon-cbu"
           (click)="this.copyToClipboard(this.kriptonAccountInfo.cbu, 'fiat_ramps.purchase_order.cbu')"
           src="/assets/img/purchase-order/copy.svg"
         />
       </div>
       <div class="kaic__details__item">
         <div class="kaic__details__item__data">
-          <ion-label class="ux-font-titulo-xs">{{
+          <ion-label class="owner-title ux-font-titulo-xs">{{
             'fiat_ramps.shared.kripton_account_info.owner' | translate
           }}</ion-label>
-          <ion-label class="kaic__details__item__data__value ux-font-text-base">{{
+          <ion-label class="owner kaic__details__item__data__value ux-font-text-base">{{
             this.kriptonAccountInfo.owner
           }}</ion-label>
         </div>
@@ -69,15 +72,17 @@ import { KRIPTON_ACCOUNT_INFO } from '../../constants/kripton-account-info';
 })
 export class KriptonAccountInfoCardComponent implements OnInit {
   @Input() country: string;
-  @Input() amount: string;
+  @Input() amount: number;
   @Input() currency: string;
   @Output() copyValue: EventEmitter<any> = new EventEmitter<any>();
   kriptonAccountInfo = KRIPTON_ACCOUNT_INFO;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.amount = Number(this.amount)
+  }
 
-  copyToClipboard(value: string, modalText: string) {
+  copyToClipboard(value, modalText: string) {
     const clipboardInfo = { value, modalText };
     this.copyValue.emit(clipboardInfo);
   }

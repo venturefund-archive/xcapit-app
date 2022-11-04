@@ -2559,9 +2559,15 @@
         "cbu": "CBU",
         "owner": "Titular",
         "currency_type": {
-          "arg": "Pesos argentinos"
+          "argentina": "Pesos argentinos"
         }
+      },
+      "kripton_purchase_info":{
+        "title":"Tu compra",
+        "quote":"Cotización",
+        "operation":"Operación"
       }
+      
     },
     "user_email": {
       "header": "Comprar cripto",

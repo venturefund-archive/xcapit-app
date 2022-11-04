@@ -18,6 +18,7 @@ import { ConfirmationContentComponent } from './components/confirmation-content/
 import { BuyOrDepositTokenToastComponent } from './components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { UserRegisterContentComponent } from './components/user-register-content/user-register-content/user-register-content.component';
 import { KriptonAccountInfoCardComponent } from './components/kripton-account-info-card/kripton-account-info-card.component';
+import { KriptonPurchaseInfoComponent } from './components/kripton-purchase-info/kripton-purchase-info.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { KriptonAccountInfoCardComponent } from './components/kripton-account-in
     ConfirmationContentComponent,
     BuyOrDepositTokenToastComponent,
     KriptonAccountInfoCardComponent,
+    KriptonPurchaseInfoComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -60,7 +62,7 @@ import { KriptonAccountInfoCardComponent } from './components/kripton-account-in
     ValidationContentComponent,
     ConfirmationContentComponent,
     KriptonAccountInfoCardComponent,
-    
+    KriptonPurchaseInfoComponent
   ],
 })
 export class SharedRampsModule {}

@@ -2559,6 +2559,20 @@
           "subtitle": "Check that the photo meets the following conditions:",
           "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>"
         }
+      },
+      "kripton_account_info":{
+        "title": "Transfer to the following account",
+        "alias": "Alias",
+        "cbu": "CBU",
+        "owner": "Holder",
+        "currency_type": {
+          "argentina": "Argentine pesos"
+        }
+      },
+      "kripton_purchase_info":{
+        "title":"Your purchase",
+        "quote":"Quote",
+        "operation":"Operation"
       }
     },
     "user_email": {

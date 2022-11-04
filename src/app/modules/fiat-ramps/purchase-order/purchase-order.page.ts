@@ -5,6 +5,7 @@ import { interval, Subscription } from 'rxjs';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
+import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 
 @Component({
   selector: 'app-purchase-order',
@@ -41,50 +42,21 @@ import { OperationDataInterface } from '../shared-ramps/interfaces/operation-dat
           <ion-label class="po__step-wrapper__step__title title ux-font-titulo-xs">Cargar comprobante</ion-label>
         </div>
       </div>
-
       <app-kripton-account-info-card
-        [country]="this.data.country"
+        [country]="this.data.country.toLowerCase()"
         [amount]="this.data.amount_in"
-        [currency]="this.data.currency_in"
+        [currency]="this.data.currency_in.toUpperCase()"
         (copyValue)="this.copyToClipboard($event)"
       ></app-kripton-account-info-card>
+      <app-kripton-purchase-info
+      [network]="this.data.network"
+      [currencyOut]="this.data.currency_out"
+      [currencyIn]="this.data.currency_in"
+      [priceOut]="this.data.price_out"
+      [operationId]="this.data.operation_id"
+      [amountOut]="this.data.amount_out"
+      ></app-kripton-purchase-info>
 
-      <div class="po__buy">
-        <ion-label class="po__buy__title ux-font-text-lg">Tu compra</ion-label>
-        <ion-accordion-group class="po__buy__accordion-group">
-          <ion-accordion class="po__buy__accordion-group__accordion accordion-arrow-info" value="first">
-            <ion-item class="po__buy__accordion-group__accordion__item" slot="header">
-              <div class="po__buy__accordion-group__accordion__item__header">
-                <img [src]="'assets/img/coins/' + this.data.currency_out + '.png'" />
-                <div class="po__buy__accordion-group__accordion__item__header__coin">
-                  <ion-label
-                    class="po__buy__accordion-group__accordion__item__header__coin__value ux-font-header-titulo"
-                    >{{ this.data.currency_out }}</ion-label
-                  >
-                  <app-token-network-badge blockchainName="MATIC"></app-token-network-badge>
-                </div>
-                <ion-label class="po__buy__accordion-group__accordion__item__header__value ux-font-header-titulo"
-                  >100 {{ this.data.currency_out }}</ion-label
-                >
-              </div>
-            </ion-item>
-            <div class="po__buy__accordion-group__accordion__item__content ion-padding" slot="content">
-              <div class="po__buy__accordion-group__accordion__item__content__data">
-                <ion-label class="ux-font-titulo-xs">Cotización</ion-label>
-                <ion-label class="po__buy__accordion-group__accordion__item__content__data__value ux-font-text-base"
-                  >1 USDC = 280 ARS</ion-label
-                >
-              </div>
-              <div class="po__buy__accordion-group__accordion__item__content__data">
-                <ion-label class="ux-font-titulo-xs">Operación</ion-label>
-                <ion-label class="po__buy__accordion-group__accordion__item__content__data__value ux-font-text-base"
-                  >N° 3456</ion-label
-                >
-              </div>
-            </div>
-          </ion-accordion>
-        </ion-accordion-group>
-      </div>
     </ion-content>
     <ion-footer class="po__footer ion-padding ux_footer">
       <ion-label class="ux-font-text-xs"
@@ -104,28 +76,37 @@ export class PurchaseOrderPage implements OnInit, OnDestroy {
   hoursInADay = 24;
   minutesInAnHour = 60;
   SecondsInAMinute = 60;
-  data: Partial<OperationDataInterface> = {
-    country: 'arg',
-    // type: 'cash-in',
-    amount_in: '200000',
-    // amount_out: this.form.value.cryptoAmount,
-    currency_in: 'ARS',
-    currency_out: 'USDC',
-    // price_in: '1',
-    // price_out: this.fiatPrice.toString(),
-    // wallet: await this.walletAddress(),
-    // provider: this.provider.id.toString(),
-    // network: this.selectedCurrency.network,
-  };
+  data: OperationDataInterface;
+  amountIn: number;
   public timeDifference;
   public minutesToDday;
   public hoursToDday;
-  constructor(private clipboardService: ClipboardService, private toastService: ToastService, private translate: TranslateService) {}
+  constructor(private clipboardService: ClipboardService, private toastService: ToastService, private translate: TranslateService, private storageOperationService: StorageOperationService,) {}
 
   ngOnInit() {
+    this.getData();
     this.subscription = interval(1000).subscribe((x) => {
       this.getTimeDifference();
     });
+  }
+
+  getData(){
+    this.data = {
+      amount_in: '7274.994150004679',
+      amount_out: '20.20833325',
+      country: "Argentina",
+      currency_in: "ars",
+      currency_out: "MATIC",
+      network: "MATIC",
+      price_in: "1",
+      operation_id: 676,
+      price_out: "359.9997120002304",
+      provider: "1",
+      type: "cash-in",
+      wallet: "0xd148c6735e1777be439519b32a1a6ef9c8853934"
+    }
+    
+    console.log(this.data);
   }
 
   private getTimeDifference() {
