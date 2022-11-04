@@ -13,11 +13,16 @@
         --inner-padding-end: 10px;
 
         &__logo {
+          img {
+            width: 32px;
+            height: 32px;
+          }
+
           width: 32px;
           height: 32px;
         }
 
-        &__label {
+        ion-label:not(.label_matic) {
           margin-left: 8px;
           font-family: var(--ux-font-lato);
           font-size: 15px;
@@ -25,6 +30,28 @@
           line-height: 18px;
           color: var(--ion-color-primary);
         }
+
+        ion-label.label_matic {
+          margin-left: 5px;
+          font-family: var(--ux-font-lato);
+          font-size: 15px;
+          font-weight: var(--ux-fweight-regular);
+          line-height: 18px;
+          color: var(--ion-color-primary);
+        }
+
+        // &__label_matic{
+        //   margin-left: 0px
+        // }
+
+        // &__label {
+        //   margin-left: 8px;
+        //   font-family: var(--ux-font-lato);
+        //   font-size: 15px;
+        //   font-weight: var(--ux-fweight-regular);
+        //   line-height: 18px;
+        //   color: var(--ion-color-primary);
+        // }
 
         &__chevron {
           font-size: 24px;
