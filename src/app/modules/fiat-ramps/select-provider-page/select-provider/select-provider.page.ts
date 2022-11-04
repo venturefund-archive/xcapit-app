@@ -6,8 +6,6 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FiatRampOperation } from '../../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../../shared-ramps/interfaces/fiat-ramp-provider.interface';
-import { ProvidersFactory } from '../../shared-ramps/models/providers/factory/providers.factory';
-import { FiatRampsService } from '../../shared-ramps/services/fiat-ramps.service';
 import { COUNTRIES } from '../../shared-ramps/constants/countries';
 import { TokenOperationDataService } from '../../shared-ramps/services/token-operation-data/token-operation-data.service';
 @Component({
@@ -33,9 +31,6 @@ import { TokenOperationDataService } from '../../shared-ramps/services/token-ope
               [coin]="this.coin"
             ></app-select-provider-card>
           </form>
-        </div>
-        <div class="operations-list ion-padding-start ion-padding-end" *ngIf="this.operationsList">
-          <app-operations-list [operationsList]="this.operationsList"></app-operations-list>
         </div>
       </div>
     </ion-content>
@@ -74,15 +69,11 @@ export class SelectProviderPage {
     private formBuilder: UntypedFormBuilder,
     private trackService: TrackService,
     private apiWalletService: ApiWalletService,
-    private tokenOperationDataService: TokenOperationDataService,
-    private providersFactory: ProvidersFactory,
-    private fiatRampsService: FiatRampsService
+    private tokenOperationDataService: TokenOperationDataService
   ) {}
 
   ionViewWillEnter() {
     this.trackScreenViewEvent();
-    this.getProviders();
-    if (this.kriptonEnabled()) this.getOperations();
   }
 
   ionViewDidEnter() {
@@ -94,12 +85,10 @@ export class SelectProviderPage {
       this.form
         .get('country')
         .setValue(
-          this.countries.find((country) => country.isoCodeAlpha3 === this.tokenOperationDataService.tokenOperationData.country)
+          this.countries.find(
+            (country) => country.isoCodeAlpha3 === this.tokenOperationDataService.tokenOperationData.country
+          )
         );
-  }
-
-  kriptonEnabled() {
-    return this.providers.find((provider) => provider.alias === 'kripton');
   }
 
   trackScreenViewEvent() {
@@ -112,12 +101,6 @@ export class SelectProviderPage {
     this.coin = this.apiWalletService.getCoin(asset, network);
   }
 
-  getOperations() {
-    this.fiatRampsService.getUserOperations().subscribe((data) => {
-      this.operationsList = data;
-    });
-  }
-
   receiveRoute(route: string) {
     this.newOperationRoute = route;
   }
@@ -125,14 +108,9 @@ export class SelectProviderPage {
   goToRoute() {
     this.tokenOperationDataService.tokenOperationData.country = this.form.value.country.isoCodeAlpha3;
     this.navController.navigateForward([this.newOperationRoute]);
-    
   }
 
   resetForm() {
     this.form.get('provider').reset();
   }
-
-  getProviders() {
-    this.providers = this.providersFactory.create().all();
-  } 
-} 
+}

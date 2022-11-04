@@ -8,6 +8,7 @@ import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 import { KycUserPersonalInformationPage } from './kyc-user-personal-information.page';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const invalidFormData = {
   nationality: 'test',
@@ -56,6 +57,7 @@ describe('KycUserBasicInformationStep2Page', () => {
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(KycUserPersonalInformationPage);

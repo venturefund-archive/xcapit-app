@@ -11,4 +11,7 @@ export interface FiatRampProvider {
   trackClickEventName: string;
   providerName?: string;
   showInfo?: boolean;
+  quote?: number;
+  usdQuote?: number;
+  isBestQuote?: boolean;
 }

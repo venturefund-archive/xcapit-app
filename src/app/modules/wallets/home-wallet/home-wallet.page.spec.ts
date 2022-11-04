@@ -31,7 +31,6 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { LocalStorageService } from 'src/app/shared/services/local-storage/local-storage.service';
 import { HideTextPipe } from 'src/app/shared/pipes/hide-text/hide-text.pipe';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
-import { GraphqlService } from '../shared-wallets/services/graphql/graphql.service';
 import { TwoPiProductFactory } from '../../defi-investments/shared-defi-investments/models/two-pi-product/factory/two-pi-product.factory';
 import { TwoPiApi } from '../../defi-investments/shared-defi-investments/models/two-pi-api/two-pi-api.model';
 import { Vault } from '@2pi-network/sdk';
@@ -45,6 +44,8 @@ import { rawETHData, rawMATICData } from '../../swaps/shared-swaps/models/fixtur
 import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
+import { InvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/invested-balance-of/injectable/invested-balance-of.injectable';
+import { FakeInvestedBalanceOf } from '../../defi-investments/shared-defi-investments/models/invested-balance-of/fake/fake-invested-balance-of';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -70,24 +71,15 @@ describe('HomeWalletPage', () => {
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
-  let graphqlServiceSpy: jasmine.SpyObj<GraphqlService>;
   let twoPiProductFactorySpy: jasmine.SpyObj<TwoPiProductFactory>;
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
+  let investedBalanceOfInjectableSpy: jasmine.SpyObj<InvestedBalanceOfInjectable>;
+
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
-  const dataTest = {
-    data: {
-      flows: [
-        {
-          balance: '12777395',
-          balanceUSD: '12.77640743514045',
-        },
-      ],
-    },
-  };
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -164,10 +156,6 @@ describe('HomeWalletPage', () => {
       getObject: [{ test: 'test' }],
     });
 
-    graphqlServiceSpy = jasmine.createSpyObj('GraphqlService', {
-      getInvestedBalance: of(dataTest),
-    });
-
     twoPiProductFactorySpy = jasmine.createSpyObj('TwoPiProductFactory', {
       create: {
         id: () => 1,
@@ -197,7 +185,9 @@ describe('HomeWalletPage', () => {
     });
 
     walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { connected: false });
-
+    investedBalanceOfInjectableSpy = jasmine.createSpyObj('InvestedBalanceOfInjectableSpy', {
+      create: new FakeInvestedBalanceOf(Promise.resolve(15.6)),
+    });
     TestBed.configureTestingModule({
       declarations: [HomeWalletPage, FakeTrackClickDirective, HideTextPipe, FakeFeatureFlagDirective],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule, ReactiveFormsModule],
@@ -217,13 +207,13 @@ describe('HomeWalletPage', () => {
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
         { provide: LocalStorageService, useValue: localStorageServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
-        { provide: GraphqlService, useValue: graphqlServiceSpy },
         { provide: TwoPiProductFactory, useValue: twoPiProductFactorySpy },
         { provide: TwoPiApi, useValue: twoPiApiSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
+        { provide: InvestedBalanceOfInjectable, useValue: investedBalanceOfInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -415,9 +405,8 @@ describe('HomeWalletPage', () => {
     const totalInvestedEl = fixture.debugElement.query(By.css('ion-text.wt__total-invested__text'));
     await fixture.whenRenderingDone();
     await fixture.whenStable();
-    expect(graphqlServiceSpy.getInvestedBalance).toHaveBeenCalledTimes(1);
-    expect(component.totalInvested).toEqual(12.77640743514045);
-    expect(totalInvestedEl.nativeElement.innerHTML).toContain('12.78 USD');
+    expect(component.totalInvested).toEqual(15.6);
+    expect(totalInvestedEl.nativeElement.innerHTML).toContain('15.60 USD');
   });
 
   it('should render correct icon if wallet connect is not connected and redirect to new connection page when icon is clicked', async () => {

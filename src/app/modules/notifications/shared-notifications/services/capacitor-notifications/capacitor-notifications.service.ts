@@ -2,15 +2,21 @@ import { Injectable } from '@angular/core';
 import { Notification } from '../notifications/notifications.interface';
 import { ApiDevicesService } from '../api-devices/api-devices.service';
 import { PlatformService } from '../../../../../shared/services/platform/platform.service';
-import { ActionPerformed, PushNotifications, PushNotificationSchema, RegistrationError, Token } from '@capacitor/push-notifications';
-
+import {
+  ActionPerformed,
+  PushNotifications,
+  PushNotificationSchema,
+  RegistrationError,
+  Token,
+} from '@capacitor/push-notifications';
+import { FCM } from '@capacitor-community/fcm';
 @Injectable({
   providedIn: 'root',
 })
 export class CapacitorNotificationsService implements Notification {
   token = '';
   pushNotifications = PushNotifications;
-
+  firebaseCloudMessaging = FCM;
   constructor(private apiDevicesService: ApiDevicesService, private platformService: PlatformService) {
     if (this.platformService.isNative()) this.addListeners();
   }
@@ -62,5 +68,13 @@ export class CapacitorNotificationsService implements Notification {
     } catch (e) {
       console.log('Add push notifications listeners error', e);
     }
+  }
+
+  unsubscribeFrom(aTopic: string) {
+    this.firebaseCloudMessaging.unsubscribeFrom({ topic: aTopic });
+  }
+
+  subscribeTo(aTopic: string) {
+    this.firebaseCloudMessaging.subscribeTo({ topic: aTopic });
   }
 }
