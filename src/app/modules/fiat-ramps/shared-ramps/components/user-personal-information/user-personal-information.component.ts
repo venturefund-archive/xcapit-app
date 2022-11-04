@@ -63,12 +63,12 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./user-personal-information.component.scss'],
 })
 export class UserPersonalInformationComponent implements OnInit {
-  @Input() nationality;
-  @Input() documentNumber;
-  @Input() gender;
-  @Input() maritalStatus;
-  @Input() countryCode;
-  @Input() phoneNumber;
+  @Input() nationality: any;
+  @Input() documentNumber: string;
+  @Input() gender: any;
+  @Input() maritalStatus: any;
+  @Input() countryCode: string;
+  @Input() phoneNumber: string;
 
   constructor(private navController: NavController) {}
 

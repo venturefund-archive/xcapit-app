@@ -116,9 +116,11 @@ export class KycUserAddressInformationPage implements OnInit {
     private navController: NavController
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.data = this.userKycKriptonDataService.getData();
-    this.showData();
+    this._showData();
   }
 
   nextPage() {
@@ -126,7 +128,7 @@ export class KycUserAddressInformationPage implements OnInit {
     this.navController.navigateForward('fiat-ramps/summary-data');
   }
 
-  showData() {
+  private _showData() {
     this.form.patchValue({
       street: this.data.street,
       number: this.data.number,
