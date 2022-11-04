@@ -28,7 +28,7 @@ export const rawPolygonData: RawBlockchain = {
 
 export const rawSolanaData: RawBlockchain = {
   name: 'SOLANA',
-  derivedPath: "m/44'/501'/0'/0/0",
+  derivedPath: "m/44'/501'/0'/0'",
   id: '1399811149',
   rpc: 'https://solana.com',
   nativeToken: {

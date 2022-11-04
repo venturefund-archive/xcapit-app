@@ -4,13 +4,13 @@ import { Wallet as EthersWallet, ethers } from 'ethers';
 import { DataRepo } from '../wallet-repo/data-repo.interface';
 import { Password } from '../password/password';
 import { Blockchains } from '../blockchains/blockchains';
-import { Keypair } from '@solana/web3.js';
+import { SolanaDerivedWallet } from '../solana-derived-wallet/solana-derived-wallet';
+
 
 export class Wallets {
   constructor(
     private _dataRepo: DataRepo,
     private _ethersWallet: any = EthersWallet,
-    private _solanaKeypair: any = Keypair
   ) {}
 
   async oneBy(aBlockchain: Blockchain): Promise<Wallet> {
@@ -36,7 +36,7 @@ export class Wallets {
     const addresses = {};
     for (const blockchain of blockchains.value()) {
       addresses[blockchain.name()] = this._isSolana(blockchain)
-        ? this._solanaWalletFor(aPhrase).publicKey.toString()
+        ? this._solanaDerivedAddressFor(aPhrase, blockchain)
         : this._ethersWalletFor(aPhrase, blockchain).address.toLowerCase();
     }
     return addresses;
@@ -46,8 +46,8 @@ export class Wallets {
     return blockchain.name() === 'SOLANA';
   }
 
-  private _solanaWalletFor(aPhrase: string): Keypair {
-    return this._solanaKeypair.fromSeed(ethers.utils.arrayify(ethers.utils.mnemonicToSeed(aPhrase)).slice(0, 32));
+  private _solanaDerivedAddressFor(aPhrase: string, blockchain: Blockchain): string {
+    return new SolanaDerivedWallet(aPhrase, blockchain).address();
   }
 
   private _erc20Wallet(aPhrase: string, blockchains: Blockchains): EthersWallet {
