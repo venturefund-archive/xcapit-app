@@ -215,7 +215,7 @@ export class KycUserPersonalInformationPage implements OnInit {
   }
 
   showData() {
-    if (this.form.value.nationality !== undefined) {
+    if (this.data.nationality !== undefined) {
       this.form.patchValue({
         nationality: this.data.nationality,
         document: this.data.document,

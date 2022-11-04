@@ -10,7 +10,6 @@ import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 import { KycUserPersonalInformationPage } from './kyc-user-personal-information.page';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const invalidFormData = {
   nationality: 'test',
@@ -159,6 +158,7 @@ describe('KycUserPersonalInformationPage', () => {
   });
 
   it('should get and patch data on form on init if there is data', async () => {
+    dataTest.nationality = 'Argentina'
     await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(userKycKriptonDataServiceSpy.getData).toHaveBeenCalledTimes(1);
@@ -172,7 +172,7 @@ describe('KycUserPersonalInformationPage', () => {
   });
 
   it('should patch default country code on form on init if there isnt data', async () => {
-    component.form.value.nationality = undefined;
+    dataTest.nationality = undefined;
     await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(userKycKriptonDataServiceSpy.getData).toHaveBeenCalledTimes(1);
