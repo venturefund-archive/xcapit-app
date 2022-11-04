@@ -39,7 +39,7 @@ export const rawProvidersData = [
     providerName: 'kripton',
     logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
     description: 'fiat_ramps.select_provider.krypton_description',
-    newOperationRoute: '/fiat-ramps/new-operation/kripton',
+    newOperationRoute: '/fiat-ramps/user-email',
     countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
     currencies: [
       { symbol: 'DAI', network: 'MATIC' },
