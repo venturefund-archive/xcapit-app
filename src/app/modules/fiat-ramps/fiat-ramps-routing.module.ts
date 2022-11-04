@@ -131,6 +131,11 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'summary-data',
+        loadChildren: () =>
+          import('./kyc-summary-data/kyc-summary-data.module').then((m) => m.KycSummaryDataPageModule),
+      },
+      {
         path: 'kyc-front-id',
         loadChildren: () =>
           import('./kyc-front-id-validation/kyc-front-id-validation.module').then(

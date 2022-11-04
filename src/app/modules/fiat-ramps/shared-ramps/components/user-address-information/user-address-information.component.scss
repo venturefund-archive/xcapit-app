@@ -1,0 +1,47 @@
+:host {
+  .ux-border-card {
+    margin: 0 16px 12px;
+    padding: 16px;
+    border: 0.5px solid var(--ion-color-neutral50);
+    border-radius: 8px;
+  }
+
+  .uai {
+    &__card {
+      &__personal-data {
+        .description {
+          margin-top: 4px;
+          margin-bottom: 8px;
+        }
+
+        .first {
+          margin-top: 0;
+        }
+
+        .last {
+          margin-bottom: 0;
+        }
+
+        .apartment {
+          display: flex;
+
+          &__number,
+          &__floor,
+          &__letter {
+            margin-right: 24px;
+          }
+        }
+
+        &__edit {
+          display: flex;
+          align-items: center;
+
+          &__edit-button {
+            position: absolute;
+            right: 18px;
+          }
+        }
+      }
+    }
+  }
+}

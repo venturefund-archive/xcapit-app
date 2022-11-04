@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
+import { UserKycKriptonData } from '../shared-ramps/interfaces/user-kyc-kripton-data.interface';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 @Component({
   selector: 'app-kyc-user-basic-information',
@@ -90,22 +92,39 @@ export class KycUserBasicInformationPage implements OnInit {
     ],
   });
 
+  data: UserKycKriptonData;
+
   constructor(
     private fb: FormBuilder,
     private trackService: TrackService,
-    private userKycKriptonDataService: UserKycKriptonDataService
+    private userKycKriptonDataService: UserKycKriptonDataService,
+    private navController: NavController
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.data = this.userKycKriptonDataService.getData();
+    this.showData();
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_buy_kripton_screenview_details',
     });
   }
+
   nextPage() {
     this.userKycKriptonDataService.updateData(this.form.value);
+    this.navController.navigateForward('fiat-ramps/user-personal-information');
+  }
+
+  showData() {
+    if (this.form.value.firstName !== '') {
+      this.form.patchValue({
+        firstName: this.data.firstName,
+        lastName: this.data.lastName,
+        birthday: this.data.birthday,
+      });
+    }
   }
 }

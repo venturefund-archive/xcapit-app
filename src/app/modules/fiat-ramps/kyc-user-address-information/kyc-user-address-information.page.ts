@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
+import { UserKycKriptonData } from '../shared-ramps/interfaces/user-kyc-kripton-data.interface';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 
 @Component({
@@ -106,12 +108,32 @@ export class KycUserAddressInformationPage implements OnInit {
     city: ['', [Validators.required, Validators.maxLength(150)]],
     zipCode: ['', [Validators.required, Validators.maxLength(150)]],
   });
-  constructor(private fb: FormBuilder, private userKycKriptonDataService: UserKycKriptonDataService) {}
+  data: UserKycKriptonData;
+
+  constructor(
+    private fb: FormBuilder,
+    private userKycKriptonDataService: UserKycKriptonDataService,
+    private navController: NavController
+  ) {}
 
   ngOnInit() {
+    this.data = this.userKycKriptonDataService.getData();
+    this.showData();
   }
 
   nextPage() {
     this.userKycKriptonDataService.updateData(this.form.value);
+    this.navController.navigateForward('fiat-ramps/summary-data');
+  }
+
+  showData() {
+    this.form.patchValue({
+      street: this.data.street,
+      number: this.data.number,
+      floor: this.data.floor,
+      apartment: this.data.apartment,
+      city: this.data.city,
+      zipCode: this.data.zipCode,
+    });
   }
 }

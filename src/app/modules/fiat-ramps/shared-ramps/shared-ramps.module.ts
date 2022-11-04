@@ -15,6 +15,9 @@ import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-moda
 import { UserRegisterStepCardComponent } from './components/user-register-step-card/user-register-step-card.component';
 import { ValidationContentComponent } from './components/validation-content/validation-content.component';
 import { ConfirmationContentComponent } from './components/confirmation-content/confirmation-content.component';
+import { UserBasicInformationComponent } from './components/user-basic-information/user-basic-information.component';
+import { UserPersonalInformationComponent } from './components/user-personal-information/user-personal-information.component';
+import { UserAddressInformationComponent } from './components/user-address-information/user-address-information.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,10 @@ import { ConfirmationContentComponent } from './components/confirmation-content/
     SkipTransactionVoucherComponent,
     UserRegisterStepCardComponent,
     ValidationContentComponent,
-    ConfirmationContentComponent
+    ConfirmationContentComponent,
+    UserBasicInformationComponent,
+    UserPersonalInformationComponent,
+    UserAddressInformationComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -51,7 +57,10 @@ import { ConfirmationContentComponent } from './components/confirmation-content/
     SkipTransactionVoucherComponent,
     UserRegisterStepCardComponent,
     ValidationContentComponent,
-    ConfirmationContentComponent
+    ConfirmationContentComponent,
+    UserBasicInformationComponent,
+    UserPersonalInformationComponent,
+    UserAddressInformationComponent,
   ],
 })
 export class SharedRampsModule {}
