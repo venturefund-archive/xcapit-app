@@ -1,8 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 
 import { OperationsListComponent } from './operations-list.component';
@@ -48,11 +49,18 @@ const operations: FiatRampOperation[] = [
 describe('OperationsListComponent', () => {
   let component: OperationsListComponent;
   let fixture: ComponentFixture<OperationsListComponent>;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
 
   beforeEach(waitForAsync(() => {
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
     TestBed.configureTestingModule({
       declarations: [ OperationsListComponent ],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: ModalController, useValue: modalControllerSpy },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
@@ -105,5 +113,12 @@ describe('OperationsListComponent', () => {
     const change: SimpleChanges = { operationsList: new SimpleChange([], [{},{}], true)}
     component.ngOnChanges(change);
     expect(component.operationsList.length).toEqual(2);
+  });
+
+  it('should show informative modal of Kripton Market provider when information-circle clicked', async () => {
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });

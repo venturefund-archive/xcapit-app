@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
+import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-provider-kripton.component';
 
 @Component({
   selector: 'app-operations-list',
@@ -8,7 +10,7 @@ import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interfac
       <ion-card-header [ngClass]="this.cssWithLine">
         <ion-card-title class="card-title ux-font-text-lg"
           >{{ 'fiat_ramps.operations_list.title' | translate }}
-          <ion-icon name="information-circle" color="info"></ion-icon>
+          <ion-icon name="information-circle" color="info" (click)="this.showProviderInfo()"></ion-icon>
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>
@@ -36,8 +38,9 @@ export class OperationsListComponent implements OnInit, OnChanges {
   remainingOperations: FiatRampOperation[];
   cssWithLine: string;
   hasOperations: boolean;
+  isInfoModalOpen = false;
 
-  constructor() {}
+  constructor(private modalController: ModalController) {}
 
   ngOnInit() {
     this.sliceOperations();
@@ -73,5 +76,22 @@ export class OperationsListComponent implements OnInit, OnChanges {
 
   private checkIfUserHasOperations(): boolean {
     return this.operationsList?.length > 0;
+  }
+
+  async showProviderInfo() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      await this.createKriptonInfoModal();
+      this.isInfoModalOpen = false;
+    }
+  }
+
+  async createKriptonInfoModal() {
+    const modal = await this.modalController.create({
+      component: InfoProviderKriptonComponent,
+      cssClass: 'ux-lg-modal-informative-provider-kripton',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 }

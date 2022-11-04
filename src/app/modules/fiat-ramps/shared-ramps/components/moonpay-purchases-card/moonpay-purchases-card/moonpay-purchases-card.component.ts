@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { InfoProviderMoonpayComponent } from '../../info-provider-moonpay/info-provider-moonpay.component';
 
 @Component({
   selector: 'app-moonpay-purchases-card',
@@ -9,7 +10,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
     <ion-card-header [ngClass]="this.cssWithLine">
       <ion-card-title class="card-title ux-font-text-lg"
         >{{ 'fiat_ramps.moonpay_purchases.title' | translate }}
-        <ion-icon name="information-circle" color="info"></ion-icon>
+        <ion-icon name="information-circle" color="info" (click)="this.showProviderInfo()"></ion-icon>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -27,12 +28,30 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 })
 export class MoonpayPurchasesCardComponent implements OnInit {
   cssWithLine: string;
+  isInfoModalOpen = false;
 
-  constructor(private browserService: BrowserService) {}
+  constructor(private browserService: BrowserService, private modalController: ModalController) {}
 
   ngOnInit() {}
 
   async browseTo() {
     await this.browserService.open({ url: LINKS.moonpayTransactionHistory });
+  }
+
+  async showProviderInfo() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      await this.createMoonpayInfoModal();
+      this.isInfoModalOpen = false;
+    }
+  }
+
+  async createMoonpayInfoModal() {
+    const modal = await this.modalController.create({
+      component: InfoProviderMoonpayComponent,
+      cssClass: 'ux-lg-modal-informative-provider-moonpay',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 }

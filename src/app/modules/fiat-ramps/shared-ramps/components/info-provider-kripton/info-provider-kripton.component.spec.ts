@@ -56,10 +56,9 @@ describe('InfoProviderKriptonComponent', () => {
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
-  it('should open in app browser to Kripton main page when Go To Kripton element is clicked', async () => {
+  it('should open Kripton Market main page when Go To Kripton link is clicked', () => {
     fixture.debugElement.query(By.css('ion-text[name="Go To Kripton"]')).nativeElement.click();
     fixture.detectChanges();
-    await fixture.whenStable();
-    expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
-  });
+    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'https://kriptonmarket.com' });
+  })
 });

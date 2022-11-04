@@ -21,10 +21,12 @@ import { ModalController } from '@ionic/angular';
         <div class="main__body">
           <div class="main__body__content">
             <div class="main__body__content__img">
-              <img [src]="this.image" />
+              <img src="assets/img/provider-logos/Moonpay.svg" />
             </div>
             <div class="main__body__content__title">
-              <ion-text class="ux-font-text-xl">{{ this.title }} </ion-text>
+              <ion-text class="ux-font-text-xl"
+                >{{ 'fiat_ramps.select_provider.modal_info.moonpay.provider_name' | translate }}
+              </ion-text>
             </div>
 
             <div class="ux-text-base main__body__content__header">
@@ -88,9 +90,7 @@ import { ModalController } from '@ionic/angular';
   `,
   styleUrls: ['./info-provider-moonpay.component.scss'],
 })
-export class InfoProviderMoonpayComponent implements OnInit {
-  image: string;
-  title: string;
+export class InfoProviderMoonpayComponent {
   constructor(private modalController: ModalController) {}
 
   ngOnInit() {}

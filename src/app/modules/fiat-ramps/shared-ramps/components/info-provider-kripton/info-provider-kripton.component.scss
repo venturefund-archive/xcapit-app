@@ -1,9 +1,6 @@
 :host {
   justify-content: center;
-
-  --max-height: 575.05px;
-  --max-width: 328px !important;
-  --background: var(--ion-color-white);
+  align-items: center;
 
   .main {
     position: relative;
@@ -71,9 +68,7 @@
           }
 
           ion-text {
-            .ux-link-xl {
-              text-decoration: none;
-            }
+            text-decoration: none;
           }
         }
 

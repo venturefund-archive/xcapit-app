@@ -2278,6 +2278,7 @@
         "kyc_required": "Requires KYC or registration process.",
         "button": "Understood",
         "kripton": {
+          "provider_name": "Kripton Market",
           "header": "It is an authorized provider for the sale of cryptocurrencies in Latin America.",
           "minimum_amount": "25 USD per purchase.",
           "delivery_time_1": "Up to 48 hours.",
@@ -2285,6 +2286,7 @@
           "more_information": "Kriptonmarket.com"
         },
         "moonpay": {
+          "provider_name": "Moonpay",
           "header": "It is an authorized provider for the sale of cryptocurrencies.",
           "payment_methods": "Credit card*.",
           "delivery_time": "Depends on the external provider on a case-by-case basis.",
