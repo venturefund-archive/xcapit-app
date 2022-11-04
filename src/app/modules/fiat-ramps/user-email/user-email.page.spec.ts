@@ -13,7 +13,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
 import { rawOperationData } from '../shared-ramps/fixtures/raw-operation-data';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
-fdescribe('UserEmailPage', () => {
+describe('UserEmailPage', () => {
   let component: UserEmailPage;
   let fixture: ComponentFixture<UserEmailPage>;
   let fiatRampServiceSpy: jasmine.SpyObj<FiatRampsService>;

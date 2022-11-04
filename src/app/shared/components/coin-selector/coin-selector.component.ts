@@ -37,7 +37,6 @@ export class CoinSelectorComponent {
   constructor() {}
 
   emitEventChangeCurrency() {
-    console.log(this.selectedCoin)
     if (this.enabled) {
       this.changeCurrency.emit();
     }
