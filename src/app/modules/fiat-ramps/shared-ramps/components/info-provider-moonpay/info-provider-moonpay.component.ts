@@ -93,8 +93,6 @@ import { ModalController } from '@ionic/angular';
 export class InfoProviderMoonpayComponent {
   constructor(private modalController: ModalController) {}
 
-  ngOnInit() {}
-
   close() {
     this.modalController.dismiss();
   }

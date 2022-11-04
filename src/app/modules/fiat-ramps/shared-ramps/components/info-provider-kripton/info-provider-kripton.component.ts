@@ -89,8 +89,6 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 export class InfoProviderKriptonComponent {
   constructor(private modalController: ModalController, private browserService: BrowserService) {}
 
-  ngOnInit() {}
-
   close() {
     this.modalController.dismiss();
   }
