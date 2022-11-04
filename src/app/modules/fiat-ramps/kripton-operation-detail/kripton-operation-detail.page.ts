@@ -65,13 +65,7 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
               <div>
                 <ion-badge></ion-badge>
               </div>
-              <app-operation-status-alert></app-operation-status-alert>
-              <!-- <app-backup-information-card
-                [text]="'fiat_ramps.kripton_operation_detail.state_toast.created'"
-                [textClass]="'ux-home-backup-card'"
-                [backgroundClass]="'ux-warning-background-card'"
-              >
-              </app-backup-information-card> -->
+              <app-operation-status-alert operationStatus="incompleta"></app-operation-status-alert>
             </div>
           </ion-item>
           <!-- Cotizacion/icono -->
