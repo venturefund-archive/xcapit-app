@@ -1,9 +1,11 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
@@ -30,18 +32,32 @@ const validFormData = {
   phone_number: '0123456789',
 };
 
+const dataTest = {
+  nationality: 'Argentina',
+  document: 'documentTest',
+  document_number: '12334345345',
+  gender: { name: 'male', value: 'fiat_ramps.register.gender_list.male' },
+  marital_status: { name: 'married', value: 'fiat_ramps.register.marital_status_list.married' },
+  country_code: { code: 'VEN (+58)' },
+  phone_number: '12333234456',
+  politically_exposed: false,
+};
+
 const provider = rawProvidersData[1];
 
-describe('KycUserBasicInformationStep2Page', () => {
+describe('KycUserPersonalInformationPage', () => {
   let component: KycUserPersonalInformationPage;
   let fixture: ComponentFixture<KycUserPersonalInformationPage>;
   let userKycKriptonDataServiceSpy: jasmine.SpyObj<UserKycKriptonDataService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
 
   beforeEach(waitForAsync(() => {
     userKycKriptonDataServiceSpy = jasmine.createSpyObj('UserKycKriptonDataService', {
       updateData: null,
+      getData: dataTest,
     });
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
@@ -49,6 +65,8 @@ describe('KycUserBasicInformationStep2Page', () => {
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       getProvider: provider,
     });
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
     TestBed.configureTestingModule({
       declarations: [KycUserPersonalInformationPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot(), ReactiveFormsModule],
@@ -56,6 +74,7 @@ describe('KycUserBasicInformationStep2Page', () => {
         { provide: UserKycKriptonDataService, useValue: userKycKriptonDataServiceSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -123,7 +142,7 @@ describe('KycUserBasicInformationStep2Page', () => {
     expect(buttonEl.properties.disabled).toBeTrue();
   });
 
-  it('should set userKycKriptonData when form was sumbitted', () => {
+  it('should set userKycKriptonData and redirect to user address page when form was sumbitted', () => {
     component.form.patchValue(validFormData);
     fixture.detectChanges();
 
@@ -131,10 +150,32 @@ describe('KycUserBasicInformationStep2Page', () => {
     buttonEl.nativeElement.click();
 
     expect(userKycKriptonDataServiceSpy.updateData).toHaveBeenCalledOnceWith(validFormData);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/user-address');
   });
 
   it('should track screenview event on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should get and patch data on form on init if there is data', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(userKycKriptonDataServiceSpy.getData).toHaveBeenCalledTimes(1);
+    expect(component.form.value.nationality).toEqual(dataTest.nationality);
+    expect(component.form.value.document).toEqual(dataTest.document);
+    expect(component.form.value.document_number).toEqual(dataTest.document_number);
+    expect(component.form.value.gender).toEqual(dataTest.gender);
+    expect(component.form.value.marital_status).toEqual(dataTest.marital_status);
+    expect(component.form.value.country_code).toEqual(dataTest.country_code);
+    expect(component.form.value.phone_number).toEqual(dataTest.phone_number);
+  });
+
+  it('should patch default country code on form on init if there isnt data', async () => {
+    component.form.value.nationality = undefined;
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(userKycKriptonDataServiceSpy.getData).toHaveBeenCalledTimes(1);
+    expect(component.form.value.country_code.code).toEqual('AR (+54)');
   });
 });

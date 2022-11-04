@@ -2,39 +2,52 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 import { KycUserAddressInformationPage } from './kyc-user-address-information.page';
+
+const invalidFormData = {
+  street: 'test',
+  number: 'test',
+  city: 'test123',
+  floor: '',
+  apartment: '',
+  zipCode: '123',
+};
+
+const validFormData = {
+  street: 'test',
+  number: '123',
+  city: 'test123',
+  floor: '',
+  apartment: '',
+  zipCode: '123',
+};
 
 describe('KycUserAddressInformationPage', () => {
   let component: KycUserAddressInformationPage;
   let fixture: ComponentFixture<KycUserAddressInformationPage>;
   let userKycKriptonDataServiceSpy: jasmine.SpyObj<UserKycKriptonDataService>;
-  const invalidFormData = {
-    street: 'test',
-    number: 'test',
-    city: 'test123',
-    floor: '',
-    apartment: '',
-    zipCode: '123',
-  };
-  const validFormData = {
-    street: 'test',
-    number: '123',
-    city: 'test123',
-    floor: '',
-    apartment: '',
-    zipCode: '123',
-  };
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
+
   beforeEach(waitForAsync(() => {
     userKycKriptonDataServiceSpy = jasmine.createSpyObj('UserKycKriptonDataService', {
       updateData: null,
+      getData: validFormData,
     });
+
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
     TestBed.configureTestingModule({
       declarations: [KycUserAddressInformationPage],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
-      providers: [{ provide: UserKycKriptonDataService, useValue: userKycKriptonDataServiceSpy }],
+      providers: [
+        { provide: UserKycKriptonDataService, useValue: userKycKriptonDataServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
@@ -83,7 +96,7 @@ describe('KycUserAddressInformationPage', () => {
     expect(buttonEl.properties.disabled).toBeTrue();
   });
 
-  it('should set userKycKriptonData when form was sumbitted', () => {
+  it('should set userKycKriptonData and redirect to summary data page when form was sumbitted', () => {
     component.form.patchValue(validFormData);
     fixture.detectChanges();
 
@@ -91,6 +104,17 @@ describe('KycUserAddressInformationPage', () => {
     buttonEl.nativeElement.click();
 
     expect(userKycKriptonDataServiceSpy.updateData).toHaveBeenCalledOnceWith(validFormData);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/summary-data');
   });
 
+  it('should get data and patch data on form on init if there is data', async () => {
+    fixture.detectChanges();
+    expect(userKycKriptonDataServiceSpy.getData).toHaveBeenCalledTimes(1);
+    expect(component.form.value.street).toEqual(validFormData.street);
+    expect(component.form.value.number).toEqual(validFormData.number);
+    expect(component.form.value.floor).toEqual(validFormData.floor);
+    expect(component.form.value.apartment).toEqual(validFormData.apartment);
+    expect(component.form.value.city).toEqual(validFormData.city);
+    expect(component.form.value.zipCode).toEqual(validFormData.zipCode);
+  });
 });

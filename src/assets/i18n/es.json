@@ -2651,6 +2651,33 @@
         "label_phone": "Teléfono",
         "button": "Continuar"
       },
+      "summary_data":{
+        "header": "Cargar datos",
+        "title": "🎊 ¡Así se hace! Terminamos",
+        "subtitle": "¿Deseas realizar algún cambio?",
+        "personal_data": {
+          "title": "Datos personales",
+          "label_name_surname": "Nombre y apellido",
+          "label_birthday": "Fecha de nacimiento",
+          "label_nationality": "Nacionalidad",
+          "label_document": "DNI",
+          "label_gender": "Género",
+          "label_marital_status": "Estado civil",
+          "label_phone": "Teléfono"
+        },
+        "address_data": {
+          "title": "Dirección",
+          "label_street": "Calle",
+          "label_apartment_number": "Número",
+          "label_apartment_floor": "Piso",
+          "label_apartment_letter": "Depto",
+          "label_city": "Ciudad",
+          "label_zip_code": "Código postal"
+        },
+        "checkbox_politically_exposed": "Declaro que no soy una persona políticamente expuesta.",
+        "disclaimer": "Persona políticamente expuesta: individuos que cumplen funciones públicas prominentes, como los Jefes de Estado o Gobierno, funcionarios gubernamentales, judiciales, militares y/o ejecutivos de alto nivel o rango.",
+        "button": "Confirmar y enviar"
+      },
       "front_id": {
         "back_modal": {
           "title": "Atención",

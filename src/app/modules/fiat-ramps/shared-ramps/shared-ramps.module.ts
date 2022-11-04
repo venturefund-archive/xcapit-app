@@ -21,6 +21,9 @@ import { KriptonAccountInfoCardComponent } from './components/kripton-account-in
 import { KriptonPurchaseInfoComponent } from './components/kripton-purchase-info/kripton-purchase-info.component';
 import { TimerCountdownComponent } from './components/timer-countdown/timer-countdown.component';
 import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-card/moonpay-purchases-card/moonpay-purchases-card.component';
+import { UserBasicInformationComponent } from './components/user-basic-information/user-basic-information.component';
+import { UserPersonalInformationComponent } from './components/user-personal-information/user-personal-information.component';
+import { UserAddressInformationComponent } from './components/user-address-information/user-address-information.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,9 @@ import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-ca
     KriptonAccountInfoCardComponent,
     KriptonPurchaseInfoComponent,
     TimerCountdownComponent,
+    UserBasicInformationComponent,
+    UserPersonalInformationComponent,
+    UserAddressInformationComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -69,6 +75,9 @@ import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-ca
     KriptonAccountInfoCardComponent,
     KriptonPurchaseInfoComponent,
     TimerCountdownComponent,
+    UserBasicInformationComponent,
+    UserPersonalInformationComponent,
+    UserAddressInformationComponent,
   ],
 })
 export class SharedRampsModule {}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { COUNTRY_CODE } from '../constants/conutry_code';
 import { DOC_TYPES } from '../constants/doc_types';
@@ -7,6 +8,7 @@ import { GENDERS } from '../constants/gender';
 import { MARITAL_STATUS } from '../constants/marital-status';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
+import { UserKycKriptonData } from '../shared-ramps/interfaces/user-kyc-kripton-data.interface';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 
@@ -164,28 +166,32 @@ export class KycUserPersonalInformationPage implements OnInit {
   docTypes = DOC_TYPES;
   countryCode = COUNTRY_CODE;
   provider: FiatRampProvider;
+  data: UserKycKriptonData;
 
   constructor(
     private fb: FormBuilder,
     private trackService: TrackService,
     private userKycKriptonDataService: UserKycKriptonDataService,
-    private fiatRampsService: FiatRampsService
+    private fiatRampsService: FiatRampsService,
+    private navController: NavController
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.data = this.userKycKriptonDataService.getData();
     this.getProvider();
-    this.defaultCountryCode();
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_buy_kripton_screenview_details',
     });
+    this.showData();
   }
 
   private getProvider() {
     this.provider = this.fiatRampsService.getProvider(1);
+    this.countries = [];
     this.filterCountries();
   }
 
@@ -205,5 +211,22 @@ export class KycUserPersonalInformationPage implements OnInit {
 
   nextPage() {
     this.userKycKriptonDataService.updateData(this.form.value);
+    this.navController.navigateForward('fiat-ramps/user-address');
+  }
+
+  showData() {
+    if (this.form.value.nationality !== undefined) {
+      this.form.patchValue({
+        nationality: this.data.nationality,
+        document: this.data.document,
+        document_number: this.data.document_number,
+        gender: this.data.gender,
+        marital_status: this.data.marital_status,
+        country_code: this.data.country_code,
+        phone_number: this.data.phone_number,
+      });
+    } else {
+      this.defaultCountryCode();
+    }
   }
 }
