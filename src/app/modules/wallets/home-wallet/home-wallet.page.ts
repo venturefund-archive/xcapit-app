@@ -35,6 +35,7 @@ import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
 import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { InvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/invested-balance-of/injectable/invested-balance-of.injectable';
+import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 
 @Component({
   selector: 'app-home-wallet',
@@ -260,7 +261,8 @@ export class HomeWalletPage implements OnInit {
     private walletsFactory: WalletsFactory,
     private walletConnectService: WalletConnectService,
     private updateNewsService: UpdateNewsService,
-    private investedBalanceOfInjectable: InvestedBalanceOfInjectable
+    private investedBalanceOfInjectable: InvestedBalanceOfInjectable,
+    private totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable
   ) {}
 
   ngOnInit() {}
@@ -317,10 +319,9 @@ export class HomeWalletPage implements OnInit {
   }
 
   async setInvestedBalance() {
-    this.totalInvested = await this.pids.reduce(
-      async (total, pid) => (await total) + (await this.investedBalanceOfInjectable.create(this.address, pid).value()),
-      Promise.resolve(0)
-    );
+    const totalInvestedBalanceOf = this.totalInvestedBalanceOfInjectable.create(this.address, this.pids);
+    this.totalInvested = await totalInvestedBalanceOf.cached();
+    this.totalInvested = await totalInvestedBalanceOf.value();
     this.spinnerActivated = true;
   }
 
