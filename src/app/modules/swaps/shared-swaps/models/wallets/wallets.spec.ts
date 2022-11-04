@@ -10,11 +10,14 @@ import { WalletRepo } from '../wallet-repo/wallet-repo';
 import { SolanaWallet } from '../wallet/wallet';
 import { Wallets } from './wallets';
 
-describe('Wallets', () => {
+fdescribe('Wallets', () => {
   let wallets: Wallets;
 
   beforeEach(() => {
-    wallets = new Wallets(new WalletRepo(new FakeAppStorage(rawStoredWalletData)), new FakeEthersWallet());
+    wallets = new Wallets(
+      new WalletRepo(new FakeAppStorage(rawStoredWalletData)),
+      new FakeEthersWallet()
+    );
   });
 
   it('new', () => {

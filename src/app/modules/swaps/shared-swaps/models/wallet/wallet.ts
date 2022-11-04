@@ -3,9 +3,9 @@ import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { BlockchainTx } from '../blockchain-tx';
 import { Blockchain } from '../blockchain/blockchain';
 import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
-import { Connection, Keypair, Transaction } from '@solana/web3.js';
-import * as bip39 from 'bip39';
+import { Connection, Transaction } from '@solana/web3.js';
 import { FakeConnection } from '../fakes/fake-connection';
+import { SolanaDerivedWallet } from '../solana-derived-wallet/solana-derived-wallet';
 
 export interface Wallet {
   address: () => string;
@@ -106,20 +106,30 @@ export class SolanaWallet implements Wallet {
 
   constructor(
     private _rawData: any,
+    private _aBlockchain: Blockchain,
     private _connection: Connection | FakeConnection,
     private _ethersWallet: any = EthersWallet
   ) {}
 
   public static create(_rawData: any, _aBlockchain: Blockchain): SolanaWallet {
-    return new this(_rawData, new Connection(_aBlockchain.rpc()));
+    return new this(_rawData, _aBlockchain, new Connection(_aBlockchain.rpc()));
   }
 
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
-    const derivedWallet = this._derivedWallet(await this._decryptedWallet());
-    for (const tx of transactions) {
-      await this._connection.sendTransaction((await tx.value()) as Transaction, [derivedWallet]);
-    }
+    await this._sendTxs(
+      transactions,
+      new SolanaDerivedWallet(
+        (await this._decryptedWallet()).mnemonic.phrase,
+        this._aBlockchain
+      )
+    );
     return true;
+  }
+
+  private async _sendTxs(transactions: BlockchainTx[], wallet: SolanaDerivedWallet): Promise<void> {
+    for (const tx of transactions) {
+      await this._connection.sendTransaction((await tx.value()) as Transaction, [wallet.value()]);
+    }
   }
 
   private async _decryptedWallet(): Promise<EthersWallet> {
@@ -134,10 +144,6 @@ export class SolanaWallet implements Wallet {
 
   private _encryptedWallet(): string {
     return this._rawData['encryptedWallet'];
-  }
-
-  private _derivedWallet(aEthersWallet: EthersWallet): Keypair {
-    return Keypair.fromSeed(bip39.mnemonicToSeedSync(aEthersWallet.mnemonic.phrase, '').slice(0, 32));
   }
 
   address(): string {
