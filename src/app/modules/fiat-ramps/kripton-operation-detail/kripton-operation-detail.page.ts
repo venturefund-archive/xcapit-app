@@ -59,12 +59,13 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
                 <ion-text class="ux-font-titulo-xs">
                   {{ 'fiat_ramps.kripton_operation_detail.state' | translate }}
                 </ion-text>
+                <ion-icon
+                  name="information-circle"
+                  (click)="this.showStateInformation()"
+                  color="info"
+                ></ion-icon>
               </div>
-              <ion-text> </ion-text>
-              <ion-button><ion-icon></ion-icon></ion-button>
-              <div>
-                <ion-badge></ion-badge>
-              </div>
+              <!-- <app-operation-status-chip></app-operation-status-chip> -->
               <app-operation-status-alert operationStatus="incompleta"></app-operation-status-alert>
             </div>
           </ion-item>
@@ -209,5 +210,9 @@ export class KriptonOperationDetailPage implements OnInit {
     await this.browserService.open({
       url: 'https://kriptonmarket.com/terms-and-conditions',
     });
+  }
+
+  showStateInformation() {
+    return;
   }
 }
