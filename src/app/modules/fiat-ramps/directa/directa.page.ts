@@ -101,8 +101,9 @@ export class DirectaPage implements OnInit {
   destroy$: Subject<void>;
   minimumFiatAmount: number;
   minimumCryptoAmount: number;
-  mininumUSDAmount = 2;
+  minimumUSDAmount = 10;
   fee = { value: 0, token: '' };
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
@@ -209,7 +210,7 @@ export class DirectaPage implements OnInit {
     await this.addBoughtCoinIfUserDoesNotHaveIt();
   }
 
-  getProviders(): Providers  {
+  getProviders(): Providers {
     return this.providers.create();
   }
 
@@ -263,6 +264,7 @@ export class DirectaPage implements OnInit {
   private clearValidators() {
     this.form.get('fiatAmount').clearValidators();
   }
+
   private addGreaterThanValidator(amount) {
     this.clearValidators();
     this.addDefaultValidators();
@@ -286,7 +288,7 @@ export class DirectaPage implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
         if (this.price) {
-          this.minimumCryptoAmount = this.mininumUSDAmount / price;
+          this.minimumCryptoAmount = this.minimumUSDAmount / price;
           this.minimumFiatAmount = new CeilOf(this.minimumCryptoAmount * this.price).value();
           this.addGreaterThanValidator(this.minimumFiatAmount);
         }
