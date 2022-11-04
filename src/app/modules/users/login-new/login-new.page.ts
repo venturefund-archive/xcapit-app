@@ -19,6 +19,7 @@ import { LoginBiometricActivationModalService } from '../shared-users/services/l
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { LoginMigrationService } from '../shared-users/services/login-migration-service/login-migration-service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { AuthService } from '../shared-users/services/auth/auth.service';
 
 @Component({
   selector: 'app-login-new',
@@ -96,6 +97,8 @@ export class LoginNewPage {
   form: UntypedFormGroup = this.formBuilder.group({
     password: ['', []],
   });
+  private readonly _aTopic = 'app';
+  private readonly _aKey = 'enabledPushNotifications';
   biometricAuth: BiometricAuth;
   constructor(
     private toastService: ToastService,
@@ -106,15 +109,18 @@ export class LoginNewPage {
     private modalController: ModalController,
     private biometricAuthInjectable: BiometricAuthInjectable,
     private trackService: TrackService,
+    private ionicStorageService: IonicStorageService,
     private walletBackupService: WalletBackupService,
     private platformService: PlatformService,
     private loginBiometricActivationService: LoginBiometricActivationModalService,
     private remoteConfig: RemoteConfigService,
     private loginMigrationService: LoginMigrationService,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private authService: AuthService
   ) {}
 
   async ionViewWillEnter() {
+    this.removeOldToken();
     this.biometricAuth = this.biometricAuthInjectable.create();
     this.activateBiometricAuth();
     this.trackService.trackEvent({
@@ -122,6 +128,10 @@ export class LoginNewPage {
       description: window.location.href,
       eventLabel: 'ux_screenview_login',
     });
+  }
+
+  private removeOldToken(): void {
+    this.authService.logout();
   }
 
   dismissToast() {
@@ -148,13 +158,31 @@ export class LoginNewPage {
     }
   }
 
+  async enabledPushNotifications(): Promise<boolean> {
+    return await this.ionicStorageService.get(this._aKey).then((status) => status);
+  }
+
+  pushNotificationsService(){
+    return this.notificationsService.getInstance();
+  }
+
+  async initializeNotifications(){
+    this.pushNotificationsService().init();
+    if(await this.enabledPushNotifications()){
+      this.pushNotificationsService().subscribeTo(this._aTopic);
+    }else{
+      this.pushNotificationsService().subscribeTo(this._aTopic);
+      this.pushNotificationsService().unsubscribeFrom(this._aTopic);
+    }
+  }
+    
   private _loginToken(aPassword: string): LoginToken {
     return new LoginToken(new Password(aPassword), this.storage);
   }
 
   private async _loggedIn(): Promise<void> {
     await new LoggedIn(this.storage).save(true);
-    this.notificationsService.getInstance().init();
+    await this.initializeNotifications();
     await this.checkWalletProtected();
   }
 

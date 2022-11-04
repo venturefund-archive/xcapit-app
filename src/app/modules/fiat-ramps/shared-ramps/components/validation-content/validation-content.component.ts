@@ -1,11 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
 import { UserKycKriptonImagesService } from 'src/app/modules/fiat-ramps/shared-ramps/services/user-kyc-kripton-images/user-kyc-kripton-images.service';
 import { Gallery } from 'src/app/shared/models/photo-source/gallery/gallery';
 import { Camera } from 'src/app/shared/models/photo-source/camera/camera';
 import { UploadedPhotoInjectable } from 'src/app/shared/models/uploaded-photo/injectable/uploaded-photo.injectable';
-import { TrackService } from 'src/app/shared/services/track/track.service';
 import { Photo } from 'src/app/shared/models/photo/photo.interface';
 @Component({
   selector: 'app-validation-content',
@@ -20,10 +17,10 @@ import { Photo } from 'src/app/shared/models/photo/photo.interface';
           {{ 'fiat_ramps.shared.validation_content.header' | translate }}
         </ion-title>
         <ion-label class="ux-font-text-xs vc__step_counter" slot="end"
-          >{{ this.data.step_from }} {{ 'shared.step_counter.of' | translate }} 3</ion-label
+          >{{ this.data.stepFrom }} {{ 'shared.step_counter.of' | translate }} 3</ion-label
         >
       </ion-toolbar>
-      <ion-progress-bar class="vc__progress" [value]="0.25" color="info"></ion-progress-bar>
+      <ion-progress-bar class="vc__progress" [value]="this.data.progress" color="info"></ion-progress-bar>
       <div class="vc__provider">
         <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.shared.validation_content.provider' | translate }}</ion-text>
       </div>
@@ -79,16 +76,16 @@ export class ValidationContentComponent implements OnInit {
 
   async takePhoto() {
     const photo: Photo = await this.uploadedPhoto.create(new Camera()).value();
-    this.updateFrontDocument(photo);
+    this.updateDigitalDocument(photo);
   }
 
   async uploadPhoto() {
     const photo: Photo = await this.uploadedPhoto.create(new Gallery()).value();
-    this.updateFrontDocument(photo);
+    this.updateDigitalDocument(photo);
   }
 
-  private updateFrontDocument(photo: Photo): void {
-    this.userKycKriptonImagesService.update({ front_document: photo.path() });
+  private updateDigitalDocument(photo: Photo): void {
+    this.userKycKriptonImagesService.update({ [this.data.documentName]: photo.path() });
     this.confirm.emit();
   }
 

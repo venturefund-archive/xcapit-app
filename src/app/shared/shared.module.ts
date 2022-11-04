@@ -63,7 +63,7 @@ import { UpdateNewsComponent } from './components/update-news/update-news.compon
 import { NewsItemComponent } from './components/news-item/news-item.component';
 import { FeatureFlagDirective } from './directives/feature-flag/feature-flag.directive';
 import { UpdateAppModalComponent } from './components/update-app-modal/update-app-modal.component';
-import { ToastWithButtonsComponent } from '../modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
+import { ToastWithButtonsComponent } from './components/toast-with-buttons/toast-with-buttons.component';
 import { TokenSelectionListComponent } from './components/token-selection-list/token-selection-list.component';
 import { SuitePipe } from './pipes/suite/suite.pipe';
 import { CoinSelectorComponent } from './components/coin-selector/coin-selector.component';
@@ -96,7 +96,7 @@ import { NewTokenAvailableCardComponent } from '../modules/wallets/shared-wallet
 import { NewTokenInfoModalComponent } from '../modules/wallets/shared-wallets/components/new-token-info-modal/new-token-info-modal.component';
 import { InformationModalComponent } from './components/information-modal/information-modal.component';
 import { TwoButtonsAlertComponent } from './components/two-buttons-alert/two-buttons-alert.component';
-import { InReviewFeatureFlagDirective } from './directives/in-review-feature-flag/in-review-feature-flag.directive';
+import { BuyCryptoFeatureFlagDirective } from './directives/in-review-feature-flag/buy-crypto-feature-flag.directive';
 
 @NgModule({
   declarations: [
@@ -195,7 +195,7 @@ import { InReviewFeatureFlagDirective } from './directives/in-review-feature-fla
     NumberInputDirective,
     ButtonSpinnerDirective,
     FeatureFlagDirective,
-    InReviewFeatureFlagDirective,
+    BuyCryptoFeatureFlagDirective,
   ],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
@@ -299,7 +299,7 @@ import { InReviewFeatureFlagDirective } from './directives/in-review-feature-fla
     NumberInputDirective,
     FeatureFlagDirective,
     SelectStyleDirective,
-    InReviewFeatureFlagDirective,
+    BuyCryptoFeatureFlagDirective,
   ],
 })
 export class SharedModule {}

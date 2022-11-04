@@ -15,6 +15,9 @@ import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-moda
 import { UserRegisterStepCardComponent } from './components/user-register-step-card/user-register-step-card.component';
 import { ValidationContentComponent } from './components/validation-content/validation-content.component';
 import { ConfirmationContentComponent } from './components/confirmation-content/confirmation-content.component';
+import { BuyOrDepositTokenToastComponent } from './components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
+import { UserRegisterContentComponent } from './components/user-register-content/user-register-content/user-register-content.component';
+import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-card/moonpay-purchases-card/moonpay-purchases-card.component';
 import { UserBasicInformationComponent } from './components/user-basic-information/user-basic-information.component';
 import { UserPersonalInformationComponent } from './components/user-personal-information/user-personal-information.component';
 import { UserAddressInformationComponent } from './components/user-address-information/user-address-information.component';
@@ -34,11 +37,15 @@ import { UserAddressInformationComponent } from './components/user-address-infor
     FeeInfoModalComponent,
     SkipTransactionVoucherComponent,
     UserRegisterStepCardComponent,
+    MoonpayPurchasesCardComponent,
+    UserRegisterContentComponent,
     ValidationContentComponent,
     ConfirmationContentComponent,
     UserBasicInformationComponent,
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
+    BuyOrDepositTokenToastComponent
+
   ],
   imports: [SharedModule],
   exports: [
@@ -56,11 +63,15 @@ import { UserAddressInformationComponent } from './components/user-address-infor
     FeeInfoModalComponent,
     SkipTransactionVoucherComponent,
     UserRegisterStepCardComponent,
+    MoonpayPurchasesCardComponent,
+    UserRegisterContentComponent,
     ValidationContentComponent,
     ConfirmationContentComponent,
     UserBasicInformationComponent,
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
+    ConfirmationContentComponent
+
   ],
 })
 export class SharedRampsModule {}

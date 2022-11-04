@@ -46,64 +46,66 @@ describe('LoginPage', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      fakeNavController.modifyReturns({}, {}, {}, {}, {});
-      ionicStorageSpy = jasmine.createSpyObj(
-        'IonicStorageService',
-        {
-          get: Promise.resolve(true),
-          set: Promise.resolve(),
-        },
-        {}
-      );
-
-      apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', {
-        login: of({}),
-      });
-
-      subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', {
-        checkStoredLink: Promise.resolve(false),
-      });
-
-      storageSpy = jasmine.createSpyObj('Storage', {
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    fakeNavController.modifyReturns({}, {}, {}, {}, {});
+    ionicStorageSpy = jasmine.createSpyObj(
+      'IonicStorageService',
+      {
         get: Promise.resolve(true),
-      });
+        set: Promise.resolve(),
+      },
+      {}
+    );
 
-      nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init']);
+    apiUsuariosSpy = jasmine.createSpyObj('ApiUsuariosService', {
+      login: of({}),
+    });
 
-      notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
-        getInstance: nullNotificationServiceSpy,
-      });
+    subscriptionsServiceSpy = jasmine.createSpyObj('SubscriptionsService', {
+      checkStoredLink: Promise.resolve(false),
+    });
 
-      updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
-      platformServiceSpy = jasmine.createSpyObj('PlatformService', { isWeb: true });
+    storageSpy = jasmine.createSpyObj('Storage', {
+      get: Promise.resolve(true),
+    });
 
-      walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
-        uri: new BehaviorSubject(null),
-        checkDeeplinkUrl: Promise.resolve(null),
-      });
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
+      'init',
+      'subscribeTo',
+      'unsubscribeFrom',
+    ]);
 
-      TestBed.configureTestingModule({
-        declarations: [LoginPage, AuthFormComponent, FakeTrackClickDirective, DummyComponent],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        imports: [HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
-        providers: [
-          { provide: ApiUsuariosService, useValue: apiUsuariosSpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: SubscriptionsService, useValue: subscriptionsServiceSpy },
-          { provide: NotificationsService, useValue: notificationsServiceSpy },
-          { provide: Storage, useValue: storageSpy },
-          { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
-          { provide: PlatformService, useValue: platformServiceSpy },
-          { provide: WalletConnectService, useValue: walletConnectServiceSpy },
-          { provide: IonicStorageService, useValue: ionicStorageSpy },
-        ],
-      }).compileComponents();
-    })
-  );
+    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+      getInstance: nullNotificationServiceSpy,
+    });
+
+    updateNewsServiceSpy = jasmine.createSpyObj('UpdateNewsService', { showModal: Promise.resolve() });
+    platformServiceSpy = jasmine.createSpyObj('PlatformService', { isWeb: true });
+
+    walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
+      uri: new BehaviorSubject(null),
+      checkDeeplinkUrl: Promise.resolve(null),
+    });
+
+    TestBed.configureTestingModule({
+      declarations: [LoginPage, AuthFormComponent, FakeTrackClickDirective, DummyComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule, IonicModule],
+      providers: [
+        { provide: ApiUsuariosService, useValue: apiUsuariosSpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: SubscriptionsService, useValue: subscriptionsServiceSpy },
+        { provide: NotificationsService, useValue: notificationsServiceSpy },
+        { provide: Storage, useValue: storageSpy },
+        { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
+        { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: WalletConnectService, useValue: walletConnectServiceSpy },
+        { provide: IonicStorageService, useValue: ionicStorageSpy },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginPage);
@@ -116,13 +118,27 @@ describe('LoginPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set up on login success without stored link', fakeAsync(() => {
+  it('should set up on login success without stored link and push notifications activated', fakeAsync(() => {
     const spy = spyOn(component.loginForm.form, 'reset');
     component.loginUser({});
     tick();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(1);
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
     expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
+    expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should set up on login success without stored link and push notifications not activated', fakeAsync(() => {
+    ionicStorageSpy.get.and.returnValue(Promise.resolve(false));
+    const spy = spyOn(component.loginForm.form, 'reset');
+    component.loginUser({});
+    tick();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(3);
+    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
     expect(subscriptionsServiceSpy.checkStoredLink).toHaveBeenCalledTimes(1);
   }));
 

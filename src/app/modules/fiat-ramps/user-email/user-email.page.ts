@@ -86,13 +86,9 @@ export class UserEmailPage implements OnInit {
   ngOnInit() {}
 
   async checkKYCAndRedirect() {
-    if(this.remoteConfig.getFeatureFlag('ff_kriptonNewUx')){
-      this.navController.navigateForward(['/fiat-ramps/user-register'])
-    }else{
       const userStatus = await this.fiatRampsService.getOrCreateUser(this.form.value).toPromise();
       this.saveEmail();
       this.redirectByStatus(userStatus.registration_status);
-    }
   }
 
   redirectByStatus(registrationStatus: string) {

@@ -357,9 +357,9 @@
         "confirm_button": "Confirmar inversión"
       },
       "informative_modal": "No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos.",
-      "informative_modal_fee": "No tienes suficientes {{nativeToken}} en tu cuenta para pagar la tarifa de transacción.",
-      "buy_button": "Comprar {{nativeToken}}",
-      "deposit_button": "Depositar {{nativeToken}}",
+      "informative_modal_fee": "No tienes suficientes {{token}} en tu cuenta para pagar la tarifa de transacción.",
+      "buy_button": "Comprar {{token}}",
+      "deposit_button": "Depositar {{token}}",
       "terms": {
         "third_party_disclaimer": "Entiendo que al invertir mis criptomonedas lo haré a través de un proveedor externo (2pi) sujeto a  términos y condiciones  distintos, de los cuales Xcapit no es responsable.",
         "i_have_read": "He leído y acepto los ",
@@ -375,7 +375,7 @@
       "title_investments": "Mis inversiones",
       "profits": "Ganancia continua",
       "profits_weekly": "Ganancia Semanal",
-      "total_invested": "Inversión y ganancias",
+      "total_invested": "Saldo total invertido",
       "recommendations": "Podrían interesarte",
       "empty_products": "Proximamente podrás encontrar las mejores inversiones para tu perfil",
       "link_button": "¿Cómo funcionan las inversiones DeFi?",
@@ -512,7 +512,7 @@
       },
       "earnings_modal_info": {
         "title": "¿Qué es el rendimiento total?",
-        "description": "Es la sumatoria en USD del total de los rendimientos obtenidos en tus productos de inversión.",
+        "description": "Es la sumatoria en USD del total de los rendimientos obtenidos en tus productos de inversión.\n No es histórico ni acumulado, por lo que si tu saldo es cero, tus rendimientos también lo serán. Se calculan a partir del saldo invertido en el momento.",
         "button": "Entendido"
       }
     },
@@ -1674,8 +1674,8 @@
       "error_toast": "La contraseña que ingresaste es incorrecta"
     },
     "home": {
-      "available_money": "Tus activos",
-      "invested": "Invertidos",
+      "available_money": "Saldo disponible",
+      "invested": "Monto invertido",
       "tab_assets": "Monedas",
       "tab_nfts": "NFTs",
       "wallet_recovery": "Importar una wallet existente",
@@ -2178,6 +2178,11 @@
     "tools": "Herramientas"
   },
   "fiat_ramps": {
+    "home_of_purchases": {
+      "header": "Mis compras",
+      "question":"¿Cómo funcionan las compras?",
+      "button": "Realizar nueva compra"
+    },
     "buy_conditions": {
       "title": "¿Qué necesitas saber antes de comprar?",
       "condition_1": "Las compras se realizan a través de un proveedor externo. Xcapit no vende criptomonedas.",
@@ -2198,24 +2203,34 @@
       "button_text": "Ir a wallet"
     },
     "operations_list": {
-      "title": "Mis operaciones",
+      "title": "Compras en Kripton Market",
       "operation": "Compra",
       "amount": "Monto",
       "date": "Fecha",
       "status": "Estado",
-      "no_operations_message": "Aún no tienes compras realizadas, aquí vas a poder ver el listado de tus compras",
+      "no_operations_message": "Una vez realizadas tus compras, podrás verlas en este apartado.",
       "button_show_less": "Ver menos",
       "button_show_more": "Ver más"
+    },
+    "moonpay_purchases": {
+      "title": "Compras en Moonpay",
+      "message": "Si realizaste compras, puedes verlas",
+      "link": "aquí"
     },
     "provider_new_operation_card": {
       "description": "Proveedor: {{providerName}}"
     },
     "select_provider": {
-      "header": "Comprar Cripto",
+      "header": "Comprar cripto",
       "select_label": "Pais en el que vas a operar",
       "select_placeholder": "Selecciona tu país",
       "provider_label": "Selecciona tu medio de pago",
       "no_provider": "Por el momento no es posible adquirir {{coinName}} en tu país.",
+      "description": "Compra con {{providerName}} {{token}} a ${{quote}} {{fiatCode}}.",
+      "best_quote": "Mejor cotización",
+      "pay_in_usd": "Comprá en USD",
+      "pay_in_fiat": "Comprá en moneda local",
+      "disclaimer": "* Las cotizaciones pueden variar ligeramente al momento de la compra.",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
       "directa24": {
@@ -2226,7 +2241,6 @@
         "debit_credit_description": "Compra con débito o crédito",
         "transfer_description": "Compra a través de transferencia"
       },
-      "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
       "button": "Continuar",
       "modal_info": {
         "subtitle_1": "Medios de pago habilitados:",
@@ -2500,6 +2514,21 @@
         "item3": "Podrás encontrarlo en tu ticket de pago como “verificador de monto”.",
         "button": "Entendido"
       },
+      "user_register_content":{
+        "user_information":{
+          "title":"¡Hola! Aún no posees una cuenta, te ayudaremos a registrarte rápidamente",
+          "subtitle": "😄 ¡No te preocupes! Será por única vez."
+        },
+        "user_images":{
+          "title":"Datos, listo ✅",
+          "subtitle": "Sólo queda un paso más, ¡no aflojes!"
+        },
+        "complete":{
+          "title":"¡Felicitaciones! 🎉 Registro finalizado",
+          "subtitle": "⏱ Kripton Market está validando tu cuenta. Este proceso puede demorar hasta 48 hs.",
+          "subtitle_2": "🛒 Una vez que tengas tu cuenta validada, podrás realizar tus compras con este proveedor."
+        }
+      },       
       "validation_content": {
         "header": "Verificar identidad",
         "provider": "Proveedor: Kripton Market",
@@ -2509,6 +2538,10 @@
         "front_id": {
           "title": "¡Hola de nuevo! 👋",
           "subtitle": "Necesitamos una foto del frente de tu documento",
+          "description": "La imagen debe ser similar a la del ejemplo y sus datos deben ser visibles."
+        },
+        "back_id": {
+          "subtitle": "Ahora precisamos una foto del revés de tu documento",
           "description": "La imagen debe ser similar a la del ejemplo y sus datos deben ser visibles."
         }
       },
@@ -2523,6 +2556,11 @@
           "title": "¡Muy bien! 📸",
           "subtitle": "Chequea que la foto cumpla con las siguientes condiciones:",
           "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>"
+        },
+        "back_id": {
+          "title": "😁 ¡Excelente!" ,
+          "subtitle": "Chequea que la foto cumpla con las siguientes condiciones: ",
+          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>"
         }
       }
     },
@@ -2535,13 +2573,13 @@
       "button": "Continuar",
       "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones."
     },
-    "user_register": {
-      "header": "Registración",
-      "provider": "Proveedor: Kripton Market",
-      "title": "¡Hola! Aún no posees una cuenta, te ayudaremos a registrarte rápidamente",
-      "subtitle": "😄 ¡No te preocupes! Será por única vez.",
+    "user_register":{
+      "header":"Registración",
+      "provider":"Proveedor: Kripton Market",
+      "button": "Finalizar",
       "steps": {
-        "step_one": {
+        "complete": "Completo",
+        "step_one":{
           "title": "Cargar datos",
           "subtitle": "Completa con tu información personal"
         },
@@ -2949,7 +2987,19 @@
       "tos_1": "Leí y estoy de acuerdo con los ",
       "tos_button": "términos y condiciones",
       "tos_2": "de 1inch",
-      "warning_same_tokens": "El token de origen no puede ser igual al token de destino."
+      "warning_same_tokens": "El token de origen no puede ser igual al token de destino.",
+      "balance_modal": {
+        "insufficient_balance": {
+          "text": "No tienes suficiente {{token}} en tu cuenta para realizar esta operación.",
+          "firstButtonName": "Comprar {{token}}",
+          "secondaryButtonName": "Depositar {{token}}"
+        },
+        "insufficient_balance_fee": {
+          "text": "No tienes suficientes {{token}} en tu cuenta para pagar la tarifa de transacción.",
+          "firstButtonName": "Comprar {{token}}",
+          "secondaryButtonName": "Depositar {{token}}"
+        }
+      }
     },
     "errors": {
       "invalid_password": "La contraseña ingresada no es correcta."
@@ -2991,5 +3041,12 @@
         "body": "Se produjo un error en el envío de {{fromAmount}} {{fromToken}} y recepción de {{toAmount}} {{toToken}}. Más información aquí. ."
       }
     }
+  },
+  "links": {
+    "title": "Continuar en Xcapit...",
+    "have_app": "¿Tienes la app?",
+    "go_to_xcapit": "Ir a Xcapit",
+    "dont_have_app": "¿Aún no la tienes?",
+    "download": "Descargar"
   }
 }

@@ -5,6 +5,7 @@ import { AbstractControl, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { modalControllerMock } from 'src/testing/spies/modal-controller-mock.spec';
 import { of } from 'rxjs';
+import { SelectStyleDirective } from '../../directives/select-style/select-style.directive';
 
 describe('UxInputSelectComponent', () => {
   let component: UxInputSelectComponent;
@@ -12,29 +13,27 @@ describe('UxInputSelectComponent', () => {
   let formGroupDirectiveMock: any;
   let modalControllerSpy: any;
   let abstractControlMock: any;
-  beforeEach(
-    waitForAsync(() => {
-      modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
-      abstractControlMock = { subscribe: () => Promise.resolve('') };
-      formGroupDirectiveMock = {
-        control: {
-          get: () => {
-            return { value: 'test', valueChanges: { subscribe: () => of('') } };
-          },
+  beforeEach(waitForAsync(() => {
+    modalControllerSpy = jasmine.createSpyObj('ModalController', modalControllerMock);
+    abstractControlMock = { subscribe: () => Promise.resolve('') };
+    formGroupDirectiveMock = {
+      control: {
+        get: () => {
+          return { value: 'test', valueChanges: { subscribe: () => of('') } };
         },
-      };
+      },
+    };
 
-      TestBed.configureTestingModule({
-        declarations: [UxInputSelectComponent],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [
-          { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
-          { provide: ModalController, useValue: modalControllerSpy },
-          { provide: AbstractControl, useValue: abstractControlMock },
-        ],
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      declarations: [UxInputSelectComponent, SelectStyleDirective],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [
+        { provide: FormGroupDirective, useValue: formGroupDirectiveMock },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: AbstractControl, useValue: abstractControlMock },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UxInputSelectComponent);

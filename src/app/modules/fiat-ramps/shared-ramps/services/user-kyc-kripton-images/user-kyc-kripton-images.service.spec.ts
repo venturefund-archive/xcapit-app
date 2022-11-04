@@ -6,7 +6,7 @@ describe('UserKycKriptonImagesService', () => {
   const expectedPhotos: UserKycKriptonImages = {
     front_document: 'frontIdPhoto',
     back_document: 'backIdPhoto',
-    billing: 'selfiePhoto',
+    dni_selfie: 'selfiePhoto',
   };
 
   beforeEach(() => {
