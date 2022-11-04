@@ -24,6 +24,8 @@ import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/pass
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 import { AuthService } from '../shared-users/services/auth/auth.service';
+import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { BehaviorSubject } from 'rxjs';
 
 describe('LoginNewPage', () => {
   const aPassword = 'aPassword';
@@ -48,6 +50,7 @@ describe('LoginNewPage', () => {
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
+  let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
 
   beforeEach(waitForAsync(() => {
     fakeBiometricAuth = new FakeBiometricAuth();
@@ -92,6 +95,11 @@ describe('LoginNewPage', () => {
       getInstance: nullNotificationServiceSpy,
     });
 
+    walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', {
+      uri: new BehaviorSubject(null),
+      checkDeeplinkUrl: Promise.resolve(null),
+    });
+
     TestBed.configureTestingModule({
       declarations: [LoginNewPage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), ReactiveFormsModule, TranslateModule.forRoot()],
@@ -109,6 +117,7 @@ describe('LoginNewPage', () => {
         { provide: LoginMigrationService, useValue: loginMigrationServiceSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
         { provide: AuthService, useValue: authServiceSpy },
+        { provide: WalletConnectService, useValue: walletConnectServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -292,4 +301,16 @@ describe('LoginNewPage', () => {
     component.ionViewWillEnter();
     expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
   });
+
+  it('should call walletConnectService checkDeeplinkUrl on Success when has a uri defined', fakeAsync(() => {
+    walletConnectServiceSpy.uri = new BehaviorSubject('wc:///');
+    component.ionViewWillEnter();
+    component.form.patchValue({ password: aPassword });
+    fixture.detectChanges();
+
+    component.handleSubmit(false);
+    tick();
+
+    expect(walletConnectServiceSpy.checkDeeplinkUrl).toHaveBeenCalled();
+  }));
 });
