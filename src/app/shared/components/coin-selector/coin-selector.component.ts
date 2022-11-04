@@ -9,11 +9,11 @@ import { Coin } from '../../../modules/wallets/shared-wallets/interfaces/coin.in
         <ion-label class="ux-font-titulo-xs">{{ 'wallets.receive.currency_select' | translate }}</ion-label>
       </div>
       <div class="cs__selector">
-        <ion-item class="cs__selector__item ion-no-padding ion-no-margin" lines="none">
+        <ion-item class="cs__selector__item  ion-no-padding ion-no-margin" lines="none">
           <div class="cs__selector__item__logo">
             <img [src]="this.selectedCoin.logoRoute" alt="logo" />
           </div>
-          <ion-label class="cs__selector__item__label ion-no-margin" color="neutral90">{{
+          <ion-label class="ion-no-margin" [ngClass]="{ 'label_matic': this.selectedCoin.value === 'MATIC' }" color="neutral90">{{
             this.selectedCoin.value
           }}</ion-label>
           <ion-icon
