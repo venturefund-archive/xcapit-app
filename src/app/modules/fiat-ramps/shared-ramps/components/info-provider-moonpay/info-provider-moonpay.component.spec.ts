@@ -19,7 +19,7 @@ describe('InfoProviderMoonpayComponent', () => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
     TestBed.configureTestingModule({
-      declarations: [ InfoProviderMoonpayComponent, FakeTrackClickDirective ],
+      declarations: [InfoProviderMoonpayComponent, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [{ provide: ModalController, useValue: modalControllerSpy }],
     }).compileComponents();
