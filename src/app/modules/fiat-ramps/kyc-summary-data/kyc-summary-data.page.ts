@@ -123,7 +123,9 @@ export class KycSummaryDataPage implements OnInit {
     private navController: NavController
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this._loadData();
     this._formatCountryCode();
   }

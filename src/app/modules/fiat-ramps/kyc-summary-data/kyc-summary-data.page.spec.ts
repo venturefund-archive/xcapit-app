@@ -72,12 +72,12 @@ describe('KycSummaryDataPage', () => {
   });
 
   it('should get data of service on init', () => {
-    component.ngOnInit();
+    component.ionViewWillEnter();
     expect(component.data).toEqual(dataTest);
   });
 
   it('should format correctly country code on init', () => {
-    component.ngOnInit();
+    component.ionViewWillEnter();
     expect(component.countryCode).toEqual('(+54)');
   });
 
@@ -94,7 +94,7 @@ describe('KycSummaryDataPage', () => {
   });
 
   it('should update data with politically_exposed, send data and redirect to register user page when ux_buy_kripton_details_confirm is clicked and form is valid', () => {
-    component.ngOnInit();
+    component.ionViewWillEnter();
     fixture.debugElement.query(By.css("ion-checkbox[name='ux_buy_kripton_politically_exposed']")).nativeElement.click();
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_details_confirm"]')).nativeElement.click();
     fixture.detectChanges();
@@ -104,7 +104,7 @@ describe('KycSummaryDataPage', () => {
   });
 
   it('should not update data with politically_exposed, not send data and not redirect to register user page when ux_buy_kripton_details_confirm is clicked but form is invalid', () => {
-    component.ngOnInit();
+    component.ionViewWillEnter();
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_details_confirm"]')).nativeElement.click();
     fixture.detectChanges();
     expect(userKycKriptonDataServiceSpy.updateData).toHaveBeenCalledTimes(0);
