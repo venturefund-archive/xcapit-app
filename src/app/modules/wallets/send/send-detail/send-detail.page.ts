@@ -357,7 +357,7 @@ export class SendDetailPage {
       new SolanaNativeSendTx(
         await this.walletsFactory.create().oneBy(this.blockchain),
         this.form.value.address,
-        this.form.value.amount
+        new WeiOf(this.form.value.amount, this.blockchain.nativeToken().json()).value().toNumber()
       ),
       this.blockchain
     ).value() : 0;
