@@ -76,7 +76,7 @@ describe('SuccessContentComponent', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalled();
   });
 
-  describe('Buttons should call trackEvent on TrackService when they are clicked', () => {
+  fdescribe('Buttons should call trackEvent on TrackService when they are clicked', () => {
     it('should call trackEvent on trackService when Close Success is clicked', () => {
       const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Close Success');
       const directive = trackClickDirectiveHelper.getDirective(el);
@@ -114,7 +114,7 @@ describe('SuccessContentComponent', () => {
     });
   });
 
-  describe('', () => {
+  fdescribe('', () => {
     beforeEach(() => {
       closeSuccessButton = fixture.debugElement.query(By.css("ion-button[name='Close Success']"));
       actionPrimaryButton = fixture.debugElement.query(By.css("ion-button[name='Success Action Primary']"));
@@ -129,7 +129,7 @@ describe('SuccessContentComponent', () => {
 
     it('should router navigate when Success Action Primary is clicked', () => {
       actionPrimaryButton.nativeElement.click();
-      expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.data.urlPrimaryAction]);
+      expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith([component.data.urlPrimaryAction]);
     });
 
     it('should router navigate when Success Action Secondary is clicked', () => {
