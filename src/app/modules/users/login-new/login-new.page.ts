@@ -101,6 +101,7 @@ export class LoginNewPage {
   private readonly _aTopic = 'app';
   private readonly _aKey = 'enabledPushNotifications';
   biometricAuth: BiometricAuth;
+  showToast = true;
   constructor(
     private toastService: ToastService,
     private formBuilder: UntypedFormBuilder,
@@ -129,6 +130,13 @@ export class LoginNewPage {
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_screenview_login',
+    });
+    this.subscribeOnValueChanges();
+  }
+
+  subscribeOnValueChanges() {
+    this.form.valueChanges.subscribe(() => {
+      this.showToast = true;
     });
   }
 
@@ -164,20 +172,20 @@ export class LoginNewPage {
     return await this.ionicStorageService.get(this._aKey).then((status) => status);
   }
 
-  pushNotificationsService(){
+  pushNotificationsService() {
     return this.notificationsService.getInstance();
   }
 
-  async initializeNotifications(){
+  async initializeNotifications() {
     this.pushNotificationsService().init();
-    if(await this.enabledPushNotifications()){
+    if (await this.enabledPushNotifications()) {
       this.pushNotificationsService().subscribeTo(this._aTopic);
-    }else{
+    } else {
       this.pushNotificationsService().subscribeTo(this._aTopic);
       this.pushNotificationsService().unsubscribeFrom(this._aTopic);
     }
   }
-    
+
   private _loginToken(aPassword: string): LoginToken {
     return new LoginToken(new Password(aPassword), this.storage);
   }
@@ -226,10 +234,13 @@ export class LoginNewPage {
   }
 
   private _showInvalidPasswordToast() {
-    this.toastService.showErrorToast({
-      message: this.translate.instant('users.login_new.invalid_password_text'),
-      duration: 8000,
-    });
+    if (this.showToast) {
+      this.toastService.showErrorToast({
+        message: this.translate.instant('users.login_new.invalid_password_text'),
+        duration: 8000,
+      });
+    }
+    this.showToast = false;
   }
 
   async checkWalletProtected() {
