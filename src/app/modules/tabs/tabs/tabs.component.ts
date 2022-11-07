@@ -6,7 +6,8 @@ import { NavController, IonTabs } from '@ionic/angular';
   template: `
     <ion-tabs #tabs (ionTabsDidChange)="this.tabChange()">
       <ion-tab-bar>
-        <ion-tab-button *appFeatureFlag="'ff_newLogin'; negated:true"
+        <ion-tab-button
+          *appFeatureFlag="'ff_newLogin'; negated: true"
           tab="home"
           appTrackClick
           name="ux_nav_go_to_home"
@@ -64,28 +65,6 @@ export class TabsComponent {
   tabChange() {
     this.selectedCategory = this.tabs.getSelected();
     this.activeTab = this.tabs.outlet.activatedView.element;
-  }
-
-  ionViewWillLeave() {
-    this.propagateToActiveTab('ionViewWillLeave');
-  }
-
-  ionViewDidLeave() {
-    this.propagateToActiveTab('ionViewDidLeave');
-  }
-
-  ionViewWillEnter() {
-    this.propagateToActiveTab('ionViewWillEnter');
-  }
-
-  ionViewDidEnter() {
-    this.propagateToActiveTab('ionViewDidEnter');
-  }
-
-  private propagateToActiveTab(eventName: string) {
-    if (this.activeTab) {
-      this.activeTab.dispatchEvent(new CustomEvent(eventName));
-    }
   }
 
   goToInvestments() {

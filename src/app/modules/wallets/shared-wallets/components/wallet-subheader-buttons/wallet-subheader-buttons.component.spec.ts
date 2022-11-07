@@ -40,13 +40,10 @@ describe('WalletSubheaderButtonsComponent', () => {
       presentModal: Promise.resolve('skip'),
     });
 
-    tokenOperationDataServiceSpy = jasmine.createSpyObj(
-      'TokenOperationDataService',
-      {},
-      {
-        tokenOperationData: {},
-      }
-    );
+    tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {
+      tokenOperationData: {},
+    });
+
     TestBed.configureTestingModule({
       declarations: [WalletSubheaderButtonsComponent, FakeTrackClickDirective, FakeFeatureFlagDirective],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
@@ -146,22 +143,22 @@ describe('WalletSubheaderButtonsComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/buy-conditions']);
   });
 
-  it('should navigate to token selection page when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is set on storage and there is not asset', async () => {
+  it('should navigate to purchases home page when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is set on storage', async () => {
     ionicStorageServiceSpy.get.and.resolveTo(true);
     fixture.detectChanges();
     fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_buy']")).nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/token-selection']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/purchases']);
   });
 
-  it('should navigate to select provider page when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is set on storage and there is asset', async () => {
+  it('should save data into service when ux_go_to_buy button is clicked and conditionsPurchasesAccepted is set on storage and there is asset', async () => {
     ionicStorageServiceSpy.get.and.resolveTo(true);
     component.asset = 'USDT';
     component.network = 'ERC20';
     fixture.detectChanges();
     fixture.debugElement.query(By.css("app-icon-button-card[name='ux_go_to_buy']")).nativeElement.click();
     await fixture.whenStable();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['fiat-ramps/select-provider']);
+    expect(tokenOperationDataServiceSpy.tokenOperationData).not.toBeNull();
   });
 
   [

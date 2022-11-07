@@ -6,7 +6,10 @@ import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interfac
   template: `
     <ion-card class="ux-card ion-no-margin">
       <ion-card-header [ngClass]="this.cssWithLine">
-        <ion-card-title class="ux-font-text-lg">{{ 'fiat_ramps.operations_list.title' | translate }}</ion-card-title>
+        <ion-card-title class="card-title ux-font-text-lg"
+          >{{ 'fiat_ramps.operations_list.title' | translate }}
+          <ion-icon name="information-circle" color="info"></ion-icon>
+        </ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <div *ngIf="this.hasOperations; then operationsTable; else noOperationsMessage"></div>

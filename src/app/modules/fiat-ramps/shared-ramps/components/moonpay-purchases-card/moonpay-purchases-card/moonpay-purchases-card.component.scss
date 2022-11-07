@@ -1,0 +1,31 @@
+:host {
+  ion-card-header {
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid var(--ion-color-neutral10);
+
+    ion-card-title {
+      display: flex;
+      align-items: center;
+      color: var(--ion-color-primary);
+
+      ion-icon {
+        padding-left: 10px;
+      }
+    }
+  }
+
+  ion-card-content {
+    padding: 6px 16px;
+
+    .message {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+    }
+
+    .first-text {
+      margin-right: 4px;
+      padding-bottom: 8px;
+    }
+  }
+}
