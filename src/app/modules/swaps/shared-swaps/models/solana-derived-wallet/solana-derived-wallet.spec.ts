@@ -3,7 +3,7 @@ import { rawSolanaData } from "../fixtures/raw-blockchains-data";
 import { SolanaDerivedWallet } from "./solana-derived-wallet";
 
 
-fdescribe('SolanaDerivedWallet', () => {
+describe('SolanaDerivedWallet', () => {
   let wallet: SolanaDerivedWallet;
   const address = '5vftMkHL72JaJG6ExQfGAsT2uGVHpRR7oTNUPMs68Y2N';
   const seedPhrase = 'neither lonely flavor argue grass remind eye tag avocado spot unusual intact';

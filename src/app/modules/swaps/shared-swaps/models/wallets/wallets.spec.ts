@@ -10,7 +10,7 @@ import { WalletRepo } from '../wallet-repo/wallet-repo';
 import { SolanaWallet } from '../wallet/wallet';
 import { Wallets } from './wallets';
 
-fdescribe('Wallets', () => {
+describe('Wallets', () => {
   let wallets: Wallets;
 
   beforeEach(() => {
