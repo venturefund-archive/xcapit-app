@@ -16,7 +16,7 @@ import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { of, Subject, timer, BehaviorSubject } from 'rxjs';
+import { of, Subject, BehaviorSubject } from 'rxjs';
 import { LanguageService } from '../../../shared/services/language/language.service';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { PlatformService } from '../../../shared/services/platform/platform.service';
@@ -227,7 +227,7 @@ describe('DirectaPage', () => {
     component.form.patchValue({ fiatAmount: 1 });
     fixture.detectChanges();
     expect(component.form.controls.fiatAmount.valid).toBeFalse();
-    component.form.patchValue({ fiatAmount: 2 });
+    component.form.patchValue({ fiatAmount: 10 });
     expect(component.form.controls.fiatAmount.valid).toBeTrue();
   });
 

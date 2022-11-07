@@ -2641,6 +2641,33 @@
         "label_phone": "Phone",
         "button": "Continue"
       },
+      "summary_data":{
+        "header": "Load data",
+        "title": "🎊 ¡This is how it's done! We finish",
+        "subtitle": "Do you wish to make any changes?",
+        "personal_data": {
+          "title": "Personal data",
+          "label_name_surname": "First and last name",
+          "label_birthday": "Date of birth",
+          "label_nationality": "Nationality",
+          "label_document": "DNI",
+          "label_gender": "Gender",
+          "label_marital_status": "Marital status",
+          "label_phone": "Telephone"
+        },
+        "address_data": {
+          "title": "Address",
+          "label_street": "Street",
+          "label_apartment_number": "Number",
+          "label_apartment_floor": "Floor",
+          "label_apartment_letter": "Dept",
+          "label_city": "City",
+          "label_zip_code": "Zip Code"
+        },
+        "checkbox_politically_exposed": "I declare that I am not a politically exposed person.",
+        "disclaimer": "Politically exposed person: individuals who perform prominent public functions, such as Heads of State or Government, government officials, judicial, military and/or high-level or high-ranking executives.",
+        "button": "Confirm and send"
+      },
       "front_id": {
         "back_modal": {
           "title": "Attention",
