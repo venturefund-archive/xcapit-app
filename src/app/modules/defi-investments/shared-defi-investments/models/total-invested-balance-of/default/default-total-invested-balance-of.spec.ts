@@ -1,10 +1,10 @@
 import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
 import { EnvService } from '../../../../../../shared/services/env/env.service';
 import { CacheService } from '../../../../../../shared/services/cache/cache.service';
-import { TotalInvestedBalanceOf } from './total-invested-balance-of';
+import { DefaultTotalInvestedBalanceOf } from './default-total-invested-balance-of';
 
-fdescribe('TotalInvestedBalanceOf', () => {
-  let totalInvestedBalanceOf: TotalInvestedBalanceOf;
+describe('DefaultTotalInvestedBalanceOf', () => {
+  let totalInvestedBalanceOf: DefaultTotalInvestedBalanceOf;
   let envSpy: jasmine.SpyObj<EnvService>;
   let cacheServiceSpy: jasmine.SpyObj<CacheService>;
   const aTestAddress = '';
@@ -13,7 +13,7 @@ fdescribe('TotalInvestedBalanceOf', () => {
   beforeEach(() => {
     envSpy = jasmine.createSpyObj('EnvService', { byKey: 'http://testTwoPiTheGraphUrl' });
     cacheServiceSpy = jasmine.createSpyObj('CacheService', { update: Promise.resolve(), get: Promise.resolve() });
-    totalInvestedBalanceOf = new TotalInvestedBalanceOf(
+    totalInvestedBalanceOf = new DefaultTotalInvestedBalanceOf(
       aTestAddress,
       aTestPids,
       cacheServiceSpy,
@@ -28,7 +28,7 @@ fdescribe('TotalInvestedBalanceOf', () => {
 
   it('value', async () => {
     expect(await totalInvestedBalanceOf.value()).toEqual(15);
-    expect(cacheServiceSpy.update).toHaveBeenCalledOnceWith('total_invested_balance', 15);
+    expect(cacheServiceSpy.update).toHaveBeenCalledOnceWith('total_invested_balance', { balance: 15 });
   });
 
   it('cached with no stored value', async () => {
@@ -37,7 +37,7 @@ fdescribe('TotalInvestedBalanceOf', () => {
   });
 
   it('cached with stored value', async () => {
-    cacheServiceSpy.get.and.returnValue(Promise.resolve(18));
+    cacheServiceSpy.get.and.returnValue(Promise.resolve({ balance: 18 }));
     expect(await totalInvestedBalanceOf.cached()).toEqual(18);
     expect(cacheServiceSpy.get).toHaveBeenCalledOnceWith('total_invested_balance');
   });

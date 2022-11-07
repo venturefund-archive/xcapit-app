@@ -1,6 +1,6 @@
 import { TotalInvestedBalanceOfInjectable } from './total-invested-balance-of.injectable';
 
-fdescribe('TotalInvestedBalanceOfInjectable', () => {
+describe('TotalInvestedBalanceOfInjectable', () => {
   const anAddress = '';
   const pids = [1, 2, 3];
   let totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable;

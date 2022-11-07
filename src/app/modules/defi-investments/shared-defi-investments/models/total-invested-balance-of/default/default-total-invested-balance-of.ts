@@ -3,8 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { FakeHttpClient } from '../../../../../../../testing/fakes/fake-http.spec';
 import { EnvService } from '../../../../../../shared/services/env/env.service';
 import { DefaultInvestedBalanceOf } from '../../invested-balance-of/default/default-invested-balance-of';
+import { TotalInvestedBalanceOf } from '../total-invested-balance-of.interface';
 
-export class TotalInvestedBalanceOf {
+export class DefaultTotalInvestedBalanceOf implements TotalInvestedBalanceOf {
   private readonly _storageKey = 'total_invested_balance';
   constructor(
     private readonly _anAddress: string,
@@ -24,7 +25,7 @@ export class TotalInvestedBalanceOf {
   }
 
   cached(): Promise<number> {
-    return this._cache.get(this._storageKey).then((res) => res.balance);
+    return this._cache.get(this._storageKey).then((res) => (res ? res.balance : undefined));
   }
 
   private _saveInCache(balance: number): Promise<void> {
