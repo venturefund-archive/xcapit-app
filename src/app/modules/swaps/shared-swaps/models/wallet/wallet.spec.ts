@@ -97,7 +97,7 @@ describe('DefaultWallet', () => {
   });
 });
 
-fdescribe('SolanaWallet', () => {
+describe('SolanaWallet', () => {
   let wallet: Wallet;
   let testObject: any;
   const blockchain = new Blockchain(rawSolanaData);

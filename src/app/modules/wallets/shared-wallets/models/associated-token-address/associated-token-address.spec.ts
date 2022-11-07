@@ -4,7 +4,7 @@ import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wal
 import { AssociatedTokenAddress } from './associated-token-address';
 
 
-fdescribe('AssociatedTokenAddress', () => {
+describe('AssociatedTokenAddress', () => {
   let address: AssociatedTokenAddress;
   const token = new SolanaToken(rawSAMOData);
   const testWalletAddress = 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH';
