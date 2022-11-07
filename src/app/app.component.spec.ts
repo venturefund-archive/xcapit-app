@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AuthService } from './modules/users/shared-users/services/auth/auth.service';
 import { TrackService } from './shared/services/track/track.service';
 import { UpdateService } from './shared/services/update/update.service';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
@@ -15,6 +14,7 @@ import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/ser
 import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { LocalNotificationsService } from './modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { IonicStorageService } from './shared/services/ionic-storage/ionic-storage.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -23,7 +23,6 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let languageServiceSpy: jasmine.SpyObj<LanguageService>;
   let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let updateServiceSpy: jasmine.SpyObj<UpdateService>;
   let submitButtonServiceSpy: jasmine.SpyObj<SubmitButtonService>;
@@ -34,6 +33,7 @@ describe('AppComponent', () => {
   let localNotificationServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
 
   beforeEach(waitForAsync(() => {
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
@@ -43,7 +43,6 @@ describe('AppComponent', () => {
     loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['enabled']);
     platformSpy = jasmine.createSpyObj('Platform', { ready: Promise.resolve() });
     languageServiceSpy = jasmine.createSpyObj('LanguageService', ['setInitialAppLanguage']);
-    authServiceSpy = jasmine.createSpyObj('AuthService', { logout: Promise.resolve() });
     statusBarSpy = jasmine.createSpyObj('StatusBar', { setBackgroundColor: Promise.resolve() });
     translateSpy = jasmine.createSpyObj('TranslateService', {}, { onLangChange: of({}) });
     fakeNavController = new FakeNavController();
@@ -60,6 +59,10 @@ describe('AppComponent', () => {
       getBackupWarningWallet: Promise.resolve(),
     });
 
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve(true),
+    });
+
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -69,7 +72,6 @@ describe('AppComponent', () => {
         { provide: PlatformService, useValue: platformServiceSpy },
         { provide: LanguageService, useValue: languageServiceSpy },
         { provide: LoadingService, useValue: loadingServiceSpy },
-        { provide: AuthService, useValue: authServiceSpy },
         { provide: UpdateService, useValue: updateServiceSpy },
         { provide: SubmitButtonService, useValue: submitButtonServiceSpy },
         { provide: TranslateService, useValue: translateSpy },
@@ -77,6 +79,7 @@ describe('AppComponent', () => {
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: LocalNotificationsService, useValue: localNotificationServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();

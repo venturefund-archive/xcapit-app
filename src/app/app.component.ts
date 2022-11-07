@@ -3,7 +3,6 @@ import { NavController, Platform } from '@ionic/angular';
 import { SubmitButtonService } from './shared/services/submit-button/submit-button.service';
 import { LoadingService } from './shared/services/loading/loading.service';
 import { LanguageService } from './shared/services/language/language.service';
-import { AuthService } from './modules/users/shared-users/services/auth/auth.service';
 import { TrackService } from './shared/services/track/track.service';
 import { UpdateService } from './shared/services/update/update.service';
 import { Subscription } from 'rxjs';
@@ -15,6 +14,8 @@ import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { WalletConnectService } from './modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { WalletBackupService } from './modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { LocalNotificationsService } from './modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { IonicStorageService } from './shared/services/ionic-storage/ionic-storage.service';
+import { LoggedIn } from './modules/users/shared-users/models/logged-in/logged-in';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +32,6 @@ export class AppComponent implements OnInit {
   statusBar = StatusBar;
 
   constructor(
-    private authService: AuthService,
     private platform: Platform,
     private submitButtonService: SubmitButtonService,
     private loadingService: LoadingService,
@@ -45,7 +45,8 @@ export class AppComponent implements OnInit {
     private walletConnectService: WalletConnectService,
     private walletBackupService: WalletBackupService,
     private localNotificationsService: LocalNotificationsService,
-    private navController: NavController
+    private navController: NavController,
+    private storage: IonicStorageService
   ) {}
 
   ngOnInit() {
@@ -99,7 +100,7 @@ export class AppComponent implements OnInit {
       url = decodeURIComponent(url);
       this.walletConnectService.setUri(url);
 
-      if (await this.authService.checkToken()) {
+      if (await new LoggedIn(this.storage).value()) {
         this.walletConnectService.checkDeeplinkUrl();
       }
     }

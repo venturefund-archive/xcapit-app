@@ -20,6 +20,7 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 import { LoginMigrationService } from '../shared-users/services/login-migration-service/login-migration-service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { AuthService } from '../shared-users/services/auth/auth.service';
+import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 
 @Component({
   selector: 'app-login-new',
@@ -116,7 +117,8 @@ export class LoginNewPage {
     private remoteConfig: RemoteConfigService,
     private loginMigrationService: LoginMigrationService,
     private notificationsService: NotificationsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private walletConnectService: WalletConnectService
   ) {}
 
   async ionViewWillEnter() {
@@ -183,7 +185,14 @@ export class LoginNewPage {
   private async _loggedIn(): Promise<void> {
     await new LoggedIn(this.storage).save(true);
     await this.initializeNotifications();
+    await this._checkWalletConnectDeepLink();
     await this.checkWalletProtected();
+  }
+
+  private async _checkWalletConnectDeepLink() {
+    if (this.walletConnectService.uri.value) {
+      await this.walletConnectService.checkDeeplinkUrl();
+    }
   }
 
   async handleSubmit(isBiometricAuth: boolean) {
