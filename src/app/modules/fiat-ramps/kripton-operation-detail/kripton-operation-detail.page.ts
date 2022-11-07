@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { NONPROD_COINS } from '../../wallets/shared-wallets/constants/coins.nonprod';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
+import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
+import { Providers } from '../shared-ramps/models/providers/providers.interface';
 
 @Component({
   selector: 'app-kripton-operation-detail',
@@ -59,13 +62,9 @@ import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.
                 <ion-text class="ux-font-titulo-xs">
                   {{ 'fiat_ramps.kripton_operation_detail.state' | translate }}
                 </ion-text>
-                <ion-icon
-                  name="information-circle"
-                  (click)="this.showStateInformation()"
-                  color="info"
-                ></ion-icon>
+                <ion-icon name="information-circle" (click)="this.showStateInformation()" color="info"></ion-icon>
               </div>
-              <!-- <app-operation-status-chip></app-operation-status-chip> -->
+              <!-- <app-operation-status-chip></app-operation-status-chip> SE IMPLEMENTA EN OTRA HISTORIA -->
               <app-operation-status-alert operationStatus="incompleta"></app-operation-status-alert>
             </div>
           </ion-item>
@@ -186,11 +185,15 @@ export class KriptonOperationDetailPage implements OnInit {
   wallet = {
     address: '0xeeeeeeeeeeeeeee',
   };
-  constructor(private browserService: BrowserService) {}
+  constructor(private browserService: BrowserService, private route: ActivatedRoute
+    
+    , private providersFactory: ProvidersFactory,) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
+    const operationId = this.route.snapshot.paramMap.get('operation_id');
+    console.log('el numero de operacion es: ', operationId);
     // TODO: change this
     this.operation = {
       operation_id: 678,
@@ -214,5 +217,30 @@ export class KriptonOperationDetailPage implements OnInit {
 
   showStateInformation() {
     return;
+  }
+
+  // private async getUserOperation(operationId: string) {
+  //   this.fiatRampsService.setProvider(this.provider.id.toString());
+  //   this.fiatRampsService.getUserSingleOperation(operationId).subscribe({
+  //     next: (data) => {
+  //       this.getOperationCoin(data[0].currency_out);
+  //       this.mapOperationData(data[0]);
+  //       this.getOperationStatus(data[0].status);
+  //       this.verifyVoucher();
+  //     },
+  //     error: (e) => {
+  //       this.navigateBackToOperations();
+  //     },
+  //   });
+  // }
+
+  getProvider(providerId: string) {
+    return this.providers()
+      .all()
+      .find((provider) => provider.id.toString() === providerId);
+  }
+
+  providers(): Providers {
+    return this.providersFactory.create();
   }
 }
