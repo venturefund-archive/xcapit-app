@@ -134,11 +134,15 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'summary-data',
+        loadChildren: () =>
+          import('./kyc-summary-data/kyc-summary-data.module').then((m) => m.KycSummaryDataPageModule),
+      },
+      {
         path: 'purchases',
         loadChildren: () =>
           import('./home-of-purchases/home-of-purchases.module').then((m) => m.HomeOfPurchasesPageModule),
       },
-
       {
         path: 'kyc',
         children: [
