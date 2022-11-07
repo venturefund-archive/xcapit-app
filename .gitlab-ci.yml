@@ -73,7 +73,6 @@ cache:
     - Xvfb :0 -ac -screen 0 1024x768x24 &
     - export DISPLAY=:99
   script:
-    - npm install --silent yarn
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
     - npm run test-ci
