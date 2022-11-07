@@ -76,7 +76,7 @@ describe('SuccessContentComponent', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalled();
   });
 
-  fdescribe('Buttons should call trackEvent on TrackService when they are clicked', () => {
+  describe('Buttons should call trackEvent on TrackService when they are clicked', () => {
     it('should call trackEvent on trackService when Close Success is clicked', () => {
       const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Close Success');
       const directive = trackClickDirectiveHelper.getDirective(el);
@@ -114,7 +114,7 @@ describe('SuccessContentComponent', () => {
     });
   });
 
-  fdescribe('', () => {
+  describe('', () => {
     beforeEach(() => {
       closeSuccessButton = fixture.debugElement.query(By.css("ion-button[name='Close Success']"));
       actionPrimaryButton = fixture.debugElement.query(By.css("ion-button[name='Success Action Primary']"));
