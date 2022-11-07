@@ -17,7 +17,7 @@ variables:
   HADOLINT_REPO: hadolint/hadolint
   HADOLINT_TAG: v2.0.0-alpine
   SRC_DIR: '.'
-  NODE_VERSION: '14'
+  NODE_VERSION: '16.13.0'
 
 cache:
   key:
@@ -73,7 +73,7 @@ cache:
     - Xvfb :0 -ac -screen 0 1024x768x24 &
     - export DISPLAY=:99
   script:
-    - npm install --silent yarn 
+    - npm install --silent yarn
     - yarn install
     - export CHROME_BIN=/usr/bin/google-chrome
     - npm run test-ci
@@ -81,16 +81,16 @@ cache:
     paths:
       - coverage/lcov.info
 
-## Coveralls 
-.coveralls: &coveralls 
+## Coveralls
+.coveralls: &coveralls
   stage: coveralls
   needs: ["test"]
   image: node:${NODE_VERSION}
   script:
     - npm i -g coveralls
     - npm run coveralls
-  allow_failure: true  
- 
+  allow_failure: true
+
 ### Docker lint
 .docker-lint: &docker-lint
   stage: syntax
