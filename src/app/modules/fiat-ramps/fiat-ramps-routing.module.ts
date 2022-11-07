@@ -154,7 +154,7 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'kripton-operation-detail',
+        path: 'kripton-operation-detail/:operation_id',
         loadChildren: () => import('./kripton-operation-detail/kripton-operation-detail.module').then( m => m.KriptonOperationDetailPageModule)
       },
     ],
