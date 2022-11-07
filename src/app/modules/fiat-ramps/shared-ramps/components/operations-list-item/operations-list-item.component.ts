@@ -2,29 +2,30 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { OPERATION_STATUS } from '../../constants/operation-status';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 import { OperationStatus } from '../../interfaces/operation-status.interface';
-import { FiatRampsService } from '../../services/fiat-ramps.service';
 
 @Component({
   selector: 'app-operations-list-item',
   template: `
     <ion-item
-      [lines]="this.linesValue"
       appTrackClick
+      lines="none"
       name="Operation Item"
       slot="content"
       class="row"
       (click)="viewOperationDetail()"
+      [ngClass]="this.highlightClass"
     >
       <ion-label name="Provider">
         <ion-text class="ux-font-text-xs">
-          <img [src]="this.status.provider.logoRoute" alt="{{ this.status.provider.name }}" />
-          {{ this.coin }}
+          <img [src]="this.coin.logoRoute" alt="{{ this.coin.value }}" />
+          {{ this.coin.value }}
         </ion-text>
       </ion-label>
       <ion-label name="Amount">
-        <ion-text class="ux-font-titulo-xs">{{ this.amount | currency }}</ion-text>
+        <ion-text class="ux-font-titulo-xs">{{ this.amount | formattedAmount: 8:5 }}</ion-text>
       </ion-label>
       <ion-label>
         <ion-text class="ux-font-text-xs">
@@ -32,7 +33,7 @@ import { FiatRampsService } from '../../services/fiat-ramps.service';
         </ion-text>
       </ion-label>
       <ion-label class="end">
-        <app-operation-status-chip [status]="this.status"></app-operation-status-chip>
+        <app-operation-status-chip [statusName]="this.operation.status"></app-operation-status-chip>
       </ion-label>
     </ion-item>
   `,
@@ -40,50 +41,45 @@ import { FiatRampsService } from '../../services/fiat-ramps.service';
 })
 export class OperationsListItemComponent implements OnInit {
   @Input() operation: FiatRampOperation;
-  @Input() isLast: boolean;
+  @Input() isLast: boolean = false;
   status: OperationStatus;
-  linesValue: string;
-  coin: string;
+  coin: Coin;
   amount: number;
+  highlightClass: string;
 
   private get isBuy(): boolean {
     return this.operation.operation_type === 'cash-in';
   }
 
-  constructor(private navController: NavController, private fiatRampsService: FiatRampsService) {}
+  constructor(private navController: NavController, private apiWalletService: ApiWalletService) {}
 
   ngOnInit() {
     this.status = this.getOperationStatus();
-    this.linesValue = this.calculateLinesValue();
+    this.setHighlight();
     this.setCoinAndAmount();
+  }
+
+  setHighlight() {
+    if (this.status.textToShow === 'incomplete') {
+      this.highlightClass = 'highlight';
+    }
   }
 
 
   private setCoinAndAmount() {
     if (this.isBuy) {
-      this.coin = this.operation.currency_out;
-      this.amount = this.operation.amount_in;
-    } else {
-      this.coin = this.operation.currency_in;
+      this.coin = this.apiWalletService.getCoin(this.operation.currency_out);
       this.amount = this.operation.amount_out;
     }
   }
 
-  private calculateLinesValue(): string {
-    if (this.isLast) {
-      return 'none';
-    }
-
-    return;
-  }
-
   private getOperationStatus(): OperationStatus {
-    return this.fiatRampsService.getOperationStatus(this.operation.status, parseInt(this.operation.provider));
+    return OPERATION_STATUS.find((s) => s.name === this.operation.status);
   }
 
   viewOperationDetail() {
     this.navController.navigateForward([
-      `/fiat-ramps/operation-detail/provider/${this.status.provider.id}/operation/${this.operation.operation_id}`,
+      `/fiat-ramps/kripton-operation-detail/${this.operation.operation_id}`
     ]);
   }
 }

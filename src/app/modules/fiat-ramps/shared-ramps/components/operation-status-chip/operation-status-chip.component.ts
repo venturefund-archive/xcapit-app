@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { OPERATION_STATUS } from '../../constants/operation-status';
 import { OperationStatus } from '../../interfaces/operation-status.interface';
+
 
 @Component({
   selector: 'app-operation-status-chip',
@@ -13,8 +15,11 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
   styleUrls: ['./operation-status-chip.component.scss'],
 })
 export class OperationStatusChipComponent implements OnInit {
-  @Input() status: OperationStatus;
+  @Input() statusName: string;
+  status: OperationStatus;
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.status = OPERATION_STATUS.find(s => s.name === this.statusName);
+  }
 }

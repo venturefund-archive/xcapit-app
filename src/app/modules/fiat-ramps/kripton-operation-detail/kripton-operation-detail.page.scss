@@ -26,6 +26,10 @@
           &__icon {
             width: 32px;
             height: 32px;
+
+            img {
+              width: 32px;
+            }
           }
 
           &__content {
@@ -67,7 +71,6 @@
               display: flex;
               flex-direction: row;
               align-items: center;
-              gap: 4px;
 
               ion-icon {
                 padding-bottom: 4px;
@@ -91,6 +94,12 @@
             flex-direction: column;
             width: 100%;
             gap: 4px;
+
+            &__content {
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
           }
         }
 

@@ -125,20 +125,6 @@ describe('FiatRampsService', () => {
     expect(provider.alias).toEqual('kripton');
   });
 
-  it('should return pending_by_validate on getOperationStatus when status name is pending_by_validate and provider id is 1', () => {
-    const status = fiatRampsService.getOperationStatus('pending_by_validate', 1);
-    expect(status.name).toEqual('pending_by_validate');
-    expect(status.textToShow).toEqual('in_progress');
-    expect(status.provider.alias).toEqual('kripton');
-  });
-
-  it('should return pending_by_validate on getOperationStatus when status name is pending_by_validate', () => {
-    const status = fiatRampsService.getOperationStatus('pending_by_validate');
-    expect(status.name).toEqual('pending_by_validate');
-    expect(status.textToShow).toEqual('in_progress');
-    expect(status.provider.alias).toEqual('kripton');
-  });
-
   it('should call get on http when getDirectaExchangeRate', () => {
     fiatRampsService.getDirectaExchangeRate('ARS', 'USDC', 1).subscribe(() => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);

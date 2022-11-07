@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { NONPROD_COINS } from '../../wallets/shared-wallets/constants/coins.nonprod';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
-import { Providers } from '../shared-ramps/models/providers/providers.interface';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 
 @Component({
   selector: 'app-kripton-operation-detail',
@@ -29,7 +32,7 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
               {{ 'fiat_ramps.kripton_operation_detail.title' | translate }}
             </ion-text>
           </div>
-          <!-- Network/icono -->
+
           <ion-item class="kod__card-container__card__coin ion-no-margin ion-no-padding">
             <div class="kod__card-container__card__coin__icon">
               <img [src]="this.token.logoRoute" alt="Token" />
@@ -45,17 +48,17 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
             <div class="kod__card-container__card__amount">
               <div class="kod__card-container__card__amount__out">
                 <ion-text class="ux-font-text-lg"
-                  >{{ this.operation.amount_out }} {{ this.operation.currency_out }}</ion-text
+                  >{{ this.operation.amount_out | formattedAmount }} {{ this.operation.currency_out | uppercase }}</ion-text
                 >
               </div>
               <div class="kod__card-container__card__amount__in">
                 <ion-text class="ux-font-text-xs"
-                  >= {{ this.operation.amount_in }} {{ this.operation.currency_in }}</ion-text
+                  >= {{ this.operation.amount_in | number: '1.2-2' }} {{ this.operation.currency_in | uppercase }}</ion-text
                 >
               </div>
             </div>
           </ion-item>
-          <!-- State -->
+
           <ion-item class="kod__card-container__card__state ion-no-margin ion-no-padding">
             <div class="kod__card-container__card__state__container">
               <div class="kod__card-container__card__state__container__title">
@@ -64,11 +67,11 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
                 </ion-text>
                 <ion-icon name="information-circle" (click)="this.showStateInformation()" color="info"></ion-icon>
               </div>
-              <!-- <app-operation-status-chip></app-operation-status-chip> SE IMPLEMENTA EN OTRA HISTORIA -->
-              <app-operation-status-alert operationStatus="incompleta"></app-operation-status-alert>
+              <app-operation-status-chip [statusName]="this.operation.status"></app-operation-status-chip>
+              <app-operation-status-alert *ngIf="this.operation.status !== 'received' && this.operation.status !== 'complete'" [operationStatus]="this.operation.status"></app-operation-status-alert>
             </div>
           </ion-item>
-          <!-- Cotizacion/icono -->
+
           <ion-item class="kod__card-container__card__quotation ion-no-margin ion-no-padding">
             <div class="kod__card-container__card__quotation__container">
               <div class="kod__card-container__card__quotation__container__title">
@@ -78,14 +81,14 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
               </div>
               <div class="kod__card-container__card__quotation__container__content">
                 <ion-text class="ux-font-text-base">
-                  1 {{ this.operation.currency_out }} = {{ this.operation.amount_in / this.operation.amount_out }}
-                  {{ this.operation.currency_in }}
+                  1 {{ this.operation.currency_out | uppercase }} =
+                  {{ this.operation.amount_in / this.operation.amount_out | number: '1.2-2' }}
+                  {{ this.operation.currency_in | uppercase }}
                 </ion-text>
               </div>
             </div>
           </ion-item>
 
-          <!-- Destino -->
           <ion-item class="kod__card-container__card__address ion-no-margin ion-no-padding">
             <div class="kod__card-container__card__address__container">
               <div class="kod__card-container__card__address__container__title">
@@ -95,13 +98,12 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
               </div>
               <div class="kod__card-container__card__address__container__content">
                 <ion-text class="ux-font-text-base">
-                  {{ this.wallet.address }}
+                  {{ this.operation.wallet_address }}
                 </ion-text>
               </div>
             </div>
           </ion-item>
 
-          <!-- Proveedor -->
           <ion-item class="kod__card-container__card__provider ion-no-margin ion-no-padding">
             <div class="kod__card-container__card__provider__container">
               <div class="kod__card-container__card__provider__container__provider">
@@ -129,7 +131,6 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
             </div>
           </ion-item>
 
-          <!-- Fecha/hora -->
           <ion-item class="kod__card-container__card__date ion-no-margin ion-no-padding" lines="none">
             <div class="kod__card-container__card__date__container">
               <div class="kod__card-container__card__date__container__date">
@@ -181,37 +182,30 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
 export class KriptonOperationDetailPage implements OnInit {
   provider: FiatRampProvider;
   operation: FiatRampOperation;
-  token: Coin = NONPROD_COINS[0];
-  wallet = {
-    address: '0xeeeeeeeeeeeeeee',
-  };
-  constructor(private browserService: BrowserService, private route: ActivatedRoute
-    
-    , private providersFactory: ProvidersFactory,) {}
+  token: Coin;
+
+  constructor(
+    private browserService: BrowserService,
+    private route: ActivatedRoute,
+    private providersFactory: ProvidersFactory,
+    private fiatRampsService: FiatRampsService,
+    private apiWalletService: ApiWalletService,
+    private navController: NavController,
+    private trackService: TrackService,
+  ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
-    console.log('el numero de operacion es: ', operationId);
-    // TODO: change this
-    this.operation = {
-      operation_id: 678,
-      operation_type: 'cash-in',
-      status: 'cancel',
-      currency_in: 'ARS',
-      amount_in: 500.0,
-      currency_out: 'USDT',
-      amount_out: 100.0,
-      created_at: new Date('2021-02-27T10:02:49.719Z'),
-      provider: '1',
-      voucher: false,
-    };
+    this.provider = this.providersFactory.create().byAlias('kripton');
+    this.getUserOperation(operationId);
+    this.trackScreenViewEvent();
   }
 
   async navigateToKriptonTOS() {
     await this.browserService.open({
-      url: 'https://kriptonmarket.com/terms-and-conditions',
+      url: LINKS.kriptonSupport,
     });
   }
 
@@ -219,28 +213,33 @@ export class KriptonOperationDetailPage implements OnInit {
     return;
   }
 
-  // private async getUserOperation(operationId: string) {
-  //   this.fiatRampsService.setProvider(this.provider.id.toString());
-  //   this.fiatRampsService.getUserSingleOperation(operationId).subscribe({
-  //     next: (data) => {
-  //       this.getOperationCoin(data[0].currency_out);
-  //       this.mapOperationData(data[0]);
-  //       this.getOperationStatus(data[0].status);
-  //       this.verifyVoucher();
-  //     },
-  //     error: (e) => {
-  //       this.navigateBackToOperations();
-  //     },
-  //   });
-  // }
-
-  getProvider(providerId: string) {
-    return this.providers()
-      .all()
-      .find((provider) => provider.id.toString() === providerId);
+  private getUserOperation(operationId: string) {
+    this.fiatRampsService.setProvider(this.provider.id.toString());
+    this.fiatRampsService.getUserSingleOperation(operationId).subscribe({
+      next: (data) => {
+        this.operation = data[0];
+        this.getCoin();
+      },
+      error: () => {
+        this.navigateBackToOperations();
+      },
+    });
   }
 
-  providers(): Providers {
-    return this.providersFactory.create();
+  getCoin() {
+    this.token = this.apiWalletService.getCoin(this.operation.currency_out);
   }
+
+  navigateBackToOperations() {
+    this.navController.navigateBack(['/fiat-ramps/purchases']);
+  }
+
+  trackScreenViewEvent() {
+    this.trackService.trackEvent({
+      eventAction: 'screenview',
+      description: window.location.href,
+      eventLabel: 'ux_buy_kripton_screenview_details',
+    });
+  }
+
 }
