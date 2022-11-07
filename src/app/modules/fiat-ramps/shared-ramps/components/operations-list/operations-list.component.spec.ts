@@ -47,6 +47,18 @@ const operations: FiatRampOperation[] = [
     operation_type: 'cash-in',
     voucher: false,
   },
+  {
+    operation_id: 4,
+    amount_in: 34,
+    currency_in: 'ETH',
+    amount_out: 22,
+    currency_out: 'ARS',
+    status: 'complete',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in',
+    voucher: false,
+  },
 ];
 describe('OperationsListComponent', () => {
   let component: OperationsListComponent;
@@ -62,7 +74,7 @@ describe('OperationsListComponent', () => {
     navControllerSpy = fakeNavController.createSpy();
 
     TestBed.configureTestingModule({
-      declarations: [ OperationsListComponent ],
+      declarations: [OperationsListComponent],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy },
@@ -81,14 +93,14 @@ describe('OperationsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render operations list component if there is three operations', () => {
+  it('should render operations list component if there is four operations', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const tableEl = fixture.debugElement.query(By.css('app-operations-list-accordion'));
     const textEl = fixture.debugElement.query(By.css('ion-text[name="No Operations"]'));
     expect(tableEl).toBeTruthy();
     expect(textEl).toBeFalsy();
-    expect(component.firstOperations.length).toEqual(2);
+    expect(component.firstOperations.length).toEqual(3);
     expect(component.remainingOperations.length).toEqual(1);
   });
 
@@ -117,7 +129,7 @@ describe('OperationsListComponent', () => {
     component.operationsList = [];
     component.ngOnInit();
     fixture.detectChanges();
-    const change: SimpleChanges = { operationsList: new SimpleChange([], [{},{}], true)}
+    const change: SimpleChanges = { operationsList: new SimpleChange([], [{}, {}], true) };
     component.ngOnChanges(change);
     expect(component.operationsList.length).toEqual(2);
   });

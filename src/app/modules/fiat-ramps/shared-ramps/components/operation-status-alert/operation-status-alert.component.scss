@@ -1,7 +1,7 @@
 :host {
   .osa {
     &__information {
-      margin-top: 16px;
+      margin-top: 6px;
       display: flex;
       align-items: center;
       padding: 10px;
@@ -40,7 +40,7 @@
     }
   }
 
-  .ux-error-background-card {
+  .ux-danger-background-card {
     background: var(--ion-color-dangerlight);
     border: 1px solid var(--ion-color-dangerdark);
 

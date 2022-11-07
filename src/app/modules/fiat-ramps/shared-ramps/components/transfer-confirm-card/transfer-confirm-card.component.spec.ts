@@ -6,20 +6,11 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
 import { TranslateModule } from '@ngx-translate/core';
 import { FormattedNetworkPipe } from '../../../../../shared/pipes/formatted-network-name/formatted-network.pipe';
 import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
-import { OperationStatus } from '../../interfaces/operation-status.interface';
 import { OperationStatusChipComponent } from '../operation-status-chip/operation-status-chip.component';
 import { OperationDataInterface } from '../../interfaces/operation-data.interface';
 
 const provider: any = {
   name: '2PI',
-};
-
-const operationStatus: OperationStatus = {
-  providerId: provider.id,
-  provider: provider,
-  name: 'complete',
-  textToShow: 'deposited',
-  colorCssClass: 'success',
 };
 
 describe('TransferConfirmCardComponent', () => {
@@ -70,13 +61,5 @@ describe('TransferConfirmCardComponent', () => {
     expect(operationDataWalletEl.nativeElement.innerHTML).toContain('0x4eCbFb306585A7f981cF0Fe298162EDce4D11699');
     expect(operationDataNetworkEl.nativeElement.innerHTML).toContain('POLYGON');
     expect(providerNameEl.nativeElement.innerHTML).toContain('2PI');
-  });
-
-  it('should render status chip when state exists', async () => {
-    component.operationStatus = operationStatus;
-    fixture.detectChanges();
-    const chipEl = fixture.debugElement.query(By.css('app-operation-status-chip'));
-
-    expect(chipEl).toBeTruthy();
   });
 });

@@ -16,11 +16,6 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
         <div class="tcc__card__name-and-icon__name ux-font-text-base-black">
           {{ this.token.name }}
         </div>
-        <div *ngIf="this.operationStatus">
-          <div class="tcc__card__name-and-icon__chip">
-            <app-operation-status-chip [status]="this.operationStatus"></app-operation-status-chip>
-          </div>
-        </div>
       </div>
 
       <div class="tcc__card__operation">
@@ -104,7 +99,6 @@ export class TransferConfirmCardComponent implements OnInit {
   @Input() token: Coin;
   @Input() operationData: OperationDataInterface;
   @Input() provider: any;
-  @Input() operationStatus: OperationStatus;
 
   constructor() {}
 

@@ -2,22 +2,25 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
+import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
+import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
-import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { FakeProviders } from '../shared-ramps/models/providers/fake/fake-providers';
-
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonOperationDetailPage } from './kripton-operation-detail.page';
 
-fdescribe('KriptonOperationDetailPage', () => {
+describe('KriptonOperationDetailPage', () => {
   let component: KriptonOperationDetailPage;
   let fixture: ComponentFixture<KriptonOperationDetailPage>;
   let fakeRoute: FakeActivatedRoute;
@@ -26,6 +29,10 @@ fdescribe('KriptonOperationDetailPage', () => {
   let fakeProviders: FakeProviders;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeNavController: FakeNavController;
 
   const operation: FiatRampOperation = {
     operation_id: 678,
@@ -33,31 +40,18 @@ fdescribe('KriptonOperationDetailPage', () => {
     status: 'cancel',
     currency_in: 'ARS',
     amount_in: 500.0,
-    currency_out: 'USDT',
+    currency_out: 'ETH',
     amount_out: 100.0,
     created_at: new Date('2021-02-27T10:02:49.719Z'),
     provider: '1',
     voucher: false,
-  };
-  
-  const mappedOperation: OperationDataInterface = {
-    type: operation.operation_type,
-    amount_in: operation.amount_in.toString(),
-    amount_out: operation.amount_out.toString(),
-    currency_in: operation.currency_in,
-    currency_out: operation.currency_out,
-    price_in: '1',
-    price_out: '5',
-    wallet: operation.wallet_address,
-    provider: operation.provider,
-    voucher: operation.voucher,
-    operation_id: operation.operation_id,
-    network: 'ERC20',
+    wallet_address: '0xeeeeeeeee',
   };
 
   beforeEach(waitForAsync(() => {
     fakeRoute = new FakeActivatedRoute();
     activatedRouteSpy = fakeRoute.createSpy();
+    fakeRoute.modifySnapshotParams('1');
     fakeProviders = new FakeProviders(
       rawProvidersData,
       rawProvidersData.find((provider) => provider.alias === 'kripton'),
@@ -81,13 +75,30 @@ fdescribe('KriptonOperationDetailPage', () => {
     browserServiceSpy = jasmine.createSpyObj('BrowserService', {
       open: Promise.resolve(),
     });
+
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoin: TEST_COINS[0],
+    });
+
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      setProvider: null,
+      getUserSingleOperation: of([operation]),
+    });
+
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+
     TestBed.configureTestingModule({
-      declarations: [KriptonOperationDetailPage, FakeTrackClickDirective],
+      declarations: [KriptonOperationDetailPage, FakeTrackClickDirective, FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: BrowserService, useValue: browserServiceSpy },
+        { provide: ProvidersFactory, useValue: providersFactorySpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        { provide: NavController, useValue: navControllerSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -102,7 +113,7 @@ fdescribe('KriptonOperationDetailPage', () => {
   });
 
   it('should show selected provider on init', () => {
-    const spy = spyOn(FakeProviders.prototype, 'byAlias');
+    const spy = spyOn(FakeProviders.prototype, 'byAlias').and.returnValue(rawProvidersData.find((provider) => provider.alias === 'kripton'));
     component.ionViewWillEnter();
 
     expect(spy).toHaveBeenCalledOnceWith('kripton');
@@ -113,43 +124,59 @@ fdescribe('KriptonOperationDetailPage', () => {
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
-  it('should show operation details on init', () => {
-    const title = fixture.debugElement.query(By.css('ion-text[name="Coin"]')).nativeElement.innerText;
-    const amount = fixture.debugElement.query(By.css('ion-text[name="Amount"]')).nativeElement.innerText;
-    const fiatAmount = fixture.debugElement.query(By.css('ion-text[name="Fiat Amount"]')).nativeElement.innerText;
+  it('should show operation details on init', async () => {
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const currency = fixture.debugElement.query(By.css('.kod__card-container__card__coin__content__name > ion-text'))
+      .nativeElement.innerText;
+    const amount = fixture.debugElement.query(By.css('.kod__card-container__card__amount__out > ion-text'))
+      .nativeElement.innerText;
+    const fiatAmount = fixture.debugElement.query(By.css('.kod__card-container__card__amount__in > ion-text'))
+      .nativeElement.innerText;
     const state = fixture.debugElement.query(By.css('app-operation-status-chip'));
-    const toast = fixture.debugElement.query(By.css('app-kripton-bo-state-toast'));
-    const quotations = fixture.debugElement.query(By.css('ion-text[name="Quotations"]')).nativeElement.innerText;
-    const address = fixture.debugElement.query(By.css('ion-text[name="Address"]')).nativeElement.innerText;
-    const operationNumber = fixture.debugElement.query(By.css('ion-text[name="Operation Number"]')).nativeElement.innerText;
-    const provider = fixture.debugElement.query(By.css('ion-text[name="Pr"]')).nativeElement.innerText;
-    const providerIcon = fixture.debugElement.query(By.css('ion-text[name=""]')).nativeElement;
-    const date = fixture.debugElement.query(By.css('ion-text[name=""]')).nativeElement.innerText;
-    const hour = fixture.debugElement.query(By.css('ion-text[name=""]')).nativeElement.innerText;
-    expect(title).toContain(operation.currency_out);
+    const toast = fixture.debugElement.query(By.css('app-operation-status-alert'));
+    const quotations = fixture.debugElement.query(
+      By.css('.kod__card-container__card__quotation__container__content > ion-text')
+    ).nativeElement.innerText;
+    const address = fixture.debugElement.query(
+      By.css('.kod__card-container__card__address__container__content > ion-text')
+    ).nativeElement.innerText;
+    const operationNumber = fixture.debugElement.query(
+      By.css('.kod__card-container__card__provider__container__operation__content > ion-text')
+    ).nativeElement.innerText;
+    const date = fixture.debugElement.query(
+      By.css('.kod__card-container__card__date__container__date__content > ion-text')
+    ).nativeElement.innerText;
+    const hour = fixture.debugElement.query(
+      By.css('.kod__card-container__card__date__container__hour__content > ion-text')
+    ).nativeElement.innerText;
+    expect(currency).toContain(operation.currency_out);
     expect(amount).toContain(operation.amount_out);
     expect(fiatAmount).toContain(operation.amount_in);
     expect(state).toBeTruthy();
     expect(toast).toBeTruthy();
-    expect(quotations).toContain("1 USDT = 5 ARS");
+    expect(quotations).toContain('1 ETH = 5.00 ARS');
     expect(address).toContain(operation.wallet_address);
     expect(operationNumber).toContain(operation.operation_id);
-    expect(provider).toContain("Kripton");
-    expect(providerIcon.attributes.src).toContain("assets/img/provider-logos/KriptonMarket.svg");
-    expect(date).toContain("27/02/2021");
-    expect(hour).toContain("10:02");
+    expect(date).toContain('27/02/2021');
+    expect(hour).toContain('07:02');
   });
 
-  it('should redirect to Kripton Support when user clicks UNDEFINED_BUTTON button', () => {
+  it('should redirect to Kripton Support when user clicks ux_goto_kripton_tos button', () => {
     const url = {
-      url: 'https://kriptonmarket.com/support-link',
+      url: 'https://kriptonmarket.com/terms-and-conditions',
     };
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="undefined"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-button[name="ux_goto_kripton_tos"]')).nativeElement.click();
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith(url);
   });
 
-  it('should show toast with information about the operation status', () => {
-
+  it('should navigate back to operations if operation does not exist', async () => {
+    fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(throwError('error'));
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/fiat-ramps/purchases']);
   });
 });

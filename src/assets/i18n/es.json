@@ -2204,7 +2204,7 @@
     },
     "operations_list": {
       "title": "Compras en Kripton Market",
-      "operation": "Compra",
+      "operation": "Moneda",
       "amount": "Monto",
       "date": "Fecha",
       "status": "Estado",
@@ -2339,9 +2339,11 @@
       }
     },
     "operation_status": {
-      "deposited": "Depositado",
+      "incomplete": "Incompleta",
       "in_progress": "En progreso",
-      "canceled": "Cancelada"
+      "confirmed": "Confirmada",
+      "nullified": "Anulada",
+      "cancelled": "Cancelada"
     },
     "new_operation": {
       "header": "Comprar cripto",
@@ -2740,9 +2742,10 @@
       "title": "Compra",
       "state": "Estado",
       "state_toast": {
-        "created": "Transfiere y envía el comprobante de la transacción. <b>Completar datos</b>",
+        "incomplete": "Transfiere y envía el comprobante de la transacción.",
+        "incomplete2": "Completar datos",
         "nullified": "El proveedor anuló esta operación. Para más infomación, comunícate con soporte.",
-        "canceled": "El proveedor no recibió el comprobante del pago."
+        "cancelled": "El proveedor no recibió el comprobante del pago."
       },
       "quotation": "Cotización",
       "address": "Dirección de destino (tu wallet)",
