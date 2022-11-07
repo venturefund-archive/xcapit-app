@@ -16,7 +16,6 @@ import { HttpParams } from '@angular/common/http';
 export class FiatRampsService {
   entity = 'on_off_ramps/provider';
   private provider = '1';
-  operationStatus: OperationStatus[] = OPERATION_STATUS;
 
   constructor(private providersFactory: ProvidersFactory, private http: CustomHttpService) {}
 
@@ -141,20 +140,6 @@ export class FiatRampsService {
     return this.providers()
       .all()
       .find((p) => p.id === providerId);
-  }
-
-  getOperationStatus(name: string, providerId?: number): OperationStatus {
-    let operationStatus: OperationStatus;
-
-    if (providerId) {
-      operationStatus = this.operationStatus.find((o) => o.name === name && o.providerId === providerId);
-    } else {
-      operationStatus = this.operationStatus.find((o) => o.name === name);
-    }
-
-    operationStatus.provider = this.getProvider(operationStatus.providerId);
-
-    return operationStatus;
   }
 
   private providers(): Providers {

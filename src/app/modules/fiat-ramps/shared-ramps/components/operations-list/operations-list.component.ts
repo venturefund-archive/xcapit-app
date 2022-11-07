@@ -31,7 +31,7 @@ import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interfac
 })
 export class OperationsListComponent implements OnInit, OnChanges {
   @Input() operationsList: FiatRampOperation[];
-  private readonly numberOfOperationsToShow = 2;
+  private readonly numberOfOperationsToShow = 3;
   firstOperations: FiatRampOperation[];
   remainingOperations: FiatRampOperation[];
   cssWithLine: string;

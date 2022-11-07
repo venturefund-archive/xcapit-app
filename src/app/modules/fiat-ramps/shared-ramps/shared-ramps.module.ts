@@ -40,6 +40,7 @@ import { OperationStatusAlertComponent } from './components/operation-status-ale
     ValidationContentComponent,
     ConfirmationContentComponent,
     BuyOrDepositTokenToastComponent,
+    OperationStatusAlertComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -60,7 +61,8 @@ import { OperationStatusAlertComponent } from './components/operation-status-ale
     MoonpayPurchasesCardComponent,
     UserRegisterContentComponent,
     ValidationContentComponent,
-    ConfirmationContentComponent
+    ConfirmationContentComponent,
+    OperationStatusAlertComponent
   ],
 })
 export class SharedRampsModule {}

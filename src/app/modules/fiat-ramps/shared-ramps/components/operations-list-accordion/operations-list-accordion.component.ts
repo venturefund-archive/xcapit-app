@@ -22,29 +22,29 @@ import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interfac
             {{ 'fiat_ramps.operations_list.date' | translate }}
           </ion-text>
         </ion-label>
-        <ion-label class="end">
+        <ion-label>
           <ion-text class="ux-font-text-xxs" color="neutral80">
             {{ 'fiat_ramps.operations_list.status' | translate }}
           </ion-text>
         </ion-label>
       </ion-item>
-      <app-operations-list-item
-        [isLast]="!this.isAccordionOpen && last"
-        [operation]="op"
-        *ngFor="let op of this.firstOperations; let last = last"
-      ></app-operations-list-item>
-      <ion-accordion-group>
-        <ion-accordion toggleIcon="" value="operations">
-          <div slot="content">
-            <app-operations-list-item
-              [isLast]="this.isAccordionOpen && last"
-              [operation]="op"
-              *ngFor="let op of this.remainingOperations; let last = last"
-            >
-            </app-operations-list-item>
-          </div>
-        </ion-accordion>
-      </ion-accordion-group>
+        <app-operations-list-item
+          [isLast]="!this.isAccordionOpen && last"
+          [operation]="op"
+          *ngFor="let op of this.firstOperations; let last = last"
+        ></app-operations-list-item>
+        <ion-accordion-group>
+          <ion-accordion toggleIcon="" value="operations">
+            <div slot="content">
+              <app-operations-list-item
+                [isLast]="this.isAccordionOpen && last"
+                [operation]="op"
+                *ngFor="let op of this.remainingOperations; let last = last"
+              >
+              </app-operations-list-item>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
     </ion-list>
     <div *ngIf="this.remainingOperations.length > 0">
       <ion-button
