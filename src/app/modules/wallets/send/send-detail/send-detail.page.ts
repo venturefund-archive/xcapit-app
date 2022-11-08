@@ -309,7 +309,9 @@ export class SendDetailPage {
       if (this.form.valid) {
         await this.setAllFeeData();
         await this.checkEnoughBalance();
-      } else this.resetFee();
+      } else {
+        this.resetFee();
+      }
     });
   }
 
