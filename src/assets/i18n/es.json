@@ -2243,19 +2243,29 @@
       },
       "button": "Continuar",
       "modal_info": {
-        "subtitle_1": "Medios de pago habilitados:",
-        "subtitle_2": "¿Cuál es el plazo de entrega?",
-        "subtitle_3": "Monto mínimo de compra:",
+        "subtitle_payment_methods": "Medios de pago habilitados:",
+        "subtitle_delivery_time": "¿Cuál es el plazo de entrega?",
+        "subtitle_minimum_amount": "Monto mínimo de compra:",
+        "subtitle_available_tokens": "¿Qué tokens puedes comprar?",
+        "subtitle_more_information": "Más información:",
+        "kyc_required": "Requiere KYC o proceso de registración.",
         "button": "Entendido",
         "kripton": {
-          "description_1": "Transferencia bancaria.",
-          "description_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs. aproximadamente.",
-          "description_3": "25 USD por compra."
+          "provider_name": "Kripton Market",
+          "header": "Es un proveedor habilitado para la venta de criptomonedas en Latam.",
+          "minimum_amount": "25 USD por compra.",
+          "delivery_time_1": "Hasta 48 hs.",
+          "delivery_time_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs.",
+          "more_information": "Kriptonmarket.com"
         },
         "moonpay": {
-          "description_1": "Tarjeta de crédito.*",
-          "description_2": "Depende del proveedor externo según el caso.",
-          "disclaimer": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
+          "provider_name": "Moonpay",
+          "header": "Es un proveedor habilitado para la venta de criptomonedas.",
+          "payment_methods": "Tarjeta de crédito.*",
+          "delivery_time": "Depende del proveedor externo según el caso.",
+          "disclaimer": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
+          "available_tokens_1": "ETH, USDT y UNI",
+          "available_tokens_2": "USDC y MATIC"
         }
       }
     },
