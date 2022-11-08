@@ -45,7 +45,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
           color="secondary"
           expand="block"
           (click)="this.emitConfirm()"
-          >{{ 'fiat_ramps.shared.confirmation_content.button_primary' | translate }}</ion-button
+          >{{  this.data.button_primary | translate }}</ion-button
         >
       </div>
       <div class="cc__footer__upload-button">
@@ -54,7 +54,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
           name="back_button"
           expand="block"
           (click)="this.reloadPhoto()"
-          >{{ 'fiat_ramps.shared.confirmation_content.button_secondary' | translate }}</ion-button
+          >{{  this.data.button_secondary | translate }}</ion-button
         >
       </div>
     </ion-footer>`,

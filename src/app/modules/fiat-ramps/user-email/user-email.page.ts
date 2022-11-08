@@ -42,23 +42,23 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
             tabindex="0"
             color="primary"
           ></app-ux-input>
-          <div *ngIf="this.validateEmail">
+          <div *ngIf="this.validatedEmail">
             <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.user_email.text_token' | translate }}</ion-text>
             <div class="ue__container__form__token">
-            <app-ux-input
-              controlName="token"
-              type="token"
-              inputmode="token"
-              [label]="'fiat_ramps.user_email.label_token' | translate"
-              aria-label="token"
-              tabindex="0"
-              color="primary"
-            ></app-ux-input>
+              <app-ux-input
+                controlName="token"
+                type="token"
+                inputmode="token"
+                [label]="'fiat_ramps.user_email.label_token' | translate"
+                aria-label="token"
+                tabindex="0"
+                color="primary"
+              ></app-ux-input>
             </div>
           </div>
         </form>
       </div>
-      <div *ngIf="!this.validateEmail" class="ue__container__card">
+      <div *ngIf="!this.validatedEmail" class="ue__container__card">
         <app-backup-information-card
           [text]="'fiat_ramps.user_email.text'"
           [textClass]="'ux-home-backup-card'"
@@ -91,7 +91,7 @@ export class UserEmailPage implements OnInit {
     token: ['', []],
   });
 
-  validateEmail = false;
+  validatedEmail = false;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -106,7 +106,7 @@ export class UserEmailPage implements OnInit {
   async submit() {
     const userStatus = await this.fiatRampsService.getOrCreateUser(this.form.value).toPromise();
     this.saveEmail();
-    if (userStatus) this.validateEmail = true;
+    if (userStatus) this.validatedEmail = true;
     this.tokenValidator();
     if (this.form.valid) this.redirectByStatus(userStatus.registration_status);
   }
