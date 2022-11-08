@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 @Component({
@@ -94,8 +95,6 @@ export class InfoProviderKriptonComponent {
   }
 
   async navigateToKripton() {
-    await this.browserService.open({
-      url: 'https://kriptonmarket.com',
-    });
+    await this.browserService.open({ url: LINKS.kriptonSupport });
   }
 }
