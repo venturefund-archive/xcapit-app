@@ -2,9 +2,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { KriptonAccountInfoCardComponent } from './kripton-account-info-card.component';
 
-fdescribe('KriptonAccountInfoCardComponent', () => {
+describe('KriptonAccountInfoCardComponent', () => {
   let component: KriptonAccountInfoCardComponent;
   let fixture: ComponentFixture<KriptonAccountInfoCardComponent>;
   let kriptonAccountInfoSpy: jasmine.SpyObj<any>;
@@ -19,7 +20,7 @@ fdescribe('KriptonAccountInfoCardComponent', () => {
       }
     );
     TestBed.configureTestingModule({
-      declarations: [KriptonAccountInfoCardComponent],
+      declarations: [KriptonAccountInfoCardComponent, FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
     }).compileComponents();
 

@@ -144,7 +144,6 @@ export class OperationsDetailPage implements OnInit {
     this.getProvider(parseInt(providerId));
     this.getUserOperation(operationId);
     this.trackScreenViewEvent();
-
   }
 
   private getProvider(providerId: number) {

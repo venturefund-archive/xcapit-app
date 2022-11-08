@@ -2556,6 +2556,7 @@
       "kripton_account_info":{
         "title": "Transfiere a la siguiente cuenta",
         "alias": "Alias",
+        "amount":"Monto",
         "cbu": "CBU",
         "owner": "Titular",
         "currency_type": {
@@ -2648,10 +2649,13 @@
       }
     },
     "purchase_order":{
+      "header": "Comprar cripto",
       "clipboard_text":"¡{{type}} copiado con exito!",
-      "amount":"Monto",
-      "alias":"Alias",
-      "cbu":"CBU"
+      "provider": "Proveedor: Kripton Market",
+      "step_1":"Transferir",
+      "step_2":"Cargar comprobante",
+      "button":"Continuar",
+      "timer":"Te quedan {{ value }} para transferir"
     }
   },
   "home": {

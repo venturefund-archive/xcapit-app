@@ -22,7 +22,7 @@ import { KRIPTON_ACCOUNT_INFO } from '../../constants/kripton-account-info';
         <ion-label class="kaic__details__amount__value ux-font-header-titulo">{{'$'}}{{ this.amount | formattedAmount: 10:2 }}</ion-label>
         <img
           class="copy-icon-amount"
-          (click)="this.copyToClipboard(this.amount, 'fiat_ramps.purchase_order.amount')"
+          (click)="this.copyToClipboard(this.amount, 'fiat_ramps.shared.kripton_account_info.amount')"
           src="/assets/img/purchase-order/copy.svg"
         />
       </div>
@@ -37,7 +37,7 @@ import { KRIPTON_ACCOUNT_INFO } from '../../constants/kripton-account-info';
         </div>
         <img
           class="copy-icon-alias"
-          (click)="this.copyToClipboard(this.kriptonAccountInfo.alias, 'fiat_ramps.purchase_order.alias')"
+          (click)="this.copyToClipboard(this.kriptonAccountInfo.alias, 'fiat_ramps.shared.kripton_account_info.alias')"
           src="/assets/img/purchase-order/copy.svg"
         />
       </div>
@@ -52,7 +52,7 @@ import { KRIPTON_ACCOUNT_INFO } from '../../constants/kripton-account-info';
         </div>
         <img
           class="copy-icon-cbu"
-          (click)="this.copyToClipboard(this.kriptonAccountInfo.cbu, 'fiat_ramps.purchase_order.cbu')"
+          (click)="this.copyToClipboard(this.kriptonAccountInfo.cbu, 'fiat_ramps.shared.kripton_account_info.cbu')"
           src="/assets/img/purchase-order/copy.svg"
         />
       </div>

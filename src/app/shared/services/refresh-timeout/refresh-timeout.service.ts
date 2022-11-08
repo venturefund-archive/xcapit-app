@@ -33,6 +33,7 @@ export class RefreshTimeoutService implements OnDestroy {
         this.unsubscribe();
       }
     });
+    
   }
 
   private toSeconds(milliseconds: number): number {

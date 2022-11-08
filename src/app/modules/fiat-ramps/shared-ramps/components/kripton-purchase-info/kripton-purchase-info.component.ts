@@ -13,6 +13,7 @@ import { Component, Input, OnInit } from '@angular/core';
             <div class="kpi__buy__accordion-group__accordion__item__header">
               <img [src]="'assets/img/coins/' + this.currencyOut + '.svg'" />
               <div class="kpi__buy__accordion-group__accordion__item__header__coin">
+                
                 <ion-label
                   class="kpi__buy__accordion-group__accordion__item__header__coin__value ux-font-header-titulo"
                   >{{ this.currencyOut }}</ion-label
@@ -26,15 +27,15 @@ import { Component, Input, OnInit } from '@angular/core';
           </ion-item>
           <div class="kpi__buy__accordion-group__accordion__item__content ion-padding" slot="content">
             <div class="kpi__buy__accordion-group__accordion__item__content__data">
-              <ion-label class="ux-font-titulo-xs">
+              <ion-label class="kpi__buy__quote-title ux-font-titulo-xs">
                 {{ 'fiat_ramps.shared.kripton_purchase_info.quote' | translate }}</ion-label
               >
               <ion-label class="kpi__buy__accordion-group__accordion__item__content__data__value ux-font-text-base"
-                >1 {{this.currencyOut}} = {{this.priceOut | formattedAmount: 10:2}} {{this.currencyIn}}</ion-label
+                >1 {{this.currencyOut}} = {{this.priceOut | formattedAmount: 10:2}} {{this.currencyIn | uppercase }}</ion-label
               >
             </div>
             <div class="kpi__buy__accordion-group__accordion__item__content__data">
-              <ion-label class="ux-font-titulo-xs">{{
+              <ion-label class="kpi__buy__operation-title ux-font-titulo-xs">{{
                 'fiat_ramps.shared.kripton_purchase_info.operation' | translate
               }}</ion-label>
               <ion-label class="kpi__buy__accordion-group__accordion__item__content__data__value ux-font-text-base"

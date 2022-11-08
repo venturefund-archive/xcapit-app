@@ -2205,6 +2205,16 @@
       "button_primary": "Retry",
       "button_secondary": "Go to wallet"
     },
+    "purchase_order":{
+      "header": "Buy crypto",
+      "clipboard_text":"¡{{type}} successfully copied!",
+      "provider": "Provider: Kripton Market",
+      "step_1":"Transfer",
+      "step_2":"Upload voucher",
+      "button":"Continue",
+      "timer":"You have {{ value }} to transfer"
+    },
+
     "success_d24_operation": {
       "text_primary": "Purchase confirmed!",
       "text_secondary": "The crediting of your tokens can take up to 24 hours.",
@@ -2564,12 +2574,14 @@
         "title": "Transfer to the following account",
         "alias": "Alias",
         "cbu": "CBU",
+        "amount":"Amount",
         "owner": "Holder",
         "currency_type": {
           "argentina": "Argentine pesos"
         }
       },
       "kripton_purchase_info":{
+
         "title":"Your purchase",
         "quote":"Quote",
         "operation":"Operation"
