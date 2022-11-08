@@ -2549,25 +2549,39 @@
           "description": "The image should be similar to the one in the example and your data should be visible."
         },
         "back_id": {
-          "subtitle": "Now we need a photo of the reverse side of your document.",
+          "subtitle": "Now we need a photo of the reverse side of your document",
           "description": "The image should be similar to the one in the example and your data should be visible."
+        },
+        "dni_selfie": {
+          "subtitle": "Finally, a picture of you holding your document",
+          "description": "¡Don't worry! 😉 We just want to check that you are the person indicated in the document entered.",
+          "items": "<ul><li>Choose a light background.</li><li>Don't use accessories that cover up your features.</li></ul>"
         }
       },
       "confirmation_content": {
         "header": "Verify identity",
         "provider": "Provider: Kripton Market",
-        "button_primary": "Confirm",
-        "button_secondary": "Reloading",
 
         "front_id": {
           "title": "Very good! 📸",
           "subtitle": "Check that the photo meets the following conditions:",
-          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>"
+          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>",
+          "button_primary": "Confirm",
+          "button_secondary": "Reloading"
         },
         "back_id": {
           "title": "😁 ¡Excelent!",
           "subtitle": "Check that the photo meets the following conditions:",
-          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>"
+          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>",
+          "button_primary": "Confirm",
+          "button_secondary": "Reloading"
+        },
+        "dni_selfie": {
+          "title": "That's it! We finish 🎉" ,
+          "subtitle": "Verify that the following conditions are met:",
+          "items": "<ul><li> The photo should be clear and sharp.</li><li>Do not wear glasses or hats that cover your face.</li></ul>",
+          "button_primary": "Confirm and send",
+          "button_secondary": "Reloading"
         }
       }
     },

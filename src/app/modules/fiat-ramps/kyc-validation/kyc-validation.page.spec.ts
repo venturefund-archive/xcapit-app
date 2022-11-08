@@ -22,7 +22,7 @@ describe('KycValidationPage', () => {
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
 
   beforeEach(waitForAsync(() => {
-    fakeActivatedRoute = new FakeActivatedRoute({digitalDocument: 'front_id'});
+    fakeActivatedRoute = new FakeActivatedRoute({ digitalDocument: 'front_id' });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
@@ -56,6 +56,12 @@ describe('KycValidationPage', () => {
   it('should track screen view on will enter', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not track screen view on will enter when digital document is not front_id', () => {
+    fakeActivatedRoute.modifySnapshotParams({ digitalDocument: 'back_id' });
+    component.ionViewWillEnter();
+    expect(trackServiceSpy.trackEvent).not.toHaveBeenCalled();
   });
 
   it('should navigate back if modal confirmed', fakeAsync(() => {

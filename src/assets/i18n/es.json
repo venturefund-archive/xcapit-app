@@ -2543,24 +2543,38 @@
         "back_id": {
           "subtitle": "Ahora precisamos una foto del revés de tu documento",
           "description": "La imagen debe ser similar a la del ejemplo y sus datos deben ser visibles."
+        },
+        "dni_selfie": {
+          "subtitle": "Finalmente, una foto tuya sosteniendo tu documento",
+          "description": "¡No te preocupes! 😉 Sólamente queremos corroborar que eres la persona que indica el documento ingresado.",
+          "items": "<ul><li>Elige un fondo claro.</li><li>No utilices accesorios que tapen tus facciones.</li></ul>"
         }
       },
 
       "confirmation_content": {
         "header": "Verificar identidad",
         "provider": "Proveedor: Kripton Market",
-        "button_primary": "Confirmar",
-        "button_secondary": "Cargar nuevamente",
 
         "front_id": {
           "title": "¡Muy bien! 📸",
           "subtitle": "Chequea que la foto cumpla con las siguientes condiciones:",
-          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>"
+          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>",
+          "button_primary": "Confirmar",
+          "button_secondary": "Cargar nuevamente"
         },
         "back_id": {
           "title": "😁 ¡Excelente!" ,
           "subtitle": "Chequea que la foto cumpla con las siguientes condiciones: ",
-          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>"
+          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>",
+          "button_primary": "Confirmar",
+          "button_secondary": "Cargar nuevamente"
+        },
+        "dni_selfie": {
+          "title": "¡Listo! Terminamos 🎉" ,
+          "subtitle": "Verifica que se cumplan las siguientes condiciones:",
+          "items": "<ul><li> La foto debe ser clara y nítida.</li><li>No utilices anteojos o sombreros que tapen tu rostro.</li></ul>",
+          "button_primary": "Confirmar y enviar",
+          "button_secondary": "Cargar nuevamente"
         }
       }
     },
