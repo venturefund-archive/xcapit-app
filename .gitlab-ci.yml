@@ -105,7 +105,7 @@ cache:
   stage: release
   image: node:${NODE_VERSION}
   before_script:
-    - npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/git -D
+    - npm install --legacy-peer-deps @semantic-release/gitlab @semantic-release/changelog @semantic-release/release-notes-generator @semantic-release/git -D
     - npm cache clean --force
     - npm cache verify
 
