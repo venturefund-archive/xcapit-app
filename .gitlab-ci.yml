@@ -157,5 +157,5 @@ release_develop:
     refs:
       - develop
   script:
-    - VERSION='v${version}'
-    - npx semantic-release --tag-format ${CI_COMMIT_BRANCH}-'$VERSION' -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git"
+    - VERSION='v${version}' npx semantic-release --tag-format ${CI_COMMIT_BRANCH}-'\$VERSION' -p "@semantic-release/commit-analyzer" "@semantic-release/changelog" "@semantic-release/git"
+    - echo $VERSION 
