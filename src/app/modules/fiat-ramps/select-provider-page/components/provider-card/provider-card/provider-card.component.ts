@@ -76,7 +76,7 @@ import { ProvidersFactory } from 'src/app/modules/fiat-ramps/shared-ramps/models
     },
   ],
 })
-export class ProviderCardComponent implements OnInit {
+export class ProviderCardComponent implements OnInit{
   @Input() provider: FiatRampProvider;
   @Input() disabled: boolean;
   @Input() fiatCode: string;
