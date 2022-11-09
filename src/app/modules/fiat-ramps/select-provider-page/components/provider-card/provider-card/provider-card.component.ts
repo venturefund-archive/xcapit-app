@@ -59,7 +59,7 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
     },
   ],
 })
-export class ProviderCardComponent implements OnInit {
+export class ProviderCardComponent {
   @Input() provider: FiatRampProvider;
   @Input() disabled: boolean;
   @Output() selectedProvider: EventEmitter<any> = new EventEmitter<any>();
@@ -67,10 +67,6 @@ export class ProviderCardComponent implements OnInit {
   providerInfo: any;
 
   constructor(private modalController: ModalController, private translate: TranslateService) {}
-
-  ngOnInit(): void {
-    
-  }
 
   sendProviderData(provider: FiatRampProvider) {
     this.selectedProvider.emit(provider);
