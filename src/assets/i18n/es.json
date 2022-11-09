@@ -2217,6 +2217,15 @@
       "message": "Si realizaste compras, puedes verlas",
       "link": "aquí"
     },
+    "operation_km_in_progress": {
+      "text_primary":"¡Tu orden está en camino!",
+      "text_secondary":"Te estaremos informando sobre cambios en el estado de tu compra.",
+      "button_text":"Finalizar",
+      "text_title":"Compra",
+      "text_badge":"En progreso",
+      "text_tertiary": "¿Necesitas ayuda?",
+      "text_help_link": "Escribir a soporte Kripton Market"      
+    },
     "provider_new_operation_card": {
       "description": "Proveedor: {{providerName}}"
     },

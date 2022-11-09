@@ -2191,6 +2191,15 @@
     "tools": "Tools"
   },
   "fiat_ramps": {
+    "operation_km_in_progress": {
+      "text_primary":"Your order is on its way!",
+      "text_secondary":"We will be informing you about changes in the status of your purchase.",
+      "button_text":"Finish",
+      "text_title":"Buy",
+      "text_badge":"In progress",
+      "text_tertiary": "Do you need help?",
+      "text_help_link": "Write to Kripton Market support"      
+    },
     "home_of_purchases": {
       "header": "My purchases",
       "question": "How do purchases work?",

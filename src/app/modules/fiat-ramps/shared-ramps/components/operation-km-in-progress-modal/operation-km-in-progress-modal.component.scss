@@ -1,11 +1,17 @@
 :host {
+  justify-content: center;
+
   .header {
     display: flex;
     flex-direction: column;
     align-items: center;
 
     &__img {
+      width: 100%;
+
       img {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
         padding-top: 32px;
         background-color: var(--ion-color-infolight);
       }
@@ -48,14 +54,16 @@
       font-size: var(--ux-fsize-22);
       font-weight: var(--ux-fweight-semibold);
       line-height: 25.81px;
-      margin-top: -4px;
+      margin-top: -8px;
       text-align: center;
       color: var(--ion-color-info) !important;
     }
 
     &__badge {
       ion-badge {
-        --color: var(--ion-color-warningdark);
+        margin-top: 6px;
+
+        --color: var(--ion-color-infodark);
 
         font-family: var(--ux-font-worksans);
         font-weight: var(--ux-fweight-semibold);
@@ -64,33 +72,39 @@
         border-radius: 4px;
         height: 21px;
 
-        --background: var(--ion-color-warninglight);
+        --background: var(--ion-color-infolight);
       }
     }
 
     &__primary-text {
-      margin-top: 36px;
+      margin-top: 38px;
       text-align: center;
     }
 
     &__secondary-text {
-      margin: 8px 7.5px 0;
+      margin: 8px 12px 0;
       text-align: center;
 
       ion-text {
-        color: var(--ion-color-primary);
-      }
-
-      .text {
-        font-size: var(--ux-fsize-14);
+        color: var(--ion-color-neutral90);
       }
     }
 
-    &__actions {
-      padding-left: 13px;
-      padding-right: 13px;
-      width: 100%;
+    &__tertiary-text {
       margin-top: 24px;
+      text-align: center;
+    }
+
+    &__open-support {
+      margin-top: 4px;
+      text-align: center;
+    }
+
+    &__action {
+      margin-top: 24px;
+      padding-left: 26px;
+      padding-right: 26px;
+      width: 100%;
       text-align: center;
 
       ion-button {
