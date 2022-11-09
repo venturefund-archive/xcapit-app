@@ -1,0 +1,16 @@
+:host {
+  .tc {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: inline-flex;
+
+    ion-icon {
+      margin-right: 6px;
+    }
+
+    ion-text {
+      color: var(--ion-color-neutral80);
+    }
+  }
+}

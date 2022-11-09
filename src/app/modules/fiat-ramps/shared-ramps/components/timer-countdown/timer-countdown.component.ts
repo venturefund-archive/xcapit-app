@@ -1,16 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import {
-  millisecondsToHours,
-  millisecondsToMinutes,
-  millisecondsToSeconds,
-} from 'date-fns';
+import { millisecondsToHours, millisecondsToMinutes, millisecondsToSeconds } from 'date-fns';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-timer-countdown',
-  template: `<ion-label class="ux-font-text-xs"
-    ><ion-icon name="clock"></ion-icon>{{ this.text | translate: this.timeString }}</ion-label
-  >`,
+  template: `
+  <div class="tc">
+      <ion-icon name="clock"></ion-icon> 
+      <ion-text class="ux-font-text-xs">{{ this.text | translate: this.timeString }}</ion-text>
+  </div>
+  `,
   styleUrls: ['./timer-countdown.component.scss'],
 })
 export class TimerCountdownComponent implements OnInit, OnDestroy {
@@ -37,7 +36,7 @@ export class TimerCountdownComponent implements OnInit, OnDestroy {
   }
 
   private getTimeDifference() {
-    this.timeDifference = this.deadlineDate.getTime() - new Date().getTime();
+    this.timeDifference = this.deadlineDate?.getTime() - new Date().getTime();
     this.allocateTimeUnits(this.timeDifference);
   }
 
@@ -53,7 +52,7 @@ export class TimerCountdownComponent implements OnInit, OnDestroy {
       value: `
         ${this.formatValue(this.hoursToDday)}
         ${this.formatValue(this.minutesToDday)}
-        ${this.formatValue(this.secondsToDday)}
+        ${this.secondsToDday}
       `,
     };
   }

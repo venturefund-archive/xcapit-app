@@ -11,11 +11,9 @@ export class StorageOperationService {
 
   public updateData(data: OperationDataInterface) {
     this.data = data;
-    console.log(this.data)
   }
 
   public getData() {
-    console.log(this.data)
     return { ...this.data };
   }
 }

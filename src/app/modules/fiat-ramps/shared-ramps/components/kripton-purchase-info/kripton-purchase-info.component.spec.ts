@@ -55,7 +55,6 @@ describe('KriptonPurchaseInfoComponent', () => {
     const badgeEl = fixture.debugElement.query(
       By.css('app-token-network-badge')
     );
-    console.log(badgeEl)
     const amountOutEl = fixture.debugElement.query(
       By.css('ion-label.kpi__buy__accordion-group__accordion__item__header__value')
     );
@@ -70,7 +69,6 @@ describe('KriptonPurchaseInfoComponent', () => {
     expect(badgeEl).toBeTruthy();
     expect(amountOutEl.nativeElement.innerHTML).toContain('1222');
     expect(quoteTitleEl.nativeElement.innerHTML).toContain('fiat_ramps.shared.kripton_purchase_info.quote');
-    //DUDA (no deberia ser ARS en mayusculas?  1 MATIC = 12 ARS)
     expect(quoteDataEl.nativeElement.innerHTML).toContain('1 MATIC = 12 ARS');
     expect(operationTitleEl.nativeElement.innerHTML).toContain('fiat_ramps.shared.kripton_purchase_info.operation');
     expect(operationIdEl.nativeElement.innerHTML).toContain('N° 2')

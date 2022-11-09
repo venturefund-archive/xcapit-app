@@ -61,7 +61,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
       ></app-kripton-purchase-info>
     </ion-content>
     <ion-footer class="po__footer ion-padding ux_footer">
-      <app-timer-countdown text="fiat_ramps.purchase_order.timer" [deadlineDate]="dDay"></app-timer-countdown>
+      <app-timer-countdown class="timer" text="fiat_ramps.purchase_order.timer" [deadlineDate]="dDay"></app-timer-countdown>
       <ion-button expand="block" size="large" class="ux_button" color="secondary">{{
         'fiat_ramps.purchase_order.button' | translate
       }}</ion-button>

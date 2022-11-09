@@ -9,7 +9,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
 
 import { PurchaseOrderPage } from './purchase-order.page';
 
-fdescribe('PurchaseOrderPage', () => {
+describe('PurchaseOrderPage', () => {
   let component: PurchaseOrderPage;
   let fixture: ComponentFixture<PurchaseOrderPage>;
   let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;
@@ -75,12 +75,15 @@ fdescribe('PurchaseOrderPage', () => {
     const providerTitleEl = fixture.debugElement.query(By.css('div.po__provider ion-text'));
     const kriptonAccountEl = fixture.debugElement.query(By.css('app-kripton-account-info-card'));
     const purchaseInfoEl = fixture.debugElement.query(By.css('app-kripton-purchase-info'));
+    const timerCountDownEl = fixture.debugElement.query(By.css('app-timer-countdown'));
+    
     expect(headerTitleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.header');
     expect(step1El.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.step_1');
     expect(step2El.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.step_2');
     expect(stepOfEl.nativeElement.innerHTML).toContain('shared.step_counter.of');
     expect(providerTitleEl.nativeElement.innerHTML).toContain('fiat_ramps.purchase_order.provider')
     expect(kriptonAccountEl).toBeTruthy();
+    expect(timerCountDownEl).toBeTruthy();
     expect(purchaseInfoEl).toBeTruthy();
   });
 
