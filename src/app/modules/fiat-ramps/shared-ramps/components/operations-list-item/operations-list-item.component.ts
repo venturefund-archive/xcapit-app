@@ -41,7 +41,7 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
 })
 export class OperationsListItemComponent implements OnInit {
   @Input() operation: FiatRampOperation;
-  @Input() isLast: boolean = false;
+  @Input() isLast = false;
   status: OperationStatus;
   coin: Coin;
   amount: number;
