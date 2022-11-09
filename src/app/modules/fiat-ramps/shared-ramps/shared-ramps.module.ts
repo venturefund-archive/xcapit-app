@@ -27,6 +27,7 @@ import { UserBasicInformationComponent } from './components/user-basic-informati
 import { UserPersonalInformationComponent } from './components/user-personal-information/user-personal-information.component';
 import { UserAddressInformationComponent } from './components/user-address-information/user-address-information.component';
 import { SuccessKmSendVoucherComponent } from './success-km-send-voucher/success-km-send-voucher.component';
+import { OperationKmInProgressModalComponent } from './components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,9 @@ import { SuccessKmSendVoucherComponent } from './success-km-send-voucher/success
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
     BuyOrDepositTokenToastComponent,
-    SuccessKmSendVoucherComponent
+    SuccessKmSendVoucherComponent,
+    OperationKmInProgressModalComponent
+
   ],
   imports: [SharedModule],
   exports: [
@@ -88,7 +91,9 @@ import { SuccessKmSendVoucherComponent } from './success-km-send-voucher/success
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
     ConfirmationContentComponent,
-    SuccessKmSendVoucherComponent
+    SuccessKmSendVoucherComponent,
+    OperationKmInProgressModalComponent
+
   ],
 })
 export class SharedRampsModule {}

@@ -247,6 +247,17 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/tabs/investments',
     trackClickEventNamePrimaryAction: 'ux_invest_try_again',
   },
+  operation_km_in_progress: {
+    image: 'assets/img/swaps/swap-in-progress.svg',
+    icon: 'assets/img/swaps/swap-icon.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'swaps.swap_in_progress.text_primary',
+    textSecondary: 'swaps.swap_in_progress.text_secondary',
+    namePrimaryAction: 'swaps.swap_in_progress.button_text',
+    urlPrimaryAction: '/tabs/wallets',
+    titlePrimary: 'swaps.swap_in_progress.text_title',
+    textBadge: 'swaps.swap_in_progress.text_badge',
+  },
   success_objetive: {
     image: 'assets/img/financial-planner/success.svg',
     urlClose: '/financial-planner/new-objetive',
