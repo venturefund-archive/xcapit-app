@@ -6,6 +6,8 @@ import { InfoProviderKriptonComponent } from 'src/app/modules/fiat-ramps/shared-
 import { InfoProviderMoonpayComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider-moonpay/info-provider-moonpay.component';
 import { D24_PAYMENT_TYPES } from 'src/app/modules/fiat-ramps/shared-ramps/constants/payment-types';
 import { FiatRampProviderCountry } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider-country';
+import { InfoProviderComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider/info-provider.component';
+import { INFO_PROVIDER } from 'src/app/modules/fiat-ramps/shared-ramps/constants/info-provider';
 import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from 'src/app/modules/fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
 @Component({
@@ -24,7 +26,7 @@ import { ProvidersFactory } from 'src/app/modules/fiat-ramps/shared-ramps/models
             <ion-text class="ux-font-text-lg paymentType" color="neutral90"> {{ this.paymentType | translate }}</ion-text>
             <ion-button
               class="pcc__content__body__name__button ion-no-padding"
-              *ngIf="this.provider?.showInfo"
+              
               [disabled]="this.disabled"
               slot="icon-only"
               fill="clear"
@@ -84,6 +86,7 @@ export class ProviderCardComponent implements OnInit {
   isInfoModalOpen = false;
   paymentType: string;
   availableDirectaProviders: any;
+  providerInfo: any;
 
   constructor(
     private modalController: ModalController,
@@ -117,12 +120,21 @@ export class ProviderCardComponent implements OnInit {
     this.selectedProvider.emit(provider);
   }
 
-  async createKriptonInfoModal() {
+  async createInfoModal() {
+    this.providerInfo = INFO_PROVIDER[this.provider.providerName]
     const modal = await this.modalController.create({
       component: InfoProviderKriptonComponent,
       componentProps: {
         image: this.provider?.logoRoute,
         title: this.provider?.name,
+        subtitle1:this.providerInfo.subtitle_1,
+        subtitle2:this.providerInfo.subtitle_2,
+        subtitle3: this.providerInfo.subtitle_3,
+        description1: this.providerInfo.description_1,
+        description2:this.providerInfo.description_2,
+        description3:this.providerInfo.description_3,
+        disclaimer:this.providerInfo.disclaimer,
+        buttonText: 'fiat_ramps.select_provider.modal_info.button',
       },
       cssClass: 'ux-lg-modal-informative-provider-kripton',
       backdropDismiss: false,
@@ -147,7 +159,7 @@ export class ProviderCardComponent implements OnInit {
     if (!this.isInfoModalOpen) {
       this.isInfoModalOpen = true;
       if (this.provider.providerName === 'kripton') {
-        await this.createKriptonInfoModal();
+        await this.createInfoModal();
       } else {
         await this.createMoonpayInfoModal();
       }
