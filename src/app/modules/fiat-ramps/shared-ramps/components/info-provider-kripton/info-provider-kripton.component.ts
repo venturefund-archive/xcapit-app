@@ -95,6 +95,6 @@ export class InfoProviderKriptonComponent {
   }
 
   async navigateToKripton() {
-    await this.browserService.open({ url: LINKS.kriptonSupport });
+    await this.browserService.open({ url: LINKS.kriptonPage });
   }
 }
