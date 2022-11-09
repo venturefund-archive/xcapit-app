@@ -26,7 +26,9 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
         <app-moonpay-purchases-card></app-moonpay-purchases-card>
       </div>
       <div class="hop__question ion-padding-start ion-padding-end">
-        <ion-text class="ux-link-xs">{{ 'fiat_ramps.home_of_purchases.question' | translate }}</ion-text>
+        <ion-text (click)="goToFaqs()" class="ux-link-xs">{{
+          'fiat_ramps.home_of_purchases.question' | translate
+        }}</ion-text>
       </div>
     </ion-content>
     <ion-footer>
@@ -73,6 +75,10 @@ export class HomeOfPurchasesPage {
 
   getProviders() {
     this.providers = this.providersFactory.create().all();
+  }
+
+  goToFaqs() {
+    this.navController.navigateForward('/support/faqs/buy');
   }
 
   handler() {

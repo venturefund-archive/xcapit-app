@@ -12,4 +12,5 @@ export const LINKS = {
   discordCommunity: 'https://discord.gg/pHjXPvpwJG',
   oneInchToS: 'https://docs.1inch.io/docs/aggregation-protocol/api/legal/',
   twoPiPage: 'https://dashboard.2pi.network/',
+  kriptonSupport: 'https://kriptonmarket.com',
 };

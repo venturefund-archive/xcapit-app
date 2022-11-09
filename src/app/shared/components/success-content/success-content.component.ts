@@ -103,7 +103,7 @@ export class SuccessContentComponent implements OnInit {
 
   primaryAction() {
     if (this.data.urlPrimaryAction) {
-      this.navController.navigateForward([this.data.urlPrimaryAction]);
+      this.navController.navigateRoot([this.data.urlPrimaryAction]);
     }
     this.primaryActionEvent.emit();
   }

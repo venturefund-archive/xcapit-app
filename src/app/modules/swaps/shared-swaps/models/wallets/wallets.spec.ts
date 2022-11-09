@@ -14,7 +14,10 @@ describe('Wallets', () => {
   let wallets: Wallets;
 
   beforeEach(() => {
-    wallets = new Wallets(new WalletRepo(new FakeAppStorage(rawStoredWalletData)), new FakeEthersWallet());
+    wallets = new Wallets(
+      new WalletRepo(new FakeAppStorage(rawStoredWalletData)),
+      new FakeEthersWallet()
+    );
   });
 
   it('new', () => {

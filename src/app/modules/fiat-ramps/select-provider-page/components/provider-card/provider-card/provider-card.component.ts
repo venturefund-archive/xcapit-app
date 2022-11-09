@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { InfoProviderComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider/info-provider.component';
+import { InfoProviderKriptonComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider-kripton/info-provider-kripton.component';
+import { InfoProviderMoonpayComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider-moonpay/info-provider-moonpay.component';
 import { D24_PAYMENT_TYPES } from 'src/app/modules/fiat-ramps/shared-ramps/constants/payment-types';
 import { FiatRampProviderCountry } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider-country';
 import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider.interface';
@@ -129,39 +130,27 @@ export class ProviderCardComponent implements OnInit {
     this.selectedProvider.emit(provider);
   }
 
-  async createInfoModal() {
+  async createKriptonInfoModal() {
     const modal = await this.modalController.create({
-      component: InfoProviderComponent,
+      component: InfoProviderKriptonComponent,
       componentProps: {
         image: this.provider?.logoRoute,
         title: this.provider?.name,
-        subtitle1: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_1'),
-        subtitle2:
-          this.provider.providerName === 'kripton'
-            ? this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_3')
-            : '',
-        subtitle3: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_2'),
-
-        description1: this.translate.instant(
-          `fiat_ramps.select_provider.modal_info.${this.provider.providerName}.description_1`
-        ),
-        description2:
-          this.provider.providerName === 'kripton'
-            ? this.translate.instant(
-                `fiat_ramps.select_provider.modal_info.${this.provider.providerName}.description_3`
-              )
-            : '',
-        description3: this.translate.instant(
-          `fiat_ramps.select_provider.modal_info.${this.provider.providerName}.description_2`
-        ),
-
-        disclaimer:
-          this.provider.providerName === 'moonpay'
-            ? this.translate.instant('fiat_ramps.select_provider.modal_info.moonpay.disclaimer')
-            : '',
-        buttonText: this.translate.instant('fiat_ramps.select_provider.modal_info.button'),
       },
-      cssClass: 'modal',
+      cssClass: 'ux-lg-modal-informative-provider-kripton',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
+
+  async createMoonpayInfoModal() {
+    const modal = await this.modalController.create({
+      component: InfoProviderMoonpayComponent,
+      componentProps: {
+        image: this.provider?.logoRoute,
+        title: this.provider?.name,
+      },
+      cssClass: 'ux-lg-modal-informative-provider-moonpay',
       backdropDismiss: false,
     });
     await modal.present();
@@ -170,7 +159,11 @@ export class ProviderCardComponent implements OnInit {
   async showProviderInfo() {
     if (!this.isInfoModalOpen) {
       this.isInfoModalOpen = true;
-      await this.createInfoModal();
+      if (this.provider.providerName === 'kripton') {
+        await this.createKriptonInfoModal();
+      } else {
+        await this.createMoonpayInfoModal();
+      }
       this.isInfoModalOpen = false;
     }
   }
