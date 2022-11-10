@@ -2246,7 +2246,8 @@
       "amount": "Amount",
       "date": "Date",
       "status": "Status",
-      "no_operations_message": "Once you have made your purchases, you will be able to see them in this section.",
+      "no_operations_message": "To access the status of your account and/or purchase list, you must ",
+      "link": "login to Kripton Market",
       "button_show_less": "Show less",
       "button_show_more": "Show more"
     },

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-provider-kripton.component';
 
@@ -20,11 +20,15 @@ import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-prov
             [firstOperations]="this.firstOperations"
             [remainingOperations]="this.remainingOperations"
           ></app-operations-list-accordion>
+
         </ng-template>
         <ng-template #noOperationsMessage>
           <ion-text name="No Operations" class="no-operations-text ux-font-text-base">
             {{ 'fiat_ramps.operations_list.no_operations_message' | translate }}
           </ion-text>
+          <ion-text class="link link ux-link-xl" (click)="this.navigateToVerifier()">
+          {{ 'fiat_ramps.operations_list.link' | translate }}
+        </ion-text>
         </ng-template>
       </ion-card-content>
     </ion-card>
@@ -40,7 +44,7 @@ export class OperationsListComponent implements OnInit, OnChanges {
   hasOperations: boolean;
   isInfoModalOpen = false;
 
-  constructor(private modalController: ModalController) {}
+  constructor(private modalController: ModalController, private navController : NavController) {}
 
   ngOnInit() {
     this.sliceOperations();
@@ -52,6 +56,10 @@ export class OperationsListComponent implements OnInit, OnChanges {
     this.operationsList = changes.operationsList.currentValue;
     this.sliceOperations();
     this.hasOperations = this.checkIfUserHasOperations();
+  }
+
+  navigateToVerifier(){
+    this.navController.navigateForward('/fiat-ramps/user-email');
   }
 
   sliceOperations() {
