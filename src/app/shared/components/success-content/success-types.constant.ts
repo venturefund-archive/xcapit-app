@@ -349,6 +349,15 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/fiat-ramps/purchases',
     textHelpLink: 'fiat_ramps.operation_km_in_progress.text_help_link',
   },
+  error_operation_km: {
+    image: '/assets/img/fiat-ramps/error-operation-km/error-buy.svg',
+    urlClose: '/fiat-ramps/purchases',
+    textPrimary: 'fiat_ramps.error_operation_km.text_primary',
+    textSecondary: 'fiat_ramps.error_operation_km.text_secondary',
+    namePrimaryAction: 'fiat_ramps.error_operation_km.button_primary',
+    nameSecondaryAction: 'fiat_ramps.error_operation_km.button_secondary',
+    urlSecondaryAction: '/fiat-ramps/purchases',
+  },
   create_ticket_wallet: {
     image: 'assets/img/support-ticket/create-ticket-success.svg',
     textPrimary: 'tickets.create_support_ticket_success_new_login.textPrimary',

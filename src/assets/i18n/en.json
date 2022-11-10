@@ -2200,6 +2200,12 @@
       "text_tertiary": "Do you need help?",
       "text_help_link": "Write to Kripton Market support"      
     },
+    "error_operation_km": {
+      "text_primary":"Error when loading the voucher",
+      "text_secondary":"👉 Verify that the format is jpg, png or pdf. And that its size does not exceed 200 kb.",
+      "button_primary":"Retry",
+      "button_secondary":"Return to my purchases"
+    },
     "home_of_purchases": {
       "header": "My purchases",
       "question": "How do purchases work?",

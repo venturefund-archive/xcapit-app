@@ -162,6 +162,10 @@ const routes: Routes = [
         path: 'purchase-order',
         loadChildren: () => import('./purchase-order/purchase-order.module').then( m => m.PurchaseOrderPageModule)
       },
+      {
+        path: 'error-operation-km',
+        loadChildren: () => import('./error-operation-km/error-operation-km.module').then( m => m.ErrorOperationKmPageModule)
+      },
     ],
   },
   
