@@ -51,6 +51,6 @@ export class UserRegisterStepCardComponent implements OnChanges {
   }
 
   navigateTo() {
-    return this.navController.navigateForward(this.step.url);
+    if(!this.completed) return this.navController.navigateForward(this.step.url);
   }
 }
