@@ -20,6 +20,7 @@ import { YieldCalculator } from '../shared-defi-investments/models/yield-calcula
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
+import { TotalInvestedBalanceOfInjectable } from '../shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -39,13 +40,13 @@ import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
           </ion-text>
         </div>
         <div class="dp__spinner-and-amount ux-font-num-titulo">
-          <ion-spinner color="white" name="crescent" *ngIf="!this.allLoaded"></ion-spinner>
+          <ion-spinner color="white" name="crescent" *ngIf="this.totalInvested === undefined"></ion-spinner>
           <div class="dp__amount">
             <div class="dp__amount__content">
-              <ion-text class="dp__amount__content__total-invested" *ngIf="this.allLoaded">
-                {{ this.totalInvested ?? 0.0 | number: '1.2-2' }}
+              <ion-text class="dp__amount__content__total-invested" *ngIf="this.totalInvested !== undefined">
+                {{ this.totalInvested | number: '1.2-2' }}
               </ion-text>
-              <ion-text class="ux-font-text-lg" *ngIf="this.allLoaded">USD</ion-text>
+              <ion-text class="ux-font-text-lg" *ngIf="this.totalInvested !== undefined">USD</ion-text>
             </div>
           </div>
         </div>
@@ -143,12 +144,13 @@ import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
   styleUrls: ['./defi-investment-products.page.scss'],
 })
 export class DefiInvestmentProductsPage {
+  private price$: Observable<any>;
+  private movements$: Observable<any>[];
   defiProducts: DefiProduct[];
   address: string;
-  totalInvested = 0;
+  totalInvested: number;
   allDefiProducts: DefiInvestment[] = [];
   investorCategory = 'wealth_managements.profiles.conservative';
-  disableFaqsButton = true;
   pids = [];
   profileForm: UntypedFormGroup = this.formBuilder.group({
     profile: ['conservative', []],
@@ -174,13 +176,9 @@ export class DefiInvestmentProductsPage {
   activeInvestmentsContinuousEarning: DefiInvestment[] = [];
   activeInvestmentsWeaklyEarning: DefiInvestment[] = [];
   availableInvestments: DefiInvestment[] = [];
-  filteredAvailableInvestments: DefiInvestment[] = [];
   allLoaded = false;
-  private price$: Observable<any>;
-  private movements$: Observable<any>[];
   totalUsdYield: RawAmount = { value: 0, token: 'USD' };
   usdYield: RawAmount;
-  balance: number;
   contentFixedStyle = 'display: none';
   hasDoneInvestorTest = false;
 
@@ -194,19 +192,9 @@ export class DefiInvestmentProductsPage {
     private navController: NavController,
     private remoteConfig: RemoteConfigService,
     private graphql: GraphqlService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private totalInvestedBalanceOf: TotalInvestedBalanceOfInjectable
   ) {}
-
-  ionViewDidLeave() {
-    this.emptyArrays();
-    this.cleanValues();
-  }
-
-  cleanValues() {
-    this.totalInvested = 0;
-    this.allLoaded = false;
-    this.profileForm.get('profile').setValue('conservative');
-  }
 
   ionViewWillEnter() {
     this.getUser();
@@ -218,6 +206,7 @@ export class DefiInvestmentProductsPage {
     await this.getUserWalletAddress();
     this.getAvailableDefiProducts();
     await this.getInvestments();
+    this.setInvestedBalance();
     this.getPrices();
     this.getAllMovements();
     this.filterByInvestorCategory(this.profileForm.value.profile);
@@ -233,15 +222,21 @@ export class DefiInvestmentProductsPage {
   }
 
   getAllMovementsForProduct(dp: DefiInvestment) {
-    this.movements$.push(this.graphql.getAllMovements(this.address, dp.product.id()).pipe(map(data => {return { movements: data, product: dp.product}})));
+    this.movements$.push(
+      this.graphql.getAllMovements(this.address, dp.product.id()).pipe(
+        map((data) => {
+          return { movements: data, product: dp.product };
+        })
+      )
+    );
   }
 
   calculateEarnings() {
     forkJoin([this.price$, ...this.movements$]).subscribe((res) => {
-      this.activeInvestments.forEach(ai => {
+      this.activeInvestments.forEach((ai) => {
         const calculator = new YieldCalculator(
           ai.balance,
-          res.find(res => res.product?.id() === ai.product.id()).movements.data.flows,
+          res.find((res) => res.product?.id() === ai.product.id()).movements.data.flows,
           ai.product.token().value,
           res[0].prices[ai.product.token().value],
           ai.product.decimals()
@@ -319,13 +314,14 @@ export class DefiInvestmentProductsPage {
     this.allDefiProducts = this.availableInvestments = investmentsProducts;
   }
 
-  calculatedTotalBalanceInvested(product: InvestmentProduct) {
-    this.graphql.getInvestedBalance(this.address, product.id()).subscribe(({ data }) => {
-      if (data.flows[0]) {
-        const balanceUSD = parseFloat(data.flows[0].balanceUSD);
-        this.totalInvested += balanceUSD;
-      }
-    });
+  private _pids() {
+    return this.allDefiProducts.map((investment) => investment.product.id());
+  }
+
+  async setInvestedBalance() {
+    const totalInvestedBalanceOf = this.totalInvestedBalanceOf.create(this.address, this._pids());
+    this.totalInvested = await totalInvestedBalanceOf.cached();
+    this.totalInvested = await totalInvestedBalanceOf.value();
   }
 
   async setBalance() {
@@ -340,10 +336,6 @@ export class DefiInvestmentProductsPage {
         continuousEarning: dp.continuousEarning,
         category: dp.category,
       });
-      if (balance > 0) {
-        this.balance = balance;
-        this.calculatedTotalBalanceInvested(dp.product);
-      }
     }
     this.allDefiProducts = investments;
     this.filterUserInvestments();
@@ -374,5 +366,16 @@ export class DefiInvestmentProductsPage {
 
   async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {
     return new TwoPiProduct(await this.twoPiApi.vault(product.id), this.apiWalletService);
+  }
+
+  cleanValues() {
+    this.totalInvested = 0;
+    this.allLoaded = false;
+    this.profileForm.get('profile').setValue('conservative');
+  }
+
+  ionViewDidLeave() {
+    this.emptyArrays();
+    this.cleanValues();
   }
 }
