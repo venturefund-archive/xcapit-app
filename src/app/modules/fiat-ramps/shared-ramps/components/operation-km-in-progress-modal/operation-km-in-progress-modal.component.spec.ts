@@ -38,10 +38,6 @@ describe('OperationKmInProgressModalComponent', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
 
   beforeEach(waitForAsync(() => {
-  
-    linksSpy = jasmine.createSpyObj('link',{}, {
-      kriptonSupport: 'https://kriptonmarket.com/terms-and-conditions',
-    })
     fakeActivatedRoute = new FakeActivatedRoute();
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     fakeNavController = new FakeNavController({});
@@ -95,6 +91,6 @@ describe('OperationKmInProgressModalComponent', () => {
     tycItem.nativeElement.click();
     fixture.detectChanges();
     expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
-    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://kriptonmarket.com/terms-and-conditions' });
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://kriptonmarket.com' });
   });
 });
