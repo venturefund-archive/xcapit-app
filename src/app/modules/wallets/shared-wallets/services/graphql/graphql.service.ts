@@ -32,6 +32,32 @@ export class GraphqlService {
     return this.http.post(this.env.byKey('twoPiGraphqlUrl'), JSON.stringify({ query: query }));
   }
 
+  getAllMovementsSinceDate(walletAddress: string, pid: number, timestamp: string): Observable<any> {
+    const query = `
+      query{
+        flows(
+          first: 1000 orderBy: timestamp orderDirection: desc
+          where: {holder: "${this._normalizedAddress(walletAddress)}", pid: ${pid} type_not: earnings, timestamp_gt: "${timestamp}"}
+        ) {amount balance balanceUSD timestamp type
+        }
+      }`;
+    return this.http.post(this.env.byKey('twoPiGraphqlUrl'), JSON.stringify({ query: query }));
+  }
+
+  
+
+  getLastWithdrawAll(walletAddress: string, pid: number): Observable<any> {
+    const query = `
+      query{
+        flows(
+          first: 1 orderBy: timestamp orderDirection: desc
+          where: {holder: "${this._normalizedAddress(walletAddress)}", pid: ${pid}, type: withdraw, balance: 0}
+        ) {timestamp
+        }
+      }`;
+    return this.http.post(this.env.byKey('twoPiGraphqlUrl'), JSON.stringify({ query: query }));
+  }
+
   private _normalizedAddress(anAddress: string): string {
     return anAddress.toLowerCase();
   }

@@ -2,7 +2,7 @@ import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { BigNumber } from 'ethers';
 import { InvestmentMovement } from 'src/app/modules/wallets/shared-wallets/interfaces/investment-movement.interface';
 import { RawAmount } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
-
+// TODO: Probar de hacer el cálculo de acá en vez de hacer las querys
 export class YieldCalculator {
   private _aYield: BigNumber;
 

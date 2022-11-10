@@ -222,13 +222,25 @@ export class DefiInvestmentProductsPage {
   }
 
   getAllMovementsForProduct(dp: DefiInvestment) {
-    this.movements$.push(
-      this.graphql.getAllMovements(this.address, dp.product.id()).pipe(
-        map((data) => {
-          return { movements: data, product: dp.product };
-        })
-      )
-    );
+    this.graphql.getLastWithdrawAll(this.address, dp.product.id()).subscribe((timestamp) => {
+      if (!!timestamp.data.flows.timestamp) {
+        this.movements$.push(
+          this.graphql.getAllMovementsSinceDate(this.address, dp.product.id(), timestamp.data.flows.timestamp).pipe(
+            map((data) => {
+              return { movements: data, product: dp.product };
+            })
+          )
+        );
+      } else {
+        this.movements$.push(
+          this.graphql.getAllMovements(this.address, dp.product.id()).pipe(
+            map((data) => {
+              return { movements: data, product: dp.product };
+            })
+          )
+        );
+      }
+    });
   }
 
   calculateEarnings() {
