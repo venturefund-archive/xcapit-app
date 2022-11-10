@@ -2235,13 +2235,19 @@
         "button": "Entendido",
         "kripton": {
           "description_1": "Transferencia bancaria.",
-          "description_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs. aproximadamente.",
-          "description_3": "25 USD por compra."
+          "description_2": "25 USD por compra.",
+          "description_3": "Las entregas se realizan de lunes a viernes de 9 a 18 hs. aproximadamente."
         },
         "moonpay": {
           "description_1": "Tarjeta de crédito.*",
           "description_2": "Depende del proveedor externo según el caso.",
           "disclaimer": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
+        },
+        "directa24": {
+          "subtitle_3":"Tiempo de acreditación de tokens:",
+          "description_1":"Compra en efectivo",
+          "description_2":"10 USD.",
+          "description_3": "Días hábiles de 9 a 18hs aprox. El tiempo máximo de acreditación es de 3hs."
         }
       }
     },

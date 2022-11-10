@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { InfoProviderComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider/info-provider.component';
+import { INFO_PROVIDER } from 'src/app/modules/fiat-ramps/shared-ramps/constants/info-provider';
 import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider.interface';
 @Component({
   selector: 'app-provider-card',
@@ -17,7 +18,7 @@ import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interf
             <ion-text class="ux-font-text-lg name" color="neutral90"> {{ this.provider?.name }}</ion-text>
             <ion-button
               class="pcc__content__body__name__button ion-no-padding"
-              *ngIf="this.provider?.showInfo"
+              
               [disabled]="this.disabled"
               slot="icon-only"
               fill="clear"
@@ -63,6 +64,7 @@ export class ProviderCardComponent {
   @Input() disabled: boolean;
   @Output() selectedProvider: EventEmitter<any> = new EventEmitter<any>();
   isInfoModalOpen = false;
+  providerInfo: any;
 
   constructor(private modalController: ModalController, private translate: TranslateService) {}
 
@@ -71,36 +73,20 @@ export class ProviderCardComponent {
   }
 
   async createInfoModal() {
+    this.providerInfo = INFO_PROVIDER[this.provider.providerName]
     const modal = await this.modalController.create({
       component: InfoProviderComponent,
       componentProps: {
         image: this.provider?.logoRoute,
         title: this.provider?.name,
-        subtitle1: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_1'),
-        subtitle2:
-          this.provider.providerName === 'kripton'
-            ? this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_3')
-            : '',
-        subtitle3: this.translate.instant('fiat_ramps.select_provider.modal_info.subtitle_2'),
-
-        description1: this.translate.instant(
-          `fiat_ramps.select_provider.modal_info.${this.provider.providerName}.description_1`
-        ),
-        description2:
-          this.provider.providerName === 'kripton'
-            ? this.translate.instant(
-                `fiat_ramps.select_provider.modal_info.${this.provider.providerName}.description_3`
-              )
-            : '',
-        description3: this.translate.instant(
-          `fiat_ramps.select_provider.modal_info.${this.provider.providerName}.description_2`
-        ),
-
-        disclaimer:
-          this.provider.providerName === 'moonpay'
-            ? this.translate.instant('fiat_ramps.select_provider.modal_info.moonpay.disclaimer')
-            : '',
-        buttonText: this.translate.instant('fiat_ramps.select_provider.modal_info.button'),
+        subtitle1:this.providerInfo.subtitle_1,
+        subtitle2:this.providerInfo.subtitle_2,
+        subtitle3: this.providerInfo.subtitle_3,
+        description1: this.providerInfo.description_1,
+        description2:this.providerInfo.description_2,
+        description3:this.providerInfo.description_3,
+        disclaimer:this.providerInfo.disclaimer,
+        buttonText: 'fiat_ramps.select_provider.modal_info.button',
       },
       cssClass: 'modal',
       backdropDismiss: false,
