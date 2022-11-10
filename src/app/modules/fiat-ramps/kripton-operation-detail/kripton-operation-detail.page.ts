@@ -179,7 +179,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
   `,
   styleUrls: ['./kripton-operation-detail.page.scss'],
 })
-export class KriptonOperationDetailPage implements OnInit {
+export class KriptonOperationDetailPage {
   provider: FiatRampProvider;
   operation: FiatRampOperation;
   token: Coin;
@@ -193,8 +193,6 @@ export class KriptonOperationDetailPage implements OnInit {
     private navController: NavController,
     private trackService: TrackService,
   ) {}
-
-  ngOnInit() {}
 
   ionViewWillEnter() {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
