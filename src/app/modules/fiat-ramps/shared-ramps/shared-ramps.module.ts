@@ -21,7 +21,6 @@ import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-ca
 import { UserBasicInformationComponent } from './components/user-basic-information/user-basic-information.component';
 import { UserPersonalInformationComponent } from './components/user-personal-information/user-personal-information.component';
 import { UserAddressInformationComponent } from './components/user-address-information/user-address-information.component';
-import { SuccessKmSendVoucherComponent } from './success-km-send-voucher/success-km-send-voucher.component';
 import { OperationKmInProgressModalComponent } from './components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
 
 @NgModule({
@@ -47,7 +46,6 @@ import { OperationKmInProgressModalComponent } from './components/operation-km-i
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
     BuyOrDepositTokenToastComponent,
-    SuccessKmSendVoucherComponent,
     OperationKmInProgressModalComponent
 
   ],
@@ -75,7 +73,6 @@ import { OperationKmInProgressModalComponent } from './components/operation-km-i
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
     ConfirmationContentComponent,
-    SuccessKmSendVoucherComponent,
     OperationKmInProgressModalComponent
 
   ],

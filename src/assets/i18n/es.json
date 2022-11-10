@@ -2226,6 +2226,12 @@
       "text_tertiary": "¿Necesitas ayuda?",
       "text_help_link": "Escribir a soporte Kripton Market"      
     },
+    "error_operation_km": {
+      "text_primary":"Error en la carga del comprobante",
+      "text_secondary":"👉 Verifica que que el formato sea jpg, png o pdf. Y que su tamaño no exceda los 200 kb.",
+      "button_primary":"Reintentar",
+      "button_secondary":"Volver a mis compras"
+    },
     "provider_new_operation_card": {
       "description": "Proveedor: {{providerName}}"
     },

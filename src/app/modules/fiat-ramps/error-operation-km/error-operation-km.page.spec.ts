@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { SuccessKmSendVoucherComponent } from './success-km-send-voucher.component';
+import { ErrorOperationKmPage } from './error-operation-km.page';
 
-describe('SuccessKmSendVoucherComponent', () => {
-  let component: SuccessKmSendVoucherComponent;
-  let fixture: ComponentFixture<SuccessKmSendVoucherComponent>;
+describe('ErrorOperationKmPage', () => {
+  let component: ErrorOperationKmPage;
+  let fixture: ComponentFixture<ErrorOperationKmPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SuccessKmSendVoucherComponent ],
+      declarations: [ ErrorOperationKmPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SuccessKmSendVoucherComponent);
+    fixture = TestBed.createComponent(ErrorOperationKmPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
