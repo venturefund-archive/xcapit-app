@@ -87,7 +87,7 @@ export class KycUserBasicInformationPage implements OnInit {
       [
         Validators.required,
         CustomValidators.isDate(),
-        Validators.pattern('(0?[1-9]|1[0-2])/(0?[1-9]|[1-2][1-9]|3[0,1])/[1-2]([0-9]){3}'),
+        Validators.pattern('(0?[1-9]|1[0-2])/(0?[1-9]|[1-2][0-9]|3[0,1])/[1-2]([0-9]){3}'),
       ],
     ],
   });
