@@ -50,6 +50,14 @@
         margin: 36px 42px 0;
         text-align: center;
       }
+
+      &__items {
+        margin-left: -16px;
+
+        ion-text {
+          color: var(--ion-color-primary);
+        }
+      }
     }
 
     &__footer {

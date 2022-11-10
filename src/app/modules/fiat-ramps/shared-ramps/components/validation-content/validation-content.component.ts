@@ -38,6 +38,9 @@ import { Photo } from 'src/app/shared/models/photo/photo.interface';
       <div class="vc__container__image">
         <img [src]="this.data.imagePath" />
       </div>
+      <div class="vc__container__items" *ngIf="this.data.items">
+        <ion-text class="ux-font-text-base" [innerHTML]="this.data.items | translate"></ion-text>
+      </div>
     </ion-content>
     <ion-footer class="vc__footer">
       <div class="vc__footer__take-photo">

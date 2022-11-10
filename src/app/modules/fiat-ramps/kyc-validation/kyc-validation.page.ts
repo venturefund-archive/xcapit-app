@@ -38,11 +38,13 @@ export class KycValidationPage {
   }
 
   private trackScreenView() {
-    this.trackService.trackEvent({
-      eventAction: 'screenview',
-      description: window.location.href,
-      eventLabel: 'ux_buy_kripton_sv_id',
-    });
+    if (this.digitalDocument === 'front_id') { 
+      this.trackService.trackEvent({
+        eventAction: 'screenview',
+        description: window.location.href,
+        eventLabel: 'ux_buy_kripton_sv_id',
+      });
+    }
   }
 
   goToConfirmation() {
