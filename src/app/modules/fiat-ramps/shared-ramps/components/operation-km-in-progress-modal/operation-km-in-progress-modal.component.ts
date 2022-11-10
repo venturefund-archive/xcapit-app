@@ -46,7 +46,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
       </div>
       <ion-button
         class="main__open-support"
-        name="Help-kripton"
+        name="kripton-tyc"
         (click)="this.openSupport()"
         appTrackClick
         fill="clear"
