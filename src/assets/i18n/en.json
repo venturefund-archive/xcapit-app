@@ -2260,6 +2260,7 @@
       "pay_in_fiat": "Pay in local currency",
       "krypton_description": "Buy with bank transfer",
       "disclaimer": "* Quotes may vary slightly at the time of purchase.",
+      "description": "Buy with {{providerName}} {{token}} at ${{quote}} {{fiatCode}}.",
       "directa24": {
         "platform_description": "Buy through the platform",
         "nearest_store_description": "Buy at your nearest store",
@@ -2545,7 +2546,7 @@
       "user_register_content":{
         "user_information":{
           "title":"Hello! You don't have an account yet, we will help you to register quickly.",
-          "subtitle": "😄 Don't worry. It will bejust for this ocassion"
+          "subtitle": "😄 Don't worry. It will be just once."
         },
         "user_images":{
           "title":"Data, ready ✅",
@@ -2614,7 +2615,9 @@
       "subtitle": "If you do not have an account, please enter the email address you would like us to register you with.",
       "label_email": "Email",
       "button": "Continue",
-      "text": "Make sure you have access to the email, you will use it to confirm your transactions."
+      "text": "Make sure you have access to the email, you will use it to confirm your transactions.",
+      "text_token": "We send a temporary login code to your email.\n If you can't find it, check your spam folder.",
+      "label_token":"Entry code"
     },
     "user_register": {
       "header": "Register",
