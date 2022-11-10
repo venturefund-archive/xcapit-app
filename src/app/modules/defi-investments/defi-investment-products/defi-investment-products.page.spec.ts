@@ -25,6 +25,8 @@ import { RemoteConfigService } from 'src/app/shared/services/remote-config/remot
 import { GraphqlService } from '../../wallets/shared-wallets/services/graphql/graphql.service';
 import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator.model';
+import { TotalInvestedBalanceOfInjectable } from '../shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
+import { FakeTotalInvestedBalanceOf } from '../shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
 
 const testCoins = [
   jasmine.createSpyObj(
@@ -82,7 +84,7 @@ const allMovementsTest = {
       },
     ],
   },
-}
+};
 
 describe('DefiInvestmentProductsPage', () => {
   let component: DefiInvestmentProductsPage;
@@ -104,7 +106,7 @@ describe('DefiInvestmentProductsPage', () => {
   let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
   let graphqlServiceSpy: jasmine.SpyObj<GraphqlService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-
+  let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
   beforeEach(waitForAsync(() => {
     twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
       vault: Promise.resolve({
@@ -187,15 +189,17 @@ describe('DefiInvestmentProductsPage', () => {
       decimals: 6,
     });
 
-    investmentSpy = jasmine.createSpyObj('TwoPiInvestment', {
-      balance: Promise.resolve(50),
-    },
-    {
-      product: investmentProductSpy,
-    });
+    investmentSpy = jasmine.createSpyObj(
+      'TwoPiInvestment',
+      {
+        balance: Promise.resolve(50),
+      },
+      {
+        product: investmentProductSpy,
+      }
+    );
 
     graphqlServiceSpy = jasmine.createSpyObj('GraphqlService', {
-      getInvestedBalance: of(dataTest),
       getAllMovements: of(allMovementsTest),
     });
 
@@ -204,6 +208,10 @@ describe('DefiInvestmentProductsPage', () => {
     });
 
     remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getObject: [{ test: 'test' }] });
+
+    totalInvestedBalanceOfInjectableSpy = jasmine.createSpyObj('TotalInvestedBalanceOfInjectable', {
+      create: new FakeTotalInvestedBalanceOf(Promise.resolve(10.58354)),
+    });
 
     TestBed.configureTestingModule({
       declarations: [DefiInvestmentProductsPage, FakeTrackClickDirective],
@@ -218,6 +226,7 @@ describe('DefiInvestmentProductsPage', () => {
         { provide: RemoteConfigService, useValue: remoteConfigSpy },
         { provide: GraphqlService, useValue: graphqlServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
+        { provide: TotalInvestedBalanceOfInjectable, useValue: totalInvestedBalanceOfInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -427,9 +436,8 @@ describe('DefiInvestmentProductsPage', () => {
     fixture.detectChanges();
     const totalInvestedEl = fixture.debugElement.query(By.css('.dp__amount__content__total-invested'));
     fixture.detectChanges();
-    expect(graphqlServiceSpy.getInvestedBalance).toHaveBeenCalledTimes(1);
-    expect(component.totalInvested).toEqual(12.77640743514045);
-    expect(totalInvestedEl.nativeElement.innerHTML).toContain('12.78');
+    expect(component.totalInvested).toEqual(10.58354);
+    expect(totalInvestedEl.nativeElement.innerHTML).toContain('10.58');
   });
 
   it('should render yields properly', async () => {
