@@ -4,7 +4,7 @@
   "author": "Xcapit",
   "homepage": "https://xcapit.com/",
   "scripts": {
-    "build:prod:xcapit:android": "node set-capacitor-config.js android && npm run build:prod:xcapit && npx jetify && npx cap sync android && npx cap open android",
+    "build:prod:xcapit:android": "node set-capacitor-config.js android && npm run build:prod:xcapit && npx cap sync android && npx cap open android",
     "build:prod:xcapit:ios": "node set-capacitor-config.js ios && npm run build:prod:xcapit && npx cap sync ios && npx cap open ios",
     "build:prod:xcapit": "ng build --configuration production",
     "build:prod:pwa:xcapit": "ng build --configuration production --service-worker=true",
@@ -68,7 +68,6 @@
     "assert": "1.5.0",
     "bip39": "^3.0.4",
     "capacitor-native-biometric": "^4.1.3",
-    "chart.js": "^2.8.0",
     "core-js": "^3.6.5",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.27.0",
@@ -79,9 +78,7 @@
     "firebase": "9.6.2",
     "ionic": "^5.4.16",
     "ionicons": "^5.5.0",
-    "jetifier": "^1.6.6",
-    "lightweight-charts": "^3.2.0",
-    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "qrcode": "^1.4.2",
     "rxjs": "^6.6.2",
     "stream": "^0.0.2",
@@ -113,8 +110,6 @@
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/gitlab": "^7.2.1",
     "@semantic-release/release-notes-generator": "^10.0.3",
-    "@types/chart.js": "^2.8.7",
-    "@types/googlemaps": "^3.37.7",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^14.17.3",
@@ -144,7 +139,6 @@
     "ts-node": "~7.0.0",
     "typescript": "4.7.4"
   },
-  "postinstall": "jetifier",
   "lint-staged": {
     "*.js": [
       "eslint —-fix",
