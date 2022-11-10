@@ -366,9 +366,9 @@
         "confirm_button": "Confirm investment"
       },
       "informative_modal": "You do not have enough {{token}} in your account to invest. Select a smaller amount to invest or buy some.",
-      "informative_modal_fee": "You do not have enough {{nativeToken}} in your account to pay the transaction fee.",
-      "buy_button": "Buy {{nativeToken}}",
-      "deposit_button": "Deposit {{nativeToken}}",
+      "informative_modal_fee": "You do not have enough {{token}} in your account to pay the transaction fee.",
+      "buy_button": "Buy {{token}}",
+      "deposit_button": "Deposit {{token}}",
       "terms": {
         "third_party_disclaimer": "I understand that in investing my cryptocurrencies I will be doing so through a third party provider (2pi) subject to separate terms and conditions, for which Xcapit is not responsible.",
         "i_have_read": "I have read and agree to ",
@@ -384,7 +384,7 @@
       "title_investments": "My investments",
       "profits": "Continuous profits",
       "profits_weekly": "Weekly profits",
-      "total_invested": "Investment and earnings",
+      "total_invested": "Total invested balance",
       "recommendations": "You may be interested in",
       "empty_products": "Soon you will be able to find the best investments for your profile.",
       "link_button": "How do DeFi investments work?",
@@ -519,7 +519,7 @@
       },
       "earnings_modal_info": {
         "title": "What is total yield?",
-        "description": "It is the sum in USD of the total yields obtained in your investment products.",
+        "description": "It is the sum in USD of the total yields obtained in your investment products.\nIt is not historical or accumulated, if your balance is zero, your returns will be zero as well. They are calculated based on the invested balance at the time.",
         "button": "Understood"
       }
     },
@@ -1681,8 +1681,8 @@
       "error_toast": "The password you entered is incorrect"
     },
     "home": {
-      "available_money": "Available money in wallet",
-      "invested": "Invested",
+      "available_money": "Available balance in wallet",
+      "invested": "Amount invested",
       "tab_assets": "Assets",
       "tab_nfts": "NFTs",
       "wallet_recovery": "Import an existing wallet",
@@ -2191,6 +2191,11 @@
     "tools": "Tools"
   },
   "fiat_ramps": {
+    "home_of_purchases": {
+      "header": "My purchases",
+      "question": "How do purchases work?",
+      "button": "Make new purchase"
+    },
     "buy_conditions": {
       "title": "What do you need to know before you buy?",
       "condition_1": "Purchases are made through a third party provider. Xcapit does not sell cryptocurrencies.",
@@ -2211,14 +2216,19 @@
       "button_text": "Go to wallet"
     },
     "operations_list": {
-      "title": "My operations",
+      "title": "Purchases in Kripton Market",
       "operation": "Buy",
       "amount": "Amount",
       "date": "Date",
       "status": "Status",
-      "no_operations_message": "You still do not have any purchases made, here you will be able to see the list of your purchases",
+      "no_operations_message": "Once you have made your purchases, you will be able to see them in this section.",
       "button_show_less": "Show less",
       "button_show_more": "Show more"
+    },
+    "moonpay_purchases": {
+      "title": "Purchases in Moonpay",
+      "message": "If you have made purchases, you can view them",
+      "link": "here"
     },
     "provider_new_operation_card": {
       "description": "Provider: {{providerName}}"
@@ -2229,13 +2239,18 @@
       "buttonText": "Go to operation detail"
     },
     "select_provider": {
-      "header": "Buy Crypto",
+      "header": "Buy crypto",
       "select_label": "Country in which you are going to operate",
       "select_placeholder": "Select your country",
       "provider_label": "Select your payment method",
       "no_provider": "At the moment it is not possible to purchase {{coinName}} in your country.",
       "moonpay_description": "Buy with a credit card",
+      "pay_in_usd": "Pay in USD",
+      "best_quote":"Best quote",
+      "pay_in_fiat": "Pay in local currency",
       "krypton_description": "Buy with bank transfer",
+      "disclaimer": "* Quotes may vary slightly at the time of purchase.",
+      "description": "Buy with {{providerName}} {{token}} at ${{quote}} {{fiatCode}}.",
       "directa24": {
         "platform_description": "Buy through the platform",
         "nearest_store_description": "Buy at your nearest store",
@@ -2244,12 +2259,15 @@
         "debit_credit_description": "Buy with debit or credit",
         "transfer_description": "Buy via wire transfer."
       },
-      "disclaimer": "Remember that Xcapit does not sell cryptocurrencies, by clicking continue you will be redirected to an external provider.",
       "button": "Continue",
       "modal_info": {
-        "subtitle_1": "Enabled payment methods:",
-        "subtitle_2": "What is the delivery time?",
-        "subtitle_3": "Minimum purchase amount:",
+        "subtitle_payment_methods": "Enabled payment methods:",
+        "subtitle_delivery_time": "What is the delivery time?",
+        "subtitle_minimum_amount": "Minimum purchase amount:",
+        "subtitle_available_tokens": "What tokens can you buy?",
+        "subtitle_more_information": "More information:",
+        "subtitle_time_tokens": "Token crediting time:",
+        "kyc_required": "Requires KYC or registration process.",
         "button": "Understood",
         "kripton": {
           "description_1": "Bank transfer.",
@@ -2262,7 +2280,6 @@
           "disclaimer": "*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
         },
         "directa24": {
-          "subtitle_3":"Token crediting time:",
           "description_1":"Cash purchase",
           "description_2":"10 USD.",
           "description_3": "Working days from 9 a.m. to 6 p.m. approx. The maximum accreditation time is 3 hours."
@@ -2514,6 +2531,54 @@
         "item2": "It may vary slightly at the time of the operation.",
         "item3": "You can find it on your payment ticket as “amount checker“.",
         "button": "Understood"
+      },
+      "user_register_content":{
+        "user_information":{
+          "title":"Hello! You don't have an account yet, we will help you to register quickly.",
+          "subtitle": "😄 Don't worry. It will be just once."
+        },
+        "user_images":{
+          "title":"Data, ready ✅",
+          "subtitle": "You are one step closer, don't give up!"
+        },
+        "complete":{
+          "title":"Congratulations! 🎉 Registration completed",
+          "subtitle": "⏱ Kripton Market is validating your account. This process can take up to 48 hours",
+          "subtitle_2": "🛒 Once you have your account validated, you will be able to make your purchases with this supplier"
+        }
+      },        
+      "validation_content": {
+        "header": "Verify identity",
+        "provider": "Provider: Kripton Market",
+        "button_primary": "Take photo",
+        "button_secondary": "Upload from gallery",
+
+        "front_id": {
+          "title": "¡Hello again! 👋",
+          "subtitle": "We need a photo of the front of your document",
+          "description": "The image should be similar to the one in the example and your data should be visible."
+        },
+        "back_id": {
+          "subtitle": "Now we need a photo of the reverse side of your document.",
+          "description": "The image should be similar to the one in the example and your data should be visible."
+        }
+      },
+      "confirmation_content": {
+        "header": "Verify identity",
+        "provider": "Provider: Kripton Market",
+        "button_primary": "Confirm",
+        "button_secondary": "Reloading",
+
+        "front_id": {
+          "title": "Very good! 📸",
+          "subtitle": "Check that the photo meets the following conditions:",
+          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>"
+        },
+        "back_id": {
+          "title": "😁 ¡Excelent!",
+          "subtitle": "Check that the photo meets the following conditions:",
+          "items": "<ul><li>Make sure that the data is legible.</li><li>Check that the image is not blurred.</li><li>The content must not be trimmed.</li></ul>"
+        }
       }
     },
     "user_email": {
@@ -2523,14 +2588,16 @@
       "subtitle": "If you do not have an account, please enter the email address you would like us to register you with.",
       "label_email": "Email",
       "button": "Continue",
-      "text": "Make sure you have access to the email, you will use it to confirm your transactions."
+      "text": "Make sure you have access to the email, you will use it to confirm your transactions.",
+      "text_token": "We send a temporary login code to your email.\n If you can't find it, check your spam folder.",
+      "label_token":"Entry code"
     },
     "user_register": {
       "header": "Register",
       "provider": "Provider: Kripton Market",
-      "title": "Hello! You don't have an account yet, we will help you to register quickly",
-      "subtitle": "😄 Don't worry! It will be a one-time only.",
+      "button": "Finish",
       "steps": {
+        "complete": "Complete",
         "step_one": {
           "title": "Load data",
           "subtitle": "Complete with your personal information"
@@ -2585,6 +2652,41 @@
         "label_country_code": "Country code",
         "label_phone": "Phone",
         "button": "Continue"
+      },
+      "summary_data":{
+        "header": "Load data",
+        "title": "🎊 ¡This is how it's done! We finish",
+        "subtitle": "Do you wish to make any changes?",
+        "personal_data": {
+          "title": "Personal data",
+          "label_name_surname": "First and last name",
+          "label_birthday": "Date of birth",
+          "label_nationality": "Nationality",
+          "label_document": "DNI",
+          "label_gender": "Gender",
+          "label_marital_status": "Marital status",
+          "label_phone": "Telephone"
+        },
+        "address_data": {
+          "title": "Address",
+          "label_street": "Street",
+          "label_apartment_number": "Number",
+          "label_apartment_floor": "Floor",
+          "label_apartment_letter": "Dept",
+          "label_city": "City",
+          "label_zip_code": "Zip Code"
+        },
+        "checkbox_politically_exposed": "I declare that I am not a politically exposed person.",
+        "disclaimer": "Politically exposed person: individuals who perform prominent public functions, such as Heads of State or Government, government officials, judicial, military and/or high-level or high-ranking executives.",
+        "button": "Confirm and send"
+      },
+      "front_id": {
+        "back_modal": {
+          "title": "Attention",
+          "description": "Do you want to leave? Your progress will be lost and you will have to start again.",
+          "confirm_button": "Confirm",
+          "cancel_button": "Cancel"
+        }
       }
     }
   },
@@ -2734,7 +2836,19 @@
       "tos_1": "I have read and agree to the",
       "tos_button": "terms and conditions.",
       "tos_2": "of 1inch",
-      "warning_same_tokens": "The source token cannot be equal to the destination token."
+      "warning_same_tokens": "The source token cannot be equal to the destination token.",
+      "balance_modal": {
+        "insufficient_balance": {
+          "text": "You don't have enough {{token}} in your account to make this operation.",
+          "firstButtonName": "Buy {{token}}",
+          "secondaryButtonName": "Deposit {{token}}"
+        },
+        "insufficient_balance_fee": {
+          "text": "You don't have enough {{token}} in your account to afford the transaction fee.",
+          "firstButtonName": "Buy {{token}}",
+          "secondaryButtonName": "Deposit {{token}}"
+        }
+      }
     },
     "errors": {
       "invalid_password": "The password entered is not valid."
@@ -2776,5 +2890,12 @@
         "body": "There was an error sending {{fromAmount}} {{fromToken}} and receiving {{toAmount}} {{toToken}}. More information here."
       }
     }
+  },
+  "links": {
+    "title": "Continuing to Xcapit...",
+    "have_app": "Have the app?",
+    "go_to_xcapit": "Go to Xcapit",
+    "dont_have_app": "Don't have Xcapit?",
+    "download": "Download"
   }
 }

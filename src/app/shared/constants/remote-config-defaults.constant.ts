@@ -14,5 +14,7 @@ export const REMOTE_CONFIG_DEFAULTS = {
   newTokensAvailable: undefined,
   ff_newTokenAvailable: false,
   ff_kriptonNewUx: false,
-  ff_bioauth: false
+  ff_bioauth: false,
+  ff_inReview: false,
+  lastVersion: undefined
 };

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
+import { HasAcceptedBuyConditionsGuard } from './shared-ramps/guards/has-accepted-buy-conditions/has-accepted-buy-conditions.guard';
 
 const routes: Routes = [
   {
@@ -63,6 +64,7 @@ const routes: Routes = [
       },
       {
         path: 'select-provider',
+        canActivate: [HasAcceptedBuyConditionsGuard],
         loadChildren: () =>
           import('./select-provider-page/select-provider/select-provider.module').then(
             (m) => m.SelectProviderPageModule
@@ -75,6 +77,7 @@ const routes: Routes = [
       },
       {
         path: 'token-selection',
+        canActivate: [HasAcceptedBuyConditionsGuard],
         loadChildren: () =>
           import('./provider-token-selection/provider-token-selection.module').then(
             (m) => m.ProviderTokenSelectionPageModule
@@ -129,6 +132,30 @@ const routes: Routes = [
           import('./kyc-user-address-information/kyc-user-address-information.module').then(
             (m) => m.KycUserAddressInformationPageModule
           ),
+      },
+      {
+        path: 'summary-data',
+        loadChildren: () =>
+          import('./kyc-summary-data/kyc-summary-data.module').then((m) => m.KycSummaryDataPageModule),
+      },
+      {
+        path: 'purchases',
+        loadChildren: () =>
+          import('./home-of-purchases/home-of-purchases.module').then((m) => m.HomeOfPurchasesPageModule),
+      },
+      {
+        path: 'kyc',
+        children: [
+          {
+            path: 'validation/:digitalDocument',
+            loadChildren: () => import('./kyc-validation/kyc-validation.module').then((m) => m.KycValidationPageModule),
+          },
+          {
+            path: 'confirmation/:digitalDocument',
+            loadChildren: () =>
+              import('./kyc-confirmation/kyc-confirmation.module').then((m) => m.KycConfirmationPageModule),
+          },
+        ],
       },
     ],
   },

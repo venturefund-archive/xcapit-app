@@ -129,7 +129,7 @@ describe('SuccessContentComponent', () => {
 
     it('should router navigate when Success Action Primary is clicked', () => {
       actionPrimaryButton.nativeElement.click();
-      expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.data.urlPrimaryAction]);
+      expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith([component.data.urlPrimaryAction]);
     });
 
     it('should router navigate when Success Action Secondary is clicked', () => {

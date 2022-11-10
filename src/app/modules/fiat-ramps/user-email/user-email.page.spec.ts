@@ -62,21 +62,13 @@ describe('UserEmailPage', () => {
     it(`should redirect to ${URL} when user status is ${registrationStatus}`, async () => {
       remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
       fiatRampServiceSpy.getOrCreateUser.and.returnValue(of({ registration_status: registrationStatus }));
-      component.form.patchValue({ email: 'test@test.com' });
+      component.form.patchValue({ email: 'test@test.com',token: '12345' });
       fixture.debugElement.query(By.css('ion-button[name="ux_user_mail_continue"]')).nativeElement.click();
       fixture.detectChanges();
       await fixture.whenStable();
-      expect(fiatRampServiceSpy.getOrCreateUser).toHaveBeenCalledOnceWith({ email: 'test@test.com' });
+      expect(fiatRampServiceSpy.getOrCreateUser).toHaveBeenCalledOnceWith({ email: 'test@test.com', token: '12345' });
       expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(URL);
     });
-  });
-
-  it('should redirect to Kripton User Register if ff is enabled', () => {
-    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
-    component.form.patchValue({ email: 'test@test.com' });
-      fixture.debugElement.query(By.css('ion-button[name="ux_user_mail_continue"]')).nativeElement.click();
-      fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/user-register']);
   });
 });

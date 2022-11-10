@@ -19,6 +19,7 @@ import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/bl
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
+import { WeiOf } from 'src/app/modules/swaps/shared-swaps/models/wei-of/wei-of';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
@@ -172,7 +173,12 @@ export class SendSummaryPage implements OnInit {
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
       wallet.onNeedPass().subscribe(() => new Password(password).value());
-      await wallet.sendTxs([new SolanaNativeSendTx(wallet, this.summaryData.address, this.summaryData.amount)]);
+      await wallet.sendTxs([
+        new SolanaNativeSendTx(
+          wallet,
+          this.summaryData.address,
+          new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
+        )]);
       this.goToSuccess();
     }
   }

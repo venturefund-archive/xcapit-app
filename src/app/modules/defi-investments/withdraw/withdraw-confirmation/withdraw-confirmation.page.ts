@@ -392,7 +392,7 @@ export class WithdrawConfirmationPage implements OnInit {
     this.toastService.showWarningToast({
       message: this.translate.instant(
         this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
-          nativeToken: this.nativeToken.value,
+          token: this.nativeToken.value,
         })
       ),
     });

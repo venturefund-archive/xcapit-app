@@ -340,17 +340,4 @@ describe('InvestmentConfirmationPage', () => {
     fixture.detectChanges();
     expect(componentEl).toBeTruthy();
   });
-
-  it('should set "fiat-ramps/buy-conditions" in the variable url if not exist conditionsPurchasesAccepted in the storage', async () => {
-    storageSpy.get.and.resolveTo(false);
-    await component.ionViewDidEnter();
-    fixture.detectChanges();
-    expect(component.url).toEqual('fiat-ramps/buy-conditions');
-  });
-
-  it('should set "fiat-ramps/select-provider" in the variable url if exist conditionsPurchasesAccepted in the storage', async () => {
-    await component.ionViewDidEnter();
-    fixture.detectChanges();
-    expect(component.url).toEqual('fiat-ramps/select-provider');
-  });
 });

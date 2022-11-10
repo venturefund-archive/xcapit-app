@@ -42,9 +42,23 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
             tabindex="0"
             color="primary"
           ></app-ux-input>
+          <div *ngIf="this.validateEmail">
+            <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.user_email.text_token' | translate }}</ion-text>
+            <div class="ue__container__form__token">
+            <app-ux-input
+              controlName="token"
+              type="token"
+              inputmode="token"
+              [label]="'fiat_ramps.user_email.label_token' | translate"
+              aria-label="token"
+              tabindex="0"
+              color="primary"
+            ></app-ux-input>
+            </div>
+          </div>
         </form>
       </div>
-      <div class="ue__container__card">
+      <div *ngIf="!this.validateEmail" class="ue__container__card">
         <app-backup-information-card
           [text]="'fiat_ramps.user_email.text'"
           [textClass]="'ux-home-backup-card'"
@@ -63,7 +77,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
           size="large"
           expand="block"
           [disabled]="!this.form.valid"
-          (click)="this.checkKYCAndRedirect()"
+          (click)="this.submit()"
         >
           {{ 'fiat_ramps.user_email.button' | translate }}
         </ion-button>
@@ -74,7 +88,11 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
 export class UserEmailPage implements OnInit {
   form: UntypedFormGroup = this.formBuilder.group({
     email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+    token: ['', []],
   });
+
+  validateEmail = false;
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
@@ -85,19 +103,22 @@ export class UserEmailPage implements OnInit {
 
   ngOnInit() {}
 
-  async checkKYCAndRedirect() {
-    if(this.remoteConfig.getFeatureFlag('ff_kriptonNewUx')){
-      this.navController.navigateForward(['/fiat-ramps/user-register'])
-    }else{
-      const userStatus = await this.fiatRampsService.getOrCreateUser(this.form.value).toPromise();
-      this.saveEmail();
-      this.redirectByStatus(userStatus.registration_status);
-    }
+  async submit() {
+    const userStatus = await this.fiatRampsService.getOrCreateUser(this.form.value).toPromise();
+    this.saveEmail();
+    if (userStatus) this.validateEmail = true;
+    this.tokenValidator();
+    if (this.form.valid) this.redirectByStatus(userStatus.registration_status);
   }
 
   redirectByStatus(registrationStatus: string) {
     const url = RegistrationStatus[registrationStatus];
     this.navController.navigateForward(url);
+  }
+
+  private tokenValidator() {
+    this.form.get('token').addValidators(Validators.required);
+    this.form.get('token').updateValueAndValidity();
   }
 
   saveEmail() {

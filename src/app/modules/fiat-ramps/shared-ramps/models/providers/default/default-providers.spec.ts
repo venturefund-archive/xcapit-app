@@ -47,7 +47,7 @@ describe('DefaultProviders', () => {
     );
     remoteConfigSpy.getObject.and.returnValue(providersWithoutDirecta24);
     const country = rawProviderCountriesData.find((country) => country.name === 'Colombia');
-    const expectedProviders = rawProvidersData.filter((provider) => provider.alias === 'kripton');
+    const expectedProviders = rawProvidersData.filter((provider) =>  provider.alias === 'kripton' || provider.alias === 'moonpay');
     expect(await providers.availablesBy(country, usdcCoinSpy)).toEqual(expectedProviders);
     expect(spy).toHaveBeenCalledTimes(0);
   });

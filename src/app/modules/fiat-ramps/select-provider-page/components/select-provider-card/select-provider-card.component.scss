@@ -15,8 +15,24 @@
       }
     }
 
+    &__disclaimer {
+      ion-text {
+        color: var(--ion-color-neutral80);
+      }
+    }
+
     &__providers {
       margin-top: 24px;
+
+      &__radio-group {
+        display: flex;
+        flex-direction: column;
+        margin-top: 16px;
+
+        &__label {
+          margin-bottom: 14px;
+        }
+      }
     }
 
     &__no_providers {
