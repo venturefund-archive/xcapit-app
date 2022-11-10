@@ -66,7 +66,7 @@ export class HomeOfPurchasesPage {
   getOperations() {
     this.fiatRampsService.getUserOperations().subscribe((data) => {
       this.operationsList = data;
-    });
+     });
   }
 
   kriptonEnabled() {
