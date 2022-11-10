@@ -119,4 +119,11 @@ describe('HomeOfPurchasesPage', () => {
     fixture.debugElement.query(By.css("ion-button[name='ux_buy_kripton_new']")).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/token-selection');
   });
+
+  it('should navigate to faqs when support link is clicked', () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('div.hop__question > ion-text')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/support/faqs/buy');
+  });
 });
