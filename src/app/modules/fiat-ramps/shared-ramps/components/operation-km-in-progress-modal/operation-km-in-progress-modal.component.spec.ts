@@ -74,7 +74,7 @@ describe('OperationKmInProgressModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should router navigate when Close Success is clicked', () => {
+  it('should navigate to purchases page when Close Success button is clicked', () => {
     const closeButtonEl = fixture.debugElement.query(By.css("ion-button[name='Close Success']"));
     closeButtonEl.nativeElement.click();
     fixture.detectChanges();
@@ -82,7 +82,7 @@ describe('OperationKmInProgressModalComponent', () => {
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
-  it('should router navigate when Success Action Primary is clicked', () => {
+  it('should navigate to purchases page when Success Action Primary is clicked', () => {
     const primaryButtonEl = fixture.debugElement.query(By.css("ion-button[name='Success Action Primary']"));
     primaryButtonEl.nativeElement.click();
     fixture.detectChanges();
@@ -90,8 +90,8 @@ describe('OperationKmInProgressModalComponent', () => {
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
   });
 
-  it('should clicked support kripton market when button Help-kripton was clicked', () => {
-    const tycItem = fixture.debugElement.query(By.css('ion-button[name="Help-kripton"]'));
+  it('should open browser in app on terms and conditions page when help-kripton button is clicked', () => {
+    const tycItem = fixture.debugElement.query(By.css('ion-button[name="kripton-tyc"]'));
     tycItem.nativeElement.click();
     fixture.detectChanges();
     expect(browserServiceSpy.open).toHaveBeenCalledTimes(1);
