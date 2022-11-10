@@ -13,48 +13,6 @@ import { OPERATION_STATUS } from '../../constants/operation-status';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 import { OperationsListItemComponent } from './operations-list-item.component';
 
-const cashIn: FiatRampOperation = 
-{
-  operation_id: 53,
-  amount_in: 32,
-  currency_in: 'ARS',
-  amount_out: 21,
-  currency_out: 'ETH',
-  status: 'complete',
-  created_at: new Date(),
-  provider: '1',
-  operation_type: 'cash-in',
-  voucher: false,
-};
-
-const incompleteOperation: FiatRampOperation =
-{
-  operation_id: 55,
-  amount_in: 32,
-  currency_in: 'ARS',
-  amount_out: 21,
-  currency_out: 'ETH',
-  status: 'wait',
-  created_at: new Date(),
-  provider: '1',
-  operation_type: 'cash-in',
-  voucher: false,
-}
-
-const inProgressOperation: FiatRampOperation =
-{
-  operation_id: 55,
-  amount_in: 32,
-  currency_in: 'ARS',
-  amount_out: 21,
-  currency_out: 'ETH',
-  status: 'received',
-  created_at: new Date(),
-  provider: '1',
-  operation_type: 'cash-in',
-  voucher: false,
-}
-
 describe('OperationsListItemComponent', () => {
   let component: OperationsListItemComponent;
   let fixture: ComponentFixture<OperationsListItemComponent>;
@@ -63,22 +21,61 @@ describe('OperationsListItemComponent', () => {
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsListItemComponent>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
 
+  const cashIn: FiatRampOperation = {
+    operation_id: 53,
+    amount_in: 32,
+    currency_in: 'ARS',
+    amount_out: 21,
+    currency_out: 'ETH',
+    status: 'complete',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in',
+    voucher: false,
+  };
+
+  const incompleteOperation: FiatRampOperation = {
+    operation_id: 55,
+    amount_in: 32,
+    currency_in: 'ARS',
+    amount_out: 21,
+    currency_out: 'ETH',
+    status: 'wait',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in',
+    voucher: false,
+  };
+
+  const inProgressOperation: FiatRampOperation = {
+    operation_id: 55,
+    amount_in: 32,
+    currency_in: 'ARS',
+    amount_out: 21,
+    currency_out: 'ETH',
+    status: 'received',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in',
+    voucher: false,
+  };
+
   beforeEach(waitForAsync(() => {
     apiWalletServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      getCoin: TEST_COINS[0]
+      getCoin: TEST_COINS[0],
     });
 
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
     TestBed.configureTestingModule({
-      declarations: [ OperationsListItemComponent, FakeTrackClickDirective, FormattedAmountPipe ],
+      declarations: [OperationsListItemComponent, FakeTrackClickDirective, FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
-        { provide: ApiWalletService, useValue: apiWalletServiceSpy }
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OperationsListItemComponent);
@@ -101,7 +98,7 @@ describe('OperationsListItemComponent', () => {
     const el = fixture.debugElement.query(By.css('ion-item[name="Operation Item"]')).nativeElement;
     expect(el.attributes['ng-reflect-lines'].value).toEqual('none');
   });
-  
+
   it('should call trackEvent on trackService when Operation Item clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-item', 'Operation Item');
     const directive = trackClickDirectiveHelper.getDirective(el);

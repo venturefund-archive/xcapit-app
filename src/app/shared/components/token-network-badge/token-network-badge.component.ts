@@ -11,11 +11,9 @@ import { NETWORK_COLORS } from '../../../modules/wallets/shared-wallets/constant
   `,
   styleUrls: ['./token-network-badge.component.scss'],
 })
-export class TokenNetworkBadgeComponent implements OnInit {
+export class TokenNetworkBadgeComponent {
   @Input() blockchainName: string;
   networkColors = NETWORK_COLORS;
 
   constructor() {}
-
-  ngOnInit() {}
 }
