@@ -1,11 +1,13 @@
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
-
+let fakeNavController: FakeNavController;
+let navControllerSpy: jasmine.SpyObj<NavController>;
 import { OperationsListComponent } from './operations-list.component';
 
 const operations: FiatRampOperation[] = [
@@ -55,11 +57,16 @@ describe('OperationsListComponent', () => {
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
+
+    fakeNavController = new FakeNavController({});
+    navControllerSpy = fakeNavController.createSpy();
+
     TestBed.configureTestingModule({
       declarations: [ OperationsListComponent ],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy },
+        { provide: NavController, useValue: navControllerSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -113,6 +120,14 @@ describe('OperationsListComponent', () => {
     const change: SimpleChanges = { operationsList: new SimpleChange([], [{},{}], true)}
     component.ngOnChanges(change);
     expect(component.operationsList.length).toEqual(2);
+  });
+
+  it('should navigate to user-email when link is clicked', () => {
+    component.operationsList = [];
+    component.ngOnInit();
+    fixture.detectChanges();
+    const textEl = fixture.debugElement.query(By.css('ion-text.link')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/user-email');
   });
 
   it('should show informative modal of Kripton Market provider when information-circle clicked', async () => {
