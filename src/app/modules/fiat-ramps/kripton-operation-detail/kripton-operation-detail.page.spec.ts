@@ -20,7 +20,7 @@ import { FakeProviders } from '../shared-ramps/models/providers/fake/fake-provid
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonOperationDetailPage } from './kripton-operation-detail.page';
 
-fdescribe('KriptonOperationDetailPage', () => {
+describe('KriptonOperationDetailPage', () => {
   let component: KriptonOperationDetailPage;
   let fixture: ComponentFixture<KriptonOperationDetailPage>;
   let fakeRoute: FakeActivatedRoute;
