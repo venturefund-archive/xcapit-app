@@ -1,41 +1,52 @@
 import { OperationStatus } from "../interfaces/operation-status.interface";
 
 export const OPERATION_STATUS: OperationStatus[] = [
-    // Kripton
     {
         providerId: 1,
         name: 'complete',
-        textToShow: 'deposited',
-        colorCssClass: 'success'
+        textToShow: 'confirmed',
+        colorCssClass: 'success',
+    },
+    {
+        providerId: 1,
+        name: 'refund',
+        textToShow: 'nullified',
+        colorCssClass: 'danger',
+        icon: 'assets/img/wallets/error-circle.svg',
     },
     {
         providerId: 1,
         name: 'cancel',
-        textToShow: 'canceled',
-        colorCssClass: 'danger'
+        textToShow: 'cancelled',
+        colorCssClass: 'danger',
+        icon: 'assets/img/wallets/error-circle.svg',
     },
     {
         providerId: 1,
         name: 'pending_by_validate',
-        textToShow: 'in_progress',
-        colorCssClass: 'warning'
+        textToShow: 'incomplete',
+        colorCssClass: 'warning',
+        icon: 'assets/img/wallets/warning-circle.svg',
     },
     {
         providerId: 1,
         name: 'request',
-        textToShow: 'in_progress',
-        colorCssClass: 'warning'
+        textToShow: 'incomplete',
+        colorCssClass: 'warning',
+        icon: 'assets/img/wallets/warning-circle.svg',
     },
     {
         providerId: 1,
         name: 'received',
         textToShow: 'in_progress',
-        colorCssClass: 'warning'
+        colorCssClass: 'info',
+        icon: 'assets/img/wallets/warning-circle.svg',
     },
     {
         providerId: 1,
         name: 'wait',
-        textToShow: 'in_progress',
-        colorCssClass: 'warning'
+        textToShow: 'incomplete',
+        colorCssClass: 'warning',
+        icon: 'assets/img/wallets/warning-circle.svg',
     },
 ];
