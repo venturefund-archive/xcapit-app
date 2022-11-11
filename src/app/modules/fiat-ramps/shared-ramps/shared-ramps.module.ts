@@ -25,6 +25,8 @@ import { UserPersonalInformationComponent } from './components/user-personal-inf
 import { UserAddressInformationComponent } from './components/user-address-information/user-address-information.component';
 import { OperationKmInProgressModalComponent } from './components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
 import { OperationStatusAlertComponent } from './components/operation-status-alert/operation-status-alert.component';
+import { BankInfoCardComponent } from './components/bank-info-card/bank-info-card.component';
+import { VoucherCardComponent } from './components/voucher-card/voucher-card.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,8 @@ import { OperationStatusAlertComponent } from './components/operation-status-ale
     BuyOrDepositTokenToastComponent,
     OperationKmInProgressModalComponent,
     OperationStatusAlertComponent,
+    BankInfoCardComponent,
+    VoucherCardComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -82,6 +86,8 @@ import { OperationStatusAlertComponent } from './components/operation-status-ale
     ConfirmationContentComponent,
     OperationKmInProgressModalComponent,
     OperationStatusAlertComponent,
+    BankInfoCardComponent,
+    VoucherCardComponent,
   ],
 })
 export class SharedRampsModule {}
