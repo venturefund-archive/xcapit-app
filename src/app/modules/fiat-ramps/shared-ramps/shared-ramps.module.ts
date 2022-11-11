@@ -23,6 +23,7 @@ import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-ca
 import { UserBasicInformationComponent } from './components/user-basic-information/user-basic-information.component';
 import { UserPersonalInformationComponent } from './components/user-personal-information/user-personal-information.component';
 import { UserAddressInformationComponent } from './components/user-address-information/user-address-information.component';
+import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { UserAddressInformationComponent } from './components/user-address-infor
     UserBasicInformationComponent,
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
-    BuyOrDepositTokenToastComponent
+    BuyOrDepositTokenToastComponent,
+    CountdownTimerComponent
 
   ],
   imports: [SharedModule],
@@ -76,8 +78,8 @@ import { UserAddressInformationComponent } from './components/user-address-infor
     UserBasicInformationComponent,
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
-    ConfirmationContentComponent
-
+    ConfirmationContentComponent,
+    CountdownTimerComponent
   ],
 })
 export class SharedRampsModule {}

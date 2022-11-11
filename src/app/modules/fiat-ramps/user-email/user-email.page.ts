@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { Console } from 'console';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
+import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
@@ -45,15 +48,15 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
           <div *ngIf="this.validateEmail">
             <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.user_email.text_token' | translate }}</ion-text>
             <div class="ue__container__form__token">
-            <app-ux-input
-              controlName="token"
-              type="token"
-              inputmode="token"
-              [label]="'fiat_ramps.user_email.label_token' | translate"
-              aria-label="token"
-              tabindex="0"
-              color="primary"
-            ></app-ux-input>
+              <app-ux-input
+                controlName="token"
+                type="token"
+                inputmode="token"
+                [label]="'fiat_ramps.user_email.label_token' | translate"
+                aria-label="token"
+                tabindex="0"
+                color="primary"
+              ></app-ux-input>
             </div>
           </div>
         </form>
@@ -68,6 +71,10 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
       </div>
     </ion-content>
     <ion-footer class="ue__footer">
+      <div class="ue__footer__resend-email">
+        <ion-text class="ux-link-xs" (click)="setTimer()"> Reenviar código</ion-text>
+      </div>
+      <app-countdown-timer [timerSeconds]="this.countdown"></app-countdown-timer>
       <div class="ux_footer ion-padding">
         <ion-button
           class="ux_button"
@@ -91,14 +98,24 @@ export class UserEmailPage implements OnInit {
     token: ['', []],
   });
 
-  validateEmail = false;
+  //TODO: Set to false by default
+  validateEmail = true;
+  countdown: number;
+
+  // WIP
+  // timerText = '';
+  // timerSeconds: number;
+  // private timer: any;
+  disableResendEmail = true;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private storageOperationService: StorageOperationService,
-    private remoteConfig: RemoteConfigService
+    private remoteConfig: RemoteConfigService,
+    private toastService: ToastService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {}
@@ -125,4 +142,44 @@ export class UserEmailPage implements OnInit {
     const newData = Object.assign({ email: this.form.value.email }, this.storageOperationService.getData());
     this.storageOperationService.updateData(newData);
   }
+
+  setTimer() {
+    this.countdown = undefined;
+    this.countdown = 120;
+  }
+
+  // WIP
+
+  // async startTimer() {
+  //   if (this.timerSeconds < 1 || this.timerSeconds == null) {
+  //     console.log('Timer starts')
+  //     this.timerSeconds = 60;
+  //     this.timerText = `(${this.timerSeconds}s)`;
+  //     this.disableResendEmail = true;
+  //     this.timer = setInterval(this.decreaseTimer.bind(this), 1000);
+  //   }
+  // }
+
+  // decreaseTimer() {
+  //   this.timerSeconds--;
+  //   this.timerText = `(${this.timerSeconds}s)`;
+  //   console.log('tiempo restante: ', this.timerSeconds)
+    
+  //   if (this.timerSeconds < 1) {
+  //     this.timerText = '';
+  //     clearInterval(this.timer);
+  //     this.disableResendEmail = false;
+  //     console.log("TIME'S UP!")
+  //   }
+  // }
+
+  // resetTimerTest() {
+  //   this.timerSeconds = 60;
+  //   this.startTimer().then(() => {
+  //     this.toastService.showSuccessToast({
+  //       message: this.translate.instant('fiat_ramps.user_email.toast_success')
+  //     })
+  //   })
+  //   console.log('Timer reset')
+  // }
 }
