@@ -36,7 +36,6 @@ import { MenuCategory } from '../../interfaces/menu-category.interface';
           class="ux-font-text-xs"
           fill="clear"
           [id]="item.name"
-          color="neutral90"
           appTrackClick
           [attr.name]="item.buttonName"
           (click)="this.goToRoute(item)"
