@@ -12,6 +12,10 @@
         .description {
           margin-top: 4px;
           margin-bottom: 8px;
+
+          ion-text {
+            color: var(--ion-color-neutral90) !important;
+          }
         }
 
         .first {
