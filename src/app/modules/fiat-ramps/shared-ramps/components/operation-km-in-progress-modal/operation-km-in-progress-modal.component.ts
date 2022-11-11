@@ -82,6 +82,6 @@ export class OperationKmInProgressModalComponent implements OnInit {
   }
 
   openSupport() {
-    this.browserService.open({ url: this.link.kriptonSupport });
+    this.browserService.open({ url: this.link.kriptonPage });
   }
 }
