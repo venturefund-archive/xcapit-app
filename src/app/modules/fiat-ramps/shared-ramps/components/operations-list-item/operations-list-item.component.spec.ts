@@ -3,62 +3,15 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { TEST_ERC20_COINS } from 'src/app/modules/wallets/shared-wallets/constants/coins.test';
+import { TEST_COINS } from 'src/app/modules/wallets/shared-wallets/constants/coins.test';
+import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
+import { OPERATION_STATUS } from '../../constants/operation-status';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
-import { FiatRampProvider } from '../../interfaces/fiat-ramp-provider.interface';
-import { OperationStatus } from '../../interfaces/operation-status.interface';
-import { FiatRampsService } from '../../services/fiat-ramps.service';
 import { OperationsListItemComponent } from './operations-list-item.component';
-
-const provider: FiatRampProvider = {
-  id: 1,
-  alias: 'kripton',
-  name: 'Kripton Market',
-  logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
-  description: 'fiat_ramps.select_provider.krypton_description',
-  newOperationRoute: '/fiat-ramps/new-operation/kripton',
-  countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
-  trackClickEventName: 'ux_buy_kripton_continue'
-};
-
-const operationStatus: OperationStatus = {
-  providerId: provider.id,
-  provider: provider,
-  name: 'complete',
-  textToShow: 'deposited',
-  colorCssClass: 'success'
-};
-
-const cashIn: FiatRampOperation = 
-{
-  operation_id: 53,
-  amount_in: 32,
-  currency_in: 'ARS',
-  amount_out: 21,
-  currency_out: 'ETH',
-  status: 'complete',
-  created_at: new Date(),
-  provider: '1',
-  operation_type: 'cash-in',
-  voucher: false,
-};
-
-const cashOut: FiatRampOperation = 
-{
-  operation_id: 3,
-  amount_out: 32,
-  currency_out: 'ETH',
-  amount_in: 21,
-  currency_in: 'ARS',
-  status: 'complete',
-  created_at: new Date(),
-  provider: '1',
-  operation_type: 'cash-out',
-  voucher: false,
-};
 
 describe('OperationsListItemComponent', () => {
   let component: OperationsListItemComponent;
@@ -66,24 +19,63 @@ describe('OperationsListItemComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsListItemComponent>;
-  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+
+  const cashIn: FiatRampOperation = {
+    operation_id: 53,
+    amount_in: 32,
+    currency_in: 'ARS',
+    amount_out: 21,
+    currency_out: 'ETH',
+    status: 'complete',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in',
+    voucher: false,
+  };
+
+  const incompleteOperation: FiatRampOperation = {
+    operation_id: 55,
+    amount_in: 32,
+    currency_in: 'ARS',
+    amount_out: 21,
+    currency_out: 'ETH',
+    status: 'wait',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in',
+    voucher: false,
+  };
+
+  const inProgressOperation: FiatRampOperation = {
+    operation_id: 55,
+    amount_in: 32,
+    currency_in: 'ARS',
+    amount_out: 21,
+    currency_out: 'ETH',
+    status: 'received',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in',
+    voucher: false,
+  };
 
   beforeEach(waitForAsync(() => {
-    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      getOperationStatus: operationStatus
-    })
+    apiWalletServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      getCoin: TEST_COINS[0],
+    });
 
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
     TestBed.configureTestingModule({
-      declarations: [ OperationsListItemComponent, FakeTrackClickDirective ],
+      declarations: [OperationsListItemComponent, FakeTrackClickDirective, FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: NavController, useValue: navControllerSpy },
-        { provide: FiatRampsService, useValue: fiatRampsServiceSpy }
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OperationsListItemComponent);
@@ -107,16 +99,6 @@ describe('OperationsListItemComponent', () => {
     expect(el.attributes['ng-reflect-lines'].value).toEqual('none');
   });
 
-  it('should not show item lines if is not the last item', async () => {
-    component.isLast = false;
-    component.ngOnInit();
-    fixture.detectChanges();
-    await fixture.whenRenderingDone();
-    const el = fixture.debugElement.query(By.css('ion-item[name="Operation Item"]')).nativeElement;
-    expect(el.attributes['ng-reflect-lines']).toBeUndefined();
-  });
-
-  
   it('should call trackEvent on trackService when Operation Item clicked', () => {
     const el = trackClickDirectiveHelper.getByElementByName('ion-item', 'Operation Item');
     const directive = trackClickDirectiveHelper.getDirective(el);
@@ -128,31 +110,38 @@ describe('OperationsListItemComponent', () => {
 
   it('should navigate to detail when Operation Item clicked', () => {
     fixture.debugElement.query(By.css('ion-item[name="Operation Item"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/operation-detail/provider/1/operation/53']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/kripton-operation-detail/53']);
   });
 
   it('should get status on ngOnInit', () => {
-    expect(fiatRampsServiceSpy.getOperationStatus).toHaveBeenCalledTimes(1);
+    expect(component.status).toEqual(OPERATION_STATUS[0]);
   });
 
-  it('should show amount_in and currency_out on cash-in', async () => {
+  it('should show highlight incomplete operations', () => {
+    component.operation = incompleteOperation;
+    component.ngOnInit();
+    fixture.detectChanges();
+    const colorCssClassEl = fixture.debugElement.query(By.css('.highlight'));
+
+    expect(colorCssClassEl).toBeTruthy();
+  });
+
+  it('should not show highlight operations by default', () => {
+    component.operation = inProgressOperation;
+    component.ngOnInit();
+    fixture.detectChanges();
+    const colorCssClassEl = fixture.debugElement.query(By.css('.highlight'));
+
+    expect(colorCssClassEl).toBeFalsy();
+  });
+
+  it('should show amount_out and currency_out on cash-in', async () => {
     component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     const coinEl = fixture.debugElement.query(By.css('ion-label[name="Provider"]')).nativeElement;
     const amountEl = fixture.debugElement.query(By.css('ion-label[name="Amount"]')).nativeElement;
     expect(coinEl.innerText).toContain(cashIn.currency_out);
-    expect(amountEl.innerText).toContain(cashIn.amount_in);
-  });
-
-  it('should show amount_out and currency_in on cash-out', async () => {
-    component.operation = cashOut;
-    component.ngOnInit();
-    fixture.detectChanges();
-    await fixture.whenRenderingDone();
-    const coinEl = fixture.debugElement.query(By.css('ion-label[name="Provider"]')).nativeElement;
-    const amountEl = fixture.debugElement.query(By.css('ion-label[name="Amount"]')).nativeElement;
-    expect(coinEl.innerText).toContain(cashOut.currency_in);
-    expect(amountEl.innerText).toContain(cashOut.amount_out);
+    expect(amountEl.innerText).toContain(cashIn.amount_out);
   });
 });

@@ -13,6 +13,18 @@ import { CoinSelectorModalComponent } from './components/coin-selector-modal/coi
 import { SkipTransactionVoucherComponent } from './components/skip-transaction-voucher/skip-transaction-voucher.component';
 import { FeeInfoModalComponent } from './components/fee-info-modal/fee-info-modal.component';
 import { UserRegisterStepCardComponent } from './components/user-register-step-card/user-register-step-card.component';
+import { InfoProviderKriptonComponent } from './components/info-provider-kripton/info-provider-kripton.component';
+import { InfoProviderMoonpayComponent } from './components/info-provider-moonpay/info-provider-moonpay.component';
+import { ValidationContentComponent } from './components/validation-content/validation-content.component';
+import { ConfirmationContentComponent } from './components/confirmation-content/confirmation-content.component';
+import { BuyOrDepositTokenToastComponent } from './components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
+import { UserRegisterContentComponent } from './components/user-register-content/user-register-content/user-register-content.component';
+import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-card/moonpay-purchases-card/moonpay-purchases-card.component';
+import { UserBasicInformationComponent } from './components/user-basic-information/user-basic-information.component';
+import { UserPersonalInformationComponent } from './components/user-personal-information/user-personal-information.component';
+import { UserAddressInformationComponent } from './components/user-address-information/user-address-information.component';
+import { OperationKmInProgressModalComponent } from './components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
+import { OperationStatusAlertComponent } from './components/operation-status-alert/operation-status-alert.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +40,19 @@ import { UserRegisterStepCardComponent } from './components/user-register-step-c
     CoinSelectorModalComponent,
     FeeInfoModalComponent,
     SkipTransactionVoucherComponent,
-    UserRegisterStepCardComponent
+    UserRegisterStepCardComponent,
+    InfoProviderKriptonComponent,
+    InfoProviderMoonpayComponent,
+    MoonpayPurchasesCardComponent,
+    UserRegisterContentComponent,
+    ValidationContentComponent,
+    ConfirmationContentComponent,
+    UserBasicInformationComponent,
+    UserPersonalInformationComponent,
+    UserAddressInformationComponent,
+    BuyOrDepositTokenToastComponent,
+    OperationKmInProgressModalComponent,
+    OperationStatusAlertComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -45,7 +69,19 @@ import { UserRegisterStepCardComponent } from './components/user-register-step-c
     CoinSelectorModalComponent,
     FeeInfoModalComponent,
     SkipTransactionVoucherComponent,
-    UserRegisterStepCardComponent
+    UserRegisterStepCardComponent,
+    InfoProviderKriptonComponent,
+    InfoProviderMoonpayComponent,
+    MoonpayPurchasesCardComponent,
+    UserRegisterContentComponent,
+    ValidationContentComponent,
+    ConfirmationContentComponent,
+    UserBasicInformationComponent,
+    UserPersonalInformationComponent,
+    UserAddressInformationComponent,
+    ConfirmationContentComponent,
+    OperationKmInProgressModalComponent,
+    OperationStatusAlertComponent,
   ],
 })
 export class SharedRampsModule {}

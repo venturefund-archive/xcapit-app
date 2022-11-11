@@ -82,9 +82,12 @@ describe('LogOutModalComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate to Wallet FAQs when Wallet FAQs button clicked', async () => {
-    await component.goToWalletFaq();
+  it('should close modal and navigate to Wallet FAQs when Wallet FAQs button clicked', async () => {
+    const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'Wallet FAQs');
+    el.nativeElement.click();
+    fixture.detectChanges();
     await fixture.whenStable();
+    expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/support/faqs/wallet']);
   });
 

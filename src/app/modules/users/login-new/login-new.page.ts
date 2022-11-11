@@ -98,7 +98,10 @@ export class LoginNewPage {
   form: UntypedFormGroup = this.formBuilder.group({
     password: ['', []],
   });
+  private readonly _aTopic = 'app';
+  private readonly _aKey = 'enabledPushNotifications';
   biometricAuth: BiometricAuth;
+  showToast = true;
   constructor(
     private toastService: ToastService,
     private formBuilder: UntypedFormBuilder,
@@ -108,6 +111,7 @@ export class LoginNewPage {
     private modalController: ModalController,
     private biometricAuthInjectable: BiometricAuthInjectable,
     private trackService: TrackService,
+    private ionicStorageService: IonicStorageService,
     private walletBackupService: WalletBackupService,
     private platformService: PlatformService,
     private loginBiometricActivationService: LoginBiometricActivationModalService,
@@ -126,6 +130,13 @@ export class LoginNewPage {
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_screenview_login',
+    });
+    this.subscribeOnValueChanges();
+  }
+
+  subscribeOnValueChanges() {
+    this.form.valueChanges.subscribe(() => {
+      this.showToast = true;
     });
   }
 
@@ -157,13 +168,31 @@ export class LoginNewPage {
     }
   }
 
+  async enabledPushNotifications(): Promise<boolean> {
+    return await this.ionicStorageService.get(this._aKey).then((status) => status);
+  }
+
+  pushNotificationsService() {
+    return this.notificationsService.getInstance();
+  }
+
+  async initializeNotifications() {
+    this.pushNotificationsService().init();
+    if (await this.enabledPushNotifications()) {
+      this.pushNotificationsService().subscribeTo(this._aTopic);
+    } else {
+      this.pushNotificationsService().subscribeTo(this._aTopic);
+      this.pushNotificationsService().unsubscribeFrom(this._aTopic);
+    }
+  }
+
   private _loginToken(aPassword: string): LoginToken {
     return new LoginToken(new Password(aPassword), this.storage);
   }
 
   private async _loggedIn(): Promise<void> {
     await new LoggedIn(this.storage).save(true);
-    this.notificationsService.getInstance().init();
+    await this.initializeNotifications();
     await this._checkWalletConnectDeepLink();
     await this.checkWalletProtected();
   }
@@ -205,10 +234,13 @@ export class LoginNewPage {
   }
 
   private _showInvalidPasswordToast() {
-    this.toastService.showErrorToast({
-      message: this.translate.instant('users.login_new.invalid_password_text'),
-      duration: 8000,
-    });
+    if (this.showToast) {
+      this.toastService.showErrorToast({
+        message: this.translate.instant('users.login_new.invalid_password_text'),
+        duration: 8000,
+      });
+    }
+    this.showToast = false;
   }
 
   async checkWalletProtected() {

@@ -58,11 +58,7 @@ import { TokenDetailInjectable } from '../shared-wallets/models/token-detail/inj
                 <ion-text class="ux-font-text-xs title">{{ this.tplToken.name | splitString: ' - '[1] }}</ion-text>
               </div>
               <div class="wad__title_container__badge">
-                <ion-badge
-                  [color]="this.networkColors[this.tplBlockchain.name]"
-                  class="ux-badge ux-font-num-subtitulo"
-                  >{{ this.tplBlockchain.name | formattedNetwork | uppercase }}</ion-badge
-                >
+                <app-token-network-badge [blockchainName]="this.tplBlockchain.name"></app-token-network-badge>
               </div>
             </div>
             <ion-button

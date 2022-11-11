@@ -3,7 +3,6 @@ import { rawEthereumData } from "../fixtures/raw-blockchains-data";
 
 
 describe('Blockchain', () => {
-
   let blockchain: Blockchain;
 
   beforeEach(() => {
@@ -24,5 +23,6 @@ describe('Blockchain', () => {
 
   it('native token', () => {
     expect(blockchain.nativeToken().symbol()).toEqual(rawEthereumData.nativeToken.value);
+    expect(blockchain.nativeToken().json().network).toEqual(rawEthereumData.name);
   });
 });

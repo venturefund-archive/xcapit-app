@@ -1,0 +1,51 @@
+:host {
+  .osa {
+    &__information {
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid var(--ion-color-info);
+      border-radius: 6px;
+
+      &__text {
+        display: flex;
+
+        ion-text {
+          color: var(--ion-color-info);
+        }
+      }
+
+      &__icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .ux-home-status-card {
+    font-size: var(--ux-fsize-14);
+    font-family: var(--ux-font-lato);
+    font-weight: var(--ux-fweight-bold);
+    line-height: 18px;
+  }
+
+  .ux-warning-background-card {
+    background: var(--ion-color-warninglight);
+    border: 1px solid var(--ion-color-warningdark);
+
+    ion-text {
+      color: var(--ion-color-warningdark);
+    }
+  }
+
+  .ux-danger-background-card {
+    background: var(--ion-color-dangerlight);
+    border: 1px solid var(--ion-color-dangerdark);
+
+    ion-text {
+      color: var(--ion-color-dangerdark);
+    }
+  }
+}

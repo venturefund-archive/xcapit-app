@@ -3,16 +3,22 @@
     width: 100%;
 
     .header-row {
+      --padding-end: 0;
       --padding-start: 0;
-      --inner-padding-end: 0;
+      --inner-padding-start: 8px;
+      --inner-padding-end: 4px;
+      --min-height: 24px;
 
       display: flex;
       flex-direction: row;
       text-align: start;
+      margin: 0 8px 4px;
 
       ion-label {
         margin: 0;
         flex: 1;
+        justify-content: center;
+        display: flex;
 
         ion-text {
           flex: 1;

@@ -10,7 +10,7 @@ import { EnvService } from 'src/app/shared/services/env/env.service';
   selector: 'app-wallet-transaction-card-item',
   template: `
     <div>
-      <div class="wtci">
+      <div class="wtci" (click)="this.openTransactionDetails()">
         <div>
           <ion-img class="wtci__img" [src]="this.tplTransfer.icon"></ion-img>
         </div>
@@ -26,7 +26,7 @@ import { EnvService } from 'src/app/shared/services/env/env.service';
                 </ion-label>
               </div>
               <div class="wtci__content__top__type_date_hash__hash">
-                <ion-text (click)="this.openTransactionDetails()" class="ux-font-text-xs">
+                <ion-text  class="ux-font-text-xs">
                   {{ this.tplTransfer.tx_hash }}
                 </ion-text>
               </div>

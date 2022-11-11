@@ -1,10 +1,13 @@
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
-
+let fakeNavController: FakeNavController;
+let navControllerSpy: jasmine.SpyObj<NavController>;
 import { OperationsListComponent } from './operations-list.component';
 
 const operations: FiatRampOperation[] = [
@@ -44,15 +47,39 @@ const operations: FiatRampOperation[] = [
     operation_type: 'cash-in',
     voucher: false,
   },
+  {
+    operation_id: 4,
+    amount_in: 34,
+    currency_in: 'ETH',
+    amount_out: 22,
+    currency_out: 'ARS',
+    status: 'complete',
+    created_at: new Date(),
+    provider: '1',
+    operation_type: 'cash-in',
+    voucher: false,
+  },
 ];
 describe('OperationsListComponent', () => {
   let component: OperationsListComponent;
   let fixture: ComponentFixture<OperationsListComponent>;
+  let fakeModalController: FakeModalController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
 
   beforeEach(waitForAsync(() => {
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
+
+    fakeNavController = new FakeNavController({});
+    navControllerSpy = fakeNavController.createSpy();
+
     TestBed.configureTestingModule({
-      declarations: [ OperationsListComponent ],
+      declarations: [OperationsListComponent],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: NavController, useValue: navControllerSpy },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
@@ -66,14 +93,14 @@ describe('OperationsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render operations list component if there is three operations', () => {
+  it('should render operations list component if there is four operations', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const tableEl = fixture.debugElement.query(By.css('app-operations-list-accordion'));
     const textEl = fixture.debugElement.query(By.css('ion-text[name="No Operations"]'));
     expect(tableEl).toBeTruthy();
     expect(textEl).toBeFalsy();
-    expect(component.firstOperations.length).toEqual(2);
+    expect(component.firstOperations.length).toEqual(3);
     expect(component.remainingOperations.length).toEqual(1);
   });
 
@@ -102,8 +129,23 @@ describe('OperationsListComponent', () => {
     component.operationsList = [];
     component.ngOnInit();
     fixture.detectChanges();
-    const change: SimpleChanges = { operationsList: new SimpleChange([], [{},{}], true)}
+    const change: SimpleChanges = { operationsList: new SimpleChange([], [{}, {}], true) };
     component.ngOnChanges(change);
     expect(component.operationsList.length).toEqual(2);
+  });
+
+  it('should navigate to user-email when link is clicked', () => {
+    component.operationsList = [];
+    component.ngOnInit();
+    fixture.detectChanges();
+    const textEl = fixture.debugElement.query(By.css('ion-text.link')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/user-email');
+  });
+
+  it('should show informative modal of Kripton Market provider when information-circle clicked', async () => {
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 });
