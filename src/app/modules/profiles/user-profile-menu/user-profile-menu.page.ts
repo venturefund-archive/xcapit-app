@@ -55,7 +55,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
           </div>
           <form class="notifications_form" [formGroup]="this.form">
             <ion-item lines="none" class="ion-no-padding">
-              <ion-text class="notifications_text ux-font-text-xs" color="neutral90">
+              <ion-text class="notifications_text ux-font-text-xs">
                 {{ 'profiles.user_profile_menu.push_notifications' | translate }}</ion-text
               >
               <ion-toggle
@@ -76,7 +76,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
               appTrackClick
               (click)="this.changeLanguage()"
             >
-              <ion-text color="neutral90">{{ 'profiles.user_profile_menu.language' | translate }}</ion-text></ion-button
+              <ion-text>{{ 'profiles.user_profile_menu.language' | translate }}</ion-text></ion-button
             >
           </div>
         </div>
