@@ -87,7 +87,7 @@ describe('KycSummaryDataPage', () => {
   });
 
   it('should enable confirm button if form is valid', () => {
-    fixture.debugElement.query(By.css("ion-checkbox[name='ux_buy_kripton_politically_exposed']")).nativeElement.click();
+    component.form.patchValue({not_politically_exposed: true});
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_details_confirm"]'));
     expect(buttonEl.properties.disabled).toBeFalse();
@@ -95,7 +95,8 @@ describe('KycSummaryDataPage', () => {
 
   it('should update data with politically_exposed, send data and redirect to register user page when ux_buy_kripton_details_confirm is clicked and form is valid', () => {
     component.ionViewWillEnter();
-    fixture.debugElement.query(By.css("ion-checkbox[name='ux_buy_kripton_politically_exposed']")).nativeElement.click();
+    component.form.patchValue({not_politically_exposed: true});
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_details_confirm"]')).nativeElement.click();
     fixture.detectChanges();
     expect(userKycKriptonDataServiceSpy.updateData).toHaveBeenCalledTimes(1);
