@@ -82,7 +82,7 @@ export class UserRegisterPage implements OnInit {
 
   ionViewWillEnter() {
     this.userRegistrationStatus();
-    this.trackEvent();
+    if(this.userStatus === 'COMPLETE') this.trackEvent();
   }
 
   async userRegistrationStatus() {
