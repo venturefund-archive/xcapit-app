@@ -11,6 +11,7 @@ import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fa
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { of } from 'rxjs';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 describe('KycConfirmationPage', () => {
   let component: KycConfirmationPage;
@@ -22,6 +23,7 @@ describe('KycConfirmationPage', () => {
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
 
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController(null, { role: 'confirm' });
@@ -32,6 +34,10 @@ describe('KycConfirmationPage', () => {
 
     userKycKriptonImagesServiceSpy = jasmine.createSpyObj('UserKycKriptonImagesService', {
       getPhotos: { front_document: 'http://localhost:9876/assets/test_image.svg' },
+    });
+
+    kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
+      get: Promise.resolve('test@test.com'),
     });
 
     navControllerSpy = new FakeNavController().createSpy();
@@ -45,6 +51,7 @@ describe('KycConfirmationPage', () => {
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -73,15 +80,16 @@ describe('KycConfirmationPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/kyc/validation/back_id');
   });
 
-  it('should redirect to user register when digital document is dni_selfie', () => {
+  it('should redirect to user register when digital document is dni_selfie', fakeAsync(() => {
     fakeActivatedRoute.modifySnapshotParams({ digitalDocument: 'dni_selfie' });
     component.ionViewWillEnter();
     fixture.detectChanges();
     const contentEl = fixture.debugElement.query(By.css('app-confirmation-content'));
     contentEl.triggerEventHandler('confirm', null);
+    tick();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/user-register');
     expect(fiatRampsServiceSpy.registerUserImages).toHaveBeenCalledTimes(1);
-  });
+  }));
 
   it('should redirect to validation page when reload is clicked', () => {
     component.ionViewWillEnter();

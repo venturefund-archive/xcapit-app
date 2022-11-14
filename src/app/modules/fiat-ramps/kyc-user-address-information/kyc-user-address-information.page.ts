@@ -37,7 +37,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
       <div class="uai__container__form">
         <form [formGroup]="this.form">
           <app-ux-input
-            controlName="street"
+            controlName="street_address"
             type="text"
             inputmode="text"
             [label]="'fiat_ramps.kyc.user_address.label_street' | translate"
@@ -45,7 +45,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
           ></app-ux-input>
           <div class="uai__container__form__group">
             <app-ux-input
-              controlName="number"
+              controlName="street_number"
               type="text"
               inputmode="number"
               [label]="'fiat_ramps.kyc.user_address.label_number' | translate"
@@ -74,7 +74,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
             color="primary"
           ></app-ux-input>
           <app-ux-input
-            controlName="zipCode"
+            controlName="postal_code"
             type="text"
             inputmode="text"
             [label]="'fiat_ramps.kyc.user_address.label_zip_code' | translate"
@@ -101,12 +101,12 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
 })
 export class KycUserAddressInformationPage implements OnInit {
   form: UntypedFormGroup = this.fb.group({
-    street: ['', [Validators.required, Validators.maxLength(150)]],
-    number: ['', [Validators.required, Validators.maxLength(150), Validators.pattern('[0-9]*$')]],
+    street_address: ['', [Validators.required, Validators.maxLength(150)]],
+    street_number: ['', [Validators.required, Validators.maxLength(150), Validators.pattern('[0-9]*$')]],
     floor: ['', [Validators.maxLength(150)]],
     apartment: ['', [Validators.maxLength(150)]],
     city: ['', [Validators.required, Validators.maxLength(150)]],
-    zipCode: ['', [Validators.required, Validators.maxLength(150)]],
+    postal_code: ['', [Validators.required, Validators.maxLength(150)]],
   });
   data: UserKycKriptonData;
 
@@ -130,12 +130,12 @@ export class KycUserAddressInformationPage implements OnInit {
 
   private _showData() {
     this.form.patchValue({
-      street: this.data.street,
-      number: this.data.number,
+      street_address: this.data.street_address,
+      street_number: this.data.street_number,
       floor: this.data.floor,
       apartment: this.data.apartment,
       city: this.data.city,
-      zipCode: this.data.zipCode,
+      postal_code: this.data.postal_code
     });
   }
 }
