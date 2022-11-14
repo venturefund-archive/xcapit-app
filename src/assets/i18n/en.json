@@ -2292,6 +2292,7 @@
         "subtitle_minimum_amount": "Minimum purchase amount:",
         "subtitle_available_tokens": "What tokens can you buy?",
         "subtitle_more_information": "More information:",
+        "subtitle_time_tokens": "Token crediting time:",
         "kyc_required": "Requires KYC or registration process.",
         "button": "Understood",
         "kripton": {
@@ -2305,7 +2306,6 @@
           "disclaimer": "*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
         },
         "directa24": {
-          "subtitle_3":"Token crediting time:",
           "description_1":"Cash purchase",
           "description_2":"10 USD.",
           "description_3": "Working days from 9 a.m. to 6 p.m. approx. The maximum accreditation time is 3 hours."

@@ -16,8 +16,10 @@ export class YieldCalculator {
 
   private calculateCumulativeYield(): void {
     this._aYield = parseUnits(this._aTotalBalance.toFixed(this._aNumberOfDecimals), this._aNumberOfDecimals);
+    
+    for (const movement of this._movements) {
+      if (this.isWithdrawAll(movement)) break;
 
-    this._movements.forEach((movement) => {
       const amount = BigNumber.from(movement.amount);
 
       switch (movement.type) {
@@ -28,11 +30,15 @@ export class YieldCalculator {
           this._aYield = this._aYield.add(amount);
           break;
       }
-    });
+    }
 
     if (this._aYield.isNegative()) {
       this._aYield = BigNumber.from('0');
     }
+  }
+
+  private isWithdrawAll(movement: InvestmentMovement): boolean {
+    return movement.balance === "0" && movement.type === "withdraw";
   }
 
   cumulativeYield(): RawAmount {

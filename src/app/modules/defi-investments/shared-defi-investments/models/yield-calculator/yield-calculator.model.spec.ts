@@ -7,6 +7,13 @@ describe('YieldCalculator', () => {
     jasmine.createSpyObj('deposit', {}, { type: 'deposit', amount: '80000000000000000000' }),
     jasmine.createSpyObj('withdraw', {}, { type: 'withdraw', amount: '10000000000000000000' }),
   ];
+  const movementsWithWithdrawAll: InvestmentMovement[] = [
+    jasmine.createSpyObj('withdraw1', {}, { type: 'withdraw', amount: '10000000000000000000' }),
+    jasmine.createSpyObj('deposit1', {}, { type: 'deposit', amount: '80000000000000000000' }),
+    jasmine.createSpyObj('withdrawAll', {}, { type: 'withdraw', amount: '1000000000000000000', balance: "0" }),
+    jasmine.createSpyObj('withdraw2', {}, { type: 'withdraw', amount: '20000000000000000000' }),
+    jasmine.createSpyObj('deposit2', {}, { type: 'deposit', amount: '25000000000000000000' }),
+  ];
 
   beforeEach(() => {
     yieldCalculator = new YieldCalculator(100, movements, 'WBTC', 2.5);
@@ -36,5 +43,12 @@ describe('YieldCalculator', () => {
     const result = yieldCalculator.cumulativeYield();
     expect(result.value).toEqual(0);
     expect(result.token).toEqual('USDC');
+  });
+
+  it('cumulativeYield until last withdraw all', () => {
+    const yieldCalculator = new YieldCalculator(100, movementsWithWithdrawAll, 'WBTC', 2.5);
+    const result = yieldCalculator.cumulativeYieldUSD();
+    expect(result.value).toEqual(75);
+    expect(result.token).toEqual('USD');
   });
 });

@@ -131,14 +131,13 @@ const routes: Routes = [
       {
         path: 'summary-data',
         loadChildren: () =>
-        import('./kyc-summary-data/kyc-summary-data.module').then((m) => m.KycSummaryDataPageModule),
+          import('./kyc-summary-data/kyc-summary-data.module').then((m) => m.KycSummaryDataPageModule),
       },
       {
         path: 'purchases',
         loadChildren: () =>
           import('./home-of-purchases/home-of-purchases.module').then((m) => m.HomeOfPurchasesPageModule),
       },
-
       {
         path: 'kyc',
         children: [
@@ -155,19 +154,22 @@ const routes: Routes = [
       },
       {
         path: 'purchase-order',
-        loadChildren: () => import('./purchase-order/purchase-order.module').then( m => m.PurchaseOrderPageModule)
+        loadChildren: () => import('./purchase-order/purchase-order.module').then((m) => m.PurchaseOrderPageModule),
       },
       {
         path: 'error-operation-km',
-        loadChildren: () => import('./error-operation-km/error-operation-km.module').then( m => m.ErrorOperationKmPageModule)
+        loadChildren: () =>
+          import('./error-operation-km/error-operation-km.module').then((m) => m.ErrorOperationKmPageModule),
       },
       {
         path: 'kripton-operation-detail/:operation_id',
-        loadChildren: () => import('./kripton-operation-detail/kripton-operation-detail.module').then( m => m.KriptonOperationDetailPageModule)
+        loadChildren: () =>
+          import('./kripton-operation-detail/kripton-operation-detail.module').then(
+            (m) => m.KriptonOperationDetailPageModule
+          ),
       },
     ],
   },
-  
 ];
 
 @NgModule({

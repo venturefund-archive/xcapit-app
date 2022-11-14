@@ -23,15 +23,17 @@ const providerTest = {
   description: 'fiat_ramps.select_provider.description',
   newOperationRoute: '/fiat-ramps/new-operation/kripton',
   countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
-  trackClickEventName: 'ux_buy_moonpay',
+  trackClickEventName: 'ux_buy_kripton',
+  providerName:'kripton'
 };
 
 const directa24ProviderTest = {
   id: 5,
   alias: 'PX',
+  quote: 1,
   name: 'Pichincha',
   logoRoute: 'assets/img/provider-logos/pichincha.svg',
-  description: 'fiat_ramps.select_provider.pichincha_description',
+  description: 'fiat_ramps.select_provider.description',
   newOperationRoute: '/fiat-ramps/new-operation/pichincha',
   countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
   trackClickEventName: 'ux_test',
@@ -105,6 +107,20 @@ describe('ProviderCardComponent', () => {
     expect(descriptionEl.nativeElement.innerHTML).toContain(providerTest.description);
   });
 
+  it('should render properly directa24 provider', fakeAsync( () => {
+    component.provider = directa24ProviderTest;
+    component.ngOnInit();
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    const imgEl = fixture.debugElement.query(By.css('div.pcc__content__image'));
+    const paymentTypeEl = fixture.debugElement.query(By.css('ion-text.paymentType'));
+    const descriptionEl = fixture.debugElement.query(By.css('ion-text.description'));
+    expect(imgEl.nativeElement.innerHTML).toBeTruthy();
+    expect(paymentTypeEl.nativeElement.innerHTML).toContain('fiat_ramps.shared.constants.payment_types.directa24_voucher');
+    expect(descriptionEl.nativeElement.innerHTML).toContain(directa24ProviderTest.description);
+  }));
+
   it('should show skeleton when quote is not loaded yet', () => {
     const skeletonEl = fixture.debugElement.query(By.css('div.pcc__content__body__description ion-skeleton-text'));
     fixture.detectChanges();
@@ -169,17 +185,19 @@ describe('ProviderCardComponent', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should show informative modal of Kripton Market provider when information_modal clicked', async () => {
+  it('should show informative modal when information_modal clicked', async () => {
     component.provider.showInfo = true;
+    component.isInfoModalOpen = false;
     component.provider.name = 'Kripton Market';
     component.provider.providerName = 'kripton';
+    component.ngOnInit();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="informative_modal"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should not show informative modal of Moonpay provider when information_modal clicked', async () => {
+  it('should not show informative information_modal clicked when modal is opened', async () => {
     component.provider.showInfo = true;
     component.provider.name = 'Moonpay';
     component.provider.providerName = 'moonpay';

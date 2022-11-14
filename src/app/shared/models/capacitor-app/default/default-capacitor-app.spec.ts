@@ -4,7 +4,7 @@ import { DefaultCapacitorApp } from './default-capacitor-app';
 describe('App', () => {
   let defaultCapacitorApp: DefaultCapacitorApp;
   let appPluginSpy: jasmine.SpyObj<AppPlugin>;
-  let getInfoData: AppInfo = { name: 'testApp', id: 'com.xcapit.app', build: '300', version: '3.0.0' };
+  const getInfoData: AppInfo = { name: 'testApp', id: 'com.xcapit.app', build: '300', version: '3.0.0' };
 
   beforeEach(() => {
     appPluginSpy = jasmine.createSpyObj('AppPlugin', {

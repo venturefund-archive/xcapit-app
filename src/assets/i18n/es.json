@@ -2264,6 +2264,7 @@
         "subtitle_minimum_amount": "Monto mínimo de compra:",
         "subtitle_available_tokens": "¿Qué tokens puedes comprar?",
         "subtitle_more_information": "Más información:",
+        "subtitle_time_tokens":"Tiempo de acreditación de tokens:",
         "kyc_required": "Requiere KYC o proceso de registración.",
         "button": "Entendido",
         "kripton": {
@@ -2277,7 +2278,6 @@
           "disclaimer": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
         },
         "directa24": {
-          "subtitle_3":"Tiempo de acreditación de tokens:",
           "description_1":"Compra en efectivo",
           "description_2":"10 USD.",
           "description_3": "Días hábiles de 9 a 18hs aprox. El tiempo máximo de acreditación es de 3hs."
