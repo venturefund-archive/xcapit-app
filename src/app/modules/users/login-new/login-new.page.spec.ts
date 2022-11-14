@@ -99,7 +99,7 @@ describe('LoginNewPage', () => {
 
     loginMigrationServiceSpy = jasmine.createSpyObj('LoginMigrationService', { migrate: Promise.resolve() });
 
-    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init']);
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init', 'subscribeTo', 'unsubscribeFrom']);
 
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
       getInstance: nullNotificationServiceSpy,
