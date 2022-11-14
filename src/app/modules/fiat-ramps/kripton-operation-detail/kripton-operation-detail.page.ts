@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
@@ -6,10 +6,14 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
+import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
+import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 
 @Component({
   selector: 'app-kripton-operation-detail',
@@ -48,12 +52,14 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
             <div class="kod__card-container__card__amount">
               <div class="kod__card-container__card__amount__out">
                 <ion-text class="ux-font-text-lg"
-                  >{{ this.operation.amount_out | formattedAmount }} {{ this.operation.currency_out | uppercase }}</ion-text
+                  >{{ this.operation.amount_out | formattedAmount }}
+                  {{ this.operation.currency_out | uppercase }}</ion-text
                 >
               </div>
               <div class="kod__card-container__card__amount__in">
                 <ion-text class="ux-font-text-xs"
-                  >= {{ this.operation.amount_in | number: '1.2-2' }} {{ this.operation.currency_in | uppercase }}</ion-text
+                  >= {{ this.operation.amount_in | number: '1.2-2' }}
+                  {{ this.operation.currency_in | uppercase }}</ion-text
                 >
               </div>
             </div>
@@ -68,7 +74,11 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
                 <ion-icon name="information-circle" (click)="this.showStateInformation()" color="info"></ion-icon>
               </div>
               <app-operation-status-chip [statusName]="this.operation.status"></app-operation-status-chip>
-              <app-operation-status-alert *ngIf="this.operation.status !== 'received' && this.operation.status !== 'complete'" [operationStatus]="this.operation.status"></app-operation-status-alert>
+              <app-operation-status-alert
+                *ngIf="this.operation.status !== 'received' && this.operation.status !== 'complete'"
+                [operationStatus]="this.operation.status"
+                (goToPurchaseOrder)="this.goToPurchaseOrder()"
+              ></app-operation-status-alert>
             </div>
           </ion-item>
 
@@ -183,6 +193,7 @@ export class KriptonOperationDetailPage {
   provider: FiatRampProvider;
   operation: FiatRampOperation;
   token: Coin;
+  country: FiatRampProviderCountry;
 
   constructor(
     private browserService: BrowserService,
@@ -192,13 +203,20 @@ export class KriptonOperationDetailPage {
     private apiWalletService: ApiWalletService,
     private navController: NavController,
     private trackService: TrackService,
+    private storageOperationService: StorageOperationService
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
     this.provider = this.providersFactory.create().byAlias('kripton');
     this.getUserOperation(operationId);
     this.trackScreenViewEvent();
+  }
+
+  private getCountry() {
+    this.country = COUNTRIES.find(
+      (c) => c.fiatCode && c.fiatCode.toUpperCase() === this.operation.currency_in.toUpperCase()
+    );
   }
 
   async navigateToKriptonTOS() {
@@ -217,6 +235,7 @@ export class KriptonOperationDetailPage {
       next: (data) => {
         this.operation = data[0];
         this.getCoin();
+        this.getCountry();
       },
       error: () => {
         this.navigateBackToOperations();
@@ -240,4 +259,26 @@ export class KriptonOperationDetailPage {
     });
   }
 
+  async goToPurchaseOrder() {
+    await this.setOperationStorage();
+    this.navController.navigateForward('fiat-ramps/purchase-order', { animated: false });
+  }
+
+  async setOperationStorage() {
+    const data: OperationDataInterface = {
+      country: this.country.name,
+      type: 'cash-in',
+      amount_in: this.operation.amount_in.toString(),
+      amount_out: this.operation.amount_out.toString(),
+      currency_in: this.operation.currency_in,
+      currency_out: this.operation.currency_out,
+      price_in: '',
+      wallet: '',
+      price_out: (this.operation.amount_in / this.operation.amount_out).toString(),
+      provider: this.provider.id.toString(),
+      network: this.token.network,
+      operation_id: this.operation.operation_id,
+    };
+    this.storageOperationService.updateData(data);
+  }
 }

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -18,6 +18,7 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { FakeProviders } from '../shared-ramps/models/providers/fake/fake-providers';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { KriptonOperationDetailPage } from './kripton-operation-detail.page';
 
 describe('KriptonOperationDetailPage', () => {
@@ -33,11 +34,12 @@ describe('KriptonOperationDetailPage', () => {
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+  let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
 
   const operation: FiatRampOperation = {
     operation_id: 678,
     operation_type: 'cash-in',
-    status: 'cancel',
+    status: 'incomplete',
     currency_in: 'ARS',
     amount_in: 500.0,
     currency_out: 'ETH',
@@ -85,6 +87,10 @@ describe('KriptonOperationDetailPage', () => {
       getUserSingleOperation: of([operation]),
     });
 
+    storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
+      updateData: null,
+    });
+
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
@@ -99,6 +105,7 @@ describe('KriptonOperationDetailPage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
+        { provide: StorageOperationService, useValue: storageOperationServiceSpy}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -113,7 +120,9 @@ describe('KriptonOperationDetailPage', () => {
   });
 
   it('should show selected provider on init', () => {
-    const spy = spyOn(FakeProviders.prototype, 'byAlias').and.returnValue(rawProvidersData.find((provider) => provider.alias === 'kripton'));
+    const spy = spyOn(FakeProviders.prototype, 'byAlias').and.returnValue(
+      rawProvidersData.find((provider) => provider.alias === 'kripton')
+    );
     component.ionViewWillEnter();
 
     expect(spy).toHaveBeenCalledOnceWith('kripton');
@@ -178,5 +187,18 @@ describe('KriptonOperationDetailPage', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/fiat-ramps/purchases']);
+  });
+  
+  it('should set operation storage data and redirect to purchase order when event was triggered', async() => {
+    const incompleteOperation: FiatRampOperation = { ...operation, status: 'incomplete' };
+    fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([incompleteOperation]));
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-operation-status-alert')).triggerEventHandler('goToPurchaseOrder');
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/purchase-order', { animated: false });
+    expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
   });
 });

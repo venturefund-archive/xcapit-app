@@ -13,4 +13,11 @@
       color: var(--ion-color-neutral80);
     }
   }
+
+  ion-spinner {
+    display: flex;
+    margin: auto;
+    width: 20px;
+    height: 20px;
+  }
 }

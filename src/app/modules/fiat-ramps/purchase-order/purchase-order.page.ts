@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { addHours } from 'date-fns';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
@@ -58,21 +58,28 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
         [priceOut]="this.data.price_out"
         [operationId]="this.data.operation_id"
         [amountOut]="this.data.amount_out"
+        [imageType]="this.imageType"
       ></app-kripton-purchase-info>
     </ion-content>
     <ion-footer class="po__footer ion-padding ux_footer">
-      <app-timer-countdown class="timer" text="fiat_ramps.purchase_order.timer" [deadlineDate]="dDay"></app-timer-countdown>
+      <app-timer-countdown
+        class="timer"
+        text="fiat_ramps.purchase_order.timer"
+        [deadlineDate]="dDay"
+        [showSeconds]="false"
+      ></app-timer-countdown>
       <ion-button expand="block" size="large" class="ux_button" color="secondary">{{
         'fiat_ramps.purchase_order.button' | translate
       }}</ion-button>
     </ion-footer> `,
   styleUrls: ['./purchase-order.page.scss'],
 })
-export class PurchaseOrderPage implements OnInit {
+export class PurchaseOrderPage {
   completed = false;
   dDay = addHours(new Date(), 72);
   data: OperationDataInterface;
   amountIn: number;
+  imageType: string;
   constructor(
     private clipboardService: ClipboardService,
     private toastService: ToastService,
@@ -80,9 +87,13 @@ export class PurchaseOrderPage implements OnInit {
     private storageOperationService: StorageOperationService
   ) {}
 
-  ngOnInit() {}
   ionViewWillEnter() {
     this.getData();
+    this.setImageType();
+  }
+
+  setImageType() {
+    this.imageType = this.data.currency_out === 'DAI' ? '.png' : '.svg';
   }
 
   getData() {

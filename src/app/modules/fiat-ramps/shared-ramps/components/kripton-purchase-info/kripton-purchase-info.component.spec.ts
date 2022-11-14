@@ -21,6 +21,7 @@ describe('KriptonPurchaseInfoComponent', () => {
         amountOut: '1222',
         priceOut: '12',
         operationId: '2',
+        imageType: '.svg'
       }
     );
     TestBed.configureTestingModule({
@@ -36,6 +37,7 @@ describe('KriptonPurchaseInfoComponent', () => {
     component.amountOut = kriptonPurchaseInfoSpy.amountOut;
     component.priceOut = kriptonPurchaseInfoSpy.priceOut;
     component.operationId = kriptonPurchaseInfoSpy.operationId;
+    component.imageType = kriptonPurchaseInfoSpy.imageType;
     fixture.detectChanges();
   }));
 

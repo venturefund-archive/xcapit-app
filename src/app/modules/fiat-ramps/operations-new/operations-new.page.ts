@@ -172,7 +172,6 @@ export class OperationsNewPage implements AfterViewInit {
     this.setCurrency();
     this.dynamicPrice();
     this.subscribeToFormChanges();
-    console.log(this.provider)
   }
 
   availableCoins() {

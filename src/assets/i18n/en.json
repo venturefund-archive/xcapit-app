@@ -2644,7 +2644,8 @@
       "title":"Buy",
       "state": "Status",
       "state_toast": {
-        "incomplete": "Transfer and send the transaction receipt. <b>Complete data</b>",
+        "incomplete": "Transfer and send the transaction receipt.",
+        "incomplete2": "Complete data",
         "nullified": "The provider cancelled this operation. For more information, please contact support.",
         "cancelled": "The provider did not receive proof of payment."
       },

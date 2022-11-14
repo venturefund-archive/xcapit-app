@@ -11,9 +11,8 @@ import { Component, Input, OnInit } from '@angular/core';
         <ion-accordion class="kpi__buy__accordion-group__accordion accordion-arrow-info" value="first">
           <ion-item class="kpi__buy__accordion-group__accordion__item" slot="header">
             <div class="kpi__buy__accordion-group__accordion__item__header">
-              <img [src]="'assets/img/coins/' + this.currencyOut + '.svg'" />
+              <img [src]="'assets/img/coins/' + this.currencyOut + this.imageType" />
               <div class="kpi__buy__accordion-group__accordion__item__header__coin">
-                
                 <ion-label
                   class="kpi__buy__accordion-group__accordion__item__header__coin__value ux-font-header-titulo"
                   >{{ this.currencyOut }}</ion-label
@@ -31,15 +30,16 @@ import { Component, Input, OnInit } from '@angular/core';
                 {{ 'fiat_ramps.shared.kripton_purchase_info.quote' | translate }}</ion-label
               >
               <ion-label class="kpi__buy__accordion-group__accordion__item__content__data__value ux-font-text-base"
-                >1 {{this.currencyOut}} = {{this.priceOut | formattedAmount: 10:2}} {{this.currencyIn | uppercase }}</ion-label
+                >1 {{ this.currencyOut }} = {{ this.priceOut | formattedAmount: 10:2 }}
+                {{ this.currencyIn | uppercase }}</ion-label
               >
             </div>
-            <div class="kpi__buy__accordion-group__accordion__item__content__data">
+            <div *ngIf="this.operationId !== '' " class="kpi__buy__accordion-group__accordion__item__content__data">
               <ion-label class="kpi__buy__operation-title ux-font-titulo-xs">{{
                 'fiat_ramps.shared.kripton_purchase_info.operation' | translate
               }}</ion-label>
               <ion-label class="kpi__buy__accordion-group__accordion__item__content__data__value ux-font-text-base"
-                >N° {{this.operationId}}</ion-label
+                >N° {{ this.operationId }}</ion-label
               >
             </div>
           </div>
@@ -56,6 +56,7 @@ export class KriptonPurchaseInfoComponent implements OnInit {
   @Input() amountOut: number;
   @Input() priceOut: number;
   @Input() operationId: number;
+  @Input() imageType: string;
   constructor() {}
 
   ngOnInit() {

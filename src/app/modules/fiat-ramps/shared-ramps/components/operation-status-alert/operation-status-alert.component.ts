@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { OPERATION_STATUS } from '../../constants/operation-status';
 import { OperationStatus } from '../../interfaces/operation-status.interface';
 
@@ -25,6 +25,7 @@ import { OperationStatus } from '../../interfaces/operation-status.interface';
 })
 export class OperationStatusAlertComponent implements OnInit {
   @Input() operationStatus: string;
+  @Output() goToPurchaseOrder: EventEmitter<any> = new EventEmitter<any>();
   status: OperationStatus;
 
   constructor() {}
@@ -35,11 +36,15 @@ export class OperationStatusAlertComponent implements OnInit {
 
   alertAction() {
     if (this.status.textToShow === 'incomplete') {
-      throw 'Not implemented';
+      this.navigateToPurchaseOrder();
     }
   }
 
   setState() {
     this.status = OPERATION_STATUS.find((s) => s.name === this.operationStatus);
+  }
+
+  navigateToPurchaseOrder(): void{
+    this.goToPurchaseOrder.emit();
   }
 }

@@ -5,16 +5,24 @@ import { interval, Subscription } from 'rxjs';
 @Component({
   selector: 'app-timer-countdown',
   template: `
-  <div class="tc">
-      <ion-icon name="clock"></ion-icon> 
+    <ion-spinner
+      *ngIf="!this.timeString"
+      color="dark"
+      name="crescent"
+    ></ion-spinner>
+    <div class="tc" *ngIf="this.timeString">
+      <ion-icon name="clock"></ion-icon>
       <ion-text class="ux-font-text-xs">{{ this.text | translate: this.timeString }}</ion-text>
-  </div>
+    </div>
   `,
   styleUrls: ['./timer-countdown.component.scss'],
 })
 export class TimerCountdownComponent implements OnInit, OnDestroy {
   @Input() text: string;
   @Input() deadlineDate: Date;
+  @Input() showHours = true;
+  @Input() showMinutes = true;
+  @Input() showSeconds = true;
   private subscription: Subscription;
   milliSecondsInASecond = 1000;
   hoursInADay = 24;
@@ -50,15 +58,24 @@ export class TimerCountdownComponent implements OnInit, OnDestroy {
   private setTimeValue() {
     this.timeString = {
       value: `
-        ${this.formatValue(this.hoursToDday)}
-        ${this.formatValue(this.minutesToDday)}
-        ${this.secondsToDday}
+        ${
+          (this.showHours ? this.checkFormatCondition(this.hoursToDday, this.showMinutes) : '') +
+          (this.showMinutes ? this.checkFormatCondition(this.minutesToDday, this.showSeconds) : '') +
+          (this.showSeconds ? this.formatValue(this.secondsToDday) : '')
+        }
       `,
     };
   }
 
-  formatValue(value) {
-    return value < 10 ? `0${value}:` : value === 0 ? '' : `${value}:`;
+  checkFormatCondition(value: number, condition: boolean) {
+    if (condition) {
+      return `${this.formatValue(value)}:`;
+    }
+    return `${this.formatValue(value)}`;
+  }
+
+  formatValue(value: number) {
+    return value < 10 ? `0${value}` : `${value}`;
   }
 
   ngOnDestroy() {
