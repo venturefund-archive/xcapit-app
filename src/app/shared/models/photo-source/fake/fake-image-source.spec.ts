@@ -12,6 +12,6 @@ describe('FakePhotoSource', () => {
   });
 
   it('photo', async () => {
-    expect((await imageSource.photo()).path()).toEqual('testPath');
+    expect(await (await imageSource.photo()).path()).toEqual('testPath');
   });
 });

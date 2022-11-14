@@ -4,7 +4,7 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { USER_REGISTER_STEPS } from '../shared-ramps/constants/user-register-steps';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 @Component({
   selector: 'app-user-register',
@@ -33,11 +33,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
       </div>
       <app-user-register-content *ngIf="this.userStatus" [status]="this.userStatus"> </app-user-register-content>
       <div class="ur__container__card">
-        <app-user-register-step-card
-          *ngFor="let step of this.steps"
-          [status]="this.userStatus"
-          [step]="step"
-        >
+        <app-user-register-step-card *ngFor="let step of this.steps" [status]="this.userStatus" [step]="step">
         </app-user-register-step-card>
       </div>
       <div *ngIf="this.userStatus !== 'COMPLETE'" class="ur__container__disclaimer">
@@ -67,26 +63,24 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
   `,
   styleUrls: ['./user-register.page.scss'],
 })
-export class UserRegisterPage implements OnInit {
+export class UserRegisterPage {
   steps = USER_REGISTER_STEPS;
   userStatus: string;
   constructor(
     private browser: BrowserService,
-    private storageOperationService: StorageOperationService,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
-    private trackService: TrackService
+    private trackService: TrackService,
+    private kriptonStorage: KriptonStorageService
   ) {}
 
-  ngOnInit() {}
-
   ionViewWillEnter() {
-    this.userRegistrationStatus();
     this.trackEvent();
+    this.userRegistrationStatus();
   }
 
   async userRegistrationStatus() {
-    const email = this.storageOperationService.getData().email;
+    const email = await this.kriptonStorage.get('email');
     this.fiatRampsService.getOrCreateUser({ email }).subscribe((res) => {
       this.userStatus = res.registration_status;
     });

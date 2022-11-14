@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 @Component({
   selector: 'app-user-email',
@@ -85,7 +84,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
     </ion-footer>`,
   styleUrls: ['./user-email.page.scss'],
 })
-export class UserEmailPage implements OnInit {
+export class UserEmailPage {
   form: UntypedFormGroup = this.formBuilder.group({
     email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
     token: ['', []],
@@ -97,14 +96,11 @@ export class UserEmailPage implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
-    private storageOperationService: StorageOperationService,
-    private remoteConfig: RemoteConfigService
+    private kriptonStorage: KriptonStorageService
   ) {}
 
-  ngOnInit() {}
-
   async submit() {
-    const userStatus = await this.fiatRampsService.getOrCreateUser(this.form.value).toPromise();
+    const userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.form.value.email }).toPromise();
     this.saveEmail();
     if (userStatus) this.validatedEmail = true;
     this.tokenValidator();
@@ -122,7 +118,6 @@ export class UserEmailPage implements OnInit {
   }
 
   saveEmail() {
-    const newData = Object.assign({ email: this.form.value.email }, this.storageOperationService.getData());
-    this.storageOperationService.updateData(newData);
+    this.kriptonStorage.set('email', this.form.value.email);
   }
 }

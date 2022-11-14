@@ -2,7 +2,6 @@ import { Photo as CapacitorPhoto } from '@capacitor/camera/dist/esm/definitions'
 import { Photo } from '../photo.interface';
 import { CameraPhoto } from './camera-photo';
 
-
 describe('CameraPhoto', () => {
   let cameraPhoto: Photo;
   const nativePhoto = { dataUrl: 'testPath' } as CapacitorPhoto;
@@ -14,7 +13,7 @@ describe('CameraPhoto', () => {
     expect(cameraPhoto).toBeTruthy();
   });
 
-  it('path', () => {
-    expect(cameraPhoto.path()).toEqual('testPath');
+  it('path', async () => {
+    expect(await cameraPhoto.path()).toEqual('testPath');
   });
 });

@@ -8,20 +8,20 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 import { UserRegisterPage } from './user-register.page';
 
 const storageData = {
   valid: {
     data: {
-      email: 'test@gmail.com'
+      email: 'test@gmail.com',
     },
     valid: true,
   },
   invalid: {
     data: {
-      email: ''
+      email: '',
     },
     valid: false,
   },
@@ -33,22 +33,22 @@ describe('UserRegisterPage', () => {
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
+  let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
 
   beforeEach(waitForAsync(() => {
     browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      getOrCreateUser: of({registration_status: 'COMPLETE'}),
-    });
-
-    storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
-      getData: storageData.valid.data,
+      getOrCreateUser: of({ registration_status: 'COMPLETE' }),
     });
 
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
+    });
+
+    kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
+      get: Promise.resolve('test@gmail.com'),
     });
 
     fakeNavController = new FakeNavController();
@@ -63,7 +63,7 @@ describe('UserRegisterPage', () => {
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: TrackService, useValue: trackServiceSpy },
-        { provide: StorageOperationService, useValue: storageOperationServiceSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageSpy },
       ],
     }).compileComponents();
 
@@ -77,7 +77,7 @@ describe('UserRegisterPage', () => {
   });
 
   it('should render properly', () => {
-    component.userStatus = 'USER_IMAGES'
+    component.userStatus = 'USER_IMAGES';
     const providerEl = fixture.debugElement.query(By.css('div.ur__container__provider > ion-text'));
     const iconEl = fixture.debugElement.query(By.css('div.ur__container__icon > img'));
     const [cardEl1, cardEl2] = fixture.debugElement.queryAll(
@@ -102,23 +102,26 @@ describe('UserRegisterPage', () => {
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'https://cash.kriptonmarket.com/privacy' });
   });
 
-  it('should set user status by email on init', () => {
+  it('should set user status by email on init', async () => {
     component.ionViewWillEnter();
-    expect(storageOperationServiceSpy.getData).toHaveBeenCalledTimes(1);
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     expect(fiatRampsServiceSpy.getOrCreateUser).toHaveBeenCalledOnceWith({ email: 'test@gmail.com' });
     expect(component.userStatus).toEqual('COMPLETE');
   });
 
-  it('should navigate to wallet page when back button is clicked', () => {
+  it('should navigate to wallet page when back button is clicked', async () => {
     component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button.ur__button-back')).nativeElement.click();
-    
+
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/tabs/wallet']);
   });
-  
-  it('should navigate to buy page when ux_go_to_buy_home button is clicked', () => {
+
+  it('should navigate to buy page when ux_go_to_buy_home button is clicked', async () => {
     component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_go_to_buy_home"]')).nativeElement.click();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/fiat-ramps/purchases']);

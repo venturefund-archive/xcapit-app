@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -21,7 +21,9 @@ import { NavController } from '@ionic/angular';
       <div class="ursc__wrapper__content">
         <ion-text class="ursc__wrapper__content__title ux-font-text-lg">{{ this.step.title | translate }}</ion-text>
         <div *ngIf="!this.completed" class="subtitle">
-          <ion-text class="ursc__wrapper__content__subtitle ux-font-text-xxs">{{ this.step.subtitle | translate }}</ion-text>
+          <ion-text class="ursc__wrapper__content__subtitle ux-font-text-xxs">{{
+            this.step.subtitle | translate
+          }}</ion-text>
         </div>
       </div>
       <div *ngIf="!this.completed" class="ursc__wrapper__action">
@@ -35,7 +37,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./user-register-step-card.component.scss'],
 })
 export class UserRegisterStepCardComponent implements OnChanges {
-  @Input() step: any; 
+  @Input() step: any;
   @Input() status: string;
   completed = false;
   constructor(private navController: NavController) {}
@@ -51,6 +53,6 @@ export class UserRegisterStepCardComponent implements OnChanges {
   }
 
   navigateTo() {
-    if(!this.completed) return this.navController.navigateForward(this.step.url);
+    if (!this.completed) return this.navController.navigateForward(this.step.url);
   }
 }

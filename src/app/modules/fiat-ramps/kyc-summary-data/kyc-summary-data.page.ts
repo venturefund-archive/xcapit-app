@@ -3,6 +3,7 @@ import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 @Component({
   selector: 'app-kyc-summary-data',
@@ -41,8 +42,8 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
       <div class="user-basic-information">
         <app-user-basic-information
           *ngIf="this.data"
-          [firstName]="this.data.firstName"
-          [lastName]="this.data.lastName"
+          [firstName]="this.data.first_name"
+          [lastName]="this.data.last_name"
           [birthday]="this.data.birthday"
         ></app-user-basic-information>
       </div>
@@ -54,7 +55,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
           [gender]="this.data.gender"
           [maritalStatus]="this.data.marital_status"
           [countryCode]="this.countryCode"
-          [phoneNumber]="this.data.phone_number"
+          [phoneNumber]="this.data.telephone_number"
         ></app-user-personal-information>
       </div>
       <div class="sd__container__title-address">
@@ -63,12 +64,12 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
       <div class="user-address-information">
         <app-user-address-information
           *ngIf="this.data"
-          [street]="this.data.street"
-          [number]="this.data.number"
+          [street]="this.data.street_address"
+          [number]="this.data.street_number"
           [floor]="this.data.floor"
           [apartment]="this.data.apartment"
           [city]="this.data.city"
-          [zipCode]="this.data.zipCode"
+          [zipCode]="this.data.postal_code"
         >
         </app-user-address-information>
       </div>
@@ -109,7 +110,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
     </ion-footer>`,
   styleUrls: ['./kyc-summary-data.page.scss'],
 })
-export class KycSummaryDataPage implements OnInit {
+export class KycSummaryDataPage {
   form: UntypedFormGroup = this.fb.group({
     not_politically_exposed: [false, Validators.requiredTrue],
   });
@@ -120,10 +121,9 @@ export class KycSummaryDataPage implements OnInit {
     private fb: FormBuilder,
     private userKycKriptonDataService: UserKycKriptonDataService,
     private fiatRampsService: FiatRampsService,
-    private navController: NavController
+    private navController: NavController,
+    private kriptonStorage: KriptonStorageService
   ) {}
-
-  ngOnInit() {}
 
   ionViewWillEnter() {
     this._loadData();
@@ -141,19 +141,21 @@ export class KycSummaryDataPage implements OnInit {
 
   private _parsedValues(formValues) {
     const valuesCopy = Object.assign({}, formValues);
-    valuesCopy.country_code = this.countryCode;
+    valuesCopy.telephone_number = `${this.countryCode}${valuesCopy.telephone_number}`;
     valuesCopy.gender = valuesCopy.gender.name;
     valuesCopy.marital_status = valuesCopy.marital_status.name;
-    valuesCopy.document = valuesCopy.document.name;
+    valuesCopy.document_type = valuesCopy.document_type.name;
     valuesCopy.nationality = valuesCopy.nationality.name;
+    delete valuesCopy.country_code;
     return valuesCopy;
   }
 
-  sendData() {
+  async sendData() {
     if (this.form.valid) {
-      this.userKycKriptonDataService.updateData({ politically_exposed: !this.form.value.not_politically_exposed });
-      this._loadData();
-      this.fiatRampsService.registerUserInfo(this._parsedValues(this.data)).subscribe(() => {
+      const email = await this.kriptonStorage.get('email');
+      const politically_exposed = !this.form.value.not_politically_exposed;
+      const kycData = Object.assign({ politically_exposed, email }, this.data);
+      this.fiatRampsService.registerUserInfo(this._parsedValues(kycData)).subscribe(() => {
         this.navController.navigateForward('fiat-ramps/user-register');
       });
     }
