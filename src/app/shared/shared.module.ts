@@ -98,6 +98,7 @@ import { InformationModalComponent } from './components/information-modal/inform
 import { TwoButtonsAlertComponent } from './components/two-buttons-alert/two-buttons-alert.component';
 import { BuyCryptoFeatureFlagDirective } from './directives/in-review-feature-flag/buy-crypto-feature-flag.directive';
 import { TokenNetworkBadgeComponent } from './components/token-network-badge/token-network-badge.component';
+import { OperationStatusChipComponent } from '../modules/fiat-ramps/shared-ramps/components/operation-status-chip/operation-status-chip.component';
 
 @NgModule({
   declarations: [
@@ -183,6 +184,7 @@ import { TokenNetworkBadgeComponent } from './components/token-network-badge/tok
     InformationModalComponent,
     TwoButtonsAlertComponent,
     TokenNetworkBadgeComponent,
+    OperationStatusChipComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -288,6 +290,7 @@ import { TokenNetworkBadgeComponent } from './components/token-network-badge/tok
     InformationModalComponent,
     TwoButtonsAlertComponent,
     TokenNetworkBadgeComponent,
+    OperationStatusChipComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

@@ -2,13 +2,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
@@ -33,6 +34,8 @@ describe('KriptonOperationDetailPage', () => {
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
 
   const operation: FiatRampOperation = {
     operation_id: 678,
@@ -88,6 +91,9 @@ describe('KriptonOperationDetailPage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
+
     TestBed.configureTestingModule({
       declarations: [KriptonOperationDetailPage, FakeTrackClickDirective, FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -99,6 +105,7 @@ describe('KriptonOperationDetailPage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -113,7 +120,9 @@ describe('KriptonOperationDetailPage', () => {
   });
 
   it('should show selected provider on init', () => {
-    const spy = spyOn(FakeProviders.prototype, 'byAlias').and.returnValue(rawProvidersData.find((provider) => provider.alias === 'kripton'));
+    const spy = spyOn(FakeProviders.prototype, 'byAlias').and.returnValue(
+      rawProvidersData.find((provider) => provider.alias === 'kripton')
+    );
     component.ionViewWillEnter();
 
     expect(spy).toHaveBeenCalledOnceWith('kripton');
@@ -178,5 +187,49 @@ describe('KriptonOperationDetailPage', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/fiat-ramps/purchases']);
+  });
+
+  it('should show info modal when info button is clicked', async () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show correct text when info button is clicked and status is incomplete', async () => {
+    operation.status = 'request';
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(component.description).toEqual(`fiat_ramps.operation_status_detail.incomplete.description`);
+    expect(component.description2).toEqual(`fiat_ramps.operation_status_detail.incomplete.description2`);
+  });
+
+  it('should show correct text when info button is clicked and status is in progress', async () => {
+    operation.status = 'received';
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(component.description).toEqual(`fiat_ramps.operation_status_detail.in_progress.description`);
+  });
+
+  it('should show correct text when info button is clicked and status is nullified', async () => {
+    operation.status = 'refund';
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(component.description).toEqual(`fiat_ramps.operation_status_detail.nullified.description`);
+  });
+
+  it('should show correct text when info button is clicked and status is cancelled', async () => {
+    operation.status = 'cancel';
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(component.description).toEqual(`fiat_ramps.operation_status_detail.cancelled.description`);
   });
 });

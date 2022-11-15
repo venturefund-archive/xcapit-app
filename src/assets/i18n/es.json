@@ -2345,6 +2345,23 @@
       "nullified": "Anulada",
       "cancelled": "Cancelada"
     },
+    "operation_status_detail": {
+      "title": "¿Qué significa este estado?",
+      "button": "Entendido",
+      "incomplete": {
+        "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. Esto no significa que se realizó la compra. Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
+        "description2": "Tienes hasta 72hs para hacerlo, de lo contrario, se anulará tu pedido."
+      },
+      "in_progress": {
+        "description": "El proveedor recibió exitosamente tu solicitud de compra. Dentro de las siguientes 24hs verás acreditado los tokens en tu wallet."
+      },
+      "nullified": {
+        "description": "El proveedor tuvo inconvenientes para realizar esta operación, por lo cual la misma fue cancelada. Tus fondos se devolverán a tu cuenta de origen."
+      },
+      "cancelled": {
+        "description": "Tu solicitud puede anularse por dos motivos: que el proveedor no recibió el comprobante de la transferencia. O el usuario no realizó el pago dentro de las 72hs estipuladas desde la solicitud de compra."
+      }
+    },
     "new_operation": {
       "header": "Comprar cripto",
       "thirdPartyKYC": "Entiendo que Xcapit no almacena la información KYC.",

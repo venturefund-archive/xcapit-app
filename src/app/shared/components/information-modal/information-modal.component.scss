@@ -38,10 +38,21 @@
           margin: 16px 8px 10px;
         }
 
-        &__description {
+        app-operation-status-chip {
+          width: fit-content;
+          border-radius: 4px;
+          margin: 26px 0 6px 10px;
+        }
+
+        &__description,
+        &__description2 {
           text-align: left;
           padding: 0 10px;
           color: var(--ion-color-primary) !important;
+        }
+
+        &__description2 {
+          margin-top: 25px;
         }
       }
     }
