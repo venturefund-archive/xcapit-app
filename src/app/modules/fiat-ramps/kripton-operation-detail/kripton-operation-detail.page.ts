@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { LINKS } from 'src/app/config/static-links';
+import { InformationModalComponent } from 'src/app/shared/components/information-modal/information-modal.component';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { OPERATION_STATUS } from '../shared-ramps/constants/operation-status';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
+import { OperationStatus } from '../shared-ramps/interfaces/operation-status.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 
@@ -48,12 +52,14 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
             <div class="kod__card-container__card__amount">
               <div class="kod__card-container__card__amount__out">
                 <ion-text class="ux-font-text-lg"
-                  >{{ this.operation.amount_out | formattedAmount }} {{ this.operation.currency_out | uppercase }}</ion-text
+                  >{{ this.operation.amount_out | formattedAmount }}
+                  {{ this.operation.currency_out | uppercase }}</ion-text
                 >
               </div>
               <div class="kod__card-container__card__amount__in">
                 <ion-text class="ux-font-text-xs"
-                  >= {{ this.operation.amount_in | number: '1.2-2' }} {{ this.operation.currency_in | uppercase }}</ion-text
+                  >= {{ this.operation.amount_in | number: '1.2-2' }}
+                  {{ this.operation.currency_in | uppercase }}</ion-text
                 >
               </div>
             </div>
@@ -68,7 +74,10 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
                 <ion-icon name="information-circle" (click)="this.showStateInformation()" color="info"></ion-icon>
               </div>
               <app-operation-status-chip [statusName]="this.operation.status"></app-operation-status-chip>
-              <app-operation-status-alert *ngIf="this.operation.status !== 'received' && this.operation.status !== 'complete'" [operationStatus]="this.operation.status"></app-operation-status-alert>
+              <app-operation-status-alert
+                *ngIf="this.operation.status !== 'received' && this.operation.status !== 'complete'"
+                [operationStatus]="this.operation.status"
+              ></app-operation-status-alert>
             </div>
           </ion-item>
 
@@ -183,6 +192,10 @@ export class KriptonOperationDetailPage {
   provider: FiatRampProvider;
   operation: FiatRampOperation;
   token: Coin;
+  status: OperationStatus;
+  isInfoModalOpen = false;
+  description: string;
+  description2: string;
 
   constructor(
     private browserService: BrowserService,
@@ -192,6 +205,8 @@ export class KriptonOperationDetailPage {
     private apiWalletService: ApiWalletService,
     private navController: NavController,
     private trackService: TrackService,
+    private modalController: ModalController,
+    private translate: TranslateService
   ) {}
 
   ionViewWillEnter() {
@@ -207,8 +222,37 @@ export class KriptonOperationDetailPage {
     });
   }
 
-  showStateInformation() {
-    return;
+  private _getOperationStatus(): OperationStatus {
+    return OPERATION_STATUS.find((s) => s.name === this.operation.status);
+  }
+
+  async showStateInformation() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      const modal = await this.modalController.create({
+        component: InformationModalComponent,
+        componentProps: {
+          title: this.translate.instant('fiat_ramps.operation_status_detail.title'),
+          status: this.status.name,
+          description: this.description,
+          description2: this.description2,
+          buttonText: this.translate.instant('fiat_ramps.operation_status_detail.button'),
+        },
+        cssClass: 'modal',
+        backdropDismiss: false,
+      });
+      await modal.present();
+      this.isInfoModalOpen = false;
+    }
+  }
+
+  private _setText(status: string) {
+    if (status === 'incomplete') {
+      this.description = this.translate.instant(`fiat_ramps.operation_status_detail.${status}.description`);
+      this.description2 = this.translate.instant(`fiat_ramps.operation_status_detail.${status}.description2`);
+    } else {
+      this.description = this.translate.instant(`fiat_ramps.operation_status_detail.${status}.description`);
+    }
   }
 
   private getUserOperation(operationId: string) {
@@ -217,6 +261,8 @@ export class KriptonOperationDetailPage {
       next: (data) => {
         this.operation = data[0];
         this.getCoin();
+        this.status = this._getOperationStatus();
+        this._setText(this.status.textToShow);
       },
       error: () => {
         this.navigateBackToOperations();
@@ -239,5 +285,4 @@ export class KriptonOperationDetailPage {
       eventLabel: 'ux_buy_kripton_screenview_details',
     });
   }
-
 }

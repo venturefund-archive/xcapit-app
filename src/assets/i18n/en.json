@@ -2363,6 +2363,23 @@
       "nullified": "Revoked",
       "cancelled": "Cancelled"
     },
+    "operation_status_detail": {
+      "title": "What does this status mean?",
+      "button": "Understood",
+      "incomplete": {
+        "description": "Your purchase request has been successfully received by the provider. This does not mean that the purchase has been made. To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
+        "description2": "You have up to 72 hours to do so, otherwise your order will be cancelled."
+      },
+      "in_progress": {
+        "description": "The provider successfully received your purchase request. Within 24 hours you will see the tokens credited to your wallet."
+      },
+      "nullified": {
+        "description": "The provider had problems with this transaction, so the transaction was cancelled. Your funds will be returned to your original account."
+      },
+      "cancelled": {
+        "description": "Your order can be cancelled for two reasons: the provider did not receive the transfer receipt. Or the user did not make the payment within the 72hs stipulated from the purchase request."
+      }
+    },
     "new_operation": {
       "header": "Buy crypto",
       "thirdPartyKYC": "I understand that Xcapit does not store KYC information.",

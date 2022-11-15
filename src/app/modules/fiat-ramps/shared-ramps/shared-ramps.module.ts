@@ -4,7 +4,6 @@ import { FixedFooterComponent } from './components/fixed-footer/fixed-footer/fix
 import { OperationsListAccordionComponent } from './components/operations-list-accordion/operations-list-accordion.component';
 import { OperationsListComponent } from './components/operations-list/operations-list.component';
 import { OperationsListItemComponent } from './components/operations-list-item/operations-list-item.component';
-import { OperationStatusChipComponent } from './components/operation-status-chip/operation-status-chip.component';
 import { TransferConfirmCardComponent } from './components/transfer-confirm-card/transfer-confirm-card.component';
 import { ProviderNewOperationCardComponent } from './components/provider-new-operation-card/provider-new-operation-card/provider-new-operation-card.component';
 import { FiatInputComponent } from './components/fiat-input/fiat-input.component';
@@ -32,7 +31,6 @@ import { OperationStatusAlertComponent } from './components/operation-status-ale
     TransferConfirmCardComponent,
     ProviderNewOperationCardComponent,
     OperationsListComponent,
-    OperationStatusChipComponent,
     OperationsListAccordionComponent,
     OperationsListItemComponent,
     FiatInputComponent,
@@ -61,7 +59,6 @@ import { OperationStatusAlertComponent } from './components/operation-status-ale
     TransferConfirmCardComponent,
     ProviderNewOperationCardComponent,
     OperationsListComponent,
-    OperationStatusChipComponent,
     OperationsListAccordionComponent,
     OperationsListItemComponent,
     FiatInputComponent,
