@@ -6,6 +6,7 @@ import { Console } from 'console';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
+import { CountdownTimerService } from '../shared-ramps/services/countdown-timer/countdown-timer.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 
@@ -71,10 +72,18 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
       </div>
     </ion-content>
     <ion-footer class="ue__footer">
-      <div class="ue__footer__resend-email">
-        <ion-text class="ux-link-xs" (click)="setTimer()"> Reenviar código</ion-text>
+      <div class="ue__footer__resend-email-title">
+        <ion-text class="ux-font-text-xs">
+          {{ this.resendTitleText | translate }}
+        </ion-text>
       </div>
-      <app-countdown-timer [timerSeconds]="this.countdown"></app-countdown-timer>
+      <div class="ue__footer__resend-email-link">
+        <ion-text class="ux-link-xs" (click)="setTimer()">
+          <!-- {{ this.resendLinkText | translate }} -->
+          CLICK ACA
+        </ion-text>
+      </div>
+      <app-countdown-timer [timerSeconds]="this.countdown" *ngIf="this.enable"></app-countdown-timer>
       <div class="ux_footer ion-padding">
         <ion-button
           class="ux_button"
@@ -101,12 +110,15 @@ export class UserEmailPage implements OnInit {
   //TODO: Set to false by default
   validateEmail = true;
   countdown: number;
-
+  enable = false;
   // WIP
   // timerText = '';
   // timerSeconds: number;
   // private timer: any;
   disableResendEmail = true;
+
+  resendLinkText: string;
+  resendTitleText: string;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -116,9 +128,17 @@ export class UserEmailPage implements OnInit {
     private remoteConfig: RemoteConfigService,
     private toastService: ToastService,
     private translate: TranslateService,
+    private countdownTimerService: CountdownTimerService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // TODO si el timer del servicio es > 0, hacer enable y pasar el valor de timer
+    if (this.countdownTimerService.getCurrentTime() > 0) {
+      console.log('ongoing service timer on pagestart: ', this.countdownTimerService.getCurrentTime())
+      this.enable = true;
+      this.countdown = this.countdownTimerService.getCurrentTime();
+    }
+  }
 
   async submit() {
     const userStatus = await this.fiatRampsService.getOrCreateUser(this.form.value).toPromise();
@@ -144,9 +164,12 @@ export class UserEmailPage implements OnInit {
   }
 
   setTimer() {
-    this.countdown = undefined;
     this.countdown = 120;
+    this.enable = true;
+  
   }
+
+  setFooterText() {}
 
   // WIP
 
@@ -164,7 +187,7 @@ export class UserEmailPage implements OnInit {
   //   this.timerSeconds--;
   //   this.timerText = `(${this.timerSeconds}s)`;
   //   console.log('tiempo restante: ', this.timerSeconds)
-    
+
   //   if (this.timerSeconds < 1) {
   //     this.timerText = '';
   //     clearInterval(this.timer);
