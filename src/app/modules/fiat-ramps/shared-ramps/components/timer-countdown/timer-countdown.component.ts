@@ -1,15 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { millisecondsToHours, millisecondsToMinutes, millisecondsToSeconds } from 'date-fns';
-import { interval, Subscription } from 'rxjs';
+import { interval, Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-timer-countdown',
   template: `
-    <ion-spinner
-      *ngIf="!this.timeString"
-      color="dark"
-      name="crescent"
-    ></ion-spinner>
+    <ion-spinner *ngIf="!this.timeString" color="dark" name="crescent"></ion-spinner>
     <div class="tc" *ngIf="this.timeString">
       <ion-icon name="clock"></ion-icon>
       <ion-text class="ux-font-text-xs">{{ this.text | translate: this.timeString }}</ion-text>
@@ -23,7 +19,7 @@ export class TimerCountdownComponent implements OnInit, OnDestroy {
   @Input() showHours = true;
   @Input() showMinutes = true;
   @Input() showSeconds = true;
-  private subscription: Subscription;
+  private subscription$: Subscription;
   milliSecondsInASecond = 1000;
   hoursInADay = 24;
   minutesInAnHour = 60;
@@ -38,12 +34,16 @@ export class TimerCountdownComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit() {
-    this.subscription = interval(1000).subscribe((x) => {
+    this.subscription$ = this.timer().subscribe(() => {
       this.getTimeDifference();
     });
   }
 
-  private getTimeDifference() {
+  timer(): Observable<number> {
+    return interval(1000);
+  }
+
+  getTimeDifference() {
     this.timeDifference = this.deadlineDate?.getTime() - new Date().getTime();
     this.allocateTimeUnits(this.timeDifference);
   }
@@ -78,7 +78,11 @@ export class TimerCountdownComponent implements OnInit, OnDestroy {
     return value < 10 ? `0${value}` : `${value}`;
   }
 
+  unsubscribe(): void {
+    this.subscription$.unsubscribe();
+  }
+
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.unsubscribe();
   }
 }
