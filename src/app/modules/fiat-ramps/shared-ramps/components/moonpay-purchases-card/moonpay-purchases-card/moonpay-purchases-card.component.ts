@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { LINKS } from 'src/app/config/static-links';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
-import { InfoProviderMoonpayComponent } from '../../info-provider-moonpay/info-provider-moonpay.component';
+import { INFO_PROVIDER } from '../../../constants/info-provider';
+import { ProvidersFactory } from '../../../models/providers/factory/providers.factory';
+import { InfoProviderComponent } from '../../info-provider/info-provider.component';
 
 @Component({
   selector: 'app-moonpay-purchases-card',
@@ -10,7 +12,7 @@ import { InfoProviderMoonpayComponent } from '../../info-provider-moonpay/info-p
     <ion-card-header [ngClass]="this.cssWithLine">
       <ion-card-title class="card-title ux-font-text-lg"
         >{{ 'fiat_ramps.moonpay_purchases.title' | translate }}
-        <ion-icon name="information-circle" color="info" (click)="this.showProviderInfo()"></ion-icon>
+        <ion-icon name="information-circle" color="info" (click)="this.createInfoModal()"></ion-icon>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -29,8 +31,12 @@ import { InfoProviderMoonpayComponent } from '../../info-provider-moonpay/info-p
 export class MoonpayPurchasesCardComponent implements OnInit {
   cssWithLine: string;
   isInfoModalOpen = false;
-
-  constructor(private browserService: BrowserService, private modalController: ModalController) {}
+  providerInfo = INFO_PROVIDER['moonpay'];
+  constructor(
+    private browserService: BrowserService,
+    private modalController: ModalController,
+    private providersFactory: ProvidersFactory
+  ) {}
 
   ngOnInit() {}
 
@@ -38,20 +44,30 @@ export class MoonpayPurchasesCardComponent implements OnInit {
     await this.browserService.open({ url: LINKS.moonpayTransactionHistory });
   }
 
-  async showProviderInfo() {
-    if (!this.isInfoModalOpen) {
-      this.isInfoModalOpen = true;
-      await this.createMoonpayInfoModal();
-      this.isInfoModalOpen = false;
-    }
+  provider() {
+    return this.providersFactory.create().byAlias('moonpay');
   }
 
-  async createMoonpayInfoModal() {
-    const modal = await this.modalController.create({
-      component: InfoProviderMoonpayComponent,
-      cssClass: 'ux-lg-modal-informative-provider-moonpay',
-      backdropDismiss: false,
-    });
-    await modal.present();
+  async createInfoModal() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+
+      const modal = await this.modalController.create({
+        component: InfoProviderComponent,
+        componentProps: {
+          image: this.provider()?.logoRoute,
+          title: this.provider()?.name,
+          subtitle1: this.providerInfo.subtitle_1,
+          subtitle2: this.providerInfo.subtitle_2,
+          description1: this.providerInfo.description_1,
+          description2: this.providerInfo.description_2,
+          disclaimer: this.providerInfo.disclaimer,
+          buttonText: 'fiat_ramps.select_provider.modal_info.button',
+        },
+        cssClass: 'modal',
+        backdropDismiss: false,
+      });
+      await modal.present();
+    }
   }
 }

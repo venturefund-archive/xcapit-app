@@ -2,12 +2,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { TimerCountdownComponent } from './timer-countdown.component';
 import { Observable, Subject } from 'rxjs';
 import { addHours, addMinutes } from 'date-fns';
 
-fdescribe('TimerCountdownComponent', () => {
+describe('TimerCountdownComponent', () => {
   let component: TimerCountdownComponent;
   let fixture: ComponentFixture<TimerCountdownComponent>;
   let fakeTimer: Subject<number>;
