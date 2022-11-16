@@ -127,8 +127,10 @@ describe('UserRegisterPage', () => {
     expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/fiat-ramps/purchases']);
   });
 
-  it('should track screenview event on init', () => {
+  it('should track screenview event on init', async () => {
     component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 });

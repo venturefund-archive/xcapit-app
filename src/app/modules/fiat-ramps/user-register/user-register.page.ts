@@ -76,13 +76,13 @@ export class UserRegisterPage {
 
   ionViewWillEnter() {
     this.userRegistrationStatus();
-    if(this.userStatus === 'COMPLETE') this.trackEvent();
   }
 
   async userRegistrationStatus() {
     const email = await this.kriptonStorage.get('email');
     this.fiatRampsService.getOrCreateUser({ email }).subscribe((res) => {
       this.userStatus = res.registration_status;
+      if (this.userStatus === 'COMPLETE') this.trackEvent();
     });
   }
 
