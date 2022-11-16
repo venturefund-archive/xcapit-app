@@ -20,7 +20,7 @@ describe('UserRegisterStepCardComponent', () => {
     title: 'fakeTitle',
     subtitle: 'fakeSubtitle',
     url: 'fakeUrl',
-    name:'ux_buy_kripton_details',
+    name: 'ux_buy_kripton_details',
     disabled: false,
   };
   beforeEach(waitForAsync(() => {
@@ -47,7 +47,9 @@ describe('UserRegisterStepCardComponent', () => {
   it('should render properly', () => {
     component.completed = false;
     const numberEl = fixture.debugElement.query(By.css('div.ursc__wrapper__step > div.incompleteInfo > ion-text'));
-    const titleEl = fixture.debugElement.query(By.css('div.ursc__wrapper__content > ion-text.ursc__wrapper__content__title'));
+    const titleEl = fixture.debugElement.query(
+      By.css('div.ursc__wrapper__content > ion-text.ursc__wrapper__content__title')
+    );
     const subtitleEl = fixture.debugElement.query(By.css('div.subtitle ion-text'));
     const iconEl = fixture.debugElement.query(By.css('div.ursc__wrapper__action > ion-icon'));
 
@@ -57,7 +59,7 @@ describe('UserRegisterStepCardComponent', () => {
     expect(iconEl.attributes['ng-reflect-name']).toContain('chevron-forward-outline');
   });
 
-  it('should navigate if item is not disabled and was clicked', () =>{
+  it('should navigate if item is not disabled and was clicked', () => {
     component.step.disabled = false;
     const itemEl = fixture.debugElement.query(By.css('ion-item.ursc'));
 

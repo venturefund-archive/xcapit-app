@@ -1,3 +1,3 @@
 export interface Photo {
-  path: () => string;
+  path: () => Promise<string>;
 }

@@ -7,6 +7,7 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { ToolsPage } from './tools-page.page';
@@ -40,7 +41,7 @@ describe('ToolPagePage', () => {
     walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { connected: false });
 
     TestBed.configureTestingModule({
-      declarations: [ToolsPage, FakeFeatureFlagDirective],
+      declarations: [ToolsPage, FakeFeatureFlagDirective, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },

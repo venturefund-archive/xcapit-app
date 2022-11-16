@@ -63,7 +63,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
                 [label]="'fiat_ramps.kyc.user_personal_information.label_document' | translate"
                 [modalTitle]="'fiat_ramps.kyc.user_personal_information.modal_title_document' | translate"
                 [placeholder]="'fiat_ramps.kyc.user_personal_information.placeholder_document' | translate"
-                controlName="document"
+                controlName="document_type"
                 [data]="this.docTypes"
                 [selectorStyle]="'new-style'"
                 key="value"
@@ -118,7 +118,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
             <div class="upi__container__form__phone__input">
               <app-ux-input
                 [label]="'fiat_ramps.kyc.user_personal_information.label_phone' | translate"
-                controlName="phone_number"
+                controlName="telephone_number"
                 type="number"
                 inputmode="numeric"
                 color="primary"
@@ -147,7 +147,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
 export class KycUserPersonalInformationPage implements OnInit {
   form: UntypedFormGroup = this.fb.group({
     nationality: ['', [Validators.required]],
-    document: ['', [Validators.required]],
+    document_type: ['', [Validators.required]],
     document_number: [
       '',
       [Validators.required, Validators.minLength(7), Validators.maxLength(12), Validators.pattern('[0-9]*$')],
@@ -155,7 +155,7 @@ export class KycUserPersonalInformationPage implements OnInit {
     gender: ['', [Validators.required]],
     marital_status: ['', [Validators.required]],
     country_code: ['', [Validators.required]],
-    phone_number: [
+    telephone_number: [
       '',
       [Validators.required, Validators.minLength(10), Validators.maxLength(15), Validators.pattern('[0-9]*$')],
     ],
@@ -218,12 +218,12 @@ export class KycUserPersonalInformationPage implements OnInit {
     if (this.data.nationality !== undefined) {
       this.form.patchValue({
         nationality: this.data.nationality,
-        document: this.data.document,
+        document_type: this.data.document_type,
         document_number: this.data.document_number,
         gender: this.data.gender,
         marital_status: this.data.marital_status,
         country_code: this.data.country_code,
-        phone_number: this.data.phone_number,
+        telephone_number: this.data.telephone_number,
       });
     } else {
       this.defaultCountryCode();

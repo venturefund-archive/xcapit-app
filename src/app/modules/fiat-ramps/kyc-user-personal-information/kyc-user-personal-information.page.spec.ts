@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -13,32 +13,32 @@ import { KycUserPersonalInformationPage } from './kyc-user-personal-information.
 
 const invalidFormData = {
   nationality: 'test',
-  document: 'test',
+  document_type: 'test',
   document_number: '123',
   gender: 'test',
   marital_status: 'test',
   country_code: 'test',
-  phone_number: '123',
+  telephone_number: '123',
 };
 
 const validFormData = {
   nationality: 'test',
-  document: 'test',
+  document_type: 'test',
   document_number: '12345678',
   gender: 'test',
   marital_status: 'test',
   country_code: 'test',
-  phone_number: '0123456789',
+  telephone_number: '0123456789',
 };
 
 const dataTest = {
   nationality: 'Argentina',
-  document: 'documentTest',
+  document_type: 'documentTest',
   document_number: '12334345345',
   gender: { name: 'male', value: 'fiat_ramps.register.gender_list.male' },
   marital_status: { name: 'married', value: 'fiat_ramps.register.marital_status_list.married' },
   country_code: { code: 'VEN (+58)' },
-  phone_number: '12333234456',
+  telephone_number: '12333234456',
   politically_exposed: false,
 };
 
@@ -125,10 +125,10 @@ describe('KycUserPersonalInformationPage', () => {
     expect(inputSelectNationalityEl.attributes.controlName).toContain('nationality');
     expect(inputSelectGenderEl.attributes.controlName).toContain('gender');
     expect(inputSelectMaritalEl.attributes.controlName).toContain('marital_status');
-    expect(inputSelectDocumentEl.attributes.controlName).toContain('document');
+    expect(inputSelectDocumentEl.attributes.controlName).toContain('document_type');
     expect(inputSelectDocumentNumberEl.attributes.controlName).toContain('document_number');
     expect(inputSelectCountryCodeEl.attributes.controlName).toContain('country_code');
-    expect(inputSelectPhoneNumberEl.attributes.controlName).toContain('phone_number');
+    expect(inputSelectPhoneNumberEl.attributes.controlName).toContain('telephone_number');
     expect(buttonEl).toBeTruthy();
   });
 
@@ -163,12 +163,12 @@ describe('KycUserPersonalInformationPage', () => {
     fixture.detectChanges();
     expect(userKycKriptonDataServiceSpy.getData).toHaveBeenCalledTimes(1);
     expect(component.form.value.nationality).toEqual(dataTest.nationality);
-    expect(component.form.value.document).toEqual(dataTest.document);
+    expect(component.form.value.document_type).toEqual(dataTest.document_type);
     expect(component.form.value.document_number).toEqual(dataTest.document_number);
     expect(component.form.value.gender).toEqual(dataTest.gender);
     expect(component.form.value.marital_status).toEqual(dataTest.marital_status);
     expect(component.form.value.country_code).toEqual(dataTest.country_code);
-    expect(component.form.value.phone_number).toEqual(dataTest.phone_number);
+    expect(component.form.value.telephone_number).toEqual(dataTest.telephone_number);
   });
 
   it('should patch default country code on form on init if there isnt data', async () => {
