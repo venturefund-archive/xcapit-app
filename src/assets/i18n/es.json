@@ -333,6 +333,16 @@
     }
   },
   "defi_investments": {
+    "notifications":{
+      "success":{
+        "title":"💰 Inversión exitosa. ¡Felicitaciones!",
+        "body": "Invertiste {{amount}} {{token}} el día {{date}}."
+      },
+      "error":{
+        "title":"⚠️ Error en la inversión",
+        "body": "Se produjo un error en la inversión de {{amount}} {{token}} el día {{date}}. Más información aquí."
+      }
+    },
     "new": {
       "header": "Nueva inversión",
       "amount_to_invest": "Monto a invertir",

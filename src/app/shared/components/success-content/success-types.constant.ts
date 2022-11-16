@@ -326,6 +326,17 @@ export const SUCCESS_TYPES = {
     titlePrimary: 'swaps.swap_in_progress.text_title',
     textBadge: 'swaps.swap_in_progress.text_badge',
   },
+  invest_in_progress: {
+    image: 'assets/img/defi-investments/no-investments.svg',
+    icon: 'assets/img/defi-investments/invest-icon.svg',
+    urlClose: '/tabs/investments',
+    textPrimary: 'swaps.swap_in_progress.text_primary',
+    textSecondary: 'swaps.swap_in_progress.text_secondary',
+    namePrimaryAction: 'swaps.swap_in_progress.button_text',
+    urlPrimaryAction: '/tabs/investments',
+    titlePrimary: 'swaps.swap_in_progress.text_title',
+    textBadge: 'swaps.swap_in_progress.text_badge',
+  },
   error_no_wallet_financial_education: {
     image: '/assets/img/financial-education/error-no-wallet.svg',
     urlClose: '/tabs/financial-education',

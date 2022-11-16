@@ -1,0 +1,68 @@
+:host {
+  align-items: center;
+  justify-content: center;
+
+  .ipt {
+    &__header {
+      background-color: var(--ion-color-infolight);
+      border-radius: 8px 8px 0 0;
+
+      &__close-button {
+        justify-content: end;
+        display: flex;
+      }
+
+      &__img {
+        display: flex;
+        justify-content: center;
+        height: 200px;
+      }
+    }
+
+    &__main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+
+      &__icon {
+        margin-top: -28px;
+      }
+
+      &__primary-title {
+        ion-text {
+          color: var(--ion-color-info);
+        }
+      }
+
+      &__badge {
+        margin-top: 4px;
+
+        ion-badge {
+          background-color: var(--ion-color-warninglight);
+          color: var(--ion-color-warningdark);
+          border-radius: 4px;
+        }
+      }
+
+      &__primary-text {
+        margin-top: 36px;
+      }
+
+      &__secondary-text {
+        margin-top: 8px;
+      }
+    }
+
+    &__footer {
+      margin-top: 56px;
+
+      &__actions {
+        &__primary {
+          padding: 0 16px 16px;
+        }
+      }
+    }
+  }
+}
