@@ -5,9 +5,10 @@ import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { rawProvidersData } from '../../fixtures/raw-providers-data';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
-let fakeNavController: FakeNavController;
-let navControllerSpy: jasmine.SpyObj<NavController>;
+import { ProvidersFactory } from '../../models/providers/factory/providers.factory';
+import { Providers } from '../../models/providers/providers.interface';
 import { OperationsListComponent } from './operations-list.component';
 
 const operations: FiatRampOperation[] = [
@@ -65,20 +66,31 @@ describe('OperationsListComponent', () => {
   let fixture: ComponentFixture<OperationsListComponent>;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
-
+  let fakeNavController: FakeNavController;
+  let navControllerSpy: jasmine.SpyObj<NavController>;
+  let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
+  let providersSpy: jasmine.SpyObj<Providers>;
+  
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
 
     fakeNavController = new FakeNavController({});
     navControllerSpy = fakeNavController.createSpy();
+    providersSpy = jasmine.createSpyObj('Providers', {
+      byAlias: rawProvidersData[1],
+    });
 
+    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+      create: providersSpy,
+    });
     TestBed.configureTestingModule({
       declarations: [OperationsListComponent],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerSpy },
+        { provide: ProvidersFactory, useValue: providersFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

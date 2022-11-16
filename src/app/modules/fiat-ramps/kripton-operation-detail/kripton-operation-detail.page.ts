@@ -8,12 +8,16 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { OPERATION_STATUS } from '../shared-ramps/constants/operation-status';
 import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operation.interface';
+import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
+import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 import { OperationStatus } from '../shared-ramps/interfaces/operation-status.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 
 @Component({
   selector: 'app-kripton-operation-detail',
@@ -77,6 +81,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
               <app-operation-status-alert
                 *ngIf="this.operation.status !== 'received' && this.operation.status !== 'complete'"
                 [operationStatus]="this.operation.status"
+                (goToPurchaseOrder)="this.goToPurchaseOrder()"
               ></app-operation-status-alert>
             </div>
           </ion-item>
@@ -196,6 +201,7 @@ export class KriptonOperationDetailPage {
   isInfoModalOpen = false;
   description: string;
   description2: string;
+  country: FiatRampProviderCountry;
 
   constructor(
     private browserService: BrowserService,
@@ -206,10 +212,11 @@ export class KriptonOperationDetailPage {
     private navController: NavController,
     private trackService: TrackService,
     private modalController: ModalController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private storageOperationService: StorageOperationService
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
     this.provider = this.providersFactory.create().byAlias('kripton');
     this.getUserOperation(operationId);
@@ -220,6 +227,12 @@ export class KriptonOperationDetailPage {
     await this.browserService.open({
       url: LINKS.kriptonSupport,
     });
+  }
+
+  private getCountry() {
+    this.country = COUNTRIES.find(
+      (c) => c.fiatCode && c.fiatCode.toUpperCase() === this.operation.currency_in.toUpperCase()
+    );
   }
 
   private _getOperationStatus(): OperationStatus {
@@ -261,6 +274,7 @@ export class KriptonOperationDetailPage {
       next: (data) => {
         this.operation = data[0];
         this.getCoin();
+        this.getCountry();
         this.status = this._getOperationStatus();
         this._setText(this.status.textToShow);
       },
@@ -284,5 +298,28 @@ export class KriptonOperationDetailPage {
       description: window.location.href,
       eventLabel: 'ux_buy_kripton_screenview_details',
     });
+  }
+
+  async goToPurchaseOrder() {
+    await this.setOperationStorage();
+    this.navController.navigateForward('fiat-ramps/purchase-order', { animated: false });
+  }
+
+  async setOperationStorage() {
+    const data: OperationDataInterface = {
+      country: this.country.name,
+      type: 'cash-in',
+      amount_in: this.operation.amount_in.toString(),
+      amount_out: this.operation.amount_out.toString(),
+      currency_in: this.operation.currency_in,
+      currency_out: this.operation.currency_out,
+      price_in: '',
+      wallet: '',
+      price_out: (this.operation.amount_in / this.operation.amount_out).toString(),
+      provider: this.provider.id.toString(),
+      network: this.token.network,
+      operation_id: this.operation.operation_id,
+    };
+    this.storageOperationService.updateData(data);
   }
 }

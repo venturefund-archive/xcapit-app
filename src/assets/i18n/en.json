@@ -2225,6 +2225,15 @@
       "button_primary": "Retry",
       "button_secondary": "Go to wallet"
     },
+    "purchase_order":{
+      "header": "Buy crypto",
+      "clipboard_text":"¡{{type}} successfully copied!",
+      "provider": "Provider: Kripton Market",
+      "step_1":"Transfer",
+      "step_2":"Upload voucher",
+      "button":"Continue",
+      "timer":"You have {{ value }} to transfer"
+    },
     "success_d24_operation": {
       "text_primary": "Purchase confirmed!",
       "text_secondary": "The crediting of your tokens can take up to 24 hours.",
@@ -2628,6 +2637,24 @@
           "button_primary": "Confirm and send",
           "button_secondary": "Reloading"
         }
+      },
+      "kripton_account_info":{
+        "title": "Transfer to the following account",
+        "alias": "Alias",
+        "cbu": "CBU",
+        "amount":"Amount",
+        "owner": "Holder",
+        "currency_type": {
+          "argentina": "Argentine pesos",
+          "venezuela": "Venezuelan bolivares",
+          "uruguay": "Uruguayan pesos",
+          "colombia": "Colombian pesos"
+        }
+      },
+      "kripton_purchase_info":{
+        "title":"Your purchase",
+        "quote":"Quote",
+        "operation":"Operation"
       }
     },
     "kripton_operation_detail":{
@@ -2635,7 +2662,8 @@
       "title":"Buy",
       "state": "Status",
       "state_toast": {
-        "incomplete": "Transfer and send the transaction receipt. <b>Complete data</b>",
+        "incomplete": "Transfer and send the transaction receipt.",
+        "incomplete2": "Complete data",
         "nullified": "The provider cancelled this operation. For more information, please contact support.",
         "cancelled": "The provider did not receive proof of payment."
       },

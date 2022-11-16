@@ -2620,6 +2620,25 @@
           "button_primary": "Confirmar y enviar",
           "button_secondary": "Cargar nuevamente"
         }
+        
+      },
+      "kripton_purchase_info":{
+        "title":"Tu compra",
+        "quote":"Cotización",
+        "operation":"Operación"
+      },
+      "kripton_account_info":{
+        "title": "Transfiere a la siguiente cuenta",
+        "alias": "Alias",
+        "amount":"Monto",
+        "cbu": "CBU",
+        "owner": "Titular",
+        "currency_type": {
+          "argentina": "Pesos argentinos",
+          "venezuela": "Bolívares venezolanos",
+          "uruguay": "Pesos uruguayos",
+          "colombia": "Pesos colombianos"
+        }
       }
     },
     "user_email": {
@@ -2728,6 +2747,15 @@
           "cancel_button": "Cancelar"
         }
       }
+    },
+    "purchase_order":{
+      "header": "Comprar cripto",
+      "clipboard_text":"¡{{type}} copiado con exito!",
+      "provider": "Proveedor: Kripton Market",
+      "step_1":"Transferir",
+      "step_2":"Cargar comprobante",
+      "button":"Continuar",
+      "timer":"Te quedan {{ value }} para transferir"
     },
     "kripton_operation_detail":{
       "header": "Detalle de la operación",
