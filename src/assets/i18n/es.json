@@ -2684,6 +2684,24 @@
           "items": "<ul><li> La foto debe ser clara y nítida.</li><li>No utilices anteojos o sombreros que tapen tu rostro.</li></ul>",
           "button_primary": "Confirmar y enviar",
           "button_secondary": "Cargar nuevamente"
+        },
+        "kripton_account_info":{
+          "title": "Transfiere a la siguiente cuenta",
+          "alias": "Alias",
+          "amount":"Monto",
+          "cbu": "CBU",
+          "owner": "Titular",
+          "currency_type": {
+            "argentina": "Pesos argentinos",
+            "venezuela": "Bolívares venezolanos",
+            "uruguay": "Pesos uruguayos",
+            "colombia": "Pesos colombianos"
+          }
+        },
+        "kripton_purchase_info":{
+          "title":"Tu compra",
+          "quote":"Cotización",
+          "operation":"Operación"
         }
         
       },

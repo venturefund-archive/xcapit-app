@@ -2702,6 +2702,25 @@
           "items": "<ul><li> The photo should be clear and sharp.</li><li>Do not wear glasses or hats that cover your face.</li></ul>",
           "button_primary": "Confirm and send",
           "button_secondary": "Reloading"
+        },
+        "kripton_account_info":{
+          "title": "Transfer to the following account",
+          "alias": "Alias",
+          "cbu": "CBU",
+          "amount":"Amount",
+          "owner": "Holder",
+          "currency_type": {
+            "argentina": "Argentine pesos",
+            "venezuela": "Venezuelan bolivares",
+            "uruguay": "Uruguayan pesos",
+            "colombia": "Colombian pesos"
+          }
+        },
+        "kripton_purchase_info":{
+  
+          "title":"Your purchase",
+          "quote":"Quote",
+          "operation":"Operation"
         }
       },
       "kripton_account_info":{
