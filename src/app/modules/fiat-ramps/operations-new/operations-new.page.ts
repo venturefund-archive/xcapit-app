@@ -275,7 +275,7 @@ export class OperationsNewPage implements AfterViewInit {
       });
       const newData = Object.assign({ operation_id: this.operationID }, this.storageOperationService.getData());
       this.storageOperationService.updateData(newData);
-      this.navController.navigateRoot('/fiat-ramps/purchase-order');
+      this.navController.navigateRoot('/fiat-ramps/purchase-order/1');
     } else {
       this.form.markAllAsTouched();
     }

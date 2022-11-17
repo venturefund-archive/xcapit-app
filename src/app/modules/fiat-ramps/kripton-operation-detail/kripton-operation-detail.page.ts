@@ -302,7 +302,7 @@ ionViewWillEnter() {
 
   async goToPurchaseOrder() {
     await this.setOperationStorage();
-    this.navController.navigateForward('fiat-ramps/purchase-order', { animated: false });
+    this.navController.navigateForward('/fiat-ramps/purchase-order/1', { animated: false });
   }
 
   async setOperationStorage() {
