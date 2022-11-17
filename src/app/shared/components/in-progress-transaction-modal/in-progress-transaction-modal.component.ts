@@ -12,12 +12,12 @@ import { ModalController, NavController } from '@ionic/angular';
           </ion-button>
         </div>
         <div class="ipt__header__img">
-          <img [src]="this.data?.image" alt="Swap Image" />
+          <img [src]="this.data?.image" alt="Image" />
         </div>
       </div>
       <div class="ipt__main">
         <div class="ipt__main__icon">
-          <img [src]="this.data?.icon" alt="Swap Icon" />
+          <img [src]="this.data?.icon" alt="Icon" />
         </div>
         <div class="ipt__main__primary-title">
           <ion-text class="ux-font-text-xl">{{ this.data?.titlePrimary | translate }}</ion-text>

@@ -343,6 +343,13 @@
         "body": "Se produjo un error en la inversión de {{amount}} {{token}} el día {{date}}. Más información aquí."
       }
     },
+    "invest_in_progress":{
+      "text_primary":"¡Tu orden está en camino!",
+      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text":"Volver a inversiones",
+      "text_title": "Inversión",
+      "text_badge": "En progreso"
+    },
     "new": {
       "header": "Nueva inversión",
       "amount_to_invest": "Monto a invertir",

@@ -349,6 +349,13 @@
       "dont_have": "Don't have ",
       "buy_button": "Buy now"
     },
+    "invest_in_progress":{
+      "text_primary":"Your order is on its way!",
+      "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "button_text":"Return to investments",
+      "text_title": "Investment",
+      "text_badge": "In progress"
+    },
     "add": {
       "header": "Add amount",
       "amount_to_add": "Amount to add"

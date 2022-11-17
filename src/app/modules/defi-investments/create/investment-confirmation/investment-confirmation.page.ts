@@ -9,7 +9,7 @@ import {
 import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletPasswordComponent } from '../../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { WalletService } from '../../../wallets/shared-wallets/services/wallet/wallet.service';
 import { Component } from '@angular/core';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
@@ -167,7 +167,8 @@ export class InvestmentConfirmationPage {
     private browserService: BrowserService,
     private storage: IonicStorageService,
     private route: ActivatedRoute,
-    private localNotificationsService: LocalNotificationsService
+    private localNotificationsService: LocalNotificationsService,
+    private navController: NavController
   ) {}
 
   async ionViewDidEnter() {
@@ -363,19 +364,16 @@ export class InvestmentConfirmationPage {
     if (wallet) {
       if (this.checkTokenBalance()) {
         await this.openInProgressModal();
-        console.log('SEGUIR');
         try {
-          console.log('ENTRE TRY');
           await (
             await this.investment(wallet).deposit(this.amount.value)
           )
             .wait()
+            .then(() => this.setActionListener())
             .then(() => this.createNotification('success'))
             .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification));
           await this.saveTwoPiAgreement();
-          console.log('DISPARAR SUCCESS LOCAL');
         } catch {
-          console.log('DISPARAR ERROR LOCAL');
           const notification = this.createNotification('error');
           await this.localNotificationsService.send(notification);
         } finally {
@@ -387,7 +385,20 @@ export class InvestmentConfirmationPage {
       this.loadingEnabled(false);
     }
   }
-  private createNotification(mode): LocalNotificationSchema[] {
+
+  private setActionListener() {
+    this.localNotificationsService.addListener(() => {
+      this.navigateToTokenDetail();
+    });
+  }
+
+  private navigateToTokenDetail() {
+    this.navController.navigateForward([
+      `wallets/token-detail/blockchain/${this.token.network}/token/${this.token.contract}`,
+    ]);
+  }
+  
+  private createNotification(mode: string): LocalNotificationSchema[] {
     return [
       {
         id: 1,
