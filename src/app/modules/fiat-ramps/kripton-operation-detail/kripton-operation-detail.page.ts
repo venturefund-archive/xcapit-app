@@ -216,7 +216,7 @@ export class KriptonOperationDetailPage {
     private storageOperationService: StorageOperationService
   ) {}
 
-  async ionViewWillEnter() {
+ionViewWillEnter() {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
     this.provider = this.providersFactory.create().byAlias('kripton');
     this.getUserOperation(operationId);
