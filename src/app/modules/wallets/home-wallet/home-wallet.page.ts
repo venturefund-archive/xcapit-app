@@ -208,7 +208,7 @@ export class HomeWalletPage implements OnInit {
   balance = undefined;
   address: string;
   defiProducts: DefiProduct[];
-  totalInvested = undefined;
+  totalInvested: number;
   pids = [];
   newTokens: NewToken[];
   connected: boolean;
@@ -271,6 +271,7 @@ export class HomeWalletPage implements OnInit {
     this.fetchAndSaveBalances();
     this.setAvailableDefiProducts();
     await this.setInvestments();
+    this.setInvestedBalance();
   }
 
   private showUpdateModal() {
@@ -380,7 +381,7 @@ export class HomeWalletPage implements OnInit {
 
   private async loadCachedTotalBalance() {
     this.balance = await this.balanceCacheService.total();
-    this.setInvestedBalance();
+   
   }
 
   async setInvestedBalance() {
