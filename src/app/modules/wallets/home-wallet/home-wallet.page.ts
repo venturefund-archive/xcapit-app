@@ -92,7 +92,7 @@ import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-
             </div>
           </div>
         </div>
-        <div class="wt__total-invested" color="success">
+        <div class="wt__total-invested" *ngIf="this.balance" color="success">
           <ion-spinner
             class="wt__total-invested__spinner"
             *ngIf="this.totalInvested === undefined"
@@ -205,10 +205,10 @@ export class HomeWalletPage implements OnInit {
     tab: ['assets', [Validators.required]],
   });
   totalBalanceModel: TotalBalance;
-  balance: number;
+  balance = undefined;
   address: string;
   defiProducts: DefiProduct[];
-  totalInvested: number;
+  totalInvested = undefined;
   pids = [];
   newTokens: NewToken[];
   connected: boolean;
@@ -271,7 +271,6 @@ export class HomeWalletPage implements OnInit {
     this.fetchAndSaveBalances();
     this.setAvailableDefiProducts();
     await this.setInvestments();
-    this.setInvestedBalance();
   }
 
   private showUpdateModal() {
@@ -300,12 +299,6 @@ export class HomeWalletPage implements OnInit {
 
   async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {
     return this.twoPiProductFactory.create(await this.twoPiApi.vault(product.id));
-  }
-
-  async setInvestedBalance() {
-    const totalInvestedBalanceOf = this.totalInvestedBalanceOfInjectable.create(this.address, this.pids);
-    this.totalInvested = await totalInvestedBalanceOf.cached();
-    this.totalInvested = await totalInvestedBalanceOf.value();
   }
 
   private async getUserWalletAddress() {
@@ -377,20 +370,27 @@ export class HomeWalletPage implements OnInit {
     tokenDetails.sort((a, b) => b.balance * b.price - a.balance * a.price);
   }
 
-  private async loadCachedTotalBalance() {
-    this.balance = await this.balanceCacheService.total();
-  }
-
-  private async updateCachedTotalBalance() {
-    await this.balanceCacheService.updateTotal(this.balance);
-  }
-
   async refresh(event: any): Promise<void> {
     if (this.refreshTimeoutService.isAvailable()) {
       await this.initialize();
       this.refreshTimeoutService.lock();
     }
     setTimeout(() => event.target.complete(), 1000);
+  }
+
+  private async loadCachedTotalBalance() {
+    this.balance = await this.balanceCacheService.total();
+    this.setInvestedBalance();
+  }
+
+  async setInvestedBalance() {
+    const totalInvestedBalanceOf = this.totalInvestedBalanceOfInjectable.create(this.address, this.pids);
+    this.totalInvested = await totalInvestedBalanceOf.cached();
+    this.totalInvested = await totalInvestedBalanceOf.value();
+  }
+
+  private async updateCachedTotalBalance() {
+    await this.balanceCacheService.updateTotal(this.balance);
   }
 
   private async setUserTokens(): Promise<void> {
