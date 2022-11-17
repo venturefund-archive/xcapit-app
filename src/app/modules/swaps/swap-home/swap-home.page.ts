@@ -323,11 +323,22 @@ export class SwapHomePage {
       this.route.snapshot.paramMap.get(this.toTokenKey)
     );
     this.setQuotePrices();
+    this.setTokenAmount();
   }
 
   setAllowedBlockchains() {
     this.allowedBlockchains = this.oneInchBlockchainsOf.create(this.blockchains.create());
     this.tplAllowedBlockchainsName = this.allowedBlockchains.value().map((blockchain) => blockchain.name());
+  }
+
+  private setTokenAmount() {
+    if (this.fromTokenAmount()) {
+      this.form.patchValue({ fromTokenAmount: this.fromTokenAmount() });
+    }
+  }
+
+  private fromTokenAmount() {
+    return this.route.snapshot.queryParamMap.get('from-token-amount');
   }
 
   private setQuotePrices() {
@@ -384,10 +395,9 @@ export class SwapHomePage {
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(async (value) => {
-        
-      if (value > this.swapBalance) {
-        this.showInsufficientBalanceModal();
-      }
+        if (value > this.swapBalance) {
+          this.showInsufficientBalanceModal();
+        }
         this.setNullFeeInfo();
         await this.setSwapInfo(value);
         await this.setFeeInfo();
@@ -432,6 +442,8 @@ export class SwapHomePage {
       this.toToken.address(),
       'token-to-select',
       tokenToSelect,
+      'from-token-amount',
+      this.form.value.fromTokenAmount,
     ]);
   }
 
@@ -639,7 +651,7 @@ export class SwapHomePage {
       cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
-      componentProps: { token, text, primaryButtonText, secondaryButtonText }
+      componentProps: { token, text, primaryButtonText, secondaryButtonText },
     });
     if (window.location.href === this.modalHref) {
       await modal.present();

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { PROD_COINS } from '../../wallets/shared-wallets/constants/coins.prod';
 import { Blockchain } from '../shared-swaps/models/blockchain/blockchain';
@@ -61,14 +61,29 @@ export class SwapSelectTokenPage {
   ) {}
 
   selectToken(selectedRawToken: RawToken) {
-    this.navController.navigateBack([
-      'swaps/home/blockchain',
-      this.activeBlockchain.name(),
-      'from-token',
-      this.tokenAddressOf(this.fromTokenKey, selectedRawToken),
-      'to-token',
-      this.tokenAddressOf(this.toTokenKey, selectedRawToken),
-    ]);
+    this.navController.navigateBack(
+      [
+        'swaps/home/blockchain',
+        this.activeBlockchain.name(),
+        'from-token',
+        this.tokenAddressOf(this.fromTokenKey, selectedRawToken),
+        'to-token',
+        this.tokenAddressOf(this.toTokenKey, selectedRawToken),
+      ],
+      this.navigationExtras()
+    );
+  }
+
+  private navigationExtras(): NavigationExtras {
+    return {
+      queryParams: {
+        'from-token-amount': this.fromTokenAmount(),
+      },
+    };
+  }
+
+  private fromTokenAmount() {
+    return this.route.snapshot.paramMap.get('fromTokenAmount');
   }
 
   private tokenAddressOf(aTokenKey: string, aSelectedRawToken: RawToken): string {

@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -56,7 +56,6 @@ describe('SwapHomePage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let oneInchBlockchainsOfFactorySpy: jasmine.SpyObj<OneInchBlockchainsOfFactory>;
   let intersectedTokensFactorySpy: jasmine.SpyObj<IntersectedTokensFactory>;
@@ -73,6 +72,7 @@ describe('SwapHomePage', () => {
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
+  let activatedRouteSpy: any;
   const aPassword = new Password('aPassword');
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const testLocalNotificationOk: LocalNotificationSchema = {
@@ -100,6 +100,8 @@ describe('SwapHomePage', () => {
     toToken.contract,
     'token-to-select',
     selectTokenkey,
+    'from-token-amount',
+    '1',
   ];
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
@@ -119,11 +121,15 @@ describe('SwapHomePage', () => {
   };
 
   beforeEach(waitForAsync(() => {
-    fakeActivatedRoute = new FakeActivatedRoute({
-      blockchain: rawBlockchain.name,
-      fromToken: fromToken.contract,
-      toToken: toToken.contract,
-    });
+    fakeActivatedRoute = new FakeActivatedRoute(
+      {
+        blockchain: rawBlockchain.name,
+        fromToken: fromToken.contract,
+        toToken: toToken.contract,
+      },
+      { 'from-token-amount': '1' }
+    );
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     walletBalanceSpy = jasmine.createSpyObj('WalletBalanceService', {
       balanceOf: Promise.resolve(10),
@@ -246,7 +252,26 @@ describe('SwapHomePage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should button disabled on invalid value in from token amount input', async () => {
+  it('should enable button on valid value in from token amount input', fakeAsync(() => {
+    component.ionViewDidEnter();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_swap_confirm"]'));
+    tick(3000);
+    fixture.detectChanges();
+    expect(component.form.valid).toBeTrue();
+    expect(buttonEl.attributes['ng-reflect-disabled']).toEqual('false');
+    discardPeriodicTasks();
+  }));
+
+  it('should disable button on invalid value in from token amount input', async () => {
+    fakeActivatedRoute.modifySnapshotParams(
+      {
+        blockchain: rawBlockchain.name,
+        fromToken: fromToken.contract,
+        toToken: toToken.contract,
+      },
+      { 'from-token-amount': '0' }
+    );
     await component.ionViewDidEnter();
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_swap_confirm"]'));
@@ -496,5 +521,13 @@ describe('SwapHomePage', () => {
 
     expect(feeModal).toHaveBeenCalledTimes(1);
     expect(balanceModal).not.toHaveBeenCalled();
+  }));
+
+  it('should set value on fromTokenAmount input on init', fakeAsync(() => {
+    component.ionViewDidEnter();
+    tick();
+    fixture.detectChanges();
+    expect(component.form.value.fromTokenAmount).toBe('1');
+    discardPeriodicTasks();
   }));
 });
