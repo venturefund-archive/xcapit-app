@@ -87,7 +87,7 @@ import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-
               </ion-text>
               <ion-text class="ux-font-text-lg" *ngIf="this.balance !== undefined">USD</ion-text>
             </div>
-            <div class="wt__amount-and-eye__eye">
+            <div *ngIf="this.balance !== undefined" class="wt__amount-and-eye__eye">
               <app-eye></app-eye>
             </div>
           </div>
