@@ -45,11 +45,6 @@ const routes: Routes = [
         loadChildren: () => import('./user-images/user-images.module').then((m) => m.UserImagesPageModule),
       },
       {
-        path: 'operation-detail/provider/:provider_id/operation/:operation_id',
-        loadChildren: () =>
-          import('./operations-detail/operations-detail.module').then((m) => m.OperationsDetailPageModule),
-      },
-      {
         path: 'new-operation-paxful',
         loadChildren: () =>
           import('./operations-new-paxful/operations-new-paxful.module').then((m) => m.OperationsNewPaxfulPageModule),
@@ -157,8 +152,22 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'error-operation-km',
+        loadChildren: () => import('./error-operation-km/error-operation-km.module').then( m => m.ErrorOperationKmPageModule)
+      },
+      {
+        path: 'kripton-operation-detail/:operation_id',
+        loadChildren: () => import('./kripton-operation-detail/kripton-operation-detail.module').then( m => m.KriptonOperationDetailPageModule)
+      },
+      {
+        path: 'purchase-order',
+        loadChildren: () => import('./purchase-order/purchase-order.module').then( m => m.PurchaseOrderPageModule)
+      },
     ],
   },
+
+
 ];
 
 @NgModule({

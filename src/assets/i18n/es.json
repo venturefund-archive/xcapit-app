@@ -2204,11 +2204,12 @@
     },
     "operations_list": {
       "title": "Compras en Kripton Market",
-      "operation": "Compra",
+      "operation": "Moneda",
       "amount": "Monto",
       "date": "Fecha",
       "status": "Estado",
-      "no_operations_message": "Una vez realizadas tus compras, podrás verlas en este apartado.",
+      "no_operations_message": "Para acceder al estado de tu cuenta y/o listado de compras, deberás ",
+      "link": "iniciar sesión en Kripton Market",
       "button_show_less": "Ver menos",
       "button_show_more": "Ver más"
     },
@@ -2216,6 +2217,21 @@
       "title": "Compras en Moonpay",
       "message": "Si realizaste compras, puedes verlas",
       "link": "aquí"
+    },
+    "operation_km_in_progress": {
+      "text_primary":"¡Tu orden está en camino!",
+      "text_secondary":"Te estaremos informando sobre cambios en el estado de tu compra.",
+      "button_text":"Finalizar",
+      "text_title":"Compra",
+      "text_badge":"En progreso",
+      "text_tertiary": "¿Necesitas ayuda?",
+      "text_help_link": "Escribir a soporte Kripton Market"      
+    },
+    "error_operation_km": {
+      "text_primary":"Error en la carga del comprobante",
+      "text_secondary":"👉 Verifica que que el formato sea jpg, png o pdf. Y que su tamaño no exceda los 200 kb.",
+      "button_primary":"Reintentar",
+      "button_secondary":"Volver a mis compras"
     },
     "provider_new_operation_card": {
       "description": "Proveedor: {{providerName}}"
@@ -2248,24 +2264,23 @@
         "subtitle_minimum_amount": "Monto mínimo de compra:",
         "subtitle_available_tokens": "¿Qué tokens puedes comprar?",
         "subtitle_more_information": "Más información:",
+        "subtitle_time_tokens":"Tiempo de acreditación de tokens:",
         "kyc_required": "Requiere KYC o proceso de registración.",
         "button": "Entendido",
         "kripton": {
-          "provider_name": "Kripton Market",
-          "header": "Es un proveedor habilitado para la venta de criptomonedas en Latam.",
-          "minimum_amount": "25 USD por compra.",
-          "delivery_time_1": "Hasta 48 hs.",
-          "delivery_time_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs.",
-          "more_information": "Kriptonmarket.com"
+          "description_1": "Transferencia bancaria.",
+          "description_2": "25 USD por compra.",
+          "description_3": "Las entregas se realizan de lunes a viernes de 9 a 18 hs. aproximadamente."
         },
         "moonpay": {
-          "provider_name": "Moonpay",
-          "header": "Es un proveedor habilitado para la venta de criptomonedas.",
-          "payment_methods": "Tarjeta de crédito.*",
-          "delivery_time": "Depende del proveedor externo según el caso.",
-          "disclaimer": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
-          "available_tokens_1": "ETH, USDT y UNI",
-          "available_tokens_2": "USDC y MATIC"
+          "description_1": "Tarjeta de crédito.*",
+          "description_2": "Depende del proveedor externo según el caso.",
+          "disclaimer": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
+        },
+        "directa24": {
+          "description_1":"Compra en efectivo",
+          "description_2":"10 USD.",
+          "description_3": "Días hábiles de 9 a 18hs aprox. El tiempo máximo de acreditación es de 3hs."
         }
       }
     },
@@ -2324,9 +2339,28 @@
       }
     },
     "operation_status": {
-      "deposited": "Depositado",
+      "incomplete": "Incompleta",
       "in_progress": "En progreso",
-      "canceled": "Cancelada"
+      "confirmed": "Confirmada",
+      "nullified": "Anulada",
+      "cancelled": "Cancelada"
+    },
+    "operation_status_detail": {
+      "title": "¿Qué significa este estado?",
+      "button": "Entendido",
+      "incomplete": {
+        "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. Esto no significa que se realizó la compra. Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
+        "description2": "Tienes hasta 72hs para hacerlo, de lo contrario, se anulará tu pedido."
+      },
+      "in_progress": {
+        "description": "El proveedor recibió exitosamente tu solicitud de compra. Dentro de las siguientes 24hs verás acreditado los tokens en tu wallet."
+      },
+      "nullified": {
+        "description": "El proveedor tuvo inconvenientes para realizar esta operación, por lo cual la misma fue cancelada. Tus fondos se devolverán a tu cuenta de origen."
+      },
+      "cancelled": {
+        "description": "Tu solicitud puede anularse por dos motivos: que el proveedor no recibió el comprobante de la transferencia. O el usuario no realizó el pago dentro de las 72hs estipuladas desde la solicitud de compra."
+      }
     },
     "new_operation": {
       "header": "Comprar cripto",
@@ -2553,24 +2587,57 @@
         "back_id": {
           "subtitle": "Ahora precisamos una foto del revés de tu documento",
           "description": "La imagen debe ser similar a la del ejemplo y sus datos deben ser visibles."
+        },
+        "dni_selfie": {
+          "subtitle": "Finalmente, una foto tuya sosteniendo tu documento",
+          "description": "¡No te preocupes! 😉 Sólamente queremos corroborar que eres la persona que indica el documento ingresado.",
+          "items": "<ul><li>Elige un fondo claro.</li><li>No utilices accesorios que tapen tus facciones.</li></ul>"
         }
       },
 
       "confirmation_content": {
         "header": "Verificar identidad",
         "provider": "Proveedor: Kripton Market",
-        "button_primary": "Confirmar",
-        "button_secondary": "Cargar nuevamente",
 
         "front_id": {
           "title": "¡Muy bien! 📸",
           "subtitle": "Chequea que la foto cumpla con las siguientes condiciones:",
-          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>"
+          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>",
+          "button_primary": "Confirmar",
+          "button_secondary": "Cargar nuevamente"
         },
         "back_id": {
           "title": "😁 ¡Excelente!" ,
           "subtitle": "Chequea que la foto cumpla con las siguientes condiciones: ",
-          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>"
+          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>",
+          "button_primary": "Confirmar",
+          "button_secondary": "Cargar nuevamente"
+        },
+        "dni_selfie": {
+          "title": "¡Listo! Terminamos 🎉" ,
+          "subtitle": "Verifica que se cumplan las siguientes condiciones:",
+          "items": "<ul><li> La foto debe ser clara y nítida.</li><li>No utilices anteojos o sombreros que tapen tu rostro.</li></ul>",
+          "button_primary": "Confirmar y enviar",
+          "button_secondary": "Cargar nuevamente"
+        }
+        
+      },
+      "kripton_purchase_info":{
+        "title":"Tu compra",
+        "quote":"Cotización",
+        "operation":"Operación"
+      },
+      "kripton_account_info":{
+        "title": "Transfiere a la siguiente cuenta",
+        "alias": "Alias",
+        "amount":"Monto",
+        "cbu": "CBU",
+        "owner": "Titular",
+        "currency_type": {
+          "argentina": "Pesos argentinos",
+          "venezuela": "Bolívares venezolanos",
+          "uruguay": "Pesos uruguayos",
+          "colombia": "Pesos colombianos"
         }
       }
     },
@@ -2687,6 +2754,36 @@
           "confirm_button": "Confirmar",
           "cancel_button": "Cancelar"
         }
+      }
+    },
+    "purchase_order":{
+      "header": "Comprar cripto",
+      "clipboard_text":"¡{{type}} copiado con exito!",
+      "provider": "Proveedor: Kripton Market",
+      "step_1":"Transferir",
+      "step_2":"Cargar comprobante",
+      "button":"Continuar",
+      "timer":"Te quedan {{ value }} para transferir"
+    },
+    "kripton_operation_detail":{
+      "header": "Detalle de la operación",
+      "title": "Compra",
+      "state": "Estado",
+      "state_toast": {
+        "incomplete": "Transfiere y envía el comprobante de la transacción.",
+        "incomplete2": "Completar datos",
+        "nullified": "El proveedor anuló esta operación. Para más infomación, comunícate con soporte.",
+        "cancelled": "El proveedor no recibió el comprobante del pago."
+      },
+      "quotation": "Cotización",
+      "address": "Dirección de destino (tu wallet)",
+      "provider": "Proveedor",
+      "operation": "Operación",
+      "date": "Fecha",
+      "hours": "hs",
+      "support": {
+        "header": "¿Necesitas ayuda?",
+        "link": "Escribir a soporte Kripton Market"
       }
     }
   },

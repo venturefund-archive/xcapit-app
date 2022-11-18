@@ -23,7 +23,6 @@ import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
 import { FiatRampsModule } from './modules/fiat-ramps/fiat-ramps.module';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { TicketsModule } from './modules/tickets/tickets.module';
 import { AppStorageService } from './shared/services/app-storage/app-storage.service';
 import { RefreshTokenInterceptorService } from './modules/users/shared-users/services/refresh-token-interceptor/refresh-token-interceptor.service';
@@ -117,7 +116,6 @@ registerLocaleData(localeEn, 'en');
       useClass: XAuthTokenInterceptorService,
       multi: true,
     },
-    FileOpener,
     updateServiceProvider,
     trackServiceProvider,
     {

@@ -1,7 +1,9 @@
-import { Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ModalController, NavController } from '@ionic/angular';
+import { INFO_PROVIDER } from '../../constants/info-provider';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
-import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-provider-kripton.component';
+import { ProvidersFactory } from '../../models/providers/factory/providers.factory';
+import { InfoProviderComponent } from '../info-provider/info-provider.component';
 
 @Component({
   selector: 'app-operations-list',
@@ -10,10 +12,10 @@ import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-prov
       <ion-card-header [ngClass]="this.cssWithLine">
         <ion-card-title class="card-title ux-font-text-lg"
           >{{ 'fiat_ramps.operations_list.title' | translate }}
-          <ion-icon name="information-circle" color="info" (click)="this.showProviderInfo()"></ion-icon>
+          <ion-icon name="information-circle" color="info" (click)="this.createInfoModal()"></ion-icon>
         </ion-card-title>
       </ion-card-header>
-      <ion-card-content>
+      <ion-card-content [class.operations__content]="this.hasOperations">
         <div *ngIf="this.hasOperations; then operationsTable; else noOperationsMessage"></div>
         <ng-template #operationsTable>
           <app-operations-list-accordion
@@ -25,6 +27,9 @@ import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-prov
           <ion-text name="No Operations" class="no-operations-text ux-font-text-base">
             {{ 'fiat_ramps.operations_list.no_operations_message' | translate }}
           </ion-text>
+          <ion-text class="link link ux-link-xl" (click)="this.navigateToVerifier()">
+            {{ 'fiat_ramps.operations_list.link' | translate }}
+          </ion-text>
         </ng-template>
       </ion-card-content>
     </ion-card>
@@ -33,14 +38,19 @@ import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-prov
 })
 export class OperationsListComponent implements OnInit, OnChanges {
   @Input() operationsList: FiatRampOperation[];
-  private readonly numberOfOperationsToShow = 2;
+  private readonly numberOfOperationsToShow = 3;
   firstOperations: FiatRampOperation[];
   remainingOperations: FiatRampOperation[];
   cssWithLine: string;
   hasOperations: boolean;
   isInfoModalOpen = false;
+  providerInfo = INFO_PROVIDER['kripton'];
 
-  constructor(private modalController: ModalController) {}
+  constructor(
+    private modalController: ModalController,
+    private navController: NavController,
+    private providersFactory: ProvidersFactory
+  ) {}
 
   ngOnInit() {
     this.sliceOperations();
@@ -52,6 +62,14 @@ export class OperationsListComponent implements OnInit, OnChanges {
     this.operationsList = changes.operationsList.currentValue;
     this.sliceOperations();
     this.hasOperations = this.checkIfUserHasOperations();
+  }
+
+  provider() {
+    return this.providersFactory.create().byAlias('kripton');
+  }
+
+  navigateToVerifier() {
+    this.navController.navigateForward('/fiat-ramps/user-email');
   }
 
   sliceOperations() {
@@ -78,20 +96,27 @@ export class OperationsListComponent implements OnInit, OnChanges {
     return this.operationsList?.length > 0;
   }
 
-  async showProviderInfo() {
+  async createInfoModal() {
     if (!this.isInfoModalOpen) {
       this.isInfoModalOpen = true;
-      await this.createKriptonInfoModal();
+      const modal = await this.modalController.create({
+        component: InfoProviderComponent,
+        componentProps: {
+          image: this.provider()?.logoRoute,
+          title: this.provider()?.name,
+          subtitle1: this.providerInfo.subtitle_1,
+          subtitle2: this.providerInfo.subtitle_2,
+          subtitle3: this.providerInfo.subtitle_3,
+          description1: this.providerInfo.description_1,
+          description2: this.providerInfo.description_2,
+          description3: this.providerInfo.description_3,
+          buttonText: 'fiat_ramps.select_provider.modal_info.button',
+        },
+        cssClass: 'modal',
+        backdropDismiss: false,
+      });
+      await modal.present();
       this.isInfoModalOpen = false;
     }
-  }
-
-  async createKriptonInfoModal() {
-    const modal = await this.modalController.create({
-      component: InfoProviderKriptonComponent,
-      cssClass: 'ux-lg-modal-informative-provider-kripton',
-      backdropDismiss: false,
-    });
-    await modal.present();
   }
 }

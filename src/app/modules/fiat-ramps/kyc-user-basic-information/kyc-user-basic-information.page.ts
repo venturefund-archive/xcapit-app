@@ -38,14 +38,14 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
       <div class="ubi__container__form">
         <form [formGroup]="this.form">
           <app-ux-input
-            controlName="firstName"
+            controlName="first_name"
             type="text"
             inputmode="text"
             [label]="'fiat_ramps.kyc.user_basic.label_first_name' | translate"
             color="primary"
           ></app-ux-input>
           <app-ux-input
-            controlName="lastName"
+            controlName="last_name"
             type="text"
             inputmode="text"
             [label]="'fiat_ramps.kyc.user_basic.label_last_name' | translate"
@@ -80,14 +80,14 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
 })
 export class KycUserBasicInformationPage implements OnInit {
   form: UntypedFormGroup = this.fb.group({
-    firstName: ['', [Validators.required, Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ '-]*$")]],
-    lastName: ['', [Validators.required, Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ '-]*$")]],
+    first_name: ['', [Validators.required, Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ '-]*$")]],
+    last_name: ['', [Validators.required, Validators.maxLength(150), Validators.pattern("[A-Za-zÀ-ÿ '-]*$")]],
     birthday: [
       '',
       [
         Validators.required,
         CustomValidators.isDate(),
-        Validators.pattern('(0?[1-9]|1[0-2])/(0?[1-9]|[1-2][1-9]|3[0,1])/[1-2]([0-9]){3}'),
+        Validators.pattern('(0?[1-9]|1[0-2])/(0?[1-9]|[1-2][0-9]|3[0,1])/[1-2]([0-9]){3}'),
       ],
     ],
   });
@@ -114,15 +114,19 @@ export class KycUserBasicInformationPage implements OnInit {
   }
 
   nextPage() {
-    this.userKycKriptonDataService.updateData(this.form.value);
+    this.userKycKriptonDataService.updateData({
+      first_name: this.form.value.first_name,
+      last_name: this.form.value.last_name,
+      birthday: this.form.value.birthday,
+    });
     this.navController.navigateForward('fiat-ramps/user-personal-information');
   }
 
   private _showData() {
-    if (this.form.value.firstName !== '') {
+    if (this.form.value.first_name !== '') {
       this.form.patchValue({
-        firstName: this.data.firstName,
-        lastName: this.data.lastName,
+        first_name: this.data.first_name,
+        last_name: this.data.last_name,
         birthday: this.data.birthday,
       });
     }

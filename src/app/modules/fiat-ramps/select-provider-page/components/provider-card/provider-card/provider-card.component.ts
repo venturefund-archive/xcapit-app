@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
-import { InfoProviderKriptonComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider-kripton/info-provider-kripton.component';
-import { InfoProviderMoonpayComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider-moonpay/info-provider-moonpay.component';
+import { InfoProviderComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider/info-provider.component';
+import { INFO_PROVIDER } from 'src/app/modules/fiat-ramps/shared-ramps/constants/info-provider';
 import { D24_PAYMENT_TYPES } from 'src/app/modules/fiat-ramps/shared-ramps/constants/payment-types';
 import { FiatRampProviderCountry } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider-country';
 import { FiatRampProvider } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/fiat-ramp-provider.interface';
@@ -26,14 +25,13 @@ import { ProvidersFactory } from 'src/app/modules/fiat-ramps/shared-ramps/models
             >
             <ion-button
               class="pcc__content__body__name__button ion-no-padding"
-              *ngIf="this.provider?.showInfo"
               [disabled]="this.disabled"
               slot="icon-only"
               fill="clear"
               appTrackClick
               name="informative_modal"
               size="small"
-              (click)="this.showProviderInfo()"
+              (click)="this.createInfoModal()"
             >
               <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
             </ion-button>
@@ -95,17 +93,22 @@ export class ProviderCardComponent implements OnInit {
   @Input() tokenValue: string;
   @Output() selectedProvider: EventEmitter<any> = new EventEmitter<any>();
   isInfoModalOpen = false;
+  providerInfo: any;
   paymentType: string;
   availableDirectaProviders: any;
 
   constructor(
     private modalController: ModalController,
-    private translate: TranslateService,
     private providersFactory: ProvidersFactory
   ) {}
 
   ngOnInit() {
     this.setPaymentType();
+    this.setProviderInfo();
+  }
+
+  setProviderInfo(){
+    this.providerInfo = INFO_PROVIDER[this.provider.providerName];
   }
 
   async setPaymentType() {
@@ -130,41 +133,29 @@ export class ProviderCardComponent implements OnInit {
     this.selectedProvider.emit(provider);
   }
 
-  async createKriptonInfoModal() {
-    const modal = await this.modalController.create({
-      component: InfoProviderKriptonComponent,
-      componentProps: {
-        image: this.provider?.logoRoute,
-        title: this.provider?.name,
-      },
-      cssClass: 'ux-lg-modal-informative-provider-kripton',
-      backdropDismiss: false,
-    });
-    await modal.present();
-  }
-
-  async createMoonpayInfoModal() {
-    const modal = await this.modalController.create({
-      component: InfoProviderMoonpayComponent,
-      componentProps: {
-        image: this.provider?.logoRoute,
-        title: this.provider?.name,
-      },
-      cssClass: 'ux-lg-modal-informative-provider-moonpay',
-      backdropDismiss: false,
-    });
-    await modal.present();
-  }
-
-  async showProviderInfo() {
+  async createInfoModal() {
     if (!this.isInfoModalOpen) {
       this.isInfoModalOpen = true;
-      if (this.provider.providerName === 'kripton') {
-        await this.createKriptonInfoModal();
-      } else {
-        await this.createMoonpayInfoModal();
-      }
-      this.isInfoModalOpen = false;
-    }
+
+    const modal = await this.modalController.create({
+      component: InfoProviderComponent,
+      componentProps: {
+        image: this.provider?.logoRoute,
+        title: this.provider?.name,
+        subtitle1: this.providerInfo.subtitle_1,
+        subtitle2: this.providerInfo.subtitle_2,
+        subtitle3: this.providerInfo.subtitle_3,
+        description1: this.providerInfo.description_1,
+        description2: this.providerInfo.description_2,
+        description3: this.providerInfo.description_3,
+        disclaimer: this.providerInfo.disclaimer,
+        buttonText: 'fiat_ramps.select_provider.modal_info.button',
+      },
+      cssClass: 'modal',
+      backdropDismiss: false,
+    });
+    await modal.present();
+    this.isInfoModalOpen = false;
+   }
   }
 }

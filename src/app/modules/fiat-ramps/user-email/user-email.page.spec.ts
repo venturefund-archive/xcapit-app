@@ -13,6 +13,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
 import { rawOperationData } from '../shared-ramps/fixtures/raw-operation-data';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 describe('UserEmailPage', () => {
   let component: UserEmailPage;
@@ -22,20 +23,20 @@ describe('UserEmailPage', () => {
   let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
   let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
+  let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
+
   const STATUS = Object.keys(RegistrationStatus);
 
   beforeEach(waitForAsync(() => {
     fiatRampServiceSpy = jasmine.createSpyObj('FiatRampService', {
       getOrCreateUser: of(),
     });
-    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', { getFeatureFlag: false });
 
     navControllerSpy = new FakeNavController().createSpy();
 
-    storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
-      getData: rawOperationData,
-      updateData: null,
-    });
+    kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
+      set: Promise.resolve()
+    })
 
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showSuccessToast: Promise.resolve(),
@@ -47,10 +48,9 @@ describe('UserEmailPage', () => {
       providers: [
         { provide: FiatRampsService, useValue: fiatRampServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
-        { provide: StorageOperationService, useValue: storageOperationServiceSpy },
-        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageSpy },
         { provide: ToastService, useValue: toastServiceSpy },
-      ],
+    ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
@@ -66,14 +66,14 @@ describe('UserEmailPage', () => {
   STATUS.forEach((registrationStatus) => {
     const URL = RegistrationStatus[registrationStatus];
     it(`should redirect to ${URL} when user status is ${registrationStatus}`, async () => {
-      remoteConfigServiceSpy.getFeatureFlag.and.returnValue(false);
       fiatRampServiceSpy.getOrCreateUser.and.returnValue(of({ registration_status: registrationStatus }));
-      component.form.patchValue({ email: 'test@test.com', token: '12345' });
+      component.form.patchValue({ email: 'test@test.com', token: '12345'});
       fixture.debugElement.query(By.css('ion-button[name="ux_user_mail_continue"]')).nativeElement.click();
-      fixture.detectChanges();
       await fixture.whenStable();
-      expect(fiatRampServiceSpy.getOrCreateUser).toHaveBeenCalledOnceWith({ email: 'test@test.com', token: '12345' });
-      expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
+      await fixture.whenRenderingDone();
+      fixture.detectChanges();
+      expect(kriptonStorageSpy.set).toHaveBeenCalledOnceWith('email','test@test.com')
+      expect(fiatRampServiceSpy.getOrCreateUser).toHaveBeenCalledOnceWith({ email: 'test@test.com'});
       expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(URL);
     });
   });

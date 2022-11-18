@@ -18,6 +18,6 @@ describe('Camera', () => {
   });
 
   it('photo', async () => {
-    expect((await camera.photo()).path()).toEqual('testPath');
+    expect(await (await camera.photo()).path()).toEqual('testPath');
   });
 });

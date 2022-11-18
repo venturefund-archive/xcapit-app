@@ -97,6 +97,8 @@ import { NewTokenInfoModalComponent } from '../modules/wallets/shared-wallets/co
 import { InformationModalComponent } from './components/information-modal/information-modal.component';
 import { TwoButtonsAlertComponent } from './components/two-buttons-alert/two-buttons-alert.component';
 import { BuyCryptoFeatureFlagDirective } from './directives/in-review-feature-flag/buy-crypto-feature-flag.directive';
+import { TokenNetworkBadgeComponent } from './components/token-network-badge/token-network-badge.component';
+import { OperationStatusChipComponent } from '../modules/fiat-ramps/shared-ramps/components/operation-status-chip/operation-status-chip.component';
 
 @NgModule({
   declarations: [
@@ -181,6 +183,8 @@ import { BuyCryptoFeatureFlagDirective } from './directives/in-review-feature-fl
     CauseInfoComponent,
     InformationModalComponent,
     TwoButtonsAlertComponent,
+    TokenNetworkBadgeComponent,
+    OperationStatusChipComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -285,6 +289,8 @@ import { BuyCryptoFeatureFlagDirective } from './directives/in-review-feature-fl
     CauseInfoComponent,
     InformationModalComponent,
     TwoButtonsAlertComponent,
+    TokenNetworkBadgeComponent,
+    OperationStatusChipComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

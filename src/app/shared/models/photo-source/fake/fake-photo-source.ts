@@ -3,6 +3,6 @@ import { PhotoSource } from '../photo-source.interface';
 
 export class FakePhotoSource implements PhotoSource {
   public photo(): Promise<Photo> {
-    return Promise.resolve({ path: () => 'testPath' } as Photo);
+    return Promise.resolve({ path: () => Promise.resolve('testPath') } as Photo);
   }
 }

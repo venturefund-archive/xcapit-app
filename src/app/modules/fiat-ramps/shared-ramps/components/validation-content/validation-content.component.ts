@@ -4,6 +4,10 @@ import { Gallery } from 'src/app/shared/models/photo-source/gallery/gallery';
 import { Camera } from 'src/app/shared/models/photo-source/camera/camera';
 import { UploadedPhotoInjectable } from 'src/app/shared/models/uploaded-photo/injectable/uploaded-photo.injectable';
 import { Photo } from 'src/app/shared/models/photo/photo.interface';
+import { Filesystem } from '@capacitor/filesystem';
+import { ReadAsset } from 'src/app/shared/models/asset/read-asset/read-asset';
+import { BlobOf } from 'src/app/shared/models/asset/blob-of/blob-of';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-validation-content',
   template: `<ion-header>
@@ -38,6 +42,9 @@ import { Photo } from 'src/app/shared/models/photo/photo.interface';
       <div class="vc__container__image">
         <img [src]="this.data.imagePath" />
       </div>
+      <div class="vc__container__items" *ngIf="this.data.items">
+        <ion-text class="ux-font-text-base" [innerHTML]="this.data.items | translate"></ion-text>
+      </div>
     </ion-content>
     <ion-footer class="vc__footer">
       <div class="vc__footer__take-photo">
@@ -62,30 +69,29 @@ import { Photo } from 'src/app/shared/models/photo/photo.interface';
     </ion-footer>`,
   styleUrls: ['./validation-content.component.scss'],
 })
-export class ValidationContentComponent implements OnInit {
+export class ValidationContentComponent {
   @Input() data: any;
   @Output() backButton: EventEmitter<void> = new EventEmitter<void>();
   @Output() confirm: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private userKycKriptonImagesService: UserKycKriptonImagesService,
-    private uploadedPhoto: UploadedPhotoInjectable
+    private uploadedPhoto: UploadedPhotoInjectable,
+    private http: HttpClient
   ) {}
-
-  ngOnInit() {}
 
   async takePhoto() {
     const photo: Photo = await this.uploadedPhoto.create(new Camera()).value();
-    this.updateDigitalDocument(photo);
+    await this.updateDigitalDocument(photo);
   }
 
   async uploadPhoto() {
-    const photo: Photo = await this.uploadedPhoto.create(new Gallery()).value();
-    this.updateDigitalDocument(photo);
+    const photo: Photo = await this.uploadedPhoto.create(new Gallery(this.http)).value();
+    await this.updateDigitalDocument(photo);
   }
 
-  private updateDigitalDocument(photo: Photo): void {
-    this.userKycKriptonImagesService.update({ [this.data.documentName]: photo.path() });
+  private async updateDigitalDocument(photo: Photo): Promise<void> {
+    this.userKycKriptonImagesService.update({ [this.data.documentName]: await photo.path() });
     this.confirm.emit();
   }
 

@@ -7,26 +7,46 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 import { KycSummaryDataPage } from './kyc-summary-data.page';
 
-const dataTest = {
-  firstName: 'nameTest',
-  lastName: 'lastNameTest',
+const rawDataTest = {
+  first_name: 'nameTest',
+  last_name: 'lastNameTest',
   birthday: 'birthdayTest',
   nationality: { name: 'nameNationalityTest' },
-  document: 'documentTest',
+  document_type: { name: 'documentTest' },
   document_number: '12334345345',
   gender: { name: 'male', value: 'fiat_ramps.register.gender_list.male' },
   marital_status: { name: 'married', value: 'fiat_ramps.register.marital_status_list.married' },
   country_code: { code: 'AR (+54)' },
-  phone_number: '12333234456',
-  street: 'streetTest',
-  number: '3',
+  telephone_number: '12333234456',
+  street_address: 'streetTest',
+  street_number: '3',
   floor: 'PB',
   apartment: '2',
   city: 'cityTest',
-  zipCode: '123',
+  postal_code: '123',
+};
+
+const expectedKycData = {
+  first_name: 'nameTest',
+  last_name: 'lastNameTest',
+  birthday: 'birthdayTest',
+  nationality: 'nameNationalityTest',
+  document_type: 'documentTest',
+  document_number: '12334345345',
+  gender: 'male',
+  marital_status: 'married',
+  telephone_number: '(+54)12333234456',
+  street_address: 'streetTest',
+  street_number: '3',
+  floor: 'PB',
+  apartment: '2',
+  city: 'cityTest',
+  postal_code: '123',
+  email: 'test@test.com',
   politically_exposed: false,
 };
 
@@ -37,13 +57,16 @@ describe('KycSummaryDataPage', () => {
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
 
   beforeEach(waitForAsync(() => {
     userKycKriptonDataServiceSpy = jasmine.createSpyObj(
       'UserKycKriptonDataService',
-      { getData: dataTest, updateData: null },
-      { userKycKriptonData: dataTest }
+      { getData: rawDataTest, updateData: null },
+      { userKycKriptonData: rawDataTest }
     );
+
+    kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', { get: Promise.resolve('test@test.com') });
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       registerUserInfo: of({}),
@@ -58,6 +81,7 @@ describe('KycSummaryDataPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: UserKycKriptonDataService, useValue: userKycKriptonDataServiceSpy },
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -73,7 +97,7 @@ describe('KycSummaryDataPage', () => {
 
   it('should get data of service on init', () => {
     component.ionViewWillEnter();
-    expect(component.data).toEqual(dataTest);
+    expect(component.data).toEqual(rawDataTest);
   });
 
   it('should format correctly country code on init', () => {
@@ -87,19 +111,20 @@ describe('KycSummaryDataPage', () => {
   });
 
   it('should enable confirm button if form is valid', () => {
-    fixture.debugElement.query(By.css("ion-checkbox[name='ux_buy_kripton_politically_exposed']")).nativeElement.click();
+    component.form.patchValue({ not_politically_exposed: true });
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_details_confirm"]'));
     expect(buttonEl.properties.disabled).toBeFalse();
   });
 
-  it('should update data with politically_exposed, send data and redirect to register user page when ux_buy_kripton_details_confirm is clicked and form is valid', () => {
+  it('should update data with politically_exposed, send data and redirect to register user page when ux_buy_kripton_details_confirm is clicked and form is valid', async () => {
     component.ionViewWillEnter();
-    fixture.debugElement.query(By.css("ion-checkbox[name='ux_buy_kripton_politically_exposed']")).nativeElement.click();
+    component.form.patchValue({ not_politically_exposed: true });
+    fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_details_confirm"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(userKycKriptonDataServiceSpy.updateData).toHaveBeenCalledTimes(1);
-    expect(fiatRampsServiceSpy.registerUserInfo).toHaveBeenCalledTimes(1);
+    await fixture.whenStable();
+    expect(fiatRampsServiceSpy.registerUserInfo).toHaveBeenCalledOnceWith(expectedKycData);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/user-register');
   });
 
@@ -107,7 +132,6 @@ describe('KycSummaryDataPage', () => {
     component.ionViewWillEnter();
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_details_confirm"]')).nativeElement.click();
     fixture.detectChanges();
-    expect(userKycKriptonDataServiceSpy.updateData).toHaveBeenCalledTimes(0);
     expect(fiatRampsServiceSpy.registerUserInfo).toHaveBeenCalledTimes(0);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
   });

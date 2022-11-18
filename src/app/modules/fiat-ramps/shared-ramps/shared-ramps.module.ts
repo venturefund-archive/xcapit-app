@@ -4,7 +4,6 @@ import { FixedFooterComponent } from './components/fixed-footer/fixed-footer/fix
 import { OperationsListAccordionComponent } from './components/operations-list-accordion/operations-list-accordion.component';
 import { OperationsListComponent } from './components/operations-list/operations-list.component';
 import { OperationsListItemComponent } from './components/operations-list-item/operations-list-item.component';
-import { OperationStatusChipComponent } from './components/operation-status-chip/operation-status-chip.component';
 import { TransferConfirmCardComponent } from './components/transfer-confirm-card/transfer-confirm-card.component';
 import { ProviderNewOperationCardComponent } from './components/provider-new-operation-card/provider-new-operation-card/provider-new-operation-card.component';
 import { FiatInputComponent } from './components/fiat-input/fiat-input.component';
@@ -23,6 +22,13 @@ import { MoonpayPurchasesCardComponent } from './components/moonpay-purchases-ca
 import { UserBasicInformationComponent } from './components/user-basic-information/user-basic-information.component';
 import { UserPersonalInformationComponent } from './components/user-personal-information/user-personal-information.component';
 import { UserAddressInformationComponent } from './components/user-address-information/user-address-information.component';
+import { OperationKmInProgressModalComponent } from './components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
+import { OperationStatusAlertComponent } from './components/operation-status-alert/operation-status-alert.component';
+import { BankInfoCardComponent } from './components/bank-info-card/bank-info-card.component';
+import { VoucherCardComponent } from './components/voucher-card/voucher-card.component';
+import { KriptonAccountInfoCardComponent } from './components/kripton-account-info-card/kripton-account-info-card.component';
+import { KriptonPurchaseInfoComponent } from './components/kripton-purchase-info/kripton-purchase-info.component';
+import { TimerCountdownComponent } from './components/timer-countdown/timer-countdown.component';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 
 @NgModule({
@@ -31,7 +37,6 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
     TransferConfirmCardComponent,
     ProviderNewOperationCardComponent,
     OperationsListComponent,
-    OperationStatusChipComponent,
     OperationsListAccordionComponent,
     OperationsListItemComponent,
     FiatInputComponent,
@@ -50,8 +55,14 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
     BuyOrDepositTokenToastComponent,
-    CountdownTimerComponent
-
+    CountdownTimerComponent,
+    OperationKmInProgressModalComponent,
+    OperationStatusAlertComponent,
+    BankInfoCardComponent,
+    VoucherCardComponent,
+    KriptonAccountInfoCardComponent,
+    KriptonPurchaseInfoComponent,
+    TimerCountdownComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -60,7 +71,6 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
     TransferConfirmCardComponent,
     ProviderNewOperationCardComponent,
     OperationsListComponent,
-    OperationStatusChipComponent,
     OperationsListAccordionComponent,
     OperationsListItemComponent,
     FiatInputComponent,
@@ -79,7 +89,14 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
     ConfirmationContentComponent,
-    CountdownTimerComponent
+    CountdownTimerComponent,
+    OperationKmInProgressModalComponent,
+    OperationStatusAlertComponent,
+    BankInfoCardComponent,
+    VoucherCardComponent,
+    KriptonAccountInfoCardComponent,
+    KriptonPurchaseInfoComponent,
+    TimerCountdownComponent
   ],
 })
 export class SharedRampsModule {}

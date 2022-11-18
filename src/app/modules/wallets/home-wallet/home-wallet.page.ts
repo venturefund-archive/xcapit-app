@@ -87,12 +87,12 @@ import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-
               </ion-text>
               <ion-text class="ux-font-text-lg" *ngIf="this.balance !== undefined">USD</ion-text>
             </div>
-            <div class="wt__amount-and-eye__eye">
+            <div *ngIf="this.balance !== undefined" class="wt__amount-and-eye__eye">
               <app-eye></app-eye>
             </div>
           </div>
         </div>
-        <div class="wt__total-invested" color="success">
+        <div class="wt__total-invested" *ngIf="this.balance" color="success">
           <ion-spinner
             class="wt__total-invested__spinner"
             *ngIf="this.totalInvested === undefined"
@@ -205,7 +205,7 @@ export class HomeWalletPage implements OnInit {
     tab: ['assets', [Validators.required]],
   });
   totalBalanceModel: TotalBalance;
-  balance: number;
+  balance = undefined;
   address: string;
   defiProducts: DefiProduct[];
   totalInvested: number;
@@ -302,12 +302,6 @@ export class HomeWalletPage implements OnInit {
     return this.twoPiProductFactory.create(await this.twoPiApi.vault(product.id));
   }
 
-  async setInvestedBalance() {
-    const totalInvestedBalanceOf = this.totalInvestedBalanceOfInjectable.create(this.address, this.pids);
-    this.totalInvested = await totalInvestedBalanceOf.cached();
-    this.totalInvested = await totalInvestedBalanceOf.value();
-  }
-
   private async getUserWalletAddress() {
     const wallet = await this.storageService.getWalletFromStorage();
     if (wallet) this.address = wallet.addresses.MATIC;
@@ -377,20 +371,27 @@ export class HomeWalletPage implements OnInit {
     tokenDetails.sort((a, b) => b.balance * b.price - a.balance * a.price);
   }
 
-  private async loadCachedTotalBalance() {
-    this.balance = await this.balanceCacheService.total();
-  }
-
-  private async updateCachedTotalBalance() {
-    await this.balanceCacheService.updateTotal(this.balance);
-  }
-
   async refresh(event: any): Promise<void> {
     if (this.refreshTimeoutService.isAvailable()) {
       await this.initialize();
       this.refreshTimeoutService.lock();
     }
     setTimeout(() => event.target.complete(), 1000);
+  }
+
+  private async loadCachedTotalBalance() {
+    this.balance = await this.balanceCacheService.total();
+   
+  }
+
+  async setInvestedBalance() {
+    const totalInvestedBalanceOf = this.totalInvestedBalanceOfInjectable.create(this.address, this.pids);
+    this.totalInvested = await totalInvestedBalanceOf.cached();
+    this.totalInvested = await totalInvestedBalanceOf.value();
+  }
+
+  private async updateCachedTotalBalance() {
+    await this.balanceCacheService.updateTotal(this.balance);
   }
 
   private async setUserTokens(): Promise<void> {

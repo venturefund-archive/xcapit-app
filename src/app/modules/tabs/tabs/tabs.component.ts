@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, IonTabs } from '@ionic/angular';
+import { PreviousRouteService } from '../../../shared/services/previous-route/previous-route.service';
 
 @Component({
   selector: 'app-tabs',
@@ -60,7 +61,34 @@ export class TabsComponent {
   @ViewChild('tabs', { static: true }) tabs: IonTabs;
   activeTab?: HTMLElement;
   selectedCategory: any;
-  constructor(private navController: NavController) {}
+
+  constructor(private navController: NavController, private previousRouteService: PreviousRouteService) {}
+
+  ionViewWillLeave() {
+    this.propagateToActiveTab('ionViewWillLeave');
+  }
+
+  ionViewDidLeave() {
+    this.propagateToActiveTab('ionViewDidLeave');
+  }
+
+  ionViewWillEnter() {
+    this.propagateToActiveTab('ionViewWillEnter');
+  }
+
+  ionViewDidEnter() {
+    this.propagateToActiveTab('ionViewDidEnter');
+  }
+
+  private _previousUrlIsNotATab() {
+    return !this.previousRouteService.getPreviousUrl().startsWith('/tabs');
+  }
+
+  private propagateToActiveTab(eventName: string) {
+    if (this.activeTab && this._previousUrlIsNotATab()) {
+      this.activeTab.dispatchEvent(new CustomEvent(eventName));
+    }
+  }
 
   tabChange() {
     this.selectedCategory = this.tabs.getSelected();

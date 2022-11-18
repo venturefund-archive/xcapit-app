@@ -9,27 +9,39 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { of } from 'rxjs';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 describe('KycConfirmationPage', () => {
   let component: KycConfirmationPage;
   let fixture: ComponentFixture<KycConfirmationPage>;
   let userKycKriptonImagesServiceSpy: jasmine.SpyObj<UserKycKriptonImagesService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let fakeModalController: FakeModalController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
 
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController(null, { role: 'confirm' });
     modalControllerSpy = fakeModalController.createSpy();
-    activatedRouteSpy = new FakeActivatedRoute({ digitalDocument: 'front_id' }).createSpy();
+
+    fakeActivatedRoute = new FakeActivatedRoute({ digitalDocument: 'front_id' });
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
 
     userKycKriptonImagesServiceSpy = jasmine.createSpyObj('UserKycKriptonImagesService', {
       getPhotos: { front_document: 'http://localhost:9876/assets/test_image.svg' },
     });
 
-    navControllerSpy = new FakeNavController().createSpy();
+    kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
+      get: Promise.resolve('test@test.com'),
+    });
 
+    navControllerSpy = new FakeNavController().createSpy();
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', { registerUserImages: of({}) });
     TestBed.configureTestingModule({
       declarations: [KycConfirmationPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -38,6 +50,8 @@ describe('KycConfirmationPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ModalController, useValue: modalControllerSpy },
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -65,6 +79,17 @@ describe('KycConfirmationPage', () => {
     contentEl.triggerEventHandler('confirm', null);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/kyc/validation/back_id');
   });
+
+  it('should redirect to user register when digital document is dni_selfie', fakeAsync(() => {
+    fakeActivatedRoute.modifySnapshotParams({ digitalDocument: 'dni_selfie' });
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const contentEl = fixture.debugElement.query(By.css('app-confirmation-content'));
+    contentEl.triggerEventHandler('confirm', null);
+    tick();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/user-register');
+    expect(fiatRampsServiceSpy.registerUserImages).toHaveBeenCalledTimes(1);
+  }));
 
   it('should redirect to validation page when reload is clicked', () => {
     component.ionViewWillEnter();

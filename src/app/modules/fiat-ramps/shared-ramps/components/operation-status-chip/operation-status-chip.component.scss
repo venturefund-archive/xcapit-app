@@ -14,6 +14,11 @@
     --color: var(--ion-color-warningdark);
   }
 
+  .info {
+    --background: var(--ion-color-infolight);
+    --color: var(--ion-color-infodark);
+  }
+
   .chip {
     padding: 2px 4px;
     border-radius: 4px;

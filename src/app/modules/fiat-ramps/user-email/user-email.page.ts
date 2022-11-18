@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { Console } from 'console';
 import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
 import { CountdownTimerService } from '../shared-ramps/services/countdown-timer/countdown-timer.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 
 @Component({
@@ -107,7 +107,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
     </ion-footer>`,
   styleUrls: ['./user-email.page.scss'],
 })
-export class UserEmailPage implements OnInit {
+export class UserEmailPage {
   form: UntypedFormGroup = this.formBuilder.group({
     email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
     token: ['', []],
@@ -128,7 +128,8 @@ export class UserEmailPage implements OnInit {
     private navController: NavController,
     private storageOperationService: StorageOperationService,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private kriptonStorage: KriptonStorageService
   ) {}
 
   ngOnInit() {
@@ -136,7 +137,7 @@ export class UserEmailPage implements OnInit {
   }
 
   async submit() {
-    const userStatus = await this.fiatRampsService.getOrCreateUser(this.form.value).toPromise();
+    const userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.form.value.email }).toPromise();
     this.saveEmail();
     if (userStatus) {
       this.validateEmail = true;

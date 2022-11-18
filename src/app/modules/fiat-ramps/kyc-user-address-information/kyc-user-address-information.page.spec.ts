@@ -9,21 +9,21 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
 import { KycUserAddressInformationPage } from './kyc-user-address-information.page';
 
 const invalidFormData = {
-  street: 'test',
-  number: 'test',
+  street_address: 'test',
+  street_number: 'test',
   city: 'test123',
   floor: '',
   apartment: '',
-  zipCode: '123',
+  postal_code: '123',
 };
 
 const validFormData = {
-  street: 'test',
-  number: '123',
+  street_address: 'test',
+  street_number: '123',
   city: 'test123',
   floor: '',
   apartment: '',
-  zipCode: '123',
+  postal_code: '123',
 };
 
 describe('KycUserAddressInformationPage', () => {
@@ -78,10 +78,10 @@ describe('KycUserAddressInformationPage', () => {
     expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_address.title');
     expect(subtitleEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_address.subtitle');
     expect(iconEl).toBeTruthy();
-    expect(streetInput.attributes.controlName).toContain('street');
+    expect(streetInput.attributes.controlName).toContain('street_address');
     expect(cityInput.attributes.controlName).toContain('city');
-    expect(zipCodeInput.attributes.controlName).toContain('zipCode');
-    expect(numberInput.attributes.controlName).toContain('number');
+    expect(zipCodeInput.attributes.controlName).toContain('postal_code');
+    expect(numberInput.attributes.controlName).toContain('street_number');
     expect(floorInput.attributes.controlName).toContain('floor');
     expect(apartmentInput.attributes.controlName).toContain('apartment');
     expect(buttonEl).toBeTruthy();
@@ -111,11 +111,11 @@ describe('KycUserAddressInformationPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     expect(userKycKriptonDataServiceSpy.getData).toHaveBeenCalledTimes(1);
-    expect(component.form.value.street).toEqual(validFormData.street);
-    expect(component.form.value.number).toEqual(validFormData.number);
+    expect(component.form.value.street_address).toEqual(validFormData.street_address);
+    expect(component.form.value.street_number).toEqual(validFormData.street_number);
     expect(component.form.value.floor).toEqual(validFormData.floor);
     expect(component.form.value.apartment).toEqual(validFormData.apartment);
     expect(component.form.value.city).toEqual(validFormData.city);
-    expect(component.form.value.zipCode).toEqual(validFormData.zipCode);
+    expect(component.form.value.postal_code).toEqual(validFormData.postal_code);
   });
 });

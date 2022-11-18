@@ -9,6 +9,7 @@ import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-d
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { By } from '@angular/platform-browser';
 import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directive.fake.spec';
+import { PreviousRouteService } from '../../../shared/services/previous-route/previous-route.service';
 
 describe('TabsComponent', () => {
   let component: TabsComponent;
@@ -18,6 +19,7 @@ describe('TabsComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let activeTabSpy: jasmine.SpyObj<HTMLElement>;
   let ionTabsSpy: jasmine.SpyObj<IonTabs>;
+  let previousRouteServiceSpy: jasmine.SpyObj<PreviousRouteService>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -28,10 +30,14 @@ describe('TabsComponent', () => {
       { getSelected: 'test' },
       { outlet: { activatedView: { element: null } } }
     );
+    previousRouteServiceSpy = jasmine.createSpyObj('PreviousRouteService', { getPreviousUrl: 'previous-url' });
     TestBed.configureTestingModule({
       declarations: [TabsComponent, FakeTrackClickDirective, FakeFeatureFlagDirective],
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
-      providers: [{ provide: NavController, useValue: navControllerSpy }],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: PreviousRouteService, useValue: previousRouteServiceSpy },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
@@ -106,5 +112,18 @@ describe('TabsComponent', () => {
   it('should change tab', () => {
     fixture.debugElement.query(By.css('ion-tabs')).triggerEventHandler('ionTabsDidChange', null);
     expect(component.selectedCategory).toEqual('test');
+  });
+
+  ['ionViewWillEnter', 'ionViewDidEnter', 'ionViewWillLeave', 'ionViewDidLeave'].forEach((event) => {
+    it(`should dispatch ${event}`, () => {
+      component[event]();
+      expect(activeTabSpy.dispatchEvent).toHaveBeenCalledWith(new CustomEvent(event));
+    });
+  });
+
+  it(`should not dispatch event if no active tab`, () => {
+    component.activeTab = null;
+    component.ionViewDidEnter();
+    expect(activeTabSpy.dispatchEvent).not.toHaveBeenCalled();
   });
 });
