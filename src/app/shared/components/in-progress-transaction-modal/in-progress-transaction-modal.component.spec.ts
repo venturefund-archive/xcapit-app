@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
@@ -7,8 +8,8 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { InProgressTransactionModalComponent } from './in-progress-transaction-modal.component';
 
 const testData = {
-  image:"image.svg",
-  icon: "icon.svg",
+  image:"assets/test_image.svg",
+  icon: "assets/test_icon.svg",
   urlClose:'/tabs/wallets',
   textPrimary: 'textPrimary',
   textSecondary:'textSecondary',
@@ -38,6 +39,7 @@ describe('InProgressTransactionModalComponent', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerSpy },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(InProgressTransactionModalComponent);
@@ -57,8 +59,8 @@ describe('InProgressTransactionModalComponent', () => {
     const badgeEl = fixture.debugElement.query(By.css("div.ipt__main__badge > ion-badge"));
     const primaryTextEl = fixture.debugElement.query(By.css("div.ipt__main__primary-text > app-ux-title"));
     const secondaryTextEl = fixture.debugElement.query(By.css("div.ipt__main__secondary-text > ion-text"));
-    expect(imgEl.attributes.src).toContain('image.svg');
-    expect(iconEl.attributes.src).toContain('icon.svg');
+    expect(imgEl.attributes.src).toContain('assets/test_image.svg');
+    expect(iconEl.attributes.src).toContain('assets/test_icon.svg');
     expect(titleEl.nativeElement.innerHTML).toEqual('title')
     expect(primaryTextEl.nativeElement.innerHTML).toEqual('textPrimary')
     expect(secondaryTextEl.nativeElement.innerHTML).toEqual('textSecondary')

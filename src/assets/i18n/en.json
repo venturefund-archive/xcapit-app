@@ -342,12 +342,15 @@
     }
   },
   "defi_investments": {
-    "new": {
-      "header": "New investment",
-      "amount_to_invest": "Amount to invest",
-      "button": "Continue",
-      "dont_have": "Don't have ",
-      "buy_button": "Buy now"
+    "notifications":{
+      "success":{
+        "title":"💰 Successful investment. Congratulations!",
+        "body": "You invested {{amount}} {{token}} on {{date}}."
+      },
+      "error":{
+        "title":"⚠️ Investment error",
+        "body": "An error occurred in the investment of {{amount}} {{token}} on {{date}}. More information can be found here."
+      }
     },
     "invest_in_progress":{
       "text_primary":"Your order is on its way!",
@@ -355,6 +358,13 @@
       "button_text":"Return to investments",
       "text_title": "Investment",
       "text_badge": "In progress"
+    },
+    "new": {
+      "header": "New investment",
+      "amount_to_invest": "Amount to invest",
+      "button": "Continue",
+      "dont_have": "Don't have ",
+      "buy_button": "Buy now"
     },
     "add": {
       "header": "Add amount",
