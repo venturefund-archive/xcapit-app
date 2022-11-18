@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 
 @Component({
@@ -123,9 +124,9 @@ export class UserEmailPage implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
-    private storageOperationService: StorageOperationService,
     private toastService: ToastService,
     private translate: TranslateService,
+    private kriptonStorage: KriptonStorageService
   ) {}
 
   ngOnInit() {
@@ -155,8 +156,7 @@ export class UserEmailPage implements OnInit {
   }
 
   saveEmail() {
-    const newData = Object.assign({ email: this.form.value.email }, this.storageOperationService.getData());
-    this.storageOperationService.updateData(newData);
+    this.kriptonStorage.set('email', this.form.value.email);
   }
 
   sendCodeRequest() {
