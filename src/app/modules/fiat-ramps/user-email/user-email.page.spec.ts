@@ -9,9 +9,6 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { UserEmailPage } from './user-email.page';
 import { RegistrationStatus } from '../enums/registration-status.enum';
-import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
-import { rawOperationData } from '../shared-ramps/fixtures/raw-operation-data';
-import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
@@ -20,8 +17,6 @@ describe('UserEmailPage', () => {
   let fixture: ComponentFixture<UserEmailPage>;
   let fiatRampServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-  let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
-  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
   let toastServiceSpy: jasmine.SpyObj<ToastService>;
   let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
 

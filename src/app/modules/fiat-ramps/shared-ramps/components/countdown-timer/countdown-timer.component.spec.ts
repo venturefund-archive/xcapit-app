@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { of } from 'rxjs';
 import { CountdownTimerService } from '../../services/countdown-timer/countdown-timer.service';
