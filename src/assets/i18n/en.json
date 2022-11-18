@@ -342,6 +342,23 @@
     }
   },
   "defi_investments": {
+    "notifications":{
+      "success":{
+        "title":"💰 Successful investment. Congratulations!",
+        "body": "You invested {{amount}} {{token}} on {{date}}."
+      },
+      "error":{
+        "title":"⚠️ Investment error",
+        "body": "An error occurred in the investment of {{amount}} {{token}} on {{date}}. More information can be found here."
+      }
+    },
+    "invest_in_progress":{
+      "text_primary":"Your order is on its way!",
+      "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "button_text":"Return to investments",
+      "text_title": "Investment",
+      "text_badge": "In progress"
+    },
     "new": {
       "header": "New investment",
       "amount_to_invest": "Amount to invest",

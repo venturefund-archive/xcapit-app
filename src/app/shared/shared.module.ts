@@ -99,6 +99,7 @@ import { TwoButtonsAlertComponent } from './components/two-buttons-alert/two-but
 import { BuyCryptoFeatureFlagDirective } from './directives/in-review-feature-flag/buy-crypto-feature-flag.directive';
 import { TokenNetworkBadgeComponent } from './components/token-network-badge/token-network-badge.component';
 import { OperationStatusChipComponent } from '../modules/fiat-ramps/shared-ramps/components/operation-status-chip/operation-status-chip.component';
+import { InProgressTransactionModalComponent } from './components/in-progress-transaction-modal/in-progress-transaction-modal.component';
 
 @NgModule({
   declarations: [
@@ -125,6 +126,7 @@ import { OperationStatusChipComponent } from '../modules/fiat-ramps/shared-ramps
     EyeComponent,
     TokenWithBlockchainLogoComponent,
     SkipProfileTestComponent,
+    InProgressTransactionModalComponent,
     // Ux
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,
@@ -235,6 +237,7 @@ import { OperationStatusChipComponent } from '../modules/fiat-ramps/shared-ramps
     EyeComponent,
     TokenWithBlockchainLogoComponent,
     SkipProfileTestComponent,
+    InProgressTransactionModalComponent,
     // Ux
     NewTokenInfoModalComponent,
     NewTokenAvailableCardComponent,

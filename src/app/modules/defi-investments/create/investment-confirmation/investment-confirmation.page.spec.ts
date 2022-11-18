@@ -31,6 +31,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
+import { LocalNotificationsService } from 'src/app/modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
 
 describe('InvestmentConfirmationPage', () => {
   let component: InvestmentConfirmationPage;
@@ -60,6 +62,19 @@ describe('InvestmentConfirmationPage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+  let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
+
+  const testLocalNotificationOk: LocalNotificationSchema = {
+    id: 1,
+    title: 'defi_investments.notifications.success.title',
+    body: 'defi_investments.notifications.success.body',
+  };
+  
+  const testLocalNotificationNotOk: LocalNotificationSchema = {
+    id: 1,
+    title: 'defi_investments.notifications.error.title',
+    body: 'defi_investments.notifications.error.body',
+  };
 
   beforeEach(
     waitForAsync(() => {
@@ -89,6 +104,14 @@ describe('InvestmentConfirmationPage', () => {
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
         getDecryptedWalletForCurrency: wallet,
         getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x0000001' } }),
+      });
+
+      localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
+        send: Promise.resolve(),
+        registerActionTypes: Promise.resolve(),
+        addListener: (callback: CallableFunction) => {
+          callback();
+        },
       });
       providerSpy = jasmine.createSpyObj(
         'Provider',
@@ -149,6 +172,7 @@ describe('InvestmentConfirmationPage', () => {
           { provide: BrowserService, useValue: browserServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+          { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -185,10 +209,10 @@ describe('InvestmentConfirmationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotificationOk]);
     expect(storageSpy.set).toHaveBeenCalledOnceWith('_agreement_2PI_T&C', true);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/success-investment', 'invest']);
   });
-
+  
   it('should not make deposit when password is valid but deposit fails', async () => {
     investmentSpy.deposit.and.returnValue(Promise.reject());
     spyOn(component, 'investment').and.returnValue(investmentSpy);
@@ -197,13 +221,10 @@ describe('InvestmentConfirmationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotificationNotOk]);
     expect(storageSpy.set).not.toHaveBeenCalled();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      '/defi/error-investment',
-      'testInvestmentProductName',
-    ]);
   });
-
+  
   it('should not make deposit when modal closes', async () => {
     fakeModalController.modifyReturns({ data: undefined }, {});
     await component.ionViewDidEnter();
