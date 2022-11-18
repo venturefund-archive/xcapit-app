@@ -72,18 +72,24 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
       </div>
     </ion-content>
     <ion-footer class="ue__footer">
-      <div class="ue__footer__resend-email-title">
-        <ion-text class="ux-font-text-xs">
-          {{ this.resendTitleText | translate }}
-        </ion-text>
+      <div class="ue__footer__resend-email" *ngIf="this.validateEmail">
+        <div class="ue__footer__resend-email__title">
+          <img [src]="this.resendIcon" />
+          <ion-text class="ux-font-text-xs">
+            {{ this.resendTitleText | translate }}
+          </ion-text>
+        </div>
+        <div class="ue__footer__resend-email__link" *ngIf="!this.timerEnabled">
+          <ion-text name="Send code request" class="ux-link-xs" (click)="sendCodeRequest()">
+            {{ this.resendLinkText | translate }}
+          </ion-text>
+        </div>
+        <app-countdown-timer
+          [timerSeconds]="this.timerSeconds"
+          *ngIf="this.timerEnabled"
+          (hasFinishedCounting)="this.disableTimer()"
+        ></app-countdown-timer>
       </div>
-      <div class="ue__footer__resend-email-link">
-        <ion-text class="ux-link-xs" (click)="setTimer()">
-          <!-- {{ this.resendLinkText | translate }} -->
-          CLICK ACA
-        </ion-text>
-      </div>
-      <app-countdown-timer [timerSeconds]="this.countdown" *ngIf="this.enable"></app-countdown-timer>
       <div class="ux_footer ion-padding">
         <ion-button
           class="ux_button"
@@ -107,43 +113,36 @@ export class UserEmailPage implements OnInit {
     token: ['', []],
   });
 
-  //TODO: Set to false by default
-  validateEmail = true;
-  countdown: number;
-  enable = false;
-  // WIP
-  // timerText = '';
-  // timerSeconds: number;
-  // private timer: any;
+  validateEmail: boolean;
+  timerEnabled = false;
   disableResendEmail = true;
-
+  timerSeconds = 120;
   resendLinkText: string;
   resendTitleText: string;
+  resendIcon: string;
+  resendAttempts = 2;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
     private fiatRampsService: FiatRampsService,
     private navController: NavController,
     private storageOperationService: StorageOperationService,
-    private remoteConfig: RemoteConfigService,
     private toastService: ToastService,
-    private translate: TranslateService,
-    private countdownTimerService: CountdownTimerService
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
-    // TODO si el timer del servicio es > 0, hacer enable y pasar el valor de timer
-    if (this.countdownTimerService.getCurrentTime() > 0) {
-      console.log('ongoing service timer on pagestart: ', this.countdownTimerService.getCurrentTime())
-      this.enable = true;
-      this.countdown = this.countdownTimerService.getCurrentTime();
-    }
+    this.updateFooterText();
   }
 
   async submit() {
     const userStatus = await this.fiatRampsService.getOrCreateUser(this.form.value).toPromise();
     this.saveEmail();
-    if (userStatus) this.validateEmail = true;
+    if (userStatus) {
+      this.validateEmail = true;
+      this.timerEnabled = true;
+      this.updateFooterText();
+    }
     this.tokenValidator();
     if (this.form.valid) this.redirectByStatus(userStatus.registration_status);
   }
@@ -163,46 +162,43 @@ export class UserEmailPage implements OnInit {
     this.storageOperationService.updateData(newData);
   }
 
-  setTimer() {
-    this.countdown = 120;
-    this.enable = true;
-  
+  sendCodeRequest() {
+    if (this.resendAttempts !== 0) {
+      this.enableTimer();
+      this.resendAttempts--;
+      this.toastService.showSuccessToast({
+        message: this.translate.instant('fiat_ramps.user_email.toast_success'),
+      });
+    } else {
+      this.navController.navigateForward(['/tickets/create-support-ticket']);
+    }
   }
 
-  setFooterText() {}
+  enableTimer() {
+    this.timerEnabled = true;
+    this.timerSeconds = 120;
+    this.updateFooterText();
+  }
 
-  // WIP
+  disableTimer() {
+    this.timerEnabled = false;
+    this.updateFooterText();
+  }
 
-  // async startTimer() {
-  //   if (this.timerSeconds < 1 || this.timerSeconds == null) {
-  //     console.log('Timer starts')
-  //     this.timerSeconds = 60;
-  //     this.timerText = `(${this.timerSeconds}s)`;
-  //     this.disableResendEmail = true;
-  //     this.timer = setInterval(this.decreaseTimer.bind(this), 1000);
-  //   }
-  // }
-
-  // decreaseTimer() {
-  //   this.timerSeconds--;
-  //   this.timerText = `(${this.timerSeconds}s)`;
-  //   console.log('tiempo restante: ', this.timerSeconds)
-
-  //   if (this.timerSeconds < 1) {
-  //     this.timerText = '';
-  //     clearInterval(this.timer);
-  //     this.disableResendEmail = false;
-  //     console.log("TIME'S UP!")
-  //   }
-  // }
-
-  // resetTimerTest() {
-  //   this.timerSeconds = 60;
-  //   this.startTimer().then(() => {
-  //     this.toastService.showSuccessToast({
-  //       message: this.translate.instant('fiat_ramps.user_email.toast_success')
-  //     })
-  //   })
-  //   console.log('Timer reset')
-  // }
+  updateFooterText() {
+    if (this.timerEnabled) {
+      this.resendIcon = 'assets/ux-icons/ux-clock.svg';
+      return (this.resendTitleText = this.translate.instant('fiat_ramps.user_email.resend_email.title_sent'));
+    }
+    if (!this.timerEnabled && this.resendAttempts > 0) {
+      this.resendIcon = 'assets/ux-icons/ux-clock.svg';
+      this.resendTitleText = this.translate.instant('fiat_ramps.user_email.resend_email.title_not_sent');
+      this.resendLinkText = this.translate.instant('fiat_ramps.user_email.resend_email.link_not_sent');
+    }
+    if (!this.timerEnabled && this.resendAttempts === 0) {
+      this.resendIcon = 'assets/ux-icons/ux-question-mark.svg';
+      this.resendTitleText = this.translate.instant('fiat_ramps.user_email.resend_email.title_exceeded_attempts');
+      this.resendLinkText = this.translate.instant('fiat_ramps.user_email.resend_email.link_exceeded_attempts');
+    }
+  }
 }
