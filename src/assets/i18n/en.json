@@ -2290,7 +2290,15 @@
       "step_1":"Transfer",
       "step_2":"Upload voucher",
       "button":"Continue",
-      "timer":"You have {{ value }} to transfer"
+      "timer":"You have {{ value }} to transfer",
+      "voucher_card": {
+        "header": "Attach your voucher",
+        "file_placeholder": "Voucher.jpg",
+        "upload_button": "Upload image",
+        "footnote": "Supports png, jpg, pdf or other similar formats up to 200 kb.",
+        "success": "Voucher",
+        "error": "There was an error. Upload your voucher again."
+      }
     },
     "success_d24_operation": {
       "text_primary": "Purchase confirmed!",
@@ -2387,49 +2395,6 @@
       "recordatory_4": "Remember that if you have active investments, your purchase will automatically be part of that investment.",
       "button": "Select my receiving address",
       "modal_content": "Please check the points to consider before making a purchase"
-    },
-    "operation_detail": {
-      "header": "Operation detail",
-      "disclaimer1": "Remember that Xcapit does not sell cryptocurrencies, The entire purchase and adjudication flow is the responsibility of the operator.",
-      "disclaimer2": "The delivery of tokens is made from Monday to Friday from 9 a.m. to 6 p.m. and it may take longer if the bank delays in processing the transaction to the Krypton principal account.",
-      "support_text": "If you have any questions contact",
-      "support_button": "Kripton Market Support",
-      "upload_voucher": "Attach voucher",
-      "send_voucher": "Send voucher",
-      "voucher_card": {
-        "header": "Voucher",
-        "file": "File",
-        "success": "The voucher has been sent successfully"
-      },
-      "bank_info_card": {
-        "header": "Data for transfer",
-        "amount": "Amount",
-        "bank": "Bank",
-        "concept": "Concept",
-        "copy_success_text": "Copied successfully to clipboard"
-      },
-      "detail_card": {
-        "operation": "Operation",
-        "buy": "Buy",
-        "with": "with",
-        "amount": "Amount",
-        "quotation": "Quotation",
-        "provider": "Provider",
-        "reception_address": "Reception address",
-        "network": "Network"
-      },
-      "remove_photo": {
-        "title": "Remove file?",
-        "description": "If you continue, you will have to upload the voucher again.",
-        "button_text1": "Cancel",
-        "button_text2": "Remove"
-      },
-      "exit_operation_detail": {
-        "title": "Do you want to go out?",
-        "description": "You will need to reload your voucher.",
-        "button_text1": "Cancel",
-        "button_text2": "Confirm"
-      }
     },
     "operation_status": {
       "incomplete": "Incomplete",

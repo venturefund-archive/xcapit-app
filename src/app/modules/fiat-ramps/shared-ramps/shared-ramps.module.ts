@@ -24,7 +24,6 @@ import { UserPersonalInformationComponent } from './components/user-personal-inf
 import { UserAddressInformationComponent } from './components/user-address-information/user-address-information.component';
 import { OperationKmInProgressModalComponent } from './components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
 import { OperationStatusAlertComponent } from './components/operation-status-alert/operation-status-alert.component';
-import { BankInfoCardComponent } from './components/bank-info-card/bank-info-card.component';
 import { VoucherCardComponent } from './components/voucher-card/voucher-card.component';
 import { KriptonAccountInfoCardComponent } from './components/kripton-account-info-card/kripton-account-info-card.component';
 import { KriptonPurchaseInfoComponent } from './components/kripton-purchase-info/kripton-purchase-info.component';
@@ -59,7 +58,6 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
     CountdownTimerComponent,
     OperationKmInProgressModalComponent,
     OperationStatusAlertComponent,
-    BankInfoCardComponent,
     VoucherCardComponent,
     KriptonAccountInfoCardComponent,
     KriptonPurchaseInfoComponent,
@@ -94,7 +92,6 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
     CountdownTimerComponent,
     OperationKmInProgressModalComponent,
     OperationStatusAlertComponent,
-    BankInfoCardComponent,
     VoucherCardComponent,
     KriptonAccountInfoCardComponent,
     KriptonPurchaseInfoComponent,

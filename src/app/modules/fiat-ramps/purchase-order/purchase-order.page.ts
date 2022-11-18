@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { Filesystem } from '@capacitor/filesystem';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { addHours } from 'date-fns';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 
 @Component({
@@ -36,7 +40,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
           <div class="po__step-wrapper__step__number number first">
             <ion-label *ngIf="this.isFirstStep" class="ux-font-text-lg">1</ion-label>
             <div class="icon" *ngIf="!this.isFirstStep">
-              <ion-icon name="check-circle"></ion-icon>
+              <ion-icon name="check-circle" color="success"></ion-icon>
             </div>
           </div>
           <ion-label class="po__step-wrapper__step__title title ux-font-titulo-xs">{{
@@ -54,6 +58,10 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
       </div>
       <app-voucher-card
         *ngIf="!this.isFirstStep"
+        [voucher]="this.voucher"
+        [percentage]="this.percentage"
+        (addPhoto)="this.addPhoto()"
+        (removePhoto)="this.removePhoto()"
       ></app-voucher-card>
       <app-kripton-account-info-card
         *ngIf="this.isFirstStep"
@@ -90,6 +98,10 @@ export class PurchaseOrderPage {
   data: OperationDataInterface;
   currencyOut: Coin;
   step: number;
+  voucher: Photo;
+  percentage = -1;
+  filesystemPlugin = Filesystem;
+  cameraPlugin = Camera;
 
   constructor(
     private clipboardService: ClipboardService,
@@ -99,6 +111,8 @@ export class PurchaseOrderPage {
     private route: ActivatedRoute,
     private apiWalletService: ApiWalletService,
     private navController: NavController,
+    private platformService: PlatformService,
+    private fiatRampsService: FiatRampsService
   ) {}
 
   ionViewWillEnter() {
@@ -135,6 +149,73 @@ export class PurchaseOrderPage {
   }
 
   goToNextStep() {
-    this.navController.navigateForward(['/fiat-ramps/purchase-order/2']);
+    this.navController.navigateForward(['/fiat-ramps/purchase-order/2'], {animated: false});
   }
+
+  async addPhoto() {
+    this.percentage = 0;
+    if (this.platformService.isNative()) {
+      const filePermissions = await this.filesystemPlugin.requestPermissions();
+      const cameraPermissions = await this.cameraPlugin.requestPermissions();
+      const photo = await this.cameraPlugin.getPhoto({
+        source: CameraSource.Prompt,
+        saveToGallery: false,
+        resultType: CameraResultType.DataUrl,
+      });
+
+      this.voucher = photo;
+    } else {
+      // TOOD: Delete this
+      setTimeout(() => this.percentage = 12, 100);
+      this.voucher = {} as Photo;
+      setTimeout(() => this.percentage = 100, 500);
+    }
+  }
+
+  async sendPicture() {
+    // this.percentage = true;
+    const formData = new FormData();
+    formData.append('file', this.voucher.dataUrl);
+    this.fiatRampsService.confirmOperation(this.data.operation_id, formData).subscribe({
+      next: (data) => {
+        this.voucher = undefined;
+        this.data.voucher = true;
+        // this.percentage = false;
+      },
+      error: () => (this.percentage = -1),
+    });
+
+  }
+
+  navigateBackToOperations() {
+    this.navController.navigateBack(['/fiat-ramps/select-provider']);
+  }
+
+  removePhoto() {
+    this.voucher = undefined;
+  }
+
+  // async showRemovePhotoModal() {
+  //   if (this.isInfoModalOpen === false) {
+  //     this.isInfoModalOpen = true;
+  //     const modal = await this.modalController.create({
+  //       component: SkipTransactionVoucherComponent,
+  //       componentProps: {
+  //         title: this.translate.instant('fiat_ramps.operation_detail.remove_photo.title'),
+  //         description: this.translate.instant('fiat_ramps.operation_detail.remove_photo.description'),
+  //         buttonText1: this.translate.instant('fiat_ramps.operation_detail.remove_photo.button_text1'),
+  //         buttonText2: this.translate.instant('fiat_ramps.operation_detail.remove_photo.button_text2'),
+  //       },
+  //       cssClass: 'modal',
+  //       backdropDismiss: false,
+  //     });
+  //     await modal.present();
+  //     const { data } = await modal.onDidDismiss();
+  //     if (data === 'secondaryAction') {
+  //       this.removePhoto();
+  //     }
+  //     this.isInfoModalOpen = false;
+  //   }
+  // }
+
 }
