@@ -31,8 +31,18 @@ import { ActivatedRoute } from '@angular/router';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { fixedGasPriceTo } from 'src/testing/fixed-gas-price.spec';
+
 
 describe('InvestmentConfirmationPage', () => {
+
+  const weiGasPriceTestValue = '100000000000';
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   let component: InvestmentConfirmationPage;
   let fixture: ComponentFixture<InvestmentConfirmationPage>;
   let investmentDataServiceSpy: jasmine.SpyObj<InvestmentDataService>;
@@ -60,6 +70,8 @@ describe('InvestmentConfirmationPage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+  let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
 
   beforeEach(
     waitForAsync(() => {
@@ -92,7 +104,6 @@ describe('InvestmentConfirmationPage', () => {
       });
       providerSpy = jasmine.createSpyObj(
         'Provider',
-        { getGasPrice: Promise.resolve(BigNumber.from('10')) },
         {
           _isProvider: true,
         }
@@ -130,6 +141,14 @@ describe('InvestmentConfirmationPage', () => {
         open: Promise.resolve(),
       });
 
+      blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+        create: blockchains,
+      });
+
+      gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
+        create: fixedGasPriceTo(weiGasPriceTestValue),
+      });
+
       fakeActivatedRoute = new FakeActivatedRoute({ mode: 'invest' });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
 
@@ -149,6 +168,8 @@ describe('InvestmentConfirmationPage', () => {
           { provide: BrowserService, useValue: browserServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+          { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
+          { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -269,21 +290,23 @@ describe('InvestmentConfirmationPage', () => {
 
   it('should not show informative modal of fees and button enable on view did enter when the native token balance is bigger than the cost of fees', async () => {
     walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.001));
-    providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('100000')));
+    gasStationOfFactorySpy.create.and.returnValue(fixedGasPriceTo('100000'));
+
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(0);
     expect(component.disable).toBeFalsy();
   });
 
   it('should show informative modal of fees and button disable on view did enter when the native token balance is lower than the cost of fees', async () => {
     walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.001));
-    providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('1000000000')));
     fixture.detectChanges();
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(component.disable).toBeTruthy();
   });
