@@ -26,6 +26,9 @@ import { OperationKmInProgressModalComponent } from './components/operation-km-i
 import { OperationStatusAlertComponent } from './components/operation-status-alert/operation-status-alert.component';
 import { BankInfoCardComponent } from './components/bank-info-card/bank-info-card.component';
 import { VoucherCardComponent } from './components/voucher-card/voucher-card.component';
+import { KriptonAccountInfoCardComponent } from './components/kripton-account-info-card/kripton-account-info-card.component';
+import { KriptonPurchaseInfoComponent } from './components/kripton-purchase-info/kripton-purchase-info.component';
+import { TimerCountdownComponent } from './components/timer-countdown/timer-countdown.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +58,9 @@ import { VoucherCardComponent } from './components/voucher-card/voucher-card.com
     OperationStatusAlertComponent,
     BankInfoCardComponent,
     VoucherCardComponent,
+    KriptonAccountInfoCardComponent,
+    KriptonPurchaseInfoComponent,
+    TimerCountdownComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -85,6 +91,9 @@ import { VoucherCardComponent } from './components/voucher-card/voucher-card.com
     OperationStatusAlertComponent,
     BankInfoCardComponent,
     VoucherCardComponent,
+    KriptonAccountInfoCardComponent,
+    KriptonPurchaseInfoComponent,
+    TimerCountdownComponent
   ],
 })
 export class SharedRampsModule {}

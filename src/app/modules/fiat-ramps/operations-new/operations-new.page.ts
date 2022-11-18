@@ -268,7 +268,7 @@ export class OperationsNewPage implements AfterViewInit {
   async handleSubmit() {
     if (this.form.valid) {
       await this.setOperationStorage();
-      this.navController.navigateForward('/fiat-ramps/user-email');
+      this.navController.navigateForward('/fiat-ramps/purchase-order');
     } else {
       this.form.markAllAsTouched();
     }

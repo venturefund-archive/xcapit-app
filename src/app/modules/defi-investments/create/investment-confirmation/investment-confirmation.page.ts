@@ -35,6 +35,11 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
 import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { InProgressTransactionModalComponent } from 'src/app/shared/components/in-progress-transaction-modal/in-progress-transaction-modal.component';
+import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
+import { LocalNotificationsService } from 'src/app/modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
+import { LocalNotificationSchema } from '@capacitor/local-notifications';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -156,7 +161,6 @@ export class InvestmentConfirmationPage {
     private modalController: ModalController,
     private translate: TranslateService,
     private walletEncryptionService: WalletEncryptionService,
-    private navController: NavController,
     private toastService: ToastService,
     private apiWalletService: ApiWalletService,
     private walletBalance: WalletBalanceService,
@@ -165,7 +169,9 @@ export class InvestmentConfirmationPage {
     private storage: IonicStorageService,
     private route: ActivatedRoute,
     private gasStation: GasStationOfFactory,
-    private blockchains: BlockchainsFactory
+    private blockchains: BlockchainsFactory,
+    private localNotificationsService: LocalNotificationsService,
+    private navController: NavController
   ) {}
 
   async ionViewDidEnter() {
@@ -347,7 +353,7 @@ export class InvestmentConfirmationPage {
         text: 'defi_investments.confirmation.informative_modal_fee',
         primaryButtonText: 'defi_investments.confirmation.buy_button',
         secondaryButtonText: 'defi_investments.confirmation.deposit_button',
-        token: this.nativeToken
+        token: this.nativeToken,
       },
     });
     await this.modalController.dismiss(null, null, 'feeModal');
@@ -362,15 +368,19 @@ export class InvestmentConfirmationPage {
     const wallet = await this.wallet();
     if (wallet) {
       if (this.checkTokenBalance()) {
+        await this.openInProgressModal();
         try {
-          await (await this.investment(wallet).deposit(this.amount.value)).wait();
+          await (
+            await this.investment(wallet).deposit(this.amount.value)
+          )
+            .wait()
+            .then(() => this.setActionListener())
+            .then(() => this.createNotification('success'))
+            .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification));
           await this.saveTwoPiAgreement();
-          await this.navController.navigateForward(['/defi/success-investment', this.mode]);
         } catch {
-          await this.navController.navigateForward([
-            '/defi/error-investment',
-            this.investmentDataService.product.name(),
-          ]);
+          const notification = this.createNotification('error');
+          await this.localNotificationsService.send(notification);
         } finally {
           this.loadingEnabled(false);
         }
@@ -379,6 +389,44 @@ export class InvestmentConfirmationPage {
       }
       this.loadingEnabled(false);
     }
+  }
+
+  private setActionListener() {
+    this.localNotificationsService.addListener(() => {
+      this.navigateToTokenDetail();
+    });
+  }
+
+  private navigateToTokenDetail() {
+    this.navController.navigateForward([
+      `wallets/token-detail/blockchain/${this.token.network}/token/${this.token.contract}`,
+    ]);
+  }
+  
+  private createNotification(mode: string): LocalNotificationSchema[] {
+    return [
+      {
+        id: 1,
+        title: this.translate.instant(`defi_investments.notifications.${mode}.title`),
+        body: this.translate.instant(`defi_investments.notifications.${mode}.body`, {
+          amount: this.amount.value,
+          token: this.amount.token,
+          date: format(new Date(), 'dd/MM/yyyy'),
+        }),
+      },
+    ];
+  }
+
+  async openInProgressModal() {
+    const modal = await this.modalController.create({
+      component: InProgressTransactionModalComponent,
+      componentProps: {
+        data: SUCCESS_TYPES.invest_in_progress,
+      },
+      cssClass: 'modal',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 
   private loadingEnabled(enabled: boolean) {
