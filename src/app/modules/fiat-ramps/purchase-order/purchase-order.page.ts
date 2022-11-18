@@ -35,7 +35,9 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
         <div class="po__step-wrapper__step" [ngClass]="this.isFirstStep ? 'active' : 'success'">
           <div class="po__step-wrapper__step__number number first">
             <ion-label *ngIf="this.isFirstStep" class="ux-font-text-lg">1</ion-label>
-            <ion-icon *ngIf="!this.isFirstStep" name="check-circle"></ion-icon>
+            <div class="icon" *ngIf="!this.isFirstStep">
+              <ion-icon name="check-circle"></ion-icon>
+            </div>
           </div>
           <ion-label class="po__step-wrapper__step__title title ux-font-titulo-xs">{{
             'fiat_ramps.purchase_order.step_1' | translate
