@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -107,7 +107,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
     </ion-footer>`,
   styleUrls: ['./user-email.page.scss'],
 })
-export class UserEmailPage {
+export class UserEmailPage implements OnInit {
   form: UntypedFormGroup = this.formBuilder.group({
     email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
     token: ['', []],
