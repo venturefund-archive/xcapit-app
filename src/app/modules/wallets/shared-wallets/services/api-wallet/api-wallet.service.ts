@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { CRUD } from 'src/app/shared/services/crud/crud';
-import { CrudService } from 'src/app/shared/services/crud/crud.service';
+import { Observable } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
 import { PROD_COINS } from '../../constants/coins.prod';
 import { NONPROD_COINS } from '../../constants/coins.nonprod';
 import { Coin } from '../../interfaces/coin.interface';
+import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+
+
 @Injectable({
   providedIn: 'root',
 })
 export class ApiWalletService {
-  crud: CRUD;
-
   entity = 'wallet';
   env = environment.environment;
-  constructor(private crudService: CrudService, private http: CustomHttpService) {
-    this.crud = this.crudService.getEndpoints(this.entity);
-  }
+  constructor(
+    private http: CustomHttpService,
+    private _gasStation: GasStationOfFactory,
+    private _blockchains: BlockchainsFactory
+  ) { }
 
   getPrices(coins: string[], loading = true): Observable<any> {
     return this.http.post(
@@ -73,10 +75,12 @@ export class ApiWalletService {
     return this.http.post(`${environment.apiUrl}/${this.entity}/`, wallets);
   }
 
-  getGasPrice() {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/gas_price`, undefined, undefined, false);
+  async getGasPrice(aBlockchainName: string = "MATIC") {
+    return (await this._gasStation.create(
+      this._blockchains.create().oneByName(aBlockchainName)
+    ).price().standard()).weiValue();
   }
-  
+
   getInitialTokens(): Coin[] {
     return this.getCoins().filter((coin) => coin.native || coin.canInvest);
   }
