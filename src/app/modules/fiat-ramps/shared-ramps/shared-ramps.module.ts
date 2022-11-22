@@ -30,6 +30,7 @@ import { KriptonAccountInfoCardComponent } from './components/kripton-account-in
 import { KriptonPurchaseInfoComponent } from './components/kripton-purchase-info/kripton-purchase-info.component';
 import { TimerCountdownComponent } from './components/timer-countdown/timer-countdown.component';
 import { KYCStatusCardComponent } from './components/kyc-status-card/kyc-status-card.component';
+import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { KYCStatusCardComponent } from './components/kyc-status-card/kyc-status-
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
     BuyOrDepositTokenToastComponent,
+    CountdownTimerComponent,
     OperationKmInProgressModalComponent,
     OperationStatusAlertComponent,
     BankInfoCardComponent,
@@ -89,6 +91,7 @@ import { KYCStatusCardComponent } from './components/kyc-status-card/kyc-status-
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
     ConfirmationContentComponent,
+    CountdownTimerComponent,
     OperationKmInProgressModalComponent,
     OperationStatusAlertComponent,
     BankInfoCardComponent,

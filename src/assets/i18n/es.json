@@ -333,6 +333,23 @@
     }
   },
   "defi_investments": {
+    "notifications":{
+      "success":{
+        "title":"💰 Inversión exitosa. ¡Felicitaciones!",
+        "body": "Invertiste {{amount}} {{token}} el día {{date}}."
+      },
+      "error":{
+        "title":"⚠️ Error en la inversión",
+        "body": "Se produjo un error en la inversión de {{amount}} {{token}} el día {{date}}. Más información aquí."
+      }
+    },
+    "invest_in_progress":{
+      "text_primary":"¡Tu orden está en camino!",
+      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text":"Volver a inversiones",
+      "text_title": "Inversión",
+      "text_badge": "En progreso"
+    },
     "new": {
       "header": "Nueva inversión",
       "amount_to_invest": "Monto a invertir",
@@ -2650,7 +2667,15 @@
       "button": "Continuar",
       "text_token": "Enviamos un código temporal de ingreso a tu email.\n Si no lo encuentras, revisa tu bandeja de spam.",
       "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones.",
-      "label_token": "Código de ingreso"
+      "label_token":"Código de ingreso",
+      "toast_success": "Te reenviamos el código de ingreso a tu email.",
+      "resend_email": {
+        "title_not_sent": "¿No recibiste el código?",
+        "title_sent": "Si no recibiste el código se puede reenviar en",
+        "title_exceeded_attempts": "¿Tienes algún inconveniente con el código?",
+        "link_not_sent": "Reenviar código",
+        "link_exceeded_attempts": "Contactar con soporte"
+      }
     },
     "user_register": {
       "header": "Registración",

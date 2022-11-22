@@ -45,6 +45,7 @@ export const rawUSDCData = {
   abi: '',
   decimals: 6,
   symbol: 'USDCUSDT',
+  canInvest: true
 };
 
 export const rawMATICData = {

@@ -342,6 +342,23 @@
     }
   },
   "defi_investments": {
+    "notifications":{
+      "success":{
+        "title":"💰 Successful investment. Congratulations!",
+        "body": "You invested {{amount}} {{token}} on {{date}}."
+      },
+      "error":{
+        "title":"⚠️ Investment error",
+        "body": "An error occurred in the investment of {{amount}} {{token}} on {{date}}. More information can be found here."
+      }
+    },
+    "invest_in_progress":{
+      "text_primary":"Your order is on its way!",
+      "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "button_text":"Return to investments",
+      "text_title": "Investment",
+      "text_badge": "In progress"
+    },
     "new": {
       "header": "New investment",
       "amount_to_invest": "Amount to invest",
@@ -2687,7 +2704,15 @@
       "button": "Continue",
       "text": "Make sure you have access to the email, you will use it to confirm your transactions.",
       "text_token": "We send a temporary login code to your email.\n If you can't find it, check your spam folder.",
-      "label_token":"Entry code"
+      "label_token":"Entry code",
+      "toast_success": "We resent the login code to your email.",
+      "resend_email": {
+        "title_not_sent": "Did you not receive the code?",
+        "title_sent": "If you did not receive the code it can be resent in",
+        "title_exceeded_attempts": "Do you have any problems with the code?",
+        "link_not_sent": "Resend code",
+        "link_exceeded_attempts": "Contact support"
+      }
     },
     "user_register": {
       "header": "Register",
