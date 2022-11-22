@@ -99,6 +99,7 @@ import { TwoButtonsAlertComponent } from './components/two-buttons-alert/two-but
 import { BuyCryptoFeatureFlagDirective } from './directives/in-review-feature-flag/buy-crypto-feature-flag.directive';
 import { TokenNetworkBadgeComponent } from './components/token-network-badge/token-network-badge.component';
 import { OperationStatusChipComponent } from '../modules/fiat-ramps/shared-ramps/components/operation-status-chip/operation-status-chip.component';
+import { CommaToDotDirective } from './directives/comma-to-dot/comma-to-dot.directive';
 import { InProgressTransactionModalComponent } from './components/in-progress-transaction-modal/in-progress-transaction-modal.component';
 
 @NgModule({
@@ -202,6 +203,7 @@ import { InProgressTransactionModalComponent } from './components/in-progress-tr
     ButtonSpinnerDirective,
     FeatureFlagDirective,
     BuyCryptoFeatureFlagDirective,
+    CommaToDotDirective
   ],
   imports: [CommonModule, IonicModule, TranslateModule.forChild(), TrackClickModule, ReactiveFormsModule],
   exports: [
@@ -309,6 +311,7 @@ import { InProgressTransactionModalComponent } from './components/in-progress-tr
     FeatureFlagDirective,
     SelectStyleDirective,
     BuyCryptoFeatureFlagDirective,
+    CommaToDotDirective
   ],
 })
 export class SharedModule {}
