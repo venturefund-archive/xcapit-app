@@ -19,7 +19,7 @@ export class NumberInputDirective {
   }
 
   pattern() {
-    const patterns = { decimal: /^\d+(?:[\.\,])?\d*$/, positiveInteger: /^\d{1,3}$/ };
+    const patterns = { decimal: /^\d+(?:[.,])?\d*$/, positiveInteger: /^\d{1,3}$/ };
     return this.appNumberInput ? patterns[this.appNumberInput] : patterns.decimal;
   }
 }
