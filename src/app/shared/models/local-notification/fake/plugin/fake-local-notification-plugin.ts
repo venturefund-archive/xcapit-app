@@ -14,4 +14,8 @@ export class FakeLocalNotificationPlugin {
   addListener(eventName: string, callableFunction: CallableFunction){
     return undefined;
   }
+
+  removeAllListeners() : Promise<void>{
+    return undefined;
+  }
 }

@@ -3,15 +3,21 @@ import { FakeLocalNotificationPlugin } from '../fake/plugin/fake-local-notificat
 import { LocalNotification } from '../local-notification.interface';
 import { DefaultLocalNotification } from './default-local-notification';
 
-fdescribe('LocalNotification', () => {
+describe('LocalNotification', () => {
   let localNotification: LocalNotification;
   let localNotificationPluginSpy: jasmine.SpyObj<LocalNotificationsPlugin>;
   beforeEach(() => {
-    localNotification = new DefaultLocalNotification(2, 'testTitle', 'testBody', new FakeLocalNotificationPlugin());
+    localNotification = new DefaultLocalNotification('testTitle', 'testBody', 2, new FakeLocalNotificationPlugin());
   });
 
   it('new', () => {
     expect(localNotification).toBeTruthy();
+  });
+
+  it('createInitialized', () => {
+    expect(
+      DefaultLocalNotification.createInitialized('testTitle', 'testBody', 2, new FakeLocalNotificationPlugin())
+    ).toBeTruthy();
   });
 
   it('send with permissions', async () => {
@@ -23,7 +29,7 @@ fdescribe('LocalNotification', () => {
       schedule: Promise.resolve(),
       checkPermissions: Promise.resolve({ display: 'denied' }),
     });
-    localNotification = new DefaultLocalNotification(2, 'testTitle', 'testBody', localNotificationPluginSpy);
+    localNotification = new DefaultLocalNotification('testTitle', 'testBody', 2, localNotificationPluginSpy);
     await localNotification.send();
     expect(localNotificationPluginSpy.schedule).toHaveBeenCalledTimes(0);
   });
@@ -34,8 +40,8 @@ fdescribe('LocalNotification', () => {
       checkPermissions: Promise.resolve({ display: 'denied' }),
       addListener: Promise.resolve(),
     });
-    localNotification = new DefaultLocalNotification(2, 'testTitle', 'testBody', localNotificationPluginSpy);
-    localNotification.onClick(()=>{});
+    localNotification = new DefaultLocalNotification('testTitle', 'testBody', 2, localNotificationPluginSpy);
+    localNotification.onClick(() => {});
     expect(localNotificationPluginSpy.addListener).toHaveBeenCalledTimes(1);
   });
 });

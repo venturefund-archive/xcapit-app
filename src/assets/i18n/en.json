@@ -349,7 +349,7 @@
       },
       "error":{
         "title":"⚠️ Investment error",
-        "body": "An error occurred in the investment of {{amount}} {{token}} on {{date}}. More information can be found here."
+        "body": "An error occurred in the investment of {{amount}} {{token}} on {{date}}."
       }
     },
     "invest_in_progress":{

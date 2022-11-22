@@ -39,6 +39,9 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
 import { LocalNotificationsService } from 'src/app/modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { format } from 'date-fns';
+import { DefaultLocalNotification } from 'src/app/shared/models/local-notification/default/default-local-notification';
+import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
+import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -153,7 +156,7 @@ export class InvestmentConfirmationPage {
   labelText: string;
   isNegativeBalance: boolean;
   modalHref: string;
-
+  notification: LocalNotification;
   constructor(
     private investmentDataService: InvestmentDataService,
     private walletService: WalletService,
@@ -167,7 +170,7 @@ export class InvestmentConfirmationPage {
     private browserService: BrowserService,
     private storage: IonicStorageService,
     private route: ActivatedRoute,
-    private localNotificationsService: LocalNotificationsService,
+    private localNotificationInjectable: LocalNotificationInjectable,
     private navController: NavController
   ) {}
 
@@ -369,13 +372,13 @@ export class InvestmentConfirmationPage {
             await this.investment(wallet).deposit(this.amount.value)
           )
             .wait()
-            .then(() => this.setActionListener())
             .then(() => this.createNotification('success'))
-            .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification));
+            .then(() => this.setActionListener())
+            .then(() => this.notification.send());
           await this.saveTwoPiAgreement();
         } catch {
-          const notification = this.createNotification('error');
-          await this.localNotificationsService.send(notification);
+          this.createNotification('error');
+          this.notification.send();
         } finally {
           this.loadingEnabled(false);
         }
@@ -387,7 +390,7 @@ export class InvestmentConfirmationPage {
   }
 
   private setActionListener() {
-    this.localNotificationsService.addListener(() => {
+    this.notification.onClick(() => {
       this.navigateToTokenDetail();
     });
   }
@@ -397,19 +400,16 @@ export class InvestmentConfirmationPage {
       `wallets/token-detail/blockchain/${this.token.network}/token/${this.token.contract}`,
     ]);
   }
-  
-  private createNotification(mode: string): LocalNotificationSchema[] {
-    return [
-      {
-        id: 1,
-        title: this.translate.instant(`defi_investments.notifications.${mode}.title`),
-        body: this.translate.instant(`defi_investments.notifications.${mode}.body`, {
-          amount: this.amount.value,
-          token: this.amount.token,
-          date: format(new Date(), 'dd/MM/yyyy'),
-        }),
-      },
-    ];
+
+  private createNotification(mode: string) {
+    this.notification = this.localNotificationInjectable.createInitialized(
+      this.translate.instant(`defi_investments.notifications.${mode}.title`),
+      this.translate.instant(`defi_investments.notifications.${mode}.body`, {
+        amount: this.amount.value,
+        token: this.amount.token,
+        date: format(new Date(), 'dd/MM/yyyy'),
+      })
+    );
   }
 
   async openInProgressModal() {

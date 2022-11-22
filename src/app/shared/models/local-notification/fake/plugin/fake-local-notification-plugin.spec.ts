@@ -1,6 +1,6 @@
 import { FakeLocalNotificationPlugin } from './fake-local-notification-plugin';
 
-fdescribe('FakeLocalNotificationPlugin', () => {
+describe('FakeLocalNotificationPlugin', () => {
   let localNotificationPlugin: FakeLocalNotificationPlugin;
 
   beforeEach(() => {
@@ -23,5 +23,9 @@ fdescribe('FakeLocalNotificationPlugin', () => {
 
   it('addListener', () => {
     expect(localNotificationPlugin.addListener('',()=>{})).toBeUndefined();
+  });
+
+  it('removeAllListeners', () => {
+    expect(localNotificationPlugin.removeAllListeners()).toBeUndefined();
   });
 });
