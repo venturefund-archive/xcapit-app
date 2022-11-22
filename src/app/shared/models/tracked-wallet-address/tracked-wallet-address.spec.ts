@@ -25,6 +25,7 @@ describe('TrackedWalletAddress', () => {
 
     trackedWalletService = new TrackedWalletAddress(trackServiceSpy, walletEncryptionServiceSpy, storageSpy);
   });
+
   it('new', () => {
     expect(trackedWalletService).toBeTruthy();
   });
@@ -36,5 +37,9 @@ describe('TrackedWalletAddress', () => {
       eventLabel: 'ux_log_wallet_address',
       wallet_address: '0xtestAddress',
     });
+  });
+
+  it('isAlreadyTracked', async () => {
+    expect(await trackedWalletService.isAlreadyTracked()).toEqual(false);
   });
 });

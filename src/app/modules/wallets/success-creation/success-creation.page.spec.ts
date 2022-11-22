@@ -9,6 +9,8 @@ import { FakeTrackClickDirective } from '../../../../testing/fakes/track-click-d
 import { By } from '@angular/platform-browser';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { TrackedWalletAddress } from 'src/app/shared/models/tracked-wallet-address/tracked-wallet-address';
+import { TrackedWalletAddressInjectable } from 'src/app/shared/models/tracked-wallet-address/injectable/tracked-wallet-address.injectable';
 
 describe('SuccessCreationPage', () => {
   let component: SuccessCreationPage;
@@ -18,30 +20,39 @@ describe('SuccessCreationPage', () => {
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
-  beforeEach(
-    waitForAsync(() => {
-      navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
-      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
-        trackEvent: Promise.resolve(true),
-      });
-      fakeModalController = new FakeModalController(null, {});
-      modalControllerSpy = fakeModalController.createSpy();
-      TestBed.configureTestingModule({
-        declarations: [FakeTrackClickDirective, SuccessCreationPage],
-        imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: TrackService, useValue: trackServiceSpy },
-          { provide: ModalController, useValue: modalControllerSpy },
-        ],
-      }).compileComponents();
+  let trackedWalletAddressSpy: jasmine.SpyObj<TrackedWalletAddress>;
+  let trackedWalletAddressInjectableSpy: jasmine.SpyObj<TrackedWalletAddressInjectable>;
 
-      fixture = TestBed.createComponent(SuccessCreationPage);
-      component = fixture.componentInstance;
-      trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-      fixture.detectChanges();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    navControllerSpy = jasmine.createSpyObj('NavController', navControllerMock);
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
+    fakeModalController = new FakeModalController(null, {});
+    modalControllerSpy = fakeModalController.createSpy();
+    trackedWalletAddressSpy = jasmine.createSpyObj('TrackedWalletAddress', {
+      value: null,
+    });
+    trackedWalletAddressInjectableSpy = jasmine.createSpyObj('TrackedWalletAddressInjectable', {
+      create: trackedWalletAddressSpy,
+    });
+
+    TestBed.configureTestingModule({
+      declarations: [FakeTrackClickDirective, SuccessCreationPage],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, IonicModule],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: TrackedWalletAddressInjectable, useValue: trackedWalletAddressInjectableSpy },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(SuccessCreationPage);
+    component = fixture.componentInstance;
+    trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -76,8 +87,9 @@ describe('SuccessCreationPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/recovery/read']);
   });
 
-  it('should track screenview event on init', () => {
+  it('should track screenview event and track wallet address on init', () => {
     component.ionViewWillEnter();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+    expect(trackedWalletAddressSpy.value).toHaveBeenCalledTimes(1);
   });
 });

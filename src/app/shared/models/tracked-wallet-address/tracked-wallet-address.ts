@@ -12,11 +12,9 @@ export class TrackedWalletAddress {
   ) {}
 
   public async value(): Promise<void> {
-    if (!(await this.isWalletAddressTracked())) {
-      this.wallet().then((wallet) => {
-        if (wallet) this.logWalletAddress(wallet.addresses['ERC20']);
-      });
-    }
+    this.wallet().then((wallet) => {
+      if (wallet) this.logWalletAddress(wallet.addresses['ERC20']);
+    });
   }
 
   private wallet() {
@@ -32,7 +30,7 @@ export class TrackedWalletAddress {
     this.storage.set(this.walletTrackedLabel, true);
   }
 
-  private isWalletAddressTracked() {
+  public isAlreadyTracked() {
     return this.storage.get(this.walletTrackedLabel);
   }
 }
