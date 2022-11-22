@@ -1708,12 +1708,12 @@
   resolved "https://registry.yarnpkg.com/@capacitor-community/fcm/-/fcm-3.0.0.tgz#836954ad440a59b2de9b8babdfddb1de08c0906f"
   integrity sha512-YLPPy7wiuWSg4Uocw8FWpA3c7YSwyY2iNVr09UycZkbMwTBSDmMnr23guMstRgN/y2qT9X2WyHkpLFCWeeD5VQ==
 
-"@capacitor-community/firebase-analytics@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@capacitor-community/firebase-analytics/-/firebase-analytics-1.0.1.tgz#f247265a8b6b39aeb190775b1bbc659a99643283"
-  integrity sha512-4RBmI4Li0bU69m34bmSB2hOlFLpcJ5gwpGte136+Fd4BiXv8b3UlqmzlFquNELkonbw+X4WcGRDJ1Uc9xkZY3w==
+"@capacitor-community/firebase-analytics@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@capacitor-community/firebase-analytics/-/firebase-analytics-4.0.0.tgz#feb5ebd4ff111a8e7205660e2281a237bbdc81cd"
+  integrity sha512-TwsIz504IrpVajdv5Fv01SYRJqo85oPz2j99xG+NGPCpn110jSRxC6EeHwRLCur8QpGokKlp4y1hd5utUvVUYw==
   dependencies:
-    "@capacitor/core" "^3.0.0"
+    "@capacitor/core" "^4.0.0"
 
 "@capacitor/android@^4.0.0":
   version "4.4.0"
@@ -1763,7 +1763,7 @@
   resolved "https://registry.yarnpkg.com/@capacitor/clipboard/-/clipboard-4.0.1.tgz#b96ae5563583d12e510745fff03aa23050284948"
   integrity sha512-DO5fC6ax5Tm/4K77NjxRLu/bdyvO6FDCK38w05CE4LHvi3RF4LTM8EgnmIrEGKxwwbH5VloTeca9Cu6bsMXPiA==
 
-"@capacitor/core@^3.0.0", "@capacitor/core@^3.4.3":
+"@capacitor/core@^3.4.3":
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-3.9.0.tgz#ab5eccbeb02e140382e983b794ead296f1db7e6d"
   integrity sha512-j1lL0+/7stY8YhIq1Lm6xixvUqIn89vtyH5ZpJNNmcZ0kwz6K9eLkcG6fvq1UWMDgSVZg9JrRGSFhb4LLoYOsw==
