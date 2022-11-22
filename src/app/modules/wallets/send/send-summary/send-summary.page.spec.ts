@@ -155,11 +155,13 @@ describe('SendSummaryPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should send and navigate to success when user can afford fees and password is correct on ux_send_send Button clicked', async () => {
+  it('should send and show send in progress modal when user can afford fees and password is correct on ux_send_send Button clicked', async () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
       'testPassword',
       1,
@@ -167,12 +169,12 @@ describe('SendSummaryPage', () => {
       summaryData.currency
     );
     expect(component.isSending).toBeFalse();
-    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/success']);
+    // expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotification]);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(loadingServiceSpy.show).toHaveBeenCalledTimes(1);
     expect(loadingServiceSpy.dismiss).toHaveBeenCalledTimes(2);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
-    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+    // expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
   });
 
   it('should send if solana', async () => {

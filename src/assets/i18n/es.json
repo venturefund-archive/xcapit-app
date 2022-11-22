@@ -1828,6 +1828,13 @@
         "title": "Selecciona la moneda que deseas enviar",
         "suite": "Red {{suiteName}}"
       },
+      "send_in_progress":{
+        "text_primary":"¡Tu orden está en camino!",
+        "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+        "button_text":"Ir a wallet",
+        "text_title": "Envío",
+        "text_badge": "En progreso"
+      },
       "send_detail": {
         "header": "Enviar",
         "title": "Datos de la transferencia",

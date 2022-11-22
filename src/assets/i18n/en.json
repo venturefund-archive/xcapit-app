@@ -1835,6 +1835,13 @@
         "title": "Select the currency you want to send",
         "suite": "{{suiteName}} network"
       },
+      "send_in_progress":{
+        "text_primary":"Your order is on its way!",
+        "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+        "button_text":"Go to wallet",
+        "text_title": "Send",
+        "text_badge": "In progress"
+      },
       "send_detail": {
         "header": "Send",
         "title": "Shipment data",

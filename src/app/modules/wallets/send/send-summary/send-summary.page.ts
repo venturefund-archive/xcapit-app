@@ -20,6 +20,8 @@ import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallet
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
 import { WeiOf } from 'src/app/modules/swaps/shared-swaps/models/wei-of/wei-of';
+import { InProgressTransactionModalComponent } from 'src/app/shared/components/in-progress-transaction-modal/in-progress-transaction-modal.component';
+import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
@@ -158,10 +160,12 @@ export class SendSummaryPage implements OnInit {
   }
 
   private goToSuccess(response?: TransactionResponse) {
+    
     this.navController.navigateForward(['/wallets/send/success']).then(() => this.notifyWhenTransactionMined(response));
   }
 
   private async send(password: string) {
+    await this.openInProgressModal();
     if (this.blockchain.name() !== 'SOLANA') {
       const response = await this.walletTransactionsService.send(
         password,
@@ -169,7 +173,6 @@ export class SendSummaryPage implements OnInit {
         this.summaryData.address,
         this.summaryData.currency
       );
-      this.goToSuccess(response);
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
       wallet.onNeedPass().subscribe(() => new Password(password).value());
@@ -179,8 +182,20 @@ export class SendSummaryPage implements OnInit {
           this.summaryData.address,
           new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
         )]);
-      this.goToSuccess();
+      // this.goToSuccess();
     }
+  }
+
+  async openInProgressModal() {
+    const modal = await this.modalController.create({
+      component: InProgressTransactionModalComponent,
+      componentProps: {
+        data: SUCCESS_TYPES.send_in_progress,
+      },
+      cssClass: 'modal',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 
   private async checksBeforeSend(): Promise<boolean> {

@@ -337,6 +337,17 @@ export const SUCCESS_TYPES = {
     titlePrimary: 'defi_investments.invest_in_progress.text_title',
     textBadge: 'defi_investments.invest_in_progress.text_badge',
   },
+  send_in_progress: {
+    image: 'assets/img/wallets/send-in-progress.svg',
+    icon: 'assets/img/wallets/send-icon.svg',
+    urlClose: '/tabs/wallets',
+    textPrimary: 'wallets.send.send_in_progress.text_primary',
+    textSecondary: 'wallets.send.send_in_progress.text_secondary',
+    namePrimaryAction: 'wallets.send.send_in_progress.button_text',
+    urlPrimaryAction: '/tabs/wallets',
+    titlePrimary: 'wallets.send.send_in_progress.text_title',
+    textBadge: 'wallets.send.send_in_progress.text_badge',
+  },
   error_no_wallet_financial_education: {
     image: '/assets/img/financial-education/error-no-wallet.svg',
     urlClose: '/tabs/financial-education',
