@@ -63,6 +63,7 @@ import { DefaultMoonpayPriceFactory } from '../../../shared-ramps/models/moonpay
               [provider]="provider"
               [fiatCode]="'USD'"
               [tokenValue]="this.coin.value"
+              [selectedCountry]="this.country"
               (selectedProvider)="this.selectedProvider($event)"
             ></app-provider-card>
           </div>

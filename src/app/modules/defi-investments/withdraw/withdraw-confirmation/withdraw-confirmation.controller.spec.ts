@@ -9,7 +9,6 @@ import { FormattedFee } from '../../shared-defi-investments/models/formatted-fee
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { TwoPiContract } from '../../shared-defi-investments/models/two-pi-contract/two-pi-contract.model';
 import { TwoPiInvestment } from '../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
-import { TwoPiProduct } from '../../shared-defi-investments/models/two-pi-product/two-pi-product.model';
 import { WithdrawConfirmationController } from './withdraw-confirmation.controller';
 
 describe('WithdrawConfirmationController', () => {

@@ -226,10 +226,7 @@ export class SendDonationPage implements OnInit {
   }
 
   private async gasPrice(): Promise<BigNumber> {
-    return await this.apiWalletService
-      .getGasPrice()
-      .toPromise()
-      .then((res) => res.gas_price);
+    return BigNumber.from(await this.apiWalletService.getGasPrice());
   }
 
   private async getFee(): Promise<void> {

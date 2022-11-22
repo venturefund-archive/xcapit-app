@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-user-register-content',
@@ -17,7 +17,7 @@ import { Component, Input, OnInit } from '@angular/core';
   `,
   styleUrls: ['./user-register-content.component.scss'],
 })
-export class UserRegisterContentComponent implements OnInit {
+export class UserRegisterContentComponent implements OnInit, OnChanges {
   @Input() status: string;
   title: string;
   subtitle: string;
@@ -26,6 +26,10 @@ export class UserRegisterContentComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+    this.setText();
+  }
+
+  ngOnChanges() {
     this.setText();
   }
 

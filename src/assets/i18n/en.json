@@ -342,6 +342,23 @@
     }
   },
   "defi_investments": {
+    "notifications":{
+      "success":{
+        "title":"💰 Successful investment. Congratulations!",
+        "body": "You invested {{amount}} {{token}} on {{date}}."
+      },
+      "error":{
+        "title":"⚠️ Investment error",
+        "body": "An error occurred in the investment of {{amount}} {{token}} on {{date}}. More information can be found here."
+      }
+    },
+    "invest_in_progress":{
+      "text_primary":"Your order is on its way!",
+      "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "button_text":"Return to investments",
+      "text_title": "Investment",
+      "text_badge": "In progress"
+    },
     "new": {
       "header": "New investment",
       "amount_to_invest": "Amount to invest",
@@ -2225,6 +2242,15 @@
       "button_primary": "Retry",
       "button_secondary": "Go to wallet"
     },
+    "purchase_order":{
+      "header": "Buy crypto",
+      "clipboard_text":"¡{{type}} successfully copied!",
+      "provider": "Provider: Kripton Market",
+      "step_1":"Transfer",
+      "step_2":"Upload voucher",
+      "button":"Continue",
+      "timer":"You have {{ value }} to transfer"
+    },
     "success_d24_operation": {
       "text_primary": "Purchase confirmed!",
       "text_secondary": "The crediting of your tokens can take up to 24 hours.",
@@ -2628,6 +2654,24 @@
           "button_primary": "Confirm and send",
           "button_secondary": "Reloading"
         }
+      },
+      "kripton_account_info":{
+        "title": "Transfer to the following account",
+        "alias": "Alias",
+        "cbu": "CBU",
+        "amount":"Amount",
+        "owner": "Holder",
+        "currency_type": {
+          "argentina": "Argentine pesos",
+          "venezuela": "Venezuelan bolivares",
+          "uruguay": "Uruguayan pesos",
+          "colombia": "Colombian pesos"
+        }
+      },
+      "kripton_purchase_info":{
+        "title":"Your purchase",
+        "quote":"Quote",
+        "operation":"Operation"
       }
     },
     "kripton_operation_detail":{
@@ -2635,7 +2679,8 @@
       "title":"Buy",
       "state": "Status",
       "state_toast": {
-        "incomplete": "Transfer and send the transaction receipt. <b>Complete data</b>",
+        "incomplete": "Transfer and send the transaction receipt.",
+        "incomplete2": "Complete data",
         "nullified": "The provider cancelled this operation. For more information, please contact support.",
         "cancelled": "The provider did not receive proof of payment."
       },
@@ -2659,7 +2704,15 @@
       "button": "Continue",
       "text": "Make sure you have access to the email, you will use it to confirm your transactions.",
       "text_token": "We send a temporary login code to your email.\n If you can't find it, check your spam folder.",
-      "label_token":"Entry code"
+      "label_token":"Entry code",
+      "toast_success": "We resent the login code to your email.",
+      "resend_email": {
+        "title_not_sent": "Did you not receive the code?",
+        "title_sent": "If you did not receive the code it can be resent in",
+        "title_exceeded_attempts": "Do you have any problems with the code?",
+        "link_not_sent": "Resend code",
+        "link_exceeded_attempts": "Contact support"
+      }
     },
     "user_register": {
       "header": "Register",

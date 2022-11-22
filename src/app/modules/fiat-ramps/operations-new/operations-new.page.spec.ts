@@ -192,7 +192,7 @@ describe('OperationsNewPage', () => {
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://kriptonmarket.com/terms-and-conditions' });
   });
 
-  it('should save operation and redirect to user email when valid form is submitted', async () => {
+  it('should save operation and redirect to purchase order when valid form is submitted', async () => {
     component.ionViewWillEnter();
     component.form.patchValue(validForm);
     fixture.detectChanges();
@@ -200,7 +200,7 @@ describe('OperationsNewPage', () => {
     await fixture.whenRenderingDone();
     await component.handleSubmit();
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/user-email');
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order');
   });
 
   it('should call trackEvent on trackService when ux_buy_kripton_continue Button clicked', () => {

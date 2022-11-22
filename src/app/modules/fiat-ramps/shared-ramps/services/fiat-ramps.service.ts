@@ -133,7 +133,9 @@ export class FiatRampsService {
   }
 
   getMoonpayQuotation(currencyCode: string) {
-    return this.http.get(`${environment.moonpayApiUrl}/currencies/${currencyCode}/ask_price?apiKey=${environment.moonpayPK}`);
+    return this.http.get(
+      `${environment.moonpayApiUrl}/currencies/${currencyCode}/ask_price?apiKey=${environment.moonpayPK}`
+    );
   }
 
   getProvider(providerId: number): FiatRampProvider {

@@ -195,4 +195,17 @@ describe('ProviderCardComponent', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
+
+  it('should render properly directa24 provider', fakeAsync( () => {
+    component.provider = directa24ProviderTest;
+    component.ngOnInit();
+    tick();
+    fixture.detectChanges();
+    const imgEl = fixture.debugElement.query(By.css('div.pcc__content__image'));
+    const paymentTypeEl = fixture.debugElement.query(By.css('ion-text.paymentType'));
+    const descriptionEl = fixture.debugElement.query(By.css('ion-text.description'));
+    expect(imgEl.nativeElement.innerHTML).toBeTruthy();
+    expect(paymentTypeEl.nativeElement.innerHTML).toContain('fiat_ramps.shared.constants.payment_types.directa24_voucher');
+    expect(descriptionEl.nativeElement.innerHTML).toContain(directa24ProviderTest.description);
+  }));
 });

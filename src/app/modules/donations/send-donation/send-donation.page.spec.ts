@@ -36,18 +36,7 @@ import { ERC20ContractController } from '../../defi-investments/shared-defi-inve
 import { FakeContract } from '../../defi-investments/shared-defi-investments/models/fake-contract/fake-contract.model';
 import { BigNumber } from 'ethers';
 import { ERC20Contract } from '../../defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
-
-const coin: Coin = {
-  id: 2,
-  name: 'ETH - Ethereum',
-  logoRoute: 'assets/img/coins/ETH.svg',
-  last: false,
-  value: 'ETH',
-  network: 'ERC20',
-  chainId: 42,
-  rpc: 'testRpc',
-  native: true,
-};
+import { rawETHData, rawUSDTData } from '../../swaps/shared-swaps/models/fixtures/raw-tokens-data';
 
 
 describe('SendDonationPage', () => {
@@ -124,15 +113,15 @@ describe('SendDonationPage', () => {
       activatedRouteSpy = fakeActivatedRoute.createSpy();
 
       coinsSpy = [
-        jasmine.createSpyObj('Coin', {}, { value: 'ETH', network: 'ERC20', native: true }),
-        jasmine.createSpyObj('Coin', {}, { value: 'USDT', network: 'ERC20' }),
+        jasmine.createSpyObj('Coin', {}, rawETHData),
+        jasmine.createSpyObj('Coin', {}, rawUSDTData),
       ];
 
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getCoins: coinsSpy,
         getCoin: JSON.parse(JSON.stringify(causeSpy.token)),
-        getGasPrice: of({ gas_price: 100000000000 }),
-        getNativeTokenFromNetwork: JSON.parse(JSON.stringify(coin)),
+        getGasPrice: Promise.resolve('100000000000'),
+        getNativeTokenFromNetwork: JSON.parse(JSON.stringify(rawETHData)),
         getPrices: of({ prices: { USDT: 1, ETH: 1, BTC: 1 } }),
       });
       fakeNavController = new FakeNavController();
@@ -258,19 +247,21 @@ describe('SendDonationPage', () => {
 
   it('should show informative modal of fees when the native token balance is bigger than the cost of fees', async () => {
     walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('0.001'));
-    apiWalletServiceSpy.getGasPrice.and.returnValue(of({ gas_price: 10000000000000 }));
+    apiWalletServiceSpy.getGasPrice.and.returnValue(Promise.resolve('10000000000000'));
     await component.ionViewWillEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should not show informative modal of fees when the native token balance is lower than the cost of fees', async () => {
     walletServiceSpy.balanceOf.and.returnValue(Promise.resolve('0.001'));
-    apiWalletServiceSpy.getGasPrice.and.returnValue(of({ gas_price: 100000 }));
+    apiWalletServiceSpy.getGasPrice.and.returnValue(Promise.resolve('100000'));
     await component.ionViewWillEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 

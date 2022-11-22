@@ -10,14 +10,14 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
 import { KycUserBasicInformationPage } from './kyc-user-basic-information.page';
 
 const invalidFormData = {
-  firstName: 'test',
-  lastName: 'test',
+  first_name: 'test',
+  last_name: 'test',
   birthday: '1-1-1999',
 };
 
 const validFormData = {
-  firstName: 'test',
-  lastName: 'test',
+  first_name: 'test',
+  last_name: 'test',
   birthday: '1/1/1999',
 };
 
@@ -74,13 +74,14 @@ describe('KycUserBasicInformationPage', () => {
     expect(titleEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_basic.title');
     expect(subtitleEl.nativeElement.innerHTML).toContain('fiat_ramps.kyc.user_basic.subtitle');
     expect(iconEl).toBeTruthy();
-    expect(input1.attributes.controlName).toContain('firstName');
-    expect(input2.attributes.controlName).toContain('lastName');
+    expect(input1.attributes.controlName).toContain('first_name');
+    expect(input2.attributes.controlName).toContain('last_name');
     expect(input3.attributes.controlName).toContain('birthday');
     expect(buttonEl).toBeTruthy();
   });
 
   it('should disable Continue button if form is not valid', () => {
+    component.ionViewWillEnter();
     component.form.patchValue(invalidFormData);
     fixture.detectChanges();
 
@@ -106,12 +107,12 @@ describe('KycUserBasicInformationPage', () => {
   });
 
   it('should get data and patch data on form on init if there is data', async () => {
-    component.form.value.firstName = validFormData.firstName;
+    component.form.value.first_name = validFormData.first_name;
     await component.ionViewWillEnter();
     fixture.detectChanges();
     expect(userKycKriptonDataServiceSpy.getData).toHaveBeenCalledTimes(1);
-    expect(component.form.value.firstName).toEqual(validFormData.firstName);
-    expect(component.form.value.lastName).toEqual(validFormData.lastName);
+    expect(component.form.value.first_name).toEqual(validFormData.first_name);
+    expect(component.form.value.last_name).toEqual(validFormData.last_name);
     expect(component.form.value.birthday).toEqual(validFormData.birthday);
   });
 });

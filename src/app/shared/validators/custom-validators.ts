@@ -41,17 +41,20 @@ export class CustomValidators {
   static isAddressSolana(error: ValidationErrors = CustomValidatorErrors.isAddressSolana): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       try {
-        const address = control.value
-        const publicKey = new PublicKey(address)
-        const isSolana = PublicKey.isOnCurve(publicKey.toBuffer())
-        return isSolana ? null : error;        
+        const address = control.value;
+        const publicKey = new PublicKey(address);
+        const isSolana = PublicKey.isOnCurve(publicKey.toBuffer());
+        return isSolana ? null : error;
       } catch (err) {
         return error;
       }
     };
   }
 
-  static advancedCountWords(value: number, error: ValidationErrors = CustomValidatorErrors.countWordsMatch): ValidatorFn {
+  static advancedCountWords(
+    value: number,
+    error: ValidationErrors = CustomValidatorErrors.countWordsMatch
+  ): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const words = control.value.match(/[a-z0-9]+/g) || [];
       const hasUppercase = /[A-Z]+/g.test(control.value);
@@ -60,11 +63,13 @@ export class CustomValidators {
   }
   static isDate(error: ValidationErrors = CustomValidatorErrors.isDate): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const items = control.value.split('/');
-      const [month, day, year] = items;
-      if (items.length !== 3) return error;
-      if (Number(year) < 1900) return error;
-      return isExists(Number(year), Number(month - 1), Number(day)) ? null : error;
+      if (control.value !== undefined) {
+        const items = control.value.split('/');
+        const [month, day, year] = items;
+        if (items.length !== 3) return error;
+        if (Number(year) < 1900) return error;
+        return isExists(Number(year), Number(month - 1), Number(day)) ? null : error;
+      }
     };
   }
 
