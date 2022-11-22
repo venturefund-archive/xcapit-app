@@ -291,6 +291,9 @@ export class SwapHomePage {
 
   private async setFeeInfo() {
     this.tplFee = (await this.gasPrice()).times(this.tplSwapInfo.estimatedGas).json();
+    if (this._isNativeToken()) {
+      this.tplFee.value += (this.tplFee.value * 25) / 100;
+    }
   }
 
   private setNullFeeInfo() {
@@ -317,11 +320,11 @@ export class SwapHomePage {
     this.setNullFeeInfo();
     this.setDex();
     this.setTokens();
-    this.setFeeInfo();
     await this.setTokensToSwap(
       this.route.snapshot.paramMap.get(this.fromTokenKey),
       this.route.snapshot.paramMap.get(this.toTokenKey)
     );
+    this.setFeeInfo();
     this.setQuotePrices();
   }
 
@@ -372,7 +375,7 @@ export class SwapHomePage {
     const aToken = this.apiWalletService.getCoin(aCoin);
     this.swapBalance = await this.walletBalance.balanceOf(aToken);
     if (aToken.native) {
-      this.feeBalance = this.swapBalance;
+      this.feeBalance = this.tplFee.value;
     } else {
       const aNativeToken = this.apiWalletService.getNativeTokenFromNetwork(aToken.network);
       this.feeBalance = await this.walletBalance.balanceOf(aNativeToken);
@@ -384,13 +387,13 @@ export class SwapHomePage {
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(async (value) => {
-        
-      if (value > this.swapBalance) {
-        this.showInsufficientBalanceModal();
-      }
+        if (value > this.swapBalance) {
+          this.showInsufficientBalanceModal();
+        }
         this.setNullFeeInfo();
         await this.setSwapInfo(value);
         await this.setFeeInfo();
+        await this.balanceAvailableOf(this.fromToken.symbol());
         this.setUSDPrices(value);
         this.checkFee(value);
       });
@@ -437,7 +440,9 @@ export class SwapHomePage {
 
   private async setTokensToSwap(fromTokenAddress: string, toTokenAddress: string) {
     this.fromToken = await new TokenByAddress(fromTokenAddress, this.tokens).value();
+
     this.tplFromToken = this.fromToken.json();
+
     this.toToken = await new TokenByAddress(toTokenAddress, this.tokens).value();
     this.tplToToken = this.toToken.json();
     await this.balanceAvailableOf(this.fromToken.symbol());
@@ -582,9 +587,21 @@ export class SwapHomePage {
     await modal.present();
   }
 
-  setMaxAmount() {
-    this.form.get('fromTokenAmount').setValue(this.swapBalance);
+  async setMaxAmount() {
+    if (this._isNativeToken()) {
+      await this.setSwapInfo(this.swapBalance.toString());
+      await this.setFeeInfo();
+    }
+
+    this.form.get('fromTokenAmount').setValue(this._maxAmount());
     this.form.updateValueAndValidity();
+  }
+
+  private _maxAmount() {
+    return this._isNativeToken() ? Math.max(this.swapBalance - this.tplFee.value, 0) : this.swapBalance;
+  }
+  private _isNativeToken() {
+    return this.fromToken.symbol() === this.activeBlockchain.nativeToken().symbol();
   }
 
   checkBalance() {
@@ -639,7 +656,7 @@ export class SwapHomePage {
       cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
-      componentProps: { token, text, primaryButtonText, secondaryButtonText }
+      componentProps: { token, text, primaryButtonText, secondaryButtonText },
     });
     if (window.location.href === this.modalHref) {
       await modal.present();

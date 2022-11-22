@@ -164,7 +164,9 @@ describe('SwapHomePage', () => {
     });
 
     gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
-      create: { price: () => ({ fast: () => Promise.resolve(new AmountOf('1', new DefaultToken(rawMATICData))) }) },
+      create: {
+        price: () => ({ fast: () => Promise.resolve(new AmountOf('100000', new DefaultToken(rawMATICData))) }),
+      },
     });
 
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
@@ -447,14 +449,26 @@ describe('SwapHomePage', () => {
   });
 
   it('should set max amount from swap', async () => {
+    walletBalanceSpy.balanceOf.and.returnValues(Promise.resolve(10), Promise.resolve(0));
     await component.ionViewDidEnter();
     fixture.detectChanges();
-
-    fixture.debugElement
-      .query(By.css('ion-button.sw__swap-card__from__detail__amount__wrapper__max'))
-      .nativeElement.click();
+    await component.setMaxAmount();
 
     expect(component.form.controls.fromTokenAmount.value).toEqual(10);
+  });
+
+  it('should set max amount from native token swap', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
+      fromToken: rawMATICData.contract,
+      toToken: rawUSDCData.contract,
+    });
+    walletBalanceSpy.balanceOf.and.returnValues(Promise.resolve(10), Promise.resolve(0));
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await component.setMaxAmount();
+
+    expect(component.form.controls.fromTokenAmount.value).toEqual(9.99999997132675);
   });
 
   it('should render correct properly and enabled button when the balance is available', fakeAsync(() => {
@@ -490,7 +504,12 @@ describe('SwapHomePage', () => {
   it('should show alert when insuficient funds for fee', fakeAsync(() => {
     const feeModal = spyOn(component, 'showInsufficientBalanceFeeModal');
     const balanceModal = spyOn(component, 'showInsufficientBalanceModal');
-    walletBalanceSpy.balanceOf.and.returnValues(Promise.resolve(10), Promise.resolve(0));
+    walletBalanceSpy.balanceOf.and.returnValues(
+      Promise.resolve(10),
+      Promise.resolve(0),
+      Promise.resolve(10),
+      Promise.resolve(0)
+    );
     fixture.detectChanges();
     _setTokenAmountArrange(10);
 
