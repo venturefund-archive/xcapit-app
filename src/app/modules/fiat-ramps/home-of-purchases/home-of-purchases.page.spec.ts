@@ -9,6 +9,7 @@ import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { HomeOfPurchasesPage } from './home-of-purchases.page';
 
@@ -39,6 +40,8 @@ const rawOperations: any[] = [
   },
 ];
 
+const user_status = { kyc_approved: false, registration_status: 'USER_INFORMATION' };
+
 describe('HomeOfPurchasesPage', () => {
   let component: HomeOfPurchasesPage;
   let fixture: ComponentFixture<HomeOfPurchasesPage>;
@@ -48,6 +51,7 @@ describe('HomeOfPurchasesPage', () => {
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -55,6 +59,7 @@ describe('HomeOfPurchasesPage', () => {
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
       getUserOperations: of(rawOperations),
+      getOrCreateUser: of(user_status),
     });
 
     providersSpy = jasmine.createSpyObj('Providers', {
@@ -69,6 +74,10 @@ describe('HomeOfPurchasesPage', () => {
       tokenOperationData: { asset: 'USDC', network: 'MATIC', country: 'ECU' },
     });
 
+    kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
+      get: Promise.resolve('test@test.com'),
+    });
+
     TestBed.configureTestingModule({
       declarations: [HomeOfPurchasesPage],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -77,6 +86,7 @@ describe('HomeOfPurchasesPage', () => {
         { provide: ProvidersFactory, useValue: providersFactorySpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -125,5 +135,50 @@ describe('HomeOfPurchasesPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('div.hop__question > ion-text')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/support/faqs/buy');
+  });
+
+  it('should get user status of kripton market on init', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(fiatRampsServiceSpy.getOrCreateUser).toHaveBeenCalledOnceWith({ email: 'test@test.com' });
+    expect(component.userStatus).toEqual(user_status);
+  });
+
+  it('should set correctly data when user status is USER_INFORMATION', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.title).toEqual('fiat_ramps.kyc_status.title');
+    expect(component.message).toEqual('fiat_ramps.kyc_status.starting.message');
+    expect(component.status).toEqual('fiat_ramps.kyc_status.starting.status');
+    expect(component.style).toEqual('warning');
+  });
+
+  it('should set correctly data when user status is USER_IMAGES', async () => {
+    fiatRampsServiceSpy.getOrCreateUser.and.returnValue(of({ registration_status: 'USER_IMAGES' }));
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.title).toEqual('fiat_ramps.kyc_status.title');
+    expect(component.message).toEqual('fiat_ramps.kyc_status.starting.message');
+    expect(component.status).toEqual('fiat_ramps.kyc_status.pending.status');
+    expect(component.style).toEqual('warning');
+  });
+
+  it('should set correctly data when user status is COMPLETE', async () => {
+    fiatRampsServiceSpy.getOrCreateUser.and.returnValue(of({ registration_status: 'COMPLETE' }));
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.title).toEqual('fiat_ramps.kyc_status.title');
+    expect(component.message).toEqual('fiat_ramps.kyc_status.checking.message');
+    expect(component.status).toEqual('fiat_ramps.kyc_status.checking.status');
+    expect(component.style).toEqual('warning');
+  });
+
+  it('should set correctly data when KYC is approved', async () => {
+    fiatRampsServiceSpy.getOrCreateUser.and.returnValue(of({ kyc_approved: true }));
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.title).toEqual('fiat_ramps.kyc_status.approving.title');
+    expect(component.message).toEqual('fiat_ramps.kyc_status.approving.message');
+    expect(component.style).toEqual('approving');
   });
 });

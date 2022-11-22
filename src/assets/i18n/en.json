@@ -2785,6 +2785,28 @@
           "cancel_button": "Cancel"
         }
       }
+    },
+    "kyc_status": {
+      "title": "Kripton Market Account",
+      "starting": {
+        "status": "Progress: 0%",
+        "message": "Complete the identity validation to finalize the creation of your account. Verify identity now."
+      },
+      "pending": {
+        "status": "Progress: 50%"
+      },
+      "checking": {
+        "status": "In progress",
+        "message": "Your data is being verified. This process can take up to 48 hours."
+      },
+      "canceling": {
+        "status": "Cancelled",
+        "message": "The data entered could not be verified by the supplier or is incorrect. For more information, please contact support."
+      },
+      "approving": {
+        "title": "Your Kripton Market account has been verified.",
+        "message": "You can now make your purchases with this provider."
+      }
     }
   },
   "home": {
