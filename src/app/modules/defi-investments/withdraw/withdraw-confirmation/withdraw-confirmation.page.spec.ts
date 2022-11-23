@@ -140,7 +140,7 @@ describe('WithdrawConfirmationPage', () => {
     fakeLocalNotification = new FakeLocalNotification();
 
     localNotificationInjectableSpy = jasmine.createSpyObj('LocalNotificationInjectable', {
-      createInitialized: fakeLocalNotification
+      create: fakeLocalNotification
     });
 
 
@@ -241,7 +241,7 @@ describe('WithdrawConfirmationPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(sendSpy ).toHaveBeenCalledTimes(1);
     expect(onClickSpy).toHaveBeenCalledTimes(1);
-    expect(localNotificationInjectableSpy.createInitialized).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
   });
 
   it('should withdrawAll', async () => {
@@ -258,7 +258,7 @@ describe('WithdrawConfirmationPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
     expect(sendSpy ).toHaveBeenCalledTimes(1);
     expect(onClickSpy).toHaveBeenCalledTimes(1);
-    expect(localNotificationInjectableSpy.createInitialized).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
   });
 
   it('should not withdraw if invalid password', async () => {
@@ -292,7 +292,7 @@ describe('WithdrawConfirmationPage', () => {
 
     expect(sendSpy ).toHaveBeenCalledTimes(1);
     expect(onClickSpy).toHaveBeenCalledTimes(0);
-    expect(localNotificationInjectableSpy.createInitialized).toHaveBeenCalledOnceWith(testLocalNotificationNotOk.title, testLocalNotificationNotOk.body);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationNotOk.title, testLocalNotificationNotOk.body);
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
   });

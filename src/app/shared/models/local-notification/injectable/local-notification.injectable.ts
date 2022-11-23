@@ -5,12 +5,12 @@ import { FakeLocalNotificationPlugin } from '../fake/plugin/fake-local-notificat
 
 @Injectable({ providedIn: 'root' })
 export class LocalNotificationInjectable {
-  createInitialized(
+  create(
     aTitle: string,
     aBody: string,
     anId: number = 1,
     aPlugin: LocalNotificationsPlugin | FakeLocalNotificationPlugin = LocalNotifications
   ) {
-    return DefaultLocalNotification.createInitialized(aTitle, aBody, anId, aPlugin);
+    return DefaultLocalNotification.create(aTitle, aBody, anId, aPlugin);
   }
 }

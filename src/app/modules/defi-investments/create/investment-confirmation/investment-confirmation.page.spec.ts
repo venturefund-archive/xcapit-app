@@ -122,7 +122,7 @@ describe('InvestmentConfirmationPage', () => {
       fakeLocalNotification = new FakeLocalNotification();
 
       localNotificationInjectableSpy = jasmine.createSpyObj('LocalNotificationInjectable', {
-        createInitialized: fakeLocalNotification
+        create: fakeLocalNotification
       });
 
       providerSpy = jasmine.createSpyObj(
@@ -235,7 +235,7 @@ describe('InvestmentConfirmationPage', () => {
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
     expect(sendSpy).toHaveBeenCalledTimes(1);
     expect(onClickSpy).toHaveBeenCalledTimes(1);
-    expect(localNotificationInjectableSpy.createInitialized).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
     expect(storageSpy.set).toHaveBeenCalledOnceWith('_agreement_2PI_T&C', true);
   });
   
@@ -251,7 +251,7 @@ describe('InvestmentConfirmationPage', () => {
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
     expect(sendSpy ).toHaveBeenCalledTimes(1);
     expect(onClickSpy).toHaveBeenCalledTimes(0);
-    expect(localNotificationInjectableSpy.createInitialized).toHaveBeenCalledOnceWith(testLocalNotificationNotOk.title, testLocalNotificationNotOk.body);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationNotOk.title, testLocalNotificationNotOk.body);
     expect(storageSpy.set).not.toHaveBeenCalled();
   });
   

@@ -10,7 +10,7 @@ export class DefaultLocalNotification implements LocalNotification {
     private readonly _aPlugin: LocalNotificationsPlugin | FakeLocalNotificationPlugin = LocalNotifications
   ) {}
 
-  public static createInitialized(
+  public static create(
     aTitle: string,
     aBody: string,
     anId: number = 1,

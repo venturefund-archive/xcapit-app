@@ -336,15 +336,11 @@ export class WithdrawConfirmationPage {
           if (this.route.snapshot.paramMap.get('type') === 'all') {
             await (await investment.withdrawAll())
             .wait()
-            .then(() => this.createNotification('success'))
-            .then(() => this.setActionListener())
-            .then(() => this.notification.send());
+            .then(() => this._sendSuccessNotification());
           } else {
             await (await investment.withdraw(this.amount.value))
             .wait()
-            .then(() => this.createNotification('success'))
-            .then(() => this.setActionListener())
-            .then(() => this.notification.send());
+            .then(() => this._sendSuccessNotification());
           }
         } catch {
           this.createNotification('error');
@@ -360,6 +356,12 @@ export class WithdrawConfirmationPage {
     this.loadingEnabled(false);
   }
 
+  private _sendSuccessNotification() {
+   this.createNotification('success');
+   this.setActionListener();
+    this.notification.send();
+  }
+
   private setActionListener() {
     this.notification.onClick(() => {
       this.navigateToTokenDetail();
@@ -373,7 +375,7 @@ export class WithdrawConfirmationPage {
   }
 
   private createNotification(mode: string) {
-    this.notification = this.localNotificationInjectable.createInitialized(
+    this.notification = this.localNotificationInjectable.create(
       this.translate.instant(`defi_investments.withdraw_notifications.${mode}.title`),
       this.translate.instant(`defi_investments.withdraw_notifications.${mode}.body`, {
         amount: this.amount.value,
@@ -468,7 +470,5 @@ export class WithdrawConfirmationPage {
     this.leave$.complete();
   }
 }
-function then(arg0: () => void) {
-  throw new Error('Function not implemented.');
-}
+
 

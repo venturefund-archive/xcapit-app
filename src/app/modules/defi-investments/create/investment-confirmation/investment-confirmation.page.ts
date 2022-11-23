@@ -407,7 +407,7 @@ export class InvestmentConfirmationPage {
   }
 
   private createNotification(mode: string) {
-    this.notification = this.localNotificationInjectable.createInitialized(
+    this.notification = this.localNotificationInjectable.create(
       this.translate.instant(`defi_investments.notifications.${mode}.title`),
       this.translate.instant(`defi_investments.notifications.${mode}.body`, {
         amount: this.amount.value,
