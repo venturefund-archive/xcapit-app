@@ -104,12 +104,13 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
                 <div class="sw__swap-card__from__detail__amount__wrapper">
                   <ion-input
                     appNumberInput
+                    appCommaToDot
                     [disabled]="this.sameTokens"
                     [ngClass]="{ insufficient: this.insufficientBalance }"
                     class="sw__swap-card__from__detail__amount__wrapper__input"
                     formControlName="fromTokenAmount"
-                    type="number"
-                    inputmode="numeric"
+                    type="text"
+                    inputmode="decimal"
                   ></ion-input>
                   <ion-button
                     (click)="this.setMaxAmount()"
@@ -387,9 +388,10 @@ export class SwapHomePage {
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(async (value) => {
-        if (value > this.swapBalance) {
-          this.showInsufficientBalanceModal();
-        }
+
+      if (value > this.swapBalance) {
+        this.showInsufficientBalanceModal();
+      }
         this.setNullFeeInfo();
         await this.setSwapInfo(value);
         await this.setFeeInfo();

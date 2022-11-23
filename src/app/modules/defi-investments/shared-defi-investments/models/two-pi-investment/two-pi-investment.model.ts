@@ -81,12 +81,7 @@ export class TwoPiInvestment implements Investment {
   }
 
   private async _gasPrice(): Promise<BigNumber> {
-    return BigNumber.from(
-      await this._anApiWalletService
-        .getGasPrice()
-        .toPromise()
-        .then((res) => res.gas_price)
-    );
+    return BigNumber.from(await this._anApiWalletService.getGasPrice());
   }
 
   async balance(): Promise<number> {

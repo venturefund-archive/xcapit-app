@@ -35,6 +35,7 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
           <div class="pnoc__amount-select__inputs__amount">
             <ion-input
               appNumberInput
+              appCommaToDot
               debounce="1000"
               [class.invalid]="
                 !this.form.controls.fiatAmount.valid &&
@@ -44,8 +45,8 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
                   this.form.controls.fiatAmount.dirty)
               "
               formControlName="cryptoAmount"
-              type="number"
-              inputmode="numeric"
+              type="text"
+              inputmode="decimal"
             >
             </ion-input>
           </div>
@@ -54,6 +55,7 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
             <ion-input
               debounce="1000"
               appNumberInput
+              appCommaToDot
               [class.invalid]="
                 !this.form.controls.fiatAmount.valid &&
                 (this.form.controls.cryptoAmount.touched ||
@@ -62,8 +64,8 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
                   this.form.controls.fiatAmount.dirty)
               "
               formControlName="fiatAmount"
-              type="number"
-              inputmode="numeric"
+              type="text"
+              inputmode="decimal"
             ></ion-input>
           </div>
         </div>

@@ -19,6 +19,7 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { FakeProviders } from '../shared-ramps/models/providers/fake/fake-providers';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { KriptonOperationDetailPage } from './kripton-operation-detail.page';
 
 describe('KriptonOperationDetailPage', () => {
@@ -36,11 +37,12 @@ describe('KriptonOperationDetailPage', () => {
   let fakeNavController: FakeNavController;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
 
   const operation: FiatRampOperation = {
     operation_id: 678,
     operation_type: 'cash-in',
-    status: 'cancel',
+    status: 'request',
     currency_in: 'ARS',
     amount_in: 500.0,
     currency_out: 'ETH',
@@ -83,6 +85,10 @@ describe('KriptonOperationDetailPage', () => {
       getCoin: TEST_COINS[0],
     });
 
+    storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
+      updateData: null,
+    });
+
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       setProvider: null,
       getUserSingleOperation: of([operation]),
@@ -106,6 +112,8 @@ describe('KriptonOperationDetailPage', () => {
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: ModalController, useValue: modalControllerSpy },
+        { provide: StorageOperationService, useValue: storageOperationServiceSpy}
+
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -231,5 +239,18 @@ describe('KriptonOperationDetailPage', () => {
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(component.description).toEqual(`fiat_ramps.operation_status_detail.cancelled.description`);
+  });
+
+  it('should set operation storage data and redirect to purchase order when event was triggered', async() => {
+    const incompleteOperation: FiatRampOperation = { ...operation, status: 'request' };
+    fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([incompleteOperation]));
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-operation-status-alert')).triggerEventHandler('goToPurchaseOrder');
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/purchase-order', { animated: false });
+    expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
   });
 });

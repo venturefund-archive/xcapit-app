@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { SkipBackupModalComponent } from '../shared-wallets/components/skip-backup-modal/skip-backup-modal.component';
+import { TrackedWalletAddressInjectable } from '../../../shared/models/tracked-wallet-address/injectable/tracked-wallet-address.injectable';
 
 @Component({
   selector: 'app-success-creation',
@@ -49,21 +50,29 @@ import { SkipBackupModalComponent } from '../shared-wallets/components/skip-back
   </ion-content>`,
   styleUrls: ['./success-creation.page.scss'],
 })
-export class SuccessCreationPage implements OnInit {
+export class SuccessCreationPage {
   constructor(
     private navController: NavController,
     private trackService: TrackService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private trackedWalletAddress: TrackedWalletAddressInjectable
   ) {}
 
-  ngOnInit() {}
-
   ionViewWillEnter() {
+    this.trackScreenViewEvent();
+    this.trackWalletAddressEvent();
+  }
+
+  trackScreenViewEvent(): void {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_create_screenview_success',
     });
+  }
+
+  trackWalletAddressEvent() {
+    this.trackedWalletAddress.create().value();
   }
 
   async skipBackup() {

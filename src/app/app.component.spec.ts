@@ -15,6 +15,8 @@ import { WalletBackupService } from './modules/wallets/shared-wallets/services/w
 import { LocalNotificationsService } from './modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { IonicStorageService } from './shared/services/ionic-storage/ionic-storage.service';
+import { TrackedWalletAddress } from './shared/models/tracked-wallet-address/tracked-wallet-address';
+import { TrackedWalletAddressInjectable } from './shared/models/tracked-wallet-address/injectable/tracked-wallet-address.injectable';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -34,6 +36,8 @@ describe('AppComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
+  let trackedWalletAddressSpy: jasmine.SpyObj<TrackedWalletAddress>;
+  let trackedWalletAddressInjectableSpy: jasmine.SpyObj<TrackedWalletAddressInjectable>;
 
   beforeEach(waitForAsync(() => {
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
@@ -54,13 +58,18 @@ describe('AppComponent', () => {
       checkDeeplinkUrl: null,
       checkConnection: Promise.resolve(),
     });
-
     walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
       getBackupWarningWallet: Promise.resolve(),
     });
-
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(true),
+    });
+    trackedWalletAddressSpy = jasmine.createSpyObj('TrackedWalletAddress', {
+      value: null,
+      isAlreadyTracked: Promise.resolve(false),
+    });
+    trackedWalletAddressInjectableSpy = jasmine.createSpyObj('TrackedWalletAddressInjectable', {
+      create: trackedWalletAddressSpy,
     });
 
     TestBed.configureTestingModule({
@@ -80,6 +89,7 @@ describe('AppComponent', () => {
         { provide: LocalNotificationsService, useValue: localNotificationServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
+        { provide: TrackedWalletAddressInjectable, useValue: trackedWalletAddressInjectableSpy },
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
@@ -119,5 +129,20 @@ describe('AppComponent', () => {
     component.ngOnInit();
     await fixture.whenStable();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should track wallet address if its not tracked already', async () => {
+    component.ngOnInit();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    expect(trackedWalletAddressSpy.value).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not track wallet address if its tracked already', async () => {
+    trackedWalletAddressSpy.isAlreadyTracked.and.resolveTo(true);
+    component.ngOnInit();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    expect(trackedWalletAddressSpy.value).toHaveBeenCalledTimes(0);
   });
 });

@@ -12,7 +12,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../../wallets/shared-wallets/interfaces/coin.interface';
 import { BigNumber, Wallet } from 'ethers';
 import { TwoPiInvestment } from '../../shared-defi-investments/models/two-pi-investment/two-pi-investment.model';
-import { Provider } from '@ethersproject/abstract-provider';
 import { DefaultERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
 import { TwoPiContract } from '../../shared-defi-investments/models/two-pi-contract/two-pi-contract.model';
 import { of } from 'rxjs';
@@ -25,8 +24,19 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { By } from '@angular/platform-browser';
+import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { fixedGasPriceTo } from 'src/testing/fixed-gas-price.spec';
+
 
 describe('WithdrawConfirmationPage', () => {
+
+  const weiGasPriceTestValue = '10';
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   let component: WithdrawConfirmationPage;
   let fixture: ComponentFixture<WithdrawConfirmationPage>;
   let nativeCoinSpy: jasmine.SpyObj<Coin>;
@@ -34,7 +44,6 @@ describe('WithdrawConfirmationPage', () => {
   let walletSpy: Wallet;
   let investmentSpy: jasmine.SpyObj<TwoPiInvestment>;
   let investmentProductSpy: jasmine.SpyObj<InvestmentProduct>;
-  let providerSpy: jasmine.SpyObj<Provider>;
   let erc20ProviderSpy: jasmine.SpyObj<DefaultERC20Provider>;
   let twoPiContractSpy: jasmine.SpyObj<TwoPiContract>;
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
@@ -53,6 +62,9 @@ describe('WithdrawConfirmationPage', () => {
   let gasFeeOfSpy: jasmine.SpyObj<GasFeeOf>;
   let alertControllerSpy: jasmine.SpyObj<AlertController>;
   let alertSpy: jasmine.SpyObj<HTMLIonAlertElement>;
+  let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+
   beforeEach(waitForAsync(() => {
     alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
     alertControllerSpy = jasmine.createSpyObj('AlertController', { create: Promise.resolve(alertSpy) });
@@ -63,7 +75,7 @@ describe('WithdrawConfirmationPage', () => {
     navControllerSpy = fakeNavController.createSpy();
     modalControllerSpy = fakeModalController.createSpy();
     dynamicPriceSpy = jasmine.createSpyObj('DynamicPrice', { value: of(4000) });
-    gasFeeOfSpy = jasmine.createSpyObj('GasFeeOf', { value: of(4000) });
+    gasFeeOfSpy = jasmine.createSpyObj('GasFeeOf', { value: Promise.resolve(BigNumber.from(4000)) });
     erc20ProviderSpy = jasmine.createSpyObj('ERC20Provider', {
       value: {},
       coin: { contract: '0x3B353b1CBDDA3A3D648af9825Ee34d9CA816FD38', abi: [] },
@@ -89,13 +101,6 @@ describe('WithdrawConfirmationPage', () => {
       createFormattedFee: { value: () => Promise.resolve(10) },
     });
 
-    providerSpy = jasmine.createSpyObj(
-      'Provider',
-      { getGasPrice: Promise.resolve(BigNumber.from('10')) },
-      {
-        _isProvider: true,
-      }
-    );
     usdcCoinSpy = jasmine.createSpyObj('Coin', {}, { native: false, value: 'USDC', network: 'MATIC' });
 
     investmentProductSpy = jasmine.createSpyObj('InvestmentProduct', {
@@ -142,6 +147,14 @@ describe('WithdrawConfirmationPage', () => {
       showWarningToast: Promise.resolve(),
     });
 
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: blockchains,
+    });
+
+    gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
+      create: fixedGasPriceTo(weiGasPriceTestValue, rawMATICData),
+    });
+
     walletBalanceServiceSpy = jasmine.createSpyObj('WalletBalanceService', { balanceOf: Promise.resolve('51') });
 
     TestBed.configureTestingModule({
@@ -158,6 +171,8 @@ describe('WithdrawConfirmationPage', () => {
         { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
         { provide: WithdrawConfirmationController, useValue: controllerSpy },
         { provide: AlertController, useValue: alertControllerSpy },
+        { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -173,13 +188,14 @@ describe('WithdrawConfirmationPage', () => {
 
   it('should load properly data on DidEnter', async () => {
     await component.ionViewDidEnter();
+
     expect(component.investmentProduct).toEqual(investmentProductSpy);
     expect(component.amount).toEqual({ value: 10, token: 'USDC' });
     expect(component.quoteAmount).toEqual({ value: 40000, token: 'USD' });
     expect(component.token).toEqual(usdcCoinSpy);
     expect(component.withdrawFee).toEqual({ value: 10 * 0.00255, token: 'USDC' });
     expect(component.withdrawFeeQuote).toEqual({ value: 40000 * 0.00255, token: 'USD' });
-    expect(component.fee).toEqual({ value: 10, token: 'MATIC' });
+    expect(component.fee).toEqual({ value: 0.00000000000004, token: 'MATIC' });
     expect(component.receiveAprox).toEqual({
       value: component.amount.value - component.withdrawFee.value,
       token: component.amount.token,
@@ -195,42 +211,49 @@ describe('WithdrawConfirmationPage', () => {
     await component.ionViewDidEnter();
     await component.withdraw();
     await fixture.whenStable();
+
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/withdraw/success');
   });
 
   it('should withdrawAll', async () => {
-    fakeActivatedRoute.modifySnapshotParams({
-      type: 'all',
-    });
+    fakeActivatedRoute.modifySnapshotParams({ type: 'all' });
+
     await component.ionViewDidEnter();
     await component.withdraw();
     await fixture.whenStable();
+
     expect(investmentSpy.withdrawAll).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/withdraw/success');
   });
 
   it('should not withdraw if invalid password', async () => {
     walletEncryptionServiceSpy.getDecryptedWalletForCurrency.and.rejectWith();
+
     await component.ionViewDidEnter();
     await component.withdraw();
     await fixture.whenStable();
+
     expect(investmentSpy.withdraw).not.toHaveBeenCalled();
   });
 
   it('should not withdraw if no password', async () => {
     fakeModalController.modifyReturns({ data: null }, null);
+
     await component.ionViewDidEnter();
     await component.withdraw();
     await fixture.whenStable();
+
     expect(investmentSpy.withdraw).not.toHaveBeenCalled();
   });
 
   it('should navigate to error page if error', async () => {
     investmentSpy.withdraw.and.rejectWith();
+
     await component.ionViewDidEnter();
     await component.withdraw();
     await fixture.whenStable();
+
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/withdraw/error', 'usdc_mumbai']);
   });
@@ -238,7 +261,9 @@ describe('WithdrawConfirmationPage', () => {
   it('should unsubscribe when leave', () => {
     const nextSpy = spyOn(component.leave$, 'next');
     const completeSpy = spyOn(component.leave$, 'complete');
+
     component.ionViewWillLeave();
+
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
   });
@@ -246,8 +271,9 @@ describe('WithdrawConfirmationPage', () => {
   it('should show modal', async () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
-    const el = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
-    el.nativeElement.click();
+
+    fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]')).nativeElement.click();
+
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
@@ -255,28 +281,34 @@ describe('WithdrawConfirmationPage', () => {
     await component.ionViewDidEnter();
     fixture.detectChanges();
     component.isInfoModalOpen = true;
-    const el = fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]'));
-    el.nativeElement.click();
+
+    fixture.debugElement.query(By.css('ion-icon[icon="information-circle"]')).nativeElement.click();
+
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 
   it('should not show informative modal of fees on withdraw when the native token balance is bigger than the cost of fees', async () => {
-    providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('100000')));
+    walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.00001));
     await component.ionViewDidEnter();
     await component.withdraw();
     fixture.detectChanges();
+
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(0);
   });
 
   it('should show informative modal of fees on withdraw when the native token balance is lower than the cost of fees', async () => {
+    gasStationOfFactorySpy.create.and.returnValue(fixedGasPriceTo('2000000000000000000', rawMATICData));
     walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.00001));
-    providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('1000000000000')));
+
     fixture.detectChanges();
     await component.ionViewDidEnter();
     await component.withdraw();
     fixture.detectChanges();
+
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(1);
   });
 
@@ -284,7 +316,9 @@ describe('WithdrawConfirmationPage', () => {
     await component.ionViewDidEnter();
     component.quoteFee.value = undefined;
     fixture.detectChanges();
+
     fixture.debugElement.query(By.css('ion-button[name="ux_invest_withdraw_confirm"]')).nativeElement.click();
+
     expect(alertControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
@@ -292,7 +326,9 @@ describe('WithdrawConfirmationPage', () => {
     const spy = spyOn(component, 'withdraw');
     await component.ionViewDidEnter();
     fixture.detectChanges();
+
     fixture.debugElement.query(By.css('ion-button[name="ux_invest_withdraw_confirm"]')).nativeElement.click();
+
     expect(alertControllerSpy.create).not.toHaveBeenCalled();
     expect(spy).toHaveBeenCalledTimes(1);
   });
