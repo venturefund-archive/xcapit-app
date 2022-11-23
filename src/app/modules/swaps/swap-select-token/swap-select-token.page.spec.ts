@@ -13,9 +13,8 @@ import { rawMATICData, rawTokensData, rawUSDCData } from '../shared-swaps/models
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { rawPolygonData } from '../shared-swaps/models/fixtures/raw-blockchains-data';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { By } from '@angular/platform-browser';
-
 
 describe('SwapSelectTokenPage', () => {
   let component: SwapSelectTokenPage;
@@ -42,37 +41,36 @@ describe('SwapSelectTokenPage', () => {
     fromToken: fromToken.contract,
     toToken: toToken.contract,
     tokenToSelect: 'fromToken',
+    fromTokenAmount: '1',
   };
-  beforeEach(
-    waitForAsync(() => {
-      trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
-        trackEvent: Promise.resolve(true),
-      });
-      intersectedTokensFactorySpy = jasmine.createSpyObj('IntersectedTokensFactory', {
-        create: new DefaultTokens(new TokenRepo(rawTokensData)),
-      });
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      fakeActivatedRoute = new FakeActivatedRoute(currentUrlParams);
-      activatedRouteSpy = fakeActivatedRoute.createSpy();
+  beforeEach(waitForAsync(() => {
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
+    intersectedTokensFactorySpy = jasmine.createSpyObj('IntersectedTokensFactory', {
+      create: new DefaultTokens(new TokenRepo(rawTokensData)),
+    });
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    fakeActivatedRoute = new FakeActivatedRoute(currentUrlParams);
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
 
-      TestBed.configureTestingModule({
-        declarations: [SwapSelectTokenPage],
-        imports: [TranslateModule.forRoot(), IonicModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-        providers: [
-          { provide: TrackService, useValue: trackServiceSpy },
-          { provide: IntersectedTokensFactory, useValue: intersectedTokensFactorySpy },
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ActivatedRoute, useValue: activatedRouteSpy },
-        ],
-      }).compileComponents();
+    TestBed.configureTestingModule({
+      declarations: [SwapSelectTokenPage],
+      imports: [TranslateModule.forRoot(), IonicModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [
+        { provide: TrackService, useValue: trackServiceSpy },
+        { provide: IntersectedTokensFactory, useValue: intersectedTokensFactorySpy },
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(SwapSelectTokenPage);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(SwapSelectTokenPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -85,16 +83,29 @@ describe('SwapSelectTokenPage', () => {
   });
 
   it('navigate when from token change', async () => {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'from-token-amount': '1',
+      },
+    };
     await component.ionViewDidEnter();
     fixture.detectChanges();
     const tokenSelectionListEl = fixture.debugElement.query(By.css('app-token-selection-list'));
 
     tokenSelectionListEl.triggerEventHandler('clickedCoin', rawMATICData);
 
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(urlToSwapHome(rawMATICData, rawMATICData));
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(
+      urlToSwapHome(rawMATICData, rawMATICData),
+      navigationExtras
+    );
   });
 
   it('navigate when to token change', async () => {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        'from-token-amount': '1',
+      },
+    };
     fakeActivatedRoute.modifySnapshotParams({ ...currentUrlParams, tokenToSelect: 'toToken' });
     await component.ionViewDidEnter();
     fixture.detectChanges();
@@ -102,6 +113,9 @@ describe('SwapSelectTokenPage', () => {
 
     tokenSelectionListEl.triggerEventHandler('clickedCoin', rawUSDCData);
 
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(urlToSwapHome(rawUSDCData, rawUSDCData));
+    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(
+      urlToSwapHome(rawUSDCData, rawUSDCData),
+      navigationExtras
+    );
   });
 });

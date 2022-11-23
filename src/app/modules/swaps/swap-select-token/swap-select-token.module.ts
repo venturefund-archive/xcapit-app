@@ -6,7 +6,7 @@ import { SwapSelectTokenPage } from './swap-select-token.page';
 
 const routes: Routes = [
   {
-    path: 'blockchain/:blockchain/from-token/:fromToken/to-token/:toToken/token-to-select/:tokenToSelect',
+    path: 'blockchain/:blockchain/from-token/:fromToken/to-token/:toToken/token-to-select/:tokenToSelect/from-token-amount/:fromTokenAmount',
     component: SwapSelectTokenPage
   }
 ];

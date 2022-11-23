@@ -327,11 +327,22 @@ export class SwapHomePage {
     );
     this.setFeeInfo();
     this.setQuotePrices();
+    this.setTokenAmount();
   }
 
   setAllowedBlockchains() {
     this.allowedBlockchains = this.oneInchBlockchainsOf.create(this.blockchains.create());
     this.tplAllowedBlockchainsName = this.allowedBlockchains.value().map((blockchain) => blockchain.name());
+  }
+
+  private setTokenAmount() {
+    if (this.fromTokenAmount()) {
+      this.form.patchValue({ fromTokenAmount: this.fromTokenAmount() });
+    }
+  }
+
+  private fromTokenAmount() {
+    return this.route.snapshot.queryParamMap.get('from-token-amount');
   }
 
   private setQuotePrices() {
@@ -437,6 +448,8 @@ export class SwapHomePage {
       this.toToken.address(),
       'token-to-select',
       tokenToSelect,
+      'from-token-amount',
+      this.form.value.fromTokenAmount,
     ]);
   }
 
