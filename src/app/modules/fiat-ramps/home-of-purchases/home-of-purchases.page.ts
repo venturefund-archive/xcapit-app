@@ -69,6 +69,11 @@ export class HomeOfPurchasesPage {
   style: string;
   statusName: string;
   userStatus: any;
+  statuses = {
+    USER_INFORMATION: 'starting',
+    USER_IMAGES: 'pending',
+    COMPLETE: 'checking',
+  };
 
   constructor(
     private fiatRampsService: FiatRampsService,
@@ -112,8 +117,8 @@ export class HomeOfPurchasesPage {
     }
   }
 
-  private async _getUserEmail() {
-    return await this.kriptonStorage.get('email');
+  private _getUserEmail() {
+    return this.kriptonStorage.get('email');
   }
 
   async getUserStatus() {
@@ -124,17 +129,11 @@ export class HomeOfPurchasesPage {
     this.title = this.translate.instant('fiat_ramps.kyc_status.title');
     this.message = this.translate.instant('fiat_ramps.kyc_status.starting.message');
     this.style = 'warning';
-
-    if (this.userStatus.registration_status === 'USER_INFORMATION') {
-      this.status = this.translate.instant('fiat_ramps.kyc_status.starting.status');
-    }
-
-    if (this.userStatus.registration_status === 'USER_IMAGES') {
-      this.status = this.translate.instant('fiat_ramps.kyc_status.pending.status');
-    }
+    this.status = this.translate.instant(
+      `fiat_ramps.kyc_status.${this.statuses[this.userStatus.registration_status]}.status`
+    );
 
     if (this.userStatus.registration_status === 'COMPLETE') {
-      this.status = this.translate.instant('fiat_ramps.kyc_status.checking.status');
       this.message = this.translate.instant('fiat_ramps.kyc_status.checking.message');
     }
 

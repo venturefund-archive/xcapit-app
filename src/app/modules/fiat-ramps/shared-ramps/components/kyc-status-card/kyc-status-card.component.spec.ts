@@ -17,7 +17,7 @@ describe('KYCStatusCardComponent', () => {
     navControllerSpy = fakeNavController.createSpy();
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
-      get: Promise.resolve('test@test.com'),
+      get: Promise.resolve(true),
       set: Promise.resolve(),
     });
 
@@ -35,6 +35,7 @@ describe('KYCStatusCardComponent', () => {
     component.title = 'testTitle';
     component.statusText = 'testStatus';
     component.message = 'testMessage';
+    component.kycApproved = true;
     fixture.detectChanges();
   }));
 
@@ -68,13 +69,14 @@ describe('KYCStatusCardComponent', () => {
     expect(statusEl).toBeFalsy();
   });
 
-  it('should disabled card when kyc is approve and close icon is clicked', async () => {
+  it('should disabled card and set on storage when kyc is approve and close icon is clicked', async () => {
     component.disabledCard = false;
     component.kycApproved = true;
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.debugElement.query(By.css('div.ksc__title > ion-icon')).nativeElement.click();
     expect(component.disabledCard).toBeTrue();
+    expect(kriptonStorageSpy.set).toHaveBeenCalledTimes(1);
   });
 
   it('should redirect to user register page when card is clicked and user status is user_information or user_images', async () => {
@@ -85,5 +87,14 @@ describe('KYCStatusCardComponent', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.debugElement.query(By.css('div.ksc')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/fiat-ramps/user-register');
+  });
+
+  it('should disabled card if kripton_kyc_approved key on storage is true on init', async () => {
+    fixture.detectChanges();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    const cardEl = fixture.debugElement.query(By.css('div.ksc'));
+    expect(component.disabledCard).toBeTrue();
+    expect(cardEl).toBeFalsy();
+    expect(kriptonStorageSpy.get).toHaveBeenCalledTimes(1);
   });
 });

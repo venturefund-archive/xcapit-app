@@ -44,12 +44,14 @@ export class KYCStatusCardComponent implements OnInit {
   constructor(private navController: NavController, private kriptonStorage: KriptonStorageService) {}
 
   async ngOnInit() {
-    this.kriptonStorage.set('kyc_approved', this.kycApproved);
-    this.disabledCard = await this.kriptonStorage.get('kyc_approved');
+    if (await this.kriptonStorage.get('kyc_approved')) {
+      this.disabledCard = this.kycApproved;
+    }
   }
 
   close() {
     this.disabledCard = true;
+    this.kriptonStorage.set('kyc_approved', this.kycApproved);
   }
 
   redirectToPage() {
