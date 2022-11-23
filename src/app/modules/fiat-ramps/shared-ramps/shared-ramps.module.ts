@@ -29,6 +29,7 @@ import { VoucherCardComponent } from './components/voucher-card/voucher-card.com
 import { KriptonAccountInfoCardComponent } from './components/kripton-account-info-card/kripton-account-info-card.component';
 import { KriptonPurchaseInfoComponent } from './components/kripton-purchase-info/kripton-purchase-info.component';
 import { TimerCountdownComponent } from './components/timer-countdown/timer-countdown.component';
+import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { TimerCountdownComponent } from './components/timer-countdown/timer-coun
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
     BuyOrDepositTokenToastComponent,
+    CountdownTimerComponent,
     OperationKmInProgressModalComponent,
     OperationStatusAlertComponent,
     BankInfoCardComponent,
@@ -87,6 +89,7 @@ import { TimerCountdownComponent } from './components/timer-countdown/timer-coun
     UserPersonalInformationComponent,
     UserAddressInformationComponent,
     ConfirmationContentComponent,
+    CountdownTimerComponent,
     OperationKmInProgressModalComponent,
     OperationStatusAlertComponent,
     BankInfoCardComponent,

@@ -1,85 +1,51 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { CrudService } from 'src/app/shared/services/crud/crud.service';
+import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
+import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { rawETHData, rawMATICData, rawSAMOData, rawSOLData, rawTokensData, rawUSDCData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
+import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { NONPROD_COINS } from '../../constants/coins.nonprod';
 import { PROD_COINS } from '../../constants/coins.prod';
-import { TEST_COINS } from '../../constants/coins.test';
-import { Coin } from '../../interfaces/coin.interface';
 import { ApiWalletService } from './api-wallet.service';
-const wallets = [
-  {
-    network: 'ERC20',
-    address: 'testERC20Address',
-  },
-  {
-    network: 'RSK',
-    address: 'testRSKAddress',
-  },
-];
 
-const testCoins: Coin[] = [
-  {
-    id: 5,
-    name: 'UNI - Uniswap',
-    logoRoute: 'assets/img/coins/UNI.svg',
-    last: true,
-    value: 'UNI',
-    network: 'ERC20',
-    chainId: 42,
-    rpc: 'testRpc',
-    contract: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
-    abi: 'testAbi',
-    decimals: 18,
-  },
-  {
-    id: 6,
-    name: 'RBTC - Smart Bitcoin',
-    logoRoute: 'assets/img/coins/RBTC.png',
-    last: false,
-    value: 'RBTC',
-    network: 'RSK',
-    chainId: 31,
-    rpc: 'testRpc',
-    native: true,
-  },
-  {
-    id: 5,
-    name: 'UNI - Uniswap',
-    logoRoute: 'assets/img/coins/UNI.svg',
-    last: true,
-    value: 'UNI',
-    network: 'RSK',
-    chainId: 42,
-    rpc: 'testRpc',
-    contract: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
-    abi: 'testAbi',
-    decimals: 18,
-  },
-  {
-    id: 28,
-    name: 'WBTC - Wrapped BTC',
-    logoRoute: 'assets/img/coins/WBTC.png',
-    last: true,
-    value: 'WBTC',
-    network: 'MATIC',
-    contract: '0x0d787a4a1548f673ed375445535a6c7a1ee56180',
-    chainId: 80001,
-    rpc: 'testRpc',
-    decimals: 8,
-    abi: 'testAbi',
-    symbol: 'BTCUSDT',
-    canInvest: true,
-  },
-];
 
 describe('ApiWalletService', () => {
+
+  const weiGasPriceTestValue = '100000000000';
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
+  const wallets = [
+    {
+      network: 'ERC20',
+      address: 'testERC20Address',
+    },
+    {
+      network: 'RSK',
+      address: 'testRSKAddress',
+    },
+  ];
   let service: ApiWalletService;
-  let crudSpy;
   let customHttpServiceSpy: jasmine.SpyObj<CustomHttpService>;
+  let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
 
   beforeEach(() => {
-    crudSpy = jasmine.createSpyObj('CrudService', ['getEndpoints']);
+    blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+      create: blockchains,
+    });
+
+    gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
+      create: {
+        price: () => ({
+          standard: () => Promise.resolve(new AmountOf(weiGasPriceTestValue, new DefaultToken(rawETHData))),
+        }),
+      },
+    });
+
     customHttpServiceSpy = jasmine.createSpyObj('CustomHttpService', {
       post: of({}),
       get: of({}),
@@ -88,8 +54,9 @@ describe('ApiWalletService', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        { provide: CrudService, useValue: crudSpy },
         { provide: CustomHttpService, useValue: customHttpServiceSpy },
+        { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
+        { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
       ],
     });
     service = TestBed.inject(ApiWalletService);
@@ -141,27 +108,9 @@ describe('ApiWalletService', () => {
     });
   });
 
-  it('should get ERC20 coins on getCoinsFromNetwork', () => {
-    spyOn(service, 'getCoins').and.returnValue(testCoins);
-    const coins = service.getCoinsFromNetwork('ERC20');
-    expect(coins).toEqual([testCoins[0]]);
-  });
-
   it('should get networks on getNetworks', () => {
     const networks = service.getNetworks();
     expect(new Set(networks)).toEqual(new Set(['ERC20', 'RSK', 'BSC_BEP20', 'MATIC', 'SOLANA']));
-  });
-
-  it('should get coin by coin on getCoin', () => {
-    spyOn(service, 'getCoins').and.returnValue(testCoins);
-    const coin = service.getCoin('RBTC');
-    expect(coin).toEqual(testCoins[1]);
-  });
-
-  it('should get coin by coin and network on getCoin', () => {
-    spyOn(service, 'getCoins').and.returnValue(testCoins);
-    const coin = service.getCoin('RBTC', 'RSK');
-    expect(coin).toEqual(testCoins[1]);
   });
 
   it('should get new networks on getWalletNewNetworks', () => {
@@ -175,34 +124,42 @@ describe('ApiWalletService', () => {
     expect(new Set(networks)).toEqual(new Set(['ERC20', 'BSC_BEP20', 'SOLANA']));
   });
 
-  it('should get native token from network on getNativeTokenFromNetwork', () => {
-    spyOn(service, 'getCoins').and.returnValue(testCoins);
-    const coin = service.getNativeTokenFromNetwork('RSK');
-    expect(coin.value).toEqual(testCoins[1].value);
+  it('should get gas price', async () => {
+    expect(await service.getGasPrice()).toEqual(weiGasPriceTestValue);
   });
 
-  it('should get gas price', () => {
-    service.getGasPrice().subscribe(() => {
-      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+  describe('with getCoins Fixed', () => {
+
+    beforeEach(() => {
+      spyOn(service, 'getCoins').and.returnValue(rawTokensData);
     });
-  });
 
-  it('should get multiple networks from coin on getNetworks', () => {
-    spyOn(service, 'getCoins').and.returnValue(testCoins);
-    const networks = service.getNetworks('UNI');
-    expect(networks).toEqual(['ERC20', 'RSK']);
-  });
+    it('should get ERC20 coins on getCoinsFromNetwork', () => {
+      const blockchainName = 'ERC20';
+      const tokens = service.getCoinsFromNetwork(blockchainName).filter(token => token.network === blockchainName);
 
-  it('should get one networks from coin on getNetworks', () => {
-    spyOn(service, 'getCoins').and.returnValue(testCoins);
-    const networks = service.getNetworks('RBTC');
-    expect(networks).toEqual(['RSK']);
-  });
+      expect(tokens.length).toBeGreaterThan(0);
+    });
 
-  it('should get native and investable coins on getInitialTokens', () => {
-    spyOn(service, 'getCoins').and.returnValue(testCoins);
-    const coins = service.getInitialTokens();
-    expect(coins).toContain(testCoins[1]);
-    expect(coins).toContain(testCoins[3]);
-  })
+    it('should get coin by coin on getCoin', () => {
+      expect(service.getCoin('SAMO')).toEqual(rawSAMOData);
+    });
+
+    it('should get coin by coin and network on getCoin', () => {
+      expect(service.getCoin('USDC', 'MATIC')).toEqual(rawUSDCData);
+    });
+
+    it('should get native token from network on getNativeTokenFromNetwork', () => {
+      expect(service.getNativeTokenFromNetwork('SOLANA')).toEqual(rawSOLData);
+    });
+
+    it('should get one networks from coin on getNetworks', () => {
+      expect(service.getNetworks('SAMO')).toEqual(['SOLANA']);
+    });
+
+    it('should get native and investable coins on getInitialTokens', () => {
+      expect(service.getInitialTokens()).toContain(rawUSDCData);
+      expect(service.getInitialTokens()).toContain(rawMATICData);
+    })
+  });
 });

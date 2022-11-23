@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { InvestmentProduct } from '../../shared-defi-investments/interfaces/investment-product.interface';
 import { Coin } from '../../../wallets/shared-wallets/interfaces/coin.interface';
@@ -12,8 +12,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../../../shared/services/toast/toast.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/native-fee-of.model';
-import { TotalFeeOf } from '../../shared-defi-investments/models/total-fee-of/total-fee-of.model';
 import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
@@ -24,6 +22,9 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
 import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
 import { format } from 'date-fns';
+import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
 
 @Component({
   selector: 'app-withdraw-confirmation',
@@ -133,7 +134,7 @@ import { format } from 'date-fns';
   `,
   styleUrls: ['./withdraw-confirmation.page.scss'],
 })
-export class WithdrawConfirmationPage implements OnInit {
+export class WithdrawConfirmationPage {
   disclaimer: boolean;
   investmentProduct: InvestmentProduct;
   token: Coin;
@@ -167,23 +168,27 @@ export class WithdrawConfirmationPage implements OnInit {
     private controller: WithdrawConfirmationController,
     private alertController: AlertController,
     private localNotificationInjectable: LocalNotificationInjectable,
+    private gasStation: GasStationOfFactory,
+    private blockchains: BlockchainsFactory
   ) {}
 
-  ngOnInit() {}
-
   async ionViewDidEnter() {
-    this.getProduct();
-    this.getAmount();
-    this.getQuoteAmount();
-    this.getToken();
+    await this.setInvestmentInfo();
     await this.getNativeTokenBalance();
-    await this.getFee();
     this.tokenDynamicPrice();
     this.nativeDynamicPrice();
     this.getWithdrawFee();
     this.getWithdrawFeeQuote();
     this.getReceive();
     this.getReceiveQuote();
+  }
+
+  private async setInvestmentInfo() {
+    this.setProduct();
+    this.setAmount();
+    this.setQuoteAmount();
+    this.setProductToken();
+    await this.setFee();
   }
 
   private getReceive() {
@@ -200,11 +205,11 @@ export class WithdrawConfirmationPage implements OnInit {
     };
   }
 
-  private getProduct() {
+  private setProduct() {
     this.investmentProduct = this.investmentDataService.product;
   }
 
-  private getAmount() {
+  private setAmount() {
     this.amount = {
       value: this.investmentDataService.amount,
       token: this.investmentDataService.product.token().value,
@@ -225,22 +230,21 @@ export class WithdrawConfirmationPage implements OnInit {
     };
   }
 
-  private getQuoteAmount(): void {
+  private setQuoteAmount(): void {
     this.quoteAmount = { value: this.investmentDataService.quoteAmount, token: 'USD' } as Amount;
   }
 
-  getToken() {
+
+  private setProductToken() {
     this.token = this.investmentProduct.token();
   }
 
-  private async getFee() {
-    const fee = this.controller.createFormattedFee(
-      new NativeFeeOf(
-        new TotalFeeOf([await this.withdrawFeeAmount()]),
-        this.controller.createErc20Provider(this.token).value()
-      )
-    );
-    this.fee = { value: await fee.value(), token: this.native().value };
+  private async setFee() {
+    this.fee = (await this._gasPrice()).times((await (await this.withdrawFeeAmount()).value()).toNumber()).json();
+  }
+
+  private async _gasPrice(): Promise<AmountOf> {
+    return await this.gasStation.create(this.blockchains.create().oneByName(this.token.network)).price().standard();
   }
 
   private native(): Coin {

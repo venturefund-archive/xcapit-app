@@ -64,10 +64,11 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
           <div class="aic__content__inputs__amount_with_max">
             <ion-input
               appNumberInput
+              appCommaToDot
               class="aic__content__inputs__amount_with_max__amount"
               formControlName="amount"
-              type="number"
-              inputmode="numeric"
+              type="text"
+              inputmode="decimal"
               debounce="500"
             >
             </ion-input>
@@ -83,10 +84,11 @@ import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular
           <ion-text class="aic__content__equal ux-fweight-medium">=</ion-text>
           <ion-input
             appNumberInput
+            appCommaToDot
             class="aic__content__inputs__quoteAmount"
             formControlName="quoteAmount"
-            type="number"
-            inputmode="numeric"
+            type="text"
+            inputmode="decimal"
             debounce="500"
           ></ion-input>
         </div>
@@ -170,7 +172,7 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
       this.insufficientBalance = this.value > this.max;
     });
     this.form.get('quoteAmount').valueChanges.subscribe((value) => {
-      this.quoteAmountChange(value)
+      this.quoteAmountChange(value);
       this.value = value;
       this.insufficientBalance = this.value > this.max;
     });
