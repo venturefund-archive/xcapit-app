@@ -37,10 +37,7 @@ import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/g
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { InProgressTransactionModalComponent } from 'src/app/shared/components/in-progress-transaction-modal/in-progress-transaction-modal.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
-import { LocalNotificationsService } from 'src/app/modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
-import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { format } from 'date-fns';
-import { DefaultLocalNotification } from 'src/app/shared/models/local-notification/default/default-local-notification';
 import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
 
