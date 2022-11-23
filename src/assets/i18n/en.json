@@ -2312,14 +2312,21 @@
         "kyc_required": "Requires KYC or registration process.",
         "button": "Understood",
         "kripton": {
-          "description_1": "Bank transfer.",
-          "description_2": "25 USD per purchase.",
-          "description_3": "Deliveries are made from Monday to Friday from 9:00 a.m. to 6:00 p.m. approximately."
+          "provider_name": "Kripton Market",
+          "header": "It is an authorized provider for the sale of cryptocurrencies in Latin America.",
+          "minimum_amount": "25 USD per purchase.",
+          "delivery_time_1": "Up to 48 hours.",
+          "delivery_time_2": "Deliveries are made from Monday to Friday from 9:00 am to 6:00 pm.",
+          "more_information": "Kriptonmarket.com"
         },
         "moonpay": {
-          "description_1": "Credit card*.",
-          "description_2": "Depends on the external provider on a case-by-case basis.",
-          "disclaimer": "*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
+          "provider_name": "Moonpay",
+          "header": "It is an authorized provider for the sale of cryptocurrencies.",
+          "payment_methods": "Credit card*.",
+          "delivery_time": "Depends on the external provider on a case-by-case basis.",
+          "disclaimer": "*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
+          "available_tokens_1": "ETH, USDT and UNI",
+          "available_tokens_2": "USDC and MATIC"
         },
         "directa24": {
           "description_1":"Cash purchase",

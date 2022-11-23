@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { InfoProviderKriptonComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider-kripton/info-provider-kripton.component';
+import { InfoProviderMoonpayComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider-moonpay/info-provider-moonpay.component';
 import { InfoProviderComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/info-provider/info-provider.component';
 import { INFO_PROVIDER } from 'src/app/modules/fiat-ramps/shared-ramps/constants/info-provider';
 import { D24_PAYMENT_TYPES } from 'src/app/modules/fiat-ramps/shared-ramps/constants/payment-types';
@@ -31,7 +33,7 @@ import { ProvidersFactory } from 'src/app/modules/fiat-ramps/shared-ramps/models
               appTrackClick
               name="informative_modal"
               size="small"
-              (click)="this.createInfoModal()"
+              (click)="this.showProviderInfo()"
             >
               <ion-icon name="ux-info-circle-outline" color="info"></ion-icon>
             </ion-button>
@@ -97,17 +99,14 @@ export class ProviderCardComponent implements OnInit {
   paymentType: string;
   availableDirectaProviders: any;
 
-  constructor(
-    private modalController: ModalController,
-    private providersFactory: ProvidersFactory
-  ) {}
+  constructor(private modalController: ModalController, private providersFactory: ProvidersFactory) {}
 
   ngOnInit() {
     this.setPaymentType();
     this.setProviderInfo();
   }
 
-  setProviderInfo(){
+  setProviderInfo() {
     this.providerInfo = INFO_PROVIDER[this.provider.providerName];
   }
 
@@ -133,10 +132,23 @@ export class ProviderCardComponent implements OnInit {
     this.selectedProvider.emit(provider);
   }
 
-  async createInfoModal() {
+  async showProviderInfo() {
     if (!this.isInfoModalOpen) {
       this.isInfoModalOpen = true;
+      if (this.provider.providerName === 'kripton') {
+        await this.createKriptonInfoModal();
+      }
+      if (this.provider.providerName === 'moonpay') {
+        await this.createMoonpayInfoModal();
+      }
+      if (this.provider.providerName !== 'kripton' && this.provider.providerName !== 'moonpay') {
+        await this.createOtherProviderInfoModal();
+      }
+      this.isInfoModalOpen = false;
+    }
+  }
 
+  async createOtherProviderInfoModal() {
     const modal = await this.modalController.create({
       component: InfoProviderComponent,
       componentProps: {
@@ -155,7 +167,31 @@ export class ProviderCardComponent implements OnInit {
       backdropDismiss: false,
     });
     await modal.present();
-    this.isInfoModalOpen = false;
-   }
+  }
+
+  async createKriptonInfoModal() {
+    const modal = await this.modalController.create({
+      component: InfoProviderKriptonComponent,
+      componentProps: {
+        image: this.provider?.logoRoute,
+        title: this.provider?.name,
+      },
+      cssClass: 'ux-lg-modal-informative-provider-kripton',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
+
+  async createMoonpayInfoModal() {
+    const modal = await this.modalController.create({
+      component: InfoProviderMoonpayComponent,
+      componentProps: {
+        image: this.provider?.logoRoute,
+        title: this.provider?.name,
+      },
+      cssClass: 'ux-lg-modal-informative-provider-moonpay',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 }
