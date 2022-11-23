@@ -31,8 +31,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
-import { LocalNotificationsService } from 'src/app/modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
-import { LocalNotificationSchema } from '@capacitor/local-notifications';
+import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
+import { FakeLocalNotification } from 'src/app/shared/models/local-notification/fake/fake-local-notification';
 
 describe('InvestmentConfirmationPage', () => {
   let component: InvestmentConfirmationPage;
@@ -62,22 +62,24 @@ describe('InvestmentConfirmationPage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
-  let localNotificationsServiceSpy: jasmine.SpyObj<LocalNotificationsService>;
-
-  const testLocalNotificationOk: LocalNotificationSchema = {
-    id: 1,
-    title: 'defi_investments.notifications.success.title',
-    body: 'defi_investments.notifications.success.body',
-  };
-  
-  const testLocalNotificationNotOk: LocalNotificationSchema = {
-    id: 1,
-    title: 'defi_investments.notifications.error.title',
-    body: 'defi_investments.notifications.error.body',
-  };
+  let localNotificationInjectableSpy: jasmine.SpyObj<LocalNotificationInjectable>
+  let testLocalNotificationOk: {title: string, body: string}
+  let testLocalNotificationNotOk: {title: string, body: string}
+  let fakeLocalNotification: FakeLocalNotification
 
   beforeEach(
     waitForAsync(() => {
+
+      testLocalNotificationOk = {
+        title: 'defi_investments.notifications.success.title',
+        body: 'defi_investments.notifications.success.body',
+      };
+      
+      testLocalNotificationNotOk = {
+        title: 'defi_investments.notifications.error.title',
+        body: 'defi_investments.notifications.error.body',
+      };
+
       fakeModalController = new FakeModalController({ data: 'fake_password' });
       modalControllerSpy = fakeModalController.createSpy();
       fakeNavController = new FakeNavController();
@@ -106,13 +108,12 @@ describe('InvestmentConfirmationPage', () => {
         getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x0000001' } }),
       });
 
-      localNotificationsServiceSpy = jasmine.createSpyObj('LocalNotificationsService', {
-        send: Promise.resolve(),
-        registerActionTypes: Promise.resolve(),
-        addListener: (callback: CallableFunction) => {
-          callback();
-        },
+      fakeLocalNotification = new FakeLocalNotification();
+
+      localNotificationInjectableSpy = jasmine.createSpyObj('LocalNotificationInjectable', {
+        createInitialized: fakeLocalNotification
       });
+
       providerSpy = jasmine.createSpyObj(
         'Provider',
         { getGasPrice: Promise.resolve(BigNumber.from('10')) },
@@ -172,7 +173,7 @@ describe('InvestmentConfirmationPage', () => {
           { provide: BrowserService, useValue: browserServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
-          { provide: LocalNotificationsService, useValue: localNotificationsServiceSpy },
+          { provide: LocalNotificationInjectable, useValue: localNotificationInjectableSpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -203,17 +204,24 @@ describe('InvestmentConfirmationPage', () => {
   });
 
   it('should make deposit when password is valid', async () => {
+    const sendSpy = spyOn(fakeLocalNotification, 'send');
+    const onClickSpy = spyOn(fakeLocalNotification, 'onClick').and.callThrough();
     spyOn(component, 'investment').and.returnValue(investmentSpy);
     await component.ionViewDidEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fakeLocalNotification.triggerOnClick();
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
-    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotificationOk]);
+    expect(sendSpy).toHaveBeenCalledTimes(1);
+    expect(onClickSpy).toHaveBeenCalledTimes(1);
+    expect(localNotificationInjectableSpy.createInitialized).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
     expect(storageSpy.set).toHaveBeenCalledOnceWith('_agreement_2PI_T&C', true);
   });
   
   it('should not make deposit when password is valid but deposit fails', async () => {
+    const sendSpy = spyOn(fakeLocalNotification, 'send');
+    const onClickSpy = spyOn(fakeLocalNotification, 'onClick');
     investmentSpy.deposit.and.returnValue(Promise.reject());
     spyOn(component, 'investment').and.returnValue(investmentSpy);
     await component.ionViewDidEnter();
@@ -221,7 +229,9 @@ describe('InvestmentConfirmationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
-    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotificationNotOk]);
+    expect(sendSpy ).toHaveBeenCalledTimes(1);
+    expect(onClickSpy).toHaveBeenCalledTimes(0);
+    expect(localNotificationInjectableSpy.createInitialized).toHaveBeenCalledOnceWith(testLocalNotificationNotOk.title, testLocalNotificationNotOk.body);
     expect(storageSpy.set).not.toHaveBeenCalled();
   });
   

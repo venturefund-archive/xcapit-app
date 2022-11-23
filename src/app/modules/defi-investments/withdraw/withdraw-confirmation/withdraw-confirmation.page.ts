@@ -19,6 +19,11 @@ import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/ser
 import { InvestmentDataService } from '../../shared-defi-investments/services/investment-data/investment-data.service';
 import { WithdrawConfirmationController } from './withdraw-confirmation.controller';
 import { WithdrawInfoModalComponent } from '../../shared-defi-investments/components/withdraw-info-modal/withdraw-info-modal.component';
+import { InProgressTransactionModalComponent } from 'src/app/shared/components/in-progress-transaction-modal/in-progress-transaction-modal.component';
+import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
+import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
+import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-withdraw-confirmation',
@@ -148,6 +153,7 @@ export class WithdrawConfirmationPage implements OnInit {
   isInfoModalOpen = false;
   receiveAprox: Amount = { value: undefined, token: 'MATIC' };
   receiveAproxQuote: Amount = { value: undefined, token: 'USD' };
+  notification: LocalNotification;
   constructor(
     private route: ActivatedRoute,
     private apiWalletService: ApiWalletService,
@@ -159,7 +165,8 @@ export class WithdrawConfirmationPage implements OnInit {
     private walletBalance: WalletBalanceService,
     private investmentDataService: InvestmentDataService,
     private controller: WithdrawConfirmationController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private localNotificationInjectable: LocalNotificationInjectable,
   ) {}
 
   ngOnInit() {}
@@ -220,10 +227,6 @@ export class WithdrawConfirmationPage implements OnInit {
 
   private getQuoteAmount(): void {
     this.quoteAmount = { value: this.investmentDataService.quoteAmount, token: 'USD' } as Amount;
-  }
-
-  private vaultID() {
-    return this.route.snapshot.paramMap.get('vault');
   }
 
   getToken() {
@@ -323,16 +326,25 @@ export class WithdrawConfirmationPage implements OnInit {
     if (wallet) {
       if (this.checkNativeTokenBalance()) {
         this.disclaimer = true;
+        await this.openInProgressModal();
         try {
           const investment = this.controller.investment(this.investmentProduct, wallet, this.apiWalletService);
           if (this.route.snapshot.paramMap.get('type') === 'all') {
-            await (await investment.withdrawAll()).wait();
+            await (await investment.withdrawAll())
+            .wait()
+            .then(() => this.createNotification('success'))
+            .then(() => this.setActionListener())
+            .then(() => this.notification.send());
           } else {
-            await (await investment.withdraw(this.amount.value)).wait();
+            await (await investment.withdraw(this.amount.value))
+            .wait()
+            .then(() => this.createNotification('success'))
+            .then(() => this.setActionListener())
+            .then(() => this.notification.send());
           }
-          await this.navController.navigateForward('/defi/withdraw/success');
         } catch {
-          await this.navController.navigateForward(['/defi/withdraw/error', this.vaultID()]);
+          this.createNotification('error');
+          this.notification.send();
         } finally {
           this.loadingEnabled(false);
         }
@@ -342,6 +354,41 @@ export class WithdrawConfirmationPage implements OnInit {
       this.loadingEnabled(false);
     }
     this.loadingEnabled(false);
+  }
+
+  private setActionListener() {
+    this.notification.onClick(() => {
+      this.navigateToTokenDetail();
+    });
+  }
+
+  private navigateToTokenDetail() {
+    this.navController.navigateForward([
+      `wallets/token-detail/blockchain/${this.token.network}/token/${this.token.contract}`,
+    ]);
+  }
+
+  private createNotification(mode: string) {
+    this.notification = this.localNotificationInjectable.createInitialized(
+      this.translate.instant(`defi_investments.withdraw_notifications.${mode}.title`),
+      this.translate.instant(`defi_investments.withdraw_notifications.${mode}.body`, {
+        amount: this.amount.value,
+        token: this.amount.token,
+        date: format(new Date(), 'dd/MM/yyyy'),
+      })
+    );
+  }
+
+  async openInProgressModal() {
+    const modal = await this.modalController.create({
+      component: InProgressTransactionModalComponent,
+      componentProps: {
+        data: SUCCESS_TYPES.withdraw_in_progress,
+      },
+      cssClass: 'modal',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 
   async confirm() {
@@ -417,3 +464,7 @@ export class WithdrawConfirmationPage implements OnInit {
     this.leave$.complete();
   }
 }
+function then(arg0: () => void) {
+  throw new Error('Function not implemented.');
+}
+
