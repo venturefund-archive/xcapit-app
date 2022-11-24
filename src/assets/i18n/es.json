@@ -2214,7 +2214,7 @@
   "fiat_ramps": {
     "home_of_purchases": {
       "header": "Mis compras",
-      "question":"¿Cómo funcionan las compras?",
+      "question": "¿Cómo funcionan las compras?",
       "button": "Realizar nueva compra"
     },
     "buy_conditions": {
@@ -2253,19 +2253,19 @@
       "link": "aquí"
     },
     "operation_km_in_progress": {
-      "text_primary":"¡Tu orden está en camino!",
-      "text_secondary":"Te estaremos informando sobre cambios en el estado de tu compra.",
-      "button_text":"Finalizar",
-      "text_title":"Compra",
-      "text_badge":"En progreso",
+      "text_primary": "¡Tu orden está en camino!",
+      "text_secondary": "Te estaremos informando sobre cambios en el estado de tu compra.",
+      "button_text": "Finalizar",
+      "text_title": "Compra",
+      "text_badge": "En progreso",
       "text_tertiary": "¿Necesitas ayuda?",
-      "text_help_link": "Escribir a soporte Kripton Market"      
+      "text_help_link": "Escribir a soporte Kripton Market"
     },
     "error_operation_km": {
-      "text_primary":"Error en la carga del comprobante",
-      "text_secondary":"👉 Verifica que que el formato sea jpg, png o pdf. Y que su tamaño no exceda los 200 kb.",
-      "button_primary":"Reintentar",
-      "button_secondary":"Volver a mis compras"
+      "text_primary": "Error en la carga del comprobante",
+      "text_secondary": "👉 Verifica que que el formato sea jpg, png o pdf. Y que su tamaño no exceda los 200 kb.",
+      "button_primary": "Reintentar",
+      "button_secondary": "Volver a mis compras"
     },
     "provider_new_operation_card": {
       "description": "Proveedor: {{providerName}}"
@@ -2298,7 +2298,7 @@
         "subtitle_minimum_amount": "Monto mínimo de compra:",
         "subtitle_available_tokens": "¿Qué tokens puedes comprar?",
         "subtitle_more_information": "Más información:",
-        "subtitle_time_tokens":"Tiempo de acreditación de tokens:",
+        "subtitle_time_tokens": "Tiempo de acreditación de tokens:",
         "kyc_required": "Requiere KYC o proceso de registración.",
         "button": "Entendido",
         "kripton": {
@@ -2319,8 +2319,8 @@
           "available_tokens_2": "USDC y MATIC"
         },
         "directa24": {
-          "description_1":"Compra en efectivo",
-          "description_2":"10 USD.",
+          "description_1": "Compra en efectivo",
+          "description_2": "10 USD.",
           "description_3": "Días hábiles de 9 a 18hs aprox. El tiempo máximo de acreditación es de 3hs."
         }
       }
@@ -2599,21 +2599,21 @@
         "item3": "Podrás encontrarlo en tu ticket de pago como “verificador de monto”.",
         "button": "Entendido"
       },
-      "user_register_content":{
-        "user_information":{
-          "title":"¡Hola! Aún no posees una cuenta, te ayudaremos a registrarte rápidamente",
+      "user_register_content": {
+        "user_information": {
+          "title": "¡Hola! Aún no posees una cuenta, te ayudaremos a registrarte rápidamente",
           "subtitle": "😄 ¡No te preocupes! Será por única vez."
         },
-        "user_images":{
-          "title":"Datos, listo ✅",
+        "user_images": {
+          "title": "Datos, listo ✅",
           "subtitle": "Sólo queda un paso más, ¡no aflojes!"
         },
-        "complete":{
-          "title":"¡Felicitaciones! 🎉 Registro finalizado",
+        "complete": {
+          "title": "¡Felicitaciones! 🎉 Registro finalizado",
           "subtitle": "⏱ Kripton Market está validando tu cuenta. Este proceso puede demorar hasta 48 hs.",
           "subtitle_2": "🛒 Una vez que tengas tu cuenta validada, podrás realizar tus compras con este proveedor."
         }
-      },       
+      },
       "validation_content": {
         "header": "Verificar identidad",
         "provider": "Proveedor: Kripton Market",
@@ -2648,14 +2648,14 @@
           "button_secondary": "Cargar nuevamente"
         },
         "back_id": {
-          "title": "😁 ¡Excelente!" ,
+          "title": "😁 ¡Excelente!",
           "subtitle": "Chequea que la foto cumpla con las siguientes condiciones: ",
           "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>",
           "button_primary": "Confirmar",
           "button_secondary": "Cargar nuevamente"
         },
         "dni_selfie": {
-          "title": "¡Listo! Terminamos 🎉" ,
+          "title": "¡Listo! Terminamos 🎉",
           "subtitle": "Verifica que se cumplan las siguientes condiciones:",
           "items": "<ul><li> La foto debe ser clara y nítida.</li><li>No utilices anteojos o sombreros que tapen tu rostro.</li></ul>",
           "button_primary": "Confirmar y enviar",
@@ -2701,13 +2701,13 @@
         "link_exceeded_attempts": "Contactar con soporte"
       }
     },
-    "user_register":{
-      "header":"Registración",
-      "provider":"Proveedor: Kripton Market",
+    "user_register": {
+      "header": "Registración",
+      "provider": "Proveedor: Kripton Market",
       "button": "Finalizar",
       "steps": {
         "complete": "Completo",
-        "step_one":{
+        "step_one": {
           "title": "Cargar datos",
           "subtitle": "Completa con tu información personal"
         },
@@ -2761,7 +2761,7 @@
         "label_phone": "Teléfono",
         "button": "Continuar"
       },
-      "summary_data":{
+      "summary_data": {
         "header": "Cargar datos",
         "title": "🎊 ¡Así se hace! Terminamos",
         "subtitle": "¿Deseas realizar algún cambio?",
@@ -2825,6 +2825,28 @@
       "support": {
         "header": "¿Necesitas ayuda?",
         "link": "Escribir a soporte Kripton Market"
+      }
+    },
+    "kyc_status": {
+      "title": "Cuenta Kripton Market",
+      "starting": {
+        "status": "Avance: 0%",
+        "message": "Completa la validación de identidad para finalizar la creación de tu cuenta. Verificar indentidad ahora."
+      },
+      "pending": {
+        "status": "Avance: 50%"
+      },
+      "checking": {
+        "status": "En curso",
+        "message": "Tus datos están siendo verificados. Este proceso puede demorar hasta 48 hs."
+      },
+      "canceling": {
+        "status": "Anulada",
+        "message": "Los datos ingresados no pudieron ser verificados por el proveedor o son incorrectos. Para más información, comunícate con soporte."
+      },
+      "approving": {
+        "title": "Tu cuenta en Kripton Market fue verificada.",
+        "message": "Ya puedes realizar tus compras con este proveedor."
       }
     }
   },
