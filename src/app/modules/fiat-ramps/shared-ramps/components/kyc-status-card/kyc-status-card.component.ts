@@ -39,15 +39,11 @@ export class KYCStatusCardComponent implements OnInit {
   @Input() kycApproved: boolean;
   @Input() message: string;
   @Input() style: string;
-  disabledCard: any;
+  @Input() disabledCard: boolean;
 
   constructor(private navController: NavController, private kriptonStorage: KriptonStorageService) {}
 
-  async ngOnInit() {
-    if (await this.kriptonStorage.get('kyc_approved')) {
-      this.disabledCard = this.kycApproved;
-    }
-  }
+  ngOnInit() {}
 
   close() {
     this.disabledCard = true;
@@ -55,7 +51,6 @@ export class KYCStatusCardComponent implements OnInit {
   }
 
   redirectToPage() {
-    if (this.userStatus === 'USER_INFORMATION' || this.userStatus === 'USER_IMAGES')
-      this.navController.navigateForward('/fiat-ramps/user-register');
+    if (this.userStatus !== 'COMPLETE') this.navController.navigateForward('/fiat-ramps/user-register');
   }
 }

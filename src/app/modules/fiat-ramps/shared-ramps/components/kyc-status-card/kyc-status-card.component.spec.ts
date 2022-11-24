@@ -17,7 +17,6 @@ describe('KYCStatusCardComponent', () => {
     navControllerSpy = fakeNavController.createSpy();
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
-      get: Promise.resolve(true),
       set: Promise.resolve(),
     });
 
@@ -36,6 +35,7 @@ describe('KYCStatusCardComponent', () => {
     component.statusText = 'testStatus';
     component.message = 'testMessage';
     component.kycApproved = true;
+    component.disabledCard = true;
     fixture.detectChanges();
   }));
 
@@ -89,12 +89,11 @@ describe('KYCStatusCardComponent', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/fiat-ramps/user-register');
   });
 
-  it('should disabled card if kripton_kyc_approved key on storage is true on init', async () => {
+  it('should disabled card if disabledcard var is true', async () => {
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     const cardEl = fixture.debugElement.query(By.css('div.ksc'));
     expect(component.disabledCard).toBeTrue();
     expect(cardEl).toBeFalsy();
-    expect(kriptonStorageSpy.get).toHaveBeenCalledTimes(1);
   });
 });

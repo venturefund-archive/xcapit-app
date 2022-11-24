@@ -75,8 +75,10 @@ describe('HomeOfPurchasesPage', () => {
     });
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
-      get: Promise.resolve('test@test.com'),
+      get: Promise.resolve(),
     });
+    kriptonStorageSpy.get.withArgs('email').and.resolveTo('test@test.com');
+    kriptonStorageSpy.get.withArgs('kyc_approved').and.resolveTo();
 
     TestBed.configureTestingModule({
       declarations: [HomeOfPurchasesPage],
@@ -180,5 +182,12 @@ describe('HomeOfPurchasesPage', () => {
     expect(component.title).toEqual('fiat_ramps.kyc_status.approving.title');
     expect(component.message).toEqual('fiat_ramps.kyc_status.approving.message');
     expect(component.style).toEqual('approving');
+  });
+
+  it('should set disabledStatusCard on false if not exist kripton_kyc_approved key on storage on did enter', async () => {
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    expect(kriptonStorageSpy.get).toHaveBeenCalledTimes(1);
+    expect(component.disabledStatusCard).toBeFalsy();
   });
 });

@@ -30,6 +30,7 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
           [statusText]="this.status"
           [userStatus]="this.userStatus.registration_status"
           [kycApproved]="this.userStatus.kyc_approved"
+          [disabledCard]="this.disabledStatusCard"
         ></app-kyc-status-card>
       </div>
       <div class="hop__operations-list ion-padding" *ngIf="this.operationsList">
@@ -74,6 +75,7 @@ export class HomeOfPurchasesPage {
     USER_IMAGES: 'pending',
     COMPLETE: 'checking',
   };
+  disabledStatusCard = true;
 
   constructor(
     private fiatRampsService: FiatRampsService,
@@ -89,6 +91,10 @@ export class HomeOfPurchasesPage {
     if (this.kriptonEnabled()) this.getOperations();
     await this.getUserStatus();
     this.setCorrectDataByStatus();
+  }
+
+  async ionViewDidEnter() {
+    if (!(await this.kriptonStorage.get('kyc_approved'))) this.disabledStatusCard = false;
   }
 
   getOperations() {
