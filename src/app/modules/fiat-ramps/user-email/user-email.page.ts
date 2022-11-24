@@ -70,37 +70,39 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
       </div>
     </ion-content>
     <ion-footer class="ue__footer">
-      <div class="ue__footer__resend-email" *ngIf="this.validateEmail">
-        <div class="ue__footer__resend-email__title">
-          <img [src]="this.resendIcon" />
-          <ion-text class="ux-font-text-xs">
-            {{ this.resendTitleText | translate }}
-          </ion-text>
+      <div>
+        <div class="ue__footer__resend-email" *ngIf="this.validateEmail">
+          <div class="ue__footer__resend-email__title">
+            <img [src]="this.resendIcon" />
+            <ion-text class="ux-font-text-xs">
+              {{ this.resendTitleText | translate }}
+            </ion-text>
+          </div>
+          <div class="ue__footer__resend-email__link" *ngIf="!this.timerEnabled">
+            <ion-text name="Send code request" class="ux-link-xs" (click)="sendCodeRequest()">
+              {{ this.resendLinkText | translate }}
+            </ion-text>
+          </div>
+          <app-countdown-timer
+            [timerSeconds]="this.timerSeconds"
+            *ngIf="this.timerEnabled"
+            (hasFinishedCounting)="this.disableTimer()"
+          ></app-countdown-timer>
         </div>
-        <div class="ue__footer__resend-email__link" *ngIf="!this.timerEnabled">
-          <ion-text name="Send code request" class="ux-link-xs" (click)="sendCodeRequest()">
-            {{ this.resendLinkText | translate }}
-          </ion-text>
+        <div class="ux_footer ion-padding">
+          <ion-button
+            class="ux_button"
+            appTrackClick
+            name="ux_user_mail_continue"
+            color="secondary"
+            size="large"
+            expand="block"
+            [disabled]="!this.form.valid"
+            (click)="this.submit()"
+          >
+            {{ 'fiat_ramps.user_email.button' | translate }}
+          </ion-button>
         </div>
-        <app-countdown-timer
-          [timerSeconds]="this.timerSeconds"
-          *ngIf="this.timerEnabled"
-          (hasFinishedCounting)="this.disableTimer()"
-        ></app-countdown-timer>
-      </div>
-      <div class="ux_footer ion-padding">
-        <ion-button
-          class="ux_button"
-          appTrackClick
-          name="ux_user_mail_continue"
-          color="secondary"
-          size="large"
-          expand="block"
-          [disabled]="!this.form.valid"
-          (click)="this.submit()"
-        >
-          {{ 'fiat_ramps.user_email.button' | translate }}
-        </ion-button>
       </div>
     </ion-footer>`,
   styleUrls: ['./user-email.page.scss'],
