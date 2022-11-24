@@ -6,8 +6,8 @@ describe('LocalNotificationInjectable', () => {
     expect(new LocalNotificationInjectable()).toBeTruthy();
   });
 
-  it('createInitialized', () => {
-    expect(new LocalNotificationInjectable().createInitialized('title', 'body')).toBeInstanceOf(
+  it('create', () => {
+    expect(new LocalNotificationInjectable().create('title', 'body')).toBeInstanceOf(
       DefaultLocalNotification
     );
   });

@@ -14,9 +14,9 @@ describe('LocalNotification', () => {
     expect(localNotification).toBeTruthy();
   });
 
-  it('createInitialized', () => {
+  it('create', () => {
     expect(
-      DefaultLocalNotification.createInitialized('testTitle', 'testBody', 2, new FakeLocalNotificationPlugin())
+      DefaultLocalNotification.create('testTitle', 'testBody', 2, new FakeLocalNotificationPlugin())
     ).toBeTruthy();
   });
 
