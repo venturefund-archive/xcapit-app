@@ -340,7 +340,7 @@
       },
       "error":{
         "title":"⚠️ Error en la inversión",
-        "body": "Se produjo un error en la inversión de {{amount}} {{token}} el día {{date}}. Más información aquí."
+        "body": "Se produjo un error en la inversión de {{amount}} {{token}} el día {{date}}."
       }
     },
     "invest_in_progress":{
@@ -348,6 +348,23 @@
       "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
       "button_text":"Volver a inversiones",
       "text_title": "Inversión",
+      "text_badge": "En progreso"
+    },
+    "withdraw_notifications":{
+      "success":{
+        "title":"💸 Retiro exitoso",
+        "body": "Retiraste {{amount}} {{token}} el día {{date}}."
+      },
+      "error":{
+        "title":"🚨 Error en el retiro",
+        "body": "Se produjo un error en el retiro de {{amount}} {{token}} el día {{date}}."
+      }
+    },
+    "withdraw_in_progress":{
+      "text_primary":"¡Tu orden está en camino!",
+      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text":"Volver a inversiones",
+      "text_title": "Retiro",
       "text_badge": "En progreso"
     },
     "new": {

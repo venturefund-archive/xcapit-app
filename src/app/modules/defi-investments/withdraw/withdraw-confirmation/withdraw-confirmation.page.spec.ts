@@ -24,6 +24,8 @@ import { WithdrawConfirmationController } from './withdraw-confirmation.controll
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { By } from '@angular/platform-browser';
+import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
+import { FakeLocalNotification } from 'src/app/shared/models/local-notification/fake/fake-local-notification';
 import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { rawMATICData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
@@ -62,10 +64,23 @@ describe('WithdrawConfirmationPage', () => {
   let gasFeeOfSpy: jasmine.SpyObj<GasFeeOf>;
   let alertControllerSpy: jasmine.SpyObj<AlertController>;
   let alertSpy: jasmine.SpyObj<HTMLIonAlertElement>;
+  let localNotificationInjectableSpy: jasmine.SpyObj<LocalNotificationInjectable>
+  let testLocalNotificationOk: {title: string, body: string}
+  let testLocalNotificationNotOk: {title: string, body: string}
+  let fakeLocalNotification: FakeLocalNotification
   let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
 
   beforeEach(waitForAsync(() => {
+    testLocalNotificationOk = {
+      title: 'defi_investments.withdraw_notifications.success.title',
+      body: 'defi_investments.withdraw_notifications.success.body',
+    };
+    
+    testLocalNotificationNotOk = {
+      title: 'defi_investments.withdraw_notifications.error.title',
+      body: 'defi_investments.withdraw_notifications.error.body',
+    };
     alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
     alertControllerSpy = jasmine.createSpyObj('AlertController', { create: Promise.resolve(alertSpy) });
     fakeActivatedRoute = new FakeActivatedRoute({ vault: 'usdc_mumbai' });
@@ -122,6 +137,13 @@ describe('WithdrawConfirmationPage', () => {
       }
     );
 
+    fakeLocalNotification = new FakeLocalNotification();
+
+    localNotificationInjectableSpy = jasmine.createSpyObj('LocalNotificationInjectable', {
+      create: fakeLocalNotification
+    });
+
+
     nativeCoinSpy = jasmine.createSpyObj('Coin', {}, { native: true, value: 'MATIC', network: 'MATIC' });
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -171,6 +193,7 @@ describe('WithdrawConfirmationPage', () => {
         { provide: InvestmentDataService, useValue: investmentDataServiceSpy },
         { provide: WithdrawConfirmationController, useValue: controllerSpy },
         { provide: AlertController, useValue: alertControllerSpy },
+        { provide: LocalNotificationInjectable, useValue: localNotificationInjectableSpy },
         { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
       ],
@@ -208,23 +231,34 @@ describe('WithdrawConfirmationPage', () => {
   });
 
   it('should withdraw', async () => {
+    const sendSpy = spyOn(fakeLocalNotification, 'send');
+    const onClickSpy = spyOn(fakeLocalNotification, 'onClick').and.callThrough();
     await component.ionViewDidEnter();
     await component.withdraw();
     await fixture.whenStable();
-
+    fakeLocalNotification.triggerOnClick();
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/withdraw/success');
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
+    expect(sendSpy ).toHaveBeenCalledTimes(1);
+    expect(onClickSpy).toHaveBeenCalledTimes(1);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
   });
 
   it('should withdrawAll', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ type: 'all' });
-
+    const sendSpy = spyOn(fakeLocalNotification, 'send');
+    const onClickSpy = spyOn(fakeLocalNotification, 'onClick').and.callThrough();
+    fakeActivatedRoute.modifySnapshotParams({
+      type: 'all',
+    });
     await component.ionViewDidEnter();
     await component.withdraw();
     await fixture.whenStable();
-
+    fakeLocalNotification.triggerOnClick();
     expect(investmentSpy.withdrawAll).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/defi/withdraw/success');
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
+    expect(sendSpy ).toHaveBeenCalledTimes(1);
+    expect(onClickSpy).toHaveBeenCalledTimes(1);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
   });
 
   it('should not withdraw if invalid password', async () => {
@@ -247,15 +281,20 @@ describe('WithdrawConfirmationPage', () => {
     expect(investmentSpy.withdraw).not.toHaveBeenCalled();
   });
 
-  it('should navigate to error page if error', async () => {
+  it('should in progress modal and send error notification if withdraw fail', async () => {
+    const sendSpy = spyOn(fakeLocalNotification, 'send');
+    const onClickSpy = spyOn(fakeLocalNotification, 'onClick');
     investmentSpy.withdraw.and.rejectWith();
 
     await component.ionViewDidEnter();
     await component.withdraw();
     await fixture.whenStable();
 
+    expect(sendSpy ).toHaveBeenCalledTimes(1);
+    expect(onClickSpy).toHaveBeenCalledTimes(0);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationNotOk.title, testLocalNotificationNotOk.body);
     expect(investmentSpy.withdraw).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/withdraw/error', 'usdc_mumbai']);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
   });
 
   it('should unsubscribe when leave', () => {
