@@ -2177,7 +2177,8 @@
       "IN": "Recibido",
       "modal_info_state": {
         "title": "¿Qué significa este estado?",
-        "description": "Tu transacción fue rechazada por la red. Obtén más detalle accediendo al scan.",
+        "description_confirmed": "Tu transacción fue confirmada por la red. Obtén más detalle accediendo al scan.",
+        "description_refused": "Tu transacción fue rechazada por la red. Obtén más detalle accediendo al scan.",
         "button_text": "Entendido"
       }
     }

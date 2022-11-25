@@ -20,7 +20,11 @@ import { NavController } from '@ionic/angular';
         </ion-buttons>
         <ion-title class="ion-text-center">{{ 'wallets.transaction_details.header' | translate }}</ion-title>
         <ion-buttons *ngIf="this.tplTransfer && this.tplTransfer.type === 'OUT'" class="back-button" slot="end">
-          <app-share-transaction-detail  [txAmount]="this.tplTransfer.amount" [txAsset]="this.tplTransfer.token.value" [txLink]="this.url"></app-share-transaction-detail>
+          <app-share-transaction-detail
+            [txAmount]="this.tplTransfer.amount"
+            [txAsset]="this.tplTransfer.token.value"
+            [txLink]="this.url"
+          ></app-share-transaction-detail>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -52,7 +56,8 @@ import { NavController } from '@ionic/angular';
           <div class="td__card__container__amount">
             <div>
               <ion-text class="ux-font-text-lg"
-                >{{ this.tplTransfer.amount | formattedAmount}} {{ this.tplTransfer.token.value | titlecase | uppercase }}</ion-text
+                >{{ this.tplTransfer.amount | formattedAmount }}
+                {{ this.tplTransfer.token.value | titlecase | uppercase }}</ion-text
               >
             </div>
             <div class="td__card__container__amount__conversion">
@@ -129,10 +134,12 @@ import { NavController } from '@ionic/angular';
       </div>
       <div class="td__support">
         <div class="td__support__text">
-          <ion-text class="ux-font-text-base">{{'shared.need_help.text_help_link' | translate }}</ion-text>
+          <ion-text class="ux-font-text-base">{{ 'shared.need_help.text_help_link' | translate }}</ion-text>
         </div>
         <div class="td__support__link">
-          <ion-text class="link ux-link-xs" (click)="this.goToSupport()" name="support_link"> {{'shared.need_help.text_help_support' | translate }}</ion-text>
+          <ion-text class="link ux-link-xs" (click)="this.goToSupport()" name="support_link">
+            {{ 'shared.need_help.text_help_support' | translate }}</ion-text
+          >
         </div>
       </div>
     </ion-content>`,
@@ -166,7 +173,7 @@ export class TransactionDetailsPage implements OnInit {
     this.formattedDate = this.formatDate(this.tplTransfer.block_signed_at);
   }
 
-  getTransactionUrl(){
+  getTransactionUrl() {
     this.url = ScanUrlOf.create(this.tplTransfer.tx_hash, this.tplTransfer.token.network).value();
   }
 
@@ -186,7 +193,7 @@ export class TransactionDetailsPage implements OnInit {
 
   openTransactionUrl() {
     this.browserService.open({
-      url: this.url
+      url: this.url,
     });
   }
 
@@ -195,7 +202,11 @@ export class TransactionDetailsPage implements OnInit {
       component: InfoSendModalComponent,
       componentProps: {
         title: this.translate.instant('wallets.transaction_details.modal_info_state.title'),
-        description: this.translate.instant('wallets.transaction_details.modal_info_state.description'),
+        description: this.translate.instant(
+          this.tplTransfer.successful
+            ? 'wallets.transaction_details.modal_info_state.description_confirmed'
+            : 'wallets.transaction_details.modal_info_state.description_refused'
+        ),
         buttonText: this.translate.instant('wallets.transaction_details.modal_info_state.button_text'),
         state: this.tplTransfer.successful,
       },

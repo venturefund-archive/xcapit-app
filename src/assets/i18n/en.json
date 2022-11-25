@@ -2191,7 +2191,9 @@
       "IN": "Received",
       "modal_info_state": {
         "title": "What does this state mean?",
-        "description": "Your transaction was rejected by the network. Get more details by accessing the scan.",
+        "description_confirmed": "Your transaction was confirmed by the network. Get more details by accessing the scan.",
+        "description_refused": "Your transaction was rejected by the network. Get more details by accessing the scan.",
+        "description": "",
         "button_text": "Understood"
       }
     }
