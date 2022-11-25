@@ -1,7 +1,7 @@
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { OperationsNewPage } from './operations-new.page';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
@@ -25,6 +25,7 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
+import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 
 const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
@@ -37,9 +38,18 @@ const validForm = {
   acceptTOSAndPrivacyPolicy: true,
 };
 
-const userNew = {
-  id: 100,
-  registration_status: 'USER_INFORMATION',
+const data: OperationDataInterface = {
+  country: 'country',
+  type: 'cash-in',
+  amount_in: '100',
+  amount_out: '100',
+  currency_in: 'ARS',
+  currency_out: 'USDT',
+  price_in: '1',
+  price_out: '100',
+  wallet: '0x000000000000000000000dead',
+  provider: '1',
+  network: 'MATIC',
 };
 
 describe('OperationsNewPage', () => {
@@ -68,11 +78,14 @@ describe('OperationsNewPage', () => {
     navControllerSpy = new FakeNavController().createSpy();
     storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
       updateData: null,
+      getData: data,
     });
+
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       getUserWallets: of({}),
       getOrCreateUser: of({}),
       setProvider: null,
+      createOperation: of({ id: 335 }),
     });
 
     coinsSpy = [
@@ -192,14 +205,16 @@ describe('OperationsNewPage', () => {
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://kriptonmarket.com/terms-and-conditions' });
   });
 
-  it('should save operation and redirect to purchase order when valid form is submitted', async () => {
+  it('should create and save operation and redirect to purchase order when valid form is submitted', async () => {
     component.ionViewWillEnter();
     component.form.patchValue(validForm);
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     await component.handleSubmit();
-    expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
+    expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledWith(data);
+    expect(component.operationID).toEqual(335);
+    expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(2);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order');
   });
 
