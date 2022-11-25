@@ -81,6 +81,10 @@
           border: none;
         }
 
+        ion-button:hover {
+          color: var(--ion-color-info);
+        }
+
         &__button {
           flex-grow: 1;
         }
