@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, ImageOptions, Photo } from '@capacitor/camera';
 import { Filesystem } from '@capacitor/filesystem';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { addHours } from 'date-fns';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
@@ -10,6 +10,7 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { OperationKmInProgressModalComponent } from '../shared-ramps/components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
 import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
@@ -85,9 +86,27 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
         [deadlineDate]="dDay"
         [showSeconds]="false"
       ></app-timer-countdown>
-      <ion-button name="Continue" expand="block" size="large" class="ux_button" color="secondary" (click)="this.goToNextStep()">{{
-        'fiat_ramps.purchase_order.button' | translate
-      }}</ion-button>
+      <ion-button
+        [disabled]="this.step === 2"
+        *ngIf="this.percentage !== 100"
+        name="Continue"
+        expand="block"
+        size="large"
+        class="ux_button"
+        color="secondary"
+        (click)="this.goToNextStep()"
+        >{{ 'fiat_ramps.purchase_order.button' | translate }}</ion-button
+      >
+      <ion-button
+        *ngIf="this.percentage === 100"
+        name="Continue"
+        expand="block"
+        size="large"
+        class="ux_button"
+        color="secondary"
+        (click)="this.sendPicture()"
+        >{{ 'fiat_ramps.purchase_order.send_button' | translate }}</ion-button
+      >
     </ion-footer>
   `,
   styleUrls: ['./purchase-order.page.scss'],
@@ -112,7 +131,8 @@ export class PurchaseOrderPage {
     private apiWalletService: ApiWalletService,
     private navController: NavController,
     private platformService: PlatformService,
-    private fiatRampsService: FiatRampsService
+    private fiatRampsService: FiatRampsService,
+    private modalController: ModalController
   ) {}
 
   ionViewWillEnter() {
@@ -132,6 +152,8 @@ export class PurchaseOrderPage {
 
   private getData() {
     this.data = this.storageOperationService.getData();
+    this.voucher = this.storageOperationService.getVoucher();
+    if(this.voucher) this.percentage = 100;
   }
 
   copyToClipboard(clipboardInfo) {
@@ -149,73 +171,62 @@ export class PurchaseOrderPage {
   }
 
   goToNextStep() {
-    this.navController.navigateForward(['/fiat-ramps/purchase-order/2'], {animated: false});
+    this.navController.navigateForward(['/fiat-ramps/purchase-order/2'], { animated: false });
   }
 
   async addPhoto() {
+    // TODO: Cancel
     this.percentage = 0;
-    if (this.platformService.isNative()) {
-      const filePermissions = await this.filesystemPlugin.requestPermissions();
-      const cameraPermissions = await this.cameraPlugin.requestPermissions();
-      const photo = await this.cameraPlugin.getPhoto({
-        source: CameraSource.Prompt,
-        saveToGallery: false,
-        resultType: CameraResultType.DataUrl,
-      });
+    const imageOptions: ImageOptions = {
+      source: CameraSource.Prompt,
+      saveToGallery: false,
+      resultType: CameraResultType.DataUrl,
+    };
 
-      this.voucher = photo;
+    if (this.platformService.isNative()) {
+      await this.filesystemPlugin.requestPermissions();
+      await this.cameraPlugin.requestPermissions();
     } else {
-      // TOOD: Delete this
-      setTimeout(() => this.percentage = 12, 100);
-      this.voucher = {} as Photo;
-      setTimeout(() => this.percentage = 100, 500);
+      imageOptions.source = CameraSource.Photos;
     }
+
+    const photo = await this.cameraPlugin.getPhoto(imageOptions);
+    this.storageOperationService.updateVoucher(photo);
+    this.voucher = this.storageOperationService.getVoucher();
+    
+    this.percentage = 100;
   }
 
   async sendPicture() {
-    // this.percentage = true;
     const formData = new FormData();
     formData.append('file', this.voucher.dataUrl);
     this.fiatRampsService.confirmOperation(this.data.operation_id, formData).subscribe({
-      next: (data) => {
-        this.voucher = undefined;
+      next: () => {
         this.data.voucher = true;
-        // this.percentage = false;
+        this.openSuccessModal();
       },
-      error: () => (this.percentage = -1),
+      error: () => {
+        this.removePhoto();
+        this.goToError();
+      },
     });
-
-  }
-
-  navigateBackToOperations() {
-    this.navController.navigateBack(['/fiat-ramps/select-provider']);
   }
 
   removePhoto() {
     this.voucher = undefined;
+    this.percentage = -1;
   }
 
-  // async showRemovePhotoModal() {
-  //   if (this.isInfoModalOpen === false) {
-  //     this.isInfoModalOpen = true;
-  //     const modal = await this.modalController.create({
-  //       component: SkipTransactionVoucherComponent,
-  //       componentProps: {
-  //         title: this.translate.instant('fiat_ramps.operation_detail.remove_photo.title'),
-  //         description: this.translate.instant('fiat_ramps.operation_detail.remove_photo.description'),
-  //         buttonText1: this.translate.instant('fiat_ramps.operation_detail.remove_photo.button_text1'),
-  //         buttonText2: this.translate.instant('fiat_ramps.operation_detail.remove_photo.button_text2'),
-  //       },
-  //       cssClass: 'modal',
-  //       backdropDismiss: false,
-  //     });
-  //     await modal.present();
-  //     const { data } = await modal.onDidDismiss();
-  //     if (data === 'secondaryAction') {
-  //       this.removePhoto();
-  //     }
-  //     this.isInfoModalOpen = false;
-  //   }
-  // }
+  goToError() {
+    this.navController.navigateForward(['/fiat-ramps/error-operation-km']);
+  }
 
+  async openSuccessModal() {
+    const modal = await this.modalController.create({
+      component: OperationKmInProgressModalComponent,
+      cssClass: 'modal',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
 }

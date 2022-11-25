@@ -127,6 +127,21 @@
           font-size: 24px;
         }
       }
+
+      &__photo {
+        display: flex;
+        margin-top: 8px;
+
+        img {
+          height: 180px;
+          width: 114px;
+          margin: auto;
+          border: 1px solid var(--ion-color-neutral50);
+          border-radius: 4px;
+          object-fit: cover;
+          object-position: top;
+        }
+      }
     }
   }
 }

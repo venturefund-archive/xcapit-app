@@ -2290,6 +2290,7 @@
       "step_1":"Transfer",
       "step_2":"Upload voucher",
       "button":"Continue",
+      "send_button":"Send and finish",
       "timer":"You have {{ value }} to transfer",
       "voucher_card": {
         "header": "Attach your voucher",

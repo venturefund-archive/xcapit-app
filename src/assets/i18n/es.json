@@ -2804,6 +2804,7 @@
       "step_1":"Transferir",
       "step_2":"Cargar comprobante",
       "button":"Continuar",
+      "send_button":"Enviar y finalizar",
       "timer":"Te quedan {{ value }} para transferir",
       "voucher_card": {
         "header": "Adjunta tu comprobante",

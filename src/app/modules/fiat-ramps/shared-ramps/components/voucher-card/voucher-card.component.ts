@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Photo } from '@capacitor/camera';
+import { ModalController } from '@ionic/angular';
+import { VoucherModalComponent } from '../voucher-modal/voucher-modal.component';
 
 @Component({
   selector: 'app-voucher-card',
@@ -86,7 +88,7 @@ import { Photo } from '@capacitor/camera';
                   </ion-button>
                 </div>
               </div>
-              <div class="vc__success__photo">
+              <div class="vc__success__photo" (click)="this.openVoucher()">
                 <img [src]="this.voucher.dataUrl" />
               </div>
             </ion-card>
@@ -98,7 +100,7 @@ import { Photo } from '@capacitor/camera';
   styleUrls: ['./voucher-card.component.scss'],
 })
 export class VoucherCardComponent implements OnInit {
-  @Input() voucher: any;
+  @Input() voucher: Photo;
   @Input() set percentage(value: number) {
     this._percentage = value;
 
@@ -112,8 +114,9 @@ export class VoucherCardComponent implements OnInit {
 
   _percentage: number;
   loaderCssClass: string;
+  isModalOpen = false;
 
-  constructor() {}
+  constructor(private modalController: ModalController) {}
 
   ngOnInit() {}
 
@@ -123,5 +126,18 @@ export class VoucherCardComponent implements OnInit {
 
   uploadPhoto() {
     this.addPhoto.emit();
+  }
+
+  async openVoucher() {
+    if (!this.isModalOpen) {
+      const modal = await this.modalController.create({
+        component: VoucherModalComponent,
+        cssClass: 'modal',
+        componentProps: {
+          voucher: this.voucher
+        },
+      });
+      await modal.present();
+    }
   }
 }
