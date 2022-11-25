@@ -47,6 +47,7 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
 import { of } from 'rxjs';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { Password } from '../shared-swaps/models/password/password';
+import { SwapInProgressService } from '../shared-swaps/services/swap-in-progress/swap-in-progress.service';
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -73,6 +74,7 @@ describe('SwapHomePage', () => {
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let activatedRouteSpy: any;
+  let swapInProgressServiceSpy: jasmine.SpyObj<SwapInProgressService>
   const aPassword = new Password('aPassword');
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const testLocalNotificationOk: LocalNotificationSchema = {
@@ -130,6 +132,11 @@ describe('SwapHomePage', () => {
       { 'from-token-amount': '1' }
     );
     activatedRouteSpy = fakeActivatedRoute.createSpy();
+
+    swapInProgressServiceSpy = jasmine.createSpyObj('SwapInProgressService',{
+      startSwap: null,
+      finishSwap: null,
+    })
 
     walletBalanceSpy = jasmine.createSpyObj('WalletBalanceService', {
       balanceOf: Promise.resolve(10),
@@ -224,6 +231,7 @@ describe('SwapHomePage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: IonicStorageService, useValue: storageSpy },
+        { provide: SwapInProgressService, useValue: swapInProgressServiceSpy}
       ],
     }).compileComponents();
 
@@ -402,6 +410,28 @@ describe('SwapHomePage', () => {
     tick(2);
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
+  }));
+
+  it('password is valid, start swap for save in ionic storage service', fakeAsync(() => {
+    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
+    _setTokenAmountArrange(1);
+    component.swapThem();
+
+    tick(2);
+
+    expect(swapInProgressServiceSpy.startSwap).toHaveBeenCalledTimes(1);
+    expect(swapInProgressServiceSpy.finishSwap).toHaveBeenCalledTimes(1);
+  }));
+
+  it('password is invalid, it not start swap', fakeAsync(() => {
+    _setWalletToInvalidPassword();;
+    _setTokenAmountArrange(1);
+    component.swapThem();
+
+    tick(2);
+
+    expect(swapInProgressServiceSpy.startSwap).toHaveBeenCalledTimes(0);
+
   }));
 
   it('password modal open on click swap button and password is invalid', fakeAsync(() => {

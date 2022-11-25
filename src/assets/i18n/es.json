@@ -1714,6 +1714,10 @@
       "no_tokens_selected": {
         "title": "Aquí se encontrarán tus tokens.",
         "link": "Selecciona los que desees visualizar"
+      },
+      "transaction_in_progress": {
+        "badge": "En progreso",
+        "swap_title": "Intercambio"
       }
     },
     "select_coin": {
