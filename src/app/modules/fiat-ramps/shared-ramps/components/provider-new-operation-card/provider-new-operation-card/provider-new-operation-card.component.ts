@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { Console } from 'console';
 import { Coin } from '../../../../../wallets/shared-wallets/interfaces/coin.interface';
 import { INFO_PROVIDER } from '../../../constants/info-provider';
 import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interface';
