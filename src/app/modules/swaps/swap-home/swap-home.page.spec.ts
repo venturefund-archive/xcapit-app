@@ -49,7 +49,7 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
 import { Password } from '../shared-swaps/models/password/password';
 import { SwapInProgressService } from '../shared-swaps/services/swap-in-progress/swap-in-progress.service';
 
-fdescribe('SwapHomePage', () => {
+describe('SwapHomePage', () => {
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
