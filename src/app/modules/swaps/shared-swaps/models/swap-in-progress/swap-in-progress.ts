@@ -1,4 +1,3 @@
-import { Observable, Subject } from 'rxjs';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 
 export class SwapInProgress {
