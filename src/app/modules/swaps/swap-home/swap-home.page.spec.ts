@@ -49,7 +49,7 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
 import { Password } from '../shared-swaps/models/password/password';
 import { SwapInProgressService } from '../shared-swaps/services/swap-in-progress/swap-in-progress.service';
 
-describe('SwapHomePage', () => {
+fdescribe('SwapHomePage', () => {
   let component: SwapHomePage;
   let fixture: ComponentFixture<SwapHomePage>;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
@@ -424,7 +424,7 @@ describe('SwapHomePage', () => {
   }));
 
   it('password is invalid, it not start swap', fakeAsync(() => {
-    _setWalletToInvalidPassword();;
+    _setWalletToInvalidPassword();
     _setTokenAmountArrange(1);
     component.swapThem();
 

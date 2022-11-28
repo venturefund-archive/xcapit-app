@@ -24,7 +24,7 @@ import { Transaction } from '../../types/transaction.type';
 export class TransactionInProgressCardComponent implements OnInit {
   @Input() transactionType: Transaction;
   title: string;
-  imgUrl: String;
+  imgUrl: string;
 
   constructor() {}
 
