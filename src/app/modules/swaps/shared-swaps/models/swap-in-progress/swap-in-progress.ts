@@ -11,7 +11,7 @@ export class SwapInProgress {
     this._aStorage.set(this._storageKey, 1);
   }
 
-  finish() {
-    this._aStorage.set(this._storageKey, 0);
-  }
+  finish(){
+    this._aStorage.set(this._storageKey, 0);    
+  }  
 }
