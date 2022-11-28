@@ -1,6 +1,6 @@
 import { FakeConnection } from './fake-connection';
 
-describe('Fake Connection', () => {
+fdescribe('Fake Connection', () => {
   let connection: FakeConnection;
 
   beforeEach(() => {
@@ -14,4 +14,9 @@ describe('Fake Connection', () => {
   it('send transaction', async () => {
     expect(await connection.sendTransaction(null, [])).toBeTrue();
   });
+
+  it('getTokenAccountsByOwner', async () => {
+    expect(await connection.getTokenAccountsByOwner(null, null)).toBeTruthy();
+  });
+
 });

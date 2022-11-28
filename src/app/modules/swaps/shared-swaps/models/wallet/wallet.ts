@@ -3,7 +3,7 @@ import { TransactionRequest } from '@ethersproject/abstract-provider';
 import { BlockchainTx } from '../blockchain-tx';
 import { Blockchain } from '../blockchain/blockchain';
 import { SimpleSubject, Subscribable } from '../../../../../shared/models/simple-subject/simple-subject';
-import { Connection, Transaction } from '@solana/web3.js';
+import { Connection, sendAndConfirmTransaction, Transaction } from '@solana/web3.js';
 import { FakeConnection } from '../fakes/fake-connection';
 import { SolanaDerivedWallet } from '../solana-derived-wallet/solana-derived-wallet';
 
@@ -128,7 +128,11 @@ export class SolanaWallet implements Wallet {
 
   private async _sendTxs(transactions: BlockchainTx[], wallet: SolanaDerivedWallet): Promise<void> {
     for (const tx of transactions) {
-      await this._connection.sendTransaction((await tx.value()) as Transaction, [wallet.value()]);
+      await sendAndConfirmTransaction(
+        this._connection as Connection,
+        (await tx.value()) as Transaction,
+        [wallet.value()]
+      );
     }
   }
 

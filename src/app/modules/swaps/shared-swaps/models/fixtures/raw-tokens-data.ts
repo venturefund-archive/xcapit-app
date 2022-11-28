@@ -96,4 +96,21 @@ export const rawSAMOData = {
   symbol: 'SAMO',
 };
 
-export const rawTokensData = [rawETHData, rawMATICData, rawUSDCData, rawUSDTData, rawSOLData, rawSAMOData];
+export const rawSRMData = {
+  id: 31,
+  name: 'Serum - SRM',
+  logoRoute:
+  'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt/logo.png',
+  last: true,
+  value: 'SRM',
+  network: 'SOLANA',
+  contract: 'SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt',
+  chainId: 1399811149,
+  rpc: environment.solanaApiUrl,
+  decimals: 6,
+  native: false,
+  abi: '',
+  symbol: 'SRM',
+}
+
+export const rawTokensData = [rawETHData, rawMATICData, rawUSDCData, rawUSDTData, rawSOLData, rawSAMOData, rawSRMData];
