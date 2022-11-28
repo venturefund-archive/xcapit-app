@@ -1,27 +1,37 @@
+import { FakeConnection } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-connection';
 import { rawSAMOData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { SolanaToken } from 'src/app/modules/swaps/shared-swaps/models/token/solana/solana-token';
-import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { solanaAddresses } from '../../fixtures/raw-address-data';
 import { AssociatedTokenAddress } from './associated-token-address';
 
 
 describe('AssociatedTokenAddress', () => {
-  let address: AssociatedTokenAddress;
+  let ata: AssociatedTokenAddress;
   const token = new SolanaToken(rawSAMOData);
-  const testWalletAddress = 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH';
-  const expectedAssocitedAddress = 'H8VeStfXPSCgECu3J4qcGSmvJJQEwoxW1W9XSX56oEzu';
+  const testAddress = solanaAddresses[1];
+  const expectedAssocitedAddress = solanaAddresses[3];
 
   beforeEach(() => {
-    address = new AssociatedTokenAddress(
-      token,
-      new FakeWallet(Promise.resolve(false), null, testWalletAddress)
-    );
+    ata = new AssociatedTokenAddress(token, testAddress, new FakeConnection());
   });
 
   it('new', () => {
-    expect(address).toBeTruthy();
+    expect(ata).toBeTruthy();
   });
 
   it('value', async () => {
-    expect((await address.value()).toString()).toEqual(expectedAssocitedAddress);
+    expect((await ata.value()).toString()).toEqual(expectedAssocitedAddress);
+  });
+
+  it('in blockchain', async () => {
+    expect(await ata.inBlockchain()).toBeTrue();
+  });
+
+  it('token', () => {
+    expect(ata.token()).toEqual(token);
+  });
+
+  it('address', () => {
+    expect(ata.address()).toEqual(testAddress);
   });
 });

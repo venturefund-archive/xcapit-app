@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Coin } from '../../shared-wallets/interfaces/coin.interface';
 import { ModalController, NavController } from '@ionic/angular';
@@ -40,12 +40,13 @@ import { CovalentBalancesInjectable } from '../../shared-wallets/models/balances
 import { TokenPricesInjectable } from '../../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
-import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
 import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { ContactDataService } from 'src/app/modules/contacts/shared-contacts/services/contact-data/contact-data.service';
 import { Contact } from 'src/app/modules/contacts/shared-contacts/interfaces/contact.interface';
-import { timingSafeEqual } from 'crypto';
+import { SolanaSend } from '../../shared-wallets/models/solana-send/solana-send';
+import { SolanaSendTxsOf } from '../../shared-wallets/models/solana-send-txs-of/solana-send-txs-of';
+import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
 
 @Component({
   selector: 'app-send-detail',
@@ -175,7 +176,8 @@ export class SendDetailPage {
     private covalentBalancesFactory: CovalentBalancesInjectable,
     private tokenPricesFactory: TokenPricesInjectable,
     private solanaFeeOf: SolanaFeeOfInjectable,
-    private contactDataService: ContactDataService
+    private contactDataService: ContactDataService,
+    private solanaConnection: SolanaConnectionInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -365,15 +367,20 @@ export class SendDetailPage {
   private async _estimatedSolanaFee(): Promise<number> {
     return this.form.value.address
       ? await this.solanaFeeOf
-          .create(
-            new SolanaNativeSendTx(
-              await this.walletsFactory.create().oneBy(this.blockchain),
-              this.form.value.address,
-              new WeiOf(this.form.value.amount, this.blockchain.nativeToken().json()).value().toNumber()
+        .create(
+          await new SolanaSendTxsOf(
+            new SolanaSend(
+              this.form.value.amount,
+              this.tokenObj,
+              this.form.value.address
             ),
-            this.blockchain
-          )
-          .value()
+            await this.walletsFactory.create().oneBy(this.blockchain),
+            this.blockchain,
+            this.solanaConnection.create(this.blockchain)
+          ).blockchainTxs(),
+          this.blockchain,
+        )
+        .value()
       : 0;
   }
 

@@ -16,8 +16,6 @@ import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
-import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
-import { WeiOf } from 'src/app/modules/swaps/shared-swaps/models/wei-of/wei-of';
 import { InProgressTransactionModalComponent } from 'src/app/shared/components/in-progress-transaction-modal/in-progress-transaction-modal.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
 import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
@@ -30,6 +28,12 @@ import { TxInProgressService } from 'src/app/modules/swaps/shared-swaps/services
 import { SendTxInProgress } from 'src/app/modules/users/shared-users/models/tx-in-progress/send/send-tx-in-progress';
 import { DefaultTxHash } from '../../shared-wallets/models/tx-hash/default/default-tx-hash';
 import { NullTxHash } from '../../shared-wallets/models/tx-hash/null-tx-hash/null-tx-hash';
+import { SolanaToken } from 'src/app/modules/swaps/shared-swaps/models/token/solana/solana-token';
+import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+import { SolanaSend } from '../../shared-wallets/models/solana-send/solana-send';
+import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
+import { SolanaSendTxsOf } from '../../shared-wallets/models/solana-send-txs-of/solana-send-txs-of';
+
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
@@ -98,7 +102,8 @@ export class SendSummaryPage implements OnInit {
     private walletsFactory: WalletsFactory,
     private localNotificationInjectable: LocalNotificationInjectable,
     private storage: IonicStorageService,
-    private txInProgressService: TxInProgressService
+    private txInProgressService: TxInProgressService,
+    private solanaConnection: SolanaConnectionInjectable
   ) {}
 
   ngOnInit() {}
@@ -191,17 +196,20 @@ export class SendSummaryPage implements OnInit {
       this.txInProgress = new SendTxInProgress(this.blockchain, new NullTxHash());
       this.txInProgressService.startTx(this.txInProgress);
 
-      const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
-      wallet.onNeedPass().subscribe(() => new Password(password).value());
-      wallet
-        .sendTxs([
-          new SolanaNativeSendTx(
-            wallet,
-            this.summaryData.address,
-            new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
+      const aWallet = await this.walletsFactory.create().oneBy(this.blockchain);
+      aWallet.onNeedPass().subscribe(() => new Password(password).value());
+      aWallet.sendTxs(
+        await new SolanaSendTxsOf(
+          new SolanaSend(
+            this.summaryData.amount,
+            new SolanaToken(this.summaryData.currency as RawToken),
+            this.summaryData.address
           ),
-        ])
-        .then(() => this.notifyWhenTransactionMined());
+          aWallet,
+          this.blockchain,
+          this.solanaConnection.create(this.blockchain)
+        ).blockchainTxs()
+      ).then(() => this.notifyWhenTransactionMined());;
       this.openInProgressModal();
     }
   }
@@ -331,7 +339,7 @@ export class SendSummaryPage implements OnInit {
       this.summaryData.amount,
     ]);
   }
-  
+
   private navigateToTokenDetail() {
     this.navController.navigateRoot([
       `wallets/token-detail/blockchain/${this.summaryData.network}/token/${this.summaryData.currency.contract}`,

@@ -35,6 +35,7 @@ import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/am
 import { DefaultToken } from 'src/app/modules/swaps/shared-swaps/models/token/token';
 import {
   rawETHData,
+    rawSAMOData,
   rawSOLData,
   rawTokensData,
   rawUSDTData,
@@ -51,6 +52,11 @@ import { CovalentBalancesInjectable } from '../../shared-wallets/models/balances
 import { TokenPricesInjectable } from '../../shared-wallets/models/prices/token-prices/token-prices.injectable';
 import { FakeBalances } from '../../shared-wallets/models/balances/fake-balances/fake-balances';
 import { FakePrices } from '../../shared-wallets/models/prices/fake-prices/fake-prices';
+import { solanaAddress1 } from '../../shared-wallets/fixtures/raw-address-data';
+import { SolanaConnectionInjectable } from '../../shared-wallets/models/solana-connection/solana-connection-injectable';
+import { FakeConnection } from 'src/app/modules/swaps/shared-swaps/models/fakes/fake-connection';
+import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+
 
 describe('SendDetailPage', () => {
   let component: SendDetailPage;
@@ -80,6 +86,7 @@ describe('SendDetailPage', () => {
   let transactionDataServiceSpy: jasmine.SpyObj<TransactionDataService>;
   let covalentBalancesInjectableSpy: jasmine.SpyObj<CovalentBalancesInjectable>;
   let tokenPricesInjectableSpy: jasmine.SpyObj<TokenPricesInjectable>;
+  let solanaConnectionInjectableSpy: jasmine.SpyObj<SolanaConnectionInjectable>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const _continueButton = (): DebugElement => {
@@ -93,7 +100,7 @@ describe('SendDetailPage', () => {
       quoteAmount: 1,
     },
     solanaValid: {
-      address: 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH',
+      address: solanaAddress1,
       amount: 1,
       quoteAmount: 1,
     },
@@ -107,11 +114,11 @@ describe('SendDetailPage', () => {
   beforeEach(() => {
     transactionDataServiceSpy = jasmine.createSpyObj('TransactionDataService', {}, { transactionData: {} });
 
-    covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', { 
+    covalentBalancesInjectableSpy = jasmine.createSpyObj('CovalentBalancesInjectable', {
       create: new FakeBalances({ balance: 20 })
     });
-    
-    tokenPricesInjectableSpy = jasmine.createSpyObj('TokenPricesInjectable', { 
+
+    tokenPricesInjectableSpy = jasmine.createSpyObj('TokenPricesInjectable', {
       create: new FakePrices()
     });
 
@@ -190,6 +197,10 @@ describe('SendDetailPage', () => {
     );
     tokenDetailInjectableSpy = jasmine.createSpyObj('TokenDetailInjectable', { create: tokenDetailSpy });
 
+    solanaConnectionInjectableSpy = jasmine.createSpyObj('SolanaConnectionInjectable', {
+      create: new FakeConnection()
+    });
+
     TestBed.configureTestingModule({
       declarations: [SendDetailPage, FakeTrackClickDirective],
       imports: [
@@ -218,6 +229,7 @@ describe('SendDetailPage', () => {
         { provide: TransactionDataService, useValue: transactionDataServiceSpy },
         { provide: CovalentBalancesInjectable, useValue: covalentBalancesInjectableSpy },
         { provide: TokenPricesInjectable, useValue: tokenPricesInjectableSpy },
+        { provide: SolanaConnectionInjectable, useValue: solanaConnectionInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -301,26 +313,24 @@ describe('SendDetailPage', () => {
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
   }));
 
-  it('should save transaction data and navigate when ux_send_continue Button clicked, form valid and solana token', fakeAsync(() => {
-    fakeActivatedRoute.modifySnapshotParams({ token: rawSOLData.contract, blockchain: rawSOLData.network });
-    contactDataServiceSpy.getContact.and.returnValue(null);
-    component.ionViewWillEnter();
-    tick();
-    fixture.detectChanges();
-    component.ionViewDidEnter();
-    tick();
-    fixture.detectChanges();
-    component.form.patchValue(formData.solanaValid);
-    tick();
-    fixture.detectChanges();
+  [rawSOLData, rawSAMOData].forEach(
+    (token: RawToken) => {
+      it(`should save transaction data and navigate when continue btn clicked, valid form and solana ${token.value} token`, fakeAsync(() => {
+        fakeActivatedRoute.modifySnapshotParams({ token: token.contract, blockchain: token.network });
+        contactDataServiceSpy.getContact.and.returnValue(null);
+        component.ionViewWillEnter();
+        component.ionViewDidEnter();
+        tick();
+        component.form.patchValue(formData.solanaValid);
+        tick();
 
-    _continueButton().nativeElement.click();
-    tick();
-    fixture.detectChanges();
+        _continueButton().nativeElement.click();
+        tick();
 
-    expect(component.fee).toEqual(1.25);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
-  }));
+        expect(component.fee).toEqual(1);
+        expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/wallets/send/summary']);
+      }));
+  })
 
   it('should show card if native token balance is zero when sending native token', async () => {
     fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
