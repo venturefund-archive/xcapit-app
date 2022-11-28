@@ -113,7 +113,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
 })
 export class PurchaseOrderPage {
   isFirstStep: boolean;
-  dDay = addHours(new Date(), 72);
+  dDay: Date;
   data: OperationDataInterface;
   currencyOut: Coin;
   step: number;
@@ -121,6 +121,7 @@ export class PurchaseOrderPage {
   percentage = -1;
   filesystemPlugin = Filesystem;
   cameraPlugin = Camera;
+  isSending = false;
 
   constructor(
     private clipboardService: ClipboardService,
@@ -137,7 +138,8 @@ export class PurchaseOrderPage {
 
   ionViewWillEnter() {
     this.getStep();
-    this.getData();
+    this.getOperationData();
+    this.getOperationCreationDate();
     this.getCurrencyOut();
   }
 
@@ -150,10 +152,13 @@ export class PurchaseOrderPage {
     this.isFirstStep = this.step === 1;
   }
 
-  private getData() {
+  private getOperationCreationDate() {
+    this.dDay = addHours(this.data.created_at, 72);
+  }
+
+  private getOperationData() {
     this.data = this.storageOperationService.getData();
     this.voucher = this.storageOperationService.getVoucher();
-    if(this.voucher) this.percentage = 100;
   }
 
   copyToClipboard(clipboardInfo) {
@@ -175,7 +180,6 @@ export class PurchaseOrderPage {
   }
 
   async addPhoto() {
-    // TODO: Cancel
     this.percentage = 0;
     const imageOptions: ImageOptions = {
       source: CameraSource.Prompt,
@@ -189,15 +193,22 @@ export class PurchaseOrderPage {
     } else {
       imageOptions.source = CameraSource.Photos;
     }
-
-    const photo = await this.cameraPlugin.getPhoto(imageOptions);
-    this.storageOperationService.updateVoucher(photo);
-    this.voucher = this.storageOperationService.getVoucher();
     
-    this.percentage = 100;
+    try {
+      const photo = await this.cameraPlugin.getPhoto(imageOptions);
+      this.storageOperationService.updateVoucher(photo);
+      this.voucher = this.storageOperationService.getVoucher();
+      
+      this.percentage = 100;
+    } catch (error) {
+      this.percentage = -1;
+    }
   }
 
-  async sendPicture() {
+  sendPicture() {
+    if (this.isSending) return;
+
+    this.isSending = true;
     const formData = new FormData();
     formData.append('file', this.voucher.dataUrl);
     this.fiatRampsService.confirmOperation(this.data.operation_id, formData).subscribe({
@@ -206,13 +217,16 @@ export class PurchaseOrderPage {
         this.openSuccessModal();
       },
       error: () => {
-        this.removePhoto();
         this.goToError();
       },
+      complete: () => {
+        this.isSending = false;
+      }
     });
   }
 
   removePhoto() {
+    this.storageOperationService.updateVoucher(undefined);
     this.voucher = undefined;
     this.percentage = -1;
   }

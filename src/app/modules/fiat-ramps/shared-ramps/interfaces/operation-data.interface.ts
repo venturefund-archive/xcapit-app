@@ -13,4 +13,5 @@ export interface OperationDataInterface {
   voucher?: boolean;
   operation_id?: number;
   email?: string;
+  created_at?: Date;
 }
