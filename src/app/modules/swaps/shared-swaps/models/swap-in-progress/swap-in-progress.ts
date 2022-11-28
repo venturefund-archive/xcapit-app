@@ -8,7 +8,7 @@ export class SwapInProgress {
     private readonly _storageKey: string = 'swapInProgress'
 
   ) {}
- //Objeto que te incrementa y decrementa en el IonicStorage
+
   start() {
     this._aStorage.set(this._storageKey, 1);
     
@@ -16,7 +16,5 @@ export class SwapInProgress {
 
   finish(){
     this._aStorage.set(this._storageKey, 0);    
-  }
-
-  
+  }  
 }
