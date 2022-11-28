@@ -126,7 +126,6 @@ describe('HomeWalletPage', () => {
       inProgress: of(true)
     })
     
-
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getAssestsSelected: Promise.resolve([rawETHData, rawMATICData]),
       getWalletsAddresses: Promise.resolve('0x00001'),
@@ -237,6 +236,13 @@ describe('HomeWalletPage', () => {
     expect(component.userTokens.length).toBeGreaterThan(0);
     expect(component.tokenDetails.length).toBeGreaterThan(0);
     expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
+  });
+
+  it('should unsubscribe on ionViewWillLeave ', async () => {
+      const spy = spyOn(component, 'unsubscribe').and.callThrough()
+      await component.ionViewWillEnter();
+      await component.ionViewWillLeave();
+      expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should initialize on view did enter without tokens', async () => {

@@ -35,6 +35,7 @@ import { WalletConnectService } from '../shared-wallets/services/wallet-connect/
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { SwapInProgressService } from '../../swaps/shared-swaps/services/swap-in-progress/swap-in-progress.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-wallet',
@@ -217,6 +218,7 @@ export class HomeWalletPage implements OnInit {
   connected: boolean;
   allLoaded = false;
   swapInProgress = false;
+  private subscription$: Subscription;
 
   constructor(
     private navController: NavController,
@@ -255,13 +257,18 @@ export class HomeWalletPage implements OnInit {
     this.suscribleToSwapInProgress();
   }
 
-
-  //Ver como actualizar en la page cuando cambia
+  ionViewWillLeave(){
+    this.unsubscribe()
+  }
+  
   async suscribleToSwapInProgress(){    
-    this.swapInProgressService.inProgress().subscribe((inProgress) => {
-      console.log(inProgress)
+    this.subscription$ = this.swapInProgressService.inProgress().subscribe((inProgress) => {      
       this.swapInProgress = inProgress;
     })
+  }
+
+  unsubscribe(){
+    this.subscription$.unsubscribe()
   }
 
   private trackScreenView() {
