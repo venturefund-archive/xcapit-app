@@ -5,33 +5,31 @@ import { Transaction } from '../../types/transaction.type';
 @Component({
   selector: 'app-transaction-in-progress-card',
   template: `
-  <ion-item class="tipc ion-no-padding" lines="none">
-    <div class="tipc__container">
-      <div class="tipc__container__img">
-      <img [src]='this.imgUrl'>
-      </div>
-      <div class="tipc__container__content">
-        <ion-text class="ux-font-header-titulo">{{this.title | translate}}</ion-text>
-        <div >
-        <ion-badge>{{'wallets.home.transaction_in_progress.badge' | translate}}</ion-badge>
+    <ion-item class="tipc ion-no-padding" lines="none">
+      <div class="tipc__container">
+        <div class="tipc__container__img">
+          <img [src]="this.imgUrl" />
+        </div>
+        <div class="tipc__container__content">
+          <ion-text class="ux-font-header-titulo">{{ this.title | translate }}</ion-text>
+          <div>
+            <ion-badge>{{ 'wallets.home.transaction_in_progress.badge' | translate }}</ion-badge>
+          </div>
         </div>
       </div>
-      </div>
-  </ion-item>
+    </ion-item>
   `,
   styleUrls: ['./transaction-in-progress-card.component.scss'],
 })
 export class TransactionInProgressCardComponent implements OnInit {
-//pasar data generica. 
- @Input() transactionType: Transaction;
- title: string;
- imgUrl: String;
+  @Input() transactionType: Transaction;
+  title: string;
+  imgUrl: String;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-    this.title = `wallets.home.transaction_in_progress.${this.transactionType}_title`
-    this.imgUrl  = `assets/img/shared/transactions/${this.transactionType}.svg`
+    this.title = `wallets.home.transaction_in_progress.${this.transactionType}_title`;
+    this.imgUrl = `assets/img/shared/transactions/${this.transactionType}.svg`;
   }
-
 }
