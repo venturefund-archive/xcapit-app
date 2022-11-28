@@ -3,6 +3,7 @@ import { WeiOf } from "src/app/modules/swaps/shared-swaps/models/wei-of/wei-of";
 
 
 export class SolanaNoNativeSend {
+
   constructor(private _anAmount: number | string, private _aToken: Token, private _toAddress: string) {}
 
   weiAmount(): WeiOf {
