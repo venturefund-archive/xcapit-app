@@ -5,26 +5,20 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-swap-in-progress-modal',
-  template: ` 
-  
+  template: `
     <div class="header">
       <div class="header__close-button" *ngIf="this.data.urlClose">
-        <ion-button
-          fill="clear"
-          name="Close Success"
-          (click)="this.close()"
-        >
+        <ion-button fill="clear" name="Close Success" (click)="this.close()">
           <ion-icon class="header__close_button__icon" name="ux-close" color="neutral80"></ion-icon>
         </ion-button>
       </div>
       <div class="header__img">
-        <img [src]="this.data?.image" alt="Swap Image"/>
+        <img [src]="this.data?.image" alt="Swap Image" />
       </div>
-      
     </div>
     <div class="main">
       <div class="main__icon">
-        <img [src]="this.data?.icon" alt="Swap Icon"/>
+        <img [src]="this.data?.icon" alt="Swap Icon" />
       </div>
       <div class="main__primary-title">
         <ion-text>{{ this.data?.titlePrimary | translate }}</ion-text>
@@ -39,26 +33,25 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
         <ion-text class="ux-font-text-base">{{ this.data?.textSecondary | translate }}</ion-text>
       </div>
     </div>
-  <ion-footer>
-    <div class="main__actions">
-      <div class="main__actions__primary">
-        <ion-button
-          class="ux_button"
-          color="secondary"
-          name="Success Action Primary"
-          (click)="this.primaryAction()"
-        >
-          {{ this.data?.namePrimaryAction | translate }}
-        </ion-button>
+    <ion-footer>
+      <div class="main__actions">
+        <div class="main__actions__primary">
+          <ion-button class="ux_button" color="secondary" name="Success Action Primary" (click)="this.primaryAction()">
+            {{ this.data?.namePrimaryAction | translate }}
+          </ion-button>
+        </div>
       </div>
-    </div>
-  </ion-footer>
-`,
+    </ion-footer>
+  `,
   styleUrls: ['./swap-in-progress-modal.component.scss'],
 })
 export class SwapInProgressModalComponent implements OnInit {
   data = SUCCESS_TYPES.swap_in_progress;
-  constructor(private navController: NavController, private trackService: TrackService, private modalController: ModalController) {}
+  constructor(
+    private navController: NavController,
+    private trackService: TrackService,
+    private modalController: ModalController
+  ) {}
 
   ngOnInit() {
     this.trackPage();

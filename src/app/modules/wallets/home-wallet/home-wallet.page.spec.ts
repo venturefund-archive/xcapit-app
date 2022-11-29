@@ -44,6 +44,7 @@ import { FakeFeatureFlagDirective } from 'src/testing/fakes/feature-flag-directi
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { FakeTotalInvestedBalanceOf } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
+import { SwapInProgressService } from '../../swaps/shared-swaps/services/swap-in-progress/swap-in-progress.service';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -74,6 +75,7 @@ describe('HomeWalletPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
+  let swapInProgressServiceSpy: jasmine.SpyObj<SwapInProgressService>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
@@ -118,6 +120,10 @@ describe('HomeWalletPage', () => {
     refreshTimeoutServiceSpy = jasmine.createSpyObj('RefreshTimeoutService', {
       isAvailable: true,
       lock: of(),
+    });
+
+    swapInProgressServiceSpy = jasmine.createSpyObj('SwapInProgressService', {
+      inProgress: of(true),
     });
 
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -206,6 +212,7 @@ describe('HomeWalletPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
         { provide: TotalInvestedBalanceOfInjectable, useValue: totalInvestedBalanceOfInjectableSpy },
+        { provide: SwapInProgressService, useValue: swapInProgressServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -229,6 +236,13 @@ describe('HomeWalletPage', () => {
     expect(component.userTokens.length).toBeGreaterThan(0);
     expect(component.tokenDetails.length).toBeGreaterThan(0);
     expect(updateNewsServiceSpy.showModal).toHaveBeenCalledTimes(1);
+  });
+
+  it('should unsubscribe on ionViewWillLeave ', async () => {
+    const spy = spyOn(component, 'unsubscribe').and.callThrough();
+    await component.ionViewWillEnter();
+    await component.ionViewWillLeave();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should initialize on view did enter without tokens', async () => {
@@ -332,6 +346,15 @@ describe('HomeWalletPage', () => {
     expect(componentEl).toBeTruthy();
   });
 
+  it('should render app-transaction-in-progress-card component', async () => {
+    component.swapInProgress = true;
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    const componentEl = fixture.debugElement.queryAll(By.css('app-transaction-in-progress-card'));
+    fixture.detectChanges();
+    expect(componentEl).toBeTruthy();
+  });
+
   it('should call appTrackEvent on trackService when Tokens Tab was clicked', () => {
     fixture.detectChanges();
     const el = trackClickDirectiveHelper.getByElementByName('ion-segment-button', 'ux_tab_tokens');
@@ -351,6 +374,14 @@ describe('HomeWalletPage', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('should get in progress the swap is finish', fakeAsync(() => {
+    component.ionViewWillEnter();
+    component.suscribleToSwapInProgress();
+    fixture.detectChanges();
+    tick(2);
+    expect(swapInProgressServiceSpy.inProgress).toBeTruthy(true);
+  }));
 
   it('should get on storage onInit', () => {
     component.ionViewWillEnter();

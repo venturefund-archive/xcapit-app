@@ -50,6 +50,7 @@ import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory
 import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
 import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { SwapInProgressService } from '../shared-swaps/services/swap-in-progress/swap-in-progress.service';
 
 @Component({
   selector: 'app-swap-home',
@@ -280,7 +281,8 @@ export class SwapHomePage {
     private translate: TranslateService,
     private oneInchBlockchainsOf: OneInchBlockchainsOfFactory,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private storage: IonicStorageService
+    private storage: IonicStorageService,
+    private swapInProgressService: SwapInProgressService
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -399,10 +401,9 @@ export class SwapHomePage {
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(async (value) => {
-
-      if (value > this.swapBalance) {
-        this.showInsufficientBalanceModal();
-      }
+        if (value > this.swapBalance) {
+          this.showInsufficientBalanceModal();
+        }
         this.setNullFeeInfo();
         await this.setSwapInfo(value);
         await this.setFeeInfo();
@@ -507,6 +508,7 @@ export class SwapHomePage {
     const password = new Password(data);
     if (await this.validPassword(password)) {
       this.showSwapInProgressModal();
+      this.swapInProgressService.startSwap();
     } else {
       throw new Error(new PasswordErrorMsgs().invalid());
     }
@@ -539,6 +541,9 @@ export class SwapHomePage {
       .catch((err: Error) => {
         this.handleError(err);
         this.resetMainButton();
+      })
+      .finally(() => {
+        this.swapInProgressService.finishSwap();
       });
   }
 

@@ -11,16 +11,16 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { SwapInProgressModalComponent } from './swap-in-progress-modal.component';
 
 const testData = {
-  image:"assets/img/swaps/swap-in-progress.svg",
-  icon: "assets/img/swaps/swap-icon.svg",
-  urlClose:'/tabs/wallets',
+  image: 'assets/img/swaps/swap-in-progress.svg',
+  icon: 'assets/img/swaps/swap-icon.svg',
+  urlClose: '/tabs/wallets',
   textPrimary: 'swaps.swap_in_progress.textPrimary',
-  textSecondary:'swaps.swap_in_progress.textSecondary',
-  namePrimaryAction:'swaps.swap_in_progress.buttonText',
-  urlPrimaryAction:'/tabs/wallets',
+  textSecondary: 'swaps.swap_in_progress.textSecondary',
+  namePrimaryAction: 'swaps.swap_in_progress.buttonText',
+  urlPrimaryAction: '/tabs/wallets',
   titlePrimary: 'Intercambio',
-  textBadge: 'En progreso'
-}
+  textBadge: 'En progreso',
+};
 
 describe('SwapInProgressModalComponent', () => {
   let component: SwapInProgressModalComponent;
@@ -40,15 +40,15 @@ describe('SwapInProgressModalComponent', () => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
     TestBed.configureTestingModule({
-      declarations: [ SwapInProgressModalComponent ],
+      declarations: [SwapInProgressModalComponent],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         UrlSerializer,
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: TrackService, useValue: trackServiceSpy },
-        { provide: NavController, useValue: navControllerSpy}
-      ]
+        { provide: NavController, useValue: navControllerSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SwapInProgressModalComponent);

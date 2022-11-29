@@ -26,6 +26,7 @@ import { SwapInProgressModalComponent } from './components/swap-in-progress-moda
 import { ShareTransactionDetailComponent } from './components/share-transaction-detail/share-transaction-detail.component';
 import { AccordionTokensComponent} from './components/accordion-tokens/accordion-tokens.component';
 import { NoActiveTokensCardComponent } from './components/no-active-tokens-card/no-active-tokens-card.component';
+import { TransactionInProgressCardComponent } from './components/transaction-in-progress-card/transaction-in-progress-card.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { NoActiveTokensCardComponent } from './components/no-active-tokens-card/
     SwapInProgressModalComponent,
     ShareTransactionDetailComponent,
     AccordionTokensComponent,
-    NoActiveTokensCardComponent
+    NoActiveTokensCardComponent,
+    TransactionInProgressCardComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -84,7 +86,8 @@ import { NoActiveTokensCardComponent } from './components/no-active-tokens-card/
     SwapInProgressModalComponent,
     ShareTransactionDetailComponent,
     AccordionTokensComponent,
-    NoActiveTokensCardComponent
+    NoActiveTokensCardComponent,
+    TransactionInProgressCardComponent
   ],
 })
 export class SharedWalletsModule {}
