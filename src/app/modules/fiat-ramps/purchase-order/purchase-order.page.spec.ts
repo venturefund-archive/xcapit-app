@@ -2,18 +2,24 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { IonicModule, NavController } from '@ionic/angular';
+import { CameraPlugin, Photo } from '@capacitor/camera';
+import { FilesystemPlugin } from '@capacitor/filesystem';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
+import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
+import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
+import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { PurchaseOrderPage } from './purchase-order.page';
 
-describe('PurchaseOrderPage', () => {
+fdescribe('PurchaseOrderPage', () => {
   let component: PurchaseOrderPage;
   let fixture: ComponentFixture<PurchaseOrderPage>;
   let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;
@@ -25,8 +31,31 @@ describe('PurchaseOrderPage', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
+  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
+  let modalControllerSpy: jasmine.SpyObj<ModalController>;
+  let fakeModalController: FakeModalController;
+  let cameraSpy: jasmine.SpyObj<CameraPlugin>;
+  let filesystemSpy: jasmine.SpyObj<FilesystemPlugin>;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+
+  const photo: Photo = {
+    dataUrl: 'assets/img/coins/ETH.svg',
+    format: '',
+    saved: true,
+  };
 
   beforeEach(waitForAsync(() => {
+    cameraSpy = jasmine.createSpyObj('Camera', {
+      requestPermissions: Promise.resolve(),
+      getPhoto: Promise.resolve(photo),
+    });
+
+    filesystemSpy = jasmine.createSpyObj('Filesystem', {
+      requestPermissions: Promise.resolve(),
+    });
+
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getCoin: TEST_COINS[0] });
@@ -56,9 +85,17 @@ describe('PurchaseOrderPage', () => {
         type: 'cash-in',
         wallet: '0xd148c6735e1777be439519b32a1a6ef9c8853934',
       },
+      getVoucher: undefined,
+      updateVoucher: null,
     });
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showInfoToast: Promise.resolve(),
+    });
+    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+      confirmOperation: of({}),
+    });
+    platformServiceSpy = jasmine.createSpyObj('PlatformService', {
+      isNative: true,
     });
     TestBed.configureTestingModule({
       declarations: [PurchaseOrderPage],
@@ -70,12 +107,17 @@ describe('PurchaseOrderPage', () => {
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
+        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: PlatformService, useValue: platformServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PurchaseOrderPage);
     component = fixture.componentInstance;
+    component.cameraPlugin = cameraSpy;
+    component.filesystemPlugin = filesystemSpy;
     fixture.detectChanges();
   }));
 
@@ -158,6 +200,128 @@ describe('PurchaseOrderPage', () => {
 
   it('should go to next step when user clicks Continue button', () => {
     fixture.debugElement.query(By.css('ion-button[name="Continue"]')).nativeElement.click();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/purchase-order/2']);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/purchase-order/2'], {
+      animated: false,
+    });
   });
+
+  it('should add photo on addPhoto', async () => {
+    fakeActivatedRoute.modifySnapshotParams({ step: '2' });
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('addPhoto', null);
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+
+    expect(cameraSpy.getPhoto).toHaveBeenCalledTimes(1);
+    expect(storageOperationServiceSpy.updateVoucher).toHaveBeenCalledOnceWith(photo);
+    expect(component.voucher).toEqual(photo);
+    expect(component.percentage).toEqual(100);
+  });
+
+  it('should remove photo on removePhoto', async () => {
+    fakeActivatedRoute.modifySnapshotParams({ step: '2' });
+    component.ionViewWillEnter();
+    component.percentage = 100;
+    component.voucher = photo;
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('removePhoto', null);
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+
+    expect(storageOperationServiceSpy.updateVoucher).toHaveBeenCalledOnceWith(undefined);
+    expect(component.voucher).toEqual(undefined);
+    expect(component.percentage).toEqual(-1);
+  });
+
+  it('should send photo and show success modal when finish button is clicked', async () => {
+    const formData = new FormData();
+    formData.append('file', photo.dataUrl);
+
+    fakeActivatedRoute.modifySnapshotParams({ step: '2' });
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    component.percentage = 100;
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
+
+    expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(component.data.operation_id, formData);
+  });
+  it('should send photo and navigate to error when finish button is clicked');
+
+  // it('should upload photo when user clicks ux_buy_kripton_attach button', async () => {
+  //   component.ionViewWillEnter();
+  //   component.operation = mappedOperation;
+  //   component.voucherUploadedOnKripton = false;
+  //   component.voucher = undefined;
+  //   fixture.detectChanges();
+  //   fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_attach"]')).nativeElement.click();
+  //   await fixture.whenStable();
+  //   expect(cameraSpy.requestPermissions).toHaveBeenCalledTimes(1);
+  //   expect(filesystemSpy.requestPermissions).toHaveBeenCalledTimes(1);
+  //   expect(cameraSpy.getPhoto).toHaveBeenCalledTimes(1);
+  //   expect(component.voucher).toEqual(photo);
+  //   expect(component.voucherUploadedOnKripton).toBeFalse();
+  // });
+
+  // it('should call confirmOperation when user clicks ux_upload_photo button with a voucher image', async () => {
+  //   const formData = new FormData();
+  //   formData.append('file', photo.dataUrl);
+  //   component.operation = mappedOperation;
+  //   component.voucherUploadedOnKripton = false;
+  //   component.voucher = photo;
+  //   fixture.detectChanges();
+  //   fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
+  //   await fixture.whenStable();
+  //   expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(mappedOperation.operation_id, formData);
+  //   expect(component.voucher).toBeUndefined();
+  //   expect(component.voucherUploadedOnKripton).toBeTrue();
+  //   expect(component.uploadingVoucher).toBeFalse();
+  // });
+
+  // it('should remove photo on when user clicks remove photo button', async () => {
+  //   fakeModalController.modifyReturns(null, { data: 'secondaryAction' });
+  //   component.ionViewWillEnter();
+  //   component.operation = mappedOperation;
+  //   component.voucherUploadedOnKripton = true;
+  //   component.voucher = photo;
+  //   fixture.detectChanges();
+  //   fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('removePhoto', null);
+  //   await fixture.whenStable();
+  //   await fixture.whenRenderingDone();
+  //   await fixture.whenStable();
+  //   await fixture.whenRenderingDone();
+  //   fixture.detectChanges();
+  //   expect(component.voucher).toBeUndefined();
+  //   expect(component.voucherUploadedOnKripton).toBeTrue();
+  // });
+
+  // it('should stop spinner when confirmOperation throws error', async () => {
+  //   fiatRampsServiceSpy.confirmOperation.and.returnValue(throwError('Error'));
+  //   const formData = new FormData();
+  //   formData.append('file', photo.dataUrl);
+  //   component.operation = mappedOperation;
+  //   component.voucherUploadedOnKripton = false;
+  //   component.voucher = photo;
+  //   fixture.detectChanges();
+  //   fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
+  //   await fixture.whenStable();
+  //   expect(component.uploadingVoucher).toBeFalse();
+  // });
+
+  // it('should call trackEvent on trackService when ux_buy_kripton_attach Button clicked', () => {
+  //   component.operation = mappedOperation;
+  //   component.voucherUploadedOnKripton = false;
+  //   component.voucher = undefined;
+  //   fixture.detectChanges();
+  //   const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_buy_kripton_attach');
+  //   const directive = trackClickDirectiveHelper.getDirective(el);
+  //   const spy = spyOn(directive, 'clickEvent');
+  //   el.nativeElement.click();
+  //   fixture.detectChanges();
+  //   expect(spy).toHaveBeenCalledTimes(1);
+  // });
 });

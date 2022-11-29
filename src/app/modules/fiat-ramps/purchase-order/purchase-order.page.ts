@@ -99,7 +99,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
       >
       <ion-button
         *ngIf="this.percentage === 100"
-        name="Continue"
+        name="ux_upload_photo"
         expand="block"
         size="large"
         class="ux_button"

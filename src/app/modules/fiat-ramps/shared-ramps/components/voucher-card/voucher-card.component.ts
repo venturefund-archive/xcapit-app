@@ -130,6 +130,7 @@ export class VoucherCardComponent implements OnInit {
 
   async openVoucher() {
     if (!this.isModalOpen) {
+      this.isModalOpen = true;
       const modal = await this.modalController.create({
         component: VoucherModalComponent,
         cssClass: 'modal',
@@ -138,6 +139,8 @@ export class VoucherCardComponent implements OnInit {
         },
       });
       await modal.present();
+      await modal.onDidDismiss();
+      this.isModalOpen = false;
     }
   }
 }

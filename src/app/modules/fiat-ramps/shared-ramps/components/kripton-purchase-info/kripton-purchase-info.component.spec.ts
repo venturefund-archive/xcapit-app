@@ -7,7 +7,7 @@ import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/forma
 import { KriptonPurchaseInfoComponent } from './kripton-purchase-info.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-fdescribe('KriptonPurchaseInfoComponent', () => {
+describe('KriptonPurchaseInfoComponent', () => {
   let component: KriptonPurchaseInfoComponent;
   let fixture: ComponentFixture<KriptonPurchaseInfoComponent>;
   let kriptonPurchaseInfoSpy: jasmine.SpyObj<any>;
