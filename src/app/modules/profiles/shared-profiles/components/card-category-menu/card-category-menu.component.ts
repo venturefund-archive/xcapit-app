@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { WalletService } from 'src/app/modules/wallets/shared-wallets/services/wallet/wallet.service';
 import { WalletConnectService } from 'src/app/modules/wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { MenuCategory } from '../../interfaces/menu-category.interface';
+import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 @Component({
   selector: 'app-card-category-menu',
@@ -55,7 +56,8 @@ export class CardCategoryMenuComponent implements OnInit {
   constructor(
     private navController: NavController,
     private walletService: WalletService,
-    private walletConnectService: WalletConnectService
+    private walletConnectService: WalletConnectService,
+    private browserService: BrowserService
   ) {}
 
   ngOnInit() {}
@@ -72,6 +74,14 @@ export class CardCategoryMenuComponent implements OnInit {
         }
       }
     }
+    if (item.name === 'Community') {
+      this.openBrowser(item.route);
+      return;
+    }
     this.navController.navigateForward(url);
+  }
+
+  async openBrowser(link) {
+    await this.browserService.open({ url: link });
   }
 }
