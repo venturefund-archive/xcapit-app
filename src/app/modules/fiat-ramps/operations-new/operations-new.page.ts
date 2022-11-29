@@ -273,7 +273,8 @@ export class OperationsNewPage implements AfterViewInit {
       this.fiatRampsService.createOperation(this.storageOperationService.getData()).subscribe((res) => {
         this.operationID = res.id;
       });
-      await this.setOperationStorage();
+      const newData = Object.assign({ operation_id: this.operationID }, this.storageOperationService.getData());
+      this.storageOperationService.updateData(newData);
       this.navController.navigateForward('/fiat-ramps/purchase-order');
     } else {
       this.form.markAllAsTouched();
@@ -293,7 +294,6 @@ export class OperationsNewPage implements AfterViewInit {
       wallet: await this.walletAddress(),
       provider: this.provider.id.toString(),
       network: this.selectedCurrency.network,
-      operation_id: this.operationID,
     };
     this.storageOperationService.updateData(data);
   }
