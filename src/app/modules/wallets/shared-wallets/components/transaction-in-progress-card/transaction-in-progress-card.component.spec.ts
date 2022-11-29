@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { TransactionInProgressCardComponent } from './transaction-in-progress-card.component';
 
@@ -10,7 +11,7 @@ describe('TransactionInProgressCardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TransactionInProgressCardComponent],
-      imports: [IonicModule.forRoot()],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransactionInProgressCardComponent);

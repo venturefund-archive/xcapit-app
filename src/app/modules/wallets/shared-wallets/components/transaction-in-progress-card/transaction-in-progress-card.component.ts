@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { type } from 'os';
 import { Transaction } from '../../types/transaction.type';
 
 @Component({
