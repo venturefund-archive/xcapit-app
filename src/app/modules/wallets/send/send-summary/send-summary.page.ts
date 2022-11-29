@@ -175,7 +175,6 @@ export class SendSummaryPage implements OnInit {
           this.summaryData.currency
         );
         this.notifyWhenTransactionMined(response);
-        console.log('summaryData', this.summaryData)
       } else {
         const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
         wallet.onNeedPass().subscribe(() => new Password(password).value());
@@ -205,7 +204,7 @@ export class SendSummaryPage implements OnInit {
    }
  
    private navigateToTokenDetail() {
-     this.navController.navigateForward([
+     this.navController.navigateRoot([
        `wallets/token-detail/blockchain/${this.summaryData.network}/token/${this.summaryData.currency.contract}`,
      ]);
    }
