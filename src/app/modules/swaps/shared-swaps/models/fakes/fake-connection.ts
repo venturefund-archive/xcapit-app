@@ -3,8 +3,12 @@ import { BlockhashWithExpiryBlockHeight, PublicKey, Signer, TokenAccountsFilter,
 
 export class FakeConnection {
 
-  getTokenAccountsByOwner(ownerAddress: PublicKey, filter: TokenAccountsFilter): Promise<{value: [{ pubkey }]}> {
-    return Promise.resolve({value: [{ pubkey: 'asdf' }]});
+  constructor(
+    private _tokenAccountByOwnerReturned = [{ pubkey: 'asdf' }]
+  ) { }
+
+  getTokenAccountsByOwner(ownerAddress: PublicKey, filter: TokenAccountsFilter): Promise<{value: [{ pubkey }]} | any> {
+    return Promise.resolve({ value: this._tokenAccountByOwnerReturned });
   }
 
   sendTransaction(transaction: Transaction, signers: Signer[]): Promise<boolean> {

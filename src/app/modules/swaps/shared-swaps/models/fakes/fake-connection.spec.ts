@@ -19,4 +19,8 @@ fdescribe('Fake Connection', () => {
     expect(await connection.getTokenAccountsByOwner(null, null)).toBeTruthy();
   });
 
+  it('getTokenAccountsByOwner custom seted', async () => {
+    connection = new FakeConnection([]);
+    expect((await connection.getTokenAccountsByOwner(null, null)).value).toEqual([]);
+  });
 });
