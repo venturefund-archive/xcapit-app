@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -17,6 +18,7 @@ describe('InformationModalComponent', () => {
       declarations: [InformationModalComponent],
       providers: [{ provide: ModalController, useValue: modalControllerSpy }],
       imports: [IonicModule.forRoot()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(InformationModalComponent);

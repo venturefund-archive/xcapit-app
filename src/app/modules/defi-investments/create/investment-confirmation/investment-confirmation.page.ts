@@ -23,22 +23,23 @@ import { DynamicPrice } from '../../../../shared/models/dynamic-price/dynamic-pr
 import { takeUntil } from 'rxjs/operators';
 import { ERC20Contract } from '../../shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { DefaultERC20Provider } from '../../shared-defi-investments/models/erc20-provider/erc20-provider.model';
-import { FormattedFee } from '../../shared-defi-investments/models/formatted-fee/formatted-fee.model';
 import { FakeContract } from '../../shared-defi-investments/models/fake-contract/fake-contract.model';
 import { Coin } from '../../../wallets/shared-wallets/interfaces/coin.interface';
 import { GasFeeOf } from '../../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { TotalFeeOf } from '../../shared-defi-investments/models/total-fee-of/total-fee-of.model';
 import { Fee } from '../../shared-defi-investments/interfaces/fee.interface';
-import { NativeFeeOf } from '../../shared-defi-investments/models/native-fee-of/native-fee-of.model';
 import { WalletBalanceService } from 'src/app/modules/wallets/shared-wallets/services/wallet-balance/wallet-balance.service';
 import { ActivatedRoute } from '@angular/router';
 import { WeiOf } from 'src/app/shared/models/wei-of/wei-of';
 import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
+import { AmountOf } from 'src/app/modules/swaps/shared-swaps/models/amount-of/amount-of';
+import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { InProgressTransactionModalComponent } from 'src/app/shared/components/in-progress-transaction-modal/in-progress-transaction-modal.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
-import { LocalNotificationsService } from 'src/app/modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
-import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { format } from 'date-fns';
+import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
+import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
 
 @Component({
   selector: 'app-investment-confirmation',
@@ -153,7 +154,7 @@ export class InvestmentConfirmationPage {
   labelText: string;
   isNegativeBalance: boolean;
   modalHref: string;
-
+  notification: LocalNotification;
   constructor(
     private investmentDataService: InvestmentDataService,
     private walletService: WalletService,
@@ -167,7 +168,9 @@ export class InvestmentConfirmationPage {
     private browserService: BrowserService,
     private storage: IonicStorageService,
     private route: ActivatedRoute,
-    private localNotificationsService: LocalNotificationsService,
+    private localNotificationInjectable: LocalNotificationInjectable,
+    private gasStation: GasStationOfFactory,
+    private blockchains: BlockchainsFactory,
     private navController: NavController
   ) {}
 
@@ -175,7 +178,7 @@ export class InvestmentConfirmationPage {
     this.modalHref = window.location.href;
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.updateTexts();
-    await this.getInvestmentInfo();
+    await this.setInvestmentInfo();
     this.dynamicPrice();
     this.checkTwoPiAgreement();
     await this.walletService.walletExist();
@@ -196,25 +199,26 @@ export class InvestmentConfirmationPage {
     return DynamicPrice.create(this.priceRefreshInterval, this.native(), this.apiWalletService);
   }
 
-  private async getInvestmentInfo() {
-    this.getProduct();
-    this.getAmount();
-    this.getQuoteAmount();
-    await this.getFee();
+  private async setInvestmentInfo() {
+    this.setProduct();
+    this.setProductToken();
+    this.setAmount();
+    this.setQuoteAmount();
+    await this.setFee();
   }
 
-  private getProduct() {
+  private setProduct() {
     this.product = this.investmentDataService.product;
   }
 
-  private getAmount() {
+  private setAmount() {
     this.amount = {
       value: this.investmentDataService.amount,
       token: this.investmentDataService.product.token().value,
     };
   }
 
-  private getQuoteAmount(): void {
+  private setQuoteAmount(): void {
     this.quoteAmount = { value: this.investmentDataService.quoteAmount, token: 'USD' };
   }
 
@@ -244,14 +248,16 @@ export class InvestmentConfirmationPage {
     return new GasFeeOf(new FakeContract({ deposit: () => BigNumber.from('1993286') }), 'deposit', []);
   }
 
-  private async getFee() {
-    const fee = new FormattedFee(
-      new NativeFeeOf(
-        new TotalFeeOf([await this.approvalFee(), await this.depositFee()]),
-        this.createErc20Provider().value()
-      )
-    );
-    this.fee = { value: await fee.value(), token: this.native().value };
+  private async setFee() {
+    this.fee = (await this._gasPrice()).times(await this._investmentEstimatedGas()).json();
+  }
+
+  private async _investmentEstimatedGas(): Promise<number> {
+    return (await new TotalFeeOf([await this.approvalFee(), await this.depositFee()]).value()).toNumber();
+  }
+
+  private async _gasPrice(): Promise<AmountOf> {
+    return await this.gasStation.create(this.blockchains.create().oneByName(this.token.network)).price().standard();
   }
 
   async requestPassword(): Promise<any> {
@@ -301,8 +307,8 @@ export class InvestmentConfirmationPage {
     }
   }
 
-  getToken() {
-    return (this.token = this.product.token());
+  private setProductToken() {
+    this.token = this.product.token();
   }
 
   async getTokenBalanceAvailable() {
@@ -321,7 +327,6 @@ export class InvestmentConfirmationPage {
     });
   }
   async getNativeTokenBalance() {
-    await this.getToken();
     this.nativeToken = this.apiWalletService
       .getCoins()
       .find((coin) => coin.native && coin.network === this.token.network);
@@ -369,13 +374,13 @@ export class InvestmentConfirmationPage {
             await this.investment(wallet).deposit(this.amount.value)
           )
             .wait()
-            .then(() => this.setActionListener())
             .then(() => this.createNotification('success'))
-            .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification));
+            .then(() => this.setActionListener())
+            .then(() => this.notification.send());
           await this.saveTwoPiAgreement();
         } catch {
-          const notification = this.createNotification('error');
-          await this.localNotificationsService.send(notification);
+          this.createNotification('error');
+          this.notification.send();
         } finally {
           this.loadingEnabled(false);
         }
@@ -387,7 +392,7 @@ export class InvestmentConfirmationPage {
   }
 
   private setActionListener() {
-    this.localNotificationsService.addListener(() => {
+    this.notification.onClick(() => {
       this.navigateToTokenDetail();
     });
   }
@@ -397,19 +402,16 @@ export class InvestmentConfirmationPage {
       `wallets/token-detail/blockchain/${this.token.network}/token/${this.token.contract}`,
     ]);
   }
-  
-  private createNotification(mode: string): LocalNotificationSchema[] {
-    return [
-      {
-        id: 1,
-        title: this.translate.instant(`defi_investments.notifications.${mode}.title`),
-        body: this.translate.instant(`defi_investments.notifications.${mode}.body`, {
-          amount: this.amount.value,
-          token: this.amount.token,
-          date: format(new Date(), 'dd/MM/yyyy'),
-        }),
-      },
-    ];
+
+  private createNotification(mode: string) {
+    this.notification = this.localNotificationInjectable.create(
+      this.translate.instant(`defi_investments.notifications.${mode}.title`),
+      this.translate.instant(`defi_investments.notifications.${mode}.body`, {
+        amount: this.amount.value,
+        token: this.amount.token,
+        date: format(new Date(), 'dd/MM/yyyy'),
+      })
+    );
   }
 
   async openInProgressModal() {

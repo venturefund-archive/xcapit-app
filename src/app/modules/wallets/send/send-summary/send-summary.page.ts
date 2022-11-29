@@ -22,6 +22,9 @@ import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-se
 import { WeiOf } from 'src/app/modules/swaps/shared-swaps/models/wei-of/wei-of';
 import { InProgressTransactionModalComponent } from 'src/app/shared/components/in-progress-transaction-modal/in-progress-transaction-modal.component';
 import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
+import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
+import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
+import { format } from 'date-fns';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
@@ -72,6 +75,7 @@ export class SendSummaryPage implements OnInit {
   transactionFee = false;
   isInfoModalOpen = false;
   blockchain: Blockchain;
+  notification: LocalNotification;
 
   constructor(
     private transactionDataService: TransactionDataService,
@@ -86,7 +90,8 @@ export class SendSummaryPage implements OnInit {
     private alertController: AlertController,
     private trackService: TrackService,
     private blockchains: BlockchainsFactory,
-    private walletsFactory: WalletsFactory
+    private walletsFactory: WalletsFactory,
+    private localNotificationInjectable: LocalNotificationInjectable,
   ) {}
 
   ngOnInit() {}
@@ -159,31 +164,74 @@ export class SendSummaryPage implements OnInit {
     return data;
   }
 
-  private goToSuccess(response?: TransactionResponse) {
-    
-    this.navController.navigateForward(['/wallets/send/success']).then(() => this.notifyWhenTransactionMined(response));
-  }
-
   private async send(password: string) {
     await this.openInProgressModal();
-    if (this.blockchain.name() !== 'SOLANA') {
-      const response = await this.walletTransactionsService.send(
-        password,
-        this.summaryData.amount,
-        this.summaryData.address,
-        this.summaryData.currency
-      );
-    } else {
-      const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
-      wallet.onNeedPass().subscribe(() => new Password(password).value());
-      await wallet.sendTxs([
-        new SolanaNativeSendTx(
-          wallet,
+    try{
+      if (this.blockchain.name() !== 'SOLANA') {
+        const response = await this.walletTransactionsService.send(
+          password,
+          this.summaryData.amount,
           this.summaryData.address,
-          new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
-        )]);
-      // this.goToSuccess();
+          this.summaryData.currency
+        );
+        this.notifyWhenTransactionMined(response);
+        console.log('summaryData', this.summaryData)
+      } else {
+        const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
+        wallet.onNeedPass().subscribe(() => new Password(password).value());
+        await wallet.sendTxs([
+          new SolanaNativeSendTx(
+            wallet,
+            this.summaryData.address,
+            new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
+          )]);
+      }
+      this.notifyWhenTransactionMined();
+    }catch{
+      this.createNotification('error');
     }
+  }
+
+  private _sendSuccessNotification() {
+    this.createNotification('success');
+    this.setActionListener();
+     this.notification.send();
+   }
+ 
+   private setActionListener() {
+     this.notification.onClick(() => {
+       this.navigateToTokenDetail();
+     });
+   }
+ 
+   private navigateToTokenDetail() {
+     this.navController.navigateForward([
+       `wallets/token-detail/blockchain/${this.summaryData.network}/token/${this.summaryData.currency.contract}`,
+     ]);
+   }
+ 
+   private createNotification(mode: string) {
+     this.notification = this.localNotificationInjectable.create(
+       this.translate.instant(`wallets.send.send_notifications.${mode}.title`),
+       this.translate.instant(`wallets.send.send_notifications.${mode}.body`, {
+        amount: this.summaryData.amount,
+        token: this.summaryData.currency.value,
+        date: format(new Date(), 'dd/MM/yyyy'),
+       })
+     );
+   }
+
+  private notifyWhenTransactionMined(response?: TransactionResponse) {
+    const fixedTxResponse = response ? response.wait() : Promise.resolve({ to: this.summaryData.address });
+    fixedTxResponse
+      .then(() => this._sendSuccessNotification())
+      .then(() =>
+        this.trackService.trackEvent({
+          eventAction: 'async_tx',
+          description: window.location.href,
+          eventLabel: 'ux_send_notification_success',
+        })
+      );
   }
 
   async openInProgressModal() {
@@ -258,31 +306,8 @@ export class SendSummaryPage implements OnInit {
     await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
   }
 
-  private createNotification(address: string): LocalNotificationSchema[] {
-    return [
-      {
-        id: 1,
-        title: this.translate.instant('wallets.send.send_summary.sent_notification.title'),
-        body: this.translate.instant('wallets.send.send_summary.sent_notification.body', {
-          address,
-        }),
-      },
-    ];
-  }
 
-  private notifyWhenTransactionMined(response: TransactionResponse) {
-    const fixedTxResponse = response ? response.wait() : Promise.resolve({ to: this.summaryData.address });
-    fixedTxResponse
-      .then((transaction: TransactionReceipt) => this.createNotification(transaction.to))
-      .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification))
-      .then(() =>
-        this.trackService.trackEvent({
-          eventAction: 'async_tx',
-          description: window.location.href,
-          eventLabel: 'ux_send_notification_success',
-        })
-      );
-  }
+
 
   private async handleSendError(error) {
     if (new PasswordErrorMsgs().isInvalidError(error)) {

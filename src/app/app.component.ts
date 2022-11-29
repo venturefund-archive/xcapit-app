@@ -16,6 +16,7 @@ import { WalletBackupService } from './modules/wallets/shared-wallets/services/w
 import { LocalNotificationsService } from './modules/notifications/shared-notifications/services/local-notifications/local-notifications.service';
 import { IonicStorageService } from './shared/services/ionic-storage/ionic-storage.service';
 import { LoggedIn } from './modules/users/shared-users/models/logged-in/logged-in';
+import { TrackedWalletAddressInjectable } from './shared/models/tracked-wallet-address/injectable/tracked-wallet-address.injectable';
 
 @Component({
   selector: 'app-root',
@@ -46,7 +47,8 @@ export class AppComponent implements OnInit {
     private walletBackupService: WalletBackupService,
     private localNotificationsService: LocalNotificationsService,
     private navController: NavController,
-    private storage: IonicStorageService
+    private storage: IonicStorageService,
+    private trackedWalletAddressInjectable: TrackedWalletAddressInjectable
   ) {}
 
   ngOnInit() {
@@ -69,13 +71,14 @@ export class AppComponent implements OnInit {
       this.setLanguageSubscribe();
       this.checkWalletConnectAndDynamicLinks();
       this.localNotificationsService.init();
+      this.trackUserWalletAddress();
     });
   }
 
   private async checkWalletConnectAndDynamicLinks() {
     await this.walletConnectService.checkConnection();
     await this.walletConnectService.retrieveWalletConnect();
-    
+
     if (this.platformService.isNative()) {
       App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
         this.zone.run(async () => {
@@ -110,6 +113,11 @@ export class AppComponent implements OnInit {
     if (this.platformService.platform() === 'android') {
       this.statusBar.setBackgroundColor({ color: CONFIG.app.statusBarColor });
     }
+  }
+
+  async trackUserWalletAddress(): Promise<void> {
+    const trackedWalletAddress = this.trackedWalletAddressInjectable.create();
+    if (!(await trackedWalletAddress.isAlreadyTracked())) trackedWalletAddress.value();
   }
 
   updateLanguage(): void {

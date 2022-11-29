@@ -349,7 +349,7 @@
       },
       "error":{
         "title":"⚠️ Investment error",
-        "body": "An error occurred in the investment of {{amount}} {{token}} on {{date}}. More information can be found here."
+        "body": "An error occurred in the investment of {{amount}} {{token}} on {{date}}."
       }
     },
     "invest_in_progress":{
@@ -357,6 +357,23 @@
       "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
       "button_text":"Return to investments",
       "text_title": "Investment",
+      "text_badge": "In progress"
+    },
+    "withdraw_notifications":{
+      "success":{
+        "title":"💸 Successful withdraw",
+        "body": "You withdrew {{amount}} {{token}} on {{date}}."
+      },
+      "error":{
+        "title":"🚨 Withdraw error",
+        "body": "An error occurred in the withdrawal of {{amount}} {{token}} on {{date}}."
+      }
+    },
+    "withdraw_in_progress":{
+      "text_primary":"Your order is on its way!",
+      "text_secondary":"The transaction is being processed on the blockchain. We will notify you when the status is updated.",
+      "button_text":"Return to investments",
+      "text_title": "Withdraw",
       "text_badge": "In progress"
     },
     "new": {
@@ -1827,6 +1844,16 @@
       "declined": "Declined"
     },
     "send": {
+      "send_notifications":{
+        "success":{
+          "title":"✅ Envío exitoso. ¡Así se hace!",
+          "body": "Enviaste {{amount}} {{token}} el día {{date}}. "
+        },
+        "error":{
+          "title":"❌ Error en el envío",
+          "body": "Se produjo un error en el envío de {{amount}} {{token}} el día {{date}}. Más información aquí."
+        }
+      },
       "scan_qr": {
         "title": "Scan the QR code of the address you want to send to"
       },
@@ -2319,14 +2346,21 @@
         "kyc_required": "Requires KYC or registration process.",
         "button": "Understood",
         "kripton": {
-          "description_1": "Bank transfer.",
-          "description_2": "25 USD per purchase.",
-          "description_3": "Deliveries are made from Monday to Friday from 9:00 a.m. to 6:00 p.m. approximately."
+          "provider_name": "Kripton Market",
+          "header": "It is an authorized provider for the sale of cryptocurrencies in Latin America.",
+          "minimum_amount": "25 USD per purchase.",
+          "delivery_time_1": "Up to 48 hours.",
+          "delivery_time_2": "Deliveries are made from Monday to Friday from 9:00 am to 6:00 pm.",
+          "more_information": "Kriptonmarket.com"
         },
         "moonpay": {
-          "description_1": "Credit card*.",
-          "description_2": "Depends on the external provider on a case-by-case basis.",
-          "disclaimer": "*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina."
+          "provider_name": "Moonpay",
+          "header": "It is an authorized provider for the sale of cryptocurrencies.",
+          "payment_methods": "Credit card*.",
+          "delivery_time": "Depends on the external provider on a case-by-case basis.",
+          "disclaimer": "*Due to current restrictions, it is not possible to buy in Moonpay with cards issued in Argentina.",
+          "available_tokens_1": "ETH, USDT and UNI",
+          "available_tokens_2": "USDC and MATIC"
         },
         "directa24": {
           "description_1":"Cash purchase",
@@ -2816,6 +2850,28 @@
           "confirm_button": "Confirm",
           "cancel_button": "Cancel"
         }
+      }
+    },
+    "kyc_status": {
+      "title": "Kripton Market Account",
+      "starting": {
+        "status": "Progress: 0%",
+        "message": "Complete the identity validation to finalize the creation of your account. Verify identity now."
+      },
+      "pending": {
+        "status": "Progress: 50%"
+      },
+      "checking": {
+        "status": "In progress",
+        "message": "Your data is being verified. This process can take up to 48 hours."
+      },
+      "canceling": {
+        "status": "Cancelled",
+        "message": "The data entered could not be verified by the supplier or is incorrect. For more information, please contact support."
+      },
+      "approving": {
+        "title": "Your Kripton Market account has been verified.",
+        "message": "You can now make your purchases with this provider."
       }
     }
   },

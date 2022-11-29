@@ -348,6 +348,17 @@ export const SUCCESS_TYPES = {
     titlePrimary: 'wallets.send.send_in_progress.text_title',
     textBadge: 'wallets.send.send_in_progress.text_badge',
   },
+  withdraw_in_progress: {
+    image: 'assets/img/defi-investments/withdraw-in-progress.svg',
+    icon: 'assets/img/defi-investments/withdraw-icon.svg',
+    urlClose: '/tabs/investments',
+    textPrimary: 'defi_investments.withdraw_in_progress.text_primary',
+    textSecondary: 'defi_investments.withdraw_in_progress.text_secondary',
+    namePrimaryAction: 'defi_investments.withdraw_in_progress.button_text',
+    urlPrimaryAction: '/tabs/investments',
+    titlePrimary: 'defi_investments.withdraw_in_progress.text_title',
+    textBadge: 'defi_investments.withdraw_in_progress.text_badge',
+  },
   error_no_wallet_financial_education: {
     image: '/assets/img/financial-education/error-no-wallet.svg',
     urlClose: '/tabs/financial-education',

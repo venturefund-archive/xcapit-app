@@ -173,11 +173,22 @@ describe('ProviderCardComponent', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should show informative modal when information_modal clicked', async () => {
+  it('should show informative modal of Kripton provider when information_modal clicked', async () => {
     component.provider.showInfo = true;
     component.isInfoModalOpen = false;
     component.provider.name = 'Kripton Market';
     component.provider.providerName = 'kripton';
+    component.ngOnInit();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="informative_modal"]')).nativeElement.click();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show generic informative modal of provider when information_modal clicked', async () => {
+    component.provider.showInfo = true;
+    component.provider.name = 'Directa 24';
+    component.provider.providerName = 'directa24';
     component.ngOnInit();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="informative_modal"]')).nativeElement.click();
