@@ -77,18 +77,6 @@ export class FiatRampsService {
     return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/login`, data, undefined, false);
   }
 
-  // kriptonLogin(data: {
-  //   email: string;
-  //   token: string;
-  // }): Observable<KriptonLoginSuccessResponse | KriptonLoginErrorResponse> {
-  //   return this.http.original.post(`${environment.apiUrl}/on_off_ramps/kripton/users/login`, data).pipe(
-  //     map((response: KriptonLoginSuccessResponse) => response),
-  //     catchError((error: HttpErrorResponse) => {
-  //       return of(error.error.error as KriptonLoginErrorResponse);
-  //     })
-  //   );
-  // }
-
   getUserOperations(): Observable<FiatRampOperation[]> {
     return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
   }
