@@ -30,6 +30,13 @@ export const ITEM_MENU: MenuCategory[] = [
         type: 'link',
         buttonName: 'ux_go_to_contact_support',
       },
+      {
+        name: 'Community',
+        text: 'profiles.user_profile_menu.community',
+        route: 'https://t.me/xcapit_es',
+        type: 'link',
+        buttonName: 'ux_community_telegram',
+      },
     ],
   },
   {
