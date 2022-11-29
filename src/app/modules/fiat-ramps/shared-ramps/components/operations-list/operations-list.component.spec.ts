@@ -5,62 +5,13 @@ import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { rawOperationsData } from '../../fixtures/raw-operations-data';
 import { rawProvidersData } from '../../fixtures/raw-providers-data';
-import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 import { ProvidersFactory } from '../../models/providers/factory/providers.factory';
 import { Providers } from '../../models/providers/providers.interface';
 import { OperationsListComponent } from './operations-list.component';
 
-const operations: FiatRampOperation[] = [
-  {
-    operation_id: 1,
-    amount_in: 12,
-    currency_in: 'ETH',
-    amount_out: 21,
-    currency_out: 'ARS',
-    status: 'complete',
-    created_at: new Date(),
-    provider: '1',
-    operation_type: 'cash-in',
-    voucher: false,
-  },
-  {
-    operation_id: 2,
-    amount_in: 23,
-    currency_in: 'USDT',
-    amount_out: 21,
-    currency_out: 'ARS',
-    status: 'complete',
-    created_at: new Date(),
-    provider: '1',
-    operation_type: 'cash-in',
-    voucher: false,
-  },
-  {
-    operation_id: 3,
-    amount_in: 32,
-    currency_in: 'ETH',
-    amount_out: 21,
-    currency_out: 'ARS',
-    status: 'complete',
-    created_at: new Date(),
-    provider: '1',
-    operation_type: 'cash-in',
-    voucher: false,
-  },
-  {
-    operation_id: 4,
-    amount_in: 34,
-    currency_in: 'ETH',
-    amount_out: 22,
-    currency_out: 'ARS',
-    status: 'complete',
-    created_at: new Date(),
-    provider: '1',
-    operation_type: 'cash-in',
-    voucher: false,
-  },
-];
+
 describe('OperationsListComponent', () => {
   let component: OperationsListComponent;
   let fixture: ComponentFixture<OperationsListComponent>;
@@ -70,7 +21,7 @@ describe('OperationsListComponent', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
-  
+
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
@@ -92,12 +43,13 @@ describe('OperationsListComponent', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OperationsListComponent);
     component = fixture.componentInstance;
-    component.operationsList = operations;
+    component.operationsList = rawOperationsData;
+    component.isLogged = true;
     fixture.detectChanges();
   }));
 
@@ -117,7 +69,7 @@ describe('OperationsListComponent', () => {
   });
 
   it('should render operations list component if there is one operation', () => {
-    component.operationsList = [operations[1]];
+    component.operationsList = [rawOperationsData[1]];
     component.ngOnInit();
     fixture.detectChanges();
     const tableEl = fixture.debugElement.query(By.css('app-operations-list-accordion'));
@@ -137,6 +89,17 @@ describe('OperationsListComponent', () => {
     expect(tableEl).toBeFalsy();
   });
 
+  it('should render message with login link when user is not logged', async () => {
+    component.isLogged = false;
+    component.ngOnInit();
+    fixture.detectChanges();
+    await fixture.whenRenderingDone();
+    const message = fixture.debugElement.query(By.css('ion-text[name="Not Logged"]'));
+    const link = fixture.debugElement.query(By.css('ion-text.link'));
+    expect(message).toBeTruthy();
+    expect(link).toBeTruthy();
+  });
+
   it('should update operation List when input changes', () => {
     component.operationsList = [];
     component.ngOnInit();
@@ -147,10 +110,10 @@ describe('OperationsListComponent', () => {
   });
 
   it('should navigate to user-email when link is clicked', () => {
-    component.operationsList = [];
+    component.isLogged = false;
     component.ngOnInit();
     fixture.detectChanges();
-    const textEl = fixture.debugElement.query(By.css('ion-text.link')).nativeElement.click();
+    fixture.debugElement.query(By.css('ion-text.link')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/user-email');
   });
 

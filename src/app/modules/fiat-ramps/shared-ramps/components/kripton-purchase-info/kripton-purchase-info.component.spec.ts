@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
 import { KriptonPurchaseInfoComponent } from './kripton-purchase-info.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('KriptonPurchaseInfoComponent', () => {
   let component: KriptonPurchaseInfoComponent;
@@ -27,6 +28,7 @@ describe('KriptonPurchaseInfoComponent', () => {
     TestBed.configureTestingModule({
       declarations: [KriptonPurchaseInfoComponent, FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(KriptonPurchaseInfoComponent);

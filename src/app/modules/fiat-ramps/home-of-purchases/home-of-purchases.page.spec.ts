@@ -6,39 +6,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
+import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injectable/kripton-user.injectable';
+import { KriptonUser } from '../shared-ramps/models/kripton-user/kripton-user';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { HomeOfPurchasesPage } from './home-of-purchases.page';
-
-const rawOperations: any[] = [
-  {
-    operation_id: '355',
-    operation_type: 'cash-in',
-    status: 'pending_by_validate',
-    currency_in: 'ARS',
-    amount_in: 200.0,
-    currency_out: 'USDC',
-    amount_out: 1.33288904,
-    created_at: '2022-03-22T14:58:44.303Z',
-    provider: '1',
-    voucher: false,
-  },
-  {
-    operation_id: '364',
-    operation_type: 'cash-in',
-    status: 'pending_by_validate',
-    currency_in: 'ars',
-    amount_in: 145.68149073,
-    currency_out: 'MATIC',
-    amount_out: 1.38660038,
-    created_at: '2022-05-13T17:30:23.258Z',
-    provider: '1',
-    voucher: false,
-  },
-];
+import { rawOperationData } from '../shared-ramps/fixtures/raw-operation-data';
 
 const user_status = { kyc_approved: false, registration_status: 'USER_INFORMATION' };
 
@@ -52,13 +28,15 @@ describe('HomeOfPurchasesPage', () => {
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
+  let kriptonUserSpy: jasmine.SpyObj<KriptonUser>;
+  let kriptonUserInjectableSpy: jasmine.SpyObj<KriptonUserInjectable>;
 
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsServiceSpy', {
-      getUserOperations: of(rawOperations),
+      getUserOperations: of(rawOperationData),
       getOrCreateUser: of(user_status),
     });
 
@@ -79,6 +57,13 @@ describe('HomeOfPurchasesPage', () => {
     });
     kriptonStorageSpy.get.withArgs('email').and.resolveTo('test@test.com');
     kriptonStorageSpy.get.withArgs('kyc_approved').and.resolveTo();
+    kriptonUserSpy = jasmine.createSpyObj('KriptonUser', {
+      isLogged: Promise.resolve(true),
+    });
+
+    kriptonUserInjectableSpy = jasmine.createSpyObj('KriptonUserInjectable', {
+      create: kriptonUserSpy,
+    });
 
     TestBed.configureTestingModule({
       declarations: [HomeOfPurchasesPage],
@@ -89,6 +74,7 @@ describe('HomeOfPurchasesPage', () => {
         { provide: NavController, useValue: navControllerSpy },
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         { provide: KriptonStorageService, useValue: kriptonStorageSpy },
+        { provide: KriptonUserInjectable, useValue: kriptonUserInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -111,6 +97,14 @@ describe('HomeOfPurchasesPage', () => {
 
   it('should not show kripton operations when kripton is disabled', async () => {
     providersSpy.all.and.returnValue(rawProvidersData.filter((provider) => provider.alias !== 'kripton'));
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(0);
+  });
+
+  it('should not show kripton operations when user is not logged on kripton', async () => {
+    kriptonUserSpy.isLogged.and.resolveTo(false);
     component.ionViewWillEnter();
     fixture.detectChanges();
     await fixture.whenStable();
