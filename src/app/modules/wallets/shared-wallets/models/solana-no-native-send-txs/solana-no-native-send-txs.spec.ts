@@ -30,12 +30,12 @@ fdescribe('SolanaNoNativeSendTxs', () => {
   });
 
   it('without ata creation', async () => {
-    const noNativeSendTxs = _solanaNoNativeSendTxs(new FakeConnection([]));
-
     expect((await noNativeSendTxs.blockchainTxs()).length).toEqual(1);
   });
 
   it('with ata creation', async () => {
+    const noNativeSendTxs = _solanaNoNativeSendTxs(new FakeConnection([]));
+
     expect((await noNativeSendTxs.blockchainTxs()).length).toEqual(2);
   });
 });
