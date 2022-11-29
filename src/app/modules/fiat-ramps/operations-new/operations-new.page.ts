@@ -4,9 +4,7 @@ import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms
 import { ModalController, NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import {
-  StorageOperationService,
-} from '../shared-ramps/services/operation/storage-operation.service';
+import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
@@ -126,6 +124,7 @@ export class OperationsNewPage implements AfterViewInit {
     thirdPartyTransaction: [false, [Validators.requiredTrue]],
     acceptTOSAndPrivacyPolicy: [false, [Validators.requiredTrue]],
   });
+  operationID: number;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -248,7 +247,10 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   createKriptonDynamicPrice(currency = this.fiatCurrency): DynamicKriptonPrice {
-    return this.kriptonDynamicPrice.new(this.priceRefreshInterval, new DefaultKriptonPrice(currency, this.selectedCurrency, this.http));
+    return this.kriptonDynamicPrice.new(
+      this.priceRefreshInterval,
+      new DefaultKriptonPrice(currency, this.selectedCurrency, this.http)
+    );
   }
 
   setCountry() {
@@ -268,6 +270,11 @@ export class OperationsNewPage implements AfterViewInit {
   async handleSubmit() {
     if (this.form.valid) {
       await this.setOperationStorage();
+      this.fiatRampsService.createOperation(this.storageOperationService.getData()).subscribe((res) => {
+        this.operationID = res.id;
+      });
+      const newData = Object.assign({ operation_id: this.operationID }, this.storageOperationService.getData());
+      this.storageOperationService.updateData(newData);
       this.navController.navigateForward('/fiat-ramps/purchase-order');
     } else {
       this.form.markAllAsTouched();
