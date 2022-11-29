@@ -52,7 +52,6 @@ import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/c
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { SwapInProgressService } from '../shared-swaps/services/swap-in-progress/swap-in-progress.service';
 
-
 @Component({
   selector: 'app-swap-home',
   template: `
@@ -283,7 +282,7 @@ export class SwapHomePage {
     private oneInchBlockchainsOf: OneInchBlockchainsOfFactory,
     private dynamicPriceFactory: DynamicPriceFactory,
     private storage: IonicStorageService,
-    private swapInProgressService: SwapInProgressService,
+    private swapInProgressService: SwapInProgressService
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -532,7 +531,7 @@ export class SwapHomePage {
     this.disabledBtn = false;
   }
 
-  async swapThem() {     
+  async swapThem() {
     this.disableMainButton();
     const wallet = await this.wallets.create(this.appStorageService).oneBy(this.activeBlockchain);
     wallet.onNeedPass().subscribe(() => this.requestPassword());

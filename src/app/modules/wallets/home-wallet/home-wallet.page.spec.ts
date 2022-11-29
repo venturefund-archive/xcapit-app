@@ -75,7 +75,7 @@ describe('HomeWalletPage', () => {
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
   let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
-  let swapInProgressServiceSpy: jasmine.SpyObj<SwapInProgressService>
+  let swapInProgressServiceSpy: jasmine.SpyObj<SwapInProgressService>;
 
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
@@ -122,10 +122,10 @@ describe('HomeWalletPage', () => {
       lock: of(),
     });
 
-    swapInProgressServiceSpy = jasmine.createSpyObj('SwapInProgressService',{
-      inProgress: of(true)
-    })
-    
+    swapInProgressServiceSpy = jasmine.createSpyObj('SwapInProgressService', {
+      inProgress: of(true),
+    });
+
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       getAssestsSelected: Promise.resolve([rawETHData, rawMATICData]),
       getWalletsAddresses: Promise.resolve('0x00001'),
@@ -212,7 +212,7 @@ describe('HomeWalletPage', () => {
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
         { provide: TotalInvestedBalanceOfInjectable, useValue: totalInvestedBalanceOfInjectableSpy },
-        { provide: SwapInProgressService, useValue: swapInProgressServiceSpy},
+        { provide: SwapInProgressService, useValue: swapInProgressServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -239,10 +239,10 @@ describe('HomeWalletPage', () => {
   });
 
   it('should unsubscribe on ionViewWillLeave ', async () => {
-      const spy = spyOn(component, 'unsubscribe').and.callThrough()
-      await component.ionViewWillEnter();
-      await component.ionViewWillLeave();
-      expect(spy).toHaveBeenCalledTimes(1);
+    const spy = spyOn(component, 'unsubscribe').and.callThrough();
+    await component.ionViewWillEnter();
+    await component.ionViewWillLeave();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should initialize on view did enter without tokens', async () => {
@@ -345,7 +345,7 @@ describe('HomeWalletPage', () => {
     fixture.detectChanges();
     expect(componentEl).toBeTruthy();
   });
-  
+
   it('should render app-transaction-in-progress-card component', async () => {
     component.swapInProgress = true;
     await fixture.whenRenderingDone();
@@ -376,12 +376,11 @@ describe('HomeWalletPage', () => {
   });
 
   it('should get in progress the swap is finish', fakeAsync(() => {
-    component.ionViewWillEnter()
+    component.ionViewWillEnter();
     component.suscribleToSwapInProgress();
-    fixture.detectChanges(); 
+    fixture.detectChanges();
     tick(2);
     expect(swapInProgressServiceSpy.inProgress).toBeTruthy(true);
-
   }));
 
   it('should get on storage onInit', () => {

@@ -74,7 +74,7 @@ describe('SwapHomePage', () => {
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
   let activatedRouteSpy: any;
-  let swapInProgressServiceSpy: jasmine.SpyObj<SwapInProgressService>
+  let swapInProgressServiceSpy: jasmine.SpyObj<SwapInProgressService>;
   const aPassword = new Password('aPassword');
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const testLocalNotificationOk: LocalNotificationSchema = {
@@ -133,10 +133,10 @@ describe('SwapHomePage', () => {
     );
     activatedRouteSpy = fakeActivatedRoute.createSpy();
 
-    swapInProgressServiceSpy = jasmine.createSpyObj('SwapInProgressService',{
+    swapInProgressServiceSpy = jasmine.createSpyObj('SwapInProgressService', {
       startSwap: null,
       finishSwap: null,
-    })
+    });
 
     walletBalanceSpy = jasmine.createSpyObj('WalletBalanceService', {
       balanceOf: Promise.resolve(10),
@@ -231,7 +231,7 @@ describe('SwapHomePage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: IonicStorageService, useValue: storageSpy },
-        { provide: SwapInProgressService, useValue: swapInProgressServiceSpy}
+        { provide: SwapInProgressService, useValue: swapInProgressServiceSpy },
       ],
     }).compileComponents();
 
@@ -431,7 +431,6 @@ describe('SwapHomePage', () => {
     tick(2);
 
     expect(swapInProgressServiceSpy.startSwap).toHaveBeenCalledTimes(0);
-
   }));
 
   it('password modal open on click swap button and password is invalid', fakeAsync(() => {

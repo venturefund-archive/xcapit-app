@@ -118,7 +118,7 @@ import { Subscription } from 'rxjs';
         >
         </app-backup-information-card>
       </div>
-      <div class="wt__transaction-in-progress"*ngIf="this.swapInProgress">
+      <div class="wt__transaction-in-progress" *ngIf="this.swapInProgress">
         <app-transaction-in-progress-card transactionType="swap"></app-transaction-in-progress-card>
       </div>
       <div class="wt">
@@ -257,18 +257,18 @@ export class HomeWalletPage implements OnInit {
     this.suscribleToSwapInProgress();
   }
 
-  ionViewWillLeave(){
-    this.unsubscribe()
-  }
-  
-  async suscribleToSwapInProgress(){    
-    this.subscription$ = this.swapInProgressService.inProgress().subscribe((inProgress) => {      
-      this.swapInProgress = inProgress;
-    })
+  ionViewWillLeave() {
+    this.unsubscribe();
   }
 
-  unsubscribe(){
-    this.subscription$.unsubscribe()
+  async suscribleToSwapInProgress() {
+    this.subscription$ = this.swapInProgressService.inProgress().subscribe((inProgress) => {
+      this.swapInProgress = inProgress;
+    });
+  }
+
+  unsubscribe() {
+    this.subscription$.unsubscribe();
   }
 
   private trackScreenView() {
@@ -403,7 +403,6 @@ export class HomeWalletPage implements OnInit {
 
   private async loadCachedTotalBalance() {
     this.balance = await this.balanceCacheService.total();
-   
   }
 
   async setInvestedBalance() {

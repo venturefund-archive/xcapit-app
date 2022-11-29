@@ -26,8 +26,6 @@ export class TransactionInProgressCardComponent implements OnInit {
   title: string;
   imgUrl: string;
 
-  constructor() {}
-
   ngOnInit() {
     this.title = `wallets.home.transaction_in_progress.${this.transactionType}_title`;
     this.imgUrl = `assets/img/shared/transactions/${this.transactionType}.svg`;

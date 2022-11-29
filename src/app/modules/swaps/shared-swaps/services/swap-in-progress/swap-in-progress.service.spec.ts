@@ -20,9 +20,9 @@ describe('SwapInProgressService', () => {
     service = TestBed.inject(SwapInProgressService);
   });
 
-  afterEach(()=>{
+  afterEach(() => {
     subscription$.unsubscribe();
-  })
+  });
 
   it('should be created', () => {
     subscription$ = service.inProgress().subscribe((value) => {

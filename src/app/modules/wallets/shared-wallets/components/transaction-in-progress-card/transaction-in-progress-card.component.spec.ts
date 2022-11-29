@@ -9,8 +9,8 @@ describe('TransactionInProgressCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransactionInProgressCardComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [TransactionInProgressCardComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TransactionInProgressCardComponent);
