@@ -154,20 +154,22 @@ const routes: Routes = [
       },
       {
         path: 'error-operation-km',
-        loadChildren: () => import('./error-operation-km/error-operation-km.module').then( m => m.ErrorOperationKmPageModule)
+        loadChildren: () =>
+          import('./error-operation-km/error-operation-km.module').then((m) => m.ErrorOperationKmPageModule),
       },
       {
         path: 'kripton-operation-detail/:operation_id',
-        loadChildren: () => import('./kripton-operation-detail/kripton-operation-detail.module').then( m => m.KriptonOperationDetailPageModule)
+        loadChildren: () =>
+          import('./kripton-operation-detail/kripton-operation-detail.module').then(
+            (m) => m.KriptonOperationDetailPageModule
+          ),
       },
       {
         path: 'purchase-order',
-        loadChildren: () => import('./purchase-order/purchase-order.module').then( m => m.PurchaseOrderPageModule)
+        loadChildren: () => import('./purchase-order/purchase-order.module').then((m) => m.PurchaseOrderPageModule),
       },
     ],
   },
-
-
 ];
 
 @NgModule({

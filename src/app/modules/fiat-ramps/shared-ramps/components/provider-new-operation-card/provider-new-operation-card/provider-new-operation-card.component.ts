@@ -93,7 +93,7 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
         </div>
       </div>
 
-      <div class="pnoc__fee" *ngIf="this.provider.alias !== 'kripton' && this.provider.alias !== 'moonpay'">
+      <div class="pnoc__fee" *ngIf="this.provider.alias !== 'kripton'">
         <div class="pnoc__fee__label">
           <ion-text class="ux-font-titulo-xs">{{
             'fiat_ramps.shared.provider_new_operation_card.estimated_fee' | translate

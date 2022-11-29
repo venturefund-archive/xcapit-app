@@ -1,7 +1,7 @@
 import { FiatRampProviderCountry } from '../interfaces/fiat-ramp-provider-country';
-
+//TODO: Agregar isoCurrencyCodeMoonpay a los paises que operan con Moonpay, o alternativamente usar el iso4217code
 export const COUNTRIES: FiatRampProviderCountry[] = [
-  { name: 'Mexico', isoCodeAlpha3: 'MEX', iso4217CurrencyCode: 'MXN', value: 'fiat_ramps.countries_list.mexico', directaCode: 'MX',isoCurrencyCodeDirecta: 'MXN'},
+  { name: 'Mexico', isoCodeAlpha3: 'MEX', iso4217CurrencyCode: 'MXN', value: 'fiat_ramps.countries_list.mexico', directaCode: 'MX',isoCurrencyCodeDirecta: 'MXN', isoCurrencyCodeMoonpay: 'MXN'},
   { name: 'Guatemala', isoCodeAlpha3: 'GTM', iso4217CurrencyCode: 'GTQ',  value: 'fiat_ramps.countries_list.guatemala' },
   { name: 'Honduras', isoCodeAlpha3: 'HND', iso4217CurrencyCode: 'HNL', value: 'fiat_ramps.countries_list.honduras' },
   { name: 'Costa Rica', isoCodeAlpha3: 'CRI', iso4217CurrencyCode: 'CRC', value: 'fiat_ramps.countries_list.costa_rica', fiatCode: 'crc'},
@@ -11,7 +11,7 @@ export const COUNTRIES: FiatRampProviderCountry[] = [
   { name: 'El Salvador', isoCodeAlpha3: 'SLV', iso4217CurrencyCode: 'SVC', value: 'fiat_ramps.countries_list.el_salvador' },
   { name: 'Guyana', isoCodeAlpha3: 'GUY', iso4217CurrencyCode: 'GYD', value: 'fiat_ramps.countries_list.guyana' },
   { name: 'Paraguay', isoCodeAlpha3: 'PRY', iso4217CurrencyCode: 'PYG', value: 'fiat_ramps.countries_list.paraguay' },
-  { name: 'Australia', isoCodeAlpha3: 'AUS', iso4217CurrencyCode: 'AUD', value: 'fiat_ramps.countries_list.australia' },
+  { name: 'Australia', isoCodeAlpha3: 'AUS', iso4217CurrencyCode: 'AUD', value: 'fiat_ramps.countries_list.australia', isoCurrencyCodeMoonpay: 'AUD' },
   { name: 'Peru', isoCodeAlpha3: 'PER', iso4217CurrencyCode: 'PEN', value: 'fiat_ramps.countries_list.peru', directaCode: 'PE',isoCurrencyCodeDirecta:'PEN'},
   { name: 'Portugal', isoCodeAlpha3: 'PRT', iso4217CurrencyCode: 'EUR', value: 'fiat_ramps.countries_list.portugal'},
   { name: 'España', isoCodeAlpha3: 'ESP', iso4217CurrencyCode: 'EUR', value: 'fiat_ramps.countries_list.spain' },
