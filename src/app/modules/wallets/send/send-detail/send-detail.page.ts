@@ -227,7 +227,7 @@ export class SendDetailPage {
 
   private setQuotePrice(): void {
     this.getDynamicPriceOf(this.token.native ? this.nativeToken.json() : this.token).subscribe((price: number) => {
-      this.quotePrice = price;
+      this.quotePrice = 1; //price; // TODO: usar price, se descomento porque no tenemos el precio de SRM en nuestro backend.
     });
   }
 
