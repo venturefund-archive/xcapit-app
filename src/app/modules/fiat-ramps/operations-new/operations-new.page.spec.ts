@@ -52,7 +52,7 @@ const data: OperationDataInterface = {
   network: 'MATIC',
 };
 
-fdescribe('OperationsNewPage', () => {
+describe('OperationsNewPage', () => {
   let component: OperationsNewPage;
   let fixture: ComponentFixture<OperationsNewPage>;
   let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
