@@ -1,12 +1,13 @@
+import { solanaAddress2, solanaSeedPhrase2 } from "src/app/modules/wallets/shared-wallets/fixtures/raw-address-data";
 import { Blockchain } from "../blockchain/blockchain";
 import { rawSolanaData } from "../fixtures/raw-blockchains-data";
 import { SolanaDerivedWallet } from "./solana-derived-wallet";
 
 
-describe('SolanaDerivedWallet', () => {
+fdescribe('SolanaDerivedWallet', () => {
   let wallet: SolanaDerivedWallet;
-  const address = '5vftMkHL72JaJG6ExQfGAsT2uGVHpRR7oTNUPMs68Y2N';
-  const seedPhrase = 'neither lonely flavor argue grass remind eye tag avocado spot unusual intact';
+  const address = solanaAddress2;
+  const seedPhrase = solanaSeedPhrase2;
 
   beforeEach(() => {
     wallet = new SolanaDerivedWallet(

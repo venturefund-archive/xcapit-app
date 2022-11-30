@@ -2,6 +2,7 @@ import { FakeConnection } from 'src/app/modules/swaps/shared-swaps/models/fakes/
 import { rawSAMOData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data';
 import { SolanaToken } from 'src/app/modules/swaps/shared-swaps/models/token/solana/solana-token';
 import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { solanaAddress0 } from '../../fixtures/raw-address-data';
 import { AssociatedTokenAddress } from '../associated-token-address/associated-token-address';
 import { AssociatedTokenAccountTxOf } from './associated-token-account-tx-of';
 
@@ -10,7 +11,7 @@ fdescribe('AssociatedTokenAccountTxOf', () => {
   let ataTxOf: AssociatedTokenAccountTxOf;
   const token = new SolanaToken(rawSAMOData);
   const connection = new FakeConnection();
-  const testWalletAddress = 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH';
+  const testWalletAddress = solanaAddress0;
 
   beforeEach(() => {
     ataTxOf = new AssociatedTokenAccountTxOf(

@@ -31,7 +31,7 @@ export class SolanaNoNativeSendTxs {
       this._aNoNativeSend.toAddress(),
       this._aConnection
     );
-    if (await ata.inBlockchain()) {
+    if (!(await ata.inBlockchain())) {
       this._transactions.push(new AssociatedTokenAccountTxOf(ata, this._aWallet));
     }
   }

@@ -46,9 +46,10 @@ import { WalletsFactory } from '../../../swaps/shared-swaps/models/wallets/facto
 import { TokenDetailInjectable } from '../../shared-wallets/models/token-detail/injectable/token-detail.injectable';
 import { TokenDetail } from '../../shared-wallets/models/token-detail/token-detail';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
+import { solanaAddress1 } from '../../shared-wallets/fixtures/raw-address-data';
 
 
-describe('SendDetailPage', () => {
+fdescribe('SendDetailPage', () => {
   let component: SendDetailPage;
   let fixture: ComponentFixture<SendDetailPage>;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<SendDetailPage>;
@@ -83,7 +84,7 @@ describe('SendDetailPage', () => {
       quoteAmount: 1,
     },
     solanaValid: {
-      address: 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH',
+      address: solanaAddress1,
       amount: 1,
       quoteAmount: 1,
     },

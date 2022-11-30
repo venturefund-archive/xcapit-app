@@ -1,10 +1,11 @@
 import { FakeWallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
+import { solanaAddresses } from '../../fixtures/raw-address-data';
 import { SolanaNativeSendTx } from './solana-native-send-tx';
 
-describe('SolanaNativeSendTx', () => {
+fdescribe('SolanaNativeSendTx', () => {
   let transaction: SolanaNativeSendTx;
-  const testToAddress = 'HVGoaJgWW9TEu19avGRPjc2KvmReUYwxXib7NmwQqm4F';
-  const testWalletAddress = 'iuwtfpp8yzDrJNQbHXBSufSCZKhGctw5bQFAx23VgBH';
+  const testToAddress = solanaAddresses[0];
+  const testWalletAddress = solanaAddresses[1];
 
   beforeEach(() => {
     transaction = new SolanaNativeSendTx(
