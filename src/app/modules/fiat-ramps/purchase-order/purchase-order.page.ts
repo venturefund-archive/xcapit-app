@@ -11,7 +11,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
   template: `<ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left no-border">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/new-operation/kripton"></ion-back-button>
+          <ion-back-button defaultHref="/fiat-ramps/purchases"></ion-back-button>
         </ion-buttons>
         <ion-title class="po__header">
           {{ 'fiat_ramps.purchase_order.header' | translate }}
