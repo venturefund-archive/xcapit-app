@@ -1,4 +1,6 @@
+import { Blockchain } from "src/app/modules/swaps/shared-swaps/models/blockchain/blockchain";
 import { FakeConnection } from "src/app/modules/swaps/shared-swaps/models/fakes/fake-connection";
+import { rawSolanaData } from "src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data";
 import { rawSAMOData } from "src/app/modules/swaps/shared-swaps/models/fixtures/raw-tokens-data";
 import { SolanaToken } from "src/app/modules/swaps/shared-swaps/models/token/solana/solana-token";
 import { FakeWallet } from "src/app/modules/swaps/shared-swaps/models/wallet/wallet";
@@ -20,7 +22,6 @@ fdescribe('SolanaNoNativeSendTxs', () => {
       _connection
     );
   };
-
 
   beforeEach(() => {
     noNativeSendTxs = _solanaNoNativeSendTxs();

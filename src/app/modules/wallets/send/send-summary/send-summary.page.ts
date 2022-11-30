@@ -20,6 +20,11 @@ import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallet
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
 import { WeiOf } from 'src/app/modules/swaps/shared-swaps/models/wei-of/wei-of';
+import { SolanaToken } from 'src/app/modules/swaps/shared-swaps/models/token/solana/solana-token';
+import { RawToken } from 'src/app/modules/swaps/shared-swaps/models/token-repo/token-repo';
+import { SolanaNoNativeSendTxs } from '../../shared-wallets/models/solana-no-native-send-txs/solana-no-native-send-txs';
+import { SolanaNoNativeSend } from '../../shared-wallets/models/solana-no-native-send/solana-no-native-send';
+import { Connection } from '@solana/web3.js';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
@@ -173,12 +178,20 @@ export class SendSummaryPage implements OnInit {
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
       wallet.onNeedPass().subscribe(() => new Password(password).value());
-      await wallet.sendTxs([
-        new SolanaNativeSendTx(
+
+      const token = new SolanaToken(this.summaryData.currency as RawToken);
+      const tx = token.address() === this.blockchain.nativeToken().address() ?
+        [new SolanaNativeSendTx(
           wallet,
           this.summaryData.address,
           new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
-        )]);
+        )] : await new SolanaNoNativeSendTxs(
+          new SolanaNoNativeSend(this.summaryData.amount, token, this.summaryData.address),
+          wallet,
+          new Connection(this.blockchain.rpc())
+        ).blockchainTxs();
+
+      await wallet.sendTxs(tx);
       this.goToSuccess();
     }
   }
