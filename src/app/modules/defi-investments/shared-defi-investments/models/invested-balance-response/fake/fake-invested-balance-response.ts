@@ -3,7 +3,7 @@ import { InvestedBalanceResponse } from '../invested-balance-response.interface'
 
 export class FakeInvestedBalanceResponse implements InvestedBalanceResponse {
   constructor(
-    private balanceUSDReturn: number = 2.0102225151918912,
+    private balanceUSDReturn: number = 2.01022,
     private jsonReturn: RawInvestedBalanceResponse = rawInvestedBalanceResponse
   ) {}
 
@@ -12,7 +12,7 @@ export class FakeInvestedBalanceResponse implements InvestedBalanceResponse {
   }
 
   public balanceUSD(): number {
-    return this.balanceUSDReturn;
+    return parseFloat(this.balanceUSDReturn.toString());
   }
 
   public json(): RawInvestedBalanceResponse {

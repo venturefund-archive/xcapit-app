@@ -23,7 +23,7 @@ describe('DefaultInvestedBalanceResponse', () => {
   });
 
   it('balanceUSD', () => {
-    expect(investedBalanceResponse.balanceUSD()).toEqual(2.0102225151918912);
+    expect(investedBalanceResponse.balanceUSD().toString()).toEqual('2.010222515191891');
   });
 
   it('json', () => {

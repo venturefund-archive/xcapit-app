@@ -18,7 +18,7 @@ describe('FakeInvestedBalanceResponse', () => {
   });
 
   it('balanceUSD', () => {
-    expect(investedBalanceResponse.balanceUSD()).toEqual(2.010222515191891);
+    expect(investedBalanceResponse.balanceUSD()).toEqual(2.01022);
   });
 
   it('json', () => {
