@@ -52,7 +52,7 @@ const data: OperationDataInterface = {
   network: 'MATIC',
 };
 
-describe('OperationsNewPage', () => {
+fdescribe('OperationsNewPage', () => {
   let component: OperationsNewPage;
   let fixture: ComponentFixture<OperationsNewPage>;
   let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
@@ -215,7 +215,7 @@ describe('OperationsNewPage', () => {
     expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledWith(data);
     expect(component.operationID).toEqual(335);
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(2);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order');
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order');
   });
 
   it('should call trackEvent on trackService when ux_buy_kripton_continue Button clicked', () => {

@@ -22,7 +22,7 @@ import { KRIPTON_ACCOUNT_INFO } from '../../constants/kripton-account-info';
         <ion-label class="kaic__details__amount__value ux-font-header-titulo">{{'$'}}{{ this.amount | formattedAmount: 10:2 }}</ion-label>
         <img
           class="copy-icon-amount"
-          (click)="this.copyToClipboard(this.amount, 'fiat_ramps.shared.kripton_account_info.amount')"
+          (click)="this.copyToClipboard(this.amount.toString(), 'fiat_ramps.shared.kripton_account_info.amount')"
           src="/assets/img/purchase-order/copy.svg"
         />
       </div>
@@ -82,7 +82,7 @@ export class KriptonAccountInfoCardComponent implements OnInit {
     this.amount = Number(this.amount)
   }
 
-  copyToClipboard(value, modalText: string) {
+  copyToClipboard(value: string, modalText: string) {
     const clipboardInfo = { value, modalText };
     this.copyValue.emit(clipboardInfo);
   }
