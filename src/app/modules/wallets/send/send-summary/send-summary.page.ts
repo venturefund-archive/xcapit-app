@@ -8,7 +8,7 @@ import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
-import {  TransactionResponse } from '@ethersproject/abstract-provider';
+import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
@@ -78,7 +78,6 @@ export class SendSummaryPage implements OnInit {
   blockchain: Blockchain;
   notification: LocalNotification;
 
-
   constructor(
     private transactionDataService: TransactionDataService,
     private walletTransactionsService: WalletTransactionsService,
@@ -87,7 +86,6 @@ export class SendSummaryPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private loadingService: LoadingService,
     private route: ActivatedRoute,
-    private localNotificationsService: LocalNotificationsService,
     private translate: TranslateService,
     private alertController: AlertController,
     private trackService: TrackService,
@@ -163,11 +161,11 @@ export class SendSummaryPage implements OnInit {
     if (data === undefined) {
       this.loading = false;
     }
-    const password = new Password(data)
+    const password = new Password(data);
     if (await this.validPassword(password)) {
       this.openInProgressModal();
       return password;
-    }else {
+    } else {
       throw new Error(new PasswordErrorMsgs().invalid());
     }
   }
@@ -179,7 +177,7 @@ export class SendSummaryPage implements OnInit {
         this.summaryData.amount,
         this.summaryData.address,
         this.summaryData.currency
-        );
+      );
       this.notifyWhenTransactionMined(response);
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
@@ -189,8 +187,9 @@ export class SendSummaryPage implements OnInit {
           wallet,
           this.summaryData.address,
           new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
-          )]);
-        this.notifyWhenTransactionMined();
+        ),
+      ]);
+      this.notifyWhenTransactionMined();
     }
   }
 
@@ -274,9 +273,9 @@ export class SendSummaryPage implements OnInit {
     this.notification = this.localNotificationInjectable.create(
       this.translate.instant(`wallets.send.send_notifications.${mode}.title`),
       this.translate.instant(`wallets.send.send_notifications.${mode}.body`, {
-       amount: this.summaryData.amount,
-       token: this.summaryData.currency.value,
-       date: format(new Date(), 'dd/MM/yyyy'),
+        amount: this.summaryData.amount,
+        token: this.summaryData.currency.value,
+        date: format(new Date(), 'dd/MM/yyyy'),
       })
     );
   }
@@ -297,32 +296,29 @@ export class SendSummaryPage implements OnInit {
   private _sendSuccessNotification() {
     this.createNotification('success');
     this.setActionListener();
-     this.notification.send();
-   }
- 
-   private setActionListener() {
-     this.notification.onClick(() => {
-       this.navigateToTokenDetail();
-     });
-   }
- 
-   private navigateToTokenDetail() {
-     this.navController.navigateRoot([
-       `wallets/token-detail/blockchain/${this.summaryData.network}/token/${this.summaryData.currency.contract}`,
-     ]);
-   }
+    this.notification.send();
+  }
+
+  private setActionListener() {
+    this.notification.onClick(() => {
+      this.navigateToTokenDetail();
+    });
+  }
+
+  private navigateToTokenDetail() {
+    this.navController.navigateRoot([
+      `wallets/token-detail/blockchain/${this.summaryData.network}/token/${this.summaryData.currency.contract}`,
+    ]);
+  }
 
   private async handleSendError(error) {
     if (new PasswordErrorMsgs().isInvalidError(error)) {
       await this.handleInvalidPassword();
     } else if (this.isNotEnoughBalanceError(error)) {
       await this.handleNotEnoughBalance();
-
-    }else if(new PasswordErrorMsgs().isEmptyError(error)){
-
-    } else {
+    } else if (!(new PasswordErrorMsgs().isEmptyError(error))) {
       throw error;
-    }
+    } 
   }
 
   private isNotEnoughBalanceError(error) {
@@ -371,4 +367,3 @@ export class SendSummaryPage implements OnInit {
     await this.navController.navigateForward(['/wallets/send/error/wrong-amount']);
   }
 }
-
