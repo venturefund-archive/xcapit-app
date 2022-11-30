@@ -15,31 +15,6 @@ import { of } from 'rxjs';
 import { ProvidersFactory } from 'src/app/modules/fiat-ramps/shared-ramps/models/providers/factory/providers.factory';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 
-const providerTest = {
-  id: 2,
-  alias: 'kripton',
-  name: 'Kripton Market',
-  logoRoute: 'assets/img/provider-logos/KriptonMarket.svg',
-  description: 'fiat_ramps.select_provider.description',
-  newOperationRoute: '/fiat-ramps/new-operation/kripton',
-  countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
-  trackClickEventName: 'ux_buy_kripton',
-  providerName:'kripton'
-};
-
-const directa24ProviderTest = {
-  id: 5,
-  alias: 'PX',
-  quote: 1,
-  name: 'Pichincha',
-  logoRoute: 'assets/img/provider-logos/pichincha.svg',
-  description: 'fiat_ramps.select_provider.description',
-  newOperationRoute: '/fiat-ramps/new-operation/pichincha',
-  countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
-  trackClickEventName: 'ux_test',
-  providerName:'directa24'
-}
-
 describe('ProviderCardComponent', () => {
   let component: ProviderCardComponent;
   let fixture: ComponentFixture<ProviderCardComponent>;
@@ -50,45 +25,67 @@ describe('ProviderCardComponent', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeProviders: FakeProviders;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      fakeModalController = new FakeModalController();
-      modalControllerSpy = fakeModalController.createSpy();
-      
-      fakeProviders = new FakeProviders(
-        rawProvidersData,
-        rawProvidersData.find((provider) => provider.alias === 'PX'),
-        null,
-        of([
-          {
-            code: 'PX',
-            paymentType: 'VOUCHER',
-          },
-        ])
-      );
-      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
-        create: fakeProviders,
-      });
-      TestBed.configureTestingModule({
-        declarations: [ProviderCardComponent, FakeTrackClickDirective, FormattedAmountPipe],
-        imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: ModalController, useValue: modalControllerSpy },
-          { provide: ProvidersFactory, useValue: providersFactorySpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+  let kriptonProvider: any;
+  let directa24Provider: any;
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    fakeModalController = new FakeModalController();
+    modalControllerSpy = fakeModalController.createSpy();
+    kriptonProvider = {
+      id: 2,
+      alias: 'kripton',
+      name: 'Kripton Market',
+      logoRoute: 'assets/test_image.svg',
+      description: 'fiat_ramps.select_provider.description',
+      newOperationRoute: '/fiat-ramps/new-operation/kripton',
+      countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
+      trackClickEventName: 'ux_buy_kripton',
+      providerName: 'kripton',
+    };
+    directa24Provider = {
+      id: 5,
+      alias: 'PX',
+      quote: 1,
+      name: 'Pichincha',
+      logoRoute: 'assets/test_image.svg',
+      description: 'fiat_ramps.select_provider.description',
+      newOperationRoute: '/fiat-ramps/new-operation/pichincha',
+      countries: ['Argentina', 'Venezuela', 'Uruguay', 'Peru', 'Colombia'],
+      trackClickEventName: 'ux_test',
+      providerName: 'directa24',
+    };
+    fakeProviders = new FakeProviders(
+      rawProvidersData,
+      rawProvidersData.find((provider) => provider.alias === 'PX'),
+      null,
+      of([
+        {
+          code: 'PX',
+          paymentType: 'VOUCHER',
+        },
+      ])
+    );
+    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', {
+      create: fakeProviders,
+    });
+    TestBed.configureTestingModule({
+      declarations: [ProviderCardComponent, FakeTrackClickDirective, FormattedAmountPipe],
+      imports: [IonicModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: ProvidersFactory, useValue: providersFactorySpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProviderCardComponent);
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
     component = fixture.componentInstance;
-    component.provider = providerTest;
+    component.provider = kriptonProvider;
     fixture.detectChanges();
   });
 
@@ -96,19 +93,23 @@ describe('ProviderCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render properly', () => {
-    component.provider = {quote:1 ,...providerTest}
+  it('should render properly', async () => {
+    component.provider = { quote: 1, ...kriptonProvider };
     fixture.detectChanges();
+    await component.ngOnInit();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     const imgEl = fixture.debugElement.query(By.css('div.pcc__content__image'));
     const paymentTypeEl = fixture.debugElement.query(By.css('.pcc__content__body__name > ion-text'));
     const descriptionEl = fixture.debugElement.query(By.css('ion-text.description'));
     expect(imgEl.nativeElement.innerHTML).toBeTruthy();
     expect(paymentTypeEl.nativeElement.innerHTML).toContain('fiat_ramps.shared.constants.payment_types.kripton');
-    expect(descriptionEl.nativeElement.innerHTML).toContain(providerTest.description);
+    expect(descriptionEl.nativeElement.innerHTML).toContain(kriptonProvider.description);
   });
 
-  it('should render properly directa24 provider', fakeAsync( () => {
-    component.provider = directa24ProviderTest;
+  it('should render properly directa24 provider', fakeAsync(() => {
+    component.provider = directa24Provider;
+    fixture.detectChanges();
     component.ngOnInit();
     fixture.detectChanges();
     tick();
@@ -117,8 +118,10 @@ describe('ProviderCardComponent', () => {
     const paymentTypeEl = fixture.debugElement.query(By.css('ion-text.paymentType'));
     const descriptionEl = fixture.debugElement.query(By.css('ion-text.description'));
     expect(imgEl.nativeElement.innerHTML).toBeTruthy();
-    expect(paymentTypeEl.nativeElement.innerHTML).toContain('fiat_ramps.shared.constants.payment_types.directa24_voucher');
-    expect(descriptionEl.nativeElement.innerHTML).toContain(directa24ProviderTest.description);
+    expect(paymentTypeEl.nativeElement.innerHTML).toContain(
+      'fiat_ramps.shared.constants.payment_types.directa24_voucher'
+    );
+    expect(descriptionEl.nativeElement.innerHTML).toContain(directa24Provider.description);
   }));
 
   it('should show skeleton when quote is not loaded yet', () => {
@@ -127,9 +130,8 @@ describe('ProviderCardComponent', () => {
     expect(skeletonEl).toBeTruthy();
   });
 
-
   it('should show best quote badge when provider have best quote', () => {
-    component.provider = {isBestQuote: true,...providerTest}
+    component.provider = { isBestQuote: true, ...kriptonProvider };
     fixture.detectChanges();
     const besQuoteBadgeEl = fixture.debugElement.query(By.css('.pcc ion-badge'));
     expect(besQuoteBadgeEl).toBeTruthy();
@@ -189,6 +191,7 @@ describe('ProviderCardComponent', () => {
     component.provider.showInfo = true;
     component.provider.name = 'Directa 24';
     component.provider.providerName = 'directa24';
+    component.provider.alias = 'PX';
     component.ngOnInit();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="informative_modal"]')).nativeElement.click();
@@ -207,8 +210,8 @@ describe('ProviderCardComponent', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 
-  it('should render properly directa24 provider', fakeAsync( () => {
-    component.provider = directa24ProviderTest;
+  it('should render properly directa24 provider', fakeAsync(() => {
+    component.provider = directa24Provider;
     component.ngOnInit();
     tick();
     fixture.detectChanges();
@@ -216,7 +219,9 @@ describe('ProviderCardComponent', () => {
     const paymentTypeEl = fixture.debugElement.query(By.css('ion-text.paymentType'));
     const descriptionEl = fixture.debugElement.query(By.css('ion-text.description'));
     expect(imgEl.nativeElement.innerHTML).toBeTruthy();
-    expect(paymentTypeEl.nativeElement.innerHTML).toContain('fiat_ramps.shared.constants.payment_types.directa24_voucher');
-    expect(descriptionEl.nativeElement.innerHTML).toContain(directa24ProviderTest.description);
+    expect(paymentTypeEl.nativeElement.innerHTML).toContain(
+      'fiat_ramps.shared.constants.payment_types.directa24_voucher'
+    );
+    expect(descriptionEl.nativeElement.innerHTML).toContain(directa24Provider.description);
   }));
 });
