@@ -1,4 +1,11 @@
-import { ComponentFixture, TestBed, waitForAsync, fakeAsync, tick, flush, discardPeriodicTasks, flushMicrotasks } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  waitForAsync,
+  fakeAsync,
+  tick,
+  flush,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -44,9 +51,7 @@ describe('SelectCoinsWalletPage', () => {
       jasmine.createSpyObj('TestNativeCoin', {}, { value: 'TNC', network: 'test1', native: true }),
       jasmine.createSpyObj('TestNotNativeCoin', {}, { value: 'TC', network: 'test1' }),
     ],
-    [
-      jasmine.createSpyObj('TestNativeToken', {}, { value: 'TNT', network: 'test2', native: true }),
-    ]
+    [jasmine.createSpyObj('TestNativeToken', {}, { value: 'TNT', network: 'test2', native: true })],
   ];
 
   const testSelectedTokens = [TEST_COINS[0], TEST_COINS[2], TEST_COINS[4], TEST_COINS[5], TEST_COINS[7], TEST_COINS[8]];
@@ -93,10 +98,11 @@ describe('SelectCoinsWalletPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create form dinamically on ionViewWillEnter', () => {
+  it('should create form dynamically', async () => {
     apiWalletServiceSpy.getNetworks.and.returnValue(['test1', 'test2']);
     apiWalletServiceSpy.getCoinsFromNetwork.and.returnValues(...testCoinValuesForDynamicForm);
-    component.createForm();
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
     expect(component.form.value).toEqual(testDynamicFormValue);
   });
 
@@ -202,19 +208,19 @@ describe('SelectCoinsWalletPage', () => {
     expect(toggle.nativeElement.checked).toBeTrue();
   });
 
-  it('should change the toggle value when at least one element is not true', fakeAsync(() => {
+  it('should change the toggle value when at least one element is not true', async () => {
     walletMaintenanceServiceSpy.getUserAssets.and.resolveTo(testSelectedTokens);
+    await component.ionViewWillEnter();
     fixture.detectChanges();
-    component.ionViewWillEnter();
-    tick();
+    component.form.patchValue({ ERC20: { ETH: true } });
     fixture.detectChanges();
-    fixture.debugElement
-      .queryAll(By.css('app-items-coin-group'))[0]
-      .triggerEventHandler('changed', { detail: { checked: true, value: TEST_ERC20_COINS[0] } });
-    fixture.detectChanges();
-    tick();
-    const toggle = fixture.debugElement.query(By.css('ion-toggle[name="ux_create_all"]'));
-    expect(toggle.nativeElement.checked).toBeFalse();
-    flush();
-  }));
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    expect(component.allSelected).toBeFalse();
+  });
+
+  it('should wipe fata from service on leave', () => {
+    component.ionViewDidLeave();
+    expect(walletMaintenanceServiceSpy.wipeDataFromService).toHaveBeenCalledTimes(1);
+  });
 });
