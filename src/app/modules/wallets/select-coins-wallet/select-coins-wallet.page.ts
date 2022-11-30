@@ -55,10 +55,7 @@ export class SelectCoinsWalletPage implements OnInit {
   userCoinsLoaded: boolean;
   form: UntypedFormGroup;
   allSelected = false;
-
-  get networks(): string[] {
-    return this.apiWalletService.getNetworks();
-  }
+  networks: string[];
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -68,6 +65,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
   ionViewWillEnter() {
     this.userCoinsLoaded = false;
+    this.setNetworks();
     this.createForm();
     this.getUserCoins();
   }
@@ -78,9 +76,13 @@ export class SelectCoinsWalletPage implements OnInit {
 
   ngOnInit() {}
 
+  private setNetworks(): void {
+    this.networks = this.apiWalletService.getNetworks();
+  }
+
   createForm() {
     if (!this.form) {
-      const formGroup = { };
+      const formGroup = {};
 
       this.networks.forEach((network) => {
         formGroup[network] = this.createSuiteFormGroup(this.getCoinsFromNetwork(network));
@@ -92,9 +94,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
   async updateTokens() {
     this.setAllSelected();
-    const values = Object.values(this.form.value).reduce((prev: any, curr: any) => {
-      return { ...prev, ...curr };
-    });
+    const values = Object.values(this.form.value).reduce((prev: any, curr: any) => ({ ...prev, ...curr }));
     await this.walletMaintenanceService.updateTokensStorage(values);
   }
 
@@ -119,21 +119,18 @@ export class SelectCoinsWalletPage implements OnInit {
     return Object.keys(this.form.value[network]);
   }
 
-  getUserCoins() {
+  async getUserCoins() {
     const formData = {};
-    this.walletMaintenanceService.getUserAssets().then((coins) => {
-      coins.forEach((coin) => {
-        if (!formData[coin.network]) formData[coin.network] = {};
-
-        formData[coin.network][coin.value] = true;
-      });
-
-      this.form.patchValue(formData);
-      this.userCoinsLoaded = true;
-      this.setAllSelected();
-
-      this.form.valueChanges.pipe(debounce(() => interval(100))).subscribe(() => this.updateTokens());
+    const coins = await this.walletMaintenanceService.getUserAssets();
+    coins.forEach((coin) => {
+      if (!formData[coin.network]) formData[coin.network] = {};
+      formData[coin.network][coin.value] = true;
     });
+
+    this.form.patchValue(formData);
+    this.userCoinsLoaded = true;
+    this.setAllSelected();
+    this.form.valueChanges.pipe(debounce(() => interval(100))).subscribe(() => this.updateTokens());
   }
 
   toggleAll(event: any) {
