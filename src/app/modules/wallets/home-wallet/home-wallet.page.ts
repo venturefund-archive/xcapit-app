@@ -209,7 +209,7 @@ export class HomeWalletPage implements OnInit {
   address: string;
   defiProducts: DefiProduct[];
   totalInvested: number;
-  pids = [];
+  twoPiProducts: TwoPiProduct[] = [];
   newTokens: NewToken[];
   connected: boolean;
   allLoaded = false;
@@ -291,10 +291,10 @@ export class HomeWalletPage implements OnInit {
   }
 
   async setInvestments() {
-    this.pids = [];
+    this.twoPiProducts = [];
     for (const product of this.defiProducts) {
       const anInvestmentProduct = await this.getInvestmentProduct(product);
-      this.pids.push(anInvestmentProduct.id());
+      this.twoPiProducts.push(anInvestmentProduct);
     }
   }
 
@@ -381,11 +381,10 @@ export class HomeWalletPage implements OnInit {
 
   private async loadCachedTotalBalance() {
     this.balance = await this.balanceCacheService.total();
-   
   }
 
   async setInvestedBalance() {
-    const totalInvestedBalanceOf = this.totalInvestedBalanceOfInjectable.create(this.address, this.pids);
+    const totalInvestedBalanceOf = this.totalInvestedBalanceOfInjectable.create(this.address, this.twoPiProducts);
     this.totalInvested = await totalInvestedBalanceOf.cached();
     this.totalInvested = await totalInvestedBalanceOf.value();
   }
