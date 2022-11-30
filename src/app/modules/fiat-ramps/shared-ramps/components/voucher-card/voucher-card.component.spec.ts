@@ -2,10 +2,6 @@ import {
   ComponentFixture,
   TestBed,
   waitForAsync,
-  fakeAsync,
-  tick,
-  discardPeriodicTasks,
-  flush,
 } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -55,22 +51,6 @@ describe('VoucherCardComponent', () => {
     const el = fixture.debugElement.query(By.css('.vc__loader'));
     expect(el).toBeTruthy();
   });
-
-  // TODO: Check on this
-  xit('should show success state when percentage is 100% and voucher is not null', fakeAsync(() => {
-    component.voucher = photo;
-    component.percentage = 100;
-    fixture.detectChanges();
-    const loaderEl = fixture.debugElement.query(By.css('.vc__loader'));
-    tick(1001);
-    fixture.detectChanges();
-    const successEl = fixture.debugElement.query(By.css('.vc__success'));
-    expect(loaderEl).toBeTruthy();
-    expect(component.loaderCssClass).toEqual('loader-success');
-    expect(successEl).toBeTruthy();
-    discardPeriodicTasks();
-    flush();
-  }));
 
   it('should open modal voucher when the image is clicked', () => {
     component._percentage = -1;

@@ -6,7 +6,7 @@ import { CameraPlugin, Photo } from '@capacitor/camera';
 import { FilesystemPlugin } from '@capacitor/filesystem';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ClipboardService } from 'src/app/shared/services/clipboard/clipboard.service';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
@@ -19,7 +19,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { PurchaseOrderPage } from './purchase-order.page';
 
-fdescribe('PurchaseOrderPage', () => {
+describe('PurchaseOrderPage', () => {
   let component: PurchaseOrderPage;
   let fixture: ComponentFixture<PurchaseOrderPage>;
   let clipboardServiceSpy: jasmine.SpyObj<ClipboardService>;
@@ -206,10 +206,13 @@ fdescribe('PurchaseOrderPage', () => {
   });
 
   it('should add photo on addPhoto', async () => {
+    storageOperationServiceSpy.getVoucher.and.returnValues(undefined, photo);
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('addPhoto', null);
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
@@ -243,14 +246,34 @@ fdescribe('PurchaseOrderPage', () => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     component.percentage = 100;
+    component.voucher = photo;
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
 
     expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(component.data.operation_id, formData);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
-  it('should send photo and navigate to error when finish button is clicked');
+
+  it('should send photo and navigate to error when finish button is clicked', async () => {
+    const formData = new FormData();
+    formData.append('file', photo.dataUrl);
+
+    fiatRampsServiceSpy.confirmOperation.and.returnValue(throwError('Test'));
+    fakeActivatedRoute.modifySnapshotParams({ step: '2' });
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    component.percentage = 100;
+    component.voucher = photo;
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
+
+    expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(component.data.operation_id, formData);
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/error-operation-km']);
+  });
 
   // it('should upload photo when user clicks ux_buy_kripton_attach button', async () => {
   //   component.ionViewWillEnter();
