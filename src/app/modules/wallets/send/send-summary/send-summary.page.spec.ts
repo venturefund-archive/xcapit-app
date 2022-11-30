@@ -32,6 +32,8 @@ import { rawETHData, rawSOLData } from 'src/app/modules/swaps/shared-swaps/model
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
 import { FakeLocalNotification } from 'src/app/shared/models/local-notification/fake/fake-local-notification';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 
 describe('SendSummaryPage', () => {
   let component: SendSummaryPage;
@@ -53,7 +55,8 @@ describe('SendSummaryPage', () => {
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   let localNotificationInjectableSpy: jasmine.SpyObj<LocalNotificationInjectable>;
   let testLocalNotificationOk: { title: string; body: string };
-  let fakeLocalNotification: FakeLocalNotification
+  let fakeLocalNotification: FakeLocalNotification;
+  let storageSpy: jasmine.SpyObj<IonicStorageService>;
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   const summaryData: SummaryData = {
     network: 'ERC20',
@@ -63,6 +66,8 @@ describe('SendSummaryPage', () => {
     referenceAmount: '50000',
     balance: 2,
   };
+  const aPassword = new Password('aPassword');
+  const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
 
   beforeEach(() => {
     testLocalNotificationOk = {
@@ -73,6 +78,11 @@ describe('SendSummaryPage', () => {
       category: 'finance',
       module: 1,
       submodule: 1,
+    });
+    storageSpy = jasmine.createSpyObj('IonicStorageService', {
+      set: Promise.resolve(),
+      remove: Promise.resolve(),
+      get: Promise.resolve(true),
     });
     activatedRouteSpy = fakeActivatedRoute.createSpy();
     alertSpy = jasmine.createSpyObj('Alert', { present: Promise.resolve() });
@@ -92,7 +102,7 @@ describe('SendSummaryPage', () => {
       canAffordSendTx: Promise.resolve(true),
       estimateSendFee: Promise.resolve(BigNumber.from('1000')),
     });
-    fakeModalController = new FakeModalController(null, { data: 'testPassword' });
+    fakeModalController = new FakeModalController(null, { data: aPassword });
     modalControllerSpy = fakeModalController.createSpy();
     loadingServiceSpy = jasmine.createSpyObj('LoadingService', {
       show: Promise.resolve(),
@@ -126,6 +136,7 @@ describe('SendSummaryPage', () => {
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
+        { provide: IonicStorageService, useValue: storageSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -150,7 +161,7 @@ describe('SendSummaryPage', () => {
     component.ionViewWillEnter();
     tick(3000);
     fixture.detectChanges();
-    expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   }));
 
@@ -165,6 +176,8 @@ describe('SendSummaryPage', () => {
   });
 
   it('should send and show send in progress modal when user can afford fees and password is correct on ux_send_send Button clicked', async () => {
+    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
@@ -172,7 +185,7 @@ describe('SendSummaryPage', () => {
     await fixture.whenRenderingDone();
     fixture.detectChanges();
     expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
-      'testPassword',
+      aPassword.value(),
       1,
       constants.AddressZero,
       summaryData.currency
@@ -187,6 +200,8 @@ describe('SendSummaryPage', () => {
   });
 
   it('should send if solana', async () => {
+    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
     const solanaSummaryData = { ...summaryData, currency: rawSOLData, network: rawSolanaData.name };
     new SpyProperty(transactionDataServiceSpy, 'transactionData').value().and.returnValue(solanaSummaryData);
     component.ionViewWillEnter();
@@ -204,19 +219,13 @@ describe('SendSummaryPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
   });
 
-  it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
+ it('should navigate to invalid password page when modal is closed and password is incorrect', async () => {
     component.summaryData = summaryData;
+    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid'}));
     component.ionViewWillEnter();
-    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'invalid' }));
-    walletTransactionsServiceSpy.send.and.rejectWith({ message: new PasswordErrorMsgs().invalid() });
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(walletTransactionsServiceSpy.send).toHaveBeenCalledOnceWith(
-      'invalid',
-      1,
-      constants.AddressZero,
-      summaryData.currency
-    );
     expect(component.isSending).toBeFalse();
     expect(localNotificationInjectableSpy.create).not.toHaveBeenCalled();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/incorrect-password']);
@@ -228,7 +237,7 @@ describe('SendSummaryPage', () => {
   it('should cancel transaction if user closed modal', async () => {
     component.summaryData = summaryData;
     component.ionViewWillEnter();
-    fakeModalController.modifyReturns(null, Promise.resolve({}));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: undefined }));
     fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
     await fixture.whenStable();
     expect(walletTransactionsServiceSpy.send).not.toHaveBeenCalled();
@@ -249,6 +258,9 @@ describe('SendSummaryPage', () => {
   }));
 
   it('should redirect to Wrong Amount Page if not enough funds for transaction estimated cost', async () => {
+    
+    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
     walletTransactionsServiceSpy.canAffordSendTx.and.resolveTo(false);
     component.ionViewWillEnter();
     fixture.detectChanges();
@@ -259,18 +271,9 @@ describe('SendSummaryPage', () => {
     expect(alertSpy.present).toHaveBeenCalledTimes(0);
   });
 
-  it('should redirect to Wrong Amount Page if not enough funds for transaction estimated cost', async () => {
-    walletTransactionsServiceSpy.send.and.rejectWith(new Error('insufficient funds'));
-    component.ionViewWillEnter();
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('ion-button[name="ux_send_send"]')).nativeElement.click();
-    await fixture.whenStable();
-    expect(component.isSending).toBeFalse();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith(['/wallets/send/error/wrong-amount']);
-    expect(alertSpy.present).toHaveBeenCalledTimes(0);
-  });
-
   it('should redirect to Wrong Amount Page if not enough funds for transaction cost', async () => {
+    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
+    fakeModalController.modifyReturns(null, Promise.resolve({ data: 'aPassword' }));
     walletTransactionsServiceSpy.send.and.rejectWith(new Error('insufficient funds'));
     component.ionViewWillEnter();
     fixture.detectChanges();

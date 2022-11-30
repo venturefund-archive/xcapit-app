@@ -24,6 +24,8 @@ import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success
 import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
 import { format } from 'date-fns';
 import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
+import { LoginToken } from 'src/app/modules/users/shared-users/models/login-token/login-token';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
@@ -92,6 +94,7 @@ export class SendSummaryPage implements OnInit {
     private blockchains: BlockchainsFactory,
     private walletsFactory: WalletsFactory,
     private localNotificationInjectable: LocalNotificationInjectable,
+    private storage: IonicStorageService
   ) {}
 
   ngOnInit() {}
@@ -160,24 +163,25 @@ export class SendSummaryPage implements OnInit {
     if (data === undefined) {
       this.loading = false;
     }
-
-    return data;
+    const password = new Password(data)
+    if (await this.validPassword(password)) {
+      this.openInProgressModal();
+      return password;
+    }else {
+      throw new Error(new PasswordErrorMsgs().invalid());
+    }
   }
 
   private async send(password: string) {
-    
     if (this.blockchain.name() !== 'SOLANA') {
-
       const response = await this.walletTransactionsService.send(
         password,
         this.summaryData.amount,
         this.summaryData.address,
         this.summaryData.currency
         );
-      await this.openInProgressModal();
       this.notifyWhenTransactionMined(response);
     } else {
-      await this.openInProgressModal();
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
       wallet.onNeedPass().subscribe(() => new Password(password).value());
       await wallet.sendTxs([
@@ -234,12 +238,16 @@ export class SendSummaryPage implements OnInit {
         return;
       }
       this.loading = true;
-      await this.send(password);
+      await this.send(password.value());
     } catch (error) {
       await this.handleSendError(error);
     } finally {
       await this.endTx();
     }
+  }
+
+  private validPassword(password: Password) {
+    return new LoginToken(password, this.storage).valid();
   }
 
   async showAlert(header: string, message: string, buttonText: string) {
@@ -309,6 +317,9 @@ export class SendSummaryPage implements OnInit {
       await this.handleInvalidPassword();
     } else if (this.isNotEnoughBalanceError(error)) {
       await this.handleNotEnoughBalance();
+
+    }else if(new PasswordErrorMsgs().isEmptyError(error)){
+
     } else {
       throw error;
     }
