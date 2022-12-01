@@ -12,6 +12,7 @@ import { FakeModalController } from '../../../../testing/fakes/modal-controller.
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { of } from 'rxjs';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 describe('KycConfirmationPage', () => {
   let component: KycConfirmationPage;
@@ -24,6 +25,7 @@ describe('KycConfirmationPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
 
   beforeEach(waitForAsync(() => {
     fakeModalController = new FakeModalController(null, { role: 'confirm' });
@@ -40,6 +42,10 @@ describe('KycConfirmationPage', () => {
       get: Promise.resolve('test@test.com'),
     });
 
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
+
     navControllerSpy = new FakeNavController().createSpy();
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', { registerUserImages: of({}) });
     TestBed.configureTestingModule({
@@ -52,6 +58,7 @@ describe('KycConfirmationPage', () => {
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: KriptonStorageService, useValue: kriptonStorageSpy },
+        { provide: TrackService, useValue: trackServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -87,6 +94,7 @@ describe('KycConfirmationPage', () => {
     const contentEl = fixture.debugElement.query(By.css('app-confirmation-content'));
     contentEl.triggerEventHandler('confirm', null);
     tick();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/user-register');
     expect(fiatRampsServiceSpy.registerUserImages).toHaveBeenCalledTimes(1);
   }));

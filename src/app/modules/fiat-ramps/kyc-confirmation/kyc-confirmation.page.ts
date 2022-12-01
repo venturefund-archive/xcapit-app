@@ -8,6 +8,7 @@ import { TwoButtonsAlertComponent } from 'src/app/shared/components/two-buttons-
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { UserKycKriptonImages } from '../shared-ramps/interfaces/user-kyc-kripton-images.interface';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-kyc-confirmation',
@@ -34,7 +35,8 @@ export class KycConfirmationPage {
     private modalController: ModalController,
     private translate: TranslateService,
     private fiatRampsService: FiatRampsService,
-    private kriptonStorage: KriptonStorageService
+    private kriptonStorage: KriptonStorageService,
+    private trackService: TrackService
   ) {}
 
   ionViewWillEnter() {
@@ -51,8 +53,17 @@ export class KycConfirmationPage {
     return { ...digitalDocuments, email: await this.kriptonStorage.get('email') };
   }
 
+  private trackButtonEvent() {
+      this.trackService.trackEvent({
+        eventAction: 'click',
+        description: window.location.href,
+        eventLabel: 'ux_buy_kripton_id_confirm',
+      });
+  }
+
   async confirm() {
     if (this.digitalDocument === 'dni_selfie') {
+      this.trackButtonEvent();
       const digitalDocuments = this._loadPhotos();
       const dataWithEmail = await this._dataWithEmail(digitalDocuments);
       this.fiatRampsService
