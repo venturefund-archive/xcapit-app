@@ -67,12 +67,21 @@ export class DefaultWallet implements Wallet {
     return aEthersWallet.connect(new this._ethersProviders.JsonRpcProvider(this._aBlockchain.rpc()));
   }
 }
-
+export class SendTxsError extends Error {
+  constructor(message: string, private url: string) {
+    super(message);
+    this.url = url;
+  }
+}
 export class FakeWallet implements Wallet {
   private _onNeedPass: SimpleSubject = new SimpleSubject();
   private _onWalletDecrypted: SimpleSubject = new SimpleSubject();
 
-  constructor(private readonly sendTxsResponse: Promise<any> = Promise.resolve(false), private msgError: string = '', private _address : string = '') {}
+  constructor(
+    private readonly sendTxsResponse: Promise<any> = Promise.resolve(false),
+    private error: Error = null,
+    private _address: string = ''
+  ) {}
 
   public onNeedPass(): Subscribable {
     return this._onNeedPass;
@@ -94,8 +103,8 @@ export class FakeWallet implements Wallet {
   }
 
   private _checkError() {
-    if (this.msgError) {
-      throw new Error(this.msgError);
+    if (this.error) {
+      throw this.error;
     }
   }
 }
@@ -118,10 +127,7 @@ export class SolanaWallet implements Wallet {
   async sendTxs(transactions: BlockchainTx[]): Promise<boolean> {
     await this._sendTxs(
       transactions,
-      new SolanaDerivedWallet(
-        (await this._decryptedWallet()).mnemonic.phrase,
-        this._aBlockchain
-      )
+      new SolanaDerivedWallet((await this._decryptedWallet()).mnemonic.phrase, this._aBlockchain)
     );
     return true;
   }

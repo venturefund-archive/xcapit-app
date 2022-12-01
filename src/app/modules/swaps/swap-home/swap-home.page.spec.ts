@@ -24,7 +24,7 @@ import { IntersectedTokensFactory } from '../shared-swaps/models/intersected-tok
 import { FakeNavController } from '../../../../testing/fakes/nav-controller.fake.spec';
 import { FakeModalController } from '../../../../testing/fakes/modal-controller.fake.spec';
 import { WalletsFactory } from '../shared-swaps/models/wallets/factory/wallets.factory';
-import { FakeWallet } from '../shared-swaps/models/wallet/wallet';
+import { FakeWallet, SendTxsError } from '../shared-swaps/models/wallet/wallet';
 import { OneInchFactory } from '../shared-swaps/models/one-inch/factory/one-inch.factory';
 import { SwapTransactionsFactory } from '../shared-swaps/models/swap-transactions/factory/swap-transactions.factory';
 import { FakeBlockchainTx } from '../shared-swaps/models/fakes/fake-blockchain-tx';
@@ -84,11 +84,13 @@ describe('SwapHomePage', () => {
     actionTypeId: 'SWAP',
   };
 
-  const testLocalNotificationNotOk: LocalNotificationSchema = {
-    id: 1,
-    title: 'swaps.sent_notification.swap_not_ok.title',
-    body: 'swaps.sent_notification.swap_not_ok.body',
-    actionTypeId: 'SWAP',
+  const localNotificationNotOkFor = (mode: string): LocalNotificationSchema => {
+    return {
+      id: 1,
+      title: `swaps.sent_notification.${mode}.title`,
+      body: `swaps.sent_notification.${mode}.body`,
+      actionTypeId: 'SWAP',
+    };
   };
   const rawBlockchain = rawPolygonData;
   const fromToken = rawUSDCData;
@@ -118,7 +120,8 @@ describe('SwapHomePage', () => {
 
   const _setWalletToInvalidPassword = () => {
     walletsFactorySpy.create.and.returnValue({
-      oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), new PasswordErrorMsgs().invalid())),
+      oneBy: () =>
+        Promise.resolve(new FakeWallet(Promise.resolve(false), new Error(new PasswordErrorMsgs().invalid()))),
     });
   };
 
@@ -456,15 +459,35 @@ describe('SwapHomePage', () => {
   it('should send error notification when swap is not ok', fakeAsync(() => {
     storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
     walletsFactorySpy.create.and.returnValue({
-      oneBy: () => Promise.resolve(new FakeWallet(Promise.resolve(false), 'a random error')),
+      oneBy: () =>
+        Promise.resolve(new FakeWallet(Promise.resolve(false), new SendTxsError('a random error', 'www.1inch.com'))),
     });
     _setTokenAmountArrange(1);
     fixture.detectChanges();
 
     component.swapThem();
-    tick(2);
+    tick(1000);
 
-    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([testLocalNotificationNotOk]);
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([localNotificationNotOkFor('swap_not_ok')]);
+  }));
+
+  it('should send error blockchain notification when swap is not ok', fakeAsync(() => {
+    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
+    walletsFactorySpy.create.and.returnValue({
+      oneBy: () =>
+        Promise.resolve(
+          new FakeWallet(Promise.resolve(false), new SendTxsError('a random error', 'www.blockchain.com'))
+        ),
+    });
+    _setTokenAmountArrange(1);
+    fixture.detectChanges();
+
+    component.swapThem();
+    tick(1000);
+
+    expect(localNotificationsServiceSpy.send).toHaveBeenCalledOnceWith([
+      localNotificationNotOkFor('swap_not_ok_blockchain'),
+    ]);
   }));
 
   it('should dont send notificaion on invalid password', fakeAsync(() => {

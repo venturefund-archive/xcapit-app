@@ -13,7 +13,7 @@ describe('AssociatedTokenAddress', () => {
   beforeEach(() => {
     address = new AssociatedTokenAddress(
       token,
-      new FakeWallet(Promise.resolve(false), '', testWalletAddress)
+      new FakeWallet(Promise.resolve(false), null, testWalletAddress)
     );
   });
 

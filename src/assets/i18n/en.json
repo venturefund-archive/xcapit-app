@@ -3061,6 +3061,10 @@
       "swap_not_ok": {
         "title": "❌ Error in the exchange",
         "body": "There was an error sending {{fromAmount}} {{fromToken}} and receiving {{toAmount}} {{toToken}}. More information here."
+      },
+      "swap_not_ok_blockchain": {
+        "title": "❌ Error in the exchange",
+        "body": "It could not be processed by the blockchain. Try again late."
       }
     }
   },

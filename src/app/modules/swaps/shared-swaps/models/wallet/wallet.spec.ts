@@ -74,7 +74,7 @@ describe('DefaultWallet', () => {
 
     it('address', () => {
       const addressTestValue = 'x';
-      const wallet = new FakeWallet(Promise.resolve(false), '', addressTestValue);
+      const wallet = new FakeWallet(Promise.resolve(false), null, addressTestValue);
 
       expect(wallet.address()).toEqual(addressTestValue);
     });
