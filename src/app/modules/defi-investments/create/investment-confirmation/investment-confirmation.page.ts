@@ -398,7 +398,7 @@ export class InvestmentConfirmationPage {
   }
 
   private navigateToTokenDetail() {
-    this.navController.navigateForward([
+    this.navController.navigateRoot([
       `wallets/token-detail/blockchain/${this.token.network}/token/${this.token.contract}`,
     ]);
   }

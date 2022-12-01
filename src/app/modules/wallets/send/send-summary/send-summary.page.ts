@@ -8,9 +8,8 @@ import { WalletPasswordComponent } from '../../shared-wallets/components/wallet-
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/shared/services/loading/loading.service';
 import { LocalNotificationsService } from '../../../notifications/shared-notifications/services/local-notifications/local-notifications.service';
-import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
+import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalNotificationSchema } from '@capacitor/local-notifications';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
 import { TrackService } from '../../../../shared/services/track/track.service';
@@ -20,6 +19,13 @@ import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallet
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
 import { WeiOf } from 'src/app/modules/swaps/shared-swaps/models/wei-of/wei-of';
+import { InProgressTransactionModalComponent } from 'src/app/shared/components/in-progress-transaction-modal/in-progress-transaction-modal.component';
+import { SUCCESS_TYPES } from 'src/app/shared/components/success-content/success-types.constant';
+import { LocalNotification } from 'src/app/shared/models/local-notification/local-notification.interface';
+import { format } from 'date-fns';
+import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
+import { LoginToken } from 'src/app/modules/users/shared-users/models/login-token/login-token';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 @Component({
   selector: 'app-send-summary',
   template: ` <ion-header>
@@ -70,6 +76,7 @@ export class SendSummaryPage implements OnInit {
   transactionFee = false;
   isInfoModalOpen = false;
   blockchain: Blockchain;
+  notification: LocalNotification;
 
   constructor(
     private transactionDataService: TransactionDataService,
@@ -79,12 +86,13 @@ export class SendSummaryPage implements OnInit {
     public submitButtonService: SubmitButtonService,
     private loadingService: LoadingService,
     private route: ActivatedRoute,
-    private localNotificationsService: LocalNotificationsService,
     private translate: TranslateService,
     private alertController: AlertController,
     private trackService: TrackService,
     private blockchains: BlockchainsFactory,
-    private walletsFactory: WalletsFactory
+    private walletsFactory: WalletsFactory,
+    private localNotificationInjectable: LocalNotificationInjectable,
+    private storage: IonicStorageService
   ) {}
 
   ngOnInit() {}
@@ -153,12 +161,13 @@ export class SendSummaryPage implements OnInit {
     if (data === undefined) {
       this.loading = false;
     }
-
-    return data;
-  }
-
-  private goToSuccess(response?: TransactionResponse) {
-    this.navController.navigateForward(['/wallets/send/success']).then(() => this.notifyWhenTransactionMined(response));
+    const password = new Password(data);
+    if (await this.validPassword(password)) {
+      this.openInProgressModal();
+      return password;
+    } else {
+      throw new Error(new PasswordErrorMsgs().invalid());
+    }
   }
 
   private async send(password: string) {
@@ -169,7 +178,7 @@ export class SendSummaryPage implements OnInit {
         this.summaryData.address,
         this.summaryData.currency
       );
-      this.goToSuccess(response);
+      this.notifyWhenTransactionMined(response);
     } else {
       const wallet = await this.walletsFactory.create().oneBy(this.blockchain);
       wallet.onNeedPass().subscribe(() => new Password(password).value());
@@ -178,9 +187,22 @@ export class SendSummaryPage implements OnInit {
           wallet,
           this.summaryData.address,
           new WeiOf(this.summaryData.amount, this.blockchain.nativeToken()).value().toNumber()
-        )]);
-      this.goToSuccess();
+        ),
+      ]);
+      this.notifyWhenTransactionMined();
     }
+  }
+
+  async openInProgressModal() {
+    const modal = await this.modalController.create({
+      component: InProgressTransactionModalComponent,
+      componentProps: {
+        data: SUCCESS_TYPES.send_in_progress,
+      },
+      cssClass: 'modal',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 
   private async checksBeforeSend(): Promise<boolean> {
@@ -215,12 +237,16 @@ export class SendSummaryPage implements OnInit {
         return;
       }
       this.loading = true;
-      await this.send(password);
+      await this.send(password.value());
     } catch (error) {
       await this.handleSendError(error);
     } finally {
       await this.endTx();
     }
+  }
+
+  private validPassword(password: Password) {
+    return new LoginToken(password, this.storage).valid();
   }
 
   async showAlert(header: string, message: string, buttonText: string) {
@@ -243,23 +269,21 @@ export class SendSummaryPage implements OnInit {
     await this.showAlert(`${route}.title`, `${route}.text`, `${route}.button`);
   }
 
-  private createNotification(address: string): LocalNotificationSchema[] {
-    return [
-      {
-        id: 1,
-        title: this.translate.instant('wallets.send.send_summary.sent_notification.title'),
-        body: this.translate.instant('wallets.send.send_summary.sent_notification.body', {
-          address,
-        }),
-      },
-    ];
+  private createNotification(mode: string) {
+    this.notification = this.localNotificationInjectable.create(
+      this.translate.instant(`wallets.send.send_notifications.${mode}.title`),
+      this.translate.instant(`wallets.send.send_notifications.${mode}.body`, {
+        amount: this.summaryData.amount,
+        token: this.summaryData.currency.value,
+        date: format(new Date(), 'dd/MM/yyyy'),
+      })
+    );
   }
 
-  private notifyWhenTransactionMined(response: TransactionResponse) {
+  private notifyWhenTransactionMined(response?: TransactionResponse) {
     const fixedTxResponse = response ? response.wait() : Promise.resolve({ to: this.summaryData.address });
     fixedTxResponse
-      .then((transaction: TransactionReceipt) => this.createNotification(transaction.to))
-      .then((notification: LocalNotificationSchema[]) => this.localNotificationsService.send(notification))
+      .then(() => this._sendSuccessNotification())
       .then(() =>
         this.trackService.trackEvent({
           eventAction: 'async_tx',
@@ -269,14 +293,32 @@ export class SendSummaryPage implements OnInit {
       );
   }
 
+  private _sendSuccessNotification() {
+    this.createNotification('success');
+    this.setActionListener();
+    this.notification.send();
+  }
+
+  private setActionListener() {
+    this.notification.onClick(() => {
+      this.navigateToTokenDetail();
+    });
+  }
+
+  private navigateToTokenDetail() {
+    this.navController.navigateRoot([
+      `wallets/token-detail/blockchain/${this.summaryData.network}/token/${this.summaryData.currency.contract}`,
+    ]);
+  }
+
   private async handleSendError(error) {
     if (new PasswordErrorMsgs().isInvalidError(error)) {
       await this.handleInvalidPassword();
     } else if (this.isNotEnoughBalanceError(error)) {
       await this.handleNotEnoughBalance();
-    } else {
+    } else if (!(new PasswordErrorMsgs().isEmptyError(error))) {
       throw error;
-    }
+    } 
   }
 
   private isNotEnoughBalanceError(error) {
