@@ -6,7 +6,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { RegistrationStatus } from '../enums/registration-status.enum';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
-import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
+import { KriptonLoginSuccessResponse } from '../shared-ramps/interfaces/kripton-login-success-response';
 
 @Component({
   selector: 'app-user-email',
@@ -44,9 +44,9 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
             tabindex="0"
             color="primary"
           ></app-ux-input>
-          <div *ngIf="this.validateEmail">
+          <div *ngIf="this.validatedEmail">
             <ion-text class="ux-font-text-xxs">{{ 'fiat_ramps.user_email.text_token' | translate }}</ion-text>
-            <div class="ue__container__form__token">
+            <div [ngClass]="this.loginError ? 'ue__container__form__token_error' : 'ue__container__form__token'">
               <app-ux-input
                 controlName="token"
                 type="token"
@@ -56,11 +56,17 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
                 tabindex="0"
                 color="primary"
               ></app-ux-input>
+              <div *ngIf="this.loginError" class="ue__container__form__token_error__description">
+                <ion-icon name="ux-error-circle-outline"></ion-icon>
+                <ion-text class="ux-font-text-xxs">{{
+                  'fiat_ramps.user_email.token_error_description' | translate
+                }}</ion-text>
+              </div>
             </div>
           </div>
         </form>
       </div>
-      <div *ngIf="!this.validateEmail" class="ue__container__card">
+      <div *ngIf="!this.validatedEmail" class="ue__container__card">
         <app-backup-information-card
           [text]="'fiat_ramps.user_email.text'"
           [textClass]="'ux-home-backup-card'"
@@ -71,7 +77,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
     </ion-content>
     <ion-footer class="ue__footer">
       <div>
-        <div class="ue__footer__resend-email" *ngIf="this.validateEmail">
+        <div class="ue__footer__resend-email" *ngIf="this.validatedEmail">
           <div class="ue__footer__resend-email__title">
             <img [src]="this.resendIcon" />
             <ion-text class="ux-font-text-xs">
@@ -112,8 +118,8 @@ export class UserEmailPage implements OnInit {
     email: ['', [Validators.email, Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
     token: ['', []],
   });
-
-  validateEmail: boolean;
+  userStatus: string;
+  validatedEmail: boolean;
   timerEnabled = false;
   disableResendEmail = true;
   timerSeconds = 120;
@@ -121,6 +127,7 @@ export class UserEmailPage implements OnInit {
   resendTitleText: string;
   resendIcon: string;
   resendAttempts = 2;
+  loginError = false;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -135,34 +142,56 @@ export class UserEmailPage implements OnInit {
     this.updateFooterText();
   }
 
-  async submit() {
-    const userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.form.value.email }).toPromise();
-    this.saveEmail();
-    if (userStatus) {
-      this.validateEmail = true;
+  async validateEmailAndSendToken(): Promise<void> {
+    this.userStatus = (
+      await this.fiatRampsService.getOrCreateUser({ email: this.form.value.email }).toPromise()
+    ).registration_status;
+    this.fiatRampsService.getKriptonAccessToken({ email: this.form.value.email }).subscribe();
+    if (this.userStatus) {
+      this.validatedEmail = true;
       this.timerEnabled = true;
       this.updateFooterText();
     }
-    this.tokenValidator();
-    if (this.form.valid) this.redirectByStatus(userStatus.registration_status);
+    this.addTokenValidators();
   }
 
-  redirectByStatus(registrationStatus: string) {
+  async validateTokenAndLogIn(): Promise<void> {
+    this.fiatRampsService
+      .kriptonLogin({ ...this.form.value })
+      .toPromise()
+      .then((response: KriptonLoginSuccessResponse) => {
+        this.saveUserInfo(response.token, response.refresh_token);
+        this.redirectByStatus(this.userStatus);
+      })
+      .catch(() => {
+        this.loginError = true;
+        this.form.get('token').valueChanges.subscribe(() => (this.loginError = false));
+      });
+  }
+
+  async submit(): Promise<void> {
+    !this.validatedEmail ? this.validateEmailAndSendToken() : this.validateTokenAndLogIn();
+  }
+
+  redirectByStatus(registrationStatus: string): void {
     const url = RegistrationStatus[registrationStatus];
-    this.navController.navigateForward(url);
+    this.navController.navigateRoot(url);
   }
 
-  private tokenValidator() {
+  private addTokenValidators(): void {
     this.form.get('token').addValidators(Validators.required);
     this.form.get('token').updateValueAndValidity();
   }
 
-  saveEmail() {
+  saveUserInfo(accessToken: string, refreshToken: string): void {
     this.kriptonStorage.set('email', this.form.value.email);
+    this.kriptonStorage.set('access_token', accessToken);
+    this.kriptonStorage.set('refresh_token', refreshToken);
   }
 
-  sendCodeRequest() {
+  sendCodeRequest(): void {
     if (this.resendAttempts !== 0) {
+      this.fiatRampsService.getKriptonAccessToken({ email: this.form.value.email });
       this.enableTimer();
       this.resendAttempts--;
       this.toastService.showSuccessToast({
@@ -173,18 +202,18 @@ export class UserEmailPage implements OnInit {
     }
   }
 
-  enableTimer() {
+  enableTimer(): void {
     this.timerEnabled = true;
     this.timerSeconds = 120;
     this.updateFooterText();
   }
 
-  disableTimer() {
+  disableTimer(): void {
     this.timerEnabled = false;
     this.updateFooterText();
   }
 
-  updateFooterText() {
+  updateFooterText(): void {
     if (this.timerEnabled) {
       this.resendIcon = 'assets/ux-icons/ux-clock.svg';
       return (this.resendTitleText = this.translate.instant('fiat_ramps.user_email.resend_email.title_sent'));

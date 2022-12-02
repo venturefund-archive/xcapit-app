@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
-import { OPERATION_STATUS } from '../constants/operation-status';
 import { FiatRampOperation } from '../interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
-import { OperationStatus } from '../interfaces/operation-status.interface';
 import { Providers } from '../models/providers/providers.interface';
 import { ProvidersFactory } from '../models/providers/factory/providers.factory';
-import { HttpParams } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { KriptonLoginSuccessResponse } from '../interfaces/kripton-login-success-response';
+import { catchError, map } from 'rxjs/operators';
+import { KriptonLoginErrorResponse } from '../interfaces/kripton-login-error-response';
 
 @Injectable({
   providedIn: 'root',
@@ -66,6 +67,14 @@ export class FiatRampsService {
       undefined,
       false
     );
+  }
+
+  getKriptonAccessToken(data: { email: string }): Observable<void> {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/request_token`, data, undefined, false);
+  }
+
+  kriptonLogin(data: { email: string; token: string }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/login`, data, undefined, false);
   }
 
   getUserOperations(): Observable<FiatRampOperation[]> {

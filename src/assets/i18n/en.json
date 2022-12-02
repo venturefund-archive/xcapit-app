@@ -2303,7 +2303,8 @@
       "amount": "Amount",
       "date": "Date",
       "status": "Status",
-      "no_operations_message": "To access the status of your account and/or purchase list, you must ",
+      "not_logged": "To access the status of your account and/or purchase list, you must ",
+      "no_operations_message": "Once you have made your purchases, you will be able to see them in this section.",
       "link": "login to Kripton Market",
       "button_show_less": "Show less",
       "button_show_more": "Show more"
@@ -2760,7 +2761,8 @@
         "title_exceeded_attempts": "Do you have any problems with the code?",
         "link_not_sent": "Resend code",
         "link_exceeded_attempts": "Contact support"
-      }
+      },
+      "token_error_description": "The code you entered is invalid. Please try again."
     },
     "user_register": {
       "header": "Register",
