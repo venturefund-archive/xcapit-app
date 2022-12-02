@@ -1,6 +1,6 @@
 import { SwapError } from './swap-error';
 
-describe('swapError', () => {
+describe('SwapError', () => {
   let swapError: SwapError;
   let error: any;
 
