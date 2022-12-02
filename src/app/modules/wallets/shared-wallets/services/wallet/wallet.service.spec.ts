@@ -34,8 +34,8 @@ describe('WalletService', () => {
 
   it('should call provider get balance when balanceOf is called', async () => {
     const spy = spyOn(blockchainProviderService, 'getFormattedBalanceOf').and.returnValue(Promise.resolve('20'));
-    const response = service.balanceOf('testAddress', 'testCoin');
-    expect(spy).toHaveBeenCalledWith('testAddress', 'testCoin');
+    const response = service.balanceOf('testAddress', 'testCoin', 'testNetwork');
+    expect(spy).toHaveBeenCalledWith('testAddress', 'testCoin', 'testNetwork');
     await expectAsync(response).toBeResolvedTo('20');
   });
 

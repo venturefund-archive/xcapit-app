@@ -8,6 +8,10 @@ export class SolanaToken implements Token {
     return this._rawData.value;
   }
 
+  network(): string {
+    return this._rawData.network;
+  }
+
   decimals(): number {
     return this._rawData.decimals;
   }

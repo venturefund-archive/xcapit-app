@@ -285,7 +285,8 @@ ionViewWillEnter() {
   }
 
   getCoin() {
-    this.token = this.apiWalletService.getCoin(this.operation.currency_out);
+    const asset = this.fiatRampsService.getProvider(1).currencies.find(c => c.symbol === this.operation.currency_out);
+    this.token = this.apiWalletService.getCoin(asset.symbol, asset.network);
   }
 
   navigateBackToOperations() {

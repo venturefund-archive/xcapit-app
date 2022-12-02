@@ -29,8 +29,8 @@ export class WalletService {
     return !!this.coins && !!this.coins.length;
   }
 
-  balanceOf(address: string, coin: string): Promise<string> {
-    return this.blockchainProviderService.getFormattedBalanceOf(address, coin);
+  balanceOf(address: string, coin: string, network: string): Promise<string> {
+    return this.blockchainProviderService.getFormattedBalanceOf(address, coin, network);
   }
 
   async walletExist(): Promise<boolean> {

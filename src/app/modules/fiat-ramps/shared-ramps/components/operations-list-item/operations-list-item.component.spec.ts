@@ -10,7 +10,9 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { OPERATION_STATUS } from '../../constants/operation-status';
+import { rawProvidersData } from '../../fixtures/raw-providers-data';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
+import { FiatRampsService } from '../../services/fiat-ramps.service';
 import { OperationsListItemComponent } from './operations-list-item.component';
 
 describe('OperationsListItemComponent', () => {
@@ -20,6 +22,7 @@ describe('OperationsListItemComponent', () => {
   let fakeNavController: FakeNavController;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsListItemComponent>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let fiatRampsService: jasmine.SpyObj<FiatRampsService>;
 
   const cashIn: FiatRampOperation = {
     operation_id: 53,
@@ -61,7 +64,10 @@ describe('OperationsListItemComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
-    apiWalletServiceSpy = jasmine.createSpyObj('FiatRampsService', {
+    fiatRampsService = jasmine.createSpyObj('FiatRampsService', {
+      getProvider: rawProvidersData[1],
+    });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoin: TEST_COINS[0],
     });
 
@@ -74,6 +80,7 @@ describe('OperationsListItemComponent', () => {
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: FiatRampsService, useValue: fiatRampsService },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

@@ -193,7 +193,7 @@ export class TokenDetailPage {
 
   async findProductToInvest() {
     this.allDefiProducts.find((product) => {
-      if (product.token().value === this.token.symbol()) {
+      if (product.token().value === this.token.symbol() && product.token().network === this.token.network()) {
         this.productToInvest = product;
       }
     });

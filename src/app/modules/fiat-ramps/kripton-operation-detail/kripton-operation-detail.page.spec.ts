@@ -92,6 +92,7 @@ describe('KriptonOperationDetailPage', () => {
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       setProvider: null,
       getUserSingleOperation: of([operation]),
+      getProvider: rawProvidersData[1],
     });
 
     fakeNavController = new FakeNavController();

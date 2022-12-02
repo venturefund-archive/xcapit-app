@@ -7,6 +7,8 @@ export interface Token {
 
   symbol(): string;
 
+  network(): string;
+
   decimals(): number;
 
   address(): string;
@@ -21,6 +23,10 @@ export class DefaultToken implements Token {
 
   symbol(): string {
     return this._rawData.value;
+  }
+
+  network(): string {
+    return this._rawData.network;
   }
 
   decimals(): number {
