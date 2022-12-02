@@ -5,7 +5,7 @@ import { SharedRampsModule } from '../shared-ramps/shared-ramps.module';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':step',
     component: PurchaseOrderPage
   }
 ];

@@ -18,14 +18,15 @@ import { TransactionDataService } from '../../wallets/shared-wallets/services/tr
   `,
   styleUrls: ['./error-operation-km.page.scss'],
 })
-export class ErrorOperationKmPage implements OnInit {
+export class ErrorOperationKmPage {
   data: any;
-  constructor() {}
+  constructor(private navController: NavController) {}
 
-  ngOnInit() {}
   ionViewWillEnter() {
     this.data = SUCCESS_TYPES.error_operation_km;
   }
 
-  goBackToDetail() {}
+  goBackToDetail() {
+    this.navController.navigateForward(['/fiat-ramps/purchase-order/2']);
+  }
 }

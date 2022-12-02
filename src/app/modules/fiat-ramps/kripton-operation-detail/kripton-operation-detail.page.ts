@@ -302,7 +302,7 @@ ionViewWillEnter() {
 
   async goToPurchaseOrder() {
     await this.setOperationStorage();
-    this.navController.navigateForward('fiat-ramps/purchase-order', { animated: false });
+    this.navController.navigateForward('/fiat-ramps/purchase-order/1', { animated: false });
   }
 
   async setOperationStorage() {
@@ -319,6 +319,7 @@ ionViewWillEnter() {
       provider: this.provider.id.toString(),
       network: this.token.network,
       operation_id: this.operation.operation_id,
+      created_at: this.operation.created_at,
     };
     this.storageOperationService.updateData(data);
   }

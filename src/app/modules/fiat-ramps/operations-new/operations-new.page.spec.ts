@@ -215,7 +215,7 @@ describe('OperationsNewPage', () => {
     expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledWith(data);
     expect(component.operationID).toEqual(335);
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(2);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order');
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order/1');
   });
 
   it('should call trackEvent on trackService when ux_buy_kripton_continue Button clicked', () => {
