@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { KriptonPurchaseInfoComponent } from './kripton-purchase-info.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('KriptonPurchaseInfoComponent', () => {
   let component: KriptonPurchaseInfoComponent;
