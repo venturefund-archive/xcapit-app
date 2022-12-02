@@ -68,7 +68,7 @@ import { Subject } from 'rxjs';
   `,
   styleUrls: ['./moonpay.page.scss'],
 })
-export class MoonpayPage implements OnInit {
+export class MoonpayPage {
   form: UntypedFormGroup = this.formBuilder.group({
     cryptoAmount: ['', Validators.required],
     fiatAmount: ['', Validators.required],
@@ -83,7 +83,6 @@ export class MoonpayPage implements OnInit {
   countries = COUNTRIES;
   fee = { value: 0, token: '' };
   price: number;
-  buyQuote = {};
   milliseconds = 15000;
   destroy$: Subject<void>;
 
@@ -102,8 +101,6 @@ export class MoonpayPage implements OnInit {
     private moonpayPrice: DynamicMoonpayPriceFactory
   ) {}
 
-  ngOnInit() {}
-
   async ionViewWillEnter() {
     this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('moonpay');
@@ -111,7 +108,6 @@ export class MoonpayPage implements OnInit {
     this.setFiatToken();
     this.setCryptoToken();
     this.cryptoPrice();
-    // this.fiatCryptoPrice();
     await this.initAssetsForm();
     this.subscribeToFormChanges();
   }
@@ -134,11 +130,15 @@ export class MoonpayPage implements OnInit {
   }
 
   async openMoonpay() {
-    //TODO: Cambiar por logica extendida, deberia llevar cantidad de token a comprar
     const blockchain = this.blockchains.create().oneByName(this.selectedCurrency.network);
     const wallet = await this.wallets.create().oneBy(blockchain);
     this.fiatRampsService
-      .getMoonpayLink(wallet.address(), this.form.value.currency.moonpayCode)
+      .getMoonpayRedirectLink(
+        wallet.address(),
+        this.selectedCurrency.moonpayCode,
+        this.fiatCurrency,
+        this.form.value.fiatAmount
+      )
       .toPromise()
       .then(async (link) => {
         this.success().then(() => {
@@ -153,7 +153,7 @@ export class MoonpayPage implements OnInit {
   }
 
   addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
-    return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.form.value.currency);
+    return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.selectedCurrency);
   }
 
   async openModal(event) {
@@ -165,16 +165,8 @@ export class MoonpayPage implements OnInit {
   }
 
   setFiatToken() {
-    console.log('3/4, setting fiat token');
-    // this.fiatCurrency = this.country.isoCurrencyCodeMoonpay; // IDENTICO A ISO
-    //TODO: VERIFICAR SI USAMOS ISO4217 O REPLICAMOS EL MOONPAY CODE EN TODAS LAS INVOLUCRADAS
-    // esperar respuesta de Nica
     this.fiatCurrency = this.country.iso4217CurrencyCode;
-    console.log('fiatCurrency: ', this.fiatCurrency);
-    // this.fiatCurrency = this.countryIsoCodeAlpha3; ESTO DEVUELVE EL FIAT NAME UNICAMENTE
     this.fee.token = this.fiatCurrency;
-    console.log('fee.token: ', this.fee.token);
-    console.log('fee (object): ', this.fee);
   }
 
   setCryptoToken() {
@@ -192,10 +184,7 @@ export class MoonpayPage implements OnInit {
   }
 
   private fiatAmountChange(value: number) {
-    console.log('valor ingresado en fiat: ', value);
-    //ERROR EN AUTOCOMPLETADO DE INPUTS, RoundedNumber funciona bien
     const roundedValue = new RoundedNumber(value).value();
-    console.log('roundedValue: ', roundedValue);
     this.form.patchValue(
       { fiatAmount: roundedValue, cryptoAmount: roundedValue / this.price },
       this.defaultPatchValueOptions()
@@ -212,7 +201,7 @@ export class MoonpayPage implements OnInit {
   }
 
   private updateAmounts(): void {
-    if (this.form.value.fiatAmount && this.form.value.cryptoAmount) {
+    if (this.form.value.cryptoAmount && this.form.value.fiatAmount) {
       this.form.patchValue(
         { fiatAmount: new RoundedNumber(this.form.value.cryptoAmount * this.price).value() },
         this.defaultPatchValueOptions()
@@ -220,17 +209,9 @@ export class MoonpayPage implements OnInit {
     }
   }
 
-  loadingFee() {
-    this.fee.value = undefined;
-  }
-
   resetInfo(aField: string) {
     this.form.patchValue({ [aField]: 0 }, this.defaultPatchValueOptions());
-    this.resetFee();
-  }
-
-  resetFee() {
-    this.fee.value = 0;
+    this.getFee();
   }
 
   async getFee() {
