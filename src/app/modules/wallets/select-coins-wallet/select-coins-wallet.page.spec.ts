@@ -28,6 +28,7 @@ import {
 } from '../shared-wallets/constants/coins.test';
 import { SELECT_COINS_FORM_DATA } from './form-data.spec';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StorageAsset } from '../shared-wallets/interfaces/storage-asset.interface';
 
 describe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
@@ -116,17 +117,12 @@ describe('SelectCoinsWalletPage', () => {
   }));
 
   it('should autosave when form updates', fakeAsync(() => {
-    const assets = {
-      ETH: true,
-      UNI: true,
-      LINK: false,
-      USDT: false,
-      MATIC: true,
-      RBTC: false,
-      RIF: false,
-      BNB: false,
-      SOL: true,
-    };
+    const assets: StorageAsset[] = [
+      { value: 'ETH', network: 'ERC20' },
+      { value: 'UNI', network: 'ERC20' },
+      { value: 'MATIC', network: 'MATIC' },
+      { value: 'SOL', network: 'SOLANA' },
+    ];
     fixture.detectChanges();
     component.ionViewWillEnter();
     tick();
@@ -137,17 +133,12 @@ describe('SelectCoinsWalletPage', () => {
   }));
 
   it('should autosave once when form updates multiple times', fakeAsync(() => {
-    const assets = {
-      ETH: true,
-      UNI: true,
-      LINK: false,
-      USDT: false,
-      MATIC: true,
-      RBTC: false,
-      RIF: false,
-      BNB: false,
-      SOL: true,
-    };
+    const assets: StorageAsset[] = [
+      { value: 'ETH', network: 'ERC20' },
+      { value: 'UNI', network: 'ERC20' },
+      { value: 'MATIC', network: 'MATIC' },
+      { value: 'SOL', network: 'SOLANA' },
+    ];
     fixture.detectChanges();
     component.ionViewWillEnter();
     tick();

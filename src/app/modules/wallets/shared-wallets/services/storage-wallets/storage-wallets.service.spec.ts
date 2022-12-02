@@ -91,10 +91,10 @@ describe('StorageService', () => {
       addresses: {
         ETH: 'testAddress',
       },
-      assets: {
-        ETH: true,
-        USDT: true,
-      },
+      assets: [
+        { value: 'ETH', network: 'ERC20' },
+        { value: 'USDT', network: 'ERC20' },
+      ],
       updatedAt: '2021-08-23T18:46:47Z',
     });
     TestBed.configureTestingModule({
@@ -104,7 +104,6 @@ describe('StorageService', () => {
       ],
     });
     service = TestBed.inject(StorageService);
-    service.allCoins = testCoins;
   });
 
   it('should be created', () => {
