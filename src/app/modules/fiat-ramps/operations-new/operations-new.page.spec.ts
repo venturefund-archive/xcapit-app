@@ -26,6 +26,7 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
 import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
@@ -38,7 +39,8 @@ const validForm = {
   acceptTOSAndPrivacyPolicy: true,
 };
 
-const data: OperationDataInterface = {
+const data = {
+  email: 'test@test.com',
   country: 'country',
   type: 'cash-in',
   amount_in: '100',
@@ -73,6 +75,7 @@ describe('OperationsNewPage', () => {
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
 
   beforeEach(waitForAsync(() => {
     navControllerSpy = new FakeNavController().createSpy();
@@ -100,6 +103,10 @@ describe('OperationsNewPage', () => {
 
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
       getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x00000000000000' } }),
+    });
+
+    kriptonStorageServiceSpy = jasmine.createSpyObj('KriptonStorageService', {
+      get: Promise.resolve('test@test.com'),
     });
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -152,6 +159,7 @@ describe('OperationsNewPage', () => {
         { provide: ProvidersFactory, useValue: providersFactorySpy },
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageServiceSpy },
       ],
     }).compileComponents();
   }));
