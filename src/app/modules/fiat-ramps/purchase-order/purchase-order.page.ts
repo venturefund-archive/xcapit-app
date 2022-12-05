@@ -14,6 +14,7 @@ import { OperationKmInProgressModalComponent } from '../shared-ramps/components/
 import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 @Component({
   selector: 'app-purchase-order',
@@ -133,7 +134,8 @@ export class PurchaseOrderPage {
     private navController: NavController,
     private platformService: PlatformService,
     private fiatRampsService: FiatRampsService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private kriptonStorageService: KriptonStorageService
   ) {}
 
   ionViewWillEnter() {
@@ -153,7 +155,8 @@ export class PurchaseOrderPage {
   }
 
   private getOperationCreationDate() {
-    this.dDay = addHours(this.data.created_at, 72);
+    const created_at = new Date(this.data.created_at);
+    this.dDay = addHours(created_at, 72);
   }
 
   private getOperationData() {
@@ -193,25 +196,25 @@ export class PurchaseOrderPage {
     } else {
       imageOptions.source = CameraSource.Photos;
     }
-    
+
     try {
       const photo = await this.cameraPlugin.getPhoto(imageOptions);
       this.storageOperationService.updateVoucher(photo);
       this.voucher = this.storageOperationService.getVoucher();
-      
+
       this.percentage = 100;
     } catch (error) {
       this.percentage = -1;
     }
   }
 
-  sendPicture() {
+  async sendPicture() {
     if (this.isSending) return;
 
     this.isSending = true;
-    const formData = new FormData();
-    formData.append('file', this.voucher.dataUrl);
-    this.fiatRampsService.confirmOperation(this.data.operation_id, formData).subscribe({
+    const email = await this.kriptonStorageService.get('email');
+    const data = { file: this.voucher.dataUrl, email };
+    this.fiatRampsService.confirmOperation(this.data.operation_id, data).subscribe({
       next: () => {
         this.data.voucher = true;
         this.openSuccessModal();
@@ -221,7 +224,7 @@ export class PurchaseOrderPage {
       },
       complete: () => {
         this.isSending = false;
-      }
+      },
     });
   }
 
