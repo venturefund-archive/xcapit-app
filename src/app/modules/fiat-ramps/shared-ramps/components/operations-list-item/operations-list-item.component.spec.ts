@@ -15,7 +15,7 @@ import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interfac
 import { FiatRampsService } from '../../services/fiat-ramps.service';
 import { OperationsListItemComponent } from './operations-list-item.component';
 
-describe('OperationsListItemComponent', () => {
+fdescribe('OperationsListItemComponent', () => {
   let component: OperationsListItemComponent;
   let fixture: ComponentFixture<OperationsListItemComponent>;
   let navControllerSpy: jasmine.SpyObj<NavController>;

@@ -8,7 +8,6 @@ const testCoin: Coin = {
   id: 0,
   name: 'ETH - Ethereum',
   logoRoute: 'assets/img/coins/ETH.svg',
-  last: false,
   value: 'ETH',
   network: 'ERC20',
   chainId: 42,

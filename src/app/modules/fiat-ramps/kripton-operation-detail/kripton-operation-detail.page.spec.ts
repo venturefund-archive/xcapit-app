@@ -22,7 +22,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { KriptonOperationDetailPage } from './kripton-operation-detail.page';
 
-describe('KriptonOperationDetailPage', () => {
+fdescribe('KriptonOperationDetailPage', () => {
   let component: KriptonOperationDetailPage;
   let fixture: ComponentFixture<KriptonOperationDetailPage>;
   let fakeRoute: FakeActivatedRoute;

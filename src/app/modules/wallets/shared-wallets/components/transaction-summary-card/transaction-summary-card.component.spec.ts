@@ -18,7 +18,6 @@ const summaryData: SummaryData = {
     id: 1,
     name: 'BTC - Bitcoin',
     logoRoute: '../../assets/img/coins/BTC.svg',
-    last: false,
     value: 'BTC',
     network: '',
     chainId: 42,
