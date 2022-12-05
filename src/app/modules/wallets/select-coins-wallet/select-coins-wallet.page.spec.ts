@@ -55,7 +55,7 @@ describe('SelectCoinsWalletPage', () => {
     [jasmine.createSpyObj('TestNativeToken', {}, { value: 'TNT', network: 'test2', native: true })],
   ];
 
-  const testSelectedTokens = [TEST_COINS[0], TEST_COINS[2], TEST_COINS[4], TEST_COINS[5], TEST_COINS[7], TEST_COINS[8]];
+  const testSelectedTokens = [TEST_COINS[0], TEST_COINS[2], TEST_COINS[4], TEST_COINS[5], TEST_COINS[8], TEST_COINS[9]];
 
   const formData = SELECT_COINS_FORM_DATA;
 

@@ -85,11 +85,23 @@ export const TEST_MATIC_COINS: Coin[] = [
     decimals: 18,
     native: true,
   },
+  {
+    id: 7,
+    name: 'USDC - Polygon',
+    logoRoute: 'assets/img/coins/USDC.svg',
+    value: 'USDC',
+    network: 'MATIC',
+    chainId: 80001,
+    moonpayCode: 'usdc_polygon',
+    rpc: 'http://testrpc.text/',
+    decimals: 18,
+    native: true,
+  },
 ];
 
 export const TEST_BSC_BEP20_COINS: Coin[] = [
   {
-    id: 7,
+    id: 8,
     name: 'BNB - Binance Coin',
     logoRoute: 'assets/img/coins/BNB.svg',
     value: 'BNB',
@@ -104,7 +116,7 @@ export const TEST_BSC_BEP20_COINS: Coin[] = [
 
 export const TEST_SOLANA_COINS: Coin[] = [
   {
-    id: 8,
+    id: 9,
     name: 'SOL - Solana',
     logoRoute: 'assets/img/coins/SOL.svg',
     value: 'SOL',

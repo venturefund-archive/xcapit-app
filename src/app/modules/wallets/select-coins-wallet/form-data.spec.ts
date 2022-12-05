@@ -8,6 +8,7 @@ export const SELECT_COINS_FORM_DATA = {
     },
     MATIC: {
       MATIC: true,
+      USDC: false,
     },
     RSK: {
       RBTC: false,
@@ -29,6 +30,7 @@ export const SELECT_COINS_FORM_DATA = {
     },
     MATIC: {
       MATIC: false,
+      USDC: false,
     },
     RSK: {
       RBTC: false,
@@ -50,6 +52,7 @@ export const SELECT_COINS_FORM_DATA = {
     },
     MATIC: {
       MATIC: true,
+      USDC: true,
     },
     RSK: {
       RBTC: true,
@@ -71,6 +74,7 @@ export const SELECT_COINS_FORM_DATA = {
     },
     MATIC: {
       MATIC: false,
+      USDC: false,
     },
     RSK: {
       RBTC: true,

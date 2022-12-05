@@ -22,7 +22,7 @@ import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { KriptonOperationDetailPage } from './kripton-operation-detail.page';
 
-fdescribe('KriptonOperationDetailPage', () => {
+describe('KriptonOperationDetailPage', () => {
   let component: KriptonOperationDetailPage;
   let fixture: ComponentFixture<KriptonOperationDetailPage>;
   let fakeRoute: FakeActivatedRoute;
@@ -45,7 +45,7 @@ fdescribe('KriptonOperationDetailPage', () => {
     status: 'request',
     currency_in: 'ARS',
     amount_in: 500.0,
-    currency_out: 'ETH',
+    currency_out: 'USDC',
     amount_out: 100.0,
     created_at: new Date('2021-02-27T10:02:49.719Z'),
     provider: '1',
@@ -82,7 +82,7 @@ fdescribe('KriptonOperationDetailPage', () => {
     });
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getCoin: TEST_COINS[0],
+      getCoin: TEST_COINS[7],
     });
 
     storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
@@ -174,7 +174,7 @@ fdescribe('KriptonOperationDetailPage', () => {
     expect(fiatAmount).toContain(operation.amount_in);
     expect(state).toBeTruthy();
     expect(toast).toBeTruthy();
-    expect(quotations).toContain('1 ETH = 5.00 ARS');
+    expect(quotations).toContain('1 USDC = 5.00 ARS');
     expect(address).toContain(operation.wallet_address);
     expect(operationNumber).toContain(operation.operation_id);
     expect(date).toContain('27/02/2021');

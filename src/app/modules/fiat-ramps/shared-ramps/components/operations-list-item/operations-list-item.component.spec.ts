@@ -15,7 +15,7 @@ import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interfac
 import { FiatRampsService } from '../../services/fiat-ramps.service';
 import { OperationsListItemComponent } from './operations-list-item.component';
 
-fdescribe('OperationsListItemComponent', () => {
+describe('OperationsListItemComponent', () => {
   let component: OperationsListItemComponent;
   let fixture: ComponentFixture<OperationsListItemComponent>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
@@ -29,7 +29,7 @@ fdescribe('OperationsListItemComponent', () => {
     amount_in: 32,
     currency_in: 'ARS',
     amount_out: 21,
-    currency_out: 'ETH',
+    currency_out: 'USDC',
     status: 'complete',
     created_at: new Date(),
     provider: '1',
@@ -42,7 +42,7 @@ fdescribe('OperationsListItemComponent', () => {
     amount_in: 32,
     currency_in: 'ARS',
     amount_out: 21,
-    currency_out: 'ETH',
+    currency_out: 'USDC',
     status: 'wait',
     created_at: new Date(),
     provider: '1',
@@ -55,7 +55,7 @@ fdescribe('OperationsListItemComponent', () => {
     amount_in: 32,
     currency_in: 'ARS',
     amount_out: 21,
-    currency_out: 'ETH',
+    currency_out: 'USDC',
     status: 'received',
     created_at: new Date(),
     provider: '1',
@@ -68,7 +68,7 @@ fdescribe('OperationsListItemComponent', () => {
       getProvider: rawProvidersData[1],
     });
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getCoin: TEST_COINS[0],
+      getCoin: TEST_COINS[7],
     });
 
     fakeNavController = new FakeNavController();
