@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CameraPlugin, Photo } from '@capacitor/camera';
@@ -16,6 +16,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { PurchaseOrderPage } from './purchase-order.page';
 
@@ -37,6 +38,7 @@ describe('PurchaseOrderPage', () => {
   let cameraSpy: jasmine.SpyObj<CameraPlugin>;
   let filesystemSpy: jasmine.SpyObj<FilesystemPlugin>;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
 
   const photo: Photo = {
     dataUrl: 'assets/img/coins/ETH.svg',
@@ -69,6 +71,9 @@ describe('PurchaseOrderPage', () => {
         modalText: 'fiat_ramps.shared.kripton_account_info.alias',
       }
     );
+    kriptonStorageServiceSpy = jasmine.createSpyObj('KriptonStorageService', {
+      get: Promise.resolve('test@test.com'),
+    });
     clipboardServiceSpy = jasmine.createSpyObj('ClipboardService', { write: Promise.resolve() });
     storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
       getData: {
@@ -110,6 +115,7 @@ describe('PurchaseOrderPage', () => {
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -239,39 +245,33 @@ describe('PurchaseOrderPage', () => {
   });
 
   it('should send photo and show success modal when finish button is clicked', async () => {
-    const formData = new FormData();
-    formData.append('file', photo.dataUrl);
-
+    const expectedData = { file: photo.dataUrl, email: 'test@test.com' };
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     component.ionViewWillEnter();
     fixture.detectChanges();
     component.percentage = 100;
     component.voucher = photo;
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
-
-    expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(component.data.operation_id, formData);
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(component.data.operation_id, expectedData);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should send photo and navigate to error when finish button is clicked', async () => {
-    const formData = new FormData();
-    formData.append('file', photo.dataUrl);
-
+    const expectedData = { file: photo.dataUrl, email: 'test@test.com' };
     fiatRampsServiceSpy.confirmOperation.and.returnValue(throwError('Test'));
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     component.ionViewWillEnter();
     fixture.detectChanges();
     component.percentage = 100;
     component.voucher = photo;
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_upload_photo"]')).nativeElement.click();
-
-    expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(component.data.operation_id, formData);
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(component.data.operation_id, expectedData);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/error-operation-km']);
   });
 });

@@ -125,7 +125,6 @@ export class OperationsNewPage implements AfterViewInit {
     thirdPartyTransaction: [false, [Validators.requiredTrue]],
     acceptTOSAndPrivacyPolicy: [false, [Validators.requiredTrue]],
   });
-  operationID: number;
 
   constructor(
     public submitButtonService: SubmitButtonService,
@@ -274,10 +273,12 @@ export class OperationsNewPage implements AfterViewInit {
       await this.setOperationStorage();
       const email = await this.kriptonStorageService.get('email');
       const operationData = Object.assign({ email }, this.storageOperationService.getData());
-      this.fiatRampsService.createOperation(operationData).subscribe((res) => {
-        this.operationID = res.id;
-      });
-      const newData = Object.assign({ operation_id: this.operationID }, this.storageOperationService.getData());
+      const operationResponse = await this.fiatRampsService.createOperation(operationData).toPromise();
+
+      const newData = Object.assign(
+        { operation_id: operationResponse.id, created_at: operationResponse.created_at },
+        this.storageOperationService.getData()
+      );
       this.storageOperationService.updateData(newData);
       this.navController.navigateRoot('/fiat-ramps/purchase-order/1');
     } else {

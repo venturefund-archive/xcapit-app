@@ -25,7 +25,6 @@ import { Providers } from '../shared-ramps/models/providers/providers.interface'
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
-import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 const links =
@@ -221,7 +220,6 @@ describe('OperationsNewPage', () => {
     await fixture.whenRenderingDone();
     await component.handleSubmit();
     expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledWith(data);
-    expect(component.operationID).toEqual(335);
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(2);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order/1');
   });
