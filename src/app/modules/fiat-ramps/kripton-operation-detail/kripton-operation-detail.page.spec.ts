@@ -23,6 +23,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
 import { KriptonOperationDetailPage } from './kripton-operation-detail.page';
 
 describe('KriptonOperationDetailPage', () => {
+  // TODO: Test bug
   let component: KriptonOperationDetailPage;
   let fixture: ComponentFixture<KriptonOperationDetailPage>;
   let fakeRoute: FakeActivatedRoute;
