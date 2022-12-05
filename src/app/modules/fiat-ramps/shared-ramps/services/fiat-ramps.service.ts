@@ -112,11 +112,18 @@ export class FiatRampsService {
     return this.http.post(`${environment.apiUrl}/${this.entity}/paxful/get_link`, { id_apikey: apikeyId });
   }
 
-  getMoonpayLink(walletAddress: string, currencyCode: string): Observable<any> {
+  getMoonpayRedirectLink(
+    walletAddress: string,
+    currencyCode: string,
+    baseCurrencyCode: string,
+    baseCurrencyAmount: number
+  ): Observable<any> {
     return this.http.post(`${environment.apiUrl}/on_off_ramps/moonpay/link`, {
       wallet_address: walletAddress,
       currency_code: currencyCode,
       publishable_key: environment.moonpayPK,
+      base_currency_code: baseCurrencyCode,
+      base_currency_amount: baseCurrencyAmount,
     });
   }
 
@@ -143,7 +150,19 @@ export class FiatRampsService {
 
   getMoonpayQuotation(currencyCode: string) {
     return this.http.get(
-      `${environment.moonpayApiUrl}/currencies/${currencyCode}/ask_price?apiKey=${environment.moonpayPK}`
+      `${environment.moonpayApiUrl}/currencies/${currencyCode}/ask_price?apiKey=${environment.moonpayPK}`,
+      undefined,
+      undefined,
+      false
+    );
+  }
+
+  getMoonpayBuyQuote(baseCurrencyAmount: number, currencyCode: string, fiatCode: string) {
+    return this.http.get(
+      `${environment.moonpayApiUrl}/currencies/${currencyCode}/buy_quote/?apiKey=${environment.moonpayPK}&baseCurrencyAmount=${baseCurrencyAmount}&extraFeePercentage=1&baseCurrencyCode=${fiatCode}&paymentMethod=credit_debit_card`,
+      undefined,
+      undefined,
+      false
     );
   }
 

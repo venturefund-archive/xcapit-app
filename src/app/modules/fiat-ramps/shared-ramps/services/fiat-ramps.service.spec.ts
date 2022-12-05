@@ -114,8 +114,8 @@ describe('FiatRampsService', () => {
     });
   });
 
-  it('should call post on http when getMoonpayLink', () => {
-    fiatRampsService.getMoonpayLink('0x0000', 'eth').subscribe(() => {
+  it('should call post on http when getMoonpayRedirectLink', () => {
+    fiatRampsService.getMoonpayRedirectLink('0x0000', 'eth', 'usd', 50).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
