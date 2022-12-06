@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
 import { FiatRampOperation } from '../interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
 import { Providers } from '../models/providers/providers.interface';
 import { ProvidersFactory } from '../models/providers/factory/providers.factory';
-import { HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { KriptonLoginSuccessResponse } from '../interfaces/kripton-login-success-response';
-import { catchError, map } from 'rxjs/operators';
-import { KriptonLoginErrorResponse } from '../interfaces/kripton-login-error-response';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -106,6 +103,15 @@ export class FiatRampsService {
       undefined,
       false
     );
+  }
+
+  getKriptonMinimumAmount(fiatCurrency: string, data: any): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/on_off_ramps/kripton/users/get_user_limits/${fiatCurrency}`,
+      data,
+      undefined,
+      false
+    )
   }
 
   getLink(apikeyId: number): Observable<any> {

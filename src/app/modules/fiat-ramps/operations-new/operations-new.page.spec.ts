@@ -88,6 +88,7 @@ describe('OperationsNewPage', () => {
       getOrCreateUser: of({}),
       setProvider: null,
       createOperation: of({ id: 335 }),
+      getKriptonMinimumAmount: of({ minimun_general: 2913 }),
     });
 
     coinsSpy = [
@@ -176,12 +177,12 @@ describe('OperationsNewPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set properly cryptoAmount form value with minimum crypto amount', () => {
+  it('should set properly fiatAmount form value with minimum fiat amount', async () => {
     dynamicKriptonPriceSpy.value.and.returnValue(of(1));
     component.ionViewWillEnter();
-    fixture.whenStable();
-    fixture.whenRenderingDone();
-    expect(component.form.controls.cryptoAmount.value).toEqual(25);
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fixture.detectChanges();
+    expect(component.form.controls.fiatAmount.value).toEqual(2913);
   });
 
   it('should set country, default currency, provider and price on init', () => {
@@ -269,14 +270,16 @@ describe('OperationsNewPage', () => {
     expect(completeSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should validate that the crypto amount equals the minimum value in dollars', () => {
+  it('should validate that the fiat amount equals the minimum value in fiat currency', async () => {
     dynamicKriptonPriceSpy.value.and.returnValue(of(1));
     component.ionViewWillEnter();
-    component.form.patchValue({ cryptoAmount: 1 });
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     fixture.detectChanges();
-    expect(component.form.controls.cryptoAmount.valid).toBeFalse();
-    component.form.patchValue({ cryptoAmount: 30 });
+    component.form.patchValue({ fiatAmount: 1 });
     fixture.detectChanges();
-    expect(component.form.controls.cryptoAmount.valid).toBeTrue();
+    expect(component.form.controls.fiatAmount.valid).toBeFalse();
+    component.form.patchValue({ fiatAmount: 2914 });
+    fixture.detectChanges();
+    expect(component.form.controls.fiatAmount.valid).toBeTrue();
   });
 });
