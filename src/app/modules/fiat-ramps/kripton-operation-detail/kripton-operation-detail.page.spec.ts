@@ -23,7 +23,6 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
 import { KriptonOperationDetailPage } from './kripton-operation-detail.page';
 
 describe('KriptonOperationDetailPage', () => {
-  // TODO: Test bug
   let component: KriptonOperationDetailPage;
   let fixture: ComponentFixture<KriptonOperationDetailPage>;
   let fakeRoute: FakeActivatedRoute;
@@ -253,5 +252,15 @@ describe('KriptonOperationDetailPage', () => {
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order/1', { animated: false });
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
+  });
+
+  it('should hide information icon when operation is complete', async() => {
+    const completeOperation: FiatRampOperation = { ...operation, status: 'complete' };
+    fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([completeOperation]));
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const infoIcon = fixture.debugElement.query(By.css('ion-icon[name="information-circle"]'));
+    expect(infoIcon).toBeNull();
   });
 });
