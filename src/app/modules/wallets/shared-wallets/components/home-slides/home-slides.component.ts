@@ -36,10 +36,10 @@ export class HomeSlidesComponent implements OnInit {
   ngOnInit() {
   }
 
-  navigateTo(slide){
+  async navigateTo(slide){
     const url = this.slides[slide].url;
     if(this.slides[slide].isBrowserOpen){
-      this.browserService.open({ url: url });
+     await this.browserService.open({ url: url });
     }else{
       this.navController.navigateForward(url)
     }
