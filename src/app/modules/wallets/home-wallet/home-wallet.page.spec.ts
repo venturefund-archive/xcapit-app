@@ -347,7 +347,6 @@ describe('HomeWalletPage', () => {
   });
 
   it('should render app-transaction-in-progress-card component', async () => {
-    component.swapInProgress = true;
     await fixture.whenRenderingDone();
     await fixture.whenStable();
     const componentEl = fixture.debugElement.queryAll(By.css('app-transaction-in-progress-card'));
@@ -375,13 +374,6 @@ describe('HomeWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get in progress the swap is finish', fakeAsync(() => {
-    component.ionViewWillEnter();
-    component.suscribleToSwapInProgress();
-    fixture.detectChanges();
-    tick(2);
-    expect(swapInProgressServiceSpy.inProgress).toBeTruthy(true);
-  }));
 
   it('should get on storage onInit', () => {
     component.ionViewWillEnter();
