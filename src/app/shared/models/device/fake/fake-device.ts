@@ -1,4 +1,4 @@
-import { DeviceWrapper } from '../device.interface';
+import { DeviceWrapper } from '../device-wrapper.interface';
 
 export class FakeDevice implements DeviceWrapper {
   constructor(private readonly languageResponse: Promise<any> = Promise.resolve()) {}
