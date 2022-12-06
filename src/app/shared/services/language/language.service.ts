@@ -37,7 +37,7 @@ export class LanguageService {
 
   async getDeviceDefaultLanguage(): Promise<string> {
     const lang = await this.deviceInjectable.create().getLanguageCode()
-    if (lang.value !== 'en' && lang.value !== 'es') {
+    if (lang.value !== 'en' && lang.value !== 'es' && lang.value !== 'pt') {
       lang.value = 'en';
     }
     return lang.value

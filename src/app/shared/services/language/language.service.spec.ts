@@ -34,7 +34,7 @@ describe('LanguageService', () => {
         { provide: TranslateService, useValue: translateServiceSpy },
         { provide: Storage, useValue: storageSpy },
         { provide: ApiProfilesService, useValue: apiProfilesServiceSpy },
-        { provide: DeviceInjectable, useValue: deviceInjectableSpy}
+        { provide: DeviceInjectable, useValue: deviceInjectableSpy },
       ],
     });
     service = TestBed.inject(LanguageService);
@@ -60,28 +60,28 @@ describe('LanguageService', () => {
     expect(apiProfilesServiceSpy.setLanguage).toHaveBeenCalledOnceWith('en');
   }));
 
-  it('should default to device language (spanish) on setInitialAppLanguage when there is no selected language', fakeAsync(() => {
+  it('should default to english when device language is not a selectable app language on setInitialAppLanguage when there is no selected language', fakeAsync(() => {
     storageSpy.get.and.returnValue(Promise.resolve(undefined));
-    const deviceResponse = new FakeDevice(Promise.resolve({value: 'es'}))
-    deviceInjectableSpy.create.and.returnValue(deviceResponse)
-    service.setInitialAppLanguage();
-    tick();
-
-    expect(translateServiceSpy.use).toHaveBeenCalledOnceWith('es');
-    expect(storageSpy.set).toHaveBeenCalledOnceWith('SELECTED_LANGUAGE', 'es');
-    expect(apiProfilesServiceSpy.setLanguage).toHaveBeenCalledOnceWith('es');
-  }));
-
-  it('should default to english when device language is not english or spanish on setInitialAppLanguage when there is no selected language', fakeAsync(() => {
-    storageSpy.get.and.returnValue(Promise.resolve(undefined));
-    const deviceResponse = new FakeDevice(Promise.resolve({value: 'br'}))
-    deviceInjectableSpy.create.and.returnValue(deviceResponse)
+    const deviceResponse = new FakeDevice(Promise.resolve({ value: 'xx' }));
+    deviceInjectableSpy.create.and.returnValue(deviceResponse);
     service.setInitialAppLanguage();
     tick();
 
     expect(translateServiceSpy.use).toHaveBeenCalledOnceWith('en');
     expect(storageSpy.set).toHaveBeenCalledOnceWith('SELECTED_LANGUAGE', 'en');
     expect(apiProfilesServiceSpy.setLanguage).toHaveBeenCalledOnceWith('en');
+  }));
+
+  it('should default to device language (spanish) on setInitialAppLanguage when there is no selected language', fakeAsync(() => {
+    storageSpy.get.and.returnValue(Promise.resolve(undefined));
+    const deviceResponse = new FakeDevice(Promise.resolve({ value: 'es' }));
+    deviceInjectableSpy.create.and.returnValue(deviceResponse);
+    service.setInitialAppLanguage();
+    tick();
+
+    expect(translateServiceSpy.use).toHaveBeenCalledOnceWith('es');
+    expect(storageSpy.set).toHaveBeenCalledOnceWith('SELECTED_LANGUAGE', 'es');
+    expect(apiProfilesServiceSpy.setLanguage).toHaveBeenCalledOnceWith('es');
   }));
 
   it('should default to device language (english) on setInitialAppLanguage when there is no selected language', fakeAsync(() => {
@@ -92,6 +92,18 @@ describe('LanguageService', () => {
     expect(translateServiceSpy.use).toHaveBeenCalledOnceWith('en');
     expect(storageSpy.set).toHaveBeenCalledOnceWith('SELECTED_LANGUAGE', 'en');
     expect(apiProfilesServiceSpy.setLanguage).toHaveBeenCalledOnceWith('en');
+  }));
+
+  it('should default to device language (portuguese) on setInitialAppLanguage when there is no selected language', fakeAsync(() => {
+    storageSpy.get.and.returnValue(Promise.resolve(undefined));
+    const deviceResponse = new FakeDevice(Promise.resolve({ value: 'pt' }));
+    deviceInjectableSpy.create.and.returnValue(deviceResponse);
+    service.setInitialAppLanguage();
+    tick();
+
+    expect(translateServiceSpy.use).toHaveBeenCalledOnceWith('pt');
+    expect(storageSpy.set).toHaveBeenCalledOnceWith('SELECTED_LANGUAGE', 'pt');
+    expect(apiProfilesServiceSpy.setLanguage).toHaveBeenCalledOnceWith('pt');
   }));
 
   it('should get language from storage', () => {
