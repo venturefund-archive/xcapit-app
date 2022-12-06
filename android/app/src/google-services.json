@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "247745125245",
+    "project_id": "nonprod-xcapit-app",
+    "storage_bucket": "nonprod-xcapit-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247745125245:android:0c5b3af4dbb18272044a14",
+        "android_client_info": {
+          "package_name": "com.xcapit.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247745125245-ms6lg4cfa74hoq2975s1v41nrpnqr15i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUBwKtpZwO6AF7AeQY4v6JW9OjwePNpWo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "247745125245-ms6lg4cfa74hoq2975s1v41nrpnqr15i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
