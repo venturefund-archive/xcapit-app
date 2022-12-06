@@ -112,7 +112,7 @@ import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/fa
         <app-wallet-subheader-buttons></app-wallet-subheader-buttons>
       </div>
       <div>   
-        <app-home-slides  *ngIf="this.slides.length > 0 "[slides]="this.slides"></app-home-slides>
+        <app-home-slides *ngIf="this.slides.length > 0 "[slides]="this.slides"></app-home-slides>
       </div>
       <div class="wt__backup" *ngIf="!this.protectedWallet">
         <app-backup-information-card
@@ -436,10 +436,6 @@ export class HomeWalletPage implements OnInit {
 
   async isProtectedWallet() {
     this.protectedWallet = await this.ionicStorageService.get('protectedWallet');
-  }
-
-  goToRecoveryWallet(): void {
-    this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
   }
 
   goToSelectCoins(): void {
