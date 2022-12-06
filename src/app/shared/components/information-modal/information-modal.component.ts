@@ -14,8 +14,7 @@ import { OperationStatus } from 'src/app/modules/fiat-ramps/shared-ramps/interfa
       <div class="main__body__content">
         <ion-label class="ux-font-text-lg main__body__content__title">{{ this.title }} </ion-label>
         <app-operation-status-chip [statusName]="this.status"></app-operation-status-chip>
-        <ion-label *ngIf="this.description" class="ion-no-margin ux-font-text-base main__body__content__description">
-          {{ this.description }}
+        <ion-label *ngIf="this.description" class="ion-no-margin ux-font-text-base main__body__content__description" [innerHTML]="this.description">
         </ion-label>
         <ion-label *ngIf="this.description2" class="ion-no-margin ux-font-text-base main__body__content__description2">
           {{ this.description2 }}

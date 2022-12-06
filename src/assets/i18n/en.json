@@ -2408,7 +2408,7 @@
       "title": "What does this status mean?",
       "button": "Understood",
       "incomplete": {
-        "description": "Your purchase request has been successfully received by the provider. This does not mean that the purchase has been made. To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
+        "description": "Your purchase request has been successfully received by the provider. <b>This does not mean that the purchase has been made.</b> To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
         "description2": "You have up to 72 hours to do so, otherwise your order will be cancelled."
       },
       "in_progress": {
