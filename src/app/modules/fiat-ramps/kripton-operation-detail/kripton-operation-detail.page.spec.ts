@@ -19,6 +19,7 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { FakeProviders } from '../shared-ramps/models/providers/fake/fake-providers';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { KriptonOperationDetailPage } from './kripton-operation-detail.page';
 
@@ -38,6 +39,7 @@ describe('KriptonOperationDetailPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
+  let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
 
   const operation: FiatRampOperation = {
     operation_id: 678,
@@ -94,6 +96,10 @@ describe('KriptonOperationDetailPage', () => {
       getUserSingleOperation: of([operation]),
     });
 
+    kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
+      get: Promise.resolve('test@test.com'),
+    });
+
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
 
@@ -112,8 +118,8 @@ describe('KriptonOperationDetailPage', () => {
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: ModalController, useValue: modalControllerSpy },
-        { provide: StorageOperationService, useValue: storageOperationServiceSpy}
-
+        { provide: StorageOperationService, useValue: storageOperationServiceSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -199,6 +205,7 @@ describe('KriptonOperationDetailPage', () => {
 
   it('should show info modal when info button is clicked', async () => {
     component.ionViewWillEnter();
+    await fixture.whenStable();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -207,6 +214,7 @@ describe('KriptonOperationDetailPage', () => {
   it('should show correct text when info button is clicked and status is incomplete', async () => {
     operation.status = 'request';
     component.ionViewWillEnter();
+    await fixture.whenStable();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -217,6 +225,7 @@ describe('KriptonOperationDetailPage', () => {
   it('should show correct text when info button is clicked and status is in progress', async () => {
     operation.status = 'received';
     component.ionViewWillEnter();
+    await fixture.whenStable();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -226,6 +235,7 @@ describe('KriptonOperationDetailPage', () => {
   it('should show correct text when info button is clicked and status is nullified', async () => {
     operation.status = 'refund';
     component.ionViewWillEnter();
+    await fixture.whenStable();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -235,13 +245,14 @@ describe('KriptonOperationDetailPage', () => {
   it('should show correct text when info button is clicked and status is cancelled', async () => {
     operation.status = 'cancel';
     component.ionViewWillEnter();
+    await fixture.whenStable();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(component.description).toEqual(`fiat_ramps.operation_status_detail.cancelled.description`);
   });
 
-  it('should set operation storage data and redirect to purchase order when event was triggered', async() => {
+  it('should set operation storage data and redirect to purchase order when event was triggered', async () => {
     const incompleteOperation: FiatRampOperation = { ...operation, status: 'request' };
     fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([incompleteOperation]));
     component.ionViewWillEnter();
@@ -250,7 +261,9 @@ describe('KriptonOperationDetailPage', () => {
     fixture.debugElement.query(By.css('app-operation-status-alert')).triggerEventHandler('goToPurchaseOrder');
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order/1', { animated: false });
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order/1', {
+      animated: false,
+    });
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
   });
 });

@@ -77,6 +77,7 @@ export class HomeOfPurchasesPage {
   };
   disabledStatusCard = true;
   isLogged: boolean;
+  email: string;
 
   constructor(
     private fiatRampsService: FiatRampsService,
@@ -89,6 +90,7 @@ export class HomeOfPurchasesPage {
   ) {}
 
   async ionViewWillEnter() {
+    await this.getUserEmail();
     this.checkIfUserIsLogged();
     await this.getUserStatus();
     this.setCorrectDataByStatus();
@@ -104,7 +106,7 @@ export class HomeOfPurchasesPage {
   }
 
   getOperations(): void {
-    this.fiatRampsService.getUserOperations().subscribe((data) => {
+    this.fiatRampsService.getUserOperations({email: this.email}).subscribe((data) => {
       this.operationsList = data;
     });
   }
@@ -128,12 +130,12 @@ export class HomeOfPurchasesPage {
     this.navController.navigateForward(url);
   }
 
-  private _getUserEmail() {
-    return this.kriptonStorage.get('email');
+  private async getUserEmail() {
+    this.email= await this.kriptonStorage.get('email');
   }
 
   async getUserStatus() {
-    this.userStatus = await this.fiatRampsService.getOrCreateUser({ email: await this._getUserEmail() }).toPromise();
+    this.userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.email }).toPromise();
   }
 
   setCorrectDataByStatus() {
