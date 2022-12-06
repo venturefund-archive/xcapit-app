@@ -94,7 +94,7 @@ export class SelectCoinsWalletPage implements OnInit {
 
   async updateTokens() {
     this.setAllSelected();
-    let userCoins = [];
+    const userCoins = [];
     Object.entries(this.form.value).forEach((network) => {
       Object.entries(network[1]).forEach((coin) => {
         if (coin[1])

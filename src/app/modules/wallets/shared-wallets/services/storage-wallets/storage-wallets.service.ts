@@ -64,7 +64,7 @@ export class StorageService {
     const wallets = await this.getWalletFromStorage();
     let userCoins = [];
 
-    if (Boolean(wallets)) {
+    if (wallets) {
       userCoins = this.coins.filter(coin => {
         return wallets.assets.find(userCoin => coin.value === userCoin.value && coin.network === userCoin.network);
       });
