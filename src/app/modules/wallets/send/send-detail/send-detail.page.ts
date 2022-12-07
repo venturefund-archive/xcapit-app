@@ -19,11 +19,8 @@ import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DynamicPriceFactory } from '../../../../shared/models/dynamic-price/factory/dynamic-price-factory';
 import { Amount } from 'src/app/modules/defi-investments/shared-defi-investments/types/amount.type';
-import { ToastWithButtonsComponent } from 'src/app/modules/defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 import { TranslateService } from '@ngx-translate/core';
 import { InfoSendModalComponent } from '../../shared-wallets/components/info-send-modal/info-send-modal.component';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
 import { Blockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain/blockchain';
 import { RawBlockchain } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
@@ -45,6 +42,7 @@ import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallet
 import { Wallet } from 'src/app/modules/swaps/shared-swaps/models/wallet/wallet';
 import { SolanaNativeSendTx } from '../../shared-wallets/models/solana-native-send-tx/solana-native-send-tx';
 import { SolanaFeeOfInjectable } from '../../shared-wallets/models/solana-fee-of/injectable/solana-fee-of-injectable';
+import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 
 @Component({
   selector: 'app-send-detail',
@@ -161,7 +159,6 @@ export class SendDetailPage {
   private blockchain: Blockchain;
   private priceRefreshInterval = 15000;
 
-  url: string;
   form: UntypedFormGroup = this.formBuilder.group({
     address: ['', [Validators.required]],
     amount: ['', [Validators.required, CustomValidators.greaterThan(0)]],
@@ -181,8 +178,6 @@ export class SendDetailPage {
     private dynamicPriceFactory: DynamicPriceFactory,
     private modalController: ModalController,
     private translate: TranslateService,
-    private storage: IonicStorageService,
-    private tokenOperationDataService: TokenOperationDataService,
     private blockchains: BlockchainsFactory,
     private gasStation: GasStationOfFactory,
     private tokenDetailInjectable: TokenDetailInjectable,
@@ -199,7 +194,6 @@ export class SendDetailPage {
     await this.setTokenDetail();
     await this.setAddressValidator();
     this.getPrices();
-    this.setUrlToBuyCrypto();
     await this.tokenBalances();
   }
 
@@ -315,7 +309,9 @@ export class SendDetailPage {
       if (this.form.valid) {
         await this.setAllFeeData();
         await this.checkEnoughBalance();
-      } else this.resetFee();
+      } else {
+        this.resetFee();
+      }
     });
   }
 
@@ -363,7 +359,7 @@ export class SendDetailPage {
       new SolanaNativeSendTx(
         await this.walletsFactory.create().oneBy(this.blockchain),
         this.form.value.address,
-        this.form.value.amount
+        new WeiOf(this.form.value.amount, this.blockchain.nativeToken().json()).value().toNumber()
       ),
       this.blockchain
     ).value() : 0;
@@ -436,35 +432,17 @@ export class SendDetailPage {
     }
   }
 
-  async setUrlToBuyCrypto() {
-    const conditionsPurchasesAccepted = await this.storage.get('conditionsPurchasesAccepted');
-    this.tokenOperationDataService.tokenOperationData = {
-      asset: this.tplNativeToken?.value,
-      network: this.tplNativeToken?.network,
-    };
-    this.url = !conditionsPurchasesAccepted ? 'fiat-ramps/buy-conditions' : 'fiat-ramps/select-provider';
-    return this.url;
-  }
-
   async openModalBalance() {
     const modal = await this.modalController.create({
-      component: ToastWithButtonsComponent,
+      component: BuyOrDepositTokenToastComponent,
       cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
       componentProps: {
-        text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
-          nativeToken: this.nativeToken.symbol(),
-        }),
-        firstButtonName: this.translate.instant('defi_investments.confirmation.buy_button', {
-          nativeToken: this.nativeToken.symbol(),
-        }),
-        secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
-          nativeToken: this.nativeToken.symbol(),
-        }),
-        firstLink: this.url,
-        secondLink: '/wallets/receive/detail',
-        data: this.nativeToken.json(),
+        text: 'defi_investments.confirmation.informative_modal_fee',
+        primaryButtonText: 'defi_investments.confirmation.buy_button',
+        secondaryButtonText: 'defi_investments.confirmation.deposit_button',
+        token: this.nativeToken,
       },
     });
     if (window.location.href === this.modalHref) {

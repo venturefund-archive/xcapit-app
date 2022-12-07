@@ -33,6 +33,34 @@
       &__form {
         padding-left: 16px;
         padding-right: 16px;
+
+        ion-text {
+          color: var(--ion-color-primary);
+        }
+
+        &__token {
+          padding-top: 24px;
+        }
+
+        &__token_error {
+          ::ng-deep ion-item.ux_input_container__item {
+            border: 2px solid var(--ion-color-dangerdark);
+          }
+
+          &__description {
+            display: flex;
+            margin-top: 5px;
+
+            ion-icon {
+              color: var(--ion-color-dangerdark);
+              margin-right: 6px;
+            }
+
+            ion-text {
+              color: var(--ion-color-dangerdark);
+            }
+          }
+        }
       }
 
       &__card {
@@ -44,6 +72,25 @@
     &__footer {
       box-shadow: 0 0 16px rgb(28 45 94 / 20%);
       border-radius: 8px 8px 0 0;
+
+      &__resend-email {
+        margin-top: 16px;
+        margin-bottom: -4px;
+
+        &__title {
+          display: flex;
+          justify-content: center;
+          gap: 6px;
+
+          ion-text {
+            color: var(--ion-color-neutral80);
+          }
+        }
+
+        &__link {
+          text-align: center;
+        }
+      }
     }
   }
 }

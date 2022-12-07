@@ -48,7 +48,9 @@ import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { Observable, Subject } from 'rxjs';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { LoginToken } from '../../users/shared-users/models/login-token/login-token';
-import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
+import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
+import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
+import { SwapInProgressService } from '../shared-swaps/services/swap-in-progress/swap-in-progress.service';
 
 @Component({
   selector: 'app-swap-home',
@@ -103,12 +105,13 @@ import { IonicStorageService } from '../../../shared/services/ionic-storage/ioni
                 <div class="sw__swap-card__from__detail__amount__wrapper">
                   <ion-input
                     appNumberInput
+                    appCommaToDot
                     [disabled]="this.sameTokens"
                     [ngClass]="{ insufficient: this.insufficientBalance }"
                     class="sw__swap-card__from__detail__amount__wrapper__input"
                     formControlName="fromTokenAmount"
-                    type="number"
-                    inputmode="numeric"
+                    type="text"
+                    inputmode="decimal"
                   ></ion-input>
                   <ion-button
                     (click)="this.setMaxAmount()"
@@ -228,6 +231,7 @@ export class SwapHomePage {
   private fromTokenKey = 'fromToken';
   private toTokenKey = 'toToken';
   private priceRefreshInterval = 15000;
+  private tokensAvailableForPurchase: Coin[];
   destroy$ = new Subject<void>();
   swapBalance = 0;
   feeBalance = 0;
@@ -254,6 +258,7 @@ export class SwapHomePage {
   toTokenUSDAmount = 0;
   blockchainName: string;
   url: string;
+  modalHref: string;
 
   constructor(
     private apiWalletService: ApiWalletService,
@@ -276,7 +281,8 @@ export class SwapHomePage {
     private translate: TranslateService,
     private oneInchBlockchainsOf: OneInchBlockchainsOfFactory,
     private dynamicPriceFactory: DynamicPriceFactory,
-    private storage: IonicStorageService
+    private storage: IonicStorageService,
+    private swapInProgressService: SwapInProgressService
   ) {}
 
   private async setSwapInfo(fromTokenAmount: string) {
@@ -288,6 +294,9 @@ export class SwapHomePage {
 
   private async setFeeInfo() {
     this.tplFee = (await this.gasPrice()).times(this.tplSwapInfo.estimatedGas).json();
+    if (this._isNativeToken()) {
+      this.tplFee.value += (this.tplFee.value * 25) / 100;
+    }
   }
 
   private setNullFeeInfo() {
@@ -305,6 +314,7 @@ export class SwapHomePage {
   }
 
   async ionViewDidEnter() {
+    this.modalHref = window.location.href;
     this.checkBalance();
     this.trackPage();
     this.subscribeToFromTokenAmountChanges();
@@ -313,17 +323,28 @@ export class SwapHomePage {
     this.setNullFeeInfo();
     this.setDex();
     this.setTokens();
-    this.setFeeInfo();
     await this.setTokensToSwap(
       this.route.snapshot.paramMap.get(this.fromTokenKey),
       this.route.snapshot.paramMap.get(this.toTokenKey)
     );
+    this.setFeeInfo();
     this.setQuotePrices();
+    this.setTokenAmount();
   }
 
   setAllowedBlockchains() {
     this.allowedBlockchains = this.oneInchBlockchainsOf.create(this.blockchains.create());
     this.tplAllowedBlockchainsName = this.allowedBlockchains.value().map((blockchain) => blockchain.name());
+  }
+
+  private setTokenAmount() {
+    if (this.fromTokenAmount()) {
+      this.form.patchValue({ fromTokenAmount: this.fromTokenAmount() });
+    }
+  }
+
+  private fromTokenAmount() {
+    return this.route.snapshot.queryParamMap.get('from-token-amount');
   }
 
   private setQuotePrices() {
@@ -368,7 +389,7 @@ export class SwapHomePage {
     const aToken = this.apiWalletService.getCoin(aCoin);
     this.swapBalance = await this.walletBalance.balanceOf(aToken);
     if (aToken.native) {
-      this.feeBalance = this.swapBalance;
+      this.feeBalance = this.tplFee.value;
     } else {
       const aNativeToken = this.apiWalletService.getNativeTokenFromNetwork(aToken.network);
       this.feeBalance = await this.walletBalance.balanceOf(aNativeToken);
@@ -380,10 +401,15 @@ export class SwapHomePage {
       .get('fromTokenAmount')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(async (value) => {
+        if (value > this.swapBalance) {
+          this.showInsufficientBalanceModal();
+        }
         this.setNullFeeInfo();
         await this.setSwapInfo(value);
-        this.setFeeInfo();
+        await this.setFeeInfo();
+        await this.balanceAvailableOf(this.fromToken.symbol());
         this.setUSDPrices(value);
+        this.checkFee(value);
       });
   }
 
@@ -423,12 +449,16 @@ export class SwapHomePage {
       this.toToken.address(),
       'token-to-select',
       tokenToSelect,
+      'from-token-amount',
+      this.form.value.fromTokenAmount,
     ]);
   }
 
   private async setTokensToSwap(fromTokenAddress: string, toTokenAddress: string) {
     this.fromToken = await new TokenByAddress(fromTokenAddress, this.tokens).value();
+
     this.tplFromToken = this.fromToken.json();
+
     this.toToken = await new TokenByAddress(toTokenAddress, this.tokens).value();
     this.tplToToken = this.toToken.json();
     await this.balanceAvailableOf(this.fromToken.symbol());
@@ -478,6 +508,7 @@ export class SwapHomePage {
     const password = new Password(data);
     if (await this.validPassword(password)) {
       this.showSwapInProgressModal();
+      this.swapInProgressService.startSwap();
     } else {
       throw new Error(new PasswordErrorMsgs().invalid());
     }
@@ -510,6 +541,9 @@ export class SwapHomePage {
       .catch((err: Error) => {
         this.handleError(err);
         this.resetMainButton();
+      })
+      .finally(() => {
+        this.swapInProgressService.finishSwap();
       });
   }
 
@@ -541,7 +575,7 @@ export class SwapHomePage {
   private navigateToTokenDetail() {
     this.navController.navigateForward([
       'wallets/token-detail/blockchain',
-      this.activeBlockchain.name,
+      this.activeBlockchain.name(),
       'token',
       this.toToken.symbol(),
     ]);
@@ -573,25 +607,80 @@ export class SwapHomePage {
     await modal.present();
   }
 
-  setMaxAmount() {
-    this.form.get('fromTokenAmount').setValue(this.swapBalance);
+  async setMaxAmount() {
+    if (this._isNativeToken()) {
+      await this.setSwapInfo(this.swapBalance.toString());
+      await this.setFeeInfo();
+    }
+
+    this.form.get('fromTokenAmount').setValue(this._maxAmount());
     this.form.updateValueAndValidity();
+  }
+
+  private _maxAmount() {
+    return this._isNativeToken() ? Math.max(this.swapBalance - this.tplFee.value, 0) : this.swapBalance;
+  }
+  private _isNativeToken() {
+    return this.fromToken.symbol() === this.activeBlockchain.nativeToken().symbol();
   }
 
   checkBalance() {
     this.form.get('fromTokenAmount').valueChanges.subscribe((value) => {
-      if (value > this.swapBalance) {
-        this.disableMainButton();
-        this.insufficientBalance = true;
-      } else {
-        this.insufficientBalance = false;
-        this.enabledMainButton();
-      }
+      this.disableMainButton();
+      this.insufficientBalance = true;
     });
+  }
+
+  checkFee(value: number) {
+    if (value <= this.swapBalance) {
+      if (this.fromToken.json().native) {
+        if (value + this.tplFee.value > this.swapBalance) {
+          this.showInsufficientBalanceFeeModal();
+        } else {
+          this.enabledMainButton();
+          this.insufficientBalance = false;
+        }
+      } else {
+        if (this.tplFee.value > this.feeBalance) {
+          this.showInsufficientBalanceFeeModal();
+        } else {
+          this.enabledMainButton();
+          this.insufficientBalance = false;
+        }
+      }
+    }
   }
 
   trackClickEventName(blockchain: string) {
     this.blockchainName = `ux_swap_${blockchain.toLowerCase()}`;
     this.url = `/swaps/home/blockchain/${blockchain}`;
+  }
+
+  showInsufficientBalanceFeeModal() {
+    const text = 'swaps.home.balance_modal.insufficient_balance_fee.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance_fee.secondaryButtonName';
+    this.openModalBalance(this.activeBlockchain.nativeToken(), text, primaryButtonText, secondaryButtonText);
+  }
+
+  showInsufficientBalanceModal() {
+    const text = 'swaps.home.balance_modal.insufficient_balance.text';
+    const primaryButtonText = 'swaps.home.balance_modal.insufficient_balance.firstButtonName';
+    const secondaryButtonText = 'swaps.home.balance_modal.insufficient_balance.secondaryButtonName';
+    this.openModalBalance(this.fromToken, text, primaryButtonText, secondaryButtonText);
+  }
+
+  async openModalBalance(token: Token, text: string, primaryButtonText: string, secondaryButtonText: string) {
+    const modal = await this.modalController.create({
+      component: BuyOrDepositTokenToastComponent,
+      cssClass: 'ux-toast-warning-with-margin',
+      showBackdrop: false,
+      id: 'feeModal',
+      componentProps: { token, text, primaryButtonText, secondaryButtonText },
+    });
+    if (window.location.href === this.modalHref) {
+      await modal.present();
+    }
+    await modal.onDidDismiss();
   }
 }

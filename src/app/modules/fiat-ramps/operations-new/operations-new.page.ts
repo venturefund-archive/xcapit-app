@@ -4,19 +4,15 @@ import { Validators, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms
 import { ModalController, NavController } from '@ionic/angular';
 import { SubmitButtonService } from 'src/app/shared/services/submit-button/submit-button.service';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
-import {
-  StorageOperationService,
-} from '../shared-ramps/services/operation/storage-operation.service';
+import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { BrowserService } from '../../../shared/services/browser/browser.service';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
 import { HttpClient } from '@angular/common/http';
-import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
-import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
+import { DynamicKriptonPriceFactory } from '../shared-ramps/models/kripton-price/factory/dynamic-kripton-price-factory';
 import { FiatRampProvider } from '../shared-ramps/interfaces/fiat-ramp-provider.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { ProviderTokensOf } from '../shared-ramps/models/provider-tokens-of/provider-tokens-of';
@@ -24,6 +20,10 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
 import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 import { OperationDataInterface } from '../shared-ramps/interfaces/operation-data.interface';
+import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
+import { DefaultKriptonPrice } from '../shared-ramps/models/kripton-price/default-kripton-price';
+import { takeUntil } from 'rxjs/operators';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 @Component({
   selector: 'app-operations-new',
   template: `
@@ -137,10 +137,11 @@ export class OperationsNewPage implements AfterViewInit {
     private elementRef: ElementRef,
     private browserService: BrowserService,
     private http: HttpClient,
-    private kriptonDynamicPrice: KriptonDynamicPriceFactory,
+    private kriptonDynamicPrice: DynamicKriptonPriceFactory,
     private providers: ProvidersFactory,
     private tokenOperationDataService: TokenOperationDataService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private kriptonStorageService: KriptonStorageService
   ) {}
 
   ngAfterViewInit() {
@@ -246,8 +247,11 @@ export class OperationsNewPage implements AfterViewInit {
     }
   }
 
-  createKriptonDynamicPrice(currency = this.fiatCurrency): KriptonDynamicPrice {
-    return this.kriptonDynamicPrice.new(this.priceRefreshInterval, currency, this.selectedCurrency, this.http);
+  createKriptonDynamicPrice(currency = this.fiatCurrency): DynamicKriptonPrice {
+    return this.kriptonDynamicPrice.new(
+      this.priceRefreshInterval,
+      new DefaultKriptonPrice(currency, this.selectedCurrency, this.http)
+    );
   }
 
   setCountry() {
@@ -267,7 +271,16 @@ export class OperationsNewPage implements AfterViewInit {
   async handleSubmit() {
     if (this.form.valid) {
       await this.setOperationStorage();
-      this.navController.navigateForward('/fiat-ramps/user-email');
+      const email = await this.kriptonStorageService.get('email');
+      const operationData = Object.assign({ email }, this.storageOperationService.getData());
+      const operationResponse = await this.fiatRampsService.createOperation(operationData).toPromise();
+
+      const newData = Object.assign(
+        { operation_id: operationResponse.id, created_at: operationResponse.created_at },
+        this.storageOperationService.getData()
+      );
+      this.storageOperationService.updateData(newData);
+      this.navController.navigateRoot('/fiat-ramps/purchase-order/1');
     } else {
       this.form.markAllAsTouched();
     }

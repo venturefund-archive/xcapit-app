@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonAccordionGroup, IonContent, NavController } from '@ionic/angular';
-import { WalletService } from '../shared-wallets/services/wallet/wallet.service';
-import { ApiWalletService } from '../shared-wallets/services/api-wallet/api-wallet.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/refresh-timeout.service';
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
@@ -35,7 +33,9 @@ import { NewTokensAvailable } from '../shared-wallets/models/new-tokens-avalaibl
 import { NewToken } from '../shared-wallets/interfaces/new-token.interface';
 import { WalletConnectService } from '../shared-wallets/services/wallet-connect/wallet-connect.service';
 import { UpdateNewsService } from '../../../shared/services/update-news/update-news.service';
-import { InvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/invested-balance-of/injectable/invested-balance-of.injectable';
+import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
+import { SwapInProgressService } from '../../swaps/shared-swaps/services/swap-in-progress/swap-in-progress.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-wallet',
@@ -81,45 +81,36 @@ import { InvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-
           </ion-text>
         </div>
         <div class="wt__spinner-and-amount ux-font-num-titulo">
-          <ion-spinner
-            color="white"
-            name="crescent"
-            *ngIf="this.balance === undefined && this.walletExist"
-          ></ion-spinner>
+          <ion-spinner color="white" name="crescent" *ngIf="this.balance === undefined"></ion-spinner>
           <div class="wt__amount-and-eye">
             <div class="wt__amount-and-eye__amount">
-              <ion-text *ngIf="this.balance !== undefined || !this.walletExist">
+              <ion-text *ngIf="this.balance !== undefined">
                 {{ this.balance ?? 0.0 | number: '1.2-2' | hideText: this.hideFundText }}
               </ion-text>
-              <ion-text class="ux-font-text-lg" *ngIf="this.balance !== undefined || !this.walletExist">USD</ion-text>
+              <ion-text class="ux-font-text-lg" *ngIf="this.balance !== undefined">USD</ion-text>
             </div>
-            <div class="wt__amount-and-eye__eye">
+            <div *ngIf="this.balance !== undefined" class="wt__amount-and-eye__eye">
               <app-eye></app-eye>
             </div>
           </div>
         </div>
-        <div class="wt__total-invested" color="success">
+        <div class="wt__total-invested" *ngIf="this.balance" color="success">
           <ion-spinner
             class="wt__total-invested__spinner"
-            *ngIf="!this.spinnerActivated"
+            *ngIf="this.totalInvested === undefined"
             color="white"
             name="crescent"
           ></ion-spinner>
-          <ion-text
-            *ngIf="this.balance !== undefined && this.spinnerActivated && this.walletExist"
-            class="wt__total-invested__text ux-font-title-xs"
+          <ion-text *ngIf="this.totalInvested !== undefined" class="wt__total-invested__text ux-font-title-xs"
             >{{ 'wallets.home.invested' | translate }}
             {{ this.totalInvested ?? 0.0 | number: '1.2-2' | hideText: this.hideFundText }} USD</ion-text
           >
         </div>
       </div>
-      <div class="wt__subheader" *ngIf="!this.walletExist">
-        <app-wallets-subheader></app-wallets-subheader>
-      </div>
-      <div class="wt__overlap_buttons" *ngIf="this.walletExist">
+      <div class="wt__overlap_buttons">
         <app-wallet-subheader-buttons></app-wallet-subheader-buttons>
       </div>
-      <div class="wt__backup" *ngIf="this.walletExist && !this.protectedWallet">
+      <div class="wt__backup" *ngIf="!this.protectedWallet">
         <app-backup-information-card
           [text]="'wallets.home.backup_card_component.text'"
           [textClass]="'ux-home-backup-card'"
@@ -127,8 +118,10 @@ import { InvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-
         >
         </app-backup-information-card>
       </div>
-
-      <div class="wt" *ngIf="this.walletExist">
+      <div class="wt__transaction-in-progress" *ngIf="this.swapInProgress">
+        <app-transaction-in-progress-card transactionType="swap"></app-transaction-in-progress-card>
+      </div>
+      <div class="wt">
         <div class="wt__segments">
           <form [formGroup]="this.segmentsForm">
             <ion-segment mode="ios" class="ux-segment-modern" formControlName="tab">
@@ -151,10 +144,10 @@ import { InvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-
         </div>
         <div class="wt__nfts" *ngIf="this.segmentsForm.value.tab === 'nft'">
           <div class="wt__nfts__content segment-content last-selected">
-            <app-nft-card *ngIf="this.walletExist"></app-nft-card>
+            <app-nft-card></app-nft-card>
           </div>
         </div>
-        <div class="wt__balance" *ngIf="this.walletExist && this.segmentsForm.value.tab === 'assets'">
+        <div class="wt__balance" *ngIf="this.segmentsForm.value.tab === 'assets'">
           <div class="wt__balance segment-content first-selected">
             <div class="wt__balance__button ion-padding-end">
               <ion-button
@@ -193,29 +186,13 @@ import { InvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-
           </div>
         </div>
       </div>
-      <div class="wt__button" *ngIf="!this.walletExist">
-        <ion-button
-          (click)="this.goToRecoveryWallet()"
-          class="ux-link-xs"
-          appTrackClick
-          name="ux_import_import_wallet"
-          type="button"
-          fill="clear"
-        >
-          {{ 'wallets.home.wallet_recovery' | translate }}
-        </ion-button>
-      </div>
       <div class="quotes-card" *appFeatureFlag="'ff_newLogin'">
         <app-quotes-card></app-quotes-card>
-      </div>
-      <div class="wt__start-investing" *ngIf="this.walletExist">
-        <app-start-investing></app-start-investing>
       </div>
     </ion-content>`,
   styleUrls: ['./home-wallet.page.scss'],
 })
 export class HomeWalletPage implements OnInit {
-  walletExist: boolean;
   hideFundText: boolean;
   protectedWallet: boolean;
   lessThanFourTokens: boolean;
@@ -232,19 +209,18 @@ export class HomeWalletPage implements OnInit {
     tab: ['assets', [Validators.required]],
   });
   totalBalanceModel: TotalBalance;
-  balance: number;
+  balance = undefined;
   address: string;
   defiProducts: DefiProduct[];
   totalInvested: number;
-  spinnerActivated: boolean;
-  pids = [];
+  twoPiProducts: TwoPiProduct[] = [];
   newTokens: NewToken[];
   connected: boolean;
   allLoaded = false;
+  swapInProgress = false;
+  private subscription$: Subscription;
 
   constructor(
-    private walletService: WalletService,
-    private apiWalletService: ApiWalletService,
     private navController: NavController,
     private formBuilder: UntypedFormBuilder,
     private refreshTimeoutService: RefreshTimeoutService,
@@ -265,7 +241,8 @@ export class HomeWalletPage implements OnInit {
     private walletsFactory: WalletsFactory,
     private walletConnectService: WalletConnectService,
     private updateNewsService: UpdateNewsService,
-    private investedBalanceOfInjectable: InvestedBalanceOfInjectable
+    private totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable,
+    private swapInProgressService: SwapInProgressService
   ) {}
 
   ngOnInit() {}
@@ -277,6 +254,21 @@ export class HomeWalletPage implements OnInit {
     this.isProtectedWallet();
     this.getNewTokensAvailable();
     this.checkConnectionOfWalletConnect();
+    this.suscribleToSwapInProgress();
+  }
+
+  ionViewWillLeave() {
+    this.unsubscribe();
+  }
+
+  async suscribleToSwapInProgress() {
+    this.subscription$ = this.swapInProgressService.inProgress().subscribe((inProgress) => {
+      this.swapInProgress = inProgress;
+    });
+  }
+
+  unsubscribe() {
+    this.subscription$.unsubscribe();
   }
 
   private trackScreenView() {
@@ -289,8 +281,19 @@ export class HomeWalletPage implements OnInit {
 
   async ionViewDidEnter() {
     this.showUpdateModal();
-    await this.checkWalletExist();
     await this.initialize();
+  }
+
+  async initialize(): Promise<void> {
+    await this.content.scrollToTop(0);
+    await this.loadCachedTotalBalance();
+    await this.setUserTokens();
+    this.initializeTotalBalance();
+    await this.setTokenDetails();
+    this.fetchAndSaveBalances();
+    this.setAvailableDefiProducts();
+    await this.setInvestments();
+    this.setInvestedBalance();
   }
 
   private showUpdateModal() {
@@ -310,23 +313,15 @@ export class HomeWalletPage implements OnInit {
   }
 
   async setInvestments() {
-    this.pids = [];
+    this.twoPiProducts = [];
     for (const product of this.defiProducts) {
       const anInvestmentProduct = await this.getInvestmentProduct(product);
-      this.pids.push(anInvestmentProduct.id());
+      this.twoPiProducts.push(anInvestmentProduct);
     }
   }
 
   async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {
     return this.twoPiProductFactory.create(await this.twoPiApi.vault(product.id));
-  }
-
-  async setInvestedBalance() {
-    this.totalInvested = await this.pids.reduce(
-      async (total, pid) => (await total) + (await this.investedBalanceOfInjectable.create(this.address, pid).value()),
-      Promise.resolve(0)
-    );
-    this.spinnerActivated = true;
   }
 
   private async getUserWalletAddress() {
@@ -338,20 +333,10 @@ export class HomeWalletPage implements OnInit {
     this.localStorageService.hideFunds.subscribe((res) => (this.hideFundText = res));
   }
 
-  async initialize(): Promise<void> {
-    await this.content.scrollToTop(0);
-    if (this.walletExist) {
-      await this.loadCachedTotalBalance();
-      await this.setUserTokens();
-      this.initializeTotalBalance();
-      await this.setTokenDetails();
-      await this.fetchDetails();
-      await this.fetchTotalBalance();
-      await this.updateCachedTotalBalance();
-      this.setAvailableDefiProducts();
-      await this.setInvestments();
-      await this.setInvestedBalance();
-    }
+  private async fetchAndSaveBalances() {
+    await this.fetchDetails();
+    await this.fetchTotalBalance();
+    await this.updateCachedTotalBalance();
   }
 
   goToBackup() {
@@ -389,7 +374,6 @@ export class HomeWalletPage implements OnInit {
     }
     this.sortTokens(tokenDetails);
     this.tokenDetails = tokenDetails;
-    this.spinnerActivated = false;
     this.allLoaded = true;
   }
 
@@ -409,14 +393,6 @@ export class HomeWalletPage implements OnInit {
     tokenDetails.sort((a, b) => b.balance * b.price - a.balance * a.price);
   }
 
-  private async loadCachedTotalBalance() {
-    this.balance = await this.balanceCacheService.total();
-  }
-
-  private async updateCachedTotalBalance() {
-    await this.balanceCacheService.updateTotal(this.balance);
-  }
-
   async refresh(event: any): Promise<void> {
     if (this.refreshTimeoutService.isAvailable()) {
       await this.initialize();
@@ -425,8 +401,18 @@ export class HomeWalletPage implements OnInit {
     setTimeout(() => event.target.complete(), 1000);
   }
 
-  private async checkWalletExist(): Promise<void> {
-    this.walletExist = await this.walletService.walletExist();
+  private async loadCachedTotalBalance() {
+    this.balance = await this.balanceCacheService.total();
+  }
+
+  async setInvestedBalance() {
+    const totalInvestedBalanceOf = this.totalInvestedBalanceOfInjectable.create(this.address, this.twoPiProducts);
+    this.totalInvested = await totalInvestedBalanceOf.cached();
+    this.totalInvested = await totalInvestedBalanceOf.value();
+  }
+
+  private async updateCachedTotalBalance() {
+    await this.balanceCacheService.updateTotal(this.balance);
   }
 
   private async setUserTokens(): Promise<void> {

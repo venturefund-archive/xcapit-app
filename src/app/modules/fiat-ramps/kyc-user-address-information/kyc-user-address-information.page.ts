@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
+import { UserKycKriptonData } from '../shared-ramps/interfaces/user-kyc-kripton-data.interface';
 import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kripton-data/user-kyc-kripton-data.service';
 
 @Component({
@@ -35,7 +37,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
       <div class="uai__container__form">
         <form [formGroup]="this.form">
           <app-ux-input
-            controlName="street"
+            controlName="street_address"
             type="text"
             inputmode="text"
             [label]="'fiat_ramps.kyc.user_address.label_street' | translate"
@@ -43,7 +45,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
           ></app-ux-input>
           <div class="uai__container__form__group">
             <app-ux-input
-              controlName="number"
+              controlName="street_number"
               type="text"
               inputmode="number"
               [label]="'fiat_ramps.kyc.user_address.label_number' | translate"
@@ -72,7 +74,7 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
             color="primary"
           ></app-ux-input>
           <app-ux-input
-            controlName="zipCode"
+            controlName="postal_code"
             type="text"
             inputmode="text"
             [label]="'fiat_ramps.kyc.user_address.label_zip_code' | translate"
@@ -99,19 +101,41 @@ import { UserKycKriptonDataService } from '../shared-ramps/services/user-kyc-kri
 })
 export class KycUserAddressInformationPage implements OnInit {
   form: UntypedFormGroup = this.fb.group({
-    street: ['', [Validators.required, Validators.maxLength(150)]],
-    number: ['', [Validators.required, Validators.maxLength(150), Validators.pattern('[0-9]*$')]],
+    street_address: ['', [Validators.required, Validators.maxLength(150)]],
+    street_number: ['', [Validators.required, Validators.maxLength(150), Validators.pattern('[0-9]*$')]],
     floor: ['', [Validators.maxLength(150)]],
     apartment: ['', [Validators.maxLength(150)]],
     city: ['', [Validators.required, Validators.maxLength(150)]],
-    zipCode: ['', [Validators.required, Validators.maxLength(150)]],
+    postal_code: ['', [Validators.required, Validators.maxLength(150)]],
   });
-  constructor(private fb: FormBuilder, private userKycKriptonDataService: UserKycKriptonDataService) {}
+  data: UserKycKriptonData;
 
-  ngOnInit() {
+  constructor(
+    private fb: FormBuilder,
+    private userKycKriptonDataService: UserKycKriptonDataService,
+    private navController: NavController
+  ) {}
+
+  ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.data = this.userKycKriptonDataService.getData();
+    this._showData();
   }
 
   nextPage() {
     this.userKycKriptonDataService.updateData(this.form.value);
+    this.navController.navigateForward('fiat-ramps/summary-data');
+  }
+
+  private _showData() {
+    this.form.patchValue({
+      street_address: this.data.street_address,
+      street_number: this.data.street_number,
+      floor: this.data.floor,
+      apartment: this.data.apartment,
+      city: this.data.city,
+      postal_code: this.data.postal_code
+    });
   }
 }

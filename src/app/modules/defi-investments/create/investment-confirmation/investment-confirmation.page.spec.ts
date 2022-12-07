@@ -31,8 +31,19 @@ import { ActivatedRoute } from '@angular/router';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
 import { TokenOperationDataService } from 'src/app/modules/fiat-ramps/shared-ramps/services/token-operation-data/token-operation-data.service';
+import { LocalNotificationInjectable } from 'src/app/shared/models/local-notification/injectable/local-notification.injectable';
+import { FakeLocalNotification } from 'src/app/shared/models/local-notification/fake/fake-local-notification';
+import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
+import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
+import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { GasStationOfFactory } from 'src/app/modules/swaps/shared-swaps/models/gas-station-of/factory/gas-station-of.factory';
+import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { fixedGasPriceTo } from 'src/testing/fixed-gas-price.spec';
 
 describe('InvestmentConfirmationPage', () => {
+
+  const weiGasPriceTestValue = '100000000000';
+  const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
   let component: InvestmentConfirmationPage;
   let fixture: ComponentFixture<InvestmentConfirmationPage>;
   let investmentDataServiceSpy: jasmine.SpyObj<InvestmentDataService>;
@@ -60,9 +71,26 @@ describe('InvestmentConfirmationPage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
+  let localNotificationInjectableSpy: jasmine.SpyObj<LocalNotificationInjectable>
+  let testLocalNotificationOk: {title: string, body: string}
+  let testLocalNotificationNotOk: {title: string, body: string}
+  let fakeLocalNotification: FakeLocalNotification
+  let gasStationOfFactorySpy: jasmine.SpyObj<GasStationOfFactory>;
+  let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
 
   beforeEach(
     waitForAsync(() => {
+
+      testLocalNotificationOk = {
+        title: 'defi_investments.notifications.success.title',
+        body: 'defi_investments.notifications.success.body',
+      };
+      
+      testLocalNotificationNotOk = {
+        title: 'defi_investments.notifications.error.title',
+        body: 'defi_investments.notifications.error.body',
+      };
+
       fakeModalController = new FakeModalController({ data: 'fake_password' });
       modalControllerSpy = fakeModalController.createSpy();
       fakeNavController = new FakeNavController();
@@ -90,9 +118,15 @@ describe('InvestmentConfirmationPage', () => {
         getDecryptedWalletForCurrency: wallet,
         getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x0000001' } }),
       });
+
+      fakeLocalNotification = new FakeLocalNotification();
+
+      localNotificationInjectableSpy = jasmine.createSpyObj('LocalNotificationInjectable', {
+        create: fakeLocalNotification
+      });
+
       providerSpy = jasmine.createSpyObj(
         'Provider',
-        { getGasPrice: Promise.resolve(BigNumber.from('10')) },
         {
           _isProvider: true,
         }
@@ -130,6 +164,14 @@ describe('InvestmentConfirmationPage', () => {
         open: Promise.resolve(),
       });
 
+      blockchainsFactorySpy = jasmine.createSpyObj('BlockchainsFactory', {
+        create: blockchains,
+      });
+
+      gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
+        create: fixedGasPriceTo(weiGasPriceTestValue),
+      });
+
       fakeActivatedRoute = new FakeActivatedRoute({ mode: 'invest' });
       activatedRouteSpy = fakeActivatedRoute.createSpy();
 
@@ -149,6 +191,9 @@ describe('InvestmentConfirmationPage', () => {
           { provide: BrowserService, useValue: browserServiceSpy },
           { provide: ActivatedRoute, useValue: activatedRouteSpy },
           { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+          { provide: LocalNotificationInjectable, useValue: localNotificationInjectableSpy },
+          { provide: GasStationOfFactory, useValue: gasStationOfFactorySpy },
+          { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -179,17 +224,24 @@ describe('InvestmentConfirmationPage', () => {
   });
 
   it('should make deposit when password is valid', async () => {
+    const sendSpy = spyOn(fakeLocalNotification, 'send');
+    const onClickSpy = spyOn(fakeLocalNotification, 'onClick').and.callThrough();
     spyOn(component, 'investment').and.returnValue(investmentSpy);
     await component.ionViewDidEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+    fakeLocalNotification.triggerOnClick();
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
+    expect(sendSpy).toHaveBeenCalledTimes(1);
+    expect(onClickSpy).toHaveBeenCalledTimes(1);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationOk.title, testLocalNotificationOk.body);
     expect(storageSpy.set).toHaveBeenCalledOnceWith('_agreement_2PI_T&C', true);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/defi/success-investment', 'invest']);
   });
-
+  
   it('should not make deposit when password is valid but deposit fails', async () => {
+    const sendSpy = spyOn(fakeLocalNotification, 'send');
+    const onClickSpy = spyOn(fakeLocalNotification, 'onClick');
     investmentSpy.deposit.and.returnValue(Promise.reject());
     spyOn(component, 'investment').and.returnValue(investmentSpy);
     await component.ionViewDidEnter();
@@ -197,13 +249,12 @@ describe('InvestmentConfirmationPage', () => {
     fixture.debugElement.query(By.css('ion-button[name="ux_invest_confirm"]')).nativeElement.click();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(investmentSpy.deposit).toHaveBeenCalledTimes(1);
+    expect(sendSpy ).toHaveBeenCalledTimes(1);
+    expect(onClickSpy).toHaveBeenCalledTimes(0);
+    expect(localNotificationInjectableSpy.create).toHaveBeenCalledOnceWith(testLocalNotificationNotOk.title, testLocalNotificationNotOk.body);
     expect(storageSpy.set).not.toHaveBeenCalled();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([
-      '/defi/error-investment',
-      'testInvestmentProductName',
-    ]);
   });
-
+  
   it('should not make deposit when modal closes', async () => {
     fakeModalController.modifyReturns({ data: undefined }, {});
     await component.ionViewDidEnter();
@@ -269,21 +320,23 @@ describe('InvestmentConfirmationPage', () => {
 
   it('should not show informative modal of fees and button enable on view did enter when the native token balance is bigger than the cost of fees', async () => {
     walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.001));
-    providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('100000')));
+    gasStationOfFactorySpy.create.and.returnValue(fixedGasPriceTo('100000'));
+
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+
     expect(toastServiceSpy.showWarningToast).toHaveBeenCalledTimes(0);
     expect(component.disable).toBeFalsy();
   });
 
   it('should show informative modal of fees and button disable on view did enter when the native token balance is lower than the cost of fees', async () => {
     walletBalanceServiceSpy.balanceOf.and.returnValue(Promise.resolve(0.001));
-    providerSpy.getGasPrice.and.returnValue(Promise.resolve(BigNumber.from('1000000000')));
     fixture.detectChanges();
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
+
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(component.disable).toBeTruthy();
   });
@@ -339,18 +392,5 @@ describe('InvestmentConfirmationPage', () => {
     const componentEl = fixture.debugElement.queryAll(By.css('app-transaction-fee'));
     fixture.detectChanges();
     expect(componentEl).toBeTruthy();
-  });
-
-  it('should set "fiat-ramps/buy-conditions" in the variable url if not exist conditionsPurchasesAccepted in the storage', async () => {
-    storageSpy.get.and.resolveTo(false);
-    await component.ionViewDidEnter();
-    fixture.detectChanges();
-    expect(component.url).toEqual('fiat-ramps/buy-conditions');
-  });
-
-  it('should set "fiat-ramps/select-provider" in the variable url if exist conditionsPurchasesAccepted in the storage', async () => {
-    await component.ionViewDidEnter();
-    fixture.detectChanges();
-    expect(component.url).toEqual('fiat-ramps/select-provider');
   });
 });

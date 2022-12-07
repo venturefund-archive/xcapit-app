@@ -19,7 +19,6 @@ import { ERC20ProviderController } from '../../defi-investments/shared-defi-inve
 import { takeUntil } from 'rxjs/operators';
 import { SendDonationDataService } from '../shared-donations/services/send-donation-data.service';
 import { ModalController, NavController } from '@ionic/angular';
-import { ToastWithButtonsComponent } from '../../defi-investments/shared-defi-investments/components/toast-with-buttons/toast-with-buttons.component';
 import { TranslateService } from '@ngx-translate/core';
 import { DynamicPriceFactory } from 'src/app/shared/models/dynamic-price/factory/dynamic-price-factory';
 import { parseUnits } from 'ethers/lib/utils';
@@ -27,6 +26,9 @@ import { TokenOperationDataService } from '../../fiat-ramps/shared-ramps/service
 import { GasFeeOf } from '../../../shared/models/gas-fee-of/gas-fee-of.model';
 import { ERC20Contract } from '../../defi-investments/shared-defi-investments/models/erc20-contract/erc20-contract.model';
 import { ERC20ContractController } from '../../defi-investments/shared-defi-investments/models/erc20-contract/controller/erc20-contract.controller';
+import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
+import { DefaultToken } from '../../swaps/shared-swaps/models/token/token';
+import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo';
 
 @Component({
   selector: 'app-send-donation',
@@ -224,10 +226,7 @@ export class SendDonationPage implements OnInit {
   }
 
   private async gasPrice(): Promise<BigNumber> {
-    return await this.apiWalletService
-      .getGasPrice()
-      .toPromise()
-      .then((res) => res.gas_price);
+    return BigNumber.from(await this.apiWalletService.getGasPrice());
   }
 
   private async getFee(): Promise<void> {
@@ -316,30 +315,21 @@ export class SendDonationPage implements OnInit {
 
   checkAvailableBalance() {
     if (this.balance < this.fee) {
-      this.tokenOperationDataService.tokenOperationData = { asset: this.token.value, network: this.token.network };
       this.openModalNativeTokenBalance();
     }
   }
 
   async openModalNativeTokenBalance() {
     const modal = await this.modalController.create({
-      component: ToastWithButtonsComponent,
+      component: BuyOrDepositTokenToastComponent,
       cssClass: 'ux-toast-warning-with-margin',
       showBackdrop: false,
       id: 'feeModal',
       componentProps: {
-        text: this.translate.instant('defi_investments.confirmation.informative_modal_fee', {
-          nativeToken: this.token.value,
-        }),
-        firstButtonName: this.translate.instant('defi_investments.confirmation.buy_button', {
-          nativeToken: this.token.value,
-        }),
-        secondaryButtonName: this.translate.instant('defi_investments.confirmation.deposit_button', {
-          nativeToken: this.token.value,
-        }),
-        firstLink: '/fiat-ramps/select-provider',
-        secondLink: '/wallets/receive/detail',
-        data: this.token,
+        text: 'defi_investments.confirmation.informative_modal_fee',
+        primaryButtonText: 'defi_investments.confirmation.buy_button',
+        secondaryButtonText: 'defi_investments.confirmation.deposit_button',
+        token: new DefaultToken(this.token as RawToken),
       },
     });
     if (window.location.href === this.modalHref) {

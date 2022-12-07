@@ -1,18 +1,21 @@
+import { FiatRampProvider } from "./fiat-ramp-provider.interface";
+
 export interface UserKycKriptonData {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   birthday: string;
-  nationality: string;
-  document: string;
+  nationality: FiatRampProvider;
+  document_type: string;
   document_number: string;
-  gender: string;
-  marital_status: string;
-  country_code: string;
-  phone_number: string;
-  street: string;
-  number: string;
+  gender: any;
+  marital_status: any;
+  country_code: any;
+  telephone_number: string;
+  street_address: string;
+  street_number: string;
   floor?: string;
   apartment?: string;
   city: string;
-  zipCode: string;
+  postal_code: string;
+  politically_exposed: boolean;
 }

@@ -6,6 +6,7 @@
   .modal-content {
     background-color: var(--ion-color-white);
     border-radius: 8px;
+    overflow: clip;
   }
 }
 
@@ -95,6 +96,26 @@
 // Modal informativo large
 .ux-lg-modal-informative {
   --max-height: 575.05px;
+  --max-width: 328px;
+  --background: var(--ion-color-white);
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
+.ux-lg-modal-informative-provider-kripton {
+  --max-height: 515px;
+  --max-width: 328px;
+  --background: var(--ion-color-white);
+
+  &::part(content) {
+    border-radius: 8px;
+  }
+}
+
+.ux-lg-modal-informative-provider-moonpay {
+  --max-height: 587px;
   --max-width: 328px;
   --background: var(--ion-color-white);
 

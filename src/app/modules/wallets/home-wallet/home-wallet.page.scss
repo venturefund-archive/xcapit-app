@@ -1,5 +1,9 @@
 :host {
   // stylelint-disable-next-line selector-class-pattern
+  ion-content {
+    --background: var(--ion-color-background);
+  }
+
   .ux_toolbar {
     --border-width: 0;
     --border-color: transparent;

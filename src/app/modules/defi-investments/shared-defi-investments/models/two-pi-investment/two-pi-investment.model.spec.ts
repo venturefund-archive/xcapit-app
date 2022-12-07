@@ -6,15 +6,14 @@ import { DefaultERC20Token } from '../erc20-token/default-erc20-token.model';
 import { DefaultERC20Provider } from '../erc20-provider/erc20-provider.model';
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
 import { TwoPiContract } from '../two-pi-contract/two-pi-contract.model';
-import { of } from 'rxjs';
 
-const contractAddress = '0xCB50fF1863cBBAd718d3A1eEEf403a95C58d3B16';
-const referralAddress = 'referralAddress';
-const testAddress = '0x0001';
-const gasLimit = '150';
-const gasPrice = BigNumber.from('100000000000');
 
 describe('TwoPiInvestment', () => {
+  const contractAddress = '0xCB50fF1863cBBAd718d3A1eEEf403a95C58d3B16';
+  const referralAddress = 'referralAddress';
+  const testAddress = '0x0001';
+  const gasLimit = '150';
+  const gasPrice = BigNumber.from('100000000000');
   let productSpy: jasmine.SpyObj<InvestmentProduct>;
   let wallet: Signer;
   let erc20TokenSpy: jasmine.SpyObj<DefaultERC20Token>;
@@ -57,7 +56,7 @@ describe('TwoPiInvestment', () => {
     });
     erc20ProviderSpy = jasmine.createSpyObj('ERC20Provider', { value: {} });
     twoPiContractSpy = jasmine.createSpyObj('TwoPiContract', { value: contractSpy });
-    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getGasPrice: of({ gas_price: '100000000000' }) });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getGasPrice: Promise.resolve('100000000000') });
 
     twoPiInvestment = new TwoPiInvestment(
       productSpy,

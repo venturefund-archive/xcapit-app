@@ -2,8 +2,12 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Coin } from '../../../../../wallets/shared-wallets/interfaces/coin.interface';
+import { INFO_PROVIDER } from '../../../constants/info-provider';
 import { FiatRampProvider } from '../../../interfaces/fiat-ramp-provider.interface';
 import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.component';
+import { InfoProviderKriptonComponent } from '../../info-provider-kripton/info-provider-kripton.component';
+import { InfoProviderMoonpayComponent } from '../../info-provider-moonpay/info-provider-moonpay.component';
+import { InfoProviderComponent } from '../../info-provider/info-provider.component';
 
 @Component({
   selector: 'app-provider-new-operation-card',
@@ -35,6 +39,7 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
           <div class="pnoc__amount-select__inputs__amount">
             <ion-input
               appNumberInput
+              appCommaToDot
               debounce="1000"
               [class.invalid]="
                 !this.form.controls.fiatAmount.valid &&
@@ -44,8 +49,8 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
                   this.form.controls.fiatAmount.dirty)
               "
               formControlName="cryptoAmount"
-              type="number"
-              inputmode="numeric"
+              type="text"
+              inputmode="decimal"
             >
             </ion-input>
           </div>
@@ -54,6 +59,7 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
             <ion-input
               debounce="1000"
               appNumberInput
+              appCommaToDot
               [class.invalid]="
                 !this.form.controls.fiatAmount.valid &&
                 (this.form.controls.cryptoAmount.touched ||
@@ -62,8 +68,8 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
                   this.form.controls.fiatAmount.dirty)
               "
               formControlName="fiatAmount"
-              type="number"
-              inputmode="numeric"
+              type="text"
+              inputmode="decimal"
             ></ion-input>
           </div>
         </div>
@@ -91,12 +97,12 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
         </div>
       </div>
 
-      <div class="pnoc__fee" *ngIf="this.provider.alias !== 'kripton' && this.provider.alias !== 'moonpay'">
+      <div class="pnoc__fee" *ngIf="this.provider.alias !== 'kripton'">
         <div class="pnoc__fee__label">
           <ion-text class="ux-font-titulo-xs">{{
             'fiat_ramps.shared.provider_new_operation_card.estimated_fee' | translate
           }}</ion-text>
-          <ion-icon name="information-circle" color="info" (click)="this.openInfoModal()"></ion-icon>
+          <ion-icon name="information-circle" color="info" (click)="this.openFeeInfoModal()"></ion-icon>
         </div>
         <div *ngIf="this.fee.value !== undefined" class="pnoc__fee__amount">
           <ion-text class="ux-font-text-base" color="neutral90"
@@ -119,18 +125,25 @@ import { FeeInfoModalComponent } from '../../fee-info-modal/fee-info-modal.compo
             <img [src]="this.provider.logoRoute" />
           </div>
           <div class="pnoc__provider__content__body">
-            <div class="pnoc__provider__content__body__provider-name">
-              <ion-text class="pnoc__provider__content__body__text__name ux-font-text-lg">{{
-                this.paymentType | translate
-              }}</ion-text>
+            <div class="pnoc__provider__content__body__name_and_description" >
+              <div class="pnoc__provider__content__body__name_and_description__name">
+                <ion-text class="pnoc__provider__content__body__text__name ux-font-text-lg">{{
+                  this.paymentType | translate
+                }}</ion-text>
+              </div>
+              <div class="ux-font-text-xxs">
+                <ion-text class="pnoc__provider__content__body__name_and_description__description">{{
+                  'fiat_ramps.provider_new_operation_card.description' | translate: { providerName: this.provider.name }
+                }}</ion-text>
+              </div>
             </div>
-            <div class="ux-font-text-xxs">
-              <ion-text class="pnoc__provider__content__body__description">{{
-                'fiat_ramps.provider_new_operation_card.description' | translate: { providerName: this.provider.name }
-              }}</ion-text>
-            </div>
+            
+          </div>
+          <div class="pnoc__provider__content__info">
+              <ion-icon name="information-circle" color="info" (click)="this.showProviderInfo()"></ion-icon>
           </div>
         </div>
+
         <div class="pnoc__provider__description">
           <ion-text class="ux-font-text-xxs">
             {{ this.provider.disclaimer | translate }}
@@ -158,19 +171,20 @@ export class ProviderNewOperationCardComponent implements OnInit {
   @Input() fee: { value: number; token: string };
   @Output() changeCurrency = new EventEmitter<void>();
   isInfoModalOpen = false;
-
+  providerInfo: any;
   form: UntypedFormGroup;
   constructor(private formGroupDirective: FormGroupDirective, private modalController: ModalController) {}
 
   ngOnInit() {
     this.form = this.formGroupDirective.form;
+    this.setProviderInfo();
   }
 
   emitChangeCurrency(): void {
     this.changeCurrency.emit();
   }
 
-  async openInfoModal() {
+  async openFeeInfoModal() {
     if (!this.isInfoModalOpen) {
       this.isInfoModalOpen = true;
       const modal = await this.modalController.create({
@@ -181,5 +195,72 @@ export class ProviderNewOperationCardComponent implements OnInit {
       await modal.present();
       this.isInfoModalOpen = false;
     }
+  }
+
+  async showProviderInfo() {
+    if (!this.isInfoModalOpen) {
+      this.isInfoModalOpen = true;
+      if (this.provider.providerName === 'kripton') {
+        await this.createKriptonInfoModal();
+      }
+      if (this.provider.providerName === 'moonpay') {
+        await this.createMoonpayInfoModal();
+      }
+      if (this.provider.providerName !== 'kripton' && this.provider.providerName !== 'moonpay') {
+        await this.createOtherProviderInfoModal();
+      }
+      this.isInfoModalOpen = false;
+    }
+  }
+
+  setProviderInfo() {
+    this.providerInfo = INFO_PROVIDER[this.provider.providerName];
+  }
+
+  async createOtherProviderInfoModal() {
+    const modal = await this.modalController.create({
+      component: InfoProviderComponent,
+      componentProps: {
+        image: this.provider?.logoRoute,
+        title: this.provider?.name,
+        subtitle1: this.providerInfo.subtitle_1,
+        subtitle2: this.providerInfo.subtitle_2,
+        subtitle3: this.providerInfo.subtitle_3,
+        description1: this.providerInfo.description_1,
+        description2: this.providerInfo.description_2,
+        description3: this.providerInfo.description_3,
+        disclaimer: this.providerInfo.disclaimer,
+        buttonText: 'fiat_ramps.select_provider.modal_info.button',
+      },
+      cssClass: 'modal',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
+
+  async createKriptonInfoModal() {
+    const modal = await this.modalController.create({
+      component: InfoProviderKriptonComponent,
+      componentProps: {
+        image: this.provider?.logoRoute,
+        title: this.provider?.name,
+      },
+      cssClass: 'ux-lg-modal-informative-provider-kripton',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
+
+  async createMoonpayInfoModal() {
+    const modal = await this.modalController.create({
+      component: InfoProviderMoonpayComponent,
+      componentProps: {
+        image: this.provider?.logoRoute,
+        title: this.provider?.name,
+      },
+      cssClass: 'ux-lg-modal-informative-provider-moonpay',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 }

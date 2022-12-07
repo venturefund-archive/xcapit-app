@@ -19,9 +19,10 @@ import { WalletBackupService } from '../../wallets/shared-wallets/services/walle
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
 import { Storage } from '@ionic/storage';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
-import { DefaultBiometricAuth } from '../../../shared/models/biometric-auth/default/default-biometric-auth';
 import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
+import { FormBuilder, UntypedFormGroup } from '@angular/forms';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -52,6 +53,20 @@ import { RemoteConfigService } from '../../../shared/services/remote-config/remo
               'profiles.user_profile_menu.category_preferences' | translate
             }}</ion-text>
           </div>
+          <form class="notifications_form" [formGroup]="this.form">
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-text class="notifications_text ux-font-text-xs">
+                {{ 'profiles.user_profile_menu.push_notifications' | translate }}</ion-text
+              >
+              <ion-toggle
+                formControlName="notifications"
+                name="ux_push_notifications"
+                class="ux-toggle ion-no-padding"
+                mode="ios"
+                slot="end"
+              ></ion-toggle>
+            </ion-item>
+          </form>
           <div>
             <ion-button
               [disabled]="this.disable"
@@ -61,7 +76,7 @@ import { RemoteConfigService } from '../../../shared/services/remote-config/remo
               appTrackClick
               (click)="this.changeLanguage()"
             >
-              <ion-text color="neutral90">{{ 'profiles.user_profile_menu.language' | translate }}</ion-text></ion-button
+              <ion-text>{{ 'profiles.user_profile_menu.language' | translate }}</ion-text></ion-button
             >
           </div>
         </div>
@@ -98,6 +113,11 @@ export class UserProfileMenuPage {
   disable = false;
   username: string;
   itemMenu: MenuCategory[] = ITEM_MENU;
+  form: UntypedFormGroup = this.formBuilder.group({
+    notifications: [false, []],
+  });
+  private readonly _aTopic = 'app';
+  private readonly _aKey = 'enabledPushNotifications';
 
   constructor(
     private apiProfiles: ApiProfilesService,
@@ -114,15 +134,40 @@ export class UserProfileMenuPage {
     private walletBackupService: WalletBackupService,
     private walletConnectService: WalletConnectService,
     private storage: Storage,
+    private notificationsService: NotificationsService,
     private biometricAuthInjectable: BiometricAuthInjectable,
-    private remoteConfig: RemoteConfigService
+    private remoteConfig: RemoteConfigService,
+    private formBuilder: FormBuilder,
   ) {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
     this.getProfile();
     this.existWallet();
     this.biometricAuthAvailable();
+    await this.setPushNotifications();
+    this.valueChanges();
     this.walletConnectStatus();
+  }
+
+  async setPushNotifications() {
+    this.form.patchValue({ notifications: await this.enabled() });
+  }
+
+  async enabled() {
+    return await this.ionicStorageService.get(this._aKey).then((res) => res);
+  }
+
+  private valueChanges() {
+    this.form.valueChanges.subscribe((value) => this.toggle(value.notifications));
+  }
+
+  pushNotificationsService(){
+    return this.notificationsService.getInstance();
+  }
+
+   toggle(value: boolean) {
+    this.ionicStorageService.set(this._aKey, value);
+    value ?  this.pushNotificationsService().subscribeTo(this._aTopic) : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
   }
 
   async walletConnectStatus() {

@@ -1,7 +1,7 @@
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { OperationsNewPage } from './operations-new.page';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
@@ -18,13 +18,14 @@ import { By } from '@angular/platform-browser';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fake.spec';
-import { KriptonDynamicPriceFactory } from '../shared-ramps/models/kripton-dynamic-price/factory/kripton-dynamic-price-factory';
+import { DynamicKriptonPriceFactory } from '../shared-ramps/models/kripton-price/factory/dynamic-kripton-price-factory';
 import { rawProvidersData } from '../shared-ramps/fixtures/raw-providers-data';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { Providers } from '../shared-ramps/models/providers/providers.interface';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
-import { KriptonDynamicPrice } from '../shared-ramps/models/kripton-dynamic-price/kripton-dynamic-price';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
+import { DynamicKriptonPrice } from '../shared-ramps/models/kripton-price/dynamic-kripton-price';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 const links =
   "<a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>Terms and Conditions</a> and the <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>Kripton Market Privacy Policy</a>.";
@@ -37,9 +38,19 @@ const validForm = {
   acceptTOSAndPrivacyPolicy: true,
 };
 
-const userNew = {
-  id: 100,
-  registration_status: 'USER_INFORMATION',
+const data = {
+  email: 'test@test.com',
+  country: 'country',
+  type: 'cash-in',
+  amount_in: '100',
+  amount_out: '100',
+  currency_in: 'ARS',
+  currency_out: 'USDT',
+  price_in: '1',
+  price_out: '100',
+  wallet: '0x000000000000000000000dead',
+  provider: '1',
+  network: 'MATIC',
 };
 
 describe('OperationsNewPage', () => {
@@ -55,24 +66,28 @@ describe('OperationsNewPage', () => {
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let coinsSpy: jasmine.SpyObj<Coin>[];
-  let kriptonDynamicPriceSpy: jasmine.SpyObj<KriptonDynamicPrice>;
-  let kriptonDynamicPriceFactorySpy: jasmine.SpyObj<KriptonDynamicPriceFactory>;
+  let dynamicKriptonPriceSpy: jasmine.SpyObj<DynamicKriptonPrice>;
+  let kriptonDynamicPriceFactorySpy: jasmine.SpyObj<DynamicKriptonPriceFactory>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let providersSpy: jasmine.SpyObj<Providers>;
   let priceSubject: Subject<number>;
   let tokenOperationDataServiceSpy: jasmine.SpyObj<TokenOperationDataService>;
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
+  let kriptonStorageServiceSpy: jasmine.SpyObj<KriptonStorageService>;
 
   beforeEach(waitForAsync(() => {
     navControllerSpy = new FakeNavController().createSpy();
     storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
       updateData: null,
+      getData: data,
     });
+
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       getUserWallets: of({}),
       getOrCreateUser: of({}),
       setProvider: null,
+      createOperation: of({ id: 335 }),
     });
 
     coinsSpy = [
@@ -89,18 +104,22 @@ describe('OperationsNewPage', () => {
       getEncryptedWallet: Promise.resolve({ addresses: { MATIC: '0x00000000000000' } }),
     });
 
+    kriptonStorageServiceSpy = jasmine.createSpyObj('KriptonStorageService', {
+      get: Promise.resolve('test@test.com'),
+    });
+
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
       getCoins: coinsSpy,
     });
 
     priceSubject = new Subject<number>();
 
-    kriptonDynamicPriceSpy = jasmine.createSpyObj('KriptonDynamicPrice', {
+    dynamicKriptonPriceSpy = jasmine.createSpyObj('DynamicKriptonPrice', {
       value: priceSubject,
     });
 
     kriptonDynamicPriceFactorySpy = jasmine.createSpyObj('KriptonDynamicPriceFactory', {
-      new: kriptonDynamicPriceSpy,
+      new: dynamicKriptonPriceSpy,
     });
 
     providersSpy = jasmine.createSpyObj('Providers', {
@@ -135,10 +154,11 @@ describe('OperationsNewPage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: BrowserService, useValue: browserServiceSpy },
-        { provide: KriptonDynamicPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
+        { provide: DynamicKriptonPriceFactory, useValue: kriptonDynamicPriceFactorySpy },
         { provide: ProvidersFactory, useValue: providersFactorySpy },
         { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
         { provide: ModalController, useValue: modalControllerSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageServiceSpy },
       ],
     }).compileComponents();
   }));
@@ -157,7 +177,7 @@ describe('OperationsNewPage', () => {
   });
 
   it('should set properly cryptoAmount form value with minimum crypto amount', () => {
-    kriptonDynamicPriceSpy.value.and.returnValue(of(1));
+    dynamicKriptonPriceSpy.value.and.returnValue(of(1));
     component.ionViewWillEnter();
     fixture.whenStable();
     fixture.whenRenderingDone();
@@ -173,6 +193,7 @@ describe('OperationsNewPage', () => {
       value: 'fiat_ramps.countries_list.argentina',
       fiatCode: 'ars',
       isoCodeAlpha3: 'ARS',
+      iso4217CurrencyCode: 'ARS',
       directaCode: 'AR',
       isoCurrencyCodeDirecta: 'ARS',
     });
@@ -191,15 +212,16 @@ describe('OperationsNewPage', () => {
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'https://kriptonmarket.com/terms-and-conditions' });
   });
 
-  it('should save operation and redirect to user email when valid form is submitted', async () => {
+  it('should create and save operation and redirect to purchase order when valid form is submitted', async () => {
     component.ionViewWillEnter();
     component.form.patchValue(validForm);
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
     await component.handleSubmit();
-    expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/user-email');
+    expect(fiatRampsServiceSpy.createOperation).toHaveBeenCalledWith(data);
+    expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(2);
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order/1');
   });
 
   it('should call trackEvent on trackService when ux_buy_kripton_continue Button clicked', () => {
@@ -248,7 +270,7 @@ describe('OperationsNewPage', () => {
   });
 
   it('should validate that the crypto amount equals the minimum value in dollars', () => {
-    kriptonDynamicPriceSpy.value.and.returnValue(of(1));
+    dynamicKriptonPriceSpy.value.and.returnValue(of(1));
     component.ionViewWillEnter();
     component.form.patchValue({ cryptoAmount: 1 });
     fixture.detectChanges();

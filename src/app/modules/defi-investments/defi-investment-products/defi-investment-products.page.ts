@@ -20,6 +20,10 @@ import { YieldCalculator } from '../shared-defi-investments/models/yield-calcula
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
+import { TotalInvestedBalanceOfInjectable } from '../shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
+import { InvestedBalanceOfInjectable } from '../shared-defi-investments/models/invested-balance-of/injectable/invested-balance-of.injectable';
+import { RawInvestmentProfile } from '../shared-defi-investments/types/raw-investment-profile.type';
+import { InvestmentProfiles } from '../shared-defi-investments/models/investment-profile/investment-profiles';
 
 @Component({
   selector: 'app-defi-investment-products',
@@ -39,13 +43,13 @@ import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
           </ion-text>
         </div>
         <div class="dp__spinner-and-amount ux-font-num-titulo">
-          <ion-spinner color="white" name="crescent" *ngIf="!this.allLoaded"></ion-spinner>
+          <ion-spinner color="white" name="crescent" *ngIf="this.totalInvested === undefined"></ion-spinner>
           <div class="dp__amount">
             <div class="dp__amount__content">
-              <ion-text class="dp__amount__content__total-invested" *ngIf="this.allLoaded">
-                {{ this.totalInvested ?? 0.0 | number: '1.2-2' }}
+              <ion-text class="dp__amount__content__total-invested" *ngIf="this.totalInvested !== undefined">
+                {{ this.totalInvested | number: '1.2-2' }}
               </ion-text>
-              <ion-text class="ux-font-text-lg" *ngIf="this.allLoaded">USD</ion-text>
+              <ion-text class="ux-font-text-lg" *ngIf="this.totalInvested !== undefined">USD</ion-text>
             </div>
           </div>
         </div>
@@ -101,8 +105,8 @@ import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
               }}
             </ion-label>
           </ion-item>
-          <form [formGroup]="this.profileForm">
-            <app-filter-tab [items]="this.items" controlName="profile"></app-filter-tab>
+          <form [formGroup]="this.profileForm" *ngIf="this.investmentProfiles">
+            <app-filter-tab [items]="this.investmentProfiles" controlName="profile"></app-filter-tab>
           </form>
           <div *ngIf="!this.availableInvestments.length" class="dp__empty">
             <div class="dp__empty__image text-center">
@@ -116,10 +120,7 @@ import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
           </div>
           <app-defi-investment-product
             *ngFor="let investment of this.availableInvestments"
-            [investmentProduct]="investment.product"
-            [isComing]="investment.isComing"
-            [continuousEarning]="investment.continuousEarning"
-            [showFooter]="investment.balance !== null"
+            [investment]="investment"
           ></app-defi-investment-product>
         </div>
       </div>
@@ -143,46 +144,26 @@ import { RawAmount } from '../../swaps/shared-swaps/models/amount-of/amount-of';
   styleUrls: ['./defi-investment-products.page.scss'],
 })
 export class DefiInvestmentProductsPage {
-  defiProducts: DefiProduct[];
-  address: string;
-  totalInvested = 0;
-  allDefiProducts: DefiInvestment[] = [];
-  investorCategory = 'wealth_managements.profiles.conservative';
-  disableFaqsButton = true;
-  pids = [];
-  profileForm: UntypedFormGroup = this.formBuilder.group({
-    profile: ['conservative', []],
-  });
-  items = [
-    {
-      title: 'wealth_managements.about_investor_profile.conservative_profile.title',
-      value: 'conservative',
-      dataToTrack: 'ux_invest_conservative',
-    },
-    {
-      title: 'wealth_managements.about_investor_profile.moderated_profile.title',
-      value: 'medium',
-      dataToTrack: 'ux_invest_moderate',
-    },
-    {
-      title: 'wealth_managements.about_investor_profile.aggressive_profile.title',
-      value: 'risky',
-      dataToTrack: 'ux_invest_aggressive',
-    },
-  ];
+  private price$: Observable<any>;
+  private movements$: Observable<any>[];
+  private products: DefiProduct[];
+  private investments: DefiInvestment[] = [];
+  private address: string;
+  private pids = [];
+  private defaultInvestmentProfile = 'wealth_managements.profiles.conservative';
+  totalInvested: number;
+  investmentProfiles: RawInvestmentProfile[];
   activeInvestments: DefiInvestment[] = [];
   activeInvestmentsContinuousEarning: DefiInvestment[] = [];
   activeInvestmentsWeaklyEarning: DefiInvestment[] = [];
   availableInvestments: DefiInvestment[] = [];
-  filteredAvailableInvestments: DefiInvestment[] = [];
   allLoaded = false;
-  private price$: Observable<any>;
-  private movements$: Observable<any>[];
   totalUsdYield: RawAmount = { value: 0, token: 'USD' };
-  usdYield: RawAmount;
-  balance: number;
   contentFixedStyle = 'display: none';
   hasDoneInvestorTest = false;
+  profileForm: UntypedFormGroup = this.formBuilder.group({
+    profile: ['conservative', []],
+  });
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -194,54 +175,62 @@ export class DefiInvestmentProductsPage {
     private navController: NavController,
     private remoteConfig: RemoteConfigService,
     private graphql: GraphqlService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private totalInvestedBalanceOf: TotalInvestedBalanceOfInjectable,
+    private investedBalanceOf: InvestedBalanceOfInjectable
   ) {}
-
-  ionViewDidLeave() {
-    this.emptyArrays();
-    this.cleanValues();
-  }
-
-  cleanValues() {
-    this.totalInvested = 0;
-    this.allLoaded = false;
-    this.profileForm.get('profile').setValue('conservative');
-  }
 
   ionViewWillEnter() {
     this.getUser();
-    this.profileForm.get('profile').valueChanges.subscribe((value) => this.filterByInvestorCategory(value));
+    this.profileForm.get('profile').valueChanges.subscribe((value) => this._filterByInvestorCategory(value));
   }
 
   async ionViewDidEnter() {
     this.contentFixedStyle = 'display: inherit';
+    this.setInvestmentProfiles();
     await this.getUserWalletAddress();
-    this.getAvailableDefiProducts();
-    await this.getInvestments();
+    this.setAvailableProducts();
+    await this.setInvestments();
+    this.setInvestedBalance();
+    this._filterByInvestorCategory(this.profileForm.value.profile);
+    this.setBalanceAndCalculateEarnings();
+  }
+
+  private setInvestmentProfiles() {
+    this.investmentProfiles = new InvestmentProfiles().all();
+  }
+
+  private async setBalanceAndCalculateEarnings() {
+    await this.setBalance();
     this.getPrices();
     this.getAllMovements();
-    this.filterByInvestorCategory(this.profileForm.value.profile);
-    await this.setBalance();
+    this.filterUserInvestments();
     this.calculateEarnings();
-    this.setFilter(this.investorCategory);
+    this.setFilter(this.defaultInvestmentProfile);
     this.allLoaded = true;
   }
 
   private async getUserWalletAddress() {
     const wallet = await this.storageService.getWalletFromStorage();
-    if (wallet) this.address = wallet.addresses.MATIC;
+    this.address = wallet.addresses.MATIC;
   }
 
   getAllMovementsForProduct(dp: DefiInvestment) {
-    this.movements$.push(this.graphql.getAllMovements(this.address, dp.product.id()).pipe(map(data => {return { movements: data, product: dp.product}})));
+    this.movements$.push(
+      this.graphql.getAllMovements(this.address, dp.product.id()).pipe(
+        map((data) => {
+          return { movements: data, product: dp.product };
+        })
+      )
+    );
   }
 
   calculateEarnings() {
     forkJoin([this.price$, ...this.movements$]).subscribe((res) => {
-      this.activeInvestments.forEach(ai => {
+      this.activeInvestments.forEach((ai) => {
         const calculator = new YieldCalculator(
           ai.balance,
-          res.find(res => res.product?.id() === ai.product.id()).movements.data.flows,
+          res.find((res) => res.product?.id() === ai.product.id()).movements.data.flows,
           ai.product.token().value,
           res[0].prices[ai.product.token().value],
           ai.product.decimals()
@@ -253,19 +242,19 @@ export class DefiInvestmentProductsPage {
   }
 
   getPrices() {
-    const tokens = this.allDefiProducts.map((value: DefiInvestment) => value.product.token().value);
+    const tokens = this.investments.map((value: DefiInvestment) => value.product.token().value);
     this.price$ = this.apiWalletService.getPrices(tokens, false);
   }
 
   getAllMovements() {
     this.movements$ = [];
-    this.allDefiProducts.forEach((dp: DefiInvestment) => this.getAllMovementsForProduct(dp));
+    this.investments.forEach((dp: DefiInvestment) => this.getAllMovementsForProduct(dp));
   }
 
   getUser() {
     this.apiUsuariosService.getUser(false).subscribe((user) => {
       if (!user.profile.investor_category.includes('no_category') && user.profile.investor_category) {
-        this.investorCategory = user.profile.investor_category;
+        this.defaultInvestmentProfile = user.profile.investor_category;
         this.hasDoneInvestorTest = true;
       }
     });
@@ -275,11 +264,14 @@ export class DefiInvestmentProductsPage {
     this.navController.navigateForward(['/support/faqs/wallet_operations']);
   }
 
-  filterByInvestorCategory(category: string) {
-    const investmentsToFilter = this.allDefiProducts.filter(
-      (investment) => investment.balance === 0 || investment.balance === null
-    );
-    this.availableInvestments = investmentsToFilter.filter((investment) => investment.category === category);
+  private _filterByInvestorCategory(category: string) {
+    this.availableInvestments = this.investments
+      .filter((investment) => this._withoutBalance(investment))
+      .filter((investment) => investment.category === category);
+  }
+
+  private _withoutBalance(investment: DefiInvestment) {
+    return investment.balance === 0 || investment.balance === null;
   }
 
   setFilter(investorProfile: string) {
@@ -289,71 +281,60 @@ export class DefiInvestmentProductsPage {
   emptyArrays() {
     this.availableInvestments = [];
     this.activeInvestments = [];
-    this.allDefiProducts = [];
+    this.investments = [];
     this.activeInvestmentsContinuousEarning = [];
     this.activeInvestmentsWeaklyEarning = [];
     this.totalUsdYield.value = 0;
   }
 
-  private getAvailableDefiProducts(): void {
-    this.defiProducts = this.createAvailableDefiProducts().value();
+  private setAvailableProducts(): void {
+    this.products = this.createAvailableDefiProducts().value();
   }
 
   createAvailableDefiProducts(): AvailableDefiProducts {
     return new AvailableDefiProducts(this.remoteConfig);
   }
 
-  async getInvestments() {
+  async setInvestments() {
     const investmentsProducts = [];
     this.pids = [];
-    for (const product of this.defiProducts) {
+    for (const product of this.products) {
       const anInvestmentProduct = await this.getInvestmentProduct(product);
       investmentsProducts.push({
         product: anInvestmentProduct,
-        balance: null,
+        balance: (await this.investedBalanceOf.create(this.address, anInvestmentProduct).cached()).balance(),
         isComing: product.isComing,
         continuousEarning: product.continuousEarning,
         category: product.category,
       });
     }
-    this.allDefiProducts = this.availableInvestments = investmentsProducts;
+    this.investments = this.availableInvestments = investmentsProducts;
   }
 
-  calculatedTotalBalanceInvested(product: InvestmentProduct) {
-    this.graphql.getInvestedBalance(this.address, product.id()).subscribe(({ data }) => {
-      if (data.flows[0]) {
-        const balanceUSD = parseFloat(data.flows[0].balanceUSD);
-        this.totalInvested += balanceUSD;
-      }
-    });
+  private _products(): TwoPiProduct[] {
+    return this.investments.map((investment) => investment.product as TwoPiProduct);
+  }
+
+  async setInvestedBalance() {
+    const totalInvestedBalanceOf = this.totalInvestedBalanceOf.create(this.address, this._products());
+    this.totalInvested = await totalInvestedBalanceOf.cached();
+    this.totalInvested = await totalInvestedBalanceOf.value();
   }
 
   async setBalance() {
-    const walletExist = await this.walletService.walletExist();
     const investments = [];
-    for (const dp of this.allDefiProducts) {
-      const balance = walletExist ? await this.getProductBalance(dp.product) : 0;
+    for (const investment of this.investments) {
       investments.push({
-        product: dp.product,
-        balance: balance,
-        isComing: dp.isComing,
-        continuousEarning: dp.continuousEarning,
-        category: dp.category,
+        product: investment.product,
+        balance: (
+          await this.investedBalanceOf.create(this.address, investment.product as TwoPiProduct).value()
+        ).balance(),
+        isComing: investment.isComing,
+        continuousEarning: investment.continuousEarning,
+        category: investment.category,
       });
-      if (balance > 0) {
-        this.balance = balance;
-        this.calculatedTotalBalanceInvested(dp.product);
-      }
     }
-    this.allDefiProducts = investments;
-    this.filterUserInvestments();
-  }
-
-  async getProductBalance(investmentProduct: InvestmentProduct): Promise<number> {
-    const wallet = await this.walletEncryptionService.getEncryptedWallet();
-    const address = wallet.addresses[investmentProduct.token().network];
-    const investment = this.createInvestment(investmentProduct, address);
-    return await investment.balance();
+    this.investments = investments;
   }
 
   createInvestment(investmentProduct: InvestmentProduct, address: string): TwoPiInvestment {
@@ -361,18 +342,30 @@ export class DefiInvestmentProductsPage {
   }
 
   filterUserInvestments(): void {
-    this.activeInvestments = this.allDefiProducts.filter((investment) => investment.balance > 0);
+    this.activeInvestments = this.investments.filter((investment) => investment.balance > 0);
     this.activeInvestmentsContinuousEarning = this.activeInvestments.filter(
       (investment) => investment.continuousEarning === true
     );
     this.activeInvestmentsWeaklyEarning = this.activeInvestments.filter(
       (investment) => investment.continuousEarning === false
     );
-    this.availableInvestments = this.allDefiProducts.filter((investment) => investment.balance === 0);
-    this.filterByInvestorCategory(this.profileForm.value.profile);
+    this.availableInvestments = this.investments.filter((investment) => investment.balance === 0);
+
+    this._filterByInvestorCategory(this.profileForm.value.profile);
   }
 
   async getInvestmentProduct(product: DefiProduct): Promise<TwoPiProduct> {
     return new TwoPiProduct(await this.twoPiApi.vault(product.id), this.apiWalletService);
+  }
+
+  cleanValues() {
+    this.totalInvested = 0;
+    this.allLoaded = false;
+    this.profileForm.get('profile').setValue('conservative');
+  }
+
+  ionViewDidLeave() {
+    this.emptyArrays();
+    this.cleanValues();
   }
 }

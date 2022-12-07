@@ -15,6 +15,13 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
 import { CoinSelectorModalComponent } from '../shared-ramps/components/coin-selector-modal/coin-selector-modal.component';
 import { WalletsFactory } from '../../swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
+import { COUNTRIES } from '../shared-ramps/constants/countries';
+import { FiatRampProviderCountry } from '../shared-ramps/interfaces/fiat-ramp-provider-country';
+import RoundedNumber from 'src/app/shared/models/rounded-number/rounded-number';
+import { DefaultMoonpayPrice } from '../shared-ramps/models/moonpay-price/default-moonpay-price';
+import { DynamicMoonpayPrice } from '../shared-ramps/models/moonpay-price/dynamic-moonpay-price';
+import { DynamicMoonpayPriceFactory } from '../shared-ramps/models/moonpay-price/factory/dynamic-moonpay-price-factory';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-moonpay',
@@ -30,13 +37,14 @@ import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/
     <ion-content class="ion-padding">
       <form [formGroup]="this.form">
         <app-provider-new-operation-card
-          *ngIf="this.form.value.currency"
-          [amountEnabled]="false"
-          [coin]="this.form.value.currency"
+          *ngIf="this.selectedCurrency"
+          [coin]="this.selectedCurrency"
+          [fiatCurrency]="this.fiatCurrency"
           [provider]="this.provider"
           [coinSelectorEnabled]="true"
           (changeCurrency)="this.openModal($event)"
-          paymentType='fiat_ramps.shared.constants.payment_types.moonpay'
+          paymentType="fiat_ramps.shared.constants.payment_types.moonpay"
+          [fee]="this.fee"
         ></app-provider-new-operation-card>
       </form>
     </ion-content>
@@ -51,6 +59,7 @@ import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/
         size="large"
         class="ux_button"
         color="secondary"
+        [disabled]="!this.form.valid"
         (click)="this.openMoonpay()"
       >
         {{ 'fiat_ramps.moonpay.button_text' | translate }}
@@ -59,16 +68,23 @@ import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/
   `,
   styleUrls: ['./moonpay.page.scss'],
 })
-export class MoonpayPage implements OnInit {
+export class MoonpayPage {
   form: UntypedFormGroup = this.formBuilder.group({
-    currency: ['', Validators.required],
+    cryptoAmount: ['', Validators.required],
+    fiatAmount: ['', Validators.required],
   });
   coins: Coin[];
-  coinSelected: Coin;
+  selectedCurrency: Coin;
   address: string;
   operationsList: FiatRampOperation[];
   provider: FiatRampProvider;
-  countryIsoCodeAlpha3: string;
+  country: FiatRampProviderCountry;
+  fiatCurrency = 'USD';
+  countries = COUNTRIES;
+  fee = { value: 0, token: '' };
+  price: number;
+  milliseconds = 15000;
+  destroy$: Subject<void>;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -81,15 +97,19 @@ export class MoonpayPage implements OnInit {
     private tokenOperationDataService: TokenOperationDataService,
     private modalController: ModalController,
     private wallets: WalletsFactory,
-    private blockchains: BlockchainsFactory
+    private blockchains: BlockchainsFactory,
+    private moonpayPrice: DynamicMoonpayPriceFactory
   ) {}
 
-  ngOnInit() {}
-
   async ionViewWillEnter() {
+    this.destroy$ = new Subject<void>();
     this.provider = this.getProviders().byAlias('moonpay');
-    this.countryIsoCodeAlpha3 = this.tokenOperationDataService.tokenOperationData.country;
+    this.setCountry();
+    this.setFiatToken();
+    this.setCryptoToken();
+    this.cryptoPrice();
     await this.initAssetsForm();
+    this.subscribeToFormChanges();
   }
 
   ionViewDidLeave() {
@@ -99,9 +119,6 @@ export class MoonpayPage implements OnInit {
   async initAssetsForm() {
     await this.walletMaintenance.getEncryptedWalletFromStorage();
     this.coins = this.providerTokens();
-    const { asset, network } = this.tokenOperationDataService.tokenOperationData;
-    this.coinSelected = this.coins.find((coin) => coin.value === asset && coin.network === network)
-    this.form.patchValue({ currency: this.coinSelected });
   }
 
   providerTokens() {
@@ -113,10 +130,15 @@ export class MoonpayPage implements OnInit {
   }
 
   async openMoonpay() {
-    const blockchain = this.blockchains.create().oneByName(this.coinSelected.network);
+    const blockchain = this.blockchains.create().oneByName(this.selectedCurrency.network);
     const wallet = await this.wallets.create().oneBy(blockchain);
     this.fiatRampsService
-      .getMoonpayLink(wallet.address(), this.form.value.currency.moonpayCode)
+      .getMoonpayRedirectLink(
+        wallet.address(),
+        this.selectedCurrency.moonpayCode,
+        this.fiatCurrency,
+        this.form.value.fiatAmount
+      )
       .toPromise()
       .then(async (link) => {
         this.success().then(() => {
@@ -131,7 +153,7 @@ export class MoonpayPage implements OnInit {
   }
 
   addBoughtCoinIfUserDoesNotHaveIt(): Promise<void> {
-    return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.form.value.currency);
+    return this.walletMaintenance.addCoinIfUserDoesNotHaveIt(this.selectedCurrency);
   }
 
   async openModal(event) {
@@ -140,5 +162,102 @@ export class MoonpayPage implements OnInit {
       cssClass: 'ux-modal-skip-backup',
     });
     await modal.present();
+  }
+
+  setFiatToken() {
+    this.fiatCurrency = this.country.iso4217CurrencyCode;
+    this.fee.token = this.fiatCurrency;
+  }
+
+  setCryptoToken() {
+    const { asset, network } = this.tokenOperationDataService.tokenOperationData;
+    this.selectedCurrency = this.providerTokens().find((token) => token.value === asset && token.network === network);
+  }
+
+  subscribeToFormChanges() {
+    this.form
+      .get('cryptoAmount')
+      .valueChanges.subscribe((value) => (value ? this.cryptoAmountChange(value) : this.resetInfo('fiatAmount')));
+    this.form
+      .get('fiatAmount')
+      .valueChanges.subscribe((value) => (value ? this.fiatAmountChange(value) : this.resetInfo('cryptoAmount')));
+  }
+
+  private fiatAmountChange(value: number) {
+    const roundedValue = new RoundedNumber(value).value();
+    this.form.patchValue(
+      { fiatAmount: roundedValue, cryptoAmount: roundedValue / this.price },
+      this.defaultPatchValueOptions()
+    );
+    this.getFee();
+  }
+
+  private cryptoAmountChange(value: number) {
+    this.form.patchValue(
+      { fiatAmount: new RoundedNumber(value * this.price).value() },
+      this.defaultPatchValueOptions()
+    );
+    this.getFee();
+  }
+
+  private updateAmounts(): void {
+    if (this.form.value.cryptoAmount && this.form.value.fiatAmount) {
+      this.form.patchValue(
+        { fiatAmount: new RoundedNumber(this.form.value.cryptoAmount * this.price).value() },
+        this.defaultPatchValueOptions()
+      );
+    }
+  }
+
+  resetInfo(aField: string) {
+    this.form.patchValue({ [aField]: 0 }, this.defaultPatchValueOptions());
+    this.getFee();
+  }
+
+  async getFee() {
+    if (!this.form.value.fiatAmount) {
+      this.form.value.fiatAmount = 1;
+    }
+    this.fiatRampsService
+      .getMoonpayBuyQuote(
+        this.form.value.fiatAmount,
+        this.selectedCurrency.moonpayCode,
+        this.fiatCurrency.toLowerCase()
+      )
+      .subscribe((res) => {
+        this.fee.value = res.totalAmount - res.baseCurrencyAmount;
+      });
+  }
+
+  private defaultPatchValueOptions() {
+    return { emitEvent: false, onlySelf: true };
+  }
+
+  setCountry() {
+    this.country = this.countries.find(
+      (country) => country.isoCodeAlpha3 === this.tokenOperationDataService.tokenOperationData.country
+    );
+  }
+
+  private cryptoPrice() {
+    this.createMoonpayPrice()
+      .value()
+      .subscribe((price: number) => {
+        this.price = price;
+        this.updateAmounts();
+        this.getFee();
+      });
+  }
+
+  createMoonpayPrice(currency = this.fiatCurrency): DynamicMoonpayPrice {
+    return this.moonpayPrice.new(
+      this.milliseconds,
+      new DefaultMoonpayPrice(currency, this.selectedCurrency.moonpayCode, this.fiatRampsService)
+    );
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

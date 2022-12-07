@@ -31,4 +31,16 @@
   .remove-account {
     margin-top: 8px;
   }
+
+  .notifications_form {
+    ion-toggle {
+      --background-checked: var(--ion-color-info);
+    }
+
+    ion-item {
+      .notifications_text {
+        margin-left: 16px;
+      }
+    }
+  }
 }

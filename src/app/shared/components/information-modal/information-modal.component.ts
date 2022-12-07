@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { OperationStatus } from 'src/app/modules/fiat-ramps/shared-ramps/interfaces/operation-status.interface';
 
 @Component({
   selector: 'app-information-modal',
@@ -12,8 +13,12 @@ import { ModalController } from '@ionic/angular';
     <div class="main__body">
       <div class="main__body__content">
         <ion-label class="ux-font-text-lg main__body__content__title">{{ this.title }} </ion-label>
-        <ion-label class="ion-no-margin ux-font-text-base main__body__content__description">
+        <app-operation-status-chip [statusName]="this.status"></app-operation-status-chip>
+        <ion-label *ngIf="this.description" class="ion-no-margin ux-font-text-base main__body__content__description">
           {{ this.description }}
+        </ion-label>
+        <ion-label *ngIf="this.description2" class="ion-no-margin ux-font-text-base main__body__content__description2">
+          {{ this.description2 }}
         </ion-label>
         <div class="main__actions">
           <ion-button
@@ -33,7 +38,9 @@ import { ModalController } from '@ionic/angular';
 })
 export class InformationModalComponent implements OnInit {
   title: string;
+  status: OperationStatus;
   description: string;
+  description2: string;
   buttonText: string;
 
   constructor(private modalController: ModalController) {}

@@ -1,13 +1,11 @@
 import { BigNumber, Signer } from 'ethers';
 import { DefaultERC20Provider } from 'src/app/modules/defi-investments/shared-defi-investments/models/erc20-provider/erc20-provider.model';
-import { TEST_ERC20_COINS } from '../../constants/coins.test';
-import { Coin } from '../../interfaces/coin.interface';
 import { NativeToken } from './native-token.model';
 import { Provider } from '@ethersproject/abstract-provider';
 
+
 describe('NativeToken', () => {
   let token: NativeToken;
-  let ethCoin: Coin;
   let signerSpy: jasmine.SpyObj<Signer>;
   let erc20ProviderSpy: jasmine.SpyObj<DefaultERC20Provider>;
   let providerSpy: jasmine.SpyObj<Provider>;
@@ -21,7 +19,6 @@ describe('NativeToken', () => {
     });
     signerSpy.connect.and.returnValue(signerSpy);
 
-    ethCoin = JSON.parse(JSON.stringify(TEST_ERC20_COINS[0]));
     providerSpy = jasmine.createSpyObj(
       'Provider',
       { getGasPrice: Promise.resolve(BigNumber.from('10')) },
@@ -51,11 +48,6 @@ describe('NativeToken', () => {
   it('should call estimateGas on transferFee', async () => {
     await token.transferFee('test', BigNumber.from(2));
     expect(signerSpy.estimateGas).toHaveBeenCalledOnceWith({ to: 'test', value: BigNumber.from(2) });
-  });
-
-  it('should call getGasPrice on getGasPrice', async () => {
-    await token.getGasPrice();
-    expect(signerSpy.getGasPrice).toHaveBeenCalledTimes(1);
   });
 
   it('should create with void signer', () => {

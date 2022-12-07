@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
-import { OPERATION_STATUS } from '../constants/operation-status';
 import { FiatRampOperation } from '../interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
-import { OperationStatus } from '../interfaces/operation-status.interface';
 import { Providers } from '../models/providers/providers.interface';
 import { ProvidersFactory } from '../models/providers/factory/providers.factory';
 import { HttpParams } from '@angular/common/http';
@@ -16,7 +14,6 @@ import { HttpParams } from '@angular/common/http';
 export class FiatRampsService {
   entity = 'on_off_ramps/provider';
   private provider = '1';
-  operationStatus: OperationStatus[] = OPERATION_STATUS;
 
   constructor(private providersFactory: ProvidersFactory, private http: CustomHttpService) {}
 
@@ -69,14 +66,22 @@ export class FiatRampsService {
     );
   }
 
-  getUserOperations(): Observable<FiatRampOperation[]> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
+  getKriptonAccessToken(data: { email: string }): Observable<void> {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/request_token`, data, undefined, false);
   }
 
-  getUserSingleOperation(operationId): Observable<FiatRampOperation[]> {
-    return this.http.get(
+  kriptonLogin(data: { email: string; token: string }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/login`, data, undefined, false);
+  }
+
+  getUserOperations(data: { email: string }): Observable<FiatRampOperation[]> {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/get_all_operations`, data, undefined, true);
+  }
+
+  getUserSingleOperation(operationId: string | number, data: { email: string }): Observable<FiatRampOperation[]> {
+    return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/get_user_operation/${operationId}`,
-      undefined,
+      data,
       undefined,
       true
     );
@@ -104,11 +109,18 @@ export class FiatRampsService {
     return this.http.post(`${environment.apiUrl}/${this.entity}/paxful/get_link`, { id_apikey: apikeyId });
   }
 
-  getMoonpayLink(walletAddress: string, currencyCode: string): Observable<any> {
+  getMoonpayRedirectLink(
+    walletAddress: string,
+    currencyCode: string,
+    baseCurrencyCode: string,
+    baseCurrencyAmount: number
+  ): Observable<any> {
     return this.http.post(`${environment.apiUrl}/on_off_ramps/moonpay/link`, {
       wallet_address: walletAddress,
       currency_code: currencyCode,
       publishable_key: environment.moonpayPK,
+      base_currency_code: baseCurrencyCode,
+      base_currency_amount: baseCurrencyAmount,
     });
   }
 
@@ -134,27 +146,27 @@ export class FiatRampsService {
   }
 
   getMoonpayQuotation(currencyCode: string) {
-    return this.http.get(`${environment.moonpayApiUrl}/currencies/${currencyCode}/ask_price?apiKey=${environment.moonpayPK}`);
+    return this.http.get(
+      `${environment.moonpayApiUrl}/currencies/${currencyCode}/ask_price?apiKey=${environment.moonpayPK}`,
+      undefined,
+      undefined,
+      false
+    );
+  }
+
+  getMoonpayBuyQuote(baseCurrencyAmount: number, currencyCode: string, fiatCode: string) {
+    return this.http.get(
+      `${environment.moonpayApiUrl}/currencies/${currencyCode}/buy_quote/?apiKey=${environment.moonpayPK}&baseCurrencyAmount=${baseCurrencyAmount}&extraFeePercentage=1&baseCurrencyCode=${fiatCode}&paymentMethod=credit_debit_card`,
+      undefined,
+      undefined,
+      false
+    );
   }
 
   getProvider(providerId: number): FiatRampProvider {
     return this.providers()
       .all()
       .find((p) => p.id === providerId);
-  }
-
-  getOperationStatus(name: string, providerId?: number): OperationStatus {
-    let operationStatus: OperationStatus;
-
-    if (providerId) {
-      operationStatus = this.operationStatus.find((o) => o.name === name && o.providerId === providerId);
-    } else {
-      operationStatus = this.operationStatus.find((o) => o.name === name);
-    }
-
-    operationStatus.provider = this.getProvider(operationStatus.providerId);
-
-    return operationStatus;
   }
 
   private providers(): Providers {

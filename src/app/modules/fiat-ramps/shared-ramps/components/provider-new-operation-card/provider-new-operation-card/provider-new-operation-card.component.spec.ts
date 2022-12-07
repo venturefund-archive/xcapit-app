@@ -46,7 +46,7 @@ describe('ProviderNewOperationCardComponent', () => {
     fixture = TestBed.createComponent(ProviderNewOperationCardComponent);
     component = fixture.componentInstance;
 
-    component.provider = rawProvidersData[0];
+    component.provider = rawProvidersData[1];
     component.coin = coinSpy;
     component.minimumFiatAmount = 10;
     fixture.detectChanges();
@@ -104,13 +104,55 @@ describe('ProviderNewOperationCardComponent', () => {
     expect(feeAmountEl.nativeElement.innerHTML).toContain('10.43 USD');
   });
 
-  it('should show modal when icon info is clicked', async () => {
+  it('should show modal when fee info icon is clicked', async () => {
     component.provider = rawProvidersData.find((provider) => provider.alias === 'PX');
     component.fee = { value: 10.4278, token: 'USD' };
     fixture.detectChanges();
 
     fixture.debugElement
       .query(By.css('div.pnoc__fee__label > ion-icon[name="information-circle"]'))
+      .nativeElement.click();
+
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show directa24 modal when info provider icon is clicked', async () => {
+    component.isInfoModalOpen = false;
+    component.provider = rawProvidersData.find((provider) => provider.alias === 'PX');
+    component.fee = { value: 10.4278, token: 'USD' };
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    fixture.debugElement
+      .query(By.css('div.pnoc__provider__content__info ion-icon'))
+      .nativeElement.click();
+
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show kripton modal when info provider icon is clicked', async () => {
+    component.isInfoModalOpen = false;
+    component.provider = rawProvidersData.find((provider) => provider.alias === 'kripton');
+    component.fee = { value: 10.4278, token: 'USD' };
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    fixture.debugElement
+      .query(By.css('div.pnoc__provider__content__info ion-icon'))
+      .nativeElement.click();
+
+    expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show moonpay modal when info provider icon is clicked', async () => {
+    component.isInfoModalOpen = false;
+    component.provider = rawProvidersData.find((provider) => provider.alias === 'moonpay');
+    component.fee = { value: 10.4278, token: 'USD' };
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    fixture.debugElement
+      .query(By.css('div.pnoc__provider__content__info ion-icon'))
       .nativeElement.click();
 
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);

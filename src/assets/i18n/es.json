@@ -333,6 +333,40 @@
     }
   },
   "defi_investments": {
+    "notifications":{
+      "success":{
+        "title":"💰 Inversión exitosa. ¡Felicitaciones!",
+        "body": "Invertiste {{amount}} {{token}} el día {{date}}."
+      },
+      "error":{
+        "title":"⚠️ Error en la inversión",
+        "body": "Se produjo un error en la inversión de {{amount}} {{token}} el día {{date}}."
+      }
+    },
+    "invest_in_progress":{
+      "text_primary":"¡Tu orden está en camino!",
+      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text":"Volver a inversiones",
+      "text_title": "Inversión",
+      "text_badge": "En progreso"
+    },
+    "withdraw_notifications":{
+      "success":{
+        "title":"💸 Retiro exitoso",
+        "body": "Retiraste {{amount}} {{token}} el día {{date}}."
+      },
+      "error":{
+        "title":"🚨 Error en el retiro",
+        "body": "Se produjo un error en el retiro de {{amount}} {{token}} el día {{date}}."
+      }
+    },
+    "withdraw_in_progress":{
+      "text_primary":"¡Tu orden está en camino!",
+      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text":"Volver a inversiones",
+      "text_title": "Retiro",
+      "text_badge": "En progreso"
+    },
     "new": {
       "header": "Nueva inversión",
       "amount_to_invest": "Monto a invertir",
@@ -357,9 +391,9 @@
         "confirm_button": "Confirmar inversión"
       },
       "informative_modal": "No tienes suficiente {{token}} en tu cuenta para invertir. Selecciona un monto menor a invertir o compra algunos.",
-      "informative_modal_fee": "No tienes suficientes {{nativeToken}} en tu cuenta para pagar la tarifa de transacción.",
-      "buy_button": "Comprar {{nativeToken}}",
-      "deposit_button": "Depositar {{nativeToken}}",
+      "informative_modal_fee": "No tienes suficientes {{token}} en tu cuenta para pagar la tarifa de transacción.",
+      "buy_button": "Comprar {{token}}",
+      "deposit_button": "Depositar {{token}}",
       "terms": {
         "third_party_disclaimer": "Entiendo que al invertir mis criptomonedas lo haré a través de un proveedor externo (2pi) sujeto a  términos y condiciones  distintos, de los cuales Xcapit no es responsable.",
         "i_have_read": "He leído y acepto los ",
@@ -375,7 +409,7 @@
       "title_investments": "Mis inversiones",
       "profits": "Ganancia continua",
       "profits_weekly": "Ganancia Semanal",
-      "total_invested": "Inversión y ganancias",
+      "total_invested": "Saldo total invertido",
       "recommendations": "Podrían interesarte",
       "empty_products": "Proximamente podrás encontrar las mejores inversiones para tu perfil",
       "link_button": "¿Cómo funcionan las inversiones DeFi?",
@@ -512,7 +546,7 @@
       },
       "earnings_modal_info": {
         "title": "¿Qué es el rendimiento total?",
-        "description": "Es la sumatoria en USD del total de los rendimientos obtenidos en tus productos de inversión.",
+        "description": "Es la sumatoria en USD del total de los rendimientos obtenidos en tus productos de inversión.\n No es histórico ni acumulado, por lo que si tu saldo es cero, tus rendimientos también lo serán. Se calculan a partir del saldo invertido en el momento.",
         "button": "Entendido"
       }
     },
@@ -584,6 +618,7 @@
       "category_help": "Ayuda",
       "faq_help": "Preguntas frecuentes",
       "support_help": "Hablar con soporte",
+      "community": "Únete a nuestra comunidad",
       "category_security_account": "Seguridad cuenta Xcapit",
       "change_pass": "Cambiar contraseña",
       "biometric_auth": "Datos biométricos",
@@ -1674,8 +1709,8 @@
       "error_toast": "La contraseña que ingresaste es incorrecta"
     },
     "home": {
-      "available_money": "Tus activos",
-      "invested": "Invertidos",
+      "available_money": "Saldo disponible",
+      "invested": "Monto invertido",
       "tab_assets": "Monedas",
       "tab_nfts": "NFTs",
       "wallet_recovery": "Importar una wallet existente",
@@ -1697,6 +1732,10 @@
       "no_tokens_selected": {
         "title": "Aquí se encontrarán tus tokens.",
         "link": "Selecciona los que desees visualizar"
+      },
+      "transaction_in_progress": {
+        "badge": "En progreso",
+        "swap_title": "Intercambio"
       }
     },
     "select_coin": {
@@ -1803,6 +1842,16 @@
       "declined": "Rechazado"
     },
     "send": {
+      "send_notifications":{
+        "success":{
+          "title":"✅ Successful shipment. That's the way to do it!",
+          "body": "You sent {{amount}} {{token}} on {{date}}. "
+        },
+        "error":{
+          "title":"❌ Error in shipment",
+          "body": "An error occurred in the sending of {{amount}} {{token}} on {{date}}. More information here."
+        }
+      },
       "scan_qr": {
         "title": "Escanea el código QR de la dirección a la que deseas enviar"
       },
@@ -1810,6 +1859,13 @@
         "header": "Enviar",
         "title": "Selecciona la moneda que deseas enviar",
         "suite": "Red {{suiteName}}"
+      },
+      "send_in_progress":{
+        "text_primary":"¡Tu orden está en camino!",
+        "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+        "button_text":"Ir a wallet",
+        "text_title": "Envío",
+        "text_badge": "En progreso"
       },
       "send_detail": {
         "header": "Enviar",
@@ -2143,7 +2199,8 @@
       "IN": "Recibido",
       "modal_info_state": {
         "title": "¿Qué significa este estado?",
-        "description": "Tu transacción fue rechazada por la red. Obtén más detalle accediendo al scan.",
+        "description_confirmed": "Tu transacción fue confirmada por la red. Obtén más detalle accediendo al scan.",
+        "description_refused": "Tu transacción fue rechazada por la red. Obtén más detalle accediendo al scan.",
         "button_text": "Entendido"
       }
     }
@@ -2178,6 +2235,11 @@
     "tools": "Herramientas"
   },
   "fiat_ramps": {
+    "home_of_purchases": {
+      "header": "Mis compras",
+      "question": "¿Cómo funcionan las compras?",
+      "button": "Realizar nueva compra"
+    },
     "buy_conditions": {
       "title": "¿Qué necesitas saber antes de comprar?",
       "condition_1": "Las compras se realizan a través de un proveedor externo. Xcapit no vende criptomonedas.",
@@ -2198,24 +2260,51 @@
       "button_text": "Ir a wallet"
     },
     "operations_list": {
-      "title": "Mis operaciones",
-      "operation": "Compra",
+      "title": "Compras en Kripton Market",
+      "operation": "Moneda",
       "amount": "Monto",
       "date": "Fecha",
       "status": "Estado",
-      "no_operations_message": "Aún no tienes compras realizadas, aquí vas a poder ver el listado de tus compras",
+      "not_logged": "Para acceder al estado de tu cuenta y/o listado de compras, deberás ",
+      "no_operations_message": "Una vez realizadas tus compras, podrás verlas en este apartado.",
+      "link": "iniciar sesión en Kripton Market",
       "button_show_less": "Ver menos",
       "button_show_more": "Ver más"
+    },
+    "moonpay_purchases": {
+      "title": "Compras en Moonpay",
+      "message": "Si realizaste compras, puedes verlas",
+      "link": "aquí"
+    },
+    "operation_km_in_progress": {
+      "text_primary": "¡Tu orden está en camino!",
+      "text_secondary": "Te estaremos informando sobre cambios en el estado de tu compra.",
+      "button_text": "Finalizar",
+      "text_title": "Compra",
+      "text_badge": "En progreso",
+      "text_tertiary": "¿Necesitas ayuda?",
+      "text_help_link": "Escribir a soporte Kripton Market"
+    },
+    "error_operation_km": {
+      "text_primary": "Error en la carga del comprobante",
+      "text_secondary": "👉 Verifica que que el formato sea jpg, png o pdf. Y que su tamaño no exceda los 200 kb.",
+      "button_primary": "Reintentar",
+      "button_secondary": "Volver a mis compras"
     },
     "provider_new_operation_card": {
       "description": "Proveedor: {{providerName}}"
     },
     "select_provider": {
-      "header": "Comprar Cripto",
+      "header": "Comprar cripto",
       "select_label": "Pais en el que vas a operar",
       "select_placeholder": "Selecciona tu país",
       "provider_label": "Selecciona tu medio de pago",
       "no_provider": "Por el momento no es posible adquirir {{coinName}} en tu país.",
+      "description": "Compra con {{providerName}} {{token}} a ${{quote}} {{fiatCode}}.",
+      "best_quote": "Mejor cotización",
+      "pay_in_usd": "Comprá en USD",
+      "pay_in_fiat": "Comprá en moneda local",
+      "disclaimer": "* Las cotizaciones pueden variar ligeramente al momento de la compra.",
       "moonpay_description": "Compra con tarjeta de crédito",
       "krypton_description": "Compra con transferencia bancaria",
       "directa24": {
@@ -2226,32 +2315,40 @@
         "debit_credit_description": "Compra con débito o crédito",
         "transfer_description": "Compra a través de transferencia"
       },
-      "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
       "button": "Continuar",
       "modal_info": {
-        "subtitle_1": "Medios de pago habilitados:",
-        "subtitle_2": "¿Cuál es el plazo de entrega?",
-        "subtitle_3": "Monto mínimo de compra:",
+        "subtitle_payment_methods": "Medios de pago habilitados:",
+        "subtitle_delivery_time": "¿Cuál es el plazo de entrega?",
+        "subtitle_minimum_amount": "Monto mínimo de compra:",
+        "subtitle_available_tokens": "¿Qué tokens puedes comprar?",
+        "subtitle_more_information": "Más información:",
+        "subtitle_time_tokens": "Tiempo de acreditación de tokens:",
+        "kyc_required": "Requiere KYC o proceso de registración.",
         "button": "Entendido",
         "kripton": {
-          "description_1": "Transferencia bancaria.",
-          "description_2": "25 USD por compra.",
-          "description_3": "Las entregas se realizan de lunes a viernes de 9 a 18 hs. aproximadamente."
+          "provider_name": "Kripton Market",
+          "header": "Es un proveedor habilitado para la venta de criptomonedas en Latam.",
+          "minimum_amount": "25 USD por compra.",
+          "delivery_time_1": "Hasta 48 hs.",
+          "delivery_time_2": "Las entregas se realizan de lunes a viernes de 9 a 18 hs.",
+          "more_information": "Kriptonmarket.com"
         },
         "moonpay": {
-          "description_1": "Tarjeta de crédito.*",
-          "description_2": "Depende del proveedor externo según el caso.",
-          "disclaimer": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina."
+          "provider_name": "Moonpay",
+          "header": "Es un proveedor habilitado para la venta de criptomonedas.",
+          "payment_methods": "Tarjeta de crédito.*",
+          "delivery_time": "Depende del proveedor externo según el caso.",
+          "disclaimer": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
+          "available_tokens_1": "ETH, USDT y UNI",
+          "available_tokens_2": "USDC y MATIC"
         },
         "directa24": {
-          "subtitle_3":"Tiempo de acreditación de tokens:",
-          "description_1":"Compra en efectivo",
-          "description_2":"10 USD.",
+          "description_1": "Compra en efectivo",
+          "description_2": "10 USD.",
           "description_3": "Días hábiles de 9 a 18hs aprox. El tiempo máximo de acreditación es de 3hs."
         }
       }
     },
-
     "information_paxful": {
       "header": "Comprar",
       "title": "Compra BTC con Paxful:",
@@ -2263,53 +2360,29 @@
       "button": "Seleccionar mi dirección de recepción",
       "modal_content": "Por favor tilda los puntos a considerar antes de realizar una compra"
     },
-    "operation_detail": {
-      "header": "Detalle de operación",
-      "disclaimer1": "Recuerda que Xcapit no vende criptomonedas, Todo el flujo de compra y adjudicación queda a cargo del operador.",
-      "disclaimer2": "La entrega de tokens se hace de Lunes a Viernes de 9 a 18 hs. y puede tardar si el banco demora en procesar la transaccion a la cuenta comitente de Kripton.",
-      "support_text": "Si tienes dudas y consultas contáctate con",
-      "support_button": "Soporte de Kripton Market",
-      "upload_voucher": "Adjuntar comprobante",
-      "send_voucher": "Enviar comprobante",
-      "voucher_card": {
-        "header": "Comprobante",
-        "file": "Archivo",
-        "success": "El comprobante se envió correctamente"
-      },
-      "bank_info_card": {
-        "header": "Datos para transferencia",
-        "amount": "Monto",
-        "bank": "Banco",
-        "concept": "Concepto",
-        "copy_success_text": "Se copió el dato correctamente al portapapeles"
-      },
-      "detail_card": {
-        "operation": "Operación",
-        "buy": "Compra",
-        "with": "con",
-        "amount": "Monto",
-        "quotation": "Cotización",
-        "provider": "Proveedor",
-        "reception_address": "Dirección de recepción",
-        "network": "Red"
-      },
-      "remove_photo": {
-        "title": "¿Eliminar archivo?",
-        "description": "Si continuas, deberás cargar nuevamente el comprobante.",
-        "button_text1": "Cancelar",
-        "button_text2": "Eliminar"
-      },
-      "exit_operation_detail": {
-        "title": "¿Deseas salir?",
-        "description": "Deberás volver a cargar tu comprobante.",
-        "button_text1": "Cancelar",
-        "button_text2": "Confirmar"
-      }
-    },
     "operation_status": {
-      "deposited": "Depositado",
+      "incomplete": "Incompleta",
       "in_progress": "En progreso",
-      "canceled": "Cancelada"
+      "confirmed": "Confirmada",
+      "nullified": "Anulada",
+      "cancelled": "Cancelada"
+    },
+    "operation_status_detail": {
+      "title": "¿Qué significa este estado?",
+      "button": "Entendido",
+      "incomplete": {
+        "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. Esto no significa que se realizó la compra. Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
+        "description2": "Tienes hasta 72hs para hacerlo, de lo contrario, se anulará tu pedido."
+      },
+      "in_progress": {
+        "description": "El proveedor recibió exitosamente tu solicitud de compra. Dentro de las siguientes 24hs verás acreditado los tokens en tu wallet."
+      },
+      "nullified": {
+        "description": "El proveedor tuvo inconvenientes para realizar esta operación, por lo cual la misma fue cancelada. Tus fondos se devolverán a tu cuenta de origen."
+      },
+      "cancelled": {
+        "description": "Tu solicitud puede anularse por dos motivos: que el proveedor no recibió el comprobante de la transferencia. O el usuario no realizó el pago dentro de las 72hs estipuladas desde la solicitud de compra."
+      }
     },
     "new_operation": {
       "header": "Comprar cripto",
@@ -2506,6 +2579,106 @@
         "item2": "Puede variar ligeramente al momento de realizar la operación.",
         "item3": "Podrás encontrarlo en tu ticket de pago como “verificador de monto”.",
         "button": "Entendido"
+      },
+      "user_register_content": {
+        "user_information": {
+          "title": "¡Hola! Aún no posees una cuenta, te ayudaremos a registrarte rápidamente",
+          "subtitle": "😄 ¡No te preocupes! Será por única vez."
+        },
+        "user_images": {
+          "title": "Datos, listo ✅",
+          "subtitle": "Sólo queda un paso más, ¡no aflojes!"
+        },
+        "complete": {
+          "title": "¡Felicitaciones! 🎉 Registro finalizado",
+          "subtitle": "⏱ Kripton Market está validando tu cuenta. Este proceso puede demorar hasta 48 hs.",
+          "subtitle_2": "🛒 Una vez que tengas tu cuenta validada, podrás realizar tus compras con este proveedor."
+        }
+      },
+      "validation_content": {
+        "header": "Verificar identidad",
+        "provider": "Proveedor: Kripton Market",
+        "button_primary": "Tomar foto",
+        "button_secondary": "Subir desde galería",
+
+        "front_id": {
+          "title": "¡Hola de nuevo! 👋",
+          "subtitle": "Necesitamos una foto del frente de tu documento",
+          "description": "La imagen debe ser similar a la del ejemplo y sus datos deben ser visibles."
+        },
+        "back_id": {
+          "subtitle": "Ahora precisamos una foto del revés de tu documento",
+          "description": "La imagen debe ser similar a la del ejemplo y sus datos deben ser visibles."
+        },
+        "dni_selfie": {
+          "subtitle": "Finalmente, una foto tuya sosteniendo tu documento",
+          "description": "¡No te preocupes! 😉 Sólamente queremos corroborar que eres la persona que indica el documento ingresado.",
+          "items": "<ul><li>Elige un fondo claro.</li><li>No utilices accesorios que tapen tus facciones.</li></ul>"
+        }
+      },
+
+      "confirmation_content": {
+        "header": "Verificar identidad",
+        "provider": "Proveedor: Kripton Market",
+
+        "front_id": {
+          "title": "¡Muy bien! 📸",
+          "subtitle": "Chequea que la foto cumpla con las siguientes condiciones:",
+          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>",
+          "button_primary": "Confirmar",
+          "button_secondary": "Cargar nuevamente"
+        },
+        "back_id": {
+          "title": "😁 ¡Excelente!",
+          "subtitle": "Chequea que la foto cumpla con las siguientes condiciones: ",
+          "items": "<ul><li>Asegúrate de que los datos sean legibles.</li><li>Revisa que la imagen no esté borrosa.</li><li>El contenido no debe estar recortado.</li></ul>",
+          "button_primary": "Confirmar",
+          "button_secondary": "Cargar nuevamente"
+        },
+        "dni_selfie": {
+          "title": "¡Listo! Terminamos 🎉",
+          "subtitle": "Verifica que se cumplan las siguientes condiciones:",
+          "items": "<ul><li> La foto debe ser clara y nítida.</li><li>No utilices anteojos o sombreros que tapen tu rostro.</li></ul>",
+          "button_primary": "Confirmar y enviar",
+          "button_secondary": "Cargar nuevamente"
+        },
+        "kripton_account_info":{
+          "title": "Transfiere a la siguiente cuenta",
+          "alias": "Alias",
+          "amount":"Monto",
+          "cbu": "CBU",
+          "owner": "Titular",
+          "currency_type": {
+            "argentina": "Pesos argentinos",
+            "venezuela": "Bolívares venezolanos",
+            "uruguay": "Pesos uruguayos",
+            "colombia": "Pesos colombianos"
+          }
+        },
+        "kripton_purchase_info":{
+          "title":"Tu compra",
+          "quote":"Cotización",
+          "operation":"Operación"
+        }
+        
+      },
+      "kripton_purchase_info":{
+        "title":"Tu compra",
+        "quote":"Cotización",
+        "operation":"Operación"
+      },
+      "kripton_account_info":{
+        "title": "Transfiere a la siguiente cuenta",
+        "alias": "Alias",
+        "amount":"Monto",
+        "cbu": "CBU",
+        "owner": "Titular",
+        "currency_type": {
+          "argentina": "Pesos argentinos",
+          "venezuela": "Bolívares venezolanos",
+          "uruguay": "Pesos uruguayos",
+          "colombia": "Pesos colombianos"
+        }
       }
     },
     "user_email": {
@@ -2515,14 +2688,25 @@
       "subtitle": "Si no posees una cuenta, escribe el email con el que quieres que te registremos.",
       "label_email": "Email",
       "button": "Continuar",
-      "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones."
+      "text_token": "Enviamos un código temporal de ingreso a tu email.\n Si no lo encuentras, revisa tu bandeja de spam.",
+      "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones.",
+      "label_token":"Código de ingreso",
+      "toast_success": "Te reenviamos el código de ingreso a tu email.",
+      "resend_email": {
+        "title_not_sent": "¿No recibiste el código?",
+        "title_sent": "Si no recibiste el código se puede reenviar en",
+        "title_exceeded_attempts": "¿Tienes algún inconveniente con el código?",
+        "link_not_sent": "Reenviar código",
+        "link_exceeded_attempts": "Contactar con soporte"
+      },
+      "token_error_description": "El código ingresado es inválido. Inténtalo nuevamente."
     },
     "user_register": {
       "header": "Registración",
       "provider": "Proveedor: Kripton Market",
-      "title": "¡Hola! Aún no posees una cuenta, te ayudaremos a registrarte rápidamente",
-      "subtitle": "😄 ¡No te preocupes! Será por única vez.",
+      "button": "Finalizar",
       "steps": {
+        "complete": "Completo",
         "step_one": {
           "title": "Cargar datos",
           "subtitle": "Completa con tu información personal"
@@ -2576,6 +2760,102 @@
         "label_country_code": "Código de país",
         "label_phone": "Teléfono",
         "button": "Continuar"
+      },
+      "summary_data": {
+        "header": "Cargar datos",
+        "title": "🎊 ¡Así se hace! Terminamos",
+        "subtitle": "¿Deseas realizar algún cambio?",
+        "personal_data": {
+          "title": "Datos personales",
+          "label_name_surname": "Nombre y apellido",
+          "label_birthday": "Fecha de nacimiento",
+          "label_nationality": "Nacionalidad",
+          "label_document": "DNI",
+          "label_gender": "Género",
+          "label_marital_status": "Estado civil",
+          "label_phone": "Teléfono"
+        },
+        "address_data": {
+          "title": "Dirección",
+          "label_street": "Calle",
+          "label_apartment_number": "Número",
+          "label_apartment_floor": "Piso",
+          "label_apartment_letter": "Depto",
+          "label_city": "Ciudad",
+          "label_zip_code": "Código postal"
+        },
+        "checkbox_politically_exposed": "Declaro que no soy una persona políticamente expuesta.",
+        "disclaimer": "Persona políticamente expuesta: individuos que cumplen funciones públicas prominentes, como los Jefes de Estado o Gobierno, funcionarios gubernamentales, judiciales, militares y/o ejecutivos de alto nivel o rango.",
+        "button": "Confirmar y enviar"
+      },
+      "front_id": {
+        "back_modal": {
+          "title": "Atención",
+          "description": "¿Deseas salir? Se perderán tus avances y deberás comenzar nuevamente.",
+          "confirm_button": "Confirmar",
+          "cancel_button": "Cancelar"
+        }
+      }
+    },
+    "purchase_order":{
+      "header": "Comprar cripto",
+      "clipboard_text":"¡{{type}} copiado con exito!",
+      "provider": "Proveedor: Kripton Market",
+      "step_1":"Transferir",
+      "step_2":"Cargar comprobante",
+      "button":"Continuar",
+      "send_button":"Enviar y finalizar",
+      "timer":"Te quedan {{ value }} para transferir",
+      "voucher_card": {
+        "header": "Adjunta tu comprobante",
+        "file_placeholder": "Comprobante.jpg",
+        "upload_button": "Cargar imagen",
+        "footnote": "Soporta png, jpg, pdf o formatos similares de hasta 200 kb.",
+        "success": "Comprobante",
+        "error": "Se produjo un error. Carga tu comprobante nuevamente."
+      }
+    },
+    "kripton_operation_detail":{
+      "header": "Detalle de la operación",
+      "title": "Compra",
+      "state": "Estado",
+      "state_toast": {
+        "incomplete": "Transfiere y envía el comprobante de la transacción.",
+        "incomplete2": "Completar datos",
+        "nullified": "El proveedor anuló esta operación. Para más infomación, comunícate con soporte.",
+        "cancelled": "El proveedor no recibió el comprobante del pago."
+      },
+      "quotation": "Cotización",
+      "address": "Dirección de destino (tu wallet)",
+      "provider": "Proveedor",
+      "operation": "Operación",
+      "date": "Fecha",
+      "hours": "hs",
+      "support": {
+        "header": "¿Necesitas ayuda?",
+        "link": "Escribir a soporte Kripton Market"
+      }
+    },
+    "kyc_status": {
+      "title": "Cuenta Kripton Market",
+      "starting": {
+        "status": "Avance: 0%",
+        "message": "Completa la validación de identidad para finalizar la creación de tu cuenta. Verificar indentidad ahora."
+      },
+      "pending": {
+        "status": "Avance: 50%"
+      },
+      "checking": {
+        "status": "En curso",
+        "message": "Tus datos están siendo verificados. Este proceso puede demorar hasta 48 hs."
+      },
+      "canceling": {
+        "status": "Anulada",
+        "message": "Los datos ingresados no pudieron ser verificados por el proveedor o son incorrectos. Para más información, comunícate con soporte."
+      },
+      "approving": {
+        "title": "Tu cuenta en Kripton Market fue verificada.",
+        "message": "Ya puedes realizar tus compras con este proveedor."
       }
     }
   },
@@ -2896,7 +3176,19 @@
       "tos_1": "Leí y estoy de acuerdo con los ",
       "tos_button": "términos y condiciones",
       "tos_2": "de 1inch",
-      "warning_same_tokens": "El token de origen no puede ser igual al token de destino."
+      "warning_same_tokens": "El token de origen no puede ser igual al token de destino.",
+      "balance_modal": {
+        "insufficient_balance": {
+          "text": "No tienes suficiente {{token}} en tu cuenta para realizar esta operación.",
+          "firstButtonName": "Comprar {{token}}",
+          "secondaryButtonName": "Depositar {{token}}"
+        },
+        "insufficient_balance_fee": {
+          "text": "No tienes suficientes {{token}} en tu cuenta para pagar la tarifa de transacción.",
+          "firstButtonName": "Comprar {{token}}",
+          "secondaryButtonName": "Depositar {{token}}"
+        }
+      }
     },
     "errors": {
       "invalid_password": "La contraseña ingresada no es correcta."

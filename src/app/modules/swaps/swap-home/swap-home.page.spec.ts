@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -47,6 +47,7 @@ import { DynamicPrice } from 'src/app/shared/models/dynamic-price/dynamic-price.
 import { of } from 'rxjs';
 import { IonicStorageService } from '../../../shared/services/ionic-storage/ionic-storage.service';
 import { Password } from '../shared-swaps/models/password/password';
+import { SwapInProgressService } from '../shared-swaps/services/swap-in-progress/swap-in-progress.service';
 
 describe('SwapHomePage', () => {
   let component: SwapHomePage;
@@ -56,7 +57,6 @@ describe('SwapHomePage', () => {
   let fakeActivatedRoute: FakeActivatedRoute;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let oneInchBlockchainsOfFactorySpy: jasmine.SpyObj<OneInchBlockchainsOfFactory>;
   let intersectedTokensFactorySpy: jasmine.SpyObj<IntersectedTokensFactory>;
@@ -73,6 +73,8 @@ describe('SwapHomePage', () => {
   let dynamicPriceSpy: jasmine.SpyObj<DynamicPrice>;
   let dynamicPriceFactorySpy: jasmine.SpyObj<DynamicPriceFactory>;
   let storageSpy: jasmine.SpyObj<IonicStorageService>;
+  let activatedRouteSpy: any;
+  let swapInProgressServiceSpy: jasmine.SpyObj<SwapInProgressService>;
   const aPassword = new Password('aPassword');
   const aHashedPassword = 'iRJ1cT5x4V2jlpnVB0gp3bXdN4Uts3EAz4njSxGUNNqOGdxdWpjiTTWLOIAUp+6ketRUhjoRZBS8bpW5QnTnRA==';
   const testLocalNotificationOk: LocalNotificationSchema = {
@@ -100,6 +102,8 @@ describe('SwapHomePage', () => {
     toToken.contract,
     'token-to-select',
     selectTokenkey,
+    'from-token-amount',
+    '1',
   ];
   const blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
@@ -119,10 +123,19 @@ describe('SwapHomePage', () => {
   };
 
   beforeEach(waitForAsync(() => {
-    fakeActivatedRoute = new FakeActivatedRoute({
-      blockchain: rawBlockchain.name,
-      fromToken: fromToken.contract,
-      toToken: toToken.contract,
+    fakeActivatedRoute = new FakeActivatedRoute(
+      {
+        blockchain: rawBlockchain.name,
+        fromToken: fromToken.contract,
+        toToken: toToken.contract,
+      },
+      { 'from-token-amount': '1' }
+    );
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
+
+    swapInProgressServiceSpy = jasmine.createSpyObj('SwapInProgressService', {
+      startSwap: null,
+      finishSwap: null,
     });
 
     walletBalanceSpy = jasmine.createSpyObj('WalletBalanceService', {
@@ -164,7 +177,9 @@ describe('SwapHomePage', () => {
     });
 
     gasStationOfFactorySpy = jasmine.createSpyObj('GasStationOfFactory', {
-      create: { price: () => ({ fast: () => Promise.resolve(new AmountOf('1', new DefaultToken(rawMATICData))) }) },
+      create: {
+        price: () => ({ fast: () => Promise.resolve(new AmountOf('100000', new DefaultToken(rawMATICData))) }),
+      },
     });
 
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
@@ -216,6 +231,7 @@ describe('SwapHomePage', () => {
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: DynamicPriceFactory, useValue: dynamicPriceFactorySpy },
         { provide: IonicStorageService, useValue: storageSpy },
+        { provide: SwapInProgressService, useValue: swapInProgressServiceSpy },
       ],
     }).compileComponents();
 
@@ -246,7 +262,26 @@ describe('SwapHomePage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should button disabled on invalid value in from token amount input', async () => {
+  it('should enable button on valid value in from token amount input', fakeAsync(() => {
+    component.ionViewDidEnter();
+    fixture.detectChanges();
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_swap_confirm"]'));
+    tick(3000);
+    fixture.detectChanges();
+    expect(component.form.valid).toBeTrue();
+    expect(buttonEl.attributes['ng-reflect-disabled']).toEqual('false');
+    discardPeriodicTasks();
+  }));
+
+  it('should disable button on invalid value in from token amount input', async () => {
+    fakeActivatedRoute.modifySnapshotParams(
+      {
+        blockchain: rawBlockchain.name,
+        fromToken: fromToken.contract,
+        toToken: toToken.contract,
+      },
+      { 'from-token-amount': '0' }
+    );
     await component.ionViewDidEnter();
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_swap_confirm"]'));
@@ -377,6 +412,27 @@ describe('SwapHomePage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(2);
   }));
 
+  it('password is valid, start swap for save in ionic storage service', fakeAsync(() => {
+    storageSpy.get.withArgs('loginToken').and.returnValue(Promise.resolve(aHashedPassword));
+    _setTokenAmountArrange(1);
+    component.swapThem();
+
+    tick(2);
+
+    expect(swapInProgressServiceSpy.startSwap).toHaveBeenCalledTimes(1);
+    expect(swapInProgressServiceSpy.finishSwap).toHaveBeenCalledTimes(1);
+  }));
+
+  it('password is invalid, it not start swap', fakeAsync(() => {
+    _setWalletToInvalidPassword();
+    _setTokenAmountArrange(1);
+    component.swapThem();
+
+    tick(2);
+
+    expect(swapInProgressServiceSpy.startSwap).toHaveBeenCalledTimes(0);
+  }));
+
   it('password modal open on click swap button and password is invalid', fakeAsync(() => {
     _setWalletToInvalidPassword();
     _setTokenAmountArrange(1);
@@ -447,14 +503,26 @@ describe('SwapHomePage', () => {
   });
 
   it('should set max amount from swap', async () => {
+    walletBalanceSpy.balanceOf.and.returnValues(Promise.resolve(10), Promise.resolve(0));
     await component.ionViewDidEnter();
     fixture.detectChanges();
-
-    fixture.debugElement
-      .query(By.css('ion-button.sw__swap-card__from__detail__amount__wrapper__max'))
-      .nativeElement.click();
+    await component.setMaxAmount();
 
     expect(component.form.controls.fromTokenAmount.value).toEqual(10);
+  });
+
+  it('should set max amount from native token swap', async () => {
+    fakeActivatedRoute.modifySnapshotParams({
+      blockchain: rawBlockchain.name,
+      fromToken: rawMATICData.contract,
+      toToken: rawUSDCData.contract,
+    });
+    walletBalanceSpy.balanceOf.and.returnValues(Promise.resolve(10), Promise.resolve(0));
+    await component.ionViewDidEnter();
+    fixture.detectChanges();
+    await component.setMaxAmount();
+
+    expect(component.form.controls.fromTokenAmount.value).toEqual(9.99999997132675);
   });
 
   it('should render correct properly and enabled button when the balance is available', fakeAsync(() => {
@@ -475,5 +543,39 @@ describe('SwapHomePage', () => {
     expect(div).toBeTruthy();
     expect(component.disabledBtn).toBeTruthy();
     expect(component.insufficientBalance).toBeTruthy();
+  }));
+
+  it('should show alert when insuficient funds for amount', fakeAsync(() => {
+    const feeModal = spyOn(component, 'showInsufficientBalanceFeeModal');
+    const balanceModal = spyOn(component, 'showInsufficientBalanceModal');
+
+    _setTokenAmountArrange(15);
+
+    expect(balanceModal).toHaveBeenCalledTimes(1);
+    expect(feeModal).not.toHaveBeenCalled();
+  }));
+
+  it('should show alert when insuficient funds for fee', fakeAsync(() => {
+    const feeModal = spyOn(component, 'showInsufficientBalanceFeeModal');
+    const balanceModal = spyOn(component, 'showInsufficientBalanceModal');
+    walletBalanceSpy.balanceOf.and.returnValues(
+      Promise.resolve(10),
+      Promise.resolve(0),
+      Promise.resolve(10),
+      Promise.resolve(0)
+    );
+    fixture.detectChanges();
+    _setTokenAmountArrange(10);
+
+    expect(feeModal).toHaveBeenCalledTimes(1);
+    expect(balanceModal).not.toHaveBeenCalled();
+  }));
+
+  it('should set value on fromTokenAmount input on init', fakeAsync(() => {
+    component.ionViewDidEnter();
+    tick();
+    fixture.detectChanges();
+    expect(component.form.value.fromTokenAmount).toBe('1');
+    discardPeriodicTasks();
   }));
 });
