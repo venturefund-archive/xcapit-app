@@ -174,7 +174,7 @@ export class AmountInputCardComponent implements OnInit, OnChanges {
     this.form.get('quoteAmount').valueChanges.subscribe((value) => {
       this.quoteAmountChange(value);
       this.value = value;
-      this.insufficientBalance = this.value > this.max;
+      this.insufficientBalance = this.value > this.quoteMax;
     });
     if (this.showRange) this.form.get('percentage').valueChanges.subscribe((value) => this.percentageChange(value));
     if (this.showRange) this.form.get('range').valueChanges.subscribe((value) => this.rangeChange(value));
