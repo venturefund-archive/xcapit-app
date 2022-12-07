@@ -2371,7 +2371,7 @@
       "title": "¿Qué significa este estado?",
       "button": "Entendido",
       "incomplete": {
-        "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. Esto no significa que se realizó la compra. Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
+        "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. <b>Esto no significa que se realizó la compra.</b> Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
         "description2": "Tienes hasta 72hs para hacerlo, de lo contrario, se anulará tu pedido."
       },
       "in_progress": {

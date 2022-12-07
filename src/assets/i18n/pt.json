@@ -2405,7 +2405,7 @@
       "title": "O que significa este estado?",
       "button": "Entendido",
       "incomplete": {
-        "description": "Sua solicitação de compra foi recebida com sucesso pelo provedor. Isso não significa que a compra foi feita. Para tal, deverá cumprir os restantes passos: anexar o comprovativo da transferência e enviar-nos.",
+        "description": "Sua solicitação de compra foi recebida com sucesso pelo provedor. <b>Isso não significa que a compra foi feita.</b> Para tal, deverá cumprir os restantes passos: anexar o comprovativo da transferência e enviar-nos.",
         "description2": "Tem até 72 horas para o fazer, caso contrário a sua encomenda será cancelada."
       },
       "in_progress": {
