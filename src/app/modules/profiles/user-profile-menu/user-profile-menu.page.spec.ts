@@ -337,31 +337,6 @@ describe('UserProfileMenuPage', () => {
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
   });
 
-  it('should show modal, delete storage data and logout when delete account button is clicked and user confirms it', async () => {
-    component.profile = profile;
-    fakeModalController.modifyReturns({}, { data: true });
-    const button = fixture.debugElement.query(By.css('ion-button[name="delete_account"]'));
-    button.nativeElement.click();
-    await fixture.whenStable();
-    expect(storageServiceSpy.removeWalletFromStorage).toHaveBeenCalledTimes(1);
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', false);
-    expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
-    expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
-    expect(storageSpy.set).toHaveBeenCalledOnceWith('FINISHED_ONBOARDING', false);
-    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
-  });
-
-  it('should show modal but not delete anything when delete account button is clicked and user cancels it', async () => {
-    component.profile = profile;
-    fakeModalController.modifyReturns({}, { data: false });
-    const button = fixture.debugElement.query(By.css('ion-button[name="delete_account"]'));
-    button.nativeElement.click();
-    await fixture.whenStable();
-    expect(spyOn(component, 'deleteAccount')).toHaveBeenCalledTimes(0);
-    expect(spyOn(component, 'cleanStorage')).toHaveBeenCalledTimes(0);
-    expect(spyOn(component, 'logout')).toHaveBeenCalledTimes(0);
-  });
 
   it('should render app-card-category-menu component', () => {
     component.itemMenu = itemMenu;

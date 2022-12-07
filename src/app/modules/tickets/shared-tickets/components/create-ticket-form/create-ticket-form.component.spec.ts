@@ -9,25 +9,18 @@ import { ApiTicketsService } from '../../services/api-tickets.service';
 import { of, throwError } from 'rxjs';
 import { DummyComponent } from 'src/testing/dummy.component.spec';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CRUD } from 'src/app/shared/services/crud/crud';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 
 describe('CreateTicketFormComponent', () => {
   let component: CreateTicketFormComponent;
   let fixture: ComponentFixture<CreateTicketFormComponent>;
   let apiTicketServiceSpy: jasmine.SpyObj<ApiTicketsService>;
-  let crudSpy: jasmine.SpyObj<CRUD>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
 
   beforeEach(() => {
-    crudSpy = jasmine.createSpyObj('CRUD', { create: of({}) });
-    apiTicketServiceSpy = jasmine.createSpyObj(
-      'ApiTicketService',
-      {},
-      {
-        crud: crudSpy,
-      }
-    );
+    apiTicketServiceSpy = jasmine.createSpyObj('ApiTicketService', {
+      createTicket: of({}),
+    });
     browserServiceSpy = jasmine.createSpyObj('BrowserService', {
       open: Promise.resolve(null),
     });
@@ -82,7 +75,7 @@ describe('CreateTicketFormComponent', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Submit"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(apiTicketServiceSpy.crud.create).toHaveBeenCalledOnceWith({
+    expect(apiTicketServiceSpy.createTicket).toHaveBeenCalledOnceWith({
       email: 'test@test.com',
       subject: 'tickets.categories.others',
       category_code: 'Otros',
@@ -92,7 +85,7 @@ describe('CreateTicketFormComponent', () => {
   });
 
   it('should emit parsed form error to parent when Submit button is clicked and the form is valid', async () => {
-    crudSpy.create.and.returnValue(throwError('Error'));
+    apiTicketServiceSpy.createTicket.and.returnValue(throwError('Error'));
     const spy = spyOn(component.errorTicketCreation, 'emit');
     component.form.patchValue({
       email: 'test@test.com',
@@ -102,7 +95,7 @@ describe('CreateTicketFormComponent', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="Submit"]')).nativeElement.click();
     await fixture.whenStable();
-    expect(apiTicketServiceSpy.crud.create).toHaveBeenCalledOnceWith({
+    expect(apiTicketServiceSpy.createTicket).toHaveBeenCalledOnceWith({
       email: 'test@test.com',
       subject: 'tickets.categories.others',
       category_code: 'Otros',
