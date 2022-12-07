@@ -45,6 +45,7 @@ import { UpdateNewsService } from '../../../shared/services/update-news/update-n
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { FakeTotalInvestedBalanceOf } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
 import { SwapInProgressService } from '../../swaps/shared-swaps/services/swap-in-progress/swap-in-progress.service';
+import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 
 describe('HomeWalletPage', () => {
   let component: HomeWalletPage;
@@ -71,6 +72,7 @@ describe('HomeWalletPage', () => {
   let twoPiProductFactorySpy: jasmine.SpyObj<TwoPiProductFactory>;
   let twoPiApiSpy: jasmine.SpyObj<TwoPiApi>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
+  let base64ImageFactorySpy: jasmine.SpyObj<Base64ImageFactory>;
   let walletsFactorySpy: jasmine.SpyObj<WalletsFactory>;
   let walletConnectServiceSpy: jasmine.SpyObj<WalletConnectService>;
   let updateNewsServiceSpy: jasmine.SpyObj<UpdateNewsService>;
@@ -183,6 +185,12 @@ describe('HomeWalletPage', () => {
       create: { oneBy: () => Promise.resolve(new FakeWallet()) },
     });
 
+    base64ImageFactorySpy = jasmine.createSpyObj('Base64ImageFactory', {
+      new: Promise.resolve({ value : () => {
+        return Promise.resolve({})
+      }}),
+    });
+
     walletConnectServiceSpy = jasmine.createSpyObj('WalletConnectService', { connected: false });
     totalInvestedBalanceOfInjectableSpy = jasmine.createSpyObj('TotalInvestedBalanceOfInjectable', {
       create: new FakeTotalInvestedBalanceOf(Promise.resolve(15.6)),
@@ -208,6 +216,7 @@ describe('HomeWalletPage', () => {
         { provide: TwoPiProductFactory, useValue: twoPiProductFactorySpy },
         { provide: TwoPiApi, useValue: twoPiApiSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
+        { provide: Base64ImageFactory, useValue: base64ImageFactorySpy },
         { provide: WalletsFactory, useValue: walletsFactorySpy },
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
         { provide: UpdateNewsService, useValue: updateNewsServiceSpy },
@@ -347,10 +356,17 @@ describe('HomeWalletPage', () => {
   });
 
   it('should render app-transaction-in-progress-card component', async () => {
-    component.swapInProgress = true;
     await fixture.whenRenderingDone();
     await fixture.whenStable();
     const componentEl = fixture.debugElement.queryAll(By.css('app-transaction-in-progress-card'));
+    fixture.detectChanges();
+    expect(componentEl).toBeTruthy();
+  });
+
+  it('should render home-slides component', async () => {
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    const componentEl = fixture.debugElement.queryAll(By.css('app-home-slides'));
     fixture.detectChanges();
     expect(componentEl).toBeTruthy();
   });
@@ -375,13 +391,6 @@ describe('HomeWalletPage', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get in progress the swap is finish', fakeAsync(() => {
-    component.ionViewWillEnter();
-    component.suscribleToSwapInProgress();
-    fixture.detectChanges();
-    tick(2);
-    expect(swapInProgressServiceSpy.inProgress).toBeTruthy(true);
-  }));
 
   it('should get on storage onInit', () => {
     component.ionViewWillEnter();

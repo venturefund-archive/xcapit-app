@@ -27,6 +27,9 @@ import { ShareTransactionDetailComponent } from './components/share-transaction-
 import { AccordionTokensComponent} from './components/accordion-tokens/accordion-tokens.component';
 import { NoActiveTokensCardComponent } from './components/no-active-tokens-card/no-active-tokens-card.component';
 import { TransactionInProgressCardComponent } from './components/transaction-in-progress-card/transaction-in-progress-card.component';
+import { SwiperModule } from 'swiper/angular';
+import { HomeSlidesComponent } from './components/home-slides/home-slides.component';
+
 
 @NgModule({
   declarations: [
@@ -56,9 +59,10 @@ import { TransactionInProgressCardComponent } from './components/transaction-in-
     ShareTransactionDetailComponent,
     AccordionTokensComponent,
     NoActiveTokensCardComponent,
-    TransactionInProgressCardComponent
+    TransactionInProgressCardComponent,
+    HomeSlidesComponent
   ],
-  imports: [SharedModule],
+  imports: [SharedModule, SwiperModule],
   exports: [
     SharedModule,
     WalletAdviceComponent,
@@ -87,7 +91,8 @@ import { TransactionInProgressCardComponent } from './components/transaction-in-
     ShareTransactionDetailComponent,
     AccordionTokensComponent,
     NoActiveTokensCardComponent,
-    TransactionInProgressCardComponent
+    TransactionInProgressCardComponent,
+    HomeSlidesComponent
   ],
 })
 export class SharedWalletsModule {}
