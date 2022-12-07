@@ -1,20 +1,20 @@
 import { FilesystemPlugin, WriteFileResult } from '@capacitor/filesystem';
-import { ReadAsset } from '../read-asset/read-asset';
+import { Base64ImageOf } from 'src/app/modules/wallets/shared-wallets/models/base-64-image-of/base-64-image-of';
 import { CachedAsset } from './cached-asset';
 
 describe('CachedAsset', () => {
   let fileSystemSpy: jasmine.SpyObj<FilesystemPlugin>;
-  let readAssetSpy: jasmine.SpyObj<ReadAsset>;
+  let base64ImageOfSpy: jasmine.SpyObj<Base64ImageOf>;
   let cachedAsset: CachedAsset;
 
   beforeEach(() => {
     fileSystemSpy = jasmine.createSpyObj('FilesystemPlugin', {
       writeFile: Promise.resolve({ uri: 'file.jpg' } as WriteFileResult),
     });
-    readAssetSpy = jasmine.createSpyObj('ReadAsset', {
+    base64ImageOfSpy = jasmine.createSpyObj('Base64ImageOf', {
       value: Promise.resolve('something'),
     });
-    cachedAsset = new CachedAsset(readAssetSpy, fileSystemSpy, 'file.jpg');
+    cachedAsset = new CachedAsset(base64ImageOfSpy, fileSystemSpy, 'file.jpg');
   });
 
   it('new', () => {
@@ -27,7 +27,7 @@ describe('CachedAsset', () => {
 
   it('value with auto-generated file name', async () => {
     fileSystemSpy.writeFile.and.resolveTo({ uri: new Date().getTime() + '.jpg' });
-    const cachedAssetWithoutFileName = new CachedAsset(readAssetSpy, fileSystemSpy);
+    const cachedAssetWithoutFileName = new CachedAsset(base64ImageOfSpy, fileSystemSpy);
     expect((await cachedAssetWithoutFileName.value()).uri.split('.')[1]).toEqual('jpg');
   });
 });
