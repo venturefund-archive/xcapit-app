@@ -103,19 +103,19 @@ describe('FiatRampsService', () => {
   });
 
   it('should call get on http when getUserOperations', () => {
-    fiatRampsService.getUserOperations().subscribe(() => {
-      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    fiatRampsService.getUserOperations({ email: 'test@test.com' }).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 
   it('should call get on http when getUserSingleOperation', () => {
-    fiatRampsService.getUserSingleOperation(0).subscribe(() => {
-      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    fiatRampsService.getUserSingleOperation(0, { email: 'test@test.com' }).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 
-  it('should call post on http when getMoonpayLink', () => {
-    fiatRampsService.getMoonpayLink('0x0000', 'eth').subscribe(() => {
+  it('should call post on http when getMoonpayRedirectLink', () => {
+    fiatRampsService.getMoonpayRedirectLink('0x0000', 'eth', 'usd', 50).subscribe(() => {
       expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
@@ -128,6 +128,24 @@ describe('FiatRampsService', () => {
   it('should call get on http when getDirectaExchangeRate', () => {
     fiatRampsService.getDirectaExchangeRate('ARS', 'USDC', 1).subscribe(() => {
       expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call get on http when getMoonpayQuotation', () => {
+    fiatRampsService.getMoonpayQuotation('USDC_polygon').subscribe(() => {
+      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call post on http when getKriptonAccessToken', () => {
+    fiatRampsService.getKriptonAccessToken({ email: 'test@test.com' }).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should call post on http when kriptonLogin', () => {
+    fiatRampsService.kriptonLogin({ email: 'test@test.com', token: '123456' }).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -168,7 +168,11 @@ export class SelectProviderCardComponent implements OnInit {
     }
     return null;
   }
+
   async setMoonpayQuote(fiatCode: string) {
+    if (!fiatCode) {
+      fiatCode = 'USD';
+    }
     if (fiatCode && this.availableProviders.some((p) => p.alias === 'moonpay')) {
       return await this.moonpayFactory.new(fiatCode, this.coin.moonpayCode, this.fiatRampsService).value().toPromise();
     }
@@ -178,7 +182,7 @@ export class SelectProviderCardComponent implements OnInit {
   async setProvidersQuote() {
     this.directaQuote = await this.setDirectaQuote(this.country.isoCurrencyCodeDirecta);
     this.kriptonQuote = await this.setKriptonQuote(this.country.fiatCode);
-    this.moonpayUsdQuote = await this.setMoonpayQuote('USD');
+    this.moonpayUsdQuote = await this.setMoonpayQuote(this.country.isoCurrencyCodeMoonpay);
   }
 
   resetProviders() {

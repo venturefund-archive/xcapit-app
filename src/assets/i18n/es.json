@@ -2265,7 +2265,8 @@
       "amount": "Monto",
       "date": "Fecha",
       "status": "Estado",
-      "no_operations_message": "Para acceder al estado de tu cuenta y/o listado de compras, deberás ",
+      "not_logged": "Para acceder al estado de tu cuenta y/o listado de compras, deberás ",
+      "no_operations_message": "Una vez realizadas tus compras, podrás verlas en este apartado.",
       "link": "iniciar sesión en Kripton Market",
       "button_show_less": "Ver menos",
       "button_show_more": "Ver más"
@@ -2358,49 +2359,6 @@
       "recordatory_4": "Recuerda que si tienes inversiones activas, tu compra será automáticamene parte de esa inversión. ",
       "button": "Seleccionar mi dirección de recepción",
       "modal_content": "Por favor tilda los puntos a considerar antes de realizar una compra"
-    },
-    "operation_detail": {
-      "header": "Detalle de operación",
-      "disclaimer1": "Recuerda que Xcapit no vende criptomonedas, Todo el flujo de compra y adjudicación queda a cargo del operador.",
-      "disclaimer2": "La entrega de tokens se hace de Lunes a Viernes de 9 a 18 hs. y puede tardar si el banco demora en procesar la transaccion a la cuenta comitente de Kripton.",
-      "support_text": "Si tienes dudas y consultas contáctate con",
-      "support_button": "Soporte de Kripton Market",
-      "upload_voucher": "Adjuntar comprobante",
-      "send_voucher": "Enviar comprobante",
-      "voucher_card": {
-        "header": "Comprobante",
-        "file": "Archivo",
-        "success": "El comprobante se envió correctamente"
-      },
-      "bank_info_card": {
-        "header": "Datos para transferencia",
-        "amount": "Monto",
-        "bank": "Banco",
-        "concept": "Concepto",
-        "copy_success_text": "Se copió el dato correctamente al portapapeles"
-      },
-      "detail_card": {
-        "operation": "Operación",
-        "buy": "Compra",
-        "with": "con",
-        "amount": "Monto",
-        "quotation": "Cotización",
-        "provider": "Proveedor",
-        "reception_address": "Dirección de recepción",
-        "network": "Red"
-      },
-      "remove_photo": {
-        "title": "¿Eliminar archivo?",
-        "description": "Si continuas, deberás cargar nuevamente el comprobante.",
-        "button_text1": "Cancelar",
-        "button_text2": "Eliminar"
-      },
-      "exit_operation_detail": {
-        "title": "¿Deseas salir?",
-        "description": "Deberás volver a cargar tu comprobante.",
-        "button_text1": "Cancelar",
-        "button_text2": "Confirmar"
-      }
     },
     "operation_status": {
       "incomplete": "Incompleta",
@@ -2683,6 +2641,24 @@
           "items": "<ul><li> La foto debe ser clara y nítida.</li><li>No utilices anteojos o sombreros que tapen tu rostro.</li></ul>",
           "button_primary": "Confirmar y enviar",
           "button_secondary": "Cargar nuevamente"
+        },
+        "kripton_account_info":{
+          "title": "Transfiere a la siguiente cuenta",
+          "alias": "Alias",
+          "amount":"Monto",
+          "cbu": "CBU",
+          "owner": "Titular",
+          "currency_type": {
+            "argentina": "Pesos argentinos",
+            "venezuela": "Bolívares venezolanos",
+            "uruguay": "Pesos uruguayos",
+            "colombia": "Pesos colombianos"
+          }
+        },
+        "kripton_purchase_info":{
+          "title":"Tu compra",
+          "quote":"Cotización",
+          "operation":"Operación"
         }
         
       },
@@ -2722,7 +2698,8 @@
         "title_exceeded_attempts": "¿Tienes algún inconveniente con el código?",
         "link_not_sent": "Reenviar código",
         "link_exceeded_attempts": "Contactar con soporte"
-      }
+      },
+      "token_error_description": "El código ingresado es inválido. Inténtalo nuevamente."
     },
     "user_register": {
       "header": "Registración",
@@ -2827,7 +2804,16 @@
       "step_1":"Transferir",
       "step_2":"Cargar comprobante",
       "button":"Continuar",
-      "timer":"Te quedan {{ value }} para transferir"
+      "send_button":"Enviar y finalizar",
+      "timer":"Te quedan {{ value }} para transferir",
+      "voucher_card": {
+        "header": "Adjunta tu comprobante",
+        "file_placeholder": "Comprobante.jpg",
+        "upload_button": "Cargar imagen",
+        "footnote": "Soporta png, jpg, pdf o formatos similares de hasta 200 kb.",
+        "success": "Comprobante",
+        "error": "Se produjo un error. Carga tu comprobante nuevamente."
+      }
     },
     "kripton_operation_detail":{
       "header": "Detalle de la operación",

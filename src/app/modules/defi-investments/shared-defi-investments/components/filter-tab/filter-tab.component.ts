@@ -9,16 +9,16 @@ import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/
         *ngFor="let item of items; let i = index"
         appTrackClick
         class="button"
-        [dataToTrack]='{eventLabel: item.dataToTrack}'
+        [dataToTrack]="{ eventLabel: item.dataToTrack }"
         [value]="item.value"
         [id]="item.value"
-      > 
-      <div class="dt__content">
-        <img [src]="this.item.icon"/>
-        <ion-label class="ux-font-text-xs">
-          {{ this.item.title | translate }}
-        </ion-label>
-      </div>  
+      >
+        <div class="dt__content">
+          <img [src]="this.item.icon" />
+          <ion-label class="ux-font-text-xs">
+            {{ this.item.title | translate }}
+          </ion-label>
+        </div>
       </ion-segment-button>
     </ion-segment>
   `,
@@ -32,24 +32,23 @@ import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/
 })
 export class FilterTabComponent implements AfterViewInit {
   control: AbstractControl;
-  @Input() items: { title: string; value: string; icon:string, dataToTrack:string }[];
-  @Input() controlName: string ;
+  @Input() items: { title: string; value: string; dataToTrack: string }[];
+  @Input() controlName: string;
   constructor(private formGroupDirective: FormGroupDirective, public elRef: ElementRef) {}
 
- 
   ngAfterViewInit() {
     this.getControl();
     this.subscribeOnChanges();
     this.scrollOnInit();
   }
-  
-  scrollOnInit(){
-    setTimeout(() => {    
+
+  scrollOnInit() {
+    setTimeout(() => {
       this.scrollToElement(this.control.value);
     }, 200);
   }
 
-  getControl(){
+  getControl() {
     this.control = this.formGroupDirective.form.get(this.controlName);
   }
 
@@ -59,7 +58,7 @@ export class FilterTabComponent implements AfterViewInit {
 
   scrollToElement(value: string) {
     this.elRef.nativeElement.querySelector(`ion-segment-button[id=${value}]`).scrollIntoView({
-      behavior:'smooth',
+      behavior: 'smooth',
       block: 'end',
       inline: 'nearest',
     });

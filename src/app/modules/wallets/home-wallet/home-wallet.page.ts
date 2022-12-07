@@ -219,6 +219,7 @@ export class HomeWalletPage implements OnInit {
   totalInvested: number;
   slides = [];
   pids = [];
+  twoPiProducts: TwoPiProduct[] = [];
   newTokens: NewToken[];
   connected: boolean;
   allLoaded = false;
@@ -266,7 +267,7 @@ export class HomeWalletPage implements OnInit {
 
   async getSliderImages(){
     const slides = await this.remoteConfig.getObject('appSlides');
-    for(let slide of slides){
+    for(const slide of slides){
       slide.image = await (await this.base64ImageFactory.new(slide.image)).value();
     }
     this.slides = slides;
@@ -328,10 +329,10 @@ export class HomeWalletPage implements OnInit {
   }
 
   async setInvestments() {
-    this.pids = [];
+    this.twoPiProducts = [];
     for (const product of this.defiProducts) {
       const anInvestmentProduct = await this.getInvestmentProduct(product);
-      this.pids.push(anInvestmentProduct.id());
+      this.twoPiProducts.push(anInvestmentProduct);
     }
   }
 
@@ -421,7 +422,7 @@ export class HomeWalletPage implements OnInit {
   }
 
   async setInvestedBalance() {
-    const totalInvestedBalanceOf = this.totalInvestedBalanceOfInjectable.create(this.address, this.pids);
+    const totalInvestedBalanceOf = this.totalInvestedBalanceOfInjectable.create(this.address, this.twoPiProducts);
     this.totalInvested = await totalInvestedBalanceOf.cached();
     this.totalInvested = await totalInvestedBalanceOf.value();
   }
