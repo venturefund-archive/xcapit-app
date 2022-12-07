@@ -134,13 +134,13 @@
       "title": "What you were waiting for, has arrived \uD83D\uDE0E",
       "first": {
         "badge": "New feature",
-        "title": "\uD83D\uDE80 Your wallet is faster than ever!",
-        "description": "You won't need your email anymore! You will enter and approve your transactions with the same password.\nMore agility, security and privacy for your data."
+        "title": "\uD83D\uDE80 Biometric Auth",
+        "description": "Log in to your wallet faster than ever using your biometric data."
       },
       "second": {
         "badge": "New feature",
-        "title": "\uD83D\uDCB8 More transparent investments",
-        "description": "You will be able to view the performance of all your investments at all times."
+        "title": "\uD83D\uDE0E App improvements",
+        "description": "Performance improvements in your investment and transfer operations. Bug fixes and much more."
       }
     },
     "transaction_fees": {

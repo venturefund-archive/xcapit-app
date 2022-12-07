@@ -134,13 +134,13 @@
       "title": "O que você estava esperando, chegou 😎",
       "first": {
         "badge": "Novo recurso",
-        "title": "🚀 Sua carteira está mais rápida do que nunca!",
-        "description": "Você não precisará mais do seu e-mail! Você entrará e aprovará suas transações com a mesma senha. Mais agilidade, segurança e privacidade para seus dados."
+        "title": "\uD83D\uDE80 Dados biométricos",
+        "description": "Entre na sua carteira mais rapidamente do que nunca utilizando os seus dados biométricos."
       },
       "second": {
         "badge": "Novo recurso",
-        "title": "💸 Investimentos mais transparentes",
-        "description": "Você será capaz de visualizar o desempenho de todos os seus investimentos em todos os momentos."
+        "title": "\uD83D\uDE0E Melhorias na aplicação",
+        "description": "Melhorias de desempenho no seu investimento e operações de expedição. Arranjos de insectos e muito mais."
       }
     },
     "transaction_fees": {
