@@ -17,6 +17,7 @@ import { LocalNotificationsService } from './modules/notifications/shared-notifi
 import { IonicStorageService } from './shared/services/ionic-storage/ionic-storage.service';
 import { LoggedIn } from './modules/users/shared-users/models/logged-in/logged-in';
 import { TrackedWalletAddressInjectable } from './shared/models/tracked-wallet-address/injectable/tracked-wallet-address.injectable';
+import { AppSession } from './shared/models/app-session/app-session';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,7 @@ import { TrackedWalletAddressInjectable } from './shared/models/tracked-wallet-a
 export class AppComponent implements OnInit {
   onLangChange: Subscription = undefined;
   statusBar = StatusBar;
+  session = new AppSession(this.storage);
 
   constructor(
     private platform: Platform,
@@ -57,6 +59,7 @@ export class AppComponent implements OnInit {
     this.submitButtonService.enabled();
     this.loadingService.enabled();
     this.trackService.startTracker();
+    this.setBackgroundActions();
   }
 
   private checkForUpdate() {
@@ -87,6 +90,26 @@ export class AppComponent implements OnInit {
         });
       });
     }
+  }
+
+  setBackgroundActions() {
+    App.addListener('appStateChange', ({ isActive }) => {
+      if (!isActive) {
+        this.session.save();
+      }
+      this.isSessionValid();
+    });
+  }
+
+  async isSessionValid() {
+    if (!(await this.session.valid())) {
+      await new LoggedIn(this.storage).save(false);
+      this.redirectToNewLogin();
+    }
+  }
+
+  async redirectToNewLogin() {
+    return await this.navController.navigateRoot(['users/login-new']);
   }
 
   dynamicLinks(event) {
