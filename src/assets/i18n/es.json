@@ -634,7 +634,7 @@
       "connected_walletconnect": "Conectado",
       "disconnected_walletconnect": "Desconectado",
       "delete_account_button": "Eliminar cuenta",
-      "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma",
+      "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma. Wallet: {{wallet}}",
       "profile_footer": {
         "investor_profile_button": "Perfil de inversor"
       },
@@ -695,6 +695,19 @@
       "options": {
         "title": "Ingresa con tus datos biométricos",
         "subtitle": "Apoya tu huella sobre el lector de datos o apunta la pantalla hacia tu rostro, según corresponda en tu dispositivo."
+      }
+    },
+    "delete_account": {
+      "header": "Eliminar cuenta",
+      "first_text": "Para iniciar el proceso de eliminación de tu cuenta y datos asociados, necesitamos que ingreses tu email.",
+      "second_text": "Xcapit lo utilizará únicamente para comunicar la resolución de tu solicitud.",
+      "email_label": "Ingresa tu email*",
+      "disclaimer": "Recuerda que siempre vas a poder recuperar tu wallet con la frase semilla. Obten más información, visitando las",
+      "link": "Preguntas frecuentes sobre la wallet.",
+      "button": "Eliminar cuenta",
+      "success": {
+        "title": "Solicitud enviada exitosamente",
+        "message": "Nuestro equipo ya se encuentra trabajando sobre tu caso. Te estaremos respondiendo a  la brevedad al email {{email}}"
       }
     },
     "shared": {
@@ -1139,6 +1152,11 @@
         "get_link": {
           "notOwner": "Estas API keys no te pertenecen."
         }
+      }
+    },
+    "tickets": {
+      "create_ticket": {
+        "invalid_data": "Los datos ingresados no son válidos."
       }
     }
   },

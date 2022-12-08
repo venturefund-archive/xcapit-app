@@ -641,7 +641,7 @@
       "connected_walletconnect": "Connected",
       "disconnected_walletconnect": "Disconnected",
       "delete_account_button": "Delete account",
-      "delete_account_message": "I request the deletion of my account and associated data.",
+      "delete_account_message": "I request the deletion of my account and associated data. Wallet: {{wallet}}",
       "profile_footer": {
         "investor_profile_button": "Investor profile"
       },
@@ -702,6 +702,19 @@
       "options": {
         "title": "Log in with your biometric data",
         "subtitle": "Rest your fingerprint on the data reader or point the screen towards your face, as appropriate on your device."
+      }
+    },
+    "delete_account": {
+      "header": "Delete account",
+      "first_text": "To start the process of deleting your account and associated data, we need you to enter your email address.",
+      "second_text": "Xcapit will use it only to communicate the resolution of your request.",
+      "email_label": "Enter your email*",
+      "disclaimer": "Remember that you can always recover your wallet with the seed phrase. Get more information by visiting the",
+      "link": "Frequently asked questions about the wallet.",
+      "button": "Delete account",
+      "success": {
+        "title": "Request successfully submitted",
+        "message": "Our team is already working on your case. We will be answering you as soon as possible to the email {{email}}"
       }
     },
     "shared": {
@@ -1146,6 +1159,11 @@
         "get_link": {
           "notOwner": "You do not own this API keys."
         }
+      }
+    },
+    "tickets": {
+      "create_ticket": {
+        "invalid_data": "The data entered are not valid."
       }
     }
   },
