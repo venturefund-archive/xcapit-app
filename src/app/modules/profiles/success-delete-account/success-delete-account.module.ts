@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SuccessDeleteAccountPage } from './success-delete-account.page';
 import { RouterModule, Routes } from '@angular/router';
-import { SharedRampsModule } from '../../fiat-ramps/shared-ramps/shared-ramps.module';
+import { SharedProfilesModule } from '../shared-profiles/shared-profiles.module';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), SharedRampsModule],
+  imports: [RouterModule.forChild(routes), SharedProfilesModule],
   declarations: [SuccessDeleteAccountPage],
 })
 export class SuccessDeleteAccountPageModule {}
