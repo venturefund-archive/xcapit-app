@@ -14,20 +14,31 @@ import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-prov
         </ion-card-title>
       </ion-card-header>
       <ion-card-content [class.operations__content]="this.hasOperations">
-        <div *ngIf="this.hasOperations; then operationsTable; else noOperationsMessage"></div>
+        <div *ngIf="!this.isLogged; then notLogged; else logged"></div>
+        <ng-template #logged>
+          <div *ngIf="this.hasOperations; then operationsTable; else noOperationsMessage"></div>
+        </ng-template>
+
+        <ng-template #notLogged>
+          <ion-text name="Not Logged" class="no-operations-text ux-font-text-base">
+            {{ 'fiat_ramps.operations_list.not_logged' | translate }}
+          </ion-text>
+          <ion-text class="link link ux-link-xl" (click)="this.navigateToVerifier()">
+            {{ 'fiat_ramps.operations_list.link' | translate }}
+          </ion-text>
+        </ng-template>
+
+        <ng-template #noOperationsMessage>
+          <ion-text name="No Operations" class="no-operations-text ux-font-text-base">
+            {{ 'fiat_ramps.operations_list.no_operations_message' | translate }}
+          </ion-text>
+        </ng-template>
+
         <ng-template #operationsTable>
           <app-operations-list-accordion
             [firstOperations]="this.firstOperations"
             [remainingOperations]="this.remainingOperations"
           ></app-operations-list-accordion>
-        </ng-template>
-        <ng-template #noOperationsMessage>
-          <ion-text name="No Operations" class="no-operations-text ux-font-text-base">
-            {{ 'fiat_ramps.operations_list.no_operations_message' | translate }}
-          </ion-text>
-          <ion-text class="link link ux-link-xl" (click)="this.navigateToVerifier()">
-            {{ 'fiat_ramps.operations_list.link' | translate }}
-          </ion-text>
         </ng-template>
       </ion-card-content>
     </ion-card>
@@ -36,6 +47,7 @@ import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-prov
 })
 export class OperationsListComponent implements OnInit, OnChanges {
   @Input() operationsList: FiatRampOperation[];
+  @Input() isLogged: boolean;
   private readonly numberOfOperationsToShow = 3;
   firstOperations: FiatRampOperation[];
   remainingOperations: FiatRampOperation[];
@@ -43,10 +55,7 @@ export class OperationsListComponent implements OnInit, OnChanges {
   hasOperations: boolean;
   isInfoModalOpen = false;
 
-  constructor(
-    private modalController: ModalController,
-    private navController: NavController,
-  ) {}
+  constructor(private modalController: ModalController, private navController: NavController) {}
 
   ngOnInit() {
     this.sliceOperations();
@@ -78,10 +87,7 @@ export class OperationsListComponent implements OnInit, OnChanges {
   }
 
   private calculateDynamicCssClasses(): string {
-    if (this.hasOperations) {
-      return 'with-line';
-    }
-    return '';
+    return this.hasOperations ? 'with-line' : '';
   }
 
   private checkIfUserHasOperations(): boolean {

@@ -1,0 +1,3074 @@
+{
+  "app": {
+    "main_menu": {
+      "header": "Cardápio",
+      "funds": "Fundos",
+      "user_profile": "Perfil de usuário",
+      "deposit_address": "Endereço de depósito",
+      "logout": "Sair",
+      "commissions": "Comissões",
+      "recovery_phrase": "Frase de recuperação",
+      "help": "Apoiar",
+      "password_change": "Mudança de senha",
+      "referrals": "Referências",
+      "notifications": "Notificações",
+      "api_keys_managment": "Gerenciar chaves de API",
+      "change_language": "Linguagem",
+      "payment": "Planos",
+      "wallet_connect": "WalletConnect",
+      "pull_to_refresh": "Próxima atualização disponível em {{seconds}} s"
+    }
+  },
+  "config": {
+    "form_errors": {
+      "required": "O campo é obrigatório",
+      "isNotInRange": "O valor está incorreto",
+      "email": "O e-mail não está correto",
+      "pattern": "O campo não atende ao padrão exigido",
+      "minlength": "Mais caracteres são necessários",
+      "maxlength": "Menos caracteres necessários",
+      "not_matching": "Os campos não correspondem",
+      "has_special_character": "Caracteres especiais e espaços não são permitidos",
+      "count_words_match": "O número de palavras é diferente de 12",
+      "min": "O valor é muito pequeno"
+    },
+    "field_errors": {
+      "cellphone": {
+        "pattern": "Contém caracteres inválidos"
+      },
+      "only_integers": {
+        "pattern": "Somente números inteiros são aceitos"
+      },
+      "password": {
+        "minlength": "Mínimo de 6 caracteres obrigatórios",
+        "maxlength": "Máximo de 100 caracteres necessários",
+        "has_number": "É necessário um número mínimo",
+        "has_capital_case": "É necessário no mínimo uma letra maiúscula",
+        "has_small_case": "Mínimo de uma letra minúscula necessária"
+      },
+      "create_wallet_password": {
+        "minlength": "Pelo menos 6 caracteres",
+        "has_capital_and_small_case": "Combinação de letras maiúsculas e minúsculas",
+        "not_alphanumeric": "Combinação de números e letras"
+      },
+      "import_wallet_phrase": {
+        "twelve_words": "12 palavras minúsculas",
+        "space_between": "Separados por espaço",
+        "no_special_characters": "Sem caracteres especiais"
+      },
+      "old_password": {
+        "wallet_incorrect_password": "Senha incorreta, tente novamente"
+      },
+      "repeat_password": {
+        "no_password_match": "As senhas não correspondem, tente novamente"
+      },
+      "new_password": {
+        "new_password_matches_old": "Sua nova senha não corresponde à antiga, tente novamente"
+      },
+      "repeat_username": {
+        "no_fields_match": "El e-mail não coincide"
+      },
+      "username": {
+        "minlength": "Mínimo de 5 caracteres obrigatórios",
+        "maxlength": "Máximo de 100 caracteres necessários"
+      }
+    },
+    "loading_service": {
+      "default_message": "Carregando..."
+    },
+    "xhr_response_handler_service": {
+      "default_message": "Erro na comunicação com o servidor."
+    }
+  },
+  "shared": {
+    "services": {
+      "share": {
+        "copy_text": "O link de assinatura foi copiado para a área de transferência.",
+        "share_error": "O texto foi copiado para a área de transferência"
+      },
+      "update_pwa_service": {
+        "alert_header": "Atualização disponível",
+        "alert_message": "Uma nova versão do aplicativo está disponível!",
+        "alert_cancel_button": "Cancelar",
+        "alert_update_button": "Atualizar",
+        "alert_required_header": "Atualização Necessária",
+        "alert_required_text": "Uma atualização do aplicativo é necessária para continuar a usá-lo.",
+        "alert_required_button": "Atualizar"
+      },
+      "copy": {
+        "toast_success": "Copiado para a área de transferência",
+        "toast_error": "Não foi possível copiar para a área de transferência"
+      }
+    },
+    "update_modal": {
+      "title": "Atualize o aplicativo!",
+      "text": "Descubra novas opções para operar com suas criptomoedas.",
+      "button_primary": "Atualizar",
+      "button_secondary": "Lembre-me mais tarde"
+    },
+    "card_info_robot": {
+      "title": "Como funciona o nosso robô?",
+      "content": "Conheça todos os detalhes da nossa forma de operar.",
+      "action": "Mais Informações"
+    },
+    "need_help": {
+      "text_help_link": "Preciso de ajuda?",
+      "text_help_support": "Escreva para apoiar"
+    },
+    "referrals_help": {
+      "text_referrals_help_link": "Como funciona o sistema de referência?"
+    },
+    "app_icon_button_card": {
+      "coming_soon": "Em breve"
+    },
+    "edit_SL_TP": {
+      "classic_stop_loss": "Clássico",
+      "inteligent_stop_loss": "Inteligente",
+      "without_stop_loss": "Sem Stop Loss",
+      "without_take_profit": "Manual"
+    },
+    "step_counter": {
+      "of": "do"
+    },
+    "update_news": {
+      "title": "O que você estava esperando, chegou 😎",
+      "first": {
+        "badge": "Novo recurso",
+        "title": "🚀 Sua carteira está mais rápida do que nunca!",
+        "description": "Você não precisará mais do seu e-mail! Você entrará e aprovará suas transações com a mesma senha. Mais agilidade, segurança e privacidade para seus dados."
+      },
+      "second": {
+        "badge": "Novo recurso",
+        "title": "💸 Investimentos mais transparentes",
+        "description": "Você será capaz de visualizar o desempenho de todos os seus investimentos em todos os momentos."
+      }
+    },
+    "transaction_fees": {
+      "title": "Por que a taxa de transação é estimada?",
+      "description": "Devido à volatilidade do mercado, a taxa de câmbio pode variar ligeiramente no momento da transação.",
+      "button_text": "Entendido",
+      "loading_text": "Calculando. Aguarde alguns instantes."
+    }
+  },
+  "users": {
+    "login_password_info": {
+      "title": "Qual é a senha que você deve digitar?",
+      "subtitle": "Aquele que você usa para aprovar suas transações. É o mesmo que você gerou ao criar ou importar sua carteira.",
+      "button": "Entendido"
+    },
+    "email_validation": {
+      "error_title": "Não foi possível verificar o e-mail!",
+      "error_text": "Tente enviar o e-mail de validação novamente.",
+      "error_button": "Mandar",
+      "register_link": "Voltar para registrar",
+      "ok_text": "E-mail verificado com sucesso!"
+    },
+    "login_new": {
+      "title": "Conecte-se",
+      "password_label": "Senha",
+      "login_button_text": "Conecte-se",
+      "reset_password_link": "Esqueci a minha senha",
+      "help_link": "Ajuda",
+      "invalid_password_text": "A senha digitada está incorreta. Por favor, tente novamente.",
+      "error_biometric_auth": "Ocorreu um erro ao tentar ler seus dados biométricos. Por favor, digite sua senha para acessar."
+    },
+    "login": {
+      "password_label": "Senha",
+      "register_link": "Não possui uma conta? Crie um",
+      "reset_password_link": "Esqueci a minha senha",
+      "login_button_text": "Conecte-se",
+      "title": "Conecte-se",
+      "loading": "Carregando"
+    },
+    "login_biometric_activation_modal": {
+      "title": "Ative seus dados biométricos",
+      "text": "Isso ajudará você a acessar sua carteira Xcapit mais rapidamente.",
+      "checkbox_label": "Não mostre esta mensagem novamente.",
+      "confirm_button": "confirme",
+      "cancel_button": "Cancelar"
+    },
+    "register": {
+      "card_header": "crie sua conta",
+      "submit_button": "Inscrever-se",
+      "success_title": "Você só precisa validar seu endereço de e-mail!",
+      "success_text": "Enviamos um e-mail de verificação, verifique sua caixa de entrada e siga as instruções para ativar a conta.",
+      "accept_button": "Aceitar",
+      "resend_email_button": "não recebi o e-mail",
+      "referral_code_text": "Código de Referencia",
+      "manual_referral": "Digite o código de referência",
+      "referral_code_label": "Código de referência (opcional)",
+      "back_login": "Já tem conta? Entrar no Xcapit",
+      "accept_tos": "Concordo",
+      "link_tos": "Termos e Condições",
+      "waiting_list_alert": {
+        "alert_header": "Quer experimentar o App?",
+        "alert_message": "Para entrar, entre na lista de espera e seja um dos primeiros a experimentar.",
+        "alert_cancel_button": "Cancelar",
+        "alert_join_button": "Juntar"
+      },
+      "resend_verification_email": {
+        "title": "Enviamos outro e-mail para você!",
+        "text": "Se você não conseguir vê-lo em sua caixa de entrada, verifique a pasta de spam.",
+        "resend_mail_button": "Reenviar e-mail {{timer}}",
+        "open_ticket_button": "Ainda não consigo ativar minha conta"
+      }
+    },
+    "auth_form": {
+      "repeat_email": "Confirmar e-mail",
+      "repeat_password": "Confirme a Senha"
+    },
+    "reset_password": {
+      "header": "Redefinir senha",
+      "title": "Esqueci a minha senha",
+      "text_before": "Digite o endereço de e-mail que você usou ao se registrar para que possamos enviar instruções para redefinir sua senha.",
+      "title_email": "E-mail",
+      "email_placeholder_label": "email@example.com",
+      "send_email_button": "Mandar",
+      "reset_button": "Mudar senha",
+      "success_send_email_title": "Pronto, enviamos as instruções para o seu e-mail!",
+      "success_send_email_text": "Siga as instruções para recuperar sua senha e começar a operar conosco.",
+      "success_reset_password_header": "Sucesso!",
+      "success_reset_password_message": "Alteração de senha concluída com sucesso.",
+      "success_button": "Conecte-se"
+    },
+    "reset_password_form": {
+      "new_password": "Nova Senha",
+      "repeat_new_password": "Confirme a nova senha"
+    },
+    "password_change": {
+      "header": "Mudança de senha",
+      "submit_button": "Mudar",
+      "toast_password_change_header": "Sucesso!",
+      "toast_password_change_message": "Alteração de senha concluída com sucesso. Por favor faça login novamente."
+    },
+    "password_change_form": {
+      "actual_password": "Senha real",
+      "new_password": "Nova Senha",
+      "repeat_new_password": "Confirme a nova senha"
+    },
+    "account_recovery": {
+      "header": "Recuperação de conta",
+      "alert": "Sem sua frase de recuperação, não podemos ajudá-lo a recuperar sua carteira.",
+      "link": {
+        "label": "O Xcapit não pode (e não irá) em nenhum momento acessar e/ou gerenciar as informações de sua carteira.",
+        "privacy_policy": "Política de Privacidade."
+      },
+      "title": "O que eu posso fazer agora?",
+      "item_1": {
+        "title": "Criar uma nova carteira",
+        "description": "Lembre-se de fazer uma cópia de segurança para não perder o acesso ao seu dinheiro."
+      },
+      "item_2": {
+        "title": "Importar uma carteira",
+        "description": "Acesse benefícios exclusivos que só nossos produtos de investimento oferecem."
+      },
+      "help_link": "Ajuda"
+    },
+    "on_boarding": {
+      "title_1": "Estávamos esperando por você",
+      "title_2": "Investir nunca foi tão fácil",
+      "title_3": "Aprenda brincando!",
+      "description_1": "Com o Xcapit Wallet, você está no controle. A todo momento você saberá onde está seu dinheiro e quanto está ganhando.",
+      "description_2": "Invista em DeFi! Transações rápidas e gratuitas sem intermediários.",
+      "description_3": "A educação financeira que você queria. Você receberá incentivos para seu aprendizado e progresso.",
+      "primary_action": "Criar carteira",
+      "secondary_action": "importar carteira"
+    },
+    "account_recovery_info": {
+      "header": "Recuperação de conta",
+      "title": "Restabeleça o acesso à sua carteira usando sua frase de recuperação",
+      "item_1": "Você terá que importar sua carteira com sua frase de recuperação e criar uma nova senha.",
+      "item_2": "Você terá que aceitar os termos e condições e a política de privacidade novamente.",
+      "item_3": "Você manterá sua evolução no módulo de educação financeira, objetivo no planner e seu perfil de investidor.",
+      "button_primary": "recuperar carteira",
+      "button_secondary": "Eu não tenho minha frase de recuperação"
+    }
+  },
+  "tickets": {
+    "create": {
+      "title": "Abra um ticket",
+      "text": "Preencha os dados do seu ticket. Um membro da equipe entrará em contato com você em breve."
+    },
+    "createSuccess": {
+      "textPrimary": "Obrigado pela sua paciência!",
+      "textSecondary": "Um membro da equipe entrará em contato com você em breve.",
+      "namePrimaryAction": "OK"
+    },
+    "create_support_ticket": {
+      "header": "Apoiar",
+      "title": "Estamos aqui para te ajudar!",
+      "info": "Um membro de nossa equipe entrará em contato com você em breve.",
+      "submit_button": "Enviar consulta"
+    },
+    "create_support_ticket_success": {
+      "textPrimary": "Obrigado pela sua paciência!",
+      "textSecondary": "Fique atento, você receberá a resposta em seu e-mail",
+      "namePrimaryAction": "De volta ao início"
+    },
+    "create_support_ticket_success_new_login": {
+      "textPrimary": "Consulta enviada com sucesso!",
+      "textSecondary": "Nossa equipe já está trabalhando no seu caso. Entraremos em contato com você o mais breve possível em {{email}}",
+      "has_wallet": {
+        "namePrimaryAction": "Ir para minha carteira",
+        "nameSecondaryAction": "Criar outra consulta"
+      },
+      "no_wallet": {
+        "namePrimaryAction": "Faça outra consulta"
+      }
+    },
+    "create_ticket_form": {
+      "label_subject": "Escolha uma categoria para sua consulta*",
+      "placeholder_subject": "Escolha uma categoria",
+      "label_email": "Digite seu e-mail*",
+      "placeholder_email": "exemplo@email.com",
+      "label_message": "Em que podemos ajudá-lo?*",
+      "placeholder_message": "Escreva seu comentário ou dúvida aqui",
+      "required": "*Os campos obrigatórios",
+      "disclaimer_text": "A Xcapit usará seu e-mail apenas para se comunicar com você e resolver suas dúvidas. Saiba mais sobre o uso de dados em",
+      "disclaimer_link": "Política de Privacidade."
+    },
+    "categories": {
+      "my_account": "Minha conta/Registro",
+      "link_binance_account": "Vincular minha conta binance",
+      "buy_crypto": "Comprar Criptomoedas",
+      "investment_strategies": "Estratégias de investimento",
+      "capital_security": "Capital de Segurança",
+      "wallet": "Carteira",
+      "nft": "NFT",
+      "others": "Outros",
+      "referrals": "Referências",
+      "transactions": "Transações",
+      "kripton_data": "Excluir meus dados do Krypton"
+    }
+  },
+  "defi_investments": {
+    "notifications": {
+      "success": {
+        "title": "💰 Investimento de sucesso. Parabéns!",
+        "body": "Você investiu {{amount}} {{token}} em {{date}}."
+      },
+      "error": {
+        "title": "⚠️ Erro de investimento",
+        "body": "Ocorreu um erro no investimento de {{amount}} {{token}} em {{date}}."
+      }
+    },
+    "invest_in_progress": {
+      "text_primary": "Seu pedido está a caminho!",
+      "text_secondary": "A transação está sendo processada no blockchain. Iremos notificá-lo quando o status for atualizado.",
+      "button_text": "Retorno aos investimentos",
+      "text_title": "Investimento",
+      "text_badge": "Em andamento"
+    },
+    "withdraw_notifications": {
+      "success": {
+        "title": "💸 Retirada com sucesso",
+        "body": "Você retirou {{amount}} {{token}} em {{date}}."
+      },
+      "error": {
+        "title": "🚨 Erro de retirada",
+        "body": "Ocorreu um erro na retirada de {{amount}} {{token}} em {{date}}."
+      }
+    },
+    "withdraw_in_progress": {
+      "text_primary": "Seu pedido está a caminho!",
+      "text_secondary": "A transação está sendo processada no blockchain. Iremos notificá-lo quando o status for atualizado.",
+      "button_text": "Retorno aos investimentos",
+      "text_title": "Retirar",
+      "text_badge": "Em andamento"
+    },
+    "new": {
+      "header": "Novo investimento",
+      "amount_to_invest": "Valor a investir",
+      "button": "Continuar",
+      "dont_have": "não tem",
+      "buy_button": "Compre Agora"
+    },
+    "add": {
+      "header": "Adicionar valor",
+      "amount_to_add": "Valor a adicionar"
+    },
+    "confirmation": {
+      "header": "Novo investimento",
+      "amount_to_invest": "Valor a investir",
+      "submit": "Investir",
+      "submit_loading": "Investir",
+      "password_error": "A senha digitada não é válida.",
+      "password_modal": {
+        "title": "Para segurança",
+        "description": "Para confirmar seu investimento, digite sua senha da carteira Xcapit.",
+        "input_label": "Senha",
+        "confirm_button": "confirmar investimento"
+      },
+      "informative_modal": "Você não tem {{token}} suficientes em sua conta para investir. Selecione uma quantia menor para investir ou comprar alguns.",
+      "informative_modal_fee": "Você não tem {{token}} suficientes em sua conta para pagar a taxa de transação.",
+      "buy_button": "Compre {{token}}",
+      "deposit_button": "Deposite {{token}}",
+      "terms": {
+        "third_party_disclaimer": "Entendo que, ao investir minhas criptomoedas, o farei por meio de um provedor terceirizado (2pi), sujeito a termos e condições separados, pelos quais a Xcapit não é responsável.",
+        "i_have_read": "Eu li e concordo com",
+        "link_to_terms": "Termos e Condições da 2PI."
+      }
+    },
+    "coming_soon": {
+      "header": "Investimento"
+    },
+    "defi_investment_products": {
+      "header": "investimentos DeFi",
+      "title": "Comece a investir",
+      "title_investments": "meus investimentos",
+      "profits": "Lucros contínuos",
+      "profits_weekly": "Lucros semanais",
+      "total_invested": "Saldo total investido",
+      "recommendations": "Você pode estar interessado",
+      "empty_products": "Em breve você poderá encontrar os melhores investimentos para o seu perfil.",
+      "link_button": "Como funcionam os investimentos em DeFi?",
+      "no_investments": "Seus investimentos aparecerão aqui. Comece agora!",
+      "total_yields": "Rendimentos totais",
+      "choose_investor_profile": {
+        "complete_test": {
+          "title": "quero escolher meu perfil novamente",
+          "description": "Você acha que seu perfil mudou? Você pode selecioná-lo novamente.",
+          "button_primary": "Selecione novamente",
+          "button_secondary": "Faça o teste"
+        },
+        "incomplete_test": {
+          "title": "Que tipo de investidor é você?",
+          "description": "Faça o teste do investidor ou escolha manualmente e descubra quais investimentos podem ser adequados para você.",
+          "button_primary": "Faça o teste",
+          "button_secondary": "Escolha manualmente"
+        }
+      }
+    },
+    "success_investment": {
+      "title": "Você já está investindo!",
+      "subtitle": "Você encontrará os lucros em sua Carteira.",
+      "primaryButton": "De volta aos investimentos em DeFi.",
+      "secondaryButton": "Acesse minha Carteira."
+    },
+    "success_add_amount": {
+      "title": "Você aumentou seu investimento!",
+      "subtitle": "Seus ganhos também aumentarão.",
+      "primaryButton": "De volta aos investimentos em DeFi.",
+      "secondaryButton": "Acesse minha Carteira."
+    },
+    "error_investment": {
+      "title": "A transação não pôde ser concluída.",
+      "subtitle": "Ocorreu um erro no blockchain",
+      "primaryButton": "Tente novamente."
+    },
+    "invest_detail": {
+      "header": "meu investimento",
+      "button": "Adicionar",
+      "button_link": "Retirar",
+      "invested_amount": "Valor total investido*",
+      "daily_earnings_disclaimer": "*Seu saldo é atualizado diariamente.",
+      "continuous_update": "*Atualização contínua",
+      "weekly_update": "*Atualização semanal",
+      "history": {
+        "title": "História",
+        "investment": "Investimento",
+        "withdraw": "Retirar"
+      },
+      "yields": {
+        "title": "Rendimento acumulado",
+        "info_modal": {
+          "title": "O que é rendimento cumulativo?",
+          "item1": "São os lucros acumulados obtidos com esse produto de investimento, desde que você o criou.",
+          "item2": "Esse valor é continuamente reinvestido ganhando juros compostos.",
+          "button": "Entendido"
+        }
+      }
+    },
+    "shared": {
+      "withdraw_info_modal": {
+        "title": "Qual é a taxa de retirada?",
+        "item_1": "É o custo de realizar uma extração.",
+        "item_2": "É calculado sobre o valor que você deseja sacar (0,255%), não sobre o total do seu investimento.",
+        "item_3": "É pago na mesma moeda do produto de investimento (se você estiver investindo em USDC, pagará a taxa de retirada em USDC).",
+        "button_text": "Entendido"
+      },
+      "transaction_fees": {
+        "label": "Taxa de transação estimada",
+        "advice": "Fundos insuficientes"
+      },
+      "filter_tab": {
+        "conservative": "perfil conservador",
+        "medium": "perfil moderado",
+        "risky": "perfil agressivo"
+      },
+      "coming_soon_card": {
+        "title": "Em breve você poderá investir e gerar retornos de até 15% ao ano em USD",
+        "text": "Iremos notificá-lo quando este recurso estiver disponível. Enquanto isso, vá pegar seus tokens."
+      },
+      "defi_investment_product": {
+        "performance": "Rendimento estimado",
+        "liquidity": "Liquidez",
+        "not_min_ammount": "Sem valor mínimo",
+        "immediate_rescue": "Resgate Imediato",
+        "continuous_earnings": "Ganhos contínuos",
+        "weekly_earnings": "ganhos semanais",
+        "daily_earnings_disclaimer_active": "*Seu saldo é atualizado diariamente.",
+        "daily_earnings_disclaimer_available": "*Seu saldo agora é atualizado diariamente.",
+        "coming_badge": "Em breve",
+        "invest_button": "Investir",
+        "annual": "Anual"
+      },
+      "expandable_investment_info": {
+        "TVL": "Valor total bloqueado",
+        "protocol_type": "Tipo de protocolo",
+        "receive_asset": "Deposite e obtenha",
+        "2pi_dashboard": "Painel 2PI",
+        "information": "Mais Informações",
+        "annual": "% Anual",
+        "blockchain": "Você opera na rede",
+        "profile": "Perfil",
+        "transaction_fee": "Taxa de transação",
+        "withdrawal_fee": "Taxa de saque",
+        "title": "Fizemos uma parceria com a 2pi para oferecer a você",
+        "how_works": "Como funciona?",
+        "investment_info": {
+          "USDC": "<ul><li>Seus tokens serão distribuídos em vários protocolos descentralizados.</li><li> Você ganhará juros contínuos em USDC.</li><li> Sem limites de investimento</li></ul>",
+          "DAI": "<ul><li>Seus tokens serão distribuídos em vários protocolos descentralizados.</li><li> Você ganhará juros semanais em DAI</li><li> Sem limites de investimento.</li></ul>",
+          "WBTC": "<ul><li>Seus tokens serão distribuídos em vários protocolos descentralizados.</li><li> Você ganhará juros contínuos no WBTC.</li><li> Sem limites de investimento.</li></ul>"
+        },
+        "profiles": {
+          "conservative": "Conservador",
+          "medium": "Moderado",
+          "risky": "Agressivo"
+        }
+      },
+      "amount_input_card": {
+        "title": "Valor estimado para enviar",
+        "available": "Saldo disponível",
+        "amount_invested": "Valor total investido",
+        "max_button": "máx.",
+        "advice": "Fundos insuficientes"
+      },
+      "withdraw_card": {
+        "title": "Retirar",
+        "transaction_details": "Detalhes da transação",
+        "transaction_fee": "Taxa de transação",
+        "confirm": "confirme",
+        "confirm_loading": "Confirmando..."
+      },
+      "earnings_modal_info": {
+        "title": "O que é rendimento total?",
+        "description": "É a soma em USD dos rendimentos totais obtidos nos seus produtos de investimento. Não é histórico nem acumulado, se seu saldo for zerado, seu retorno também será zerado. Eles são calculados com base no saldo aplicado no momento.",
+        "button": "Entendido"
+      }
+    },
+    "withdraw": {
+      "success_withdraw": {
+        "title": "Retirada concluída!",
+        "subtitle": "Você encontrará seus fundos na Carteira. *",
+        "button_primary": "De volta aos investimentos em DeFi",
+        "button_secondary": "Vá para minha carteira",
+        "disclaimer": "* Seus fundos podem levar até 5 minutos para ficarem disponíveis na Carteira."
+      },
+      "select_amount": {
+        "header": "Retirar investimento",
+        "button": "Continuar",
+        "label": "Quantidade à sacar*",
+        "legend": "*A taxa de transação será cobrada em {{network}}. Enquanto a taxa de retirada será em {{token}}."
+      },
+      "withdraw": {
+        "header": "Retirar investimento",
+        "button": "confirme",
+        "submit_loading": "confirmando",
+        "withdraw_amount": "Quantidade à sacar",
+        "withdraw_fee": "Taxa de retirada",
+        "receive_aprox": "Receba aproximadamente",
+        "disclaimer": "Levará apenas alguns segundos",
+        "header_alert": "Espere!",
+        "alert_message": "Ainda estamos calculando a taxa de transação. Deseja continuar mesmo assim?",
+        "alert_confirmation": "confirme",
+        "alert_cancel": "Cancelar"
+      },
+      "password_modal": {
+        "description": "Para confirmar sua retirada, digite sua senha da carteira Xcapit.",
+        "confirm_button": "aceitar"
+      }
+    }
+  },
+  "profiles": {
+    "profile_helper": {
+      "from_new_fund_data_no_ok": "Você deve preencher suas informações pessoais para criar um fundo",
+      "from_new_referral_data_no_ok": "Você deve preencher suas informações pessoais para indicar um amigo",
+      "data_no_ok": "Você deve completar suas informações pessoais para realizar a ação"
+    },
+    "user_profile": {
+      "header": "Editar Perfil",
+      "edit_photo": "Editar",
+      "save_button": "Salvar",
+      "edit_button": "Editar",
+      "personal_data": "Dados pessoais",
+      "show_personal_data": "DADOS PESSOAIS",
+      "first_name": "Primeiro nome",
+      "last_name": "Sobrenome",
+      "email": "E-mail",
+      "cellphone": "Celular",
+      "show_bill_data": "DADOS DA FATURA",
+      "bill_data": "Dados da fatura",
+      "condicion_iva": "condição de IVA",
+      "condicion_iva_placeholder": "Selecione..",
+      "tipo_factura": "tipo de conta",
+      "tipo_factura_placeholder": "Selecione..",
+      "cuit": "CUIT",
+      "direccion": "Endereço",
+      "submit_button": "Salvar",
+      "success_text": "Dados salvos!",
+      "country": "País",
+      "country_placeholder": "Selecione um pais"
+    },
+    "user_profile_menu": {
+      "header": "Meu perfil",
+      "category_help": "Ajuda",
+      "faq_help": "Perguntas frequentes",
+      "support_help": "Fale com o suporte",
+      "community": "Junte-se a nossa comunidade",
+      "category_security_account": "Conta de segurança Xcapit",
+      "change_pass": "Mudança de senha",
+      "biometric_auth": "Dados biométricos",
+      "category_security_wallet": "Carteira de segurança Xcapit",
+      "remove_wallet": "Remover Carteira",
+      "export_private_key": "Chave privada",
+      "security_phrase": "Frase de segurança",
+      "category_preferences": "Preferências",
+      "push_notifications": "Notificações via push",
+      "language": "Linguagem",
+      "logout": "Sair",
+      "new_badge": "Novo",
+      "category_walletconnect": "WalletConnect",
+      "connected_walletconnect": "Conectado",
+      "disconnected_walletconnect": "Desconectado",
+      "delete_account_button": "Deletar conta",
+      "delete_account_message": "Solicito a eliminação da minha conta e dados associados.",
+      "profile_footer": {
+        "investor_profile_button": "Perfil do investidor"
+      },
+      "log_out_modal": {
+        "title": "Sair",
+        "text": "Lembre-se de que sua Carteira está vinculada ao seu dispositivo. Você não poderá abrir outra carteira, a menos que exclua a atual ou reinstale o aplicativo.",
+        "more_info": "Para mais informações visite",
+        "more_info_link": "Perguntas frequentes sobre a carteira",
+        "checkbox_label": "Não mostre esta mensagem novamente.",
+        "log_out_button": "Sair"
+      }
+    },
+    "success_profile": {
+      "textPrimary": "¡Você configurou sua conta!",
+      "textSecondary": "Agora precisamos que você vincule sua Exchange (Binance) para ver seu capital.",
+      "namePrimaryAction": "Link para Binance",
+      "nameSecondaryAction": "Ignorar por enquanto"
+    },
+    "success_profile_test": {
+      "text_primary": "Muito obrigado Xcapiter!",
+      "name_primary_action": "Vá para minha carteira"
+    },
+    "personalised_profile_test": {
+      "header": "Personalize seu perfil",
+      "question_1": "1. O que você quer fazer dentro do Xcapit? Escolha todas as opções que você considera",
+      "question_2": "2. Qual é o seu nível de experiência com criptos?",
+      "to_do_in_app": {
+        "investor": "Diversificar meus investimentos ou economizar em uma moeda estável",
+        "remote": "Receber cobranças e efetuar pagamentos",
+        "web3": "Conectar-se a dapps",
+        "gamer": "Conectando-se a NFTs ou plataformas de jogos P2E",
+        "other": "Outro"
+      },
+      "crypto_experience": {
+        "beginner": "Estou começando a explorar cripto",
+        "intermediate": "Comprei criptos e usei várias plataformas, mas estou usando há pouco tempo",
+        "advanced": "Eu uso há algum tempo, mas ainda não me considero um especialista"
+      },
+      "button_primary": "Enviar",
+      "button_secondary": "Faça isso em outro momento"
+    },
+    "shared_profiles": {
+      "skip_profile_test": {
+        "title": "Espere!",
+        "description": "Seu progresso não será mantido se você sair do formulário.",
+        "button_back": "De volta",
+        "button_out": "Saída"
+      }
+    },
+    "biometric_auth": {
+      "header": "Dados biométricos",
+      "toggle_text": "Dados biométricos",
+      "toggle_description": "Ative para entrar rapidamente.",
+      "password_title": "Sua segurança é importante para nós",
+      "password_description": "Para ativar seus dados biométricos, digite a senha de sua carteira Xcapit..",
+      "password_button": "confirme",
+      "password_error": "A senha digitada não é válida.",
+      "options": {
+        "title": "Faça login com seus dados biométricos",
+        "subtitle": "Coloque sua impressão digital no leitor de dados ou aponte a tela para o seu rosto, conforme apropriado em seu dispositivo."
+      }
+    },
+    "shared": {
+      "remove_account_modal": {
+        "title": "Deletar conta",
+        "text": "Começaremos com o processo de exclusão dos dados associados à conta. Lembre-se de que você sempre poderá recuperar sua carteira com a frase inicial",
+        "more_info": "Para mais informações visite",
+        "more_info_link": "Perguntas frequentes sobre a carteira",
+        "remove_account_button": "Deletar conta",
+        "cancel_button": "Cancelar"
+      }
+    }
+  },
+  "tutorials": {
+    "interactive_tutorial": {
+      "header": "tutorial interativo",
+      "t1": "Você tem Criptomoedas?",
+      "no_button": "Não",
+      "yes_button": "Sim",
+      "t2": "Você tem uma conta na Binance?",
+      "t3": "Você sabe como transferir seus Cryptos para Binance?",
+      "no_cryptos_text": "O processo vai demorar um pouco, volte para a criação do fundo quando estiver pronto!"
+    },
+    "binance_address_tutorial_modal": {
+      "header": "Binance - Endereço",
+      "t1": "Onde encontrar o endereço para depositar suas criptomoedas",
+      "p1": "Dentro da sua conta Binance, clique em “Fundos“, você o encontrará no menu que fica na margem superior direita.",
+      "p2": "No menu Fundos, clique em “Depósitos”",
+      "p3": "No seletor clique e escreva o nome da criptomoeda que deseja saber o endereço (para fins práticos vamos procurar por BTC). Na lista exibida, clique no nome",
+      "p4": "A Binance irá mostrar-lhe um detalhe do estado da sua conta BTC, no campo “Endereço de Depósito BTC”, encontrará o endereço. Clique em Copiar endereço e vá para sua conta Bitex e cole o endereço.",
+      "p5": "Tenha em mente que esta informação é importante, não a divulgue."
+    },
+    "binance_apikey_tutorial_modal": {
+      "header": "Binance - Chaves de API",
+      "t1": "Criar APIkey e SECRETkey na Binance",
+      "p1": "Vamos pegar sua APIkey e SECRETkey. Primeiro, uma vez conectado à sua conta, você deve procurar por “API, criar uma chave privada de API fornece acesso a mercados e serviços de negociação em tempo real na Binance por meio de um site ou aplicativo de terceiros”. e clique em Configuração da API.",
+      "p2": "Você deve inserir uma senha antes de gerar sua APIkey. Essa senha pode ser uma combinação de números e caracteres, a que você mais gostar, e depois clique em “Criar nova senha”.",
+      "p3": "Tenha seu telefone perto de você, a Binance solicitará um código de autenticação de dois fatores do Google. Digite o código que você recebe em seu telefone e clique em “Enviar”.",
+      "p4": "A Binance enviará um e-mail para o e-mail com o qual você se registrou. Se você não o vir em sua caixa de entrada, lembre-se de verificar a pasta de spam. Abra o e-mail e clique no link que eles lhe enviaram.",
+      "p5": "Agora que seu APIkay e SECRETkey foram criados, salve sua chave secreta porque você não a verá novamente. Clique em fechar.",
+      "p6": "Tudo o que resta a fazer é copiar e colar a chave API e a chave secreta onde você quiser.",
+      "p7": "Lembre-se que esta é uma informação valiosa e é importante que você a mantenha segura, não a envie para terceiros em quem você não confia."
+    },
+    "binance_check_tutorial_modal": {
+      "header": "Binance - Lv.2",
+      "t1": "Como verificar sua identidade na Binance e aumentar o nível da conta para Lv.2",
+      "p1": "Abra seu navegador favorito e vá para",
+      "p2": "Clique em entrar, você o encontrará na margem superior direita",
+      "p3": "Nota: se você tiver problemas para carregar os dados no formulário, entre no Binance de outro navegador, como Edge, Chrome ou FireFox.",
+      "p4": "Depois de fazer login, clique em Lv.",
+      "p5": "Clique em Pessoal para verificá-lo como pessoa.",
+      "p6": "Você iniciará a verificação, clique em continuar.",
+      "p7": "Escolha o seu país de origem e o tipo de documentação que vai validar, pode ser o seu BI, Passaporte ou Carteira de Habilitação e selecione no ícone",
+      "p8": "Você continuará com a Verificação inserindo as imagens do seu ID, escolha como enviar as imagens do seu ID, neste caso faremos o upload dos arquivos do dispositivo",
+      "p9": "Escolha a imagem que tem a frente do DNI e clique em Confirmar",
+      "p10": "Em seguida, você deve carregar a imagem que contém o verso do seu ID e clicar em Confirmar",
+      "p11": "Por fim, você deve enviar uma imagem sua segurando uma folha com a inscrição manuscrita “Binance - Date Today” e clicar em Confirmar",
+      "p12": "Aguarde até que os arquivos sejam carregados",
+      "p13": "Quando a Binance terminar de carregar os arquivos, ela irá informá-lo com a seguinte mensagem",
+      "p14": "Agora é só esperar que a equipe da Binance verifique sua identidade e eleve o nível da sua conta para Lv.2.",
+      "p15": "Em caso de erro ou falta de informação, a Binance entrará em contato com você através do e-mail com o qual você se cadastrou. Fique atento a este meio."
+    },
+    "binance_transfer_tutorial_modal": {
+      "header": "Binance - Transferência",
+      "t1": "Transfira seus Bitcoins para Binance",
+      "p1": "Você já tem seus Bitcoins, então agora pode transferi-los para a Binance para que o WCS Advisor possa operar.",
+      "p2": "Dentro da sua conta Bitex, vá para Saldos e clique em Baixar BTC",
+      "p3": "A Bitex pedirá que você insira o endereço do BTC para o qual deseja enviar seu BTC, esse endereço é o que a Binance fornece a você em sua plataforma.",
+      "p4": "Obs: veja onde encontrar o endereço para depositar seu BTC na Binance",
+      "a1": "aqui",
+      "p5": "Você também deve inserir a quantidade de BTC que deseja enviar e o código de autenticação do Google e clicar em Offload",
+      "p6": "Lembre-se de que as operações de remessa de BTC são realizadas de segunda a sexta-feira, das 9h às 17h. As remessas de BTC estão sujeitas às condições da rede"
+    },
+    "binance_tutorial_modal": {
+      "header": "Binance - Conta",
+      "t1": "Como criar uma conta Binance",
+      "p1": "Abra seu navegador favorito e vá para",
+      "p2": "Clique em Register, que você encontra no canto superior direito da tela",
+      "p3": "Em seguida, você deve inserir o e-mail com o qual deseja criar sua conta na Binance, fornecer uma senha (ela deve ter no mínimo 6 caracteres, composta por números e letras com pelo menos uma maiúscula) e confirmar a senha.",
+      "p4": "No campo “ID Referencial (opcional)” você encontrará o seguinte ID: 36552775, não o altere. Se estiver vazio, insira-o.",
+      "p5": "Clique na caixa de seleção para aceitar os termos de uso da Binance e clique em Registrar.",
+      "p6": "Nota: se você tiver problemas para carregar os dados no formulário, entre no Binance de outro navegador, como Edge, Chrome ou FireFox.",
+      "p7": "A Binance enviará um e-mail para o e-mail com o qual você se registrou para confirmar e ativar a conta.",
+      "p8": "Se você não conseguir encontrá-lo em sua caixa de entrada, verifique a pasta Spam. Clique no link do e-mail que você recebeu e prossiga para ativar sua conta.",
+      "p9": "O link o levará para a próxima página onde você deve posicionar o quebra-cabeça no lugar certo e provar que não é um robô.",
+      "p10": "Depois de posicionar o quebra-cabeça, você ativou sua conta.",
+      "p11": "Quando você tiver a conta ativa, a Binance fornecerá sugestões de segurança para sua conta, recomendamos que você verifique todas as opções e clique em continuar",
+      "p12": "A Binance recomenda ativar a autenticação de dois fatores do Google. Baixe o aplicativo da playStore, pesquise como: Google Authentication.",
+      "p13": "Depois que o aplicativo for baixado, clique em Próxima etapa e siga as etapas.",
+      "p14": "No aplicativo, digitalize o código QR e clique em Próxima etapa",
+      "p15": "Salve sua senha em um papel e clique em Next Step",
+      "p16": "Para finalizar a autenticação, digite a senha de acesso e o código de verificação proposto pelo Authentication Google.",
+      "p17": "Se tudo estiver bem, a Binance informará você com a próxima mensagem, caso contrário, entre em contato com a Binance para obter uma solução.",
+      "p18": "Até agora você criou uma conta na Binance, que a princípio não precisa verificar sua identidade para operar, da qual você só pode sacar até 2 BTC (Bitcoins) a cada 24 horas.",
+      "p19": "Caso você queira aumentar o limite de retirada para 100 BTC a cada 24hs, então sim, você deve fazer a verificação clicando em Lv.2 e começar com as etapas de verificação. Veja como verificar sua conta",
+      "a1": "aqui"
+    },
+    "ca_tutorial_modal": {
+      "header": "Criptomoedas",
+      "t1": "Como comprar criptos?",
+      "p1": "Para adquirir criptomoedas você precisa de uma plataforma simples e profissional na qual os usuários, independente do nível de conhecimento que tenham, possam após o cadastro, transferir dinheiro, comprar e vender Bitcoins.",
+      "p2": "Apresentamos o Bitex, desde o seu início desenvolveu negócios, bem como o mercado de câmbio bitcoin, gateway de pagamento bitcoin e, mais recentemente, um serviço de remessa corporativa internacional que permite às empresas fazer pagamentos internacionais através de transferência bancária local, aproveitando a tecnologia bitcoin e permitindo que as empresas façam múltiplos pagamentos simultâneos.",
+      "p3": "Vamos ajudá-lo a registrar e ativar sua conta para que você possa transferir dinheiro fiduciário para sua conta Bitex para que você possa obter suas criptomoedas.",
+      "t2": "Como criar uma conta Bitex",
+      "p4": "Abra seu navegador favorito e vá para",
+      "p5": "Clique em Registrar",
+      "p6": "Preencha os campos com seu e-mail, senha, (ela deve ter no mínimo 6 caracteres, composta por números e letras com pelo menos uma maiúscula), confirme a senha e clique no checkbox onde diz que você não é cidadão americano ou holandês e clique em Registrar.",
+      "p7": "Observação: caso tenha problemas para carregar os dados do formulário, digite bitex de outro navegador, como Edge, Chrome ou FireFox.",
+      "p8": "Você receberá um e-mail da Bitex para confirmar o e-mail com o qual você se registrou. Se você não conseguir encontrá-lo em sua caixa de entrada, verifique a pasta de spam. Clique no link no e-mail que você recebeu e continue verificando a conta.",
+      "p9": "Indique que você é um indivíduo, não uma empresa.",
+      "p10": "Considere os requisitos da Bitex para operar localmente",
+      "ul1li1": "ID válido (em cores e totalmente legível)",
+      "ul1li2": "Apoio de rendimentos e poupanças (3 últimos recibos de vencimento ou faturas emitidas no último mês ou Jurisdições Declaradas de bens pessoais ou lucros).",
+      "ul1li3": "declaração de atividade",
+      "ul1li4": "Serviço ao seu nome",
+      "p11": "Agora vamos continuar com a verificação da conta, lembrando que todos os campos são obrigatórios, são quatro passos:",
+      "p12": "Vamos começar com o primeiro passo, preencha seus dados pessoais.",
+      "p13": "Existem vários campos, aqui você deve enviar uma imagem do seu documento de identidade na frente e outra no verso, lembre-se de que as imagens devem ser nítidas, coloridas e não ter cortes ou áreas que não possam ser lidas.",
+      "p14": "Na etapa dois, você preencherá as informações de contato",
+      "p15": "Aqui você deve carregar uma conta de telefone, pré-pago ou qualquer outro serviço em seu nome com seu endereço atual e clicar em próximo",
+      "p16": "Como terceiro passo, a Bitex precisa verificar de onde vem o dinheiro, para isso preencha os campos e você deve fornecer uma digitalização ou uma imagem como recibo de salários, faturas, contratos, liquidação de investimentos ou declarações de bens pessoais. Escolha o arquivo e clique em próximo.",
+      "p17": "O último passo é aguardar a validação da conta, pode demorar até 4 dias.",
+      "p18": "Em caso de erro ou falta de informação, a Bitex entrará em contato através do e-mail com o qual você se cadastrou. Fique atento a este meio.",
+      "p19": "Quando a conta for aprovada, você poderá fazer transferências em pesos ou dólares para sua conta para comprar BTC (Bitcoins)",
+      "p20": "Se você tiver alguma dúvida, entre em contato conosco.",
+      "t3": "Como transferir dinheiro para sua conta Bitex",
+      "p21": "Para adquirir Bitcoins, a primeira coisa que você deve fazer é transferir dinheiro fiduciário para sua conta Bitex.",
+      "p22": "Abra seu navegador favorito e vá para",
+      "p23": "Clique em Entrar",
+      "p24": "Observação: caso tenha problemas para carregar os dados do formulário, digite bitex de outro navegador, como Edge, Chrome ou FireFox.",
+      "p25": "Uma vez na sua conta, clique em depositar fundos na minha conta",
+      "p26": "Clique em carregar USD ou ARG",
+      "p27": "A Bitex fornecer-lhe-á as informações para que possa efetuar a transferência a partir do seu homebanking, consoante o seu país de origem e a moeda que escolheu",
+      "p28": "A partir do seu homebanking faça a transferência a ser creditada na sua conta bitex, receberá um e-mail do seu banco com o aviso de transferência.",
+      "p29": "Você também receberá um e-mail da Bitex, informando que a transferência está em andamento, lembre-se que isso pode levar até 72 horas. Se após 72 horas úteis ainda não tiver creditado seu depósito, entre em contato com a Bitex.",
+      "p30": "Assim que o saldo for creditado em sua conta, a Bitex enviará um e-mail informando que o saldo foi cobrado em sua conta.",
+      "p31": "A Bitex lhe enviará um último e-mail com a fatura, termos e condições e os detalhes da operação",
+      "p32": "Se você tiver alguma dúvida, entre em contato conosco.",
+      "t4": "Como comprar Bitcoins no Bitex",
+      "p33": "Uma vez que o saldo é creditado em sua conta bitex, você pode comprar seus Bitcoins ao melhor preço do mercado",
+      "p34": "Para fazer isso, vá para sua conta bitex e clique em “Trocar”",
+      "p35": "Dentro da exchange você verá o saldo da sua conta, na moeda fiduciária que você escolheu (suporemos que você transferiu USD), clique em comprar BTC",
+      "p36": "Em seguida, você deve inserir a quantidade de USD que deseja vender e o preço que pagará para comprar seu BTC.",
+      "p37": "Nota: Se você tiver dólares em sua conta, recomendamos que clique no melhor preço. Caso tenha digitado pesos argentinos, pegue os pedidos que estão na ask list.",
+      "p38": "Você receberá um e-mail com o status da transação em andamento. Quando você tiver o BTC em sua conta, a Bitex entrará em contato com você."
+    },
+    "extract_tutorial_modal": {
+      "header": "Extraer Ganancias",
+      "t1": "Como passar os fundos que opera WCS para BTC?",
+      "p1": "Para que você possa passar o total da carta que opera WCS de sua conta de Binance a BTC, selecione o fundo:",
+      "p2": "Presiona Pausar Fondo.",
+      "p3": "Agora você deve selecionar BTC e pressionar Cambiar",
+      "p4": "",
+      "p5": "y listo, comprueba en tu cuenta de Binance que el balance está en la cripto que seleccionaste.",
+      "t2": "Transferir seu BTC de Binance para Bitex",
+      "p6": "Abra seu navegador favorito e entre em:",
+      "p7": "Haz clic en Ingressar",
+      "p8": "Nota: se houver inconvenientes com a carga de dados no formulário inserido no Bitex com outro navegador como Edge, Chrome ou FireFox.",
+      "p9": "Ingresa tus datos",
+      "p10": "Ingresa os dados de autenticação do google",
+      "p11": "Uma vez na sua conta, clique no ícone de saldos.",
+      "p12": "Clique em “Cargar BTC”",
+      "p13": "Bitex mostrará sua direção de BTC para que transfira seu BTC que tem em Binance. Copie ou escaneie o código QR.",
+      "t3": "Transfira seu BTC para Bitex",
+      "p14": "Abra seu navegador favorito e entre em:",
+      "p15": "Entre na sua conta e clique em dinheiro (os endereços na margem superior direita), na lista que se despliega, clique em retirar",
+      "p16": "Em onde diz “Direção BTC do destinatário”, pegue sua direção de BTC de Bitex e insira a quantidade que deseja transferir. Clique em enviar",
+      "p17": "Binance te pedirá que ingreses el code de autenticación de google",
+      "p18": "Luego te enviará um e-mail para que confirme a retirada.",
+      "p19": "Veja sua conta de e-mail e clique em “Confirmar retirada”",
+      "p20": "Se abrirá uma tela onde te informará se tudo sairá bem.",
+      "p21": "Nota: Ten en cuenta que esta transação pode demorar algumas horas.",
+      "t4": "Comprar USD",
+      "p22": "Entre no seu navegador favorito e entre no:",
+      "p23": "Faça clique para inserir seus dados",
+      "p24": "Insira o código de autenticação do Google",
+      "p25": "Uma vez dentro de sua conta, clique em Exchange",
+      "p26": "Haz clique em vender para vender os BTC que tem na sua conta e receber USD",
+      "p27": "Ingresa a quantidade de BTC que deseja vender e o preço. Bitex recomenda ingresar el Mejor precio (puedes hacer clic en donde dice “Usar este precio”) y haz clic en vender.",
+      "p28": "Nota: Esta operação pode demorar algumas horas. Recuerda que bitex opera de lunes a viernes de 9 a 17 hs.",
+      "t5": "Transferir USD para sua conta bancária",
+      "p29": "Entre no seu navegador favorito e entre no:",
+      "p30": "Clique em adicionar e completar seus dados",
+      "p31": "Ingresa o código de autenticação do google",
+      "p32": "Quando estiver dentro da sua conta, clique em saldos",
+      "p33": "Clique em Baixar USD",
+      "p34": "Selecione onde deseja receber el dinero, fazendo clique sobre “tengo nuevas instrucciones”",
+      "p35": "Selecione o país de sua conta bancária",
+      "p36": "e o método de pagamento",
+      "p37": "Luego completa todos os campos do formulário que se despliega",
+      "p38": "Por último, clique em Descargar e bitex se comunicará",
+      "p39": "Nota: Lembre-se de que só podemos realizar transferências para contas que te pertencem a ti, não é possível realizar uma extração de bitex para uma conta de terceiros. Las extracciones se procesan de lunes a viernes en horario habil. Os tipos de câmbio de dólares para moeda local estão sujeitos a variações, para mitigar, recomendamos solicitar sua retirada dentro de nossos horários de atendimento.",
+      "p40": "Uma vez iniciada a transferência suele chegará a um destino dentro das 48 horas hábiles, embora possa demorar até 5 dias. O custo de descarga do saldo da Bitex é de 0,5% e não inclui outros custos extras ou impostos que podem ser aplicados ao seu resgate. Todos os custos associados corren a tu cargo."
+    },
+    "help": {
+      "header": "Ajuda",
+      "extract_tutorial": "Extrair lucros",
+      "ca_tutorial": "Como comprar criptos?",
+      "binance_tutorial": "Como criar uma conta Binance",
+      "binance_transfer_tutorial": "Transfira seus Bitcoins para Binance",
+      "binance_check_tutorial": "Como verificar sua identidade na Binance e aumentar o nível da conta para Lv.2",
+      "binance_apikey_tutorial": "Criar APIkey e SECRETkey na Binance",
+      "binance_address_tutorial": "Onde encontrar o endereço para depositar suas criptomoedas"
+    },
+    "first_steps": {
+      "step1": {
+        "primary_text": "Nós lhes damos boas-vindas!",
+        "secondary_text": "Com o Xcapit Wallet, você está no controle. A todo momento você saberá onde está seu dinheiro e quanto está ganhando."
+      },
+      "step2": {
+        "primary_text": "Investir nunca foi tão fácil",
+        "secondary_text": "Invista em DeFi! Transações rápidas e gratuitas sem intermediários."
+      },
+      "step3": {
+        "primary_text": "Aprenda brincando!",
+        "secondary_text": "A educação financeira que você queria. Você receberá incentivos para seu aprendizado e evolução."
+      },
+      "skip_button": "Pular",
+      "finish_button": "Começar"
+    }
+  },
+  "subscriptions": {
+    "subscriptions_service": {
+      "share_title": "Se inscrever",
+      "share_text": "Assine meu fundo de investimento e acompanhe meus retornos:",
+      "toast_text_copied": "O link de assinatura foi copiado para a área de transferência."
+    },
+    "subscribe": {
+      "ok_text": "Assinatura com sucesso!",
+      "error_text": "A assinatura falhou. Solicite o link novamente para seu amigo"
+    }
+  },
+  "state_names": {
+    "active": "Ativo",
+    "pausado": "Pausado",
+    "to-NF": "Mudando para {{ca}}.",
+    "toUSDT": "Alterado para USDT",
+    "toBTC": "Alterado para BTC",
+    "finalizado": "finalizado"
+  },
+  "errorCodes": {
+    "funds": {
+      "create": {
+        "invalidExchangeKeys": "Chaves inválidas.",
+        "keysExists": "As chaves já existem.",
+        "fundNameExists": "O nome do fundo já existe.",
+        "creatingFund": "Erro ao criar fundo.",
+        "creatingRun": "Erro ao criar execução.",
+        "creatingSubscriber": "Erro ao inscrever-se no fundo.",
+        "creatingPartialsBalance": "Você não tem fundos suficientes na conta.",
+        "invalidData": "Dados inválidos.",
+        "notLinkedApiKeys": "Você não tem chave API/Secret para criar um novo fundo.",
+        "cantUpdateKeys": "Não podemos vincular a chave da API ao novo fundo.",
+        "hasSpecialCharacters": "O nome do fundo tem caracteres proibidos.",
+        "accountBalanceIsNotEnough": "Você não tem capital suficiente para criar o fundo.",
+        "creatingSnapshot": "Erro ao criar fundo."
+      },
+      "update": {
+        "apiCallError": "Erro ao atualizar o fundo.",
+        "notOwner": "Não proprietário do fundo.",
+        "invalidData": "Dados inválidos."
+      },
+      "subscribed": {
+        "subscribedFund": "Erro ao listar fundos."
+      },
+      "changeFundCA": {
+        "notOwner": "Não proprietário do fundo.",
+        "runNotPaused": "Você deve pausar o fundo para alterar a CA.",
+        "changeCA": "Erro ao alterar CA."
+      },
+      "fundStatus": {
+        "notSubscribed": "Você não está inscrito para financiar."
+      },
+      "pauseFund": {
+        "notOwner": "Não proprietário do fundo.",
+        "pauseFund": "Erro ao pausar fundos."
+      },
+      "resumeFund": {
+        "notOwner": "Não proprietário do fundo.",
+        "resumeFund": "Erro ao retomar o fundo."
+      },
+      "finalizeFund": {
+        "notOwner": "Não proprietário do fundo.",
+        "finalizeFund": "Erro ao finalizar o fundo."
+      },
+      "deleteFund": {
+        "notOwner": "Não proprietário do fundo.",
+        "deleteFund": "Erro ao excluir fundo."
+      },
+      "fundBalance": {
+        "lastRun": "Erro ao obter a execução do último fundo.",
+        "notSubscribed": "Você não está inscrito para financiar."
+      },
+      "renewFund": {
+        "notOwner": "Não proprietário do fundo.",
+        "invalidData": "Dados inválidos.",
+        "renewFund": "Erro ao renovar o fundo.",
+        "balanceNotEnough": "Você não tem fundos suficientes para operar. O mínimo para começar é o equivalente a 150 USD.",
+        "invalidExchangeKeys": "As chaves não existem em binance."
+      },
+      "depositAddress": {
+        "depositAddress": "Erro ao obter o endereço de depósito."
+      },
+      "fund_operations": {
+        "error_on_get_orders": "Não foi possível obter pedidos.",
+        "notOwner": "Você não pode obter os pedidos se não possuir o fundo."
+      }
+    },
+    "profiles": {
+      "retrieve": {
+        "doesNotExists": "O perfil não existe."
+      },
+      "update": {
+        "doesNotExists": "O perfil não existe.",
+        "invalidData": "Dados inválidos."
+      }
+    },
+    "runs": {
+      "runsByState": {
+        "invalidState": "Estado inválido."
+      },
+      "statusByRunId": {
+        "notSubscribed": "Você não está inscrito para financiar."
+      }
+    },
+    "subscriptions": {
+      "subscriptionLink": {
+        "notFound": "Nenhum assinante encontrado.",
+        "notOwner": "Você não pode obter o link de assinatura se não for o proprietário.",
+        "alreadySubscribed": "Você já está inscrito neste fundo."
+      }
+    },
+    "users": {
+      "sendResetPasswordEmail": {
+        "user": "Erro ao obter usuário."
+      },
+      "sendEmailValidationToken": {
+        "user": "Erro ao obter usuário.",
+        "userAlreadyActive": "Suas credenciais já foram validadas. Você pode fazer login."
+      },
+      "registration": {
+        "invalidData": "Dados inválidos.",
+        "referralIdNotExists": "O usuário com o código de referência inserido não existe."
+      },
+      "resetPassword": {
+        "invalid": "Erro ao alterar Sessão de senha inicial."
+      },
+      "emailValidation": {
+        "invalid": "Erro ao validar e-mail."
+      },
+      "login": {
+        "invalidCredentials": "O nome de usuário e/ou senha inseridos não correspondem. Por favor, tente novamente.",
+        "noActiveUser": "Verifique seu e-mail para fazer login.",
+        "notClientAccess": "Você não pode acessar de outros aplicativos. Use nosso aplicativo para fazer o login.",
+        "notVerifiedGoogleAccount": "Sua conta do Google não foi verificada.",
+        "notGoogleLoginUser": "Não foi possível fazer login. Seu e-mail já está assinado como um usuário Xcapit."
+      },
+      "changePassword": {
+        "invalid": "Erro ao alterar a senha."
+      }
+    },
+    "referrals": {
+      "create": {
+        "referralAlreadyExist": "A referência não pode ser criada.",
+        "referralAlreadyExistsAsUser": "A referência não pode ser criada.",
+        "emailDidNotSend": "O e-mail não pôde ser enviado."
+      },
+      "count": {
+        "getCountReferrals": "Não foi possível verificar referências anteriores"
+      }
+    },
+    "apikeys": {
+      "create": {
+        "invalidExchangeKeys": "As chaves não existem em binance.",
+        "keysExists": "Chaves já usadas.",
+        "balanceNotEnough": "Você não tem fundos suficientes para operar. O mínimo para começar é o equivalente a 150 USD.",
+        "invalidData": "Dados inválidos.",
+        "default": "Ocorreu um erro",
+        "cameraAccessDenied": "Não foi possível acessar a câmera. Acesso negado.",
+        "noContentQR": "O QR Code não tinha nenhum conteúdo.",
+        "invalidQR": "O código QR é inválido.",
+        "creatingFund": "Este Alias ​​já está sendo usado"
+      },
+      "update": {
+        "invalidExchangeKeys": "As chaves não são válidas. Tente novamente.",
+        "balanceNotEnough": "O valor mínimo para negociar é o equivalente a 150 USD em criptografia.",
+        "keysExists": "As chaves já estão cadastradas.",
+        "default": "Ocorreu um erro",
+        "invalidData": "Ocorreu um erro. Por favor, tente novamente mais tarde."
+      },
+      "remove": {
+        "error": "Ocorreu um erro, por favor, tente novamente."
+      }
+    },
+    "fund_slider_news": {
+      "get": {
+        "errorGetNews": "Ocorreu um problema ao exibir as notícias. Não se preocupe, vamos consertar isso em breve."
+      }
+    },
+    "on_off_ramps": {
+      "currencies": {
+        "errorProvider": "Falha ao obter moedas do provedor."
+      },
+      "quotations": {
+        "errorProvider": "Falha ao obter cotações do provedor."
+      },
+      "user": {
+        "doesNotExist": "Usuário inexistente.",
+        "check": {
+          "errorProvider": "Falha ao obter o usuário do provedor."
+        },
+        "create": {
+          "errorProvider": "Erro ao criar novo usuário no provedor."
+        },
+        "save_info": {
+          "errorProvider": "Erro ao tentar salvar dados do usuário no provedor."
+        },
+        "save_bank": {
+          "errorProvider": "Erro ao tentar salvar os dados bancários do usuário no provedor."
+        },
+        "save_images": {
+          "errorProvider": "Erro ao tentar salvar imagens no provedor."
+        }
+      },
+      "operations": {
+        "list": {
+          "errorProvider": "Erro ao obter operações do provedor."
+        },
+        "single_operation": {
+          "doesNotExist": "A operação é inexistente.",
+          "errorProvider": "Erro ao obter operações do provedor."
+        },
+        "create": {
+          "errorProvider": "Erro ao tentar criar operação no provedor."
+        },
+        "confirm": {
+          "errorProvider": "Erro ao tentar salvar o voucher no provedor.",
+          "errorConfirmation": "Você deve confirmar a operação criada. Por favor verifique seu email."
+        }
+      },
+      "paxful": {
+        "get_link": {
+          "notOwner": "Você não possui essas chaves de API."
+        }
+      }
+    }
+  },
+  "financial_education": {
+    "introduction": {
+      "financial_freedom": {
+        "header": "Educação",
+        "title": "Rumo à sua liberdade financeira!",
+        "subtitle": "Queremos que você aprenda como obter o máximo de seu dinheiro de maneira rápida, clara e simples.",
+        "button": "Próximo"
+      },
+      "explanation": {
+        "header": "Educação",
+        "title": "Como funciona?",
+        "button": "Aceitar",
+        "item_1": {
+          "number": "1.",
+          "title": "Conclua todos os módulos",
+          "description": "Para aprender sobre liberdade financeira, dividimos os tópicos em vários módulos, portanto, leia todos eles."
+        },
+        "item_2": {
+          "number": "2.",
+          "title": "Passa nos testes sem erros",
+          "description": "Você deve passar em todos os testes sem erros, pode repetir quantas vezes precisar."
+        },
+        "item_3": {
+          "number": "3.",
+          "title": "Aguarde sua NFT",
+          "description": "Ao final de todos os módulos, você receberá um NFT grátis como prêmio."
+        }
+      }
+    },
+    "home": {
+      "statuses": {
+        "to_do": "Façam",
+        "completed": "Concluído",
+        "in_progress": "Em andamento"
+      },
+      "header": "Educação",
+      "finance": "Finanças",
+      "crypto": "Criptografia",
+      "title": "O que você gostaria de aprender hoje?",
+      "coming_soon": "Em breve",
+      "rules_title": "Regras",
+      "global_progress_title": "Progresso global",
+      "global_progress": {
+        "card_title": "Módulos introdutórios",
+        "card_state_0": "Você ainda não concluiu nenhum módulo, vamos começar?",
+        "card_state_25": "Você tem {{doneModules}} módulos completos, não pare.",
+        "card_state_50": "Você tem {{doneModules}} módulos completos, você está quase lá.",
+        "card_state_75": "Você tem {{doneModules}} módulos completos, último esforço.",
+        "card_state_100": "Parabéns! Você concluiu todos os módulos.",
+        "generating_nft": "Gerando NFT"
+      },
+      "module_finance": {
+        "module_1": {
+          "title": "Módulo: introdução às finanças pessoais",
+          "progress_title": "Introdução às finanças pessoais",
+          "sub_modules": {
+            "sub_module_1": {
+              "title": "Como começar nas finanças?",
+              "description": "Finanças pessoais é o gerenciamento do dinheiro de uma pessoa para economizar, gastar e fazer orçamentos ao longo do tempo. Levar em consideração os riscos e/ou eventos futuros."
+            },
+            "sub_module_2": {
+              "title": "Orçamento",
+              "description": "É uma ferramenta que permite planejar e controlar suas finanças, levando em consideração receitas e despesas. Assim, você pode obter um melhor retorno do seu dinheiro."
+            }
+          }
+        },
+        "module_2": {
+          "title": "Créditos"
+        },
+        "module_3": {
+          "title": "Investimento"
+        }
+      },
+      "module_crypto": {
+        "module_1": {
+          "title": "Módulo: introdução ao blockchain",
+          "progress_title": "Introdução ao blockchain",
+          "sub_modules": {
+            "sub_module_1": {
+              "title": "O que é blockchain?",
+              "description": "Todas as criptomoedas funcionam graças à tecnologia chamada blockchain. Em espanhol significa blockchain, e para entender de forma simples, blockchain é um banco de dados descentralizado. Como uma planilha gigante do Excel onde todos podemos fazer upload de dados."
+            }
+          }
+        },
+        "module_2": {
+          "title": "Introdução às criptomoedas"
+        },
+        "module_3": {
+          "title": "Investimentos DeFi"
+        }
+      }
+    },
+    "shared": {
+      "share_education": {
+        "title": "Uma carteira, todas as oportunidades",
+        "text": "A educação é a base das finanças e das criptomoedas",
+        "dialogTitle": "Compartilhar",
+        "share_error": "O texto foi copiado para a área de transferência"
+      },
+      "rule_card": {
+        "rule_1": {
+          "title": "Como faço para obter meu NFT?",
+          "subtitle": "Termos e Condições"
+        }
+      },
+      "sub_module_info": {
+        "button_1": "Saber mais",
+        "button_2": "Iniciar teste"
+      }
+    },
+    "error_test": {
+      "textPrimary": "Vamos continuar melhorando!",
+      "textSecondary": "Lembre-se de que você precisa responder satisfatoriamente a todas as instâncias.",
+      "namePrimaryAction": "Módulo de repetição",
+      "nameSecondaryAction": "Ir para o menu",
+      "nameThirdAction": "Saber mais"
+    },
+    "success_submodule": {
+      "textPrimary": "Parabéns! Você concluiu: {{submodule}}",
+      "textSecondary": "Não deixe nada te parar, você está cada vez mais perto de se tornar um especialista.",
+      "buttonText": "Próximo módulo",
+      "buttonText2": "Ir para o menu"
+    },
+    "typeform_header": {
+      "text": "teste de",
+      "finance_sub_1": "Finanças",
+      "finance_sub_2": "Orçamento",
+      "crypto_sub_3": "Blockchain"
+    },
+    "final_success_test": {
+      "textPrimary": "Você fez isso, essa é a maneira de fazê-lo!",
+      "textSecondary": "Você concluiu todos os módulos de educação financeira e cripto. Sua NFT será creditada em sua carteira em breve.",
+      "primaryButton": "Terminar"
+    },
+    "error_no_wallet": {
+      "textPrimary": "Pare! Você ainda não tem sua carteira",
+      "textSecondary": "Para progredir no módulo, você precisa criar sua carteira para poder reivindicar seu prêmio no final do módulo.",
+      "namePrimaryAction": "Criar carteira",
+      "nameSecondaryAction": "De volta à educação financeira"
+    }
+  },
+  "financial_planner": {
+    "planner_information": {
+      "header": "planejador",
+      "title": "Organize suas finanças e alcance seus objetivos",
+      "item_1": "Defina suas despesas e receitas mensais",
+      "item_2": "Planeje seus objetivos",
+      "item_3": "Descubra estratégias para alcançá-los",
+      "button": "Começar"
+    },
+    "objetive_info": {
+      "header": "planejador",
+      "title": "Objetivo",
+      "subtitle_1": "Objetivo financeiro",
+      "paragraph_1": "Defina o que você quer alcançar com seu dinheiro. Pode ser uma viagem, comprar um carro, investir, outros.",
+      "label_1": "nome do objetivo",
+      "label_2": "Categoria",
+      "placeholder_1": "Ex.: Viagem para Miami",
+      "placeholder_2": "Ex: 1000",
+      "categories": {
+        "other": "Outro",
+        "travel": "Viagem",
+        "purchases": "compras",
+        "invest": "Investimento",
+        "gift": "Presente"
+      },
+      "subtitle_2": "Dinheiro necessário",
+      "paragraph_2": "Calcule quanto dinheiro você precisa no total para atingir seu objetivo.",
+      "label_3": "USD",
+      "button": "Ver estratégias"
+    },
+    "new_objetive": {
+      "title": "Receitas e despesas*",
+      "subtitle_income": "renda mensal",
+      "description_income": "Some todo o dinheiro que você recebe durante o mês: pagamentos, salário, presentes, devoluções.",
+      "subtitle_expenses": "Despesas mensais",
+      "description_expenses": "Some todo o dinheiro gasto no mês: compras, pagamentos de serviços públicos, taxas, aluguel.",
+      "disclaimer": "*Esses dados são privados e não serão usados fora desta simulação.",
+      "label": "USD",
+      "button": "Continuar",
+      "of": "do",
+      "placeholder": "Ex: 1000",
+      "toast_text": "Para avançar com seu objetivo, sua receita deve exceder suas despesas.",
+      "success_title": "Parabéns!",
+      "success_subtitle": "Você tem dinheiro suficiente para atingir seu objetivo.",
+      "success_button": "Criar outro objetivo"
+    },
+    "result_objetive": {
+      "saving": "Salvar",
+      "saving_description": "Dependendo de suas receitas e despesas mensais, você pode economizar {{saving}} USD por mês. Você atingiria seu objetivo em {{weeks}} semanas.",
+      "invest": "Investir",
+      "invest_description": "Se você investir mensalmente em DeFi, obterá retornos. Assim, você alcançaria seu objetivo em:",
+      "disclaimer": "*Esses resultados são apenas uma simulação e podem variar de um dia para o outro. Eles não incluem juros compostos e não são conselhos financeiros.",
+      "weeks": "semanas*",
+      "annual": "% Anual",
+      "start_invest_button": "Comece a investir",
+      "back_button": "Volte para o começo",
+      "informative_modal": "Essa meta pode demorar mais do que o esperado. Se desejar, você pode começar com um menor.",
+      "informative_modal_button": "Criar novo objetivo"
+    },
+    "shared_financial_planner": {
+      "objetive_card": {
+        "objetive": "Meu objetivo:",
+        "categories": {
+          "other": "Outro",
+          "travel": "Viagem",
+          "purchases": "compras",
+          "invest": "Investimento",
+          "gift": "Presente"
+        }
+      }
+    }
+  },
+  "donations": {
+    "information": {
+      "header": "Doações",
+      "title": "Criptomoedas por uma boa causa!",
+      "item_1": "Descubra novas causas onde você pode colaborar com sua doação.",
+      "item_2": "Escolha por categoria e torne-se um agente de mudança.",
+      "button": "Vamos começar"
+    },
+    "causes": {
+      "header": "Doações",
+      "title": "Escolha sua causa",
+      "types": {
+        "humanitary": "Ajuda humanitária",
+        "environment": "Meio Ambiente",
+        "human_rights": "Direitos humanos",
+        "social": "Assistência Social"
+      }
+    },
+    "description_cause": {
+      "header": "Doações",
+      "button": "Doar",
+      "info": {
+        "regional": "Regional",
+        "global": "Global",
+        "latam": "América Latina",
+        "receive": "Receber",
+        "unhcr": {
+          "title_1": "Doe para prestar assistência às populações afetadas na Ucrânia e nos países da região.",
+          "title_2": "Sobre a Agência da ONU para Refugiados (ACNUR)",
+          "title_3": "Saiba mais sobre o ACNUR",
+          "description": "Procura garantir que os refugiados tenham acesso a: proteção contra danos, abrigo, comida, água, cobertores, suprimentos médicos, capacidade de ir à escola e, mais importante, esperança de um futuro."
+        },
+        "water": {
+          "title_1": "Doe para ajudar a treinar pessoas vulneráveis sobre cuidados com a água e forneça acesso a microcréditos para soluções de água e saneamento em casa.",
+          "title_2": "Sobre a Water.org",
+          "title_3": "Saiba mais sobre Water.org",
+          "description": "A crise da água afeta negativamente a saúde e os meios de subsistência de mais de um terço da população mundial. A Water.org visa transformar essa realidade trabalhando para levar água e saneamento ao mundo."
+        },
+        "rainforest_rescue": {
+          "title_1": "Faça uma doação para proteger e restaurar a floresta tropical mais antiga do mundo, a Daintree.",
+          "title_2": "Sobre o Rainforest Rescue",
+          "title_3": "Saiba mais sobre Rainforest Rescue",
+          "description": "Seus projetos buscam conscientizar e conservar a biodiversidade e o patrimônio cultural da floresta tropical por meio de programas de plantio, manutenção e restauração."
+        },
+        "free_the_girls": {
+          "title_1": "Seus projetos buscam conscientizar e conservar a biodiversidade e o patrimônio cultural da floresta tropical por meio de programas de plantio, manutenção e restauração.",
+          "title_2": "Sobre o Free the Girls",
+          "title_3": "Saiba mais sobre Free the Girls",
+          "description": "Ele ajuda essas mulheres a se tornarem empreendedoras, fornecendo-lhes as ferramentas para comercializar nos mercados locais de roupas de segunda mão em suas comunidades."
+        },
+        "proof_of_integrity": {
+          "title_1": "Oferecer, por meio da educação financeira, as ferramentas necessárias para que pessoas com dificuldades de suprir suas necessidades básicas tenham acesso ao ecossistema criptográfico e possam utilizar essas ferramentas a seu favor.",
+          "title_2": "Sobre a Prova de Integridade",
+          "title_3": "Saiba mais sobre o POI",
+          "description": "Ofereça um programa educacional de criptofinanças e financie as taxas de transação e os depósitos necessários para ingressar na plataforma Proof of Humanity."
+        },
+        "pulenta": {
+          "title_1": "Buscamos oferecer uma solução concreta para as necessidades que surgem nas favelas e bairros populares.",
+          "title_2": "Sobre a Pulenta",
+          "title_3": "Saiba mais sobre Pulenta",
+          "description": "Obtenha doações criptográficas rastreáveis, transparentes e escaláveis para organizações que ajudam pessoas em estado de emergência e vulnerabilidade."
+        },
+        "unicef": {
+          "title_1": "Sua doação irá para os programas globais da UNICEF. Desde ajudar crianças na América Latina, até as vítimas do conflito na Ucrânia, até libertar crianças soldados no Sudão do Sul, você nos ajudará a dar às crianças de todo o mundo uma chance justa na vida.",
+          "title_2": "Sobre a UNICEF",
+          "title_3": "Saiba mais sobre a UNICEF",
+          "description": "O Fundo das Nações Unidas para a Infância (UNICEF) tem mais de 75 anos de experiência trabalhando em 190 países, 36 dos quais na América Latina e no Caribe. Somos 100% financiados por doações voluntárias, o que nos permite fornecer às crianças mais vulneráveis do mundo alimentos que salvam vidas, vacinas, educação, água potável, saneamento e higiene e proteção contra a violência. Estamos sempre presentes antes, durante e depois de uma emergência para cada criança."
+        },
+        "caecus": {
+          "title_1": "Buscam promover o desenvolvimento acadêmico de crianças e deficientes visuais na LATAM. E, por sua vez, sensibilizar para o consumo responsável de tecnologia, promovendo a economia circular.",
+          "title_2": "Sobre a Cecus",
+          "title_3": "Saiba mais sobre Cecus",
+          "description": "Sua doação ajuda a incentivar a inclusão acadêmica e laboral, capacitando pessoas com deficiência visual no uso da tecnologia. Proporcionando a possibilidade de desenvolver autonomia e ser novamente inserido na sociedade. Com a sua contribuição, pessoas cegas podem adquirir celulares, computadores e óculos inteligentes (www.annyweb.com) para ajudá-los a ler e se locomover com segurança nas vias públicas."
+        }
+      }
+    },
+    "send_donations": {
+      "header": "Doações",
+      "title": "Dados de transação",
+      "currency": "Moeda",
+      "network": "Rede",
+      "label": "Valor para doar",
+      "disclaimer": "A rede que você selecionou é {{network}}. Certifique-se de que a carteira de destino use essa mesma rede. Caso contrário, você perderá seus bens.",
+      "summary": {
+        "title": "Dados de transação",
+        "destination_address": "Endereço de destino",
+        "amount_title": "Valor para doar",
+        "button": "Doar",
+        "loading": "Doando"
+      },
+      "no_wallet": {
+        "title": "Você ainda não tem sua Carteira Xcapit",
+        "subtitle": "Crie sua carteira para doar",
+        "button": "Criar Carteira",
+        "link": "Veja as causas"
+      }
+    },
+    "success": {
+      "textPrimary": "Obrigado por se juntar a nós!",
+      "textSecondary": "Você acaba de contribuir para uma grande causa.",
+      "namePrimaryAction": "Continue doando",
+      "nameThirdAction": "De volta para casa"
+    },
+    "error": {
+      "textPrimary": "Sua doação não pôde ser concluída",
+      "textSecondary": "Ocorreu um erro no blockchain.",
+      "namePrimaryAction": "Tente novamente"
+    }
+  },
+  "referrals": {
+    "new_referral": {
+      "header": "Referir",
+      "submit_button": "Compartilhar",
+      "referral_title": "Compartilhe xcapit!",
+      "referral_subtitle": "Compartilhe xcapit com seus amigos para que eles comecem a investir.",
+      "toast_header": "Sucesso!",
+      "toast_message": "A referência foi adicionada.",
+      "email_label": "E-mail",
+      "email_placeholder": "meuemail@example.com"
+    },
+    "new_referral_page": {
+      "header": "Suas referências",
+      "list_title": "MINHAS RECOMENDAÇÕES",
+      "points_title": "MEUS PONTOS",
+      "prize_title": "DINHEIRO ACUMULADO",
+      "shared_referral_card": {
+        "title": "Convide seus amigos para investir compartilhando o seguinte link.",
+        "button": "Compartilhar"
+      },
+      "points_card": {
+        "points_text": "pontos",
+        "coming_badge": "Em breve"
+      },
+      "prize_card": {
+        "modal_info": "Você ainda não tem dinheiro para reivindicar, convide seus amigos para obter recompensas.",
+        "prize_button": "Solicitar recompensa"
+      }
+    },
+    "success_claim_reward": {
+      "primary_text": "Pedido enviado com sucesso!",
+      "secondary_text": "Entraremos em contato para aplicar o benefício",
+      "button_home": "ir para casa"
+    },
+    "referrals_info": {
+      "header": "Sistema de Referências",
+      "info_title1": "Como funciona?",
+      "info_title2": "Quanto posso ganhar?",
+      "info_title3": "Como faço para reivindicar meu prêmio?",
+      "info_title4": "Como eu vejo quantas referências eu tenho?",
+      "info_description1": "Qualquer usuário pode convidar outras pessoas para visitar o Xcapit, basta criar uma conta e compartilhar seu link em seu painel de referência.",
+      "info_description2": "Você ganhará $ 10 (dez dólares) para cada hóspede que ativar uma conta Advanced ou Expert, e ganhará $ 1 (um dólar) para cada hóspede que ativar uma conta Explorer. Em ambos os casos, seu convidado deve ter uma conta ativa por mais de 60 dias.",
+      "info_description3": "Dentro do aplicativo, em seu painel de referência, clique em Solicitar uma recompensa. Entraremos em contato para combinar o pagamento.",
+      "info_description4": "No aplicativo, em seu painel de referência, você verá a lista de convidados ativos e um contador do dinheiro que ganhou."
+    },
+    "referrals_list": {
+      "header": "Referências",
+      "new_button": "Novo",
+      "list_title": "MINHAS RECOMENDAÇÕES",
+      "referral_id_card": {
+        "share_title": "Este é o meu link de referência",
+        "share_dialogTitle": "Compartilhe seu link de indicação",
+        "toast_text_copied": "Seu código de referência foi copiado para a área de transferência",
+        "title": "Seu código de referência",
+        "subtitle": "Convide seus amigos para investir",
+        "share_text": "Crie sua conta no Xcapit e comece a investir em criptomoedas como eu"
+      }
+    },
+    "referral_form": {
+      "email": "E-mail"
+    },
+    "referrals_summary": {
+      "header": "Referências"
+    },
+    "referrals_closed": {
+      "header": "Referências"
+    },
+    "referrals_share": {
+      "title": "Indique e Ganhe!",
+      "first_order_referrals_title": "convidar pessoas",
+      "first_order_referrals_text": "Para cada pessoa que criar uma carteira Xcapit usando seu link, você receberá 1 ponto.",
+      "share": "Compartilhar meu link",
+      "copy": "Copie meu link",
+      "copied": "copiado",
+      "tos": "Veja os termos e condições",
+      "share_error": "O texto foi copiado para a área de transferência"
+    },
+    "referrals_coming": {
+      "title": "Estamos criando magia",
+      "paragraph": "Este programa está agora encerrado. Em breve retomaremos com novas propostas e mais benefícios.",
+      "tos": "Veja os termos e condições"
+    },
+    "referrals_pending": {
+      "title": "Pendente",
+      "first_order_title": "Referências à carteira Xcapit",
+      "first_order_subtitle": "{{quantity}} Referências",
+      "points": "{{quantity}} pontos"
+    },
+    "referrals_history": {
+      "title": "História",
+      "referrals_title": "Referências à carteira Xcapit",
+      "referrals_subtitle": "{{quantity}} Referências",
+      "first_order_title": "Primário para a carteira Xcapit",
+      "first_order_subtitle": "{{quantity}} Recomendado",
+      "second_order_title": "Secundário à carteira Xcapit",
+      "second_order_subtitle": "{{quantity}} Recomendado"
+    },
+    "referrals_tos": {
+      "header": "Referências",
+      "title": "Bases e condicionadores programa de referidos",
+      "paragraph": "Crypyolab sas (en adelante, la “Empresa” o “Xcapit”) lança el programa de referidos (en adelante, el “Programa de referidos”), cuyo alcance y requisitos está sujeto a las siguientes bases y condiciones (en adelante las “Bases &quot;). Essas bases formam parte dos termos e condições gerais da plataforma, disponíveis em <a class='ux-link-xl' href='/support/wallet-info'>https://app.xcapit.com/support/wallet-info</a> , que são obrigatórios e de caráter vinculante e o participante declara conhecer e aceitar. No caso de eventuais discrepâncias ou conflitos entre ambos os documentos, prevalecerão os termos e condições gerais.",
+      "subtitle_1": "1. Requisitos para participar do programa de referidos",
+      "paragraph_1": "Os usuários participantes do programa de referidos devem ser (i) Pessoas físicas; (ii) Maiores de 18 anos.",
+      "subtitle_2": "2. La empresa",
+      "paragraph_2": "Todos os assuntos relacionados à execução do programa de referidos são exclusivamente a cargo da empresa, que será o único responsável pela mecânica, controle, testes, etc. de todo o processo descrito nas bases. No caso de a empresa detectar ou considerar que uma referência, no marco do programa de referidos, cometeu ou comete atos fraudulentos em detrimento da empresa e/ou terceiros, a empresa se reserva o direito de fechar imediatamente a conta de referência . O e-mail associado ao referente mencionado permanecerá bloqueado, pois você não poderá abrir uma conta com a direção do e-mail. As informações associadas a este e-mail permanecerão armazenadas de acordo com o estabelecido na política de privacidade, disponível em https://www.xcapit.com/terminos.",
+      "subtitle_3": "3. Vigência",
+      "paragraph_3": "O programa de referidos terá uma vigência desde 12 de novembro de 2021 e finaliza em 31 de dezembro de 2021.",
+      "subtitle_4": "4. Procedimento para participar do programa de referidos",
+      "paragraph_4": "4.a. A referência deverá baixar o aplicativo do Xcapit, registrar-se com um e-mail, validar a conta e criar sua carteira. no momento de criar o mesmo, a referência terá a opção de “copiar” o link para referência. (o “link”). 4.b. A referência poderá enviar o link: a través de whatsapp, correio eletrônico, twitter, facebook, linkedin e qualquer outro canal que este considere. 4.c. A medida que mais e mais contatos referidos se descarguen la app de Xcapit y creen la wallet, podrá ganhar recompensas mais emocionantes. Para constituir uma referência válida, seus contatos devem: 1) Registrar-se nos serviços da empresa com uma direção de correio eletrônico válido e criar a carteira de xcapit, durante o período do concurso; cada recomendação válida que ud. haga le hará sumar 1 ponto. 4.d. Não há limite para a quantidade de referências que podem ser feitas por dia durante o período do concurso. 4.e.Al referente se le asignará, um ponto por cada referido que, a través del link del referente,descargue la app y cree la wallet de xcapit. o ponto obtido por cada referido que se registre não é transferível de nenhum modo, nem por nenhum motivo, nem negociável, e corresponde exclusivamente ao e-mail da referência que cumpriu com o procedimento estabelecido na presente cláusula 4.",
+      "subtitle_5": "5. Tipo de referidos",
+      "paragraph_5": "Los referidos pueden ser: (i) Primarios: son aquellos referidos directors, es decir, que se registam en la app. e crie a carteira de xcapit com o link referente ao envio. por cada referido primario, ud. sumará 1 ponto. (ii) Secundários: Son aquellos que se registram no aplicativo. e crie a carteira de xcapit, utilizando o link de seus referidos principais. Por cada referido secundário, ud. sumará 0,5 pontos.",
+      "subtitle_6": "6. Recompensas",
+      "paragraph_6": "Esta seção solo se aplica às partes recomendadas que calificam para uma recompensa. A empresa notificará aos referentes a quantidade de pontos obtidos através da tela de referidos que poderão ser visualizados a partir do aplicativo. Cada ponto equivale a 1 usd, y la misma se pagará en Matic. Dicha recompensa se poderá reclamar a partir da data de finalização do programa de referidos (cláusula nº 3). Receber uma recompensa de qualquer tipo depende do cumprimento de todos os requisitos e do cumprimento destas regras. No caso de um destinatário da recompensa ser desclassificado por qualquer motivo, a empresa não é obrigada a fornecer uma recompensa alternativa ou estender o período do concurso de nenhuma maneira.",
+      "subtitle_7": "7. Exclusão de responsabilidade. Indenização",
+      "paragraph_7": "Como condição para participar do programa de referidos, cada referente aceita que a empresa não seja responsável por nenhum daño direto ou indireto que possa sofrer o referente e/ou o referido e/ou qualquer terceiro por motivo e/ou ocasião de participação em o programa de referidos, y/o el uso, destino o finalidad del beneficio, renunciando la empresa a qualquer tipo de responsabilidade contratual y/o extracontratual frente al referente y/o el referido y/o cualesquier terceiro, lo que é aceite incondicionalmente por cada referência. la empresa renuncia a qualquer tipo de responsabilidade por qualquer omissão, inexatidão ou erro que possa sofrer esa plataforma con relación al programa de referidos.",
+      "subtitle_8": "8. Modificação nas bases",
+      "paragraph_8": "A empresa poderá modificar qualquer uma das cláusulas dessas bases em qualquer momento, sem aviso prévio. El mismo hecho de participar en el programa de referidos implica el conocimiento y la aceptación plena de las bases y sus eventuais modificaciones, como así también los termos y condiciones generales del uso del sitio disponibles en /support/wallet-info/terms. As decisões da empresa sobre todos e cada um dos aspectos do programa de referidos, incluindo decisões por qualquer questão não prevista nas bases, serão definitivas e irrecorríveis. A empresa se reserva o direito de poner terminantemente modificar o programa de referidos no caso de haver fraudes, técnicas complicadas ou qualquer outro fator fuera de controle da empresa que pode comprometer a integridade do programa de referidos.",
+      "subtitle_9": "9. Privacidade e informações enviadas",
+      "paragraph_9": "Como condição para participar do programa, usted do seu consentimento para que a empresa obtenha e entregue seu nome, direção e outras informações a terceiros com o fim de administrar este programa e cumprir com as leis, regulamentos e regras aplicáveis. qualquer informação que proporcione ao patrocinador pode usar para comunicar-se com você em relação a este programa. As informações enviadas serão tratadas de acordo com a política de privacidade da empresa.",
+      "subtitle_10": "10. Lei aplicável",
+      "paragraph_10": "Estas bases e o programa de referidos são governados pelas leis da república argentina. qualquer controvérsia derivada do presente acuerdo, sua existência, validade, interpretação, alcance ou cumprimento, será algures aos tribunais competentes com sede na cidade autónoma de buenos aires."
+    },
+    "referral_promotion": {
+      "title": "Convide e ganhe. Mais empresa, mais lucros!",
+      "button": "Compartilhar código"
+    }
+  },
+  "notifications": {
+    "notifications_list": {
+      "header": "Notificações",
+      "title": "Você ainda não tem notificações"
+    },
+    "notification": {
+      "header": "Notificação"
+    },
+    "notifications_helper": {
+      "message": "Você tem uma nova notificação!",
+      "view_button": "Visão"
+    }
+  },
+  "wallets": {
+    "receive_select_currency": {
+      "header": "Receber",
+      "title": "Selecione a moeda que deseja receber"
+    },
+    "remove_success": {
+      "title": "Sua carteira foi removida",
+      "subtitle": "Você pode criar uma nova carteira ou importar uma existente sempre que desejar.",
+      "create_button": "Criar nova Carteira",
+      "import_button": "carteira de importação",
+      "home_link": "ir para casa"
+    },
+    "remove": {
+      "header": "Remover carteira",
+      "title": "Ao retirar a carteira lembre-se",
+      "item1": "Você não perderá suas transações anteriores, elas são armazenadas pela rede.",
+      "item2": "Se você remover sua carteira e não tiver uma cópia de sua frase de backup, poderá perder seus ativos.",
+      "item3": "Você poderá criar novamente uma nova carteira no Xcapit ou importar uma existente.",
+      "tos": "Li e entendo que retirarei minha carteira.",
+      "button_text": "Continuar",
+      "loading": "Removendo carteira..."
+    },
+    "no_wallet": {
+      "title": "Você ainda não tem sua Carteira Xcapit",
+      "subtitle": "Toda vez que você fizer uma compra, suas criptomoedas serão depositadas lá.",
+      "button": "Criar carteira"
+    },
+    "password_change": {
+      "header": "Alterar senha da carteira",
+      "title": "Antes de alterar a senha da sua carteira, lembre-se de que:",
+      "description": "Você deve ter sua frase de recuperação anotada. Isso ajudará você a recuperar sua carteira caso esqueça sua nova senha.",
+      "old_password": "Escreva sua senha atual",
+      "new_password": "Escreva sua nova senha",
+      "repeat_password": "Repita sua nova senha",
+      "submit_button": "Mudar",
+      "loading": "Mudando...",
+      "disclaimer": "Você usará essa senha para fazer login em sua conta e aprovar todas as suas transações."
+    },
+    "password_change_success": {
+      "textPrimary": "Excelente!",
+      "textSecondary": "Você alterou a senha da sua carteira com sucesso.",
+      "namePrimaryAction": "Voltar para casa"
+    },
+    "password_change_error": {
+      "textPrimary": "Parece que algo deu errado",
+      "textSecondary": "Não foi possível alterar sua senha.",
+      "namePrimaryAction": "Tentar novamente",
+      "nameSecondaryAction": "Voltar para casa"
+    },
+    "disclaimer": {
+      "header": "Criar Carteira",
+      "title": "Vamos começar com sua carteira!",
+      "terms_and_conditions": "Termos e Condições",
+      "privacy_policy": "Política de Privacidade",
+      "wallet_term_text": "Sua carteira será vinculada a este dispositivo, não ao seu e-mail. Para mais informações, visite o",
+      "wallet_term_link": "Perguntas frequentes sobre a carteira.",
+      "create_wallet_description": "Antes de criar sua carteira, verifique as permissões essenciais para começar",
+      "import_wallet_description": "Antes de importar sua carteira, verifique as permissões essenciais para começar",
+      "agree_phrase_checkbox": "Eu concordo com os termos e condições e política de privacidade da XCAPIT.",
+      "local_stored_keys_checkbox": "Entendo que meus fundos são mantidos em segurança neste dispositivo, e não por uma empresa.",
+      "recovery_phrase_checkbox": "Entendo que, se este aplicativo for movido para outro dispositivo ou removido, meus fundos só poderão ser recuperados com a frase de recuperação.",
+      "terms_of_use_checkbox": "Li, compreendi e aceito os <a class='ux-link-xs' href='https://xcapit.com/terms-and-conditions/'>Termos de Uso</a> e <a class='ux-link-xs' href='https://xcapit.com/privacy-policy/'>Política de Privacidade.</a>",
+      "terms_of_use_button": "Veja os termos de uso",
+      "submit_button": "Confirme e aceite"
+    },
+    "recovery_phrase_information": {
+      "header": "Frase de recuperação",
+      "text1": "O Xcapit nunca pedirá que você compartilhe sua frase de recuperação.",
+      "text2": "A frase de recuperação é a chave mestra para seus fundos. Nunca compartilhe com ninguém.",
+      "text3": "Se você perder sua frase de recuperação, nem mesmo o Xcapit poderá recuperar seus fundos.",
+      "button_text": "Continuar"
+    },
+    "recovery_phrase_information_no_wallet": {
+      "header": "Frase de recuperação",
+      "text1": "Você ainda não tem uma frase de recuperação.",
+      "text2": "Crie ou importe sua carteira para poder visualizá-la.",
+      "text3": "Contanto que você tenha sua frase de 12 palavras, você poderá recuperar sua carteira e todos os seus ativos.",
+      "button_import": "carteira de importação",
+      "button_create": "Criar Carteira",
+      "button_faq": "Qual é a frase de recuperação?"
+    },
+    "recovery_phrase_read": {
+      "recovery_phrase": "Frase de recuperação",
+      "protect_my_wallet": "Proteja minha carteira",
+      "title": "Frase de recuperação",
+      "text": "Armazene as 12 palavras listadas abaixo na seguinte ordem.",
+      "text_protect_my_wallet": "Salve as 12 palavras abaixo em sua ordem.<br> Na próxima etapa você preencherá os espaços com as palavras solicitadas.",
+      "button_show_phrase": "Mostrar frase",
+      "button_hide_phrase": "Ocultar frase",
+      "button_text": "cópia de",
+      "button_continue": "Continuar",
+      "security_information": "O Xcapit não poderá recuperar sua carteira se você perder sua frase de recuperação.",
+      "button_text_copied": "copiado",
+      "copied_text": "A frase de recuperação foi copiada para a área de transferência",
+      "copy_error_text": "A frase de recuperação não pôde ser copiada para a área de transferência",
+      "protected": "backup completo",
+      "not_protected": "Nenhuma cópia de segurança",
+      "loading_text": "Descriptografar carteira",
+      "loading_label": "Aguarde alguns segundos...",
+      "error_toast": "a senha que você digitou está incorreta"
+    },
+    "home": {
+      "available_money": "Saldo disponível na carteira",
+      "invested": "Valor investido",
+      "tab_assets": "Ativos",
+      "tab_nfts": "NFTs",
+      "wallet_recovery": "Importar uma carteira existente",
+      "wallet_transaction_title": "MAIS RECENTES",
+      "go_to_history": "Ver todas as transações",
+      "subheader_component": {
+        "title_without_wallet": "Você ainda não criou sua carteira.",
+        "create_wallet_button": "Criar Carteira"
+      },
+      "subheader_buttons_component": {
+        "send_card": "Mandar",
+        "receive_card": "Receber",
+        "buy_card": "Comprar",
+        "swap_card": "Troca"
+      },
+      "backup_card_component": {
+        "text": "Não perca seu dinheiro. <b>Proteja sua carteira.</b>"
+      },
+      "no_tokens_selected": {
+        "title": "Aqui você encontrará seus tokens.",
+        "link": "Selecione os que deseja visualizar"
+      },
+      "transaction_in_progress": {
+        "badge": "Em andamento",
+        "swap_title": "Troca"
+      }
+    },
+    "select_coin": {
+      "header": "Criar Carteira",
+      "header_edit": "Editar ativos",
+      "title": "Selecionar ativos",
+      "subtitle": "Escolha os ativos que deseja visualizar em sua carteira. Lembre-se que para operar em cada rede você deve ter sua moeda nativa",
+      "suite": "Suíte {{suiteName}}",
+      "native": "NATIVO",
+      "submit_edit": "Salvar alterações",
+      "toggle_all_text": "Selecionar tudo",
+      "loading": "Carregando..."
+    },
+    "success_creation": {
+      "title": "Parabéns! Você criou sua carteira",
+      "subtitle": "Proteja-o fazendo backup de sua frase de recuperação. Esta é a chave mestra para seus fundos.",
+      "success_button": "Ir para a carteira",
+      "ribbon_recommended": "Sugerido",
+      "primary_action": {
+        "title": "Protegendo minha carteira",
+        "subtitle": "Faça isso agora e não perca o acesso ao seu dinheiro. Levará apenas alguns minutos."
+      },
+      "secondary_action": {
+        "title": "Outra hora"
+      }
+    },
+    "recovery_phrase": {
+      "header": "Criar Carteira",
+      "title": "Frase de recuperação",
+      "text1": "Estas são as 12 palavras que compõem sua carteira.",
+      "text2": "Contanto que você tenha as 12 palavras, você poderá recuperar sua carteira e todos os fundos.",
+      "text3": "Se você perder as palavras, não será capaz de fazê-lo.",
+      "text4": "Escreva cuidadosamente cada palavra na ordem em que aparecem e guarde-as em local seguro (arquivo de texto, pendrive, à mão em um pedaço de papel, etc).",
+      "btn_next": "Próximo"
+    },
+    "verify_phrase": {
+      "header": "Proteja minha carteira",
+      "title": "Verifique sua frase de recuperação",
+      "description": "Selecione as palavras correspondentes respeitando sua ordem.",
+      "btn_create": "Terminar",
+      "verifying": "Verificando...",
+      "word_counter": "Palavra nº"
+    },
+    "create_password": {
+      "header": "Criar Carteira",
+      "title": "Crie sua senha",
+      "description": "Você o usará para aprovar suas transações.",
+      "write_password": "Coloque sua senha.",
+      "password": "Senha",
+      "repeat_password": "Repita sua senha",
+      "finish_button_create": "Criar carteira",
+      "finish_button_import": "importar carteira",
+      "creating_button_state": "Criando carteira",
+      "importing_button_state": "Importando carteira",
+      "wait_loading_message": "Levará apenas alguns segundos.",
+      "disclaimer": "Não perca esta senha, o Xcapit não poderá recuperá-la se você perder.",
+      "loading": {
+        "title": "Tempo!",
+        "subtitle": {
+          "create": "Estamos construindo sua Carteira",
+          "import": "Estamos importando sua Carteira"
+        }
+      }
+    },
+    "receive": {
+      "header": "Receber",
+      "title": "Informações da sua carteira",
+      "currency_select": "Moeda",
+      "select_coins": "Selecione a moeda",
+      "average_time": "Tempo médio de recebimento: 3 min.",
+      "receive_address_title": "Endereço",
+      "receive_address_copy": "cópia de",
+      "disclaimer_header": "Envie apenas {{currency}} usando a rede {{network}} para este endereço. Caso contrário, você pode perder seu depósito.",
+      "toast_success": "Copiado para a área de transferência"
+    },
+    "nft_detail": {
+      "title": "Detalhe NFT",
+      "label1": "Criado por",
+      "label2": "Informações da Cadeia",
+      "label_input1": "Endereço do contrato",
+      "label_input2": "ID do token",
+      "label_input3": "Blockchain"
+    },
+    "failed_mnemonic": {
+      "title": "Sua frase de recuperação está errada",
+      "description": "Verifique se as palavras selecionadas estão corretas e respeite a ordem.",
+      "button": "Tente novamente"
+    },
+    "recovery_wallet": {
+      "header": "carteira de importação",
+      "title": "Digite a frase de recuperação",
+      "subtitle": "Escreva suas palavras separadas por um espaço",
+      "label": "Frase de recuperação",
+      "button": "carteira de importação",
+      "next_button": "Próximo"
+    },
+    "transactions": {
+      "header": "Histórico de transações",
+      "OUT": "Mandar",
+      "BUY": "Comprar",
+      "IN": "Recepção",
+      "swap": "Troca",
+      "confirmed": "Confirmado",
+      "declined": "Recusado"
+    },
+    "send": {
+      "send_notifications": {
+        "success": {
+          "title": "✅Envio exitoso. ¡Así se faz!",
+          "body": "Envie {{amount}} {{token}} no dia {{date}}."
+        },
+        "error": {
+          "title": "❌ Erro no envio",
+          "body": "Ocorreu um erro no envio de {{amount}} {{token}} no dia {{date}}. Mais informações aqui."
+        }
+      },
+      "scan_qr": {
+        "title": "Digitalize o código QR do endereço para o qual deseja enviar"
+      },
+      "select_currency": {
+        "header": "Mandar",
+        "title": "Selecione a moeda que deseja enviar",
+        "suite": "{{suiteName}} rede"
+      },
+      "send_in_progress": {
+        "text_primary": "Seu pedido está a caminho!",
+        "text_secondary": "A transação está sendo processada no blockchain. Iremos notificá-lo quando o status for atualizado.",
+        "button_text": "Ir para a carteira",
+        "text_title": "Mandar",
+        "text_badge": "Em andamento"
+      },
+      "send_detail": {
+        "header": "Mandar",
+        "title": "dados de envio",
+        "network_select": {
+          "title": "Transferir dados",
+          "network": "Rede"
+        },
+        "continue_button": "Continuar",
+        "address_input": {
+          "title": "Carteira alvo",
+          "help_text": "{{currency}} endereço ou alias"
+        },
+        "alert": {
+          "title": "Atenção",
+          "text": "Você tem 0 {{nativeToken}} em sua conta para pagar as taxas de transação. Compre alguns {{nativeToken}} ou deposite-os de outra conta."
+        }
+      },
+      "send_summary": {
+        "header": "Mandar",
+        "title": "Enviando dados",
+        "amounts_title": "Valor estimado para enviar",
+        "send_button": "Mandar",
+        "wrong_password": "Senha incorreta",
+        "loader": "Enviando",
+        "destination_address": "Endereço de destino",
+        "fee": "Taxa de transação estimada",
+        "sent_notification": {
+          "title": "¡Sua transferência foi concluída com sucesso!",
+          "body": "¡Sua transferência para {{address}} foi concluída com sucesso!"
+        },
+        "transaction_summary_card": {
+          "disclaimer": "Verifique se os dados inseridos estão corretos. Uma vez que a remessa foi enviada, você não poderá cancelá-la."
+        },
+        "alert_not_enough_native_token": {
+          "title": "erro de transação",
+          "text": "Fundos insuficientes para pagar as taxas de transação.",
+          "button": "OK"
+        },
+        "alert_invalid_address": {
+          "title": "erro de transação",
+          "text": "O endereço de destino está incorreto",
+          "button": "OK"
+        }
+      },
+      "send_success": {
+        "textPrimary": "Sua transferência foi feita.",
+        "textSecondary": "Em breve estará disponível",
+        "namePrimaryAction": "Vá para minha carteira"
+      },
+      "error_incorrect_password": {
+        "textPrimary": "Parece que a senha está incorreta",
+        "namePrimaryAction": "Tentar novamente"
+      },
+      "error_wrong_amount": {
+        "textPrimary": "Ocorreu um problema ao concluir a transação",
+        "namePrimaryAction": "Tentar novamente"
+      },
+      "error_wrong_address": {
+        "textPrimary": "A carteira de destino está incorreta",
+        "namePrimaryAction": "Tentar novamente"
+      }
+    },
+    "investments": {
+      "coming_soon": {
+        "header": "Investimento"
+      },
+      "defi_investment_products": {
+        "header": "investimentos DeFi"
+      }
+    },
+    "shared_wallets": {
+      "accordion_token": {
+        "expand_button": "Expandir",
+        "reduce_button": "Reduzir"
+      },
+      "share_transaction_detail": {
+        "text": "Olá! Eu te enviei",
+        "text2": "Para maiores informações:",
+        "dialogTitle": "Compartilhar",
+        "share_error": "O texto foi copiado para a área de transferência"
+      },
+      "start_investing_card": {
+        "title": "Invista suas criptomoedas agora e obtenha lucro diário",
+        "text": "Comece a investir"
+      },
+      "address_input_card": {
+        "scan_error": "Erro ao escanear o código QR",
+        "placeholder": "Pressione e segure para colar",
+        "scan_unauthorized": "Você não tem permissão para digitalizar",
+        "disclaimer": "A rede que você selecionou é {{network}}. Certifique-se de que a carteira de destino use essa mesma rede. Caso contrário, você perderá seus ativos"
+      },
+      "wallet_password": {
+        "title": "Coloque sua senha",
+        "disclaimer": "Por segurança, precisamos que você digite a senha da sua carteira para concluir a transação",
+        "submit_button_text": "Aceitar",
+        "input_label": "Senha"
+      },
+      "wallet_password_small": {
+        "title": "Para segurança",
+        "label": "Senha",
+        "disclaimer": "A senha tem que ter pelo menos 6 caracteres, deve conter números e letras, pelo menos uma letra maiúscula e uma letra minúscula",
+        "button_text": "Aceitar",
+        "alert": {
+          "header": "Erro",
+          "title": "A senha não está correta.",
+          "button_text": "Tentar novamente"
+        }
+      },
+      "claim_nft_card": {
+        "base": "Aqui você pode ver suas NFTs",
+        "unclaimed_title": "Seu NFT está esperando por você!",
+        "unclaimed_subtitle": "Reivindique sua NFT da Comemoração da Independência do México",
+        "unclaimed_note": "*Você só receberá se estiver na lista de espera.",
+        "button_claim": "Alegar",
+        "claimed_title": "¡Seu NFT está a caminho!",
+        "claimed_subtitle": "A partir de 6 de dezembro, entregaremos os NFTs progressivamente.*",
+        "claimed_note": "*Serão entregues de acordo com a ordem em que foram reclamados."
+      },
+      "skip_backup_modal": {
+        "title": "Ignorar backup?",
+        "description": "Entendo que, se não fizer uma cópia da minha frase de recuperação, posso perder o acesso aos meus fundos.",
+        "button_back": "De volta",
+        "button_skip": "Pular"
+      },
+      "recovery_phrase_info": {
+        "title": "Frase de recuperação",
+        "description": "É um conjunto de 12 palavras ordenadas, que servem como chave mestra para seus fundos.",
+        "button_text": "Entendido"
+      },
+      "info_phrase_advice_modal": {
+        "title": "Frase de recuperação",
+        "description": "É um conjunto de 12 palavras ordenadas, que servem como chave mestra para seus fundos.",
+        "button_text": "Entendido",
+        "item_1": "Não o compartilhe com mais ninguém, pois qualquer pessoa que o tenha poderá acessar seus fundos.",
+        "item_2": "Não salve sua frase na nuvem ou em seus dispositivos móveis.",
+        "item_3": "Não compartilhe através de serviços de mensagens ou redes sociais.",
+        "item_4": "Mantenha isso em um local seguro.",
+        "item_5": "Você pode gravá-lo em algum elemento para que dure com o tempo."
+      },
+      "info_send_modal": {
+        "title_send_amount": "Por que o valor a ser enviado é estimado?",
+        "title_transaction_fee": "Por que a taxa de transação é estimada?",
+        "description": "Devido à volatilidade do mercado, a taxa de câmbio pode variar ligeiramente no momento da transação.",
+        "button_text": "Entendido"
+      },
+      "warning_backup_info": {
+        "title": "Atenção!",
+        "title2": "Você ainda não protegeu sua carteira",
+        "description": "Antes de realizar qualquer operação, proteja-o fazendo backup de sua frase de recuperação.",
+        "button_protect": "Proteja minha carteira",
+        "button_skip": "Pular"
+      },
+      "new_token_available_card": {
+        "coming_soon": "Em breve"
+      },
+      "new_token_info-modal": {
+        "title": "Benefícios de usar Solana",
+        "subtitle": "Solana é uma das redes mais baratas e rápidas no ecossistema criptográfico e isso ocorre porque eles têm uma validação de bloco muito distinta chamada prova de história que ajudou um enorme ecossistema a se desenvolver em torno dela."
+      },
+      "no_active_tokens_card": {
+        "title": {
+          "send": "Para continuar, ative a exibição dos tokens que deseja enviar.",
+          "receive": "Para continuar, ative a exibição dos tokens que deseja receber."
+        },
+        "button": "Ativar fichas"
+      }
+    },
+    "asset_detail": {
+      "header": "Detalhe do ativo",
+      "wallet_transaction_title": "Transações",
+      "available": "Saldo disponível",
+      "invest_button": "Investir"
+    },
+    "error_wallet_recovery": {
+      "title": "Sua frase de recuperação está incorreta",
+      "description": "Verifique se suas palavras estão escritas em letras minúsculas e na ordem original.",
+      "button": "Tente novamente"
+    },
+    "success_wallet_recovery": {
+      "title": "Parabéns!",
+      "subtitle": "Você importou sua carteira com sucesso.",
+      "button": "Personalizar carteira"
+    },
+    "wallet_connect": {
+      "header": "WalletConnect",
+      "title": "Nova conexão",
+      "text_before": "Carteira",
+      "QR_label": "Iniciar conexão de",
+      "QR_placeholder": "Pressione e segure para colar",
+      "button_continue": "Continuar",
+      "button_wallet": "usar carteira",
+      "button_connect": "Conectar",
+      "button_disconnect": "Terminar conexão",
+      "card_title": "Configurar sua conexão",
+      "card_description": "Escolha a rede da qual você deseja retirar os fundos. Em seguida, digitalize o código QR no Dapp.",
+      "scan_qr": {
+        "header": "Escaneie seu código Dapp QR",
+        "errors": {
+          "invalidQR": "Verifique se o código QR que você está digitalizando corresponde ao protocolo de conexão WalletConnect.",
+          "permissionDenied": "A câmera não pôde ser acessada. Acesso negado.",
+          "close_button": "Aceitar"
+        }
+      },
+      "qr_scanner": {
+        "title": "Aponte a câmera para o código QR",
+        "cancel_label": "Cancelar e inserir manual",
+        "text": "Aponte a câmera para um código QR."
+      },
+      "init_wallet": {
+        "errors": {
+          "header": "Erro no código QR",
+          "message": "O Dapp não responde. Tente escanear um novo código QR.",
+          "close_button": "Aceitar"
+        }
+      },
+      "connection_detail": {
+        "header": "Detalhe da conexão",
+        "description": "DESCRIÇÃO",
+        "permissions": "Observe que o protocolo terá acesso ao seu balanço, atividade e poderá solicitar aprovações de transações.",
+        "connection_status": {
+          "connected": "Conectado",
+          "disconnected": "Desconectado"
+        },
+        "errors": {
+          "header": "Erro de conexão",
+          "message": "Houve problemas de conexão com o Dapp. Por favor, tente novamente.",
+          "close_button": "Aceitar"
+        },
+        "card_title_disconnected": "Conecte-se ao Dapp",
+        "card_description_disconnected": "O Dapp terá acesso a sua carteira. Para fazer transações, ele pedirá sua aprovação.",
+        "card_title_connected": "Opera em Dapp",
+        "card_description_connected": "Quando as operações estiverem disponíveis no Dapp, você receberá notificações para aprová-las.",
+        "disconnect": {
+          "header": "Terminar conexão?",
+          "message": "Se você encerrar a conexão, não poderá receber operações do Dapp.",
+          "cancel_button": "Cancelar",
+          "accept_button": "Terminar"
+        }
+      },
+      "operation_detail": {
+        "header": "Detalhe da operação",
+        "sign": "Entrar",
+        "approval": "aprovar em",
+        "operation": "operação em",
+        "sign_message": "Sua assinatura foi solicitada para o seguinte:",
+        "date": "Encontro",
+        "from": "Da sua carteira",
+        "to": "Para",
+        "amount": "Pagar",
+        "transaction_fee": "Taxa de transação",
+        "transaction_fee_message": "Este valor é uma estimativa e pode variar de acordo com o momento da transação.",
+        "sign_button": "Sinal",
+        "approve_button": "Aprovar",
+        "confirm_button": "confirme",
+        "cancel_button": "Cancelar operação",
+        "approve_loading": "Aprovando",
+        "sign_loading": "Assinando",
+        "confirmation_loading": "confirmando",
+        "abort_alert": {
+          "header": "Desistir da operação?",
+          "message": "Se você sair agora, a operação será cancelada.",
+          "cancel_button": "Cancelar",
+          "accept_button": "Desistir"
+        },
+        "cancel_alert": {
+          "header": "Cancelar operação",
+          "message": "Deseja cancelar a operação?",
+          "cancel_button": "De volta",
+          "accept_button": "Aceitar"
+        },
+        "types": {
+          "swap": {
+            "swap": "Trocar fichas",
+            "amount_to_send": "Quantidade a enviar",
+            "amount_to_send_max": "Valor máximo para enviar",
+            "amount_to_receive": "Valor a receber",
+            "amount_to_receive_min": "Valor mínimo a receber"
+          },
+          "liquidity": {
+            "add_liquidity": "Adicionar Liquidez",
+            "remove_liquidity": "Remover Liquidez",
+            "liquidity": "Liquidez",
+            "amount_token_0": "Valor do token 0",
+            "amount_token_1": "Valor do token 1",
+            "amount_to_receive_min": "Valor mínimo a receber"
+          }
+        },
+        "card_title_sign": "Assinatura no Dapp",
+        "card_description_sign": "Esta etapa é para verificar se você é quem está operando no Dapp.",
+        "card_title_operation": "Confirme sua operação",
+        "card_description_operation": "Confirme a transação que deseja realizar no Dapp.",
+        "password_modal": {
+          "title": "Para segurança",
+          "description": "Para confirmar sua operação, digite sua senha da carteira Xcapit.",
+          "input_label": "Senha",
+          "confirm_button": "Aceitar"
+        },
+        "password_error": "A senha digitada não é válida."
+      },
+      "transactions": {
+        "alert": {
+          "header": "erro de operação",
+          "message": "Ocorreu um erro ao executar a operação. Por favor, tente novamente.",
+          "accept_button": "Aceitar"
+        }
+      },
+      "disclaimer_1": "O WalletConnect está em fase Beta, portanto pode haver problemas no processo de conexão.",
+      "disclaimer_2": "Se você teve um problema ao conectar sua carteira, entre em contato com",
+      "disclaimer_support": "Apoio, suporte.",
+      "dapp_disconnection": {
+        "message": "A conexão com {{dapp}} foi perdida. Isso pode acontecer se você desconectar manualmente ou se a conexão estiver instável."
+      }
+    },
+    "export_private_key": {
+      "header": "Chave privada",
+      "title": "Chave privada",
+      "content": "Esta chave permite que você exporte sua carteira de cada rede de forma simples.",
+      "select_title": "Escolha uma rede",
+      "select_placeholder": "Selecione uma rede",
+      "address": "Endereço:",
+      "private_key": "Chave privada:",
+      "copy_button": "Copiar chave privada",
+      "success_toast": "Sua chave privada foi copiada com sucesso para a área de transferência.",
+      "error_toast": "a senha que você digitou está incorreta"
+    },
+    "transaction_details": {
+      "header": "Detalhe da operação",
+      "title_status": "Status",
+      "declined": "rejeitado",
+      "confirmed": "Confirmado",
+      "link": "Ver no explorador",
+      "title_wallet": "Carteira alvo",
+      "title_fee": "Taxa de transação",
+      "title_date": "Encontro",
+      "OUT": "Enviado",
+      "IN": "Recebido",
+      "modal_info_state": {
+        "title": "O que significa este estado?",
+        "description_confirmed": "Sua transação foi confirmada pela rede. Obtenha mais detalhes acessando a verificação.",
+        "description_refused": "Sua transação foi rejeitada pela rede. Obtenha mais detalhes acessando a verificação.",
+        "description": "",
+        "button_text": "Entendido"
+      }
+    }
+  },
+  "tools": {
+    "tools_page": {
+      "header": "O que você gostaria de fazer hoje?",
+      "donations": {
+        "textPrimary": "Doações",
+        "textSecondary": "Colabore e faça parte de uma boa causa"
+      },
+      "education": {
+        "textPrimary": "Educação",
+        "textSecondary": "O caminho para a sua liberdade financeira"
+      },
+      "planner": {
+        "textPrimary": "planejador",
+        "textSecondary": "Melhore o retorno do seu dinheiro"
+      },
+      "investor_test": {
+        "textPrimary": "Teste do Investidor",
+        "textSecondary": "Descubra que tipo de investidor você é"
+      }
+    }
+  },
+  "tabs": {
+    "home": "Casa",
+    "new_fund": "investimentos",
+    "menu": "Mais",
+    "wallet": "Carteira",
+    "tools": "Ferramentas"
+  },
+  "fiat_ramps": {
+    "operation_km_in_progress": {
+      "text_primary": "Seu pedido está a caminho!",
+      "text_secondary": "Estaremos informando sobre alterações no status de sua compra.",
+      "button_text": "Terminar",
+      "text_title": "Comprar",
+      "text_badge": "Em andamento",
+      "text_tertiary": "Você precisa de ajuda?",
+      "text_help_link": "Escreva para o suporte do Kripton Market"
+    },
+    "error_operation_km": {
+      "text_primary": "Erro ao carregar o voucher",
+      "text_secondary": "👉 Verifique se o formato é jpg, png ou pdf. E que seu tamanho não exceda 200 kb.",
+      "button_primary": "Tentar novamente",
+      "button_secondary": "Voltar para minhas compras"
+    },
+    "home_of_purchases": {
+      "header": "Minhas compras",
+      "question": "Como funcionam as compras?",
+      "button": "Faça nova compra"
+    },
+    "buy_conditions": {
+      "title": "O que você precisa saber antes de comprar?",
+      "condition_1": "As compras são feitas através de um fornecedor terceirizado. A Xcapit não vende criptomoedas.",
+      "condition_2": "As condições de venda e entrega dos tokens dependem de cada provedor.",
+      "condition_3": "O provedor pode solicitar informações de verificação ou KYC. Xcapit não pede (e não vai) pedir dados pessoais ou de validação.",
+      "label_check": "Eu concordo com os termos e condições de compra.",
+      "button": "Continuar"
+    },
+    "error_d24_operation": {
+      "text_primary": "Ocorreu um erro na sua compra",
+      "text_secondary": "Tente novamente ou entre em contato com o suporte se o problema persistir.",
+      "button_primary": "Tentar novamente",
+      "button_secondary": "Ir para a carteira"
+    },
+    "purchase_order": {
+      "header": "Comprar criptomoeda",
+      "clipboard_text": "¡{{type}} copiado com sucesso!",
+      "provider": "Provedor: Kripton Market",
+      "step_1": "Transferir",
+      "step_2": "Carregar comprovante",
+      "button": "Continuar",
+      "send_button": "Enviar e finalizar",
+      "timer": "Você tem {{ value }} para transferir",
+      "voucher_card": {
+        "header": "Anexe seu comprovante",
+        "file_placeholder": "Voucher.jpg",
+        "upload_button": "Enviar Imagem",
+        "footnote": "Suporta png, jpg, pdf ou outros formatos similares de até 200 kb.",
+        "success": "Comprovante",
+        "error": "Havia um erro. Carregue seu voucher novamente."
+      }
+    },
+    "success_d24_operation": {
+      "text_primary": "Compra confirmada!",
+      "text_secondary": "O crédito de seus tokens pode levar até 24 horas.",
+      "button_text": "Ir para a carteira"
+    },
+    "operations_list": {
+      "title": "Compras no Kripton Market",
+      "operation": "Moeda",
+      "amount": "Quantia",
+      "date": "Encontro",
+      "status": "Status",
+      "not_logged": "Para acessar o status de sua conta e/ou lista de compras, você deve",
+      "no_operations_message": "Depois de fazer suas compras, você poderá vê-las nesta seção.",
+      "link": "entrar no Kripton Market",
+      "button_show_less": "Mostre menos",
+      "button_show_more": "Mostre mais"
+    },
+    "moonpay_purchases": {
+      "title": "Compras no Moonpay",
+      "message": "Se você fez compras, pode visualizá-las",
+      "link": "aqui"
+    },
+    "provider_new_operation_card": {
+      "description": "Provedor: {{providerName}}"
+    },
+    "fiat_success": {
+      "textPrimary": "Operação criada",
+      "textSecondary": "Lembre-se de fazer a transferência do seu banco e enviar o recibo",
+      "buttonText": "Ir para o detalhe da operação"
+    },
+    "select_provider": {
+      "header": "Comprar criptomoeda",
+      "select_label": "País em que você vai operar",
+      "select_placeholder": "Escolha o seu país",
+      "provider_label": "selecione seu metodo de pagamento",
+      "no_provider": "No momento não é possível comprar {{coinName}} em seu país.",
+      "moonpay_description": "Compre com cartão de crédito",
+      "pay_in_usd": "Pagar em USD",
+      "best_quote": "melhor citação",
+      "pay_in_fiat": "Pague na moeda local",
+      "krypton_description": "Compre com transferência bancária",
+      "disclaimer": "* As cotações podem variar um pouco no momento da compra.",
+      "description": "Compre com {{providerName}} {{token}} por ${{quote}} {{fiatCode}}.",
+      "directa24": {
+        "platform_description": "Compre pela plataforma",
+        "nearest_store_description": "Compre na loja mais próxima",
+        "nearest_branch_office_description": "Compre na filial mais próxima",
+        "in_app_description": "Compre pelo aplicativo",
+        "debit_credit_description": "Compre no débito ou no crédito",
+        "transfer_description": "Compre por transferência bancária."
+      },
+      "button": "Continuar",
+      "modal_info": {
+        "subtitle_payment_methods": "Formas de pagamento habilitadas:",
+        "subtitle_delivery_time": "Qual o prazo de entrega?",
+        "subtitle_minimum_amount": "Valor mínimo de compra:",
+        "subtitle_available_tokens": "Quais tokens você pode comprar?",
+        "subtitle_more_information": "Mais Informações:",
+        "subtitle_time_tokens": "Tempo de crédito do token:",
+        "kyc_required": "Requer KYC ou processo de registro.",
+        "button": "Entendido",
+        "kripton": {
+          "provider_name": "Mercado de Kripton",
+          "header": "É um provedor autorizado para a venda de criptomoedas na América Latina.",
+          "minimum_amount": "25 USD por compra.",
+          "delivery_time_1": "Até 48 horas.",
+          "delivery_time_2": "As entregas são feitas de segunda a sexta-feira, das 9h às 18h.",
+          "more_information": "Kriptonmarket.com"
+        },
+        "moonpay": {
+          "provider_name": "Moonpay",
+          "header": "É um provedor autorizado para a venda de criptomoedas.",
+          "payment_methods": "Cartão de crédito*.",
+          "delivery_time": "Depende do provedor externo caso a caso.",
+          "disclaimer": "*Devido às restrições atuais, não é possível comprar no Moonpay com cartões emitidos na Argentina.",
+          "available_tokens_1": "ETH, USDT e UNI",
+          "available_tokens_2": "USDC e MATIC"
+        },
+        "directa24": {
+          "description_1": "Compra em dinheiro",
+          "description_2": "10 dólares.",
+          "description_3": "Dias úteis das 9h às 18h aprox. O tempo máximo de credenciamento é de 3 horas."
+        }
+      }
+    },
+    "information_paxful": {
+      "header": "Comprar",
+      "title": "Compre BTC com a Paxful:",
+      "subtitle": "A Paxful permitirá que você compre apenas BTC. Iremos redirecioná-lo para a página deles para fazer a compra P2P. Certifique-se de entender os seguintes pontos antes de fazer uma transação:",
+      "recordatory_1": "Entendo que a partir deste momento a operação continuará com o provedor selecionado. A Xcapit não se responsabiliza por preços incorretos nos valores ou moedas a seguir definidos, nem por prejuízos que possam surgir com a interação com o provedor.",
+      "recordatory_2": "Entendo que o vendedor define seu próprio preço de BTC com base na velocidade, privacidade e conveniência. As tarifas podem variar de acordo com a forma de pagamento.",
+      "recordatory_3": "Entendo que haverá uma taxa de rede para enviar o BTC para minha carteira Binance. Recomenda-se adicionar à sua compra no máximo 0,0566 USD para cobrir a taxa de rede, caso contrário, a compra permanecerá em sua carteira Paxful.",
+      "recordatory_4": "Lembre-se que se você tiver investimentos ativos, sua compra automaticamente fará parte desse investimento.",
+      "button": "Selecione meu endereço de recebimento",
+      "modal_content": "Por favor, verifique os pontos a considerar antes de fazer uma compra"
+    },
+    "operation_status": {
+      "incomplete": "Incompleto",
+      "in_progress": "Em andamento",
+      "confirmed": "Confirmado",
+      "nullified": "Revogado",
+      "cancelled": "Cancelado"
+    },
+    "operation_status_detail": {
+      "title": "O que significa este estado?",
+      "button": "Entendido",
+      "incomplete": {
+        "description": "Sua solicitação de compra foi recebida com sucesso pelo provedor. Isso não significa que a compra foi feita. Para tal, deverá cumprir os restantes passos: anexar o comprovativo da transferência e enviar-nos.",
+        "description2": "Tem até 72 horas para o fazer, caso contrário a sua encomenda será cancelada."
+      },
+      "in_progress": {
+        "description": "O provedor recebeu com sucesso sua solicitação de compra. Dentro de 24 horas, você verá os tokens creditados em sua carteira."
+      },
+      "nullified": {
+        "description": "O provedor teve problemas com esta transação, então a transação foi cancelada. Seus fundos serão devolvidos à sua conta original."
+      },
+      "cancelled": {
+        "description": "Seu pedido pode ser cancelado por dois motivos: o provedor não recebeu o comprovante de transferência. Ou o usuário não efetuou o pagamento no prazo de 72hs estipulado a partir da solicitação de compra."
+      }
+    },
+    "new_operation": {
+      "header": "Comprar criptomoeda",
+      "thirdPartyKYC": "Entendo que o Xcapit não armazena informações KYC.",
+      "thirdPartyTransaction": "Entendo que os termos e condições do fornecedor terceirizado (Kripton Market) são independentes da Xcapit.",
+      "privacyPolicyAndTOS": "Aceito os <a class='ux-link-xs' href='https://kriptonmarket.com/terms-and-conditions'>termos e condições</a> e a <a class='ux-link-xs' href='https://cash.kriptonmarket.com/privacy'>política de privacidade do Kripton Market</a> .",
+      "next_button": "Próximo"
+    },
+    "register": {
+      "header": "Registre o mercado de Kripton",
+      "header_bank": "informações de conta bancária",
+      "header_images": "Enviar imagens",
+      "description": "Preencha o seguinte formulário para se registrar em nosso provedor Kripton Market",
+      "description_bank": "Preencha seus dados bancários com os quais você irá operar com o provedor",
+      "description_images": "Carregue as imagens a seguir para concluir o registro.",
+      "first_name": "Nome",
+      "last_name": "Sobrenome",
+      "nationality": "Nacionalidade",
+      "dob": "DoB",
+      "gender": "Gênero",
+      "marital_status": "Estado civil",
+      "doc_type": "Tipo de documento",
+      "doc_number": "Documento",
+      "cuil": "CUIL/CUIT",
+      "province": "Província",
+      "city": "Cidade",
+      "postal_code": "Código postal",
+      "address_street": "Endereço (Rua)",
+      "address_number": "Endereço (número)",
+      "phone": "Telefone",
+      "address_extra": "Endereço (Andar/Departamento)",
+      "cbu": "CBU/CVU",
+      "bank": "BANCO",
+      "doc_front": "Imagem frontal do documento",
+      "doc_back": "Imagem do documento anterior",
+      "selfie": "Selfie com documento",
+      "not_politically": "Não exposto politicamente",
+      "not_bound": "Assunto não vinculado",
+      "tos": "Termos e Condições",
+      "register": "Finalizar",
+      "next": "Próximo",
+      "marital_status_list": {
+        "married": "Casado",
+        "single": "solteiro",
+        "widower": "Viúvo",
+        "divorcee": "divorciada"
+      },
+      "gender_list": {
+        "male": "Macho",
+        "female": "Fêmea",
+        "other": "Outro",
+        "no_specified": "prefiro não dizer"
+      },
+      "doctypes_list": {
+        "DU": "DU",
+        "foreign_document": "Documento Estrangeiro",
+        "passport": "Passaporte"
+      }
+    },
+    "confirm": {
+      "header": "Confirmar compra",
+      "title": "Verifique se os dados estão corretos",
+      "provider": "Fornecedor",
+      "type": "Tipo de operação",
+      "amount": "Quantia",
+      "quotation": "cotação",
+      "wallet": "endereço de recepção",
+      "disclaimer": "Vale lembrar que a Xcapit não vende criptomoedas, todo o fluxo de compra e alocação é feito pela operadora.",
+      "disclaimer2": "A entrega dos tokens é feita de segunda a sexta-feira, das 9h às 18h, e pode demorar um pouco caso o banco atrase o processamento da transação na conta do Krypton.",
+      "confirm": "confirme",
+      "buy": {
+        "operationType": "Comprar",
+        "title": "Comprar",
+        "with": "com"
+      },
+      "sell": {
+        "operationType": "Vender",
+        "title": "Vender",
+        "with": "por"
+      }
+    },
+    "paxful": {
+      "header": "Comprar",
+      "title": "Compre BTC com a Paxful",
+      "text": "A Paxful só permitirá que você compre BTC. Iremos redirecioná-lo para a página da Paxful para concluir a transação.",
+      "label-wallet": "Endereço de Depósito",
+      "placeholder-wallet": "Endereço de recebimento",
+      "button-text": "Ir para Paxful",
+      "modal_title": "Endereço de Depósito",
+      "recordatory_info": "Ao clicar em Go to Paxful, você sairá do Xcapit."
+    },
+    "paxful_success": {
+      "textPrimary": "Redirecionamos você para a Paxful",
+      "textSecondary": "Preencha os dados para concluir a transação",
+      "namePrimaryAction": "Ir para minhas operações",
+      "nameSecondaryAction": "Compre mais criptomoedas"
+    },
+    "wallet_comprobation": {
+      "title": "Para comprar criptomoedas você precisa associar uma Chave Api",
+      "message": "Adicione uma chave para que suas compras sejam refletidas em sua conta Binance.",
+      "btn_back": "De volta",
+      "btn_add_apikey": "Adicionar chave de API"
+    },
+    "moonpay": {
+      "header": "comprar cripto",
+      "currency_label": "Moeda",
+      "provider": {
+        "label": "Fornecedor",
+        "name": "Moonpay",
+        "description": "Provedor terceirizado"
+      },
+      "disclaimer": "Lembre-se que o Xcapit não vende criptomoedas, ao clicar em continuar você será redirecionado para um provedor externo.",
+      "information": "*Por restrições atuais, não é possível comprar em Moonpay com cartões emitidos na Argentina.",
+      "button_text": "Continuar",
+      "footer_description": "Ao clicar em “Continuar”, você será redirecionado para o site do provedor externo."
+    },
+    "token_selection": {
+      "header": "Comprar criptomoeda",
+      "subtitle": "Selecione a moeda que deseja comprar"
+    },
+    "countries_list": {
+      "mexico": "México",
+      "guatemala": "Guatemala",
+      "honduras": "Honduras",
+      "costa_rica": "Costa Rica",
+      "colombia": "Colômbia",
+      "argentina": "Argentina",
+      "australia": "Austrália",
+      "el_salvador": "El Salvador",
+      "guyana": "Guiana",
+      "paraguay": "Paraguai",
+      "peru": "Peru",
+      "portugal": "Portugal",
+      "spain": "Espanha",
+      "uruguay": "Uruguai",
+      "united_states": "EUA (Estados Unidos da América)",
+      "venezuela": "Venezuela",
+      "ecuador": "Equador",
+      "chile": "Chile",
+      "brasil": "Brasil"
+    },
+    "shared": {
+      "coin_selector_modal": {
+        "title": "Atenção!",
+        "description": "Você terá que selecionar novamente o fornecedor do token que deseja comprar.",
+        "button": "Entendido"
+      },
+      "constants": {
+        "payment_types": {
+          "directa24_bank_deposit": "depósito bancário",
+          "directa24_bank_transfer": "transferência bancária",
+          "directa24_credit_card": "Cartão de crédito ou débito",
+          "directa24_voucher": "Loja mais próxima",
+          "kripton": "transferência bancária",
+          "moonpay": "Cartão de crédito"
+        },
+        "providers": {
+          "kripton": {
+            "disclaimer": "A entrega do token é feita de segunda a sexta-feira, das 9h às 18h, e pode demorar algum tempo se o banco atrasar o processamento da transação na conta do cliente Krypton."
+          }
+        }
+      },
+      "fixed_footer": {
+        "text": "Você está interagindo com o Kriptonmarket"
+      },
+      "redirect_footer": {
+        "text": "Ao clicar em “Continuar”, você será redirecionado para o site do fornecedor terceirizado para concluir sua compra e pagar pela transação."
+      },
+      "provider_new_operation_card": {
+        "quantity": "Quantia",
+        "payment_method": "Forma de pagamento",
+        "to_pay": "Você vai pagar*",
+        "input_error": "O valor mínimo de compra é ${{amount}} {{fiatCurrency}}",
+        "usd_disclaimer": "*Digite o valor em dólares, ao final do processo você pagará em sua moeda local de acordo com a cotação do dia.",
+        "estimated_fee": "Taxa de transação estimada"
+      },
+      "kyc_disclaimer_modal": {
+        "title": "Registro de conta Krypton",
+        "description": "Você só precisa criar uma conta Krypton uma vez, na próxima vez que escolher este operador, você será automaticamente logado. Lembre-se que o processo de registro e compra está sob o controle de Krypton.",
+        "button": "Começar"
+      },
+      "fee_info_modal": {
+        "title": "Qual é a taxa de transação?",
+        "item1": "É o custo de fazer uma compra.",
+        "item2": "Pode variar um pouco no momento da operação.",
+        "item3": "Você pode encontrá-lo em seu boleto de pagamento como “verificador de valor“.",
+        "button": "Entendido"
+      },
+      "user_register_content": {
+        "user_information": {
+          "title": "Olá! Você ainda não tem uma conta, vamos ajudá-lo a se registrar rapidamente.",
+          "subtitle": "😄 Não se preocupe. Será apenas desta vez."
+        },
+        "user_images": {
+          "title": "Dados, prontos ✅",
+          "subtitle": "Você está um passo mais perto, não desista!"
+        },
+        "complete": {
+          "title": "Parabéns! 🎉 Cadastro concluído",
+          "subtitle": "⏱ O Kripton Market está validando sua conta. Esse processo pode levar até 48 horas",
+          "subtitle_2": "🛒 Depois de validar a sua conta, poderá fazer as suas compras com este fornecedor"
+        }
+      },
+      "validation_content": {
+        "header": "verificar identidade",
+        "provider": "Provedor: Kripton Market",
+        "button_primary": "Tirar fotos",
+        "button_secondary": "Carregar da galeria",
+        "front_id": {
+          "title": "Olá de novo! 👋",
+          "subtitle": "Precisamos de uma foto da frente do seu documento",
+          "description": "A imagem deve ser semelhante à do exemplo e seus dados devem estar visíveis."
+        },
+        "back_id": {
+          "subtitle": "Agora precisamos de uma foto do verso do seu documento",
+          "description": "A imagem deve ser semelhante à do exemplo e seus dados devem estar visíveis."
+        },
+        "dni_selfie": {
+          "subtitle": "Finalmente, uma foto sua segurando seu documento",
+          "description": "Não se preocupe! 😉 Queremos apenas verificar se você é a pessoa indicada no documento inserido.",
+          "items": "<ul><li>Escolha um fundo claro.</li><li> Não use acessórios que encobrem suas características.</li></ul>"
+        }
+      },
+      "confirmation_content": {
+        "header": "verificar identidade",
+        "provider": "Provedor: Kripton Market",
+        "front_id": {
+          "title": "Muito bom! 📸",
+          "subtitle": "Verifique se a foto atende às seguintes condições:",
+          "items": "<ul><li>Certifique-se de que os dados estão legíveis.</li><li> Verifique se a imagem não está desfocada.</li><li> O conteúdo não deve ser cortado.</li></ul>",
+          "button_primary": "confirme",
+          "button_secondary": "Recarregando"
+        },
+        "back_id": {
+          "title": "😁 ¡Excelente!",
+          "subtitle": "Verifique se a foto atende às seguintes condições:",
+          "items": "<ul><li>Certifique-se de que os dados estão legíveis.</li><li> Verifique se a imagem não está desfocada.</li><li> O conteúdo não deve ser cortado.</li></ul>",
+          "button_primary": "confirme",
+          "button_secondary": "Recarregando"
+        },
+        "dni_selfie": {
+          "title": "É isso! Terminamos 🎉",
+          "subtitle": "Verifique se as seguintes condições são atendidas:",
+          "items": "<ul><li>A foto deve ser clara e nítida.</li><li> Não use óculos ou chapéus que cubram o rosto.</li></ul>",
+          "button_primary": "Confirme e envie",
+          "button_secondary": "Recarregando"
+        },
+        "kripton_account_info": {
+          "title": "Transferir para a seguinte conta",
+          "alias": "Pseudônimo",
+          "cbu": "CBU",
+          "amount": "Quantia",
+          "owner": "Suporte",
+          "currency_type": {
+            "argentina": "pesos argentinos",
+            "venezuela": "bolívares venezuelanos",
+            "uruguay": "pesos uruguaios",
+            "colombia": "pesos colombianos"
+          }
+        },
+        "kripton_purchase_info": {
+          "title": "A tua compra",
+          "quote": "Citar",
+          "operation": "Operação"
+        }
+      },
+      "kripton_account_info": {
+        "title": "Transferir para a seguinte conta",
+        "alias": "Pseudônimo",
+        "cbu": "CBU",
+        "amount": "Quantia",
+        "owner": "Suporte",
+        "currency_type": {
+          "argentina": "pesos argentinos",
+          "venezuela": "bolívares venezuelanos",
+          "uruguay": "pesos uruguaios",
+          "colombia": "pesos colombianos"
+        }
+      },
+      "kripton_purchase_info": {
+        "title": "A tua compra",
+        "quote": "Citar",
+        "operation": "Operação"
+      }
+    },
+    "kripton_operation_detail": {
+      "header": "Detalhe da operação",
+      "title": "Comprar",
+      "state": "Status",
+      "state_toast": {
+        "incomplete": "Transfira e envie o recibo da transação.",
+        "incomplete2": "dados completos",
+        "nullified": "O provedor cancelou esta operação. Para mais informações, entre em contato com o suporte.",
+        "cancelled": "O provedor não recebeu o comprovante de pagamento."
+      },
+      "quotation": "cotação",
+      "address": "Endereço de destino (sua carteira)",
+      "provider": "Fornecedor",
+      "operation": "Operação",
+      "date": "Encontro",
+      "hours": "horas",
+      "support": {
+        "header": "Preciso de ajuda?",
+        "link": "Escreva para o suporte do Kripton Market"
+      }
+    },
+    "user_email": {
+      "header": "Comprar criptomoeda",
+      "provider": "Provedor: Kripton Market",
+      "title": "Para continuar sua compra, digite o endereço de e-mail da sua conta do Kripton Market.",
+      "subtitle": "Se você não tiver uma conta, digite o endereço de e-mail com o qual você gostaria que registrássemos.",
+      "label_email": "E-mail",
+      "button": "Continuar",
+      "text": "Certifique-se de ter acesso ao e-mail, você o usará para confirmar suas transações.",
+      "text_token": "Enviamos um código de login temporário para o seu e-mail. Se você não conseguir encontrá-lo, verifique sua pasta de spam.",
+      "label_token": "Código de entrada",
+      "toast_success": "Reenviamos o código de login para o seu e-mail.",
+      "resend_email": {
+        "title_not_sent": "Você não recebeu o código?",
+        "title_sent": "Se você não recebeu o código, ele pode ser reenviado em",
+        "title_exceeded_attempts": "Você tem algum problema com o código?",
+        "link_not_sent": "Reenviar código",
+        "link_exceeded_attempts": "Entre em contato com o suporte"
+      },
+      "token_error_description": "O código que você introduziu é inválido. Por favor, tente novamente."
+    },
+    "user_register": {
+      "header": "Registro",
+      "provider": "Provedor: Kripton Market",
+      "button": "Terminar",
+      "steps": {
+        "complete": "Completo",
+        "step_one": {
+          "title": "Carregar dados",
+          "subtitle": "Complete com suas informações pessoais"
+        },
+        "step_two": {
+          "title": "verificar identidade",
+          "subtitle": "Você vai precisar da sua identidade"
+        }
+      },
+      "disclaimer": {
+        "content": "O Xcapit não armazena dados. Saiba mais sobre o uso de dados em",
+        "link": "Política de privacidade Kripton Market."
+      }
+    },
+    "kyc": {
+      "user_basic": {
+        "header": "Carregar dados",
+        "provider": "Provedor: Kripton Market",
+        "title": "🛫 Vamos começar!",
+        "subtitle": "Preencha seus dados pessoais",
+        "label_first_name": "Primeiro nome)",
+        "label_last_name": "Últimos nomes)",
+        "label_birthday": "Aniversário",
+        "placeholder_birthday": "mm/dd/aaaa",
+        "button": "Continuar"
+      },
+      "user_address": {
+        "header": "Carregar dados",
+        "provider": "Provedor: Kripton Market",
+        "title": "🛬 Último passo! Rápido, não é?",
+        "subtitle": "Preencha os dados do seu endereço",
+        "label_street": "Rua",
+        "label_number": "Número",
+        "label_floor": "Piso (opcional)",
+        "label_apartment": "Apt (opcional)",
+        "label_city": "Cidade",
+        "label_zip_code": "Código postal",
+        "placeholder_birthday": "mm/dd/aaaa"
+      },
+      "user_personal_information": {
+        "header": "Carregar dados",
+        "provider": "Provedor: Kripton Market",
+        "title": "😎 Estamos quase terminando",
+        "subtitle": "Insira seus dados pessoais",
+        "general_placeholder": "Selecione uma opção",
+        "label_nationality": "Nacionalidade",
+        "label_document": "Documento",
+        "placeholder_document": "Modelo",
+        "modal_title_document": "Tipo de documento",
+        "label_gender": "Gênero",
+        "label_marital_status": "Estado civil",
+        "label_country_code": "Código do país",
+        "label_phone": "Telefone",
+        "button": "Continuar"
+      },
+      "summary_data": {
+        "header": "Carregar dados",
+        "title": "🎊 ¡É assim que se faz! Nós terminamos",
+        "subtitle": "Deseja fazer alguma alteração?",
+        "personal_data": {
+          "title": "Dados pessoais",
+          "label_name_surname": "Primeiro e último nome",
+          "label_birthday": "Data de nascimento",
+          "label_nationality": "Nacionalidade",
+          "label_document": "DNI",
+          "label_gender": "Gênero",
+          "label_marital_status": "Estado civil",
+          "label_phone": "Telefone"
+        },
+        "address_data": {
+          "title": "Endereço",
+          "label_street": "Rua",
+          "label_apartment_number": "Número",
+          "label_apartment_floor": "Piso",
+          "label_apartment_letter": "departamento",
+          "label_city": "Cidade",
+          "label_zip_code": "Código postal"
+        },
+        "checkbox_politically_exposed": "Declaro que não sou pessoa exposta politicamente.",
+        "disclaimer": "Pessoa politicamente exposta: indivíduos que exercem funções públicas de destaque, como Chefes de Estado ou de Governo, funcionários públicos, judiciais, militares e/ou executivos de alto escalão.",
+        "button": "Confirme e envie"
+      },
+      "front_id": {
+        "back_modal": {
+          "title": "Atenção",
+          "description": "Voce quer ir embora? Seu progresso será perdido e você terá que começar de novo.",
+          "confirm_button": "confirme",
+          "cancel_button": "Cancelar"
+        }
+      }
+    },
+    "kyc_status": {
+      "title": "Conta de Mercado Kripton",
+      "starting": {
+        "status": "Progresso: 0%",
+        "message": "Conclua a validação de identidade para finalizar a criação de sua conta. Verifique a identidade agora."
+      },
+      "pending": {
+        "status": "Progresso: 50%"
+      },
+      "checking": {
+        "status": "Em andamento",
+        "message": "Seus dados estão sendo verificados. Esse processo pode levar até 48 horas."
+      },
+      "canceling": {
+        "status": "Cancelado",
+        "message": "Os dados inseridos não puderam ser verificados pelo fornecedor ou estão incorretos. Para mais informações, entre em contato com o suporte."
+      },
+      "approving": {
+        "title": "Sua conta do Kripton Market foi verificada.",
+        "message": "Agora você pode fazer suas compras com este provedor."
+      }
+    }
+  },
+  "home": {
+    "home_page": {
+      "want_my_wallet": {
+        "title": "Eu quero minha carteira!",
+        "subtitle": "Crie sua carteira e comece a controlar suas finanças.",
+        "description": "na sua carteira"
+      },
+      "strategies": {
+        "title": "Estratégias",
+        "description": "Conheça a nossa proposta de investimento e escolha a que mais se adequa a si",
+        "link_text": "Ver estratégias"
+      },
+      "support": {
+        "title": "Apoiar",
+        "description": "Preciso de ajuda? Nossos especialistas entrarão em contato para orientá-lo",
+        "link_text": "Escreva para nós"
+      },
+      "subheader_component": {
+        "wallet": "Carteira",
+        "buy_card": "Comprar",
+        "investments": "investimentos",
+        "objectives": "Objetivos",
+        "coming_soon_alert": "Esta opção estará disponível em breve"
+      },
+      "need_help_card": {
+        "title": "Preciso de ajuda?",
+        "subtitle": "Veja as perguntas frequentes"
+      },
+      "donations_card": {
+        "title": "Doe com criptomoeda",
+        "subtitle": "Descubra organizações e pessoas que você pode ajudar."
+      },
+      "test_investor_cards": {
+        "badge_text": "Em breve",
+        "title1": "Aumente seu conhecimento em finanças e criptomoedas",
+        "link1": "Aprender",
+        "title2": "Você sabe que tipo de investidor você é?",
+        "link2": "Descobrir"
+      },
+      "wallet_connect_card": {
+        "title": "WalletConnect",
+        "subtitle": "Conecte sua carteira ao mundo das criptomoedas e mantenha o controle com seus tokens"
+      },
+      "quotes_card": {
+        "title": "Citações",
+        "table_label1": "Par",
+        "table_label2": "Último preço",
+        "table_label3": "Alterar % 24h",
+        "more_button": "Ver mais",
+        "less_button": "ver menos"
+      }
+    },
+    "shared": {
+      "buy_crypto_card": {
+        "title": "Compre cripto ao melhor preço"
+      },
+      "financial_planner_card": {
+        "title": "Organize suas finanças",
+        "description": "Planeje seus objetivos e descubra a melhor maneira de alcançá-los",
+        "my_plan": "Meu plano"
+      }
+    }
+  },
+  "support": {
+    "header": "Ajuda",
+    "title": "Como podemos te ajudar?",
+    "support_options": {
+      "title_wallet": "Carteira",
+      "description_wallet": "Crie, importe, receba, envie e muito mais.",
+      "title_wallet_operations": "Transações com minha Carteira",
+      "description_wallet_operations": "Como investir, operações e custos.",
+      "title_buy": "Compra de criptomoedas",
+      "description_buy": "Compra, comissões, limites e formas de pagamento.",
+      "title_wallet_connect": "WalletConnect",
+      "description_wallet_connect": "Conecte a carteira e interaja com o dapp.",
+      "title_nft": "NFT",
+      "description_nft": "Visualize, transfira e receba.",
+      "title_wallet_swap": "Troca",
+      "description_wallet_swap": "Possíveis erros, taxas e muito mais."
+    },
+    "contact_support": {
+      "title": "Escreva para apoiar"
+    }
+  },
+  "wealth_managements": {
+    "header": "Perfil do Investidor",
+    "title": "Que tipo de investidor você é?",
+    "subtitle": "Faça o teste do perfil do investidor, ou escolha manualmente e descubra quais investimentos podem ser adequados para você.",
+    "investor_test_options": {
+      "title1": "Faça o teste",
+      "description1": "Conheça seu perfil de investidor fazendo este teste.",
+      "title2": "Escolha manualmente",
+      "description2": "Se você já conhece seu perfil de investidor, selecione-o manualmente."
+    },
+    "success": {
+      "textPrimary": "Parabéns! Seu perfil de investidor é {{testResult}}",
+      "namePrimaryAction": "Acesse meu perfil de investidor",
+      "nameSecondaryAction": "De volta para casa"
+    },
+    "investor_test": {
+      "header": "teste do investidor",
+      "next_button": "Continuar",
+      "submit_button": "Concluir e enviar teste"
+    },
+    "profiles": {
+      "conservative": "Conservador",
+      "medium": "Moderado",
+      "risky": "Agressivo"
+    },
+    "about_investor_profile": {
+      "of": "do",
+      "header": "Perfil do Investidor",
+      "button_select": "este é meu perfil",
+      "conservative_profile": {
+        "title": "Perfil conservador",
+        "subtitle": "Você se caracteriza por ser pouco tolerante ao risco e valorizar a segurança. Portanto, você prefere instrumentos de investimento que lhe dêem a certeza de que não perderá parte ou todo o dinheiro que investirá. Você não se importa que os ganhos (desempenho) obtidos sejam baixos."
+      },
+      "moderated_profile": {
+        "title": "Perfil Moderado",
+        "subtitle": "Você é uma pessoa cautelosa com suas decisões, mas está disposto a tolerar um risco moderado para aumentar seus lucros. Você tenta manter um equilíbrio entre lucratividade e segurança."
+      },
+      "aggressive_profile": {
+        "title": "Perfil Agressivo",
+        "subtitle": "Você busca os maiores retornos possíveis, então está disposto a assumir qualquer risco necessário. Não é aconselhável manter essa atitude de risco quando você não possui solvência suficiente ou se possui compromissos familiares importantes."
+      }
+    },
+    "no_wallet": {
+      "title": "Você ainda não tem sua carteira Xcapit",
+      "subtitle": "Crie sua carteira para começar a investir.",
+      "button": "Criar Carteira",
+      "link": "Voltar para investimentos"
+    }
+  },
+  "swaps": {
+    "home": {
+      "header": "Troca",
+      "button": "Continuar",
+      "loading_button_text": "Trocando",
+      "from_token_title": "A partir de",
+      "to_token_title": "Para",
+      "available": "Disponível",
+      "fee_title": "Detalhes da transação",
+      "footer_text": "Levará apenas alguns segundos.",
+      "tos_1": "Eu li e concordo com o",
+      "tos_button": "termos e Condições.",
+      "tos_2": "de 1 polegada",
+      "warning_same_tokens": "O token de origem não pode ser igual ao token de destino.",
+      "balance_modal": {
+        "insufficient_balance": {
+          "text": "Você não tem {{token}} suficientes em sua conta para fazer esta operação.",
+          "firstButtonName": "Compre {{token}}",
+          "secondaryButtonName": "Deposite {{token}}"
+        },
+        "insufficient_balance_fee": {
+          "text": "Você não tem {{token}} suficientes em sua conta para pagar a taxa de transação.",
+          "firstButtonName": "Compre {{token}}",
+          "secondaryButtonName": "Deposite {{token}}"
+        }
+      }
+    },
+    "errors": {
+      "invalid_password": "A senha digitada não é válida."
+    },
+    "select_token": {
+      "header": "Troca",
+      "fromToken_title": "Selecione o token que deseja trocar",
+      "toToken_title": "Selecione o token que deseja receber"
+    },
+    "terms_and_conditions": {
+      "title": "O que você precisa saber antes de fazer uma troca?",
+      "condition_1": "A troca é feita através do provedor externo 1polegada.",
+      "condition_2": "As condições de troca de tokens dependem do provedor.",
+      "condition_3": "As trocas têm custos de transação associados.",
+      "terms": {
+        "i_have_read": "Eu li e concordo com o",
+        "link_to_terms": "termos e Condições",
+        "of": "de 1 polegada"
+      },
+      "button": "Começar"
+    },
+    "swap_in_progress": {
+      "text_title": "Troca",
+      "text_badge": "Em andamento",
+      "text_primary": "Seu pedido está a caminho!",
+      "text_secondary": "A transação está sendo processada no blockchain. Iremos notificá-lo quando o status for atualizado.",
+      "button_text": "Ir para a carteira"
+    },
+    "sent_notification": {
+      "actions": {
+        "title": "Veja mais"
+      },
+      "swap_ok": {
+        "title": "🚀 Troca realizada com sucesso!",
+        "body": "Você enviou {{fromAmount}} {{fromToken}} e recebeu {{toAmount}} {{toToken}} ."
+      },
+      "swap_not_ok": {
+        "title": "❌ Erro na troca",
+        "body": "Ocorreu um erro ao enviar {{fromAmount}} {{fromToken}} e receber {{toAmount}} {{toToken}}. Mais informações aqui."
+      }
+    }
+  },
+  "links": {
+    "title": "Continuando no Xcapit...",
+    "have_app": "Tem o aplicativo?",
+    "go_to_xcapit": "Ir para Xcapit",
+    "dont_have_app": "Não tem Xcapit?",
+    "download": "Download"
+  }
+}

@@ -1,9 +1,9 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormattedAmountPipe } from 'src/app/shared/pipes/formatted-amount/formatted-amount.pipe';
-
 import { KriptonPurchaseInfoComponent } from './kripton-purchase-info.component';
 
 describe('KriptonPurchaseInfoComponent', () => {
@@ -27,13 +27,16 @@ describe('KriptonPurchaseInfoComponent', () => {
     TestBed.configureTestingModule({
       declarations: [KriptonPurchaseInfoComponent, FormattedAmountPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(KriptonPurchaseInfoComponent);
     component = fixture.componentInstance;
-    component.currencyOut = kriptonPurchaseInfoSpy.currencyOut;
+    component.currencyOut = jasmine.createSpyObj('MATIC', {}, {
+      value: kriptonPurchaseInfoSpy.currencyOut,
+      logoRoute: 'assets/img/coins/MATIC.svg',
+    });
     component.currencyIn = kriptonPurchaseInfoSpy.currencyIn;
-    component.network = kriptonPurchaseInfoSpy.network;
     component.amountOut = kriptonPurchaseInfoSpy.amountOut;
     component.priceOut = kriptonPurchaseInfoSpy.priceOut;
     component.operationId = kriptonPurchaseInfoSpy.operationId;

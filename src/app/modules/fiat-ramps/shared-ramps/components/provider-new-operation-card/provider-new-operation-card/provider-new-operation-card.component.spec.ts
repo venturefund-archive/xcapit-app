@@ -46,7 +46,7 @@ describe('ProviderNewOperationCardComponent', () => {
     fixture = TestBed.createComponent(ProviderNewOperationCardComponent);
     component = fixture.componentInstance;
 
-    component.provider = rawProvidersData[0];
+    component.provider = rawProvidersData[1];
     component.coin = coinSpy;
     component.minimumFiatAmount = 10;
     fixture.detectChanges();

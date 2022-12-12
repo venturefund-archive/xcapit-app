@@ -8,7 +8,7 @@ export const TEST_ERC20_COINS: Coin[] = [
     value: 'ETH',
     network: 'ERC20',
     chainId: 42,
-    moonpayCode: 'keth',
+    moonpayCode: 'eth',
     rpc: 'http://testrpc.test/',
     native: true,
   },

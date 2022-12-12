@@ -41,6 +41,26 @@
         &__token {
           padding-top: 24px;
         }
+
+        &__token_error {
+          ::ng-deep ion-item.ux_input_container__item {
+            border: 2px solid var(--ion-color-dangerdark);
+          }
+
+          &__description {
+            display: flex;
+            margin-top: 5px;
+
+            ion-icon {
+              color: var(--ion-color-dangerdark);
+              margin-right: 6px;
+            }
+
+            ion-text {
+              color: var(--ion-color-dangerdark);
+            }
+          }
+        }
       }
 
       &__card {

@@ -11,6 +11,7 @@ import { DefiInvestmentProductComponent } from './defi-investment-product.compon
 import { TwoPiProduct } from '../../models/two-pi-product/two-pi-product.model';
 import { Coin } from '../../../../wallets/shared-wallets/interfaces/coin.interface';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { DefiInvestment } from '../../interfaces/defi-investment.interface';
 
 describe('DefiInvestmentProductComponent', () => {
   let component: DefiInvestmentProductComponent;
@@ -22,10 +23,16 @@ describe('DefiInvestmentProductComponent', () => {
   let twoPiProductSpy: jasmine.SpyObj<TwoPiProduct>;
   let coinSpy: jasmine.SpyObj<Coin>;
   let nativeTokenSpy: jasmine.SpyObj<Coin>;
+  let investmentSpy: jasmine.SpyObj<DefiInvestment>;
+
   beforeEach(waitForAsync(() => {
-    nativeTokenSpy = jasmine.createSpyObj('nativeToken',{}, {
-      logoRoute: 'assets/img/coins/MATIC.svg',
-    })
+    nativeTokenSpy = jasmine.createSpyObj(
+      'nativeToken',
+      {},
+      {
+        logoRoute: 'assets/img/coins/MATIC.svg',
+      }
+    );
     coinSpy = jasmine.createSpyObj(
       'Coin',
       {},
@@ -49,6 +56,7 @@ describe('DefiInvestmentProductComponent', () => {
       provider: '2PI',
       name: 'polygon_usdc',
     });
+    investmentSpy = jasmine.createSpyObj('TwoPiInvestment', {}, { product: twoPiProductSpy, continuousEarning: false });
     TestBed.configureTestingModule({
       declarations: [DefiInvestmentProductComponent, FakeTrackClickDirective, SplitStringPipe],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
@@ -61,7 +69,7 @@ describe('DefiInvestmentProductComponent', () => {
 
     fixture = TestBed.createComponent(DefiInvestmentProductComponent);
     component = fixture.componentInstance;
-    component.investmentProduct = twoPiProductSpy;
+    component.investment = investmentSpy;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
   }));
@@ -79,10 +87,6 @@ describe('DefiInvestmentProductComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
-    // const liquidityEl = fixture.debugElement.query(
-    //   By.css('div.dip__content__liquidity__liq > ion-text')
-    // );
-    // expect(liquidityEl.nativeElement.innerHTML).toContain('1,301,621.68 USD');
     const performanceEl = fixture.debugElement.query(By.css('ion-badge.dip__footer__badge'));
     expect(performanceEl.nativeElement.innerHTML).toContain('22.78');
   });

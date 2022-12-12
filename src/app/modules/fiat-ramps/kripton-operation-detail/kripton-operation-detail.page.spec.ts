@@ -251,7 +251,7 @@ describe('KriptonOperationDetailPage', () => {
     fixture.debugElement.query(By.css('app-operation-status-alert')).triggerEventHandler('goToPurchaseOrder');
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/purchase-order', { animated: false });
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order/1', { animated: false });
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,8 +1,9 @@
 import { TotalInvestedBalanceOfInjectable } from './total-invested-balance-of.injectable';
+import { TwoPiProduct } from '../../two-pi-product/two-pi-product.model';
 
 describe('TotalInvestedBalanceOfInjectable', () => {
   const anAddress = '';
-  const pids = [1, 2, 3];
+  let twoPiProductSpy: jasmine.SpyObj<TwoPiProduct>;
   let totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable;
 
   beforeEach(() => {
@@ -14,6 +15,8 @@ describe('TotalInvestedBalanceOfInjectable', () => {
   });
 
   it('create', () => {
-    expect(totalInvestedBalanceOfInjectable.create(anAddress, pids)).toBeTruthy();
+    expect(
+      totalInvestedBalanceOfInjectable.create(anAddress, [twoPiProductSpy, twoPiProductSpy, twoPiProductSpy])
+    ).toBeTruthy();
   });
 });

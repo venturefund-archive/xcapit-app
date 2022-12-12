@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
-import { OPERATION_STATUS } from '../constants/operation-status';
 import { FiatRampOperation } from '../interfaces/fiat-ramp-operation.interface';
 import { FiatRampProvider } from '../interfaces/fiat-ramp-provider.interface';
-import { OperationStatus } from '../interfaces/operation-status.interface';
 import { Providers } from '../models/providers/providers.interface';
 import { ProvidersFactory } from '../models/providers/factory/providers.factory';
-import { HttpParams } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { KriptonLoginSuccessResponse } from '../interfaces/kripton-login-success-response';
+import { catchError, map } from 'rxjs/operators';
+import { KriptonLoginErrorResponse } from '../interfaces/kripton-login-error-response';
 
 @Injectable({
   providedIn: 'root',
@@ -68,6 +69,14 @@ export class FiatRampsService {
     );
   }
 
+  getKriptonAccessToken(data: { email: string }): Observable<void> {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/request_token`, data, undefined, false);
+  }
+
+  kriptonLogin(data: { email: string; token: string }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/login`, data, undefined, false);
+  }
+
   getUserOperations(): Observable<FiatRampOperation[]> {
     return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
   }
@@ -103,11 +112,18 @@ export class FiatRampsService {
     return this.http.post(`${environment.apiUrl}/${this.entity}/paxful/get_link`, { id_apikey: apikeyId });
   }
 
-  getMoonpayLink(walletAddress: string, currencyCode: string): Observable<any> {
+  getMoonpayRedirectLink(
+    walletAddress: string,
+    currencyCode: string,
+    baseCurrencyCode: string,
+    baseCurrencyAmount: number
+  ): Observable<any> {
     return this.http.post(`${environment.apiUrl}/on_off_ramps/moonpay/link`, {
       wallet_address: walletAddress,
       currency_code: currencyCode,
       publishable_key: environment.moonpayPK,
+      base_currency_code: baseCurrencyCode,
+      base_currency_amount: baseCurrencyAmount,
     });
   }
 
@@ -134,7 +150,19 @@ export class FiatRampsService {
 
   getMoonpayQuotation(currencyCode: string) {
     return this.http.get(
-      `${environment.moonpayApiUrl}/currencies/${currencyCode}/ask_price?apiKey=${environment.moonpayPK}`
+      `${environment.moonpayApiUrl}/currencies/${currencyCode}/ask_price?apiKey=${environment.moonpayPK}`,
+      undefined,
+      undefined,
+      false
+    );
+  }
+
+  getMoonpayBuyQuote(baseCurrencyAmount: number, currencyCode: string, fiatCode: string) {
+    return this.http.get(
+      `${environment.moonpayApiUrl}/currencies/${currencyCode}/buy_quote/?apiKey=${environment.moonpayPK}&baseCurrencyAmount=${baseCurrencyAmount}&extraFeePercentage=1&baseCurrencyCode=${fiatCode}&paymentMethod=credit_debit_card`,
+      undefined,
+      undefined,
+      false
     );
   }
 

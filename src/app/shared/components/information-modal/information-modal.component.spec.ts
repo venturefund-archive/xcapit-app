@@ -1,7 +1,8 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { InformationModalComponent } from './information-modal.component';
 
@@ -17,7 +18,7 @@ describe('InformationModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [InformationModalComponent],
       providers: [{ provide: ModalController, useValue: modalControllerSpy }],
-      imports: [IonicModule.forRoot()],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 

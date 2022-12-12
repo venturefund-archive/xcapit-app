@@ -9,7 +9,7 @@ export const rawETHData = {
   network: 'ERC20',
   chainId: 1,
   rpc: '',
-  moonpayCode: 'keth',
+  moonpayCode: 'eth',
   contract: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   decimals: 18,
   native: true,

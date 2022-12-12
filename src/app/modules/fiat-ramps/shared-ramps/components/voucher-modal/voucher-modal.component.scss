@@ -1,0 +1,42 @@
+:host {
+  justify-content: center;
+
+  .main {
+    position: relative;
+
+    &__close_button {
+      display: flex;
+      justify-content: flex-end;
+      height: 32px;
+
+      ion-button {
+        height: inherit;
+        margin: auto 0;
+        padding-right: 6px;
+      }
+
+      &__icon {
+        align-items: flex-end;
+        color: var(--ion-color-primary);
+      }
+    }
+
+    &__body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      &__content {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        max-height: 568px;
+
+        img {
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}

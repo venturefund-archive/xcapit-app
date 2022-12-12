@@ -27,6 +27,12 @@ import { StorageService } from '../../wallets/shared-wallets/services/storage-wa
 import { YieldCalculator } from '../shared-defi-investments/models/yield-calculator/yield-calculator.model';
 import { TotalInvestedBalanceOfInjectable } from '../shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { FakeTotalInvestedBalanceOf } from '../shared-defi-investments/models/total-invested-balance-of/fake/fake-total-invested-balance-of';
+import { InvestedBalanceOfInjectable } from '../shared-defi-investments/models/invested-balance-of/injectable/invested-balance-of.injectable';
+import { FakeInvestedBalanceOf } from '../shared-defi-investments/models/invested-balance-of/fake/fake-invested-balance-of';
+import { FakeInvestedBalanceResponse } from '../shared-defi-investments/models/invested-balance-response/fake/fake-invested-balance-response';
+import {
+  NullInvestedBalanceResponse
+} from '../shared-defi-investments/models/invested-balance-response/null/null-invested-balance-response';
 
 const testCoins = [
   jasmine.createSpyObj(
@@ -39,17 +45,6 @@ const testCoins = [
     }
   ),
 ];
-
-const dataTest = {
-  data: {
-    flows: [
-      {
-        balance: '12777395',
-        balanceUSD: '12.77640743514045',
-      },
-    ],
-  },
-};
 
 const allMovementsTest = {
   data: {
@@ -107,6 +102,7 @@ describe('DefiInvestmentProductsPage', () => {
   let graphqlServiceSpy: jasmine.SpyObj<GraphqlService>;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let totalInvestedBalanceOfInjectableSpy: jasmine.SpyObj<TotalInvestedBalanceOfInjectable>;
+  let investedBalanceOfInjectableSpy: jasmine.SpyObj<InvestedBalanceOfInjectable>;
   beforeEach(waitForAsync(() => {
     twoPiApiSpy = jasmine.createSpyObj('TwoPiApi', {
       vault: Promise.resolve({
@@ -212,6 +208,9 @@ describe('DefiInvestmentProductsPage', () => {
     totalInvestedBalanceOfInjectableSpy = jasmine.createSpyObj('TotalInvestedBalanceOfInjectable', {
       create: new FakeTotalInvestedBalanceOf(Promise.resolve(10.58354)),
     });
+    investedBalanceOfInjectableSpy = jasmine.createSpyObj('InvestedBalanceOfInjectable', {
+      create: new FakeInvestedBalanceOf(),
+    });
 
     TestBed.configureTestingModule({
       declarations: [DefiInvestmentProductsPage, FakeTrackClickDirective],
@@ -227,6 +226,7 @@ describe('DefiInvestmentProductsPage', () => {
         { provide: GraphqlService, useValue: graphqlServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: TotalInvestedBalanceOfInjectable, useValue: totalInvestedBalanceOfInjectableSpy },
+        { provide: InvestedBalanceOfInjectable, useValue: investedBalanceOfInjectableSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -273,38 +273,23 @@ describe('DefiInvestmentProductsPage', () => {
     expect(balanceEl).toBeTruthy();
   });
 
-  it('should render available investment card', async () => {
-    investmentSpy.balance.and.resolveTo(0);
+  it('should render available investment card', fakeAsync(() => {
+    investedBalanceOfInjectableSpy.create.and.returnValue(
+      new FakeInvestedBalanceOf(Promise.resolve(new NullInvestedBalanceResponse()))
+    );
     spyOn(component, 'calculateEarnings');
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
-    await component.ionViewDidEnter();
+    component.ionViewDidEnter();
+    tick();
     fixture.detectChanges();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
 
     const availableEl = fixture.debugElement.query(By.css('div.dp__available-card > ion-item > ion-label'));
     expect(availableEl.nativeElement.innerHTML).toContain('defi_investments.defi_investment_products.title');
     const productEl = fixture.debugElement.query(By.css('app-defi-investment-product'));
     expect(productEl).toBeTruthy();
-  });
-
-  it('should render available investment card when dont have wallet', async () => {
-    walletServiceSpy.walletExist.and.resolveTo(false);
-    spyOn(component, 'calculateEarnings');
-    spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
-    spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
-    component.ionViewWillEnter();
-    await component.ionViewDidEnter();
-    fixture.detectChanges();
-    await fixture.whenRenderingDone();
-
-    const availableEl = fixture.debugElement.query(By.css('div.dp__available-card > ion-item > ion-label'));
-    expect(availableEl.nativeElement.innerHTML).toContain('defi_investments.defi_investment_products.title');
-    const productEl = fixture.debugElement.query(By.css('app-defi-investment-product'));
-    expect(productEl).toBeTruthy();
-  });
+  }));
 
   it('should render filter tab component', async () => {
     investmentSpy.balance.and.resolveTo(0);
@@ -440,13 +425,14 @@ describe('DefiInvestmentProductsPage', () => {
     expect(totalInvestedEl.nativeElement.innerHTML).toContain('10.58');
   });
 
-  it('should render yields properly', async () => {
+  it('should render yields properly', fakeAsync(() => {
     spyOn(YieldCalculator.prototype, 'cumulativeYieldUSD').and.returnValue({ value: 12, token: 'USD' });
     spyOn(component, 'createInvestment').and.returnValue(investmentSpy);
     spyOn(component, 'createAvailableDefiProducts').and.returnValue(availableDefiProductsSpy);
     component.ionViewWillEnter();
-    await component.ionViewDidEnter();
+    component.ionViewDidEnter();
+    tick();
     fixture.detectChanges();
     expect(component.totalUsdYield).toEqual({ value: 12, token: 'USD' });
-  });
+  }));
 });

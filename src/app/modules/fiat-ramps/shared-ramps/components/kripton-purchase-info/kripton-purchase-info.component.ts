@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
 
 @Component({
   selector: 'app-kripton-purchase-info',
@@ -11,16 +12,16 @@ import { Component, Input, OnInit } from '@angular/core';
         <ion-accordion class="kpi__buy__accordion-group__accordion accordion-arrow-info" value="first">
           <ion-item class="kpi__buy__accordion-group__accordion__item" slot="header">
             <div class="kpi__buy__accordion-group__accordion__item__header">
-              <img [src]="'assets/img/coins/' + this.currencyOut + this.imageType" />
+              <img [src]="this.currencyOut.logoRoute" />
               <div class="kpi__buy__accordion-group__accordion__item__header__coin">
                 <ion-label
                   class="kpi__buy__accordion-group__accordion__item__header__coin__value ux-font-header-titulo"
-                  >{{ this.currencyOut }}</ion-label
+                  >{{ this.currencyOut.value }}</ion-label
                 >
-                <app-token-network-badge [blockchainName]="this.network"></app-token-network-badge>
+                <app-token-network-badge [blockchainName]="this.currencyOut.network"></app-token-network-badge>
               </div>
               <ion-label class="kpi__buy__accordion-group__accordion__item__header__value ux-font-header-titulo"
-                >{{ this.amountOut | formattedAmount }} {{ this.currencyOut }}</ion-label
+                >{{ this.amountOut | formattedAmount }} {{ this.currencyOut.value }}</ion-label
               >
             </div>
           </ion-item>
@@ -30,7 +31,7 @@ import { Component, Input, OnInit } from '@angular/core';
                 {{ 'fiat_ramps.shared.kripton_purchase_info.quote' | translate }}</ion-label
               >
               <ion-label class="kpi__buy__accordion-group__accordion__item__content__data__value ux-font-text-base"
-                >1 {{ this.currencyOut }} = {{ this.priceOut | formattedAmount: 10:2 }}
+                >1 {{ this.currencyOut.value }} = {{ this.priceOut | formattedAmount: 10:2 }}
                 {{ this.currencyIn | uppercase }}</ion-label
               >
             </div>
@@ -50,9 +51,8 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./kripton-purchase-info.component.scss'],
 })
 export class KriptonPurchaseInfoComponent implements OnInit {
-  @Input() currencyOut: string;
+  @Input() currencyOut: Coin;
   @Input() currencyIn: string;
-  @Input() network: string;
   @Input() amountOut: number;
   @Input() priceOut: number;
   @Input() operationId: number;

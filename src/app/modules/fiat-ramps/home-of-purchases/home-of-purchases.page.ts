@@ -7,6 +7,7 @@ import { ProvidersFactory } from '../shared-ramps/models/providers/factory/provi
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
+import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injectable/kripton-user.injectable';
 
 @Component({
   selector: 'app-home-of-purchases',
@@ -33,8 +34,8 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
           [disabledCard]="this.disabledStatusCard"
         ></app-kyc-status-card>
       </div>
-      <div class="hop__operations-list ion-padding" *ngIf="this.operationsList">
-        <app-operations-list [operationsList]="this.operationsList"></app-operations-list>
+      <div class="hop__operations-list ion-padding" *ngIf="this.isLogged !== undefined">
+        <app-operations-list [operationsList]="this.operationsList" [isLogged]="this.isLogged"></app-operations-list>
       </div>
       <div class="hop__moonpay-purchases ion-padding-start ion-padding-end">
         <app-moonpay-purchases-card></app-moonpay-purchases-card>
@@ -62,7 +63,6 @@ import { TokenOperationDataService } from '../shared-ramps/services/token-operat
   styleUrls: ['./home-of-purchases.page.scss'],
 })
 export class HomeOfPurchasesPage {
-  providers: FiatRampProvider[];
   operationsList: FiatRampOperation[];
   title: string;
   status: string;
@@ -76,6 +76,7 @@ export class HomeOfPurchasesPage {
     COMPLETE: 'checking',
   };
   disabledStatusCard = true;
+  isLogged: boolean;
 
   constructor(
     private fiatRampsService: FiatRampsService,
@@ -83,12 +84,12 @@ export class HomeOfPurchasesPage {
     private tokenOperationDataService: TokenOperationDataService,
     private navController: NavController,
     private translate: TranslateService,
-    private kriptonStorage: KriptonStorageService
+    private kriptonStorage: KriptonStorageService,
+    private kriptonUser: KriptonUserInjectable
   ) {}
 
   async ionViewWillEnter() {
-    this.getProviders();
-    if (this.kriptonEnabled()) this.getOperations();
+    this.checkIfUserIsLogged();
     await this.getUserStatus();
     this.setCorrectDataByStatus();
   }
@@ -97,18 +98,23 @@ export class HomeOfPurchasesPage {
     if (!(await this.kriptonStorage.get('kyc_approved'))) this.disabledStatusCard = false;
   }
 
-  getOperations() {
+  async checkIfUserIsLogged() {
+    this.isLogged = await this.kriptonUser.create().isLogged();
+    if (this.kriptonEnabled() && this.isLogged) this.getOperations();
+  }
+
+  getOperations(): void {
     this.fiatRampsService.getUserOperations().subscribe((data) => {
       this.operationsList = data;
     });
   }
 
-  kriptonEnabled() {
-    return this.providers.find((provider) => provider.alias === 'kripton');
+  kriptonEnabled(): FiatRampProvider {
+    return this.providers().find((provider) => provider.alias === 'kripton');
   }
 
-  getProviders() {
-    this.providers = this.providersFactory.create().all();
+  providers(): FiatRampProvider[] {
+    return this.providersFactory.create().all();
   }
 
   goToFaqs() {
@@ -116,11 +122,10 @@ export class HomeOfPurchasesPage {
   }
 
   handler() {
-    if (this.tokenOperationDataService.tokenOperationData) {
-      this.navController.navigateForward('fiat-ramps/select-provider');
-    } else {
-      this.navController.navigateForward('fiat-ramps/token-selection');
-    }
+    const url = this.tokenOperationDataService.tokenOperationData
+      ? 'fiat-ramps/select-provider'
+      : 'fiat-ramps/token-selection';
+    this.navController.navigateForward(url);
   }
 
   private _getUserEmail() {

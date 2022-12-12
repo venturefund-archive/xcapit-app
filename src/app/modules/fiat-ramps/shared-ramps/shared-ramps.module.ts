@@ -24,13 +24,13 @@ import { UserPersonalInformationComponent } from './components/user-personal-inf
 import { UserAddressInformationComponent } from './components/user-address-information/user-address-information.component';
 import { OperationKmInProgressModalComponent } from './components/operation-km-in-progress-modal/operation-km-in-progress-modal.component';
 import { OperationStatusAlertComponent } from './components/operation-status-alert/operation-status-alert.component';
-import { BankInfoCardComponent } from './components/bank-info-card/bank-info-card.component';
 import { VoucherCardComponent } from './components/voucher-card/voucher-card.component';
 import { KriptonAccountInfoCardComponent } from './components/kripton-account-info-card/kripton-account-info-card.component';
 import { KriptonPurchaseInfoComponent } from './components/kripton-purchase-info/kripton-purchase-info.component';
 import { TimerCountdownComponent } from './components/timer-countdown/timer-countdown.component';
 import { KYCStatusCardComponent } from './components/kyc-status-card/kyc-status-card.component';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
+import { VoucherModalComponent } from './components/voucher-modal/voucher-modal.component';
 
 @NgModule({
   declarations: [
@@ -59,12 +59,13 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
     CountdownTimerComponent,
     OperationKmInProgressModalComponent,
     OperationStatusAlertComponent,
-    BankInfoCardComponent,
     VoucherCardComponent,
     KriptonAccountInfoCardComponent,
     KriptonPurchaseInfoComponent,
     TimerCountdownComponent,
     KYCStatusCardComponent,
+    VoucherCardComponent,
+    VoucherModalComponent,
   ],
   imports: [SharedModule],
   exports: [
@@ -94,12 +95,13 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
     CountdownTimerComponent,
     OperationKmInProgressModalComponent,
     OperationStatusAlertComponent,
-    BankInfoCardComponent,
     VoucherCardComponent,
     KriptonAccountInfoCardComponent,
     KriptonPurchaseInfoComponent,
     TimerCountdownComponent,
     KYCStatusCardComponent,
+    VoucherCardComponent,
+    VoucherModalComponent,
   ],
 })
 export class SharedRampsModule {}

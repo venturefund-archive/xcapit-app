@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 import { HasAcceptedBuyConditionsGuard } from './shared-ramps/guards/has-accepted-buy-conditions/has-accepted-buy-conditions.guard';
+import { LoggedInKriptonGuard } from './shared-ramps/guards/logged-in-kripton/logged-in-kripton.guard';
+import { NotLoggedInKriptonGuard } from './shared-ramps/guards/not-logged-in-kripton/not-logged-in-kripton';
 
 const routes: Routes = [
   {
@@ -13,6 +15,7 @@ const routes: Routes = [
         path: 'new-operation',
         children: [
           {
+            canActivate: [LoggedInKriptonGuard],
             path: 'kripton',
             loadChildren: () => import('./operations-new/operations-new.module').then((m) => m.OperationsNewPageModule),
           },
@@ -100,10 +103,12 @@ const routes: Routes = [
         ],
       },
       {
+        canActivate: [NotLoggedInKriptonGuard],
         path: 'user-email',
         loadChildren: () => import('./user-email/user-email.module').then((m) => m.UserEmailPageModule),
       },
       {
+        canActivate: [LoggedInKriptonGuard],
         path: 'user-register',
         loadChildren: () => import('./user-register/user-register.module').then((m) => m.UserRegisterPageModule),
       },
@@ -154,20 +159,22 @@ const routes: Routes = [
       },
       {
         path: 'error-operation-km',
-        loadChildren: () => import('./error-operation-km/error-operation-km.module').then( m => m.ErrorOperationKmPageModule)
+        loadChildren: () =>
+          import('./error-operation-km/error-operation-km.module').then((m) => m.ErrorOperationKmPageModule),
       },
       {
         path: 'kripton-operation-detail/:operation_id',
-        loadChildren: () => import('./kripton-operation-detail/kripton-operation-detail.module').then( m => m.KriptonOperationDetailPageModule)
+        loadChildren: () =>
+          import('./kripton-operation-detail/kripton-operation-detail.module').then(
+            (m) => m.KriptonOperationDetailPageModule
+          ),
       },
       {
         path: 'purchase-order',
-        loadChildren: () => import('./purchase-order/purchase-order.module').then( m => m.PurchaseOrderPageModule)
+        loadChildren: () => import('./purchase-order/purchase-order.module').then((m) => m.PurchaseOrderPageModule),
       },
     ],
   },
-
-
 ];
 
 @NgModule({
