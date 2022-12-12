@@ -23,6 +23,8 @@ import { FakeActivatedRoute } from '../../../../testing/fakes/activated-route.fa
 import { BlockchainsFactory } from '../../swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
 import { Wallet } from 'ethers';
 import { XAuthService } from '../../users/shared-users/services/x-auth/x-auth.service';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -84,8 +86,13 @@ describe('CreatePasswordPage', () => {
   let walletBackupServiceSpy: jasmine.SpyObj<WalletBackupService>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
   let xAuthServiceSpy: jasmine.SpyObj<XAuthService>;
-
+  let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
+  let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
   beforeEach(() => {
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init', 'subscribeTo', 'unsubscribeFrom']);
+    notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
+      getInstance: nullNotificationServiceSpy,
+    });
     fakeLoadingService = new FakeLoadingService();
     loadingServiceSpy = fakeLoadingService.createSpy();
     fakeNavController = new FakeNavController();
@@ -121,6 +128,7 @@ describe('CreatePasswordPage', () => {
 
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
+      get: Promise.resolve(null),
     });
     walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
       disableModal: Promise.resolve(),
@@ -161,6 +169,7 @@ describe('CreatePasswordPage', () => {
         { provide: WalletBackupService, useValue: walletBackupServiceSpy },
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: XAuthService, useValue: xAuthServiceSpy },
+        { provide: NotificationsService, useValue: notificationsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -174,6 +183,36 @@ describe('CreatePasswordPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should enable push notifications by default', fakeAsync( () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    tick();
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('enabledPushNotifications', true);
+  }));
+
+  it('should init push notifications and subscribe to topic when password is ok and push notifications previously activated', fakeAsync( () => {
+    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(true);
+    component.createPasswordForm.patchValue(formData.valid);
+    component.handleSubmit();
+    tick();
+    fixture.detectChanges();
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(2);
+    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should init push notifications and unsubscribe to topic when password is ok and push notifications previously disabled', fakeAsync( () => {
+    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(false);
+    component.createPasswordForm.patchValue(formData.valid);
+    component.handleSubmit();
+    tick();
+    fixture.detectChanges();
+    expect(notificationsServiceSpy.getInstance).toHaveBeenCalledTimes(3);
+    expect(nullNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
+    expect(nullNotificationServiceSpy.unsubscribeFrom).toHaveBeenCalledTimes(1);
+  }));
 
   it('should call handleSubmit on submit event, valid form', () => {
     component.createPasswordForm.patchValue(formData.valid);

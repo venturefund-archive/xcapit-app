@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -88,12 +88,12 @@ describe('HomeOfPurchasesPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show operations when kripton is enabled', async () => {
+  it('should show operations when kripton is enabled', fakeAsync(() => {
     component.ionViewWillEnter();
+    tick();
     fixture.detectChanges();
-    await fixture.whenStable();
     expect(fiatRampsServiceSpy.getUserOperations).toHaveBeenCalledTimes(1);
-  });
+  }));
 
   it('should not show kripton operations when kripton is disabled', async () => {
     providersSpy.all.and.returnValue(rawProvidersData.filter((provider) => provider.alias !== 'kripton'));

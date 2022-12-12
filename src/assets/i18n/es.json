@@ -125,13 +125,13 @@
       "title": "Lo que estabas esperando, llegó \uD83D\uDE0E",
       "first": {
         "badge": "Nueva función",
-        "title": "\uD83D\uDE80 ¡Tu wallet más ágil que nunca!",
-        "description": "¡Ya no necesitarás tu email! Ingresarás y aprobarás tus transacciones con la misma contraseña.\nMayor agilidad, seguridad y privacidad para tus datos."
+        "title": "\uD83D\uDE80 Datos biométricos",
+        "description": "Ingresa a tu wallet más rápido que nunca usando tus datos biométricos."
       },
       "second": {
         "badge": "Nueva función",
-        "title": "\uD83D\uDCB8 Inversiones más transparentes",
-        "description": "Podrás visualizar los rendimientos de todas tus inversiones en todo momento."
+        "title": "\uD83D\uDE0E Mejoras en la app",
+        "description": "Mejoras de performance en tus operaciones de inversión y envio. Corrección de bugs y mucho más."
       }
     },
     "transaction_fees": {
@@ -635,7 +635,7 @@
       "connected_walletconnect": "Conectado",
       "disconnected_walletconnect": "Desconectado",
       "delete_account_button": "Eliminar cuenta",
-      "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma",
+      "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma. Wallet: {{wallet}}",
       "profile_footer": {
         "investor_profile_button": "Perfil de inversor"
       },
@@ -696,6 +696,19 @@
       "options": {
         "title": "Ingresa con tus datos biométricos",
         "subtitle": "Apoya tu huella sobre el lector de datos o apunta la pantalla hacia tu rostro, según corresponda en tu dispositivo."
+      }
+    },
+    "delete_account": {
+      "header": "Eliminar cuenta",
+      "first_text": "Para iniciar el proceso de eliminación de tu cuenta y datos asociados, necesitamos que ingreses tu email.",
+      "second_text": "Xcapit lo utilizará únicamente para comunicar la resolución de tu solicitud.",
+      "email_label": "Ingresa tu email*",
+      "disclaimer": "Recuerda que siempre vas a poder recuperar tu wallet con la frase semilla. Obten más información, visitando las",
+      "link": "Preguntas frecuentes sobre la wallet.",
+      "button": "Eliminar cuenta",
+      "success": {
+        "title": "Solicitud enviada exitosamente",
+        "message": "Nuestro equipo ya se encuentra trabajando sobre tu caso. Te estaremos respondiendo a  la brevedad al email {{email}}"
       }
     },
     "shared": {
@@ -1140,6 +1153,11 @@
         "get_link": {
           "notOwner": "Estas API keys no te pertenecen."
         }
+      }
+    },
+    "tickets": {
+      "create_ticket": {
+        "invalid_data": "Los datos ingresados no son válidos."
       }
     }
   },
@@ -2371,7 +2389,7 @@
       "title": "¿Qué significa este estado?",
       "button": "Entendido",
       "incomplete": {
-        "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. Esto no significa que se realizó la compra. Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
+        "description": "Tu solicitud de compra ha sido recibida exitosamente por el proveedor. <b>Esto no significa que se realizó la compra.</b> Para ello, debes completar los pasos restantes: adjuntar el comprobante de la transferencia y enviarlo.",
         "description2": "Tienes hasta 72hs para hacerlo, de lo contrario, se anulará tu pedido."
       },
       "in_progress": {

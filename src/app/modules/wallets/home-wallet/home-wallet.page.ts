@@ -5,7 +5,7 @@ import { RefreshTimeoutService } from '../../../shared/services/refresh-timeout/
 import { StorageService } from '../shared-wallets/services/storage-wallets/storage-wallets.service';
 import { Coin } from '../shared-wallets/interfaces/coin.interface';
 import { BalanceCacheService } from '../shared-wallets/services/balance-cache/balance-cache.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenDetail } from '../shared-wallets/models/token-detail/token-detail';
 import { TotalBalance } from '../shared-wallets/models/balance/total-balance/total-balance';
 import { ZeroBalance } from '../shared-wallets/models/balance/zero-balance/zero-balance';
@@ -36,6 +36,7 @@ import { UpdateNewsService } from '../../../shared/services/update-news/update-n
 import { TotalInvestedBalanceOfInjectable } from '../../defi-investments/shared-defi-investments/models/total-invested-balance-of/injectable/total-invested-balance-of.injectable';
 import { SwapInProgressService } from '../../swaps/shared-swaps/services/swap-in-progress/swap-in-progress.service';
 import { Subscription } from 'rxjs';
+import { Base64ImageFactory } from '../shared-wallets/models/base-64-image-of/factory/base-64-image-factory';
 
 @Component({
   selector: 'app-home-wallet',
@@ -109,6 +110,9 @@ import { Subscription } from 'rxjs';
       </div>
       <div class="wt__overlap_buttons">
         <app-wallet-subheader-buttons></app-wallet-subheader-buttons>
+      </div>
+      <div>   
+        <app-home-slides *ngIf="this.slides.length > 0 "[slides]="this.slides"></app-home-slides>
       </div>
       <div class="wt__backup" *ngIf="!this.protectedWallet">
         <app-backup-information-card
@@ -213,6 +217,8 @@ export class HomeWalletPage implements OnInit {
   address: string;
   defiProducts: DefiProduct[];
   totalInvested: number;
+  slides = [];
+  pids = [];
   twoPiProducts: TwoPiProduct[] = [];
   newTokens: NewToken[];
   connected: boolean;
@@ -242,26 +248,36 @@ export class HomeWalletPage implements OnInit {
     private walletConnectService: WalletConnectService,
     private updateNewsService: UpdateNewsService,
     private totalInvestedBalanceOfInjectable: TotalInvestedBalanceOfInjectable,
-    private swapInProgressService: SwapInProgressService
+    private swapInProgressService: SwapInProgressService,
+    private base64ImageFactory: Base64ImageFactory
   ) {}
 
   ngOnInit() {}
-
+  
   ionViewWillEnter() {
+    this.getSliderImages();
     this.subscribeOnHideFunds();
     this.trackScreenView();
     this.getUserWalletAddress();
     this.isProtectedWallet();
     this.getNewTokensAvailable();
     this.checkConnectionOfWalletConnect();
-    this.suscribleToSwapInProgress();
+    this.suscribeToSwapInProgress();
+  }
+
+  async getSliderImages(){
+    const slides = await this.remoteConfig.getObject('appSlides');
+    for(const slide of slides){
+      slide.image = await (await this.base64ImageFactory.new(slide.image)).value();
+    }
+    this.slides = slides;
   }
 
   ionViewWillLeave() {
     this.unsubscribe();
   }
 
-  async suscribleToSwapInProgress() {
+  async suscribeToSwapInProgress() {
     this.subscription$ = this.swapInProgressService.inProgress().subscribe((inProgress) => {
       this.swapInProgress = inProgress;
     });
@@ -421,10 +437,6 @@ export class HomeWalletPage implements OnInit {
 
   async isProtectedWallet() {
     this.protectedWallet = await this.ionicStorageService.get('protectedWallet');
-  }
-
-  goToRecoveryWallet(): void {
-    this.navController.navigateForward(['wallets/create-first/disclaimer', 'import']);
   }
 
   goToSelectCoins(): void {

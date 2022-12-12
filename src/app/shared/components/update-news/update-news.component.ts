@@ -44,7 +44,7 @@ export class UpdateNewsComponent implements OnInit {
     {
       title: this.translate.instant('shared.update_news.first.title'),
       description: this.translate.instant('shared.update_news.first.description'),
-      url: ['/tabs/wallets'],
+      url: ['/profiles/biometric-auth'],
       isOpenByBrowser: false,
     },
     {

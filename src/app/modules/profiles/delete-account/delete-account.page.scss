@@ -1,0 +1,35 @@
+:host {
+  .da {
+    &__texts {
+      margin-bottom: 36px;
+
+      ion-text {
+        color: var(--ion-color-neutral90);
+      }
+    }
+
+    &__form {
+      margin-bottom: 16px;
+    }
+
+    &__disclaimer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &__icon {
+        margin-right: 12px;
+
+        ion-icon {
+          font-size: 20px;
+        }
+      }
+    }
+
+    &__button {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+    }
+  }
+}

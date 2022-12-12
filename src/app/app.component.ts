@@ -99,12 +99,15 @@ export class AppComponent implements OnInit {
   async walletConnectDeepLinks(event) {
     let url = event.url.split('?uri=').pop();
 
-    if (url && url.includes('wc:')) {
-      url = decodeURIComponent(url);
-      this.walletConnectService.setUri(url);
+    if (url) {
+      url = (url.includes('wc%3A') || url.includes('wc%3a')) ? decodeURIComponent(url) : url;
 
-      if (await new LoggedIn(this.storage).value()) {
-        this.walletConnectService.checkDeeplinkUrl();
+      if (url.includes('wc:')) {
+        this.walletConnectService.setUri(url);
+        
+        if (await new LoggedIn(this.storage).value()) {
+          this.walletConnectService.checkDeeplinkUrl();
+        }
       }
     }
   }

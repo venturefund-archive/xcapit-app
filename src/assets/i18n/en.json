@@ -134,13 +134,13 @@
       "title": "What you were waiting for, has arrived \uD83D\uDE0E",
       "first": {
         "badge": "New feature",
-        "title": "\uD83D\uDE80 Your wallet is faster than ever!",
-        "description": "You won't need your email anymore! You will enter and approve your transactions with the same password.\nMore agility, security and privacy for your data."
+        "title": "\uD83D\uDE80 Biometric Auth",
+        "description": "Log in to your wallet faster than ever using your biometric data."
       },
       "second": {
         "badge": "New feature",
-        "title": "\uD83D\uDCB8 More transparent investments",
-        "description": "You will be able to view the performance of all your investments at all times."
+        "title": "\uD83D\uDE0E App improvements",
+        "description": "Performance improvements in your investment and transfer operations. Bug fixes and much more."
       }
     },
     "transaction_fees": {
@@ -642,7 +642,7 @@
       "connected_walletconnect": "Connected",
       "disconnected_walletconnect": "Disconnected",
       "delete_account_button": "Delete account",
-      "delete_account_message": "I request the deletion of my account and associated data.",
+      "delete_account_message": "I request the deletion of my account and associated data. Wallet: {{wallet}}",
       "profile_footer": {
         "investor_profile_button": "Investor profile"
       },
@@ -703,6 +703,19 @@
       "options": {
         "title": "Log in with your biometric data",
         "subtitle": "Rest your fingerprint on the data reader or point the screen towards your face, as appropriate on your device."
+      }
+    },
+    "delete_account": {
+      "header": "Delete account",
+      "first_text": "To start the process of deleting your account and associated data, we need you to enter your email address.",
+      "second_text": "Xcapit will use it only to communicate the resolution of your request.",
+      "email_label": "Enter your email*",
+      "disclaimer": "Remember that you can always recover your wallet with the seed phrase. Get more information by visiting the",
+      "link": "Frequently asked questions about the wallet.",
+      "button": "Delete account",
+      "success": {
+        "title": "Request successfully submitted",
+        "message": "Our team is already working on your case. We will be answering you as soon as possible to the email {{email}}"
       }
     },
     "shared": {
@@ -1147,6 +1160,11 @@
         "get_link": {
           "notOwner": "You do not own this API keys."
         }
+      }
+    },
+    "tickets": {
+      "create_ticket": {
+        "invalid_data": "The data entered are not valid."
       }
     }
   },
@@ -2408,7 +2426,7 @@
       "title": "What does this status mean?",
       "button": "Understood",
       "incomplete": {
-        "description": "Your purchase request has been successfully received by the provider. This does not mean that the purchase has been made. To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
+        "description": "Your purchase request has been successfully received by the provider. <b>This does not mean that the purchase has been made.</b> To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
         "description2": "You have up to 72 hours to do so, otherwise your order will be cancelled."
       },
       "in_progress": {

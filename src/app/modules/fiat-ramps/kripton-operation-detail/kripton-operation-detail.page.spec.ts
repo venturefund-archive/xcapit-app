@@ -19,6 +19,7 @@ import { FiatRampOperation } from '../shared-ramps/interfaces/fiat-ramp-operatio
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { FakeProviders } from '../shared-ramps/models/providers/fake/fake-providers';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 import { KriptonOperationDetailPage } from './kripton-operation-detail.page';
 
@@ -54,6 +55,20 @@ describe('KriptonOperationDetailPage', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    testOperation = {
+      operation_id: 678,
+      operation_type: 'cash-in',
+      status: 'request',
+      currency_in: 'ARS',
+      amount_in: 500.0,
+      currency_out: 'ETH',
+      amount_out: 100.0,
+      created_at: new Date('2021-02-27T10:02:49.719Z'),
+      provider: '1',
+      voucher: false,
+      wallet_address: '0xeeeeeeeee',
+    };
+
     fakeRoute = new FakeActivatedRoute();
     activatedRouteSpy = fakeRoute.createSpy();
     fakeRoute.modifySnapshotParams('1');
@@ -113,8 +128,8 @@ describe('KriptonOperationDetailPage', () => {
         { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: ModalController, useValue: modalControllerSpy },
-        { provide: StorageOperationService, useValue: storageOperationServiceSpy}
-
+        { provide: StorageOperationService, useValue: storageOperationServiceSpy },
+        { provide: KriptonStorageService, useValue: kriptonStorageSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -169,9 +184,9 @@ describe('KriptonOperationDetailPage', () => {
     const hour = fixture.debugElement.query(
       By.css('.kod__card-container__card__date__container__hour__content > ion-text')
     ).nativeElement.innerText;
-    expect(currency).toContain(operation.currency_out);
-    expect(amount).toContain(operation.amount_out);
-    expect(fiatAmount).toContain(operation.amount_in);
+    expect(currency).toContain(testOperation.currency_out);
+    expect(amount).toContain(testOperation.amount_out);
+    expect(fiatAmount).toContain(testOperation.amount_in);
     expect(state).toBeTruthy();
     expect(toast).toBeTruthy();
     expect(quotations).toContain('1 USDC = 5.00 ARS');
@@ -200,14 +215,16 @@ describe('KriptonOperationDetailPage', () => {
 
   it('should show info modal when info button is clicked', async () => {
     component.ionViewWillEnter();
+    await fixture.whenStable();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
   });
 
   it('should show correct text when info button is clicked and status is incomplete', async () => {
-    operation.status = 'request';
+    testOperation.status = 'request';
     component.ionViewWillEnter();
+    await fixture.whenStable();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -216,17 +233,18 @@ describe('KriptonOperationDetailPage', () => {
   });
 
   it('should show correct text when info button is clicked and status is in progress', async () => {
-    operation.status = 'received';
+    testOperation.status = 'received';
     component.ionViewWillEnter();
+    await fixture.whenStable();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(component.description).toEqual(`fiat_ramps.operation_status_detail.in_progress.description`);
   });
-
   it('should show correct text when info button is clicked and status is nullified', async () => {
-    operation.status = 'refund';
+    testOperation.status = 'refund';
     component.ionViewWillEnter();
+    await fixture.whenStable();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
@@ -234,16 +252,17 @@ describe('KriptonOperationDetailPage', () => {
   });
 
   it('should show correct text when info button is clicked and status is cancelled', async () => {
-    operation.status = 'cancel';
+    testOperation.status = 'cancel';
     component.ionViewWillEnter();
+    await fixture.whenStable();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-icon[name="information-circle"]')).nativeElement.click();
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
     expect(component.description).toEqual(`fiat_ramps.operation_status_detail.cancelled.description`);
   });
 
-  it('should set operation storage data and redirect to purchase order when event was triggered', async() => {
-    const incompleteOperation: FiatRampOperation = { ...operation, status: 'request' };
+  it('should set operation storage data and redirect to purchase order when event was triggered', async () => {
+    const incompleteOperation: FiatRampOperation = { ...testOperation, status: 'request' };
     fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([incompleteOperation]));
     component.ionViewWillEnter();
     await fixture.whenStable();
@@ -251,7 +270,9 @@ describe('KriptonOperationDetailPage', () => {
     fixture.debugElement.query(By.css('app-operation-status-alert')).triggerEventHandler('goToPurchaseOrder');
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order/1', { animated: false });
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/purchase-order/1', {
+      animated: false,
+    });
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
   });
 });
