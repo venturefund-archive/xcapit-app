@@ -3246,6 +3246,10 @@
       "swap_not_ok": {
         "title": "❌ Error en el intercambio",
         "body": "Se produjo un error en el envío de {{fromAmount}} {{fromToken}} y recepción de {{toAmount}} {{toToken}}. Más información aquí. ."
+      },
+      "swap_not_ok_blockchain": {
+        "title": "❌ Error en el intercambio",
+        "body": "No pudo ser procesado por la blockchain. Intenta nuevamente más tarde."
       }
     }
   },

@@ -3079,12 +3079,16 @@
         "title": "View more"
       },
       "swap_ok": {
-        "title": "🚀 Successful exchange! ",
+        "title": "🚀 Successful swap! ",
         "body": "You sent {{fromAmount}} {{fromToken}} and received {{toAmount}} {{toToken}} ."
       },
       "swap_not_ok": {
-        "title": "❌ Error in the exchange",
+        "title": "❌ Error in the swap",
         "body": "There was an error sending {{fromAmount}} {{fromToken}} and receiving {{toAmount}} {{toToken}}. More information here."
+      },
+      "swap_not_ok_blockchain": {
+        "title": "❌ Error in the swap",
+        "body": "It could not be processed by the blockchain. Try again late."
       }
     }
   },
