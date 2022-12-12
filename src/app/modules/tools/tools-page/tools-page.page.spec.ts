@@ -148,4 +148,13 @@ describe('ToolPagePage', () => {
     expect(iconEl).toBeTruthy();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/wallets/wallet-connect/connection-detail');
   });
+
+  it('should hide donations if in review feature flag is true', async () => {
+    platformServiceSpy.isNative.and.returnValue(true);
+    remoteConfigServiceSpy.getFeatureFlag.withArgs('inReview').and.returnValue(true);
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+
+    expect(component.content.length).toEqual(3);
+  });
 });
