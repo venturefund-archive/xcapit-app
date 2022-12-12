@@ -218,7 +218,6 @@ export class KriptonOperationDetailPage {
 
 ionViewWillEnter() {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
-    console.log(operationId)
     this.provider = this.providersFactory.create().byAlias('kripton');
     this.getUserOperation(operationId);
     this.trackScreenViewEvent();
