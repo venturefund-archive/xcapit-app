@@ -99,7 +99,7 @@ export class ToolsPage implements OnInit {
 
     if (this.platform.isNative()) {
       const inReview = this.remoteConfigService.getFeatureFlag('inReview');
-      disabled = !((await this.appVersion.create().updated()) && inReview);
+      disabled = (await this.appVersion.create().updated()) && inReview;
     }
     return disabled;
   }
