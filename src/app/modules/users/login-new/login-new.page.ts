@@ -132,6 +132,13 @@ export class LoginNewPage {
       eventLabel: 'ux_screenview_login',
     });
     this.subscribeOnValueChanges();
+    this.enablePushNotificationsByDefault();
+  }
+
+  async enablePushNotificationsByDefault(){
+    if(await this.enabledPushNotifications() === null){
+      await this.ionicStorageService.set(this._aKey, true);
+    }
   }
 
   subscribeOnValueChanges() {
