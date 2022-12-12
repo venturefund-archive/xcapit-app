@@ -3,6 +3,7 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_buyCriptoHomeCard: false,
   ff_buyCryptoNewInvestmentFooter: false,
   ff_buyCryptoAddAmountInvestmentFooter: false,
+  ff_buyCrypto: false,
   ff_updateAppModal: false,
   referralsMenuUrl_referralPromotionCard: 'referrals/closed',
   ff_swap: false,
@@ -15,6 +16,6 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_newTokenAvailable: false,
   ff_kriptonNewUx: false,
   ff_bioauth: true,
-  ff_inReview: false,
-  lastVersion: undefined
+  inReview: true,
+  lastVersion: undefined,
 };

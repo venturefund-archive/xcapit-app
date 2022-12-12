@@ -1,7 +1,8 @@
-import { ToolsCard } from "../../interfaces/tools-card.interface";
+import { ToolsCard } from '../../interfaces/tools-card.interface';
 
 export const TOOLS_CARDS: ToolsCard[] = [
   {
+    id: 'donations',
     icon: 'assets/img/tools/donation-icon.svg',
     textPrimary: 'tools.tools_page.donations.textPrimary',
     textSecondary: 'tools.tools_page.donations.textSecondary',
