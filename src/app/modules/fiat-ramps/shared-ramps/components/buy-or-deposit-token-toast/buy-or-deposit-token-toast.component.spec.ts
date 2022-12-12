@@ -12,7 +12,11 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { ProviderTokensOf } from '../../models/provider-tokens-of/provider-tokens-of';
 import { ProvidersFactory } from '../../models/providers/factory/providers.factory';
 import { TokenOperationDataService } from '../../services/token-operation-data/token-operation-data.service';
-import { BuyOrDepositTokenToastComponent } from "./buy-or-deposit-token-toast.component";
+import { BuyOrDepositTokenToastComponent } from './buy-or-deposit-token-toast.component';
+import { RemoteConfigService } from '../../../../../shared/services/remote-config/remote-config.service';
+import { AppVersionInjectable } from 'src/app/shared/models/app-version/injectable/app-version.injectable';
+import { PlatformService } from '../../../../../shared/services/platform/platform.service';
+import { FakeAppVersion } from 'src/app/shared/models/app-version/fake/fake-app-version';
 
 describe('BuyOrDepositTokenToastComponent', () => {
   let component: BuyOrDepositTokenToastComponent;
@@ -26,41 +30,65 @@ describe('BuyOrDepositTokenToastComponent', () => {
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let providersFactorySpy: jasmine.SpyObj<ProvidersFactory>;
   let translateServiceSpy: jasmine.SpyObj<TranslateService>;
+  let remoteConfigServiceSpy: jasmine.SpyObj<RemoteConfigService>;
+  let fakeAppVersion: FakeAppVersion;
+  let appVersionInjectableSpy: jasmine.SpyObj<AppVersionInjectable>;
+  let platformServiceSpy: jasmine.SpyObj<PlatformService>;
 
-  beforeEach(
-    waitForAsync(() => {
-      fakeNavController = new FakeNavController();
-      navControllerSpy = fakeNavController.createSpy();
-      tokenSpy = jasmine.createSpyObj('Token', { symbol: 'USDC', json: { network: 'MATIC' }});
-      unavailableTokenSpy = jasmine.createSpyObj('UnavailableToken', { symbol: 'WETH', json: { network: 'MATIC' }});
-      coinSpy = jasmine.createSpyObj('Coin', {}, { value: 'USDC', network: 'MATIC' });
-      tokenOperationDataServiceSpy = jasmine.createSpyObj('TokenOperationDataService', {}, { tokenOperationData: undefined });
-      spyOn(ProviderTokensOf.prototype, 'all').and.returnValue([coinSpy]);
-      apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getCoins: [] });
-      providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', { create: [] });
-      translateServiceSpy = jasmine.createSpyObj('TranslateService', { instant: 'test' });
-      TestBed.configureTestingModule({
-        declarations: [BuyOrDepositTokenToastComponent, ToastWithButtonsComponent],
-        imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
-        providers: [
-          { provide: NavController, useValue: navControllerSpy },
-          { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
-          { provide: ApiWalletService, useValue: apiWalletServiceSpy },
-          { provide: ProvidersFactory, useValue: providersFactorySpy },
-          { provide: TranslateService, useValue: translateServiceSpy },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    fakeNavController = new FakeNavController();
+    navControllerSpy = fakeNavController.createSpy();
+    tokenSpy = jasmine.createSpyObj('Token', { symbol: 'USDC', json: { network: 'MATIC' } });
+    unavailableTokenSpy = jasmine.createSpyObj('UnavailableToken', { symbol: 'WETH', json: { network: 'MATIC' } });
+    coinSpy = jasmine.createSpyObj('Coin', {}, { value: 'USDC', network: 'MATIC' });
+    tokenOperationDataServiceSpy = jasmine.createSpyObj(
+      'TokenOperationDataService',
+      {},
+      { tokenOperationData: undefined }
+    );
+    spyOn(ProviderTokensOf.prototype, 'all').and.returnValue([coinSpy]);
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', { getCoins: [] });
+    providersFactorySpy = jasmine.createSpyObj('ProvidersFactory', { create: [] });
+    translateServiceSpy = jasmine.createSpyObj('TranslateService', { instant: 'test' });
 
-      fixture = TestBed.createComponent(BuyOrDepositTokenToastComponent);
-      component = fixture.componentInstance;
-      component.token = tokenSpy;
-      component.text = 'test';
-      component.primaryButtonText = 'buy crypto';
-      component.secondaryButtonText = 'deposit crypto';
-      fixture.detectChanges();
-    })
-  );
+    remoteConfigServiceSpy = jasmine.createSpyObj('RemoteConfigService', {
+      getFeatureFlag: true,
+    });
+
+    fakeAppVersion = new FakeAppVersion(Promise.resolve('3.0.1'), '3.0.1', Promise.resolve(true));
+
+    appVersionInjectableSpy = jasmine.createSpyObj('AppVersionInjectable', {
+      create: fakeAppVersion,
+    });
+
+    platformServiceSpy = jasmine.createSpyObj('PlatformService', {
+      isNative: false,
+    });
+
+    TestBed.configureTestingModule({
+      declarations: [BuyOrDepositTokenToastComponent, ToastWithButtonsComponent],
+      imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
+      providers: [
+        { provide: NavController, useValue: navControllerSpy },
+        { provide: TokenOperationDataService, useValue: tokenOperationDataServiceSpy },
+        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: ProvidersFactory, useValue: providersFactorySpy },
+        { provide: TranslateService, useValue: translateServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
+        { provide: AppVersionInjectable, useValue: appVersionInjectableSpy },
+        { provide: PlatformService, useValue: platformServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(BuyOrDepositTokenToastComponent);
+    component = fixture.componentInstance;
+    component.token = tokenSpy;
+    component.text = 'test';
+    component.primaryButtonText = 'buy crypto';
+    component.secondaryButtonText = 'deposit crypto';
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -85,7 +113,9 @@ describe('BuyOrDepositTokenToastComponent', () => {
     };
     fixture.debugElement.query(By.css('app-toast-with-buttons')).triggerEventHandler('primaryActionEvent');
     tick();
-    expect((Object.getOwnPropertyDescriptor(tokenOperationDataServiceSpy, 'tokenOperationData').set as jasmine.Spy)).toHaveBeenCalledOnceWith(tokenOperationData)
+    expect(
+      Object.getOwnPropertyDescriptor(tokenOperationDataServiceSpy, 'tokenOperationData').set as jasmine.Spy
+    ).toHaveBeenCalledOnceWith(tokenOperationData);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/select-provider']);
   }));
 
@@ -106,5 +136,22 @@ describe('BuyOrDepositTokenToastComponent', () => {
   it('should translate texts', () => {
     fixture.detectChanges();
     expect(translateServiceSpy.instant).toHaveBeenCalledTimes(3);
+  });
+
+  it('should hide buy button if buy crypto feature flag is disabled', async () => {
+    remoteConfigServiceSpy.getFeatureFlag.withArgs('ff_buyCrypto').and.returnValue(false);
+    remoteConfigServiceSpy.getFeatureFlag.withArgs('inReview').and.returnValue(false);
+    await component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.primaryButtonText).toBeUndefined();
+  });
+
+  it('should hide buy button if in review feature flag is disabled', async () => {
+    platformServiceSpy.isNative.and.returnValue(true);
+    remoteConfigServiceSpy.getFeatureFlag.withArgs('ff_buyCrypto').and.returnValue(true);
+    remoteConfigServiceSpy.getFeatureFlag.withArgs('inReview').and.returnValue(true);
+    await component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.primaryButtonText).toBeUndefined();
   });
 });
