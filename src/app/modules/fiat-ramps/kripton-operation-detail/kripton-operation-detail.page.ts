@@ -76,7 +76,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
                 <ion-text class="ux-font-titulo-xs">
                   {{ 'fiat_ramps.kripton_operation_detail.state' | translate }}
                 </ion-text>
-                <ion-icon name="information-circle" (click)="this.showStateInformation()" color="info"></ion-icon>
+                <ion-icon *ngIf="this.operation.status !== 'complete'" name="information-circle" (click)="this.showStateInformation()" color="info"></ion-icon>
               </div>
               <app-operation-status-chip [statusName]="this.operation.status"></app-operation-status-chip>
               <app-operation-status-alert

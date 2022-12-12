@@ -266,4 +266,14 @@ describe('KriptonOperationDetailPage', () => {
     });
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
   });
+
+  it('should hide information icon when operation is complete', async() => {
+    const completeOperation: FiatRampOperation = { ...operation, status: 'complete' };
+    fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([completeOperation]));
+    component.ionViewWillEnter();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const infoIcon = fixture.debugElement.query(By.css('ion-icon[name="information-circle"]'));
+    expect(infoIcon).toBeNull();
+  });
 });
