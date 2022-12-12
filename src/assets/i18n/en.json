@@ -1851,12 +1851,12 @@
     "send": {
       "send_notifications":{
         "success":{
-          "title":"✅ Envío exitoso. ¡Así se hace!",
-          "body": "Enviaste {{amount}} {{token}} el día {{date}}. "
+          "title":"✅ Successful delivery. That's how it's done!",
+          "body": "You sent {{amount}} {{token}} on {{date}}. "
         },
         "error":{
-          "title":"❌ Error en el envío",
-          "body": "Se produjo un error en el envío de {{amount}} {{token}} el día {{date}}. Más información aquí."
+          "title":"❌ Sending error",
+          "body": "An error occurred in the sending of  {{amount}} {{token}} on {{date}}. More information here."
         }
       },
       "scan_qr": {
