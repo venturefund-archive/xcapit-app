@@ -249,7 +249,7 @@ export class UserProfileMenuPage {
         valueName: 'value',
         selected: await this.language.getSelectedLanguage(),
       },
-      cssClass: 'ux_modal_crm',
+      cssClass: 'modal',
     });
 
     await modal.present();
