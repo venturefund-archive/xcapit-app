@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { WalletPasswordComponent } from '../../wallets/shared-wallets/components/wallet-password/wallet-password.component';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { TranslateService } from '@ngx-translate/core';
 import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 import { LoginBiometricActivationModalService } from '../../users/shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
@@ -52,11 +51,9 @@ export class BiometricAuthPage {
   });
   constructor(
     private modalController: ModalController,
-    private navController: NavController,
     private translate: TranslateService,
     private biometricAuthInjectable: BiometricAuthInjectable,
     private formBuilder: UntypedFormBuilder,
-    private storage: IonicStorageService,
     private toastService: ToastService,
     private loginBiometricActivationService: LoginBiometricActivationModalService
   ) {}

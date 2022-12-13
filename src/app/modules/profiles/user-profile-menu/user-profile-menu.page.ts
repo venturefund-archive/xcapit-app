@@ -17,6 +17,7 @@ import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/i
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -127,7 +128,8 @@ export class UserProfileMenuPage {
     private notificationsService: NotificationsService,
     private biometricAuthInjectable: BiometricAuthInjectable,
     private remoteConfig: RemoteConfigService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private trackService: TrackService
   ) {}
 
   async ionViewWillEnter() {
@@ -148,7 +150,16 @@ export class UserProfileMenuPage {
   }
 
   private valueChanges() {
-    this.form.valueChanges.subscribe((value) => this.toggle(value.notifications));
+    this.form.valueChanges.subscribe((value) => 
+    this.toggle(value.notifications)
+    );
+  }
+
+  setEvent(value: boolean) {
+    const eventLabel = value ? 'on' : 'off';
+    this.trackService.trackEvent({
+      eventLabel: `'ux_push_notifications_${eventLabel}'`
+    });
   }
 
   pushNotificationsService() {
@@ -160,6 +171,7 @@ export class UserProfileMenuPage {
     value
       ? this.pushNotificationsService().subscribeTo(this._aTopic)
       : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
+    this.setEvent(value);
   }
 
   async walletConnectStatus() {
