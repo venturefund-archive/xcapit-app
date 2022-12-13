@@ -1869,11 +1869,11 @@
     "send": {
       "send_notifications":{
         "success":{
-          "title":"✅ Successful delivery. That's how it's done!",
+          "title":"✅ Successful shipment. That's the way to do it!",
           "body": "You sent {{amount}} {{token}} on {{date}}. "
         },
         "error":{
-          "title":"❌ Sending error",
+          "title":"❌ Error in shipment",
           "body": "An error occurred in the sending of  {{amount}} {{token}} on {{date}}. More information here."
         }
       },
