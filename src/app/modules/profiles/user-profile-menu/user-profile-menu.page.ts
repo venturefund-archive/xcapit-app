@@ -18,6 +18,8 @@ import { RemoteConfigService } from '../../../shared/services/remote-config/remo
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -109,10 +111,11 @@ export class UserProfileMenuPage {
   username: string;
   itemMenu: MenuCategory[] = ITEM_MENU;
   form: UntypedFormGroup = this.formBuilder.group({
-    notifications: [false, []],
+    notifications: [[]],
   });
   private readonly _aTopic = 'app';
   private readonly _aKey = 'enabledPushNotifications';
+  destroy$: Subject<void>;
 
   constructor(
     private apiProfiles: ApiProfilesService,
@@ -133,6 +136,7 @@ export class UserProfileMenuPage {
   ) {}
 
   async ionViewWillEnter() {
+    this.destroy$ = new Subject<void>();
     this.getProfile();
     this.existWallet();
     this.biometricAuthAvailable();
@@ -150,15 +154,17 @@ export class UserProfileMenuPage {
   }
 
   private valueChanges() {
-    this.form.valueChanges.subscribe((value) => 
-    this.toggle(value.notifications)
-    );
+    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      this.toggle(value.notifications);
+      this.setEvent(value.notifications);
+    });
   }
 
   setEvent(value: boolean) {
-    const eventLabel = value ? 'on' : 'off';
+    let eventLabel = value ? 'on' : 'off';
+    console.log('value', value);
     this.trackService.trackEvent({
-      eventLabel: `'ux_push_notifications_${eventLabel}'`
+      eventLabel: `ux_push_notifications_${eventLabel}`,
     });
   }
 
@@ -171,7 +177,6 @@ export class UserProfileMenuPage {
     value
       ? this.pushNotificationsService().subscribeTo(this._aTopic)
       : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
-    this.setEvent(value);
   }
 
   async walletConnectStatus() {
@@ -286,5 +291,10 @@ export class UserProfileMenuPage {
 
   goToDeleteAccount() {
     this.navController.navigateForward('profiles/delete-account');
+  }
+
+  ionViewWillLeave() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
