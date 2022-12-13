@@ -268,7 +268,7 @@ describe('KriptonOperationDetailPage', () => {
   });
 
   it('should hide information icon when operation is complete', async() => {
-    const completeOperation: FiatRampOperation = { ...operation, status: 'complete' };
+    const completeOperation: FiatRampOperation = { ...testOperation, status: 'complete' };
     fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([completeOperation]));
     component.ionViewWillEnter();
     await fixture.whenStable();
