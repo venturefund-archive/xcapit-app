@@ -218,7 +218,7 @@ export class KriptonOperationDetailPage {
     private kriptonStorageService: KriptonStorageService
   ) {}
 
-ionViewWillEnter() {
+  ionViewWillEnter() {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
     this.provider = this.providersFactory.create().byAlias('kripton');
     this.getUserOperation(operationId);
@@ -288,7 +288,8 @@ ionViewWillEnter() {
   }
 
   getCoin() {
-    this.token = this.apiWalletService.getCoin(this.operation.currency_out);
+    const asset = this.fiatRampsService.getProvider(1).currencies.find((c) => c.symbol === this.operation.currency_out);
+    this.token = this.apiWalletService.getCoin(asset.symbol, asset.network);
   }
 
   navigateBackToOperations() {

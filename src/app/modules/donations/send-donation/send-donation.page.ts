@@ -212,7 +212,7 @@ export class SendDonationPage implements OnInit {
   }
 
   async tokenBalance() {
-    const tokenBalance = parseFloat(await this.walletService.balanceOf(await this.userWallet(), this.token.value));
+    const tokenBalance = parseFloat(await this.walletService.balanceOf(await this.userWallet(), this.token.value, this.token.network));
     this.balance = this.token.native ? Math.max(tokenBalance - this.fee, 0) : tokenBalance;
     this.addLowerThanValidator();
   }

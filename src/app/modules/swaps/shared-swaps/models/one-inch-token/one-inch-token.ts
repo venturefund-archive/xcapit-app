@@ -3,7 +3,8 @@ import { Token } from "../token/token";
 
 export class OneInchToken implements Token {
 
-  constructor(private _rawData: any) { }
+  constructor(private _rawData: any) {
+  }
 
   blockchainId(): string {
     throw new Error("Method not implemented.");
@@ -11,6 +12,10 @@ export class OneInchToken implements Token {
 
   symbol(): string {
     return this._rawData['symbol'];
+  }
+
+  network(): string {
+    throw new Error("Method not implemented.");
   }
 
   decimals(): number {

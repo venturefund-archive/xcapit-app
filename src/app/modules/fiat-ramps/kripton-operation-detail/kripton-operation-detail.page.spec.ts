@@ -39,8 +39,20 @@ describe('KriptonOperationDetailPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
-  let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
-  let testOperation: FiatRampOperation;
+
+  const operation: FiatRampOperation = {
+    operation_id: 678,
+    operation_type: 'cash-in',
+    status: 'request',
+    currency_in: 'ARS',
+    amount_in: 500.0,
+    currency_out: 'USDC',
+    amount_out: 100.0,
+    created_at: new Date('2021-02-27T10:02:49.719Z'),
+    provider: '1',
+    voucher: false,
+    wallet_address: '0xeeeeeeeee',
+  };
 
   beforeEach(waitForAsync(() => {
     testOperation = {
@@ -85,7 +97,7 @@ describe('KriptonOperationDetailPage', () => {
     });
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getCoin: TEST_COINS[0],
+      getCoin: TEST_COINS[7],
     });
 
     storageOperationServiceSpy = jasmine.createSpyObj('StorageOperationService', {
@@ -94,11 +106,8 @@ describe('KriptonOperationDetailPage', () => {
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       setProvider: null,
-      getUserSingleOperation: of([testOperation]),
-    });
-
-    kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
-      get: Promise.resolve('test@test.com'),
+      getUserSingleOperation: of([operation]),
+      getProvider: rawProvidersData[1],
     });
 
     fakeNavController = new FakeNavController();
@@ -180,9 +189,9 @@ describe('KriptonOperationDetailPage', () => {
     expect(fiatAmount).toContain(testOperation.amount_in);
     expect(state).toBeTruthy();
     expect(toast).toBeTruthy();
-    expect(quotations).toContain('1 ETH = 5.00 ARS');
-    expect(address).toContain(testOperation.wallet_address);
-    expect(operationNumber).toContain(testOperation.operation_id);
+    expect(quotations).toContain('1 USDC = 5.00 ARS');
+    expect(address).toContain(operation.wallet_address);
+    expect(operationNumber).toContain(operation.operation_id);
     expect(date).toContain('27/02/2021');
     expect(hour).toMatch(/\d\d:\d\d/g);
   });

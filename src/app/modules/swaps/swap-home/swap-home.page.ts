@@ -386,8 +386,8 @@ export class SwapHomePage {
     });
   }
 
-  async balanceAvailableOf(aCoin: string) {
-    const aToken = this.apiWalletService.getCoin(aCoin);
+  async balanceAvailableOf(aCoin: string, aNetwork: string) {
+    const aToken = this.apiWalletService.getCoin(aCoin, aNetwork);
     this.swapBalance = await this.walletBalance.balanceOf(aToken);
     if (aToken.native) {
       this.feeBalance = this.tplFee.value;
@@ -408,7 +408,7 @@ export class SwapHomePage {
         this.setNullFeeInfo();
         await this.setSwapInfo(value);
         await this.setFeeInfo();
-        await this.balanceAvailableOf(this.fromToken.symbol());
+        await this.balanceAvailableOf(this.fromToken.symbol(), this.activeBlockchain.name());
         this.setUSDPrices(value);
         this.checkFee(value);
       });
@@ -462,7 +462,7 @@ export class SwapHomePage {
 
     this.toToken = await new TokenByAddress(toTokenAddress, this.tokens).value();
     this.tplToToken = this.toToken.json();
-    await this.balanceAvailableOf(this.fromToken.symbol());
+    await this.balanceAvailableOf(this.fromToken.symbol(), this.activeBlockchain.name());
     this.checkTokens();
   }
 
