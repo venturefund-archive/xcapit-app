@@ -711,6 +711,9 @@
         "message": "Nuestro equipo ya se encuentra trabajando sobre tu caso. Te estaremos respondiendo a  la brevedad al email {{email}}"
       }
     },
+    "wallets_agenda":{
+      "header":"Mi agenda"
+    },
     "shared": {
       "remove_account_modal": {
         "title": "Eliminar cuenta",

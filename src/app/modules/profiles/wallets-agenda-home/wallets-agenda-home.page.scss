@@ -1,0 +1,31 @@
+:host {
+  ion-toolbar {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  ion-footer {
+    box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+  }
+
+  .wa {
+    &__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 64px;
+      gap: 16px;
+
+      &__text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &__title,
+        &__subtitle {
+          color: var(--ion-color-neutral80);
+        }
+      }
+    }
+  }
+}
