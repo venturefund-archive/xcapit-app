@@ -160,7 +160,7 @@ export class UserProfileMenuPage {
   }
 
   setEvent(value: boolean) {
-    let eventLabel = value ? 'on' : 'off';
+    const eventLabel = value ? 'on' : 'off';
     this.trackService.trackEvent({
       eventLabel: `ux_push_notifications_${eventLabel}`,
     });
