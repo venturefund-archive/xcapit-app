@@ -18,6 +18,8 @@ import { IonicStorageService } from './shared/services/ionic-storage/ionic-stora
 import { LoggedIn } from './modules/users/shared-users/models/logged-in/logged-in';
 import { TrackedWalletAddressInjectable } from './shared/models/tracked-wallet-address/injectable/tracked-wallet-address.injectable';
 import { AppSession } from './shared/models/app-session/app-session';
+import { CapacitorAppInjectable } from './shared/models/capacitor-app/injectable/capacitor-app.injectable';
+import { AppSessionInjectable } from './shared/models/app-session/injectable/app-session.injectable';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +34,8 @@ import { AppSession } from './shared/models/app-session/app-session';
 export class AppComponent implements OnInit {
   onLangChange: Subscription = undefined;
   statusBar = StatusBar;
-  session = new AppSession(this.storage);
+  session: AppSession;
+  app = App;
 
   constructor(
     private platform: Platform,
@@ -50,7 +53,9 @@ export class AppComponent implements OnInit {
     private localNotificationsService: LocalNotificationsService,
     private navController: NavController,
     private storage: IonicStorageService,
-    private trackedWalletAddressInjectable: TrackedWalletAddressInjectable
+    private trackedWalletAddressInjectable: TrackedWalletAddressInjectable,
+    private capacitorAppInjectable: CapacitorAppInjectable,
+    private appSessionInjectable: AppSessionInjectable
   ) {}
 
   ngOnInit() {
@@ -67,6 +72,7 @@ export class AppComponent implements OnInit {
   }
 
   private initializeApp() {
+    this._setSession();
     this.checkForUpdate();
     this.walletBackupService.getBackupWarningWallet();
     this.platform.ready().then(() => {
@@ -78,12 +84,16 @@ export class AppComponent implements OnInit {
     });
   }
 
+  private _setSession() {
+    this.session = this.appSessionInjectable.create();
+  }
+
   private async checkWalletConnectAndDynamicLinks() {
     await this.walletConnectService.checkConnection();
     await this.walletConnectService.retrieveWalletConnect();
 
     if (this.platformService.isNative()) {
-      App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      this.app.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
         this.zone.run(async () => {
           this.walletConnectDeepLinks(event);
           this.dynamicLinks(event);
@@ -93,11 +103,8 @@ export class AppComponent implements OnInit {
   }
 
   setBackgroundActions() {
-    App.addListener('appStateChange', ({ isActive }) => {
-      if (!isActive) {
-        this.session.save();
-      }
-      this.isSessionValid();
+    this.capacitorAppInjectable.create().onStateChange(({ isActive }) => {
+      isActive ? this.isSessionValid() : this.session.save();
     });
   }
 
