@@ -19,6 +19,7 @@ import { LoginToken } from '../../users/shared-users/models/login-token/login-to
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 import { ethers } from 'ethers';
+import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-create-password',
@@ -116,6 +117,8 @@ import { ethers } from 'ethers';
   styleUrls: ['./create-password.page.scss'],
 })
 export class CreatePasswordPage implements OnInit {
+  private readonly _aTopic = 'app';
+  private readonly _aKey = 'enabledPushNotifications';
   mode: string;
   loading: boolean;
   createPasswordForm: UntypedFormGroup = this.formBuilder.group(
@@ -161,12 +164,14 @@ export class CreatePasswordPage implements OnInit {
     private ionicStorageService: IonicStorageService,
     private walletBackupService: WalletBackupService,
     private blockchains: BlockchainsFactory,
-    private xAuthService: XAuthService
+    private xAuthService: XAuthService,
+    private notificationsService: NotificationsService,
   ) {}
 
   ionViewWillEnter() {
     this.loadingService.enabled();
     this.mode = this.route.snapshot.paramMap.get('mode');
+    this.enablePushNotificationsByDefault();
   }
 
   async ionViewDidEnter() {
@@ -202,6 +207,7 @@ export class CreatePasswordPage implements OnInit {
         await this.createLoginToken();
         await this.loginUser();
         await this.setWalletAsProtectedIfImporting();
+        await this.initializeNotifications();
         this.loading = false;
         await this.navigateByMode();
       }, 0);
@@ -212,6 +218,30 @@ export class CreatePasswordPage implements OnInit {
 
   private async loginUser(): Promise<void> {
     return new LoggedIn(this.ionicStorageService).save(true);
+  }
+
+  async enabledPushNotifications(): Promise<boolean> {
+    return await this.ionicStorageService.get(this._aKey).then((status) => status);
+  }
+
+  pushNotificationsService() {
+    return this.notificationsService.getInstance();
+  }
+
+  async enablePushNotificationsByDefault(){
+    if(await this.enabledPushNotifications() === null){
+      await this.ionicStorageService.set(this._aKey, true);
+    }
+  }
+
+  async initializeNotifications() {
+    this.pushNotificationsService().init();
+    if (await this.enabledPushNotifications()) {
+      this.pushNotificationsService().subscribeTo(this._aTopic);
+    } else {
+      this.pushNotificationsService().subscribeTo(this._aTopic);
+      this.pushNotificationsService().unsubscribeFrom(this._aTopic);
+    }
   }
 
   private async createLoginToken(): Promise<void> {

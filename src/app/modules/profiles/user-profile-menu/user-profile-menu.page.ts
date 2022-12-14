@@ -10,14 +10,8 @@ import { MenuCategory } from '../shared-profiles/interfaces/menu-category.interf
 import { WalletService } from '../../wallets/shared-wallets/services/wallet/wallet.service';
 import { LogOutModalService } from '../shared-profiles/services/log-out-modal/log-out-modal.service';
 import { LogOutModalComponent } from '../shared-profiles/components/log-out-modal/log-out-modal.component';
-import { RemoveAccountModalComponent } from '../shared-profiles/components/remove-account-modal/remove-account-modal.component';
-import { ApiTicketsService } from '../../tickets/shared-tickets/services/api-tickets.service';
-import { TICKET_CATEGORIES } from '../../tickets/shared-tickets/constants/ticket-categories';
-import { StorageService } from '../../wallets/shared-wallets/services/storage-wallets/storage-wallets.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
-import { WalletBackupService } from '../../wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
-import { Storage } from '@ionic/storage';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/injectable/biometric-auth-injectable';
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
@@ -99,7 +93,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
           color="dangerdark"
           fill="clear"
           appTrackClick
-          (click)="this.showDeleteAccountModal()"
+          (click)="this.goToDeleteAccount()"
           >{{ 'profiles.user_profile_menu.delete_account_button' | translate }}
           <ion-icon color="dangerdark" slot="start" name="ux-trash"></ion-icon>
         </ion-button>
@@ -128,16 +122,12 @@ export class UserProfileMenuPage {
     private language: LanguageService,
     private walletService: WalletService,
     private logOutModalService: LogOutModalService,
-    private apiTicketsService: ApiTicketsService,
-    private storageService: StorageService,
     private ionicStorageService: IonicStorageService,
-    private walletBackupService: WalletBackupService,
     private walletConnectService: WalletConnectService,
-    private storage: Storage,
     private notificationsService: NotificationsService,
     private biometricAuthInjectable: BiometricAuthInjectable,
     private remoteConfig: RemoteConfigService,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) {}
 
   async ionViewWillEnter() {
@@ -161,13 +151,15 @@ export class UserProfileMenuPage {
     this.form.valueChanges.subscribe((value) => this.toggle(value.notifications));
   }
 
-  pushNotificationsService(){
+  pushNotificationsService() {
     return this.notificationsService.getInstance();
   }
 
-   toggle(value: boolean) {
+  toggle(value: boolean) {
     this.ionicStorageService.set(this._aKey, value);
-    value ?  this.pushNotificationsService().subscribeTo(this._aTopic) : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
+    value
+      ? this.pushNotificationsService().subscribeTo(this._aTopic)
+      : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
   }
 
   async walletConnectStatus() {
@@ -257,7 +249,7 @@ export class UserProfileMenuPage {
         valueName: 'value',
         selected: await this.language.getSelectedLanguage(),
       },
-      cssClass: 'ux_modal_crm',
+      cssClass: 'modal',
     });
 
     await modal.present();
@@ -280,39 +272,7 @@ export class UserProfileMenuPage {
     this.username = `Xcapiter ${this.walletService.addresses['ERC20'].substring(0, 5)}`;
   }
 
-  async showDeleteAccountModal() {
-    this.disable = true;
-    const modal = await this.modalController.create({
-      component: RemoveAccountModalComponent,
-      cssClass: 'remove-account-modal',
-    });
-
-    await modal.present();
-    const confirmDeleteAccount = (await modal.onDidDismiss()).data;
-    if (confirmDeleteAccount) {
-      this.deleteAccount();
-      await this.cleanStorage();
-      await this.logout();
-    }
-    this.disable = false;
-  }
-
-  async cleanStorage() {
-    this.storageService.removeWalletFromStorage();
-    this.ionicStorageService.set('protectedWallet', false);
-    this.walletBackupService.enableModal();
-    await this.walletConnectService.killSession();
-    this.storage.set('FINISHED_ONBOARDING', false);
-  }
-
-  deleteAccount() {
-    const category = TICKET_CATEGORIES.find((category) => category.name === 'Mi cuenta/Registro');
-    const data = {
-      email: this.profile.email,
-      category_code: category.name,
-      subject: this.translate.instant(category.value),
-      message: this.translate.instant('profiles.user_profile_menu.delete_account_message'),
-    };
-    this.apiTicketsService.crud.create(data).subscribe();
+  goToDeleteAccount() {
+    this.navController.navigateForward('profiles/delete-account');
   }
 }

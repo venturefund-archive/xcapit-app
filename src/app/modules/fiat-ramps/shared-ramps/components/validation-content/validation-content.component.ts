@@ -4,9 +4,6 @@ import { Gallery } from 'src/app/shared/models/photo-source/gallery/gallery';
 import { Camera } from 'src/app/shared/models/photo-source/camera/camera';
 import { UploadedPhotoInjectable } from 'src/app/shared/models/uploaded-photo/injectable/uploaded-photo.injectable';
 import { Photo } from 'src/app/shared/models/photo/photo.interface';
-import { Filesystem } from '@capacitor/filesystem';
-import { ReadAsset } from 'src/app/shared/models/asset/read-asset/read-asset';
-import { BlobOf } from 'src/app/shared/models/asset/blob-of/blob-of';
 import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-validation-content',

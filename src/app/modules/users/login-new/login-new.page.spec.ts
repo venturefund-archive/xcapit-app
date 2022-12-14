@@ -126,7 +126,6 @@ describe('LoginNewPage', () => {
         { provide: PlatformService, useValue: platformServiceSpy },
         { provide: RemoteConfigService, useValue: remoteConfigServiceSpy },
         { provide: LoginMigrationService, useValue: loginMigrationServiceSpy },
-        { provide: NotificationsService, useValue: notificationsServiceSpy },
         { provide: AuthService, useValue: authServiceSpy },
         { provide: WalletConnectService, useValue: walletConnectServiceSpy },
       ],
@@ -157,6 +156,14 @@ describe('LoginNewPage', () => {
     component.ionViewWillEnter();
     tick();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/tabs/wallets', { replaceUrl: true });
+  }));
+
+  it('should enable push notifications by default', fakeAsync( () => {
+    ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(null);
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    tick();
+    expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('enabledPushNotifications', true);
   }));
 
   it('should init push notifications and subscribe to topic when password is ok and push notifications previously activated', fakeAsync( () => {

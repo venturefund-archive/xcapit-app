@@ -103,14 +103,14 @@ describe('FiatRampsService', () => {
   });
 
   it('should call get on http when getUserOperations', () => {
-    fiatRampsService.getUserOperations().subscribe(() => {
-      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    fiatRampsService.getUserOperations({ email: 'test@test.com' }).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 
   it('should call get on http when getUserSingleOperation', () => {
-    fiatRampsService.getUserSingleOperation(0).subscribe(() => {
-      expect(customHttpServiceSpy.get).toHaveBeenCalledTimes(1);
+    fiatRampsService.getUserSingleOperation(0, { email: 'test@test.com' }).subscribe(() => {
+      expect(customHttpServiceSpy.post).toHaveBeenCalledTimes(1);
     });
   });
 

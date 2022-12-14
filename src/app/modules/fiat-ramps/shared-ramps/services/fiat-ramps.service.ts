@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CustomHttpService } from 'src/app/shared/services/custom-http/custom-http.service';
 import { environment } from 'src/environments/environment';
 import { FiatRampOperation } from '../interfaces/fiat-ramp-operation.interface';
@@ -74,14 +74,14 @@ export class FiatRampsService {
     return this.http.post(`${environment.apiUrl}/on_off_ramps/kripton/users/login`, data, undefined, false);
   }
 
-  getUserOperations(): Observable<FiatRampOperation[]> {
-    return this.http.get(`${environment.apiUrl}/${this.entity}/get_all_operations`, undefined, undefined, true);
+  getUserOperations(data: { email: string }): Observable<FiatRampOperation[]> {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/get_all_operations`, data, undefined, true);
   }
 
-  getUserSingleOperation(operationId): Observable<FiatRampOperation[]> {
-    return this.http.get(
+  getUserSingleOperation(operationId: string | number, data: { email: string }): Observable<FiatRampOperation[]> {
+    return this.http.post(
       `${environment.apiUrl}/${this.entity}/${this.provider}/get_user_operation/${operationId}`,
-      undefined,
+      data,
       undefined,
       true
     );

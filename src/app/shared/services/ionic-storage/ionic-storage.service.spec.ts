@@ -11,6 +11,7 @@ describe('IonicStorageService', () => {
       set: Promise.resolve(),
       get: Promise.resolve({ value: 'test' }),
       remove: Promise.resolve(),
+      clear: Promise.resolve(),
     });
     TestBed.configureTestingModule({
       providers: [{ provide: Storage, useValue: storageSpy }],
@@ -36,5 +37,10 @@ describe('IonicStorageService', () => {
   it('should call storage remove', async () => {
     await service.remove('test_key');
     expect(storageSpy.remove).toHaveBeenCalledWith('test_key');
+  });
+
+  it('should call storage clear', async () => {
+    await service.clear();
+    expect(storageSpy.clear).toHaveBeenCalledTimes(1);
   });
 });

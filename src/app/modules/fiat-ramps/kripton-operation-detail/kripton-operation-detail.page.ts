@@ -17,6 +17,7 @@ import { OperationDataInterface } from '../shared-ramps/interfaces/operation-dat
 import { OperationStatus } from '../shared-ramps/interfaces/operation-status.interface';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
 import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
+import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 import { StorageOperationService } from '../shared-ramps/services/operation/storage-operation.service';
 
 @Component({
@@ -75,7 +76,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
                 <ion-text class="ux-font-titulo-xs">
                   {{ 'fiat_ramps.kripton_operation_detail.state' | translate }}
                 </ion-text>
-                <ion-icon name="information-circle" (click)="this.showStateInformation()" color="info"></ion-icon>
+                <ion-icon *ngIf="this.operation.status !== 'complete'" name="information-circle" (click)="this.showStateInformation()" color="info"></ion-icon>
               </div>
               <app-operation-status-chip [statusName]="this.operation.status"></app-operation-status-chip>
               <app-operation-status-alert
@@ -213,7 +214,8 @@ export class KriptonOperationDetailPage {
     private trackService: TrackService,
     private modalController: ModalController,
     private translate: TranslateService,
-    private storageOperationService: StorageOperationService
+    private storageOperationService: StorageOperationService,
+    private kriptonStorageService: KriptonStorageService
   ) {}
 
 ionViewWillEnter() {
@@ -268,9 +270,10 @@ ionViewWillEnter() {
     }
   }
 
-  private getUserOperation(operationId: string) {
+  private async getUserOperation(operationId: string) {
+    const email = await this.kriptonStorageService.get('email')
     this.fiatRampsService.setProvider(this.provider.id.toString());
-    this.fiatRampsService.getUserSingleOperation(operationId).subscribe({
+    this.fiatRampsService.getUserSingleOperation(operationId, {email}).subscribe({
       next: (data) => {
         this.operation = data[0];
         this.getCoin();
