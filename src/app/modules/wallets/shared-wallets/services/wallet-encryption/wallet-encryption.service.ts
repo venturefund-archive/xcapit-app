@@ -18,6 +18,7 @@ import { StorageWallet } from '../../interfaces/storage-wallet.interface';
 })
 export class WalletEncryptionService {
   coins: Coin[];
+  creationMethod: 'legacy' | 'default' = 'default';
 
   constructor(
     private walletsFactory: WalletsFactory,
@@ -52,6 +53,7 @@ export class WalletEncryptionService {
       updatedAt: moment().utc().format(),
       network: environment.walletNetwork,
       assets: this.selectedAssetsStructure(),
+      creationMethod: this.creationMethod,
     };
   }
 
