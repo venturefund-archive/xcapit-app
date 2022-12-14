@@ -6,6 +6,7 @@ export const USER_REGISTER_STEPS = [
     url: 'fiat-ramps/user-basic',
     name: 'ux_buy_kripton_details',
     disabled: false,
+    completed: false,
   },
   {
     order: '2',
@@ -14,5 +15,6 @@ export const USER_REGISTER_STEPS = [
     url: 'fiat-ramps/kyc/validation/front_id',
     name: 'ux_buy_kripton_id',
     disabled: false,
+    completed: false,
   },
 ];

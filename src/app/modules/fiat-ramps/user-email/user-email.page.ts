@@ -187,6 +187,7 @@ export class UserEmailPage implements OnInit {
     this.kriptonStorage.set('email', this.form.value.email);
     this.kriptonStorage.set('access_token', accessToken);
     this.kriptonStorage.set('refresh_token', refreshToken);
+    this.kriptonStorage.set('user_status', this.userStatus);
   }
 
   sendCodeRequest(): void {
