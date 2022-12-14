@@ -76,7 +76,7 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
                 <ion-text class="ux-font-titulo-xs">
                   {{ 'fiat_ramps.kripton_operation_detail.state' | translate }}
                 </ion-text>
-                <ion-icon name="information-circle" (click)="this.showStateInformation()" color="info"></ion-icon>
+                <ion-icon *ngIf="this.operation.status !== 'complete'" name="information-circle" (click)="this.showStateInformation()" color="info"></ion-icon>
               </div>
               <app-operation-status-chip [statusName]="this.operation.status"></app-operation-status-chip>
               <app-operation-status-alert
@@ -218,7 +218,7 @@ export class KriptonOperationDetailPage {
     private kriptonStorageService: KriptonStorageService
   ) {}
 
-ionViewWillEnter() {
+  ionViewWillEnter() {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
     this.provider = this.providersFactory.create().byAlias('kripton');
     this.getUserOperation(operationId);
@@ -288,7 +288,8 @@ ionViewWillEnter() {
   }
 
   getCoin() {
-    this.token = this.apiWalletService.getCoin(this.operation.currency_out);
+    const asset = this.fiatRampsService.getProvider(1).currencies.find((c) => c.symbol === this.operation.currency_out);
+    this.token = this.apiWalletService.getCoin(asset.symbol, asset.network);
   }
 
   navigateBackToOperations() {

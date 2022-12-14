@@ -3,7 +3,6 @@ import { Wallet } from 'ethers';
 import * as moment from 'moment';
 import { environment } from '../../../../../../environments/environment';
 import { Coin } from '../../interfaces/coin.interface';
-import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { EthersService } from '../ethers/ethers.service';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/blockchains/factory/blockchains.factory';
@@ -11,18 +10,18 @@ import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.service';
 import { WalletService } from '../wallet/wallet.service';
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
+import { StorageAsset } from '../../interfaces/storage-asset.interface';
+import { StorageWallet } from '../../interfaces/storage-wallet.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WalletEncryptionService {
-  private selectedCoins = {};
   coins: Coin[];
 
   constructor(
     private walletsFactory: WalletsFactory,
     private storageService: StorageService,
-    private apiWalletService: ApiWalletService,
     private ethersService: EthersService,
     private blockchainsFactory: BlockchainsFactory,
     private mnemonicService: WalletMnemonicService,
@@ -46,7 +45,7 @@ export class WalletEncryptionService {
     await this.storageService.saveWalletToStorage(await this.storageStructure());
   }
 
-  private async storageStructure() {
+  private async storageStructure(): Promise<StorageWallet> {
     return {
       alias: (await this.walletsFactory.create().oneBy(this.blockchainsFactory.create().oneByName('ERC20'))).address(),
       createdAt: moment().utc().format(),
@@ -72,23 +71,12 @@ export class WalletEncryptionService {
     });
   }
 
-  getEncryptedWallet(): Promise<any> {
+  getEncryptedWallet(): Promise<StorageWallet> {
     return this.storageService.getWalletFromStorage();
   }
 
-  selectedAssetsStructure() {
-    this.coins = this.apiWalletService.getCoins();
-    const userCoins = this.walletService.coins;
-    this.selectedCoins = {};
-
-    for (const coin of this.coins) {
-      const key = coin.value;
-      const value = userCoins.includes(coin);
-
-      this.selectedCoins[key] = value;
-    }
-
-    return this.selectedCoins;
+  selectedAssetsStructure(): StorageAsset[] {
+    return this.walletService.coins.map(({value, network}) => ({value, network}));
   }
 
   async encryptedWalletExist(): Promise<boolean> {

@@ -40,6 +40,7 @@ describe('KycConfirmationPage', () => {
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
       get: Promise.resolve('test@test.com'),
+      set: null,
     });
 
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
@@ -95,6 +96,7 @@ describe('KycConfirmationPage', () => {
     contentEl.triggerEventHandler('confirm', null);
     tick();
     expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+    expect(kriptonStorageSpy.set).toHaveBeenCalledOnceWith('user_status', 'COMPLETE');
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/user-register');
     expect(fiatRampsServiceSpy.registerUserImages).toHaveBeenCalledTimes(1);
   }));

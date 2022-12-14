@@ -642,7 +642,7 @@
       "connected_walletconnect": "Connected",
       "disconnected_walletconnect": "Disconnected",
       "delete_account_button": "Delete account",
-      "delete_account_message": "I request the deletion of my account and associated data.",
+      "delete_account_message": "I request the deletion of my account and associated data. Wallet: {{wallet}}",
       "profile_footer": {
         "investor_profile_button": "Investor profile"
       },
@@ -703,6 +703,19 @@
       "options": {
         "title": "Log in with your biometric data",
         "subtitle": "Rest your fingerprint on the data reader or point the screen towards your face, as appropriate on your device."
+      }
+    },
+    "delete_account": {
+      "header": "Delete account",
+      "first_text": "To start the process of deleting your account and associated data, we need you to enter your email address.",
+      "second_text": "Xcapit will use it only to communicate the resolution of your request.",
+      "email_label": "Enter your email*",
+      "disclaimer": "Remember that you can always recover your wallet with the seed phrase. Get more information by visiting the",
+      "link": "Frequently asked questions about the wallet.",
+      "button": "Delete account",
+      "success": {
+        "title": "Request successfully submitted",
+        "message": "Our team is already working on your case. We will be answering you as soon as possible to the email {{email}}"
       }
     },
     "shared": {
@@ -1147,6 +1160,11 @@
         "get_link": {
           "notOwner": "You do not own this API keys."
         }
+      }
+    },
+    "tickets": {
+      "create_ticket": {
+        "invalid_data": "The data entered are not valid."
       }
     }
   },
@@ -1851,12 +1869,12 @@
     "send": {
       "send_notifications":{
         "success":{
-          "title":"✅ Envío exitoso. ¡Así se hace!",
-          "body": "Enviaste {{amount}} {{token}} el día {{date}}. "
+          "title":"✅ Successful shipment. That's the way to do it!",
+          "body": "You sent {{amount}} {{token}} on {{date}}. "
         },
         "error":{
-          "title":"❌ Error en el envío",
-          "body": "Se produjo un error en el envío de {{amount}} {{token}} el día {{date}}. Más información aquí."
+          "title":"❌ Error in shipment",
+          "body": "An error occurred in the sending of  {{amount}} {{token}} on {{date}}. More information here."
         }
       },
       "scan_qr": {
@@ -2408,7 +2426,7 @@
       "title": "What does this status mean?",
       "button": "Understood",
       "incomplete": {
-        "description": "Your purchase request has been successfully received by the provider. This does not mean that the purchase has been made. To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
+        "description": "Your purchase request has been successfully received by the provider. <b>This does not mean that the purchase has been made.</b> To do so, you must complete the remaining steps: attach the transfer receipt and send it to us.",
         "description2": "You have up to 72 hours to do so, otherwise your order will be cancelled."
       },
       "in_progress": {
@@ -3061,12 +3079,16 @@
         "title": "View more"
       },
       "swap_ok": {
-        "title": "🚀 Successful exchange! ",
+        "title": "🚀 Successful swap! ",
         "body": "You sent {{fromAmount}} {{fromToken}} and received {{toAmount}} {{toToken}} ."
       },
       "swap_not_ok": {
-        "title": "❌ Error in the exchange",
+        "title": "❌ Error in the swap",
         "body": "There was an error sending {{fromAmount}} {{fromToken}} and receiving {{toAmount}} {{toToken}}. More information here."
+      },
+      "swap_not_ok_blockchain": {
+        "title": "❌ Error in the swap",
+        "body": "It could not be processed by the blockchain. Try again late."
       }
     }
   },

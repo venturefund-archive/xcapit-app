@@ -19,8 +19,8 @@ export class BlockchainProviderService {
     private apiWalletService: ApiWalletService
   ) {}
 
-  async getFormattedBalanceOf(address: string, coin: string): Promise<string> {
-    const params = await this.getProvider(coin);
+  async getFormattedBalanceOf(address: string, coin: string, network: string): Promise<string> {
+    const params = await this.getProvider(coin, network);
 
     if (!!params.contract && !!params.abi) {
       const contract = this.createContract(params.contract, params.abi, params.provider);
@@ -34,8 +34,8 @@ export class BlockchainProviderService {
     }
   }
 
-  async getProvider(coinSymbol: string): Promise<any> {
-    const selectedCoin = this.apiWalletService.getCoin(coinSymbol);
+  async getProvider(coinSymbol: string, network: string): Promise<any> {
+    const selectedCoin = this.apiWalletService.getCoin(coinSymbol, network);
 
     return {
       contract: selectedCoin.contract,

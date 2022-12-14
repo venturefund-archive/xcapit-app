@@ -5,6 +5,7 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
 import { OPERATION_STATUS } from '../../constants/operation-status';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
 import { OperationStatus } from '../../interfaces/operation-status.interface';
+import { FiatRampsService } from '../../services/fiat-ramps.service';
 
 @Component({
   selector: 'app-operations-list-item',
@@ -51,10 +52,10 @@ export class OperationsListItemComponent implements OnInit {
     return this.operation.operation_type === 'cash-in';
   }
 
-  constructor(private navController: NavController, private apiWalletService: ApiWalletService) {}
+  constructor(private navController: NavController, private apiWalletService: ApiWalletService, private fiatRampsService: FiatRampsService) {}
 
   ngOnInit() {
-    this.status = this.getOperationStatus();
+  this.status = this.getOperationStatus();
     this.setHighlight();
     this.setCoinAndAmount();
   }
@@ -68,7 +69,8 @@ export class OperationsListItemComponent implements OnInit {
 
   private setCoinAndAmount() {
     if (this.isBuy) {
-      this.coin = this.apiWalletService.getCoin(this.operation.currency_out);
+      const asset = this.fiatRampsService.getProvider(1).currencies.find(c => c.symbol === this.operation.currency_out);
+      this.coin = this.apiWalletService.getCoin(asset.symbol, asset.network);
       this.amount = this.operation.amount_out;
     }
   }

@@ -11,7 +11,6 @@ const testCoins: Coin[] = [
     id: 1,
     name: 'coinTest',
     logoRoute: '../../assets/img/coins/ETH.svg',
-    last: false,
     value: 'ETH',
     network: 'ERC20',
     chainId: 42,
@@ -21,7 +20,6 @@ const testCoins: Coin[] = [
     id: 2,
     name: 'coinTest2',
     logoRoute: '../../assets/img/coins/USDT.svg',
-    last: false,
     value: 'USDT',
     network: 'ERC20',
     chainId: 42,
@@ -91,10 +89,10 @@ describe('StorageService', () => {
       addresses: {
         ETH: 'testAddress',
       },
-      assets: {
-        ETH: true,
-        USDT: true,
-      },
+      assets: [
+        { value: 'ETH', network: 'ERC20' },
+        { value: 'USDT', network: 'ERC20' },
+      ],
       updatedAt: '2021-08-23T18:46:47Z',
     });
     TestBed.configureTestingModule({
@@ -104,7 +102,6 @@ describe('StorageService', () => {
       ],
     });
     service = TestBed.inject(StorageService);
-    service.allCoins = testCoins;
   });
 
   it('should be created', () => {

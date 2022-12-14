@@ -51,6 +51,7 @@ import { LoginToken } from '../../users/shared-users/models/login-token/login-to
 import { BuyOrDepositTokenToastComponent } from '../../fiat-ramps/shared-ramps/components/buy-or-deposit-token-toast/buy-or-deposit-token-toast.component';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { SwapInProgressService } from '../shared-swaps/services/swap-in-progress/swap-in-progress.service';
+import { SwapError } from '../shared-swaps/models/swap-error/swap-error';
 
 @Component({
   selector: 'app-swap-home',
@@ -385,8 +386,8 @@ export class SwapHomePage {
     });
   }
 
-  async balanceAvailableOf(aCoin: string) {
-    const aToken = this.apiWalletService.getCoin(aCoin);
+  async balanceAvailableOf(aCoin: string, aNetwork: string) {
+    const aToken = this.apiWalletService.getCoin(aCoin, aNetwork);
     this.swapBalance = await this.walletBalance.balanceOf(aToken);
     if (aToken.native) {
       this.feeBalance = this.tplFee.value;
@@ -407,7 +408,7 @@ export class SwapHomePage {
         this.setNullFeeInfo();
         await this.setSwapInfo(value);
         await this.setFeeInfo();
-        await this.balanceAvailableOf(this.fromToken.symbol());
+        await this.balanceAvailableOf(this.fromToken.symbol(), this.activeBlockchain.name());
         this.setUSDPrices(value);
         this.checkFee(value);
       });
@@ -461,7 +462,7 @@ export class SwapHomePage {
 
     this.toToken = await new TokenByAddress(toTokenAddress, this.tokens).value();
     this.tplToToken = this.toToken.json();
-    await this.balanceAvailableOf(this.fromToken.symbol());
+    await this.balanceAvailableOf(this.fromToken.symbol(), this.activeBlockchain.name());
     this.checkTokens();
   }
 
@@ -552,7 +553,7 @@ export class SwapHomePage {
       this.showPasswordError();
     });
     if (!new PasswordErrorMsgs().isAPassError(err)) {
-      this.notifyWhenSwap(this.createNotification('swap_not_ok'));
+      this.notifyWhenSwap(this.createNotification(new SwapError(err).type()));
     }
   }
 
@@ -586,15 +587,23 @@ export class SwapHomePage {
       {
         id: 1,
         title: this.translate.instant(`swaps.sent_notification.${mode}.title`),
-        body: this.translate.instant(`swaps.sent_notification.${mode}.body`, {
-          fromAmount: this.form.get('fromTokenAmount').value,
-          fromToken: this.swap.fromToken().symbol(),
-          toAmount: this.tplSwapInfo.toTokenAmount,
-          toToken: this.swap.toToken().symbol(),
-        }),
+        body: this.translate.instant(`swaps.sent_notification.${mode}.body`, this.notificationBody(mode)),
         actionTypeId: this.actionTypeId,
       },
     ];
+  }
+
+  private notificationBody(mode: string) {
+    let result = {};
+    if (mode !== 'swap_not_ok_blockchain') {
+      result = {
+        fromAmount: this.form.get('fromTokenAmount').value,
+        fromToken: this.swap.fromToken().symbol(),
+        toAmount: this.tplSwapInfo.toTokenAmount,
+        toToken: this.swap.toToken().symbol(),
+      };
+    }
+    return result;
   }
 
   async showSwapInProgressModal() {

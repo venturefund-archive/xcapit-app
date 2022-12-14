@@ -141,10 +141,6 @@ describe('ApiWalletService', () => {
       expect(tokens.length).toBeGreaterThan(0);
     });
 
-    it('should get coin by coin on getCoin', () => {
-      expect(service.getCoin('SAMO')).toEqual(rawSAMOData);
-    });
-
     it('should get coin by coin and network on getCoin', () => {
       expect(service.getCoin('USDC', 'MATIC')).toEqual(rawUSDCData);
     });

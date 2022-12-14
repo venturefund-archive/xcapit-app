@@ -55,12 +55,8 @@ export class ApiWalletService {
     return this.getNetworks().filter((network) => !Object.keys(encryptedWallet.addresses).includes(network));
   }
 
-  getCoin(coin: string, network?: string): Coin {
-    if (network) {
-      return this.getCoins().find((coinRes) => coinRes.value === coin && coinRes.network === network);
-    }
-
-    return this.getCoins().find((coinRes) => coinRes.value === coin);
+  getCoin(coin: string, network: string): Coin {
+    return this.getCoins().find((coinRes) => coinRes.value === coin && coinRes.network === network);
   }
 
   createNFTRequest() {

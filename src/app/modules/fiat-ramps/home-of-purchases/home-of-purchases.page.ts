@@ -101,11 +101,11 @@ export class HomeOfPurchasesPage {
   ) {}
 
   async ionViewWillEnter() {
-    await this.getUserEmail();
     this.setEnabledProviders();
     this.checkIfUserIsLogged();
+    await this.getUserEmail();
+    this.getUserOperations();
     await this.getUserStatus();
-    this.setCorrectDataByStatus();
   }
 
   async ionViewDidEnter() {
@@ -114,6 +114,9 @@ export class HomeOfPurchasesPage {
 
   async checkIfUserIsLogged() {
     this.isLogged = await this.kriptonUser.create().isLogged();
+  }
+
+  async getUserOperations() {
     if (this.enabledProviders.includes('kripton') && this.isLogged) this.getOperations();
   }
 
@@ -147,7 +150,10 @@ export class HomeOfPurchasesPage {
   }
 
   async getUserStatus() {
-    this.userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.email }).toPromise();
+    if (this.email && this.isLogged) {
+      this.userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.email }).toPromise();
+      this.setCorrectDataByStatus();
+    }
   }
 
   setCorrectDataByStatus() {
