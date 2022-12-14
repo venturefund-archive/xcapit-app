@@ -73,11 +73,13 @@ describe('HomeSlidesComponent', () => {
     await fixture.whenRenderingDone();
     await fixture.whenStable();
     fixture.detectChanges();
-    const [slider1, slider2] = fixture.debugElement.queryAll(By.css('div[class="hs__swiper__slide"]'));
+    const [slider1, slider2, slider3] = fixture.debugElement.queryAll(By.css('div[class="hs__swiper__slide"]'));
     slider1.nativeElement.click();
     slider2.nativeElement.click();
+    slider3.nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('/wallets/receive/select-currency')
-    expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'test.com' });
+    expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'test.com' });
+    expect(browserServiceSpy.open).toHaveBeenCalledTimes(2);
    });
 
 });
