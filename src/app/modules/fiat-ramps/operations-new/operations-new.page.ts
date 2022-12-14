@@ -115,9 +115,6 @@ export class OperationsNewPage implements AfterViewInit {
   priceRefreshInterval = 15000;
   destroy$: Subject<void>;
   minimumFiatAmount: number;
-  minimumCryptoAmount: number;
-  minimumUSDAmount = 25;
-  alreadySet = false;
   form: UntypedFormGroup = this.formBuilder.group({
     cryptoAmount: ['', [Validators.required]],
     fiatAmount: ['', [Validators.required]],
