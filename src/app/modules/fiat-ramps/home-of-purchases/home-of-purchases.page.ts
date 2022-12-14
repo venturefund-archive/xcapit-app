@@ -90,10 +90,10 @@ export class HomeOfPurchasesPage {
   ) {}
 
   async ionViewWillEnter() {
-    await this.getUserEmail();
     this.checkIfUserIsLogged();
+    await this.getUserEmail();
+    this.getUserOperations();
     await this.getUserStatus();
-    this.setCorrectDataByStatus();
   }
 
   async ionViewDidEnter() {
@@ -102,11 +102,14 @@ export class HomeOfPurchasesPage {
 
   async checkIfUserIsLogged() {
     this.isLogged = await this.kriptonUser.create().isLogged();
+  }
+
+  async getUserOperations() {
     if (this.kriptonEnabled() && this.isLogged) this.getOperations();
   }
 
   getOperations(): void {
-    this.fiatRampsService.getUserOperations({email: this.email}).subscribe((data) => {
+    this.fiatRampsService.getUserOperations({ email: this.email }).subscribe((data) => {
       this.operationsList = data;
     });
   }
@@ -131,11 +134,14 @@ export class HomeOfPurchasesPage {
   }
 
   private async getUserEmail() {
-    this.email= await this.kriptonStorage.get('email');
+    this.email = await this.kriptonStorage.get('email');
   }
 
   async getUserStatus() {
-    this.userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.email }).toPromise();
+    if (this.email && this.isLogged) {
+      this.userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.email }).toPromise();
+      this.setCorrectDataByStatus();
+    }
   }
 
   setCorrectDataByStatus() {

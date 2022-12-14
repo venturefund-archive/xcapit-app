@@ -3,34 +3,17 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
-import { FiatRampsService } from '../shared-ramps/services/fiat-ramps.service';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
 
 import { UserRegisterPage } from './user-register.page';
 
-const storageData = {
-  valid: {
-    data: {
-      email: 'test@gmail.com',
-    },
-    valid: true,
-  },
-  invalid: {
-    data: {
-      email: '',
-    },
-    valid: false,
-  },
-};
 describe('UserRegisterPage', () => {
   let component: UserRegisterPage;
   let fixture: ComponentFixture<UserRegisterPage>;
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
-  let fiatRampsServiceSpy: jasmine.SpyObj<FiatRampsService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let trackServiceSpy: jasmine.SpyObj<TrackService>;
@@ -39,16 +22,12 @@ describe('UserRegisterPage', () => {
   beforeEach(waitForAsync(() => {
     browserServiceSpy = jasmine.createSpyObj('BrowserService', { open: Promise.resolve() });
 
-    fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      getOrCreateUser: of({ registration_status: 'COMPLETE' }),
-    });
-
     trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
       trackEvent: Promise.resolve(true),
     });
 
     kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
-      get: Promise.resolve('test@gmail.com'),
+      get: Promise.resolve('COMPLETE'),
     });
 
     fakeNavController = new FakeNavController();
@@ -60,7 +39,6 @@ describe('UserRegisterPage', () => {
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: BrowserService, useValue: browserServiceSpy },
-        { provide: FiatRampsService, useValue: fiatRampsServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: TrackService, useValue: trackServiceSpy },
         { provide: KriptonStorageService, useValue: kriptonStorageSpy },
@@ -76,8 +54,11 @@ describe('UserRegisterPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render properly', () => {
-    component.userStatus = 'USER_IMAGES';
+  it('should render properly', async () => {
+    kriptonStorageSpy.get.withArgs('user_status').and.resolveTo('USER_IMAGES');
+    component.ionViewWillEnter();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
     const providerEl = fixture.debugElement.query(By.css('div.ur__container__provider > ion-text'));
     const iconEl = fixture.debugElement.query(By.css('div.ur__container__icon > img'));
     const [cardEl1, cardEl2] = fixture.debugElement.queryAll(
@@ -95,6 +76,7 @@ describe('UserRegisterPage', () => {
   });
 
   it('should open browser when link was clicked', () => {
+    kriptonStorageSpy.get.and.resolveTo('USER_INFORMATION');
     const disclaimerLinkEl = fixture.debugElement.query(By.css('div.ur__container__disclaimer > ion-text > span'));
 
     disclaimerLinkEl.nativeElement.click();
@@ -102,12 +84,12 @@ describe('UserRegisterPage', () => {
     expect(browserServiceSpy.open).toHaveBeenCalledOnceWith({ url: 'https://cash.kriptonmarket.com/privacy' });
   });
 
-  it('should set user status by email on init', async () => {
+  it('should render go to buy button when user registration status is COMPLETE', async () => {
     component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-    expect(fiatRampsServiceSpy.getOrCreateUser).toHaveBeenCalledOnceWith({ email: 'test@gmail.com' });
-    expect(component.userStatus).toEqual('COMPLETE');
+    const buttonEl = fixture.debugElement.query(By.css('ion-button[name="ux_go_to_buy_home"]'));
+    expect(buttonEl).toBeTruthy();
   });
 
   it('should navigate to wallet page when back button is clicked', async () => {

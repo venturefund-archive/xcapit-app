@@ -39,20 +39,8 @@ describe('KriptonOperationDetailPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
   let fakeModalController: FakeModalController;
   let storageOperationServiceSpy: jasmine.SpyObj<StorageOperationService>;
-
-  const operation: FiatRampOperation = {
-    operation_id: 678,
-    operation_type: 'cash-in',
-    status: 'request',
-    currency_in: 'ARS',
-    amount_in: 500.0,
-    currency_out: 'USDC',
-    amount_out: 100.0,
-    created_at: new Date('2021-02-27T10:02:49.719Z'),
-    provider: '1',
-    voucher: false,
-    wallet_address: '0xeeeeeeeee',
-  };
+  let kriptonStorageSpy: jasmine.SpyObj<KriptonStorageService>;
+  let testOperation: FiatRampOperation;
 
   beforeEach(waitForAsync(() => {
     testOperation = {
@@ -61,7 +49,7 @@ describe('KriptonOperationDetailPage', () => {
       status: 'request',
       currency_in: 'ARS',
       amount_in: 500.0,
-      currency_out: 'ETH',
+      currency_out: 'USDC',
       amount_out: 100.0,
       created_at: new Date('2021-02-27T10:02:49.719Z'),
       provider: '1',
@@ -106,8 +94,12 @@ describe('KriptonOperationDetailPage', () => {
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       setProvider: null,
-      getUserSingleOperation: of([operation]),
+      getUserSingleOperation: of([testOperation]),
       getProvider: rawProvidersData[1],
+    });
+
+    kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
+      get: Promise.resolve('test@test.com'),
     });
 
     fakeNavController = new FakeNavController();
@@ -190,8 +182,8 @@ describe('KriptonOperationDetailPage', () => {
     expect(state).toBeTruthy();
     expect(toast).toBeTruthy();
     expect(quotations).toContain('1 USDC = 5.00 ARS');
-    expect(address).toContain(operation.wallet_address);
-    expect(operationNumber).toContain(operation.operation_id);
+    expect(address).toContain(testOperation.wallet_address);
+    expect(operationNumber).toContain(testOperation.operation_id);
     expect(date).toContain('27/02/2021');
     expect(hour).toMatch(/\d\d:\d\d/g);
   });
@@ -276,7 +268,7 @@ describe('KriptonOperationDetailPage', () => {
     expect(storageOperationServiceSpy.updateData).toHaveBeenCalledTimes(1);
   });
 
-  it('should hide information icon when operation is complete', async() => {
+  it('should hide information icon when operation is complete', async () => {
     const completeOperation: FiatRampOperation = { ...testOperation, status: 'complete' };
     fiatRampsServiceSpy.getUserSingleOperation.and.returnValue(of([completeOperation]));
     component.ionViewWillEnter();
