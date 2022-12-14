@@ -413,4 +413,12 @@ describe('UserProfileMenuPage', () => {
     fixture.detectChanges();
     expect(component.itemMenu[0].items[1].route).toEqual('/tickets/new-create-support-ticket');
   });
+
+  it('should unsubscribe when leave', () => {
+    const nextSpy = spyOn(component.leave$, 'next');
+    const completeSpy = spyOn(component.leave$, 'complete');
+    component.ionViewWillLeave();
+    expect(nextSpy).toHaveBeenCalledTimes(1);
+    expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
 });

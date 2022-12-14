@@ -121,7 +121,7 @@ export class UserProfileMenuPage {
   });
   private readonly _aTopic = 'app';
   private readonly _aKey = 'enabledPushNotifications';
-  destroy$: Subject<void>;
+  leave$ = new Subject<void>();
 
   constructor(
     private apiProfiles: ApiProfilesService,
@@ -146,7 +146,6 @@ export class UserProfileMenuPage {
   ) {}
 
   async ionViewWillEnter() {
-    this.destroy$ = new Subject<void>();
     this.getProfile();
     this.existWallet();
     this.biometricAuthAvailable();
@@ -164,7 +163,7 @@ export class UserProfileMenuPage {
   }
 
   private valueChanges() {
-    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+    this.form.valueChanges.pipe(takeUntil(this.leave$)).subscribe((value) => {
       this.toggle(value.notifications);
       this.setEvent(value.notifications);
     });
@@ -172,7 +171,6 @@ export class UserProfileMenuPage {
 
   setEvent(value: boolean) {
     let eventLabel = value ? 'on' : 'off';
-    console.log('value', value);
     this.trackService.trackEvent({
       eventLabel: `ux_push_notifications_${eventLabel}`,
     });
@@ -336,7 +334,7 @@ export class UserProfileMenuPage {
   }
 
   ionViewWillLeave() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.leave$.next();
+    this.leave$.complete();
   }
 }
