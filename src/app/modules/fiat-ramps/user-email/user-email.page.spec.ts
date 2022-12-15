@@ -75,6 +75,7 @@ describe('UserEmailPage', () => {
         ['email', 'test@test.com'],
         ['access_token', 'someToken'],
         ['refresh_token', 'refreshToken'],
+        ['user_status', registrationStatus],
       ]);
       expect(fiatRampServiceSpy.getOrCreateUser).toHaveBeenCalledOnceWith({ email: 'test@test.com' });
       expect(fiatRampServiceSpy.getKriptonAccessToken).toHaveBeenCalledOnceWith({ email: 'test@test.com' });

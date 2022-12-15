@@ -66,7 +66,10 @@ describe('KycSummaryDataPage', () => {
       { userKycKriptonData: rawDataTest }
     );
 
-    kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', { get: Promise.resolve('test@test.com') });
+    kriptonStorageSpy = jasmine.createSpyObj('KriptonStorageService', {
+      get: Promise.resolve('test@test.com'),
+      set: null,
+    });
 
     fiatRampsServiceSpy = jasmine.createSpyObj('FiatRampsService', {
       registerUserInfo: of({}),
@@ -123,8 +126,9 @@ describe('KycSummaryDataPage', () => {
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-button[name="ux_buy_kripton_details_confirm"]')).nativeElement.click();
     fixture.detectChanges();
-    await fixture.whenStable();
+    await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(fiatRampsServiceSpy.registerUserInfo).toHaveBeenCalledOnceWith(expectedKycData);
+    expect(kriptonStorageSpy.set).toHaveBeenCalledOnceWith('user_status', 'USER_IMAGES');
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('fiat-ramps/user-register');
   });
 

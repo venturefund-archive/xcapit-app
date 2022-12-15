@@ -184,4 +184,24 @@ describe('HomeOfPurchasesPage', () => {
     expect(kriptonStorageSpy.get).toHaveBeenCalledTimes(1);
     expect(component.disabledStatusCard).toBeFalsy();
   });
+
+  it('should render kripton kyc status and operation list only when kripton is enabled', async () => {
+    const providersWithoutKripton = rawProvidersData.filter((provider) => provider.alias !== 'kripton');
+    providersSpy.all.and.returnValue(providersWithoutKripton);
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const kriptonKycStatusEl = fixture.debugElement.query(By.css('div.kyc-status-card'));
+    const kriptonOperationList = fixture.debugElement.query(By.css('div.hop__operations-list'));
+    expect(kriptonKycStatusEl).toBeFalsy();
+    expect(kriptonOperationList).toBeFalsy();
+  });
+
+  it('should render moonpay card only when moonpay is enabled', async () => {
+    const providersWithoutMoonpay = rawProvidersData.filter((provider) => provider.alias !== 'moonpay');
+    providersSpy.all.and.returnValue(providersWithoutMoonpay);
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    const moonpayCardEl = fixture.debugElement.query(By.css('div.hop__moonpay-purchases'));
+    expect(moonpayCardEl).toBeFalsy();
+  });
 });

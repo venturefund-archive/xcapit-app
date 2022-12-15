@@ -22,7 +22,11 @@ import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injec
       </ion-toolbar>
     </ion-header>
     <ion-content class="hop">
-      <div class="kyc-status-card ion-padding-start ion-padding-end ion-padding-top" [ngClass]="this.style">
+      <div
+        *ngIf="this.enabledProviders && this.enabledProviders.includes('kripton')"
+        class="kyc-status-card ion-padding-start ion-padding-end ion-padding-top"
+        [ngClass]="this.style"
+      >
         <app-kyc-status-card
           *ngIf="this.userStatus"
           [title]="this.title"
@@ -34,10 +38,16 @@ import { KriptonUserInjectable } from '../shared-ramps/models/kripton-user/injec
           [disabledCard]="this.disabledStatusCard"
         ></app-kyc-status-card>
       </div>
-      <div class="hop__operations-list ion-padding" *ngIf="this.isLogged !== undefined">
+      <div
+        class="hop__operations-list ion-padding-start ion-padding-end ion-padding-top"
+        *ngIf="this.isLogged !== undefined && this.enabledProviders && this.enabledProviders.includes('kripton')"
+      >
         <app-operations-list [operationsList]="this.operationsList" [isLogged]="this.isLogged"></app-operations-list>
       </div>
-      <div class="hop__moonpay-purchases ion-padding-start ion-padding-end">
+      <div
+        *ngIf="this.enabledProviders && this.enabledProviders.includes('moonpay')"
+        class="hop__moonpay-purchases ion-padding-start ion-padding-end ion-padding-top"
+      >
         <app-moonpay-purchases-card></app-moonpay-purchases-card>
       </div>
       <div class="hop__question ion-padding-start ion-padding-end">
@@ -78,6 +88,7 @@ export class HomeOfPurchasesPage {
   disabledStatusCard = true;
   isLogged: boolean;
   email: string;
+  enabledProviders: string[];
 
   constructor(
     private fiatRampsService: FiatRampsService,
@@ -90,10 +101,11 @@ export class HomeOfPurchasesPage {
   ) {}
 
   async ionViewWillEnter() {
-    await this.getUserEmail();
+    this.setEnabledProviders();
     this.checkIfUserIsLogged();
+    await this.getUserEmail();
+    this.getUserOperations();
     await this.getUserStatus();
-    this.setCorrectDataByStatus();
   }
 
   async ionViewDidEnter() {
@@ -102,17 +114,20 @@ export class HomeOfPurchasesPage {
 
   async checkIfUserIsLogged() {
     this.isLogged = await this.kriptonUser.create().isLogged();
-    if (this.kriptonEnabled() && this.isLogged) this.getOperations();
+  }
+
+  async getUserOperations() {
+    if (this.enabledProviders.includes('kripton') && this.isLogged) this.getOperations();
   }
 
   getOperations(): void {
-    this.fiatRampsService.getUserOperations({email: this.email}).subscribe((data) => {
+    this.fiatRampsService.getUserOperations({ email: this.email }).subscribe((data) => {
       this.operationsList = data;
     });
   }
 
-  kriptonEnabled(): FiatRampProvider {
-    return this.providers().find((provider) => provider.alias === 'kripton');
+  setEnabledProviders() {
+    this.enabledProviders = this.providers().map((provider: FiatRampProvider) => provider.alias);
   }
 
   providers(): FiatRampProvider[] {
@@ -131,11 +146,14 @@ export class HomeOfPurchasesPage {
   }
 
   private async getUserEmail() {
-    this.email= await this.kriptonStorage.get('email');
+    this.email = await this.kriptonStorage.get('email');
   }
 
   async getUserStatus() {
-    this.userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.email }).toPromise();
+    if (this.email && this.isLogged) {
+      this.userStatus = await this.fiatRampsService.getOrCreateUser({ email: this.email }).toPromise();
+      this.setCorrectDataByStatus();
+    }
   }
 
   setCorrectDataByStatus() {
