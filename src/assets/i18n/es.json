@@ -711,6 +711,17 @@
         "message": "Nuestro equipo ya se encuentra trabajando sobre tu caso. Te estaremos respondiendo a  la brevedad al email {{email}}"
       }
     },
+    "security_configuration": {
+      "header": "Configuración",
+      "inactivity": {
+        "title": "Cierre de sesión por inactividad",
+        "message": "Selecciona el tiempo que desees que transcurra por inactividad antes que se cierre tu sesión."
+      },
+      "password_change": {
+        "title": "Constraseña",
+        "button": "Cambiar"
+      }
+    },
     "shared": {
       "remove_account_modal": {
         "title": "Eliminar cuenta",

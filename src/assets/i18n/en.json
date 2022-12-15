@@ -718,6 +718,17 @@
         "message": "Our team is already working on your case. We will be answering you as soon as possible to the email {{email}}"
       }
     },
+    "security_configuration": {
+      "header": "Configuration",
+      "inactivity": {
+        "title": "Inactivity logout",
+        "message": "Select the amount of time you want to allow for inactivity before you are logged out."
+      },
+      "password_change": {
+        "title": "Password",
+        "button": "Change"
+      }
+    },
     "shared": {
       "remove_account_modal": {
         "title": "Delete account",

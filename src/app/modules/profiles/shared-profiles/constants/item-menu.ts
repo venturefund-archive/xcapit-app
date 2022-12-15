@@ -72,7 +72,7 @@ export const ITEM_MENU: MenuCategory[] = [
         route: '/profiles/biometric-auth',
         type: 'link',
         buttonName: 'ux_go_to_biometric_auth',
-        hidden: true,
+        hidden: false,
         newBadge: true,
       },
       {

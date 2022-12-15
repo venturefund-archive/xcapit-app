@@ -1,0 +1,33 @@
+:host {
+  .sco {
+    &__toggle {
+      margin-top: 24px;
+
+      &__toggle {
+        --background-checked: var(--ion-color-info);
+      }
+
+      &__labels {
+        display: grid;
+        margin-left: 16px;
+
+        ion-text:first-child {
+          color: var(--ion-color-primary);
+        }
+
+        ion-text:last-child {
+          color: var(--ion-color-neutral80);
+        }
+      }
+    }
+
+    &__inactivity {
+      margin-top: 24px;
+
+      &__labels {
+        display: grid;
+        margin-left: 16px;
+      }
+    }
+  }
+}
