@@ -6,7 +6,7 @@ import { SUPPORT_OPTIONS } from '../shared-support/constants/support-options';
   template: ` <ion-header>
       <ion-toolbar color="primary" class="ux_toolbar">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="tabs/home"></ion-back-button>
+          <ion-back-button defaultHref="users/login-new"></ion-back-button>
         </ion-buttons>
         <ion-title> {{ 'support.header' | translate }}</ion-title>
       </ion-toolbar>
