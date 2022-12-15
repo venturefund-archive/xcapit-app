@@ -18,4 +18,5 @@ export const REMOTE_CONFIG_DEFAULTS = {
   ff_bioauth: true,
   inReview: true,
   lastVersion: undefined,
+  ff_contacts: true,
 };
