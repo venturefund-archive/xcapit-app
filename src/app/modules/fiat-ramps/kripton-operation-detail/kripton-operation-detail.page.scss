@@ -76,6 +76,12 @@
                 padding-bottom: 4px;
               }
             }
+
+            &__status {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            }
           }
         }
 
