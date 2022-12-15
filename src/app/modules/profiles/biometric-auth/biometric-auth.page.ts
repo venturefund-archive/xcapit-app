@@ -81,9 +81,8 @@ export class BiometricAuthPage {
   }
 
   sendEvent(value: boolean) {
-    const eventLabel = value ? 'on' : 'off';
     this.trackService.trackEvent({
-      eventLabel: `ux_biometric_auth_${eventLabel}`,
+      eventLabel: `ux_biometric_auth_${value ? 'on' : 'off'}`,
     });
   }
 
