@@ -11,7 +11,6 @@ import { ProvidersFactory } from '../../models/providers/factory/providers.facto
 import { Providers } from '../../models/providers/providers.interface';
 import { OperationsListComponent } from './operations-list.component';
 
-
 describe('OperationsListComponent', () => {
   let component: OperationsListComponent;
   let fixture: ComponentFixture<OperationsListComponent>;
@@ -58,7 +57,8 @@ describe('OperationsListComponent', () => {
   });
 
   it('should render operations list component if there is four operations', () => {
-    component.ngOnInit();
+    const change: SimpleChanges = { operationsList: new SimpleChange(null, rawOperationsData, true) };
+    component.ngOnChanges(change);
     fixture.detectChanges();
     const tableEl = fixture.debugElement.query(By.css('app-operations-list-accordion'));
     const textEl = fixture.debugElement.query(By.css('ion-text[name="No Operations"]'));
@@ -69,8 +69,8 @@ describe('OperationsListComponent', () => {
   });
 
   it('should render operations list component if there is one operation', () => {
-    component.operationsList = [rawOperationsData[1]];
-    component.ngOnInit();
+    const change: SimpleChanges = { operationsList: new SimpleChange(null, [rawOperationsData[1]], true) };
+    component.ngOnChanges(change);
     fixture.detectChanges();
     const tableEl = fixture.debugElement.query(By.css('app-operations-list-accordion'));
     expect(tableEl).toBeTruthy();
@@ -80,7 +80,6 @@ describe('OperationsListComponent', () => {
 
   it('should render message if no operations', async () => {
     component.operationsList = [];
-    component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     const tableEl = fixture.debugElement.query(By.css('app-operations-list-accordion'));
@@ -91,7 +90,6 @@ describe('OperationsListComponent', () => {
 
   it('should render message with login link when user is not logged', async () => {
     component.isLogged = false;
-    component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     const message = fixture.debugElement.query(By.css('ion-text[name="Not Logged"]'));
@@ -102,7 +100,6 @@ describe('OperationsListComponent', () => {
 
   it('should update operation List when input changes', () => {
     component.operationsList = [];
-    component.ngOnInit();
     fixture.detectChanges();
     const change: SimpleChanges = { operationsList: new SimpleChange([], [{}, {}], true) };
     component.ngOnChanges(change);
@@ -111,7 +108,6 @@ describe('OperationsListComponent', () => {
 
   it('should navigate to user-email when link is clicked', () => {
     component.isLogged = false;
-    component.ngOnInit();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('ion-text.link')).nativeElement.click();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('/fiat-ramps/user-email');
