@@ -163,6 +163,15 @@ export class FiatRampsService {
     );
   }
 
+  getMoonpayLimitOfBuyQuote(currencyCode: string, baseCurrencyCode: string = 'usd') {
+    return this.http.get(
+      `${environment.moonpayApiUrl}/currencies/${currencyCode}/limits?apiKey=${environment.moonpayPK}&baseCurrencyCode=${baseCurrencyCode}&paymentMethod=credit_debit_card`,
+      undefined,
+      undefined,
+      false
+    );
+  }
+
   getProvider(providerId: number): FiatRampProvider {
     return this.providers()
       .all()
