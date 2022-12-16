@@ -248,7 +248,7 @@ export class UserProfileMenuPage {
       componentProps: {
         username: this.profile.email,
       },
-      cssClass: 'log-out-modal',
+      cssClass: 'modal',
     });
 
     await modal.present();

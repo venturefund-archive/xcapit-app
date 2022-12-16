@@ -6,6 +6,7 @@ import { LoginBiometricActivationModalService } from '../../services/login-biome
 @Component({
   selector: 'app-login-biometric-activation-modal',
   template: `
+  <div class="modal-content">
     <div class="lbam">
       <div class="ion-padding lbam__content">
         <div class="lbam__content__title">
@@ -42,6 +43,7 @@ import { LoginBiometricActivationModalService } from '../../services/login-biome
         </div>
       </div>
     </div>
+  </div>
   `,
   styleUrls: ['./login-biometric-activation-modal.component.scss'],
 })
