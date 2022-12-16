@@ -1847,7 +1847,7 @@
       "title": "Ingresar frase de recuperación",
       "subtitle": "Escribe tus palabras separadas por un espacio",
       "label": "Frase de recuperación",
-      "button": "Importar wallet",
+      "button": "Continuar",
       "next_button": "Siguiente"
     },
     "transactions": {
