@@ -1,8 +1,8 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { SwiperModule } from 'swiper/angular';
 import { HomeSlidesComponent } from './home-slides.component';
@@ -29,9 +29,11 @@ describe('HomeSlidesComponent', () => {
   let browserServiceSpy: jasmine.SpyObj<BrowserService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  
+  let trackServiceSpy: jasmine.SpyObj<TrackService>;
   beforeEach(waitForAsync(() => {
-    
+    trackServiceSpy = jasmine.createSpyObj('TrackServiceSpy', {
+      trackEvent: Promise.resolve(true),
+    });
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     browserServiceSpy = jasmine.createSpyObj('BrowserService', {
@@ -43,6 +45,7 @@ describe('HomeSlidesComponent', () => {
       providers: [
         { provide: BrowserService, useValue: browserServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
+        { provide: TrackService, useValue: trackServiceSpy }
       ],
 
     }).compileComponents();
@@ -81,5 +84,11 @@ describe('HomeSlidesComponent', () => {
     expect(browserServiceSpy.open).toHaveBeenCalledWith({ url: 'test.com' });
     expect(browserServiceSpy.open).toHaveBeenCalledTimes(2);
    });
+
+   it('should track event when slider is clicked', () => {
+    const slider1 = fixture.debugElement.query(By.css('div[class="hs__swiper__slide"]'));
+    slider1.nativeElement.click();
+    expect(trackServiceSpy.trackEvent).toHaveBeenCalledTimes(1);
+  });
 
 });
