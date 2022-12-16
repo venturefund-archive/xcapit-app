@@ -24,11 +24,12 @@ export class HomeSlidesComponent implements OnInit {
   @Input() slides;
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   slideOpts: SwiperOptions = {
-    initialSlide:1,
+    initialSlide:2,
     speed: 200,
     spaceBetween: 12,
     slidesPerView: 1.2,
     centeredSlides: true,
+    loop:true
   };
 
   constructor(private browserService: BrowserService, private navController: NavController) {}

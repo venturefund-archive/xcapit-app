@@ -1844,12 +1844,12 @@
     "send": {
       "send_notifications":{
         "success":{
-          "title":"✅ Successful shipment. That's the way to do it!",
-          "body": "You sent {{amount}} {{token}} on {{date}}. "
+          "title":"✅ Envío exitoso. ¡Así se hace!",
+          "body": "Enviaste {{amount}} {{token}} el día {{date}}. "
         },
         "error":{
-          "title":"❌ Error in shipment",
-          "body": "An error occurred in the sending of {{amount}} {{token}} on {{date}}. More information here."
+          "title":"❌ Error en el envío",
+          "body": "Se produjo un error en el envío de {{amount}} {{token}} el día {{date}}. Más información aquí."
         }
       },
       "scan_qr": {

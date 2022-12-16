@@ -23,6 +23,9 @@ import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/i
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -114,10 +117,11 @@ export class UserProfileMenuPage {
   username: string;
   itemMenu: MenuCategory[] = ITEM_MENU;
   form: UntypedFormGroup = this.formBuilder.group({
-    notifications: [false, []],
+    notifications: [[]],
   });
   private readonly _aTopic = 'app';
   private readonly _aKey = 'enabledPushNotifications';
+  leave$ = new Subject<void>();
 
   constructor(
     private apiProfiles: ApiProfilesService,
@@ -138,6 +142,7 @@ export class UserProfileMenuPage {
     private biometricAuthInjectable: BiometricAuthInjectable,
     private remoteConfig: RemoteConfigService,
     private formBuilder: FormBuilder,
+    private trackService: TrackService
   ) {}
 
   async ionViewWillEnter() {
@@ -158,7 +163,17 @@ export class UserProfileMenuPage {
   }
 
   private valueChanges() {
-    this.form.valueChanges.subscribe((value) => this.toggle(value.notifications));
+    this.form.valueChanges.pipe(takeUntil(this.leave$)).subscribe((value) => {
+      this.toggle(value.notifications);
+      this.setEvent(value.notifications);
+    });
+  }
+
+  setEvent(value: boolean) {
+    const eventLabel = value ? 'on' : 'off';
+    this.trackService.trackEvent({
+      eventLabel: `ux_push_notifications_${eventLabel}`,
+    });
   }
 
   pushNotificationsService(){
@@ -167,7 +182,9 @@ export class UserProfileMenuPage {
 
    toggle(value: boolean) {
     this.ionicStorageService.set(this._aKey, value);
-    value ?  this.pushNotificationsService().subscribeTo(this._aTopic) : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
+    value
+      ? this.pushNotificationsService().subscribeTo(this._aTopic)
+      : this.pushNotificationsService().unsubscribeFrom(this._aTopic);
   }
 
   async walletConnectStatus() {
@@ -314,5 +331,10 @@ export class UserProfileMenuPage {
       message: this.translate.instant('profiles.user_profile_menu.delete_account_message'),
     };
     this.apiTicketsService.crud.create(data).subscribe();
+  }
+
+  ionViewWillLeave() {
+    this.leave$.next();
+    this.leave$.complete();
   }
 }
