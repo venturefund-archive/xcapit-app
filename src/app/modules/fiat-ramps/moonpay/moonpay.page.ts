@@ -72,8 +72,8 @@ import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 })
 export class MoonpayPage {
   form: UntypedFormGroup = this.formBuilder.group({
-    cryptoAmount: ['0', Validators.required],
-    fiatAmount: ['0', Validators.required],
+    cryptoAmount: ['', Validators.required],
+    fiatAmount: ['', Validators.required],
   });
   coins: Coin[];
   selectedCurrency: Coin;
