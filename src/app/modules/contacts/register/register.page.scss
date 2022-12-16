@@ -1,0 +1,20 @@
+:host {
+  .cr {
+    &__title {
+      padding: 16px 16px 20px;
+    }
+
+    &__footer {
+      box-shadow: 0 0 16px rgb(28 45 94 / 20%);
+      border-radius: 8px;
+
+      &__submit-button {
+        display: flex;
+
+        &__button {
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+}

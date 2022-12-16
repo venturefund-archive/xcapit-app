@@ -45,6 +45,7 @@ import { XAuthTokenInterceptorService } from './modules/users/shared-users/servi
 import { RemoteConfigService } from './shared/services/remote-config/remote-config.service';
 import { FirebaseService } from './shared/services/firebase/firebase.service';
 import { firebaseInitializer } from './shared/factories/app-initializers/firebase/firebase-initializer';
+import { ContactsModule } from './modules/contacts/contacts.module';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
@@ -84,6 +85,7 @@ registerLocaleData(localeEn, 'en');
     WealthManagementsModule,
     DefiInvestmentsModule,
     SwapsModule,
+    ContactsModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

@@ -79,6 +79,7 @@ import { ToastService } from '../../services/toast/toast.service';
         >
           <ion-icon name="ux-paste"></ion-icon>
         </ion-button>
+        <ion-icon class="qr-code" name="qr-code-outline" slot="end" *ngIf="this.qrScanner" (click)="this.openQRScanner()"></ion-icon>
       </ion-item>
       <app-errors-form-item
         *ngIf="!this.showNewPasswordErrors"
@@ -103,6 +104,8 @@ import { ToastService } from '../../services/toast/toast.service';
 })
 export class UxInputComponent implements OnInit {
   @Input() label: string;
+  @Input() native = false;
+  @Input() qrScanner = false;
   @Input() inputmode: string;
   @Input() type: string;
   @Input() errors: any[] = [];
@@ -118,7 +121,7 @@ export class UxInputComponent implements OnInit {
   @Input() infoIcon = false;
   @Input() labelColor = undefined;
   @Output() infoIconClicked: EventEmitter<void> = new EventEmitter<void>();
-
+  @Output() qrScannerOpened: EventEmitter<void> = new EventEmitter<void>();
   typeSetted: string;
   passwordType: boolean;
   @ViewChild('inputRegister', { read: ElementRef, static: true })
@@ -143,6 +146,10 @@ export class UxInputComponent implements OnInit {
     this.clipboardService.write({ url: this.control.value }).then(() => {
       this.showToast('shared.services.copy.toast_success');
     });
+  }
+
+  openQRScanner(){
+    this.qrScannerOpened.emit();
   }
 
   pasteClipboardData() {
