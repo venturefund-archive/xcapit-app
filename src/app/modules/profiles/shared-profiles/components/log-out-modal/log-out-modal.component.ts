@@ -6,6 +6,7 @@ import { LogOutModalService } from '../../services/log-out-modal/log-out-modal.s
 @Component({
   selector: 'app-log-out-modal',
   template: `
+  <div class="modal-content">
     <div class="lom">
       <div class="ion-padding lom__content">
         <div class="lom__content__title">
@@ -50,6 +51,7 @@ import { LogOutModalService } from '../../services/log-out-modal/log-out-modal.s
         }}</ion-button>
       </div>
     </div>
+  </div>
   `,
   styleUrls: ['./log-out-modal.component.scss'],
 })

@@ -279,7 +279,7 @@ export class LoginNewPage {
         component: LoginBiometricActivationModalComponent,
         showBackdrop: true,
         backdropDismiss: false,
-        cssClass: 'login-biometric-activation-modal',
+        cssClass: 'modal',
       });
       modal.present();
       const { data } = await modal.onWillDismiss();

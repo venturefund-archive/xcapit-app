@@ -16,7 +16,7 @@ export abstract class UpdateService {
   async showRecommendedModal(): Promise<void> {
     const modal = await this.modalController.create({
       component: UpdateAppModalComponent,
-      cssClass: 'update-app-modal'
+      cssClass: 'modal'
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
