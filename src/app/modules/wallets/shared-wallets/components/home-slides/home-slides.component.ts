@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 import SwiperCore, { SwiperOptions, Virtual } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 SwiperCore.use([Virtual]);
@@ -9,8 +10,8 @@ SwiperCore.use([Virtual]);
   template: `
     <div class="hs" >
       <swiper class="hs__swiper"  #swiper [config]="this.slideOpts">
-        <ng-template swiperSlide *ngFor="let slide of [0, 1, 2]">
-          <div class="hs__swiper__slide" (click)="this.navigateTo(slide)">
+        <ng-template swiperSlide *ngFor="let slide of [0, 1, 2]; let i = index">
+          <div class="hs__swiper__slide" (click)="this.selectSlide(slide, i)">
             <img class="hs__swiper__slide__img" [src]="this.slides[slide].image"/>
           </div>
         </ng-template>
@@ -32,9 +33,20 @@ export class HomeSlidesComponent implements OnInit {
     loop:true
   };
 
-  constructor(private browserService: BrowserService, private navController: NavController) {}
+  constructor(private browserService: BrowserService, private navController: NavController, private trackService: TrackService) {}
 
   ngOnInit() {
+  }
+
+  selectSlide(slide , index){
+    this.sendEvent(index);
+    this.navigateTo(slide);
+  }
+
+  sendEvent(index){
+    this.trackService.trackEvent({
+      eventLabel: `ux_banner0${index}`,
+    });
   }
 
   async navigateTo(slide){
