@@ -22,6 +22,7 @@ import { DefaultMoonpayPrice } from '../shared-ramps/models/moonpay-price/defaul
 import { DynamicMoonpayPrice } from '../shared-ramps/models/moonpay-price/dynamic-moonpay-price';
 import { DynamicMoonpayPriceFactory } from '../shared-ramps/models/moonpay-price/factory/dynamic-moonpay-price-factory';
 import { Subject } from 'rxjs';
+import { CustomValidators } from 'src/app/shared/validators/custom-validators';
 
 @Component({
   selector: 'app-moonpay',
@@ -42,6 +43,7 @@ import { Subject } from 'rxjs';
           [fiatCurrency]="this.fiatCurrency"
           [provider]="this.provider"
           [coinSelectorEnabled]="true"
+          [minimumFiatAmount]="this.minimumFiatAmount"
           (changeCurrency)="this.openModal($event)"
           paymentType="fiat_ramps.shared.constants.payment_types.moonpay"
           [fee]="this.fee"
@@ -85,6 +87,7 @@ export class MoonpayPage {
   price: number;
   milliseconds = 15000;
   destroy$: Subject<void>;
+  minimumFiatAmount: number;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -108,6 +111,7 @@ export class MoonpayPage {
     this.setFiatToken();
     this.setCryptoToken();
     this.cryptoPrice();
+    this.getLimits();
     await this.initAssetsForm();
     this.subscribeToFormChanges();
   }
@@ -119,6 +123,30 @@ export class MoonpayPage {
   async initAssetsForm() {
     await this.walletMaintenance.getEncryptedWalletFromStorage();
     this.coins = this.providerTokens();
+  }
+
+  getLimits() {
+    this.fiatRampsService
+      .getMoonpayLimitOfBuyQuote(this.tokenOperationDataService.tokenOperationData.asset.toLowerCase(), 'usd')
+      .subscribe((res) => {
+        this.minimumFiatAmount = this.price * res.quoteCurrency.minBuyAmount;
+        this.addGreaterThanValidator(this.minimumFiatAmount);
+      });
+  }
+
+  private addDefaultValidators() {
+    this.form.get('fiatAmount').addValidators(Validators.required);
+  }
+
+  private clearValidators() {
+    this.form.get('fiatAmount').clearValidators();
+  }
+
+  private addGreaterThanValidator(amount) {
+    this.clearValidators();
+    this.addDefaultValidators();
+    this.form.get('fiatAmount').addValidators(CustomValidators.greaterOrEqualThan(amount));
+    this.form.get('fiatAmount').updateValueAndValidity();
   }
 
   providerTokens() {
@@ -175,18 +203,13 @@ export class MoonpayPage {
   }
 
   subscribeToFormChanges() {
-    this.form
-      .get('cryptoAmount')
-      .valueChanges.subscribe((value) => (value ? this.cryptoAmountChange(value) : this.resetInfo('fiatAmount')));
-    this.form
-      .get('fiatAmount')
-      .valueChanges.subscribe((value) => (value ? this.fiatAmountChange(value) : this.resetInfo('cryptoAmount')));
+    this.form.get('cryptoAmount').valueChanges.subscribe((value) => this.cryptoAmountChange(value));
+    this.form.get('fiatAmount').valueChanges.subscribe((value) => this.fiatAmountChange(value));
   }
 
   private fiatAmountChange(value: number) {
-    const roundedValue = new RoundedNumber(value).value();
     this.form.patchValue(
-      { fiatAmount: roundedValue, cryptoAmount: roundedValue / this.price },
+      { cryptoAmount: new RoundedNumber(value / this.price).value() },
       this.defaultPatchValueOptions()
     );
     this.getFee();
@@ -208,12 +231,6 @@ export class MoonpayPage {
       );
     }
   }
-
-  resetInfo(aField: string) {
-    this.form.patchValue({ [aField]: 0 }, this.defaultPatchValueOptions());
-    this.getFee();
-  }
-
   async getFee() {
     if (!this.form.value.fiatAmount) {
       this.form.value.fiatAmount = 1;
