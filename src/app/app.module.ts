@@ -3,7 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { IonicStorageModule } from '@ionic/storage';
+import { Drivers } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage-angular';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
@@ -61,7 +62,7 @@ registerLocaleData(localeEn, 'en');
     }),
     IonicStorageModule.forRoot({
       name: '__xcapitdb',
-      driverOrder: ['sqlite', 'indexeddb', 'websql'],
+      driverOrder: [Drivers.IndexedDB],
     }),
     AppRoutingModule,
     UsersModule,
