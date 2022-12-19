@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { BiometricAuthInjectable } from 'src/app/shared/models/biometric-auth/injectable/biometric-auth-injectable';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
@@ -25,7 +27,7 @@ import { WalletPasswordComponent } from '../../wallets/shared-wallets/components
 
     <ion-content>
       <form [formGroup]="this.form">
-        <ion-item lines="none" class="sco__toggle ux-font-title-xs ion-no-padding">
+        <ion-item lines="none" class="sco__toggle ux-font-title-xs ion-no-padding" *ngIf="this.isBioAuthEnabled">
           <div class="sco__toggle__labels">
             <ion-text class="ux-font-text-lg">
               {{ 'profiles.biometric_auth.toggle_text' | translate }}
@@ -54,12 +56,18 @@ import { WalletPasswordComponent } from '../../wallets/shared-wallets/components
         </ion-item>
         <ion-item lines="none" class="sco__password-change ux-font-title-xs ion-no-padding">
           <div class="sco__password-change__labels">
-            <ion-text class=" ux-font-text-lg">
+            <ion-text class="ux-font-text-lg">
               {{ 'profiles.security_configuration.password_change.title' | translate }}
             </ion-text>
-            <ion-text class="ux-link-xl">
-              {{ 'profiles.security_configuration.password_change.message' | translate }}
-            </ion-text>
+            <ion-button
+              class="ux-link-xl ion-no-margin"
+              fill="clear"
+              (click)="this.goToChangePassword()"
+              name="ux_go_to_wallet_change_password"
+              appTrackClick
+            >
+              {{ 'profiles.security_configuration.password_change.button' | translate }}
+            </ion-button>
           </div>
         </ion-item>
       </form>
@@ -67,32 +75,41 @@ import { WalletPasswordComponent } from '../../wallets/shared-wallets/components
   `,
   styleUrls: ['./security-configuration.page.scss'],
 })
-export class SecurityConfigurationPage implements OnInit {
+export class SecurityConfigurationPage {
+  isBioAuthEnabled = false;
+  valueChangesSubscription$: Subscription;
   form: UntypedFormGroup = this.formBuilder.group({
     biometric: [false, []],
   });
   constructor(
-    private formBuilder: UntypedFormBuilder,
     private modalController: ModalController,
     private translate: TranslateService,
+    private navController: NavController,
+    private remoteConfig: RemoteConfigService,
     private biometricAuthInjectable: BiometricAuthInjectable,
+    private formBuilder: UntypedFormBuilder,
+    private toastService: ToastService,
     private loginBiometricActivationService: LoginBiometricActivationModalService,
-    private toastService: ToastService
   ) {}
-
-  ngOnInit() {}
 
   async ionViewDidEnter() {
     await this.setBiometricAuth();
+    this.biometricAuthAvailable();
     this.valueChanges();
   }
 
+  ionViewDidLeave() {
+    this.valueChangesSubscription$.unsubscribe()
+  }
+  
   private async setBiometricAuth() {
     this.form.patchValue({ biometric: await this.biometricAuthInjectable.create().enabled() });
   }
 
   private valueChanges() {
-    this.form.valueChanges.subscribe((value) => this.toggle(value.biometric));
+    this.valueChangesSubscription$ = this.form.valueChanges.subscribe((value) =>  {
+      this.toggle(value.biometric)
+    });
   }
 
   private async requestPassword() {
@@ -114,7 +131,9 @@ export class SecurityConfigurationPage implements OnInit {
 
   async toggle(value: boolean) {
     const biometricAuth = this.biometricAuthInjectable.create();
-    biometricAuth.onNeedPass().subscribe(() => this.requestPassword());
+    biometricAuth.onNeedPass().subscribe(() => {
+      return this.requestPassword()
+    });
     if (value) {
       await biometricAuth.on().catch((err) => {
         if (!new PasswordErrorMsgs().isEmptyError(err)) {
@@ -136,5 +155,15 @@ export class SecurityConfigurationPage implements OnInit {
     this.toastService.showErrorToast({
       message: this.translate.instant('profiles.biometric_auth.password_error'),
     });
+  }
+
+  goToChangePassword() {
+    this.navController.navigateForward(['/wallets/password-change']);
+  }
+
+  async biometricAuthAvailable() {
+    if (await this.biometricAuthInjectable.create().available()) {
+      this.isBioAuthEnabled = this.remoteConfig.getFeatureFlag('ff_bioauth');
+    }
   }
 }
