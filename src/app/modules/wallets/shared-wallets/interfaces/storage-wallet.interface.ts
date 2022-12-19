@@ -1,3 +1,4 @@
+import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-method.type';
 import { StorageAsset } from './storage-asset.interface';
 
 export interface StorageWallet {
@@ -8,5 +9,5 @@ export interface StorageWallet {
   network: string;
   addresses?: any;
   assets: StorageAsset[];
-  creationMethod?: 'legacy' | 'default';
+  creationMethod?: WalletCreationMethod;
 }
