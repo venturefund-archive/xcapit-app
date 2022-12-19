@@ -102,6 +102,7 @@ export class LoginNewPage {
   private readonly _aKey = 'enabledPushNotifications';
   biometricAuth: BiometricAuth;
   showToast = true;
+  isModalOpen = false;
   constructor(
     private toastService: ToastService,
     private formBuilder: UntypedFormBuilder,
@@ -135,8 +136,8 @@ export class LoginNewPage {
     this.enablePushNotificationsByDefault();
   }
 
-  async enablePushNotificationsByDefault(){
-    if(await this.enabledPushNotifications() === null){
+  async enablePushNotificationsByDefault() {
+    if ((await this.enabledPushNotifications()) === null) {
       await this.ionicStorageService.set(this._aKey, true);
     }
   }
@@ -274,16 +275,20 @@ export class LoginNewPage {
   }
 
   async showLoginBiometricActivation() {
-    if (await this.loginBiometricActivationService.isShowModal()) {
-      const modal = await this.modalController.create({
-        component: LoginBiometricActivationModalComponent,
-        showBackdrop: true,
-        backdropDismiss: false,
-        cssClass: 'modal',
-      });
-      modal.present();
-      const { data } = await modal.onWillDismiss();
-      return data;
+    if (!this.isModalOpen) {
+      this.isModalOpen = true;
+      if (await this.loginBiometricActivationService.isShowModal()) {
+        const modal = await this.modalController.create({
+          component: LoginBiometricActivationModalComponent,
+          showBackdrop: true,
+          backdropDismiss: false,
+          cssClass: 'modal',
+        });
+        modal.present();
+        const { data } = await modal.onWillDismiss();
+        this.isModalOpen = false;
+        return data;
+      }
     }
   }
 
