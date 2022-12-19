@@ -105,6 +105,15 @@ export class FiatRampsService {
     );
   }
 
+  getKriptonMinimumAmount(fiatCurrency: string, data: any): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/on_off_ramps/kripton/users/get_user_limits/${fiatCurrency}`,
+      data,
+      undefined,
+      false
+    )
+  }
+
   getLink(apikeyId: number): Observable<any> {
     return this.http.post(`${environment.apiUrl}/${this.entity}/paxful/get_link`, { id_apikey: apikeyId });
   }

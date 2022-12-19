@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlContainer, UntypedFormGroup, FormGroupDirective } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Coin } from '../../../../../wallets/shared-wallets/interfaces/coin.interface';
@@ -40,27 +40,27 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
             <ion-input
               appNumberInput
               appCommaToDot
-              debounce="1000"
+              debounce="500"
               [class.invalid]="
-                !this.form.controls.fiatAmount.valid &&
-                (this.form.controls.cryptoAmount.touched ||
-                  this.form.controls.cryptoAmount.dirty ||
-                  this.form.controls.fiatAmount.touched ||
-                  this.form.controls.fiatAmount.dirty)
-              "
-              formControlName="cryptoAmount"
-              type="text"
-              inputmode="decimal"
-            >
-            </ion-input>
+              !this.form.controls.fiatAmount.valid &&
+              (this.form.controls.cryptoAmount.touched ||
+                this.form.controls.cryptoAmount.dirty ||
+                this.form.controls.fiatAmount.touched ||
+                this.form.controls.fiatAmount.dirty)
+                "
+                formControlName="cryptoAmount"
+                type="text"
+                inputmode="decimal"
+                >
+              </ion-input>
           </div>
           <ion-text class="pnoc__amount-select__inputs__equal ux-fweight-medium ">=</ion-text>
           <div class="pnoc__amount-select__inputs__quoteAmount">
             <ion-input
-              debounce="1000"
-              appNumberInput
-              appCommaToDot
-              [class.invalid]="
+            appNumberInput
+            appCommaToDot
+            debounce="500"
+            [class.invalid]="
                 !this.form.controls.fiatAmount.valid &&
                 (this.form.controls.cryptoAmount.touched ||
                   this.form.controls.cryptoAmount.dirty ||
@@ -125,7 +125,7 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
             <img [src]="this.provider.logoRoute" />
           </div>
           <div class="pnoc__provider__content__body">
-            <div class="pnoc__provider__content__body__name_and_description" >
+            <div class="pnoc__provider__content__body__name_and_description">
               <div class="pnoc__provider__content__body__name_and_description__name">
                 <ion-text class="pnoc__provider__content__body__text__name ux-font-text-lg">{{
                   this.paymentType | translate
@@ -137,10 +137,9 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
                 }}</ion-text>
               </div>
             </div>
-            
           </div>
           <div class="pnoc__provider__content__info">
-              <ion-icon name="information-circle" color="info" (click)="this.showProviderInfo()"></ion-icon>
+            <ion-icon name="information-circle" color="info" (click)="this.showProviderInfo()"></ion-icon>
           </div>
         </div>
 
@@ -160,7 +159,7 @@ import { InfoProviderComponent } from '../../info-provider/info-provider.compone
     },
   ],
 })
-export class ProviderNewOperationCardComponent implements OnInit {
+export class ProviderNewOperationCardComponent implements OnInit, OnChanges {
   @Input() coin: Coin;
   @Input() amountEnabled = true;
   @Input() fiatCurrency = 'USD';
@@ -178,6 +177,12 @@ export class ProviderNewOperationCardComponent implements OnInit {
   ngOnInit() {
     this.form = this.formGroupDirective.form;
     this.setProviderInfo();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.minimumFiatAmount && changes.minimumFiatAmount.currentValue !== undefined) {
+      this.minimumFiatAmount = Number(changes.minimumFiatAmount.currentValue);
+    }
   }
 
   emitChangeCurrency(): void {
