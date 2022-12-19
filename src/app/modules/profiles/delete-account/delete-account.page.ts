@@ -55,7 +55,7 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
             <ion-text class="da__disclaimer__text ux-font-text-xs"
               >{{ 'profiles.delete_account.disclaimer' | translate }}
             </ion-text>
-            <ion-text class="da__disclaimer__link ux-link-xs">{{
+            <ion-text class="da__disclaimer__link ux-link-xs" (click)="goToWalletSupport()">{{
               'profiles.delete_account.link' | translate
             }}</ion-text>
           </div>
@@ -135,7 +135,7 @@ export class DeleteAccountPage {
   }
 
   goToSuccessPage() {
-    this.navController.navigateForward('profiles/success-delete-account');
+    this.navController.navigateRoot('profiles/success-delete-account');
   }
 
   async showToastError() {
@@ -147,5 +147,9 @@ export class DeleteAccountPage {
   private async _getUserWalletAddress() {
     const wallet = await this.storageService.getWalletFromStorage();
     this.wallet = wallet.addresses.ERC20;
+  }
+
+  goToWalletSupport() {
+    this.navController.navigateForward('support/faqs/wallet');
   }
 }
