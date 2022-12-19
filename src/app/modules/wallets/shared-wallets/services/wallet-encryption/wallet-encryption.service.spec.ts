@@ -80,6 +80,7 @@ describe('WalletEncryptionService', () => {
     updatedAt: jasmine.any(String),
     network: 'testnet',
     assets: jasmine.any(Object),
+    creationMethod: 'default',
   };
 
   const testCoins: Coin[] = [

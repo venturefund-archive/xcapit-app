@@ -6,6 +6,7 @@ import { FakeEthersWallet } from '../fakes/fake-ethers-wallet';
 import { rawBlockchainsData, rawPolygonData, rawSolanaData } from '../fixtures/raw-blockchains-data';
 import { rawStoredWalletData } from '../fixtures/raw-stored-wallet-data';
 import { Password } from '../password/password';
+import { SolanaDerivedWallet } from '../solana-derived-wallet/solana-derived-wallet';
 import { WalletRepo } from '../wallet-repo/wallet-repo';
 import { SolanaWallet } from '../wallet/wallet';
 import { Wallets } from './wallets';
@@ -25,14 +26,31 @@ describe('Wallets', () => {
   });
 
   it('create from', async () => {
+    spyOn(SolanaDerivedWallet.prototype, 'address').and.returnValue('0x3');
+    const saveSpy = spyOn(WalletRepo.prototype, 'save').and.callThrough();
     const aPhrase = 'super test phrase';
     const aBlockchain = new Blockchain(rawPolygonData);
-    const wallets = new Wallets(new WalletRepo(new FakeAppStorage()), new FakeEthersWallet());
+    const wallets = new Wallets(new WalletRepo(new FakeAppStorage(rawStoredWalletData)), new FakeEthersWallet());
     const blockchains: Blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
-    await wallets.createFrom(aPhrase, new Password('test'), blockchains);
+    await wallets.createFrom(aPhrase, new Password('test'), blockchains, 'default');
 
     expect((await wallets.oneBy(aBlockchain)).address()).toBeTruthy();
+    expect(saveSpy).toHaveBeenCalledOnceWith({ ERC20: '0x1', MATIC: '0x1', SOLANA: '0x3'}, jasmine.any(String));
+  });
+
+  it('create from legacy', async () => {
+    spyOn(SolanaDerivedWallet.prototype, 'address').and.returnValue('0x3');
+    const saveSpy = spyOn(WalletRepo.prototype, 'save').and.callThrough();
+    const aPhrase = 'super test phrase';
+    const aBlockchain = new Blockchain(rawPolygonData);
+    const wallets = new Wallets(new WalletRepo(new FakeAppStorage(rawStoredWalletData)), new FakeEthersWallet());
+    const blockchains: Blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
+
+    await wallets.createFrom(aPhrase, new Password('test'), blockchains, 'legacy');
+
+    expect((await wallets.oneBy(aBlockchain)).address()).toBeTruthy();
+    expect(saveSpy).toHaveBeenCalledOnceWith({ ERC20: '0x1', MATIC: '0x2', SOLANA: '0x3'}, jasmine.any(String));
   });
 
   it('return one by blockchain', async () => {

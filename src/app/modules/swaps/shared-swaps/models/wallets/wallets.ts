@@ -6,12 +6,8 @@ import { Password } from '../password/password';
 import { Blockchains } from '../blockchains/blockchains';
 import { SolanaDerivedWallet } from '../solana-derived-wallet/solana-derived-wallet';
 
-
 export class Wallets {
-  constructor(
-    private _dataRepo: DataRepo,
-    private _ethersWallet: any = EthersWallet,
-  ) {}
+  constructor(private _dataRepo: DataRepo, private _ethersWallet: any = EthersWallet) {}
 
   async oneBy(aBlockchain: Blockchain): Promise<Wallet> {
     const rawData = await this._rawWalletData(aBlockchain);
@@ -21,9 +17,14 @@ export class Wallets {
       : new DefaultWallet(rawData, aBlockchain);
   }
 
-  async createFrom(aPhrase: string, aPassword: Password, blockchains: Blockchains): Promise<void> {
+  async createFrom(
+    aPhrase: string,
+    aPassword: Password,
+    blockchains: Blockchains,
+    creationMethod: 'legacy' | 'default'
+  ): Promise<void> {
     await this._dataRepo.save(
-      this._addressesFrom(aPhrase, blockchains),
+      this._addressesFrom(aPhrase, blockchains, creationMethod),
       await this._erc20Wallet(aPhrase, blockchains).encrypt(aPassword.value(), {
         scrypt: {
           N: 1,
@@ -32,12 +33,16 @@ export class Wallets {
     );
   }
 
-  private _addressesFrom(aPhrase: string, blockchains: Blockchains) {
+  private _addressesFrom(aPhrase: string, blockchains: Blockchains, creationMethod: 'legacy' | 'default') {
     const addresses = {};
+    const erc20Blockchain = blockchains.oneByName('ERC20');
     for (const blockchain of blockchains.value()) {
-      addresses[blockchain.name()] = this._isSolana(blockchain)
-        ? this._solanaDerivedAddressFor(aPhrase, blockchain)
-        : this._ethersWalletFor(aPhrase, blockchain).address.toLowerCase();
+      if (this._isSolana(blockchain)) {
+        addresses[blockchain.name()] = this._solanaDerivedAddressFor(aPhrase, blockchain);
+      } else {
+        const creationBlockchain = creationMethod === 'default' ? erc20Blockchain : blockchain;
+        addresses[blockchain.name()] = this._ethersWalletFor(aPhrase, creationBlockchain).address.toLowerCase();
+      }
     }
     return addresses;
   }

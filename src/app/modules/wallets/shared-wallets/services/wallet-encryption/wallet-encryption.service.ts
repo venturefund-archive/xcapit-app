@@ -38,7 +38,8 @@ export class WalletEncryptionService {
     await this.walletsFactory.create().createFrom(
       this.mnemonicService.mnemonic.phrase,
       aPassword,
-      this.blockchainsFactory.create()
+      this.blockchainsFactory.create(),
+      this.creationMethod,
     );
   }
 
