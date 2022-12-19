@@ -227,31 +227,6 @@ describe('WalletMaintenanceService', () => {
     expect(storageServiceSpy.getAssestsSelected).toHaveBeenCalledTimes(1);
   });
 
-  it('should create new wallet addresses on updateWalletNetworks', async () => {
-    jasmine.clock().mockDate(moment('2015-10-19').toDate());
-    service.newNetworks = ['MATIC'];
-    service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
-
-    await service.updateWalletNetworks(testToggleAssets);
-
-    expect(service.encryptedWallet).toEqual(updateResultWallet);
-  });
-
-  it('should create new wallet addresses and set new tokens on updateWalletNetworks', async () => {
-    const matic: StorageAsset = { value: 'MATIC', network: 'MATIC' };
-    jasmine.clock().mockDate(moment('2015-10-19').toDate());
-    service.newNetworks = ['MATIC'];
-    service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
-    const toggleAssets: StorageAsset[] = JSON.parse(JSON.stringify(testToggleAssets));
-    toggleAssets.push(matic);
-    const expectedResult: StorageWallet = JSON.parse(JSON.stringify(updateResultWallet));
-    expectedResult.assets.push(matic);
-
-    await service.updateWalletNetworks(toggleAssets);
-
-    expect(service.encryptedWallet).toEqual(expectedResult);
-  });
-
   it('should return true if user has coin on userHasCoin', () => {
     service.encryptedWallet = JSON.parse(JSON.stringify(testEncryptedWallet));
     const hasCoin = service.userHasCoin(TEST_COINS[2]);
