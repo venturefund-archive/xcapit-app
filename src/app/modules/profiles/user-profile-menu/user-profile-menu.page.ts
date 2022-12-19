@@ -201,7 +201,7 @@ export class UserProfileMenuPage {
 
   contactsListAvailable() {
     const contactListItem = this.itemMenu.find((category) => category.id === 'contacts');
-    contactListItem.showCategory = this.remoteConfig.getFeatureFlag('ff_contacts');
+    contactListItem.showCategory = !this.remoteConfig.getFeatureFlag('ff_contacts');
   }
 
   back() {

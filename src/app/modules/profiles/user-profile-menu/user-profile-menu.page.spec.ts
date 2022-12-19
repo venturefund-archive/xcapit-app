@@ -92,6 +92,13 @@ describe('UserProfileMenuPage', () => {
         },
       ],
     },
+    {
+      id: 'contacts',
+      showCategory: true,
+      category_title: '',
+      icon: '',
+      items: [],
+    },
   ];
 
   const profile = { email: 'test@mail.com' };
@@ -343,7 +350,7 @@ describe('UserProfileMenuPage', () => {
     fixture.detectChanges();
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
-    expect(menu.length).toBe(4);
+    expect(menu.length).toBe(5);
   });
 
   it('should back to home when back button is clicked', async () => {
@@ -361,6 +368,7 @@ describe('UserProfileMenuPage', () => {
   it('should show biometric auth item when bio auth is enabled', async () => {
     component.itemMenu = itemMenu;
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
+   
     await component.ionViewWillEnter();
 
     const biometricAuthItem = component.itemMenu
@@ -395,5 +403,29 @@ describe('UserProfileMenuPage', () => {
     component.ionViewWillLeave();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show contacts category when contacts is enabled', async () => {
+    component.itemMenu = itemMenu;
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
+   
+    await component.ionViewWillEnter();
+
+    const contactListItem = component.itemMenu
+      .find((category) => category.id === 'contacts')
+     
+
+    expect(contactListItem.showCategory).toBeFalse();
+  });
+
+  it('should hide contacts category when contacts is not enabled', async () => {
+    component.itemMenu = itemMenu;
+    await component.ionViewWillEnter();
+
+    const contactListItem = component.itemMenu
+      .find((category) => category.id === 'contacts')
+     
+
+    expect(contactListItem.showCategory).toBeTrue();
   });
 });
