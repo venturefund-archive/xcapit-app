@@ -45,7 +45,7 @@ import { takeUntil } from 'rxjs/operators';
       <div>
         <div class="ux-card">
           <div class="card-title">
-            <img class="card-title__img" src="assets/ux-icons/ux-apikeys.svg" />
+            <img class="card-title__img" src="assets/ux-icons/ux-preferences-primary.svg" />
             <ion-text class="ux-font-header-titulo card-title__text">{{
               'profiles.user_profile_menu.category_preferences' | translate
             }}</ion-text>
@@ -64,7 +64,7 @@ import { takeUntil } from 'rxjs/operators';
               ></ion-toggle>
             </ion-item>
           </form>
-          <div>
+          <div class="language">
             <ion-button
               [disabled]="this.disable"
               class="ux-font-text-xs"

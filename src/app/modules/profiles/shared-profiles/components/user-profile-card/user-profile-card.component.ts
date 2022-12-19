@@ -7,7 +7,7 @@ import { NavController } from '@ionic/angular';
     <div class="user-profile-card ux-card ion-padding">
       <div class="user-data">
         <div class="user-img">
-          <img src="assets/img/user-profile/avatar-user.svg" />
+          <img src="assets/img/user-profile/user-profile-avatar.svg" />
         </div>
         <div class="user-mail">
           <ion-text class="ux-font-header-titulo">{{ this.username }}</ion-text>
