@@ -22,6 +22,7 @@ describe('UserRegisterStepCardComponent', () => {
     url: 'fakeUrl',
     name: 'ux_buy_kripton_details',
     disabled: false,
+    completed: false,
   };
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
@@ -45,7 +46,6 @@ describe('UserRegisterStepCardComponent', () => {
   });
 
   it('should render properly', () => {
-    component.completed = false;
     const numberEl = fixture.debugElement.query(By.css('div.ursc__wrapper__step > div.incompleteInfo > ion-text'));
     const titleEl = fixture.debugElement.query(
       By.css('div.ursc__wrapper__content > ion-text.ursc__wrapper__content__title')

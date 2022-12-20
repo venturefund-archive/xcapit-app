@@ -641,6 +641,7 @@
       "category_walletconnect": "WalletConnect",
       "connected_walletconnect": "Connected",
       "disconnected_walletconnect": "Disconnected",
+      "category_contacts":"Wallets list",
       "delete_account_button": "Delete account",
       "delete_account_message": "I request the deletion of my account and associated data. Wallet: {{wallet}}",
       "profile_footer": {
@@ -1854,7 +1855,7 @@
       "title": "Enter recovery phrase",
       "subtitle": "Write your words separated by a space",
       "label": "Recovery phrase",
-      "button": "Import Wallet",
+      "button": "Continue",
       "next_button": "Next"
     },
     "transactions": {
@@ -1869,12 +1870,12 @@
     "send": {
       "send_notifications":{
         "success":{
-          "title":"✅ Envío exitoso. ¡Así se hace!",
-          "body": "Enviaste {{amount}} {{token}} el día {{date}}. "
+          "title":"✅ Successful shipment. That's the way to do it!",
+          "body": "You sent {{amount}} {{token}} on {{date}}. "
         },
         "error":{
-          "title":"❌ Error en el envío",
-          "body": "Se produjo un error en el envío de {{amount}} {{token}} el día {{date}}. Más información aquí."
+          "title":"❌ Error in shipment",
+          "body": "An error occurred in the sending of  {{amount}} {{token}} on {{date}}. More information here."
         }
       },
       "scan_qr": {

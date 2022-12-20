@@ -10,7 +10,9 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
 import { OPERATION_STATUS } from '../../constants/operation-status';
+import { rawProvidersData } from '../../fixtures/raw-providers-data';
 import { FiatRampOperation } from '../../interfaces/fiat-ramp-operation.interface';
+import { FiatRampsService } from '../../services/fiat-ramps.service';
 import { OperationsListItemComponent } from './operations-list-item.component';
 
 describe('OperationsListItemComponent', () => {
@@ -20,13 +22,14 @@ describe('OperationsListItemComponent', () => {
   let fakeNavController: FakeNavController;
   let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<OperationsListItemComponent>;
   let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
+  let fiatRampsService: jasmine.SpyObj<FiatRampsService>;
 
   const cashIn: FiatRampOperation = {
     operation_id: 53,
     amount_in: 32,
     currency_in: 'ARS',
     amount_out: 21,
-    currency_out: 'ETH',
+    currency_out: 'USDC',
     status: 'complete',
     created_at: new Date(),
     provider: '1',
@@ -39,7 +42,7 @@ describe('OperationsListItemComponent', () => {
     amount_in: 32,
     currency_in: 'ARS',
     amount_out: 21,
-    currency_out: 'ETH',
+    currency_out: 'USDC',
     status: 'wait',
     created_at: new Date(),
     provider: '1',
@@ -52,7 +55,7 @@ describe('OperationsListItemComponent', () => {
     amount_in: 32,
     currency_in: 'ARS',
     amount_out: 21,
-    currency_out: 'ETH',
+    currency_out: 'USDC',
     status: 'received',
     created_at: new Date(),
     provider: '1',
@@ -61,8 +64,11 @@ describe('OperationsListItemComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
-    apiWalletServiceSpy = jasmine.createSpyObj('FiatRampsService', {
-      getCoin: TEST_COINS[0],
+    fiatRampsService = jasmine.createSpyObj('FiatRampsService', {
+      getProvider: rawProvidersData[1],
+    });
+    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
+      getCoin: TEST_COINS[7],
     });
 
     fakeNavController = new FakeNavController();
@@ -74,6 +80,7 @@ describe('OperationsListItemComponent', () => {
       providers: [
         { provide: NavController, useValue: navControllerSpy },
         { provide: ApiWalletService, useValue: apiWalletServiceSpy },
+        { provide: FiatRampsService, useValue: fiatRampsService },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();

@@ -12,6 +12,16 @@ export const ITEM_MENU: MenuCategory[] = [
     showCategory: true,
   },
   {
+    category_title: 'profiles.user_profile_menu.category_contacts',
+    icon: 'assets/ux-icons/wallets-list.svg',
+    route: '',
+    id: 'contacts',
+    name: 'Contacts',
+    buttonName: 'ux_go_to_address_list',
+    showCategory: true,
+    newBadge: true,
+  },
+  {
     category_title: 'profiles.user_profile_menu.category_help',
     showCategory: true,
     icon: 'assets/ux-icons/ux-support.svg',

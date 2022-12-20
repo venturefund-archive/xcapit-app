@@ -7,6 +7,9 @@ import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/service
 import { ProviderTokensOf } from '../../models/provider-tokens-of/provider-tokens-of';
 import { ProvidersFactory } from '../../models/providers/factory/providers.factory';
 import { TokenOperationDataService } from '../../services/token-operation-data/token-operation-data.service';
+import { RemoteConfigService } from '../../../../../shared/services/remote-config/remote-config.service';
+import { AppVersionInjectable } from '../../../../../shared/models/app-version/injectable/app-version.injectable';
+import { PlatformService } from '../../../../../shared/services/platform/platform.service';
 
 @Component({
   selector: 'app-buy-or-deposit-token-toast',
@@ -32,24 +35,37 @@ export class BuyOrDepositTokenToastComponent implements OnInit {
     private apiWalletService: ApiWalletService,
     private providersFactory: ProvidersFactory,
     private tokenOperationDataService: TokenOperationDataService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private remoteConfigService: RemoteConfigService,
+    private appVersion: AppVersionInjectable,
+    private platform: PlatformService
   ) {}
 
-  ngOnInit() {
-    if (this.isTokenAvailableForPurchase()) {
-      this.primaryButtonText = this.translateService.instant(this.primaryButtonText, {token: this.token.symbol()});
+  async ngOnInit() {
+    if (this.isTokenAvailableForPurchase() && (await this.isEnabledByReviewFeatureFlag())) {
+      this.primaryButtonText = this.translateService.instant(this.primaryButtonText, { token: this.token.symbol() });
     } else {
       this.primaryButtonText = undefined;
     }
 
-    this.text = this.translateService.instant(this.text, {token: this.token.symbol()});
-    this.secondaryButtonText = this.translateService.instant(this.secondaryButtonText, {token: this.token.symbol()});
+    this.text = this.translateService.instant(this.text, { token: this.token.symbol() });
+    this.secondaryButtonText = this.translateService.instant(this.secondaryButtonText, { token: this.token.symbol() });
   }
 
   private isTokenAvailableForPurchase(): boolean {
     return !!new ProviderTokensOf(this.providersFactory.create(), this.apiWalletService.getCoins())
       .all()
       .find((c) => c.value === this.token.symbol() && c.network === this.token.json().network);
+  }
+
+  private async isEnabledByReviewFeatureFlag(): Promise<boolean> {
+    let enabled = this.remoteConfigService.getFeatureFlag('ff_buyCrypto');
+
+    if (this.platform.isNative()) {
+      const inReview = this.remoteConfigService.getFeatureFlag('inReview');
+      enabled = !((await this.appVersion.create().updated()) && inReview);
+    }
+    return enabled;
   }
 
   goToDeposit() {
@@ -68,7 +84,7 @@ export class BuyOrDepositTokenToastComponent implements OnInit {
       asset: this.token.symbol(),
       network: this.token.json().network,
     };
-    
+
     this.navController.navigateForward(['/fiat-ramps/select-provider']);
   }
 }

@@ -5,6 +5,10 @@ import { TrackService } from 'src/app/shared/services/track/track.service';
 import { TOOLS_CARDS } from '../shared-tools/components/tools-card/tools-card-content.constant';
 import { WalletBackupService } from 'src/app/modules/wallets/shared-wallets/services/wallet-backup/wallet-backup.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
+import { AppVersionInjectable } from '../../../shared/models/app-version/injectable/app-version.injectable';
+import { PlatformService } from '../../../shared/services/platform/platform.service';
+import { ToolsCard } from '../shared-tools/interfaces/tools-card.interface';
 
 @Component({
   selector: 'app-tool',
@@ -15,7 +19,7 @@ import { WalletConnectService } from '../../wallets/shared-wallets/services/wall
           <app-xcapit-logo [whiteLogo]="true"></app-xcapit-logo>
         </div>
         <div (click)="this.goToWalletConnect()" appTrackClick [dataToTrack]="{ eventLabel: 'ux_go_to_wc' }">
-          <ion-icon *ngIf="!this.connected" name="ux-walletconnect" ></ion-icon>
+          <ion-icon *ngIf="!this.connected" name="ux-walletconnect"></ion-icon>
           <ion-icon *ngIf="this.connected" name="ux-walletconnectconnect"></ion-icon>
         </div>
         <app-avatar-profile></app-avatar-profile>
@@ -59,23 +63,45 @@ export class ToolsPage implements OnInit {
   plannerData: any;
   icon: string;
   category: string;
-  content = TOOLS_CARDS;
+  toolsCards = TOOLS_CARDS;
   connected: boolean;
+  content: ToolsCard[];
 
   constructor(
     private navController: NavController,
     private appStorage: AppStorageService,
     private trackService: TrackService,
     private walletBackupService: WalletBackupService,
-    private walletConnectService: WalletConnectService
+    private walletConnectService: WalletConnectService,
+    private remoteConfigService: RemoteConfigService,
+    private appVersion: AppVersionInjectable,
+    private platform: PlatformService
   ) {}
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+  async ionViewWillEnter() {
+    await this.setToolCards();
     this.getPlannerData();
     this.trackScreenViewEvent();
     this.checkConnectionOfWalletConnect();
+  }
+
+  async setToolCards() {
+    this.content = this.toolsCards;
+    if (await this.donationsDisabled()) {
+      this.content = this.toolsCards.filter((card) => card.id !== 'donations');
+    }
+  }
+
+  private async donationsDisabled(): Promise<boolean> {
+    let disabled = true;
+
+    if (this.platform.isNative()) {
+      const inReview = this.remoteConfigService.getFeatureFlag('inReview');
+      disabled = (await this.appVersion.create().updated()) && inReview;
+    }
+    return disabled;
   }
 
   async getPlannerData() {

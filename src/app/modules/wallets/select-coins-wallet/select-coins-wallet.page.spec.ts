@@ -28,6 +28,7 @@ import {
 } from '../shared-wallets/constants/coins.test';
 import { SELECT_COINS_FORM_DATA } from './form-data.spec';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StorageAsset } from '../shared-wallets/interfaces/storage-asset.interface';
 
 describe('SelectCoinsWalletPage', () => {
   let component: SelectCoinsWalletPage;
@@ -54,7 +55,7 @@ describe('SelectCoinsWalletPage', () => {
     [jasmine.createSpyObj('TestNativeToken', {}, { value: 'TNT', network: 'test2', native: true })],
   ];
 
-  const testSelectedTokens = [TEST_COINS[0], TEST_COINS[2], TEST_COINS[4], TEST_COINS[5], TEST_COINS[7], TEST_COINS[8]];
+  const testSelectedTokens = [TEST_COINS[0], TEST_COINS[2], TEST_COINS[4], TEST_COINS[5], TEST_COINS[8], TEST_COINS[9]];
 
   const formData = SELECT_COINS_FORM_DATA;
 
@@ -116,17 +117,12 @@ describe('SelectCoinsWalletPage', () => {
   }));
 
   it('should autosave when form updates', fakeAsync(() => {
-    const assets = {
-      ETH: true,
-      UNI: true,
-      LINK: false,
-      USDT: false,
-      MATIC: true,
-      RBTC: false,
-      RIF: false,
-      BNB: false,
-      SOL: true,
-    };
+    const assets: StorageAsset[] = [
+      { value: 'ETH', network: 'ERC20' },
+      { value: 'UNI', network: 'ERC20' },
+      { value: 'MATIC', network: 'MATIC' },
+      { value: 'SOL', network: 'SOLANA' },
+    ];
     fixture.detectChanges();
     component.ionViewWillEnter();
     tick();
@@ -137,17 +133,12 @@ describe('SelectCoinsWalletPage', () => {
   }));
 
   it('should autosave once when form updates multiple times', fakeAsync(() => {
-    const assets = {
-      ETH: true,
-      UNI: true,
-      LINK: false,
-      USDT: false,
-      MATIC: true,
-      RBTC: false,
-      RIF: false,
-      BNB: false,
-      SOL: true,
-    };
+    const assets: StorageAsset[] = [
+      { value: 'ETH', network: 'ERC20' },
+      { value: 'UNI', network: 'ERC20' },
+      { value: 'MATIC', network: 'MATIC' },
+      { value: 'SOL', network: 'SOLANA' },
+    ];
     fixture.detectChanges();
     component.ionViewWillEnter();
     tick();

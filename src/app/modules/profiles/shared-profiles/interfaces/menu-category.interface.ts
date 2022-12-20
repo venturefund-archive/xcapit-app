@@ -11,4 +11,5 @@ export interface MenuCategory {
   buttonName?: string;
   legend?: string;
   connected?: boolean;
+  newBadge?: boolean;
 }

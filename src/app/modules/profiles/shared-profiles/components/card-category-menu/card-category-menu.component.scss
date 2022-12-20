@@ -44,6 +44,10 @@
       }
     }
 
+    &__badge {
+      margin: 0 16px 0 auto;
+    }
+
     ion-button::part(native) {
       padding-inline-start: 0;
       padding-inline-end: 0;

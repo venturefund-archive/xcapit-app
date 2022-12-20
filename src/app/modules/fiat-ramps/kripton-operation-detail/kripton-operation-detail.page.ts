@@ -7,6 +7,7 @@ import { InformationModalComponent } from 'src/app/shared/components/information
 import { BrowserService } from 'src/app/shared/services/browser/browser.service';
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
+import { ScanUrlOf } from '../../wallets/shared-wallets/models/scan-url-of/scan-url-of';
 import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wallet/api-wallet.service';
 import { COUNTRIES } from '../shared-ramps/constants/countries';
 import { OPERATION_STATUS } from '../shared-ramps/constants/operation-status';
@@ -70,15 +71,23 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
             </div>
           </ion-item>
 
-          <ion-item class="kod__card-container__card__state ion-no-margin ion-no-padding">
+          <ion-item class="kod__card-container__card__state ion-no-margin ion-no-padding" (click)="this.openScan()">
             <div class="kod__card-container__card__state__container">
               <div class="kod__card-container__card__state__container__title">
                 <ion-text class="ux-font-titulo-xs">
                   {{ 'fiat_ramps.kripton_operation_detail.state' | translate }}
                 </ion-text>
-                <ion-icon *ngIf="this.operation.status !== 'complete'" name="information-circle" (click)="this.showStateInformation()" color="info"></ion-icon>
+                <ion-icon
+                  *ngIf="this.operation.status !== 'complete'"
+                  name="information-circle"
+                  (click)="this.showStateInformation()"
+                  color="info"
+                ></ion-icon>
               </div>
-              <app-operation-status-chip [statusName]="this.operation.status"></app-operation-status-chip>
+              <div class="kod__card-container__card__state__container__status">
+                <app-operation-status-chip [statusName]="this.operation.status"></app-operation-status-chip>
+                <ion-text *ngIf="this.operation.tx_hash" class="ux-link-xs">Ver en polygonScan</ion-text>
+              </div>
               <app-operation-status-alert
                 *ngIf="this.operation.status !== 'received' && this.operation.status !== 'complete'"
                 [operationStatus]="this.operation.status"
@@ -218,7 +227,7 @@ export class KriptonOperationDetailPage {
     private kriptonStorageService: KriptonStorageService
   ) {}
 
-ionViewWillEnter() {
+  ionViewWillEnter() {
     const operationId = this.route.snapshot.paramMap.get('operation_id');
     this.provider = this.providersFactory.create().byAlias('kripton');
     this.getUserOperation(operationId);
@@ -271,9 +280,9 @@ ionViewWillEnter() {
   }
 
   private async getUserOperation(operationId: string) {
-    const email = await this.kriptonStorageService.get('email')
+    const email = await this.kriptonStorageService.get('email');
     this.fiatRampsService.setProvider(this.provider.id.toString());
-    this.fiatRampsService.getUserSingleOperation(operationId, {email}).subscribe({
+    this.fiatRampsService.getUserSingleOperation(operationId, { email }).subscribe({
       next: (data) => {
         this.operation = data[0];
         this.getCoin();
@@ -288,7 +297,8 @@ ionViewWillEnter() {
   }
 
   getCoin() {
-    this.token = this.apiWalletService.getCoin(this.operation.currency_out);
+    const asset = this.fiatRampsService.getProvider(1).currencies.find((c) => c.symbol === this.operation.currency_out);
+    this.token = this.apiWalletService.getCoin(asset.symbol, asset.network);
   }
 
   navigateBackToOperations() {
@@ -325,5 +335,12 @@ ionViewWillEnter() {
       created_at: this.operation.created_at,
     };
     this.storageOperationService.updateData(data);
+  }
+
+  openScan() {
+    if (this.operation.status === 'complete') {
+      const url = ScanUrlOf.create(this.operation.tx_hash, this.operation.network).value();
+      this.browserService.open({ url });
+    }
   }
 }

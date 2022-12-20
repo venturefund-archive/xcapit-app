@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -107,7 +107,7 @@ describe('DeleteAccountPage', () => {
     expect(storageServiceSpy.removeWalletFromStorage).toHaveBeenCalledTimes(1);
     expect(ionicStorageServiceSpy.clear).toHaveBeenCalledTimes(1);
     expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('profiles/success-delete-account');
+    expect(navControllerSpy.navigateRoot).toHaveBeenCalledWith('profiles/success-delete-account');
   });
 
   it('should show error toast when delete account button is clicked and the create ticket fails', async () => {
@@ -120,5 +120,12 @@ describe('DeleteAccountPage', () => {
     expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(0);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledTimes(0);
     expect(toastServiceSpy.showErrorToast).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to support wallet page when link is clicked', async () => {
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-text.da__disclaimer__link')).nativeElement.click();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledWith('support/faqs/wallet');
   });
 });
