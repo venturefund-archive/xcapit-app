@@ -333,37 +333,37 @@
     }
   },
   "defi_investments": {
-    "notifications":{
-      "success":{
-        "title":"💰 Inversión exitosa. ¡Felicitaciones!",
+    "notifications": {
+      "success": {
+        "title": "💰 Inversión exitosa. ¡Felicitaciones!",
         "body": "Invertiste {{amount}} {{token}} el día {{date}}."
       },
-      "error":{
-        "title":"⚠️ Error en la inversión",
+      "error": {
+        "title": "⚠️ Error en la inversión",
         "body": "Se produjo un error en la inversión de {{amount}} {{token}} el día {{date}}."
       }
     },
-    "invest_in_progress":{
-      "text_primary":"¡Tu orden está en camino!",
-      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "button_text":"Volver a inversiones",
+    "invest_in_progress": {
+      "text_primary": "¡Tu orden está en camino!",
+      "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text": "Volver a inversiones",
       "text_title": "Inversión",
       "text_badge": "En progreso"
     },
-    "withdraw_notifications":{
-      "success":{
-        "title":"💸 Retiro exitoso",
+    "withdraw_notifications": {
+      "success": {
+        "title": "💸 Retiro exitoso",
         "body": "Retiraste {{amount}} {{token}} el día {{date}}."
       },
-      "error":{
-        "title":"🚨 Error en el retiro",
+      "error": {
+        "title": "🚨 Error en el retiro",
         "body": "Se produjo un error en el retiro de {{amount}} {{token}} el día {{date}}."
       }
     },
-    "withdraw_in_progress":{
-      "text_primary":"¡Tu orden está en camino!",
-      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "button_text":"Volver a inversiones",
+    "withdraw_in_progress": {
+      "text_primary": "¡Tu orden está en camino!",
+      "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text": "Volver a inversiones",
       "text_title": "Retiro",
       "text_badge": "En progreso"
     },
@@ -710,9 +710,6 @@
         "title": "Solicitud enviada exitosamente",
         "message": "Nuestro equipo ya se encuentra trabajando sobre tu caso. Te estaremos respondiendo a  la brevedad al email {{email}}"
       }
-    },
-    "wallets_agenda":{
-      "header":"Mi agenda"
     },
     "shared": {
       "remove_account_modal": {
@@ -1863,13 +1860,13 @@
       "declined": "Rechazado"
     },
     "send": {
-      "send_notifications":{
-        "success":{
-          "title":"✅ Successful shipment. That's the way to do it!",
+      "send_notifications": {
+        "success": {
+          "title": "✅ Successful shipment. That's the way to do it!",
           "body": "You sent {{amount}} {{token}} on {{date}}. "
         },
-        "error":{
-          "title":"❌ Error in shipment",
+        "error": {
+          "title": "❌ Error in shipment",
           "body": "An error occurred in the sending of {{amount}} {{token}} on {{date}}. More information here."
         }
       },
@@ -1881,10 +1878,10 @@
         "title": "Selecciona la moneda que deseas enviar",
         "suite": "Red {{suiteName}}"
       },
-      "send_in_progress":{
-        "text_primary":"¡Tu orden está en camino!",
-        "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-        "button_text":"Ir a wallet",
+      "send_in_progress": {
+        "text_primary": "¡Tu orden está en camino!",
+        "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+        "button_text": "Ir a wallet",
         "text_title": "Envío",
         "text_badge": "En progreso"
       },
@@ -2663,10 +2660,10 @@
           "button_primary": "Confirmar y enviar",
           "button_secondary": "Cargar nuevamente"
         },
-        "kripton_account_info":{
+        "kripton_account_info": {
           "title": "Transfiere a la siguiente cuenta",
           "alias": "Alias",
-          "amount":"Monto",
+          "amount": "Monto",
           "cbu": "CBU",
           "owner": "Titular",
           "currency_type": {
@@ -2676,22 +2673,21 @@
             "colombia": "Pesos colombianos"
           }
         },
-        "kripton_purchase_info":{
-          "title":"Tu compra",
-          "quote":"Cotización",
-          "operation":"Operación"
+        "kripton_purchase_info": {
+          "title": "Tu compra",
+          "quote": "Cotización",
+          "operation": "Operación"
         }
-        
       },
-      "kripton_purchase_info":{
-        "title":"Tu compra",
-        "quote":"Cotización",
-        "operation":"Operación"
+      "kripton_purchase_info": {
+        "title": "Tu compra",
+        "quote": "Cotización",
+        "operation": "Operación"
       },
-      "kripton_account_info":{
+      "kripton_account_info": {
         "title": "Transfiere a la siguiente cuenta",
         "alias": "Alias",
-        "amount":"Monto",
+        "amount": "Monto",
         "cbu": "CBU",
         "owner": "Titular",
         "currency_type": {
@@ -2711,7 +2707,7 @@
       "button": "Continuar",
       "text_token": "Enviamos un código temporal de ingreso a tu email.\n Si no lo encuentras, revisa tu bandeja de spam.",
       "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones.",
-      "label_token":"Código de ingreso",
+      "label_token": "Código de ingreso",
       "toast_success": "Te reenviamos el código de ingreso a tu email.",
       "resend_email": {
         "title_not_sent": "¿No recibiste el código?",
@@ -2818,15 +2814,15 @@
         }
       }
     },
-    "purchase_order":{
+    "purchase_order": {
       "header": "Comprar cripto",
-      "clipboard_text":"¡{{type}} copiado con exito!",
+      "clipboard_text": "¡{{type}} copiado con exito!",
       "provider": "Proveedor: Kripton Market",
-      "step_1":"Transferir",
-      "step_2":"Cargar comprobante",
-      "button":"Continuar",
-      "send_button":"Enviar y finalizar",
-      "timer":"Te quedan {{ value }} para transferir",
+      "step_1": "Transferir",
+      "step_2": "Cargar comprobante",
+      "button": "Continuar",
+      "send_button": "Enviar y finalizar",
+      "timer": "Te quedan {{ value }} para transferir",
       "voucher_card": {
         "header": "Adjunta tu comprobante",
         "file_placeholder": "Comprobante.jpg",
@@ -2836,7 +2832,7 @@
         "error": "Se produjo un error. Carga tu comprobante nuevamente."
       }
     },
-    "kripton_operation_detail":{
+    "kripton_operation_detail": {
       "header": "Detalle de la operación",
       "title": "Compra",
       "state": "Estado",
@@ -3262,5 +3258,15 @@
     "go_to_xcapit": "Ir a Xcapit",
     "dont_have_app": "¿Aún no la tienes?",
     "download": "Descargar"
+  },
+  "contacts": {
+    "home": {
+      "header": "Mi agenda",
+      "empty": {
+        "title": "Aún no posees wallets en tu agenda.",
+        "subtitle": "¡Comienza ahora!"
+      },
+      "button": "Agendar nueva wallet"
+    }
   }
 }

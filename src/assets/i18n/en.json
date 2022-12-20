@@ -3098,5 +3098,15 @@
     "go_to_xcapit": "Go to Xcapit",
     "dont_have_app": "Don't have Xcapit?",
     "download": "Download"
+  },
+  "contacts": {
+    "home": {
+      "header": "My contacts",
+      "empty": {
+        "title": "You do not yet have wallets in your address book.",
+        "subtitle": "Start now!"
+      },
+      "button": "Add new wallet"
+    }
   }
 }
