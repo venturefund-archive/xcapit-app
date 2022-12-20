@@ -138,6 +138,7 @@ export class UserProfileMenuPage {
   async ionViewWillEnter() {
     this.getProfile();
     this.existWallet();
+    this.contactsListAvailable();
     this.biometricAuthAvailable();
     await this.setPushNotifications();
     this.valueChanges();
@@ -196,6 +197,11 @@ export class UserProfileMenuPage {
         .items.find((item) => item.name === 'BiometricAuth');
       biometricAuthItem.hidden = !this.remoteConfig.getFeatureFlag('ff_bioauth');
     }
+  }
+
+  contactsListAvailable() {
+    const contactListItem = this.itemMenu.find((category) => category.id === 'contacts');
+    contactListItem.showCategory = !this.remoteConfig.getFeatureFlag('ff_contacts');
   }
 
   back() {
