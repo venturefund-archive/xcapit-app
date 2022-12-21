@@ -3129,7 +3129,7 @@
       "question1": "¿Por qué la tarifa de transacción es variable?",
       "answer1": "La misma puede variar ligeramente por la volatilidad del mercado. Posee un tiempo de validez, luego caduca y se actualiza. Ocurre por diferentes motivos:<ul><li>Porque se modificó el tipo de cambio entre el momento en que se ingresaron los datos y cuando se desea confirmar la operación. Por lo que deberá volver a confirmarla para finalizar.</li><li>No posees suficientes criptos (MATIC, ETH, etc) para abonar las comisiones.</li><li>Las criptos que estás intentando intercambiar son altamente volátiles o hay poca liquidez en el grupo.</li></ul>",
       "question2": "¿Porqué debo confirmar aceptar los términos de 1inch si estoy operando con Xcapit?",
-      "answer2": "Debido a que Xcapit no posee un swap propio, sino que provee el servicio a través de 1inch."
+      "answer2": "Debido a que el proceso de intercambio se realiza a través de nuestro proveedor 1inch. Xcapit, no brinda este servicio propio."
     }
   },
   "wealth_managements": {
@@ -3183,7 +3183,7 @@
   },
   "swaps": {
     "home": {
-      "header": "Swap",
+      "header": "Intercambiar",
       "button": "Continuar",
       "loading_button_text": "Intercambiando",
       "from_token_title": "Desde",
@@ -3212,7 +3212,7 @@
       "invalid_password": "La contraseña ingresada no es correcta."
     },
     "select_token": {
-      "header": "Swap",
+      "header": "Intercambiar",
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
     },
