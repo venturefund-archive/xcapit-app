@@ -7,6 +7,10 @@
   .item-container {
     display: flex;
     align-items: center;
+
+    ion-button {
+      color: var(--ion-color-neutral90);
+    }
   }
 
   .new-badge {
@@ -22,6 +26,14 @@
     margin-bottom: 15px;
     margin-top: 15px;
     margin-left: 16px;
+
+    ion-text {
+      color: var(--ion-color-primary);
+    }
+
+    ion-button {
+      color: var(--ion-color-primary);
+    }
 
     &__text {
       margin-left: 12px;
