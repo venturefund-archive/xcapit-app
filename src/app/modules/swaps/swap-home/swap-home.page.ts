@@ -114,6 +114,9 @@ import { SwapError } from '../shared-swaps/models/swap-error/swap-error';
                     type="text"
                     inputmode="decimal"
                   ></ion-input>
+                <!--   <div *ngIf="" class="skeleton">
+                    <ion-skeleton-text style="width:50%" animated> </ion-skeleton-text>
+                  </div> -->
                   <ion-button
                     (click)="this.setMaxAmount()"
                     [disabled]="this.sameTokens"
@@ -328,9 +331,9 @@ export class SwapHomePage {
       this.route.snapshot.paramMap.get(this.fromTokenKey),
       this.route.snapshot.paramMap.get(this.toTokenKey)
     );
+    this.setTokenAmount();
     this.setFeeInfo();
     this.setQuotePrices();
-    this.setTokenAmount();
   }
 
   setAllowedBlockchains() {
@@ -339,8 +342,9 @@ export class SwapHomePage {
   }
 
   private setTokenAmount() {
-    if (this.fromTokenAmount()) {
-      this.form.patchValue({ fromTokenAmount: this.fromTokenAmount() });
+    const fromTokenAmount = this.fromTokenAmount()
+    if (fromTokenAmount) {
+      this.form.patchValue({ fromTokenAmount });
     }
   }
 
