@@ -634,6 +634,7 @@
       "category_walletconnect": "WalletConnect",
       "connected_walletconnect": "Conectado",
       "disconnected_walletconnect": "Desconectado",
+      "category_contacts":"Agenda de wallets",
       "delete_account_button": "Eliminar cuenta",
       "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma. Wallet: {{wallet}}",
       "profile_footer": {
@@ -1858,7 +1859,7 @@
       "title": "Ingresar frase de recuperación",
       "subtitle": "Escribe tus palabras separadas por un espacio",
       "label": "Frase de recuperación",
-      "button": "Importar wallet",
+      "button": "Continuar",
       "next_button": "Siguiente"
     },
     "transactions": {

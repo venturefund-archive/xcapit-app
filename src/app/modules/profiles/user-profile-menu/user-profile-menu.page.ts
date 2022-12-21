@@ -17,6 +17,9 @@ import { BiometricAuthInjectable } from '../../../shared/models/biometric-auth/i
 import { RemoteConfigService } from '../../../shared/services/remote-config/remote-config.service';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { TrackService } from 'src/app/shared/services/track/track.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-profile-menu',
@@ -42,7 +45,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
       <div>
         <div class="ux-card">
           <div class="card-title">
-            <img class="card-title__img" src="assets/ux-icons/ux-apikeys.svg" />
+            <img class="card-title__img" src="assets/ux-icons/ux-preferences-primary.svg" />
             <ion-text class="ux-font-header-titulo card-title__text">{{
               'profiles.user_profile_menu.category_preferences' | translate
             }}</ion-text>
@@ -61,7 +64,7 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
               ></ion-toggle>
             </ion-item>
           </form>
-          <div>
+          <div class="language">
             <ion-button
               [disabled]="this.disable"
               class="ux-font-text-xs"
@@ -108,10 +111,11 @@ export class UserProfileMenuPage {
   username: string;
   itemMenu: MenuCategory[] = ITEM_MENU;
   form: UntypedFormGroup = this.formBuilder.group({
-    notifications: [false, []],
+    notifications: [[]],
   });
   private readonly _aTopic = 'app';
   private readonly _aKey = 'enabledPushNotifications';
+  leave$ = new Subject<void>();
 
   constructor(
     private apiProfiles: ApiProfilesService,
@@ -127,12 +131,14 @@ export class UserProfileMenuPage {
     private notificationsService: NotificationsService,
     private biometricAuthInjectable: BiometricAuthInjectable,
     private remoteConfig: RemoteConfigService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private trackService: TrackService
   ) {}
 
   async ionViewWillEnter() {
     this.getProfile();
     this.existWallet();
+    this.contactsListAvailable();
     this.biometricAuthAvailable();
     await this.setPushNotifications();
     this.valueChanges();
@@ -148,7 +154,17 @@ export class UserProfileMenuPage {
   }
 
   private valueChanges() {
-    this.form.valueChanges.subscribe((value) => this.toggle(value.notifications));
+    this.form.valueChanges.pipe(takeUntil(this.leave$)).subscribe((value) => {
+      this.toggle(value.notifications);
+      this.setEvent(value.notifications);
+    });
+  }
+
+  setEvent(value: boolean) {
+    const eventLabel = value ? 'on' : 'off';
+    this.trackService.trackEvent({
+      eventLabel: `ux_push_notifications_${eventLabel}`,
+    });
   }
 
   pushNotificationsService() {
@@ -181,6 +197,11 @@ export class UserProfileMenuPage {
         .items.find((item) => item.name === 'BiometricAuth');
       biometricAuthItem.hidden = !this.remoteConfig.getFeatureFlag('ff_bioauth');
     }
+  }
+
+  contactsListAvailable() {
+    const contactListItem = this.itemMenu.find((category) => category.id === 'contacts');
+    contactListItem.showCategory = !this.remoteConfig.getFeatureFlag('ff_contacts');
   }
 
   back() {
@@ -223,7 +244,7 @@ export class UserProfileMenuPage {
       componentProps: {
         username: this.profile.email,
       },
-      cssClass: 'log-out-modal',
+      cssClass: 'modal',
     });
 
     await modal.present();
@@ -274,5 +295,10 @@ export class UserProfileMenuPage {
 
   goToDeleteAccount() {
     this.navController.navigateForward('profiles/delete-account');
+  }
+
+  ionViewWillLeave() {
+    this.leave$.next();
+    this.leave$.complete();
   }
 }

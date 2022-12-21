@@ -30,6 +30,11 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
             this.category.legend | translate
           }}</ion-label>
         </div>
+        <div class="card-title__badge" *ngIf="this.category.newBadge">
+          <ion-badge class="new-badge ux-font-num-subtitulo" slot="end">{{
+            'profiles.user_profile_menu.new_badge' | translate
+          }}</ion-badge>
+        </div>
       </div>
       <div *ngFor="let item of this.category.items" class="item-container">
         <ion-button

@@ -22,6 +22,10 @@
         min-width: 110px;
         max-width: auto;
         margin-left: 16px;
+
+        ion-text {
+          color: var(--ion-color-primary);
+        }
       }
     }
 

@@ -115,9 +115,6 @@ export class OperationsNewPage implements AfterViewInit {
   priceRefreshInterval = 15000;
   destroy$: Subject<void>;
   minimumFiatAmount: number;
-  minimumCryptoAmount: number;
-  mininumUSDAmount = 25;
-  alreadySet = false;
   form: UntypedFormGroup = this.formBuilder.group({
     cryptoAmount: ['', [Validators.required]],
     fiatAmount: ['', [Validators.required]],
@@ -170,8 +167,8 @@ export class OperationsNewPage implements AfterViewInit {
     this.availableCoins();
     this.setCountry();
     this.setCurrency();
-    this.dynamicPrice();
     this.subscribeToFormChanges();
+    this.dynamicPrice();
   }
 
   availableCoins() {
@@ -204,47 +201,43 @@ export class OperationsNewPage implements AfterViewInit {
   }
 
   private addDefaultValidators() {
-    this.form.get('cryptoAmount').addValidators(Validators.required);
+    this.form.get('fiatAmount').addValidators(Validators.required);
   }
 
   private clearValidators() {
-    this.form.get('cryptoAmount').clearValidators();
+    this.form.get('fiatAmount').clearValidators();
   }
-  private addGreaterThanValidator(amount) {
+  private addGreaterThanValidator(amount: number) {
     this.clearValidators();
     this.addDefaultValidators();
-    this.form.get('cryptoAmount').addValidators(CustomValidators.greaterOrEqualThan(amount));
-    this.form.get('cryptoAmount').updateValueAndValidity();
+    this.form.get('fiatAmount').addValidators(CustomValidators.greaterOrEqualThan(amount));
+    this.form.get('fiatAmount').updateValueAndValidity();
   }
 
-  private dynamicPrice() {
+  private async dynamicPrice() { 
     this.createKriptonDynamicPrice()
       .value()
       .pipe(takeUntil(this.destroy$))
       .subscribe((price: number) => {
         this.fiatPrice = price;
         if (this.form.value.fiatAmount) this.updateAmounts();
-        this.usdDynamicPrice();
+        if (!this.minimumFiatAmount) this.getMinimumFiatAmount();
       });
   }
 
-  private usdDynamicPrice() {
-    this.createKriptonDynamicPrice('USD')
-      .value()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((price: number) => {
-        this.minimumCryptoAmount = this.mininumUSDAmount / price;
-        this.minimumFiatAmount = this.minimumCryptoAmount * this.fiatPrice;
-        this.addGreaterThanValidator(this.minimumCryptoAmount);
-        this.patchCryptoAmountValue();
-      });
+  private _getUserEmail() {
+    return this.kriptonStorageService.get('email');
+  }
+  private async getMinimumFiatAmount() {
+    const data = { email: await this._getUserEmail() };
+    const response = await this.fiatRampsService.getKriptonMinimumAmount(this.fiatCurrency, data).toPromise();
+    this.minimumFiatAmount = parseFloat(response.minimun_general);
+    this.addGreaterThanValidator(this.minimumFiatAmount);
+    this.patchFormValue();
   }
 
-  patchCryptoAmountValue() {
-    if (!this.alreadySet) {
-      this.form.get('cryptoAmount').patchValue(this.minimumCryptoAmount);
-      this.alreadySet = true;
-    }
+  private patchFormValue() {
+    this.form.patchValue({ fiatAmount: this.minimumFiatAmount, cryptoAmount: this.minimumFiatAmount / this.fiatPrice });
   }
 
   createKriptonDynamicPrice(currency = this.fiatCurrency): DynamicKriptonPrice {

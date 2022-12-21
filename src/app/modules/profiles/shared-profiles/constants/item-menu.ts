@@ -12,9 +12,19 @@ export const ITEM_MENU: MenuCategory[] = [
     showCategory: true,
   },
   {
+    category_title: 'profiles.user_profile_menu.category_contacts',
+    icon: 'assets/ux-icons/wallets-list.svg',
+    route: '',
+    id: 'contacts',
+    name: 'Contacts',
+    buttonName: 'ux_go_to_address_list',
+    showCategory: true,
+    newBadge: true,
+  },
+  {
     category_title: 'profiles.user_profile_menu.category_help',
     showCategory: true,
-    icon: 'assets/ux-icons/ux-support.svg',
+    icon: 'assets/ux-icons/ux-support-primary.svg',
     items: [
       {
         name: 'Faq',
@@ -40,22 +50,8 @@ export const ITEM_MENU: MenuCategory[] = [
     ],
   },
   {
-    category_title: 'profiles.user_profile_menu.category_security_account',
-    showCategory: true,
-    icon: 'assets/ux-icons/ux-lock-outline.svg',
-    items: [
-      {
-        name: 'PasswordChangeAccount',
-        text: 'profiles.user_profile_menu.change_pass',
-        route: '/users/password-change',
-        type: 'link',
-        buttonName: 'ux_go_to_account_change_password',
-      },
-    ],
-  },
-  {
     category_title: 'profiles.user_profile_menu.category_security_wallet',
-    icon: 'assets/ux-icons/ux-key-outline.svg',
+    icon: 'assets/ux-icons/ux-key-primary.svg',
     id: 'wallet',
     showCategory: false,
     items: [

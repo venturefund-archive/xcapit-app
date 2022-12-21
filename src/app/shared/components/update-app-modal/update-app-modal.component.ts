@@ -4,6 +4,7 @@ import { UpdateService } from '../../services/update/update.service';
 @Component({
   selector: 'app-update-app-modal',
   template: `
+  <div class="modal-content">
     <div class="ion-padding uam__content">
       <div class="uam__content__button-close">
         <ion-button appTrackClick (click)="this.close()" name="Close" fill="clear" color="neutral80" size="medium" class="ion-no-padding ion-no-margin">
@@ -31,6 +32,7 @@ import { UpdateService } from '../../services/update/update.service';
         </ion-button>
       </div>
     </div>
+</div>
   `,
   styleUrls: ['./update-app-modal.component.scss'],
 })

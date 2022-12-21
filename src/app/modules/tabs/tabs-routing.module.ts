@@ -5,12 +5,13 @@ import { AuthGuard } from '../users/shared-users/guards/auth/auth.guard';
 import { HasWallet } from 'src/app/shared/guards/has-wallet/has-wallet';
 import { IntroductionCompletedGuard } from '../financial-education/shared-financial-education/guards/introduction-completed';
 import { NewLoginRedirectGuard } from '../home/shared-home/guards/new-login-redirect-guard';
+import { AuthNewGuard } from '../users/shared-users/guards/auth-new/auth-new.guard';
 
 const routes: Routes = [
   {
     path: 'tabs',
     component: TabsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AuthNewGuard],
     children: [
       {
         path: 'home',
@@ -19,7 +20,7 @@ const routes: Routes = [
       },
       {
         path: 'tools',
-        loadChildren: () => import('../tools/tools-page/tools-page.module').then( m => m.ToolsPageModule)
+        loadChildren: () => import('../tools/tools-page/tools-page.module').then((m) => m.ToolsPageModule),
       },
       {
         path: 'investments',

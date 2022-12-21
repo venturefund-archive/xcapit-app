@@ -7,4 +7,10 @@ export class DefaultCapacitorApp implements CapacitorApp {
   public info(): Promise<AppInfo> {
     return this.app.getInfo();
   }
+
+  public onStateChange(callback: CallableFunction): void {
+    this.app.addListener('appStateChange', (state) => {
+      callback(state);
+    });
+  }
 }
