@@ -627,6 +627,7 @@
       "export_private_key": "Clave privada",
       "security_phrase": "Frase de seguridad",
       "category_preferences": "Preferencias",
+      "security_configuration": "Configuración",
       "push_notifications": "Notificaciones push",
       "language": "Idioma",
       "logout": "Cerrar Sesión",

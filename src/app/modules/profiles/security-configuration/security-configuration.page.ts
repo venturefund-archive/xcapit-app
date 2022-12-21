@@ -44,7 +44,7 @@ import { WalletPasswordComponent } from '../../wallets/shared-wallets/components
             slot="end"
           ></ion-toggle>
         </ion-item>
-        <ion-item lines="none" class="sco__inactivity ux-font-title-xs ion-no-padding">
+        <ion-item lines="none" class="sco__inactivity ux-font-title-xs ion-no-padding" *ngIf="this.isInactivityEnabled">
           <div class="sco__inactivity__labels">
             <ion-text class=" ux-font-text-lg">
               {{ 'profiles.security_configuration.inactivity.title' | translate }}
@@ -77,6 +77,7 @@ import { WalletPasswordComponent } from '../../wallets/shared-wallets/components
 })
 export class SecurityConfigurationPage {
   isBioAuthEnabled = false;
+  isInactivityEnabled = false;
   valueChangesSubscription$: Subscription;
   form: UntypedFormGroup = this.formBuilder.group({
     biometric: [false, []],

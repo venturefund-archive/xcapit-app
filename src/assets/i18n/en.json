@@ -634,6 +634,7 @@
       "export_private_key": "Private key",
       "security_phrase": "Security phrase",
       "category_preferences": "Preferences",
+      "security_configuration": "Configuration",
       "push_notifications": "Push notifications",
       "language": "Language",
       "logout": "Log Out",
