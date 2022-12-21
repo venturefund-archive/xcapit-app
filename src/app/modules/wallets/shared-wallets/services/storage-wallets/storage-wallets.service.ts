@@ -33,7 +33,6 @@ export class StorageWalletsService {
   providedIn: 'root',
 })
 export class StorageService {
-  allCoins = [];
   coins: Coin[];
   constructor(private appStorageService: AppStorageService, private apiWalletService: ApiWalletService) {}
 
@@ -60,61 +59,16 @@ export class StorageService {
     return wallets.addresses;
   }
 
-  async getAssestsSelected() {
+  async getAssestsSelected(): Promise<Coin[]> {
     this.coins = this.apiWalletService.getCoins();
     const wallets = await this.getWalletFromStorage();
     let userCoins = [];
-    this.allCoins = this.coins;
-
-    if (!!wallets && !!wallets.assets) {
-      userCoins = this.allCoins.filter((coin) => wallets.assets[coin.value]);
-    }
-    return userCoins;
-  }
-
-  async saveAssetSelected(asset: any) {
-    const wallets = await this.getWalletFromStorage();
-
-    if (!!wallets && !!wallets.assets[asset]) {
-      wallets.assets[asset] = !wallets.assets[asset];
-      wallets.updatedAt = moment().utc().format();
-
-      return await this.saveWalletToStorage(wallets);
-    }
-
-    return false;
-  }
-
-  async updateAssetsList() {
-    this.coins = this.apiWalletService.getCoins();
-    const wallets = await this.getWalletFromStorage();
-    let updated = false;
 
     if (wallets) {
-      if (wallets.assets) {
-        for (const coin of this.coins) {
-          if (wallets.assets[coin.value] === undefined) {
-            wallets.assets[coin.value] = false;
-            updated = true;
-          }
-        }
-      } else {
-        const selectedCoins = {};
-
-        for (const coin of this.coins) {
-          selectedCoins[coin.value] = true;
-        }
-
-        wallets.assets = selectedCoins;
-        updated = true;
-      }
-
-      if (updated) {
-        wallets.updatedAt = moment().utc().format();
-        return await this.saveWalletToStorage(wallets);
-      } else {
-        return false;
-      }
+      userCoins = this.coins.filter(coin => {
+        return wallets.assets.find(userCoin => coin.value === userCoin.value && coin.network === userCoin.network);
+      });
     }
+    return userCoins;
   }
 }

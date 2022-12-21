@@ -15,7 +15,6 @@ import { ApiWalletService } from '../../wallets/shared-wallets/services/api-wall
 import { TEST_COINS } from '../../wallets/shared-wallets/constants/coins.test';
 import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { WalletMaintenanceService } from '../../wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
-import { Coin } from '../../wallets/shared-wallets/interfaces/coin.interface';
 import { TokenOperationDataService } from '../shared-ramps/services/token-operation-data/token-operation-data.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ProvidersFactory } from '../shared-ramps/models/providers/factory/providers.factory';
@@ -75,6 +74,13 @@ describe('MoonpayPage', () => {
 
   const blockchain = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData)).oneByName('ERC20');
 
+  const testLimitData = {
+    quoteCurrency: {
+      code: 'eth',
+      minBuyAmount: 0.0166,
+    },
+  };
+
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
@@ -86,6 +92,7 @@ describe('MoonpayPage', () => {
       getMoonpayRedirectLink: of({ url: 'http://testURL.com' }),
       getMoonpayQuotation: of({ ARG: 1 }),
       getMoonpayBuyQuote: of(moonpayBuyQuote),
+      getMoonpayLimitOfBuyQuote: of(testLimitData),
     });
 
     apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
@@ -240,20 +247,27 @@ describe('MoonpayPage', () => {
     component.ionViewWillEnter();
     tick();
     component.form.patchValue({ fiatAmount: 9.1234 });
-    expect(component.form.value.fiatAmount).toEqual(9.12);
     expect(component.form.value.cryptoAmount).toEqual(2.28);
     expect(component.fee.value).toEqual(5);
   }));
 
-  it('should reset info when input changes', fakeAsync(() => {
+  it('should get data of currency limits and calculate minimum fiat amount', fakeAsync(() => {
     component.ionViewWillEnter();
     tick();
-    component.form.patchValue({ fiatAmount: null });
-    fixture.detectChanges();
-    expect(component.form.value.cryptoAmount).toEqual(0);
-
-    component.form.patchValue({ cryptoAmount: null });
-    fixture.detectChanges();
-    expect(component.form.value.fiatAmount).toEqual(0);
+    expect(fiatRampsServiceSpy.getMoonpayLimitOfBuyQuote).toHaveBeenCalledWith(
+      tokenOperationDataServiceSpy.tokenOperationData.asset.toLowerCase(),
+      'usd'
+    );
+    expect(component.minimumFiatAmount).toEqual(0.0664);
   }));
+
+  it('should validate minimum amount', () => {
+    component.ionViewWillEnter();
+    component.form.patchValue({ fiatAmount: 0.000001 });
+    fixture.detectChanges();
+    expect(component.form.controls.fiatAmount.valid).toBeFalse();
+    component.form.patchValue({ fiatAmount: 30 });
+    fixture.detectChanges();
+    expect(component.form.controls.fiatAmount.valid).toBeTrue();
+  });
 });

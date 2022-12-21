@@ -8,6 +8,9 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { PasswordErrorMsgs } from '../../swaps/shared-swaps/models/password/password-error-msgs';
 import { LoginBiometricActivationModalService } from '../../users/shared-users/services/login-biometric-activation-modal-service/login-biometric-activation-modal.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { TrackService } from 'src/app/shared/services/track/track.service';
 
 @Component({
   selector: 'app-biometric-auth',
@@ -49,13 +52,15 @@ export class BiometricAuthPage {
   form: UntypedFormGroup = this.formBuilder.group({
     biometric: [false, []],
   });
+  leave$ = new Subject<void>();
   constructor(
     private modalController: ModalController,
     private translate: TranslateService,
     private biometricAuthInjectable: BiometricAuthInjectable,
     private formBuilder: UntypedFormBuilder,
     private toastService: ToastService,
-    private loginBiometricActivationService: LoginBiometricActivationModalService
+    private loginBiometricActivationService: LoginBiometricActivationModalService,
+    private trackService: TrackService
   ) {}
 
   async ionViewDidEnter() {
@@ -68,7 +73,16 @@ export class BiometricAuthPage {
   }
 
   private valueChanges() {
-    this.form.valueChanges.subscribe((value) => this.toggle(value.biometric));
+    this.form.valueChanges.pipe(takeUntil(this.leave$)).subscribe((value) => {
+      this.toggle(value.biometric);
+      this.sendEvent(value.biometric);
+    });
+  }
+
+  sendEvent(value: boolean) {
+    this.trackService.trackEvent({
+      eventLabel: `ux_biometric_auth_${value ? 'on' : 'off'}`,
+    });
   }
 
   private async requestPassword() {
@@ -112,5 +126,10 @@ export class BiometricAuthPage {
     this.toastService.showErrorToast({
       message: this.translate.instant('profiles.biometric_auth.password_error'),
     });
+  }
+
+  ionViewWillLeave() {
+    this.leave$.next();
+    this.leave$.complete();
   }
 }

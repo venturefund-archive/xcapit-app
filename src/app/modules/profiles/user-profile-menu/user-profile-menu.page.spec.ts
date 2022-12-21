@@ -92,6 +92,13 @@ describe('UserProfileMenuPage', () => {
         },
       ],
     },
+    {
+      id: 'contacts',
+      showCategory: true,
+      category_title: '',
+      icon: '',
+      items: [],
+    },
   ];
 
   const profile = { email: 'test@mail.com' };
@@ -337,38 +344,13 @@ describe('UserProfileMenuPage', () => {
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
   });
 
-  it('should show modal, delete storage data and logout when delete account button is clicked and user confirms it', async () => {
-    component.profile = profile;
-    fakeModalController.modifyReturns({}, { data: true });
-    const button = fixture.debugElement.query(By.css('ion-button[name="delete_account"]'));
-    button.nativeElement.click();
-    await fixture.whenStable();
-    expect(storageServiceSpy.removeWalletFromStorage).toHaveBeenCalledTimes(1);
-    expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', false);
-    expect(walletBackupServiceSpy.enableModal).toHaveBeenCalledTimes(1);
-    expect(walletConnectServiceSpy.killSession).toHaveBeenCalledTimes(1);
-    expect(storageSpy.set).toHaveBeenCalledOnceWith('FINISHED_ONBOARDING', false);
-    expect(authServiceSpy.logout).toHaveBeenCalledTimes(1);
-    expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith('users/login');
-  });
-
-  it('should show modal but not delete anything when delete account button is clicked and user cancels it', async () => {
-    component.profile = profile;
-    fakeModalController.modifyReturns({}, { data: false });
-    const button = fixture.debugElement.query(By.css('ion-button[name="delete_account"]'));
-    button.nativeElement.click();
-    await fixture.whenStable();
-    expect(spyOn(component, 'deleteAccount')).toHaveBeenCalledTimes(0);
-    expect(spyOn(component, 'cleanStorage')).toHaveBeenCalledTimes(0);
-    expect(spyOn(component, 'logout')).toHaveBeenCalledTimes(0);
-  });
 
   it('should render app-card-category-menu component', () => {
     component.itemMenu = itemMenu;
     fixture.detectChanges();
     const menu = fixture.debugElement.queryAll(By.css('app-card-category-menu'));
     fixture.detectChanges();
-    expect(menu.length).toBe(4);
+    expect(menu.length).toBe(5);
   });
 
   it('should back to home when back button is clicked', async () => {
@@ -386,6 +368,7 @@ describe('UserProfileMenuPage', () => {
   it('should show biometric auth item when bio auth is enabled', async () => {
     component.itemMenu = itemMenu;
     remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
+   
     await component.ionViewWillEnter();
 
     const biometricAuthItem = component.itemMenu
@@ -420,5 +403,29 @@ describe('UserProfileMenuPage', () => {
     component.ionViewWillLeave();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(completeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show contacts category when contacts is enabled', async () => {
+    component.itemMenu = itemMenu;
+    remoteConfigServiceSpy.getFeatureFlag.and.returnValue(true);
+   
+    await component.ionViewWillEnter();
+
+    const contactListItem = component.itemMenu
+      .find((category) => category.id === 'contacts')
+     
+
+    expect(contactListItem.showCategory).toBeFalse();
+  });
+
+  it('should hide contacts category when contacts is not enabled', async () => {
+    component.itemMenu = itemMenu;
+    await component.ionViewWillEnter();
+
+    const contactListItem = component.itemMenu
+      .find((category) => category.id === 'contacts')
+     
+
+    expect(contactListItem.showCategory).toBeTrue();
   });
 });

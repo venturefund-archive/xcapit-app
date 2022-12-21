@@ -5,6 +5,8 @@ import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/bl
 import { Password } from 'src/app/modules/swaps/shared-swaps/models/password/password';
 import { WalletsFactory } from 'src/app/modules/swaps/shared-swaps/models/wallets/factory/wallets.factory';
 import { Coin } from '../../interfaces/coin.interface';
+import { StorageAsset } from '../../interfaces/storage-asset.interface';
+import { StorageWallet } from '../../interfaces/storage-wallet.interface';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { EthersService } from '../ethers/ethers.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
@@ -17,7 +19,7 @@ import { WalletMnemonicService } from '../wallet-mnemonic/wallet-mnemonic.servic
 export class WalletMaintenanceService {
   password: string;
   newNetworks: string[];
-  encryptedWallet: any;
+  encryptedWallet: StorageWallet;
   private _wallet: Wallet;
 
   private get wallet(): Wallet {
@@ -54,7 +56,7 @@ export class WalletMaintenanceService {
     return true;
   }
 
-  async updateWalletNetworks(changedAssets: string[]): Promise<void> {
+  async updateWalletNetworks(changedAssets: StorageAsset[]): Promise<void> {
     this.walletMnemonicService.getMnemonic(this.wallet);
     const promises = [];
 
@@ -62,11 +64,9 @@ export class WalletMaintenanceService {
       promises.push(this.createWalletsFromNetwork(network));
     });
 
-    await Promise.all(promises)
+    await Promise.all(promises);
 
-    changedAssets.forEach((coin) => {
-      this.encryptedWallet.assets[coin] = !this.encryptedWallet.assets[coin];
-    });
+    this.toggleAssets(changedAssets);
 
     this.encryptedWallet.updatedAt = moment().utc().format();
   }
@@ -75,11 +75,7 @@ export class WalletMaintenanceService {
     const wallets = this.walletsFactory.create();
     const blockchains = this.blockchainsFactory.create();
 
-    await wallets.createFrom(
-      this.walletMnemonicService.mnemonic.phrase,
-      new Password(this.password),
-      blockchains
-    );
+    await wallets.createFrom(this.walletMnemonicService.mnemonic.phrase, new Password(this.password), blockchains);
 
     this.encryptedWallet.addresses[network] = (await wallets.oneBy(blockchains.oneByName(network))).address();
 
@@ -88,15 +84,32 @@ export class WalletMaintenanceService {
     });
   }
 
-  toggleAssets(changedAssets: string[]) {
-    changedAssets.forEach((asset) => {
-      this.encryptedWallet.assets[asset] = !this.encryptedWallet.assets[asset];
-    });
+  toggleAssets(changedAssets: StorageAsset[]) {
+    changedAssets.forEach((asset) => this.toggleAsset(asset));
   }
-  
-  updateTokensStorage(tokens: any) {
+
+  private toggleAsset(asset: StorageAsset) {
+    if (this.userHasCoin(asset)) {
+      this.removeCoinLocally(asset);
+    } else {
+      this.addCoinLocally(asset);
+    }
+  }
+
+  addCoinLocally(asset: StorageAsset) {
+    this.encryptedWallet.assets.push(asset);
+  }
+
+  private removeCoinLocally(asset: StorageAsset) {
+    this.encryptedWallet.assets = this.encryptedWallet.assets.filter(
+      (userAsset) => !(userAsset.value === asset.value && userAsset.network === asset.network)
+    );
+  }
+
+  async updateTokensStorage(tokens: StorageAsset[]): Promise<void> {
+    await this.getEncryptedWalletFromStorage();
     this.encryptedWallet.assets = tokens;
-    return this.storageService.saveWalletToStorage(this.encryptedWallet);
+    return this.saveWalletToStorage();
   }
 
   async saveWalletToStorage(): Promise<void> {
@@ -112,13 +125,13 @@ export class WalletMaintenanceService {
   }
 
   async getUserAssets(): Promise<Coin[]> {
-    await this.getEncryptedWalletFromStorage();
-    const coins = this.apiWalletService.getCoins();
-    return coins.filter((coin) => !!this.encryptedWallet.assets[coin.value]);
+    return this.storageService.getAssestsSelected();
   }
 
-  userHasCoin(coin: Coin): boolean {
-    return this.encryptedWallet.assets[coin.value];
+  userHasCoin(coin: Coin | StorageAsset): boolean {
+    return this.encryptedWallet.assets.some(
+      (userAsset) => userAsset.value === coin.value && userAsset.network === coin.network
+    );
   }
 
   async addCoinIfUserDoesNotHaveIt(coin: Coin): Promise<void> {
@@ -127,10 +140,10 @@ export class WalletMaintenanceService {
     }
 
     if (!this.userHasCoin(coin)) {
-      this.toggleAssets([coin.value]);
+      this.addCoinLocally(coin);
       await this.saveWalletToStorage();
-    } else {
-      this.wipeDataFromService();
     }
+
+    this.wipeDataFromService();
   }
 }

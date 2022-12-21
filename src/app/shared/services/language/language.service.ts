@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { CONFIG } from 'src/app/config/app-constants.config';
 import { ApiProfilesService } from '../../../modules/profiles/shared-profiles/services/api-profiles/api-profiles.service';
+import { DeviceInjectable } from '../../models/device/injectable/device.injectable';
 
 const LNG_KEY = 'SELECTED_LANGUAGE';
 
@@ -13,14 +14,17 @@ export class LanguageService {
   constructor(
     private translate: TranslateService,
     private storage: Storage,
-    private apiProfilesService: ApiProfilesService
+    private apiProfilesService: ApiProfilesService,
+    private deviceInjectable: DeviceInjectable
   ) {}
 
-  setInitialAppLanguage() {
+  async setInitialAppLanguage() {
     this.translate.setDefaultLang(CONFIG.app.defaultLanguage);
-    this.storage.get(LNG_KEY).then((lang) => {
-      this.setLanguage(lang ? lang : this.getBrowserDefaultLanguage());
-    });
+    let lang = await this.storage.get(LNG_KEY)
+    if (!lang) {
+      lang = await this.getDeviceDefaultLanguage();
+    }
+    this.setLanguage(lang)
   }
 
   getLanguages() {
@@ -31,8 +35,12 @@ export class LanguageService {
     ];
   }
 
-  getBrowserDefaultLanguage(): string {
-    return navigator.language === 'es-ES' ? 'es' : 'en';
+  async getDeviceDefaultLanguage(): Promise<string> {
+    const lang = await this.deviceInjectable.create().getLanguageCode()
+    if (lang.value !== 'en' && lang.value !== 'es' && lang.value !== 'pt') {
+      lang.value = 'en';
+    }
+    return lang.value
   }
 
   setLanguage(lng: string): void {

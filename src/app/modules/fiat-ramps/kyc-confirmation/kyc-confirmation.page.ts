@@ -54,11 +54,11 @@ export class KycConfirmationPage {
   }
 
   private trackButtonEvent() {
-      this.trackService.trackEvent({
-        eventAction: 'click',
-        description: window.location.href,
-        eventLabel: 'ux_buy_kripton_id_confirm',
-      });
+    this.trackService.trackEvent({
+      eventAction: 'click',
+      description: window.location.href,
+      eventLabel: 'ux_buy_kripton_id_confirm',
+    });
   }
 
   async confirm() {
@@ -66,9 +66,10 @@ export class KycConfirmationPage {
       this.trackButtonEvent();
       const digitalDocuments = this._loadPhotos();
       const dataWithEmail = await this._dataWithEmail(digitalDocuments);
-      this.fiatRampsService
-        .registerUserImages(dataWithEmail)
-        .subscribe(() => this.navController.navigateForward('fiat-ramps/user-register'));
+      this.fiatRampsService.registerUserImages(dataWithEmail).subscribe(() => {
+        this.kriptonStorage.set('user_status', 'COMPLETE');
+        this.navController.navigateForward('fiat-ramps/user-register');
+      });
     } else {
       this.navController.navigateForward(this.data.nextPageUrl);
     }

@@ -17,7 +17,6 @@ const testCoins: Coin[] = [
     id: 1,
     name: 'coinTest',
     logoRoute: '../../assets/img/coins/ETH.svg',
-    last: false,
     value: 'ETH',
     network: 'ERC20',
     chainId: 42,
@@ -28,7 +27,6 @@ const testCoins: Coin[] = [
     id: 2,
     name: 'coinTest2',
     logoRoute: '../../assets/img/coins/USDT.svg',
-    last: false,
     value: 'USDT',
     network: 'ERC20',
     chainId: 42,
@@ -94,6 +92,7 @@ describe('BlockchainProviderService', () => {
   [
     {
       coinValue: 'ETH',
+      network: 'ERC20', 
       testCoin: testCoins[0],
       contract: undefined,
       abi: undefined,
@@ -101,6 +100,7 @@ describe('BlockchainProviderService', () => {
     },
     {
       coinValue: 'USDT',
+      network: 'ERC20', 
       testCoin: testCoins[1],
       contract: '0x00000000000000',
       abi: tokenAbi,
@@ -113,7 +113,7 @@ describe('BlockchainProviderService', () => {
       apiWalletServiceSpy.getCoin.and.returnValue(data.testCoin);
       service.createProvider = () => providerMock;
       service.createContract = () => providerMock;
-      const response = await service.getProvider(data.coinValue);
+      const response = await service.getProvider(data.coinValue, data.network);
 
       expect(response.contract).toBe(data.contract);
       expect(response.abi).toEqual(data.abi);
@@ -124,11 +124,13 @@ describe('BlockchainProviderService', () => {
   [
     {
       coinValue: 'ETH',
+      network: 'ERC20', 
       testCoin: testCoins[0],
       balance: '1.152921504606846975',
     },
     {
       coinValue: 'USDT',
+      network: 'ERC20', 
       testCoin: testCoins[1],
       balance: '1.0',
     },
@@ -138,7 +140,7 @@ describe('BlockchainProviderService', () => {
       service.createProvider = () => providerMock;
       service.createContract = () => providerMock;
 
-      const response = await service.getFormattedBalanceOf('testAddress', data.coinValue);
+      const response = await service.getFormattedBalanceOf('testAddress', data.coinValue, data.network);
 
       expect(response).toEqual(data.balance);
     });

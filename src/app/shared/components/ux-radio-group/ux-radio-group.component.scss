@@ -7,7 +7,8 @@
     ion-item,
     ion-label,
     ion-radio {
-      --background: var(--ion-color-uxlight);
+      --background: var(--ion-color-white);
+
       &.ux-error__item {
         --background: transparent;
       }
@@ -16,17 +17,21 @@
     ion-list {
       border-radius: 4px;
       margin-top: 4px;
-      padding-bottom: 0px;
+      padding-bottom: 0;
     }
+
     .container {
-      background-color: var(--ion-color-uxlight);
+      background-color: var(--ion-color-white);
     }
+
     ion-item {
       --background-hover-opacity: 0.03;
-      --inner-border-width: 0px;
+      --inner-border-width: 0;
+
       min-height: 51px;
       background: white;
       display: flex;
+
       &.ux-error__item {
         background: transparent;
         min-height: 10px;
@@ -43,6 +48,7 @@
       --color-checked: var(--ion-color-info);
       --color: var(--ion-color-info);
     }
+
     ion-radio-disabled {
       --color-checked: var(--ion-color-infolight);
       --color: var(--ion-color-infolight);

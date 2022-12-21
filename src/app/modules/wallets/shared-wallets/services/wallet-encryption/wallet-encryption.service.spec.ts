@@ -4,7 +4,6 @@ import { WalletEncryptionService } from './wallet-encryption.service';
 import { StorageService } from '../storage-wallets/storage-wallets.service';
 import { Coin } from '../../interfaces/coin.interface';
 import { environment } from '../../../../../../environments/environment';
-import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { FakeEthersService } from 'src/testing/fakes/ethers.fake.spec';
 import { EthersService } from '../ethers/ethers.service';
 import { PasswordErrorMsgs } from 'src/app/modules/swaps/shared-swaps/models/password/password-error-msgs';
@@ -16,12 +15,13 @@ import { BlockchainsFactory } from 'src/app/modules/swaps/shared-swaps/models/bl
 import { DefaultBlockchains } from 'src/app/modules/swaps/shared-swaps/models/blockchains/blockchains';
 import { BlockchainRepo } from 'src/app/modules/swaps/shared-swaps/models/blockchain-repo/blockchain-repo';
 import { rawBlockchainsData } from 'src/app/modules/swaps/shared-swaps/models/fixtures/raw-blockchains-data';
+import { StorageWallet } from '../../interfaces/storage-wallet.interface';
+import { StorageAsset } from '../../interfaces/storage-asset.interface';
 
 describe('WalletEncryptionService', () => {
   let service: WalletEncryptionService;
   let storageSpy: any;
   let walletServiceSpy: jasmine.SpyObj<WalletService>;
-  let apiWalletServiceSpy: jasmine.SpyObj<ApiWalletService>;
   let fakeEthers: FakeEthersService;
   let ethersServiceSpy: jasmine.SpyObj<EthersService>;
   let ethersWalletMock: Wallet;
@@ -30,7 +30,7 @@ describe('WalletEncryptionService', () => {
   let walletFactorySpy: jasmine.SpyObj<WalletsFactory>;
   let blockchainsFactorySpy: jasmine.SpyObj<BlockchainsFactory>;
 
-  const storageWallet = {
+  const storageWallet: StorageWallet = {
     alias: '0xa8d720DBC2bea006e8450a6c0456e169d2fD7954',
     wallet:
       '{"address":"a8d720dbc2bea006e8450a6c0456e169d2fd7954","id":"4c559f54-bcc2-447e-aacf-215d61402c04","version":3,"Crypto":{"cipher":"aes-128-ctr","cipherparams":{"iv":"256988c1ef9a6c7f7baa788a4c2f6049"},"ciphertext":"424cb609679351166ed8ec32e755f6bf0da3bc24564865e375f447d2c1e9aff9","kdf":"scrypt","kdfparams":{"salt":"2202153f3cafa53809c177c80da0880d3a928f24988f786b186825b15ee2b833","n":131072,"dklen":32,"p":1,"r":8},"mac":"d9d41ba202a2520883ab3b933eeeb0a129d4884b7bb88661758edec8fabf3002"},"x-ethers":{"client":"ethers.js","gethFilename":"UTC--2021-09-07T14-51-41.0Z--a8d720dbc2bea006e8450a6c0456e169d2fd7954","mnemonicCounter":"0b972e8bdfb383008c2709eea1a5045d","mnemonicCiphertext":"d3b1c4361bebae20854f01128665ca48","path":"m/44\'/60\'/0\'/0/0","locale":"en","version":"0.1"}}',
@@ -41,18 +41,18 @@ describe('WalletEncryptionService', () => {
       RSK: '0xFfe923cd87289eD785ca175cdb6232B8F13f0cd9',
     },
     network: 'testnet',
-    assets: {
-      ETH: true,
-      LINK: true,
-      USDT: true,
-      AAVE: true,
-      UNI: true,
-      RBTC: true,
-      RIF: true,
-    },
+    assets: [
+      { value: 'ETH', network: 'ERC20' },
+      { value: 'LINK', network: 'ERC20' },
+      { value: 'USDT', network: 'ERC20' },
+      { value: 'AAVE', network: 'ERC20' },
+      { value: 'UNI', network: 'ERC20' },
+      { value: 'RBTC', network: 'RSK' },
+      { value: 'RIF', network: 'RSK' },
+    ],
   };
 
-  const modifiedPasswordWallet = {
+  const modifiedPasswordWallet: StorageWallet = {
     alias: '0xa8d720DBC2bea006e8450a6c0456e169d2fD7954',
     wallet:
       '{"address":"a8d720dbc2bea006e8450a6c0456e169d2fd7954","id":"172d5b6d-79d2-478d-8afa-e91fa1039c69","version":3,"Crypto":{"cipher":"aes-128-ctr","cipherparams":{"iv":"ddcda5cf1d921ef05e9c63ee1b5cd633"},"ciphertext":"acad69b6ccc3b29937f72cb488f2dab23ff0a8c1e908a4a911f481663e45b9ff","kdf":"scrypt","kdfparams":{"salt":"a452c84af6af7d0221e5c93bbaeaf0a1738646fdb94c4bc51acd74b9e701d973","n":131072,"dklen":32,"p":1,"r":8},"mac":"676ccdb738d6be29072d5fa5834ba1955e9bf810520dda26efc0afb03db333c5"},"x-ethers":{"client":"ethers.js","gethFilename":"UTC--2022-01-14T12-04-03.0Z--a8d720dbc2bea006e8450a6c0456e169d2fd7954","mnemonicCounter":"6915834b58f4c8486abeadbebfcdf8ef","mnemonicCiphertext":"2670a5bbab9a30ada4d420fe6fd979a4","path":"m/44\'/60\'/0\'/0/0","locale":"en","version":"0.1"}}',
@@ -63,15 +63,15 @@ describe('WalletEncryptionService', () => {
       RSK: '0xFfe923cd87289eD785ca175cdb6232B8F13f0cd9',
     },
     network: 'testnet',
-    assets: {
-      ETH: true,
-      LINK: true,
-      USDT: true,
-      AAVE: true,
-      UNI: true,
-      RBTC: true,
-      RIF: true,
-    },
+    assets: [
+      { value: 'ETH', network: 'ERC20' },
+      { value: 'LINK', network: 'ERC20' },
+      { value: 'USDT', network: 'ERC20' },
+      { value: 'AAVE', network: 'ERC20' },
+      { value: 'UNI', network: 'ERC20' },
+      { value: 'RBTC', network: 'RSK' },
+      { value: 'RIF', network: 'RSK' },
+    ],
   };
 
   const walletSaved = {
@@ -87,7 +87,6 @@ describe('WalletEncryptionService', () => {
       id: 1,
       name: 'coinTest',
       logoRoute: '../../assets/img/coins/ETH.svg',
-      last: false,
       value: 'ETH',
       network: 'ERC20',
       chainId: 42,
@@ -97,7 +96,6 @@ describe('WalletEncryptionService', () => {
       id: 2,
       name: 'coinTest2',
       logoRoute: '../../assets/img/coins/USDT.svg',
-      last: false,
       value: 'USDT',
       network: 'ERC20',
       chainId: 42,
@@ -107,7 +105,6 @@ describe('WalletEncryptionService', () => {
       id: 6,
       name: 'RBTC - Smart Bitcoin',
       logoRoute: '../../assets/img/coins/RBTC.png',
-      last: false,
       value: 'RBTC',
       network: 'RSK',
       chainId: 31,
@@ -115,11 +112,11 @@ describe('WalletEncryptionService', () => {
     },
   ];
 
-  const testCoinsStructure = {
-    ETH: true,
-    USDT: true,
-    RBTC: true,
-  };
+  const testCoinsStructure: StorageAsset[] = [
+    { value: 'ETH', network: 'ERC20' },
+    { value: 'USDT', network: 'ERC20' },
+    { value: 'RBTC', network: 'RSK' },
+  ];
 
   const testMnemonic = {
     phrase: 'test mnemonic',
@@ -163,15 +160,11 @@ describe('WalletEncryptionService', () => {
         coins: testCoins,
       }
     );
-    apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
-      getCoins: testCoins,
-    });
     jasmine.setDefaultSpyStrategy((and) => and.stub());
     TestBed.configureTestingModule({
       providers: [
         { provide: StorageService, useValue: storageSpy },
         { provide: WalletService, useValue: walletServiceSpy },
-        { provide: ApiWalletService, useValue: apiWalletServiceSpy },
         { provide: EthersService, useValue: ethersServiceSpy },
         { provide: WalletMnemonicService, useValue: WalletMnemonicServiceSpy },
         { provide: WalletsFactory, useValue: walletFactorySpy },

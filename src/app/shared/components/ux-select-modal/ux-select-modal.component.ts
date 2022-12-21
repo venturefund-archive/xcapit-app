@@ -5,6 +5,7 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 @Component({
   selector: 'app-ux-select-modal',
   template: `
+  <div class="modal-content">
     <div class="sm__header">
       <ion-text class="sm__header__text ux-font-text-xl">
         {{ this.title }}
@@ -22,7 +23,7 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
         <ion-icon name="close"></ion-icon>
       </ion-button>
     </div>
-    <ion-content class="sm__content ion-padding-start ion-padding-end ion-padding-bottom">
+    <div class="sm__content ion-padding-start ion-padding-end ion-padding-bottom">
       <form [formGroup]="this.form">
         <app-ux-radio-group>
           <ion-list>
@@ -38,7 +39,8 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
           </ion-list>
         </app-ux-radio-group>
       </form>
-    </ion-content>
+</div>
+</div>
   `,
   styleUrls: ['./ux-select-modal.component.scss'],
 })

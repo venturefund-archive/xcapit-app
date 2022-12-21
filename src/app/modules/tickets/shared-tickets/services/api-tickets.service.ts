@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { CRUD } from 'src/app/shared/services/crud/crud';
-import { CrudService } from 'src/app/shared/services/crud/crud.service';
-
+import { CustomHttpService } from '../../../../shared/services/custom-http/custom-http.service';
+import { environment } from 'src/environments/environment';
+import { Observable, of } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class ApiTicketsService {
-  crud: CRUD;
-
   entity = 'tickets';
 
-  constructor(private crudService: CrudService) {
-    this.crud = this.crudService.getEndpoints(this.entity);
+  constructor(private http: CustomHttpService) {}
+
+  createTicket(data: any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/${this.entity}/`, data, undefined, false);
   }
 }

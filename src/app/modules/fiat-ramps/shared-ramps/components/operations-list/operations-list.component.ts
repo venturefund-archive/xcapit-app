@@ -45,7 +45,7 @@ import { InfoProviderKriptonComponent } from '../info-provider-kripton/info-prov
   `,
   styleUrls: ['./operations-list.component.scss'],
 })
-export class OperationsListComponent implements OnInit, OnChanges {
+export class OperationsListComponent implements OnChanges {
   @Input() operationsList: FiatRampOperation[];
   @Input() isLogged: boolean;
   private readonly numberOfOperationsToShow = 3;
@@ -57,16 +57,11 @@ export class OperationsListComponent implements OnInit, OnChanges {
 
   constructor(private modalController: ModalController, private navController: NavController) {}
 
-  ngOnInit() {
-    this.sliceOperations();
-    this.cssWithLine = this.calculateDynamicCssClasses();
-    this.hasOperations = this.checkIfUserHasOperations();
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     this.operationsList = changes.operationsList.currentValue;
-    this.sliceOperations();
     this.hasOperations = this.checkIfUserHasOperations();
+    if (this.hasOperations) this.sliceOperations();
+    this.cssWithLine = this.calculateDynamicCssClasses();
   }
 
   navigateToVerifier() {
