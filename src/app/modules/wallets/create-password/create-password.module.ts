@@ -5,10 +5,6 @@ import { CreatePasswordPage } from './create-password.page';
 
 const routes: Routes = [
   {
-    path: '',
-    component: CreatePasswordPage,
-  },
-  {
     path: ':mode',
     component: CreatePasswordPage,
   },

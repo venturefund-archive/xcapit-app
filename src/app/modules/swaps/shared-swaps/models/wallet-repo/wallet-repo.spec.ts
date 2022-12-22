@@ -1,12 +1,17 @@
-import { FakeAppStorage } from 'src/app/shared/services/app-storage/app-storage.service';
+import { AppStorageService, FakeAppStorage } from 'src/app/shared/services/app-storage/app-storage.service';
 import { rawStoredWalletData, rawStoredWalletDataNew } from '../fixtures/raw-stored-wallet-data';
 import { WalletRepo } from './wallet-repo';
 
 describe('Wallet Repo', () => {
   let repo: WalletRepo;
+  let storageSpy: jasmine.SpyObj<AppStorageService>;
 
   beforeEach(() => {
-    repo = new WalletRepo(new FakeAppStorage(rawStoredWalletDataNew));
+    storageSpy = jasmine.createSpyObj('StorageService',  {
+      get: Promise.resolve(rawStoredWalletDataNew.enc_wallet),
+      set: Promise.resolve()
+    });
+    repo = new WalletRepo(storageSpy);
   });
 
   it('new', () => {
@@ -22,11 +27,9 @@ describe('Wallet Repo', () => {
   });
 
   it('save', async () => {
-    const repo = new WalletRepo(new FakeAppStorage());
-
     await repo.save(rawStoredWalletDataNew.enc_wallet.addresses, rawStoredWalletDataNew.enc_wallet.wallet);
 
-    expect(await repo.addressByName('MATIC')).toEqual(rawStoredWalletDataNew.enc_wallet.addresses.MATIC);
+    expect(storageSpy.set).toHaveBeenCalledOnceWith('enc_wallet', { addresses: rawStoredWalletDataNew.enc_wallet.addresses, wallet: rawStoredWalletDataNew.enc_wallet.wallet });
   });
 
   it('creation method', async () => {
@@ -34,7 +37,7 @@ describe('Wallet Repo', () => {
   });
 
   it('creation method legacy', async () => {
-    repo = new WalletRepo(new FakeAppStorage(rawStoredWalletData));
+    storageSpy.get.and.resolveTo(rawStoredWalletData.enc_wallet);
     expect(await repo.creationMethod()).toEqual('legacy');
   });
 });

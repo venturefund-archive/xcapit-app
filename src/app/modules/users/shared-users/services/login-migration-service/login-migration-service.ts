@@ -15,7 +15,7 @@ export class LoginMigrationService {
   ) {}
 
   public async migrate(aPassword: string): Promise<void> {
-    const wallet = await this.walletEcryptionService.getDecryptedWallet(aPassword);
+    const wallet = await this.walletEcryptionService.getDecryptedERC20Wallet(aPassword);
     const signedMsg = await wallet.signMessage(wallet.address);
     await this.xAuthService.saveToken(`${wallet.address}_${signedMsg}`);
     await new LoginToken(new Password(aPassword), this.ionicStorageService).save();

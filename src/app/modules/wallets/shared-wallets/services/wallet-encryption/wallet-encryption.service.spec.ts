@@ -40,6 +40,29 @@ describe('WalletEncryptionService', () => {
       ERC20: '0xa8d720DBC2bea006e8450a6c0456e169d2fD7954',
       RSK: '0xFfe923cd87289eD785ca175cdb6232B8F13f0cd9',
     },
+    creationMethod: 'default',
+    network: 'testnet',
+    assets: [
+      { value: 'ETH', network: 'ERC20' },
+      { value: 'LINK', network: 'ERC20' },
+      { value: 'USDT', network: 'ERC20' },
+      { value: 'AAVE', network: 'ERC20' },
+      { value: 'UNI', network: 'ERC20' },
+      { value: 'RBTC', network: 'RSK' },
+      { value: 'RIF', network: 'RSK' },
+    ],
+  };
+
+  const storageWalletLegacy: StorageWallet = {
+    alias: '0xa8d720DBC2bea006e8450a6c0456e169d2fD7954',
+    wallet:
+      '{"address":"a8d720dbc2bea006e8450a6c0456e169d2fd7954","id":"4c559f54-bcc2-447e-aacf-215d61402c04","version":3,"Crypto":{"cipher":"aes-128-ctr","cipherparams":{"iv":"256988c1ef9a6c7f7baa788a4c2f6049"},"ciphertext":"424cb609679351166ed8ec32e755f6bf0da3bc24564865e375f447d2c1e9aff9","kdf":"scrypt","kdfparams":{"salt":"2202153f3cafa53809c177c80da0880d3a928f24988f786b186825b15ee2b833","n":131072,"dklen":32,"p":1,"r":8},"mac":"d9d41ba202a2520883ab3b933eeeb0a129d4884b7bb88661758edec8fabf3002"},"x-ethers":{"client":"ethers.js","gethFilename":"UTC--2021-09-07T14-51-41.0Z--a8d720dbc2bea006e8450a6c0456e169d2fd7954","mnemonicCounter":"0b972e8bdfb383008c2709eea1a5045d","mnemonicCiphertext":"d3b1c4361bebae20854f01128665ca48","path":"m/44\'/60\'/0\'/0/0","locale":"en","version":"0.1"}}',
+    createdAt: '2021-09-07T14:51:41Z',
+    updatedAt: '2021-09-07T14:51:41Z',
+    addresses: {
+      ERC20: '0xa8d720DBC2bea006e8450a6c0456e169d2fD7954',
+      RSK: '0xFfe923cd87289eD785ca175cdb6232B8F13f0cd9',
+    },
     network: 'testnet',
     assets: [
       { value: 'ETH', network: 'ERC20' },
@@ -62,6 +85,7 @@ describe('WalletEncryptionService', () => {
       ERC20: '0xa8d720DBC2bea006e8450a6c0456e169d2fD7954',
       RSK: '0xFfe923cd87289eD785ca175cdb6232B8F13f0cd9',
     },
+    creationMethod: 'default',
     network: 'testnet',
     assets: [
       { value: 'ETH', network: 'ERC20' },
@@ -215,8 +239,14 @@ describe('WalletEncryptionService', () => {
     expect(currencyWallet.mnemonic.path).toBe("m/44'/60'/0'/0/0");
   });
 
-  it('should get decrypted wallet for rBTC with RSK derived path', async () => {
+  it('should get decrypted wallet for rBTC with ERC20 derived path', async () => {
     storageSpy.getWalletFromStorage.and.returnValue(Promise.resolve(storageWallet));
+    const currencyWallet = await service.getDecryptedWalletForCurrency('TestPass1234', testCoins[2]);
+    expect(currencyWallet.mnemonic.path).toBe("m/44'/60'/0'/0/0");
+  });
+
+  it('should get decrypted wallet for rBTC with RSK derived path (legacy)', async () => {
+    storageSpy.getWalletFromStorage.and.returnValue(Promise.resolve(storageWalletLegacy))
     const currencyWallet = await service.getDecryptedWalletForCurrency('TestPass1234', testCoins[2]);
     expect(currencyWallet.mnemonic.path).toBe("m/44'/37310'/0'/0/0");
   });
@@ -225,6 +255,18 @@ describe('WalletEncryptionService', () => {
     storageSpy.getWalletFromStorage.and.returnValue(Promise.resolve(storageWallet));
     const currencyWallet = await service.getDecryptedWalletForNetwork('TestPass1234', 'ETH');
     expect(currencyWallet.mnemonic.path).toBe("m/44'/60'/0'/0/0");
+  });
+
+  it('should get decrypted wallet for RSK network', async () => {
+    storageSpy.getWalletFromStorage.and.returnValue(Promise.resolve(storageWallet));
+    const currencyWallet = await service.getDecryptedWalletForNetwork('TestPass1234', 'RSK');
+    expect(currencyWallet.mnemonic.path).toBe("m/44'/60'/0'/0/0");
+  });
+
+  it('should get decrypted wallet for RSK network (legacy)', async () => {
+    storageSpy.getWalletFromStorage.and.returnValue(Promise.resolve(storageWalletLegacy));
+    const currencyWallet = await service.getDecryptedWalletForNetwork('TestPass1234', 'RSK');
+    expect(currencyWallet.mnemonic.path).toBe("m/44'/37310'/0'/0/0");
   });
 
   it('should change password if oldPassword is correct on changePassword', async () => {

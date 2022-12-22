@@ -1,4 +1,4 @@
-import { FakeAppStorage } from 'src/app/shared/services/app-storage/app-storage.service';
+import { AppStorageService, FakeAppStorage } from 'src/app/shared/services/app-storage/app-storage.service';
 import { BlockchainRepo } from '../blockchain-repo/blockchain-repo';
 import { Blockchain } from '../blockchain/blockchain';
 import { Blockchains, DefaultBlockchains } from '../blockchains/blockchains';
@@ -13,11 +13,16 @@ import { Wallets } from './wallets';
 
 describe('Wallets', () => {
   let wallets: Wallets;
+  let storageSpy: jasmine.SpyObj<AppStorageService>;
   const blockchains: Blockchains = new DefaultBlockchains(new BlockchainRepo(rawBlockchainsData));
 
   beforeEach(() => {
+    storageSpy = jasmine.createSpyObj('StorageService',  {
+      get: Promise.resolve(rawStoredWalletDataNew.enc_wallet),
+      set: Promise.resolve()
+    });
     wallets = new Wallets(
-      new WalletRepo(new FakeAppStorage(rawStoredWalletDataNew)),
+      new WalletRepo(storageSpy),
       blockchains,
       new FakeEthersWallet()
     );
@@ -67,7 +72,7 @@ describe('Wallets', () => {
   });
 
   it('return one by blockchain (legacy)', async () => {
-    wallets = new Wallets(new WalletRepo(new FakeAppStorage(rawStoredWalletData)), blockchains, new FakeEthersWallet());
+    storageSpy.get.and.resolveTo(rawStoredWalletData.enc_wallet);
 
     const expectedResult = rawStoredWalletData.enc_wallet.addresses.MATIC;
     const aBlockchain = new Blockchain(rawPolygonData);
@@ -76,7 +81,7 @@ describe('Wallets', () => {
   });
 
   it('return one by blockchain solana (legacy)', async () => {
-    wallets = new Wallets(new WalletRepo(new FakeAppStorage(rawStoredWalletData)), blockchains, new FakeEthersWallet());
+    storageSpy.get.and.resolveTo(rawStoredWalletData.enc_wallet);
 
     const expectedResult = rawStoredWalletData.enc_wallet.addresses.SOLANA;
     const aBlockchain = new Blockchain(rawSolanaData);

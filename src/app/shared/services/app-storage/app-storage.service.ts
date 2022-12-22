@@ -46,13 +46,16 @@ export class AppStorageService implements StorageService {
 }
 
 export class FakeAppStorage implements StorageService {
-  constructor(private _aFakeStorageValue: any = {}) {}
+  private _aFakeStorageValueCopy: any;
+  constructor(private readonly _aFakeStorageValue: any = {}) {
+    this._aFakeStorageValueCopy = JSON.parse(JSON.stringify(_aFakeStorageValue));
+  }
 
   async get(aStorageKey: string): Promise<any> {
-    return this._aFakeStorageValue[aStorageKey];
+    return this._aFakeStorageValueCopy[aStorageKey];
   }
 
   async set(key: string, value: any): Promise<any> {
-    this._aFakeStorageValue[key] = value;
+    this._aFakeStorageValueCopy[key] = value;
   }
 }

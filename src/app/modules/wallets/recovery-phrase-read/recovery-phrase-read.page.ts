@@ -244,7 +244,7 @@ export class RecoveryPhraseReadPage implements OnInit {
   }
 
   private async setMnemonic() {
-    const decriptedWallet = await this.walletEncryptionService.getDecryptedWallet(this.password);
+    const decriptedWallet = await this.walletEncryptionService.getDecryptedERC20Wallet(this.password);
     this.mnemonic = decriptedWallet.mnemonic;
   }
 

@@ -207,9 +207,9 @@ describe('WalletMaintenanceService', () => {
   });
 
   it('should save wallet with update date and reset values on saveWalletToStorage', async () => {
-    service.encryptedWallet = jasmine.createSpyObj('Wallet', {}, { test: 'test' });
+    service.encryptedWallet = jasmine.createSpyObj('Wallet', {}, walletResultToggleAssets);
     await service.saveWalletToStorage();
-    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith({ test: 'test' });
+    expect(storageServiceSpy.saveWalletToStorage).toHaveBeenCalledOnceWith(walletResultToggleAssets);
     expect(service.encryptedWallet).toBeUndefined();
     expect(service.newNetworks).toBeUndefined();
     expect(service.password).toBeUndefined();
