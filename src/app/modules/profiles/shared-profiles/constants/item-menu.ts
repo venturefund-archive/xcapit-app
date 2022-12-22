@@ -56,19 +56,11 @@ export const ITEM_MENU: MenuCategory[] = [
     showCategory: false,
     items: [
       {
-        name: 'WalletPasswordChange',
-        text: 'profiles.user_profile_menu.change_pass',
-        route: '/wallets/password-change',
+        name: 'SecurityConfiguration',
+        text: 'profiles.user_profile_menu.security_configuration',
+        route: '/profiles/security-configuration',
         type: 'link',
-        buttonName: 'ux_go_to_wallet_change_password',
-      },
-      {
-        name: 'BiometricAuth',
-        text: 'profiles.user_profile_menu.biometric_auth',
-        route: '/profiles/biometric-auth',
-        type: 'link',
-        buttonName: 'ux_go_to_biometric_auth',
-        hidden: true,
+        buttonName: 'ux_go_to_security_configuration',
         newBadge: true,
       },
       {

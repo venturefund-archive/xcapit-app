@@ -48,6 +48,10 @@ const routes: Routes = [
             (m) => m.SuccessDeleteAccountPageModule
           ),
       },
+      {
+        path: 'security-configuration',
+        loadChildren: () => import('../profiles/security-configuration/security-configuration.module').then((m) => m.SecurityConfigurationPageModule),
+      },
     ],
   },
 ];

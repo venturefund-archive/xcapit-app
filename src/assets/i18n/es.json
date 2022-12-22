@@ -627,6 +627,7 @@
       "export_private_key": "Clave privada",
       "security_phrase": "Frase de seguridad",
       "category_preferences": "Preferencias",
+      "security_configuration": "Configuración",
       "push_notifications": "Notificaciones push",
       "language": "Idioma",
       "logout": "Cerrar Sesión",
@@ -710,6 +711,17 @@
       "success": {
         "title": "Solicitud enviada exitosamente",
         "message": "Nuestro equipo ya se encuentra trabajando sobre tu caso. Te estaremos respondiendo a  la brevedad al email {{email}}"
+      }
+    },
+    "security_configuration": {
+      "header": "Configuración",
+      "inactivity": {
+        "title": "Cierre de sesión por inactividad",
+        "message": "Selecciona el tiempo que desees que transcurra por inactividad antes que se cierre tu sesión."
+      },
+      "password_change": {
+        "title": "Constraseña",
+        "button": "Cambiar"
       }
     },
     "shared": {
