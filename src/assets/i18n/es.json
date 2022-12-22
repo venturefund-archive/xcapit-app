@@ -3063,7 +3063,7 @@
       "question2": "¿Qué costo tienen los retiros del producto de inversión?",
       "answer2": "La tarifa es de 0,255% del monto que el usuario retira del producto de inversión. Este cobro se hace en la moneda en la cual se está ejecutando dicho producto de inversión.",
       "question3": "¿Por qué aparece un mensaje de “fondo insuficiente” para realizar el pago de comisiones si yo tengo cripto?",
-      "answer3": "Porque el pago de fee de las transacciones se hacen en la moneda nativa de la red.<br>A través de swap de la billetera de Xcapit podrás adquirir los tokens nativos para pagar las fee o comisiones.",
+      "answer3": "Porque el pago de fee de las transacciones se hacen en la moneda nativa de la red.<br>En la sección “Intercambiar” de tu wallet, podrás adquirir los tokens nativos para pagar las fee o comisiones.",
       "question4": "¿Cuánto tiempo demora en acreditarse una transferencia?",
       "answer4": "De la misma manera que el costo de la transferencia, el tiempo va a depender de la blockchain de la misma.",
       "question5": "¿Cómo recibo una transferencia en mi Wallet?",
