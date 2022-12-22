@@ -301,9 +301,4 @@ export class UserProfileMenuPage {
     this.leave$.next();
     this.leave$.complete();
   }
-
-  ionViewWillLeave() {
-    this.leave$.next();
-    this.leave$.complete();
-  }
 }
