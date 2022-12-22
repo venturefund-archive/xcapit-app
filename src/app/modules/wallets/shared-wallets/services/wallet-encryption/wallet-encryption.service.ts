@@ -30,7 +30,7 @@ export class WalletEncryptionService {
     private walletService: WalletService
   ) {}
 
-  async encryptWallet(password: string): Promise<any> {
+  async encryptWallet(password: string): Promise<void> {
     await this.createWallets(new Password(password));
     await this.saveEncryptedWallet();
   }
