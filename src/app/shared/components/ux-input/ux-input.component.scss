@@ -2,6 +2,14 @@
   .ux_input_container {
     padding-top: 16px;
 
+    &__labels {
+      display: grid;
+
+      ion-label:last-child {
+        color: var(--ion-color-neutral80);
+      }
+    }
+
     &__label {
       display: flex;
       align-items: flex-end;
@@ -80,6 +88,14 @@
         }
 
         outline: none !important;
+      }
+
+      &__qr_icon {
+        color: var(--ion-color-info);
+      }
+
+      &__disabled_qr_icon {
+        color: var(--ion-color-neutral50);
       }
     }
   }
