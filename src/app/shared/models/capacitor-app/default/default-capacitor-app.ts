@@ -13,4 +13,10 @@ export class DefaultCapacitorApp implements CapacitorApp {
       callback(state);
     });
   }
+
+  public onPause(callback: CallableFunction): void {
+    this.app.addListener('pause', () => {
+      callback();
+    });
+  }
 }

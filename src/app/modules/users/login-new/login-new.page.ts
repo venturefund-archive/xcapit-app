@@ -21,6 +21,7 @@ import { LoginMigrationService } from '../shared-users/services/login-migration-
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { AuthService } from '../shared-users/services/auth/auth.service';
 import { WalletConnectService } from '../../wallets/shared-wallets/services/wallet-connect/wallet-connect.service';
+import { AppSessionInjectable } from 'src/app/shared/models/app-session/injectable/app-session.injectable';
 
 @Component({
   selector: 'app-login-new',
@@ -120,7 +121,8 @@ export class LoginNewPage {
     private loginMigrationService: LoginMigrationService,
     private notificationsService: NotificationsService,
     private authService: AuthService,
-    private walletConnectService: WalletConnectService
+    private walletConnectService: WalletConnectService,
+    private appSession: AppSessionInjectable
   ) {}
 
   async ionViewWillEnter() {
@@ -203,6 +205,8 @@ export class LoginNewPage {
     await this.initializeNotifications();
     await this._checkWalletConnectDeepLink();
     await this.checkWalletProtected();
+    this.appSession.create().save();
+
   }
 
   private async _checkWalletConnectDeepLink() {

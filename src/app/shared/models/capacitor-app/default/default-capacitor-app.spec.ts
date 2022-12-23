@@ -27,4 +27,9 @@ describe('App', () => {
     defaultCapacitorApp.onStateChange(() => {});
     expect(appPluginSpy.addListener).toHaveBeenCalledTimes(1);
   });
+
+  it('on pause ', () => {
+    defaultCapacitorApp.onPause(() => {});
+    expect(appPluginSpy.addListener).toHaveBeenCalledTimes(1);
+  });
 });
