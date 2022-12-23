@@ -64,7 +64,7 @@ describe('RecoveryPhraseReadPage', () => {
         importMnemonic: '',
       });
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-        getDecryptedWallet: Promise.resolve(jasmine.createSpyObj('Wallet', {}, { mnemonic: testMnemonic })),
+        getDecryptedERC20Wallet: Promise.resolve(jasmine.createSpyObj('Wallet', {}, { mnemonic: testMnemonic })),
       });
       TestBed.configureTestingModule({
         declarations: [RecoveryPhraseReadPage, FakeTrackClickDirective],
@@ -151,7 +151,7 @@ describe('RecoveryPhraseReadPage', () => {
   it('should not reveal phrase, not copy to clipboard, show toast on Copy Button click and wrong password', async () => {
     storageSpy.get.and.returnValue(Promise.resolve(true));
     fakeModalController.modifyReturns({}, { data: 'testPass' });
-    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(invalidPasswordError);
+    walletEncryptionServiceSpy.getDecryptedERC20Wallet.and.rejectWith(invalidPasswordError);
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -181,7 +181,7 @@ describe('RecoveryPhraseReadPage', () => {
   it('should show error toast when password is incorrect', async () => {
     fakeModalController.modifyReturns({}, { data: 'testPass' });
     storageSpy.get.and.returnValue(Promise.resolve(true));
-    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(invalidPasswordError);
+    walletEncryptionServiceSpy.getDecryptedERC20Wallet.and.rejectWith(invalidPasswordError);
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -194,7 +194,7 @@ describe('RecoveryPhraseReadPage', () => {
     storageSpy.get.and.returnValue(Promise.resolve(true));
     clipboardServiceSpy.write.and.rejectWith();
     fakeModalController.modifyReturns({}, { data: 'testPass' });
-    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(invalidPasswordError);
+    walletEncryptionServiceSpy.getDecryptedERC20Wallet.and.rejectWith(invalidPasswordError);
     await component.ionViewDidEnter();
     fixture.detectChanges();
     await fixture.whenStable();

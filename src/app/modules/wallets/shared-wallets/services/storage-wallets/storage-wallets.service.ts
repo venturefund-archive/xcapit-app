@@ -4,6 +4,7 @@ import { AppStorageService } from 'src/app/shared/services/app-storage/app-stora
 import * as moment from 'moment';
 import { ApiWalletService } from '../api-wallet/api-wallet.service';
 import { Coin } from '../../interfaces/coin.interface';
+import { StorageWallet } from '../../interfaces/storage-wallet.interface';
 @Injectable({
   providedIn: 'root',
 })
@@ -36,11 +37,11 @@ export class StorageService {
   coins: Coin[];
   constructor(private appStorageService: AppStorageService, private apiWalletService: ApiWalletService) {}
 
-  async getWalletFromStorage() {
+  async getWalletFromStorage(): Promise<StorageWallet> {
     return await this.appStorageService.get('enc_wallet');
   }
 
-  async saveWalletToStorage(wallet: any) {
+  async saveWalletToStorage(wallet: StorageWallet) {
     const walletData = await this.getWalletFromStorage() || {};
     return await this.appStorageService.set('enc_wallet', { ...walletData, ...wallet });
   }

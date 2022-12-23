@@ -89,4 +89,12 @@ describe('FakeAppStorage ', () => {
     expect(await storage.get(aKey)).toEqual(aTestValue);
     expect(await storage.get(anotherKey)).toEqual(anotherTestValue);
   });
+
+  it('should copy values and not modify original', async () => {
+    const original = { myValue: 'value' };
+    const storage = new FakeAppStorage(original);
+    await storage.set('myValue', 'newValue');
+    expect(await storage.get('myValue')).toEqual('newValue');
+    expect(original.myValue).toEqual('value');
+  })
 });

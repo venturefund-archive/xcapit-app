@@ -36,7 +36,7 @@ describe('WalletPasswordSmallComponent', () => {
       });
 
       walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-        getDecryptedWallet: Promise.resolve(jasmine.createSpyObj('Wallet', { _mnemonic: testMnemonic })),
+        getDecryptedERC20Wallet: Promise.resolve(jasmine.createSpyObj('Wallet', { _mnemonic: testMnemonic })),
       });
 
       walletMnemonicServiceSpy = jasmine.createSpyObj(
@@ -80,7 +80,7 @@ describe('WalletPasswordSmallComponent', () => {
   });
 
   it('should show error when user password is incorrect', async () => {
-    walletEncryptionServiceSpy.getDecryptedWallet.and.rejectWith(new Error(new PasswordErrorMsgs().invalid()));
+    walletEncryptionServiceSpy.getDecryptedERC20Wallet.and.rejectWith(new Error(new PasswordErrorMsgs().invalid()));
     component.form.patchValue({ password: 'testPassword' });
     const buttonEl = fixture.debugElement.query(By.css("ion-button[name='Confirm Password']"));
     buttonEl.nativeElement.click();

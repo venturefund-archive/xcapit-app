@@ -56,34 +56,6 @@ export class WalletMaintenanceService {
     return true;
   }
 
-  async updateWalletNetworks(changedAssets: StorageAsset[]): Promise<void> {
-    this.walletMnemonicService.getMnemonic(this.wallet);
-    const promises = [];
-
-    this.newNetworks.forEach((network) => {
-      promises.push(this.createWalletsFromNetwork(network));
-    });
-
-    await Promise.all(promises);
-
-    this.toggleAssets(changedAssets);
-
-    this.encryptedWallet.updatedAt = moment().utc().format();
-  }
-
-  private async createWalletsFromNetwork(network: string) {
-    const wallets = this.walletsFactory.create();
-    const blockchains = this.blockchainsFactory.create();
-
-    await wallets.createFrom(this.walletMnemonicService.mnemonic.phrase, new Password(this.password), blockchains);
-
-    this.encryptedWallet.addresses[network] = (await wallets.oneBy(blockchains.oneByName(network))).address();
-
-    this.apiWalletService.getCoinsFromNetwork(network).forEach((coin) => {
-      this.encryptedWallet.assets[coin.value] = false;
-    });
-  }
-
   toggleAssets(changedAssets: StorageAsset[]) {
     changedAssets.forEach((asset) => this.toggleAsset(asset));
   }

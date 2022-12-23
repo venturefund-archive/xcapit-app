@@ -4,6 +4,7 @@ import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { NavController } from '@ionic/angular';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { NoWallet } from './no-wallet.service';
+import { StorageWallet } from 'src/app/modules/wallets/shared-wallets/interfaces/storage-wallet.interface';
 
 describe('NoWallet', () => {
   let noWallet: NoWallet;
@@ -12,10 +13,12 @@ describe('NoWallet', () => {
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
   let routeSpy: jasmine.SpyObj<ActivatedRouteSnapshot>;
   let routeSpyWithFallback: jasmine.SpyObj<ActivatedRouteSnapshot>;
+  let storageWalletSpy: jasmine.SpyObj<StorageWallet>;
   const defaultFallbackUrl = '/users/login-new';
   const customFallbackUrl = '/test/custom-fallback/url';
 
   beforeEach(() => {
+    storageWalletSpy = jasmine.createSpyObj('Wallet', {}, { addresses: {} });
     fakeNavController = new FakeNavController({});
     navControllerSpy = fakeNavController.createSpy();
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -52,13 +55,13 @@ describe('NoWallet', () => {
   });
 
   it('should navigate to default page when wallet exist', async () => {
-    storageServiceSpy.getWalletFromStorage.and.resolveTo({ addresses: {} });
+    storageServiceSpy.getWalletFromStorage.and.resolveTo(storageWalletSpy);
     await noWallet.canActivate(routeSpy);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([defaultFallbackUrl]);
   });
 
   it('should navigate to fallback url when wallet exist', async () => {
-    storageServiceSpy.getWalletFromStorage.and.resolveTo({ addresses: {} });
+    storageServiceSpy.getWalletFromStorage.and.resolveTo(storageWalletSpy);
     await noWallet.canActivate(routeSpyWithFallback);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([customFallbackUrl]);
   });

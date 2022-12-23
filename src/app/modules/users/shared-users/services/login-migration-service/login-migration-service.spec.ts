@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { WalletEncryptionService } from 'src/app/modules/wallets/shared-wallets/services/wallet-encryption/wallet-encryption.service';
 import { FakeAppStorage } from 'src/app/shared/services/app-storage/app-storage.service';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
@@ -15,7 +14,7 @@ describe('LoginMigrationService', () => {
   beforeEach(() => {
     fakeStorage = new FakeAppStorage();
     walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-      getDecryptedWallet: Promise.resolve({ signMessage: () => Promise.resolve('aSignedMsg') }),
+      getDecryptedERC20Wallet: Promise.resolve({ signMessage: () => Promise.resolve('aSignedMsg') }),
     });
     xAuthServiceSpy = jasmine.createSpyObj('XAuthService', {
       saveToken: fakeStorage.set('x-auth', 'a_test_xAuth_token'),
