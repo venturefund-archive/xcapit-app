@@ -21,6 +21,7 @@ import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 import { ethers } from 'ethers';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-method.type';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 @Component({
   selector: 'app-create-password',
@@ -201,7 +202,8 @@ export class CreatePasswordPage implements OnInit {
     private walletBackupService: WalletBackupService,
     private blockchains: BlockchainsFactory,
     private xAuthService: XAuthService,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private remoteConfig: RemoteConfigService
   ) {}
 
   ionViewWillEnter() {
@@ -311,7 +313,12 @@ export class CreatePasswordPage implements OnInit {
   }
 
   navigateByMode() {
-    const url = this.mode === 'import' ? '/wallets/recovery/success' : '/wallets/success-creation';
+    const remoteConfig = this.remoteConfig.getFeatureFlag('ff_experimentOnboarding');
+    let url = '/wallets/recovery/success';
+    if (this.mode !== 'import') {
+      url = remoteConfig ? 'wallets/experimental-onboarding' : '/wallets/recovery/success';
+    }
+
     return this.navController.navigateRoot([url]);
   }
 

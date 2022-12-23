@@ -1,0 +1,96 @@
+:host {
+  .ew {
+    &__header {
+      background: linear-gradient(72.16deg, #7f0094 -10.21%, #1c2d5e 60.7%, #1c2d5e 106.37%, #386aff 169.83%);
+      height: 112px;
+
+      &__close-button {
+        position: absolute;
+        top: 16px;
+        right: 40px;
+        padding: 0;
+        margin: 0;
+        width: 24px;
+        height: 24px;
+
+        ion-icon {
+          color: var(--ion-color-neutral10);
+        }
+
+        &__icon {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+
+    &__content {
+      margin-left: 16px;
+      margin-right: 16px;
+
+      &__image {
+        position: relative;
+
+        img {
+          width: 70px;
+          height: 70px;
+          border: 3px;
+          border-color: var(--ion-color-neutral10);
+          position: absolute;
+          z-index: 1000;
+          top: -85px;
+        }
+      }
+
+      &__title {
+        margin-top: 51px;
+      }
+
+      &__progress {
+        margin-top: 8px;
+
+        ion-progress-bar {
+          width: 242px;
+          height: 8px;
+          border-radius: 2px;
+        }
+
+        ion-progress-bar::part(progress) {
+          --progress-background: var(--ion-color-info);
+
+          transform: none;
+          width: 124px;
+          height: 8px;
+          border-radius: 2px 4px 4px 2px;
+        }
+
+        ion-progress-bar::part(track) {
+          --progress-background: var(--ion-color-neutral50);
+        }
+      }
+
+      &__actions {
+        margin-top: 4px;
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+
+        ion-text {
+          color: var(--ion-color-info);
+        }
+      }
+
+      &__next {
+        margin-top: 36px;
+      }
+
+      &__competed {
+        margin-top: 32px;
+
+        ion-text {
+          color: var(--ion-color-neutral80);
+        }
+      }
+    }
+  }
+}

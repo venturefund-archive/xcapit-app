@@ -1,0 +1,55 @@
+:host {
+  .iwsc {
+    margin-bottom: 8px;
+    margin-top: 8px;
+    border-radius: 8px;
+
+    --inner-padding-bottom: 10px;
+    --inner-padding-end: 16px;
+    --inner-padding-start: 16px;
+    --inner-padding-top: 10px;
+
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgb(28 45 94 / 10%);
+
+    &__wrapper {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+
+      &__step {
+        height: 36px;
+
+        ion-icon {
+          width: 36px;
+          height: 36px;
+        }
+      }
+
+      &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        &__subtitle {
+          color: var(--ion-color-neutral80);
+        }
+      }
+
+      &__action {
+        margin-left: auto;
+
+        ion-icon {
+          height: 24px;
+          width: 24px;
+        }
+
+        ion-text {
+          color: var(--ion-color-success);
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}

@@ -25,6 +25,7 @@ import { Wallet } from 'ethers';
 import { XAuthService } from '../../users/shared-users/services/x-auth/x-auth.service';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
 import { NullNotificationsService } from '../../notifications/shared-notifications/services/null-notifications/null-notifications.service';
+import { RemoteConfigService } from 'src/app/shared/services/remote-config/remote-config.service';
 
 const testMnemonic: Mnemonic = {
   locale: 'en',
@@ -88,6 +89,7 @@ describe('CreatePasswordPage', () => {
   let xAuthServiceSpy: jasmine.SpyObj<XAuthService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
+  let remoteConfigSpy: jasmine.SpyObj<RemoteConfigService>;
   beforeEach(waitForAsync(() => {
     nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
       'init',
@@ -160,6 +162,7 @@ describe('CreatePasswordPage', () => {
     );
 
     xAuthServiceSpy = jasmine.createSpyObj('XAuthService', { saveToken: Promise.resolve(true) });
+    remoteConfigSpy = jasmine.createSpyObj('RemoteConfigService', { getFeatureFlag: true });
 
     TestBed.configureTestingModule({
       declarations: [CreatePasswordPage, FakeTrackClickDirective],
@@ -178,6 +181,7 @@ describe('CreatePasswordPage', () => {
         { provide: BlockchainsFactory, useValue: blockchainsFactorySpy },
         { provide: XAuthService, useValue: xAuthServiceSpy },
         { provide: NotificationsService, useValue: notificationsServiceSpy },
+        { provide: RemoteConfigService, useValue: remoteConfigSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
