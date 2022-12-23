@@ -3198,37 +3198,6 @@
       "link": "Volver a inversiones"
     }
   },
-
-  "contacts": {
-    "register": {
-      "header": "Agendar wallet",
-      "title": "Ingresa los datos de la wallet que deseas agendar.",
-      "address_label": "Dirección",
-      "address_sublabel": "Pega la dirección o escanea el código QR.",
-      "address_placeholder": "Mantén presionado para pegar",
-      "name_label": "Nombre",
-      "name_placeholder": "Ej: Wallet de Laura",
-      "button": "Agendar wallet",
-      "text_invalid": "La dirección de wallet es incorrecta",
-      "text_valid": "La dirección de wallet es correcta",
-      "loading": "Agendando",
-      "success_toast": "¡Excelente! Wallet agendada con éxito"
-    },
-    "shared_contacts": {
-      "network_selector": {
-        "label": "Red"
-      },
-      "network_selector_modal": {
-        "title": "Seleccionar Red"
-      }
-    },
-    "qr_scanner": {
-      "title": "Escanea el codigo QR de la dirección que deseas agendar",
-      "scan_error": "Error al escanear el código QR",
-      "scan_unauthorized": "No tienes permiso para escanear"
-    }
-  },
-
   "swaps": {
     "home": {
       "header": "Intercambiar",
@@ -3307,5 +3276,42 @@
     "go_to_xcapit": "Ir a Xcapit",
     "dont_have_app": "¿Aún no la tienes?",
     "download": "Descargar"
+  },
+  "contacts": {
+    "home": {
+      "header": "Mi agenda",
+      "empty": {
+        "title": "Aún no posees wallets en tu agenda.",
+        "subtitle": "¡Comienza ahora!"
+      },
+      "button": "Agendar nueva wallet"
+    },
+    "register": {
+      "header": "Agendar wallet",
+      "title": "Ingresa los datos de la wallet que deseas agendar.",
+      "address_label": "Dirección",
+      "address_sublabel": "Pega la dirección o escanea el código QR.",
+      "address_placeholder": "Mantén presionado para pegar",
+      "name_label": "Nombre",
+      "name_placeholder": "Ej: Wallet de Laura",
+      "button": "Agendar wallet",
+      "text_invalid": "La dirección de wallet es incorrecta",
+      "text_valid": "La dirección de wallet es correcta",
+      "loading": "Agendando",
+      "success_toast": "¡Excelente! Wallet agendada con éxito"
+    },
+    "shared_contacts": {
+      "network_selector": {
+        "label": "Red"
+      },
+      "network_selector_modal": {
+        "title": "Seleccionar Red"
+      }
+    },
+    "qr_scanner": {
+      "title": "Escanea el codigo QR de la dirección que deseas agendar",
+      "scan_error": "Error al escanear el código QR",
+      "scan_unauthorized": "No tienes permiso para escanear"
+    }
   }
 }
