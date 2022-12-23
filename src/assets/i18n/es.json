@@ -2532,7 +2532,7 @@
         "name": "Moonpay",
         "description": "Proveedor de terceros"
       },
-      "disclaimer": "Recuerda que Xcapit no vende criptomonedas, al presionar continuar serás redirigido a un proveedor externo.",
+      "disclaimer": "",
       "information": "*Por restricciones actuales, no es posible comprar en Moonpay con tarjetas emitidas en Argentina.",
       "button_text": "Continuar",
       "moonpay_operations": "Las compras de Moonpay visualizalas en la web",
