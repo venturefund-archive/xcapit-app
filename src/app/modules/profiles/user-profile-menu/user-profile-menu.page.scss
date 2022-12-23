@@ -1,4 +1,8 @@
 :host {
+  ion-content {
+    --background: var(--ion-color-neutral10);
+  }
+
   .ux-card {
     margin-top: 8px;
     margin-bottom: 8px;
@@ -23,6 +27,10 @@
     margin-top: 15px;
     margin-left: 16px;
 
+    ion-text {
+      color: var(--ion-color-primary);
+    }
+
     &__text {
       margin-left: 12px;
     }
@@ -34,13 +42,24 @@
 
   .notifications_form {
     ion-toggle {
+      --background: var(--ion-color-neutral50);
       --background-checked: var(--ion-color-info);
+    }
+
+    ion-text {
+      color: var(--ion-color-neutral90);
     }
 
     ion-item {
       .notifications_text {
         margin-left: 16px;
       }
+    }
+  }
+
+  .language {
+    ion-text {
+      color: var(--ion-color-neutral90);
     }
   }
 }

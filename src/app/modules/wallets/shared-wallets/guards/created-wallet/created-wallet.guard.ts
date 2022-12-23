@@ -18,7 +18,7 @@ export class CreatedWalletGuard implements CanActivate {
   }
 
   async hasCreatedWallet(): Promise<boolean> {
-    return await this.storageService.getWalletFromStorage();
+    return !!await this.storageService.getWalletFromStorage();
   }
 
   async redirectToToSPage() {

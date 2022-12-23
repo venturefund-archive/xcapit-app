@@ -24,7 +24,7 @@ export const ITEM_MENU: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_help',
     showCategory: true,
-    icon: 'assets/ux-icons/ux-support.svg',
+    icon: 'assets/ux-icons/ux-support-primary.svg',
     items: [
       {
         name: 'Faq',
@@ -50,39 +50,17 @@ export const ITEM_MENU: MenuCategory[] = [
     ],
   },
   {
-    category_title: 'profiles.user_profile_menu.category_security_account',
-    showCategory: true,
-    icon: 'assets/ux-icons/ux-lock-outline.svg',
-    items: [
-      {
-        name: 'PasswordChangeAccount',
-        text: 'profiles.user_profile_menu.change_pass',
-        route: '/users/password-change',
-        type: 'link',
-        buttonName: 'ux_go_to_account_change_password',
-      },
-    ],
-  },
-  {
     category_title: 'profiles.user_profile_menu.category_security_wallet',
-    icon: 'assets/ux-icons/ux-key-outline.svg',
+    icon: 'assets/ux-icons/ux-key-primary.svg',
     id: 'wallet',
     showCategory: false,
     items: [
       {
-        name: 'WalletPasswordChange',
-        text: 'profiles.user_profile_menu.change_pass',
-        route: '/wallets/password-change',
+        name: 'SecurityConfiguration',
+        text: 'profiles.user_profile_menu.security_configuration',
+        route: '/profiles/security-configuration',
         type: 'link',
-        buttonName: 'ux_go_to_wallet_change_password',
-      },
-      {
-        name: 'BiometricAuth',
-        text: 'profiles.user_profile_menu.biometric_auth',
-        route: '/profiles/biometric-auth',
-        type: 'link',
-        buttonName: 'ux_go_to_biometric_auth',
-        hidden: true,
+        buttonName: 'ux_go_to_security_configuration',
         newBadge: true,
       },
       {

@@ -7,10 +7,16 @@
   .item-container {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
+    ion-button {
+      color: var(--ion-color-neutral90);
+    }
   }
 
   .new-badge {
     border-radius: 4px;
+    margin-right: 16px;
 
     --background: var(--ion-color-warninglight);
     --color: var(--ion-color-warningdark);
@@ -22,6 +28,14 @@
     margin-bottom: 15px;
     margin-top: 15px;
     margin-left: 16px;
+
+    ion-text {
+      color: var(--ion-color-primary);
+    }
+
+    ion-button {
+      color: var(--ion-color-primary);
+    }
 
     &__text {
       margin-left: 12px;

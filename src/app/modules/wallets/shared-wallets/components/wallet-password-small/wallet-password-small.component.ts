@@ -84,7 +84,7 @@ export class WalletPasswordSmallComponent implements OnInit {
     if (this.form.valid) {
       await this.loadingService.show();
       this.walletEncryptionService
-        .getDecryptedWallet(this.form.value.password)
+        .getDecryptedERC20Wallet(this.form.value.password)
         .then((wallet) => {
           this.walletMnemonicService.getMnemonic(wallet);
           this.modalController.dismiss();

@@ -193,7 +193,9 @@ export class MoonpayPage {
   }
 
   setFiatToken() {
-    this.fiatCurrency = this.country.iso4217CurrencyCode;
+    if (this.country.isoCurrencyCodeMoonpay) {
+      this.fiatCurrency = this.country.isoCurrencyCodeMoonpay;
+    }
     this.fee.token = this.fiatCurrency;
   }
 
