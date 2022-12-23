@@ -111,4 +111,18 @@ describe('UxInputComponent', () => {
     const nextButton = fixture.debugElement.query(By.css('ion-button[name="Copy"]'));
     expect(nextButton.properties.disabled).toBeTruthy();
   });
+
+  it('should emit event on qr icon', async () => {
+    component.disabled = false;
+    component.qrScanner = true;
+    component.native = true;
+    const spy = spyOn(component.qrScannerOpened, 'emit');
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const qrEl = fixture.debugElement.query(By.css('ion-icon[name="qr-code-outline"]'));
+    qrEl.nativeElement.click();
+    expect(qrEl).toBeTruthy();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 });

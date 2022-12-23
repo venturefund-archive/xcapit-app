@@ -1,5 +1,5 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, ɵɵsetComponentScope } from '@angular/core';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { CreatePasswordPage } from './create-password.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -88,7 +88,7 @@ describe('CreatePasswordPage', () => {
   let xAuthServiceSpy: jasmine.SpyObj<XAuthService>;
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init', 'subscribeTo', 'unsubscribeFrom']);
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
       getInstance: nullNotificationServiceSpy,
@@ -178,7 +178,7 @@ describe('CreatePasswordPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -219,7 +219,7 @@ describe('CreatePasswordPage', () => {
     component.ionViewWillEnter();
     const spy = spyOn(component, 'handleSubmit');
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    fixture.debugElement.query(By.css('ion-button[name="ux_import_submit_wallet_password"]')).nativeElement.click();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
@@ -248,31 +248,33 @@ describe('CreatePasswordPage', () => {
     expect(walletEncryptionServiceSpy.encryptWallet).toHaveBeenCalledTimes(0);
   });
 
-  it('should show import text when importing wallet', () => {
+  it('should show import text when importing wallet', fakeAsync(() => {
     component.ionViewWillEnter();
+    tick();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(By.css('ion-title')).nativeElement;
     const buttonEl = fixture.debugElement.query(
       By.css('ion-button[name = "ux_import_submit_wallet_password"]')
     ).nativeElement;
-    expect(titleEl.innerText).toContain('wallets.recovery_wallet.header');
-    expect(buttonEl.innerText).toContain('wallets.create_password.finish_button_import');
-  });
+    expect(titleEl.textContent).toContain('wallets.recovery_wallet.header');
+    expect(buttonEl.textContent).toContain('wallets.create_password.finish_button_import');
+  }));
 
-  it('should show create text when creating wallet', () => {
-    fakeActivatedRoute.modifySnapshotParams({ mode: '' });
+  it('should show create text when creating wallet', fakeAsync(() => {
+    fakeActivatedRoute.modifySnapshotParams({ mode: 'create' });
     component.ionViewWillEnter();
+    tick();
     fixture.detectChanges();
     const titleEl = fixture.debugElement.query(By.css('ion-title')).nativeElement;
     const buttonEl = fixture.debugElement.query(
       By.css('ion-button[name = "ux_create_submit_wallet_password"]')
     ).nativeElement;
-    expect(titleEl.innerText).toContain('wallets.create_password.header');
-    expect(buttonEl.innerText).toContain('wallets.create_password.finish_button_create');
-  });
+    expect(titleEl.textContent).toContain('wallets.create_password.header');
+    expect(buttonEl.textContent).toContain('wallets.create_password.finish_button_create');
+  }));
 
   it('should call trackEvent on trackService when ux_create_submit_wallet_password clicked', () => {
-    fakeActivatedRoute.modifySnapshotParams({ mode: '' });
+    fakeActivatedRoute.modifySnapshotParams({ mode: 'create' });
     const el = trackClickDirectiveHelper.getByElementByName('ion-button', 'ux_create_submit_wallet_password');
     const directive = trackClickDirectiveHelper.getDirective(el);
     const spy = spyOn(directive, 'clickEvent');
@@ -296,7 +298,7 @@ describe('CreatePasswordPage', () => {
     tick();
     component.createPasswordForm.patchValue(formData.valid);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    fixture.debugElement.query(By.css('ion-button[name="ux_import_submit_wallet_password"]')).nativeElement.click();
     tick();
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledWith('protectedWallet', true);
     expect(walletBackupServiceSpy.disableModal).toHaveBeenCalledTimes(1);
@@ -309,7 +311,7 @@ describe('CreatePasswordPage', () => {
     tick();
     component.createPasswordForm.patchValue(formData.valid);
     fixture.detectChanges();
-    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    fixture.debugElement.query(By.css('ion-button[name="ux_create_submit_wallet_password"]')).nativeElement.click();
     tick();
     expect(ionicStorageServiceSpy.set).not.toHaveBeenCalledWith('protectedWallet', true);
     expect(walletBackupServiceSpy.disableModal).not.toHaveBeenCalled();
@@ -323,7 +325,7 @@ describe('CreatePasswordPage', () => {
     component.createPasswordForm.patchValue(formData.valid);
     fixture.detectChanges();
 
-    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    fixture.debugElement.query(By.css('ion-button[name="ux_create_submit_wallet_password"]')).nativeElement.click();
     tick();
 
     expect(xAuthServiceSpy.saveToken).toHaveBeenCalledWith('anAddress_aSignedMessage');

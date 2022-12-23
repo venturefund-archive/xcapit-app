@@ -333,37 +333,37 @@
     }
   },
   "defi_investments": {
-    "notifications":{
-      "success":{
-        "title":"💰 Inversión exitosa. ¡Felicitaciones!",
+    "notifications": {
+      "success": {
+        "title": "💰 Inversión exitosa. ¡Felicitaciones!",
         "body": "Invertiste {{amount}} {{token}} el día {{date}}."
       },
-      "error":{
-        "title":"⚠️ Error en la inversión",
+      "error": {
+        "title": "⚠️ Error en la inversión",
         "body": "Se produjo un error en la inversión de {{amount}} {{token}} el día {{date}}."
       }
     },
-    "invest_in_progress":{
-      "text_primary":"¡Tu orden está en camino!",
-      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "button_text":"Volver a inversiones",
+    "invest_in_progress": {
+      "text_primary": "¡Tu orden está en camino!",
+      "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text": "Volver a inversiones",
       "text_title": "Inversión",
       "text_badge": "En progreso"
     },
-    "withdraw_notifications":{
-      "success":{
-        "title":"💸 Retiro exitoso",
+    "withdraw_notifications": {
+      "success": {
+        "title": "💸 Retiro exitoso",
         "body": "Retiraste {{amount}} {{token}} el día {{date}}."
       },
-      "error":{
-        "title":"🚨 Error en el retiro",
+      "error": {
+        "title": "🚨 Error en el retiro",
         "body": "Se produjo un error en el retiro de {{amount}} {{token}} el día {{date}}."
       }
     },
-    "withdraw_in_progress":{
-      "text_primary":"¡Tu orden está en camino!",
-      "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-      "button_text":"Volver a inversiones",
+    "withdraw_in_progress": {
+      "text_primary": "¡Tu orden está en camino!",
+      "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+      "button_text": "Volver a inversiones",
       "text_title": "Retiro",
       "text_badge": "En progreso"
     },
@@ -627,6 +627,7 @@
       "export_private_key": "Clave privada",
       "security_phrase": "Frase de seguridad",
       "category_preferences": "Preferencias",
+      "security_configuration": "Configuración",
       "push_notifications": "Notificaciones push",
       "language": "Idioma",
       "logout": "Cerrar Sesión",
@@ -710,6 +711,17 @@
       "success": {
         "title": "Solicitud enviada exitosamente",
         "message": "Nuestro equipo ya se encuentra trabajando sobre tu caso. Te estaremos respondiendo a  la brevedad al email {{email}}"
+      }
+    },
+    "security_configuration": {
+      "header": "Configuración",
+      "inactivity": {
+        "title": "Cierre de sesión por inactividad",
+        "message": "Selecciona el tiempo que desees que transcurra por inactividad antes que se cierre tu sesión."
+      },
+      "password_change": {
+        "title": "Constraseña",
+        "button": "Cambiar"
       }
     },
     "shared": {
@@ -1805,6 +1817,11 @@
       "write_password": "Escribe tu contraseña.",
       "password": "Contraseña",
       "repeat_password": "Repite tu contraseña.",
+      "creation_method": "Método de creación",
+      "import_method": "Método de importación",
+      "default_derived_path": "Por defecto (Recomendado)",
+      "blockchain_derived_path": "Siguiendo la ruta de cada blockchain",
+      "edit_derived_path_button": "Editar",
       "finish_button_create": "Crear wallet",
       "finish_button_import": "Importar wallet",
       "creating_button_state": "Creando wallet",
@@ -1856,18 +1873,18 @@
       "OUT": "Envío",
       "IN": "Recepción",
       "BUY": "Compra",
-      "swap": "Swap",
+      "swap": "Intercambiar",
       "confirmed": "Confirmado",
       "declined": "Rechazado"
     },
     "send": {
-      "send_notifications":{
-        "success":{
-          "title":"✅ Envío exitoso. ¡Así se hace!",
+      "send_notifications": {
+        "success": {
+          "title": "✅ Envío exitoso. ¡Así se hace!",
           "body": "Enviaste {{amount}} {{token}} el día {{date}}. "
         },
-        "error":{
-          "title":"❌ Error en el envío",
+        "error": {
+          "title": "❌ Error en el envío",
           "body": "Se produjo un error en el envío de {{amount}} {{token}} el día {{date}}. Más información aquí."
         }
       },
@@ -1879,10 +1896,10 @@
         "title": "Selecciona la moneda que deseas enviar",
         "suite": "Red {{suiteName}}"
       },
-      "send_in_progress":{
-        "text_primary":"¡Tu orden está en camino!",
-        "text_secondary":"La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
-        "button_text":"Ir a wallet",
+      "send_in_progress": {
+        "text_primary": "¡Tu orden está en camino!",
+        "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
+        "button_text": "Ir a wallet",
         "text_title": "Envío",
         "text_badge": "En progreso"
       },
@@ -2661,10 +2678,10 @@
           "button_primary": "Confirmar y enviar",
           "button_secondary": "Cargar nuevamente"
         },
-        "kripton_account_info":{
+        "kripton_account_info": {
           "title": "Transfiere a la siguiente cuenta",
           "alias": "Alias",
-          "amount":"Monto",
+          "amount": "Monto",
           "cbu": "CBU",
           "owner": "Titular",
           "currency_type": {
@@ -2674,22 +2691,21 @@
             "colombia": "Pesos colombianos"
           }
         },
-        "kripton_purchase_info":{
-          "title":"Tu compra",
-          "quote":"Cotización",
-          "operation":"Operación"
+        "kripton_purchase_info": {
+          "title": "Tu compra",
+          "quote": "Cotización",
+          "operation": "Operación"
         }
-        
       },
-      "kripton_purchase_info":{
-        "title":"Tu compra",
-        "quote":"Cotización",
-        "operation":"Operación"
+      "kripton_purchase_info": {
+        "title": "Tu compra",
+        "quote": "Cotización",
+        "operation": "Operación"
       },
-      "kripton_account_info":{
+      "kripton_account_info": {
         "title": "Transfiere a la siguiente cuenta",
         "alias": "Alias",
-        "amount":"Monto",
+        "amount": "Monto",
         "cbu": "CBU",
         "owner": "Titular",
         "currency_type": {
@@ -2709,7 +2725,7 @@
       "button": "Continuar",
       "text_token": "Enviamos un código temporal de ingreso a tu email.\n Si no lo encuentras, revisa tu bandeja de spam.",
       "text": "Asegúrate de tener acceso al email, lo utilizarás para confirmar tus operaciones.",
-      "label_token":"Código de ingreso",
+      "label_token": "Código de ingreso",
       "toast_success": "Te reenviamos el código de ingreso a tu email.",
       "resend_email": {
         "title_not_sent": "¿No recibiste el código?",
@@ -2816,15 +2832,15 @@
         }
       }
     },
-    "purchase_order":{
+    "purchase_order": {
       "header": "Comprar cripto",
-      "clipboard_text":"¡{{type}} copiado con exito!",
+      "clipboard_text": "¡{{type}} copiado con exito!",
       "provider": "Proveedor: Kripton Market",
-      "step_1":"Transferir",
-      "step_2":"Cargar comprobante",
-      "button":"Continuar",
-      "send_button":"Enviar y finalizar",
-      "timer":"Te quedan {{ value }} para transferir",
+      "step_1": "Transferir",
+      "step_2": "Cargar comprobante",
+      "button": "Continuar",
+      "send_button": "Enviar y finalizar",
+      "timer": "Te quedan {{ value }} para transferir",
       "voucher_card": {
         "header": "Adjunta tu comprobante",
         "file_placeholder": "Comprobante.jpg",
@@ -2834,7 +2850,7 @@
         "error": "Se produjo un error. Carga tu comprobante nuevamente."
       }
     },
-    "kripton_operation_detail":{
+    "kripton_operation_detail": {
       "header": "Detalle de la operación",
       "title": "Compra",
       "state": "Estado",
@@ -3064,7 +3080,7 @@
       "question2": "¿Qué costo tienen los retiros del producto de inversión?",
       "answer2": "La tarifa es de 0,255% del monto que el usuario retira del producto de inversión. Este cobro se hace en la moneda en la cual se está ejecutando dicho producto de inversión.",
       "question3": "¿Por qué aparece un mensaje de “fondo insuficiente” para realizar el pago de comisiones si yo tengo cripto?",
-      "answer3": "Porque el pago de fee de las transacciones se hacen en la moneda nativa de la red.<br>A través de swap de la billetera de Xcapit podrás adquirir los tokens nativos para pagar las fee o comisiones.",
+      "answer3": "Porque el pago de fee de las transacciones se hacen en la moneda nativa de la red.<br>En la sección “Intercambiar” de tu wallet, podrás adquirir los tokens nativos para pagar las fee o comisiones.",
       "question4": "¿Cuánto tiempo demora en acreditarse una transferencia?",
       "answer4": "De la misma manera que el costo de la transferencia, el tiempo va a depender de la blockchain de la misma.",
       "question5": "¿Cómo recibo una transferencia en mi Wallet?",
@@ -3130,7 +3146,7 @@
       "question1": "¿Por qué la tarifa de transacción es variable?",
       "answer1": "La misma puede variar ligeramente por la volatilidad del mercado. Posee un tiempo de validez, luego caduca y se actualiza. Ocurre por diferentes motivos:<ul><li>Porque se modificó el tipo de cambio entre el momento en que se ingresaron los datos y cuando se desea confirmar la operación. Por lo que deberá volver a confirmarla para finalizar.</li><li>No posees suficientes criptos (MATIC, ETH, etc) para abonar las comisiones.</li><li>Las criptos que estás intentando intercambiar son altamente volátiles o hay poca liquidez en el grupo.</li></ul>",
       "question2": "¿Porqué debo confirmar aceptar los términos de 1inch si estoy operando con Xcapit?",
-      "answer2": "Debido a que Xcapit no posee un swap propio, sino que provee el servicio a través de 1inch."
+      "answer2": "Debido a que el proceso de intercambio se realiza a través de nuestro proveedor 1inch. Xcapit, no brinda este servicio propio."
     }
   },
   "wealth_managements": {
@@ -3184,7 +3200,7 @@
   },
   "swaps": {
     "home": {
-      "header": "Swap",
+      "header": "Intercambiar",
       "button": "Continuar",
       "loading_button_text": "Intercambiando",
       "from_token_title": "Desde",
@@ -3213,7 +3229,7 @@
       "invalid_password": "La contraseña ingresada no es correcta."
     },
     "select_token": {
-      "header": "Swap",
+      "header": "Intercambiar",
       "fromToken_title": "Selecciona la moneda que quieres intercambiar",
       "toToken_title": "Selecciona la moneda que quieres obtener"
     },
@@ -3260,5 +3276,42 @@
     "go_to_xcapit": "Ir a Xcapit",
     "dont_have_app": "¿Aún no la tienes?",
     "download": "Descargar"
+  },
+  "contacts": {
+    "home": {
+      "header": "Mi agenda",
+      "empty": {
+        "title": "Aún no posees wallets en tu agenda.",
+        "subtitle": "¡Comienza ahora!"
+      },
+      "button": "Agendar nueva wallet"
+    },
+    "register": {
+      "header": "Agendar wallet",
+      "title": "Ingresa los datos de la wallet que deseas agendar.",
+      "address_label": "Dirección",
+      "address_sublabel": "Pega la dirección o escanea el código QR.",
+      "address_placeholder": "Mantén presionado para pegar",
+      "name_label": "Nombre",
+      "name_placeholder": "Ej: Wallet de Laura",
+      "button": "Agendar wallet",
+      "text_invalid": "La dirección de wallet es incorrecta",
+      "text_valid": "La dirección de wallet es correcta",
+      "loading": "Agendando",
+      "success_toast": "¡Excelente! Wallet agendada con éxito"
+    },
+    "shared_contacts": {
+      "network_selector": {
+        "label": "Red"
+      },
+      "network_selector_modal": {
+        "title": "Seleccionar Red"
+      }
+    },
+    "qr_scanner": {
+      "title": "Escanea el codigo QR de la dirección que deseas agendar",
+      "scan_error": "Error al escanear el código QR",
+      "scan_unauthorized": "No tienes permiso para escanear"
+    }
   }
 }
