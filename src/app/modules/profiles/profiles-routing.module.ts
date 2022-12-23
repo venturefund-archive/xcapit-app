@@ -38,10 +38,6 @@ const routes: Routes = [
         loadChildren: () => import('./biometric-auth/biometric-auth.module').then((m) => m.BiometricAuthPageModule),
       },
       {
-        path: 'wallets-agenda',
-        loadChildren: () => import('./wallets-agenda-home/wallets-agenda-home.module').then((m) => m.WalletsAgendaHomePageModule),
-      },
-      {
         path: 'delete-account',
         loadChildren: () => import('./delete-account/delete-account.module').then((m) => m.DeleteAccountPageModule),
       },

@@ -7,15 +7,15 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { FakeTrackClickDirective } from 'src/testing/fakes/track-click-directive.fake.spec';
 import { TrackClickDirectiveTestHelper } from 'src/testing/track-click-directive-test.spec';
-import { WalletsAgendaHomePage } from './wallets-agenda-home.page';
+import { ContactsHomePage } from './contacts-home.page';
 
-describe('WalletsAgendaHomePage', () => {
-  let component: WalletsAgendaHomePage;
-  let fixture: ComponentFixture<WalletsAgendaHomePage>;
+describe('ContactsHomePage', () => {
+  let component: ContactsHomePage;
+  let fixture: ComponentFixture<ContactsHomePage>;
   let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
-  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<WalletsAgendaHomePage>;
+  let trackClickDirectiveHelper: TrackClickDirectiveTestHelper<ContactsHomePage>;
 
   const contacts = [
     { 
@@ -31,7 +31,7 @@ describe('WalletsAgendaHomePage', () => {
     fakeNavController = new FakeNavController();
     navControllerSpy = fakeNavController.createSpy();
     TestBed.configureTestingModule({
-      declarations: [WalletsAgendaHomePage, FakeTrackClickDirective],
+      declarations: [ContactsHomePage, FakeTrackClickDirective],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
@@ -40,7 +40,7 @@ describe('WalletsAgendaHomePage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(WalletsAgendaHomePage);
+    fixture = TestBed.createComponent(ContactsHomePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
     trackClickDirectiveHelper = new TrackClickDirectiveTestHelper(fixture);

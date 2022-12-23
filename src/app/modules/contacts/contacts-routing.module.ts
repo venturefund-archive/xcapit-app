@@ -10,6 +10,10 @@ const routes: Routes = [
         path: 'register',
         loadChildren: () => import('./register/register.module').then((m) => m.RegisterPageModule),
       },
+      {
+        path: 'home',
+        loadChildren: () => import('./contacts-home/contacts-home.module').then((m) => m.ContactsHomePageModule),
+      },
     ],
   },
 ];

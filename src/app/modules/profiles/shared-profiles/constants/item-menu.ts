@@ -14,7 +14,7 @@ export const ITEM_MENU: MenuCategory[] = [
   {
     category_title: 'profiles.user_profile_menu.category_contacts',
     icon: 'assets/ux-icons/wallets-list.svg',
-    route: '',
+    route: '/contacts/home',
     id: 'contacts',
     name: 'Contacts',
     buttonName: 'ux_go_to_address_list',
