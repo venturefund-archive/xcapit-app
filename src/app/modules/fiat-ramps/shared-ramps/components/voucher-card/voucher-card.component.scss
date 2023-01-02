@@ -75,6 +75,10 @@
         &__icon,
         &__title {
           width: fit-content;
+
+          ion-text {
+            text-decoration: none;
+          }
         }
       }
 
