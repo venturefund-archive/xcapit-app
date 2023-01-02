@@ -139,10 +139,8 @@ export class HomeOfPurchasesPage {
   }
 
   handler() {
-    const url = this.tokenOperationDataService.tokenOperationData
-      ? 'fiat-ramps/select-provider'
-      : 'fiat-ramps/token-selection';
-    this.navController.navigateForward(url);
+    this.tokenOperationDataService.clean();
+    this.navController.navigateForward('fiat-ramps/token-selection');
   }
 
   private async getUserEmail() {

@@ -5,6 +5,7 @@ import { HasWallet } from '../../shared/guards/has-wallet/has-wallet';
 import { HasAcceptedBuyConditionsGuard } from './shared-ramps/guards/has-accepted-buy-conditions/has-accepted-buy-conditions.guard';
 import { LoggedInKriptonGuard } from './shared-ramps/guards/logged-in-kripton/logged-in-kripton.guard';
 import { NotLoggedInKriptonGuard } from './shared-ramps/guards/not-logged-in-kripton/not-logged-in-kripton';
+import { KriptonKycCompletedGuard } from './shared-ramps/guards/kripton-kyc-completed/kripton-kyc-completed.guard';
 
 const routes: Routes = [
   {
@@ -15,7 +16,7 @@ const routes: Routes = [
         path: 'new-operation',
         children: [
           {
-            canActivate: [LoggedInKriptonGuard],
+            canActivate: [LoggedInKriptonGuard, KriptonKycCompletedGuard],
             path: 'kripton',
             loadChildren: () => import('./operations-new/operations-new.module').then((m) => m.OperationsNewPageModule),
           },
