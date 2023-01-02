@@ -32,6 +32,19 @@
           color: var(--ion-color-dangerdark) !important;
         }
       }
+
+      &__contact-button {
+        margin-top: 8px;
+
+        --background-activated: var(--ion-color-white);
+        --background: var(--ion-color-white);
+
+        text-decoration: none;
+
+        ion-icon {
+          margin-right: 4px;
+        }
+      }
     }
 
     &__info {

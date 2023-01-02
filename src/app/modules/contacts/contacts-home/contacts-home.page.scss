@@ -8,6 +8,10 @@
     box-shadow: 0 0 16px rgb(28 45 94 / 20%);
   }
 
+  .hide {
+    display: none;
+  }
+
   .ch {
     &__empty-content {
       display: flex;

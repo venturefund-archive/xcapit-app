@@ -86,6 +86,7 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
             [title]="'wallets.send.send_detail.address_input.title' | translate"
             [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
             [selectedNetwork]="this.tplBlockchain.name"
+            (addFromContacts)="navigateToContacts()"
           ></app-address-input-card>
         </div>
         <div class="sd__amount-input-card" *ngIf="this.token">
@@ -193,8 +194,15 @@ export class SendDetailPage {
     await this.setWallet();
     await this.setTokenDetail();
     await this.setAddressValidator();
+    if (this.route.snapshot.paramMap.get('address')) {
+      this.setFormData(this.route.snapshot.paramMap.get('address'), this.route.snapshot.paramMap.get('amount'));
+    }
     this.getPrices();
     await this.tokenBalances();
+  }
+
+  setFormData(address: string, amount: string) {
+    this.form.patchValue({ address, amount });
   }
 
   async setAddressValidator() {
@@ -355,14 +363,18 @@ export class SendDetailPage {
   }
 
   private async _estimatedSolanaFee(): Promise<number> {
-    return this.form.value.address ? await this.solanaFeeOf.create(
-      new SolanaNativeSendTx(
-        await this.walletsFactory.create().oneBy(this.blockchain),
-        this.form.value.address,
-        new WeiOf(this.form.value.amount, this.blockchain.nativeToken().json()).value().toNumber()
-      ),
-      this.blockchain
-    ).value() : 0;
+    return this.form.value.address
+      ? await this.solanaFeeOf
+          .create(
+            new SolanaNativeSendTx(
+              await this.walletsFactory.create().oneBy(this.blockchain),
+              this.form.value.address,
+              new WeiOf(this.form.value.amount, this.blockchain.nativeToken().json()).value().toNumber()
+            ),
+            this.blockchain
+          )
+          .value()
+      : 0;
   }
 
   private async _estimatedFee(): Promise<number> {
@@ -449,5 +461,16 @@ export class SendDetailPage {
       await modal.present();
     }
     await modal.onDidDismiss();
+  }
+
+  navigateToContacts() {
+    return this.navController.navigateForward([
+      `contacts/home/select/blockchain`,
+      this.blockchain.name(),
+      'token',
+      this.token.contract,
+      'amount',
+      this.form.value.amount
+    ]);
   }
 }
