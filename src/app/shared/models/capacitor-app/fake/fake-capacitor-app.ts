@@ -10,4 +10,8 @@ export class FakeCapacitorApp implements CapacitorApp {
   public onStateChange(callback: CallableFunction): void {
     return;
   }
+
+  public onPause(callback: CallableFunction): void {
+    return;
+  }
 }

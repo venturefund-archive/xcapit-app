@@ -18,4 +18,8 @@ describe('FakeCapacitorApp', () => {
   it('on state change', () => {
     expect(fakeCapacitorApp.onStateChange(() => {})).toBeUndefined();
   });
+
+  it('on pause', () => {
+    expect(fakeCapacitorApp.onPause(() => {})).toBeUndefined();
+  });
 });

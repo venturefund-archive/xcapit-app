@@ -54,10 +54,10 @@ describe('ContactsHomePage', () => {
     ionicStorageServiceSpy.get.and.returnValue(null);
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    const imgEl = fixture.debugElement.query(By.css('img.wa__empty-content__img'));
-    const titleEl = fixture.debugElement.query(By.css('ion-text.wa__empty-content__text__title'));
-    const subtitleEl = fixture.debugElement.query(By.css('ion-text.wa__empty-content__text__subtitle'));
-    expect(imgEl.attributes.src).toContain('assets/img/agenda/empty.svg');
+    const imgEl = fixture.debugElement.query(By.css('img.ch__empty-content__img'));
+    const titleEl = fixture.debugElement.query(By.css('ion-text.ch__empty-content__text__title'));
+    const subtitleEl = fixture.debugElement.query(By.css('ion-text.ch__empty-content__text__subtitle'));
+    expect(imgEl.attributes.src).toContain('assets/img/contacts/empty.svg');
     expect(titleEl.nativeElement.innerHTML).toContain('contacts.home.empty.title');
     expect(subtitleEl.nativeElement.innerHTML).toContain('contacts.home.empty.subtitle');
   });
@@ -65,9 +65,9 @@ describe('ContactsHomePage', () => {
   it('should render contacts', async () => {
     await component.ionViewWillEnter();
     fixture.detectChanges();
-    const imgEl = fixture.debugElement.query(By.css('img.wa__content__item__wrapper__img'));
-    const nameEl = fixture.debugElement.query(By.css('div.wa__content__item__wrapper__data__title > ion-text'));
-    expect(imgEl.attributes.src).toContain('assets/img/agenda/wallet.svg');
+    const imgEl = fixture.debugElement.query(By.css('img.ch__content__item__wrapper__img'));
+    const nameEl = fixture.debugElement.query(By.css('div.ch__content__item__wrapper__data__title > ion-text'));
+    expect(imgEl.attributes.src).toContain('assets/img/contacts/wallet.svg');
     expect(nameEl.nativeElement.innerHTML).toContain(contacts[0].name);
   });
 
