@@ -11,6 +11,7 @@ describe('KriptonUser', () => {
     });
     storageSpy.get.withArgs('access_token').and.resolveTo('testAccessToken');
     storageSpy.get.withArgs('refresh_token').and.resolveTo('testRefreshToken');
+    storageSpy.get.withArgs('user_status').and.resolveTo('testUserStatus');
     kriptonUser = new KriptonUser(storageSpy);
   });
 
@@ -28,5 +29,9 @@ describe('KriptonUser', () => {
 
   it('isLogged', async () => {
     expect(await kriptonUser.isLogged()).toBeTrue();
+  });
+
+  it('userStatus', async () => {
+    expect(await kriptonUser.userStatus()).toEqual('testUserStatus');
   });
 });

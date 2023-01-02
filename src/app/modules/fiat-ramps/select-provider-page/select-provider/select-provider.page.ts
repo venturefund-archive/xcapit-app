@@ -61,7 +61,6 @@ export class SelectProviderPage {
   newOperationRoute: string;
   disabled: boolean;
   coin: Coin;
-  providers: FiatRampProvider[];
   operationsList: FiatRampOperation[];
   countries = COUNTRIES;
   constructor(
