@@ -174,8 +174,8 @@ describe('AppComponent', () => {
 
   it('should save session when go to background', async () => {
     fakeCapacitorApp = new FakeCapacitorApp();
-    spyOn(fakeCapacitorApp, 'onStateChange').and.callFake((callback) => {
-      callback({ isActive: false });
+    spyOn(fakeCapacitorApp, 'onPause').and.callFake((callback) => {
+      callback();
     });
     capacitorAppInjectableSpy.create.and.returnValue(fakeCapacitorApp);
     component.ngOnInit();

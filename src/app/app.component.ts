@@ -103,8 +103,12 @@ export class AppComponent implements OnInit {
   }
 
   setBackgroundActions() {
-    this.capacitorAppInjectable.create().onStateChange(({ isActive }) => {
-      isActive ? this.isSessionValid() : this.session.save();
+    const capacitorApp = this.capacitorAppInjectable.create();
+    capacitorApp.onStateChange(({ isActive }) => {
+      if(isActive) this.isSessionValid();
+    });
+    capacitorApp.onPause( () => {
+      this.session.save();
     });
   }
 

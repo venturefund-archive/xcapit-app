@@ -545,7 +545,7 @@ export class SwapHomePage {
       })
       .finally(() => {
         this.swapInProgressService.finishSwap();
-      });
+      }); 
   }
 
   private handleError(err: Error) {
@@ -578,7 +578,7 @@ export class SwapHomePage {
       'wallets/token-detail/blockchain',
       this.activeBlockchain.name(),
       'token',
-      this.toToken.symbol(),
+      this.toToken.address(),
     ]);
   }
 
