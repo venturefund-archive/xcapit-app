@@ -1,0 +1,45 @@
+:host {
+  .dpo {
+    &__title {
+      margin-bottom: 24px;
+    }
+
+    &__radio_group {
+      --background: var(--ion-color-white);
+
+      ion-item {
+        --inner-border-width: 0;
+
+        margin-left: -19px;
+      }
+
+      ion-label {
+        font-family: var(--ux-font-worksans);
+      }
+
+      ion-radio {
+        --color-checked: var(--ion-color-info);
+        --color: var(--ion-color-info);
+      }
+
+      &__description {
+        margin-left: 40px;
+      }
+
+      &__disclaimer {
+        margin-left: 40px;
+        margin-top: 8px;
+      }
+    }
+
+    &__link {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 35px;
+    }
+  }
+
+  .separate {
+    margin-top: 20px;
+  }
+}

@@ -2240,6 +2240,27 @@
         "description_refused": "Tu transacción fue rechazada por la red. Obtén más detalle accediendo al scan.",
         "button_text": "Entendido"
       }
+    },
+    "derived_path_options": {
+      "header": {
+        "import": "Método de importación",
+        "create": "Método de creación"
+      },
+      "title": {
+        "import": "Selecciona el método con el que se importará tu wallet",
+        "create": "Selecciona el método con el que se creará tu wallet"
+      },
+      "first_option": {
+        "title": "Por defecto: Siguiendo la ruta de Ethereum",
+        "description": "Todas las redes tomarán la misma ruta de derivación que Ethereum (m/44'/60'/0'/0). Esto hará que todas las direcciones sean iguales. Este método utilizado en billeteras como Trezor o MetaMask."
+      },
+      "second_option": {
+        "title": "Siguiendo la ruta de cada blockchain",
+        "description1": "Se utilizará la ruta de derivación definida por cada blockchain, resultando en direcciones diferentes para cada red.",
+        "description2": "Rutas de derivación por red<br> ERC20: m/44'/60'/0'/0/0<br> RSK: m/44'/137'/0'/0/0<br> MATIC: m/44'/966'/0'/0/0<br> BSC_BEP20: m/44'/60'/0'/0/0<br> SOLANA: m/44'/501'/0'/0'"
+      },
+      "disclaimer": "*Estas rutas te servirán en caso de que desees exportar cada dirección de forma individual.",
+      "link": "¿Qué método debo elegir?"
     }
   },
   "tools": {
