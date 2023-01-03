@@ -20,6 +20,7 @@ import { Password } from '../../swaps/shared-swaps/models/password/password';
 import { LoggedIn } from '../../users/shared-users/models/logged-in/logged-in';
 import { ethers } from 'ethers';
 import { NotificationsService } from '../../notifications/shared-notifications/services/notifications/notifications.service';
+import { WalletCreationMethod } from 'src/app/shared/types/wallet-creation-method.type';
 
 @Component({
   selector: 'app-create-password',
@@ -91,16 +92,24 @@ import { NotificationsService } from '../../notifications/shared-notifications/s
                 'wallets.create_password.import_method' | translate
               }}</ion-text>
             </div>
-            <div class="title">
-              <ion-text class="ux-font-text-base">{{
+            <div class="subtitle">
+              <ion-text class="ux-font-text-base" *ngIf="this.methohd === 'default'">{{
                 'wallets.create_password.default_derived_path' | translate
+              }}</ion-text>
+              <ion-text class="ux-font-text-base" *ngIf="this.methohd !== 'default'">{{
+                'wallets.create_password.blockchain_derived_path' | translate
               }}</ion-text>
             </div>
           </div>
           <div class="edit_button">
-            <ion-button class="ux_button ion-no-margin ion-no-padding" fill="clear" color="info">{{
-              'wallets.create_password.edit_derived_path_button' | translate
-            }}</ion-button>
+            <ion-button
+              class="ux_button ion-no-margin ion-no-padding"
+              fill="clear"
+              color="info"
+              name="ux_create_edit"
+              (click)="goToDerivedPathOptions()"
+              >{{ 'wallets.create_password.edit_derived_path_button' | translate }}</ion-button
+            >
           </div>
         </div>
         <div class="button">
@@ -147,6 +156,7 @@ export class CreatePasswordPage implements OnInit {
   private readonly _aKey = 'enabledPushNotifications';
   mode: string;
   loading: boolean;
+  methohd: WalletCreationMethod;
   createPasswordForm: UntypedFormGroup = this.formBuilder.group(
     {
       password: [
@@ -195,6 +205,7 @@ export class CreatePasswordPage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
+    this.methohd = this.walletEncryptionService.creationMethod;
     this.loadingService.enabled();
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.enablePushNotificationsByDefault();
@@ -218,9 +229,7 @@ export class CreatePasswordPage implements OnInit {
   }
 
   private async saveWallets(): Promise<void> {
-    return this.apiWalletService
-      .saveWalletAddresses(this.formattedWallets(await this.encryptedWallet()))
-      .toPromise();
+    return this.apiWalletService.saveWalletAddresses(this.formattedWallets(await this.encryptedWallet())).toPromise();
   }
 
   async handleSubmit() {
@@ -304,5 +313,10 @@ export class CreatePasswordPage implements OnInit {
   navigateByMode() {
     const url = this.mode === 'import' ? '/wallets/recovery/success' : '/wallets/success-creation';
     return this.navController.navigateRoot([url]);
+  }
+
+  goToDerivedPathOptions() {
+    const url = this.mode === 'import' ? 'wallets/derived-path-options/import' : 'wallets/derived-path-options/create';
+    this.navController.navigateForward(url);
   }
 }

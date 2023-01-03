@@ -89,7 +89,11 @@ describe('CreatePasswordPage', () => {
   let notificationsServiceSpy: jasmine.SpyObj<NotificationsService>;
   let nullNotificationServiceSpy: jasmine.SpyObj<NullNotificationsService>;
   beforeEach(waitForAsync(() => {
-    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', ['init', 'subscribeTo', 'unsubscribeFrom']);
+    nullNotificationServiceSpy = jasmine.createSpyObj('NullNotificationsService', [
+      'init',
+      'subscribeTo',
+      'unsubscribeFrom',
+    ]);
     notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', {
       getInstance: nullNotificationServiceSpy,
     });
@@ -121,10 +125,14 @@ describe('CreatePasswordPage', () => {
       getCoins: coins,
       getInitialTokens: coins,
     });
-    walletEncryptionServiceSpy = jasmine.createSpyObj('WalletEncryptionService', {
-      encryptWallet: Promise.resolve(true),
-      getEncryptedWallet: Promise.resolve({ addresses: { ERC20: 'testERC20Address', RSK: 'testRSKAddress' } }),
-    });
+    walletEncryptionServiceSpy = jasmine.createSpyObj(
+      'WalletEncryptionService',
+      {
+        encryptWallet: Promise.resolve(true),
+        getEncryptedWallet: Promise.resolve({ addresses: { ERC20: 'testERC20Address', RSK: 'testRSKAddress' } }),
+      },
+      { creationMethod: 'default' }
+    );
 
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       set: Promise.resolve(),
@@ -184,14 +192,14 @@ describe('CreatePasswordPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should enable push notifications by default', fakeAsync( () => {
+  it('should enable push notifications by default', fakeAsync(() => {
     component.ionViewWillEnter();
     fixture.detectChanges();
     tick();
     expect(ionicStorageServiceSpy.set).toHaveBeenCalledOnceWith('enabledPushNotifications', true);
   }));
 
-  it('should init push notifications and subscribe to topic when password is ok and push notifications previously activated', fakeAsync( () => {
+  it('should init push notifications and subscribe to topic when password is ok and push notifications previously activated', fakeAsync(() => {
     ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(true);
     component.createPasswordForm.patchValue(formData.valid);
     component.handleSubmit();
@@ -202,7 +210,7 @@ describe('CreatePasswordPage', () => {
     expect(nullNotificationServiceSpy.subscribeTo).toHaveBeenCalledTimes(1);
   }));
 
-  it('should init push notifications and unsubscribe to topic when password is ok and push notifications previously disabled', fakeAsync( () => {
+  it('should init push notifications and unsubscribe to topic when password is ok and push notifications previously disabled', fakeAsync(() => {
     ionicStorageServiceSpy.get.withArgs('enabledPushNotifications').and.resolveTo(false);
     component.createPasswordForm.patchValue(formData.valid);
     component.handleSubmit();
@@ -330,4 +338,50 @@ describe('CreatePasswordPage', () => {
 
     expect(xAuthServiceSpy.saveToken).toHaveBeenCalledWith('anAddress_aSignedMessage');
   }));
+
+  it('should set correct text when creation method is default', () => {
+    component.methohd = 'default';
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    const textEl = fixture.debugElement.query(By.css('div.subtitle > ion-text'));
+    expect(textEl.nativeElement.innerHTML).toContain('wallets.create_password.default_derived_path');
+  });
+
+  it('should set correct text when creation method is legacy', () => {
+    component.methohd = 'legacy';
+    fixture.detectChanges();
+    component.ionViewWillEnter();
+    const textEl = fixture.debugElement.query(By.css('div.subtitle > ion-text'));
+    expect(textEl.nativeElement.innerHTML).toContain('wallets.create_password.blockchain_derived_path');
+  });
+
+  it('should set correct text when mode is import', () => {
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const textEl = fixture.debugElement.query(By.css('div.title > ion-text'));
+    expect(textEl.nativeElement.innerHTML).toContain('wallets.create_password.import_method');
+  });
+
+  it('should set correct text when mode is create', () => {
+    fakeActivatedRoute.modifySnapshotParams({ mode: 'create' });
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    const textEl = fixture.debugElement.query(By.css('div.title > ion-text'));
+    expect(textEl.nativeElement.innerHTML).toContain('wallets.create_password.creation_method');
+  });
+
+  it('should navigate to derived-path-options/import when mode is import', () => {
+    component.ionViewWillEnter();
+    fixture.debugElement.query(By.css('ion-button[name="ux_create_edit"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('wallets/derived-path-options/import');
+  });
+
+  it('should navigate to derived-path-options/create when mode is import', () => {
+    fakeActivatedRoute.modifySnapshotParams({ mode: 'create' });
+    component.ionViewWillEnter();
+    fixture.debugElement.query(By.css('ion-button[name="ux_create_edit"]')).nativeElement.click();
+    fixture.detectChanges();
+    expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith('wallets/derived-path-options/create');
+  });
 });

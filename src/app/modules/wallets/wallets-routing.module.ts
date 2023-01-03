@@ -236,8 +236,13 @@ const routes: Routes = [
         path: 'transaction-details',
         loadChildren: () => import('./transaction-details/transaction-details.module').then( m => m.TransactionDetailsPageModule)
       },
+      {
+        path: 'derived-path-options',
+        loadChildren: () => import('./derived-path-options/derived-path-options.module').then( m => m.DerivedPathOptionsPageModule)
+      },
     ],
   },
+
 
 
 ];

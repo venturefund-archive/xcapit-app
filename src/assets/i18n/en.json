@@ -2254,6 +2254,27 @@
         "description": "",
         "button_text": "Understood"
       }
+    },
+    "derived_path_options": {
+      "header": {
+        "import": "Import method",
+        "create": "Create method"
+      },
+      "title": {
+        "import": "Select the method by which your wallet will be imported",
+        "create": "Select the method by which your wallet will be created"
+      },
+      "first_option": {
+        "title": "Default: Following Ethereum's path.",
+        "description": "All networks will take the same derivation path as Ethereum (m/44'/60'/60'/0'/0). This will make all addresses the same. This method used in wallets such as Trezor or MetaMask."
+      },
+      "second_option": {
+        "title": "Following the path of each blockchain",
+        "description1": "The derivation path defined by each blockchain will be used, resulting in different addresses for each network.",
+        "description2": "Derived path by network<br> ERC20: m/44'/60'/0'/0/0<br> RSK: m/44'/137'/0'/0/0<br> MATIC: m/44'/966'/0'/0/0<br> BSC_BEP20: m/44'/60'/0'/0/0<br> SOLANA: m/44'/501'/0'/0'"
+      },
+      "disclaimer": "*These paths will be useful in case you want to export each address individually.",
+      "link": "What method should I choose?"
     }
   },
   "tools": {
