@@ -8,6 +8,10 @@ const routes: Routes = [
     path: '',
     component: ContactsHomePage,
   },
+  {
+    path: ':mode/blockchain/:blockchain/token/:token/amount/:amount',
+    component: ContactsHomePage,
+  },
 ];
 
 @NgModule({
