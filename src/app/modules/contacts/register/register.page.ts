@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ScanQrModalComponent } from 'src/app/shared/components/scan-qr-modal/scan-qr-modal.component';
@@ -82,7 +83,7 @@ import { NETWORKS_DATA } from '../shared-contacts/constants/networks';
           (click)="this.handleSubmit()"
           [disabled]="!this.isFormValid()"
           color="secondary"
-          >{{ 'contacts.register.button' | translate }}</ion-button
+          >{{ 'contacts.register.submit_text' | translate }}</ion-button
         >
       </div>
     </ion-footer>`,
@@ -110,7 +111,8 @@ export class RegisterPage implements OnInit {
     private modalController: ModalController,
     private translate: TranslateService,
     private ionicStorageService: IonicStorageService,
-    private navController: NavController
+    private navController: NavController,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {}
@@ -124,6 +126,17 @@ export class RegisterPage implements OnInit {
     this.isNative();
     await this.nullStorage();
     this.subscribeToStatusChanges();
+    this.isSaveMode();
+  }
+
+  isSaveMode(){
+    if(this.route.snapshot.paramMap.get('mode') === 'save'){
+      const network = this.networksData.filter((network) => network.value === this.route.snapshot.paramMap.get('blockchain'));
+      const address = this.route.snapshot.paramMap.get('address') 
+      this.form.patchValue({networks : [network[0].value]})
+      this.setAddressValidator([network[0].value]);
+      this.form.patchValue({address: address});
+    }
   }
 
   subscribeToStatusChanges() {

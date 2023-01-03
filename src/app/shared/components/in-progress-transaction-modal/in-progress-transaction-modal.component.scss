@@ -64,6 +64,15 @@
         &__primary {
           padding: 0 16px 16px;
         }
+
+        &__secondary {
+          text-align: center;
+          margin-bottom: 28.5px;
+
+          ion-label {
+            text-decoration: none;
+          }
+        }
       }
     }
   }

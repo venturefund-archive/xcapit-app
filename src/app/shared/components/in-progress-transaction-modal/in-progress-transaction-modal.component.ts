@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
+import { IonicStorageService } from '../../services/ionic-storage/ionic-storage.service';
 
 @Component({
   selector: 'app-in-progress-transaction-modal',
@@ -45,6 +46,17 @@ import { ModalController, NavController } from '@ionic/angular';
               {{ this.data?.namePrimaryAction | translate }}
             </ion-button>
           </div>
+          <div *ngIf="!this.alreadySavedAddress" class="ipt__footer__actions__secondary">
+          <ion-label
+              name="ux_address_new_sent"
+              class="ux-link-xl"
+              (click)="this.goToSaveAddress()"
+              appTrackClick
+              fill="clear"
+            >
+              {{ this.data?.textSaveWallet | translate }}
+            </ion-label>
+          </div>
         </div>
       </ion-footer>
     </div>
@@ -53,15 +65,35 @@ import { ModalController, NavController } from '@ionic/angular';
 })
 export class InProgressTransactionModalComponent implements OnInit {
   data;
-  constructor(private modalController: ModalController, private navController: NavController) {}
+  address;
+  blockchain;
+  alreadySavedAddress:boolean;
+  _aKey = 'contact_list'
+  constructor(private modalController: ModalController, private navController: NavController, private ionicStorageService : IonicStorageService) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.isAlreadySavedAddress()
+  }
+
+  async isAlreadySavedAddress(){
+    const contact_list = await this.ionicStorageService.get(this._aKey);
+    for (const contact of contact_list){
+      if(contact.address === this.address){
+        this.alreadySavedAddress = true;
+      }
+    }
+  }
 
   primaryAction() {
     if (this.data.urlPrimaryAction) {
       this.navController.navigateForward([this.data.urlPrimaryAction]);
       this.modalController.dismiss();
     }
+  }
+
+  goToSaveAddress(){
+    this.navController.navigateForward(['contacts/register','save', 'blockchain' ,this.blockchain._rawData.name, 'address', this.address]);
+    this.modalController.dismiss();
   }
 
   close() {

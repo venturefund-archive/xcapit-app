@@ -1908,7 +1908,8 @@
         "text_secondary": "The transaction is being processed on the blockchain. We will notify you when the status is updated.",
         "button_text": "Go to wallet",
         "text_title": "Send",
-        "text_badge": "In progress"
+        "text_badge": "In progress",
+        "text_save":"Save address"
       },
       "send_detail": {
         "header": "Send",
@@ -3132,8 +3133,8 @@
       "address_sublabel": "Paste the address or scan the QR code.",
       "address_placeholder": "Press and hold to paste",
       "name_label": "Name",
+      "submit_text": "Save wallet",
       "name_placeholder": "Ex: Laura's Wallet",
-      "button": "Save wallet",
       "text_invalid": "The wallet address is incorrect",
       "text_valid": "The wallet address is correct",
       "loading": "Saving",

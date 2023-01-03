@@ -347,6 +347,7 @@ export const SUCCESS_TYPES = {
     urlPrimaryAction: '/tabs/wallets',
     titlePrimary: 'wallets.send.send_in_progress.text_title',
     textBadge: 'wallets.send.send_in_progress.text_badge',
+    textSaveWallet:'wallets.send.send_in_progress.text_save'
   },
   withdraw_in_progress: {
     image: 'assets/img/defi-investments/withdraw-in-progress.svg',

@@ -2,11 +2,13 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic-storage.service';
 import { PlatformService } from 'src/app/shared/services/platform/platform.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { FakeActivatedRoute } from 'src/testing/fakes/activated-route.fake.spec';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 
@@ -34,7 +36,11 @@ describe('RegisterPage', () => {
   let navControllerSpy: jasmine.SpyObj<NavController>;
   let fakeNavController: FakeNavController;
   let platformServiceSpy: jasmine.SpyObj<PlatformService>;
+  let fakeActivatedRoute: FakeActivatedRoute;
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
   beforeEach(waitForAsync(() => {
+    fakeActivatedRoute = new FakeActivatedRoute();
+    activatedRouteSpy = fakeActivatedRoute.createSpy();
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
       showSuccessToast: Promise.resolve(),
       showToast:Promise.resolve()
@@ -59,6 +65,7 @@ describe('RegisterPage', () => {
         { provide: ToastService, useValue: toastServiceSpy },
         { provide: NavController, useValue: navControllerSpy },
         { provide: PlatformService, useValue: platformServiceSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -176,5 +183,13 @@ describe('RegisterPage', () => {
     const validatorEl = fixture.debugElement.query(By.css('ion-label[color="dangerdark"]'));
     expect(validatorEl.nativeElement.innerHTML).toContain('contacts.register.text_invalid');
   });
+
+  it('should set properly blockhain and address when mode is save', async() => {
+    fakeActivatedRoute.modifySnapshotParams({ mode: 'save', blockchain:'MATIC', address:'0xe0459da14bae1f5e6fab63d6e93576353b0bb4a3'});
+    await component.ionViewWillEnter();
+    fixture.detectChanges();
+    expect(component.form.value.address).toEqual('0xe0459da14bae1f5e6fab63d6e93576353b0bb4a3');
+    expect(component.form.value.networks).toEqual(['MATIC']);
+  })
 
 });

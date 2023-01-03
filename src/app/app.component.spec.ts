@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TestBed, ComponentFixture, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture, waitForAsync, fakeAsync, tick, discardPeriodicTasks } from '@angular/core/testing';
 import { NavController, Platform } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { LanguageService } from './shared/services/language/language.service';
@@ -195,5 +195,6 @@ describe('AppComponent', () => {
     tick();
     expect(appSessionSpy.valid).toHaveBeenCalledTimes(1);
     expect(navControllerSpy.navigateRoot).toHaveBeenCalledOnceWith(['users/login-new']);
+    discardPeriodicTasks();
   }));
 });
