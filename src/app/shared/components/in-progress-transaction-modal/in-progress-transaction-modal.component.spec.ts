@@ -5,8 +5,15 @@ import { IonicModule, ModalController, NavController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FakeModalController } from 'src/testing/fakes/modal-controller.fake.spec';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
+import { IonicStorageService } from '../../services/ionic-storage/ionic-storage.service';
 import { InProgressTransactionModalComponent } from './in-progress-transaction-modal.component';
 
+const testAddress = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
+const savedAddress = {
+  address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+  name: 'testName',
+  networks:['MATIC']
+}
 const testData = {
   image:"assets/test_image.svg",
   icon: "assets/test_icon.svg",
@@ -26,18 +33,22 @@ describe('InProgressTransactionModalComponent', () => {
   let fakeModalController: FakeModalController;
   let fakeNavController: FakeNavController;
   let navControllerSpy: jasmine.SpyObj<NavController>;
-
+  let ionicStorageServiceSpy: jasmine.SpyObj<IonicStorageService>;
   beforeEach(waitForAsync(() => {
     fakeNavController = new FakeNavController({});
     navControllerSpy = fakeNavController.createSpy();
     fakeModalController = new FakeModalController();
     modalControllerSpy = fakeModalController.createSpy();
+    ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
+      get: Promise.resolve([]),
+    });
     TestBed.configureTestingModule({
       declarations: [InProgressTransactionModalComponent],
       imports: [IonicModule.forRoot(), TranslateModule.forRoot()],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: NavController, useValue: navControllerSpy },
+        { provide: IonicStorageService, useValue: ionicStorageServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -81,5 +92,27 @@ describe('InProgressTransactionModalComponent', () => {
     fixture.detectChanges();
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith([component.data.urlPrimaryAction]);
     expect(modalControllerSpy.dismiss).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show save address button when address is not saved yet', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo([]);
+    component.address = testAddress;
+    component.ngOnInit();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const saveButtonEl = fixture.debugElement.query(By.css("ion-label[name='ux_address_new_sent']"));
+    expect(saveButtonEl).toBeTruthy();
+  });
+
+  it('should dont show save address button when address is already saved', async () => {
+    ionicStorageServiceSpy.get.and.resolveTo([savedAddress]);
+    component.address = testAddress;
+    component.ngOnInit();
+    await fixture.whenRenderingDone();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const saveButtonEl = fixture.debugElement.query(By.css("ion-label[name='ux_address_new_sent']"));
+    expect(saveButtonEl).toBeFalsy();
   });
 });

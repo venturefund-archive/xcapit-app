@@ -1901,7 +1901,8 @@
         "text_secondary": "La operación está siendo procesada en la blockchain. Te notificaremos cuando el estado sea actualizado.",
         "button_text": "Ir a wallet",
         "text_title": "Envío",
-        "text_badge": "En progreso"
+        "text_badge": "En progreso",
+        "text_save":"Agendar dirección"
       },
       "send_detail": {
         "header": "Enviar",
@@ -3294,7 +3295,7 @@
       "address_placeholder": "Mantén presionado para pegar",
       "name_label": "Nombre",
       "name_placeholder": "Ej: Wallet de Laura",
-      "button": "Agendar wallet",
+      "submit_text": "Agendar wallet",
       "text_invalid": "La dirección de wallet es incorrecta",
       "text_valid": "La dirección de wallet es correcta",
       "loading": "Agendando",

@@ -198,6 +198,8 @@ export class SendSummaryPage implements OnInit {
       component: InProgressTransactionModalComponent,
       componentProps: {
         data: SUCCESS_TYPES.send_in_progress,
+        address: this.summaryData.address,
+        blockchain: this.blockchain
       },
       cssClass: 'modal',
       backdropDismiss: false,
