@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CameraPlugin, Photo } from '@capacitor/camera';
@@ -91,6 +91,7 @@ describe('PurchaseOrderPage', () => {
         wallet: '0xd148c6735e1777be439519b32a1a6ef9c8853934',
       },
       getVoucher: undefined,
+      cleanVoucher: null,
       updateVoucher: null,
     });
     toastServiceSpy = jasmine.createSpyObj('ToastService', {
@@ -211,23 +212,20 @@ describe('PurchaseOrderPage', () => {
     });
   });
 
-  it('should add photo on addPhoto', async () => {
+  it('should add photo on addPhoto', fakeAsync( () => {
     storageOperationServiceSpy.getVoucher.and.returnValues(undefined, photo);
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
     component.ionViewWillEnter();
     fixture.detectChanges();
     fixture.debugElement.query(By.css('app-voucher-card')).triggerEventHandler('addPhoto', null);
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
-    await fixture.whenStable();
-    await fixture.whenRenderingDone();
+    tick();
     fixture.detectChanges();
 
     expect(cameraSpy.getPhoto).toHaveBeenCalledTimes(1);
     expect(storageOperationServiceSpy.updateVoucher).toHaveBeenCalledOnceWith(photo);
     expect(component.voucher).toEqual(photo);
     expect(component.percentage).toEqual(100);
-  });
+  }));
 
   it('should remove photo on removePhoto', async () => {
     fakeActivatedRoute.modifySnapshotParams({ step: '2' });
@@ -257,8 +255,9 @@ describe('PurchaseOrderPage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(component.data.operation_id, expectedData);
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(1);
+    expect(storageOperationServiceSpy.cleanVoucher).toHaveBeenCalledTimes(1);
   });
-
+  
   it('should send photo and navigate to error when finish button is clicked', async () => {
     const expectedData = { file: photo.dataUrl, email: 'test@test.com' };
     fiatRampsServiceSpy.confirmOperation.and.returnValue(throwError('Test'));
@@ -273,5 +272,15 @@ describe('PurchaseOrderPage', () => {
     await Promise.all([fixture.whenStable(), fixture.whenRenderingDone()]);
     expect(fiatRampsServiceSpy.confirmOperation).toHaveBeenCalledOnceWith(component.data.operation_id, expectedData);
     expect(navControllerSpy.navigateForward).toHaveBeenCalledOnceWith(['/fiat-ramps/error-operation-km']);
+    expect(storageOperationServiceSpy.cleanVoucher).toHaveBeenCalledTimes(1);
+  });
+  
+  it('should clean voucher data if navigate back and is first step', () => {
+    fakeActivatedRoute.modifySnapshotParams({ step: '1' });
+    component.ionViewWillEnter();
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('ion-back-button')).nativeElement.click();
+    expect(storageOperationServiceSpy.cleanVoucher).toHaveBeenCalledTimes(1);
+    expect(navControllerSpy.back).toHaveBeenCalledTimes(1);
   });
 });
