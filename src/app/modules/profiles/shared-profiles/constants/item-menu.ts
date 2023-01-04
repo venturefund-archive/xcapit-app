@@ -47,6 +47,13 @@ export const ITEM_MENU: MenuCategory[] = [
         type: 'link',
         buttonName: 'ux_community_telegram',
       },
+      {
+        name: 'terms&Conditions',
+        text: 'profiles.user_profile_menu.terms_and_conditions',
+        route: '/users/terms-and-conditions',
+        type: 'link',
+        buttonName: 'ux_go_to_terms_conditions',
+      },
     ],
   },
   {
