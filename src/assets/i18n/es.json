@@ -635,7 +635,7 @@
       "category_walletconnect": "WalletConnect",
       "connected_walletconnect": "Conectado",
       "disconnected_walletconnect": "Desconectado",
-      "category_contacts":"Agenda de wallets",
+      "category_contacts": "Agenda de wallets",
       "delete_account_button": "Eliminar cuenta",
       "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma. Wallet: {{wallet}}",
       "profile_footer": {
@@ -1902,7 +1902,7 @@
         "button_text": "Ir a wallet",
         "text_title": "Envío",
         "text_badge": "En progreso",
-        "text_save":"Agendar dirección"
+        "text_save": "Agendar dirección"
       },
       "send_detail": {
         "header": "Enviar",
@@ -2881,6 +2881,14 @@
         "incomplete2": "Completar datos",
         "nullified": "El proveedor anuló esta operación. Para más infomación, comunícate con soporte.",
         "cancelled": "El proveedor no recibió el comprobante del pago."
+      },
+      "scan_link": "Ver en",
+      "scans": {
+        "MATIC": "PolygonScan",
+        "RSK": "RSK Explorer",
+        "ERC20": "EtherScan",
+        "BSC_BEP20": "BscScan",
+        "SOLANA": "Solana Explorer"
       },
       "quotation": "Cotización",
       "address": "Dirección de destino (tu wallet)",

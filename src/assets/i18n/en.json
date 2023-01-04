@@ -642,7 +642,7 @@
       "category_walletconnect": "WalletConnect",
       "connected_walletconnect": "Connected",
       "disconnected_walletconnect": "Disconnected",
-      "category_contacts":"Wallets list",
+      "category_contacts": "Wallets list",
       "delete_account_button": "Delete account",
       "delete_account_message": "I request the deletion of my account and associated data. Wallet: {{wallet}}",
       "profile_footer": {
@@ -1909,7 +1909,7 @@
         "button_text": "Go to wallet",
         "text_title": "Send",
         "text_badge": "In progress",
-        "text_save":"Save address"
+        "text_save": "Save address"
       },
       "send_detail": {
         "header": "Send",
@@ -2774,6 +2774,14 @@
         "incomplete2": "Complete data",
         "nullified": "The provider cancelled this operation. For more information, please contact support.",
         "cancelled": "The provider did not receive proof of payment."
+      },
+      "scan_link": "View in",
+      "scans": {
+        "MATIC": "PolygonScan",
+        "RSK": "RSK Explorer",
+        "ERC20": "EtherScan",
+        "BSC_BEP20": "BscScan",
+        "SOLANA": "Solana Explorer"
       },
       "quotation": "Quotation",
       "address": "Destination address (your wallet)",
