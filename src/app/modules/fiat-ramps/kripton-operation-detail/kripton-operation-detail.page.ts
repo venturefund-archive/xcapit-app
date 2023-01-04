@@ -86,7 +86,10 @@ import { StorageOperationService } from '../shared-ramps/services/operation/stor
               </div>
               <div class="kod__card-container__card__state__container__status">
                 <app-operation-status-chip [statusName]="this.operation.status"></app-operation-status-chip>
-                <ion-text *ngIf="this.operation.tx_hash" class="ux-link-xs">Ver en polygonScan</ion-text>
+                <ion-text *ngIf="this.operation.tx_hash" class="ux-link-xs"
+                  >{{ 'fiat_ramps.kripton_operation_detail.scan_link' | translate
+                  }} {{ 'fiat_ramps.kripton_operation_detail.scans.' + this.operation.network | translate }}</ion-text
+                >
               </div>
               <app-operation-status-alert
                 *ngIf="this.operation.status !== 'received' && this.operation.status !== 'complete'"

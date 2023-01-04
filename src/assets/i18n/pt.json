@@ -2712,6 +2712,14 @@
         "nullified": "O provedor cancelou esta operação. Para mais informações, entre em contato com o suporte.",
         "cancelled": "O provedor não recebeu o comprovante de pagamento."
       },
+      "scan_link": "Vista em",
+      "scans": {
+        "MATIC": "PolygonScan",
+        "RSK": "RSK Explorer",
+        "ERC20": "EtherScan",
+        "BSC_BEP20": "BscScan",
+        "SOLANA": "Solana Explorer"
+      },
       "quotation": "cotação",
       "address": "Endereço de destino (sua carteira)",
       "provider": "Fornecedor",
