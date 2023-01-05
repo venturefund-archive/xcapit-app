@@ -14,7 +14,17 @@ import { Quotes } from '../../interfaces/quotes.interface';
 import { QuotesService } from '../../services/quotes.service';
 import { QuotesCardComponent } from './quotes-card.component';
 import { ApiWalletService } from 'src/app/modules/wallets/shared-wallets/services/api-wallet/api-wallet.service';
-import { Coin } from 'src/app/modules/wallets/shared-wallets/interfaces/coin.interface';
+
+const usdcQuote = {
+  market_data:{
+    current_price:{
+      usd: 1
+    },
+    price_change_percentage_24h_in_currency:{
+      usd:-0.2
+    }
+  }
+}
 
 const totalQuotes: Quotes[] = [
   {
@@ -58,6 +68,12 @@ const totalQuotes: Quotes[] = [
     openPrice: 46000,
     lastPrice: 47585,
     priceChangePercent: 0.24,
+  },
+  {
+    symbol: 'USDCUSDT',
+    openPrice: 0,
+    lastPrice: 0,
+    priceChangePercent: 0,
   },
 ];
 
@@ -117,6 +133,15 @@ const coins = [
     value: 'USDT',
     network: 'ERC20',
   },
+  {
+    id: 5,
+    name: 'USDC - Usd coin',
+    logoRoute: 'assets/img/coins/USDT.svg',
+    last: false,
+    value: 'USDT',
+    network: 'ERC20',
+    symbol: 'USDCUSDT',
+  },
 ];
 
 const firstNativeQuotes = [
@@ -175,6 +200,12 @@ const userQuotes = [
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
+  {
+    symbol: 'USDCUSDT',
+    openPrice: 0,
+    lastPrice: 0,
+    priceChangePercent: 0,
+  },
 ];
 
 const firstUserQuotes = [
@@ -205,6 +236,21 @@ const remainingUserQuotes = [
     lastPrice: 47585,
     priceChangePercent: 0.24,
   },
+  {
+    symbol: 'USDCUSDT',
+    openPrice: 0,
+    lastPrice: 1,
+    priceChangePercent: -0.2,
+  },
+];
+
+const remainingUserQuotesWithoutUsdc = [
+  {
+    symbol: 'SOVUSDT',
+    openPrice: 46000,
+    lastPrice: 47585,
+    priceChangePercent: 0.24,
+  },
 ];
 
 describe('QuotesCardComponent', () => {
@@ -227,6 +273,7 @@ describe('QuotesCardComponent', () => {
       });
       quoteServiceSpy = jasmine.createSpyObj('QuotesService', {
         getAllQuotes: of(totalQuotes),
+        getUsdcQuote: of(usdcQuote)
       });
       walletServiceSpy = fakeWalletService.createSpy();
       TestBed.configureTestingModule({
@@ -284,6 +331,7 @@ describe('QuotesCardComponent', () => {
   it('should collapse accordion when Close Accordion button is clicked', () => {
     component.accordionGroup.value = 'quotes';
     component.openedAccordion = true;
+    component.ngOnInit();
     fixture.detectChanges();
     const buttonEl = fixture.debugElement.query(By.css('ion-button[name="Close Accordion"]'));
     buttonEl.nativeElement.click();
@@ -305,6 +353,7 @@ describe('QuotesCardComponent', () => {
 
   it('should filter user Quotes of complete Data when wallet exist', async () => {
     fakeWalletService.modifyReturns(true, {});
+    component.ngOnInit();
     fixture.detectChanges();
     await fixture.whenStable();
     await fixture.whenRenderingDone();
@@ -312,4 +361,25 @@ describe('QuotesCardComponent', () => {
     expect(component.firstQuotes).toEqual(firstUserQuotes);
     expect(component.remainingQuotes).toEqual(remainingUserQuotes);
   });
+
+  it('should set usdc quote on init when usdc is part of list and have usdc-data', async () => {
+    fakeWalletService.modifyReturns(true, {});
+    component.ngOnInit();
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    fixture.detectChanges();
+    expect(component.firstQuotes).toEqual(firstUserQuotes);
+    expect(component.remainingQuotes).toEqual(remainingUserQuotes);
+  });
+
+ it('should delete usdc quote on init when usdc is part of list and dont have usdc-data', fakeAsync( () => {
+    quoteServiceSpy.getUsdcQuote.and.returnValue(of(undefined));
+    fakeWalletService.modifyReturns(true, {});
+    fixture.detectChanges();
+    component.ngOnInit();
+    tick();
+    fixture.detectChanges();
+    expect(component.firstQuotes).toEqual(firstUserQuotes);
+    expect(component.remainingQuotes).toEqual(remainingUserQuotesWithoutUsdc);
+  }));
 });
