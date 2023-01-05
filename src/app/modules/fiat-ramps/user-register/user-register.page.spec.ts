@@ -7,7 +7,6 @@ import { BrowserService } from 'src/app/shared/services/browser/browser.service'
 import { TrackService } from 'src/app/shared/services/track/track.service';
 import { FakeNavController } from 'src/testing/fakes/nav-controller.fake.spec';
 import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/kripton-storage.service';
-
 import { UserRegisterPage } from './user-register.page';
 
 describe('UserRegisterPage', () => {
@@ -55,7 +54,7 @@ describe('UserRegisterPage', () => {
   });
 
   it('should render properly', async () => {
-    kriptonStorageSpy.get.withArgs('user_status').and.resolveTo('USER_IMAGES');
+    kriptonStorageSpy.get.withArgs('user_status').and.resolveTo('USER_INFORMATION');
     component.ionViewWillEnter();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
