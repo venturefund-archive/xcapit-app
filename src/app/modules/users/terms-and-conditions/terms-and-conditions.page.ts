@@ -15,8 +15,8 @@ import { TYC_ITEMS } from '../shared-users/constant/tyc-items';
     </ion-header>
     <ion-content class="tac">
       <div class="tac__card">
-        <app-tyc-items-cars *ngFor="let item of this.xcapitItems" [item]="item" (navigate)="this.openBrowser($event)">
-        </app-tyc-items-cars>
+        <app-tyc-item-card *ngFor="let item of this.xcapitItems" [item]="item" (navigate)="this.openBrowser($event)">
+        </app-tyc-item-card>
       </div>
       <div class="tac__providers">
         <ion-text class="ux-font-header-titulo">{{
@@ -24,7 +24,7 @@ import { TYC_ITEMS } from '../shared-users/constant/tyc-items';
         }}</ion-text>
       </div>
       <div class="tac__card">
-        <app-tyc-items-cars *ngFor="let item of this.providerItems" [item]="item"> </app-tyc-items-cars>
+        <app-tyc-item-card *ngFor="let item of this.providerItems" [item]="item"> </app-tyc-item-card>
       </div>
     </ion-content> `,
   styleUrls: ['./terms-and-conditions.page.scss'],

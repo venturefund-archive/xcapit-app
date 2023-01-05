@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { TycItemsCarsComponent } from './tyc-items-cars.component';
+import { TycItemCardComponent } from './tyc-item-card.component';
 
 describe('TycItemsCarsComponent', () => {
-  let component: TycItemsCarsComponent;
-  let fixture: ComponentFixture<TycItemsCarsComponent>;
+  let component: TycItemCardComponent;
+  let fixture: ComponentFixture<TycItemCardComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TycItemsCarsComponent ],
+      declarations: [ TycItemCardComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TycItemsCarsComponent);
+    fixture = TestBed.createComponent(TycItemCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

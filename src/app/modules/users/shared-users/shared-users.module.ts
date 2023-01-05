@@ -5,7 +5,8 @@ import { ResetPasswordFormComponent } from './components/reset-password-form/res
 import { PasswordChangeFormComponent } from './components/password-change-form/password-change-form.component';
 import { LoginPasswordInfoComponent } from './components/login-password-info/login-password-info.component';
 import { LoginBiometricActivationModalComponent } from './components/login-biometric-activation-modal/login-biometric-activation-modal.component';
-import { TycItemsCarsComponent } from './tyc-items-cars/tyc-items-cars.component';
+import { TycItemCardComponent } from './tyc-item-card/tyc-item-card.component';
+
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { TycItemsCarsComponent } from './tyc-items-cars/tyc-items-cars.component
     PasswordChangeFormComponent,
     LoginPasswordInfoComponent,
     LoginBiometricActivationModalComponent,
-    TycItemsCarsComponent
+    TycItemCardComponent
   ],
   imports: [SharedModule],
   exports: [
@@ -24,7 +25,7 @@ import { TycItemsCarsComponent } from './tyc-items-cars/tyc-items-cars.component
     PasswordChangeFormComponent,
     LoginPasswordInfoComponent,
     LoginBiometricActivationModalComponent,
-    TycItemsCarsComponent
+    TycItemCardComponent
   ]
 })
 export class SharedUsersModule {}

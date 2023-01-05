@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-tyc-items-cars',
+  selector: 'app-tyc-item-card',
   template: `<ion-item appTrackClick (click)="navigateTo()" lines="none" class="ion-no-padding tcic">
     <div class="tcic__wrapper">
       <div class="tcic__wrapper__img">
@@ -19,9 +19,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
       </div>
     </div>
   </ion-item> `,
-  styleUrls: ['./tyc-items-cars.component.scss'],
+  styleUrls: ['./tyc-item-card.component.scss'],
 })
-export class TycItemsCarsComponent implements OnInit {
+export class TycItemCardComponent implements OnInit {
   @Input() item: any;
   @Output() navigate = new EventEmitter<void>();
   constructor() {}
