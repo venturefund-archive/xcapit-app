@@ -25,6 +25,10 @@
 		"SplashScreen": {
 			"launchAutoHide": true,
 			"launchShowDuration": 2000
+		},
+		"LocalNotifications": {
+			"smallIcon": "ic_stat_icon_local",
+			"iconColor": "#1c2d5e"
 		}
 	}
 }
