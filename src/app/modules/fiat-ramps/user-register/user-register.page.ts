@@ -88,8 +88,14 @@ export class UserRegisterPage {
     const stepOne = this.tplSteps.find((step) => step.order === '1');
     const stepTwo = this.tplSteps.find((step) => step.order === '2');
     if (this.userStatus === 'USER_INFORMATION') stepTwo.disabled = true;
-    if (this.userStatus === 'USER_IMAGES') stepOne.completed = true;
-    if (this.userStatus === 'COMPLETE') stepOne.completed = stepTwo.completed = true;
+    if (this.userStatus === 'USER_IMAGES') {
+      stepOne.completed = true;
+      stepOne.disabled = true;
+    }
+    if (this.userStatus === 'COMPLETE') {
+      stepOne.completed = stepTwo.completed = true;
+      stepOne.disabled = stepTwo.disabled = true;
+    }
   }
 
   trackEvent(): void {

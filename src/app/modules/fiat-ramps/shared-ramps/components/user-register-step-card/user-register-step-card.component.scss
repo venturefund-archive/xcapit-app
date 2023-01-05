@@ -1,4 +1,8 @@
 :host {
+  .item-disabled {
+    opacity: 10 !important;
+  }
+
   .ursc {
     &.greenBorder {
       --border-color: var(--ion-color-success);
