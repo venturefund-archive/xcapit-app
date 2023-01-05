@@ -1,29 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-tyc-items-cars',
-  template: `<ion-item
-    appTrackClick
-    (click)="navigateTo()"
-    lines="none"
-    class="ion-no-padding ursc"
+  template: `<ion-item appTrackClick (click)="navigateTo()" lines="none" class="ion-no-padding tcic">
+    <div class="tcic__wrapper">
+      <div class="tcic__wrapper__img">
+        <img [src]="this.item.img" />
+      </div>
+      <div class="tcic__wrapper__content">
+        <ion-text class="tcic__wrapper__content__title ux-font-text-lg">{{ this.item.title | translate }}</ion-text>
 
-  >
-    <div class="ursc__wrapper">
-      <div class="ursc__wrapper__step">
-        <div>
-          <img [src]="this.items.img">
-        </div>
+        <ion-text class="tcic__wrapper__content__subtitle ux-font-text-xxs">{{
+          this.item.subtitle | translate
+        }}</ion-text>
       </div>
-      <div class="ursc__wrapper__content">
-        <ion-text class="ursc__wrapper__content__title ux-font-text-lg">{{ this.items.title | translate }}</ion-text>
-        <div class="subtitle">
-          <ion-text class="ursc__wrapper__content__subtitle ux-font-text-xxs">{{
-            this.items.subtitle | translate
-          }}</ion-text>
-        </div>
-      </div>
-      <div class="ursc__wrapper__action">
+      <div class="tcic__wrapper__action">
         <ion-icon name="chevron-forward-outline" color="info"></ion-icon>
       </div>
     </div>
@@ -31,10 +22,13 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./tyc-items-cars.component.scss'],
 })
 export class TycItemsCarsComponent implements OnInit {
-  @Input() items: any;
+  @Input() item: any;
+  @Output() navigate = new EventEmitter<void>();
   constructor() {}
 
   ngOnInit() {}
 
-  navigateTo(){}
+  navigateTo() {
+    this.navigate.emit(this.item);
+  }
 }

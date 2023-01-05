@@ -618,7 +618,20 @@
       "category_help": "Ayuda",
       "faq_help": "Preguntas frecuentes",
       "support_help": "Hablar con soporte",
-      "terms_and_conditions": "Términos y condiciones",
+      "terms_and_conditions": {
+        "providers":"Proveedores",
+        "tyc": "Términos y condiciones",
+        "privacy_policy": "Política de privacidad",
+        "kripton": {
+          "title": "Kripton Market"
+        },
+        "inch": {
+          "title": "Inch"
+        },
+        "2pi": {
+          "title": "2pi"
+        }
+      },
       "community": "Únete a nuestra comunidad",
       "category_security_account": "Seguridad cuenta Xcapit",
       "change_pass": "Cambiar contraseña",
@@ -636,7 +649,7 @@
       "category_walletconnect": "WalletConnect",
       "connected_walletconnect": "Conectado",
       "disconnected_walletconnect": "Desconectado",
-      "category_contacts":"Agenda de wallets",
+      "category_contacts": "Agenda de wallets",
       "delete_account_button": "Eliminar cuenta",
       "delete_account_message": "Solicito la eliminación de mi cuenta y los datos asociados a la misma. Wallet: {{wallet}}",
       "profile_footer": {
