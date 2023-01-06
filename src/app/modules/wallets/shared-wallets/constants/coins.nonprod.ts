@@ -14,7 +14,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 1,
     name: 'ETH - Ethereum',
-    logoRoute: 'assets/img/coins/ETH.svg',
+    logoRoute: 'assets/img/coins/ETH-ERC20.svg',
     value: 'ETH',
     network: 'ERC20',
     chainId: 42,
@@ -27,7 +27,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 2,
     name: 'LINK - Chainlink',
-    logoRoute: 'assets/img/coins/LINK.png',
+    logoRoute: 'assets/img/coins/LINK-ERC20.svg',
     value: 'LINK',
     network: 'ERC20',
     chainId: 42,
@@ -41,7 +41,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 3,
     name: 'USDT - Tether',
-    logoRoute: 'assets/img/coins/USDT.svg',
+    logoRoute: 'assets/img/coins/USDT-ERC20.svg',
     value: 'USDT',
     network: 'ERC20',
     chainId: 42,
@@ -54,7 +54,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 4,
     name: 'AAVE',
-    logoRoute: 'assets/img/coins/AAVE.svg',
+    logoRoute: 'assets/img/coins/AAVE-ERC20.svg',
     value: 'AAVE',
     network: 'ERC20',
     chainId: 42,
@@ -66,7 +66,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 5,
     name: 'UNI - Uniswap',
-    logoRoute: 'assets/img/coins/UNI.svg',
+    logoRoute: 'assets/img/coins/UNI-ERC20.svg',
     value: 'UNI',
     network: 'ERC20',
     chainId: 42,
@@ -80,7 +80,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 7,
     name: 'AXS - Axie Infinity Shard',
-    logoRoute: 'assets/img/coins/AXS.png',
+    logoRoute: 'assets/img/coins/AXS-ERC20.svg',
     value: 'AXS',
     network: 'ERC20',
     chainId: 42,
@@ -92,7 +92,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 8,
     name: 'MANA - Decentraland',
-    logoRoute: 'assets/img/coins/MANA.png',
+    logoRoute: 'assets/img/coins/MANA-ERC20.svg',
     value: 'MANA',
     network: 'ERC20',
     chainId: 42,
@@ -104,7 +104,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 9,
     name: 'SUSHI',
-    logoRoute: 'assets/img/coins/SUSHI.png',
+    logoRoute: 'assets/img/coins/SUSHI-ERC20.svg',
     value: 'SUSHI',
     network: 'ERC20',
     chainId: 42,
@@ -115,7 +115,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 10,
     name: 'COMPOUND',
-    logoRoute: 'assets/img/coins/COMPOUND.png',
+    logoRoute: 'assets/img/coins/COMPOUND-ERC20.svg',
     value: 'COMP',
     network: 'ERC20',
     chainId: 42,
@@ -127,7 +127,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 11,
     name: 'ZIL - Zilliqa',
-    logoRoute: 'assets/img/coins/ZILLIQA.png',
+    logoRoute: 'assets/img/coins/ZILLIQA-ERC20.svg',
     value: 'ZIL',
     network: 'ERC20',
     chainId: 42,
@@ -139,7 +139,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 12,
     name: 'ENJ - EnjinCoin',
-    logoRoute: 'assets/img/coins/ENJ.png',
+    logoRoute: 'assets/img/coins/ENJ-ERC20.svg',
     value: 'ENJ',
     network: 'ERC20',
     chainId: 42,
@@ -151,7 +151,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 13,
     name: 'BAT',
-    logoRoute: 'assets/img/coins/BAT.png',
+    logoRoute: 'assets/img/coins/BAT-ERC20.svg',
     value: 'BAT',
     network: 'ERC20',
     chainId: 42,
@@ -163,7 +163,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 14,
     name: 'RBTC - Smart Bitcoin',
-    logoRoute: 'assets/img/coins/RBTC.png',
+    logoRoute: 'assets/img/coins/RBTC-RSK.svg',
     value: 'RBTC',
     network: 'RSK',
     chainId: 31,
@@ -176,7 +176,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 15,
     name: 'RIF - Rifos',
-    logoRoute: 'assets/img/coins/RIF.png',
+    logoRoute: 'assets/img/coins/RIF-RSK.svg',
     value: 'RIF',
     network: 'RSK',
     chainId: 31,
@@ -189,7 +189,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 16,
     name: 'MATIC - Polygon',
-    logoRoute: 'assets/img/coins/MATIC.svg',
+    logoRoute: 'assets/img/coins/MATIC-POLYGON.svg',
     value: 'MATIC',
     network: 'MATIC',
     chainId: 80001,
@@ -203,7 +203,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 18,
     name: 'BNB - Binance Coin',
-    logoRoute: 'assets/img/coins/BNB.svg',
+    logoRoute: 'assets/img/coins/BNB-BSC_BEP20.svg',
     value: 'BNB',
     network: 'BSC_BEP20',
     chainId: 97,
@@ -217,7 +217,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 19,
     name: 'CAKE - Pancake Swap',
-    logoRoute: 'assets/img/coins/PANCAKE.png',
+    logoRoute: 'assets/img/coins/PANCAKE-BSC_BEP20.svg',
     value: 'CAKE',
     network: 'BSC_BEP20',
     chainId: 97,
@@ -230,7 +230,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 20,
     name: 'ADA - Cardano Token',
-    logoRoute: 'assets/img/coins/ADA.png',
+    logoRoute: 'assets/img/coins/ADA-BSC_BEP20.svg',
     value: 'ADA',
     network: 'BSC_BEP20',
     chainId: 97,
@@ -243,7 +243,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 21,
     name: 'BUSD - Binance USD',
-    logoRoute: 'assets/img/coins/BUSD.png',
+    logoRoute: 'assets/img/coins/BUSD-BSC_BEP20.svg',
     value: 'BUSD',
     network: 'BSC_BEP20',
     chainId: 97,
@@ -257,7 +257,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 22,
     name: 'AVAX - Avalanche Token',
-    logoRoute: 'assets/img/coins/AVAX.png',
+    logoRoute: 'assets/img/coins/AVAX-BSC_BEP20.svg',
     value: 'AVAX',
     network: 'BSC_BEP20',
     chainId: 97,
@@ -268,7 +268,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 23,
     name: 'SAND - SAND Token',
-    logoRoute: 'assets/img/coins/SAND.png',
+    logoRoute: 'assets/img/coins/SAND-POLYGON.svg',
     value: 'SAND',
     network: 'MATIC',
     chainId: 80001,
@@ -279,7 +279,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 24,
     name: 'USDC - USD Coin',
-    logoRoute: 'assets/img/coins/USDC.png',
+    logoRoute: 'assets/img/coins/USDC-POLYGON.svg',
     value: 'USDC',
     network: 'MATIC',
     chainId: 80001,
@@ -294,7 +294,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 25,
     name: 'CRV - Curve',
-    logoRoute: 'assets/img/coins/CRV.png',
+    logoRoute: 'assets/img/coins/CRV-POLYGON.svg',
     value: 'CRV',
     network: 'MATIC',
     chainId: 80001,
@@ -305,7 +305,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 26,
     name: 'DAI - DAI',
-    logoRoute: 'assets/img/coins/DAI.png',
+    logoRoute: 'assets/img/coins/DAI-POLYGON.svg',
     value: 'DAI',
     network: 'MATIC',
     contract: '0x001b3b4d0f3714ca98ba10f6042daebf0b1b7b6f',
@@ -319,7 +319,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 27,
     name: 'WETH - Wrapped Ether',
-    logoRoute: 'assets/img/coins/WETH.svg',
+    logoRoute: 'assets/img/coins/WETH-POLYGON.svg',
     value: 'WETH',
     network: 'MATIC',
     contract: '0x3c68ce8504087f89c640d02d133646d98e64ddd9',
@@ -332,7 +332,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 28,
     name: 'WBTC - Wrapped BTC',
-    logoRoute: 'assets/img/coins/WBTC.png',
+    logoRoute: 'assets/img/coins/WBTC-POLYGON.svg',
     value: 'WBTC',
     network: 'MATIC',
     contract: '0x0d787a4a1548f673ed375445535a6c7a1ee56180',
@@ -346,7 +346,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 29,
     name: 'SOL - Solana',
-    logoRoute: 'assets/img/coins/SOL.svg',
+    logoRoute: 'assets/img/coins/SOL-SOLANA.svg',
     value: 'SOL',
     network: 'SOLANA',
     contract: '11111111111111111111111111111111',
@@ -360,8 +360,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 30,
     name: 'SAMO - Samoyed Coin',
-    logoRoute:
-      'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU/logo.png',
+    logoRoute: 'assets/img/coins/SAMO-SOLANA.svg',
     value: 'SAMO',
     network: 'SOLANA',
     contract: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
@@ -375,7 +374,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 31,
     name: 'USDT - Tether',
-    logoRoute: 'assets/img/coins/USDT.svg',
+    logoRoute: 'assets/img/coins/USDT-BSC_BEP20.svg',
     value: 'USDT',
     network: 'BSC_BEP20',
     chainId: 97,
@@ -387,7 +386,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 32,
     name: 'USDT - Tether',
-    logoRoute: 'assets/img/coins/USDT.svg',
+    logoRoute: 'assets/img/coins/USDT-POLYGON.svg',
     value: 'USDT',
     network: 'MATIC',
     chainId: 80001,
@@ -399,7 +398,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 33,
     name: 'USDT - Tether',
-    logoRoute: 'assets/img/coins/USDT.svg',
+    logoRoute: 'assets/img/coins/USDT-SOLANA.svg',
     value: 'USDT',
     network: 'SOLANA',
     chainId: 1399811149,
@@ -411,7 +410,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 34,
     name: 'USDC - USD Coin',
-    logoRoute: 'assets/img/coins/USDC.png',
+    logoRoute: 'assets/img/coins/USDC-BSC_BEP20.svg',
     value: 'USDC',
     network: 'BSC_BEP20',
     chainId: 97,
@@ -424,7 +423,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 35,
     name: 'USDC - USD Coin',
-    logoRoute: 'assets/img/coins/USDC.png',
+    logoRoute: 'assets/img/coins/USDC-ERC20.svg',
     value: 'USDC',
     network: 'ERC20',
     chainId: 42,
@@ -437,7 +436,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 36,
     name: 'USDC - USD Coin',
-    logoRoute: 'assets/img/coins/USDC.png',
+    logoRoute: 'assets/img/coins/USDC-SOLANA.svg',
     value: 'USDC',
     network: 'SOLANA',
     chainId: 1399811149,
@@ -450,7 +449,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 37,
     name: 'DAI - DAI',
-    logoRoute: 'assets/img/coins/DAI.png',
+    logoRoute: 'assets/img/coins/DAI-ERC20.svg',
     value: 'DAI',
     network: 'ERC20',
     contract: '0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844',
@@ -463,7 +462,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 38,
     name: 'DAI - DAI',
-    logoRoute: 'assets/img/coins/DAI.png',
+    logoRoute: 'assets/img/coins/DAI-BSC_BEP20.svg',
     value: 'DAI',
     network: 'BSC_BEP20',
     contract: '0xEC5dCb5Dbf4B114C9d0F65BcCAb49EC54F6A0867',
@@ -476,7 +475,7 @@ export const NONPROD_COINS: Coin[] = [
   {
     id: 39,
     name: 'DAI - DAI',
-    logoRoute: 'assets/img/coins/DAI.png',
+    logoRoute: 'assets/img/coins/DAI-SOLANA.svg',
     value: 'DAI',
     network: 'SOLANA',
     contract: 'EjmyN6qEC1Tf1JxiG1ae7UTJhUxSwk1TCWNWqxWV4J6o',
