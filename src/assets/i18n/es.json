@@ -160,6 +160,7 @@
       "login_button_text": "Ingresar",
       "reset_password_link": "Olvidé mi contraseña",
       "help_link": "Ayuda",
+      "use_biometric": "Acceder con datos biométricos",
       "invalid_password_text": "La contraseña ingresada no es correcta. Por favor intente nuevamente.",
       "error_biometric_auth": "Se produjo un error al intentar leer tus datos biométricos. Ingresa tu contraseña para acceder."
     },
@@ -697,7 +698,8 @@
       "password_error": "La contraseña ingresada no es correcta.",
       "options": {
         "title": "Ingresa con tus datos biométricos",
-        "subtitle": "Apoya tu huella sobre el lector de datos o apunta la pantalla hacia tu rostro, según corresponda en tu dispositivo."
+        "subtitle": "Apoya tu huella sobre el lector de datos o apunta la pantalla hacia tu rostro, según corresponda en tu dispositivo.",
+        "negative_button_text": "Usar contraseña"
       }
     },
     "delete_account": {

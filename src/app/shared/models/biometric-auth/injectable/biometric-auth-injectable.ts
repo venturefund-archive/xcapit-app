@@ -7,9 +7,8 @@ import { BiometricVerifyOptions } from '../../biometric-verify-options/biometric
 
 @Injectable({ providedIn: 'root' })
 export class BiometricAuthInjectable {
-
   constructor(private translate: TranslateService, private storage: IonicStorageService) {}
-  public create(): BiometricAuth {
-    return new DefaultBiometricAuth(this.storage, new BiometricVerifyOptions(this.translate));
+  public create(verifyOptions: BiometricVerifyOptions = new BiometricVerifyOptions(this.translate)): BiometricAuth {
+    return new DefaultBiometricAuth(this.storage, verifyOptions);
   }
 }
