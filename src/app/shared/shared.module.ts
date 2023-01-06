@@ -101,6 +101,8 @@ import { TokenNetworkBadgeComponent } from './components/token-network-badge/tok
 import { OperationStatusChipComponent } from '../modules/fiat-ramps/shared-ramps/components/operation-status-chip/operation-status-chip.component';
 import { CommaToDotDirective } from './directives/comma-to-dot/comma-to-dot.directive';
 import { InProgressTransactionModalComponent } from './components/in-progress-transaction-modal/in-progress-transaction-modal.component';
+import { AssetDetailComponent } from './components/asset-detail/asset-detail.component';
+import { AddressInputCardComponent } from '../modules/wallets/shared-wallets/components/address-input-card/address-input-card.component';
 
 @NgModule({
   declarations: [
@@ -188,6 +190,8 @@ import { InProgressTransactionModalComponent } from './components/in-progress-tr
     TwoButtonsAlertComponent,
     TokenNetworkBadgeComponent,
     OperationStatusChipComponent,
+    AssetDetailComponent,
+    AddressInputCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,
@@ -296,6 +300,8 @@ import { InProgressTransactionModalComponent } from './components/in-progress-tr
     TwoButtonsAlertComponent,
     TokenNetworkBadgeComponent,
     OperationStatusChipComponent,
+    AssetDetailComponent,
+    AddressInputCardComponent,
     // Pipes
     LocalizedDatePipe,
     HideReferralPipe,

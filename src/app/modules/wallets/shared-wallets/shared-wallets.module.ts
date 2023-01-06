@@ -6,7 +6,6 @@ import { WalletBalanceCardItemComponent } from './components/wallet-balance-card
 import { WalletTransactionCardItemComponent } from './components/wallet-transaction-card-item/wallet-transaction-card-item.component';
 import { WalletTransactionCardComponent } from './components/wallet-transaction-card/wallet-transaction-card.component';
 import { WalletsSubheaderComponent } from './components/wallets-subheader/wallets-subheader.component';
-import { AddressInputCardComponent } from './components/address-input-card/address-input-card.component';
 import { TransactionSummaryCardComponent } from './components/transaction-summary-card/transaction-summary-card.component';
 import { WalletPasswordComponent } from './components/wallet-password/wallet-password.component';
 import { WalletSubheaderButtonsComponent } from './components/wallet-subheader-buttons/wallet-subheader-buttons.component';
@@ -41,7 +40,6 @@ import { InitiationWalletStepCardComponent } from './components/initiation-walle
     WalletBalanceCardItemComponent,
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
-    AddressInputCardComponent,
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,
@@ -74,7 +72,6 @@ import { InitiationWalletStepCardComponent } from './components/initiation-walle
     WalletBalanceCardItemComponent,
     WalletTransactionCardComponent,
     WalletTransactionCardItemComponent,
-    AddressInputCardComponent,
     TransactionSummaryCardComponent,
     WalletPasswordComponent,
     WalletSubheaderButtonsComponent,

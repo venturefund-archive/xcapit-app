@@ -302,19 +302,6 @@ describe('SendDetailPage', () => {
     expect(modalControllerSpy.create).toHaveBeenCalledTimes(0);
   });
 
-  it('should let user change currency on selected currency click', async () => {
-    fakeActivatedRoute.modifySnapshotParams({ token: rawETHData.contract, blockchain: rawETHData.network });
-    await component.ionViewDidEnter();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    fixture.debugElement
-      .query(By.css('.sd__network-select-card__selected-coin > app-coin-selector'))
-      .triggerEventHandler('changeCurrency', {});
-
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/wallets/send/select-currency']);
-  });
-
   it('should unsubscribe when leave', () => {
     const nextSpy = spyOn(component.destroy$, 'next');
     const completeSpy = spyOn(component.destroy$, 'complete');

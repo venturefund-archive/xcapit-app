@@ -25,32 +25,20 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
         </app-backup-information-card>
       </div>
       <div class="aic__header">
-        <div class="aic__header__title">
-          <ion-text class="ux-font-titulo-xs">{{ this.title }}</ion-text>
-        </div>
-        <div class="aic__header__buttons">
-          <ion-button
-            *ngIf="this.enableQR && !this.isPWA"
-            name="Scan QR"
-            appTrackClick
-            fill="clear"
-            size="small"
-            color="neutral80"
-            (click)="this.scanQR()"
-          >
-            <ion-icon name="ux-qr-scan"></ion-icon>
-          </ion-button>
-        </div>
+        <ion-text class="ux-font-titulo-xs">{{ this.title }}</ion-text>
+        <ion-text class="ux-font-text-xxs aic__header__subtitle">{{ this.subtitle }}</ion-text>
       </div>
       <div class="aic__content">
         <app-ux-input
           class="ion-no-padding"
           [placeholder]="'wallets.shared_wallets.address_input_card.placeholder' | translate"
-          [pasteType]="'ux-paste'"
+          [qrScanner]="true"
           [controlName]="'address'"
           debounce="500"
           type="text"
           id="address-input"
+          (qrScannerOpened)="scanQR()"
+          [native]="!this.isPWA"
         ></app-ux-input>
         <div *ngIf="this.hideHelpText">
           <div class="aic__content__validator" *ngIf="!this.status">
@@ -66,6 +54,7 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
           {{ this.helpText }}
         </ion-label>
         <ion-button
+          [ngStyle]="{ display: this.showContactsPicker ? 'block' : 'none' }"
           [disabled]="!this.hasContacts"
           (click)="onContacts()"
           class="ux-link-xl aic__content__contact-button"
@@ -89,9 +78,11 @@ import { IonicStorageService } from 'src/app/shared/services/ionic-storage/ionic
 })
 export class AddressInputCardComponent implements OnInit {
   @Input() title: string;
+  @Input() subtitle: string;
   @Input() helpText: string;
   @Input() enableQR = true;
   @Input() selectedNetwork: string;
+  @Input() showContactsPicker = true;
   @Output() addFromContacts: EventEmitter<void> = new EventEmitter<void>();
   isPWA = true;
   form: UntypedFormGroup;
@@ -126,8 +117,8 @@ export class AddressInputCardComponent implements OnInit {
 
   async checkContactsList() {
     const contacts = await this.ionicStorage.get('contact_list');
-    if(contacts){
-      this.hasContacts = contacts.some(c => c.networks.includes(this.selectedNetwork));
+    if (contacts) {
+      this.hasContacts = contacts.some((c) => c.networks.includes(this.selectedNetwork));
     }
   }
 

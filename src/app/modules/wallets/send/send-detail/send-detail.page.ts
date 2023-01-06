@@ -61,29 +61,16 @@ import { BuyOrDepositTokenToastComponent } from 'src/app/modules/fiat-ramps/shar
       </ion-toolbar>
     </ion-header>
     <ion-content class="sd">
-      <div class="sd__network-select-card ion-padding" *ngIf="this.tplBlockchain">
-        <div class="sd__network-select-card__title">
-          <ion-text class="ux-font-text-lg">{{ 'wallets.send.send_detail.network_select.title' | translate }}</ion-text>
-        </div>
-        <div class="sd__network-select-card__selected-coin">
-          <app-coin-selector
-            [selectedCoin]="this.token"
-            [enabled]="true"
-            (changeCurrency)="this.changeCurrency()"
-          ></app-coin-selector>
-        </div>
-        <div class="sd__network-select-card__networks">
-          <app-network-select-card
-            [title]="'wallets.send.send_detail.network_select.network' | translate"
-            [networks]="[this.tplBlockchain.name]"
-            [selectedNetwork]="this.tplBlockchain.name"
-          ></app-network-select-card>
-        </div>
-      </div>
       <form [formGroup]="this.form">
-        <div class="sd__address-input-card  ion-padding-start ion-padding-end" *ngIf="this.token && this.tplBlockchain">
+        <div class="sd__transaction-card ion-padding" *ngIf="this.token && this.tplBlockchain">
+          <app-asset-detail
+            [blockchain]="this.tplBlockchain.name"
+            [token]="this.token.value"
+            [tokenLogo]="this.token.logoRoute"
+          ></app-asset-detail>
           <app-address-input-card
             [title]="'wallets.send.send_detail.address_input.title' | translate"
+            [subtitle]="'wallets.send.send_detail.address_input.subtitle' | translate"
             [helpText]="'wallets.send.send_detail.address_input.help_text' | translate: { currency: this.token.value }"
             [selectedNetwork]="this.tplBlockchain.name"
             (addFromContacts)="navigateToContacts()"
@@ -422,10 +409,6 @@ export class SendDetailPage {
     };
   }
 
-  changeCurrency() {
-    this.navController.navigateBack(['/wallets/send/select-currency']);
-  }
-
   private getDynamicPriceOf(token: Coin | RawToken): Observable<number> {
     return this.dynamicPriceFactory
       .new(this.priceRefreshInterval, token, this.apiWalletService)
@@ -470,7 +453,7 @@ export class SendDetailPage {
       'token',
       this.token.contract,
       'amount',
-      this.form.value.amount
+      this.form.value.amount,
     ]);
   }
 }
