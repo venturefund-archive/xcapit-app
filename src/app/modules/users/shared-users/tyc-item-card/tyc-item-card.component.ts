@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-tyc-item-card',
@@ -21,14 +21,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   </ion-item> `,
   styleUrls: ['./tyc-item-card.component.scss'],
 })
-export class TycItemCardComponent implements OnInit {
+export class TycItemCardComponent {
   @Input() item: any;
-  @Output() navigate = new EventEmitter<void>();
+  @Output() openBrowser = new EventEmitter<void>();
   constructor() {}
 
-  ngOnInit() {}
-
   navigateTo() {
-    this.navigate.emit(this.item);
+    this.openBrowser.emit(this.item);
   }
 }

@@ -14,8 +14,8 @@ import { TYC_ITEMS } from '../shared-users/constant/tyc-items';
       </ion-toolbar>
     </ion-header>
     <ion-content class="tac">
-      <div class="tac__card">
-        <app-tyc-item-card *ngFor="let item of this.xcapitItems" [item]="item" (navigate)="this.openBrowser($event)">
+      <div class="tac__card" *ngIf="this.xcapitItems">
+        <app-tyc-item-card *ngFor="let item of this.xcapitItems" [item]="item" (openBrowser)="this.openBrowser($event)">
         </app-tyc-item-card>
       </div>
       <div class="tac__providers">
@@ -23,7 +23,7 @@ import { TYC_ITEMS } from '../shared-users/constant/tyc-items';
           'profiles.user_profile_menu.terms_and_conditions.providers' | translate
         }}</ion-text>
       </div>
-      <div class="tac__card">
+      <div class="tac__card" *ngIf="this.providerItems">
         <app-tyc-item-card *ngFor="let item of this.providerItems" [item]="item"> </app-tyc-item-card>
       </div>
     </ion-content> `,
@@ -46,9 +46,6 @@ export class TermsAndConditionsPage {
       url: event.route,
     });
   }
-
-
-  //TO-DO - Consultar T&C de kripton, ya que no se guardan en localStorage si es por regla de negocio.
 
   async filterItems() {
     this.xcapitItems = this.items.filter((item) => item.isXcapit);
