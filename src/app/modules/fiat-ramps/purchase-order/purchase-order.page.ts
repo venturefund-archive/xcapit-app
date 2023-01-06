@@ -22,7 +22,7 @@ import { KriptonStorageService } from '../shared-ramps/services/kripton-storage/
     <ion-header>
       <ion-toolbar mode="ios" color="primary" class="ux_toolbar ux_toolbar__left no-border">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/fiat-ramps/purchases"></ion-back-button>
+          <ion-back-button defaultHref="" (click)="navigateBack()"></ion-back-button>
         </ion-buttons>
         <ion-title class="po__header">
           {{ 'fiat_ramps.purchase_order.header' | translate }}
@@ -221,8 +221,10 @@ export class PurchaseOrderPage {
       },
       error: () => {
         this.goToError();
+        this.storageOperationService.cleanVoucher();
       },
       complete: () => {
+        this.storageOperationService.cleanVoucher();
         this.isSending = false;
       },
     });
@@ -245,5 +247,12 @@ export class PurchaseOrderPage {
       backdropDismiss: false,
     });
     await modal.present();
+  }
+
+  navigateBack() {
+    this.navController.back();
+    if (this.isFirstStep) {
+      this.storageOperationService.cleanVoucher();
+    }
   }
 }
