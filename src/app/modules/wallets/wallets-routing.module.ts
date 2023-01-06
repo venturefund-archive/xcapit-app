@@ -234,17 +234,23 @@ const routes: Routes = [
       },
       {
         path: 'transaction-details',
-        loadChildren: () => import('./transaction-details/transaction-details.module').then( m => m.TransactionDetailsPageModule)
+        loadChildren: () =>
+          import('./transaction-details/transaction-details.module').then((m) => m.TransactionDetailsPageModule),
+      },
+      {
+        path: 'experimental-onboarding',
+        loadChildren: () =>
+          import('./experimental-onboarding/experimental-onboarding.module').then(
+            (m) => m.ExperimentalOnboardingPageModule
+          ),
       },
       {
         path: 'derived-path-options',
-        loadChildren: () => import('./derived-path-options/derived-path-options.module').then( m => m.DerivedPathOptionsPageModule)
+        loadChildren: () =>
+          import('./derived-path-options/derived-path-options.module').then((m) => m.DerivedPathOptionsPageModule),
       },
     ],
   },
-
-
-
 ];
 
 @NgModule({

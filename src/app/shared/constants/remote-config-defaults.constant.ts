@@ -19,4 +19,5 @@ export const REMOTE_CONFIG_DEFAULTS = {
   inReview: true,
   lastVersion: undefined,
   ff_contacts: true,
+  ff_experimentOnboarding: false,
 };

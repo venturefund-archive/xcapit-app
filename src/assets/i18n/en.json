@@ -1650,6 +1650,27 @@
       "header": "Receive",
       "title": "Select the currency you want to receive"
     },
+    "experimental_onboarding":{
+      "titile":"Welcome to {{username}} 🚀",
+      "init_wallet":"Init wallet",
+      "complete_steps": "1 of 2 steps complete",
+      "next_step":"next step",
+      "progress": "Your progress",
+      "completed": "completado",
+      "steps":{
+        "step_one":{
+          "title": "buy tokens",
+          "subtitle": "USDC at the best price."
+        },
+        "step_two":{
+          "title": "Or, deposit",
+          "subtitle": "Add USDC from other wallet."
+        },
+        "step_three":{
+          "title": "Creación de wallet"
+        }
+      }
+    },
     "remove_success": {
       "title": "Your wallet was removed",
       "subtitle": "You can create a new wallet or import an existing one whenever you wish.",
