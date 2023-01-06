@@ -20,6 +20,7 @@ import { TrackedWalletAddressInjectable } from './shared/models/tracked-wallet-a
 import { AppSession } from './shared/models/app-session/app-session';
 import { CapacitorAppInjectable } from './shared/models/capacitor-app/injectable/capacitor-app.injectable';
 import { AppSessionInjectable } from './shared/models/app-session/injectable/app-session.injectable';
+import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 
 @Component({
   selector: 'app-root',
@@ -55,7 +56,8 @@ export class AppComponent implements OnInit {
     private storage: IonicStorageService,
     private trackedWalletAddressInjectable: TrackedWalletAddressInjectable,
     private capacitorAppInjectable: CapacitorAppInjectable,
-    private appSessionInjectable: AppSessionInjectable
+    private appSessionInjectable: AppSessionInjectable,
+    private walletMaintenanceService: WalletMaintenanceService
   ) {}
 
   ngOnInit() {
@@ -73,6 +75,7 @@ export class AppComponent implements OnInit {
 
   private initializeApp() {
     this._setSession();
+    this.checkAssetsStructure();
     this.checkForUpdate();
     this.walletBackupService.getBackupWarningWallet();
     this.platform.ready().then(() => {
@@ -82,6 +85,10 @@ export class AppComponent implements OnInit {
       this.localNotificationsService.init();
       this.trackUserWalletAddress();
     });
+  }
+
+  private async checkAssetsStructure(){
+    this.walletMaintenanceService.checkTokensStructure();
   }
 
   private _setSession() {

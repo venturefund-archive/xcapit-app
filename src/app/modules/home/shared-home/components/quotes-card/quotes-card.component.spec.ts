@@ -220,7 +220,7 @@ describe('QuotesCardComponent', () => {
     waitForAsync(() => {
       fakeWalletService = new FakeWalletService(true);
       storageServiceSpy = jasmine.createSpyObj('StorageService', {
-        getAssestsSelected: Promise.resolve(userQuotes),
+        getAssetsSelected: Promise.resolve(userQuotes),
       });
       apiWalletServiceSpy = jasmine.createSpyObj('ApiWalletService', {
         getCoins: coins,

@@ -121,7 +121,7 @@ export class QuotesCardComponent implements OnInit {
   }
 
   getUserCoinsQuotes() {
-    this.storageService.getAssestsSelected().then((coins) => {
+    this.storageService.getAssetsSelected().then((coins) => {
       const userCoins = coins;
       const filteredData = this.completeData?.filter((filteredCoin) => {
         for (const i in userCoins) {

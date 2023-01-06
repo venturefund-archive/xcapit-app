@@ -22,6 +22,7 @@ import { FakeCapacitorApp } from './shared/models/capacitor-app/fake/fake-capaci
 import { CapacitorApp } from './shared/models/capacitor-app/capacitor-app.interface';
 import { AppSessionInjectable } from './shared/models/app-session/injectable/app-session.injectable';
 import { AppSession } from './shared/models/app-session/app-session';
+import { WalletMaintenanceService } from './modules/wallets/shared-wallets/services/wallet-maintenance/wallet-maintenance.service';
 
 describe('AppComponent', () => {
   let platformSpy: jasmine.SpyObj<Platform>;
@@ -47,6 +48,7 @@ describe('AppComponent', () => {
   let fakeCapacitorApp: CapacitorApp;
   let appSessionInjectableSpy: jasmine.SpyObj<AppSessionInjectable>;
   let appSessionSpy: jasmine.SpyObj<AppSession>;
+  let walletMaintenanceServiceSpy: jasmine.SpyObj<WalletMaintenanceService>;
 
   beforeEach(waitForAsync(() => {
     platformServiceSpy = jasmine.createSpyObj('PlatformSpy', { platform: 'web', isWeb: true, isNative: true });
@@ -69,6 +71,9 @@ describe('AppComponent', () => {
     });
     walletBackupServiceSpy = jasmine.createSpyObj('WalletBackupService', {
       getBackupWarningWallet: Promise.resolve(),
+    });
+    walletMaintenanceServiceSpy = jasmine.createSpyObj('WalletMaintenanceService', {
+      checkTokensStructure: Promise.resolve(),
     });
     ionicStorageServiceSpy = jasmine.createSpyObj('IonicStorageService', {
       get: Promise.resolve(true),
@@ -116,6 +121,7 @@ describe('AppComponent', () => {
         { provide: TrackedWalletAddressInjectable, useValue: trackedWalletAddressInjectableSpy },
         { provide: CapacitorAppInjectable, useValue: capacitorAppInjectableSpy },
         { provide: AppSessionInjectable, useValue: appSessionInjectableSpy },
+        { provide: WalletMaintenanceService, useValue: walletMaintenanceServiceSpy },
       ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
@@ -141,6 +147,7 @@ describe('AppComponent', () => {
     expect(statusBarSpy.setBackgroundColor).not.toHaveBeenCalled();
     expect(walletBackupServiceSpy.getBackupWarningWallet).toHaveBeenCalledTimes(1);
     expect(localNotificationServiceSpy.init).toHaveBeenCalledTimes(1);
+    expect(walletMaintenanceServiceSpy.checkTokensStructure).toHaveBeenCalledTimes(1);
   });
 
   it('should call set background if android platform', async () => {

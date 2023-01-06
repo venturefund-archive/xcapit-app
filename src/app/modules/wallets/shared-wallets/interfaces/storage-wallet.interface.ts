@@ -8,6 +8,6 @@ export interface StorageWallet {
   updatedAt: string;
   network: string;
   addresses?: any;
-  assets: StorageAsset[];
+  assets: StorageAsset[] | any;
   creationMethod?: WalletCreationMethod;
 }

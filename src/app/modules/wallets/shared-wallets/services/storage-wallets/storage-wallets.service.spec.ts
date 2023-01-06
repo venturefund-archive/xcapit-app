@@ -130,9 +130,9 @@ describe('StorageService', () => {
     expect(addresses).toEqual(testWalletStub.addresses);
   });
 
-  it('should return the selected assets by the user from localstorage on getAssestsSelected', async () => {
+  it('should return the selected assets by the user from localstorage on getAssetsSelected', async () => {
     spyOn(service, 'getWalletFromStorage').and.returnValue(Promise.resolve(testWalletStub));
-    const assetsSelected = await service.getAssestsSelected();
+    const assetsSelected = await service.getAssetsSelected();
 
     expect(assetsSelected[0].value).toEqual(testCoins[0].value);
     expect(assetsSelected[1].value).toEqual(testCoins[1].value);
