@@ -74,6 +74,11 @@ import { AppSessionInjectable } from 'src/app/shared/models/app-session/injectab
               {{ 'users.login_new.reset_password_link' | translate }}
             </ion-button>
           </div>
+          <div class="ul__use-biometric-button" *ngIf="this.biometricEnabled">
+            <ion-button class="ux-link-xl" (click)="this.activateBiometricAuth()" fill="clear" size="small">
+              {{ 'users.login_new.use_biometric' | translate }}</ion-button
+            >
+          </div>
         </form>
       </div>
     </ion-content>
@@ -104,6 +109,8 @@ export class LoginNewPage {
   biometricAuth: BiometricAuth;
   showToast = true;
   isModalOpen = false;
+  biometricEnabled: boolean;
+
   constructor(
     private toastService: ToastService,
     private formBuilder: UntypedFormBuilder,
@@ -127,15 +134,24 @@ export class LoginNewPage {
 
   async ionViewWillEnter() {
     this.removeOldToken();
-    this.biometricAuth = this.biometricAuthInjectable.create();
-    this.activateBiometricAuth();
+    this._setBiometricAuth();
+    await this._setBiometricEnabled();
+    await this.activateBiometricAuth();
+    this._trackScreenView();
+    this.subscribeOnValueChanges();
+    this.enablePushNotificationsByDefault();
+  }
+
+  private _trackScreenView(): void {
     this.trackService.trackEvent({
       eventAction: 'screenview',
       description: window.location.href,
       eventLabel: 'ux_screenview_login',
     });
-    this.subscribeOnValueChanges();
-    this.enablePushNotificationsByDefault();
+  }
+
+  private _setBiometricAuth() {
+    this.biometricAuth = this.biometricAuthInjectable.create();
   }
 
   async enablePushNotificationsByDefault() {
@@ -158,12 +174,16 @@ export class LoginNewPage {
     this.toastService.dismiss();
   }
 
-  private _biometricAuthEnable(): boolean {
+  private async _setBiometricEnabled() {
+    this.biometricEnabled = await this.biometricAuth.enabled();
+  }
+
+  private _biometricAuthFeatureEnabled(): boolean {
     return this.remoteConfig.getFeatureFlag('ff_bioauth');
   }
 
   async activateBiometricAuth() {
-    if (this._biometricAuthEnable() && (await this.biometricAuth.enabled())) {
+    if (this._biometricAuthFeatureEnabled() && this.biometricEnabled) {
       const verifyResult: VerifyResult = await this.biometricAuth.verified();
       if (verifyResult.verified) {
         this.handleSubmit(true);
@@ -206,7 +226,6 @@ export class LoginNewPage {
     await this._checkWalletConnectDeepLink();
     await this.checkWalletProtected();
     this.appSession.create().save();
-
   }
 
   private async _checkWalletConnectDeepLink() {
@@ -227,7 +246,7 @@ export class LoginNewPage {
       }
     } else if (await this._loginToken(password).valid()) {
       await this._loggedIn();
-      if (this._biometricAuthEnable() && this.platformService.isNative()) {
+      if (this._biometricAuthFeatureEnabled() && this.platformService.isNative()) {
         if (!(await this.biometricAuth.enabled()) && this.form.value.password && this.biometricAuth.available()) {
           if ((await this.showLoginBiometricActivation()) === 'confirm') {
             this.biometricAuth.onNeedPass().subscribe(() => Promise.resolve(new Password(this.form.value.password)));

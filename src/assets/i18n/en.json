@@ -169,6 +169,7 @@
       "login_button_text": "Login",
       "reset_password_link": "I forgot my password",
       "help_link": "Help",
+      "use_biometric": "Access with biometric data",
       "invalid_password_text": "The password entered is incorrect. Please try again.",
       "error_biometric_auth": "An error occurred while trying to read your biometric data. Please enter your password to access."
     },
@@ -704,7 +705,8 @@
       "password_error": "The password entered is not valid.",
       "options": {
         "title": "Log in with your biometric data",
-        "subtitle": "Rest your fingerprint on the data reader or point the screen towards your face, as appropriate on your device."
+        "subtitle": "Rest your fingerprint on the data reader or point the screen towards your face, as appropriate on your device.",
+        "negative_button_text": "Use password"
       }
     },
     "delete_account": {

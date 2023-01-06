@@ -26,6 +26,17 @@
       align-items: center;
       margin-top: 24px;
     }
+
+    &__use-biometric-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 24px;
+
+      ion-button {
+        text-decoration: none;
+      }
+    }
   }
 
   ion-footer {
