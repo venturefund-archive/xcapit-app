@@ -73,24 +73,6 @@ describe('AddressInputCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render qr code depending of enableQR', () => {
-    let scanQrEl = fixture.debugElement.query(By.css('ion-button[name="Scan QR"]'));
-    expect(scanQrEl).toBeTruthy();
-    component.enableQR = false;
-    fixture.detectChanges();
-    scanQrEl = fixture.debugElement.query(By.css('ion-button[name="Scan QR"]'));
-    expect(scanQrEl).toBeNull();
-  });
-
-  it('should render qr code depending of isPWA', () => {
-    let scanQrEl = fixture.debugElement.query(By.css('ion-button[name="Scan QR"]'));
-    expect(scanQrEl).toBeTruthy();
-    component.isPWA = true;
-    fixture.detectChanges();
-    scanQrEl = fixture.debugElement.query(By.css('ion-button[name="Scan QR"]'));
-    expect(scanQrEl).toBeNull();
-  });
-
   it('should render address on qr code scanned success', async () => {
     fakeModalController.modifyReturns(
       {},
@@ -99,7 +81,7 @@ describe('AddressInputCardComponent', () => {
         role: 'success',
       }
     );
-    fixture.debugElement.query(By.css('ion-button[name="Scan QR"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('qrScannerOpened',null);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.form.value.address).toBe('testAddress');
@@ -108,14 +90,14 @@ describe('AddressInputCardComponent', () => {
   it('should not render address and show toast on qr code scanned error', async () => {
     const spy = spyOn(toastService, 'showToast').and.callThrough();
     fakeModalController.modifyReturns({}, { data: 'errorData', role: 'error' });
-    fixture.debugElement.query(By.css('ion-button[name="Scan QR"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('qrScannerOpened',null);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component.form.value.address).toBe('');
     expect(spy).toHaveBeenCalledWith({ message: 'wallets.shared_wallets.address_input_card.scan_error' });
   });
 
-  it('should not render address and show toast on qr code scanned unauthorized', async () => {
+  it('should not render address and show toast on qr code scanned unauthorized', fakeAsync(() => {
     const spy = spyOn(toastService, 'showToast').and.callThrough();
     fakeModalController.modifyReturns(
       {},
@@ -124,12 +106,12 @@ describe('AddressInputCardComponent', () => {
         role: 'unauthorized',
       }
     );
-    fixture.debugElement.query(By.css('ion-button[name="Scan QR"]')).nativeElement.click();
+    fixture.debugElement.query(By.css('app-ux-input')).triggerEventHandler('qrScannerOpened',null);
+    tick();
     fixture.detectChanges();
-    await fixture.whenStable();
     expect(component.form.value.address).toBe('');
     expect(spy).toHaveBeenCalledWith({ message: 'wallets.shared_wallets.address_input_card.scan_unauthorized' });
-  });
+  }));
 
   it('should render contacts button disabled if there is not contacts on storage', () => {
     ionicStorageServiceSpy.get.and.returnValue(null);

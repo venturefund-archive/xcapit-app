@@ -24,7 +24,7 @@ import { NavController } from '@ionic/angular';
     <ion-content class="ion-padding">
       <div class="wr">
         <div class="wr__title">
-          <ion-item class="ion-no-margin ion-no-padding">
+          <ion-item lines="none" class="ion-no-margin ion-no-padding">
             <ion-text class="ux-font-text-lg">{{ 'wallets.receive.title' | translate }}</ion-text>
             <ion-button
               name="Share Wallet Address"
@@ -40,26 +40,12 @@ import { NavController } from '@ionic/angular';
           </ion-item>
         </div>
         <div class="wr__card-content">
-          <div class="wr__card-content__currency-select" *ngIf="this.currency">
-            <app-coin-selector
-              [selectedCoin]="this.currency"
-              (changeCurrency)="this.changeCurrency()"
-            ></app-coin-selector>
-          </div>
-          <div class="wr__card-content__network-select-card" *ngIf="this.networks">
-            <app-network-select-card
-              (networkChanged)="this.selectedNetworkChanged($event)"
-              [title]="'wallets.send.send_detail.network_select.network' | translate"
-              [networks]="this.networks"
-              selectorStyle="receive"
-              [selectedNetwork]="this.selectedNetwork"
-            ></app-network-select-card>
-          </div>
-          <div class="wr__card-content__remaining-time-text">
-            <ion-text color="neutral80" class="ux-font-text-xxs">{{
-              'wallets.receive.average_time' | translate
-            }}</ion-text>
-          </div>
+     
+          <app-asset-detail
+            [blockchain]="this.selectedNetwork"
+            [token]="this.currency?.value"
+            [tokenLogo]="this.currency?.logoRoute"
+          ></app-asset-detail>
           <div class="wr__card-content__qr-content" *ngIf="addressQr">
             <img id="qr-img" [src]="this.addressQr" />
           </div>
@@ -134,11 +120,6 @@ export class ReceivePage {
     this.networks = this.apiWalletService.getNetworks(coin);
     this.selectedNetwork = network;
   }
-
-  changeCurrency() {
-    this.navController.navigateBack(['/wallets/receive/select-currency']);
-  }
-
   checkPlatform() {
     this.isNativePlatform = this.platformService.isNative();
   }
@@ -149,12 +130,7 @@ export class ReceivePage {
       this.generateAddressQR();
     });
   }
-
-  selectedNetworkChanged(network) {
-    this.selectedNetwork = network;
-    this.getAddress();
-  }
-
+  
   async copyAddress() {
     await this.clipboardService
       .write({

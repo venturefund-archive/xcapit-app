@@ -213,26 +213,4 @@ describe('ReceivePage', () => {
     expect(component.selectedNetwork).toEqual('ERC20');
   });
 
-  it('should change network when network is changed', async () => {
-    component.currency = testCurrencies[0];
-    component.address = 'test_address';
-    component.selectedNetwork = 'ERC20';
-    component.networks = ['ERC20', 'RSK'];
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-network-select-card')).triggerEventHandler('networkChanged', 'RSK');
-    await fixture.whenStable();
-    expect(component.selectedNetwork).toEqual('RSK');
-    expect(component.address).toEqual('other_address');
-  });
-
-  it('should redirect to coin selection when coin is clicked', async() => {
-    component.currency = testCurrencies[0];
-    component.address = 'test_address';
-    component.selectedNetwork = 'ERC20';
-    component.networks = ['ERC20', 'RSK'];
-    fixture.detectChanges();
-    fixture.debugElement.query(By.css('app-coin-selector')).triggerEventHandler('changeCurrency', undefined);
-    await fixture.whenStable();
-    expect(navControllerSpy.navigateBack).toHaveBeenCalledOnceWith(['/wallets/receive/select-currency']);
-  });
 });

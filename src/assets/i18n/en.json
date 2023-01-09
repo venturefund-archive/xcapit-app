@@ -1489,6 +1489,8 @@
       }
     },
     "send_donations": {
+      "alias": "Address or alias",
+      "destiny_wallet": "Destination wallet",
       "header": "Donations",
       "title": "Transaction data",
       "currency": "Currency",
@@ -1958,6 +1960,7 @@
         "continue_button": "Continue",
         "address_input": {
           "title": "Target wallet",
+          "subtitle": "Paste the address or scan the QR code.",
           "help_text": "{{currency}} address or alias"
         },
         "alert": {

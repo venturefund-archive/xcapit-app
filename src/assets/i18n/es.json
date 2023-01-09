@@ -1482,6 +1482,8 @@
       }
     },
     "send_donations": {
+      "alias": "Dirección o alias",
+      "destiny_wallet": "Billetera de destino",
       "header": "Donaciones",
       "title": "Datos de la operación",
       "currency": "Moneda",
@@ -1951,6 +1953,7 @@
         "continue_button": "Continuar",
         "address_input": {
           "title": "Billetera de destino",
+          "subtitle": "Pega la dirección o escanea el código QR.",
           "help_text": "{{currency}} direccion o alias"
         },
         "alert": {

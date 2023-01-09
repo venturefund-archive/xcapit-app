@@ -43,52 +43,21 @@ import { RawToken } from '../../swaps/shared-swaps/models/token-repo/token-repo'
     </ion-header>
     <ion-content class="sd ion-padding">
       <div *ngIf="this.cause">
-        <div class="ux-card ion-padding">
-          <div class="sd__network-select-card">
-            <div class="sd__network-select-card__title">
-              <ion-text class="ux-font-text-lg">{{ 'donations.send_donations.title' | translate }}</ion-text>
-            </div>
-            <div class="sd__network-select-card__selected-coin">
-              <div class="sd__label">
-                <ion-label class="ux-font-titulo-xs">{{ 'donations.send_donations.currency' | translate }}</ion-label>
-              </div>
-              <div class="sd__selector">
-                <ion-item class="sd__selector__item ion-no-padding ion-no-margin" lines="none">
-                  <div class="sd__selector__item__logo">
-                    <img [src]="this.token.logoRoute" alt="logo" />
-                  </div>
-                  <ion-label class="sd__selector__item__label ion-no-margin" color="neutral90">{{
-                    this.token.value
-                  }}</ion-label>
-                </ion-item>
-              </div>
-            </div>
-            <div class="sd__network-select-card__networks" *ngIf="this.selectedNetwork">
-              <app-network-select-card
-                [title]="'donations.send_donations.network' | translate"
-                [selectedNetwork]="this.selectedNetwork"
-                [networks]="this.networks"
-                [disclaimer]="
-                  'donations.send_donations.disclaimer'
-                    | translate
-                      : {
-                          network: this.selectedNetwork
-                        }
-                "
-              ></app-network-select-card>
-            </div>
-          </div>
-        </div>
         <form [formGroup]="this.form">
           <div class="sd__send-amount-card ux-card ion-padding">
+            <app-asset-detail
+              [blockchain]="this.nativeToken.value"
+              [token]="this.token.value"
+              [tokenLogo]="this.token.logoRoute"
+            ></app-asset-detail>
             <div class="sd__send-amount-card__title">
-              <ion-text class="ux-font-titulo-xs">Billetera de destino</ion-text>
+              <ion-text class="ux-font-titulo-xs">{{ 'donations.send_donations.destiny_wallet' | translate }}</ion-text>
             </div>
             <div class="sd__send-amount-card__address ux-card">
               {{ this.cause.address }}
             </div>
             <div>
-              <ion-text class="ux-font-text-xxs">Dirección o alias</ion-text>
+              <ion-text class="ux-font-text-xxs">{{ 'donations.send_donations.alias' | translate }}</ion-text>
             </div>
           </div>
           <div class="sd__send-amount-card ux-card">
@@ -212,7 +181,9 @@ export class SendDonationPage implements OnInit {
   }
 
   async tokenBalance() {
-    const tokenBalance = parseFloat(await this.walletService.balanceOf(await this.userWallet(), this.token.value, this.token.network));
+    const tokenBalance = parseFloat(
+      await this.walletService.balanceOf(await this.userWallet(), this.token.value, this.token.network)
+    );
     this.balance = this.token.native ? Math.max(tokenBalance - this.fee, 0) : tokenBalance;
     this.addLowerThanValidator();
   }

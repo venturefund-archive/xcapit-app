@@ -30,29 +30,29 @@
       }
     }
 
-    &__network-select-card {
-      margin: 16px 16px 0;
-      background: var(--ion-color-white);
+    &__transaction-card {
+      margin-top: 16px;
+      margin-left: 16px;
+      margin-right: 16px;
       border: 1px solid var(--ion-color-neutral50);
-      box-shadow: 0 2px 8px rgb(var(--ion-color-info-rgb) 5%);
+      box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
       border-radius: 8px;
 
-      &__title {
-        margin-top: 10px;
-        margin-bottom: 10px;
-      }
+      &__token {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
 
-      &__selected-coin {
-        margin-top: 16px;
-      }
+        &__title {
+          display: flex;
+          gap: 4px;
+          flex-direction: column;
+        }
 
-      &__networks {
-        margin-top: 16px;
+        img {
+          width: 40px;
+        }
       }
-    }
-
-    &__address-input-card {
-      margin-top: 16px;
     }
 
     &__amount-input-card {

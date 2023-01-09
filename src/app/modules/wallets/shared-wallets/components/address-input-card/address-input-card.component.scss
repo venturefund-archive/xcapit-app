@@ -1,16 +1,11 @@
 :host {
   .aic {
-    padding: 0 16px 16px;
     background: var(--ion-color-white);
 
     --ion-background-color: var(--ion-color-white);
 
-    border: 1px solid var(--ion-color-neutral50);
-    box-shadow: 0 2px 8px rgb(28 45 94 / 5%);
-    border-radius: 8px;
-
     &__content {
-      margin-top: -8px;
+      margin-top: -16px;
 
       &__helpText {
         color: var(--ion-color-neutral80);
@@ -54,7 +49,11 @@
 
     &__header {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+
+      &__subtitle {
+        color: var(--ion-color-neutral80);
+      }
     }
   }
 }
