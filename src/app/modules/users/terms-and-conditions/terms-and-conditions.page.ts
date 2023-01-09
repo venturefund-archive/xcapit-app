@@ -41,7 +41,6 @@ export class TermsAndConditionsPage {
   }
 
   async openBrowser(event) {
-    console.log(event);
     await this.browserService.open({
       url: event.route,
     });
