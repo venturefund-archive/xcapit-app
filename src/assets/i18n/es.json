@@ -2033,7 +2033,8 @@
         "title": "Ingrese la contraseña",
         "disclaimer": "Por seguridad necesitamos que ingreses la contraseña de tu wallet para completar la transacción",
         "submit_button_text": "Aceptar",
-        "input_label": "Contraseña"
+        "input_label": "Contraseña",
+        "biometric_auth_button": "Usar datos biométricos"
       },
       "claim_nft_card": {
         "base": "Aquí podrás ver tus NFTs",
